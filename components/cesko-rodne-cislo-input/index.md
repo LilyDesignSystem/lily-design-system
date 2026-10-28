@@ -23,9 +23,18 @@ CeskoRodneCisloInput is a headless input for entering Czech Republic's Rodné č
 ## Usage
 
 ```html
-<Field label="Czech Personal Number" required>
-  <CeskoRodneCisloInput label="Czech Personal Number" value={value} required />
-  <Hint>nine or ten digits in the format YYXXDD/SSSC where XX=MM for males and MM+50 for females</Hint>
+<Field
+  label="Czech Personal Number"
+  required
+>
+  <CeskoRodneCisloInput
+    label="Czech Personal Number"
+    value="{value}"
+    required
+  />
+  <Hint
+    >nine or ten digits in the format YYXXDD/SSSC where XX=MM for males and MM+50 for females</Hint
+  >
   <ErrorMessage>Please enter a valid Czech Personal Number</ErrorMessage>
 </Field>
 ```

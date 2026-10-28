@@ -34,14 +34,14 @@ swapped, not an independent redesign.
 
 ## The first six helpers, one line each
 
-| Helper | Owns | Applies | Persists |
-| --- | --- | --- | --- |
-| `theme-picker` | a visual theme preference | swaps a managed theme `<link>` + `data-theme` on the document root | optional `localStorage` |
-| `locale-picker` | a BCP 47 locale preference | sets `lang` + `dir` on the document root (no translation) | optional `localStorage`; optional `navigator.language` first-visit fallback |
-| `text-size-picker` | a text-size preference | sets `data-text-size` on the document root | optional `localStorage` |
-| `motion-picker` | a reduced-motion preference | sets `data-motion` on the document root; initial value defers unconditionally to `(prefers-reduced-motion: reduce)` | optional `localStorage` |
-| `share-picker` | a share **action** (not a preference) | nothing — opens the native share sheet where available, else a destination list + copy-to-clipboard | none |
-| `date-time-picker` | a **form value** (not a preference or an action) | nothing — it holds a value for a form | none |
+| Helper             | Owns                                             | Applies                                                                                                             | Persists                                                                    |
+| ------------------ | ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| `theme-picker`     | a visual theme preference                        | swaps a managed theme `<link>` + `data-theme` on the document root                                                  | optional `localStorage`                                                     |
+| `locale-picker`    | a BCP 47 locale preference                       | sets `lang` + `dir` on the document root (no translation)                                                           | optional `localStorage`; optional `navigator.language` first-visit fallback |
+| `text-size-picker` | a text-size preference                           | sets `data-text-size` on the document root                                                                          | optional `localStorage`                                                     |
+| `motion-picker`    | a reduced-motion preference                      | sets `data-motion` on the document root; initial value defers unconditionally to `(prefers-reduced-motion: reduce)` | optional `localStorage`                                                     |
+| `share-picker`     | a share **action** (not a preference)            | nothing — opens the native share sheet where available, else a destination list + copy-to-clipboard                 | none                                                                        |
+| `date-time-picker` | a **form value** (not a preference or an action) | nothing — it holds a value for a form                                                                               | none                                                                        |
 
 Full per-helper contracts, root markup, and rules live in
 `AGENTS/helpers.md` at the monorepo root — read that rather than expecting

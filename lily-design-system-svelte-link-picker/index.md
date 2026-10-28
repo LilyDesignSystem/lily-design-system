@@ -26,7 +26,10 @@ import type { LinkItem } from "@lilydesignsystem/svelte-link-picker";
   ];
 </script>
 
-<LinkPicker label="Pages" {links} />
+<LinkPicker
+  label="Pages"
+  {links}
+/>
 ```
 
 `label` is the button's accessible name, the list's name and the tooltip text. There is **no default list**: the package
@@ -49,7 +52,11 @@ ships no routes and no English, so the links, and every word on them, are yours.
   const links = $derived(pages.map((p) => ({ ...p, current: page.url.pathname === p.href })));
 </script>
 
-<LinkPicker label="Pages" {links} navigate={(href) => goto(href)} />
+<LinkPicker
+  label="Pages"
+  {links}
+  navigate={(href) => goto(href)}
+/>
 ```
 
 With `navigate`, a plain left click is a client-side navigation; Ctrl/Cmd/Shift/Alt-click, middle-click and `newTab`
@@ -57,13 +64,13 @@ links stay native browser behaviour.
 
 ## `LinkItem`
 
-| Field | Type | Notes |
-| --- | --- | --- |
-| `label` | `string` | Visible text. Yours, so it localises. |
-| `href` | `string` | A route (`"/about/"`) or a full URL. |
-| `id` | `string?` | Reported to `onNavigate`; defaults to `href`. |
-| `current` | `boolean?` | Marks the current page with `aria-current="page"`. |
-| `newTab` | `boolean?` | `target="_blank"` with `rel="noopener noreferrer"`. |
+| Field     | Type       | Notes                                               |
+| --------- | ---------- | --------------------------------------------------- |
+| `label`   | `string`   | Visible text. Yours, so it localises.               |
+| `href`    | `string`   | A route (`"/about/"`) or a full URL.                |
+| `id`      | `string?`  | Reported to `onNavigate`; defaults to `href`.       |
+| `current` | `boolean?` | Marks the current page with `aria-current="page"`.  |
+| `newTab`  | `boolean?` | `target="_blank"` with `rel="noopener noreferrer"`. |
 
 ## Props
 

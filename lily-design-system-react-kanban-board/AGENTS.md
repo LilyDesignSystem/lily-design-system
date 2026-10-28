@@ -19,13 +19,13 @@ see [spec/helpers/index.md § kanban-board contract](../spec/helpers/index.md).
 
 ## Files
 
-| File                    | Purpose                                                |
-| ------------------------ | ------------------------------------------------------- |
-| `spec/index.md`          | Specification-driven contract (canonical).             |
-| `KanbanBoard.tsx`        | Implementation. TypeScript + React 19 hooks.            |
-| `KanbanBoard.test.tsx`   | Vitest spec, one or more assertions per §8 acceptance. |
-| `index.ts`               | Barrel re-export.                                       |
-| `index.md`               | User guide.                                             |
+| File                   | Purpose                                                |
+| ---------------------- | ------------------------------------------------------ |
+| `spec/index.md`        | Specification-driven contract (canonical).             |
+| `KanbanBoard.tsx`      | Implementation. TypeScript + React 19 hooks.           |
+| `KanbanBoard.test.tsx` | Vitest spec, one or more assertions per §8 acceptance. |
+| `index.ts`             | Barrel re-export.                                      |
+| `index.md`             | User guide.                                            |
 
 ## Public surface
 

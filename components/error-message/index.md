@@ -20,17 +20,30 @@ The component renders a `<p>` element with `role="alert"`, making it an assertiv
 ## Usage
 
 ```html
-<Field label="Date of birth" error="true">
+<Field
+  label="Date of birth"
+  error="true"
+>
   <Hint>For example, 15 3 1984</Hint>
   <ErrorMessage>Enter your date of birth</ErrorMessage>
-  <DateInput label="Date of birth" aria-invalid="true" />
+  <DateInput
+    label="Date of birth"
+    aria-invalid="true"
+  />
 </Field>
 ```
 
 ```html
-<Field label="Email address" error="true">
+<Field
+  label="Email address"
+  error="true"
+>
   <ErrorMessage>Enter an email address in the correct format, like name@example.com</ErrorMessage>
-  <EmailInput label="Email address" aria-invalid="true" value={email} />
+  <EmailInput
+    label="Email address"
+    aria-invalid="true"
+    value="{email}"
+  />
 </Field>
 ```
 
@@ -60,14 +73,11 @@ None -- this component is a passive container for displaying error text.
 
 This headless component provides a `<p>` element with `role="alert"`, creating an assertive live region that is announced immediately by screen readers when it appears in the DOM. The consumer provides all visual styling such as color, typography, spacing, and error icons.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.error-message` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<span>` element with class `error-message`
 - Verify role="alert"` -- creates an assertive live region so the error message is announced immediately by screen readers when it appears

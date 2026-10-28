@@ -23,20 +23,40 @@ Use CheckboxGroup when you need multiple checkboxes that share a logical relatio
 ## Usage
 
 ```html
-<Fieldset legend="How would you like to be contacted?">
+<fieldset legend="How would you like to be contacted?">
   <Hint>Select all that apply</Hint>
   <CheckboxGroup name="contact-methods">
-    <CheckboxInput label="Email" value="email" />
-    <CheckboxInput label="Phone" value="phone" />
-    <CheckboxInput label="Text message" value="sms" />
+    <CheckboxInput
+      label="Email"
+      value="email"
+    />
+    <CheckboxInput
+      label="Phone"
+      value="phone"
+    />
+    <CheckboxInput
+      label="Text message"
+      value="sms"
+    />
   </CheckboxGroup>
-</Fieldset>
+</fieldset>
 ```
 
 ```html
-<CheckboxGroup label="Toppings" disabled>
-  <CheckboxInput label="Cheese" name="toppings" value="cheese" />
-  <CheckboxInput label="Peppers" name="toppings" value="peppers" />
+<CheckboxGroup
+  label="Toppings"
+  disabled
+>
+  <CheckboxInput
+    label="Cheese"
+    name="toppings"
+    value="cheese"
+  />
+  <CheckboxInput
+    label="Peppers"
+    name="toppings"
+    value="peppers"
+  />
 </CheckboxGroup>
 ```
 

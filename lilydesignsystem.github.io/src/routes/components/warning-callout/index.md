@@ -20,17 +20,19 @@ This headless component renders an `<aside>` element with `role="alert"`, which 
 
 ```html
 <WarningCallout heading="Important">
-  <p>If you have a peanut allergy, do not take this medicine.
-  Talk to your doctor about alternative treatments.</p>
+  <p>
+    If you have a peanut allergy, do not take this medicine. Talk to your doctor about alternative
+    treatments.
+  </p>
 </WarningCallout>
 ```
 
 ```html
 <WarningCallout heading="School, nursery or playgroup">
-  <p>Tell your child's school or nursery if they have been
-  diagnosed with chickenpox. Stay away from school until all
-  the blisters have crusted over, usually 5 days after the
-  spots first appeared.</p>
+  <p>
+    Tell your child's school or nursery if they have been diagnosed with chickenpox. Stay away from
+    school until all the blisters have crusted over, usually 5 days after the spots first appeared.
+  </p>
 </WarningCallout>
 ```
 
@@ -61,14 +63,11 @@ None -- this component is a passive container for alert content.
 
 This headless component provides an `<aside>` element with `role="alert"` (which implicitly sets `aria-live="assertive"`) for immediate screen reader announcements. The consumer provides all warning content as children and all visual styling including borders, background colors, and icons.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.warning-callout` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `warning-callout`
 - Verify role="alert"` -- identifies the content as an alert; screen readers announce it immediately when it appears or changes

@@ -21,7 +21,10 @@ UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivView is a headless p
 ## Usage
 
 ```html
-<UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivView label="UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivView example">Content</UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivView>
+<UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivView
+  label="UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivView example"
+  >Content</UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivView
+>
 ```
 
 ## Keyboard Interactions

@@ -29,7 +29,10 @@ Vertical splitter between a file tree and editor:
 ```html
 <div style="display: flex;">
   <div class="file-tree"><!-- file list --></div>
-  <Splitter label="Resize file tree and editor" orientation="vertical" />
+  <Splitter
+    label="Resize file tree and editor"
+    orientation="vertical"
+  />
   <div class="editor"><!-- code editor --></div>
 </div>
 ```
@@ -39,7 +42,10 @@ Horizontal splitter between a list and detail pane:
 ```html
 <div style="display: flex; flex-direction: column;">
   <div class="email-list"><!-- email list --></div>
-  <Splitter label="Resize email list and preview" orientation="horizontal" />
+  <Splitter
+    label="Resize email list and preview"
+    orientation="horizontal"
+  />
   <div class="email-preview"><!-- email content --></div>
 </div>
 ```
@@ -77,14 +83,11 @@ Horizontal splitter between a list and detail pane:
 
 This headless component renders a `<div>` with `role="separator"`, keyboard focus support (`tabindex="0"`), `aria-orientation`, and value attributes (`aria-valuenow`, `aria-valuemin`, `aria-valuemax`) for screen reader position reporting. The consumer provides all visual styling, drag behavior, keyboard handlers for arrow keys, and dynamic value updates.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.splitter` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `splitter`
 - Verify role="separator"` -- identifies the element as a separator between two regions

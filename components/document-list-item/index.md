@@ -13,19 +13,25 @@ One document entry in a document list.
 
 ## Props
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `title` | string (required) | — | Document title (link text) |
-| `href` | string (required) | — | Document URL |
-| `type` | string | — | File type label, e.g. `"PDF"`, `"DOCX"` |
-| `size` | string | — | File size, e.g. `"1.2 MB"` |
-| `modified` | string | — | Last-modified date string |
-| `...restProps` | HTML attributes | — | Spread onto the root `<li>` |
+| Prop           | Type              | Default | Description                             |
+| -------------- | ----------------- | ------- | --------------------------------------- |
+| `title`        | string (required) | —       | Document title (link text)              |
+| `href`         | string (required) | —       | Document URL                            |
+| `type`         | string            | —       | File type label, e.g. `"PDF"`, `"DOCX"` |
+| `size`         | string            | —       | File size, e.g. `"1.2 MB"`              |
+| `modified`     | string            | —       | Last-modified date string               |
+| `...restProps` | HTML attributes   | —       | Spread onto the root `<li>`             |
 
 ## Usage
 
 ```html
-<DocumentListItem title="Annual report" href="/annual.pdf" type="PDF" size="1.2 MB" modified="14 January 2026" />
+<DocumentListItem
+  title="Annual report"
+  href="/annual.pdf"
+  type="PDF"
+  size="1.2 MB"
+  modified="14 January 2026"
+/>
 ```
 
 ## Keyboard Interactions

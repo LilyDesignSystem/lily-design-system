@@ -21,8 +21,13 @@ SingaporeNationalRegistrationIdentityCardView is a headless read-only display of
 
 ```html
 <SummaryList>
-  <SummaryListItem term="National Registration Identity Card Number / Foreign Identification Number (NRIC/FIN)">
-    <SingaporeNationalRegistrationIdentityCardView label="National Registration Identity Card Number / Foreign Identification Number (NRIC/FIN)" value={value} />
+  <SummaryListItem
+    term="National Registration Identity Card Number / Foreign Identification Number (NRIC/FIN)"
+  >
+    <SingaporeNationalRegistrationIdentityCardView
+      label="National Registration Identity Card Number / Foreign Identification Number (NRIC/FIN)"
+      value="{value}"
+    />
   </SummaryListItem>
 </SummaryList>
 ```

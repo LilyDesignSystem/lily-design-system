@@ -10,11 +10,11 @@ See [components/calendar-day-table/index.md](../../../../../components/calendar-
 
 ```svelte
 <script lang="ts">
-    import CalendarDayTable from "./CalendarDayTable.svelte";
+  import CalendarDayTable from "./CalendarDayTable.svelte";
 </script>
 
 <CalendarDayTable label="Monday 6 January 2025">
-    <!-- CalendarTableHead / CalendarTableBody -->
+  <!-- CalendarTableHead / CalendarTableBody -->
 </CalendarDayTable>
 ```
 

@@ -45,12 +45,18 @@ the default rendering because:
 
    ```svelte
    <label for="theme">Theme</label>
-   <ThemePicker id="theme" label="Theme" themesUrl="/themes/" themes={themes} />
+   <ThemePicker
+     id="theme"
+     label="Theme"
+     themesUrl="/themes/"
+     {themes}
+   />
    ```
 
    (The spread `id` lands on the `<select>`; a consumer-supplied
    `aria-labelledby` or `<label for>` takes precedence for the
    accessible name.)
+
 3. `aria-label` is the WAI-ARIA APG-recommended fallback when no
    visible label exists. It matches every other helper catalog
    (Vue, React, Angular, Blazor, Nunjucks, HTML).
@@ -95,9 +101,10 @@ transitions on `data-theme` changes are responsible for honouring
 
 ```css
 @media (prefers-reduced-motion: reduce) {
-    :root, :root * {
-        transition: none !important;
-    }
+  :root,
+  :root * {
+    transition: none !important;
+  }
 }
 ```
 
@@ -109,7 +116,12 @@ The helpers spread `{...restProps}` onto the root element. Consumers
 can override the default ARIA wiring by passing their own attribute:
 
 ```svelte
-<ThemePicker label="X" themesUrl="/t/" themes={["a"]} aria-labelledby="legend-id" />
+<ThemePicker
+  label="X"
+  themesUrl="/t/"
+  themes={["a"]}
+  aria-labelledby="legend-id"
+/>
 ```
 
 The `aria-label="X"` baked into the markup loses to the spread
@@ -139,13 +151,13 @@ live region themselves.
 
 ## Keyboard summary
 
-| Key                | Action                                            |
-| ------------------ | ------------------------------------------------- |
-| `Tab`              | Move focus to / from the select (one stop).       |
-| `Arrow Down/Up`    | Move through the options.                         |
-| `Home` / `End`     | Jump to first / last option (most browsers).      |
-| `Enter` / `Space`  | Open / commit, per platform convention.           |
-| Printable keys     | First-letter typeahead to a matching option.      |
+| Key               | Action                                       |
+| ----------------- | -------------------------------------------- |
+| `Tab`             | Move focus to / from the select (one stop).  |
+| `Arrow Down/Up`   | Move through the options.                    |
+| `Home` / `End`    | Jump to first / last option (most browsers). |
+| `Enter` / `Space` | Open / commit, per platform convention.      |
+| Printable keys    | First-letter typeahead to a matching option. |
 
 All native. The helpers add zero key handlers.
 

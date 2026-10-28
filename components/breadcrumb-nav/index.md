@@ -32,9 +32,7 @@ BreadcrumbNav is typically a compound component. It provides the parent containe
     <BreadcrumbListItem>
       <BreadcrumbLink href="/health-a-z">Health A to Z</BreadcrumbLink>
     </BreadcrumbListItem>
-    <BreadcrumbListItem aria-current="page">
-      Diabetes
-    </BreadcrumbListItem>
+    <BreadcrumbListItem aria-current="page"> Diabetes </BreadcrumbListItem>
   </BreadcrumbList>
 </BreadcrumbNav>
 ```
@@ -100,9 +98,7 @@ BreadcrumbNav follows the Nav / List / ListItem composition pattern:
     <BreadcrumbListItem>
       <BreadcrumbLink href="/health-a-z">Health A to Z</BreadcrumbLink>
     </BreadcrumbListItem>
-    <BreadcrumbListItem aria-current="page">
-      Diabetes
-    </BreadcrumbListItem>
+    <BreadcrumbListItem aria-current="page"> Diabetes </BreadcrumbListItem>
   </BreadcrumbList>
 </BreadcrumbNav>
 ```

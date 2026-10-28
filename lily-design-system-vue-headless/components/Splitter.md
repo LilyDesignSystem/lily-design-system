@@ -24,7 +24,10 @@ Use Splitter between two adjacent panels to provide a visual and interactive han
 ## Usage
 
 ```svelte
-<Splitter label="Resize panels" orientation="vertical" />
+<Splitter
+  label="Resize panels"
+  orientation="vertical"
+/>
 ```
 
 ## Keyboard Interactions

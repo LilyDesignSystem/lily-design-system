@@ -23,10 +23,10 @@ A specialized card for displaying a product with an optional image, a required n
 
 ```vue
 <ProductCard
-    name="Wonder Widget"
-    price="$19.99"
-    image-url="/widget.jpg"
-    image-alt="Wonder Widget product photo"
+  name="Wonder Widget"
+  price="$19.99"
+  image-url="/widget.jpg"
+  image-alt="Wonder Widget product photo"
 >
     <p>A widget that wonders.</p>
     <button>Add to cart</button>

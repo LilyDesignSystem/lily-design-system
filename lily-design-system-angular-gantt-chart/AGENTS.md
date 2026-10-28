@@ -17,13 +17,13 @@ yet.
 
 ## Files
 
-| File                          | Purpose                                                |
-| ------------------------------ | ------------------------------------------------------- |
-| `spec/index.md`                | Specification-driven contract (canonical).             |
-| `gantt-chart.component.ts`     | Implementation. Standalone component, signal inputs/outputs, plus the ported civil-date/hierarchy helpers. |
-| `gantt-chart.component.spec.ts`| Vitest + TestBed spec, one or more assertions per §8 acceptance clause. |
-| `index.ts`                     | Barrel re-export.                                       |
-| `index.md`                     | User guide.                                             |
+| File                            | Purpose                                                                                                    |
+| ------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `spec/index.md`                 | Specification-driven contract (canonical).                                                                 |
+| `gantt-chart.component.ts`      | Implementation. Standalone component, signal inputs/outputs, plus the ported civil-date/hierarchy helpers. |
+| `gantt-chart.component.spec.ts` | Vitest + TestBed spec, one or more assertions per §8 acceptance clause.                                    |
+| `index.ts`                      | Barrel re-export.                                                                                          |
+| `index.md`                      | User guide.                                                                                                |
 
 ## Public surface
 
@@ -78,7 +78,7 @@ consumer writes there land one level outside `.gantt-chart`; see spec
 - Roving tabindex for body cells, set via direct attribute bindings on
   the native `<td lily-gantt-table-td>` cell. **Important finding**:
   unlike Svelte's `GanttTableTD` (whose own `active` prop is
-  deliberately *not* reused for span-membership, precisely because it
+  deliberately _not_ reused for span-membership, precisely because it
   is tied to the roving-tabindex cursor and a task's bar can span many
   cells — see the Svelte package's own CHANGELOG), Angular's
   `GanttTableTD` has **no `active` prop at all** — confirmed by reading
@@ -128,7 +128,7 @@ never inlined.
 
 1. Angular's headless `GanttTableTD` has no `active` prop at all
    (Svelte's does, and the Svelte package's own spec/CHANGELOG spend a
-   full section explaining why it is deliberately *not* reused for
+   full section explaining why it is deliberately _not_ reused for
    span-membership). That whole "prop overload" question does not
    arise in the Angular port — there is no prop to overload.
 2. Angular's headless `GanttTable` sets no `role="grid"` (Svelte's

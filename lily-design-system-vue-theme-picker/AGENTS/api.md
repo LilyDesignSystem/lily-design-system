@@ -118,11 +118,7 @@ Exported from the SFC's first `<script>` block:
 
 ```ts
 export function normaliseThemesUrl(themesUrl: string): string;
-export function themeHref(
-  themesUrl: string,
-  slug: string,
-  extension: string,
-): string;
+export function themeHref(themesUrl: string, slug: string, extension: string): string;
 export function nextThemePickerId(): string;
 ```
 
@@ -141,8 +137,15 @@ listbox and option ids.
 ## DOM contract
 
 ```html
-<div class="theme-picker {class}" ...$attrs>
-  <input type="hidden" name="{name}" value="{value}" />
+<div
+  class="theme-picker {class}"
+  ...$attrs
+>
+  <input
+    type="hidden"
+    name="{name}"
+    value="{value}"
+  />
   <button
     type="button"
     class="theme-picker-button"
@@ -152,7 +155,27 @@ listbox and option ids.
     aria-controls="{listId}"
   >
     <!-- default slot output, or: -->
-    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>
+    <svg
+      class="theme-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle
+        cx="8"
+        cy="8"
+        r="6"
+      />
+      <path
+        d="M8 2a6 6 0 0 1 0 12z"
+        fill="currentColor"
+        stroke="none"
+      />
+    </svg>
   </button>
   <ul
     class="theme-picker-list"

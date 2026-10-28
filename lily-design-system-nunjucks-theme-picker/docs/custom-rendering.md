@@ -60,11 +60,11 @@ the class hooks cover them without forking anything:
 
 | Hook                     | Element                           |
 | ------------------------ | --------------------------------- |
-| `.theme-picker`         | Root `<div>`                      |
-| `.theme-picker-button`  | The trigger                       |
-| `.theme-picker-icon`    | The default glyph `<span>`        |
-| `.theme-picker-list`    | The `<ul role="listbox">`         |
-| `.theme-picker-option`  | Each `<li role="option">`         |
+| `.theme-picker`          | Root `<div>`                      |
+| `.theme-picker-button`   | The trigger                       |
+| `.theme-picker-icon`     | The default glyph `<span>`        |
+| `.theme-picker-list`     | The `<ul role="listbox">`         |
+| `.theme-picker-option`   | Each `<li role="option">`         |
 | `[aria-expanded="true"]` | Open state, on the button         |
 | `[data-active]`          | The keyboard cursor, on an option |
 | `[aria-selected="true"]` | The applied theme, on an option   |
@@ -123,7 +123,11 @@ contract. Emit it yourself and `initThemePicker` will wire it:
     aria-controls="my-theme-list"
     data-lily-theme-picker-button
   >
-    <span class="theme-picker-icon" aria-hidden="true">◑</span>
+    <span
+      class="theme-picker-icon"
+      aria-hidden="true"
+      >◑</span
+    >
   </button>
   <ul
     class="theme-picker-list"

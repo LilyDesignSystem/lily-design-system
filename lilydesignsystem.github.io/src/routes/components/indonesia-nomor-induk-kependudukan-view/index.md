@@ -22,7 +22,10 @@ IndonesiaNomorIndukKependudukanView is a headless read-only display of Indonesia
 ```html
 <SummaryList>
   <SummaryListItem term="Nomor Induk Kependudukan (NIK)">
-    <IndonesiaNomorIndukKependudukanView label="Nomor Induk Kependudukan (NIK)" value={value} />
+    <IndonesiaNomorIndukKependudukanView
+      label="Nomor Induk Kependudukan (NIK)"
+      value="{value}"
+    />
   </SummaryListItem>
 </SummaryList>
 ```

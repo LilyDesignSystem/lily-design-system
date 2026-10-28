@@ -44,19 +44,28 @@ accessible labeling for screen readers.
 With two-way binding:
 
 ```svelte
-<UnitedKingdomNationalHealthServiceNumberInput label="NHS Number" bind:value={nhsNumber} />
+<UnitedKingdomNationalHealthServiceNumberInput
+  label="NHS Number"
+  bind:value={nhsNumber}
+/>
 ```
 
 Required field in a form:
 
 ```svelte
-<UnitedKingdomNationalHealthServiceNumberInput label="NHS Number" required />
+<UnitedKingdomNationalHealthServiceNumberInput
+  label="NHS Number"
+  required
+/>
 ```
 
 Disabled state:
 
 ```svelte
-<UnitedKingdomNationalHealthServiceNumberInput label="NHS Number" disabled />
+<UnitedKingdomNationalHealthServiceNumberInput
+  label="NHS Number"
+  disabled
+/>
 ```
 
 ## Keyboard Interactions

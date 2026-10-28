@@ -11,5 +11,7 @@ GrailLayoutBottomFooter is a headless container for the bottom footer section of
 ## Usage
 
 ```tsx
-<GrailLayoutBottomFooter><footer>Site Footer</footer></GrailLayoutBottomFooter>
+<GrailLayoutBottomFooter>
+  <footer>Site Footer</footer>
+</GrailLayoutBottomFooter>
 ```

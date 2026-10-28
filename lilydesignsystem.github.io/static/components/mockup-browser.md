@@ -25,7 +25,10 @@ Basic browser mockup with a screenshot:
 
 ```html
 <MockupBrowser label="Example website homepage">
-  <Image src="homepage.png" alt="Homepage screenshot" />
+  <image
+    src="homepage.png"
+    alt="Homepage screenshot"
+  />
 </MockupBrowser>
 ```
 
@@ -37,7 +40,11 @@ Browser mockup with live HTML content for a documentation demo:
     <h1>Welcome back</h1>
     <form>
       <label for="email">Email</label>
-      <input type="email" id="email" placeholder="you@example.com" />
+      <input
+        type="email"
+        id="email"
+        placeholder="you@example.com"
+      />
       <button type="submit">Sign in</button>
     </form>
   </div>
@@ -49,10 +56,16 @@ Browser mockup in a marketing comparison layout:
 ```html
 <div class="comparison-grid">
   <MockupBrowser label="Dashboard before redesign">
-    <Image src="dashboard-before.png" alt="Dashboard before redesign" />
+    <image
+      src="dashboard-before.png"
+      alt="Dashboard before redesign"
+    />
   </MockupBrowser>
   <MockupBrowser label="Dashboard after redesign">
-    <Image src="dashboard-after.png" alt="Dashboard after redesign" />
+    <image
+      src="dashboard-after.png"
+      alt="Dashboard after redesign"
+    />
   </MockupBrowser>
 </div>
 ```

@@ -20,7 +20,10 @@ One action button inside an `ActionBar`. The `label` prop is **required** becaus
 ## Usage
 
 ```tsx
-<ActionBarButton label="Delete" onClick={handleDelete}>
+<ActionBarButton
+  label="Delete"
+  onClick={handleDelete}
+>
   <span aria-hidden="true">🗑</span>
   Delete
 </ActionBarButton>

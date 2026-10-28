@@ -24,7 +24,11 @@ A progress circle indicates completion status using a `<div>` with ARIA Progress
 Dashboard widget showing project completion:
 
 ```html
-<ProgressCircle label="Project completion" value={75} max={100}>
+<ProgressCircle
+  label="Project completion"
+  value="{75}"
+  max="{100}"
+>
   <span>75%</span>
 </ProgressCircle>
 ```
@@ -32,7 +36,12 @@ Dashboard widget showing project completion:
 Profile completion indicator:
 
 ```html
-<ProgressCircle label="Profile completion" value={4} min={0} max={6}>
+<ProgressCircle
+  label="Profile completion"
+  value="{4}"
+  min="{0}"
+  max="{6}"
+>
   <span>4 of 6</span>
 </ProgressCircle>
 ```
@@ -40,7 +49,10 @@ Profile completion indicator:
 File upload card with circular indicator:
 
 ```html
-<ProgressCircle label="Uploading document" value={42}>
+<ProgressCircle
+  label="Uploading document"
+  value="{42}"
+>
   <span>42%</span>
 </ProgressCircle>
 ```
@@ -74,14 +86,11 @@ None -- this component is a passive, read-only display.
 
 The ProgressCircle headless component provides a `<div>` with `role="progressbar"` and full ARIA value attributes (`aria-valuenow`, `aria-valuemin`, `aria-valuemax`) plus `aria-label` for accessible naming. The consumer provides all visual styling, including the circular SVG or CSS rendering and any inner content.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.progress-circle` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `progress-circle`
 - Verify role="Progress"` -- identifies the element as a progress indicator

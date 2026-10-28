@@ -39,11 +39,11 @@ and for working code see [examples/](./examples/).
 
 A web app changes language across three independent axes:
 
-| Axis                   | What changes                          | Owner                                                                |
-| ---------------------- | ------------------------------------- | -------------------------------------------------------------------- |
+| Axis                   | What changes                          | Owner                                                                    |
+| ---------------------- | ------------------------------------- | ------------------------------------------------------------------------ |
 | **Document language**  | The `lang` attribute on `<html>`.     | `<lily-locale-picker>` (this helper).                                    |
 | **Writing direction**  | The `dir` attribute on `<html>`.      | `<lily-locale-picker>` (auto-detected; opt out via `apply-dir="false"`). |
-| **Translated strings** | The actual visible words on the page. | Your i18n library (FormatJS, i18next, raw `Intl.*`).                 |
+| **Translated strings** | The actual visible words on the page. | Your i18n library (FormatJS, i18next, raw `Intl.*`).                     |
 
 The helper owns the first two and signals the third via a
 `localechange` `CustomEvent` and the `lang` attribute (which most
@@ -88,7 +88,10 @@ don't throw.
 ## Quick start
 
 ```html
-<script type="module" src="/dist/locale-picker.js"></script>
+<script
+  type="module"
+  src="/dist/locale-picker.js"
+></script>
 
 <style>
   /* The package ships no CSS. Without at least this much, the
@@ -126,7 +129,12 @@ don't throw.
   detect-from-navigator
 ></lily-locale-picker>
 
-<p class="locale-picker-status" aria-live="polite">Active language: English</p>
+<p
+  class="locale-picker-status"
+  aria-live="polite"
+>
+  Active language: English
+</p>
 
 <script type="module">
   import { localeName } from "/dist/locale-picker.js";
@@ -135,11 +143,9 @@ don't throw.
 
   const status = document.querySelector(".locale-picker-status");
 
-  document
-    .querySelector("locale-picker")
-    .addEventListener("localechange", (e) => {
-      status.textContent = `Active language: ${localeName(e.detail.locale)}`;
-    });
+  document.querySelector("locale-picker").addEventListener("localechange", (e) => {
+    status.textContent = `Active language: ${localeName(e.detail.locale)}`;
+  });
 </script>
 ```
 
@@ -185,9 +191,16 @@ select.addEventListener("localechange", (e) => {
 The element renders this into its light DOM:
 
 ```html
-<lily-locale-picker label="Locale" locales="en,fr,ar">
+<lily-locale-picker
+  label="Locale"
+  locales="en,fr,ar"
+>
   <div class="locale-picker">
-    <input type="hidden" name="locale" value="en" />
+    <input
+      type="hidden"
+      name="locale"
+      value="en"
+    />
     <button
       type="button"
       class="locale-picker-button"
@@ -196,7 +209,15 @@ The element renders this into its light DOM:
       aria-expanded="false"
       aria-controls="locale-picker-1-list"
     >
-      <svg class="locale-picker-icon" viewBox="0 0 16 16" width="1.05rem" height="1.05rem" aria-hidden="true">…</svg>
+      <svg
+        class="locale-picker-icon"
+        viewBox="0 0 16 16"
+        width="1.05rem"
+        height="1.05rem"
+        aria-hidden="true"
+      >
+        …
+      </svg>
     </button>
     <ul
       class="locale-picker-list"
@@ -266,13 +287,13 @@ flow and shoves the rest of the page down when it opens.
 
 Class hooks:
 
-| Hook                     | Element                     |
-| ------------------------ | --------------------------- |
-| `.locale-picker`        | The rendered `<div>` root.  |
-| `.locale-picker-button` | The trigger `<button>`.     |
-| `.locale-picker-icon`   | The default icon `<svg>`. |
-| `.locale-picker-list`   | The `<ul role="listbox">`.  |
-| `.locale-picker-option` | Each `<li role="option">`.  |
+| Hook                    | Element                    |
+| ----------------------- | -------------------------- |
+| `.locale-picker`        | The rendered `<div>` root. |
+| `.locale-picker-button` | The trigger `<button>`.    |
+| `.locale-picker-icon`   | The default icon `<svg>`.  |
+| `.locale-picker-list`   | The `<ul role="listbox">`. |
+| `.locale-picker-option` | Each `<li role="option">`. |
 
 Plus the state selectors `[data-active]` and `[aria-selected="true"]`.
 
@@ -499,7 +520,7 @@ Topic guide: [`docs/rtl.md`](./docs/rtl.md).
 
 Default option labels are **endonyms** — each language named in
 itself, "Cymraeg" not "Welsh" — resolved by the exported
-`localeEndonym()` via `Intl.DisplayNames` asked *in that language*.
+`localeEndonym()` via `Intl.DisplayNames` asked _in that language_.
 The user who needs a language menu is the one who cannot read the
 page's language, and the exonym means nothing to them. Resolution
 order: your `locale-labels` → the endonym → the built-in English
@@ -648,21 +669,21 @@ Exercises every numbered acceptance criterion in
 
 ## Files in this directory
 
-| File                     | Purpose                                          |
-| ------------------------ | ------------------------------------------------ |
-| `spec/index.md`          | Single source of truth.                          |
-| `AGENTS.md`              | Fast-index pointer; loads the AGENTS bundle.     |
-| `AGENTS/`                | Topic-by-topic agent files.                      |
-| `CLAUDE.md`              | `@AGENTS.md`.                                    |
+| File                    | Purpose                                          |
+| ----------------------- | ------------------------------------------------ |
+| `spec/index.md`         | Single source of truth.                          |
+| `AGENTS.md`             | Fast-index pointer; loads the AGENTS bundle.     |
+| `AGENTS/`               | Topic-by-topic agent files.                      |
+| `CLAUDE.md`             | `@AGENTS.md`.                                    |
 | `locale-picker.ts`      | The custom-element class.                        |
 | `locale-picker.test.ts` | vitest suite.                                    |
-| `locales.ts`             | Built-in 436-row code → English name table.      |
-| `locales.tsv`            | Canonical source for `locales.ts`.               |
-| `index.ts`               | Barrel + side-effectful `customElements.define`. |
-| `index.md`               | This file.                                       |
-| `docs/`                  | Deep-dive topic guides.                          |
-| `examples/`              | Runnable `.html` files.                          |
-| `CHANGELOG.md`           | Version history.                                 |
+| `locales.ts`            | Built-in 436-row code → English name table.      |
+| `locales.tsv`           | Canonical source for `locales.ts`.               |
+| `index.ts`              | Barrel + side-effectful `customElements.define`. |
+| `index.md`              | This file.                                       |
+| `docs/`                 | Deep-dive topic guides.                          |
+| `examples/`             | Runnable `.html` files.                          |
+| `CHANGELOG.md`          | Version history.                                 |
 
 ## License
 

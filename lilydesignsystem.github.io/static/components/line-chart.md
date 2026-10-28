@@ -18,18 +18,22 @@ When the cumulative magnitude beneath the line matters more than the shape, use 
 
 ## Props
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `label` | string (required) | — | Accessible name |
-| `description` | string | — | Extended description |
-| `series` | array of series | [] | Each series is `{ name: string; points: { x: number; y: number }[] }` |
-| `dataTable` | slot | — | Optional fallback `<table>` |
-| `...restProps` | HTML attributes | — | Spread onto the root `<figure>` |
+| Prop           | Type              | Default | Description                                                           |
+| -------------- | ----------------- | ------- | --------------------------------------------------------------------- |
+| `label`        | string (required) | —       | Accessible name                                                       |
+| `description`  | string            | —       | Extended description                                                  |
+| `series`       | array of series   | []      | Each series is `{ name: string; points: { x: number; y: number }[] }` |
+| `dataTable`    | slot              | —       | Optional fallback `<table>`                                           |
+| `...restProps` | HTML attributes   | —       | Spread onto the root `<figure>`                                       |
 
 ## Usage
 
 ```html
-<LineChart label="CPU usage over time" series={cpuSeries} description="CPU% over the last hour" />
+<LineChart
+  label="CPU usage over time"
+  series="{cpuSeries}"
+  description="CPU% over the last hour"
+/>
 ```
 
 ## Keyboard Interactions

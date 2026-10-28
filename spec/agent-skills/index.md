@@ -5,9 +5,9 @@
 Twenty-seven repository top-level [Claude Skill](https://code.claude.com/docs/en/skills)
 packages give AI coding agents a curated, loadable entry point into Lily
 Design System, in three tiers: [`lily-design-system-skill`](../../lily-design-system-skill/)
-for people building *with* the system in general and
+for people building _with_ the system in general and
 [`lily-design-system-maintainer-skill`](../../lily-design-system-maintainer-skill/)
-for people working *on* this monorepo (the original two); eight
+for people working _on_ this monorepo (the original two); eight
 framework-umbrella skills, one per framework family, added 2026-09-05;
 and seventeen framework-specific skills, one headless-skill and one
 helpers-skill per framework, added 2026-09-04, plus
@@ -128,15 +128,15 @@ the record of intent):
 
 Identical across all twenty-seven skills:
 
-| File | General/maintainer skills | Umbrella / framework-specific skills |
-| --- | --- | --- |
-| `SKILL.md` | yes | yes |
-| `README.md` (symlink) | → `index.md` | → `index.md` |
-| `index.md` | yes | yes |
-| `AGENTS.md` | yes | yes |
-| `spec/index.md` | yes | yes |
-| 14 special files | yes, via `bin/sync-special-files` | yes, via `bin/sync-special-files` |
-| `reference/*.md` | yes for `lily-design-system-skill` (naming-and-catalog, composition-patterns); none for the maintainer skill | none — each points into its own real subproject's docs, or its sibling skills, instead |
+| File                  | General/maintainer skills                                                                                    | Umbrella / framework-specific skills                                                   |
+| --------------------- | ------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------- |
+| `SKILL.md`            | yes                                                                                                          | yes                                                                                    |
+| `README.md` (symlink) | → `index.md`                                                                                                 | → `index.md`                                                                           |
+| `index.md`            | yes                                                                                                          | yes                                                                                    |
+| `AGENTS.md`           | yes                                                                                                          | yes                                                                                    |
+| `spec/index.md`       | yes                                                                                                          | yes                                                                                    |
+| 14 special files      | yes, via `bin/sync-special-files`                                                                            | yes, via `bin/sync-special-files`                                                      |
+| `reference/*.md`      | yes for `lily-design-system-skill` (naming-and-catalog, composition-patterns); none for the maintainer skill | none — each points into its own real subproject's docs, or its sibling skills, instead |
 
 ### Naming-split retirement (2026-08-31)
 
@@ -166,7 +166,7 @@ rather than by adding a new skill package. That decision is reversed as
 of 2026-09-04, maintainer-directed: sixteen framework-specific skills
 were added, one `{framework}-headless-skill` and one
 `{framework}-helpers-skill` per framework family. The original reasoning
-undersold the value of a skill an agent can load *before* it knows which
+undersold the value of a skill an agent can load _before_ it knows which
 subproject to read — the general skill and the maintainer skill both
 stop at "here are seven frameworks," and an agent asked "how do I use
 Lily's React components" still had to discover, unprompted, that the
@@ -196,31 +196,31 @@ One per framework family, each pointing down into its headless-skill and
 helpers-skill siblings (see the next table) and, uniquely among the three
 tiers, covering that framework's example app directly:
 
-| Framework | Umbrella skill | Example app it covers |
-| --- | --- | --- |
-| Angular | [`lily-design-system-angular-skill`](../../lily-design-system-angular-skill/) | [`lily-design-system-angular-examples`](../../lily-design-system-angular-examples/) |
-| Blazor | [`lily-design-system-blazor-skill`](../../lily-design-system-blazor-skill/) | [`lily-design-system-blazor-web-examples`](../../lily-design-system-blazor-web-examples/) |
-| HTML | [`lily-design-system-html-skill`](../../lily-design-system-html-skill/) | [`lily-design-system-html-css-js-examples`](../../lily-design-system-html-css-js-examples/) |
-| Nunjucks | [`lily-design-system-nunjucks-skill`](../../lily-design-system-nunjucks-skill/) | [`lily-design-system-nunjucks-eleventy-examples`](../../lily-design-system-nunjucks-eleventy-examples/) |
-| React | [`lily-design-system-react-skill`](../../lily-design-system-react-skill/) | [`lily-design-system-react-next-examples`](../../lily-design-system-react-next-examples/) |
-| Svelte | [`lily-design-system-svelte-skill`](../../lily-design-system-svelte-skill/) | [`lily-design-system-svelte-sveltekit-examples`](../../lily-design-system-svelte-sveltekit-examples/) |
-| Vue | [`lily-design-system-vue-skill`](../../lily-design-system-vue-skill/) | [`lily-design-system-vue-nuxt-examples`](../../lily-design-system-vue-nuxt-examples/) |
-| Web Components | [`lily-design-system-web-components-skill`](../../lily-design-system-web-components-skill/) | **none exists yet** — states the gap rather than inventing one |
+| Framework      | Umbrella skill                                                                              | Example app it covers                                                                                   |
+| -------------- | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| Angular        | [`lily-design-system-angular-skill`](../../lily-design-system-angular-skill/)               | [`lily-design-system-angular-examples`](../../lily-design-system-angular-examples/)                     |
+| Blazor         | [`lily-design-system-blazor-skill`](../../lily-design-system-blazor-skill/)                 | [`lily-design-system-blazor-web-examples`](../../lily-design-system-blazor-web-examples/)               |
+| HTML           | [`lily-design-system-html-skill`](../../lily-design-system-html-skill/)                     | [`lily-design-system-html-css-js-examples`](../../lily-design-system-html-css-js-examples/)             |
+| Nunjucks       | [`lily-design-system-nunjucks-skill`](../../lily-design-system-nunjucks-skill/)             | [`lily-design-system-nunjucks-eleventy-examples`](../../lily-design-system-nunjucks-eleventy-examples/) |
+| React          | [`lily-design-system-react-skill`](../../lily-design-system-react-skill/)                   | [`lily-design-system-react-next-examples`](../../lily-design-system-react-next-examples/)               |
+| Svelte         | [`lily-design-system-svelte-skill`](../../lily-design-system-svelte-skill/)                 | [`lily-design-system-svelte-sveltekit-examples`](../../lily-design-system-svelte-sveltekit-examples/)   |
+| Vue            | [`lily-design-system-vue-skill`](../../lily-design-system-vue-skill/)                       | [`lily-design-system-vue-nuxt-examples`](../../lily-design-system-vue-nuxt-examples/)                   |
+| Web Components | [`lily-design-system-web-components-skill`](../../lily-design-system-web-components-skill/) | **none exists yet** — states the gap rather than inventing one                                          |
 
 ### The sixteen framework-specific skills
 
 One `headless-skill` and one `helpers-skill` per framework family, each
 covering exactly the one real subproject it is named after:
 
-| Framework | Headless skill | Helpers skill |
-| --- | --- | --- |
-| Angular | [`lily-design-system-angular-headless-skill`](../../lily-design-system-angular-headless-skill/) → [`@lilydesignsystem/angular-headless`](../../lily-design-system-angular-headless/) | [`lily-design-system-angular-helpers-skill`](../../lily-design-system-angular-helpers-skill/) → [the Angular helper packages](../helpers/index.md#angular-helper-packages) |
-| Blazor | [`lily-design-system-blazor-headless-skill`](../../lily-design-system-blazor-headless-skill/) → [`lily-design-system-blazor-headless`](../../lily-design-system-blazor-headless/) | [`lily-design-system-blazor-helpers-skill`](../../lily-design-system-blazor-helpers-skill/) → [the Blazor helper packages](../helpers/index.md#blazor-helper-packages) |
-| HTML | [`lily-design-system-html-headless-skill`](../../lily-design-system-html-headless-skill/) → [`@lilydesignsystem/html-headless`](../../lily-design-system-html-headless/) | [`lily-design-system-html-helpers-skill`](../../lily-design-system-html-helpers-skill/) → [the HTML helper packages](../helpers/index.md#html-helper-packages) |
-| Nunjucks | [`lily-design-system-nunjucks-headless-skill`](../../lily-design-system-nunjucks-headless-skill/) → [`@lilydesignsystem/nunjucks-headless`](../../lily-design-system-nunjucks-headless/) | [`lily-design-system-nunjucks-helpers-skill`](../../lily-design-system-nunjucks-helpers-skill/) → [the Nunjucks helper packages](../helpers/index.md#nunjucks-helper-packages) |
-| React | [`lily-design-system-react-headless-skill`](../../lily-design-system-react-headless-skill/) → [`@lilydesignsystem/react-headless`](../../lily-design-system-react-headless/) | [`lily-design-system-react-helpers-skill`](../../lily-design-system-react-helpers-skill/) → [the React helper packages](../helpers/index.md#react-helper-packages) |
-| Svelte | [`lily-design-system-svelte-headless-skill`](../../lily-design-system-svelte-headless-skill/) → [`@lilydesignsystem/svelte-headless`](../../lily-design-system-svelte-headless/) | [`lily-design-system-svelte-helpers-skill`](../../lily-design-system-svelte-helpers-skill/) → [the Svelte helper packages](../helpers/index.md#svelte-helper-packages) |
-| Vue | [`lily-design-system-vue-headless-skill`](../../lily-design-system-vue-headless-skill/) → [`@lilydesignsystem/vue-headless`](../../lily-design-system-vue-headless/) | [`lily-design-system-vue-helpers-skill`](../../lily-design-system-vue-helpers-skill/) → [the Vue helper packages](../helpers/index.md#vue-helper-packages) |
+| Framework      | Headless skill                                                                                                                                                                                                                                        | Helpers skill                                                                                                                                                                                                                                                           |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Angular        | [`lily-design-system-angular-headless-skill`](../../lily-design-system-angular-headless-skill/) → [`@lilydesignsystem/angular-headless`](../../lily-design-system-angular-headless/)                                                                  | [`lily-design-system-angular-helpers-skill`](../../lily-design-system-angular-helpers-skill/) → [the Angular helper packages](../helpers/index.md#angular-helper-packages)                                                                                              |
+| Blazor         | [`lily-design-system-blazor-headless-skill`](../../lily-design-system-blazor-headless-skill/) → [`lily-design-system-blazor-headless`](../../lily-design-system-blazor-headless/)                                                                     | [`lily-design-system-blazor-helpers-skill`](../../lily-design-system-blazor-helpers-skill/) → [the Blazor helper packages](../helpers/index.md#blazor-helper-packages)                                                                                                  |
+| HTML           | [`lily-design-system-html-headless-skill`](../../lily-design-system-html-headless-skill/) → [`@lilydesignsystem/html-headless`](../../lily-design-system-html-headless/)                                                                              | [`lily-design-system-html-helpers-skill`](../../lily-design-system-html-helpers-skill/) → [the HTML helper packages](../helpers/index.md#html-helper-packages)                                                                                                          |
+| Nunjucks       | [`lily-design-system-nunjucks-headless-skill`](../../lily-design-system-nunjucks-headless-skill/) → [`@lilydesignsystem/nunjucks-headless`](../../lily-design-system-nunjucks-headless/)                                                              | [`lily-design-system-nunjucks-helpers-skill`](../../lily-design-system-nunjucks-helpers-skill/) → [the Nunjucks helper packages](../helpers/index.md#nunjucks-helper-packages)                                                                                          |
+| React          | [`lily-design-system-react-headless-skill`](../../lily-design-system-react-headless-skill/) → [`@lilydesignsystem/react-headless`](../../lily-design-system-react-headless/)                                                                          | [`lily-design-system-react-helpers-skill`](../../lily-design-system-react-helpers-skill/) → [the React helper packages](../helpers/index.md#react-helper-packages)                                                                                                      |
+| Svelte         | [`lily-design-system-svelte-headless-skill`](../../lily-design-system-svelte-headless-skill/) → [`@lilydesignsystem/svelte-headless`](../../lily-design-system-svelte-headless/)                                                                      | [`lily-design-system-svelte-helpers-skill`](../../lily-design-system-svelte-helpers-skill/) → [the Svelte helper packages](../helpers/index.md#svelte-helper-packages)                                                                                                  |
+| Vue            | [`lily-design-system-vue-headless-skill`](../../lily-design-system-vue-headless-skill/) → [`@lilydesignsystem/vue-headless`](../../lily-design-system-vue-headless/)                                                                                  | [`lily-design-system-vue-helpers-skill`](../../lily-design-system-vue-helpers-skill/) → [the Vue helper packages](../helpers/index.md#vue-helper-packages)                                                                                                              |
 | Web Components | [`lily-design-system-web-components-headless-skill`](../../lily-design-system-web-components-headless-skill/) → [`@lilydesignsystem/web-components-headless`](../../lily-design-system-web-components-headless/) (546/581, its full achievable scope) | [`lily-design-system-web-components-helpers-skill`](../../lily-design-system-web-components-helpers-skill/) → [the Web Components helper packages](../helpers/index.md#web-components-helper-packages) (an independent copy of the HTML helpers, `<lily-*>` tag prefix) |
 
 ### Tooling touched
@@ -236,7 +236,7 @@ package accurately instead of assuming an npm/dotnet-run application.
 
 Adding the sixteen framework-specific skills on 2026-09-04 found and
 fixed a real, latent classification bug in that generic matching: its
-`parts()` function checked the seven-framework prefix loop *before* the
+`parts()` function checked the seven-framework prefix loop _before_ the
 `-skill` suffix, so a name like `lily-design-system-angular-headless-skill`
 matched the `angular` prefix, and its tail (`headless-skill`) matched
 neither `"headless"` nor `"helpers"` exactly — falling through to the

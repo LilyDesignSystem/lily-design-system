@@ -27,10 +27,13 @@ Unlike tooltips, popovers can contain rich interactive content such as text, for
   let showPopover = $state(false);
 </script>
 
-<button onclick={() => showPopover = !showPopover}>Toggle info</button>
-<Popover label="Additional information" bind:open={showPopover}>
+<button onclick={() => (showPopover = !showPopover)}>Toggle info</button>
+<Popover
+  label="Additional information"
+  bind:open={showPopover}
+>
   <p>Here is some contextual information.</p>
-  <button onclick={() => showPopover = false}>Close</button>
+  <button onclick={() => (showPopover = false)}>Close</button>
 </Popover>
 ```
 

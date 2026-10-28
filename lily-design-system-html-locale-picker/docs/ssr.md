@@ -13,13 +13,13 @@ matching state without visual flicker.
 
 ## TL;DR
 
-| Strategy                | Flash of default locale?  | Survives reload?      | SEO-friendly? |
-| ----------------------- | ------------------------- | --------------------- | ------------- |
-| `detect-from-navigator` | yes (until client mounts) | only if `storage-key` | no            |
-| `localStorage`          | yes (until client mounts) | yes                   | no            |
-| Cookie (Astro / Node)   | **no**                    | yes                   | no            |
-| URL prefix (`/fr/about`)| **no**                    | yes                   | **yes**       |
-| Build-time default (Hugo / Eleventy) | **no** (per build) | yes        | partial       |
+| Strategy                             | Flash of default locale?  | Survives reload?      | SEO-friendly? |
+| ------------------------------------ | ------------------------- | --------------------- | ------------- |
+| `detect-from-navigator`              | yes (until client mounts) | only if `storage-key` | no            |
+| `localStorage`                       | yes (until client mounts) | yes                   | no            |
+| Cookie (Astro / Node)                | **no**                    | yes                   | no            |
+| URL prefix (`/fr/about`)             | **no**                    | yes                   | **yes**       |
+| Build-time default (Hugo / Eleventy) | **no** (per build)        | yes                   | partial       |
 
 Use a **cookie** if you have a request-time server. Use a
 **URL prefix** if you need SEO-distinct pages per locale. Use a
@@ -35,9 +35,9 @@ wrote, plus any pre-resolved attributes:
 
 ```html
 <locale-picker
-    label="Language"
-    locales="en,fr,ar"
-    value="fr"
+  label="Language"
+  locales="en,fr,ar"
+  value="fr"
 ></locale-picker>
 ```
 
@@ -112,8 +112,8 @@ locale: fr
 ```js
 // src/_data/site.js
 export default {
-    defaultLocale: process.env.LOCALE ?? "en",
-    locales: ["en", "fr", "ar"],
+  defaultLocale: process.env.LOCALE ?? "en",
+  locales: ["en", "fr", "ar"],
 };
 ```
 
@@ -223,28 +223,32 @@ Hugo is build-time only. The resolved locale is the same for every
 visitor on a given build:
 
 ```html
-{{/* layouts/_default/baseof.html */}}
-{{ $locale := .Site.Params.defaultLocale | default "en" }}
-{{ $tag := replace $locale "_" "-" }}
-{{ $isRtl := in (slice "ar" "he" "fa" "ur" "ps") (index (split $locale "_") 0) }}
-{{ $dir := cond $isRtl "rtl" "ltr" }}
+{{/* layouts/_default/baseof.html */}} {{ $locale := .Site.Params.defaultLocale | default "en" }} {{
+$tag := replace $locale "_" "-" }} {{ $isRtl := in (slice "ar" "he" "fa" "ur" "ps") (index (split
+$locale "_") 0) }} {{ $dir := cond $isRtl "rtl" "ltr" }}
 <!doctype html>
-<html lang="{{ $tag }}" dir="{{ $dir }}">
-    <head>
-        <meta charset="utf-8">
-        <title>{{ .Title }}</title>
-        <script type="module" src="/dist/locale-picker.js"></script>
-    </head>
-    <body>
-        <locale-picker
-            label="Language"
-            locales="en,fr,ar"
-            value="{{ $locale }}"
-            storage-key="locale"
-        ></locale-picker>
+<html
+  lang="{{ $tag }}"
+  dir="{{ $dir }}"
+>
+  <head>
+    <meta charset="utf-8" />
+    <title>{{ .Title }}</title>
+    <script
+      type="module"
+      src="/dist/locale-picker.js"
+    ></script>
+  </head>
+  <body>
+    <locale-picker
+      label="Language"
+      locales="en,fr,ar"
+      value="{{ $locale }}"
+      storage-key="locale"
+    ></locale-picker>
 
-        {{ block "main" . }}{{ end }}
-    </body>
+    {{ block "main" . }}{{ end }}
+  </body>
 </html>
 ```
 
@@ -263,29 +267,34 @@ storage and sets `<html lang>` before the select mounts:
 ```html
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <script>
-            // Runs before <body> paints; reads storage and presets <html>.
-            try {
-                const v = localStorage.getItem("locale");
-                if (v) {
-                    document.documentElement.lang = v.replace(/_/g, "-");
-                    if (/^(ar|he|fa|ur|ps)/.test(v)) {
-                        document.documentElement.dir = "rtl";
-                    }
-                }
-            } catch { /* ignore */ }
-        </script>
-        <script type="module" src="/dist/locale-picker.js"></script>
-    </head>
-    <body>
-        <locale-picker
-            label="Language"
-            locales="en,fr,ar"
-            storage-key="locale"
-        ></locale-picker>
-    </body>
+  <head>
+    <meta charset="utf-8" />
+    <script>
+      // Runs before <body> paints; reads storage and presets <html>.
+      try {
+        const v = localStorage.getItem("locale");
+        if (v) {
+          document.documentElement.lang = v.replace(/_/g, "-");
+          if (/^(ar|he|fa|ur|ps)/.test(v)) {
+            document.documentElement.dir = "rtl";
+          }
+        }
+      } catch {
+        /* ignore */
+      }
+    </script>
+    <script
+      type="module"
+      src="/dist/locale-picker.js"
+    ></script>
+  </head>
+  <body>
+    <locale-picker
+      label="Language"
+      locales="en,fr,ar"
+      storage-key="locale"
+    ></locale-picker>
+  </body>
 </html>
 ```
 
@@ -305,9 +314,9 @@ the same way:
 ```js
 // Express
 app.use((req, res, next) => {
-    const match = req.path.match(/^\/(en|fr|ar)(\/|$)/);
-    res.locals.locale = match ? match[1] : "en";
-    next();
+  const match = req.path.match(/^\/(en|fr|ar)(\/|$)/);
+  res.locals.locale = match ? match[1] : "en";
+  next();
 });
 ```
 
@@ -316,16 +325,14 @@ prefix:
 
 ```html
 <script type="module">
-    await customElements.whenDefined("locale-picker");
-    document
-        .querySelector("locale-picker")
-        .addEventListener("localechange", (e) => {
-            const next = e.detail.locale;
-            const newPath = location.pathname.replace(/^\/[a-z-]+/, `/${next}`);
-            if (newPath !== location.pathname) {
-                location.assign(newPath);
-            }
-        });
+  await customElements.whenDefined("locale-picker");
+  document.querySelector("locale-picker").addEventListener("localechange", (e) => {
+    const next = e.detail.locale;
+    const newPath = location.pathname.replace(/^\/[a-z-]+/, `/${next}`);
+    if (newPath !== location.pathname) {
+      location.assign(newPath);
+    }
+  });
 </script>
 ```
 
@@ -349,14 +356,14 @@ rendering) listens to the event and refreshes strings. No flash.
 
 ## Client upgrade timeline
 
-| Time     | What's in the DOM                                          |
-| -------- | ---------------------------------------------------------- |
-| 0 ms     | HTML parse begins. `<html lang="fr">` already correct.     |
-| ~20 ms   | First Contentful Paint. CSS applied with French typography. |
-| ~50 ms   | `<locale-picker>` tag parsed. Element is "stub" HTMLElement. |
-| ~80 ms   | JS bundle finishes loading. `customElements.define` runs.   |
-| ~80 ms   | `connectedCallback` runs. Children render. `lang` rewritten (idempotent). |
-| ~85 ms   | `localechange` event dispatches. App listeners refresh i18n. |
+| Time   | What's in the DOM                                                         |
+| ------ | ------------------------------------------------------------------------- |
+| 0 ms   | HTML parse begins. `<html lang="fr">` already correct.                    |
+| ~20 ms | First Contentful Paint. CSS applied with French typography.               |
+| ~50 ms | `<locale-picker>` tag parsed. Element is "stub" HTMLElement.              |
+| ~80 ms | JS bundle finishes loading. `customElements.define` runs.                 |
+| ~80 ms | `connectedCallback` runs. Children render. `lang` rewritten (idempotent). |
+| ~85 ms | `localechange` event dispatches. App listeners refresh i18n.              |
 
 The 0–80 ms window is when "flash of default locale" could happen.
 Pre-seeding `value` and `<html lang>` collapses that window to
@@ -369,8 +376,9 @@ zero visible difference.
 If your server streams the response, the `<html lang>` / `<body>`
 preamble is the first chunk; once flushed, downstream chunks
 inherit the direction the parser already saw. Use the same cookie
-+ pre-seed pattern; streaming doesn't change the select's
-behaviour.
+
+- pre-seed pattern; streaming doesn't change the select's
+  behaviour.
 
 If you stream individual components with their own bidi behaviour
 (e.g. a chat panel), wrap each with explicit `lang` and `dir` so

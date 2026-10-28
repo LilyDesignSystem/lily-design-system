@@ -24,7 +24,10 @@ The component renders a `<tfoot>` element and passes through its children, which
   <DataTableHead>...</DataTableHead>
   <DataTableBody>...</DataTableBody>
   <DataTableFoot>
-    <tr><th scope="row">Total</th><td>$42,000</td></tr>
+    <tr>
+      <th scope="row">Total</th>
+      <td>$42,000</td>
+    </tr>
   </DataTableFoot>
 </DataTable>
 ```
@@ -52,14 +55,11 @@ None -- this component is a passive container. Navigation within the table follo
 
 This headless DataTableFoot component provides a semantic `<tfoot>` element with implicit `rowgroup` role for assistive technology. The consumer provides all visual styling including background color to distinguish the footer from body rows, bold text for totals, and borders.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.data-table-foot` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<tfoot>` element with class `data-table-foot`
 - Verify pass-through attributes are applied

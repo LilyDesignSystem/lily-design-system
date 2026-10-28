@@ -22,7 +22,10 @@ MisrAlRaqmAlQawmiView is a headless read-only display of Egypt's الرقم ال
 ```html
 <SummaryList>
   <SummaryListItem term="الرقم القومي (Al-Raqm Al-Qawmi)">
-    <MisrAlRaqmAlQawmiView label="الرقم القومي (Al-Raqm Al-Qawmi)" value={value} />
+    <MisrAlRaqmAlQawmiView
+      label="الرقم القومي (Al-Raqm Al-Qawmi)"
+      value="{value}"
+    />
   </SummaryListItem>
 </SummaryList>
 ```

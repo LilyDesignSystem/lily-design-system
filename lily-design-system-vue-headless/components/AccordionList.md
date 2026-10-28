@@ -4,11 +4,11 @@ A grouping container for AccordionListItem elements within an AccordionNav. Rend
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| label | string | "" | Optional accessible name for the group via aria-label |
-| children | Snippet | required | AccordionListItem elements |
-| ...restProps | HTML attributes | — | Spread onto the `<div>` |
+| Prop         | Type            | Default  | Description                                           |
+| ------------ | --------------- | -------- | ----------------------------------------------------- |
+| label        | string          | ""       | Optional accessible name for the group via aria-label |
+| children     | Snippet         | required | AccordionListItem elements                            |
+| ...restProps | HTML attributes | —        | Spread onto the `<div>`                               |
 
 ## Usage
 

@@ -22,7 +22,11 @@ A color input wraps the native HTML `<input type="color">` element, providing a 
 ## Usage
 
 ```tsx
-<ColorInput label="Background color" value={color} onChange={setColor} />
+<ColorInput
+  label="Background color"
+  value={color}
+  onChange={setColor}
+/>
 ```
 
 ## Keyboard Interactions

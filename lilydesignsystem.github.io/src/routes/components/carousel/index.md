@@ -22,19 +22,31 @@ The consumer is responsible for providing the slide content as children and impl
 
 ```html
 <Carousel label="Customer testimonials">
-  <div role="group" aria-roledescription="slide" aria-label="Slide 1 of 3">
+  <div
+    role="group"
+    aria-roledescription="slide"
+    aria-label="Slide 1 of 3"
+  >
     <blockquote>
       <p>"The service transformed how we manage patient records."</p>
       <cite>Dr Sarah Mitchell, GP</cite>
     </blockquote>
   </div>
-  <div role="group" aria-roledescription="slide" aria-label="Slide 2 of 3">
+  <div
+    role="group"
+    aria-roledescription="slide"
+    aria-label="Slide 2 of 3"
+  >
     <blockquote>
       <p>"Setup took less than a day and the team was incredibly helpful."</p>
       <cite>James O'Brien, Practice Manager</cite>
     </blockquote>
   </div>
-  <div role="group" aria-roledescription="slide" aria-label="Slide 3 of 3">
+  <div
+    role="group"
+    aria-roledescription="slide"
+    aria-label="Slide 3 of 3"
+  >
     <blockquote>
       <p>"We reduced administrative time by 40% in the first month."</p>
       <cite>Nurse Karen Phillips</cite>
@@ -45,13 +57,27 @@ The consumer is responsible for providing the slide content as children and impl
 
 ```html
 <Carousel label="Featured articles">
-  <div role="group" aria-roledescription="slide" aria-label="Slide 1 of 2">
-    <Image src="/images/article-1.jpg" alt="Accessible design patterns" />
+  <div
+    role="group"
+    aria-roledescription="slide"
+    aria-label="Slide 1 of 2"
+  >
+    <image
+      src="/images/article-1.jpg"
+      alt="Accessible design patterns"
+    />
     <h3>Building Accessible Forms</h3>
     <p>Learn how to create forms that work for everyone.</p>
   </div>
-  <div role="group" aria-roledescription="slide" aria-label="Slide 2 of 2">
-    <Image src="/images/article-2.jpg" alt="Component composition" />
+  <div
+    role="group"
+    aria-roledescription="slide"
+    aria-label="Slide 2 of 2"
+  >
+    <image
+      src="/images/article-2.jpg"
+      alt="Component composition"
+    />
     <h3>Component Composition Patterns</h3>
     <p>How to combine headless components for complex UIs.</p>
   </div>
@@ -86,14 +112,11 @@ None -- this component is a passive container. The consumer should implement key
 
 This headless Carousel component provides the semantic container with `role="region"`, `aria-roledescription="carousel"`, and `aria-label` for screen reader identification. The consumer provides all visual styling, slide navigation controls (previous/next buttons, pagination dots), autoplay logic, transition animations, and slide layout.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.carousel` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `carousel`
 - Verify role="region"` -- identifies the carousel as a landmark region so screen readers can navigate to it.

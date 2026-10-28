@@ -26,11 +26,11 @@ Hotel booking date range:
 
 ```html
 <DateRange
-    label="Stay dates"
-    startLabel="Check-in"
-    endLabel="Check-out"
-    start={checkIn}
-    end={checkOut}
+  label="Stay dates"
+  startLabel="Check-in"
+  endLabel="Check-out"
+  start="{checkIn}"
+  end="{checkOut}"
 />
 ```
 
@@ -38,11 +38,11 @@ Report filter with date range:
 
 ```html
 <DateRange
-    label="Report period"
-    startLabel="From date"
-    endLabel="To date"
-    start={reportStart}
-    end={reportEnd}
+  label="Report period"
+  startLabel="From date"
+  endLabel="To date"
+  start="{reportStart}"
+  end="{reportEnd}"
 />
 ```
 
@@ -77,17 +77,14 @@ Report filter with date range:
 
 This headless component provides a semantic `<fieldset>` grouping two native `<input type="date">` elements with accessible labels and two-way binding. It handles ARIA labeling for both the group and individual inputs. The consumer provides all visual styling, layout, spacing, and any validation indicators.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.date-range` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
 
-
 - Verify the component renders a `<span>` element with class `date-range`
-- Verify aria-label={label}` on `<fieldset>` -- provides an accessible group name for the date range pair
+- Verify aria-label={label}`on`<fieldset>` -- provides an accessible group name for the date range pair
 - Verify aria-label={startLabel}` on the start input -- identifies the start date field
 - Verify aria-label={endLabel}` on the end input -- identifies the end date field
 - Verify keyboard interactions work correctly

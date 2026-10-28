@@ -5,9 +5,9 @@ Self-contained Angular 20 examples for
 standalone component that can be dropped into any Angular 20 host
 (Analog page, Angular CLI route, Storybook story).
 
-| #   | File                                                 | Demonstrates                                                                             |
-| --- | ----------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| 1   | [`basic.component.ts`](./basic.component.ts)         | The minimum call site: a labelled field, a locale, and the six required strings.          |
+| #   | File                                                     | Demonstrates                                                                                                                        |
+| --- | -------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | [`basic.component.ts`](./basic.component.ts)             | The minimum call site: a labelled field, a locale, and the six required strings.                                                    |
 | 2   | [`nhs-booking.component.ts`](./nhs-booking.component.ts) | A bilingual (English/Welsh) `datetime` booking control: `min`/`max`, `isDateDisabled`, `minuteStep`, and locale-driven `shortcuts`. |
 
 Every example assumes:

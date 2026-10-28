@@ -34,9 +34,9 @@ Lily is a stack of layers, each owning one job: the **catalog** (581 named compo
 Twenty-seven [Claude Skills](https://code.claude.com/docs/en/skills) give an AI
 coding agent a curated entry point, in three tiers:
 [lily-design-system-skill](lily-design-system-skill) for people
-building *with* Lily (concepts, naming, composition patterns),
+building _with_ Lily (concepts, naming, composition patterns),
 [lily-design-system-maintainer-skill](lily-design-system-maintainer-skill)
-for people working *on* this monorepo (required files, `bin/` tooling,
+for people working _on_ this monorepo (required files, `bin/` tooling,
 the spec-driven workflow), eight framework-umbrella skills
 (`{framework}-skill`) that map a framework's headless/helpers/example-app
 subprojects and point down into the more specific skills, and sixteen

@@ -54,46 +54,40 @@ trees.
 The spec's §7 has both component-contract tests and pure-helper tests.
 Map each §7 clause to one or more vitest test ids:
 
-| §7 # | Topic                                                           | Hook                                                                                 |
-| ---- | --------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| §7 # | Topic                                                           | Hook                                                                                |
+| ---- | --------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
 | 7.1  | Button + listbox + root div                                     | `screen.getByRole("button")` attrs; `.locale-picker-icon`; root `tagName === "DIV"` |
-| 7.2  | `aria-label` names both                                         | `getByRole("button", { name })`; list `aria-label`                                   |
+| 7.2  | `aria-label` names both                                         | `getByRole("button", { name })`; list `aria-label`                                  |
 | 7.3  | One option per locale, hidden input `name`                      | `document.querySelectorAll(".locale-picker-option")`; `input[type="hidden"]`        |
-| 7.4  | `hidden` until activated; one `aria-selected`                   | click the button; assert `hidden` / `aria-expanded`                                  |
-| 7.5  | Each option `lang`; none on button or list                      | iterate options, assert `.getAttribute("lang")`                                      |
-| 7.6  | Labels from `localeLabels` / `defaultLocaleLabels`              | `screen.getByText(...)`                                                              |
-| 7.7  | `bcp47LocaleTag("en_US")`                                       | pure                                                                                 |
-| 7.8  | `bcp47LocaleTag("zh_Hant_TW")`                                  | pure                                                                                 |
-| 7.9  | `bcp47LocaleTag("en")`                                          | pure                                                                                 |
-| 7.10 | `isRtlLocale` RTL cases                                         | pure (ar, he_IL, uz_Arab_AF)                                                         |
-| 7.11 | `isRtlLocale` LTR cases                                         | pure (en, fr_CA)                                                                     |
-| 7.12 | `localeName("en_US")`                                           | pure (from `locales.tsv`)                                                            |
-| 7.13 | Initial `lang` is BCP 47 form                                   | `flush()`, assert `documentElement.lang`                                             |
-| 7.14 | `dir` is rtl / ltr                                              | RTL and LTR `defaultValue`, assert `documentElement.dir`                             |
-| 7.15 | `applyDir={false}` omits dir                                    | RTL value, assert `!documentElement.hasAttribute("dir")`                             |
-| 7.16 | Selection updates lang/dir, fires `onChange` (consumer form)    | `pick(code)`, `vi.fn()` spy                                                          |
-| 7.17 | Custom `target`                                                 | render with `target`; assert `target.lang`, root untouched                           |
-| 7.18 | Storage key persists                                            | first render writes; unmount; second render reads                                    |
-| 7.19 | `value` prop wins                                               | preset storage; render with `value`; assert applied                                  |
-| 7.20 | Navigator exact match                                           | stub `navigator.languages`; assert resolved locale                                   |
-| 7.21 | Navigator language-only match                                   | stub `["fr-CA"]` against `["en","fr"]`                                               |
-| 7.22 | Extra attrs spread onto the root div                            | render with `data-testid`; assert `tagName === "DIV"`                                |
+| 7.4  | `hidden` until activated; one `aria-selected`                   | click the button; assert `hidden` / `aria-expanded`                                 |
+| 7.5  | Each option `lang`; none on button or list                      | iterate options, assert `.getAttribute("lang")`                                     |
+| 7.6  | Labels from `localeLabels` / `defaultLocaleLabels`              | `screen.getByText(...)`                                                             |
+| 7.7  | `bcp47LocaleTag("en_US")`                                       | pure                                                                                |
+| 7.8  | `bcp47LocaleTag("zh_Hant_TW")`                                  | pure                                                                                |
+| 7.9  | `bcp47LocaleTag("en")`                                          | pure                                                                                |
+| 7.10 | `isRtlLocale` RTL cases                                         | pure (ar, he_IL, uz_Arab_AF)                                                        |
+| 7.11 | `isRtlLocale` LTR cases                                         | pure (en, fr_CA)                                                                    |
+| 7.12 | `localeName("en_US")`                                           | pure (from `locales.tsv`)                                                           |
+| 7.13 | Initial `lang` is BCP 47 form                                   | `flush()`, assert `documentElement.lang`                                            |
+| 7.14 | `dir` is rtl / ltr                                              | RTL and LTR `defaultValue`, assert `documentElement.dir`                            |
+| 7.15 | `applyDir={false}` omits dir                                    | RTL value, assert `!documentElement.hasAttribute("dir")`                            |
+| 7.16 | Selection updates lang/dir, fires `onChange` (consumer form)    | `pick(code)`, `vi.fn()` spy                                                         |
+| 7.17 | Custom `target`                                                 | render with `target`; assert `target.lang`, root untouched                          |
+| 7.18 | Storage key persists                                            | first render writes; unmount; second render reads                                   |
+| 7.19 | `value` prop wins                                               | preset storage; render with `value`; assert applied                                 |
+| 7.20 | Navigator exact match                                           | stub `navigator.languages`; assert resolved locale                                  |
+| 7.21 | Navigator language-only match                                   | stub `["fr-CA"]` against `["en","fr"]`                                              |
+| 7.22 | Extra attrs spread onto the root div                            | render with `data-testid`; assert `tagName === "DIV"`                               |
 | 7.23 | `children` replaces the glyph                                   | assert no `.locale-picker-icon`; assert `value` / `open` / `labelFor`               |
-| 7.24 | Opening keys and focus transfer                                 | `fireEvent.keyDown(button, { key })`; assert `document.activeElement`                |
-| 7.25 | Active-descendant movement, clamping, Home / End, `data-active` | `fireEvent.keyDown(list, …)`; assert `aria-activedescendant`                         |
-| 7.26 | Select / cancel / Tab, and focus return                         | `Enter`, `Space`, `Escape`, `Tab` on the list                                        |
-| 7.27 | Typeahead and pointer                                           | printable keys, buffer reset via fake timers, option click, outside click            |
+| 7.24 | Opening keys and focus transfer                                 | `fireEvent.keyDown(button, { key })`; assert `document.activeElement`               |
+| 7.25 | Active-descendant movement, clamping, Home / End, `data-active` | `fireEvent.keyDown(list, …)`; assert `aria-activedescendant`                        |
+| 7.26 | Select / cancel / Tab, and focus return                         | `Enter`, `Space`, `Escape`, `Tab` on the list                                       |
+| 7.27 | Typeahead and pointer                                           | printable keys, buffer reset via fake timers, option click, outside click           |
 
 ## Mounting
 
 ```tsx
-import {
-  render,
-  screen,
-  waitFor,
-  fireEvent,
-  cleanup,
-} from "@testing-library/react";
+import { render, screen, waitFor, fireEvent, cleanup } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import LocalePicker, {
   bcp47LocaleTag,
@@ -106,7 +100,11 @@ const LOCALES = ["en", "en_US", "fr", "fr_CA", "ar"];
 
 test("§7.13 — initial value applies lang+dir to document root", async () => {
   render(
-    <LocalePicker label="Language" locales={LOCALES} defaultValue="ar" />,
+    <LocalePicker
+      label="Language"
+      locales={LOCALES}
+      defaultValue="ar"
+    />,
   );
   await waitFor(() => {
     expect(document.documentElement.lang).toBe("ar");
@@ -151,7 +149,11 @@ test needs to change the locale.
 ```tsx
 test("§7.13 — en_US is written as en-US (BCP 47 hyphen)", async () => {
   render(
-    <LocalePicker label="Language" locales={LOCALES} defaultValue="en_US" />,
+    <LocalePicker
+      label="Language"
+      locales={LOCALES}
+      defaultValue="en_US"
+    />,
   );
   await waitFor(() => {
     expect(document.documentElement.lang).toBe("en-US");
@@ -202,7 +204,12 @@ the list's children ids:
 
 ```tsx
 function openWith(key: string) {
-  render(<LocalePicker label="Language" locales={LOCALES} />);
+  render(
+    <LocalePicker
+      label="Language"
+      locales={LOCALES}
+    />,
+  );
   const button = screen.getByRole("button");
   fireEvent.keyDown(button, { key });
   return { button, list: getList() };
@@ -236,15 +243,18 @@ Typeahead's buffer reset is the one place fake timers are required:
 test("§7.27 — the typeahead buffer resets after the idle window", () => {
   vi.useFakeTimers();
   try {
-    render(<LocalePicker label="Language" locales={LOCALES} />);
+    render(
+      <LocalePicker
+        label="Language"
+        locales={LOCALES}
+      />,
+    );
     const list = getList();
     fireEvent.keyDown(screen.getByRole("button"), { key: "ArrowDown" });
     fireEvent.keyDown(list, { key: "a" });
     vi.advanceTimersByTime(600);
     fireEvent.keyDown(list, { key: "f" });
-    expect(list.getAttribute("aria-activedescendant")).toBe(
-      list.children[2].id,
-    );
+    expect(list.getAttribute("aria-activedescendant")).toBe(list.children[2].id);
   } finally {
     vi.useRealTimers();
   }
@@ -384,7 +394,11 @@ lands inside `.locale-picker-button`:
 ```tsx
 test("§7.23 — children replace the button glyph and receive ChildArgs", async () => {
   render(
-    <LocalePicker label="Language" locales={LOCALES} value="fr">
+    <LocalePicker
+      label="Language"
+      locales={LOCALES}
+      value="fr"
+    >
       {(args: ChildArgs) => (
         <span
           data-testid="custom"

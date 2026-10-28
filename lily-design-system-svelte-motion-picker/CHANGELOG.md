@@ -24,7 +24,6 @@ there); this picker's clauses are §7.20–§7.25.
 
 **Fix: the tooltip's `Escape` dismissal now works wherever focus is (WCAG 1.4.13).** It was bound to the button's keydown only, so a tooltip shown by pointer hover alone could not be dismissed. While the tooltip is visible a document `keydown` listener (added once, removed on hide/unmount; no `preventDefault`, no focus move) sets it dismissed. New clauses §7.26–§7.27.
 
-
 ## 0.1.2 — 2026-09-25
 
 **Fix: dependency range on `@lilydesignsystem/svelte-headless` widened

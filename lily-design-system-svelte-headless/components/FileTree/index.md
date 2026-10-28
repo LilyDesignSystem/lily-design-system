@@ -10,7 +10,7 @@ See [components/file-tree/index.md](../../../components/file-tree/index.md) for 
 
 ```svelte
 <script lang="ts">
-    import FileTree from "./FileTree.svelte";
+  import FileTree from "./FileTree.svelte";
 </script>
 
 <FileTree />

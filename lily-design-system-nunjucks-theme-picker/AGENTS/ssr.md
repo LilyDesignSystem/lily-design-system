@@ -245,10 +245,7 @@ To run a custom `onChange` callback across all selects:
   autoInit({
     onChange(slug) {
       // analytics, server sync, etc.
-      navigator.sendBeacon?.(
-        "/api/theme",
-        new Blob([JSON.stringify({ theme: slug })]),
-      );
+      navigator.sendBeacon?.("/api/theme", new Blob([JSON.stringify({ theme: slug })]));
     },
   });
 </script>

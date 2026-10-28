@@ -24,8 +24,18 @@ This component manages keyboard navigation between tree items using ArrowDown, A
 
 ```svelte
 <TreeList label="File browser">
-  <li role="treeitem" tabindex="0">Documents</li>
-  <li role="treeitem" tabindex="-1">Photos</li>
+  <li
+    role="treeitem"
+    tabindex="0"
+  >
+    Documents
+  </li>
+  <li
+    role="treeitem"
+    tabindex="-1"
+  >
+    Photos
+  </li>
 </TreeList>
 ```
 

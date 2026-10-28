@@ -32,7 +32,11 @@ Unlike modal dialogs that interrupt workflow, toast notifications communicate fe
 <Sonner label="System notifications">
   <Toast label="Saved">Changes saved.</Toast>
   <Toast label="Synced">Data synchronised with server.</Toast>
-  <Toast label="Warning" urgent>Session expires in 2 minutes.</Toast>
+  <Toast
+    label="Warning"
+    urgent
+    >Session expires in 2 minutes.</Toast
+  >
 </Sonner>
 ```
 
@@ -64,14 +68,11 @@ None built-in -- the consumer should implement keyboard interactions for dismiss
 
 This headless component renders a `<div>` with `role="region"`, `aria-live="polite"`, and `aria-label` to create an accessible notification landmark. It provides the live region semantics so screen readers announce new content. The consumer provides all visual styling, positioning, stacking, and animation for the notification area.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.sonner` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `sonner`
 - Verify role="region"` -- defines the notification area as a named landmark section

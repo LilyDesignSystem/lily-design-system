@@ -7,11 +7,11 @@ stack, and what it deliberately leaves to you.
 
 A web app changes language across three independent axes:
 
-| Axis                   | What changes                                                                                   | Owner                                                                               |
-| ---------------------- | ---------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| Axis                   | What changes                                                                                   | Owner                                                                              |
+| ---------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
 | **Document language**  | The `lang` attribute on `<html>`. Screen readers, search engines, hyphenation, font selection. | `LocalePicker` (this helper).                                                      |
 | **Writing direction**  | The `dir` attribute on `<html>`. Bidi text, scrollbar position, flex/grid mirror.              | `LocalePicker` (auto-detected from the locale; opt out with `[applyDir]="false"`). |
-| **Translated strings** | The actual visible words on the page.                                                          | Your i18n library (`@angular/localize`, Transloco, ngx-translate, raw `Intl`).      |
+| **Translated strings** | The actual visible words on the page.                                                          | Your i18n library (`@angular/localize`, Transloco, ngx-translate, raw `Intl`).     |
 
 The helper owns the first two and signals the third via a bindable
 `value` (via `[(value)]`), a `localeChange` output, and the `lang`

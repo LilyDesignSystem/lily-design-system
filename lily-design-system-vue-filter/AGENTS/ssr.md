@@ -33,8 +33,8 @@ direct equivalent of SvelteKit's `hooks.server.ts` +
 import { defineEventHandler, getCookie, setHeader } from "h3";
 
 export default defineEventHandler((event) => {
-    const cookie = getCookie(event, "locale") ?? "en";
-    event.context.locale = cookie;
+  const cookie = getCookie(event, "locale") ?? "en";
+  event.context.locale = cookie;
 });
 ```
 
@@ -43,9 +43,9 @@ export default defineEventHandler((event) => {
 ```ts
 // plugins/locale.ts
 export default defineNuxtPlugin((nuxtApp) => {
-    const event = useRequestEvent();
-    const initial = event?.context?.locale ?? "en";
-    return { provide: { initialLocale: initial } };
+  const event = useRequestEvent();
+  const initial = event?.context?.locale ?? "en";
+  return { provide: { initialLocale: initial } };
 });
 ```
 
@@ -59,22 +59,22 @@ const { $initialLocale } = useNuxtApp();
 const locale = ref<string>($initialLocale);
 
 useHead({
-    htmlAttrs: { lang: locale, dir: /^(ar|he|fa|ur)/.test(locale.value) ? "rtl" : "ltr" },
+  htmlAttrs: { lang: locale, dir: /^(ar|he|fa|ur)/.test(locale.value) ? "rtl" : "ltr" },
 });
 
 function persistCookie(code: string) {
-    document.cookie = `locale=${code}; path=/; max-age=31536000; SameSite=Lax`;
+  document.cookie = `locale=${code}; path=/; max-age=31536000; SameSite=Lax`;
 }
 </script>
 
 <template>
-    <LocalePicker
-        label="Language"
-        :locales="['en', 'fr', 'ar']"
-        v-model:value="locale"
-        :value="locale"
-        @change="persistCookie"
-    />
+  <LocalePicker
+    label="Language"
+    :locales="['en', 'fr', 'ar']"
+    v-model:value="locale"
+    :value="locale"
+    @change="persistCookie"
+  />
 </template>
 ```
 
@@ -88,8 +88,8 @@ arrives with the correct attributes before any pixel is painted.
 import { defineEventHandler, getCookie } from "h3";
 
 export default defineEventHandler((event) => {
-    const cookie = getCookie(event, "theme") ?? "light";
-    event.context.theme = cookie;
+  const cookie = getCookie(event, "theme") ?? "light";
+  event.context.theme = cookie;
 });
 ```
 
@@ -103,18 +103,18 @@ const theme = ref<string>($initialTheme);
 useHead({ htmlAttrs: { "data-theme": theme } });
 
 function persistCookie(slug: string) {
-    document.cookie = `theme=${slug}; path=/; max-age=31536000; SameSite=Lax`;
+  document.cookie = `theme=${slug}; path=/; max-age=31536000; SameSite=Lax`;
 }
 </script>
 
 <template>
-    <ThemePicker
-        label="Theme"
-        themes-url="/assets/themes/"
-        :themes="['light', 'dark', 'abyss']"
-        v-model:value="theme"
-        @change="persistCookie"
-    />
+  <ThemePicker
+    label="Theme"
+    themes-url="/assets/themes/"
+    :themes="['light', 'dark', 'abyss']"
+    v-model:value="theme"
+    @change="persistCookie"
+  />
 </template>
 ```
 
@@ -129,10 +129,10 @@ import { renderToString } from "vue/server-renderer";
 import ThemePicker from "./ThemePicker.vue";
 
 const app = createSSRApp(ThemePicker, {
-    label: "Theme",
-    themesUrl: "/themes/",
-    themes: ["light", "dark"],
-    value: "light",
+  label: "Theme",
+  themesUrl: "/themes/",
+  themes: ["light", "dark"],
+  value: "light",
 });
 const html = await renderToString(app);
 ```

@@ -10,7 +10,7 @@ Markdown, a skill file, an official MCP server). daisyUI is not just an
 inspiration: **Lily's themes descend from it**. 35 of the 57 `themes/` are
 daisyUI-derived (credited in each file's header, see
 [CHANGELOG](../../CHANGELOG.md)), and Lily already uses its token set. The
-useful question is therefore what Lily has *not* taken. Nothing here is built
+useful question is therefore what Lily has _not_ taken. Nothing here is built
 yet: each item is an open acceptance criterion.
 
 ## Scope
@@ -51,7 +51,7 @@ per-component When to Use / When Not to Use guidance.
 
 ### 1. Token-only themes on `[data-theme]`, with one shared component sheet
 
-daisyUI themes are *only* variables: `data-theme="x"` works on `<html>` or
+daisyUI themes are _only_ variables: `data-theme="x"` works on `<html>` or
 **any element**, and themes nest, so a section can be forced to another
 theme. Lily's themes are not: each file carries its token block and then the
 component rules for the whole catalog. Measured 2026-10-21: every one of the
@@ -152,9 +152,9 @@ invalid on load. The platform now solves that: `:user-invalid` /
 
 ### 6. Per-page AI links and "view source CSS"
 
-Each daisyUI component page offers *Copy docs*, *Open in ChatGPT*, *Open in
-Claude* (a prompt pre-filled with the raw Markdown URL), *Markdown doc*, *View
-source CSS* and a "Text version for AI prompts". This extends item 3 of
+Each daisyUI component page offers _Copy docs_, _Open in ChatGPT_, _Open in
+Claude_ (a prompt pre-filled with the raw Markdown URL), _Markdown doc_, _View
+source CSS_ and a "Text version for AI prompts". This extends item 3 of
 [coss-ui-lessons](../coss-ui-lessons/index.md), which proposes only the
 Markdown link.
 
@@ -169,7 +169,7 @@ Markdown link.
 
 ### 7. A rules file written for AI assistants, with a discovery protocol
 
-daisyUI's `llms.txt` is a *skill file*: rules addressed to the assistant
+daisyUI's `llms.txt` is a _skill file_: rules addressed to the assistant
 ("use only current class names", "if the user does not request a variant, use
 the default", "use `primary` once per page", "do not use `tailwind.config.js`
 with v4"), a **component discovery protocol** ("match the meaning, even when
@@ -193,7 +193,7 @@ Lily's `llms.txt` is a curated link map by design
 - **Generated, drift-checked** from `components/*/AGENTS.md`, like
   `bin/generate-api-docs`. This deliberately reopens the "no `llms-full.txt`"
   decision: the reason recorded there (a curated map beats a dump) still holds
-  for `llms.txt`; the rules files are the *second* tier. Record the decision.
+  for `llms.txt`; the rules files are the _second_ tier. Record the decision.
 - **Check:** `--check` drift mode in `bin/test`; a size budget per file.
 
 ### 8. A read-only MCP server
@@ -269,24 +269,24 @@ example apps.
 daisyUI components with no Lily counterpart, none added on this evidence
 alone. Each needs a real ARIA contract to qualify, per the root spec:
 
-| daisyUI | Lily today | Verdict to reach |
-| ------- | ---------- | ---------------- |
-| Dock | none | A bottom navigation bar for small screens: a `nav` with `aria-current`; probably a recipe over `tab-bar` or `section-nav` rather than a component |
-| Indicator | none | A badge anchored to a corner of another element: a positioning wrapper; a recipe over `badge` |
-| Swap | `toggle-button` | Likely already covered; document the two-icon pattern |
-| Speed dial / FAB group | `float-button` | A disclosure of actions; a recipe over `float-button` + `dropdown-menu` |
-| Countdown | `timer` | `timer` is structural; a countdown is the consumer's logic; document, do not add |
-| Filter, Validator, OTP, Calendar | `data-filter-form`, `field`, `one-time-password-input`, `calendar-*` | Covered |
+| daisyUI                          | Lily today                                                           | Verdict to reach                                                                                                                                  |
+| -------------------------------- | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Dock                             | none                                                                 | A bottom navigation bar for small screens: a `nav` with `aria-current`; probably a recipe over `tab-bar` or `section-nav` rather than a component |
+| Indicator                        | none                                                                 | A badge anchored to a corner of another element: a positioning wrapper; a recipe over `badge`                                                     |
+| Swap                             | `toggle-button`                                                      | Likely already covered; document the two-icon pattern                                                                                             |
+| Speed dial / FAB group           | `float-button`                                                       | A disclosure of actions; a recipe over `float-button` + `dropdown-menu`                                                                           |
+| Countdown                        | `timer`                                                              | `timer` is structural; a countdown is the consumer's logic; document, do not add                                                                  |
+| Filter, Validator, OTP, Calendar | `data-filter-form`, `field`, `one-time-password-input`, `calendar-*` | Covered                                                                                                                                           |
 
 ## Not adopted
 
-| daisyUI idea | Why not |
-| ------------ | ------- |
-| Tailwind plugin, 600+ utility classes | A CSS framework dependency; ruled out |
+| daisyUI idea                                          | Why not                                                                                  |
+| ----------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| Tailwind plugin, 600+ utility classes                 | A CSS framework dependency; ruled out                                                    |
 | `theme-controller` checkbox (a CSS-only theme switch) | Cannot persist the choice or satisfy the picker's listbox contract; `theme-picker` stays |
-| Aura, Hover 3D, Text Rotate | Decorative motion; the consumer's |
-| "88% fewer class names" as a claim | Lily's classes are hooks, not styling; the comparison does not apply |
-| One-file `llms.txt` holding every component | Does not scale to 581; item 7 splits by category |
+| Aura, Hover 3D, Text Rotate                           | Decorative motion; the consumer's                                                        |
+| "88% fewer class names" as a claim                    | Lily's classes are hooks, not styling; the comparison does not apply                     |
+| One-file `llms.txt` holding every component           | Does not scale to 581; item 7 splits by category                                         |
 
 ## Acceptance criteria
 

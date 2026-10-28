@@ -23,9 +23,21 @@ LuxembourgMatriculeInput is a headless input for entering Luxembourg's Numéro d
 ## Usage
 
 ```html
-<Field label="Numéro d'Identification Nationale (Matricule)" required>
-  <LuxembourgMatriculeInput label="Numéro d'Identification Nationale (Matricule)" value={value} required />
-  <Hint>Thirteen digits in the form YYYYMMDDNNNCC: the first eight digits encode date of birth (YYYYMMDD); the next three are a sequence number; the twelfth digit is a Luhn (Modulus-10) check digit computed over the first eleven digits; the thirteenth digit is a second, independent check digit computed with the Verhoeff algorithm over the first twelve digits.</Hint>
+<Field
+  label="Numéro d'Identification Nationale (Matricule)"
+  required
+>
+  <LuxembourgMatriculeInput
+    label="Numéro d'Identification Nationale (Matricule)"
+    value="{value}"
+    required
+  />
+  <Hint
+    >Thirteen digits in the form YYYYMMDDNNNCC: the first eight digits encode date of birth
+    (YYYYMMDD); the next three are a sequence number; the twelfth digit is a Luhn (Modulus-10) check
+    digit computed over the first eleven digits; the thirteenth digit is a second, independent check
+    digit computed with the Verhoeff algorithm over the first twelve digits.</Hint
+  >
   <ErrorMessage>Please enter a valid Numéro d'Identification Nationale</ErrorMessage>
 </Field>
 ```

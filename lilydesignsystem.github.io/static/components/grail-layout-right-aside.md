@@ -44,7 +44,6 @@ GrailLayoutRightAside is a headless container for the right aside section of a G
 </GrailLayout>
 ```
 
-
 ## Keyboard Interactions
 
 - No keyboard interactions — this is a passive landmark container
@@ -63,9 +62,7 @@ This headless component renders semantic HTML. The consumer provides all visual 
 
 The consumer provides all CSS styling. The component renders with a `.grail-layout-right-aside` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<aside>` element with class `grail-layout-right-aside`
 - Verify pass-through attributes are applied

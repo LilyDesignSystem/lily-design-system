@@ -62,41 +62,41 @@ The most recent batches (May 2026) added national personal identifier components
 
 The slug suffix fixes the root HTML element. This is the canonical mapping:
 
-| Suffix         | Element      | Example                                                       |
-| -------------- | ------------ | ------------------------------------------------------------- |
-| `article`      | `<article>`  |                                                               |
-| `aside`        | `<aside>`    | GrailLayoutLeftAside, GrailLayoutRightAside                   |
-| `button`       | `<button>`   | Button, ToggleButton, SwitchButton                            |
-| `dialog`       | `<dialog>`   | Dialog, AlertDialog, FileDialog                               |
-| `div`          | `<div>`      | PinInputDiv, PasswordInputOrTextInputDiv                      |
-| `fieldset`     | `<fieldset>` | Fieldset                                                      |
-| `figure`       | `<figure>`   | Figure                                                        |
-| `footer`       | `<footer>`   | Footer                                                        |
-| `header`       | `<header>`   | Header                                                        |
-| `input`        | `<input>`    | TextInput, DateInput, EmailInput                              |
-| `kbd`          | `<kbd>`      | Kbd                                                           |
-| `mark`         | `<mark>`     | Mark                                                          |
-| `list`         | `<ol>`       | CheckList, TaskList (DoList/DontList use `<ul>`)              |
-| `list-item`    | `<li>`       | CheckListItem, TaskListItem                                   |
-| `main`         | `<main>`     | GrailLayoutCenterMain                                         |
-| `meter`        | `<meter>`    | Meter                                                         |
-| `nav`          | `<nav>`      | BreadcrumbNav, TreeNav                                        |
-| `option`       | `<option>`   | Option, ThemeSelectOption                                     |
-| `picker`       | `<div>`      | ColorPicker, FiveStarRatingPicker                            |
-| `progress`     | `<progress>` | Progress                                                      |
-| `select`       | `<select>`   | Select, ThemeSelect                                           |
-| `span`         | `<span>`     | Flair, Character                                              |
-| `table`        | `<table>`    | Table, DataTable, CalendarTable                              |
-| `table-head`   | `<thead>`    | TableHead, DataTableHead, CalendarTableHead, KanbanTableHead |
-| `table-body`   | `<tbody>`    | TableBody, DataTableBody, CalendarTableBody, KanbanTableBody |
-| `table-foot`   | `<tfoot>`    | TableFoot, DataTableFoot, CalendarTableFoot, KanbanTableFoot |
-| `table-row`    | `<tr>`       | TableRow, DataTableRow, CalendarTableRow, KanbanTableRow     |
-| `table-th`     | `<th>`       | TableTH, DataTableTH                                          |
-| `table-td`     | `<td>`       | TableTD, DataTableTD                                          |
-| `table-thead`  | `<thead>`    | GanttTableThead (gantt-table only)                           |
-| `table-tbody`  | `<tbody>`    | GanttTableTbody (gantt-table only)                           |
-| `table-tfoot`  | `<tfoot>`    | GanttTableTfoot (gantt-table only)                           |
-| `table-tr`     | `<tr>`       | GanttTableTr (gantt-table only)                              |
+| Suffix        | Element      | Example                                                      |
+| ------------- | ------------ | ------------------------------------------------------------ |
+| `article`     | `<article>`  |                                                              |
+| `aside`       | `<aside>`    | GrailLayoutLeftAside, GrailLayoutRightAside                  |
+| `button`      | `<button>`   | Button, ToggleButton, SwitchButton                           |
+| `dialog`      | `<dialog>`   | Dialog, AlertDialog, FileDialog                              |
+| `div`         | `<div>`      | PinInputDiv, PasswordInputOrTextInputDiv                     |
+| `fieldset`    | `<fieldset>` | Fieldset                                                     |
+| `figure`      | `<figure>`   | Figure                                                       |
+| `footer`      | `<footer>`   | Footer                                                       |
+| `header`      | `<header>`   | Header                                                       |
+| `input`       | `<input>`    | TextInput, DateInput, EmailInput                             |
+| `kbd`         | `<kbd>`      | Kbd                                                          |
+| `mark`        | `<mark>`     | Mark                                                         |
+| `list`        | `<ol>`       | CheckList, TaskList (DoList/DontList use `<ul>`)             |
+| `list-item`   | `<li>`       | CheckListItem, TaskListItem                                  |
+| `main`        | `<main>`     | GrailLayoutCenterMain                                        |
+| `meter`       | `<meter>`    | Meter                                                        |
+| `nav`         | `<nav>`      | BreadcrumbNav, TreeNav                                       |
+| `option`      | `<option>`   | Option, ThemeSelectOption                                    |
+| `picker`      | `<div>`      | ColorPicker, FiveStarRatingPicker                            |
+| `progress`    | `<progress>` | Progress                                                     |
+| `select`      | `<select>`   | Select, ThemeSelect                                          |
+| `span`        | `<span>`     | Flair, Character                                             |
+| `table`       | `<table>`    | Table, DataTable, CalendarTable                              |
+| `table-head`  | `<thead>`    | TableHead, DataTableHead, CalendarTableHead, KanbanTableHead |
+| `table-body`  | `<tbody>`    | TableBody, DataTableBody, CalendarTableBody, KanbanTableBody |
+| `table-foot`  | `<tfoot>`    | TableFoot, DataTableFoot, CalendarTableFoot, KanbanTableFoot |
+| `table-row`   | `<tr>`       | TableRow, DataTableRow, CalendarTableRow, KanbanTableRow     |
+| `table-th`    | `<th>`       | TableTH, DataTableTH                                         |
+| `table-td`    | `<td>`       | TableTD, DataTableTD                                         |
+| `table-thead` | `<thead>`    | GanttTableThead (gantt-table only)                           |
+| `table-tbody` | `<tbody>`    | GanttTableTbody (gantt-table only)                           |
+| `table-tfoot` | `<tfoot>`    | GanttTableTfoot (gantt-table only)                           |
+| `table-tr`    | `<tr>`       | GanttTableTr (gantt-table only)                              |
 
 Note the two table dialects: most table families use the `-head`/`-body`/`-foot`/`-row`/`-th`/`-td` suffixes, while the Gantt family uses HTML-name suffixes (`-thead`/`-tbody`/`-tfoot`/`-tr`) directly.
 
@@ -125,9 +125,20 @@ Small components snap into larger patterns. Canonical templates also live in [`A
 ### Form: Form → Field → Input
 
 ```tsx
-<Form label="Contact" onSubmit={handleSubmit}>
-  <Field label="Name" required error={errors.name}>
-    <TextInput label="Name" value={name} onChange={setName} />
+<Form
+  label="Contact"
+  onSubmit={handleSubmit}
+>
+  <Field
+    label="Name"
+    required
+    error={errors.name}
+  >
+    <TextInput
+      label="Name"
+      value={name}
+      onChange={setName}
+    />
   </Field>
   <ErrorSummary title="Errors">
     <ul>...</ul>
@@ -307,11 +318,11 @@ so the site can never drift from it).
 The rubric is evidence-based and deliberately mechanical, so the labels
 mean something checkable rather than expressing optimism:
 
-| Status | Meaning | Assignment evidence |
-| --- | --- | --- |
-| `stable` | Exercised in composed page flows under e2e and axe, beyond the generated per-component checks | Used by the canonical app's composed routes (151 components at the 2026-08-28 assignment) |
-| `beta` | Implemented and unit-tested in all seven frameworks, story-covered, axe-clean demo page — but not yet exercised in composed flows | The catalog default (332) |
-| `experimental` | Recent addition with the least accumulated depth; the contract may still move | The 0.4.0 batch (question, answer, comment, addressograph-box, barcode-image, draft, qr-code-image) and image-cropper (8) |
+| Status         | Meaning                                                                                                                           | Assignment evidence                                                                                                       |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `stable`       | Exercised in composed page flows under e2e and axe, beyond the generated per-component checks                                     | Used by the canonical app's composed routes (151 components at the 2026-08-28 assignment)                                 |
+| `beta`         | Implemented and unit-tested in all seven frameworks, story-covered, axe-clean demo page — but not yet exercised in composed flows | The catalog default (332)                                                                                                 |
+| `experimental` | Recent addition with the least accumulated depth; the contract may still move                                                     | The 0.4.0 batch (question, answer, comment, addressograph-box, barcode-image, draft, qr-code-image) and image-cropper (8) |
 
 Promotion is by evidence, not time served: a component moves to
 `stable` when a composed flow exercises it, and to `beta` from

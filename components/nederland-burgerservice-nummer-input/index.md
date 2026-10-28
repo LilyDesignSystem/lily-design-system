@@ -23,8 +23,15 @@ NederlandBurgerserviceNummerInput is a headless input for entering Netherlands's
 ## Usage
 
 ```html
-<Field label="Citizen Service Number" required>
-  <NederlandBurgerserviceNummerInput label="Citizen Service Number" value={value} required />
+<Field
+  label="Citizen Service Number"
+  required
+>
+  <NederlandBurgerserviceNummerInput
+    label="Citizen Service Number"
+    value="{value}"
+    required
+  />
   <Hint>9-digit number issued via the Personal Records Database (BRP)</Hint>
   <ErrorMessage>Please enter a valid Citizen Service Number</ErrorMessage>
 </Field>

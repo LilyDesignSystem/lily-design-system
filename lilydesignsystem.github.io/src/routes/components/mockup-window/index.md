@@ -22,7 +22,10 @@ Basic window mockup with a screenshot:
 
 ```html
 <MockupWindow label="Application settings panel">
-  <Image src="settings.png" alt="Settings panel screenshot" />
+  <image
+    src="settings.png"
+    alt="Settings panel screenshot"
+  />
 </MockupWindow>
 ```
 
@@ -30,9 +33,7 @@ Window mockup for a text editor preview:
 
 ```html
 <MockupWindow label="Code editor showing HTML file">
-  <CodeBlock language="html">
-    &lt;h1&gt;Hello, world!&lt;/h1&gt;
-  </CodeBlock>
+  <CodeBlock language="html"> &lt;h1&gt;Hello, world!&lt;/h1&gt; </CodeBlock>
 </MockupWindow>
 ```
 
@@ -41,10 +42,16 @@ Window mockup in a feature comparison:
 ```html
 <div class="feature-grid">
   <MockupWindow label="File manager showing grid view">
-    <Image src="file-manager-grid.png" alt="File manager in grid view" />
+    <image
+      src="file-manager-grid.png"
+      alt="File manager in grid view"
+    />
   </MockupWindow>
   <MockupWindow label="File manager showing list view">
-    <Image src="file-manager-list.png" alt="File manager in list view" />
+    <image
+      src="file-manager-list.png"
+      alt="File manager in list view"
+    />
   </MockupWindow>
 </div>
 ```

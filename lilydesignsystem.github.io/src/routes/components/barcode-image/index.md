@@ -24,20 +24,29 @@ Use `qr-code` for a 2D matrix code that you draw inside a `<div role="img">` con
 ## Usage
 
 ```html
-<BarcodeImage src="/barcode-images/order-12345.svg" alt="Order number 12345" />
+<BarcodeImage
+  src="/barcode-images/order-12345.svg"
+  alt="Order number 12345"
+/>
 ```
 
 Patient wristband example:
 
 ```html
-<BarcodeImage src={patientBarcodeImageDataUrl} alt="Patient identifier 943 476 5919" />
+<BarcodeImage
+  src="{patientBarcodeImageDataUrl}"
+  alt="Patient identifier 943 476 5919"
+/>
 ```
 
 Shipping label with text fallback:
 
 ```html
 <div>
-  <BarcodeImage src="/labels/RX2024.svg" alt="Tracking number RX2024-998-441" />
+  <BarcodeImage
+    src="/labels/RX2024.svg"
+    alt="Tracking number RX2024-998-441"
+  />
   <p>RX2024-998-441</p>
 </div>
 ```

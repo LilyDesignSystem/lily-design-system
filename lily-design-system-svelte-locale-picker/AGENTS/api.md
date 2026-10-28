@@ -113,17 +113,23 @@ Consumers consume it via a `{#snippet}` block:
 
 ```svelte
 <LocalePicker
-    label="Language"
-    locales={["en", "fr", "ar"]}
-    localeLabels={{ en: "English", fr: "Français", ar: "العربية" }}
+  label="Language"
+  locales={["en", "fr", "ar"]}
+  localeLabels={{ en: "English", fr: "Français", ar: "العربية" }}
 >
-    {#snippet children({ value, open, labelFor })}
-        <svg viewBox="0 0 16 16" aria-hidden="true">…</svg>
-        <span class="locale-picker-text" lang={bcp47LocaleTag(value)}>
-            {labelFor(value)}
-        </span>
-        <span aria-hidden="true">{open ? "▴" : "▾"}</span>
-    {/snippet}
+  {#snippet children({ value, open, labelFor })}
+    <svg
+      viewBox="0 0 16 16"
+      aria-hidden="true">…</svg
+    >
+    <span
+      class="locale-picker-text"
+      lang={bcp47LocaleTag(value)}
+    >
+      {labelFor(value)}
+    </span>
+    <span aria-hidden="true">{open ? "▴" : "▾"}</span>
+  {/snippet}
 </LocalePicker>
 ```
 
@@ -179,8 +185,15 @@ without instantiating the select.
 ## DOM contract
 
 ```html
-<div class="locale-picker {class}" ...restProps>
-  <input type="hidden" name="{name}" value="{value}" />
+<div
+  class="locale-picker {class}"
+  ...restProps
+>
+  <input
+    type="hidden"
+    name="{name}"
+    value="{value}"
+  />
   <button
     type="button"
     class="locale-picker-button"
@@ -189,7 +202,26 @@ without instantiating the select.
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path stroke-width="1.1" d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7"/></svg>
+    <svg
+      class="locale-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle
+        cx="8"
+        cy="8"
+        r="6"
+      />
+      <path
+        stroke-width="1.1"
+        d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7"
+      />
+    </svg>
     <!-- or the children snippet output -->
   </button>
   <ul
@@ -221,7 +253,10 @@ submission. Only the `lang` attributes are BCP 47-normalised.
 Document mutations (only inside `$effect`):
 
 ```html
-<html lang="{tagFor(locale)}" dir="rtl|ltr"></html>
+<html
+  lang="{tagFor(locale)}"
+  dir="rtl|ltr"
+></html>
 ```
 
 `dir` is only written when `applyDir` is `true` (the default).

@@ -22,7 +22,7 @@ Every example assumes:
 
 | #   | File                                                         | Demonstrates                                                                          |
 | --- | ------------------------------------------------------------ | ------------------------------------------------------------------------------------- |
-| 1   | [`Basic.razor`](./Basic.razor)                               | Default rendering — plain parameters plus a `locale-picker-status` live region.      |
+| 1   | [`Basic.razor`](./Basic.razor)                               | Default rendering — plain parameters plus a `locale-picker-status` live region.       |
 | 2   | [`CustomRendering.razor`](./CustomRendering.razor)           | Custom button glyph via `ChildContent` (inline SVG, state-aware caret).               |
 | 3   | [`ExternalButtons.razor`](./ExternalButtons.razor)           | External toggle-button group driving `SetLocaleAsync` via `@ref`.                     |
 | 4   | [`RtlDemo.razor`](./RtlDemo.razor)                           | Live RTL preview — Arabic, Hebrew, Persian, Urdu, Pashto.                             |

@@ -23,7 +23,12 @@ EspanaTarjetaSanitariaIndividualView is a read-only display of a España Tarjeta
 <SummaryList>
   <SummaryListItem>
     <dt>Tarjeta Sanitaria Individual</dt>
-    <dd><EspanaTarjetaSanitariaIndividualView label="TSI" value="BBBB12345678" /></dd>
+    <dd>
+      <EspanaTarjetaSanitariaIndividualView
+        label="TSI"
+        value="BBBB12345678"
+      />
+    </dd>
   </SummaryListItem>
 </SummaryList>
 ```

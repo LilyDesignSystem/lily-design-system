@@ -96,7 +96,10 @@ function labelFor(slug: string): string {
     storage-key="lily-theme"
   />
 
-  <p class="theme-picker-status" aria-live="polite">
+  <p
+    class="theme-picker-status"
+    aria-live="polite"
+  >
     Active theme: {{ labelFor(theme) }}
   </p>
 </template>
@@ -134,7 +137,11 @@ The control is a button that opens a WAI-ARIA APG listbox:
 
 ```html
 <div class="theme-picker">
-  <input type="hidden" name="theme" value="dark" />
+  <input
+    type="hidden"
+    name="theme"
+    value="dark"
+  />
   <button
     type="button"
     class="theme-picker-button"
@@ -143,7 +150,27 @@ The control is a button that opens a WAI-ARIA APG listbox:
     aria-expanded="false"
     aria-controls="theme-picker-1-list"
   >
-    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>
+    <svg
+      class="theme-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle
+        cx="8"
+        cy="8"
+        r="6"
+      />
+      <path
+        d="M8 2a6 6 0 0 1 0 12z"
+        fill="currentColor"
+        stroke="none"
+      />
+    </svg>
   </button>
   <ul
     class="theme-picker-list"
@@ -267,9 +294,9 @@ field-by-field reference.
 
 ## Events
 
-| Event          | Payload  | When                                                    |
-| -------------- | -------- | ------------------------------------------------------- |
-| `update:value` | `string` | After selection, drives `v-model:value`.                |
+| Event          | Payload  | When                                                   |
+| -------------- | -------- | ------------------------------------------------------ |
+| `update:value` | `string` | After selection, drives `v-model:value`.               |
 | `change`       | `string` | After the picker applies a new theme (post-DOM-write). |
 
 ## Custom button glyph
@@ -335,9 +362,9 @@ aria-controls>` whose accessible name is `aria-label={label}`. It is
   `aria-activedescendant`, per the WAI-ARIA APG listbox pattern.
 - The component implements the whole keyboard contract itself:
 
-  | Where   | Keys                                                                                                                                               |
-  | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-  | Button  | `ArrowDown` / `Enter` / `Space` open; `ArrowUp` opens on the last option                                                                           |
+  | Where   | Keys                                                                                                                                                                                                                                                                                                                                              |
+  | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+  | Button  | `ArrowDown` / `Enter` / `Space` open; `ArrowUp` opens on the last option                                                                                                                                                                                                                                                                          |
   | Listbox | `ArrowUp` / `ArrowDown` (clamping), `Home` / `End`, `PageUp` / `PageDown` (by ten, clamping), `Enter` / `Space` to commit, `Escape` to cancel, `Tab` to close via the button so the default Tab proceeds from the picker's position, printable-character typeahead (a repeated character cycles through its matches; differing characters refine) |
 
 - The active state is exposed in three independent channels:
@@ -389,9 +416,18 @@ is fetched on demand. To switch instantly between themes, preload
 them all yourself:
 
 ```html
-<link rel="stylesheet" href="/assets/themes/light.css" />
-<link rel="stylesheet" href="/assets/themes/dark.css" />
-<link rel="stylesheet" href="/assets/themes/abyss.css" />
+<link
+  rel="stylesheet"
+  href="/assets/themes/light.css"
+/>
+<link
+  rel="stylesheet"
+  href="/assets/themes/dark.css"
+/>
+<link
+  rel="stylesheet"
+  href="/assets/themes/abyss.css"
+/>
 ```
 
 The picker still mutates `data-theme`, and since every theme's CSS
@@ -454,19 +490,19 @@ exercises every numbered acceptance criterion in
 
 ## Files in this directory
 
-| File                   | Purpose                                         |
-| ---------------------- | ----------------------------------------------- |
-| `spec/index.md`        | Single source of truth — API, behaviour, tests. |
-| `AGENTS.md`            | Fast-index pointer; loads the AGENTS bundle.    |
-| `AGENTS/`              | Topic-by-topic agent files.                     |
-| `CLAUDE.md`            | `@AGENTS.md`.                                   |
+| File                  | Purpose                                         |
+| --------------------- | ----------------------------------------------- |
+| `spec/index.md`       | Single source of truth — API, behaviour, tests. |
+| `AGENTS.md`           | Fast-index pointer; loads the AGENTS bundle.    |
+| `AGENTS/`             | Topic-by-topic agent files.                     |
+| `CLAUDE.md`           | `@AGENTS.md`.                                   |
 | `ThemePicker.vue`     | The component implementation.                   |
 | `ThemePicker.test.ts` | vitest suite covering every spec §7 item.       |
-| `index.ts`             | Re-export barrel.                               |
-| `index.md`             | This file.                                      |
-| `docs/`                | Deep-dive topic guides.                         |
-| `examples/`            | Runnable Vue 3 SFCs.                            |
-| `CHANGELOG.md`         | Version history.                                |
+| `index.ts`            | Re-export barrel.                               |
+| `index.md`            | This file.                                      |
+| `docs/`               | Deep-dive topic guides.                         |
+| `examples/`           | Runnable Vue 3 SFCs.                            |
+| `CHANGELOG.md`        | Version history.                                |
 
 ## License
 

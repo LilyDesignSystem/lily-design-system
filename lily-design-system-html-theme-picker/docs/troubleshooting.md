@@ -55,12 +55,14 @@ flow element until you position it.
 **Fix.**
 
 ```css
-.theme-picker { position: relative; }
+.theme-picker {
+  position: relative;
+}
 .theme-picker-list {
-    position: absolute;
-    inset-block-start: 100%;
-    inset-inline-start: 0;
-    z-index: 10;
+  position: absolute;
+  inset-block-start: 100%;
+  inset-inline-start: 0;
+  z-index: 10;
 }
 ```
 
@@ -75,11 +77,17 @@ closed list stays on screen.
 to the open state:
 
 ```css
-.theme-picker-list { display: grid; }
-.theme-picker-list[hidden] { display: none; }
+.theme-picker-list {
+  display: grid;
+}
+.theme-picker-list[hidden] {
+  display: none;
+}
 
 /* or */
-.theme-picker-list:not([hidden]) { display: grid; }
+.theme-picker-list:not([hidden]) {
+  display: grid;
+}
 ```
 
 ## "Keyboard users can't see which option they're on"
@@ -92,8 +100,12 @@ never matches. The keyboard highlight is `[data-active]`.
 **Fix.**
 
 ```css
-.theme-picker-option[data-active] { background: #eee; }
-.theme-picker-list:focus-visible { outline: 2px solid currentColor; }
+.theme-picker-option[data-active] {
+  background: #eee;
+}
+.theme-picker-list:focus-visible {
+  outline: 2px solid currentColor;
+}
 ```
 
 Also make sure `[data-active]` and `[aria-selected="true"]` look
@@ -120,7 +132,11 @@ no options, and `openList()` opens an empty listbox with no
 **Fix.** Confirm the host has all three attributes:
 
 ```html
-<theme-picker label="Theme" themes-url="/t/" themes="light,dark"></theme-picker>
+<theme-picker
+  label="Theme"
+  themes-url="/t/"
+  themes="light,dark"
+></theme-picker>
 ```
 
 ## "Theme does not persist across reloads"
@@ -217,7 +233,7 @@ Checklist:
 
 ## "Subclassing breaks: my `#render()` override isn't called"
 
-Private fields (`#x`) in TypeScript / JavaScript are *truly*
+Private fields (`#x`) in TypeScript / JavaScript are _truly_
 private — subclasses cannot override them.
 
 For custom **button content**, which is the common case, override
@@ -235,12 +251,12 @@ See [custom-rendering.md](./custom-rendering.md) for both tiers.
 ## "My `renderButtonContent()` output goes stale"
 
 **Likely cause.** You cached the returned node and hand back the same
-instance on every call. The hook's return value *replaces* the
+instance on every call. The hook's return value _replaces_ the
 button's children, so a reused node is detached and reattached rather
 than re-evaluated, and any text you set once never changes.
 
 The hook itself re-runs on structural rebuilds (`themes`,
-`theme-labels`, `label`, `name`, `class`) *and* on every state sync
+`theme-labels`, `label`, `name`, `class`) _and_ on every state sync
 (a `value` change, each open and close), so content that reads
 `this.value` or `this.open` does stay current.
 

@@ -27,18 +27,18 @@ Project milestones with TimelineListItem children:
 
 ```html
 <TimelineList label="Project milestones">
-    <TimelineListItem>
-        <time datetime="2024-01">January 2024</time>
-        <p>Project kickoff</p>
-    </TimelineListItem>
-    <TimelineListItem>
-        <time datetime="2024-03">March 2024</time>
-        <p>Alpha release</p>
-    </TimelineListItem>
-    <TimelineListItem>
-        <time datetime="2024-09">September 2024</time>
-        <p>General availability</p>
-    </TimelineListItem>
+  <TimelineListItem>
+    <time datetime="2024-01">January 2024</time>
+    <p>Project kickoff</p>
+  </TimelineListItem>
+  <TimelineListItem>
+    <time datetime="2024-03">March 2024</time>
+    <p>Alpha release</p>
+  </TimelineListItem>
+  <TimelineListItem>
+    <time datetime="2024-09">September 2024</time>
+    <p>General availability</p>
+  </TimelineListItem>
 </TimelineList>
 ```
 
@@ -46,18 +46,18 @@ Order tracking with semantic `<time>` elements:
 
 ```html
 <TimelineList label="Order history">
-    <TimelineListItem>
-        <time datetime="2024-01-15">January 15, 2024</time>
-        <p>Order placed</p>
-    </TimelineListItem>
-    <TimelineListItem>
-        <time datetime="2024-01-16">January 16, 2024</time>
-        <p>Order shipped</p>
-    </TimelineListItem>
-    <TimelineListItem>
-        <time datetime="2024-01-19">January 19, 2024</time>
-        <p>Order delivered</p>
-    </TimelineListItem>
+  <TimelineListItem>
+    <time datetime="2024-01-15">January 15, 2024</time>
+    <p>Order placed</p>
+  </TimelineListItem>
+  <TimelineListItem>
+    <time datetime="2024-01-16">January 16, 2024</time>
+    <p>Order shipped</p>
+  </TimelineListItem>
+  <TimelineListItem>
+    <time datetime="2024-01-19">January 19, 2024</time>
+    <p>Order delivered</p>
+  </TimelineListItem>
 </TimelineList>
 ```
 
@@ -66,7 +66,7 @@ Order tracking with semantic `<time>` elements:
 | Prop           | Type            | Default    | Description                                  |
 | -------------- | --------------- | ---------- | -------------------------------------------- |
 | `label`        | `string`        | (required) | Accessible label via `aria-label`            |
-| `children`     | `slot`       | (required) | Timeline items (should be `<li>` elements)   |
+| `children`     | `slot`          | (required) | Timeline items (should be `<li>` elements)   |
 | `...restProps` | HTML attributes |            | Additional attributes spread onto the `<ol>` |
 
 ## Examples
@@ -96,6 +96,7 @@ Activity feed:
 - Semantic `<ol>` for ordered/chronological content
 - `aria-label` provides accessible name for the list
 - Consumers should use `<time>` elements with `datetime` attributes for machine-readable dates within items
+
 ## When to Use
 
 - Use to display chronological events or milestones, such as patient history, order tracking, or project progress.
@@ -113,14 +114,11 @@ Activity feed:
 
 This headless component provides a semantic `<ol>` element with `aria-label` for accessible chronological content. Screen readers convey the ordered nature of the list. The consumer provides `<li>` children (or TimelineListItem components) and all visual styling including connectors, markers, and layout.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.timeline-list` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<ol>` element with class `timeline-list`
 - Verify aria-label` provides accessible name for the list

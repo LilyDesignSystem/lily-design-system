@@ -23,13 +23,23 @@ The `side` prop indicates which edge the drawer enters from via a `data-side` at
 ## Usage
 
 ```tsx
-<Drawer label="Navigation" open={isOpen} onChange={setIsOpen} side="left">
+<Drawer
+  label="Navigation"
+  open={isOpen}
+  onChange={setIsOpen}
+  side="left"
+>
   <nav>...</nav>
 </Drawer>
 ```
 
 ```tsx
-<Drawer label="Filters" open={showFilters} onChange={setShowFilters} side="right">
+<Drawer
+  label="Filters"
+  open={showFilters}
+  onChange={setShowFilters}
+  side="right"
+>
   <form>...</form>
 </Drawer>
 ```

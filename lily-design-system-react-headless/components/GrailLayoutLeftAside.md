@@ -11,5 +11,7 @@ GrailLayoutLeftAside is a headless container for the left aside section of a Gra
 ## Usage
 
 ```tsx
-<GrailLayoutLeftAside><nav>Navigation menu</nav></GrailLayoutLeftAside>
+<GrailLayoutLeftAside>
+  <nav>Navigation menu</nav>
+</GrailLayoutLeftAside>
 ```

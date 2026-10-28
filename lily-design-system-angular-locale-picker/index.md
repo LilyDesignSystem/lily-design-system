@@ -83,7 +83,10 @@ import {
       (localeChange)="onLocaleChange($event)"
     />
 
-    <p class="locale-picker-status" aria-live="polite">
+    <p
+      class="locale-picker-status"
+      aria-live="polite"
+    >
       Active language:
       <span [attr.lang]="tagFor(locale())">{{ nameFor(locale()) }}</span>
     </p>
@@ -194,7 +197,11 @@ Renders (listbox closed):
 
 ```html
 <div class="locale-picker">
-  <input type="hidden" name="locale" value="en" />
+  <input
+    type="hidden"
+    name="locale"
+    value="en"
+  />
   <button
     type="button"
     class="locale-picker-button"
@@ -203,9 +210,22 @@ Renders (listbox closed):
     aria-expanded="false"
     aria-controls="locale-picker-1-list"
   >
-    <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true">…</svg>
+    <svg
+      class="locale-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+    >
+      …
+    </svg>
   </button>
-  <div class="locale-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
+  <div
+    class="locale-picker-tooltip"
+    role="tooltip"
+    id="{tooltipId}"
+    hidden
+  >
+    {label}
+  </div>
   <ul
     class="locale-picker-list"
     id="locale-picker-1-list"
@@ -259,7 +279,11 @@ only — the listbox is component-owned and the template never renders
 options.
 
 ```html
-<lily-locale-picker label="Language" [locales]="locales" [(value)]="locale">
+<lily-locale-picker
+  label="Language"
+  [locales]="locales"
+  [(value)]="locale"
+>
   <ng-template let-args>{{ args.labelFor(args.value) }}</ng-template>
 </lily-locale-picker>
 ```
@@ -276,8 +300,15 @@ Import the optional `LocalePickerIcon` directive if you want typed
 `let-` variables:
 
 ```html
-<lily-locale-picker label="Language" [locales]="locales" [(value)]="locale">
-  <ng-template lilyLocalePickerIcon let-args>
+<lily-locale-picker
+  label="Language"
+  [locales]="locales"
+  [(value)]="locale"
+>
+  <ng-template
+    lilyLocalePickerIcon
+    let-args
+  >
     <span [attr.data-open]="args.open">{{ args.value }}</span>
   </ng-template>
 </lily-locale-picker>
@@ -381,14 +412,14 @@ chosen one.
 
 The package ships **zero CSS**. These are the class hooks it emits:
 
-| Hook                     | Element                   | Notes                                                                                              |
-| ------------------------ | ------------------------- | -------------------------------------------------------------------------------------------------- |
-| `.locale-picker`        | root `<div>`              | Plus whatever you pass as `className`.                                                             |
-| `.locale-picker-button` | the trigger `<button>`    | Icon-only by default.                                                                              |
-| `.locale-picker-icon`   | the icon `<svg>`          | Absent when you project your own `<ng-template>`.                                                  |
-| `.locale-picker-tooltip` | `<div role="tooltip">` after the button | Holds the button's `label`; `hidden` unless hovered / keyboard-focused. |
-| `.locale-picker-list`   | the `<ul role="listbox">` | Carries `hidden` while closed.                                                                     |
-| `.locale-picker-option` | each `<li role="option">` | Style selection with `[aria-selected="true"]` and the keyboard-active option with `[data-active]`. |
+| Hook                     | Element                                 | Notes                                                                                              |
+| ------------------------ | --------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| `.locale-picker`         | root `<div>`                            | Plus whatever you pass as `className`.                                                             |
+| `.locale-picker-button`  | the trigger `<button>`                  | Icon-only by default.                                                                              |
+| `.locale-picker-icon`    | the icon `<svg>`                        | Absent when you project your own `<ng-template>`.                                                  |
+| `.locale-picker-tooltip` | `<div role="tooltip">` after the button | Holds the button's `label`; `hidden` unless hovered / keyboard-focused.                            |
+| `.locale-picker-list`    | the `<ul role="listbox">`               | Carries `hidden` while closed.                                                                     |
+| `.locale-picker-option`  | each `<li role="option">`               | Style selection with `[aria-selected="true"]` and the keyboard-active option with `[data-active]`. |
 
 **The list needs positioning CSS and this package ships none.** As
 rendered, the `<ul>` sits in normal document flow and pushes the rest
@@ -477,14 +508,14 @@ Opening moves focus to the list.
 
 On the **list**:
 
-| Key                   | Action                                                                     |
-| --------------------- | -------------------------------------------------------------------------- |
-| Arrow Down / Arrow Up | Move the active option. Clamps at the ends; does not wrap.                 |
-| Home / End            | Jump to the first / last option.                                           |
-| Enter / Space         | Choose the active option, apply it, close, focus the button.               |
-| Escape                | Close and focus the button; the locale is unchanged.                       |
-| PageUp / PageDown     | Move the active option by ten; clamps.                                     |
-| Tab                   | Close; focus lands on the button so the default Tab proceeds from the picker's position. |
+| Key                   | Action                                                                                                                                                                   |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Arrow Down / Arrow Up | Move the active option. Clamps at the ends; does not wrap.                                                                                                               |
+| Home / End            | Jump to the first / last option.                                                                                                                                         |
+| Enter / Space         | Choose the active option, apply it, close, focus the button.                                                                                                             |
+| Escape                | Close and focus the button; the locale is unchanged.                                                                                                                     |
+| PageUp / PageDown     | Move the active option by ten; clamps.                                                                                                                                   |
+| Tab                   | Close; focus lands on the button so the default Tab proceeds from the picker's position.                                                                                 |
 | Any printable key     | Typeahead over the option labels; resets 500 ms after your last keystroke. A single character advances to the next match and repeats cycle; differing characters refine. |
 
 With a mouse: clicking the button toggles the list, clicking an option
@@ -536,21 +567,21 @@ flicker-free first paint, resolve the locale on the server (cookie
 
 ## Files in this directory
 
-| File                               | Purpose                                                                           |
-| ---------------------------------- | --------------------------------------------------------------------------------- |
-| `spec/index.md`                    | Single source of truth — API, behaviour, tests.                                   |
-| `AGENTS.md`                        | Fast-index pointer; loads the AGENTS bundle.                                      |
-| `AGENTS/`                          | Topic-by-topic agent files.                                                       |
-| `CLAUDE.md`                        | `@AGENTS.md`.                                                                     |
+| File                              | Purpose                                                                           |
+| --------------------------------- | --------------------------------------------------------------------------------- |
+| `spec/index.md`                   | Single source of truth — API, behaviour, tests.                                   |
+| `AGENTS.md`                       | Fast-index pointer; loads the AGENTS bundle.                                      |
+| `AGENTS/`                         | Topic-by-topic agent files.                                                       |
+| `CLAUDE.md`                       | `@AGENTS.md`.                                                                     |
 | `locale-picker.component.ts`      | The component implementation.                                                     |
 | `locale-picker.component.spec.ts` | vitest suite covering every spec §7 item.                                         |
-| `locales.ts`                       | Built-in code → English-name map and RTL sets.                                    |
-| `locales.tsv`                      | Canonical 436-row source for `locales.ts`.                                        |
-| `index.ts`                         | Re-export barrel.                                                                 |
-| `index.md`                         | This file.                                                                        |
-| `docs/`                            | Deep-dive guides — see [Documentation](#documentation).                           |
-| `examples/`                        | Runnable Angular component files — see [Examples directory](#examples-directory). |
-| `CHANGELOG.md`                     | Version history.                                                                  |
+| `locales.ts`                      | Built-in code → English-name map and RTL sets.                                    |
+| `locales.tsv`                     | Canonical 436-row source for `locales.ts`.                                        |
+| `index.ts`                        | Re-export barrel.                                                                 |
+| `index.md`                        | This file.                                                                        |
+| `docs/`                           | Deep-dive guides — see [Documentation](#documentation).                           |
+| `examples/`                       | Runnable Angular component files — see [Examples directory](#examples-directory). |
+| `CHANGELOG.md`                    | Version history.                                                                  |
 
 ## Documentation
 

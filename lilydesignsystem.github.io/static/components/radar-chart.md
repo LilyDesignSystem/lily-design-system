@@ -15,17 +15,20 @@ The component renders a `<figure>` holding a `<div class="radar-chart-graphic" r
 
 ## Props
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `class` | string | `""` | Appended to the base class |
-| `label` | string (required) | — | Accessible name |
-| `children` | slot (required) | — | The consumer-drawn inline `<svg>` |
-| `...restProps` | HTML attributes | — | Spread onto the root `<figure>`, e.g. `aria-describedby` |
+| Prop           | Type              | Default | Description                                              |
+| -------------- | ----------------- | ------- | -------------------------------------------------------- |
+| `class`        | string            | `""`    | Appended to the base class                               |
+| `label`        | string (required) | —       | Accessible name                                          |
+| `children`     | slot (required)   | —       | The consumer-drawn inline `<svg>`                        |
+| `...restProps` | HTML attributes   | —       | Spread onto the root `<figure>`, e.g. `aria-describedby` |
 
 ## Usage
 
 ```svelte
-<RadarChart label="Radar Chart of example data" aria-describedby="radar-chart-data">
+<RadarChart
+  label="Radar Chart of example data"
+  aria-describedby="radar-chart-data"
+>
   <svg viewBox="0 0 100 100">…</svg>
 </RadarChart>
 <table id="radar-chart-data">…</table>

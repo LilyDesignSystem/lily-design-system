@@ -28,7 +28,12 @@ Unlike a single-line text input, a text-area-input provides a larger, scrollable
 ```
 
 ```tsx
-<TextAreaInput label="Description" value={description} onChange={setDescription} required />
+<TextAreaInput
+  label="Description"
+  value={description}
+  onChange={setDescription}
+  required
+/>
 ```
 
 ```tsx

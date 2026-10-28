@@ -12,7 +12,10 @@ The body section of a Table, rendered as a <tbody> element. Contains TableRow el
 
 ```tsx
 <TableBody>
-  <TableRow><TableTD>Alice</TableTD><TableTD>alice@example.com</TableTD></TableRow>
+  <TableRow>
+    <TableTD>Alice</TableTD>
+    <TableTD>alice@example.com</TableTD>
+  </TableRow>
 </TableBody>
 ```
 

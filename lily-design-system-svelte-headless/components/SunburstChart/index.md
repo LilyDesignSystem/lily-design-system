@@ -10,11 +10,11 @@ See [components/sunburst-chart/index.md](../../../components/sunburst-chart/inde
 
 ```svelte
 <script lang="ts">
-    import SunburstChart from "./SunburstChart.svelte";
+  import SunburstChart from "./SunburstChart.svelte";
 </script>
 
 <SunburstChart label="Describe the chart">
-    <svg viewBox="0 0 10 10">…</svg>
+  <svg viewBox="0 0 10 10">…</svg>
 </SunburstChart>
 ```
 

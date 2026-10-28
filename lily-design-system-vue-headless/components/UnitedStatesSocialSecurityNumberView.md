@@ -22,11 +22,17 @@ This component renders the SSN as an inline `<span>` element with an accessible 
 ## Usage
 
 ```svelte
-<UnitedStatesSocialSecurityNumberView label="SSN" value="123-45-6789" />
+<UnitedStatesSocialSecurityNumberView
+  label="SSN"
+  value="123-45-6789"
+/>
 ```
 
 ```svelte
-<UnitedStatesSocialSecurityNumberView label="Social Security Number" value={ssn} />
+<UnitedStatesSocialSecurityNumberView
+  label="Social Security Number"
+  value={ssn}
+/>
 ```
 
 ## Keyboard Interactions

@@ -52,7 +52,7 @@ Product card with description and actions:
 >
   <p>180 pages, dot-grid, hardcover.</p>
   <FlexStack direction="row">
-    <Button>Add to cart</Button>
+    <button>Add to cart</button>
     <IconButton label="Save for later">♡</IconButton>
   </FlexStack>
 </ProductCard>

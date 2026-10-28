@@ -122,9 +122,9 @@ Component names follow a suffix-based pattern that indicates the root HTML eleme
 | TableHead | `<thead>`    | `DataTableHead`                              |
 | TableBody | `<tbody>`    | `DataTableBody`                              |
 | TableFoot | `<tfoot>`    | `DataTableFoot`                              |
-| TableTD  | `<col>`      | `DataTableTD`, `CalendarTableTD`           |
+| TableTD   | `<col>`      | `DataTableTD`, `CalendarTableTD`             |
 | TableRow  | `<tr>`       | `DataTableRow`                               |
-| TableTD | `<td>`       | `DataTableTD`                              |
+| TableTD   | `<td>`       | `DataTableTD`                                |
 | Div       | `<div>`      | `PinInputDiv`, `PasswordInputOrTextInputDiv` |
 | Fieldset  | `<fieldset>` | `Fieldset`                                   |
 | Figure    | `<figure>`   | `Figure`                                     |

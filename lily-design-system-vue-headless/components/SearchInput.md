@@ -23,11 +23,18 @@ Search inputs are commonly used for site-wide search bars, filtering lists, and 
 ## Usage
 
 ```svelte
-<SearchInput label="Search" bind:value />
+<SearchInput
+  label="Search"
+  bind:value
+/>
 ```
 
 ```svelte
-<SearchInput label="Filter products" bind:value={query} required />
+<SearchInput
+  label="Filter products"
+  bind:value={query}
+  required
+/>
 ```
 
 ## Keyboard Interactions

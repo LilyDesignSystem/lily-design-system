@@ -31,8 +31,12 @@ Widescreen video container:
 Square avatar container:
 
 ```html
-<AspectRatioContainer ratio={1}>
-  <img src="avatar.jpg" alt="User avatar" style="object-fit: cover; width: 100%; height: 100%;" />
+<AspectRatioContainer ratio="{1}">
+  <img
+    src="avatar.jpg"
+    alt="User avatar"
+    style="object-fit: cover; width: 100%; height: 100%;"
+  />
 </AspectRatioContainer>
 ```
 
@@ -85,14 +89,11 @@ Thumbnail grid with consistent proportions:
 
 This component provides a `<div>` wrapper with the CSS `aspect-ratio` property set via inline style and a `data-aspect-ratio` attribute for consumer selectors, with zero visual styling. The consumer is responsible for all CSS including overflow behavior, border radius, background, and how child content fills or fits within the container.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.aspect-ratio-container` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `aspect-ratio-container`
 - Verify keyboard interactions work correctly

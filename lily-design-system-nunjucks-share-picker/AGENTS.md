@@ -21,15 +21,15 @@ The helper is a **macro + client.js pair**:
 
 ## Files
 
-| File                      | Purpose                                              |
-| ------------------------- | ---------------------------------------------------- |
-| `spec/index.md`           | Specification-driven contract (canonical).           |
+| File                     | Purpose                                             |
+| ------------------------ | --------------------------------------------------- |
+| `spec/index.md`          | Specification-driven contract (canonical).          |
 | `share-picker.njk`       | Nunjucks macro (`sharePicker(opts)`).               |
 | `share-picker.client.js` | ES module — `initSharePicker`, `autoInit`, helpers. |
-| `share-picker.test.ts`   | Vitest spec, mapped to the §7 clauses.               |
-| `index.md`                | User guide.                                          |
-| `docs/accessibility.md`   | Tradeoffs, stated plainly.                           |
-| `docs/ssr.md`             | Server rendering and the partial no-JS story.        |
+| `share-picker.test.ts`   | Vitest spec, mapped to the §7 clauses.              |
+| `index.md`               | User guide.                                         |
+| `docs/accessibility.md`  | Tradeoffs, stated plainly.                          |
+| `docs/ssr.md`            | Server rendering and the partial no-JS story.       |
 
 ## Public surface
 

@@ -95,8 +95,7 @@ react-next / vue-nuxt apps render demos via `{@html}` /
 ## Build
 
 `pnpm build` writes the SSG output to `dist/analog/public/`. The
-Playwright config runs `pnpm build && pnpm start` (http-server on port
-4173) so e2e tests hit the production-shaped static output.
+Playwright config runs `pnpm build && pnpm start` (http-server on port 4173) so e2e tests hit the production-shaped static output.
 
 ## Internationalization
 

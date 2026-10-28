@@ -17,15 +17,15 @@ If the locale string contains any of these as a `-` or `_`-separated
 component (case-insensitive), it's RTL — regardless of the base
 language:
 
-| Script    | Code   | Used in                                            |
-| --------- | ------ | -------------------------------------------------- |
+| Script    | Code   | Used in                                                                                                                  |
+| --------- | ------ | ------------------------------------------------------------------------------------------------------------------------ |
 | Arabic    | `Arab` | Arabic, Persian, Urdu, Uyghur, Sindhi, Sorani Kurdish, Kashmiri, Pashto, Punjabi (Pakistan), Malay (traditional Jawi), … |
-| Hebrew    | `Hebr` | Hebrew, Yiddish, Judeo-Arabic                      |
-| Thaana    | `Thaa` | Divehi (Maldivian)                                 |
-| Syriac    | `Syrc` | Syriac, Assyrian Neo-Aramaic                       |
-| N'Ko      | `Nkoo` | Manding languages                                  |
-| Mongolian | `Mong` | Mongolian (traditional vertical)                   |
-| Adlam     | `Adlm` | Fulfulde                                           |
+| Hebrew    | `Hebr` | Hebrew, Yiddish, Judeo-Arabic                                                                                            |
+| Thaana    | `Thaa` | Divehi (Maldivian)                                                                                                       |
+| Syriac    | `Syrc` | Syriac, Assyrian Neo-Aramaic                                                                                             |
+| N'Ko      | `Nkoo` | Manding languages                                                                                                        |
+| Mongolian | `Mong` | Mongolian (traditional vertical)                                                                                         |
+| Adlam     | `Adlm` | Fulfulde                                                                                                                 |
 
 Example: `uz_Arab_AF` (Uzbek written in Arabic script, in
 Afghanistan) → RTL.
@@ -35,24 +35,24 @@ Afghanistan) → RTL.
 If the first subtag (before the first `-` or `_`) is one of these,
 it's RTL:
 
-| Code  | Language                  |
-| ----- | ------------------------- |
-| `ar`  | Arabic                    |
-| `arc` | Aramaic                   |
-| `ckb` | Sorani (Central) Kurdish  |
-| `dv`  | Divehi                    |
-| `fa`  | Persian / Farsi           |
-| `he`  | Hebrew (current)          |
-| `iw`  | Hebrew (legacy)           |
-| `ji`  | Yiddish (legacy)          |
-| `ks`  | Kashmiri                  |
-| `ku`  | Kurdish (umbrella)        |
-| `mzn` | Mazanderani               |
-| `ps`  | Pashto                    |
-| `sd`  | Sindhi                    |
-| `ug`  | Uyghur                    |
-| `ur`  | Urdu                      |
-| `yi`  | Yiddish (current)         |
+| Code  | Language                 |
+| ----- | ------------------------ |
+| `ar`  | Arabic                   |
+| `arc` | Aramaic                  |
+| `ckb` | Sorani (Central) Kurdish |
+| `dv`  | Divehi                   |
+| `fa`  | Persian / Farsi          |
+| `he`  | Hebrew (current)         |
+| `iw`  | Hebrew (legacy)          |
+| `ji`  | Yiddish (legacy)         |
+| `ks`  | Kashmiri                 |
+| `ku`  | Kurdish (umbrella)       |
+| `mzn` | Mazanderani              |
+| `ps`  | Pashto                   |
+| `sd`  | Sindhi                   |
+| `ug`  | Uyghur                   |
+| `ur`  | Urdu                     |
+| `yi`  | Yiddish (current)        |
 
 This catches the common cases (`ar`, `he`, `fa`) without requiring
 the consumer to write `Arab` / `Hebr` script tags every time.
@@ -86,9 +86,9 @@ but suppresses `dir`:
 
 ```html
 <locale-picker
-    label="Language"
-    locales="en,ar,he"
-    apply-dir="false"
+  label="Language"
+  locales="en,ar,he"
+  apply-dir="false"
 ></locale-picker>
 ```
 
@@ -96,7 +96,7 @@ Equivalent in JS:
 
 ```js
 const select = document.querySelector("locale-picker");
-select.applyDir = false;  // setAttribute("apply-dir", "false")
+select.applyDir = false; // setAttribute("apply-dir", "false")
 ```
 
 Setting it back to `true` removes the attribute (absent ≡ true).
@@ -106,17 +106,17 @@ Setting it back to `true` removes the attribute (absent ≡ true).
 When the browser sees `dir="rtl"` on `<html>` or an ancestor of an
 element:
 
-| Aspect             | Behaviour with `dir="rtl"`                                  |
-| ------------------ | ----------------------------------------------------------- |
-| Text direction     | Bidi base direction is RTL; weak characters resolve RTL.    |
-| Paragraph flow     | First line starts at the right edge.                        |
-| Inline-axis        | `inline-start` is right, `inline-end` is left.              |
-| Flexbox            | `flex-direction: row` flows right-to-left.                  |
-| Grid               | Columns flow right-to-left.                                 |
-| Scrollbar          | Vertical scrollbar appears on the left (some browsers).     |
-| Form controls      | Number inputs, dates, native selects mirror.                |
-| Logical CSS        | `padding-inline-start`, `margin-inline-end`, etc., swap.    |
-| Default text-align | `start` resolves to right; `end` resolves to left.          |
+| Aspect             | Behaviour with `dir="rtl"`                               |
+| ------------------ | -------------------------------------------------------- |
+| Text direction     | Bidi base direction is RTL; weak characters resolve RTL. |
+| Paragraph flow     | First line starts at the right edge.                     |
+| Inline-axis        | `inline-start` is right, `inline-end` is left.           |
+| Flexbox            | `flex-direction: row` flows right-to-left.               |
+| Grid               | Columns flow right-to-left.                              |
+| Scrollbar          | Vertical scrollbar appears on the left (some browsers).  |
+| Form controls      | Number inputs, dates, native selects mirror.             |
+| Logical CSS        | `padding-inline-start`, `margin-inline-end`, etc., swap. |
+| Default text-align | `start` resolves to right; `end` resolves to left.       |
 
 What `dir="rtl"` does NOT change:
 
@@ -135,16 +135,16 @@ Use logical properties throughout your CSS:
 ```css
 /* Bad — breaks in RTL */
 .banner {
-    padding-left: 1rem;
-    margin-right: 0.5rem;
-    text-align: left;
+  padding-left: 1rem;
+  margin-right: 0.5rem;
+  text-align: left;
 }
 
 /* Good — works in both */
 .banner {
-    padding-inline-start: 1rem;
-    margin-inline-end: 0.5rem;
-    text-align: start;
+  padding-inline-start: 1rem;
+  margin-inline-end: 0.5rem;
+  text-align: start;
 }
 ```
 
@@ -153,19 +153,23 @@ mirrored CSS:
 
 ```css
 .next-icon {
-    transform: scaleX(-1);
+  transform: scaleX(-1);
 }
 
 :dir(ltr) .next-icon {
-    transform: none;
+  transform: none;
 }
 ```
 
 …or use a `:dir(rtl)` selector to swap the source asset:
 
 ```css
-.next-icon { background-image: url("/icons/arrow-right.svg"); }
-:dir(rtl) .next-icon { background-image: url("/icons/arrow-left.svg"); }
+.next-icon {
+  background-image: url("/icons/arrow-right.svg");
+}
+:dir(rtl) .next-icon {
+  background-image: url("/icons/arrow-left.svg");
+}
 ```
 
 ### `:lang()` for typography
@@ -174,17 +178,19 @@ Pair `dir` with `lang`-scoped font rules so each script gets a font
 designed for it:
 
 ```css
-:lang(ar), :lang(fa), :lang(ur) {
-    font-family: "Noto Sans Arabic", "Segoe UI", sans-serif;
-    line-height: 1.7;  /* more leading for tall Arabic letterforms */
+:lang(ar),
+:lang(fa),
+:lang(ur) {
+  font-family: "Noto Sans Arabic", "Segoe UI", sans-serif;
+  line-height: 1.7; /* more leading for tall Arabic letterforms */
 }
 
 :lang(he) {
-    font-family: "Frank Ruhl Libre", "Segoe UI", serif;
+  font-family: "Frank Ruhl Libre", "Segoe UI", serif;
 }
 
 :lang(zh) {
-    font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+  font-family: "Noto Sans SC", "PingFang SC", sans-serif;
 }
 ```
 
@@ -201,11 +207,14 @@ Position the dropdown with logical properties so it flips with the
 document direction rather than staying pinned to the left:
 
 ```css
-.locale-picker { position: relative; display: inline-block; }
+.locale-picker {
+  position: relative;
+  display: inline-block;
+}
 .locale-picker-list {
-    position: absolute;
-    inset-inline-start: 0;   /* not `left: 0` */
-    inset-block-start: calc(100% + 0.25rem);
+  position: absolute;
+  inset-inline-start: 0; /* not `left: 0` */
+  inset-block-start: calc(100% + 0.25rem);
 }
 ```
 
@@ -217,7 +226,7 @@ surrounding bidi context:
 <p>Welcome, <bdi id="username">…</bdi>!</p>
 
 <script>
-    document.querySelector("#username").textContent = userName;
+  document.querySelector("#username").textContent = userName;
 </script>
 ```
 
@@ -258,12 +267,12 @@ import { describe, it, expect } from "vitest";
 import "./index.js";
 
 describe("apply-dir", () => {
-    it("writes rtl on <html> for ar", () => {
-        document.body.innerHTML = `
+  it("writes rtl on <html> for ar", () => {
+    document.body.innerHTML = `
             <locale-picker label="L" locales="en,ar" value="ar"></locale-picker>
         `;
-        expect(document.documentElement.getAttribute("dir")).toBe("rtl");
-    });
+    expect(document.documentElement.getAttribute("dir")).toBe("rtl");
+  });
 });
 ```
 

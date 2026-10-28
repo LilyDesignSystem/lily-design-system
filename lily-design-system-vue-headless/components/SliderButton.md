@@ -22,10 +22,7 @@ A "slide to confirm" button. Keyboard users adjust the slider with Arrow Right /
 ## Usage
 
 ```vue
-<SliderButton
-  label="Slide to confirm payment"
-  @confirm="submitPayment"
->
+<SliderButton label="Slide to confirm payment" @confirm="submitPayment">
   Slide to confirm
 </SliderButton>
 ```

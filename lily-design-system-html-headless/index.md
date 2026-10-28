@@ -372,9 +372,9 @@ A headless plain HTML component library with 490 components. All components are 
 | table-head | `<thead>`    |
 | table-body | `<tbody>`    |
 | table-foot | `<tfoot>`    |
-| table-th  | `<th>`       |
+| table-th   | `<th>`       |
 | table-row  | `<tr>`       |
-| table-td | `<td>`       |
+| table-td   | `<td>`       |
 | select     | `<select>`   |
 | span       | `<span>`     |
 
@@ -391,13 +391,22 @@ A headless plain HTML component library with 490 components. All components are 
 ### Button
 
 ```html
-<button class="button" type="button">Click me</button>
+<button
+  class="button"
+  type="button"
+>
+  Click me
+</button>
 ```
 
 ### Alert
 
 ```html
-<div class="alert" role="alert" data-type="info">
+<div
+  class="alert"
+  role="alert"
+  data-type="info"
+>
   <strong>Note:</strong> This is an informational alert.
 </div>
 ```
@@ -405,11 +414,19 @@ A headless plain HTML component library with 490 components. All components are 
 ### Breadcrumb Navigation
 
 ```html
-<nav class="breadcrumb-nav" aria-label="Breadcrumb">
+<nav
+  class="breadcrumb-nav"
+  aria-label="Breadcrumb"
+>
   <ol class="breadcrumb-list">
     <li class="breadcrumb-list-item"><a href="/">Home</a></li>
     <li class="breadcrumb-list-item"><a href="/products">Products</a></li>
-    <li class="breadcrumb-list-item" aria-current="page">Widget Pro</li>
+    <li
+      class="breadcrumb-list-item"
+      aria-current="page"
+    >
+      Widget Pro
+    </li>
   </ol>
 </nav>
 ```
@@ -417,7 +434,10 @@ A headless plain HTML component library with 490 components. All components are 
 ### Data Table
 
 ```html
-<table class="data-table" aria-label="Users">
+<table
+  class="data-table"
+  aria-label="Users"
+>
   <thead class="data-table-head">
     <tr class="data-table-row">
       <th>Name</th>
@@ -438,10 +458,23 @@ A headless plain HTML component library with 490 components. All components are 
 ### Dialog
 
 ```html
-<dialog class="dialog" aria-label="Confirm deletion">
+<dialog
+  class="dialog"
+  aria-label="Confirm deletion"
+>
   <p>Are you sure you want to delete this item?</p>
-  <button class="button" type="button">Cancel</button>
-  <button class="button" type="button">Delete</button>
+  <button
+    class="button"
+    type="button"
+  >
+    Cancel
+  </button>
+  <button
+    class="button"
+    type="button"
+  >
+    Delete
+  </button>
 </dialog>
 
 <script>
@@ -453,18 +486,50 @@ A headless plain HTML component library with 490 components. All components are 
 ### Form with Fields
 
 ```html
-<form class="form" aria-label="Contact">
+<form
+  class="form"
+  aria-label="Contact"
+>
   <div class="field">
-    <label class="label" for="name">Name</label>
-    <input class="text-input" type="text" id="name" required />
-    <span class="error-message" role="alert"></span>
+    <label
+      class="label"
+      for="name"
+      >Name</label
+    >
+    <input
+      class="text-input"
+      type="text"
+      id="name"
+      required
+    />
+    <span
+      class="error-message"
+      role="alert"
+    ></span>
   </div>
   <div class="field">
-    <label class="label" for="email">Email</label>
-    <input class="email-input" type="email" id="email" required />
-    <span class="error-message" role="alert"></span>
+    <label
+      class="label"
+      for="email"
+      >Email</label
+    >
+    <input
+      class="email-input"
+      type="email"
+      id="email"
+      required
+    />
+    <span
+      class="error-message"
+      role="alert"
+    ></span>
   </div>
-  <button class="submit-input" type="submit">Send</button>
+  <button
+    class="submit-input"
+    type="submit"
+  >
+    Send
+  </button>
 </form>
 ```
 
@@ -512,11 +577,7 @@ Since components are headless, you provide all styling. Every component renders 
 ### With Tailwind CSS
 
 ```html
-<button
-  class="button bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
->
-  Save
-</button>
+<button class="button bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Save</button>
 ```
 
 ## Accessibility

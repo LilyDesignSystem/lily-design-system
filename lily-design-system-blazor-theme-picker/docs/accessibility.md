@@ -8,22 +8,22 @@ buried.
 
 ## Roles and properties
 
-| Element                     | Role / Property                                   | Source             |
-| --------------------------- | ------------------------------------------------- | ------------------ |
-| `div.theme-picker`          | none (plain container)                            | Component          |
-| `input[type=hidden]`        | `name` — form participation only                  | Component          |
-| `button.theme-picker-button`| implicit `role="button"`                          | Browser            |
-| `button.theme-picker-button`| `aria-label="@Label"`                             | Consumer parameter |
-| `button.theme-picker-button`| `aria-haspopup="listbox"`                         | Component          |
-| `button.theme-picker-button`| `aria-expanded="true\|false"`                     | Component          |
-| `button.theme-picker-button`| `aria-controls="{list id}"`                       | Component          |
-| `span.theme-picker-icon`    | `aria-hidden="true"`                              | Component          |
-| `ul.theme-picker-list`      | `role="listbox"`, `tabindex="-1"`                 | Component          |
-| `ul.theme-picker-list`      | `aria-label="@Label"`                             | Consumer parameter |
-| `ul.theme-picker-list`      | `aria-activedescendant` (only while open)         | Component          |
-| `ul.theme-picker-list`      | `hidden` while closed                             | Component          |
-| `li.theme-picker-option`    | `role="option"`, `aria-selected="true\|false"`    | Component          |
-| `li.theme-picker-option`    | `data-active` on the active option (styling hook) | Component          |
+| Element                      | Role / Property                                   | Source             |
+| ---------------------------- | ------------------------------------------------- | ------------------ |
+| `div.theme-picker`           | none (plain container)                            | Component          |
+| `input[type=hidden]`         | `name` — form participation only                  | Component          |
+| `button.theme-picker-button` | implicit `role="button"`                          | Browser            |
+| `button.theme-picker-button` | `aria-label="@Label"`                             | Consumer parameter |
+| `button.theme-picker-button` | `aria-haspopup="listbox"`                         | Component          |
+| `button.theme-picker-button` | `aria-expanded="true\|false"`                     | Component          |
+| `button.theme-picker-button` | `aria-controls="{list id}"`                       | Component          |
+| `span.theme-picker-icon`     | `aria-hidden="true"`                              | Component          |
+| `ul.theme-picker-list`       | `role="listbox"`, `tabindex="-1"`                 | Component          |
+| `ul.theme-picker-list`       | `aria-label="@Label"`                             | Consumer parameter |
+| `ul.theme-picker-list`       | `aria-activedescendant` (only while open)         | Component          |
+| `ul.theme-picker-list`       | `hidden` while closed                             | Component          |
+| `li.theme-picker-option`     | `role="option"`, `aria-selected="true\|false"`    | Component          |
+| `li.theme-picker-option`     | `data-active` on the active option (styling hook) | Component          |
 
 Focus stays on the `<ul>` while the listbox is open; the active option
 is conveyed by `aria-activedescendant`, never by moving DOM focus onto
@@ -46,18 +46,18 @@ Opening moves focus to the `<ul>`.
 
 On the **listbox**:
 
-| Key               | Action                                                                 |
-| ----------------- | ---------------------------------------------------------------------- |
-| `Arrow Down`      | Move the active option down one; **clamps** at the last (no wrap).     |
-| `Arrow Up`        | Move the active option up one; **clamps** at the first (no wrap).      |
-| `Home`            | Jump to the first option.                                              |
-| `End`             | Jump to the last option.                                               |
-| `Enter` / `Space` | Select the active option, apply it, close, return focus to the button. |
-| `Escape`          | Close and return focus **without** changing the value.                 |
-| `PageUp`          | Move the active option up ten; clamps at the first.                    |
-| `PageDown`        | Move the active option down ten; clamps at the last.                   |
-| `Tab`             | Close and move on: the browser's default Tab proceeds from the picker's position. |
-| Printable chars   | Typeahead over the option *labels*, 500 ms buffer reset. A single character advances to the **next** match and repeating it cycles onward; differing characters refine the match from the active option. |
+| Key               | Action                                                                                                                                                                                                   |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Arrow Down`      | Move the active option down one; **clamps** at the last (no wrap).                                                                                                                                       |
+| `Arrow Up`        | Move the active option up one; **clamps** at the first (no wrap).                                                                                                                                        |
+| `Home`            | Jump to the first option.                                                                                                                                                                                |
+| `End`             | Jump to the last option.                                                                                                                                                                                 |
+| `Enter` / `Space` | Select the active option, apply it, close, return focus to the button.                                                                                                                                   |
+| `Escape`          | Close and return focus **without** changing the value.                                                                                                                                                   |
+| `PageUp`          | Move the active option up ten; clamps at the first.                                                                                                                                                      |
+| `PageDown`        | Move the active option down ten; clamps at the last.                                                                                                                                                     |
+| `Tab`             | Close and move on: the browser's default Tab proceeds from the picker's position.                                                                                                                        |
+| Printable chars   | Typeahead over the option _labels_, 500 ms buffer reset. A single character advances to the **next** match and repeating it cycles onward; differing characters refine the match from the active option. |
 
 Clicking an option selects it; focus leaving the root closes the
 listbox without changing the value.
@@ -71,7 +71,7 @@ colour-only meaning is required:
 2. The `@bind-Value` binding in user code, mirrored onto the hidden
    input's `value` for form participation.
 3. `aria-selected="true"` on exactly one `<li role="option">`, so the
-   selection *is* readable off the open listbox.
+   selection _is_ readable off the open listbox.
 
 ## The tradeoffs of an icon button plus a custom listbox
 
@@ -136,7 +136,7 @@ region echoing the active theme, and that is what
 Why this shape:
 
 - **Visible, not `sr-only`, by default.** The closed control does not
-  show the selection to *anyone*, so sighted users need the echo as
+  show the selection to _anyone_, so sighted users need the echo as
   much as screen-reader users do; visible text also helps cognitive
   accessibility, which AAA weighs heavily. If a design truly cannot
   spare the space, keep the element and apply a visually-hidden class
@@ -144,14 +144,14 @@ Why this shape:
   that as the fallback, not the starting point.
 - **`aria-live="polite"`, not `assertive`.** A theme change is not an
   interruption. `polite` also means the region announces only on
-  *mutation*, so it stays quiet on first paint and speaks once per
+  _mutation_, so it stays quiet on first paint and speaks once per
   change.
 - **`role="status"` is an equivalent spelling.** `role="status"` implies
   `aria-live="polite"`; use either, not both plus a redundant one.
 - **Show the human label, not the raw slug.** The status text is
   consumer-supplied and should be localised alongside your `ThemeLabels`.
 
-Unlike the old placeholder-pinned `<select>`, the selection *is* now
+Unlike the old placeholder-pinned `<select>`, the selection _is_ now
 readable off the control itself: reopening the listbox announces the
 active option as `aria-selected`. The status region is therefore no
 longer compensating for missing semantics — it is compensating for the
@@ -196,14 +196,14 @@ A safe default:
 ```css
 .theme-picker-button:focus-visible,
 .theme-picker-list:focus-visible {
-    outline: 2px solid var(--color-primary, currentColor);
-    outline-offset: 2px;
+  outline: 2px solid var(--color-primary, currentColor);
+  outline-offset: 2px;
 }
 
 /* The active option is not focused; give it its own visible cue. */
 .theme-picker-option[data-active] {
-    outline: 2px solid var(--color-primary, currentColor);
-    outline-offset: -2px;
+  outline: 2px solid var(--color-primary, currentColor);
+  outline-offset: -2px;
 }
 ```
 
@@ -218,9 +218,9 @@ you add a dropdown transition in consumer CSS, gate it:
 
 ```css
 @media (prefers-reduced-motion: reduce) {
-    .theme-picker-list {
-        transition: none;
-    }
+  .theme-picker-list {
+    transition: none;
+  }
 }
 ```
 
@@ -234,13 +234,13 @@ Announcements for a custom listbox vary more than for a native
 `<select>`; verify against your own targets rather than treating this
 as a guarantee.
 
-| Reader     | OS       | Browser   | Closed button                       | Open listbox                          |
-| ---------- | -------- | --------- | ----------------------------------- | ------------------------------------- |
-| VoiceOver  | macOS 14 | Safari 17 | "Choose a theme, pop-up button".    | "Light, selected, 1 of 3".            |
-| NVDA       | Windows  | Firefox   | "Choose a theme button collapsed".  | "list box, Light 1 of 3 selected".    |
-| Narrator   | Windows  | Edge      | "Choose a theme button collapsed".  | "Light selected, 1 of 3".             |
-| JAWS       | Windows  | Chrome    | "Choose a theme button collapsed".  | "list box, Light, 1 of 3".            |
-| TalkBack   | Android  | Chrome    | "Choose a theme, button".           | Varies; verify on your target device. |
+| Reader    | OS       | Browser   | Closed button                      | Open listbox                          |
+| --------- | -------- | --------- | ---------------------------------- | ------------------------------------- |
+| VoiceOver | macOS 14 | Safari 17 | "Choose a theme, pop-up button".   | "Light, selected, 1 of 3".            |
+| NVDA      | Windows  | Firefox   | "Choose a theme button collapsed". | "list box, Light 1 of 3 selected".    |
+| Narrator  | Windows  | Edge      | "Choose a theme button collapsed". | "Light selected, 1 of 3".             |
+| JAWS      | Windows  | Chrome    | "Choose a theme button collapsed". | "list box, Light, 1 of 3".            |
+| TalkBack  | Android  | Chrome    | "Choose a theme, button".          | Varies; verify on your target device. |
 
 ## Common mistakes to avoid
 

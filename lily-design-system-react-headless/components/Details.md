@@ -28,16 +28,19 @@ The native `<details>` element provides built-in accessibility support without r
 ```
 
 ```tsx
-
 const [showAdvanced, setShowAdvanced] = useState(false);
 
-<Details summary="Advanced options" open={showAdvanced} onChange={setShowAdvanced}>
+<Details
+  summary="Advanced options"
+  open={showAdvanced}
+  onChange={setShowAdvanced}
+>
   <p>Configure advanced settings here.</p>
-</Details>
+</Details>;
 
-{showAdvanced && (
-  <p>Advanced options are currently visible.</p>
-)}
+{
+  showAdvanced && <p>Advanced options are currently visible.</p>;
+}
 ```
 
 ## Keyboard Interactions

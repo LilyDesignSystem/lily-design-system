@@ -15,7 +15,12 @@ A wrapper `<div>` with `before` / `after` content around a native `<select multi
 ## Usage
 
 ```tsx
-<MultiSelectWithExtras label="Tags" before={<span>Tags</span>} value={tags} onChange={setTags}>
+<MultiSelectWithExtras
+  label="Tags"
+  before={<span>Tags</span>}
+  value={tags}
+  onChange={setTags}
+>
   <Option value="a">A</Option>
 </MultiSelectWithExtras>
 ```

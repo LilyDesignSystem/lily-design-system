@@ -27,7 +27,10 @@ The component supports a `disabled` prop that disables all child form controls a
 ```
 
 ```svelte
-<Fieldset legend="Shipping address" disabled={usesBillingAddress}>
+<Fieldset
+  legend="Shipping address"
+  disabled={usesBillingAddress}
+>
   <label>Street <input type="text" /></label>
   <label>City <input type="text" /></label>
 </Fieldset>

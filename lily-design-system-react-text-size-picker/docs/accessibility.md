@@ -13,15 +13,15 @@ does not honour, fails the very criterion it exists to satisfy.
 
 ## Roles and properties
 
-| Element                                | Role / Property                                             | Source        |
-| -------------------------------------- | ----------------------------------------------------------- | ------------- |
-| `<button>`                             | `aria-label={label}`                                        | Consumer prop |
-| `<button>`                             | `aria-haspopup="listbox"`, `aria-expanded`, `aria-controls` | Component     |
-| `<span class="text-size-picker-icon">` | `aria-hidden="true"`                                        | Component     |
-| `<ul>`                                 | `role="listbox"`, `aria-label={label}`, `tabindex="-1"`, `hidden` | Component |
-| `<ul>`                                 | `aria-activedescendant` (only while open)                   | Component     |
-| `<li>`                                 | `role="option"`, `aria-selected`                            | Component     |
-| `<li>`                                 | `data-active` on the keyboard-active option                 | Component     |
+| Element                                | Role / Property                                                   | Source        |
+| -------------------------------------- | ----------------------------------------------------------------- | ------------- |
+| `<button>`                             | `aria-label={label}`                                              | Consumer prop |
+| `<button>`                             | `aria-haspopup="listbox"`, `aria-expanded`, `aria-controls`       | Component     |
+| `<span class="text-size-picker-icon">` | `aria-hidden="true"`                                              | Component     |
+| `<ul>`                                 | `role="listbox"`, `aria-label={label}`, `tabindex="-1"`, `hidden` | Component     |
+| `<ul>`                                 | `aria-activedescendant` (only while open)                         | Component     |
+| `<li>`                                 | `role="option"`, `aria-selected`                                  | Component     |
+| `<li>`                                 | `data-active` on the keyboard-active option                       | Component     |
 
 The active option is tracked with `aria-activedescendant` on a focused
 listbox — not with roving `tabindex` on the options. Option ids come
@@ -35,21 +35,21 @@ Implemented by the component. Nothing is inherited from a native
 
 On the **button**:
 
-| Key                             | Action                                              |
-| ------------------------------- | --------------------------------------------------- |
-| `Tab` / `Shift+Tab`             | Move focus to / from the button (one tab stop).     |
+| Key                             | Action                                                                                      |
+| ------------------------------- | ------------------------------------------------------------------------------------------- |
+| `Tab` / `Shift+Tab`             | Move focus to / from the button (one tab stop).                                             |
 | `ArrowDown` / `Enter` / `Space` | Open, with the currently-selected option active (or the first). Focus moves to the listbox. |
-| `ArrowUp`                       | Open with the **last** option active. Focus moves to the listbox. |
+| `ArrowUp`                       | Open with the **last** option active. Focus moves to the listbox.                           |
 
 On the **listbox**:
 
-| Key                     | Action                                                        |
-| ----------------------- | -------------------------------------------------------------- |
-| `ArrowDown` / `ArrowUp` | Move the active option. Clamps at the ends — it does not wrap. |
-| `Home` / `End`          | Jump to the first / last option.                               |
-| `Enter` / `Space`       | Select the active option, apply it, close, and return focus to the button. |
-| `Escape`                | Close and return focus to the button, leaving the value unchanged. |
-| `Tab`                   | Close; focus lands on the button so the default Tab proceeds from the picker's position. |
+| Key                     | Action                                                                                          |
+| ----------------------- | ----------------------------------------------------------------------------------------------- |
+| `ArrowDown` / `ArrowUp` | Move the active option. Clamps at the ends — it does not wrap.                                  |
+| `Home` / `End`          | Jump to the first / last option.                                                                |
+| `Enter` / `Space`       | Select the active option, apply it, close, and return focus to the button.                      |
+| `Escape`                | Close and return focus to the button, leaving the value unchanged.                              |
+| `Tab`                   | Close; focus lands on the button so the default Tab proceeds from the picker's position.        |
 | Printable character     | Typeahead over the option labels; the buffer accumulates and resets after 500 ms of inactivity. |
 
 Pointer: clicking an option selects it; clicking the button again,
@@ -81,7 +81,7 @@ Two related hazards:
   the announced name can diverge. That is WCAG 2.5.3 (Label in Name).
   Either keep custom glyph content `aria-hidden="true"`, or make `label`
   begin with the visible text.
-- An icon-only trigger also has no *visible* label. A bare "A" is a
+- An icon-only trigger also has no _visible_ label. A bare "A" is a
   conventional text-size affordance but it is not self-explanatory —
   sighted users who do not recognise it get no hint of what the button
   does. Pair it with a visible caption, or use `children` to render the
@@ -89,7 +89,7 @@ Two related hazards:
 
 ### 2. A custom listbox has weaker assistive-tech support than `<select>`
 
-Until this version, this helper *was* a native `<select>`, and that had
+Until this version, this helper _was_ a native `<select>`, and that had
 real value worth being honest about. A native `<select>` gets
 platform-level treatment: the OS renders it, screen readers have decades
 of special-cased handling for it, and mobile readers substitute their
@@ -127,7 +127,7 @@ ever shipped; it renders in the page's own typeface, inherits its
 weight and baseline, and stays monochrome. It is why the glyph is a
 letter: the obvious alternative, U+1F5DB DECREASE FONT SIZE SYMBOL, has
 no real glyph in common font stacks — it degrades to a crude bitmap
-shape or a `.notdef` box — and it means *decrease* rather than *size*.
+shape or a `.notdef` box — and it means _decrease_ rather than _size_.
 Compare `theme-picker`'s ◑ and `locale-picker`'s 🌐, both of which carry
 genuine font-availability risk.
 
@@ -188,13 +188,13 @@ into when you happen to care about accessibility.
 Why it is shaped this way:
 
 - **Visible, not `sr-only`.** With an icon-only trigger the active size
-  is unstated for *everyone*, not just for screen-reader users. A
+  is unstated for _everyone_, not just for screen-reader users. A
   visible line serves sighted users and cognitive accessibility, and
   AAA favours showing state over hiding it. Teams that truly cannot
   spare the line should hide the element with a visually-hidden recipe
   and keep it in the DOM.
 - **`aria-live="polite"`, not `role="alert"`.** A polite live region
-  announces *mutations*, so it is silent on first paint and speaks once
+  announces _mutations_, so it is silent on first paint and speaks once
   per user-initiated change, without moving focus (WCAG 3.2.2).
 - **Human label, not the raw slug.** Show `sizeName(slug)` / your
   `sizeLabels` value, so the line reads "Text size: X Large" rather than
@@ -202,11 +202,11 @@ Why it is shaped this way:
 
 A text-size change is unusually self-evidencing — the page visibly
 reflows — but that feedback is unavailable precisely to the users most
-likely to need the control, and it does not say *which* size is now
+likely to need the control, and it does not say _which_ size is now
 active or how many remain.
 
 **Honest limits.** A status region does not restore what an icon-only
-trigger costs. The button's *own* accessible name is still just `label`,
+trigger costs. The button's _own_ accessible name is still just `label`,
 so a user who tabs back to the control later — rather than being present
 for the change announcement — hears "Text size", not "X Large". A live
 region announces transitions; it does not give the button a queryable
@@ -286,7 +286,7 @@ what keeps the control usable there.
 
 - **Rendering visible text in `children` without `aria-hidden`.** The
   visible text and the `aria-label` then disagree — WCAG 2.5.3.
-- **Removing or overriding the `aria-label`.** It is the *only*
+- **Removing or overriding the `aria-label`.** It is the _only_
   accessible name the control has; without it the button is unnamed.
 - **Sizing text in `px`.** The attribute changes and nothing moves; the
   control becomes decorative.
@@ -295,7 +295,7 @@ what keeps the control usable there.
 - **Forgetting to translate `sizeLabels`.** The control only knows what
   the consumer tells it.
 - **Setting `outline: none` in CSS.** Visible focus is a WCAG AAA
-  requirement — on the button *and* the listbox. Don't strip it.
+  requirement — on the button _and_ the listbox. Don't strip it.
 - **Styling only `:focus-visible` on the options.** They never take DOM
   focus; style `[data-active]` instead.
 - **Suppressing browser zoom** because the app ships this control.

@@ -16,11 +16,36 @@ Compound component: use with FiveFaceRatingPicker.
 ## Usage
 
 ```svelte
-<FiveFaceRatingPickerButton value={1} label="Very bad" selected={rating === 1} onclick={() => rating = 1} />
-<FiveFaceRatingPickerButton value={2} label="Bad" selected={rating === 2} onclick={() => rating = 2} />
-<FiveFaceRatingPickerButton value={3} label="Okay" selected={rating === 3} onclick={() => rating = 3} />
-<FiveFaceRatingPickerButton value={4} label="Good" selected={rating === 4} onclick={() => rating = 4} />
-<FiveFaceRatingPickerButton value={5} label="Very good" selected={rating === 5} onclick={() => rating = 5} />
+<FiveFaceRatingPickerButton
+  value={1}
+  label="Very bad"
+  selected={rating === 1}
+  onclick={() => (rating = 1)}
+/>
+<FiveFaceRatingPickerButton
+  value={2}
+  label="Bad"
+  selected={rating === 2}
+  onclick={() => (rating = 2)}
+/>
+<FiveFaceRatingPickerButton
+  value={3}
+  label="Okay"
+  selected={rating === 3}
+  onclick={() => (rating = 3)}
+/>
+<FiveFaceRatingPickerButton
+  value={4}
+  label="Good"
+  selected={rating === 4}
+  onclick={() => (rating = 4)}
+/>
+<FiveFaceRatingPickerButton
+  value={5}
+  label="Very good"
+  selected={rating === 5}
+  onclick={() => (rating = 5)}
+/>
 ```
 
 ## ARIA

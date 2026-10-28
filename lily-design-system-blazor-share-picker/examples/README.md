@@ -17,7 +17,7 @@ Every example assumes:
 | --- | -------------------------------------------------------- | ------------------------------------------------------------------------------------ |
 | 1   | [`Basic.razor`](./Basic.razor)                           | Minimal destinations list plus the copy item and its announcements.                  |
 | 2   | [`Strategies.razor`](./Strategies.razor)                 | `ShareStrategy.Auto` vs `.List`; `OnShare` / `OnNativeShare`.                        |
-| 3   | [`CustomGlyph.razor`](./CustomGlyph.razor)               | `RenderFragment<SharePickerContext>` — custom button face, state-aware.             |
+| 3   | [`CustomGlyph.razor`](./CustomGlyph.razor)               | `RenderFragment<SharePickerContext>` — custom button face, state-aware.              |
 | 4   | [`ExternalActivation.razor`](./ExternalActivation.razor) | Driving the control from your own UI via `ActivateAsync` / `CopyAsync` and a `@ref`. |
 
 ## Running the examples

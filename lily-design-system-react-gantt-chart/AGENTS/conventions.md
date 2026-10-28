@@ -11,40 +11,37 @@ extend or override specific items.
 
 import * as React from "react";
 
-export type ChildArgs = { /* select-specific contract */ };
+export type ChildArgs = {/* select-specific contract */};
 
-export type Props = Omit<
-    React.SelectHTMLAttributes<HTMLSelectElement>,
-    "onChange" | "children"
-> & {
-    label: string;
-    /* select-specific props */
-    value?: string;
-    defaultValue?: string;
-    onChange?: (next: string) => void;
-    children?: (args: ChildArgs) => React.ReactNode;
-    className?: string;
+export type Props = Omit<React.SelectHTMLAttributes<HTMLSelectElement>, "onChange" | "children"> & {
+  label: string;
+  /* select-specific props */
+  value?: string;
+  defaultValue?: string;
+  onChange?: (next: string) => void;
+  children?: (args: ChildArgs) => React.ReactNode;
+  className?: string;
 };
 
 export function MySelect({
-    label,
-    value,
-    defaultValue,
-    onChange,
-    children,
-    className = "",
-    ...restProps
+  label,
+  value,
+  defaultValue,
+  onChange,
+  children,
+  className = "",
+  ...restProps
 }: Props): React.ReactElement {
-    // hooks, helpers, effects...
-    return (
-        <select
-            className={`my-select ${className}`.trim()}
-            aria-label={label}
-            {...restProps}
-        >
-            {/* children or default <option> markup */}
-        </select>
-    );
+  // hooks, helpers, effects...
+  return (
+    <select
+      className={`my-select ${className}`.trim()}
+      aria-label={label}
+      {...restProps}
+    >
+      {/* children or default <option> markup */}
+    </select>
+  );
 }
 
 export default MySelect;
@@ -63,7 +60,7 @@ because they are exported alongside the component. They are still
 safe to import from a server component because importing them does
 not pull in the rest of the file's runtime — the React 19 bundler
 sees the directive and treats the whole module as a client boundary,
-but the *pure helpers* can be re-exported from a server module
+but the _pure helpers_ can be re-exported from a server module
 without issue.
 
 If a future helper splits into a separate `.ts` data file (e.g.
@@ -86,9 +83,7 @@ The pattern is:
 
 ```tsx
 const isControlled = value !== undefined;
-const [internalValue, setInternalValue] = React.useState<string>(
-    isControlled ? value : "",
-);
+const [internalValue, setInternalValue] = React.useState<string>(isControlled ? value : "");
 const currentValue = isControlled ? value : internalValue;
 ```
 
@@ -132,14 +127,14 @@ Two effect patterns are used:
 ```tsx
 const initialisedRef = React.useRef(false);
 React.useEffect(() => {
-    if (initialisedRef.current) return;
-    initialisedRef.current = true;
-    const initial = resolveInitial(/* ... */);
-    if (!initial) return;
-    if (isControlled) applyToDom(initial);
-    else if (initial !== internalValue) setInternalValue(initial);
-    else applyToDom(initial);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  if (initialisedRef.current) return;
+  initialisedRef.current = true;
+  const initial = resolveInitial(/* ... */);
+  if (!initial) return;
+  if (isControlled) applyToDom(initial);
+  else if (initial !== internalValue) setInternalValue(initial);
+  else applyToDom(initial);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
 }, []);
 ```
 
@@ -151,10 +146,10 @@ per component instance.
 
 ```tsx
 React.useEffect(() => {
-    if (!initialisedRef.current) return;
-    if (!currentValue) return;
-    applyToDom(currentValue);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  if (!initialisedRef.current) return;
+  if (!currentValue) return;
+  applyToDom(currentValue);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [currentValue]);
 ```
 
@@ -181,7 +176,7 @@ contract.
 
 - Strict mode on.
 - Public surface fully typed via `export type Props` and `export
-  type ChildArgs`.
+type ChildArgs`.
 - No `any` in exported types.
 - Pure helper functions exported alongside the component (`themeHref`,
   `bcp47LocaleTag`, etc.).
@@ -201,7 +196,7 @@ contract.
 `index.ts` mirrors the Svelte helpers' barrel pattern:
 
 ```ts
-export { MySelect, /* pure helpers */ } from "./MySelect.js";
+export { MySelect /* pure helpers */ } from "./MySelect.js";
 export type { Props, ChildArgs } from "./MySelect.js";
 export { default } from "./MySelect.js";
 ```
@@ -212,19 +207,19 @@ require it (Node ESM) need it.
 
 ## File layout
 
-| File                       | Purpose                                          |
-| -------------------------- | ------------------------------------------------ |
-| `spec/index.md`                  | Specification-driven contract (canonical).       |
-| `{Pascal}.tsx`             | Implementation. TypeScript + React 19 hooks.     |
-| `{Pascal}.test.tsx`        | Vitest spec, one assertion per §7 acceptance.    |
-| `index.ts`                 | Barrel re-export.                                |
-| `index.md`                 | User guide.                                      |
-| `CHANGELOG.md`             | Per-version history.                             |
-| `AGENTS.md`                | AI-agent metadata pointer.                       |
-| `AGENTS/`                  | Per-topic AI-agent guides.                       |
-| `CLAUDE.md`                | Loads `AGENTS.md`.                               |
-| `docs/`                    | Topic guides for humans.                         |
-| `examples/`                | Runnable React 19 examples.                      |
+| File                | Purpose                                       |
+| ------------------- | --------------------------------------------- |
+| `spec/index.md`     | Specification-driven contract (canonical).    |
+| `{Pascal}.tsx`      | Implementation. TypeScript + React 19 hooks.  |
+| `{Pascal}.test.tsx` | Vitest spec, one assertion per §7 acceptance. |
+| `index.ts`          | Barrel re-export.                             |
+| `index.md`          | User guide.                                   |
+| `CHANGELOG.md`      | Per-version history.                          |
+| `AGENTS.md`         | AI-agent metadata pointer.                    |
+| `AGENTS/`           | Per-topic AI-agent guides.                    |
+| `CLAUDE.md`         | Loads `AGENTS.md`.                            |
+| `docs/`             | Topic guides for humans.                      |
+| `examples/`         | Runnable React 19 examples.                   |
 
 Optional `locales.ts` / `locales.tsv` / similar data files live in
 the helper directory when needed.

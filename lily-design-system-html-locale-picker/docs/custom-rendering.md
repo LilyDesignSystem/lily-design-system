@@ -43,7 +43,10 @@ customElements.define("flag-locale-picker", FlagLocalePicker);
 ```
 
 ```html
-<flag-locale-picker label="Language" locales="en,fr,ar"></flag-locale-picker>
+<flag-locale-picker
+  label="Language"
+  locales="en,fr,ar"
+></flag-locale-picker>
 ```
 
 Whatever `Node` it returns is placed inside the button, replacing the
@@ -203,14 +206,9 @@ class ButtonRowLocalePicker extends LocalePicker {
     this.#rebuild();
   }
 
-  attributeChangedCallback(
-    n: string,
-    o: string | null,
-    v: string | null,
-  ): void {
+  attributeChangedCallback(n: string, o: string | null, v: string | null): void {
     super.attributeChangedCallback(n, o, v);
-    if (n === "value" || n === "locales" || n === "locale-labels")
-      this.#rebuild();
+    if (n === "value" || n === "locales" || n === "locale-labels") this.#rebuild();
   }
 
   #rebuild(): void {
@@ -300,10 +298,7 @@ class ViewerLanguageLocalePicker extends LocalePicker {
     }
   }
 }
-customElements.define(
-  "viewer-language-locale-picker",
-  ViewerLanguageLocalePicker,
-);
+customElements.define("viewer-language-locale-picker", ViewerLanguageLocalePicker);
 ```
 
 ## Styling instead of subclassing
@@ -313,8 +308,8 @@ CSS, so **the list has no positioning** — it renders in normal flow
 until you give the root `position: relative` and the list
 `position: absolute`. The class hooks:
 
-| Hook                     | Element                     |
-| ------------------------ | --------------------------- |
+| Hook                    | Element                     |
+| ----------------------- | --------------------------- |
 | `.locale-picker`        | The rendered `<div>` root.  |
 | `.locale-picker-button` | The trigger `<button>`.     |
 | `.locale-picker-icon`   | The default glyph `<span>`. |

@@ -22,7 +22,7 @@ This headless component provides a semantic container with `role="img"` and an a
 
 ```html
 <Sparkline label="Sales trend over past 7 days">
-    <svg><!-- your sparkline SVG here --></svg>
+  <svg><!-- your sparkline SVG here --></svg>
 </Sparkline>
 ```
 
@@ -53,14 +53,11 @@ None -- this component is a passive container for data visualization.
 
 This headless component provides a semantic container with `role="img"` and `aria-label` to identify the visualization for assistive technologies. The consumer provides the actual chart rendering (SVG, canvas, or a charting library) as children, along with all visual styling, dimensions, and colors.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.sparkline` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<span>` element with class `sparkline`
 - Verify role="img"` -- identifies the container as a graphical image to assistive technologies

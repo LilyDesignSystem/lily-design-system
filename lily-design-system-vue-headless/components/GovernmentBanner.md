@@ -25,11 +25,11 @@ A banner identifying a website as belonging to a government, with an expandable 
 
 ```vue
 <GovernmentBanner
-    label="Official government website"
-    headerText="An official website of the United States government"
-    expandLabel="Here's how you know"
-    :expanded="open"
-    @toggle="open = !open"
+  label="Official government website"
+  headerText="An official website of the United States government"
+  expandLabel="Here's how you know"
+  :expanded="open"
+  @toggle="open = !open"
 >
     <p>The .gov means it's official.</p>
     <p>HTTPS keeps your connection private.</p>

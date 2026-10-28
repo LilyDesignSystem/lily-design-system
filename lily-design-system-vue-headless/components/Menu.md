@@ -24,18 +24,32 @@ The component manages vertical focus movement between menu items via arrow keys,
 
 ```svelte
 <Menu label="Actions">
-    <div role="menuitem" tabindex="-1">Cut</div>
-    <div role="menuitem" tabindex="-1">Copy</div>
+  <div
+    role="menuitem"
+    tabindex="-1"
+  >
+    Cut
+  </div>
+  <div
+    role="menuitem"
+    tabindex="-1"
+  >
+    Copy
+  </div>
 </Menu>
 ```
 
 ```svelte
 <Menu label="File actions">
-    {#each actions as action}
-        <div role="menuitem" tabindex="-1" onclick={() => handleAction(action)}>
-            {action.label}
-        </div>
-    {/each}
+  {#each actions as action}
+    <div
+      role="menuitem"
+      tabindex="-1"
+      onclick={() => handleAction(action)}
+    >
+      {action.label}
+    </div>
+  {/each}
 </Menu>
 ```
 

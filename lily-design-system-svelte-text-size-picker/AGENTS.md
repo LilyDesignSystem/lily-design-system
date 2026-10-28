@@ -14,13 +14,13 @@ maps each `[data-text-size="…"]` slug to real typography.
 
 ## Files
 
-| File                       | Purpose                                          |
-| -------------------------- | ------------------------------------------------ |
-| `spec/index.md`                  | Specification-driven contract (canonical).       |
-| `TextSizePicker.svelte`    | Implementation. TypeScript + Svelte 5 runes.     |
-| `TextSizePicker.test.ts`   | Vitest spec, one assertion per §7 acceptance.    |
-| `index.ts`                 | Barrel re-export.                                |
-| `index.md`                 | User guide.                                      |
+| File                     | Purpose                                       |
+| ------------------------ | --------------------------------------------- |
+| `spec/index.md`          | Specification-driven contract (canonical).    |
+| `TextSizePicker.svelte`  | Implementation. TypeScript + Svelte 5 runes.  |
+| `TextSizePicker.test.ts` | Vitest spec, one assertion per §7 acceptance. |
+| `index.ts`               | Barrel re-export.                             |
+| `index.md`               | User guide.                                   |
 
 ## Public surface
 

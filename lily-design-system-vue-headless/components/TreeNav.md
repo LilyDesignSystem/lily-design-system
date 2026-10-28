@@ -22,9 +22,24 @@ This headless component renders a `<ul>` with `role="tree"` and provides keyboar
 
 ```svelte
 <TreeNav label="Navigation">
-    <li role="treeitem" tabindex="-1">Home</li>
-    <li role="treeitem" tabindex="-1">About</li>
-    <li role="treeitem" tabindex="-1">Contact</li>
+  <li
+    role="treeitem"
+    tabindex="-1"
+  >
+    Home
+  </li>
+  <li
+    role="treeitem"
+    tabindex="-1"
+  >
+    About
+  </li>
+  <li
+    role="treeitem"
+    tabindex="-1"
+  >
+    Contact
+  </li>
 </TreeNav>
 ```
 

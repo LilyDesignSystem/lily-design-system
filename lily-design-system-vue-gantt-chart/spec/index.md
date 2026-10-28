@@ -42,7 +42,7 @@ shading, resource/assignee columns.
 them unmodified. It also depends on `@lilydesignsystem/vue-date-time-picker`
 — composed twice per edit session (once for a task's start date, once
 for its end) — mirroring `lily-design-system-vue-picker-bar`'s own
-precedent for a Vue helper composing sibling *helper* packages rather
+precedent for a Vue helper composing sibling _helper_ packages rather
 than only headless components.
 
 **`GanttTableTD`'s `active` prop, checked against the same overload
@@ -79,54 +79,90 @@ canonical, translated to plain TS.
 
 ```html
 <div class="gantt-chart {class}">
-  <GanttTable :label="label" :caption="caption" @keydown="onGridKeydown">
+  <GanttTable
+    :label="label"
+    :caption="caption"
+    @keydown="onGridKeydown"
+  >
     <GanttTableThead>
       <GanttTableTr>
-        <GanttTableTH scope="col"></GanttTableTH>                 <!-- leading task-label column -->
-        <GanttTableTH scope="col" data-today>{{ columnLabel(period) }}</GanttTableTH>
+        <GanttTableTH scope="col"></GanttTableTH>
+        <!-- leading task-label column -->
+        <GanttTableTH
+          scope="col"
+          data-today
+          >{{ columnLabel(period) }}</GanttTableTH
+        >
       </GanttTableTr>
     </GanttTableThead>
     <GanttTableTbody>
       <GanttTableTr>
         <GanttTableTH scope="row">
-          <button class="gantt-chart-collapse-button" aria-expanded>…</button>  <!-- only on parent rows -->
+          <button
+            class="gantt-chart-collapse-button"
+            aria-expanded
+          >
+            …
+          </button>
+          <!-- only on parent rows -->
           {{ taskLabel(task) }}
         </GanttTableTH>
-        <GanttTableTD data-in-range data-milestone data-today aria-describedby="{dependencySummaryId}">
-          <span class="gantt-chart-bar" data-percent-complete="{n}"></span>     <!-- only in the task's own leading in-range cell -->
+        <GanttTableTD
+          data-in-range
+          data-milestone
+          data-today
+          aria-describedby="{dependencySummaryId}"
+        >
+          <span
+            class="gantt-chart-bar"
+            data-percent-complete="{n}"
+          ></span>
+          <!-- only in the task's own leading in-range cell -->
         </GanttTableTD>
       </GanttTableTr>
-      <tr class="gantt-chart-edit-row">                            <!-- only while a task is being edited -->
+      <tr class="gantt-chart-edit-row">
+        <!-- only while a task is being edited -->
         <td :colspan="columns.length + 1">
-          <DateTimePicker :label="labels.startLabel" mode="date" v-model:value="editStart" />
-          <DateTimePicker :label="labels.endLabel" mode="date" v-model:value="editEnd" />
+          <DateTimePicker
+            :label="labels.startLabel"
+            mode="date"
+            v-model:value="editStart"
+          />
+          <DateTimePicker
+            :label="labels.endLabel"
+            mode="date"
+            v-model:value="editEnd"
+          />
           <button class="gantt-chart-save-button">{{ labels.saveLabel }}</button>
           <button class="gantt-chart-cancel-button">{{ labels.cancelLabel }}</button>
         </td>
       </tr>
     </GanttTableTbody>
   </GanttTable>
-  <p class="gantt-chart-status" aria-live="polite"></p>
+  <p
+    class="gantt-chart-status"
+    aria-live="polite"
+  ></p>
 </div>
 ```
 
 ## 5. Props and events
 
-| Prop       | Type                                         | Required | Default |
-| ---------- | ----------------------------------------------- | -------- | ------- |
-| `label`    | `string`                                          | yes      | —       |
-| `range`    | `{ start: string; end: string }` (ISO dates)      | yes      | —       |
-| `tasks`    | `GanttTask[]`                                     | yes      | —       |
-| `caption`  | `string`                                           | no       | —       |
-| `timeUnit` | `"day" \| "week" \| "month"`                       | no       | `"day"` |
-| `today`    | `string` (ISO date)                                | no       | — (no marker unless supplied) |
-| `taskLabel`| `(task: GanttTask) => string`                      | no       | `task.label` |
-| `labels`   | `GanttLabels`                                      | no       | `{}`    |
-| `class`    | `string`                                           | no       | `""`    |
+| Prop        | Type                                         | Required | Default                       |
+| ----------- | -------------------------------------------- | -------- | ----------------------------- |
+| `label`     | `string`                                     | yes      | —                             |
+| `range`     | `{ start: string; end: string }` (ISO dates) | yes      | —                             |
+| `tasks`     | `GanttTask[]`                                | yes      | —                             |
+| `caption`   | `string`                                     | no       | —                             |
+| `timeUnit`  | `"day" \| "week" \| "month"`                 | no       | `"day"`                       |
+| `today`     | `string` (ISO date)                          | no       | — (no marker unless supplied) |
+| `taskLabel` | `(task: GanttTask) => string`                | no       | `task.label`                  |
+| `labels`    | `GanttLabels`                                | no       | `{}`                          |
+| `class`     | `string`                                     | no       | `""`                          |
 
-| Event         | Payload                                          | Fires |
-| --------------- | --------------------------------------------------- | ------- |
-| `task-change`   | `(taskId: string, start: string, end: string)`      | After a task's start/end changes, by pointer or by the edit region. |
+| Event         | Payload                                        | Fires                                                               |
+| ------------- | ---------------------------------------------- | ------------------------------------------------------------------- |
+| `task-change` | `(taskId: string, start: string, end: string)` | After a task's start/end changes, by pointer or by the edit region. |
 
 Vue separates props from events by design: the Svelte canonical's
 `onTaskChange` callback prop is this port's `task-change` emit,
@@ -359,7 +395,7 @@ The matching is the pure `typeahead.ts` (`isTypeaheadKey`, `nextTypeaheadState`,
 ## Weekend, holiday and time-off indicators (0.7.0, 2026-10-17)
 
 - **`unavailable`** is a list of dated ranges `{ start, end?, kind?, label? }` for holidays, time off and closures (`end` defaults to `start`; Lily ships no calendar, no kinds and no English). A column **every day of which is covered** gets `data-unavailable="<kinds>"` (the entries' `kind`s, `unavailable` when none, repeats removed) on its header and every cell; a column only **partly** covered gets `data-partly-unavailable` instead, so a holiday inside a week column is still marked. A `label` is rendered as text in the header (`.gantt-chart-unavailable-label`), so a day is never told apart by colour alone (WCAG 1.4.1). The weekend is `weekends`; `markers` flag one date; `isNonWorking` is a callback. Matching is the pure `unavailable.ts` (`unavailableOn`, `unavailableIn`, `unavailableKinds`), time-zone free.
-- **Shading** is CSS and ships in the 57 reference themes: weekends are tinted, unavailable days are tinted *and striped*, a partly unavailable column gets a bar under its header.
+- **Shading** is CSS and ships in the 57 reference themes: weekends are tinted, unavailable days are tinted _and striped_, a partly unavailable column gets a bar under its header.
 
 ## Direction and labels (0.7.0, 2026-10-17)
 

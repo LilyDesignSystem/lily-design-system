@@ -24,13 +24,21 @@ This component is useful for progressive disclosure patterns such as FAQ section
 ## Usage
 
 ```tsx
-<Expander label="Show details" expanded={isExpanded} onChange={setIsExpanded}>
+<Expander
+  label="Show details"
+  expanded={isExpanded}
+  onChange={setIsExpanded}
+>
   <p>Details here...</p>
 </Expander>
 ```
 
 ```tsx
-<Expander label="Advanced settings" expanded={showAdvanced} onChange={setShowAdvanced}>
+<Expander
+  label="Advanced settings"
+  expanded={showAdvanced}
+  onChange={setShowAdvanced}
+>
   <form>...</form>
 </Expander>
 ```

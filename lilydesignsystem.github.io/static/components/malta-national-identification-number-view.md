@@ -22,7 +22,7 @@ MaltaNationalIdentificationNumberView is a headless read-only display of Malta's
 ```html
 <SummaryList>
   <SummaryListItem term="Malta National Identification Number">
-    <MaltaNationalIdentificationNumberView value={value} />
+    <MaltaNationalIdentificationNumberView value="{value}" />
   </SummaryListItem>
 </SummaryList>
 ```

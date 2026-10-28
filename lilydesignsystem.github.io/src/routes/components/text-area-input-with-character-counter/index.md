@@ -32,7 +32,10 @@ This component is useful for feedback forms, comment fields, bio inputs, and any
 Basic feedback field with a 500-character limit:
 
 ```html
-<TextAreaInputWithCharacterCounter label="Feedback" maxLength={500} />
+<TextAreaInputWithCharacterCounter
+  label="Feedback"
+  maxLength="{500}"
+/>
 ```
 
 Referral notes with hint text, pre-filled value, and visible rows:
@@ -40,9 +43,9 @@ Referral notes with hint text, pre-filled value, and visible rows:
 ```html
 <TextAreaInputWithCharacterCounter
   label="Additional notes for the referral"
-  value={referralNotes}
-  maxLength={500}
-  rows={6}
+  value="{referralNotes}"
+  maxLength="{500}"
+  rows="{6}"
   placeholder="Include any relevant medical history or current medications"
 />
 ```
@@ -50,13 +53,23 @@ Referral notes with hint text, pre-filled value, and visible rows:
 User bio with two-way binding:
 
 ```html
-<TextAreaInputWithCharacterCounter label="Bio" value={bio} maxLength={200} rows={4} placeholder="Tell us about yourself" />
+<TextAreaInputWithCharacterCounter
+  label="Bio"
+  value="{bio}"
+  maxLength="{200}"
+  rows="{4}"
+  placeholder="Tell us about yourself"
+/>
 ```
 
 Internationalized counter text (French):
 
 ```html
-<TextAreaInputWithCharacterCounter label="Commentaire" maxLength={300} counterTemplate="{count} sur {max} caractères" />
+<TextAreaInputWithCharacterCounter
+  label="Commentaire"
+  maxLength="{300}"
+  counterTemplate="{count} sur {max} caractères"
+/>
 ```
 
 ## Keyboard Interactions

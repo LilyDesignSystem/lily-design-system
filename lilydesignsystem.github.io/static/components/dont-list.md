@@ -73,17 +73,14 @@ None -- this component is a passive container for list items.
 
 This headless component provides a `<ul>` with explicit `role="list"` to preserve list semantics even when CSS removes default markers, and `aria-label` for accessible naming. The consumer provides all visual styling, icons, and layout for the list and its items.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.dont-list` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
 
-
 - Verify the component renders a `<ol>` element with class `dont-list`
-- Verify role="list"` -- explicitly declares list semantics on the `<ul>`, ensuring assistive technology announces it as a list
+- Verify role="list"`-- explicitly declares list semantics on the`<ul>`, ensuring assistive technology announces it as a list
 - Verify aria-label={label}` -- provides an accessible name for the list (defaults to "Don't")
 - Verify pass-through attributes are applied
 

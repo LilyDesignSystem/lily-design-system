@@ -23,11 +23,17 @@ This headless component renders as a `<span>` element with an accessible label, 
 ## Usage
 
 ```tsx
-<NetPromoterScoreView label="NPS Score" value="8" />
+<NetPromoterScoreView
+  label="NPS Score"
+  value="8"
+/>
 ```
 
 ```tsx
-<NetPromoterScoreView label="Customer rating" value={score} />
+<NetPromoterScoreView
+  label="Customer rating"
+  value={score}
+/>
 ```
 
 ## Keyboard Interactions

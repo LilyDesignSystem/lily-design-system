@@ -22,7 +22,10 @@ YisraelTeudatZehutView is a headless read-only display of Israel's Teudat Zehut 
 ```html
 <SummaryList>
   <SummaryListItem term="Teudat Zehut (תעודת זהות)">
-    <YisraelTeudatZehutView label="Teudat Zehut (תעודת זהות)" value={value} />
+    <YisraelTeudatZehutView
+      label="Teudat Zehut (תעודת זהות)"
+      value="{value}"
+    />
   </SummaryListItem>
 </SummaryList>
 ```

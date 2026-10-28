@@ -142,7 +142,10 @@ true**. Only the explicit string `"false"` turns it off.
 
 ```html
 <!-- writes lang and dir (the default) -->
-<locale-picker label="Language" locales="en,ar"></locale-picker>
+<locale-picker
+  label="Language"
+  locales="en,ar"
+></locale-picker>
 
 <!-- writes lang only; you own dir -->
 <locale-picker

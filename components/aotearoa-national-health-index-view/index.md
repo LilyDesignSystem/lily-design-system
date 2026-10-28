@@ -22,7 +22,10 @@ AotearoaNationalHealthIndexView is a headless read-only display of New Zealand's
 ```html
 <SummaryList>
   <SummaryListItem term="National Health Index (NHI) Number">
-    <AotearoaNationalHealthIndexView label="National Health Index (NHI) Number" value={value} />
+    <AotearoaNationalHealthIndexView
+      label="National Health Index (NHI) Number"
+      value="{value}"
+    />
   </SummaryListItem>
 </SummaryList>
 ```

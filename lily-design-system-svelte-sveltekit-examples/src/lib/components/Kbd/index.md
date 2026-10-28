@@ -10,7 +10,7 @@ See [components/kbd/index.md](../../../../../components/kbd/index.md) for the fu
 
 ```svelte
 <script lang="ts">
-    import Kbd from "./Kbd.svelte";
+  import Kbd from "./Kbd.svelte";
 </script>
 
 <Kbd />

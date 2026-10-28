@@ -89,20 +89,20 @@ Give a Blazor 10 application a drop-in, headless site-search control that:
 
 ### 4.1 Parameters
 
-| Parameter              | Type                                    | Required | Default                                  | Purpose                                                          |
-| ---------------------- | --------------------------------------- | -------- | ---------------------------------------- | ---------------------------------------------------------------- |
-| `Label`                | `string`                                | yes      | —                                        | Accessible name for the icon button and the search landmark.     |
-| `InputLabel`           | `string`                                | yes      | —                                        | Accessible name for the search field.                            |
-| `SubmitLabel`          | `string`                                | yes      | —                                        | Accessible name for the `⏎` submit button.                       |
-| `Placeholder`          | `string?`                               | no       | `null`                                   | Placeholder for the field. No default (it would be English).     |
-| `Value`                | `string`                                | no       | `""`                                     | The search text. Two-way via `@bind-Value`.                      |
-| `ValueChanged`         | `EventCallback<string>`                 | no       | —                                        | Fires as the field's text changes.                               |
-| `Action`               | `string`                                | no       | `"/"`                                    | Path the query is appended to: `{Action}?{query}`.               |
-| `Navigate`             | `Action<string>?`                       | no       | `NavigateTo(href, forceLoad: true)`      | Performs the navigation.                                         |
-| `OnSearch`             | `EventCallback<SearchEventArgs>`        | no       | —                                        | Fires with the trimmed query and destination, before navigating. |
-| `ChildContent`         | `RenderFragment<SearchPickerContext>?`  | no       | the default SVG icon                     | Replaces the button icon.                                        |
-| `CssClass`             | `string`                                | no       | `""`                                     | Extra class on the root.                                         |
-| `AdditionalAttributes` | unmatched attributes                    | no       | —                                        | Spread onto the root `<div>`.                                    |
+| Parameter              | Type                                   | Required | Default                             | Purpose                                                          |
+| ---------------------- | -------------------------------------- | -------- | ----------------------------------- | ---------------------------------------------------------------- |
+| `Label`                | `string`                               | yes      | —                                   | Accessible name for the icon button and the search landmark.     |
+| `InputLabel`           | `string`                               | yes      | —                                   | Accessible name for the search field.                            |
+| `SubmitLabel`          | `string`                               | yes      | —                                   | Accessible name for the `⏎` submit button.                       |
+| `Placeholder`          | `string?`                              | no       | `null`                              | Placeholder for the field. No default (it would be English).     |
+| `Value`                | `string`                               | no       | `""`                                | The search text. Two-way via `@bind-Value`.                      |
+| `ValueChanged`         | `EventCallback<string>`                | no       | —                                   | Fires as the field's text changes.                               |
+| `Action`               | `string`                               | no       | `"/"`                               | Path the query is appended to: `{Action}?{query}`.               |
+| `Navigate`             | `Action<string>?`                      | no       | `NavigateTo(href, forceLoad: true)` | Performs the navigation.                                         |
+| `OnSearch`             | `EventCallback<SearchEventArgs>`       | no       | —                                   | Fires with the trimmed query and destination, before navigating. |
+| `ChildContent`         | `RenderFragment<SearchPickerContext>?` | no       | the default SVG icon                | Replaces the button icon.                                        |
+| `CssClass`             | `string`                               | no       | `""`                                | Extra class on the root.                                         |
+| `AdditionalAttributes` | unmatched attributes                   | no       | —                                   | Spread onto the root `<div>`.                                    |
 
 ```csharp
 public sealed class SearchPickerContext
@@ -121,7 +121,10 @@ public sealed class SearchEventArgs
 ### 4.2 DOM contract
 
 ```html
-<div class="search-picker {CssClass}" ...AdditionalAttributes>
+<div
+  class="search-picker {CssClass}"
+  ...AdditionalAttributes
+>
   <button
     type="button"
     class="search-picker-button"
@@ -129,14 +132,63 @@ public sealed class SearchEventArgs
     aria-expanded
     aria-controls="{panelId}"
   >
-    <svg class="search-picker-icon" viewBox="0 0 16 16" width="1.05rem" height="1.05rem" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14"/></svg>
+    <svg
+      class="search-picker-icon"
+      viewBox="0 0 16 16"
+      width="1.05rem"
+      height="1.05rem"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle
+        cx="7"
+        cy="7"
+        r="4.5"
+      />
+      <path d="M10.5 10.5 14 14" />
+    </svg>
   </button>
-  <div class="search-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{Label}</div>
-  <div class="search-picker-panel" id="{panelId}" hidden>
-    <form class="search-picker-form" role="search" aria-label="{Label}" action="{Action}" method="get">
-      <input class="search-picker-input" type="search" aria-label="{InputLabel}" placeholder="{Placeholder}" enterkeyhint="search" />
-      <button type="submit" class="search-picker-submit" aria-label="{SubmitLabel}">
-        <span class="search-picker-submit-symbol" aria-hidden="true">⏎</span>
+  <div
+    class="search-picker-tooltip"
+    role="tooltip"
+    id="{tooltipId}"
+    hidden
+  >
+    {Label}
+  </div>
+  <div
+    class="search-picker-panel"
+    id="{panelId}"
+    hidden
+  >
+    <form
+      class="search-picker-form"
+      role="search"
+      aria-label="{Label}"
+      action="{Action}"
+      method="get"
+    >
+      <input
+        class="search-picker-input"
+        type="search"
+        aria-label="{InputLabel}"
+        placeholder="{Placeholder}"
+        enterkeyhint="search"
+      />
+      <button
+        type="submit"
+        class="search-picker-submit"
+        aria-label="{SubmitLabel}"
+      >
+        <span
+          class="search-picker-submit-symbol"
+          aria-hidden="true"
+          >⏎</span
+        >
       </button>
     </form>
   </div>
@@ -192,11 +244,11 @@ whitespace-only query does nothing and leaves the panel open.
 
 ### 5.2 Keyboard
 
-| Key               | On the icon button            | In the panel                                    |
-| ----------------- | ----------------------------- | ----------------------------------------------- |
-| `Enter` / `Space` | Opens (or closes) the panel   | In the field: `Enter` searches. On ⏎: searches. |
-| `Escape`          | —                             | Closes and returns focus to the icon button     |
-| `Tab`             | Moves on                      | Native order: field → ⏎ → out, which closes     |
+| Key               | On the icon button          | In the panel                                    |
+| ----------------- | --------------------------- | ----------------------------------------------- |
+| `Enter` / `Space` | Opens (or closes) the panel | In the field: `Enter` searches. On ⏎: searches. |
+| `Escape`          | —                           | Closes and returns focus to the icon button     |
+| `Tab`             | Moves on                    | Native order: field → ⏎ → out, which closes     |
 
 Opening moves focus into the search field. Clicking outside, or focus
 moving to an element outside the root, closes the panel without moving
@@ -236,7 +288,7 @@ matches the canonical Svelte spec one-for-one.
 7. Opening focuses the search field with `preventScroll: true`.
 8. Pressing Return in the field (submitting the form) navigates to `/?<query>`: `foo` → `/?foo`, and the native form submission is cancelled.
 9. Clicking the submit button navigates the same way.
-10. The query is trimmed and URI-encoded: `  foo bar ` → `/?foo%20bar`, `a&b` → `/?a%26b` — exactly as `encodeURIComponent` would (a second test pins `! ' ( ) *` and UTF-8).
+10. The query is trimmed and URI-encoded: ` foo bar` → `/?foo%20bar`, `a&b` → `/?a%26b` — exactly as `encodeURIComponent` would (a second test pins `! ' ( ) *` and UTF-8).
 11. An empty or whitespace-only query does not navigate and leaves the panel open.
 12. `Action` changes the path: `Action="/search"` sends `foo` to `/search?foo`.
 13. `OnSearch` fires with the trimmed query and the href, before `Navigate`.
@@ -325,6 +377,7 @@ Each of these is forced by the framework, not chosen.
   open. Known residual: under `InteractiveServer` on a slow connection,
   a very fast outside click can fire before the script's listener is
   installed; the panel then stays open (never wrongly closes).
+
 - **`⏎` keeps focus on mousedown.** The submit button carries
   `@onmousedown:preventDefault`, so pressing it with a pointer does not
   blur the field first. In a browser that does not focus buttons on

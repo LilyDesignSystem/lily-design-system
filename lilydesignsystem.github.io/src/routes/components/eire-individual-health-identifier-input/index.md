@@ -21,8 +21,15 @@ EireIndividualHealthIdentifierInput is a headless input for entering an Eire Ind
 ## Usage
 
 ```html
-<Field label="Individual Health Identifier" required>
-  <EireIndividualHealthIdentifierInput label="IHI" value={ihi} required />
+<Field
+  label="Individual Health Identifier"
+  required
+>
+  <EireIndividualHealthIdentifierInput
+    label="IHI"
+    value="{ihi}"
+    required
+  />
   <Hint>Enter the 10-digit IHI from your HSE records</Hint>
   <ErrorMessage>Please enter a valid 10-digit IHI</ErrorMessage>
 </Field>

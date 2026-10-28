@@ -12,7 +12,11 @@ Button:
   aria-expanded="false"
   aria-controls="share-picker-list"
 >
-  <span class="share-picker-icon" aria-hidden="true">➤</span>
+  <span
+    class="share-picker-icon"
+    aria-hidden="true"
+    >➤</span
+  >
 </button>
 ```
 
@@ -31,7 +35,12 @@ List item with share picker slug:
 
 ```html
 <li class="share-picker-list-item">
-  <button type="button" class="share-picker-copy-link">Copy link</button>
+  <button
+    type="button"
+    class="share-picker-copy-link"
+  >
+    Copy link
+  </button>
 </li>
 ```
 

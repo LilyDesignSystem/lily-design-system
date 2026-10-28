@@ -88,15 +88,15 @@ Give any HTML page a drop-in, headless site-search control that:
 
 ### 4.1 Observed attributes
 
-| Attribute      | Type   | Required | Default     | Purpose                                                       |
-| -------------- | ------ | -------- | ----------- | ------------------------------------------------------------- |
-| `label`        | string | yes      | `""`        | Accessible name for the icon button and the search landmark.  |
-| `input-label`  | string | yes      | `""`        | Accessible name for the search field.                         |
-| `submit-label` | string | yes      | `""`        | Accessible name for the `⏎` submit button.                    |
-| `placeholder`  | string | no       | —           | Placeholder for the field. No default (it would be English).  |
-| `value`        | string | no       | `""`        | Seeds the search text (§4.2).                                 |
-| `action`       | string | no       | `"/"`       | Path the query is appended to: `${action}?${query}`.          |
-| `class`        | string | no       | `""`        | Extra class on the rendered root `<div>`.                     |
+| Attribute      | Type   | Required | Default | Purpose                                                      |
+| -------------- | ------ | -------- | ------- | ------------------------------------------------------------ |
+| `label`        | string | yes      | `""`    | Accessible name for the icon button and the search landmark. |
+| `input-label`  | string | yes      | `""`    | Accessible name for the search field.                        |
+| `submit-label` | string | yes      | `""`    | Accessible name for the `⏎` submit button.                   |
+| `placeholder`  | string | no       | —       | Placeholder for the field. No default (it would be English). |
+| `value`        | string | no       | `""`    | Seeds the search text (§4.2).                                |
+| `action`       | string | no       | `"/"`   | Path the query is appended to: `${action}?${query}`.         |
+| `class`        | string | no       | `""`    | Extra class on the rendered root `<div>`.                    |
 
 Attribute names follow the catalog's kebab-case convention
 (`input-label` ↔ Svelte's `inputLabel`, `submit-label` ↔ `submitLabel`).
@@ -126,10 +126,10 @@ overridable `renderButtonContent()` (§4.4).
 
 Attributes are strings; these carry functions.
 
-| Member                   | Why it cannot be an attribute | Paired event |
-| ------------------------ | ----------------------------- | ------------ |
-| `navigate(href)`         | Function-valued.              | —            |
-| `onSearch(query, href)`  | Function-valued callback.     | `search`     |
+| Member                  | Why it cannot be an attribute | Paired event |
+| ----------------------- | ----------------------------- | ------------ |
+| `navigate(href)`        | Function-valued.              | —            |
+| `onSearch(query, href)` | Function-valued callback.     | `search`     |
 
 The `search` event is a bubbling, composed `CustomEvent` whose `detail`
 is `{ query, href }` — the event name follows this catalog's
@@ -154,7 +154,11 @@ subclass's to change.
 ### 4.5 DOM contract
 
 ```html
-<search-picker label="…" input-label="…" submit-label="…">
+<search-picker
+  label="…"
+  input-label="…"
+  submit-label="…"
+>
   <div class="search-picker {class}">
     <button
       type="button"
@@ -163,14 +167,63 @@ subclass's to change.
       aria-expanded="false"
       aria-controls="{panelId}"
     >
-      <svg class="search-picker-icon" viewBox="0 0 16 16" width="1.05rem" height="1.05rem" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="4.5"></circle><path d="M10.5 10.5 14 14"></path></svg>
+      <svg
+        class="search-picker-icon"
+        viewBox="0 0 16 16"
+        width="1.05rem"
+        height="1.05rem"
+        aria-hidden="true"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.6"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <circle
+          cx="7"
+          cy="7"
+          r="4.5"
+        ></circle>
+        <path d="M10.5 10.5 14 14"></path>
+      </svg>
     </button>
-    <div class="search-picker-tooltip" role="tooltip" id="{baseId}-tooltip" hidden>{label}</div>
-    <div class="search-picker-panel" id="{panelId}" hidden>
-      <form class="search-picker-form" role="search" aria-label="{label}" action="{action}" method="get">
-        <input class="search-picker-input" type="search" aria-label="{inputLabel}" placeholder="{placeholder}" enterkeyhint="search" />
-        <button type="submit" class="search-picker-submit" aria-label="{submitLabel}">
-          <span class="search-picker-submit-symbol" aria-hidden="true">⏎</span>
+    <div
+      class="search-picker-tooltip"
+      role="tooltip"
+      id="{baseId}-tooltip"
+      hidden
+    >
+      {label}
+    </div>
+    <div
+      class="search-picker-panel"
+      id="{panelId}"
+      hidden
+    >
+      <form
+        class="search-picker-form"
+        role="search"
+        aria-label="{label}"
+        action="{action}"
+        method="get"
+      >
+        <input
+          class="search-picker-input"
+          type="search"
+          aria-label="{inputLabel}"
+          placeholder="{placeholder}"
+          enterkeyhint="search"
+        />
+        <button
+          type="submit"
+          class="search-picker-submit"
+          aria-label="{submitLabel}"
+        >
+          <span
+            class="search-picker-submit-symbol"
+            aria-hidden="true"
+            >⏎</span
+          >
         </button>
       </form>
     </div>
@@ -204,11 +257,11 @@ empty or whitespace-only query does nothing and leaves the panel open.
 
 ### 5.2 Keyboard
 
-| Key               | On the icon button                      | In the panel                                   |
-| ----------------- | --------------------------------------- | ---------------------------------------------- |
-| `Enter` / `Space` | Opens (or closes) the panel             | In the field: `Enter` searches. On ⏎: searches. |
-| `Escape`          | —                                       | Closes and returns focus to the icon button    |
-| `Tab`             | Moves on                                | Native order: field → ⏎ → out, which closes    |
+| Key               | On the icon button          | In the panel                                    |
+| ----------------- | --------------------------- | ----------------------------------------------- |
+| `Enter` / `Space` | Opens (or closes) the panel | In the field: `Enter` searches. On ⏎: searches. |
+| `Escape`          | —                           | Closes and returns focus to the icon button     |
+| `Tab`             | Moves on                    | Native order: field → ⏎ → out, which closes     |
 
 Opening moves focus into the search field. Clicking outside, or focus
 moving to an element outside the root, closes the panel without moving
@@ -253,7 +306,7 @@ cover the custom-element surface.
 7. Opening focuses the search field with `{ preventScroll: true }`.
 8. Submitting the form (Return in the field) navigates to `/?<query>`: `foo` → `/?foo`, and the native form submission is cancelled.
 9. Clicking the submit button navigates the same way.
-10. The query is trimmed and URI-encoded: `  foo bar ` → `/?foo%20bar`, `a&b` → `/?a%26b`.
+10. The query is trimmed and URI-encoded: ` foo bar` → `/?foo%20bar`, `a&b` → `/?a%26b`.
 11. An empty or whitespace-only query does not navigate and leaves the panel open.
 12. `action` changes the path: `action="/search"` sends `foo` to `/search?foo`.
 13. `onSearch` fires with the trimmed query and the href, before `navigate`.

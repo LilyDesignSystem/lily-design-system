@@ -32,33 +32,65 @@ Use CurrencyInput for payment forms, price fields, budget inputs, and any form f
 Basic USD price input:
 
 ```html
-<CurrencyInput label="Price" value={amount} currencyCode="USD" />
+<CurrencyInput
+  label="Price"
+  value="{amount}"
+  currencyCode="USD"
+/>
 ```
 
 EUR budget input with min/max constraints:
 
 ```html
-<CurrencyInput label="Annual budget" value={budget} currencyCode="EUR" min={0} max={10000} />
+<CurrencyInput
+  label="Annual budget"
+  value="{budget}"
+  currencyCode="EUR"
+  min="{0}"
+  max="{10000}"
+/>
 ```
 
 JPY total input (no decimal places):
 
 ```html
-<CurrencyInput label="Total" value={total} currencyCode="JPY" required />
+<CurrencyInput
+  label="Total"
+  value="{total}"
+  currencyCode="JPY"
+  required
+/>
 ```
 
 Currency input in a payment form:
 
 ```html
-<Form label="Payment details" onsubmit={handlePayment}>
-  <Field label="Payment amount" required>
-    <CurrencyInput label="Payment amount" value={paymentAmount} currencyCode="GBP" min={1} required />
+<form
+  label="Payment details"
+  onsubmit="{handlePayment}"
+>
+  <Field
+    label="Payment amount"
+    required
+  >
+    <CurrencyInput
+      label="Payment amount"
+      value="{paymentAmount}"
+      currencyCode="GBP"
+      min="{1}"
+      required
+    />
   </Field>
   <Field label="Tip (optional)">
-    <CurrencyInput label="Tip amount" value={tipAmount} currencyCode="GBP" min={0} />
+    <CurrencyInput
+      label="Tip amount"
+      value="{tipAmount}"
+      currencyCode="GBP"
+      min="{0}"
+    />
   </Field>
-  <Button type="submit">Pay now</Button>
-</Form>
+  <button type="submit">Pay now</button>
+</form>
 ```
 
 ## Keyboard Interactions

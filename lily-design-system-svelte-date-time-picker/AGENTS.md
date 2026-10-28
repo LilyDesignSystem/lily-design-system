@@ -16,15 +16,15 @@ twelve defects along the way; parity table in spec §8, departures in §9.
 
 ## Files
 
-| File | Purpose |
-| ---- | ------- |
-| `spec/index.md` | Specification-driven contract (canonical). |
-| `DateTimePicker.svelte` | Implementation. Svelte 5 runes + TypeScript. |
+| File                     | Purpose                                           |
+| ------------------------ | ------------------------------------------------- |
+| `spec/index.md`          | Specification-driven contract (canonical).        |
+| `DateTimePicker.svelte`  | Implementation. Svelte 5 runes + TypeScript.      |
 | `DateTimePicker.test.ts` | Vitest spec, mapped to the §7 clauses (65 tests). |
-| `index.ts` | Barrel re-export. |
-| `index.md` | User guide. |
-| `docs/accessibility.md` | Tradeoffs, stated plainly. |
-| `examples/` | Runnable Svelte 5 examples. |
+| `index.ts`               | Barrel re-export.                                 |
+| `index.md`               | User guide.                                       |
+| `docs/accessibility.md`  | Tradeoffs, stated plainly.                        |
+| `examples/`              | Runnable Svelte 5 examples.                       |
 
 ## Public surface
 
@@ -42,7 +42,7 @@ Required props: `label`, `labels`.
 ## Behaviour contract (one paragraph)
 
 The value is an ISO string shaped by `mode`: `YYYY-MM-DD`, `HH:MM`, or
-`YYYY-MM-DDTHH:MM`. Selection inside the dialog writes to a *pending*
+`YYYY-MM-DDTHH:MM`. Selection inside the dialog writes to a _pending_
 date/time; only Confirm — or a day click when `confirmOnSelect` (default:
 date-only mode) — writes to `value` and fires `onChange`. Cancel, Escape
 and click-outside close without committing. Typed text resolves on blur or

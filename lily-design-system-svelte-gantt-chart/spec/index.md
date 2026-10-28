@@ -44,7 +44,7 @@ designed once v1 ships and is exercised in a real app.
 them unmodified — the same "depend on, don't vendor" rule `data-grid`
 and `kanban-board` follow for their own headless table families. It
 also depends on `@lilydesignsystem/svelte-date-time-picker` — the
-first helper proposed to compose a sibling *helper* twice in the same
+first helper proposed to compose a sibling _helper_ twice in the same
 component (once for a task's start date, once for its end), rather
 than inventing a second date-editing surface.
 
@@ -102,18 +102,18 @@ is not modified.
 
 ## 5. Props
 
-| Prop          | Type                                                   | Required | Default |
-| ------------- | -------------------------------------------------------- | -------- | ------- |
-| `label`       | `string`                                                   | yes      | —       |
-| `range`       | `{ start: string; end: string }` (ISO dates)               | yes      | —       |
-| `tasks`       | `GanttTask[]`                                              | yes      | —       |
-| `caption`     | `string`                                                    | no       | —       |
-| `timeUnit`    | `"day" \| "week" \| "month"`                                | no       | `"day"` |
-| `today`       | `string` (ISO date)                                         | no       | — (no marker unless supplied; never computed internally, to stay SSR-safe) |
-| `taskLabel`   | `(task: GanttTask) => string`                               | no       | `task.label` |
-| `onTaskChange`| `(taskId: string, start: string, end: string) => void`      | no       | —       |
-| `labels`      | `GanttLabels`                                               | no       | `{}`    |
-| `class`       | `string`                                                    | no       | `""`    |
+| Prop           | Type                                                   | Required | Default                                                                    |
+| -------------- | ------------------------------------------------------ | -------- | -------------------------------------------------------------------------- |
+| `label`        | `string`                                               | yes      | —                                                                          |
+| `range`        | `{ start: string; end: string }` (ISO dates)           | yes      | —                                                                          |
+| `tasks`        | `GanttTask[]`                                          | yes      | —                                                                          |
+| `caption`      | `string`                                               | no       | —                                                                          |
+| `timeUnit`     | `"day" \| "week" \| "month"`                           | no       | `"day"`                                                                    |
+| `today`        | `string` (ISO date)                                    | no       | — (no marker unless supplied; never computed internally, to stay SSR-safe) |
+| `taskLabel`    | `(task: GanttTask) => string`                          | no       | `task.label`                                                               |
+| `onTaskChange` | `(taskId: string, start: string, end: string) => void` | no       | —                                                                          |
+| `labels`       | `GanttLabels`                                          | no       | `{}`                                                                       |
+| `class`        | `string`                                               | no       | `""`                                                                       |
 
 `GanttTask`: `id` (required), `label` (required), `start`/`end` (ISO
 dates, required, inclusive; equal values mean a milestone),
@@ -299,24 +299,24 @@ ideas below are therefore filtered by "can it stay a table, with text for every 
 
 ### What SVAR has that Lily's v1 does not
 
-| SVAR feature (edition)                                                       | Lily today                                  |
-| ---------------------------------------------------------------------------- | ------------------------------------------- |
-| Zoom: Ctrl+wheel, `minCellWidth`/`maxCellWidth`, multi-row scales (month over day), hour/minute units | one fixed `timeUnit` (`day`/`week`/`month`) |
-| Markers: holiday and custom vertical markers; working-time calendars (PRO)   | `today` only; weekend/holiday shading is a non-goal |
-| Link types `e2s`, `s2s`, `s2e`, `e2e` with lag; auto-scheduling (PRO)         | finish-to-start data only; no scheduling    |
-| Critical path, slack/float, constraints and deadlines (PRO)                   | non-goal                                    |
-| Baselines, progress line, S-curve (PRO)                                       | `percentComplete` as a data value only      |
-| Unscheduled tasks (PRO), inactive/manually scheduled tasks (PRO)              | every task needs `start`/`end`              |
-| Split tasks (several segments on one row) (PRO)                               | one span per task                           |
-| Rollups: children and milestones minified onto the summary bar (PRO)          | parent range derived; children not echoed   |
-| Task types `task`/`summary`/`milestone` plus custom `taskTypes` with CSS ids  | milestone = zero duration; parent = summary |
-| Readonly mode                                                                  | editing gated on labels only                |
-| Filtering (v2.6, incl. natural-language query) and column sorting              | none                                        |
-| Context menu and toolbar; tooltips on bars and links                           | none                                        |
-| Undo/redo (PRO); copy task; inline cell editors; field validation              | `onTaskChange` only                         |
-| Export to PDF, PNG, Excel, MS Project; MS Project import (PRO)                 | out of scope                                |
-| Resource load chart, assignment, WBS codes, grouping (PRO, v2.7)               | resource columns are a non-goal             |
-| Real-time multi-user editing; REST data provider                               | out of scope (no data fetching)             |
+| SVAR feature (edition)                                                                                | Lily today                                          |
+| ----------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
+| Zoom: Ctrl+wheel, `minCellWidth`/`maxCellWidth`, multi-row scales (month over day), hour/minute units | one fixed `timeUnit` (`day`/`week`/`month`)         |
+| Markers: holiday and custom vertical markers; working-time calendars (PRO)                            | `today` only; weekend/holiday shading is a non-goal |
+| Link types `e2s`, `s2s`, `s2e`, `e2e` with lag; auto-scheduling (PRO)                                 | finish-to-start data only; no scheduling            |
+| Critical path, slack/float, constraints and deadlines (PRO)                                           | non-goal                                            |
+| Baselines, progress line, S-curve (PRO)                                                               | `percentComplete` as a data value only              |
+| Unscheduled tasks (PRO), inactive/manually scheduled tasks (PRO)                                      | every task needs `start`/`end`                      |
+| Split tasks (several segments on one row) (PRO)                                                       | one span per task                                   |
+| Rollups: children and milestones minified onto the summary bar (PRO)                                  | parent range derived; children not echoed           |
+| Task types `task`/`summary`/`milestone` plus custom `taskTypes` with CSS ids                          | milestone = zero duration; parent = summary         |
+| Readonly mode                                                                                         | editing gated on labels only                        |
+| Filtering (v2.6, incl. natural-language query) and column sorting                                     | none                                                |
+| Context menu and toolbar; tooltips on bars and links                                                  | none                                                |
+| Undo/redo (PRO); copy task; inline cell editors; field validation                                     | `onTaskChange` only                                 |
+| Export to PDF, PNG, Excel, MS Project; MS Project import (PRO)                                        | out of scope                                        |
+| Resource load chart, assignment, WBS codes, grouping (PRO, v2.7)                                      | resource columns are a non-goal                     |
+| Real-time multi-user editing; REST data provider                                                      | out of scope (no data fetching)                     |
 
 ### Ideas worth taking, in the order they fit this package
 
@@ -370,8 +370,8 @@ ideas below are therefore filtered by "can it stay a table, with text for every 
 **C. Keep as non-goals (with the reason)**
 
 - **Dependency arrows, drag-to-link, pixel-positioned bars, S-curve, progress line, resource load histogram:** all
-  need layout and drawing ownership (§2). Their *data* can be exposed as text (items 4, 5, 10).
-- **Auto-scheduling, constraints, deadline conflict lists, critical-path *calculation*:** scheduling algorithms
+  need layout and drawing ownership (§2). Their _data_ can be exposed as text (items 4, 5, 10).
+- **Auto-scheduling, constraints, deadline conflict lists, critical-path _calculation_:** scheduling algorithms
   over the consumer's data, not rendering. If wanted, ship pure functions as a separate export, never inside the component.
 - **Undo/redo and copy/paste:** the consumer owns the data, so it owns history. The component can emit
   `onTaskChange` with enough to invert and document the hotkey convention (ignored in text fields), but not keep a stack.
@@ -411,10 +411,10 @@ Ideas A5, A6 and B10 of §11.
 - **Progress in the edit region** (`labels.percentLabel`): a 0–100 number field, clamped and rounded; `onTaskChange` gets it as a fourth
   argument only when the field is shown. Drag keeps the three-argument call.
 - **Baselines** (`task.baseline`): cells it covers get `data-baseline` beside `data-in-range`; `labels.baselineSummary(task, baseline,
-  varianceDays)` renders hidden text (slip in days; negative = early) referenced by the row's cells' `aria-describedby`.
+varianceDays)` renders hidden text (slip in days; negative = early) referenced by the row's cells' `aria-describedby`.
 - **Typed dependencies** (`dependsOn: (string | { id, type?, lag? })[]`): `labels.dependencyDetail(predecessor, type, lag)` words the typed ones
   (`type` defaults to `e2s`, `lag` to 0); untyped ones keep the predecessor's label. Data and text only: no arrows, no scheduling.
-Not built: the `hour` unit, split tasks, rollups, zoom, unscheduled tasks (§11 B).
+  Not built: the `hour` unit, split tasks, rollups, zoom, unscheduled tasks (§11 B).
 
 ## 14. Shipped later in 0.3.0 (2026-10-14)
 
@@ -499,7 +499,7 @@ The matching is the pure `typeahead.ts` (`isTypeaheadKey`, `nextTypeaheadState`,
 ## Weekend, holiday and time-off indicators (0.7.0, 2026-10-17)
 
 - **`unavailable`** is a list of dated ranges `{ start, end?, kind?, label? }` for holidays, time off and closures (`end` defaults to `start`; Lily ships no calendar, no kinds and no English). A column **every day of which is covered** gets `data-unavailable="<kinds>"` (the entries' `kind`s, `unavailable` when none, repeats removed) on its header and every cell; a column only **partly** covered gets `data-partly-unavailable` instead, so a holiday inside a week column is still marked. A `label` is rendered as text in the header (`.gantt-chart-unavailable-label`), so a day is never told apart by colour alone (WCAG 1.4.1). The weekend is `weekends`; `markers` flag one date; `isNonWorking` is a callback. Matching is the pure `unavailable.ts` (`unavailableOn`, `unavailableIn`, `unavailableKinds`), time-zone free.
-- **Shading** is CSS and ships in the 57 reference themes: weekends are tinted, unavailable days are tinted *and striped*, a partly unavailable column gets a bar under its header.
+- **Shading** is CSS and ships in the 57 reference themes: weekends are tinted, unavailable days are tinted _and striped_, a partly unavailable column gets a bar under its header.
 
 ## Direction and labels (0.7.0, 2026-10-17)
 

@@ -26,19 +26,30 @@ The component uses `role="status"` with `aria-live="polite"` so screen readers a
 Basic counter linked to a text-area-input:
 
 ```html
-<CharacterCounter count={text.length} max={280} label="Characters remaining" />
+<CharacterCounter
+  count="{text.length}"
+  max="{280}"
+  label="Characters remaining"
+/>
 ```
 
 Counter with threshold display (consumer shows/hides based on data attributes):
 
 ```html
-<CharacterCounter count={referralNotes.length} max={500} label="Referral note characters" />
+<CharacterCounter
+  count="{referralNotes.length}"
+  max="{500}"
+  label="Referral note characters"
+/>
 ```
 
 Counter without a maximum, showing only the current count:
 
 ```html
-<CharacterCounter count={message.length} label="Message length" />
+<CharacterCounter
+  count="{message.length}"
+  label="Message length"
+/>
 ```
 
 ## Keyboard Interactions
@@ -70,18 +81,15 @@ None -- this component is a passive status display.
 
 This headless CharacterCounter component provides `role="status"` with `aria-live="polite"` for non-intrusive screen reader announcements, and exposes `data-count`, `data-max`, `data-remaining`, and `data-over-limit` attributes for styling hooks. The consumer provides all visual styling including typography, colors, positioning relative to the input, and over-limit warning styles.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.character-counter` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<span>` element with class `character-counter`
 - Verify role="status"` -- identifies the element as a live region that presents advisory information
-- Verify aria-label` -- set from the `label` prop to provide context for what the counter represents
+- Verify aria-label`-- set from the`label` prop to provide context for what the counter represents
 - Verify pass-through attributes are applied
 
 ## Advice

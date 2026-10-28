@@ -26,17 +26,39 @@ This component is useful in custom-designed radio groups, card selection interfa
 ## Usage
 
 ```svelte
-<RadioInput label="Option A" name="choice" value="a" />
+<RadioInput
+  label="Option A"
+  name="choice"
+  value="a"
+/>
 ```
 
 ```svelte
-<RadioInput label="Small" name="size" value="small" checked={true} />
-<RadioInput label="Medium" name="size" value="medium" />
-<RadioInput label="Large" name="size" value="large" />
+<RadioInput
+  label="Small"
+  name="size"
+  value="small"
+  checked={true}
+/>
+<RadioInput
+  label="Medium"
+  name="size"
+  value="medium"
+/>
+<RadioInput
+  label="Large"
+  name="size"
+  value="large"
+/>
 ```
 
 ```svelte
-<RadioInput label="Unavailable option" name="plan" value="enterprise" disabled={true} />
+<RadioInput
+  label="Unavailable option"
+  name="plan"
+  value="enterprise"
+  disabled={true}
+/>
 ```
 
 ## Keyboard Interactions

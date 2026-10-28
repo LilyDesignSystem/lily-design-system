@@ -17,9 +17,22 @@ A button representing a single predefined color choice within a ColorPicker. It 
 
 ```tsx
 <ColorPicker label="Choose a color">
-  <ColorPickerSwatchButton color="#ff0000" label="Red" onClick={handleSelect} />
-  <ColorPickerSwatchButton color="#0066cc" label="Blue" selected={true} onClick={handleSelect} />
-  <ColorPickerSwatchButton color="#cccccc" label="Gray" disabled={true} />
+  <ColorPickerSwatchButton
+    color="#ff0000"
+    label="Red"
+    onClick={handleSelect}
+  />
+  <ColorPickerSwatchButton
+    color="#0066cc"
+    label="Blue"
+    selected={true}
+    onClick={handleSelect}
+  />
+  <ColorPickerSwatchButton
+    color="#cccccc"
+    label="Gray"
+    disabled={true}
+  />
 </ColorPicker>
 ```
 

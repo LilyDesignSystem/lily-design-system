@@ -26,10 +26,28 @@ The component manages its own focus lifecycle: when the menu opens, focus moves 
 ## Usage
 
 ```svelte
-<DropdownMenu label="Options" bind:open>
-  <li role="menuitem" tabindex="-1">Edit</li>
-  <li role="menuitem" tabindex="-1">Duplicate</li>
-  <li role="menuitem" tabindex="-1">Delete</li>
+<DropdownMenu
+  label="Options"
+  bind:open
+>
+  <li
+    role="menuitem"
+    tabindex="-1"
+  >
+    Edit
+  </li>
+  <li
+    role="menuitem"
+    tabindex="-1"
+  >
+    Duplicate
+  </li>
+  <li
+    role="menuitem"
+    tabindex="-1"
+  >
+    Delete
+  </li>
 </DropdownMenu>
 ```
 
@@ -43,9 +61,24 @@ The component manages its own focus lifecycle: when the menu opens, focus moves 
   }
 </script>
 
-<DropdownMenu label="Actions" bind:open={menuOpen}>
-  <li role="menuitem" tabindex="-1" onclick={() => handleAction('edit')}>Edit</li>
-  <li role="menuitem" tabindex="-1" onclick={() => handleAction('delete')}>Delete</li>
+<DropdownMenu
+  label="Actions"
+  bind:open={menuOpen}
+>
+  <li
+    role="menuitem"
+    tabindex="-1"
+    onclick={() => handleAction("edit")}
+  >
+    Edit
+  </li>
+  <li
+    role="menuitem"
+    tabindex="-1"
+    onclick={() => handleAction("delete")}
+  >
+    Delete
+  </li>
 </DropdownMenu>
 ```
 

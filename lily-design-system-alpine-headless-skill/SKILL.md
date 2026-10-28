@@ -32,7 +32,12 @@ package itself: [../lily-design-system-alpine-headless/](../lily-design-system-a
   Alpine.start();
 </script>
 
-<button class="switch-button" x-data="lilySwitchButton(false)" x-bind="button" aria-label="Notifications">
+<button
+  class="switch-button"
+  x-data="lilySwitchButton(false)"
+  x-bind="button"
+  aria-label="Notifications"
+>
   Notifications
 </button>
 ```
@@ -49,18 +54,18 @@ dependency (`^3.14`).
 488 components are static markup, identical to the html-headless snippet. 83
 are hand-written. By behaviour (full lists in the package `index.md`):
 
-| Behaviour | Components | Keys and events |
-| --- | --- | --- |
-| `lilyToggleButton`, `lilySwitchButton`, `lilyToggleGroup` | toggle-button, switch-button, toggle-group | click; `aria-pressed` / `aria-checked` |
-| `lilyCollapsible`, `lilyAccordion`, `lilyCheckboxAccordion`, `lilyShowMore`, `lilyDismissible` | collapsible, expander, accordion-nav, show-more, banners | click / Enter / Space; Escape where dismissible |
-| `lilyTabs` | tab-bar, tab-bar-button, tab-panel | arrows, Home, End; automatic activation |
-| `lilyPopover`, `lilyTooltip`, `lilyHoverCard` | popover, tooltip, hover-card, contextual-help | Escape closes; outside click closes |
-| `lilyDialog`, `lilyOverlay`, `lilyConfirm` | dialog, alert-dialog, drawer, sheet, popup, popconfirm-dialog | Escape; focus in on open and back on close; `lily:confirm` / `lily:cancel` |
-| `lilyMenu`, `lilyDropdownMenu`, `lilyContextMenu` | menu, menu-bar, dropdown-menu, split-button, context-menu | arrows (wrap), Home/End; roving tabindex |
-| `lilyListbox`, `lilySegmentGroup`, `lilyCombobox`, `lilyCommand` | listbox, segment-group, combobox, command | arrows, Enter; `aria-activedescendant`; `lily:select` |
-| `lilyTree`, `lilyTreeSelect`, `lilyCascader` | tree-nav, tree-menu, file-tree, tree-select, cascader | APG tree keys, `*`, typeahead; `lily:select` |
-| inputs | pin-input-div, tag-input, mentions-input, editable, editable-form, password toggle, character counter, search, newsletter-signup … | `lily:add`, `lily:remove`, `lily:search`, `lily:submit`, `lily:change`, `lily:complete` |
-| `lilyDial`, `lilyColorPicker`, `lilySplitter`, `lilyCarousel`, `lilyTour`, `lilyCoachmark`, `lilyFileUpload` | dial, color-picker, splitter, carousel, tour, coachmark, file-upload | arrows, Shift = ten steps, Home/End; drag for the splitter |
+| Behaviour                                                                                                    | Components                                                                                                                         | Keys and events                                                                         |
+| ------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| `lilyToggleButton`, `lilySwitchButton`, `lilyToggleGroup`                                                    | toggle-button, switch-button, toggle-group                                                                                         | click; `aria-pressed` / `aria-checked`                                                  |
+| `lilyCollapsible`, `lilyAccordion`, `lilyCheckboxAccordion`, `lilyShowMore`, `lilyDismissible`               | collapsible, expander, accordion-nav, show-more, banners                                                                           | click / Enter / Space; Escape where dismissible                                         |
+| `lilyTabs`                                                                                                   | tab-bar, tab-bar-button, tab-panel                                                                                                 | arrows, Home, End; automatic activation                                                 |
+| `lilyPopover`, `lilyTooltip`, `lilyHoverCard`                                                                | popover, tooltip, hover-card, contextual-help                                                                                      | Escape closes; outside click closes                                                     |
+| `lilyDialog`, `lilyOverlay`, `lilyConfirm`                                                                   | dialog, alert-dialog, drawer, sheet, popup, popconfirm-dialog                                                                      | Escape; focus in on open and back on close; `lily:confirm` / `lily:cancel`              |
+| `lilyMenu`, `lilyDropdownMenu`, `lilyContextMenu`                                                            | menu, menu-bar, dropdown-menu, split-button, context-menu                                                                          | arrows (wrap), Home/End; roving tabindex                                                |
+| `lilyListbox`, `lilySegmentGroup`, `lilyCombobox`, `lilyCommand`                                             | listbox, segment-group, combobox, command                                                                                          | arrows, Enter; `aria-activedescendant`; `lily:select`                                   |
+| `lilyTree`, `lilyTreeSelect`, `lilyCascader`                                                                 | tree-nav, tree-menu, file-tree, tree-select, cascader                                                                              | APG tree keys, `*`, typeahead; `lily:select`                                            |
+| inputs                                                                                                       | pin-input-div, tag-input, mentions-input, editable, editable-form, password toggle, character counter, search, newsletter-signup … | `lily:add`, `lily:remove`, `lily:search`, `lily:submit`, `lily:change`, `lily:complete` |
+| `lilyDial`, `lilyColorPicker`, `lilySplitter`, `lilyCarousel`, `lilyTour`, `lilyCoachmark`, `lilyFileUpload` | dial, color-picker, splitter, carousel, tour, coachmark, file-upload                                                               | arrows, Shift = ten steps, Home/End; drag for the splitter                              |
 
 The five rating and status pickers (`five-star-rating-picker`,
 `five-face-rating-picker`, `net-promoter-score-picker`,
@@ -94,7 +99,7 @@ Behaviours announce changes as bubbling `CustomEvent`s named `lily:*`
 ## Testing
 
 `pnpm test` in the package runs vitest + jsdom. `test/mount.js` mounts the
-*shipped* snippet under real Alpine and each test drives it with DOM events.
+_shipped_ snippet under real Alpine and each test drives it with DOM events.
 Static components are tested only for element, base class and role.
 
 ## Helpers and the example app
@@ -102,12 +107,12 @@ Static components are tested only for element, base class and role.
 Four helpers ship as their own packages, each an Alpine plugin plus a `snippet.html`, each a **subset** of its Svelte reference
 (its `spec/index.md` lists what is built and what is not):
 
-| Package | Plugin | Does | Events |
-| --- | --- | --- | --- |
-| `@lilydesignsystem/alpine-data-grid` | `lilyDataGrid(options)` | multi-column sort, filter, selection, pagination, column visibility, APG grid keys, CSV / TSV / clipboard export | `lily:sort`, `lily:page`, `lily:select`, `lily:activate` |
-| `@lilydesignsystem/alpine-kanban-board` | `lilyKanbanBoard(options)` | drag, a keyboard move menu and Alt+Arrow, WIP limits, `canMove`, `strictWip` | `lily:move` |
-| `@lilydesignsystem/alpine-calendar` | `lilyCalendarView(options)` | month and week views, picked and disabled days, events, bounds, date-grid keys, UTC ISO dates | `lily:pick`, `lily:event` |
-| `@lilydesignsystem/alpine-gantt-chart` | `lilyGanttChart(options)` | day timeline, hierarchy and collapse, milestones, dependencies, critical path, APG grid keys | `lily:activate` |
+| Package                                 | Plugin                      | Does                                                                                                             | Events                                                   |
+| --------------------------------------- | --------------------------- | ---------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| `@lilydesignsystem/alpine-data-grid`    | `lilyDataGrid(options)`     | multi-column sort, filter, selection, pagination, column visibility, APG grid keys, CSV / TSV / clipboard export | `lily:sort`, `lily:page`, `lily:select`, `lily:activate` |
+| `@lilydesignsystem/alpine-kanban-board` | `lilyKanbanBoard(options)`  | drag, a keyboard move menu and Alt+Arrow, WIP limits, `canMove`, `strictWip`                                     | `lily:move`                                              |
+| `@lilydesignsystem/alpine-calendar`     | `lilyCalendarView(options)` | month and week views, picked and disabled days, events, bounds, date-grid keys, UTC ISO dates                    | `lily:pick`, `lily:event`                                |
+| `@lilydesignsystem/alpine-gantt-chart`  | `lilyGanttChart(options)`   | day timeline, hierarchy and collapse, milestones, dependencies, critical path, APG grid keys                     | `lily:activate`                                          |
 
 Each takes one options object (`gridOptions`, `boardOptions`, `calendarOptions`, `ganttOptions` in the snippets) with every string
 in `labels`; a label's absence removes the control it names. `createDataGrid(options)` and its siblings return the same state

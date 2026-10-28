@@ -44,7 +44,7 @@ The dialog and calendar grid stay self-contained, deliberately:
 headless `Dialog` renders the native `<dialog>` tag, not this
 component's documented `<div role="dialog">` markup, and sets `open`
 as a plain attribute rather than calling `.showModal()` — which HTML
-defines as producing a *non-modal* dialog (no backdrop, no top-layer
+defines as producing a _non-modal_ dialog (no backdrop, no top-layer
 promotion, no native focus trap) — so composing it would gain none of
 the modal guarantee this component's own hand-rolled focus trap exists
 to provide, while requiring `Dialog` to be extended with several more
@@ -231,7 +231,7 @@ full list in `spec/index.md` §9; the four that matter most:
 - **No hardcoded English.** DHCW bakes in `MONTHS`, `SHORT_MONTHS`,
   `"Today"`, `"+1 week"`, `"Cancel"`, `"OK"`, `"Previous year"` and
   `"Open calendar for …"`. Here, month and weekday names come from `Intl`
-  and every other string is an input. For a *Welsh* design system this is
+  and every other string is an input. For a _Welsh_ design system this is
   not a technicality: it is the difference between a bilingual service
   and an English one with a Welsh veneer.
 - **Monday is not assumed.** DHCW hardcodes a Monday-first grid. First day
@@ -240,7 +240,7 @@ full list in `spec/index.md` §9; the four that matter most:
   nothing, which is worse than not declaring it: the user is told the rest
   of the page is inert while Tab quietly walks into it.
 - **Civil dates, not local-midnight `Date`.** DHCW builds every date with
-  `new Date(y, m, d)`, which is an *instant* at local midnight and resolves
+  `new Date(y, m, d)`, which is an _instant_ at local midnight and resolves
   to the previous day in zones whose DST transition falls at midnight. All
   arithmetic here goes through UTC epoch days.
 

@@ -55,10 +55,7 @@ explicit `value`, and let `value`-beats-everything do the rest.
 
 ```vue
 <script setup lang="ts">
-import LocalePicker, {
-  bcp47LocaleTag,
-  isRtlLocale,
-} from "@lilydesignsystem/vue-locale-picker";
+import LocalePicker, { bcp47LocaleTag, isRtlLocale } from "@lilydesignsystem/vue-locale-picker";
 
 const locale = useCookie<string>("locale", { default: () => "en" });
 
@@ -145,9 +142,7 @@ Give each scoped select a distinct `name` if several sit in one form.
 ```vue
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
-import LocalePicker, {
-  bcp47LocaleTag,
-} from "@lilydesignsystem/vue-locale-picker";
+import LocalePicker, { bcp47LocaleTag } from "@lilydesignsystem/vue-locale-picker";
 
 const { locale, availableLocales } = useI18n();
 </script>
@@ -202,9 +197,7 @@ import { bcp47LocaleTag } from "@lilydesignsystem/vue-locale-picker";
 const locale = ref("en");
 const tag = computed(() => bcp47LocaleTag(locale.value));
 
-const dateFmt = computed(
-  () => new Intl.DateTimeFormat(tag.value, { dateStyle: "long" }),
-);
+const dateFmt = computed(() => new Intl.DateTimeFormat(tag.value, { dateStyle: "long" }));
 const numFmt = computed(() => new Intl.NumberFormat(tag.value));
 </script>
 ```
@@ -224,10 +217,7 @@ const PRIORITY = ["en", "es", "zh_Hans"];
 const ordered = computed(() => {
   const rest = ALL.filter((c) => !PRIORITY.includes(c));
   const collator = new Intl.Collator(bcp47LocaleTag(locale.value));
-  return [
-    ...PRIORITY,
-    ...rest.sort((a, b) => collator.compare(labelOf(a), labelOf(b))),
-  ];
+  return [...PRIORITY, ...rest.sort((a, b) => collator.compare(labelOf(a), labelOf(b)))];
 });
 ```
 
@@ -241,8 +231,7 @@ non-Latin labels in an order that looks arbitrary to a native reader.
 const locale = ref("en");
 
 function onStorage(event: StorageEvent) {
-  if (event.key === "my-app:locale" && event.newValue)
-    locale.value = event.newValue;
+  if (event.key === "my-app:locale" && event.newValue) locale.value = event.newValue;
 }
 
 onMounted(() => window.addEventListener("storage", onStorage));
@@ -259,8 +248,16 @@ you render it. This is the documented default pattern, not an extra:
 
 ```vue
 <template>
-  <LocalePicker label="Language" :locales="locales" v-model:value="locale" />
-  <p class="locale-picker-status" role="status" :lang="bcp47LocaleTag(locale)">
+  <LocalePicker
+    label="Language"
+    :locales="locales"
+    v-model:value="locale"
+  />
+  <p
+    class="locale-picker-status"
+    role="status"
+    :lang="bcp47LocaleTag(locale)"
+  >
     {{ localeName(locale) }}
   </p>
 </template>

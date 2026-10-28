@@ -8,8 +8,14 @@ The component ships no CSS, so the `<ul>` is in normal flow. Position
 it yourself:
 
 ```css
-.locale-picker { position: relative; }
-.locale-picker-list { position: absolute; inset-block-start: 100%; z-index: 50; }
+.locale-picker {
+  position: relative;
+}
+.locale-picker-list {
+  position: absolute;
+  inset-block-start: 100%;
+  z-index: 50;
+}
 ```
 
 See [styling.md](./styling.md#positioning-the-listbox).
@@ -22,7 +28,9 @@ blanket `ul { display: block }` or a `display` on
 `display: none`, so any author rule beats it.
 
 ```css
-.locale-picker-list[hidden] { display: none; }
+.locale-picker-list[hidden] {
+  display: none;
+}
 ```
 
 ## "Arrowing through the list does nothing visible"
@@ -33,7 +41,9 @@ focus. So `:focus` never matches an option. Style the attribute the
 component actually sets:
 
 ```css
-.locale-picker-option[data-active] { background: #e5e7eb; }
+.locale-picker-option[data-active] {
+  background: #e5e7eb;
+}
 ```
 
 ## "The globe renders blue / as a colour emoji"
@@ -44,7 +54,7 @@ font in the stack is a colour-emoji font. Force a text-first stack:
 
 ```css
 .locale-picker-icon {
-    font-family: system-ui, "Segoe UI Symbol", sans-serif;
+  font-family: system-ui, "Segoe UI Symbol", sans-serif;
 }
 ```
 
@@ -180,7 +190,10 @@ you are passing.
 scroll container. Give it one:
 
 ```css
-.locale-picker-list { max-block-size: 20rem; overflow-y: auto; }
+.locale-picker-list {
+  max-block-size: 20rem;
+  overflow-y: auto;
+}
 ```
 
 ## "The list is cut off by an ancestor"

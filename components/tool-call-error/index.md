@@ -13,11 +13,11 @@ The error shown when a tool call fails. A `<div role="alert">` so the message is
 
 ## Props
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `class` | string | `""` | Appended to the base class |
-| `children` | slot | — | The error message |
-| `...restProps` | HTML attributes | — | Spread onto the root `<div>` |
+| Prop           | Type            | Default | Description                  |
+| -------------- | --------------- | ------- | ---------------------------- |
+| `class`        | string          | `""`    | Appended to the base class   |
+| `children`     | slot            | —       | The error message            |
+| `...restProps` | HTML attributes | —       | Spread onto the root `<div>` |
 
 ## Usage
 

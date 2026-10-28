@@ -42,7 +42,11 @@ This headless component uses a `<div>` element containing a semantic heading ele
   The Future of Renewable Energy
   <span slot="subtitle">How wind and solar are transforming the grid</span>
   <Byline slot="byline">
-    <a href="/author/jane-smith" rel="author">Jane Smith</a>
+    <a
+      href="/author/jane-smith"
+      rel="author"
+      >Jane Smith</a
+    >
   </Byline>
 </Headline>
 ```

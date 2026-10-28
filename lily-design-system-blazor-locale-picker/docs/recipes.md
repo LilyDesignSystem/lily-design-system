@@ -201,7 +201,7 @@ See [`RtlDemo.razor`](../examples/RtlDemo.razor) and
 
 ## Sync the locale across multiple tabs
 
-`localStorage` fires a `storage` event in *other* tabs. Listen for it
+`localStorage` fires a `storage` event in _other_ tabs. Listen for it
 and drive the component:
 
 ```razor

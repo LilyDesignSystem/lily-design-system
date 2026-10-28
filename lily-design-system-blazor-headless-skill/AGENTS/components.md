@@ -11,41 +11,41 @@ Use the bin tools to query the catalog programmatically:
 
 ### Suffix → HTML Element Mapping
 
-| Suffix     | Element      | Example                                          |
-| ---------- | ------------ | ------------------------------------------------ |
-| article    | `<article>`  |                                                  |
-| aside      | `<aside>`    | GrailLayoutLeftAside, GrailLayoutRightAside      |
-| button     | `<button>`   | Button, ToggleButton, SwitchButton               |
-| dialog     | `<dialog>`   | Dialog, AlertDialog, FileDialog                  |
-| div        | `<div>`      | PinInputDiv, PasswordInputOrTextInputDiv         |
-| fieldset   | `<fieldset>` | Fieldset                                         |
-| figure     | `<figure>`   | Figure                                           |
-| footer     | `<footer>`   | Footer                                           |
-| header     | `<header>`   | Header                                           |
-| input      | `<input>`    | TextInput, DateInput, EmailInput                 |
-| kbd        | `<kbd>`      |                                                  |
-| mark       | `<mark>`     | Mark                                             |
-| list       | `<ol>`       | CheckList, TaskList (DoList/DontList use `<ul>`) |
-| list-item  | `<li>`       | CheckListItem, TaskListItem                      |
-| main       | `<main>`     | GrailLayoutCenterMain                            |
-| meter      | `<meter>`    | Meter                                            |
-| nav        | `<nav>`      | BreadcrumbNav, TreeNav                           |
-| option     | `<option>`   | Option, ThemeSelectOption                        |
-| picker     | `<div>`      | ColorPicker, FiveStarRatingPicker                |
-| progress   | `<progress>` | Progress                                         |
-| select     | `<select>`   | Select, ThemeSelect                              |
-| span       | `<span>`     | Flair, Character                                 |
-| table      | `<table>`    | Table, DataTable, CalendarTable                  |
-| table-thead | `<thead>`   | GanttTableThead (gantt-table only)               |
-| table-tbody | `<tbody>`   | GanttTableTbody (gantt-table only)               |
-| table-tfoot | `<tfoot>`   | GanttTableTfoot (gantt-table only)               |
-| table-tr    | `<tr>`      | GanttTableTr (gantt-table only)                  |
-| table-th    | `<th>`      | TableTH, DataTableTH                             |
-| table-td    | `<td>`      | TableTD, DataTableTD                             |
-| table-head  | `<thead>`   | TableHead, DataTableHead, CalendarTableHead, KanbanTableHead |
-| table-body  | `<tbody>`   | TableBody, DataTableBody, CalendarTableBody, KanbanTableBody |
-| table-foot  | `<tfoot>`   | TableFoot, DataTableFoot, CalendarTableFoot, KanbanTableFoot |
-| table-row   | `<tr>`      | TableRow, DataTableRow, CalendarTableRow, KanbanTableRow |
+| Suffix      | Element      | Example                                                      |
+| ----------- | ------------ | ------------------------------------------------------------ |
+| article     | `<article>`  |                                                              |
+| aside       | `<aside>`    | GrailLayoutLeftAside, GrailLayoutRightAside                  |
+| button      | `<button>`   | Button, ToggleButton, SwitchButton                           |
+| dialog      | `<dialog>`   | Dialog, AlertDialog, FileDialog                              |
+| div         | `<div>`      | PinInputDiv, PasswordInputOrTextInputDiv                     |
+| fieldset    | `<fieldset>` | Fieldset                                                     |
+| figure      | `<figure>`   | Figure                                                       |
+| footer      | `<footer>`   | Footer                                                       |
+| header      | `<header>`   | Header                                                       |
+| input       | `<input>`    | TextInput, DateInput, EmailInput                             |
+| kbd         | `<kbd>`      |                                                              |
+| mark        | `<mark>`     | Mark                                                         |
+| list        | `<ol>`       | CheckList, TaskList (DoList/DontList use `<ul>`)             |
+| list-item   | `<li>`       | CheckListItem, TaskListItem                                  |
+| main        | `<main>`     | GrailLayoutCenterMain                                        |
+| meter       | `<meter>`    | Meter                                                        |
+| nav         | `<nav>`      | BreadcrumbNav, TreeNav                                       |
+| option      | `<option>`   | Option, ThemeSelectOption                                    |
+| picker      | `<div>`      | ColorPicker, FiveStarRatingPicker                            |
+| progress    | `<progress>` | Progress                                                     |
+| select      | `<select>`   | Select, ThemeSelect                                          |
+| span        | `<span>`     | Flair, Character                                             |
+| table       | `<table>`    | Table, DataTable, CalendarTable                              |
+| table-thead | `<thead>`    | GanttTableThead (gantt-table only)                           |
+| table-tbody | `<tbody>`    | GanttTableTbody (gantt-table only)                           |
+| table-tfoot | `<tfoot>`    | GanttTableTfoot (gantt-table only)                           |
+| table-tr    | `<tr>`       | GanttTableTr (gantt-table only)                              |
+| table-th    | `<th>`       | TableTH, DataTableTH                                         |
+| table-td    | `<td>`       | TableTD, DataTableTD                                         |
+| table-head  | `<thead>`    | TableHead, DataTableHead, CalendarTableHead, KanbanTableHead |
+| table-body  | `<tbody>`    | TableBody, DataTableBody, CalendarTableBody, KanbanTableBody |
+| table-foot  | `<tfoot>`    | TableFoot, DataTableFoot, CalendarTableFoot, KanbanTableFoot |
+| table-row   | `<tr>`       | TableRow, DataTableRow, CalendarTableRow, KanbanTableRow     |
 
 ## Component name patterns
 
@@ -115,9 +115,20 @@ Use the bin tools to query the catalog programmatically:
 ### Form pattern: Form → Field → Input
 
 ```tsx
-<Form label="Contact" onSubmit={handleSubmit}>
-  <Field label="Name" required error={errors.name}>
-    <TextInput label="Name" value={name} onChange={setName} />
+<Form
+  label="Contact"
+  onSubmit={handleSubmit}
+>
+  <Field
+    label="Name"
+    required
+    error={errors.name}
+  >
+    <TextInput
+      label="Name"
+      value={name}
+      onChange={setName}
+    />
   </Field>
   <ErrorSummary title="Errors">
     <ul>...</ul>
@@ -157,7 +168,10 @@ The sixteen chart components share one shape. The graphic is the only thing insi
 accessible table is a **sibling**, because `role="img"` makes its descendants presentational.
 
 ```tsx
-<GaugeChart label="Speed: 72 of 100" dataTable={<table>…</table>}>
+<GaugeChart
+  label="Speed: 72 of 100"
+  dataTable={<table>…</table>}
+>
   <svg viewBox="0 0 120 80">…</svg>
 </GaugeChart>
 // <figure class="gauge-chart">
@@ -188,15 +202,29 @@ streaming reply with `StreamingText`.
 
 ### Choice-chip pattern: RadioGroup / CheckboxGroup + real inputs
 
-Chips that pick one option or several are a *look*, not a new component: use `RadioGroup` (one choice) or
+Chips that pick one option or several are a _look_, not a new component: use `RadioGroup` (one choice) or
 `CheckboxGroup` (several), with a real input inside each label, and let CSS draw the chip. The inputs keep form
 submission, `required`, form reset, keyboard (arrows within a radio group, Tab between checkboxes) and the accessible
 name for free.
 
 ```tsx
 <RadioGroup label="Delivery">
-  <label class="choice-chip"><input type="radio" name="delivery" value="post" /> Post</label>
-  <label class="choice-chip"><input type="radio" name="delivery" value="collect" /> Collect</label>
+  <label class="choice-chip">
+    <input
+      type="radio"
+      name="delivery"
+      value="post"
+    />{" "}
+    Post
+  </label>
+  <label class="choice-chip">
+    <input
+      type="radio"
+      name="delivery"
+      value="collect"
+    />{" "}
+    Collect
+  </label>
 </RadioGroup>
 ```
 

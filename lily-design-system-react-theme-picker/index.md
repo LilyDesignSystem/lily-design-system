@@ -70,10 +70,7 @@ import type { Props, ChildArgs } from "./lily-design-system-react-theme-picker";
 "use client";
 
 import { useState } from "react";
-import {
-  ThemePicker,
-  themeName,
-} from "./lily-design-system-react-theme-picker";
+import { ThemePicker, themeName } from "./lily-design-system-react-theme-picker";
 
 export function ThemePicker() {
   const [theme, setTheme] = useState("");
@@ -88,7 +85,10 @@ export function ThemePicker() {
         storageKey="lily-theme"
       />
 
-      <p className="theme-picker-status" aria-live="polite">
+      <p
+        className="theme-picker-status"
+        aria-live="polite"
+      >
         Active theme: {themeName(theme)}
       </p>
     </>
@@ -122,7 +122,11 @@ the WAI-ARIA APG listbox pattern:
 
 ```html
 <div class="theme-picker">
-  <input type="hidden" name="theme" value="light" />
+  <input
+    type="hidden"
+    name="theme"
+    value="light"
+  />
   <button
     type="button"
     class="theme-picker-button"
@@ -131,7 +135,27 @@ the WAI-ARIA APG listbox pattern:
     aria-expanded="false"
     aria-controls="theme-picker-«r0»-list"
   >
-    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>
+    <svg
+      class="theme-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle
+        cx="8"
+        cy="8"
+        r="6"
+      />
+      <path
+        d="M8 2a6 6 0 0 1 0 12z"
+        fill="currentColor"
+        stroke="none"
+      />
+    </svg>
   </button>
   <ul
     class="theme-picker-list"
@@ -226,14 +250,14 @@ On the **button**:
 
 On the **listbox**:
 
-| Key                     | Action                                                                                          |
-| ----------------------- | ----------------------------------------------------------------------------------------------- |
-| `ArrowDown` / `ArrowUp` | Move the active option. Clamps at the ends — it does not wrap.                                  |
-| `Home` / `End`          | Jump to the first / last option.                                                                |
-| `Enter` / `Space`       | Select the active option, apply it, close, and return focus to the button.                      |
-| `Escape`                | Close and return focus to the button, leaving the theme unchanged.                              |
-| `PageUp` / `PageDown`   | Move the active option by ten; clamps.                                                          |
-| `Tab`                   | Close; focus lands on the button so the default Tab proceeds from the picker's position.        |
+| Key                     | Action                                                                                                                                         |
+| ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ArrowDown` / `ArrowUp` | Move the active option. Clamps at the ends — it does not wrap.                                                                                 |
+| `Home` / `End`          | Jump to the first / last option.                                                                                                               |
+| `Enter` / `Space`       | Select the active option, apply it, close, and return focus to the button.                                                                     |
+| `Escape`                | Close and return focus to the button, leaving the theme unchanged.                                                                             |
+| `PageUp` / `PageDown`   | Move the active option by ten; clamps.                                                                                                         |
+| `Tab`                   | Close; focus lands on the button so the default Tab proceeds from the picker's position.                                                       |
 | Any printable character | Typeahead over the option labels; 500 ms buffer. A single character advances to the next match and repeats cycle; differing characters refine. |
 
 With the mouse: click an option to select it; click the button again,
@@ -359,12 +383,12 @@ This mirrors `detectFromNavigator` in the sibling
 
 Besides the component, the barrel exports four pure functions:
 
-| Export                      | Purpose                                                                                                                                                                                                       |
-| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Export                      | Purpose                                                                                                                                                                                                      |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `themeName(slug)`           | The title-casing label rule — `"high-contrast"` → `"High Contrast"`. The component's internal `labelFor` delegates to it, so use it rather than re-deriving the rule. Mirrors `localeName` in locale-picker. |
 | `matchSystemTheme(themes)`  | Resolves `prefers-color-scheme` to a supported slug, or `""` when the slug is absent or `matchMedia` is unavailable (SSR). Backs `detectFromSystem`. Mirrors `matchNavigatorLanguage` in locale-picker.      |
-| `normalizeThemesUrl(url)`   | Ensures exactly one trailing `/`.                                                                                                                                                                             |
-| `themeHref(url, slug, ext)` | Builds the stylesheet href for a slug.                                                                                                                                                                        |
+| `normalizeThemesUrl(url)`   | Ensures exactly one trailing `/`.                                                                                                                                                                            |
+| `themeHref(url, slug, ext)` | Builds the stylesheet href for a slug.                                                                                                                                                                       |
 
 `ThemePicker.tsx` also exports `CIRCLE_WITH_RIGHT_HALF_BLACK`, the
 default button glyph (U+25D1), so a `children` override can re-use the
@@ -415,9 +439,18 @@ fetched on demand. To switch instantly between themes, preload them
 all yourself:
 
 ```html
-<link rel="stylesheet" href="/assets/themes/light.css" />
-<link rel="stylesheet" href="/assets/themes/dark.css" />
-<link rel="stylesheet" href="/assets/themes/abyss.css" />
+<link
+  rel="stylesheet"
+  href="/assets/themes/light.css"
+/>
+<link
+  rel="stylesheet"
+  href="/assets/themes/dark.css"
+/>
+<link
+  rel="stylesheet"
+  href="/assets/themes/abyss.css"
+/>
 ```
 
 The select still mutates `data-theme`, and since every theme's CSS is
@@ -474,19 +507,19 @@ exercises every numbered acceptance criterion in
 
 ## Files in this directory
 
-| File                    | Purpose                                                 |
-| ----------------------- | ------------------------------------------------------- |
-| `spec/index.md`         | Single source of truth — API, behaviour, tests.         |
+| File                   | Purpose                                                 |
+| ---------------------- | ------------------------------------------------------- |
+| `spec/index.md`        | Single source of truth — API, behaviour, tests.         |
 | `ThemePicker.tsx`      | The component implementation.                           |
 | `ThemePicker.test.tsx` | vitest suite covering every spec §7 item.               |
-| `index.ts`              | Re-export barrel.                                       |
-| `index.md`              | This file — quick start + worked examples.              |
-| `CHANGELOG.md`          | Per-version history.                                    |
-| `AGENTS.md`             | AI-agent metadata pointer.                              |
-| `AGENTS/`               | Per-topic AI-agent guides.                              |
-| `CLAUDE.md`             | Loads `AGENTS.md`.                                      |
-| `docs/`                 | Deep-dive guides — see [Documentation](#documentation). |
-| `examples/`             | Runnable React 19 examples — see [Examples](#examples). |
+| `index.ts`             | Re-export barrel.                                       |
+| `index.md`             | This file — quick start + worked examples.              |
+| `CHANGELOG.md`         | Per-version history.                                    |
+| `AGENTS.md`            | AI-agent metadata pointer.                              |
+| `AGENTS/`              | Per-topic AI-agent guides.                              |
+| `CLAUDE.md`            | Loads `AGENTS.md`.                                      |
+| `docs/`                | Deep-dive guides — see [Documentation](#documentation). |
+| `examples/`            | Runnable React 19 examples — see [Examples](#examples). |
 
 ## Documentation
 
@@ -503,18 +536,18 @@ exercises every numbered acceptance criterion in
 
 ## Examples
 
-| #   | File                                                        | Demonstrates                                           |
-| --- | ----------------------------------------------------------- | ------------------------------------------------------ |
+| #   | File                                                        | Demonstrates                                          |
+| --- | ----------------------------------------------------------- | ----------------------------------------------------- |
 | 1   | [`basic.tsx`](./examples/basic.tsx)                         | Minimal three-theme picker + the default status line. |
-| 2   | [`two-way-binding.tsx`](./examples/two-way-binding.tsx)     | Controlled `value` + `onChange`.                       |
-| 3   | [`persistence.tsx`](./examples/persistence.tsx)             | `localStorage` survival across reloads.                |
-| 4   | [`custom-labels.tsx`](./examples/custom-labels.tsx)         | `themeLabels` for i18n / display names.                |
-| 5   | [`custom-rendering.tsx`](./examples/custom-rendering.tsx)   | `children` render prop — custom button glyph.          |
-| 6   | [`preloaded.tsx`](./examples/preloaded.tsx)                 | Zero-flicker switching via preloading.                 |
-| 7   | [`multiple-pickers.tsx`](./examples/multiple-pickers.tsx) | Two selects in one page via `name`.                    |
-| 8   | [`system-preference.tsx`](./examples/system-preference.tsx) | Follow `prefers-color-scheme`.                         |
-| 9   | [`lily-themes.tsx`](./examples/lily-themes.tsx)             | All 41 Lily / DaisyUI themes at once.                  |
-| 10  | [`next-cookie/`](./examples/next-cookie/)                   | Next.js App Router SSR-resolved cookie.                |
+| 2   | [`two-way-binding.tsx`](./examples/two-way-binding.tsx)     | Controlled `value` + `onChange`.                      |
+| 3   | [`persistence.tsx`](./examples/persistence.tsx)             | `localStorage` survival across reloads.               |
+| 4   | [`custom-labels.tsx`](./examples/custom-labels.tsx)         | `themeLabels` for i18n / display names.               |
+| 5   | [`custom-rendering.tsx`](./examples/custom-rendering.tsx)   | `children` render prop — custom button glyph.         |
+| 6   | [`preloaded.tsx`](./examples/preloaded.tsx)                 | Zero-flicker switching via preloading.                |
+| 7   | [`multiple-pickers.tsx`](./examples/multiple-pickers.tsx)   | Two selects in one page via `name`.                   |
+| 8   | [`system-preference.tsx`](./examples/system-preference.tsx) | Follow `prefers-color-scheme`.                        |
+| 9   | [`lily-themes.tsx`](./examples/lily-themes.tsx)             | All 41 Lily / DaisyUI themes at once.                 |
+| 10  | [`next-cookie/`](./examples/next-cookie/)                   | Next.js App Router SSR-resolved cookie.               |
 
 ## License
 

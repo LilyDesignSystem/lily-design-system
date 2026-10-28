@@ -22,7 +22,7 @@ SverigePersonnummerView is a headless read-only display of Sweden's Personnummer
 ```html
 <SummaryList>
   <SummaryListItem term="Personal Identity Number">
-    <SverigePersonnummerView value={value} />
+    <SverigePersonnummerView value="{value}" />
   </SummaryListItem>
 </SummaryList>
 ```

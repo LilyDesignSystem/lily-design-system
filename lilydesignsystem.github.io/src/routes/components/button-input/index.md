@@ -28,19 +28,30 @@ This component is useful in form contexts where the native input semantics are p
 Action button with a descriptive label:
 
 ```html
-<ButtonInput value="Calculate total" onclick={handleCalculate} />
+<ButtonInput
+  value="Calculate total"
+  onclick="{handleCalculate}"
+/>
 ```
 
 Disabled button with conditional state:
 
 ```html
-<ButtonInput value="Reset filters" onclick={handleReset} disabled={!hasFilters} />
+<ButtonInput
+  value="Reset filters"
+  onclick="{handleReset}"
+  disabled="{!hasFilters}"
+/>
 ```
 
 Named button with accessible label override:
 
 ```html
-<ButtonInput value="Save" name="action" label="Save changes" />
+<ButtonInput
+  value="Save"
+  name="action"
+  label="Save changes"
+/>
 ```
 
 ## Keyboard Interactions
@@ -71,17 +82,14 @@ Named button with accessible label override:
 
 This component provides a native `<input type="button">` with optional `aria-label` override and standard form attributes (`name`, `disabled`), all with zero visual styling. The consumer is responsible for all CSS including colors, padding, border, border-radius, hover states, focus indicators, and disabled appearance.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.button-input` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
 
-
 - Verify the component renders a `<input>` element with class `button-input`
-- Verify aria-label={label}` -- optional screen reader label override; when provided, screen readers announce this instead of the `value` text
+- Verify aria-label={label}`-- optional screen reader label override; when provided, screen readers announce this instead of the`value` text
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied
 

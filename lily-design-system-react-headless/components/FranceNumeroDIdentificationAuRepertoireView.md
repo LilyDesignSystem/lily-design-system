@@ -22,11 +22,17 @@ This component renders the NIR as an inline `<span>` element with an accessible 
 ## Usage
 
 ```tsx
-<FranceNumeroDIdentificationAuRepertoireView label="NIR" value="1 85 05 75 012 345 67" />
+<FranceNumeroDIdentificationAuRepertoireView
+  label="NIR"
+  value="1 85 05 75 012 345 67"
+/>
 ```
 
 ```tsx
-<FranceNumeroDIdentificationAuRepertoireView label="Numéro de sécurité sociale" value={nir} />
+<FranceNumeroDIdentificationAuRepertoireView
+  label="Numéro de sécurité sociale"
+  value={nir}
+/>
 ```
 
 ## Keyboard Interactions

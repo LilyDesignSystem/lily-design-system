@@ -92,11 +92,11 @@
       <li>Enter: Activates the button (native button behavior)</li>
     </ul>
     <h3>Props</h3>
-    <p>| Prop           | Type            | Default    | Description                                              |</p>
-    <p>| -------------- | --------------- | ---------- | -------------------------------------------------------- |</p>
-    <p>| <code>label</code>        | <code>string</code>        | (required) | Accessible name applied via <code>aria-label</code>                 |</p>
-    <p>| <code>pressed</code>      | <code>boolean</code>       | <code>false</code>    | Whether the toggle is on; bindable with two-way <code>pressed</code> binding   |</p>
-    <p>| <code>disabled</code>     | <code>boolean</code>       | <code>false</code>    | Whether the toggle is disabled                           |</p>
-    <p>| <code>...restProps</code> | HTML attributes |            | Additional attributes spread onto the <code>&lt;button&gt;</code> element |</p>
+    <p>| Prop           | Type            | Default    | Description                                                       |</p>
+    <p>| -------------- | --------------- | ---------- | ----------------------------------------------------------------- |</p>
+    <p>| <code>label</code>        | <code>string</code>        | (required) | Accessible name applied via <code>aria-label</code>                          |</p>
+    <p>| <code>pressed</code>      | <code>boolean</code>       | <code>false</code>    | Whether the toggle is on; bindable with two-way <code>pressed</code> binding |</p>
+    <p>| <code>disabled</code>     | <code>boolean</code>       | <code>false</code>    | Whether the toggle is disabled                                    |</p>
+    <p>| <code>...restProps</code> | HTML attributes |            | Additional attributes spread onto the <code>&lt;button&gt;</code> element          |</p>
 </section>
 <!-- END generated: canonical contract -->

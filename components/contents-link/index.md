@@ -25,14 +25,14 @@ This headless component uses an `<a>` element for native link semantics and keyb
 ```html
 <ContentsNav label="Pages in this guide">
   <ContentsList>
-    <ContentsListItem aria-current="page">
-      What is type 2 diabetes?
-    </ContentsListItem>
+    <ContentsListItem aria-current="page"> What is type 2 diabetes? </ContentsListItem>
     <ContentsListItem>
       <ContentsLink href="/conditions/type-2-diabetes/symptoms">Symptoms</ContentsLink>
     </ContentsListItem>
     <ContentsListItem>
-      <ContentsLink href="/conditions/type-2-diabetes/getting-diagnosed">Getting diagnosed</ContentsLink>
+      <ContentsLink href="/conditions/type-2-diabetes/getting-diagnosed"
+        >Getting diagnosed</ContentsLink
+      >
     </ContentsListItem>
     <ContentsListItem>
       <ContentsLink href="/conditions/type-2-diabetes/treatment">Treatment</ContentsLink>
@@ -61,7 +61,7 @@ This headless component uses an `<a>` element for native link semantics and keyb
 
 ## When Not to Use
 
-- Do not use for the current page when the list links *between pages* -- there the current page should be plain text, not a link. (A same-page outline is different: its links point at anchors on this page, so every entry, including the section in view, stays a link and the section in view carries `aria-current="true"`.)
+- Do not use for the current page when the list links _between pages_ -- there the current page should be plain text, not a link. (A same-page outline is different: its links point at anchors on this page, so every entry, including the section in view, stays a link and the section in view carries `aria-current="true"`.)
 - Do not use outside of ContentsListItem -- use ActionLink or a standard anchor for standalone links.
 
 ## Headless

@@ -59,10 +59,7 @@ import {
 "use client";
 
 import { useState } from "react";
-import {
-  TextSizePicker,
-  sizeName,
-} from "./lily-design-system-react-text-size-picker";
+import { TextSizePicker, sizeName } from "./lily-design-system-react-text-size-picker";
 
 export function TextSizePicker() {
   const [size, setSize] = useState("");
@@ -75,7 +72,10 @@ export function TextSizePicker() {
         onChange={setSize}
         storageKey="lily-text-size"
       />
-      <p className="text-size-picker-status" aria-live="polite">
+      <p
+        className="text-size-picker-status"
+        aria-live="polite"
+      >
         Text size: {sizeName(size)}
       </p>
     </>
@@ -175,8 +175,17 @@ It receives `{ value, open, labelFor }`:
 >
   {({ value, open, labelFor }) => (
     <>
-      <svg aria-hidden="true" viewBox="0 0 16 16" width="16" height="16">
-        <path d="M2 14 L8 2 L14 14" fill="none" stroke="currentColor" />
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 16 16"
+        width="16"
+        height="16"
+      >
+        <path
+          d="M2 14 L8 2 L14 14"
+          fill="none"
+          stroke="currentColor"
+        />
       </svg>
       <span aria-hidden="true">{labelFor(value)}</span>
     </>
@@ -193,16 +202,16 @@ text, make `label` begin with that text (WCAG 2.5.3, Label in Name).
 The component implements the WAI-ARIA APG listbox contract itself;
 nothing is inherited from a native `<select>`.
 
-| Key                             | Where   | Action                                                |
-| ------------------------------- | ------- | ----------------------------------------------------- |
-| `ArrowDown` / `Enter` / `Space` | button  | Open on the selected option; focus moves to the list. |
-| `ArrowUp`                       | button  | Open on the **last** option.                          |
-| `ArrowDown` / `ArrowUp`         | listbox | Move the active option; clamps, does not wrap.        |
-| `Home` / `End`                  | listbox | Jump to the first / last option.                      |
-| `Enter` / `Space`               | listbox | Select, apply, close, refocus the button.             |
-| `Escape`                        | listbox | Close and refocus the button; value unchanged.        |
-| `PageUp` / `PageDown`           | listbox | Move the active option by ten; clamps.                |
-| `Tab`                           | listbox | Close; focus lands on the button so the default Tab proceeds from the picker's position. |
+| Key                             | Where   | Action                                                                                                                              |
+| ------------------------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `ArrowDown` / `Enter` / `Space` | button  | Open on the selected option; focus moves to the list.                                                                               |
+| `ArrowUp`                       | button  | Open on the **last** option.                                                                                                        |
+| `ArrowDown` / `ArrowUp`         | listbox | Move the active option; clamps, does not wrap.                                                                                      |
+| `Home` / `End`                  | listbox | Jump to the first / last option.                                                                                                    |
+| `Enter` / `Space`               | listbox | Select, apply, close, refocus the button.                                                                                           |
+| `Escape`                        | listbox | Close and refocus the button; value unchanged.                                                                                      |
+| `PageUp` / `PageDown`           | listbox | Move the active option by ten; clamps.                                                                                              |
+| `Tab`                           | listbox | Close; focus lands on the button so the default Tab proceeds from the picker's position.                                            |
 | Printable character             | listbox | Typeahead over labels; 500 ms buffer. A single character advances to the next match and repeats cycle; differing characters refine. |
 
 Clicking an option selects it; clicking the button again, clicking
@@ -231,17 +240,17 @@ from React's `useId`, so they survive hydration.
 
 ## Files in this directory
 
-| File                       | Purpose                                          |
-| -------------------------- | ------------------------------------------------ |
-| `spec/index.md`            | Single source of truth — API, behaviour, tests.  |
+| File                      | Purpose                                          |
+| ------------------------- | ------------------------------------------------ |
+| `spec/index.md`           | Single source of truth — API, behaviour, tests.  |
 | `TextSizePicker.tsx`      | The component implementation.                    |
 | `TextSizePicker.test.tsx` | vitest suite covering every spec §7 item.        |
-| `index.ts`                 | Re-export barrel.                                |
-| `index.md`                 | This file — quick start + worked examples.       |
-| `docs/accessibility.md`    | Roles, keyboard contract, tradeoffs, smoke test. |
-| `AGENTS.md`                | AI-agent metadata pointer.                       |
-| `CLAUDE.md`                | Loads `AGENTS.md`.                               |
-| `README.md`                | Symlink to `index.md`.                           |
+| `index.ts`                | Re-export barrel.                                |
+| `index.md`                | This file — quick start + worked examples.       |
+| `docs/accessibility.md`   | Roles, keyboard contract, tradeoffs, smoke test. |
+| `AGENTS.md`               | AI-agent metadata pointer.                       |
+| `CLAUDE.md`               | Loads `AGENTS.md`.                               |
+| `README.md`               | Symlink to `index.md`.                           |
 
 ---
 

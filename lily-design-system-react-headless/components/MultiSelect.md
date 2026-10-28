@@ -19,7 +19,11 @@ The component keeps internal state seeded from `value` and re-syncs when `value`
 ## Usage
 
 ```tsx
-<MultiSelect label="Fruit" value={picked} onChange={setPicked}>
+<MultiSelect
+  label="Fruit"
+  value={picked}
+  onChange={setPicked}
+>
   <Option value="a">Apple</Option>
   <Option value="b">Banana</Option>
 </MultiSelect>

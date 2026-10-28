@@ -21,7 +21,7 @@ A locale-aware currency input rendered as `<input type="text" inputmode="decimal
 ```vue
 <script setup>
 import { ref } from "vue";
-const amount = ref<number | undefined>(undefined);
+const amount = (ref < number) | (undefined > undefined);
 </script>
 
 <template>

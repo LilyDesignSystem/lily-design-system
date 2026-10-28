@@ -66,12 +66,12 @@ posts to a small endpoint that writes the cookie:
 
 ```ts
 document.querySelector("locale-picker")?.addEventListener("localechange", async (e) => {
-    const { locale } = (e as CustomEvent<{ locale: string }>).detail;
-    await fetch("/api/locale", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ locale }),
-    });
+  const { locale } = (e as CustomEvent<{ locale: string }>).detail;
+  await fetch("/api/locale", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ locale }),
+  });
 });
 ```
 
@@ -150,18 +150,18 @@ from the URL:
 
 ```html
 <lily-locale-picker
-    label="Language"
-    locales="en,fr,ar"
-    value="{{ urlLocale }}"
+  label="Language"
+  locales="en,fr,ar"
+  value="{{ urlLocale }}"
 ></lily-locale-picker>
 
 <script type="module">
-    await customElements.whenDefined("locale-picker");
-    document.querySelector("locale-picker")?.addEventListener("localechange", (e) => {
-        const { locale } = (e as CustomEvent<{ locale: string }>).detail;
-        const newPath = location.pathname.replace(/^\/(en|fr|ar)/, `/${locale}`);
-        window.location = newPath;
-    });
+  await customElements.whenDefined("locale-picker");
+  document.querySelector("locale-picker")?.addEventListener("localechange", (e) => {
+      const { locale } = (e as CustomEvent<{ locale: string }>).detail;
+      const newPath = location.pathname.replace(/^\/(en|fr|ar)/, `/${locale}`);
+      window.location = newPath;
+  });
 </script>
 ```
 
@@ -173,14 +173,14 @@ If the SSG / server has access to request headers, resolve from
 ```ts
 const SUPPORTED = ["en", "fr", "ar"];
 function pickFromAcceptLanguage(header) {
-    if (!header) return "en";
-    for (const item of header.split(",")) {
-        const tag = item.split(";")[0].trim().toLowerCase();
-        if (SUPPORTED.includes(tag)) return tag;
-        const base = tag.split("-")[0];
-        if (SUPPORTED.includes(base)) return base;
-    }
-    return "en";
+  if (!header) return "en";
+  for (const item of header.split(",")) {
+    const tag = item.split(";")[0].trim().toLowerCase();
+    if (SUPPORTED.includes(tag)) return tag;
+    const base = tag.split("-")[0];
+    if (SUPPORTED.includes(base)) return base;
+  }
+  return "en";
 }
 ```
 

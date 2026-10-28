@@ -20,7 +20,10 @@ const links: LinkItem[] = [
 </script>
 
 <template>
-  <LinkPicker label="Pages" :links="links" />
+  <LinkPicker
+    label="Pages"
+    :links="links"
+  />
 </template>
 ```
 
@@ -46,7 +49,11 @@ const links = computed(() => pages.map((p) => ({ ...p, current: route.path === p
 </script>
 
 <template>
-  <LinkPicker label="Pages" :links="links" :navigate="(href) => router.push(href)" />
+  <LinkPicker
+    label="Pages"
+    :links="links"
+    :navigate="(href) => router.push(href)"
+  />
 </template>
 ```
 
@@ -54,13 +61,13 @@ Ctrl/Cmd/Shift/Alt-click, middle-click and `newTab` links always stay native bro
 
 ## `LinkItem`
 
-| Field | Notes |
-| --- | --- |
-| label | Visible text. Yours, so it localises. |
-| href | A route (`"/about/"`) or a full URL. |
-| id | Reported when a link is chosen; defaults to the href. |
-| current | Marks the current page with `aria-current="page"`. |
-| newTab | `target="_blank"` with `rel="noopener noreferrer"`. |
+| Field   | Notes                                                 |
+| ------- | ----------------------------------------------------- |
+| label   | Visible text. Yours, so it localises.                 |
+| href    | A route (`"/about/"`) or a full URL.                  |
+| id      | Reported when a link is chosen; defaults to the href. |
+| current | Marks the current page with `aria-current="page"`.    |
+| newTab  | `target="_blank"` with `rel="noopener noreferrer"`.   |
 
 ## Props
 

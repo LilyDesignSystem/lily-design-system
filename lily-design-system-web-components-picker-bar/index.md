@@ -33,7 +33,10 @@ them, not a reimplementation.
   import "@lilydesignsystem/web-components-picker-bar";
 </script>
 
-<lily-picker-bar id="header-picker-bar" themes-url="/assets/themes/"></lily-picker-bar>
+<lily-picker-bar
+  id="header-picker-bar"
+  themes-url="/assets/themes/"
+></lily-picker-bar>
 
 <script type="module">
   const bar = document.getElementById("header-picker-bar");
@@ -94,7 +97,11 @@ Each wrapped picker takes a `*Props` bag for anything beyond what
 value, detection, a `*Labels` override map, a custom glyph:
 
 ```js
-bar.searchProps = { action: "/search", placeholder: "Search…", navigate: (href) => router.push(href) };
+bar.searchProps = {
+  action: "/search",
+  placeholder: "Search…",
+  navigate: (href) => router.push(href),
+};
 bar.themeProps = { storageKey: "lily-theme", detectFromSystem: true };
 bar.localeProps = { storageKey: "lily-locale", detectFromNavigator: true };
 bar.textSizeProps = { storageKey: "lily-text-size" };

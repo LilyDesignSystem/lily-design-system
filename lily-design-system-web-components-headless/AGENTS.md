@@ -34,7 +34,7 @@ A headless component library built on **native custom elements** (the Web Compon
 - **No CSS/styles** — no Tailwind, no styled-components, no inline styles beyond the one documented structural exception (`FloatButton`'s `position: fixed`, matching `ThemeProvider`'s `display: contents` precedent elsewhere in the catalog).
 - **No images, icons, or fonts** — consumers provide these.
 - **No hardcoded user-facing strings** — all text through attributes.
-- **No framework runtime dependency** (React, Vue, Svelte, lit, …) in `components/` or `lib/` — only the platform. (The Storybook *story* layer is dev-only and not part of what ships.)
+- **No framework runtime dependency** (React, Vue, Svelte, lit, …) in `components/` or `lib/` — only the platform. (The Storybook _story_ layer is dev-only and not part of what ships.)
 
 ## Two structural patterns
 

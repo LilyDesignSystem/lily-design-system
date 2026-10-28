@@ -18,15 +18,15 @@ Direct port of `@lilydesignsystem/svelte-gantt-chart`. Implemented
 
 ## Files
 
-| File | Purpose |
-| --- | --- |
-| `spec/index.md` | Specification-driven contract (canonical). |
-| `gantt-chart.ts` | Implementation (TypeScript custom-element class). |
-| `gantt-chart.test.ts` | Vitest + jsdom spec, one or more assertions per §8 acceptance clause, plus pure-function tests for the date/hierarchy helpers. |
-| `index.ts` | Barrel re-export + side-effectful registration. |
-| `index.md` | Human-readable guide. |
-| `docs/accessibility.md` | Tradeoffs, stated plainly. |
-| `examples/` | A runnable HTML page. |
+| File                    | Purpose                                                                                                                        |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `spec/index.md`         | Specification-driven contract (canonical).                                                                                     |
+| `gantt-chart.ts`        | Implementation (TypeScript custom-element class).                                                                              |
+| `gantt-chart.test.ts`   | Vitest + jsdom spec, one or more assertions per §8 acceptance clause, plus pure-function tests for the date/hierarchy helpers. |
+| `index.ts`              | Barrel re-export + side-effectful registration.                                                                                |
+| `index.md`              | Human-readable guide.                                                                                                          |
+| `docs/accessibility.md` | Tradeoffs, stated plainly.                                                                                                     |
+| `examples/`             | A runnable HTML page.                                                                                                          |
 
 ## Public surface
 
@@ -104,7 +104,7 @@ too costly to build once per row up front.
   `@lilydesignsystem/web-components-date-time-picker` as real
   dependencies — never vendors either's markup. Mirrors
   `picker-bar.ts`'s bare-side-effect-import pattern for a sibling
-  *helper* dependency (not just headless).
+  _helper_ dependency (not just headless).
 - Builds every table-related element with `document.createElement`/
   `appendChild` — never `innerHTML` (same HTML5 table-parsing gotcha
   as `kanban-board`; see that package's own note).

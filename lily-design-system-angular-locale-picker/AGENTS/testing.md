@@ -29,9 +29,7 @@ beforeEach(() => {
   localStorage.clear();
 });
 
-function mount(
-  inputs: Record<string, unknown> = {},
-): ComponentFixture<LocalePicker> {
+function mount(inputs: Record<string, unknown> = {}): ComponentFixture<LocalePicker> {
   const fixture = TestBed.createComponent(LocalePicker);
   fixture.componentRef.setInput("label", "Language");
   fixture.componentRef.setInput("locales", LOCALES);
@@ -109,9 +107,7 @@ const list = (f: ComponentFixture<unknown>) =>
   f.nativeElement.querySelector(".locale-picker-list") as HTMLUListElement;
 
 const options = (f: ComponentFixture<unknown>) =>
-  Array.from(
-    f.nativeElement.querySelectorAll(".locale-picker-option"),
-  ) as HTMLLIElement[];
+  Array.from(f.nativeElement.querySelectorAll(".locale-picker-option")) as HTMLLIElement[];
 ```
 
 ## Standard mount
@@ -180,11 +176,7 @@ Keydowns must bubble — the handlers are bound on the button and the
 `<ul>`, not on individual options:
 
 ```ts
-function press(
-  f: ComponentFixture<unknown>,
-  target: HTMLElement,
-  key: string,
-): void {
+function press(f: ComponentFixture<unknown>, target: HTMLElement, key: string): void {
   target.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true }));
   f.detectChanges();
 }
@@ -249,9 +241,16 @@ project content:
   standalone: true,
   imports: [LocalePicker],
   template: `
-    <lily-locale-picker label="Language" [locales]="locales" [value]="'fr'">
+    <lily-locale-picker
+      label="Language"
+      [locales]="locales"
+      [value]="'fr'"
+    >
       <ng-template let-args>
-        <span data-testid="custom" [attr.data-value]="args.value"></span>
+        <span
+          data-testid="custom"
+          [attr.data-value]="args.value"
+        ></span>
       </ng-template>
     </lily-locale-picker>
   `,

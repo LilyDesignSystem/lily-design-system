@@ -21,7 +21,7 @@ below.
 | `<button>`              | `aria-haspopup="listbox"`                               | Component      |
 | `<button>`              | `aria-expanded="true                                    | false"`        | Component |
 | `<button>`              | `aria-controls={listId}`                                | Component      |
-| `.theme-picker-icon`   | `aria-hidden="true"`                                    | Component      |
+| `.theme-picker-icon`    | `aria-hidden="true"`                                    | Component      |
 | `<ul>`                  | `role="listbox"`, `aria-label={label}`, `tabindex="-1"` | Component      |
 | `<ul>` (open only)      | `aria-activedescendant={active option id}`              | Component      |
 | `<li>`                  | `role="option"`, `aria-selected="true                   | false"`        | Component |
@@ -56,17 +56,17 @@ conveyed by `aria-activedescendant`; focus never lands on an `<li>`.
 
 On the **listbox**:
 
-| Key               | Action                                                                 |
-| ----------------- | ---------------------------------------------------------------------- |
-| `Arrow Down`      | Active option down one. **Clamps** at the last option — no wrap.       |
-| `Arrow Up`        | Active option up one. **Clamps** at the first option — no wrap.        |
-| `Home`            | First option becomes active.                                           |
-| `End`             | Last option becomes active.                                            |
-| `Enter` / `Space` | Select the active option, apply it, close, return focus to the button. |
-| `Escape`          | Close and return focus to the button; the value is **not** changed.    |
-| `PageUp` / `PageDown` | Move the active option by ten; clamps.                             |
-| `Tab`             | Close; focus lands on the button so the default Tab proceeds from the picker's position. |
-| Printable chars   | Typeahead over the display **labels**; 500 ms buffer. A single character advances to the next match and repeats cycle; differing characters refine. |
+| Key                   | Action                                                                                                                                              |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Arrow Down`          | Active option down one. **Clamps** at the last option — no wrap.                                                                                    |
+| `Arrow Up`            | Active option up one. **Clamps** at the first option — no wrap.                                                                                     |
+| `Home`                | First option becomes active.                                                                                                                        |
+| `End`                 | Last option becomes active.                                                                                                                         |
+| `Enter` / `Space`     | Select the active option, apply it, close, return focus to the button.                                                                              |
+| `Escape`              | Close and return focus to the button; the value is **not** changed.                                                                                 |
+| `PageUp` / `PageDown` | Move the active option by ten; clamps.                                                                                                              |
+| `Tab`                 | Close; focus lands on the button so the default Tab proceeds from the picker's position.                                                            |
+| Printable chars       | Typeahead over the display **labels**; 500 ms buffer. A single character advances to the next match and repeats cycle; differing characters refine. |
 
 Pointer and focus behaviour:
 
@@ -171,9 +171,20 @@ You can still replace the icon entirely with a projected
 text label. See [custom-rendering.md](./custom-rendering.md).
 
 ```html
-<lily-theme-picker label="Theme" [themesUrl]="url" [themes]="themes">
+<lily-theme-picker
+  label="Theme"
+  [themesUrl]="url"
+  [themes]="themes"
+>
   <ng-template>
-    <svg width="16" height="16" aria-hidden="true" focusable="false">…</svg>
+    <svg
+      width="16"
+      height="16"
+      aria-hidden="true"
+      focusable="false"
+    >
+      …
+    </svg>
   </ng-template>
 </lily-theme-picker>
 ```
@@ -204,7 +215,10 @@ the control.
   [(value)]="theme"
 />
 
-<p class="theme-picker-status" aria-live="polite">
+<p
+  class="theme-picker-status"
+  aria-live="polite"
+>
   Active theme: {{ themePicker.labelFor(theme()) }}
 </p>
 ```
@@ -358,9 +372,7 @@ expect(button.getAttribute("aria-expanded")).toBe("false");
 expect(button.getAttribute("aria-controls")).toBe(list.id);
 expect(list.getAttribute("role")).toBe("listbox");
 expect(list.hasAttribute("hidden")).toBe(true);
-expect(fixture.nativeElement.querySelectorAll('[role="option"]').length).toBe(
-  2,
-);
+expect(fixture.nativeElement.querySelectorAll('[role="option"]').length).toBe(2);
 ```
 
 For broader a11y testing run axe-core in a real Angular host. The

@@ -20,8 +20,8 @@ a sequenced campaign, reusable message templates, and the metrics that tell us w
 any of it worked.
 
 It does **not** cover: the trademark usage convention (see
-[trademarks](../../spec/trademarks.md)), the design systems Lily *learns from* as opposed to
-*markets to* (see [citations](../../spec/citations/index.md)), the publish pipeline mechanics
+[trademarks](../../spec/trademarks.md)), the design systems Lily _learns from_ as opposed to
+_markets to_ (see [citations](../../spec/citations/index.md)), the publish pipeline mechanics
 (see [tooling](../../spec/tooling/index.md) and [helpers](../../spec/helpers/index.md)), or the
 contents of the claims being made (see [overview](../../spec/overview/index.md),
 [accessibility](../../spec/accessibility/index.md)).
@@ -30,8 +30,8 @@ contents of the claims being made (see [overview](../../spec/overview/index.md),
 
 - **Every claim must survive a click.** Lily's headline numbers are its whole pitch, so
   each one must land a skeptic on a page that proves it. "491 components" → the catalog
-  route. "WCAG 2.2 AAA target" → the axe baselines and the honest gap between *target*
-  and *audited*. A claim a reader cannot verify in one click reads as marketing, and a
+  route. "WCAG 2.2 AAA target" → the axe baselines and the honest gap between _target_
+  and _audited_. A claim a reader cannot verify in one click reads as marketing, and a
   design-system audience is specifically trained to distrust it.
 - **Say "target", not "compliant".** [accessibility](../../spec/accessibility/index.md) states
   AAA as a target and records axe-core AA rule-set baselines. Accessibility
@@ -49,7 +49,7 @@ contents of the claims being made (see [overview](../../spec/overview/index.md),
   sharing a resource be "open and honest about any costs associated with using the
   resource". Read the sidebar every time — these rules change.
 - **Lead with the artifact, not the announcement.** The thing that travels in this
-  audience is a *useful page*: a comparison, a technique writeup, a table nobody had
+  audience is a _useful page_: a comparison, a technique writeup, a table nobody had
   built. "We shipped v0.4" travels nowhere. Lily has several such artifacts sitting
   unpublished inside the repo already (see "Content assets" below).
 - **One audience per asset.** The pitch that works on an NHS delivery lead (public-sector
@@ -74,12 +74,12 @@ evaluation. **Gates 1–3 block all outreach.**
 
 The project currently gives four different answers to "may I use this at work?":
 
-| Source | Answer |
-| --- | --- |
-| [LICENSE.md](../../LICENSE.md) | `CC BY-NC-SA` — **non-commercial**, share-alike, and a *content* licence, not a software licence |
-| [spec/index.md](../../spec/index.md) §14 | "MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause (or contact for other terms)" |
-| `@lilydesignsystem/svelte-headless` on npm | `MIT` |
-| `@lilydesignsystem/react-headless`, `…-vue-headless` on npm | `ISC` |
+| Source                                                      | Answer                                                                                           |
+| ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| [LICENSE.md](../../LICENSE.md)                              | `CC BY-NC-SA` — **non-commercial**, share-alike, and a _content_ licence, not a software licence |
+| [spec/index.md](../../spec/index.md) §14                    | "MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause (or contact for other terms)"           |
+| `@lilydesignsystem/svelte-headless` on npm                  | `MIT`                                                                                            |
+| `@lilydesignsystem/react-headless`, `…-vue-headless` on npm | `ISC`                                                                                            |
 
 Meanwhile [index.md](../../index.md) and the website both say "free open source".
 CC BY-NC-SA is not an open-source licence, is not OSI-approved, and its `NC` clause
@@ -97,15 +97,15 @@ the trademark notice separate — it already is, correctly.
 
 The site promises seven frameworks. npm has three:
 
-| Package | npm latest | Downloads/mo (2026-07-26 → 08-24) |
-| --- | --- | --- |
-| `@lilydesignsystem/svelte-headless` | 0.3.0 | 183 |
-| `@lilydesignsystem/vue-headless` | 0.3.0 | 173 |
-| `@lilydesignsystem/react-headless` | 0.3.0 | 161 |
-| `@lilydesignsystem/html-headless` | — not published | — |
-| `@lilydesignsystem/angular-headless` | — not published | — |
-| `@lilydesignsystem/nunjucks-headless` | — not published | — |
-| `lily-design-system-blazor-headless` | — not published (NuGet) | — |
+| Package                               | npm latest              | Downloads/mo (2026-07-26 → 08-24) |
+| ------------------------------------- | ----------------------- | --------------------------------- |
+| `@lilydesignsystem/svelte-headless`   | 0.3.0                   | 183                               |
+| `@lilydesignsystem/vue-headless`      | 0.3.0                   | 173                               |
+| `@lilydesignsystem/react-headless`    | 0.3.0                   | 161                               |
+| `@lilydesignsystem/html-headless`     | — not published         | —                                 |
+| `@lilydesignsystem/angular-headless`  | — not published         | —                                 |
+| `@lilydesignsystem/nunjucks-headless` | — not published         | —                                 |
+| `lily-design-system-blazor-headless`  | — not published (NuGet) | —                                 |
 
 An Angular or Blazor developer arriving from an Angular or Blazor pitch finds nothing
 installable. Publish the remaining four (Blazor to NuGet) before any framework-specific
@@ -135,7 +135,7 @@ into nothing. (`CODE_OF_CONDUCT.md` is already present.)
   here at the same time as Gate 1.
 - **`repository`, `homepage`, `bugs`** fields in every manifest, so npm renders the
   links that make a package look maintained.
-- **Screenshots in the root README.** This is a *design* system; a text-only README is
+- **Screenshots in the root README.** This is a _design_ system; a text-only README is
   a self-inflicted wound. Two images — the styled example app, and the same markup
   unstyled — tell the headless story faster than the paragraph does.
 - **Remove or fold `plan.md` and `tasks.md`** at the repo root; the spec says they were
@@ -150,41 +150,41 @@ packages, GitHub stars per repo, and whatever the github.io analytics show. See
 
 ## 2. Audiences and the hook for each
 
-| # | Audience | Where they are | The hook that works | The hook that fails |
-| --- | --- | --- | --- | --- |
-| 1 | **Design-system leads / DS teams** | Design Systems Slack, zeroheight Slack, Clarity/Into Design Systems, LinkedIn | Cross-framework parity from one catalog: the same 491 slugs and the same class hooks in 7 frameworks, so a multi-stack org has one contract | Component count alone — they own systems and know count ≠ quality |
-| 2 | **Accessibility specialists** | web-a11y Slack, r/accessibility, axe-con, WebAIM newsletter audience | The APG-conformance work, the keyboard contract per component, and the honest write-ups of *found* defects (the idempotent-apply bug, the pointer-close contract gap) | "AAA compliant" — instantly disqualifying |
-| 3 | **Framework developers** (React/Svelte/Vue/Angular/Blazor/Nunjucks) | Cooper Press newsletters, r/reactjs, r/sveltejs, Bluesky/Mastodon front-end circles, HN | Headless primitives with rest-props and zero CSS in *their* idiom; Blazor and Nunjucks are genuinely underserved | Generic "new component library" — the category is saturated for React |
-| 4 | **Public-sector / civic delivery teams** | NHS service manual Slack, cross-gov Slack, GOV.UK DS community, local-gov digital | The 45 reference themes (NHS England/Scotland/Wales, GOV.UK GDS, USWDS), the 80 national identifier components, no CSS-framework dependency | Anything that looks like a vendor pitch |
-| 5 | **Healthcare IT / digital health** | HTN, Health Tech Digital, HIMSS-adjacent press | Patient-facing UI built to public-sector visual references, free and forkable | Deep front-end detail — wrong altitude for this audience |
-| 6 | **Agencies and consultancies** | LinkedIn, design-system Slacks, conference hallways | A ready-made client starting point they can theme and bill against — which requires Gate 1 (an `NC` licence forbids exactly this) | Purity arguments about headless architecture |
+| #   | Audience                                                            | Where they are                                                                          | The hook that works                                                                                                                                                   | The hook that fails                                                   |
+| --- | ------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| 1   | **Design-system leads / DS teams**                                  | Design Systems Slack, zeroheight Slack, Clarity/Into Design Systems, LinkedIn           | Cross-framework parity from one catalog: the same 491 slugs and the same class hooks in 7 frameworks, so a multi-stack org has one contract                           | Component count alone — they own systems and know count ≠ quality     |
+| 2   | **Accessibility specialists**                                       | web-a11y Slack, r/accessibility, axe-con, WebAIM newsletter audience                    | The APG-conformance work, the keyboard contract per component, and the honest write-ups of _found_ defects (the idempotent-apply bug, the pointer-close contract gap) | "AAA compliant" — instantly disqualifying                             |
+| 3   | **Framework developers** (React/Svelte/Vue/Angular/Blazor/Nunjucks) | Cooper Press newsletters, r/reactjs, r/sveltejs, Bluesky/Mastodon front-end circles, HN | Headless primitives with rest-props and zero CSS in _their_ idiom; Blazor and Nunjucks are genuinely underserved                                                      | Generic "new component library" — the category is saturated for React |
+| 4   | **Public-sector / civic delivery teams**                            | NHS service manual Slack, cross-gov Slack, GOV.UK DS community, local-gov digital       | The 45 reference themes (NHS England/Scotland/Wales, GOV.UK GDS, USWDS), the 80 national identifier components, no CSS-framework dependency                           | Anything that looks like a vendor pitch                               |
+| 5   | **Healthcare IT / digital health**                                  | HTN, Health Tech Digital, HIMSS-adjacent press                                          | Patient-facing UI built to public-sector visual references, free and forkable                                                                                         | Deep front-end detail — wrong altitude for this audience              |
+| 6   | **Agencies and consultancies**                                      | LinkedIn, design-system Slacks, conference hallways                                     | A ready-made client starting point they can theme and bill against — which requires Gate 1 (an `NC` licence forbids exactly this)                                     | Purity arguments about headless architecture                          |
 
 ## 3. Channel catalog
 
 ### 3.1 Owned (control: total; cost: time)
 
-| Channel | Status | Action |
-| --- | --- | --- |
-| `lilydesignsystem.github.io` | Live, good | Add a changelog/blog route — every campaign below needs a canonical URL to point at, and a project with no dated posts looks dormant |
-| Root `index.md` / README | Live | Screenshots, one-paragraph "why", licence badge |
-| npm / NuGet package pages | 3 of 7 published | Gates 2 and 4 |
-| A low-volume email list | Does not exist | Add a plain "get an email when Lily ships something" form. It is the only channel that isn't rented, and design-system practitioners subscribe to things |
-| Mastodon + Bluesky + LinkedIn accounts | Unknown | One account per network, posting the artifacts from §4, not announcements. LinkedIn is where audiences 1, 4, 5 actually are |
+| Channel                                | Status           | Action                                                                                                                                                   |
+| -------------------------------------- | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `lilydesignsystem.github.io`           | Live, good       | Add a changelog/blog route — every campaign below needs a canonical URL to point at, and a project with no dated posts looks dormant                     |
+| Root `index.md` / README               | Live             | Screenshots, one-paragraph "why", licence badge                                                                                                          |
+| npm / NuGet package pages              | 3 of 7 published | Gates 2 and 4                                                                                                                                            |
+| A low-volume email list                | Does not exist   | Add a plain "get an email when Lily ships something" form. It is the only channel that isn't rented, and design-system practitioners subscribe to things |
+| Mastodon + Bluesky + LinkedIn accounts | Unknown          | One account per network, posting the artifacts from §4, not announcements. LinkedIn is where audiences 1, 4, 5 actually are                              |
 
 ### 3.2 Practitioner communities (control: none; cost: participation)
 
 These are the highest-value and slowest channels. The rule in all of them: contribute
 for weeks before you post about your own work.
 
-| Community | Who's there | Entry | Notes |
-| --- | --- | --- | --- |
-| **Design Systems Slack** (design.systems, run by the Design Systems Coalition) | Audience 1, the densest concentration anywhere | Open join link from design.systems | Code of Conduct; asks resource-sharers to disclose any costs. Introduce in the relevant channel, not `#general` |
-| **zeroheight Slack** | DS practitioners and buyers | Open join | Vendor-adjacent but active; sessions and webinars |
-| **web-a11y Slack** (`accessibility.github.io/a11yslack`) | Audience 2 | Open invite page | The single best room for the APG-conformance story. High expertise; do not overclaim |
-| **NHS digital service manual Slack** | Audience 4 | Free workspace, join from the service manual | See §3.3 — its community-resources page already lists third-party implementations |
-| **Cross-government Slack** (`#govuk-design-system`, `#frontend`) | Audience 4 | **Requires a `.gov.uk` (or approved public-sector) email** | Joel cannot join directly. Route: find a public-sector user who will raise Lily internally, or engage via the GOV.UK Design System's public GitHub instead |
-| **Reddit**: r/webdev, r/reactjs, r/sveltejs, r/vuejs, r/angular, r/Blazor, r/accessibility, r/UXDesign | Audiences 2, 3 | Open, rules vary sharply | r/webdev: Showoff Saturday only, technical framing. r/reactjs and r/sveltejs: megathread. Roughly four genuine contributions per self-promotional post is the norm people cite |
-| **Storybook / framework Discords** | Audience 3 | Open | Useful for a specific technical question that doubles as an introduction |
+| Community                                                                                              | Who's there                                    | Entry                                                      | Notes                                                                                                                                                                          |
+| ------------------------------------------------------------------------------------------------------ | ---------------------------------------------- | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Design Systems Slack** (design.systems, run by the Design Systems Coalition)                         | Audience 1, the densest concentration anywhere | Open join link from design.systems                         | Code of Conduct; asks resource-sharers to disclose any costs. Introduce in the relevant channel, not `#general`                                                                |
+| **zeroheight Slack**                                                                                   | DS practitioners and buyers                    | Open join                                                  | Vendor-adjacent but active; sessions and webinars                                                                                                                              |
+| **web-a11y Slack** (`accessibility.github.io/a11yslack`)                                               | Audience 2                                     | Open invite page                                           | The single best room for the APG-conformance story. High expertise; do not overclaim                                                                                           |
+| **NHS digital service manual Slack**                                                                   | Audience 4                                     | Free workspace, join from the service manual               | See §3.3 — its community-resources page already lists third-party implementations                                                                                              |
+| **Cross-government Slack** (`#govuk-design-system`, `#frontend`)                                       | Audience 4                                     | **Requires a `.gov.uk` (or approved public-sector) email** | Joel cannot join directly. Route: find a public-sector user who will raise Lily internally, or engage via the GOV.UK Design System's public GitHub instead                     |
+| **Reddit**: r/webdev, r/reactjs, r/sveltejs, r/vuejs, r/angular, r/Blazor, r/accessibility, r/UXDesign | Audiences 2, 3                                 | Open, rules vary sharply                                   | r/webdev: Showoff Saturday only, technical framing. r/reactjs and r/sveltejs: megathread. Roughly four genuine contributions per self-promotional post is the norm people cite |
+| **Storybook / framework Discords**                                                                     | Audience 3                                     | Open                                                       | Useful for a specific technical question that doubles as an introduction                                                                                                       |
 
 ### 3.3 Directories and listings (control: application; cost: an hour each)
 
@@ -194,13 +194,13 @@ Free, permanent, and they compound with search. Do all of them.
   design systems with ~2,676 examples, **filterable by tech stack and by features
   including accessibility and open source**. Lily is unusually well-suited: it can be
   listed once as a system, and its per-component docs feed the per-component pages.
-  Submit via the site's Contribute page. *Highest-ROI single item in this document.*
+  Submit via the site's Contribute page. _Highest-ROI single item in this document._
 - **NHS digital service manual → Community resources** — this page already lists
   community-built frontend implementations (an Eleventy theme, Jinja components, React
   components, a WordPress theme) alongside a Figma library, each with its own Slack
   channel. Lily's NHS-referenced example apps and NHS-variant themes are a direct fit.
-  Use the page's "get in touch" route to propose a listing. *Second-highest ROI, and the
-  only one that reaches audience 4 without a `.gov.uk` address.*
+  Use the page's "get in touch" route to propose a listing. _Second-highest ROI, and the
+  only one that reaches audience 4 without a `.gov.uk` address._
 - **Design System Gallery** (designsystem.gallery), **designsystems.one**,
   **Adele** (UXPin's design-systems repository) — public design-system archives.
 - **Awesome lists** — `awesome-design-systems`, `awesome-a11y`, per-framework awesome
@@ -213,15 +213,15 @@ Free, permanent, and they compound with search. Do all of them.
 
 The fastest path to thousands of qualified professionals, and it is free.
 
-| Newsletter | Audience | Reach (stated) |
-| --- | --- | --- |
-| **JavaScript Weekly** (Cooper Press) | Audience 3 | 170,000+ |
-| **React Status** (Cooper Press) | React | ~40,000 |
-| **Frontend Focus** (Cooper Press) | HTML/CSS/browser — the best fit for a headless, semantic-HTML system | 754+ issues since 2011 |
-| **Node Weekly** (Cooper Press) | Tooling angle | Large |
-| **Smashing Magazine newsletter** | Audiences 1–3 | Weekly, Tuesdays |
-| **WebAIM monthly newsletter** | Audience 2 | Long-running |
-| **Svelte / Vue / Angular / .NET community newsletters** | Audience 3 | Per-framework |
+| Newsletter                                              | Audience                                                             | Reach (stated)         |
+| ------------------------------------------------------- | -------------------------------------------------------------------- | ---------------------- |
+| **JavaScript Weekly** (Cooper Press)                    | Audience 3                                                           | 170,000+               |
+| **React Status** (Cooper Press)                         | React                                                                | ~40,000                |
+| **Frontend Focus** (Cooper Press)                       | HTML/CSS/browser — the best fit for a headless, semantic-HTML system | 754+ issues since 2011 |
+| **Node Weekly** (Cooper Press)                          | Tooling angle                                                        | Large                  |
+| **Smashing Magazine newsletter**                        | Audiences 1–3                                                        | Weekly, Tuesdays       |
+| **WebAIM monthly newsletter**                           | Audience 2                                                           | Long-running           |
+| **Svelte / Vue / Angular / .NET community newsletters** | Audience 3                                                           | Per-framework          |
 
 Cooper Press does not publish a submission form on the newsletter pages themselves —
 use the contact route on cooperpress.com and pitch **the artifact, not the release**.
@@ -269,7 +269,7 @@ and the web-a11y Slack are.
   (which acquired the HARO brand in April 2025 and runs free daily digests), Source of
   Sources (free, from HARO's original founder), Help a B2B Writer. Overlap between any
   two platforms averages ~17%, so monitoring one misses most requests. Respond as an
-  *expert on accessible component architecture*, not as a project pitching itself —
+  _expert on accessible component architecture_, not as a project pitching itself —
   the byline and link follow from the expertise.
 
 ### 3.7 Conferences and CFPs (control: application; cost: weeks; payoff: authority)
@@ -278,20 +278,20 @@ A conference talk is the single most durable credibility asset available to a
 single-maintainer project — it converts "unknown repo" into "the person who gave that
 talk". Relative to 2026-08-25:
 
-| Event | Format | Window |
-| --- | --- | --- |
-| **axe-con** (Deque) | Free, virtual, 45+ sessions across development / design / organizational / wildcard tracks | 2026 ran Feb 24–25 with speaker applications closing the prior 7 November. **Watch Sept–Nov 2026 for the 2027 CFS** — free, virtual, and the best-matched audience Lily has |
-| **Into Design Systems** | Online, won Best Event at the 2025 Design Systems Awards | 2026 ran March 19–20; check the 2027 CFP in late 2026 |
-| **SmashingConf** | In-person Europe | Freiburg Sep 7–10 2026, Antwerp Oct 12–15 2026 — too late to speak, viable to attend; Smashing Meets runs cheaper online editions |
-| **Clarity**, **CSUN**, **a11yTO**, **Design Systems Days** | Mixed | Verify each year's CFP window directly; these move |
-| **Local meetups** — front-end, a11y, .NET, Svelte/Vue/Angular user groups | In-person | Always hungry for speakers. The lowest-friction place to rehearse the talk |
+| Event                                                                     | Format                                                                                     | Window                                                                                                                                                                      |
+| ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **axe-con** (Deque)                                                       | Free, virtual, 45+ sessions across development / design / organizational / wildcard tracks | 2026 ran Feb 24–25 with speaker applications closing the prior 7 November. **Watch Sept–Nov 2026 for the 2027 CFS** — free, virtual, and the best-matched audience Lily has |
+| **Into Design Systems**                                                   | Online, won Best Event at the 2025 Design Systems Awards                                   | 2026 ran March 19–20; check the 2027 CFP in late 2026                                                                                                                       |
+| **SmashingConf**                                                          | In-person Europe                                                                           | Freiburg Sep 7–10 2026, Antwerp Oct 12–15 2026 — too late to speak, viable to attend; Smashing Meets runs cheaper online editions                                           |
+| **Clarity**, **CSUN**, **a11yTO**, **Design Systems Days**                | Mixed                                                                                      | Verify each year's CFP window directly; these move                                                                                                                          |
+| **Local meetups** — front-end, a11y, .NET, Svelte/Vue/Angular user groups | In-person                                                                                  | Always hungry for speakers. The lowest-friction place to rehearse the talk                                                                                                  |
 
 Two talk proposals Lily can support today, both grounded in work already done:
 
-1. *"One catalog, seven frameworks: what stayed the same and what didn't."* The
+1. _"One catalog, seven frameworks: what stayed the same and what didn't."_ The
    cross-framework parity problem, the class-hook contract, and where the idioms
    genuinely diverge (Blazor's async event order, Angular's change detection).
-2. *"The accessibility bugs our tests couldn't see."* The re-entrant apply that froze a
+2. _"The accessibility bugs our tests couldn't see."_ The re-entrant apply that froze a
    picker at `aria-expanded="true"` while jsdom and bUnit stayed green; the pointer-close
    clause that six of seven catalogs implemented correctly with nothing asserting it.
    This is a genuinely good talk — it's about the limits of automated a11y testing, with
@@ -319,15 +319,15 @@ Every one of these exists in the repo as engineering work and needs only a publi
 write-up. They are the raw material for §3.4–§3.6, and they are what makes Lily
 interesting rather than merely large.
 
-| Asset | Where it lives | Audience |
-| --- | --- | --- |
-| The frozen-picker bug: a re-entrant apply, `effect_update_depth_exceeded`, a stale `aria-expanded` over a hidden list, invisible to jsdom and bUnit | [helpers](../../spec/helpers/index.md), CHANGELOG | 1, 2, 3 |
-| The pointer-close contract gap — correct behaviour, unasserted, in six of seven catalogs | [helpers](../../spec/helpers/index.md) | 1, 2 |
-| Optical glyph matching: why one `font-size` looks wrong across ◑ 🌐 A ➤, and the per-glyph scale factors | [helpers](../../spec/helpers/index.md), `themes/*.css` | 1 |
-| Endonym locale labels — "Cymraeg" not "Welsh" — and claiming `lang` only when true | [internationalization](../../spec/internationalization/index.md) | 1, 2, 4 |
-| 80 national personal identifier components: normalization and validation across 30+ countries | [national-identifiers](../../spec/national-identifiers/index.md) | 4, 5 |
-| The suffix → HTML element mapping as a naming discipline | [components](../../spec/components/index.md) | 1 |
-| Seven-framework parity: the honest report of what didn't port cleanly | [frameworks](../../spec/frameworks/index.md) | 1, 3 |
+| Asset                                                                                                                                               | Where it lives                                                   | Audience |
+| --------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- | -------- |
+| The frozen-picker bug: a re-entrant apply, `effect_update_depth_exceeded`, a stale `aria-expanded` over a hidden list, invisible to jsdom and bUnit | [helpers](../../spec/helpers/index.md), CHANGELOG                | 1, 2, 3  |
+| The pointer-close contract gap — correct behaviour, unasserted, in six of seven catalogs                                                            | [helpers](../../spec/helpers/index.md)                           | 1, 2     |
+| Optical glyph matching: why one `font-size` looks wrong across ◑ 🌐 A ➤, and the per-glyph scale factors                                            | [helpers](../../spec/helpers/index.md), `themes/*.css`           | 1        |
+| Endonym locale labels — "Cymraeg" not "Welsh" — and claiming `lang` only when true                                                                  | [internationalization](../../spec/internationalization/index.md) | 1, 2, 4  |
+| 80 national personal identifier components: normalization and validation across 30+ countries                                                       | [national-identifiers](../../spec/national-identifiers/index.md) | 4, 5     |
+| The suffix → HTML element mapping as a naming discipline                                                                                            | [components](../../spec/components/index.md)                     | 1        |
+| Seven-framework parity: the honest report of what didn't port cleanly                                                                               | [frameworks](../../spec/frameworks/index.md)                     | 1, 3     |
 
 ## 5. Sequenced campaign
 
@@ -409,15 +409,15 @@ monthly-or-quieter email to the list; LinkedIn posts of the §4 artifacts for au
 
 Track monthly; compare against the 2026-08-25 baseline in Gate 5.
 
-| Signal | Why it matters | Baseline (2026-08-25) |
-| --- | --- | --- |
-| npm downloads/month per package | The only unfakeable adoption signal | svelte 183, vue 173, react 161; four packages unpublished |
-| GitHub stars and forks | Weak on adoption, strong on reach | Record per repo |
-| **Issues and PRs from strangers** | The metric that actually matters — it means someone used it | Record |
-| Referrer sources on the site | Tells you which channel worked | Record |
-| Directory listings accepted | Phase 1 completion | 0 |
-| Newsletter/press placements | Phase 4 completion | 0 |
-| Talks accepted | Phase 6 completion | 0 |
+| Signal                            | Why it matters                                              | Baseline (2026-08-25)                                     |
+| --------------------------------- | ----------------------------------------------------------- | --------------------------------------------------------- |
+| npm downloads/month per package   | The only unfakeable adoption signal                         | svelte 183, vue 173, react 161; four packages unpublished |
+| GitHub stars and forks            | Weak on adoption, strong on reach                           | Record per repo                                           |
+| **Issues and PRs from strangers** | The metric that actually matters — it means someone used it | Record                                                    |
+| Referrer sources on the site      | Tells you which channel worked                              | Record                                                    |
+| Directory listings accepted       | Phase 1 completion                                          | 0                                                         |
+| Newsletter/press placements       | Phase 4 completion                                          | 0                                                         |
+| Talks accepted                    | Phase 6 completion                                          | 0                                                         |
 
 A caution: stars respond to launches, downloads respond to usefulness, and they
 diverge. Optimise for the third row.
@@ -431,7 +431,7 @@ diverge. Optimise for the third row.
   first conversation. Lead with the parity contract or the accessibility work.
 - Posting the same text to six subreddits. Reddit surfaces this and the communities
   punish it.
-- Implying NHS, GOV.UK, or USWDS endorsement. The themes are *references*; every listing
+- Implying NHS, GOV.UK, or USWDS endorsement. The themes are _references_; every listing
   and pitch must say "not affiliated with or endorsed by".
 - Paying for placement before the free channels are exhausted. Every channel in §3 is
   free except conference travel.

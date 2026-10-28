@@ -22,7 +22,7 @@ LiechtensteinPassportNumberView is a headless read-only display of Liechtenstein
 ```html
 <SummaryList>
   <SummaryListItem term="Liechtenstein Passport Number">
-    <LiechtensteinPassportNumberView value={value} />
+    <LiechtensteinPassportNumberView value="{value}" />
   </SummaryListItem>
 </SummaryList>
 ```

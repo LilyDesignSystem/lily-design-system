@@ -22,7 +22,10 @@ HangukJuminDeungnokBeonhoView is a headless read-only display of South Korea's R
 ```html
 <SummaryList>
   <SummaryListItem term="Resident Registration Number (주민등록번호)">
-    <HangukJuminDeungnokBeonhoView label="Resident Registration Number (주민등록번호)" value={value} />
+    <HangukJuminDeungnokBeonhoView
+      label="Resident Registration Number (주민등록번호)"
+      value="{value}"
+    />
   </SummaryListItem>
 </SummaryList>
 ```

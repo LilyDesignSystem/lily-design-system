@@ -23,7 +23,10 @@ This headless component uses a `<div>` element as a presentational container wit
 ```html
 <ContentBlock width="fluid">
   <PaddingReset>
-    <img src="full-bleed.jpg" alt="Full bleed image" />
+    <img
+      src="full-bleed.jpg"
+      alt="Full bleed image"
+    />
   </PaddingReset>
 </ContentBlock>
 ```
@@ -32,7 +35,12 @@ This headless component uses a `<div>` element as a presentational container wit
 <ArticleLayout>
   <ContentBlock width="fluid">
     <PaddingReset>
-      <video src="hero-video.mp4" autoplay muted loop>
+      <video
+        src="hero-video.mp4"
+        autoplay
+        muted
+        loop
+      >
         Your browser does not support the video tag.
       </video>
     </PaddingReset>

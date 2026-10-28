@@ -34,10 +34,16 @@ const [open, setOpen] = useState(false);
   onToggle={() => setOpen(!open)}
 >
   <div>
-    <p><strong>Official websites use .gov</strong> — A .gov website belongs to an official government organization.</p>
-    <p><strong>Secure .gov websites use HTTPS</strong> — A lock or HTTPS means you have securely connected to the .gov website.</p>
+    <p>
+      <strong>Official websites use .gov</strong> — A .gov website belongs to an official government
+      organization.
+    </p>
+    <p>
+      <strong>Secure .gov websites use HTTPS</strong> — A lock or HTTPS means you have securely
+      connected to the .gov website.
+    </p>
   </div>
-</GovernmentBanner>
+</GovernmentBanner>;
 ```
 
 ## ARIA

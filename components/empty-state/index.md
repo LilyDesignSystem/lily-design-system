@@ -24,7 +24,7 @@ EmptyState is a headless container for the state shown when a list, table, searc
 <EmptyState label="No messages">
   <h2>No messages yet</h2>
   <p>Messages you receive will appear here.</p>
-  <Button type="button">Write a message</Button>
+  <button type="button">Write a message</button>
 </EmptyState>
 ```
 

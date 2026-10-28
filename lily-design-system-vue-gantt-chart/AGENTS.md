@@ -9,7 +9,7 @@ A reusable Vue 3 headless interactive Gantt chart. It composes
 `@lilydesignsystem/vue-headless`'s `GanttTable` family (a real npm
 dependency, unmodified — task bars are column-spanning grid cells,
 never pixel-positioned floating divs) and, matching `vue-picker-bar`'s
-own precedent, a sibling *helper* rather than only headless components:
+own precedent, a sibling _helper_ rather than only headless components:
 `@lilydesignsystem/vue-date-time-picker`, used twice per edit session
 (start date, end date) as the keyboard-accessible way to reschedule or
 resize a task. Ships no CSS.
@@ -20,14 +20,14 @@ When the two disagree, the Svelte side wins.
 
 ## Files
 
-| File                 | Purpose                                                |
-| -------------------- | ------------------------------------------------------- |
-| `spec/index.md`      | Specification-driven contract (canonical).             |
-| `GanttChart.vue`     | Implementation. `<script setup lang="ts">`.             |
-| `GanttChart.test.ts` | Vitest + `@vue/test-utils` spec, one or more assertions per §8 acceptance clause. |
+| File                 | Purpose                                                                                                                                                                                                                                                          |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `spec/index.md`      | Specification-driven contract (canonical).                                                                                                                                                                                                                       |
+| `GanttChart.vue`     | Implementation. `<script setup lang="ts">`.                                                                                                                                                                                                                      |
+| `GanttChart.test.ts` | Vitest + `@vue/test-utils` spec, one or more assertions per §8 acceptance clause.                                                                                                                                                                                |
 | `shims.d.ts`         | Local-only ambient module declarations for `@lilydesignsystem/vue-headless` and `@lilydesignsystem/vue-date-time-picker` — works around a real `vue-tsc` limitation (see `spec/index.md` §10 and `lily-design-system-vue-picker-bar/shims.d.ts`). Not published. |
-| `index.ts`           | Barrel re-export.                                       |
-| `index.md`           | User guide.                                              |
+| `index.ts`           | Barrel re-export.                                                                                                                                                                                                                                                |
+| `index.md`           | User guide.                                                                                                                                                                                                                                                      |
 
 ## Public surface
 
@@ -90,7 +90,7 @@ unmodified `GanttTable` family, with an inline `.gantt-chart-edit-row`
   Vue too.** Its doc comment claims "active state to indicate the task
   spans this time period," but its actual template
   (`:aria-selected="active || undefined"`, `:tabindex="active ? 0 :
-  -1"`) ties `active` to the roving-tabindex cursor, exactly like
+-1"`) ties `active` to the roving-tabindex cursor, exactly like
   Svelte's own `GanttTableTD`. This package therefore makes the
   identical choice the Svelte canonical made: `active` means only the
   cursor here; span membership is the separate `data-in-range`

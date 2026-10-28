@@ -21,8 +21,8 @@ When the two disagree, the Svelte side wins.
 | File                    | Purpose                                     |
 | ----------------------- | ------------------------------------------- |
 | `spec/index.md`         | Specification-driven contract (canonical).  |
-| `SharePicker.vue`      | Implementation. `<script setup lang="ts">`. |
-| `SharePicker.test.ts`  | Vitest spec, mapped to the §7 clauses.      |
+| `SharePicker.vue`       | Implementation. `<script setup lang="ts">`. |
+| `SharePicker.test.ts`   | Vitest spec, mapped to the §7 clauses.      |
 | `index.ts`              | Barrel re-export.                           |
 | `index.md`              | User guide.                                 |
 | `docs/accessibility.md` | Tradeoffs, stated plainly.                  |

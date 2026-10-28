@@ -12,25 +12,25 @@ That shape buys a control that costs one glyph of page width no matter
 how many sizes the catalog holds. It also costs three things. This page
 states what is built in, then states those three costs plainly, then
 gives the mitigations — plus two considerations that are specific to a
-*text-size* control rather than a theme or locale control: how a size
+_text-size_ control rather than a theme or locale control: how a size
 change is announced, and how this control's own scale interacts with
 the browser's and the OS's.
 
 ## Built in
 
-| WCAG item | How the select satisfies it |
-| --------- | --------------------------- |
-| 1.4.4 Resize Text | The whole reason this component exists: it lets a user pick a comfortable reading size that persists across the app. |
-| 1.4.12 Text Spacing | The consumer's CSS keyed on `[data-text-size]` is expected to scale spacing alongside size; the component supplies the attribute, not the rule. |
+| WCAG item               | How the select satisfies it                                                                                                                                 |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1.4.4 Resize Text       | The whole reason this component exists: it lets a user pick a comfortable reading size that persists across the app.                                        |
+| 1.4.12 Text Spacing     | The consumer's CSS keyed on `[data-text-size]` is expected to scale spacing alongside size; the component supplies the attribute, not the rule.             |
 | 4.1.2 Name, Role, Value | `aria-label` names the button and the listbox; `aria-haspopup` / `aria-expanded` expose the popup relationship; `aria-selected` exposes the current choice. |
-| 2.1.1 Keyboard | Full keyboard operation — but implemented by this component, not inherited from the platform. See [Keyboard contract](#keyboard-contract). |
-| 2.4.7 Focus Visible | The component never sets `outline: none`. Styling the ring — and the active-option indicator — is yours. |
-| 1.4.1 Use of Color | The selection is exposed via `aria-selected`, the `data-text-size` attribute, the hidden input, and the `value` binding — never colour alone. |
-| 3.2.2 On Input | Choosing a size does not move focus elsewhere or navigate; focus returns to the trigger button. |
+| 2.1.1 Keyboard          | Full keyboard operation — but implemented by this component, not inherited from the platform. See [Keyboard contract](#keyboard-contract).                  |
+| 2.4.7 Focus Visible     | The component never sets `outline: none`. Styling the ring — and the active-option indicator — is yours.                                                    |
+| 1.4.1 Use of Color      | The selection is exposed via `aria-selected`, the `data-text-size` attribute, the hidden input, and the `value` binding — never colour alone.               |
+| 3.2.2 On Input          | Choosing a size does not move focus elsewhere or navigate; focus returns to the trigger button.                                                             |
 
 ## Roles and properties
 
-| Element          | Role / property                                | Source        |
+| Element          | Role / property                                 | Source        |
 | ---------------- | ----------------------------------------------- | ------------- |
 | `<button>`       | implicit `role="button"`                        | Browser       |
 | `<button>`       | `aria-label={label}`                            | Consumer prop |
@@ -40,7 +40,7 @@ the browser's and the OS's.
 | `<span>` (glyph) | `aria-hidden="true"`                            | Component     |
 | `<ul>`           | `role="listbox"`                                | Component     |
 | `<ul>`           | `aria-label={label}`                            | Consumer prop |
-| `<ul>`           | `aria-activedescendant="{optionId}"` while open  | Component    |
+| `<ul>`           | `aria-activedescendant="{optionId}"` while open | Component     |
 | `<li>`           | `role="option"`                                 | Component     |
 | `<li>`           | `aria-selected="true\|false"`                   | Component     |
 
@@ -56,26 +56,26 @@ from the platform — that is the point of tradeoff 2 below.
 On the **button**:
 
 | Key                 | Action                                                    |
-| ------------------- | ----------------------------------------------------------- |
-| `Tab` / `Shift+Tab` | Move focus to / from the button. It is a single tab stop.  |
-| `Enter`             | Open the listbox with the selected option active.          |
-| `Space`             | Same as `Enter`.                                           |
-| `Arrow Down`        | Same as `Enter`.                                           |
-| `Arrow Up`          | Open the listbox with the **last** option active.          |
+| ------------------- | --------------------------------------------------------- |
+| `Tab` / `Shift+Tab` | Move focus to / from the button. It is a single tab stop. |
+| `Enter`             | Open the listbox with the selected option active.         |
+| `Space`             | Same as `Enter`.                                          |
+| `Arrow Down`        | Same as `Enter`.                                          |
+| `Arrow Up`          | Open the listbox with the **last** option active.         |
 
 On the **listbox**:
 
-| Key                 | Action                                                          |
-| ------------------- | ------------------------------------------------------------------ |
-| `Arrow Down`        | Move the active option down one; **clamps** at the last.         |
-| `Arrow Up`          | Move the active option up one; clamps at the first.              |
-| `Home`              | Make the first option active.                                    |
-| `End`               | Make the last option active.                                     |
-| `Enter`             | Select the active option, apply it, close, refocus the button.   |
-| `Space`             | Same as `Enter`.                                                 |
-| `Escape`            | Close and refocus the button **without** changing the size.      |
+| Key                 | Action                                                                                                                                                            |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Arrow Down`        | Move the active option down one; **clamps** at the last.                                                                                                          |
+| `Arrow Up`          | Move the active option up one; clamps at the first.                                                                                                               |
+| `Home`              | Make the first option active.                                                                                                                                     |
+| `End`               | Make the last option active.                                                                                                                                      |
+| `Enter`             | Select the active option, apply it, close, refocus the button.                                                                                                    |
+| `Space`             | Same as `Enter`.                                                                                                                                                  |
+| `Escape`            | Close and refocus the button **without** changing the size.                                                                                                       |
 | `Tab`               | Close — focus lands on the button first (without cancelling the key), so the default Tab proceeds from the picker's position instead of restarting from `<body>`. |
-| Printable character | Typeahead over the option labels, 500 ms buffer, wraps once.     |
+| Printable character | Typeahead over the option labels, 500 ms buffer, wraps once.                                                                                                      |
 
 Clicking an option selects it. Clicking outside the root, or moving
 focus out of it, closes the listbox without changing the size.
@@ -115,7 +115,7 @@ The consequences:
   substitute — it is unavailable on touch and to keyboard-only users in
   most browsers.
 - WCAG 2.5.3 (Label in Name) does not bite here, because there is no
-  visible label text to match against. But the *spirit* of it — that a
+  visible label text to match against. But the _spirit_ of it — that a
   user can refer to the control by what they see — is not served by a
   glyph.
 
@@ -127,12 +127,16 @@ What to do:
   allows it. Point the button at it with `aria-labelledby` through
   rest-props rather than leaving a visible label and an `aria-label` to
   disagree.
-- **Consider the `children` snippet** to render the glyph *plus* a
+- **Consider the `children` snippet** to render the glyph _plus_ a
   short visible word. The snippet replaces the glyph, so you control
   the whole button interior:
 
   ```svelte
-  <TextSizePicker label="Text size" {sizes} bind:value={size}>
+  <TextSizePicker
+    label="Text size"
+    {sizes}
+    bind:value={size}
+  >
     {#snippet children({ value, open, labelFor })}
       <span aria-hidden="true">A</span>
       <span class="text-size-picker-text">{labelFor(value)}</span>
@@ -189,7 +193,7 @@ The default glyph is `LATIN_CAPITAL_LETTER_A`: plain "A" (U+0041). This
 package deliberately chose a letter over a pictograph — the obvious
 candidate, U+1F5DB DECREASE FONT SIZE SYMBOL, has no real glyph in
 common font stacks and falls back to a crude bitmap shape, and it means
-*decrease* specifically rather than *size* generally. A plain letter
+_decrease_ specifically rather than _size_ generally. A plain letter
 renders in the page's own font on every platform and stays monochrome,
 the same way `theme-picker`'s `◑` does.
 
@@ -249,7 +253,7 @@ else is already scaling text on the page:
 - **Browser zoom** (`Ctrl`/`Cmd` `+`/`-`, or a persistent per-site zoom
   level) scales everything, including the output of this control. A
   user at 150% browser zoom who also picks "x-large" here is not
-  choosing 125% of the *default* size — they are choosing 125% of
+  choosing 125% of the _default_ size — they are choosing 125% of
   their already-zoomed size. That is usually the desired, compounding
   behaviour (WCAG 1.4.4 asks that text be resizable up to 200% without
   loss of content or function, and this control does not need to
@@ -279,8 +283,15 @@ glyph, and applying a size change while the listbox is closed produces
 no announcement.** Shipping a status region closes both gaps at once.
 
 ```svelte
-<TextSizePicker label="Text size" {sizes} bind:value={size} />
-<p class="text-size-picker-status" aria-live="polite">
+<TextSizePicker
+  label="Text size"
+  {sizes}
+  bind:value={size}
+/>
+<p
+  class="text-size-picker-status"
+  aria-live="polite"
+>
   Text size: {sizeName(size)}
 </p>
 ```

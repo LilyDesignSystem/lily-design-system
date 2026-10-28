@@ -8,20 +8,20 @@ responsibility. The canonical contract is in
 
 ## Roles and properties
 
-| Element                       | Role / Property                        | Source        |
-| ----------------------------- | -------------------------------------- | ------------- |
-| root `<div>`                  | none (grouping only)                   | —             |
-| `<input type="hidden">`       | `name`                                 | Consumer prop |
-| `<button>`                    | `aria-label={label}` (only name)       | Consumer prop |
-| `<button>`                    | `aria-haspopup="listbox"`              | Select        |
-| `<button>`                    | `aria-expanded="true\|false"`          | Select        |
-| `<button>`                    | `aria-controls={listId}`               | Select        |
-| `<span class="…-icon">`       | `aria-hidden="true"`                   | Select        |
-| `<ul>`                        | `role="listbox"`, `aria-label={label}` | Select        |
-| `<ul>`                        | `aria-activedescendant` (while open)   | Select        |
-| `<li>`                        | `role="option"`, `aria-selected`       | Select        |
-| `<li>`                        | `data-active` (keyboard-active option) | Select        |
-| `<li>`                        | `lang={bcp47}`                         | Select        |
+| Element                 | Role / Property                        | Source        |
+| ----------------------- | -------------------------------------- | ------------- |
+| root `<div>`            | none (grouping only)                   | —             |
+| `<input type="hidden">` | `name`                                 | Consumer prop |
+| `<button>`              | `aria-label={label}` (only name)       | Consumer prop |
+| `<button>`              | `aria-haspopup="listbox"`              | Select        |
+| `<button>`              | `aria-expanded="true\|false"`          | Select        |
+| `<button>`              | `aria-controls={listId}`               | Select        |
+| `<span class="…-icon">` | `aria-hidden="true"`                   | Select        |
+| `<ul>`                  | `role="listbox"`, `aria-label={label}` | Select        |
+| `<ul>`                  | `aria-activedescendant` (while open)   | Select        |
+| `<li>`                  | `role="option"`, `aria-selected`       | Select        |
+| `<li>`                  | `data-active` (keyboard-active option) | Select        |
+| `<li>`                  | `lang={bcp47}`                         | Select        |
 
 Focus stays on the `<ul>` while the listbox is open; the active
 option is conveyed with `aria-activedescendant`, never by moving DOM
@@ -38,24 +38,24 @@ returns to the button on commit or cancel.
 
 On the **button**:
 
-| Key                    | Action                                                                |
-| ---------------------- | --------------------------------------------------------------------- |
-| ArrowDown              | Open; active option = the selected one (or index 0).                  |
-| Enter / Space          | Open; active option = the selected one (or index 0).                  |
-| ArrowUp                | Open; active option = the **last** option.                            |
-| Tab / Shift+Tab        | Move focus away (native).                                             |
+| Key             | Action                                               |
+| --------------- | ---------------------------------------------------- |
+| ArrowDown       | Open; active option = the selected one (or index 0). |
+| Enter / Space   | Open; active option = the selected one (or index 0). |
+| ArrowUp         | Open; active option = the **last** option.           |
+| Tab / Shift+Tab | Move focus away (native).                            |
 
 On the **listbox**:
 
-| Key                    | Action                                                                |
-| ---------------------- | --------------------------------------------------------------------- |
-| ArrowDown              | Move the active option down one. Clamps — no wrapping.                |
-| ArrowUp                | Move the active option up one. Clamps — no wrapping.                  |
-| Home / End             | Jump to the first / last option.                                      |
-| Enter / Space          | Select the active option, apply it, close, refocus the button.        |
-| Escape                 | Close and refocus the button **without** changing the value.          |
-| Tab                    | Close; focus lands on the button so the default Tab proceeds from the picker's position. |
-| Printable characters   | Typeahead over the option labels, 500 ms buffer reset.                |
+| Key                  | Action                                                                                   |
+| -------------------- | ---------------------------------------------------------------------------------------- |
+| ArrowDown            | Move the active option down one. Clamps — no wrapping.                                   |
+| ArrowUp              | Move the active option up one. Clamps — no wrapping.                                     |
+| Home / End           | Jump to the first / last option.                                                         |
+| Enter / Space        | Select the active option, apply it, close, refocus the button.                           |
+| Escape               | Close and refocus the button **without** changing the value.                             |
+| Tab                  | Close; focus lands on the button so the default Tab proceeds from the picker's position. |
+| Printable characters | Typeahead over the option labels, 500 ms buffer reset.                                   |
 
 Pointer and focus behaviour: clicking an option selects it; clicking
 outside the root closes the listbox; focus leaving the root closes it.
@@ -71,7 +71,7 @@ colour-only meaning is required:
 3. `dir="rtl|ltr"` on the target (skipped if `applyDir=false`).
 4. The `v-model:value` binding in user code.
 
-Note what is *not* in that list: the closed control itself. It shows
+Note what is _not_ in that list: the closed control itself. It shows
 only a glyph, so consumers should surface the active locale in a
 `.locale-picker-status` live region — see
 [`../docs/accessibility.md`](../docs/accessibility.md).
@@ -89,7 +89,7 @@ Without the per-option `lang`, "Français" gets pronounced
 it, the reader says "Fran-SAY".
 
 This survived the move away from the native `<select>` intact, and it
-is the one place where the custom listbox is *more* dependable than
+is the one place where the custom listbox is _more_ dependable than
 the platform control: some OS-native select popups ignore per-option
 `lang` entirely, whereas `<li lang="fr">` is plain DOM the reader
 handles the same way it handles any other inline language change.
@@ -110,12 +110,12 @@ button's position so the user can keep choosing.
 
 ## Screen-reader behaviour matrix
 
-| Reader     | OS       | Browser   | What's announced when user lands on the button |
-| ---------- | -------- | --------- | ---------------------------------------------- |
-| VoiceOver  | macOS 14 | Safari 17 | "Language, pop-up button, collapsed" → on open, "Language, list box, English, 1 of 5". |
-| NVDA       | Windows  | Firefox   | "Language button collapsed" → on open, "Language list, English, 1 of 5". |
-| JAWS       | Windows  | Chrome    | "Language button" → on open, "Language list box, English, 1 of 5". |
-| TalkBack   | Android  | Chrome    | "Language, button, double-tap to activate". No OS picker — the in-page listbox opens. |
+| Reader    | OS       | Browser   | What's announced when user lands on the button                                         |
+| --------- | -------- | --------- | -------------------------------------------------------------------------------------- |
+| VoiceOver | macOS 14 | Safari 17 | "Language, pop-up button, collapsed" → on open, "Language, list box, English, 1 of 5". |
+| NVDA      | Windows  | Firefox   | "Language button collapsed" → on open, "Language list, English, 1 of 5".               |
+| JAWS      | Windows  | Chrome    | "Language button" → on open, "Language list box, English, 1 of 5".                     |
+| TalkBack  | Android  | Chrome    | "Language, button, double-tap to activate". No OS picker — the in-page listbox opens.  |
 
 Two caveats, both consequences of the icon-button rewrite:
 

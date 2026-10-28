@@ -17,13 +17,13 @@ styles the `motion-picker` class hook and decides what
 
 ## Files
 
-| File                    | Purpose                                          |
-| ----------------------- | ------------------------------------------------ |
+| File                    | Purpose                                                    |
+| ----------------------- | ---------------------------------------------------------- |
 | `spec/index.md`         | Specification-driven contract (canonical, Svelte-sourced). |
-| `MotionPicker.tsx`      | Implementation. TypeScript + React 19 hooks.     |
-| `MotionPicker.test.tsx` | Vitest spec, one assertion per §7 acceptance.    |
-| `index.ts`              | Barrel re-export.                                |
-| `index.md`              | User guide.                                      |
+| `MotionPicker.tsx`      | Implementation. TypeScript + React 19 hooks.               |
+| `MotionPicker.test.tsx` | Vitest spec, one assertion per §7 acceptance.              |
+| `index.ts`              | Barrel re-export.                                          |
+| `index.md`              | User guide.                                                |
 
 ## Public surface
 
@@ -39,7 +39,7 @@ that replaces the icon inside the button and receives
 
 There is deliberately no analogous OS-detection prop for text size or
 theme: unlike `prefers-color-scheme` or `navigator.languages`, no
-platform signal exposes a preferred text size, but motion *does* have
+platform signal exposes a preferred text size, but motion _does_ have
 one (`prefers-reduced-motion`), which is why this picker's default
 resolution differs from its siblings'.
 
@@ -57,18 +57,54 @@ is supplied; otherwise uncontrolled with internal `useState`.
 ## HTML
 
 ```html
-<div class="motion-picker {className}" ...restProps>
-  <input type="hidden" name="{name}" value="{value}" />
-  <button type="button" class="motion-picker-button"
-          aria-label="{label}" aria-haspopup="listbox"
-          aria-expanded="false" aria-controls="{listId}">
-    <svg class="motion-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3v10M11 3v10"/></svg>
+<div
+  class="motion-picker {className}"
+  ...restProps
+>
+  <input
+    type="hidden"
+    name="{name}"
+    value="{value}"
+  />
+  <button
+    type="button"
+    class="motion-picker-button"
+    aria-label="{label}"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="{listId}"
+  >
+    <svg
+      class="motion-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M5 3v10M11 3v10" />
+    </svg>
   </button>
-  <ul class="motion-picker-list" id="{listId}" role="listbox"
-      aria-label="{label}" tabindex="-1" hidden
-      aria-activedescendant="{optionId of active, only while open}">
-    <li class="motion-picker-option" id="{optionId}" role="option"
-        aria-selected="true|false" data-active>No Preference</li>
+  <ul
+    class="motion-picker-list"
+    id="{listId}"
+    role="listbox"
+    aria-label="{label}"
+    tabindex="-1"
+    hidden
+    aria-activedescendant="{optionId of active, only while open}"
+  >
+    <li
+      class="motion-picker-option"
+      id="{optionId}"
+      role="option"
+      aria-selected="true|false"
+      data-active
+    >
+      No Preference
+    </li>
   </ul>
 </div>
 ```

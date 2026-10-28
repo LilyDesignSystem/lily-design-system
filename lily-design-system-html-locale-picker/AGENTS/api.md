@@ -33,10 +33,7 @@ the `listId` / `optionId` prefixes — deterministic and SSR-safe, no
 It additionally performs the side-effectful registration:
 
 ```ts
-if (
-  typeof customElements !== "undefined" &&
-  !customElements.get("locale-picker")
-) {
+if (typeof customElements !== "undefined" && !customElements.get("locale-picker")) {
   customElements.define("locale-picker", LocalePicker);
 }
 ```
@@ -107,17 +104,17 @@ is `false` for `detect-from-navigator` and `true` for `apply-dir`).
 Public members with no attribute form, added with the icon-button +
 listbox rendering:
 
-| Member                         | Kind            | Notes                                                                                                          |
-| ------------------------------ | --------------- | -------------------------------------------------------------------------------------------------------------- |
-| `el.open`                      | getter          | Is the listbox open? Read-only; drive it with `openList` / `closeList`.                                        |
-| `el.listId`                    | getter          | `id` of the `<ul role="listbox">`, e.g. `"locale-picker-1-list"`.                                             |
-| `el.optionId(index)`           | method          | `id` of the option at `index`, e.g. `"locale-picker-1-option-2"`.                                             |
-| `el.openList(startIndex?)`     | method          | Open; `startIndex` overrides the active option (default: the selected one, else 0). Moves focus to the `<ul>`. |
-| `el.closeList(refocus = true)` | method          | Close; refocuses the button unless `refocus` is `false`.                                                       |
+| Member                         | Kind            | Notes                                                                                                                        |
+| ------------------------------ | --------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `el.open`                      | getter          | Is the listbox open? Read-only; drive it with `openList` / `closeList`.                                                      |
+| `el.listId`                    | getter          | `id` of the `<ul role="listbox">`, e.g. `"locale-picker-1-list"`.                                                            |
+| `el.optionId(index)`           | method          | `id` of the option at `index`, e.g. `"locale-picker-1-option-2"`.                                                            |
+| `el.openList(startIndex?)`     | method          | Open; `startIndex` overrides the active option (default: the selected one, else 0). Moves focus to the `<ul>`.               |
+| `el.closeList(refocus = true)` | method          | Close; refocuses the button unless `refocus` is `false`.                                                                     |
 | `el.labelFor(code)`            | method          | `localeLabels[code] ?? localeEndonym(code) ?? defaultLocaleLabels[code] ?? Intl.DisplayNames ?? code` — endonyms by default. |
-| `el.tagFor(locale)`            | method          | Instance wrapper around `bcp47LocaleTag`.                                                                      |
-| `el.optionLang(code)`          | method          | The `lang` claim for one option: the BCP 47 tag when the label is the derived endonym, else `""`.              |
-| `el.renderButtonContent()`     | **overridable** | Builds the button's content. See below.                                                                        |
+| `el.tagFor(locale)`            | method          | Instance wrapper around `bcp47LocaleTag`.                                                                                    |
+| `el.optionLang(code)`          | method          | The `lang` claim for one option: the BCP 47 tag when the label is the derived endonym, else `""`.                            |
+| `el.renderButtonContent()`     | **overridable** | Builds the button's content. See below.                                                                                      |
 
 ## Events
 
@@ -206,14 +203,22 @@ preserve are enumerated in
 Host element:
 
 ```html
-<locale-picker label="Language" locales="en,fr,ar" value="fr"></locale-picker>
+<locale-picker
+  label="Language"
+  locales="en,fr,ar"
+  value="fr"
+></locale-picker>
 ```
 
 Rendered children (recreated on every structural `#render()`):
 
 ```html
 <div class="locale-picker {class}">
-  <input type="hidden" name="{name}" value="fr" />
+  <input
+    type="hidden"
+    name="{name}"
+    value="fr"
+  />
   <button
     type="button"
     class="locale-picker-button"
@@ -222,7 +227,9 @@ Rendered children (recreated on every structural `#render()`):
     aria-expanded="false"
     aria-controls="locale-picker-1-list"
   >
-    <span class="locale-picker-icon" aria-hidden="true"
+    <span
+      class="locale-picker-icon"
+      aria-hidden="true"
       >🌐︎</span
     >
   </button>
@@ -286,7 +293,10 @@ Document mutations (only inside `connectedCallback` /
 `attributeChangedCallback`):
 
 ```html
-<html lang="{tagFor(locale)}" dir="rtl|ltr"></html>
+<html
+  lang="{tagFor(locale)}"
+  dir="rtl|ltr"
+></html>
 ```
 
 `dir` is only written when `applyDir` is `true` (the default).
@@ -302,10 +312,7 @@ import type {
   LocalePickerChangeDetail,
 } from "./lily-design-system-html-locale-picker";
 
-const config: Pick<
-  LocalePickerProps,
-  "locales" | "storageKey" | "detectFromNavigator"
-> = {
+const config: Pick<LocalePickerProps, "locales" | "storageKey" | "detectFromNavigator"> = {
   locales: ["en", "fr", "ar"],
   storageKey: "my-app:locale",
   detectFromNavigator: true,

@@ -24,25 +24,66 @@ This component is useful in applications that need custom file operation interfa
 File open dialog with a file list and actions:
 
 ```html
-<FileDialog label="Open file" open={fileDialogOpen}>
+<FileDialog
+  label="Open file"
+  open="{fileDialogOpen}"
+>
   <h2>Select a file</h2>
   <ul>
-    <li><button onclick={() => selectFile('report.pdf')}>report.pdf</button></li>
-    <li><button onclick={() => selectFile('data.csv')}>data.csv</button></li>
-    <li><button onclick={() => selectFile('photo.jpg')}>photo.jpg</button></li>
+    <li>
+      <button
+        onclick="{()"
+        =""
+      >
+        selectFile('report.pdf')}>report.pdf
+      </button>
+    </li>
+    <li>
+      <button
+        onclick="{()"
+        =""
+      >
+        selectFile('data.csv')}>data.csv
+      </button>
+    </li>
+    <li>
+      <button
+        onclick="{()"
+        =""
+      >
+        selectFile('photo.jpg')}>photo.jpg
+      </button>
+    </li>
   </ul>
-  <button onclick={() => (fileDialogOpen = false)}>Cancel</button>
+  <button
+    onclick="{()"
+    =""
+  >
+    (fileDialogOpen = false)}>Cancel
+  </button>
 </FileDialog>
 ```
 
 Save-as dialog:
 
 ```html
-<FileDialog label="Save as" open={saveDialogOpen}>
+<FileDialog
+  label="Save as"
+  open="{saveDialogOpen}"
+>
   <label for="filename">File name</label>
-  <input id="filename" type="text" value={fileName} />
-  <button onclick={saveFile}>Save</button>
-  <button onclick={() => (saveDialogOpen = false)}>Cancel</button>
+  <input
+    id="filename"
+    type="text"
+    value="{fileName}"
+  />
+  <button onclick="{saveFile}">Save</button>
+  <button
+    onclick="{()"
+    =""
+  >
+    (saveDialogOpen = false)}>Cancel
+  </button>
 </FileDialog>
 ```
 
@@ -72,14 +113,11 @@ Save-as dialog:
 
 This headless component provides a native `<dialog>` element with conditional rendering, accessible labeling via `aria-label`, keyboard dismissal with Escape, and two-way binding on `open`. The consumer provides all visual styling, file listing content, navigation controls, and action buttons.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.file-dialog` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<dialog>` element with class `file-dialog`
 - Verify aria-label={label}` -- provides an accessible name for the dialog

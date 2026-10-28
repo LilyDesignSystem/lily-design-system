@@ -16,7 +16,12 @@ Full documentation: [components/middle-truncation/index.md](../../components/mid
 ## Usage
 
 ```tsx
-<MiddleTruncation text="quarterly-report-final-version-3.pdf" ellipsis="…" strategy="min-end" end={6} />
+<MiddleTruncation
+  text="quarterly-report-final-version-3.pdf"
+  ellipsis="…"
+  strategy="min-end"
+  end={6}
+/>
 ```
 
 The algorithm is `middle-truncation.ts`, a copy of `shared/middle-truncation.ts`.

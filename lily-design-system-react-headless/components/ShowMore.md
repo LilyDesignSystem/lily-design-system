@@ -13,7 +13,10 @@ A "show more / show less" toggle for long content. The content stays in the DOM 
 ## Usage
 
 ```tsx
-<ShowMore moreLabel="Show more" lessLabel="Show less">
+<ShowMore
+  moreLabel="Show more"
+  lessLabel="Show less"
+>
   <p>Long content...</p>
 </ShowMore>
 ```

@@ -18,7 +18,12 @@ Deviation from the brief's naming: the open-state callback is `onChange` (as `Co
 ## Usage
 
 ```tsx
-<Thinking label="Thinking" streaming={busy}>Step 1...</Thinking>
+<Thinking
+  label="Thinking"
+  streaming={busy}
+>
+  Step 1...
+</Thinking>
 ```
 
 ## Keyboard Interactions

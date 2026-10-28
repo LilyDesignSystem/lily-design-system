@@ -25,21 +25,80 @@ Use this component as the outer wrapper for guided tours, onboarding flows, feat
 
 ```html
 <Tour label="Patient record system walkthrough">
-  <TourList label="Getting started" active={showTour}>
-    <TourListItem label="Welcome" current={step === 0} stepNumber={1} totalSteps={3}>
+  <TourList
+    label="Getting started"
+    active="{showTour}"
+  >
+    <TourListItem
+      label="Welcome"
+      current="{step"
+      =""
+      =""
+      ="0}"
+      stepNumber="{1}"
+      totalSteps="{3}"
+    >
       <p>Welcome to the patient record system. This tour will show you the key features.</p>
-      <Button onclick={() => step++}>Next</Button>
-      <Button onclick={() => showTour = false}>Skip tour</Button>
+      <button
+        onclick="{()"
+        =""
+      >
+        step++}>Next
+      </button>
+      <button
+        onclick="{()"
+        =""
+      >
+        showTour = false}>Skip tour
+      </button>
     </TourListItem>
-    <TourListItem label="Search patients" current={step === 1} stepNumber={2} totalSteps={3}>
+    <TourListItem
+      label="Search patients"
+      current="{step"
+      =""
+      =""
+      ="1}"
+      stepNumber="{2}"
+      totalSteps="{3}"
+    >
       <p>Use the search bar to find patients by name, NHS number, or date of birth.</p>
-      <Button onclick={() => step--}>Back</Button>
-      <Button onclick={() => step++}>Next</Button>
+      <button
+        onclick="{()"
+        =""
+      >
+        step--}>Back
+      </button>
+      <button
+        onclick="{()"
+        =""
+      >
+        step++}>Next
+      </button>
     </TourListItem>
-    <TourListItem label="View record" current={step === 2} stepNumber={3} totalSteps={3}>
-      <p>Click a patient name to open their full record, including demographics and appointments.</p>
-      <Button onclick={() => step--}>Back</Button>
-      <Button onclick={() => showTour = false}>Finish</Button>
+    <TourListItem
+      label="View record"
+      current="{step"
+      =""
+      =""
+      ="2}"
+      stepNumber="{3}"
+      totalSteps="{3}"
+    >
+      <p>
+        Click a patient name to open their full record, including demographics and appointments.
+      </p>
+      <button
+        onclick="{()"
+        =""
+      >
+        step--}>Back
+      </button>
+      <button
+        onclick="{()"
+        =""
+      >
+        showTour = false}>Finish
+      </button>
     </TourListItem>
   </TourList>
 </Tour>

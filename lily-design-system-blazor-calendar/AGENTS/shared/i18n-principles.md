@@ -120,13 +120,13 @@ For Blazor WebAssembly culture switching, see
 
 ### `Intl` equivalents in .NET
 
-| Need                  | .NET equivalent                                                    |
-| --------------------- | ------------------------------------------------------------------ |
-| `Intl.DateTimeFormat` | `DateTime.ToString(format, CultureInfo)` / `IFormatProvider`       |
-| `Intl.NumberFormat`   | `decimal.ToString("N2", CultureInfo)` / `IFormatProvider`          |
-| `Intl.DisplayNames`   | `CultureInfo.GetCultureInfo(tag).DisplayName`                       |
-| `Intl.RelativeTimeFormat` | No direct equivalent; use a NuGet package (e.g. `Humanizer`)    |
-| `Intl.PluralRules`    | `Humanizer.ToWords`, or `IStringLocalizer<T>` with `.resx` plurals |
+| Need                      | .NET equivalent                                                    |
+| ------------------------- | ------------------------------------------------------------------ |
+| `Intl.DateTimeFormat`     | `DateTime.ToString(format, CultureInfo)` / `IFormatProvider`       |
+| `Intl.NumberFormat`       | `decimal.ToString("N2", CultureInfo)` / `IFormatProvider`          |
+| `Intl.DisplayNames`       | `CultureInfo.GetCultureInfo(tag).DisplayName`                      |
+| `Intl.RelativeTimeFormat` | No direct equivalent; use a NuGet package (e.g. `Humanizer`)       |
+| `Intl.PluralRules`        | `Humanizer.ToWords`, or `IStringLocalizer<T>` with `.resx` plurals |
 
 The locale-picker's `Locales.LocaleName(code)` consults a built-in
 table; for richer names use `CultureInfo.GetCultureInfo(tag).DisplayName`

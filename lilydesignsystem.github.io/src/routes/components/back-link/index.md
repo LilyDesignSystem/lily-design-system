@@ -24,7 +24,10 @@ Back links are especially important in mobile and multi-step interfaces, helping
 ```html
 <BackLink href="/registration/step-2">Back</BackLink>
 
-<BackLink href="/application/personal-details" label="Back to personal details">
+<BackLink
+  href="/application/personal-details"
+  label="Back to personal details"
+>
   Back
 </BackLink>
 ```
@@ -56,17 +59,14 @@ Back links are especially important in mobile and multi-step interfaces, helping
 
 This component provides a semantic `<a>` element with optional `aria-label` override and zero visual styling. The consumer is responsible for all CSS including left-arrow or chevron icons, link color, underline style, hover effects, and focus indicators.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.back-link` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
 
-
 - Verify the component renders a `<a>` element with class `back-link`
-- Verify aria-label` -- optional override for descriptive screen reader text, set from the `label` prop
+- Verify aria-label`-- optional override for descriptive screen reader text, set from the`label` prop
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied
 

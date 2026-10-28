@@ -11,11 +11,11 @@ skill is the umbrella: it maps the three, tells you which one you need,
 and points at the two sibling skills that go deep on the first two. It
 does not restate their content.
 
-| Subproject | What it is | Reach for it when |
-| --- | --- | --- |
-| [`@lilydesignsystem/react-headless`](../lily-design-system-react-headless/) | An npm package: the 490-component headless catalog as React 19 function components. Zero CSS. | You're building your own app and want the library you actually `pnpm install` and depend on. |
-| [the React helper packages](../spec/helpers/index.md#react-helper-packages) | Small npm packages, one top-level subproject each (the ten `*-picker` helpers, `picker-bar`, `kanban-board`, `gantt-chart`) that each own one whole page-header interaction — selection, DOM application, optional persistence. | You need a ready-made preference control or share action rather than building one from catalog primitives. |
-| [`lily-design-system-react-next-examples`](../lily-design-system-react-next-examples/) | A React 19 + Next.js 15 App Router application: every headless component fully styled and wired up, plus 12 composed-page demos. Not a package you install. | You want to see a component working end-to-end, copy its CSS, or run a live reference before wiring the headless library into your own app. |
+| Subproject                                                                             | What it is                                                                                                                                                                                                                      | Reach for it when                                                                                                                           |
+| -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`@lilydesignsystem/react-headless`](../lily-design-system-react-headless/)            | An npm package: the 490-component headless catalog as React 19 function components. Zero CSS.                                                                                                                                   | You're building your own app and want the library you actually `pnpm install` and depend on.                                                |
+| [the React helper packages](../spec/helpers/index.md#react-helper-packages)            | Small npm packages, one top-level subproject each (the ten `*-picker` helpers, `picker-bar`, `kanban-board`, `gantt-chart`) that each own one whole page-header interaction — selection, DOM application, optional persistence. | You need a ready-made preference control or share action rather than building one from catalog primitives.                                  |
+| [`lily-design-system-react-next-examples`](../lily-design-system-react-next-examples/) | A React 19 + Next.js 15 App Router application: every headless component fully styled and wired up, plus 12 composed-page demos. Not a package you install.                                                                     | You want to see a component working end-to-end, copy its CSS, or run a live reference before wiring the headless library into your own app. |
 
 ## Deep-dive skills for the first two
 
@@ -64,7 +64,7 @@ skill gives real, not just pointer-level, coverage.
   production build; `pnpm test` runs the vitest + `@testing-library/react`
   suite (jsdom, vitest's own matchers only — no jest-dom).
 - **This is not a package you install.** It's a running reference app.
-  If a request is about how a component *looks* or how a full page is
+  If a request is about how a component _looks_ or how a full page is
   assembled, point here and at its CSS; if it's about the API you code
   against, point at the headless skill instead.
 

@@ -22,7 +22,10 @@ A progress circle indicates completion status using a `<div>` with ARIA Progress
 ## Usage
 
 ```svelte
-<ProgressCircle label="Upload" value={75}>
+<ProgressCircle
+  label="Upload"
+  value={75}
+>
   <span>75%</span>
 </ProgressCircle>
 ```

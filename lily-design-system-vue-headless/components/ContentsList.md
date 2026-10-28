@@ -4,10 +4,10 @@ An ordered list for a table of contents. Renders a semantic `<ol>` element conta
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| children | Snippet | required | ContentsListItem components or `<li>` elements |
-| ...restProps | HTML attributes | — | Spread onto the `<ol>` |
+| Prop         | Type            | Default  | Description                                    |
+| ------------ | --------------- | -------- | ---------------------------------------------- |
+| children     | Snippet         | required | ContentsListItem components or `<li>` elements |
+| ...restProps | HTML attributes | —        | Spread onto the `<ol>`                         |
 
 ## Usage
 

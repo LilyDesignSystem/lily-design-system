@@ -9,7 +9,15 @@ See [components/chat-composer/index.md](../../components/chat-composer/index.md)
 ## Usage
 
 ```vue
-<ChatComposer label="Message" send-label="Send" stop-label="Stop" v-model="draft" :busy="replying" @send="send" @stop="cancel" />
+<ChatComposer
+  label="Message"
+  send-label="Send"
+  stop-label="Stop"
+  v-model="draft"
+  :busy="replying"
+  @send="send"
+  @stop="cancel"
+/>
 ```
 
 ## Contract

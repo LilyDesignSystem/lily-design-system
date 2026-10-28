@@ -35,7 +35,7 @@
 
 | Prop           | Type            | Default    | Description                                          |
 | -------------- | --------------- | ---------- | ---------------------------------------------------- |
-| `children`     | `slot`       | (required) | Content for the timeline entry                       |
+| `children`     | `slot`          | (required) | Content for the timeline entry                       |
 | `...restProps` | HTML attributes |            | Additional attributes spread onto the `<li>` element |
 
 ## Acceptance Criteria

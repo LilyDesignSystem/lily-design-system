@@ -21,7 +21,9 @@ BrasilCartaoNacionalDeSaudeInput is a headless placeholder component, generated 
 ## Usage
 
 ```html
-<BrasilCartaoNacionalDeSaudeInput label="BrasilCartaoNacionalDeSaudeInput example">Content</BrasilCartaoNacionalDeSaudeInput>
+<BrasilCartaoNacionalDeSaudeInput label="BrasilCartaoNacionalDeSaudeInput example"
+  >Content</BrasilCartaoNacionalDeSaudeInput
+>
 ```
 
 ## Keyboard Interactions

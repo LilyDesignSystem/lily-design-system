@@ -33,7 +33,11 @@ Use ToolBarButton for individual action buttons within a ToolBar. Common scenari
 <ToolBar label="Drawing tools">
   <ToolBarButton aria-label="Pen tool">Pen</ToolBarButton>
   <ToolBarButton aria-label="Eraser tool">Eraser</ToolBarButton>
-  <ToolBarButton aria-label="Fill tool" disabled>Fill</ToolBarButton>
+  <ToolBarButton
+    aria-label="Fill tool"
+    disabled
+    >Fill</ToolBarButton
+  >
 </ToolBar>
 ```
 
@@ -42,7 +46,7 @@ Use ToolBarButton for individual action buttons within a ToolBar. Common scenari
 | Prop           | Type            | Default    | Description                                            |
 | -------------- | --------------- | ---------- | ------------------------------------------------------ |
 | `disabled`     | `boolean`       | `false`    | Whether the button is disabled                         |
-| `children`     | `slot`       | (required) | Button content                                         |
+| `children`     | `slot`          | (required) | Button content                                         |
 | `...restProps` | HTML attributes |            | Additional attributes passed to the `<button>` element |
 
 ## Examples
@@ -68,6 +72,7 @@ Inside a ToolBar:
 
 - Implicit `button` role from the `<button>` element
 - `disabled` attribute communicates disabled state to assistive technology
+
 ## When to Use
 
 - Use inside ToolBar to represent one tool action such as formatting controls, drawing tools, or media actions.
@@ -84,14 +89,11 @@ Inside a ToolBar:
 
 This headless component provides a native `<button type="button">` element with `disabled` support. It relies on the parent ToolBar for roving focus keyboard navigation. The consumer provides all content (text, icons) and all visual styling.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.tool-bar-button` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<button>` element with class `tool-bar-button`
 - Verify keyboard interactions work correctly

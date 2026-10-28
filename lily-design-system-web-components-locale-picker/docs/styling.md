@@ -23,7 +23,7 @@ The minimum that makes it a dropdown:
 .locale-picker-list {
   position: absolute;
   z-index: 10;
-  inset-inline-start: 0;  /* not `left` — see below */
+  inset-inline-start: 0; /* not `left` — see below */
   top: 100%;
   margin: 0;
   padding: 0;
@@ -45,13 +45,13 @@ button.
 
 Five hooks, all kebab-case, all stable contracts:
 
-| Hook | Element | Notes |
-| ---- | ------- | ----- |
-| `.locale-picker` | the `<div>` root | Also carries whatever you passed in `class`. |
+| Hook                    | Element                              | Notes                                                                    |
+| ----------------------- | ------------------------------------ | ------------------------------------------------------------------------ |
+| `.locale-picker`        | the `<div>` root                     | Also carries whatever you passed in `class`.                             |
 | `.locale-picker-button` | the trigger `<button type="button">` | Carries `aria-label`, `aria-haspopup`, `aria-expanded`, `aria-controls`. |
-| `.locale-picker-icon` | the default bundled `<svg>` icon | `aria-hidden="true"`. Absent if you override `renderButtonContent()`. |
-| `.locale-picker-list` | the `<ul role="listbox">` | `hidden` when closed. |
-| `.locale-picker-option` | each `<li role="option">` | Carries its own `lang` attribute. |
+| `.locale-picker-icon`   | the default bundled `<svg>` icon     | `aria-hidden="true"`. Absent if you override `renderButtonContent()`.    |
+| `.locale-picker-list`   | the `<ul role="listbox">`            | `hidden` when closed.                                                    |
+| `.locale-picker-option` | each `<li role="option">`            | Carries its own `lang` attribute.                                        |
 
 There is also a hidden `<input type="hidden">` for form participation.
 It is not stylable and does not need to be.
@@ -61,10 +61,10 @@ It is not stylable and does not need to be.
 Two state selectors that mean **different things**. Conflating them is
 the most common styling bug in this control:
 
-| Selector | Meaning | Lifetime |
-| -------- | ------- | -------- |
-| `[data-active]` | the keyboard-highlighted option | follows the arrow keys; **gone when the list closes** |
-| `[aria-selected="true"]` | the applied locale | survives closing; there is always exactly one |
+| Selector                 | Meaning                         | Lifetime                                              |
+| ------------------------ | ------------------------------- | ----------------------------------------------------- |
+| `[data-active]`          | the keyboard-highlighted option | follows the arrow keys; **gone when the list closes** |
+| `[aria-selected="true"]` | the applied locale              | survives closing; there is always exactly one         |
 
 Give each its own signal, and do not rely on colour alone (WCAG
 1.4.1) — the active option should also be distinguishable by
@@ -86,7 +86,7 @@ something non-chromatic:
 }
 ```
 
-Note the checkmark is *inside* the option's `lang` scope, which is
+Note the checkmark is _inside_ the option's `lang` scope, which is
 harmless for a symbol. If you use a word instead ("current"), wrap it
 so it does not inherit the option's language and get mispronounced.
 
@@ -114,7 +114,7 @@ fall back to a system default mid-list.
 .locale-picker-option:lang(ar),
 .locale-picker-option:lang(fa),
 .locale-picker-option:lang(he) {
-  font-size: 1.08em;   /* Arabic/Hebrew x-heights run small at the same px */
+  font-size: 1.08em; /* Arabic/Hebrew x-heights run small at the same px */
   line-height: 1.8;
 }
 
@@ -222,11 +222,17 @@ it, because `hidden` is only a UA-stylesheet `display: none`:
 
 ```css
 /* WRONG — the list is now permanently visible. */
-.locale-picker-list { display: block; }
+.locale-picker-list {
+  display: block;
+}
 
 /* Right — re-assert hidden, or scope the display rule. */
-.locale-picker-list { display: block; }
-.locale-picker-list[hidden] { display: none; }
+.locale-picker-list {
+  display: block;
+}
+.locale-picker-list[hidden] {
+  display: none;
+}
 ```
 
 The same trap catches `display: flex` and `display: grid`. If you set
@@ -268,8 +274,15 @@ element you render and update yourself:
 
 ```html
 <div class="locale-status">
-  <lily-locale-picker id="ls" label="Choose language" locales="en,fr,ar"></lily-locale-picker>
-  <span id="locale-name" aria-live="polite"></span>
+  <lily-locale-picker
+    id="ls"
+    label="Choose language"
+    locales="en,fr,ar"
+  ></lily-locale-picker>
+  <span
+    id="locale-name"
+    aria-live="polite"
+  ></span>
 </div>
 ```
 
@@ -320,7 +333,7 @@ navigation stays in view automatically:
 .locale-picker-list {
   max-height: 60vh;
   overflow-y: auto;
-  overscroll-behavior: contain;  /* don't scroll the page at the ends */
+  overscroll-behavior: contain; /* don't scroll the page at the ends */
 }
 ```
 
@@ -335,7 +348,9 @@ auto-animate; any motion here is yours to make optional:
 
 ```css
 @media (prefers-reduced-motion: no-preference) {
-  .locale-picker-list { transition: opacity 120ms ease; }
+  .locale-picker-list {
+    transition: opacity 120ms ease;
+  }
 }
 ```
 

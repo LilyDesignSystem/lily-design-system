@@ -21,7 +21,10 @@ This component is commonly paired with ThemeSelect in an Input/View pattern. Whi
 ## Usage
 
 ```tsx
-<ThemeView label="Current theme" value="dark" />
+<ThemeView
+  label="Current theme"
+  value="dark"
+/>
 ```
 
 ## Keyboard Interactions

@@ -28,21 +28,48 @@ The form is only rendered when the `editing` prop is true. Submitting the form a
 Inline profile editor with save and cancel:
 
 ```html
-<button onclick={() => (editing = true)}>Edit profile</button>
-<EditableForm label="Edit profile" editing={editing} onsubmit={saveProfile} oncancel={revertProfile}>
+<button
+  onclick="{()"
+  =""
+>
+  (editing = true)}>Edit profile
+</button>
+<EditableForm
+  label="Edit profile"
+  editing="{editing}"
+  onsubmit="{saveProfile}"
+  oncancel="{revertProfile}"
+>
   <Field label="Full name">
-    <TextInput label="Full name" value={fullName} />
+    <TextInput
+      label="Full name"
+      value="{fullName}"
+    />
   </Field>
   <button type="submit">Save</button>
-  <button type="button" onclick={() => (editing = false)}>Cancel</button>
+  <button
+    type="button"
+    onclick="{()"
+    =""
+  >
+    (editing = false)}>Cancel
+  </button>
 </EditableForm>
 ```
 
 Renaming an item inline:
 
 ```html
-<EditableForm label="Rename item" editing={renaming} onsubmit={rename} oncancel={revert}>
-  <input name="title" value={title} />
+<EditableForm
+  label="Rename item"
+  editing="{renaming}"
+  onsubmit="{rename}"
+  oncancel="{revert}"
+>
+  <input
+    name="title"
+    value="{title}"
+  />
   <button type="submit">OK</button>
 </EditableForm>
 ```
@@ -72,14 +99,11 @@ Renaming an item inline:
 
 This headless component provides a conditionally rendered `<form>` with accessible labeling via `aria-label`, submit handling with `preventDefault`, Escape key cancellation, and two-way binding on the `editing` prop. The consumer provides all visual styling, form controls, and action buttons.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.editable-form` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<form>` element with class `editable-form`
 - Verify aria-label={label}` -- provides an accessible name for the form

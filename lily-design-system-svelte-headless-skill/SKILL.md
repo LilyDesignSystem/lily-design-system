@@ -20,7 +20,11 @@ point — `main`/`types`/`svelte` all resolve through `package.json#exports`,
 so a consumer imports named exports from the package root:
 
 ```ts
-import { BreadcrumbNav, BreadcrumbList, BreadcrumbListItem } from "@lilydesignsystem/svelte-headless";
+import {
+  BreadcrumbNav,
+  BreadcrumbList,
+  BreadcrumbListItem,
+} from "@lilydesignsystem/svelte-headless";
 ```
 
 This library does **not** depend on SvelteKit — it works in any Svelte 5
@@ -70,7 +74,11 @@ Every component follows the same runes-based shape:
   } = $props();
 </script>
 
-<div class={`example-component ${className}`} aria-label={label} {...restProps}>
+<div
+  class={`example-component ${className}`}
+  aria-label={label}
+  {...restProps}
+>
   {@render children?.()}
 </div>
 ```

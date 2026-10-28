@@ -54,7 +54,7 @@ what it costs — the costs are real and are not talked around.
   quietly changed underneath them. `Escape` in the field discards a
   pending edit and clears the invalid state, committing nothing —
   mirroring the dialog's own Escape contract.
-- Supply `Labels.Invalid` and the refusal is *announced*, not just
+- Supply `Labels.Invalid` and the refusal is _announced_, not just
   marked: a `role="status"` live region — present in the DOM before it
   has content, because a live region born with its message is routinely
   not announced at all — fills with your message, wired to the field via
@@ -132,7 +132,7 @@ open paths ran (`Alt`+`ArrowDown` vs. click — the only two ways in), and
 month/year paging refocuses the grid cursor only when the paging
 originated from the grid's own `PageUp`/`PageDown` handling, never from a
 header-button click. One visible difference from the canonical Svelte
-build: if focus is sitting in the grid and the user *clicks* a header
+build: if focus is sitting in the grid and the user _clicks_ a header
 button (whose mousedown default is suppressed), focus stays on the reused
 grid cell rather than being re-pointed at the carried cursor. Focus is
 never lost either way.
@@ -152,7 +152,7 @@ leaves the root rather than on a click outside it. In practice clicking
 away moves focus away, so pointer dismissal still works.
 
 **Mousedown's default is suppressed on the grid, header, shortcuts, and
-footer**, so that clicking one button while a *different* button already
+footer**, so that clicking one button while a _different_ button already
 holds focus does not fire the root `focusout` (and therefore the outside-
 dismissal heuristic above) before the click's own handler runs. It is
 deliberately **not** applied to the time `<select>`s — suppressing a

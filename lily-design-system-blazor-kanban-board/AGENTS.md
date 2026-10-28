@@ -19,13 +19,13 @@ Ported from the canonical
 
 ## Files
 
-| File                    | Purpose                                                |
-| ------------------------ | ------------------------------------------------------- |
-| `spec/index.md`          | Specification-driven contract (canonical for this port).|
-| `KanbanBoard.razor`      | Razor markup.                                            |
-| `KanbanBoard.razor.cs`   | C# code-behind (partial class) — types, state, behaviour.|
-| `KanbanBoardTests.cs`    | bUnit + xUnit spec, one or more `[Fact]`s per §8 clause. |
-| `index.md`               | User guide.                                              |
+| File                   | Purpose                                                   |
+| ---------------------- | --------------------------------------------------------- |
+| `spec/index.md`        | Specification-driven contract (canonical for this port).  |
+| `KanbanBoard.razor`    | Razor markup.                                             |
+| `KanbanBoard.razor.cs` | C# code-behind (partial class) — types, state, behaviour. |
+| `KanbanBoardTests.cs`  | bUnit + xUnit spec, one or more `[Fact]`s per §8 clause.  |
+| `index.md`             | User guide.                                               |
 
 ## Public surface
 
@@ -84,7 +84,7 @@ renders inline near the focused card.
 - One `aria-live="polite"` region for all move announcements.
 - bUnit has no live browser focus model (a documented, pre-existing
   limitation — see the project memory note on a prior picker bug
-  "invisible to jsdom/bUnit"). This suite verifies focus *intent*
+  "invisible to jsdom/bUnit"). This suite verifies focus _intent_
   (which id/`ElementReference` a `FocusAsync`/`eval` interop call
   targeted), the same technique `ThemePickerTests`/`DateTimePickerTests`
   already use — real regressions in "did we ask to focus the right

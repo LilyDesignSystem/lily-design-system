@@ -20,7 +20,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
 - Added type-ahead to the grid keyboard.
 - Added copy to the clipboard (`labels.copy`, `copyAnnouncement`, `copyFailed`, `onCopy`; `toClipboardText`, `copyToClipboard`).
 - Added `rowFilter` and multi-column sort (`thenBy`, Shift+click).
-- Search: every word must appear (any order), ignoring case and diacritics; typed field text is searched; matches are highlighted with `<mark>` (not in the data grid's cells); `labels.searchAnnouncement(matches, total)`; Escape clears. 
+- Search: every word must appear (any order), ignoring case and diacritics; typed field text is searched; matches are highlighted with `<mark>` (not in the data grid's cells); `labels.searchAnnouncement(matches, total)`; Escape clears.
 
 ## 0.9.0 — 2026-10-16
 
@@ -62,7 +62,7 @@ additive: without the new options 0.3.0 behaviour is unchanged (§8.25–§8.34)
   for focus and tab order of widgets in cells (§8.35). Dev-only; not published.
 
 - **Interactive cell contents** (APG grid pattern). A key pressed on a
-  link, button, input or select *inside* a body cell is no longer
+  link, button, input or select _inside_ a body cell is no longer
   intercepted: the caret moves, a select opens, a link follows. `Escape`
   returns focus to the cell. Widgets in body cells are `tabindex="-1"`
   so Tab leaves the grid in one step; `Enter` on a cell that holds one

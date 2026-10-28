@@ -103,9 +103,7 @@ export function initHelperName(root, opts = {}) {
 /** Find every [data-lily-kebab-name-root] and wire it. */
 export function autoInit(opts = {}) {
   if (typeof document === "undefined") return [];
-  const roots = Array.from(
-    document.querySelectorAll("[data-lily-kebab-name-root]"),
-  );
+  const roots = Array.from(document.querySelectorAll("[data-lily-kebab-name-root]"));
   return roots.map((root) => initHelperName(root, opts));
 }
 ```
@@ -141,11 +139,11 @@ export default {
 
 | Aspect              | Convention                                     | Example                       |
 | ------------------- | ---------------------------------------------- | ----------------------------- |
-| Macro name          | camelCase (Nunjucks rejects hyphens in idents) | `themePicker`                |
-| File path           | kebab-case                                     | `theme-picker.njk`           |
-| Client.js path      | kebab-case + `.client.js`                      | `theme-picker.client.js`     |
-| Root CSS class      | kebab-case                                     | `theme-picker`               |
-| Sub-element classes | kebab-case derivatives                         | `theme-picker-option`        |
+| Macro name          | camelCase (Nunjucks rejects hyphens in idents) | `themePicker`                 |
+| File path           | kebab-case                                     | `theme-picker.njk`            |
+| Client.js path      | kebab-case + `.client.js`                      | `theme-picker.client.js`      |
+| Root CSS class      | kebab-case                                     | `theme-picker`                |
+| Sub-element classes | kebab-case derivatives                         | `theme-picker-option`         |
 | `data-*` hooks      | `data-lily-<kebab>-…`                          | `data-lily-theme-picker-root` |
 
 ## `data-lily-*` hook attributes

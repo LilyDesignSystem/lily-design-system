@@ -29,8 +29,8 @@ Vue 3 + Nuxt 3 example application demonstrating the Lily Design System headless
 
 ### Scripts
 
-| Command         | Description              |
-| --------------- | ------------------------ |
+| Command          | Description              |
+| ---------------- | ------------------------ |
 | `pnpm run dev`   | Start development server |
 | `pnpm run build` | Build for production     |
 | `pnpm test`      | Run all component tests  |

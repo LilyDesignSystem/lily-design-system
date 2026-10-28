@@ -24,14 +24,14 @@ This component is commonly used at the top of documentation pages, articles, or 
 ```html
 <ContentsNav label="Pages in this guide">
   <ContentsList>
-    <ContentsListItem aria-current="page">
-      What is type 2 diabetes?
-    </ContentsListItem>
+    <ContentsListItem aria-current="page"> What is type 2 diabetes? </ContentsListItem>
     <ContentsListItem>
       <ContentsLink href="/conditions/type-2-diabetes/symptoms">Symptoms</ContentsLink>
     </ContentsListItem>
     <ContentsListItem>
-      <ContentsLink href="/conditions/type-2-diabetes/getting-diagnosed">Getting diagnosed</ContentsLink>
+      <ContentsLink href="/conditions/type-2-diabetes/getting-diagnosed"
+        >Getting diagnosed</ContentsLink
+      >
     </ContentsListItem>
   </ContentsList>
 </ContentsNav>
@@ -59,17 +59,14 @@ None -- this component is a passive navigation container. Keyboard navigation is
 
 This headless ContentsList component provides a semantic `<nav>` landmark with `aria-label` and an `<ol>` for ordered section links. The consumer provides all visual styling including link appearance, indentation for nested items, active-section highlighting, and sticky positioning.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.contents-list` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
 
-
 - Verify the component renders a `<ol>` element with class `contents-list`
-- Verify aria-label={label}` -- provides an accessible name for the `<nav>` landmark, distinguishing it from other navigation regions on the page
+- Verify aria-label={label}`-- provides an accessible name for the`<nav>` landmark, distinguishing it from other navigation regions on the page
 - Verify pass-through attributes are applied
 
 ## Advice

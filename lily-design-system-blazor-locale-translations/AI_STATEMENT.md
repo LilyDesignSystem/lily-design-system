@@ -4,15 +4,15 @@
 
 # Lily Design System AI Statement
 
-|                     |                                                              |
-| ------------------- | ------------------------------------------------------------ |
-| Version             | 1.2.0                                                         |
-| Effective date      | 2026-09-02                                                    |
-| Status              | Active                                                        |
-| Author and owner    | Joel Parker Henderson, maintainer                             |
-| Canonical location  | `AI_STATEMENT.md` at the repository root                      |
-| License             | the same license menu as the rest of the project ([LICENSE.md](LICENSE.md)) |
-| Review              | at every minor release, and on any trigger in §13             |
+|                    |                                                                             |
+| ------------------ | --------------------------------------------------------------------------- |
+| Version            | 1.2.0                                                                       |
+| Effective date     | 2026-09-02                                                                  |
+| Status             | Active                                                                      |
+| Author and owner   | Joel Parker Henderson, maintainer                                           |
+| Canonical location | `AI_STATEMENT.md` at the repository root                                    |
+| License            | the same license menu as the rest of the project ([LICENSE.md](LICENSE.md)) |
+| Review             | at every minor release, and on any trigger in §13                           |
 
 **Abstract.** This document discloses how artificial-intelligence tools are used
 to develop Lily Design System™, a free open-source headless design system. It
@@ -40,7 +40,7 @@ components are semantic HTML, ARIA, focus management, and keyboard behaviour.
 Nothing in a page built with Lily contacts a model, and Lily adds no network
 calls of any kind — the headless layer performs no data fetching by design
 ([AGENTS/headless.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/headless.md), "Behavior boundaries"). AI is used to
-*build* the software, in the same sense that compilers and linters are used to
+_build_ the software, in the same sense that compilers and linters are used to
 build it.
 
 ## 2. Which frameworks apply here, and which do not
@@ -48,10 +48,10 @@ build it.
 Stated plainly, because borrowed authority is worse than none:
 
 - **The EU AI Act imposes no obligation on this project.** The Act binds
-  providers and deployers of AI *systems*; Lily is not one. Article 50's marking
+  providers and deployers of AI _systems_; Lily is not one. Article 50's marking
   duties bind the AI tool's provider, not the tool's user. This document is
   voluntary.
-- **No accessibility conformance body has reviewed this project.** Lily *targets*
+- **No accessibility conformance body has reviewed this project.** Lily _targets_
   WCAG 2.2 AAA and follows the WAI-ARIA Authoring Practices. It has not been
   audited by anyone, and no VPAT or conformance claim exists. See §12.
 - **ISO/IEC 42001 and the NIST AI RMF are used as vocabulary, not claimed as
@@ -90,20 +90,20 @@ operated in sessions the maintainer directs, reviews, and merges. Levels below u
 the §3 vocabulary. Deliberately, no percentage appears anywhere in this document:
 no defensible method exists for measuring one.
 
-| Activity | Level | Notes |
-| --- | --- | --- |
-| Component implementations across the seven frameworks | ai-generated | written in directed sessions against the canonical per-component metadata in `components/{slug}/AGENTS.md`; reviewed and merged by the maintainer |
-| The helper packages and their accessibility behaviour | ai-generated | held to the WAI-ARIA APG patterns cited in [AGENTS/accessibility.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/accessibility.md); the Svelte catalog is canonical and the six ports are derived from it |
-| Tests, Storybook stories, Playwright specs | ai-generated | held to the same authority as the code they test: expectations cite the spec clause, and §7's attribution rule governs failures |
-| Per-component documentation (571 × `index.md`) | ai-generated | to the structure fixed in [spec/index.md](spec/index.md) §8 |
-| The specification under `spec/`, the `AGENTS/` rules, and this statement | ai-generated | held to the repository's own prose rules; the maintainer sets the positions |
-| Catalog decisions — what a component is, what it is named, what element it maps to | ai-assisted | proposed in session, decided by the maintainer, recorded in `components.tsv` and [AGENTS/components.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/components.md) |
-| Design-principle rulings, license and trademark decisions, and what a release contains | none | the maintainer's alone |
-| Deciding a specific, already-prepared release is ready, and executing its publish (real `npm publish`, NuGet push) | ai-assisted | authorized in an agentic session per [GOVERNANCE.md](GOVERNANCE.md) § AI agent publish authority, against the readiness criteria written there — this is judgement plus execution on a release already scoped by the ordinary contribution process, not a decision about what to build or ship |
-| Contribution and review verdicts on others' work | none | prohibited use; see §11 |
+| Activity                                                                                                           | Level        | Notes                                                                                                                                                                                                                                                                                          |
+| ------------------------------------------------------------------------------------------------------------------ | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Component implementations across the seven frameworks                                                              | ai-generated | written in directed sessions against the canonical per-component metadata in `components/{slug}/AGENTS.md`; reviewed and merged by the maintainer                                                                                                                                              |
+| The helper packages and their accessibility behaviour                                                              | ai-generated | held to the WAI-ARIA APG patterns cited in [AGENTS/accessibility.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/accessibility.md); the Svelte catalog is canonical and the six ports are derived from it                                                                                                                           |
+| Tests, Storybook stories, Playwright specs                                                                         | ai-generated | held to the same authority as the code they test: expectations cite the spec clause, and §7's attribution rule governs failures                                                                                                                                                                |
+| Per-component documentation (571 × `index.md`)                                                                     | ai-generated | to the structure fixed in [spec/index.md](spec/index.md) §8                                                                                                                                                                                                                                    |
+| The specification under `spec/`, the `AGENTS/` rules, and this statement                                           | ai-generated | held to the repository's own prose rules; the maintainer sets the positions                                                                                                                                                                                                                    |
+| Catalog decisions — what a component is, what it is named, what element it maps to                                 | ai-assisted  | proposed in session, decided by the maintainer, recorded in `components.tsv` and [AGENTS/components.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/components.md)                                                                                                                                                                  |
+| Design-principle rulings, license and trademark decisions, and what a release contains                             | none         | the maintainer's alone                                                                                                                                                                                                                                                                         |
+| Deciding a specific, already-prepared release is ready, and executing its publish (real `npm publish`, NuGet push) | ai-assisted  | authorized in an agentic session per [GOVERNANCE.md](GOVERNANCE.md) § AI agent publish authority, against the readiness criteria written there — this is judgement plus execution on a release already scoped by the ordinary contribution process, not a decision about what to build or ship |
+| Contribution and review verdicts on others' work                                                                   | none         | prohibited use; see §11                                                                                                                                                                                                                                                                        |
 
 **autonomous** appears in no row above because the vocabulary in §3 is about
-*content* authorship, and none of these rows are unreviewed content. The
+_content_ authorship, and none of these rows are unreviewed content. The
 publish-readiness-and-execution row is a different kind of exception worth
 naming plainly: it is the one place in this document where an agentic session
 acts — deciding a specific release is ready, and pushing it to a registry —
@@ -140,7 +140,7 @@ enforcement, because a control without a failing check is a wish.
   snapshots in [spec/index.md](spec/index.md) §11.4, not as live claims.
 - **Automated accessibility checks.** axe-core via Playwright across the example
   apps, on the WCAG 2.0 A+AA, 2.1 A+AA, and 2.2 AA rule sets, plus a responsive
-  viewport sweep. What this does *not* cover is §12's first bullet.
+  viewport sweep. What this does _not_ cover is §12's first bullet.
 - **Link integrity.** `bin/check-links` verifies every relative markdown link
   across ~11,000 files. A generated document that references something that does
   not exist fails the build rather than shipping.
@@ -173,7 +173,7 @@ that do not restrict the output's use under this project's licenses.
 
 One area deserves specific mention, because Lily's whole method is learning from
 other design systems. [AGENTS/citations.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/citations.md) names them, and
-the rule is that Lily takes *patterns and research* — what a component is for,
+the rule is that Lily takes _patterns and research_ — what a component is for,
 when not to use it, which ARIA pattern applies — and not code or stylesheets. The
 NHS UK visual reference in the example apps is an independent implementation
 against Lily's own class names, not a copy of `nhsuk-frontend`; no `nhsuk-` prefix
@@ -188,7 +188,7 @@ therefore not in any prompt. Demo content in the example applications is invente
 
 Two points a reader should check rather than take on trust:
 
-- The 140 national personal identifier components validate identifier *formats*
+- The 140 national personal identifier components validate identifier _formats_
   (checksums, structure, normalization). The test fixtures are synthetic values
   constructed to satisfy those algorithms, not real identifiers belonging to real
   people. This is a structural property verifiable against the tree.
@@ -310,11 +310,11 @@ Authoring Practices Guide 1.2.
 
 ## Annex A. Change log
 
-| Version | Date       | Change       |
-| ------- | ---------- | ------------ |
-| 1.0.0   | 2026-08-26 | First issue. |
+| Version | Date       | Change                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| ------- | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1.0.0   | 2026-08-26 | First issue.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | 1.1.0   | 2026-09-02 | §4 reversed: a commit may carry a `Co-Authored-By:` trailer naming the AI tool — disclosure, not authorship or a sign-off; git's `Author`/`Committer` fields still always name the human. §10 updated to match: contributions should carry the trailer alongside the PR-description disclosure, not instead of commit trailers as the prior text required. §5's release-decisions row gained a carve-out: once a release is decided, executing the publish itself (real `npm publish`, NuGet push) is authorized in an agentic session per [GOVERNANCE.md](GOVERNANCE.md) § AI agent publish authority — execution, not the release decision, which stays the maintainer's. |
-| 1.2.0   | 2026-09-02 | §5 revised further, same day: the 1.1.0 carve-out reserving "is this release ready" for the maintainer is lifted. Deciding a specific, already-prepared release is ready — against the written readiness criteria in [GOVERNANCE.md](GOVERNANCE.md) § AI agent publish authority (merged, tests green, versioned and changelogged per `docs/releasing.md`, dry-run and consumer-smoke already run) — and executing its publish are now authorized together in an agentic session. What a release *contains*, and every design-principle, licensing, and trademark decision, are unchanged: the maintainer's alone. |
+| 1.2.0   | 2026-09-02 | §5 revised further, same day: the 1.1.0 carve-out reserving "is this release ready" for the maintainer is lifted. Deciding a specific, already-prepared release is ready — against the written readiness criteria in [GOVERNANCE.md](GOVERNANCE.md) § AI agent publish authority (merged, tests green, versioned and changelogged per `docs/releasing.md`, dry-run and consumer-smoke already run) — and executing its publish are now authorized together in an agentic session. What a release _contains_, and every design-principle, licensing, and trademark decision, are unchanged: the maintainer's alone.                                                          |
 
 ## Annex B. Machine-readable summary
 

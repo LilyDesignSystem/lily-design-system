@@ -19,16 +19,22 @@ A read-only five-star rating display that renders filled and empty star characte
 ## Usage
 
 ```html
-<FiveStarRatingView value={4} label="4 out of 5 stars" />
+<FiveStarRatingView
+  value="{4}"
+  label="4 out of 5 stars"
+/>
 ```
 
 In a product listing:
 
 ```html
 <Card>
-    <h3>Wireless Headphones</h3>
-    <FiveStarRatingView value={4} label="Rated 4 out of 5 stars" />
-    <p>Based on 128 reviews</p>
+  <h3>Wireless Headphones</h3>
+  <FiveStarRatingView
+    value="{4}"
+    label="Rated 4 out of 5 stars"
+  />
+  <p>Based on 128 reviews</p>
 </Card>
 ```
 
@@ -57,14 +63,11 @@ None -- this component is a passive, read-only display.
 
 This headless component provides semantic HTML with `role="img"`, `aria-label`, and `aria-hidden` inner spans for accessible read-only star display. The consumer provides all visual styling including star characters, colors, and sizing.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.five-star-rating-view` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `five-star-rating-view`
 - Verify role="img"` -- indicates the span represents a visual/graphic element (the star rating)

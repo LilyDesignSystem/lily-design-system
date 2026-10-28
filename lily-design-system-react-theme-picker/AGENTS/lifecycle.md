@@ -34,12 +34,7 @@ React.useEffect(() => {
   if (initialisedRef.current) return;
   initialisedRef.current = true;
 
-  const initial = resolveInitialTheme(
-    currentValue || undefined,
-    storageKey,
-    defaultValue,
-    themes,
-  );
+  const initial = resolveInitialTheme(currentValue || undefined, storageKey, defaultValue, themes);
   if (!initial) return;
 
   if (isControlled) {
@@ -262,9 +257,7 @@ from the app), they remove the `<link>` themselves:
 ```tsx
 useEffect(
   () => () => {
-    document.head
-      .querySelectorAll("link[data-lily-theme-picker]")
-      .forEach((el) => el.remove());
+    document.head.querySelectorAll("link[data-lily-theme-picker]").forEach((el) => el.remove());
   },
   [],
 );

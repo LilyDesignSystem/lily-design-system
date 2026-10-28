@@ -22,7 +22,11 @@ This component is useful in applications that need custom file operation interfa
 ## Usage
 
 ```tsx
-<FileDialog label="Open file" open={isOpen} onChange={setIsOpen}>
+<FileDialog
+  label="Open file"
+  open={isOpen}
+  onChange={setIsOpen}
+>
   <ul>
     <li>document.txt</li>
     <li>image.png</li>

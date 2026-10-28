@@ -27,23 +27,28 @@ The consumer provides `<option>` elements as children, giving full control over 
 
 ```html
 <Field label="Sort by">
-  <Select label="Sort by">
-    <Option value="recently-published" selected>Recently published</Option>
-    <Option value="recently-updated">Recently updated</Option>
-    <Option value="most-views">Most views</Option>
-  </Select>
+  <select label="Sort by">
+    <option
+      value="recently-published"
+      selected
+    >
+      Recently published
+    </option>
+    <option value="recently-updated">Recently updated</option>
+    <option value="most-views">Most views</option>
+  </select>
 </Field>
 
 <Field label="Choose your region">
   <Hint>This can be different to what you selected before</Hint>
-  <Select label="Choose your region">
-    <Option value="">Choose region</Option>
-    <Option value="east">East of England</Option>
-    <Option value="london">London</Option>
-    <Option value="midlands">Midlands</Option>
-    <Option value="northwest">North West</Option>
-    <Option value="southeast">South East</Option>
-  </Select>
+  <select label="Choose your region">
+    <option value="">Choose region</option>
+    <option value="east">East of England</option>
+    <option value="london">London</option>
+    <option value="midlands">Midlands</option>
+    <option value="northwest">North West</option>
+    <option value="southeast">South East</option>
+  </select>
 </Field>
 ```
 
@@ -79,17 +84,14 @@ The consumer provides `<option>` elements as children, giving full control over 
 
 The Select headless component provides a native `<select>` element with `aria-label` for accessible naming and two-way value binding. Consumer-provided `<option>` children define the available choices. The browser handles all keyboard navigation and dropdown behavior. The consumer provides all visual styling.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.select` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
 
-
 - Verify the component renders a `<select>` element with class `select`
-- Verify aria-label={label}` -- provides an accessible name for the select element since there is no visible `<label>` element
+- Verify aria-label={label}`-- provides an accessible name for the select element since there is no visible`<label>` element
 - Verify The `<select>` element implicitly has `role="combobox"` or `role="listbox"` depending on the browser, with built-in accessible semantics
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied

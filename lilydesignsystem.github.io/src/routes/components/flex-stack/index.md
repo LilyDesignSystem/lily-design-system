@@ -38,18 +38,26 @@ Vertical stack with default 1rem gap:
 Horizontal toolbar:
 
 ```html
-<FlexStack direction="row" gap="0.5rem" align="center">
-  <Button>Save</Button>
-  <Button>Cancel</Button>
+<FlexStack
+  direction="row"
+  gap="0.5rem"
+  align="center"
+>
+  <button>Save</button>
+  <button>Cancel</button>
 </FlexStack>
 ```
 
 Horizontal row with space-between justification:
 
 ```html
-<FlexStack direction="row" justify="space-between" align="center">
+<FlexStack
+  direction="row"
+  justify="space-between"
+  align="center"
+>
   <h2>Title</h2>
-  <Button>Action</Button>
+  <button>Action</button>
 </FlexStack>
 ```
 

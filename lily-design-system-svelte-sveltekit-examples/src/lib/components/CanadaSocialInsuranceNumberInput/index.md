@@ -21,7 +21,9 @@ CanadaSocialInsuranceNumberInput is a headless placeholder component, generated 
 ## Usage
 
 ```html
-<CanadaSocialInsuranceNumberInput label="CanadaSocialInsuranceNumberInput example">Content</CanadaSocialInsuranceNumberInput>
+<CanadaSocialInsuranceNumberInput label="CanadaSocialInsuranceNumberInput example"
+  >Content</CanadaSocialInsuranceNumberInput
+>
 ```
 
 ## Keyboard Interactions

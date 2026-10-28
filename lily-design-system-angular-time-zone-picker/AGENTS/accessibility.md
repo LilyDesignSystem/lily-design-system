@@ -72,16 +72,16 @@ Opening moves focus to the `<ul>`; focus never lands on an `<li>`.
 
 On the **listbox**:
 
-| Key               | Action                                                                 |
-| ----------------- | ---------------------------------------------------------------------- |
-| `Arrow Down`      | Active option down one. **Clamps** at the last option — no wrap.       |
-| `Arrow Up`        | Active option up one. **Clamps** at the first option — no wrap.        |
-| `Home` / `End`    | First / last option becomes active.                                    |
-| `Enter` / `Space` | Select the active option, apply it, close, return focus to the button. |
-| `Escape`          | Close and return focus to the button; the value is **not** changed.    |
-| `PageUp` / `PageDown` | Move the active option by ten; clamps.                             |
-| `Tab`             | Close; focus lands on the button so the default Tab proceeds from the picker's position. |
-| Printable chars   | Typeahead over the display **labels**; 500 ms buffer. A single character advances to the next match and repeats cycle; differing characters refine. |
+| Key                   | Action                                                                                                                                              |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Arrow Down`          | Active option down one. **Clamps** at the last option — no wrap.                                                                                    |
+| `Arrow Up`            | Active option up one. **Clamps** at the first option — no wrap.                                                                                     |
+| `Home` / `End`        | First / last option becomes active.                                                                                                                 |
+| `Enter` / `Space`     | Select the active option, apply it, close, return focus to the button.                                                                              |
+| `Escape`              | Close and return focus to the button; the value is **not** changed.                                                                                 |
+| `PageUp` / `PageDown` | Move the active option by ten; clamps.                                                                                                              |
+| `Tab`                 | Close; focus lands on the button so the default Tab proceeds from the picker's position.                                                            |
+| Printable chars       | Typeahead over the display **labels**; 500 ms buffer. A single character advances to the next match and repeats cycle; differing characters refine. |
 
 Clicking an option selects it; clicking outside the root, or focus
 leaving the root, closes without changing the value.
@@ -161,7 +161,10 @@ helpers expose a `className` input that the consumer threads through
 to the inner root:
 
 ```html
-<lily-theme-picker [className]="'my-extra'" ... />
+<lily-theme-picker
+  [className]="'my-extra'"
+  ...
+/>
 ```
 
 This is the Angular equivalent of Vue's `inheritAttrs`-driven

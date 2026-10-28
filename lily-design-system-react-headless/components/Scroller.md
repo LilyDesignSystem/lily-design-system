@@ -32,9 +32,18 @@ return (
     background={visuals[step]}
     onIndexChange={setStep}
   >
-    <section><h2>Step 1</h2><p>...</p></section>
-    <section><h2>Step 2</h2><p>...</p></section>
-    <section><h2>Step 3</h2><p>...</p></section>
+    <section>
+      <h2>Step 1</h2>
+      <p>...</p>
+    </section>
+    <section>
+      <h2>Step 2</h2>
+      <p>...</p>
+    </section>
+    <section>
+      <h2>Step 3</h2>
+      <p>...</p>
+    </section>
   </Scroller>
 );
 ```

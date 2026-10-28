@@ -61,14 +61,11 @@ None -- this component is a passive container. Keyboard navigation is handled by
 
 This component provides a semantic `<thead>` element with implicit `rowgroup` role and zero visual styling. The consumer is responsible for all CSS including header cell typography, alignment, background color, bottom borders, and any abbreviation formatting for day names.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.calendar-table-head` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<thead>` element with class `calendar-table-head`
 - Verify pass-through attributes are applied
@@ -90,7 +87,15 @@ CalendarTableHead is part of the CalendarTable composition pattern:
 ```html
 <CalendarTable label="January 2025">
   <CalendarTableHead>
-    <tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>
+    <tr>
+      <th>Sun</th>
+      <th>Mon</th>
+      <th>Tue</th>
+      <th>Wed</th>
+      <th>Thu</th>
+      <th>Fri</th>
+      <th>Sat</th>
+    </tr>
   </CalendarTableHead>
   <CalendarTableBody>...</CalendarTableBody>
 </CalendarTable>

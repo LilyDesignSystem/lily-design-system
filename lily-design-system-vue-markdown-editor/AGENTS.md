@@ -16,15 +16,15 @@ The canonical implementation is the Svelte package
 
 ## Files
 
-| File | Purpose |
-| ---- | ------- |
-| `spec/index.md` | Specification-driven contract (canonical). |
-| `MarkdownEditor.vue` | Implementation. Vue 3 `<script setup>` + TypeScript. |
-| `MarkdownEditor.test.ts` | Vitest + @vue/test-utils spec. |
-| `markdown-format.ts` | Pure Markdown transforms. **Copied from `shared/markdown-format.ts` by `bin/sync-shared-modules`; never edit this copy.** |
-| `index.md` | User guide. |
-| `docs/accessibility.md` | Tradeoffs, stated plainly. |
-| `examples/` | Runnable examples. |
+| File                     | Purpose                                                                                                                   |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------- |
+| `spec/index.md`          | Specification-driven contract (canonical).                                                                                |
+| `MarkdownEditor.vue`     | Implementation. Vue 3 `<script setup>` + TypeScript.                                                                      |
+| `MarkdownEditor.test.ts` | Vitest + @vue/test-utils spec.                                                                                            |
+| `markdown-format.ts`     | Pure Markdown transforms. **Copied from `shared/markdown-format.ts` by `bin/sync-shared-modules`; never edit this copy.** |
+| `index.md`               | User guide.                                                                                                               |
+| `docs/accessibility.md`  | Tradeoffs, stated plainly.                                                                                                |
+| `examples/`              | Runnable examples.                                                                                                        |
 
 ## Rules that matter
 

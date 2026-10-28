@@ -26,25 +26,37 @@ The component supports both determinate progress (with a known value and maximum
 File upload with real-time percentage:
 
 ```html
-<Progress label="Uploading report.pdf" value={73} max={100} />
+<progress
+  label="Uploading report.pdf"
+  value="{73}"
+  max="{100}"
+/>
 ```
 
 Multi-step onboarding wizard:
 
 ```html
-<Progress label="Onboarding progress" value={2} max={5} />
+<progress
+  label="Onboarding progress"
+  value="{2}"
+  max="{5}"
+/>
 ```
 
 Indeterminate loading while fetching data:
 
 ```html
-<Progress label="Loading patient records" />
+<progress label="Loading patient records" />
 ```
 
 Download progress with byte-based maximum:
 
 ```html
-<Progress label="Downloading update" value={450} max={1024} />
+<progress
+  label="Downloading update"
+  value="{450}"
+  max="{1024}"
+/>
 ```
 
 ## Keyboard Interactions
@@ -75,14 +87,11 @@ None -- this component is a passive display element that does not accept user in
 
 The Progress headless component provides a native `<progress>` element with `aria-label` for accessible naming, supporting both determinate and indeterminate states. The browser provides built-in semantics including `aria-valuenow`, `aria-valuemin`, and `aria-valuemax`. The consumer provides all visual styling for the progress bar appearance.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.progress` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<progress>` element with class `progress`
 - Verify aria-label={label}` -- provides an accessible name describing what process the progress bar represents

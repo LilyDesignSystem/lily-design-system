@@ -6,27 +6,27 @@ consumer-facing guide; this file is the AI-coding contract.
 
 ## Implemented
 
-| WCAG / APG item | How the select satisfies it                                |
-| --------------- | ---------------------------------------------------------- |
-| APG Listbox pattern      | Button (`aria-haspopup="listbox"`) + `<ul role="listbox">` with `aria-activedescendant`. |
-| WCAG 2.1.1 Keyboard      | Component-implemented: open keys, Arrow / Home / End, commit, dismiss, typeahead. |
-| WCAG 2.4.7 Focus Visible | Browser default; helper never sets `outline: none`.  |
-| WCAG 4.1.2 Name, Role, Value | `aria-label` on button + listbox, `aria-expanded`, `aria-selected`. |
-| WCAG 1.4.1 Use of Color  | State conveyed via `aria-selected`, `data-active`, and `data-theme`. |
-| WCAG 3.2.2 On Input      | Committing returns focus to the trigger — a predictable, user-initiated move, not a context change. |
+| WCAG / APG item              | How the select satisfies it                                                                         |
+| ---------------------------- | --------------------------------------------------------------------------------------------------- |
+| APG Listbox pattern          | Button (`aria-haspopup="listbox"`) + `<ul role="listbox">` with `aria-activedescendant`.            |
+| WCAG 2.1.1 Keyboard          | Component-implemented: open keys, Arrow / Home / End, commit, dismiss, typeahead.                   |
+| WCAG 2.4.7 Focus Visible     | Browser default; helper never sets `outline: none`.                                                 |
+| WCAG 4.1.2 Name, Role, Value | `aria-label` on button + listbox, `aria-expanded`, `aria-selected`.                                 |
+| WCAG 1.4.1 Use of Color      | State conveyed via `aria-selected`, `data-active`, and `data-theme`.                                |
+| WCAG 3.2.2 On Input          | Committing returns focus to the trigger — a predictable, user-initiated move, not a context change. |
 
 ## Roles and properties
 
-| Element     | Attribute                          | Source        |
-| ----------- | ---------------------------------- | ------------- |
-| `<div>`     | class hook `theme-picker`          | Component     |
-| `<input type="hidden">` | `name`, `value`        | Component     |
-| `<button>`  | `aria-label={label}`               | Consumer prop |
-| `<button>`  | `aria-haspopup="listbox"`, `aria-expanded`, `aria-controls` | Component |
-| `<span class="theme-picker-icon">` | `aria-hidden="true"` | Component |
-| `<ul>`      | `role="listbox"`, `aria-label={label}`, `tabindex="-1"`, `hidden` | Component |
-| `<ul>`      | `aria-activedescendant` (while open only) | Component |
-| `<li>`      | `role="option"`, `aria-selected`, `data-active` | Component |
+| Element                            | Attribute                                                         | Source        |
+| ---------------------------------- | ----------------------------------------------------------------- | ------------- |
+| `<div>`                            | class hook `theme-picker`                                         | Component     |
+| `<input type="hidden">`            | `name`, `value`                                                   | Component     |
+| `<button>`                         | `aria-label={label}`                                              | Consumer prop |
+| `<button>`                         | `aria-haspopup="listbox"`, `aria-expanded`, `aria-controls`       | Component     |
+| `<span class="theme-picker-icon">` | `aria-hidden="true"`                                              | Component     |
+| `<ul>`                             | `role="listbox"`, `aria-label={label}`, `tabindex="-1"`, `hidden` | Component     |
+| `<ul>`                             | `aria-activedescendant` (while open only)                         | Component     |
+| `<li>`                             | `role="option"`, `aria-selected`, `data-active`                   | Component     |
 
 The component never adds:
 
@@ -41,22 +41,22 @@ stable across SSR and hydration.
 
 On the **button**:
 
-| Key                             | Action                                                    |
-| ------------------------------- | --------------------------------------------------------- |
-| `Tab` / `Shift+Tab`             | Move focus to / from the button (one tab stop).           |
+| Key                             | Action                                                                           |
+| ------------------------------- | -------------------------------------------------------------------------------- |
+| `Tab` / `Shift+Tab`             | Move focus to / from the button (one tab stop).                                  |
 | `ArrowDown` / `Enter` / `Space` | Open with the selected option active (else index 0); focus moves to the listbox. |
-| `ArrowUp`                       | Open with the **last** option active; focus moves to the listbox. |
+| `ArrowUp`                       | Open with the **last** option active; focus moves to the listbox.                |
 
 On the **listbox**:
 
-| Key                     | Action                                                          |
-| ----------------------- | ---------------------------------------------------------------- |
-| `ArrowDown` / `ArrowUp` | Move the active option. Clamps at the ends — no wrapping.        |
-| `Home` / `End`          | Jump to the first / last option.                                 |
-| `Enter` / `Space`       | Select the active option, apply, close, return focus to button.  |
-| `Escape`                | Close and return focus to the button; value unchanged.           |
+| Key                     | Action                                                                                   |
+| ----------------------- | ---------------------------------------------------------------------------------------- |
+| `ArrowDown` / `ArrowUp` | Move the active option. Clamps at the ends — no wrapping.                                |
+| `Home` / `End`          | Jump to the first / last option.                                                         |
+| `Enter` / `Space`       | Select the active option, apply, close, return focus to button.                          |
+| `Escape`                | Close and return focus to the button; value unchanged.                                   |
 | `Tab`                   | Close; focus lands on the button so the default Tab proceeds from the picker's position. |
-| Printable character     | Typeahead over the labels; buffer resets after 500 ms idle.      |
+| Printable character     | Typeahead over the labels; buffer resets after 500 ms idle.                              |
 
 Pointer: clicking an option selects it; clicking the button again,
 clicking outside, or focus leaving the root closes without changing the
@@ -98,13 +98,18 @@ own status region — see [`../docs/accessibility.md`](../docs/accessibility.md)
 ```tsx
 const [announce, setAnnounce] = useState("");
 return (
-    <>
-        <ThemePicker
-            onChange={(slug) => setAnnounce(`Theme changed to ${slug}`)}
-            {...rest}
-        />
-        <div role="status" aria-live="polite">{announce}</div>
-    </>
+  <>
+    <ThemePicker
+      onChange={(slug) => setAnnounce(`Theme changed to ${slug}`)}
+      {...rest}
+    />
+    <div
+      role="status"
+      aria-live="polite"
+    >
+      {announce}
+    </div>
+  </>
 );
 ```
 
@@ -117,8 +122,8 @@ ship a high-contrast focus outline that meets AAA.
 ```css
 .theme-picker-button:focus-visible,
 .theme-picker-list:focus-visible {
-    outline: 2px solid var(--theme-color-primary, currentColor);
-    outline-offset: 2px;
+  outline: 2px solid var(--theme-color-primary, currentColor);
+  outline-offset: 2px;
 }
 ```
 
@@ -134,12 +139,12 @@ on the `data-theme` swap.
 
 ## Screen-reader behaviour
 
-| Reader     | OS       | Browser   | What's announced when user lands on the control |
-| ---------- | -------- | --------- | ------------------------------------------------ |
-| VoiceOver  | macOS    | Safari    | "{label}, pop-up button, collapsed" → on open, "{label}, list box" → "{option}, selected". |
-| NVDA       | Windows  | Firefox   | "{label} button collapsed" → on open, "{label} list box" → "{option} N of M". |
-| JAWS       | Windows  | Chrome    | "{label} button" → on open, "{label} list box, {option}, N of M". |
-| TalkBack   | Android  | Chrome    | "{label}, button, double-tap to activate" → list items read individually. |
+| Reader    | OS      | Browser | What's announced when user lands on the control                                            |
+| --------- | ------- | ------- | ------------------------------------------------------------------------------------------ |
+| VoiceOver | macOS   | Safari  | "{label}, pop-up button, collapsed" → on open, "{label}, list box" → "{option}, selected". |
+| NVDA      | Windows | Firefox | "{label} button collapsed" → on open, "{label} list box" → "{option} N of M".              |
+| JAWS      | Windows | Chrome  | "{label} button" → on open, "{label} list box, {option}, N of M".                          |
+| TalkBack  | Android | Chrome  | "{label}, button, double-tap to activate" → list items read individually.                  |
 
 Verify these by hand — a custom listbox does not get the platform-level
 treatment a native `<select>` does, and `aria-activedescendant` support
@@ -159,7 +164,7 @@ a status region if the value must be discoverable on focus.
 - **Don't drop the `aria-hidden` on the glyph.** A decorative glyph in
   the accessible name tree produces announcements like "black circle
   button".
-- **Don't remove the `aria-label`.** It is the *only* accessible name
+- **Don't remove the `aria-label`.** It is the _only_ accessible name
   the control has — the glyph supplies none.
 - **Don't give the options a real `tabindex`.** The pattern is
   `aria-activedescendant` on a focused listbox, not roving focus;

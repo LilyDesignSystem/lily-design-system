@@ -30,10 +30,7 @@ type SlotArgs = {
 canonical Svelte helper's type name. Both come from `index.ts`:
 
 ```ts
-import type {
-  SlotArgs,
-  ChildArgs,
-} from "./lily-design-system-vue-theme-picker";
+import type { SlotArgs, ChildArgs } from "./lily-design-system-vue-theme-picker";
 ```
 
 In Vue templates the slot props arrive in camelCase via the
@@ -133,9 +130,11 @@ Working example:
     :title="labelFor(value)"
     aria-hidden="true"
   />
-  <span class="theme-picker-caret" aria-hidden="true">{{
-    open ? "▴" : "▾"
-  }}</span>
+  <span
+    class="theme-picker-caret"
+    aria-hidden="true"
+    >{{ open ? "▴" : "▾" }}</span
+  >
 </template>
 ```
 

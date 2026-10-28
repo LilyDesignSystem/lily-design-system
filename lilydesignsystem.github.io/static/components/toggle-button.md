@@ -18,7 +18,10 @@ Use ToggleButton when you need a binary on/off control with button semantics. Co
 ## Syntax
 
 ```html
-<ToggleButton label="..." pressed={pressed} />
+<ToggleButton
+  label="..."
+  pressed="{pressed}"
+/>
 ```
 
 ## Usage
@@ -26,36 +29,49 @@ Use ToggleButton when you need a binary on/off control with button semantics. Co
 Bold formatting toggle in a text editor toolbar:
 
 ```html
-<ToggleButton label="Bold" pressed={isBold} />
+<ToggleButton
+  label="Bold"
+  pressed="{isBold}"
+/>
 ```
 
 Mute control in a media player:
 
 ```html
-<ToggleButton label="Mute audio" pressed={muted} disabled={locked} />
+<ToggleButton
+  label="Mute audio"
+  pressed="{muted}"
+  disabled="{locked}"
+/>
 ```
 
 Favourite toggle on a content card:
 
 ```html
-<ToggleButton label="Favourite" pressed={isFavourited} />
+<ToggleButton
+  label="Favourite"
+  pressed="{isFavourited}"
+/>
 ```
 
 ## Props
 
-| Prop           | Type            | Default    | Description                                              |
-| -------------- | --------------- | ---------- | -------------------------------------------------------- |
-| `label`        | `string`        | (required) | Accessible name applied via `aria-label`                 |
-| `pressed`      | `boolean`       | `false`    | Whether the toggle is on; bindable with two-way `pressed` binding   |
-| `disabled`     | `boolean`       | `false`    | Whether the toggle is disabled                           |
-| `...restProps` | HTML attributes |            | Additional attributes spread onto the `<button>` element |
+| Prop           | Type            | Default    | Description                                                       |
+| -------------- | --------------- | ---------- | ----------------------------------------------------------------- |
+| `label`        | `string`        | (required) | Accessible name applied via `aria-label`                          |
+| `pressed`      | `boolean`       | `false`    | Whether the toggle is on; bindable with two-way `pressed` binding |
+| `disabled`     | `boolean`       | `false`    | Whether the toggle is disabled                                    |
+| `...restProps` | HTML attributes |            | Additional attributes spread onto the `<button>` element          |
 
 ## Examples
 
 Feature flag control:
 
 ```html
-<ToggleButton label="Enable beta features" pressed={betaFeatures} />
+<ToggleButton
+  label="Enable beta features"
+  pressed="{betaFeatures}"
+/>
 ```
 
 ## Keyboard Interactions
@@ -68,6 +84,7 @@ Feature flag control:
 - `role="switch"` -- identifies the element as a two-state toggle switch
 - `aria-checked={pressed}` -- communicates whether the toggle is currently on (`true`) or off (`false`)
 - `aria-label={label}` -- provides the accessible name for the toggle control
+
 ## When to Use
 
 - Use for a button that toggles between pressed and unpressed states, such as bold or italic formatting.
@@ -86,14 +103,11 @@ Feature flag control:
 
 This headless component provides a `<button>` with `role="switch"`, `aria-checked`, and `aria-label` for accessible two-state toggle behavior. It handles Space key toggling with `preventDefault`. The consumer provides all visual styling, including pressed/unpressed states and any icons or labels.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.toggle-button` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<button>` element with class `toggle-button`
 - Verify role="switch"` -- identifies the element as a two-state toggle switch

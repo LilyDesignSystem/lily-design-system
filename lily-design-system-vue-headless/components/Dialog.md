@@ -30,18 +30,30 @@ This component uses the native `<dialog>` HTML element with conditional renderin
   let showDialog = $state(false);
 </script>
 
-<button onclick={() => showDialog = true}>Open Dialog</button>
+<button onclick={() => (showDialog = true)}>Open Dialog</button>
 
-<Dialog label="Confirm action" bind:open={showDialog}>
+<Dialog
+  label="Confirm action"
+  bind:open={showDialog}
+>
   <p>Are you sure you want to proceed?</p>
-  <button onclick={() => showDialog = false}>Cancel</button>
-  <button onclick={() => { handleConfirm(); showDialog = false; }}>Confirm</button>
+  <button onclick={() => (showDialog = false)}>Cancel</button>
+  <button
+    onclick={() => {
+      handleConfirm();
+      showDialog = false;
+    }}>Confirm</button
+  >
 </Dialog>
 ```
 
 ```svelte
 <!-- Non-modal dialog -->
-<Dialog label="Notification" bind:open={showNotice} modal={false}>
+<Dialog
+  label="Notification"
+  bind:open={showNotice}
+  modal={false}
+>
   <p>Your file has been saved.</p>
 </Dialog>
 ```

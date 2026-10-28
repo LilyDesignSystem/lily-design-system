@@ -22,7 +22,10 @@ BharatAadhaarView is a headless read-only display of India's Aadhaar (आधा�
 ```html
 <SummaryList>
   <SummaryListItem term="Aadhaar (आधार)">
-    <BharatAadhaarView label="Aadhaar (आधार)" value={value} />
+    <BharatAadhaarView
+      label="Aadhaar (आधार)"
+      value="{value}"
+    />
   </SummaryListItem>
 </SummaryList>
 ```

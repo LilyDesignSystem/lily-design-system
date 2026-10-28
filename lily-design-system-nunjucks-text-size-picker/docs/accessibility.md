@@ -38,21 +38,21 @@ sizing.
 
 ## Roles and properties
 
-| Element             | Role / Property                     | Source           |
-| ------------------- | ----------------------------------- | ---------------- |
-| `<div>` root        | none (a plain container)            | Macro            |
-| `<button>`          | implicit `role="button"`            | Browser          |
-| `<button>`          | `aria-label="{label}"`              | `opts.label`     |
-| `<button>`          | `aria-haspopup="listbox"`           | Macro            |
-| `<button>`          | `aria-expanded="true|false"`        | Macro + client   |
-| `<button>`          | `aria-controls="{id}-list"`         | Macro            |
-| `<span>` glyph      | `aria-hidden="true"`                | Macro            |
-| `<ul>`              | `role="listbox"`                    | Macro            |
-| `<ul>`              | `aria-label="{label}"`              | `opts.label`     |
-| `<ul>`              | `aria-activedescendant="{optionId}"`| Client, while open |
-| `<li>`              | `role="option"`                     | Macro            |
-| `<li>`              | `aria-selected="true|false"`        | Macro + client   |
-| `<input type=hidden>` | `name`                            | Macro            |
+| Element               | Role / Property                      | Source             |
+| --------------------- | ------------------------------------ | ------------------ |
+| `<div>` root          | none (a plain container)             | Macro              |
+| `<button>`            | implicit `role="button"`             | Browser            |
+| `<button>`            | `aria-label="{label}"`               | `opts.label`       |
+| `<button>`            | `aria-haspopup="listbox"`            | Macro              |
+| `<button>`            | `aria-expanded="true                 | false"`            | Macro + client |
+| `<button>`            | `aria-controls="{id}-list"`          | Macro              |
+| `<span>` glyph        | `aria-hidden="true"`                 | Macro              |
+| `<ul>`                | `role="listbox"`                     | Macro              |
+| `<ul>`                | `aria-label="{label}"`               | `opts.label`       |
+| `<ul>`                | `aria-activedescendant="{optionId}"` | Client, while open |
+| `<li>`                | `role="option"`                      | Macro              |
+| `<li>`                | `aria-selected="true                 | false"`            | Macro + client |
+| `<input type=hidden>` | `name`                               | Macro              |
 
 The active option is conveyed with `aria-activedescendant` on the
 focused `<ul>`; DOM focus stays on the `<ul>` and never moves to an
@@ -70,23 +70,23 @@ before that module runs — see [`./ssr.md`](./ssr.md).
 
 On the **button**:
 
-| Key                          | Action                                                   |
-| ---------------------------- | -------------------------------------------------------- |
-| `Tab` / `Shift+Tab`          | Move focus to / away from the button (one stop).          |
-| `ArrowDown`, `Enter`, `Space`| Open, with the selected size active. Focus moves to the list. |
-| `ArrowUp`                    | Open, with the LAST option active.                        |
+| Key                           | Action                                                        |
+| ----------------------------- | ------------------------------------------------------------- |
+| `Tab` / `Shift+Tab`           | Move focus to / away from the button (one stop).              |
+| `ArrowDown`, `Enter`, `Space` | Open, with the selected size active. Focus moves to the list. |
+| `ArrowUp`                     | Open, with the LAST option active.                            |
 
 On the **listbox**:
 
-| Key                | Action                                                        |
-| ------------------ | ------------------------------------------------------------- |
-| `ArrowDown` / `ArrowUp` | Move the active option. Clamps at the ends; no wrapping. |
-| `Home` / `End`     | Jump to the first / last option.                              |
-| `Enter` / `Space`  | Select the active option, apply it, close, return focus.      |
-| `Escape`           | Close and return focus, leaving the size unchanged.           |
-| `PageUp` / `PageDown` | Move the active option by ten, clamped. |
-| `Tab`              | Close and move on — focus goes to the button first, so the default Tab proceeds from the picker's position. |
-| Printable character| APG typeahead: one character advances to the next match, a repeated character cycles; differing characters refine. 500 ms buffer reset. |
+| Key                     | Action                                                                                                                                  |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `ArrowDown` / `ArrowUp` | Move the active option. Clamps at the ends; no wrapping.                                                                                |
+| `Home` / `End`          | Jump to the first / last option.                                                                                                        |
+| `Enter` / `Space`       | Select the active option, apply it, close, return focus.                                                                                |
+| `Escape`                | Close and return focus, leaving the size unchanged.                                                                                     |
+| `PageUp` / `PageDown`   | Move the active option by ten, clamped.                                                                                                 |
+| `Tab`                   | Close and move on — focus goes to the button first, so the default Tab proceeds from the picker's position.                             |
+| Printable character     | APG typeahead: one character advances to the next match, a repeated character cycles; differing characters refine. 500 ms buffer reset. |
 
 Typeahead matches the **rendered** label, so `opts.sizeLabels`
 overrides participate: if you relabel `x-large` as "Huge", typing `h`
@@ -111,7 +111,7 @@ straight WCAG 4.1.2 failure with no partial credit.
 
 Voice control deserves specific mention: users of Voice Control and
 Voice Access say the visible name of a control. An icon-only button has
-none, so `aria-label` is also the *spoken* target. Keep it short,
+none, so `aria-label` is also the _spoken_ target. Keep it short,
 literal, and matched to what a user would plausibly call it ("Text
 size", not "Typographic scale preference selector").
 
@@ -201,10 +201,9 @@ opting in.**
 const status = document.querySelector(".text-size-picker-status");
 
 autoInit({
-    onChange(slug) {
-        status.textContent =
-            translate("Text size: {name}", { name: labels[slug] });
-    },
+  onChange(slug) {
+    status.textContent = translate("Text size: {name}", { name: labels[slug] });
+  },
 });
 ```
 
@@ -287,7 +286,7 @@ the whole page's type scale is a strong vestibular trigger.
   (`clip-path: inset(50%)`) instead.
 - **Styling the list open by default.** The `hidden` attribute is the
   open-state contract; a CSS rule like `.text-size-picker-list {
-  display: block }` overrides `hidden` and leaves the list permanently
+display: block }` overrides `hidden` and leaves the list permanently
   visible and out of sync with `aria-expanded`. Use
   `.text-size-picker-list:not([hidden])` for open-state styling.
 - **Treating this control as your 1.4.4 compliance story.** It helps;

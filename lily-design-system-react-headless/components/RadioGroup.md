@@ -23,8 +23,22 @@ Use RadioGroup when you need a set of mutually exclusive options, such as select
 
 ```tsx
 <RadioGroup label="Size">
-  <label><input type="radio" name="size" value="s" /> Small</label>
-  <label><input type="radio" name="size" value="m" /> Medium</label>
+  <label>
+    <input
+      type="radio"
+      name="size"
+      value="s"
+    />{" "}
+    Small
+  </label>
+  <label>
+    <input
+      type="radio"
+      name="size"
+      value="m"
+    />{" "}
+    Medium
+  </label>
 </RadioGroup>
 ```
 

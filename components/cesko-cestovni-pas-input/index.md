@@ -23,8 +23,15 @@ CeskoCestovniPasInput is a headless input for entering Czech Republic's Cestovn√
 ## Usage
 
 ```html
-<Field label="Czech Passport" required>
-  <CeskoCestovniPasInput label="Czech Passport" value={value} required />
+<Field
+  label="Czech Passport"
+  required
+>
+  <CeskoCestovniPasInput
+    label="Czech Passport"
+    value="{value}"
+    required
+  />
   <Hint>usually 8 digits, sometimes longer, issued by the Ministry of the Interior</Hint>
   <ErrorMessage>Please enter a valid Czech Passport</ErrorMessage>
 </Field>

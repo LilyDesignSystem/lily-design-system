@@ -28,23 +28,57 @@ The component renders a search region containing a text input and a listbox for 
 Application command palette triggered by Ctrl+K:
 
 ```html
-<Command label="Command palette" placeholder="Type a command..." value={query}>
-    <div role="option" tabindex="-1" onclick={() => navigate('/dashboard')}>Go to Dashboard</div>
-    <div role="option" tabindex="-1" onclick={() => navigate('/settings')}>Open Settings</div>
-    <div role="option" tabindex="-1" onclick={() => toggleTheme()}>Toggle Dark Mode</div>
-</Command>
+<command
+  label="Command palette"
+  placeholder="Type a command..."
+  value="{query}"
+>
+  <div
+    role="option"
+    tabindex="-1"
+    onclick="{()"
+    =""
+  >
+    navigate('/dashboard')}>Go to Dashboard
+  </div>
+  <div
+    role="option"
+    tabindex="-1"
+    onclick="{()"
+    =""
+  >
+    navigate('/settings')}>Open Settings
+  </div>
+  <div
+    role="option"
+    tabindex="-1"
+    onclick="{()"
+    =""
+  >
+    toggleTheme()}>Toggle Dark Mode
+  </div>
+</command>
 ```
 
 Admin panel action launcher with dynamic filtering:
 
 ```html
-<Command label="Actions" placeholder="Search actions..." value={actionQuery}>
-    {#each filteredActions as action}
-        <div role="option" tabindex="-1" onclick={() => action.execute()}>
-            {action.name} <kbd>{action.shortcut}</kbd>
-        </div>
-    {/each}
-</Command>
+<command
+  label="Actions"
+  placeholder="Search actions..."
+  value="{actionQuery}"
+>
+  {#each filteredActions as action}
+  <div
+    role="option"
+    tabindex="-1"
+    onclick="{()"
+    =""
+  >
+    action.execute()}> {action.name} <kbd>{action.shortcut}</kbd>
+  </div>
+  {/each}
+</command>
 ```
 
 ## Keyboard Interactions
@@ -76,14 +110,11 @@ Admin panel action launcher with dynamic filtering:
 
 This headless Command component provides a `<div>` with `role="search"` and `aria-label`, an `<input type="search">` with `autocomplete="off"`, and a `<div>` with `role="listbox"` for displaying results. The consumer provides all visual styling including modal/overlay presentation, result item layout, keyboard shortcut hints, grouping headers, and animations.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.command` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `command`
 - Verify role="search"` -- identifies the outer container as a search landmark region

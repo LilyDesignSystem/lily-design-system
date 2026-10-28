@@ -4,12 +4,12 @@ A single item within a CheckList. Renders as an `<li>` containing a checkbox `<i
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| checked | boolean | false | Whether the checkbox is checked |
-| disabled | boolean | false | Whether the checkbox is disabled |
-| children | ReactNode | required | Label content for this item |
-| ...restProps | HTML attributes | — | Spread onto the `<li>` |
+| Prop         | Type            | Default  | Description                      |
+| ------------ | --------------- | -------- | -------------------------------- |
+| checked      | boolean         | false    | Whether the checkbox is checked  |
+| disabled     | boolean         | false    | Whether the checkbox is disabled |
+| children     | ReactNode       | required | Label content for this item      |
+| ...restProps | HTML attributes | —        | Spread onto the `<li>`           |
 
 ## Usage
 

@@ -23,8 +23,16 @@ The component prevents default form submission behavior, allowing the consumer's
 ## Usage
 
 ```html
-<DataFilterForm label="Filter results" onsubmit={applyFilters}>
-  <label>Category <select>...</select></label>
+<DataFilterForm
+  label="Filter results"
+  onsubmit="{applyFilters}"
+>
+  <label
+    >Category
+    <select>
+      ...
+    </select></label
+  >
   <button type="submit">Apply</button>
 </DataFilterForm>
 ```
@@ -54,14 +62,11 @@ None -- this component is a passive container. Keyboard behavior is determined b
 
 This headless DataFilterForm component provides a `<form>` with `role="search"` and `aria-label` for semantic landmark identification, plus `preventDefault` on submit for consumer-controlled filter logic. The consumer provides all visual styling including filter input layout, submit/reset button appearance, spacing, and responsive behavior.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.data-filter-form` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<form>` element with class `data-filter-form`
 - Verify role="search"` -- identifies the form as a search landmark for assistive technology

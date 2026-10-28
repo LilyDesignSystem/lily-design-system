@@ -26,15 +26,25 @@ This component is useful in form contexts where the native input semantics are p
 ## Usage
 
 ```svelte
-<ButtonInput value="Click me" onclick={handleClick} />
+<ButtonInput
+  value="Click me"
+  onclick={handleClick}
+/>
 ```
 
 ```svelte
-<ButtonInput value="Submit" disabled />
+<ButtonInput
+  value="Submit"
+  disabled
+/>
 ```
 
 ```svelte
-<ButtonInput value="Save" name="action" label="Save changes" />
+<ButtonInput
+  value="Save"
+  name="action"
+  label="Save changes"
+/>
 ```
 
 ## Keyboard Interactions

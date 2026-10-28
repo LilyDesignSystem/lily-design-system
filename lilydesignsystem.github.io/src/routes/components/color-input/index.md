@@ -22,7 +22,10 @@ A color input wraps the native HTML `<input type="color">` element, providing a 
 ## Usage
 
 ```html
-<ColorInput label="Background color" value={color} />
+<ColorInput
+  label="Background color"
+  value="{color}"
+/>
 ```
 
 ## Keyboard Interactions
@@ -48,17 +51,14 @@ None -- keyboard behavior is provided by the browser-native color input.
 
 This headless ColorInput component provides a native `<input type="color">` with `aria-label` for accessible naming, two-way binding on the hex value, and support for `disabled` and form attributes. The consumer provides all visual styling including the swatch display size, border treatment, and any surrounding label or helper text layout.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.color-input` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
 
-
 - Verify the component renders a `<input>` element with class `color-input`
-- Verify aria-label="..."` -- provides an accessible name for the color input since it has no visible `<label>` element
+- Verify aria-label="..."`-- provides an accessible name for the color input since it has no visible`<label>` element
 - Verify pass-through attributes are applied
 
 ## Advice

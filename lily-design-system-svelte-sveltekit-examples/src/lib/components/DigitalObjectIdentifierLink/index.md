@@ -10,7 +10,7 @@ See [components/digital-object-identifier-link/index.md](../../../../../componen
 
 ```svelte
 <script lang="ts">
-    import DigitalObjectIdentifierLink from "./DigitalObjectIdentifierLink.svelte";
+  import DigitalObjectIdentifierLink from "./DigitalObjectIdentifierLink.svelte";
 </script>
 
 <DigitalObjectIdentifierLink />

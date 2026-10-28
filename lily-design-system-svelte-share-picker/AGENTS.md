@@ -14,14 +14,14 @@ the default button icon (reversed 2026-09-16 from a Unicode glyph).
 
 ## Files
 
-| File | Purpose |
-| ---- | ------- |
-| `spec/index.md` | Specification-driven contract (canonical). |
-| `SharePicker.svelte` | Implementation. Svelte 5 runes + TypeScript. |
-| `SharePicker.test.ts` | Vitest spec, mapped to the §7 clauses. |
-| `index.ts` | Barrel re-export. |
-| `index.md` | User guide. |
-| `docs/accessibility.md` | Tradeoffs, stated plainly. |
+| File                    | Purpose                                      |
+| ----------------------- | -------------------------------------------- |
+| `spec/index.md`         | Specification-driven contract (canonical).   |
+| `SharePicker.svelte`    | Implementation. Svelte 5 runes + TypeScript. |
+| `SharePicker.test.ts`   | Vitest spec, mapped to the §7 clauses.       |
+| `index.ts`              | Barrel re-export.                            |
+| `index.md`              | User guide.                                  |
+| `docs/accessibility.md` | Tradeoffs, stated plainly.                   |
 
 ## Public surface
 

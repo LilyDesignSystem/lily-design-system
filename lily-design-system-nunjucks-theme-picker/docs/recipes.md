@@ -173,14 +173,12 @@ The `target` is set at `initThemePicker` time, not via macro opts:
 ```html
 <script type="module">
   import { initThemePicker } from "/path/to/theme-picker.client.js";
-  initThemePicker(
-    document.querySelector("[data-lily-theme-picker-name='region-a']"),
-    { target: document.querySelector("section.region-a") },
-  );
-  initThemePicker(
-    document.querySelector("[data-lily-theme-picker-name='region-b']"),
-    { target: document.querySelector("section.region-b") },
-  );
+  initThemePicker(document.querySelector("[data-lily-theme-picker-name='region-a']"), {
+    target: document.querySelector("section.region-a"),
+  });
+  initThemePicker(document.querySelector("[data-lily-theme-picker-name='region-b']"), {
+    target: document.querySelector("section.region-b"),
+  });
 </script>
 ```
 

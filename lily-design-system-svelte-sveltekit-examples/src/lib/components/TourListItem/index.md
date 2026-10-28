@@ -53,12 +53,25 @@ Import and place inside `TourList` (possibly nested under a `Tour`). Pass a tran
   let step = $state(0);
 </script>
 
-<TourList label="Steps" bind:active>
-  <TourListItem label="Welcome" current={step === 0} stepNumber={1} totalSteps={2}>
+<TourList
+  label="Steps"
+  bind:active
+>
+  <TourListItem
+    label="Welcome"
+    current={step === 0}
+    stepNumber={1}
+    totalSteps={2}
+  >
     <p>Welcome!</p>
     <button onclick={() => step++}>Next</button>
   </TourListItem>
-  <TourListItem label="Done" current={step === 1} stepNumber={2} totalSteps={2}>
+  <TourListItem
+    label="Done"
+    current={step === 1}
+    stepNumber={2}
+    totalSteps={2}
+  >
     <button onclick={() => (active = false)}>Finish</button>
   </TourListItem>
 </TourList>
@@ -80,8 +93,14 @@ Import and place inside `TourList` (possibly nested under a `Tour`). Pass a tran
   let step = $state(0);
 </script>
 
-<Tour label="Tour" bind:active>
-  <TourList label="Steps" active>
+<Tour
+  label="Tour"
+  bind:active
+>
+  <TourList
+    label="Steps"
+    active
+  >
     {#each steps as s, i}
       <TourListItem
         label={s.label}
@@ -110,12 +129,21 @@ Import and place inside `TourList` (possibly nested under a `Tour`). Pass a tran
   let step = $state(0);
 </script>
 
-<TourList label="Quick guide" bind:active>
-  <TourListItem label="No progress shown" current={step === 0}>
+<TourList
+  label="Quick guide"
+  bind:active
+>
+  <TourListItem
+    label="No progress shown"
+    current={step === 0}
+  >
     A step without stepNumber / totalSteps
     <button onclick={() => step++}>Next</button>
   </TourListItem>
-  <TourListItem label="Final step" current={step === 1}>
+  <TourListItem
+    label="Final step"
+    current={step === 1}
+  >
     <button onclick={() => (active = false)}>Close</button>
   </TourListItem>
 </TourList>
@@ -130,12 +158,25 @@ Import and place inside `TourList` (possibly nested under a `Tour`). Pass a tran
   let step = $state(0);
 </script>
 
-<TourList label="Visite" bind:active>
-  <TourListItem label="Bienvenue" current={step === 0} stepNumber={1} totalSteps={2}>
+<TourList
+  label="Visite"
+  bind:active
+>
+  <TourListItem
+    label="Bienvenue"
+    current={step === 0}
+    stepNumber={1}
+    totalSteps={2}
+  >
     Bonjour !
     <button onclick={() => step++}>Suivant</button>
   </TourListItem>
-  <TourListItem label="Fin" current={step === 1} stepNumber={2} totalSteps={2}>
+  <TourListItem
+    label="Fin"
+    current={step === 1}
+    stepNumber={2}
+    totalSteps={2}
+  >
     <button onclick={() => (active = false)}>Terminer</button>
   </TourListItem>
 </TourList>

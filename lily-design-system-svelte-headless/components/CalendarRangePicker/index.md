@@ -41,12 +41,12 @@ Import `CalendarRangePicker` from `./CalendarRangePicker.svelte`. Pass `label`. 
 
 ```svelte
 <script lang="ts">
-  import CalendarRangePicker from './CalendarRangePicker.svelte';
-  import CalendarTable from '../CalendarTable/CalendarTable.svelte';
-  import CalendarTableHead from '../CalendarTableHead/CalendarTableHead.svelte';
-  import CalendarTableBody from '../CalendarTableBody/CalendarTableBody.svelte';
-  import CalendarTableRow from '../CalendarTableRow/CalendarTableRow.svelte';
-  import CalendarTableTD from '../CalendarTableTD/CalendarTableTD.svelte';
+  import CalendarRangePicker from "./CalendarRangePicker.svelte";
+  import CalendarTable from "../CalendarTable/CalendarTable.svelte";
+  import CalendarTableHead from "../CalendarTableHead/CalendarTableHead.svelte";
+  import CalendarTableBody from "../CalendarTableBody/CalendarTableBody.svelte";
+  import CalendarTableRow from "../CalendarTableRow/CalendarTableRow.svelte";
+  import CalendarTableTD from "../CalendarTableTD/CalendarTableTD.svelte";
 </script>
 
 <CalendarRangePicker label="Select travel dates">
@@ -71,7 +71,7 @@ Import `CalendarRangePicker` from `./CalendarRangePicker.svelte`. Pass `label`. 
 
 ```svelte
 <script lang="ts">
-  import CalendarRangePicker from './CalendarRangePicker.svelte';
+  import CalendarRangePicker from "./CalendarRangePicker.svelte";
 
   let start = $state<Date | null>(null);
   let end = $state<Date | null>(null);
@@ -81,9 +81,12 @@ Import `CalendarRangePicker` from `./CalendarRangePicker.svelte`. Pass `label`. 
   }
 </script>
 
-<CalendarRangePicker label="Select dates" {onkeydown}>
+<CalendarRangePicker
+  label="Select dates"
+  {onkeydown}
+>
   <div>
-    Start: {start?.toDateString() ?? 'none'} — End: {end?.toDateString() ?? 'none'}
+    Start: {start?.toDateString() ?? "none"} — End: {end?.toDateString() ?? "none"}
   </div>
 </CalendarRangePicker>
 ```
@@ -92,9 +95,9 @@ Import `CalendarRangePicker` from `./CalendarRangePicker.svelte`. Pass `label`. 
 
 ```svelte
 <script lang="ts">
-  import CalendarRangePicker from './CalendarRangePicker.svelte';
+  import CalendarRangePicker from "./CalendarRangePicker.svelte";
 
-  const label = 'Seleccionar fechas de viaje';
+  const label = "Seleccionar fechas de viaje";
 </script>
 
 <CalendarRangePicker {label}>
@@ -106,10 +109,14 @@ Import `CalendarRangePicker` from `./CalendarRangePicker.svelte`. Pass `label`. 
 
 ```svelte
 <script lang="ts">
-  import CalendarRangePicker from './CalendarRangePicker.svelte';
+  import CalendarRangePicker from "./CalendarRangePicker.svelte";
 </script>
 
-<CalendarRangePicker label="Date range" data-testid="range-picker" id="rp">
+<CalendarRangePicker
+  label="Date range"
+  data-testid="range-picker"
+  id="rp"
+>
   <p>...</p>
 </CalendarRangePicker>
 ```

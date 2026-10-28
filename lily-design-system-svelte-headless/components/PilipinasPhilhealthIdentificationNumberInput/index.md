@@ -21,7 +21,10 @@ PilipinasPhilhealthIdentificationNumberInput is a headless placeholder component
 ## Usage
 
 ```html
-<PilipinasPhilhealthIdentificationNumberInput label="PilipinasPhilhealthIdentificationNumberInput example">Content</PilipinasPhilhealthIdentificationNumberInput>
+<PilipinasPhilhealthIdentificationNumberInput
+  label="PilipinasPhilhealthIdentificationNumberInput example"
+  >Content</PilipinasPhilhealthIdentificationNumberInput
+>
 ```
 
 ## Keyboard Interactions

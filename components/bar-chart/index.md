@@ -18,18 +18,22 @@ For the same comparison with vertical bars (better for short labels and time-ord
 
 ## Props
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `label` | string (required) | — | Accessible name |
-| `description` | string | — | Extended description |
-| `categories` | array of `{ label: string; value: number }` | [] | Categories to plot |
-| `dataTable` | slot | — | Optional fallback `<table>` |
-| `...restProps` | HTML attributes | — | Spread onto the root `<figure>` |
+| Prop           | Type                                        | Default | Description                     |
+| -------------- | ------------------------------------------- | ------- | ------------------------------- |
+| `label`        | string (required)                           | —       | Accessible name                 |
+| `description`  | string                                      | —       | Extended description            |
+| `categories`   | array of `{ label: string; value: number }` | []      | Categories to plot              |
+| `dataTable`    | slot                                        | —       | Optional fallback `<table>`     |
+| `...restProps` | HTML attributes                             | —       | Spread onto the root `<figure>` |
 
 ## Usage
 
 ```html
-<BarChart label="Top services by usage" categories={topServices} description="Usage counts for the top 10 services" />
+<BarChart
+  label="Top services by usage"
+  categories="{topServices}"
+  description="Usage counts for the top 10 services"
+/>
 ```
 
 ## Keyboard Interactions

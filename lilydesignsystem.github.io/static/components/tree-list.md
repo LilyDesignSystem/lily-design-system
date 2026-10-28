@@ -28,7 +28,10 @@ Use TreeList when you need a hierarchical list with keyboard navigation. Common 
 ```html
 <TreeNav label="Documentation">
   <TreeList label="Docs sections">
-    <TreeListItem tabindex="0" aria-expanded="true">
+    <TreeListItem
+      tabindex="0"
+      aria-expanded="true"
+    >
       Getting Started
       <ul role="group">
         <TreeListItem tabindex="-1">Installation</TreeListItem>
@@ -43,7 +46,10 @@ Use TreeList when you need a hierarchical list with keyboard navigation. Common 
 ```html
 <TreeNav label="File browser">
   <TreeList label="Project files">
-    <TreeListItem tabindex="0" aria-expanded="true">
+    <TreeListItem
+      tabindex="0"
+      aria-expanded="true"
+    >
       src
       <ul role="group">
         <TreeListItem tabindex="-1">index.ts</TreeListItem>
@@ -69,7 +75,10 @@ File browser with nesting:
 
 ```html
 <TreeList label="Project files">
-  <TreeListItem tabindex="0" aria-expanded="true">
+  <TreeListItem
+    tabindex="0"
+    aria-expanded="true"
+  >
     src
     <ul role="group">
       <TreeListItem tabindex="-1">index.ts</TreeListItem>

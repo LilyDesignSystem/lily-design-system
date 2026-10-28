@@ -27,11 +27,11 @@ whose [spec](../lily-design-system-svelte-data-grid/spec/index.md) is the contra
 
 ## What is Nunjucks-specific
 
-| Svelte | Nunjucks |
-| --- | --- |
-| label functions (`selectRow: (name) => …`) | template strings with `{placeholders}` named after the function's parameters, e.g. `"Select {rowLabel}"` |
+| Svelte                                                                                          | Nunjucks                                                                                                                                                                                  |
+| ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| label functions (`selectRow: (name) => …`)                                                      | template strings with `{placeholders}` named after the function's parameters, e.g. `"Select {rowLabel}"`                                                                                  |
 | `accessor`, `cell`, `headerCell`, `footer`, `empty`, `rowClass`, `validate`, `parse`, callbacks | not available in a macro; columns are declarative (`type`, `options`, `format` options, …). Behaviour hooks are on the `<data-grid>` element `initDataGrid` returns, and its CustomEvents |
-| the table | a plain `<table>` of raw cell values is rendered on the server and replaced by the interactive grid when the client runs |
+| the table                                                                                       | a plain `<table>` of raw cell values is rendered on the server and replaced by the interactive grid when the client runs                                                                  |
 
 Everything else — columns, labels, `rowId`, `selectionMode`, `pageSize`, `storageKey`, `mode`,
 the keyboard model, the cell types, editing, export and virtualization — is as in the Svelte
@@ -75,7 +75,7 @@ The macro takes the scalar new options: `emptyValue`, `nulls` (`"first"` or `"la
 - **Field-specific search.** `filterField` (controlled when given, `onFilterFieldChange`) limits the text filter to one column; `labels.searchField` (the select's name) with `labels.searchAllFields` (its first option) shows the select, listing the filterable columns. Without a field the whole row is searched.
 - **`movableColumns`** makes every column movable (Alt+Arrow on the header, or drag), unless a column's `movable` is `false`.
 - **Right-to-left.** The horizontal arrows are visual, so in a right-to-left layout (the nearest `dir`, else the computed direction) ArrowLeft goes to the next cell and ArrowRight to the previous, and Alt+Arrow moves a column the way the arrow points. Vertical keys, Home, End and the page keys do not change. The pure `isRtl` / `logicalKey` are exported.
-- **Labels.** `DataGridLabels` is the one bundle of every string. What each feature needs is listed in `CONTROL_LABELS` (labels that *name a control*) and `ANNOUNCEMENT_LABELS` (live-region messages), and `requiredLabels(features)` / `missingLabels(features, labels)` compute it, so an app can assert in a test that its bundle for a locale is complete. In development the grid logs once, naming the labels its features call for that `labels` leaves out (`warnMissingLabels={false}` silences it; it never logs in production). Lily has no English fallback: a missing label is a control with no name or an announcement never made. `sortAnnouncement` receives the ARIA token (`ascending`, `descending`, `none`), which the bundle turns into its own words.
+- **Labels.** `DataGridLabels` is the one bundle of every string. What each feature needs is listed in `CONTROL_LABELS` (labels that _name a control_) and `ANNOUNCEMENT_LABELS` (live-region messages), and `requiredLabels(features)` / `missingLabels(features, labels)` compute it, so an app can assert in a test that its bundle for a locale is complete. In development the grid logs once, naming the labels its features call for that `labels` leaves out (`warnMissingLabels={false}` silences it; it never logs in production). Lily has no English fallback: a missing label is a control with no name or an announcement never made. `sortAnnouncement` receives the ARIA token (`ascending`, `descending`, `none`), which the bundle turns into its own words.
 - **Row attributes.** `rowAttrs(row)` returns attributes spread onto each body row — the way to put test ids (`data-testid`), data attributes and other hooks on rows (`rowAttrs={(row) => ({ "data-testid": `row-${row.id}` })}`); `rowClass` does the same for classes, and a column's `cellAttrs` / `cellClass` for cells.
 
 ## Pager landmark (0.10.0)

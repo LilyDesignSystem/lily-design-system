@@ -53,10 +53,10 @@ This component sets only the `--clamp-text-lines` CSS custom property and the `d
 
 ```css
 .clamp-text {
-    display: -webkit-box;
-    -webkit-line-clamp: var(--clamp-text-lines);
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: var(--clamp-text-lines);
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 ```
 

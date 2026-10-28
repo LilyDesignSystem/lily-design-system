@@ -15,12 +15,12 @@ this.
 
 ## How to respond
 
-| You have | Do this |
-| --- | --- |
-| An answer to a question below | Open an issue titled `RFC N: <your position>` |
-| A defect | An ordinary issue — see [CONTRIBUTING.md](CONTRIBUTING.md) |
-| Something you would rather not say publicly | <joel@joelparkerhenderson.com> |
-| A change you have already made | A pull request that says which RFC it answers |
+| You have                                    | Do this                                                    |
+| ------------------------------------------- | ---------------------------------------------------------- |
+| An answer to a question below               | Open an issue titled `RFC N: <your position>`              |
+| A defect                                    | An ordinary issue — see [CONTRIBUTING.md](CONTRIBUTING.md) |
+| Something you would rather not say publicly | <joel@joelparkerhenderson.com>                             |
+| A change you have already made              | A pull request that says which RFC it answers              |
 
 <https://github.com/LilyDesignSystem/lily-design-system/>
 
@@ -91,7 +91,7 @@ can have.
 
 **The doubt:** this is the question that most deserves an outside answer. A native
 `<select>` gets platform keyboard semantics, mobile pickers, and screen-reader
-behaviour for free, and those are *better* on mobile than anything hand-rolled. The
+behaviour for free, and those are _better_ on mobile than anything hand-rolled. The
 project traded them for visual control and now hand-maintains typeahead, PageUp,
 focus return, and clamping in seven frameworks — and has already shipped several
 defects in exactly that code. The cost is documented in each package's
@@ -235,16 +235,16 @@ These have been decided, the reasoning is written down, and reopening them costs
 time better spent above. If you think one is wrong, you will need evidence rather
 than preference.
 
-| Decision | Where the reasoning lives |
-| --- | --- |
-| The headless layer ships **no CSS** | [AGENTS/headless.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/headless.md) |
-| **No hardcoded user-facing strings**, ever, including English defaults | [AGENTS/internationalization.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/internationalization.md) |
-| **No CSS framework dependency** — no Tailwind, DaisyUI, Bootstrap | [AGENTS/headless.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/headless.md) |
-| **Semantic HTML before ARIA** | [AGENTS/accessibility.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/accessibility.md) |
-| The radio-group picker markup **is not coming back** | [AGENTS/helpers.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/helpers.md) |
-| **Svelte is canonical** for the helper catalogs | [AGENTS/helpers.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/helpers.md) |
-| Components own **no data fetching, routing, persistence, or animation** | [AGENTS/headless.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/headless.md) |
-| Applying a preference is **idempotent** | [spec/helpers/index.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/helpers/index.md) |
+| Decision                                                                | Where the reasoning lives                                        |
+| ----------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| The headless layer ships **no CSS**                                     | [AGENTS/headless.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/headless.md)                         |
+| **No hardcoded user-facing strings**, ever, including English defaults  | [AGENTS/internationalization.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/internationalization.md) |
+| **No CSS framework dependency** — no Tailwind, DaisyUI, Bootstrap       | [AGENTS/headless.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/headless.md)                         |
+| **Semantic HTML before ARIA**                                           | [AGENTS/accessibility.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/accessibility.md)               |
+| The radio-group picker markup **is not coming back**                    | [AGENTS/helpers.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/helpers.md)                           |
+| **Svelte is canonical** for the helper catalogs                         | [AGENTS/helpers.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/helpers.md)                           |
+| Components own **no data fetching, routing, persistence, or animation** | [AGENTS/headless.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/headless.md)                         |
+| Applying a preference is **idempotent**                                 | [spec/helpers/index.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/helpers/index.md)                   |
 
 ## What happens to your answer
 

@@ -6,23 +6,30 @@ The component tracks a `copied` state that automatically resets after 2 seconds.
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| text | string | required | The text to copy to the clipboard |
-| label | string | required | Accessible label for the copy button via aria-label |
-| onsuccess | () => void | undefined | Callback invoked after a successful copy |
-| onerror | (error: unknown) => void | undefined | Callback invoked if the copy fails |
-| children | ReactNode | undefined | Optional custom button content |
-| ...restProps | HTML attributes | — | Spread onto the `<button>` |
+| Prop         | Type                     | Default   | Description                                         |
+| ------------ | ------------------------ | --------- | --------------------------------------------------- |
+| text         | string                   | required  | The text to copy to the clipboard                   |
+| label        | string                   | required  | Accessible label for the copy button via aria-label |
+| onsuccess    | () => void               | undefined | Callback invoked after a successful copy            |
+| onerror      | (error: unknown) => void | undefined | Callback invoked if the copy fails                  |
+| children     | ReactNode                | undefined | Optional custom button content                      |
+| ...restProps | HTML attributes          | —         | Spread onto the `<button>`                          |
 
 ## Usage
 
 ```tsx
-<ClipboardCopyButton text="https://example.com" label="Copy link" />
+<ClipboardCopyButton
+  text="https://example.com"
+  label="Copy link"
+/>
 ```
 
 ```tsx
-<ClipboardCopyButton text={code} label="Copy code" onsuccess={handleCopied}>
+<ClipboardCopyButton
+  text={code}
+  label="Copy code"
+  onsuccess={handleCopied}
+>
   Copy to clipboard
 </ClipboardCopyButton>
 ```

@@ -22,7 +22,7 @@ AustraliaIndividualHealthcareIdentifierView is a headless read-only display of A
 ```html
 <SummaryList>
   <SummaryListItem term="Individual Healthcare Identifier">
-    <AustraliaIndividualHealthcareIdentifierView value={value} />
+    <AustraliaIndividualHealthcareIdentifierView value="{value}" />
   </SummaryListItem>
 </SummaryList>
 ```

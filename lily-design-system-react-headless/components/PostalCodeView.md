@@ -28,7 +28,9 @@ This component pairs with PostalCodeInput to form an Input/View pattern: PostalC
 ```
 
 ```tsx
-<p>Your postal code: <PostalCodeView text={postalCode} /></p>
+<p>
+  Your postal code: <PostalCodeView text={postalCode} />
+</p>
 ```
 
 ## Keyboard Interactions

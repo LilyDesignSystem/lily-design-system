@@ -197,9 +197,7 @@ import { LocalePicker } from "../locale-picker.component";
 export class LanguageMenu {
   locale = signal("en");
 
-  dateFmt = computed(
-    () => new Intl.DateTimeFormat(this.locale(), { dateStyle: "long" }),
-  );
+  dateFmt = computed(() => new Intl.DateTimeFormat(this.locale(), { dateStyle: "long" }));
   numFmt = computed(() => new Intl.NumberFormat(this.locale()));
   currencyFmt = computed(
     () =>

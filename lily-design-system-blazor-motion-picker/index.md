@@ -38,18 +38,18 @@ an arbitrary default.
 
 ## Parameters
 
-| Parameter      | Type                              | Required | Description                                                |
-| -------------- | ---------------------------------- | -------- | ------------------------------------------------------------ |
-| `Label`        | `string`                           | yes      | Accessible name (`aria-label`) for the button + listbox.      |
-| `Motions`      | `IReadOnlyList<string>`            | yes      | Available motion slugs.                                        |
-| `Value`        | `string`                           | no       | Selected slug. Two-way bindable via `@bind-Value`.              |
-| `DefaultValue` | `string?`                          | no       | Initial slug when nothing else is supplied.                     |
-| `StorageKey`   | `string?`                          | no       | If set, persist the slug to `localStorage`.                     |
-| `Name`         | `string`                           | no       | `name` of the hidden input (default `"motion"`).                |
-| `MotionLabels` | `IReadOnlyDictionary<string,string>` | no     | Pretty labels per slug.                                         |
-| `OnChange`     | `EventCallback<string>`            | no       | Called after a new motion preference is applied.                |
-| `CssClass`     | `string`                           | no       | Extra CSS class on the root.                                    |
-| `ChildContent` | `RenderFragment<MotionPickerContext>?` | no   | Replaces the default glyph inside the button.                   |
+| Parameter      | Type                                   | Required | Description                                              |
+| -------------- | -------------------------------------- | -------- | -------------------------------------------------------- |
+| `Label`        | `string`                               | yes      | Accessible name (`aria-label`) for the button + listbox. |
+| `Motions`      | `IReadOnlyList<string>`                | yes      | Available motion slugs.                                  |
+| `Value`        | `string`                               | no       | Selected slug. Two-way bindable via `@bind-Value`.       |
+| `DefaultValue` | `string?`                              | no       | Initial slug when nothing else is supplied.              |
+| `StorageKey`   | `string?`                              | no       | If set, persist the slug to `localStorage`.              |
+| `Name`         | `string`                               | no       | `name` of the hidden input (default `"motion"`).         |
+| `MotionLabels` | `IReadOnlyDictionary<string,string>`   | no       | Pretty labels per slug.                                  |
+| `OnChange`     | `EventCallback<string>`                | no       | Called after a new motion preference is applied.         |
+| `CssClass`     | `string`                               | no       | Extra CSS class on the root.                             |
+| `ChildContent` | `RenderFragment<MotionPickerContext>?` | no       | Replaces the default glyph inside the button.            |
 
 ## Behaviour
 

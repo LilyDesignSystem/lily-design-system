@@ -23,8 +23,12 @@ Must be placed inside a BreadcrumbNav container, which provides the `<nav>` navi
 ```tsx
 <BreadcrumbNav label="Breadcrumb">
   <BreadcrumbList>
-    <BreadcrumbListItem><a href="/">Home</a></BreadcrumbListItem>
-    <BreadcrumbListItem><a href="/products">Products</a></BreadcrumbListItem>
+    <BreadcrumbListItem>
+      <a href="/">Home</a>
+    </BreadcrumbListItem>
+    <BreadcrumbListItem>
+      <a href="/products">Products</a>
+    </BreadcrumbListItem>
     <BreadcrumbListItem current>Widget</BreadcrumbListItem>
   </BreadcrumbList>
 </BreadcrumbNav>

@@ -21,8 +21,8 @@ This headless component uses the native HTML `<code>` element for semantic corre
 ## Usage
 
 ```html
-<p>Use the <Code>console.log()</Code> function for debugging.</p>
-<p>Set the <Code>--primary-color</Code> CSS variable.</p>
+<p>Use the <code>console.log()</code> function for debugging.</p>
+<p>Set the <code>--primary-color</code> CSS variable.</p>
 ```
 
 ## Keyboard Interactions

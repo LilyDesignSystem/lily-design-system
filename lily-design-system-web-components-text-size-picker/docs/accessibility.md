@@ -14,7 +14,7 @@ This helper also has a specific WCAG success criterion of its own —
 
 | Element                                    | Role / Property                               | Source        |
 | ------------------------------------------ | --------------------------------------------- | ------------- |
-| `<lily-text-size-picker>` (host)                | none (transparent)                            | —             |
+| `<lily-text-size-picker>` (host)           | none (transparent)                            | —             |
 | `<div class="text-size-picker">`           | none (styling root)                           | Element       |
 | `<button class="text-size-picker-button">` | implicit `role="button"`                      | Browser       |
 | `<button>`                                 | `aria-label={label}`                          | Consumer attr |
@@ -81,18 +81,18 @@ Opening always moves focus to the `<ul>`.
 
 ### On the listbox
 
-| Key                 | Action                                                        |
-| ------------------- | ------------------------------------------------------------- |
-| `ArrowDown`         | Move the active option down one. **Clamps** at the last option — no wrapping. |
-| `ArrowUp`           | Move the active option up one. Clamps at the first option.    |
-| `Home`              | Make the first option active.                                 |
-| `End`               | Make the last option active.                                  |
-| `Enter`             | Select the active option, apply it, close, return focus to the button. |
-| `Space`             | Same as `Enter`.                                              |
-| `Escape`            | Close and return focus to the button, **without** changing the size. |
-| `PageUp` / `PageDown` | Move the active option by ten. Clamps at both ends.         |
-| `Tab`               | Move focus to the button, then close — without cancelling the key, so the default Tab proceeds from the picker's position rather than restarting from `<body>`. |
-| printable character | Typeahead over the option *labels*. The buffer resets after 500 ms of no typing. A single character advances to the **next** match and repeating it cycles onward; a buffer of differing characters refines the match from the active option. Search wraps once. |
+| Key                   | Action                                                                                                                                                                                                                                                           |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ArrowDown`           | Move the active option down one. **Clamps** at the last option — no wrapping.                                                                                                                                                                                    |
+| `ArrowUp`             | Move the active option up one. Clamps at the first option.                                                                                                                                                                                                       |
+| `Home`                | Make the first option active.                                                                                                                                                                                                                                    |
+| `End`                 | Make the last option active.                                                                                                                                                                                                                                     |
+| `Enter`               | Select the active option, apply it, close, return focus to the button.                                                                                                                                                                                           |
+| `Space`               | Same as `Enter`.                                                                                                                                                                                                                                                 |
+| `Escape`              | Close and return focus to the button, **without** changing the size.                                                                                                                                                                                             |
+| `PageUp` / `PageDown` | Move the active option by ten. Clamps at both ends.                                                                                                                                                                                                              |
+| `Tab`                 | Move focus to the button, then close — without cancelling the key, so the default Tab proceeds from the picker's position rather than restarting from `<body>`.                                                                                                  |
+| printable character   | Typeahead over the option _labels_. The buffer resets after 500 ms of no typing. A single character advances to the **next** match and repeating it cycles onward; a buffer of differing characters refines the match from the active option. Search wraps once. |
 
 Arrow-key movement deliberately clamps rather than wraps. The APG
 permits either; clamping means `End` and repeated `ArrowDown` agree,
@@ -116,7 +116,7 @@ colour-only meaning is required:
 3. The `value` attribute / `el.value` property on the host.
 4. The hidden `<input>`'s `value`, for form submission.
 
-All four describe the *open* control or the document. The **closed**
+All four describe the _open_ control or the document. The **closed**
 button exposes none of them to a user: it shows an icon and nothing
 else.
 
@@ -136,10 +136,18 @@ CSS.** To actually get there:
   root and let `rem`/`em` carry it, so everything moves together:
 
   ```css
-  :root[data-text-size="small"]   { font-size: 87.5%; }
-  :root[data-text-size="medium"]  { font-size: 100%; }
-  :root[data-text-size="large"]   { font-size: 125%; }
-  :root[data-text-size="x-large"] { font-size: 150%; }
+  :root[data-text-size="small"] {
+    font-size: 87.5%;
+  }
+  :root[data-text-size="medium"] {
+    font-size: 100%;
+  }
+  :root[data-text-size="large"] {
+    font-size: 125%;
+  }
+  :root[data-text-size="x-large"] {
+    font-size: 150%;
+  }
   ```
 
   A `px` font-size anywhere in the cascade opts that text out of the
@@ -233,26 +241,34 @@ has it. Leaving it out is the deliberate choice — a decision to make
 knowingly, with a reason — not something to opt into later:
 
 ```html
-<lily-text-size-picker label="Text size" sizes="small,medium,large,x-large"></lily-text-size-picker>
+<lily-text-size-picker
+  label="Text size"
+  sizes="small,medium,large,x-large"
+></lily-text-size-picker>
 
-<p class="text-size-picker-status" aria-live="polite">Text size: Medium</p>
+<p
+  class="text-size-picker-status"
+  aria-live="polite"
+>
+  Text size: Medium
+</p>
 
 <script type="module">
-    await customElements.whenDefined("text-size-picker");
+  await customElements.whenDefined("text-size-picker");
 
-    const select = document.querySelector("text-size-picker");
-    const status = document.querySelector(".text-size-picker-status");
+  const select = document.querySelector("text-size-picker");
+  const status = document.querySelector(".text-size-picker-status");
 
-    select.addEventListener("textsizechange", (e) => {
-        status.textContent = `Text size: ${select.labelFor(e.detail.size)}`;
-    });
+  select.addEventListener("textsizechange", (e) => {
+    status.textContent = `Text size: ${select.labelFor(e.detail.size)}`;
+  });
 </script>
 ```
 
 Why it is shaped this way:
 
 - **Visible, not `sr-only`.** The gap is not screen-reader-only:
-  nothing in the closed control indicates the active size to *anyone*.
+  nothing in the closed control indicates the active size to _anyone_.
   A visible line answers "what size am I on?" for sighted users and
   helps cognitive accessibility, which is what AAA favours.
 - **`aria-live="polite"` announces mutations only**, so the region is
@@ -268,7 +284,7 @@ Why it is shaped this way:
 
 ### What this does and does not fix
 
-It restores the *information*, not the *semantics*. A screen-reader
+It restores the _information_, not the _semantics_. A screen-reader
 user tabbing onto the closed button still hears only the label — "Text
 size, pop-up button, collapsed" — and must read on to learn the active
 value. That is a genuine residual cost of an icon-only trigger. If
@@ -322,7 +338,7 @@ triggers vestibular symptoms.
   option as the active descendant moves.
 - NVDA announces "{label} button collapsed", then "{label} list box"
   and the active option.
-- Verify explicitly that the *closed* control conveys nothing about
+- Verify explicitly that the _closed_ control conveys nothing about
   the active size — that is expected, and it is what the status region
   exists to cover.
 

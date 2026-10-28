@@ -12,12 +12,12 @@ own — `build.js` copies `../themes/*.css` into `dist/` unmodified.
 
 ## Files
 
-| File | Purpose |
-| ---- | ------- |
-| `spec/index.md` | Specification-driven contract (canonical). |
-| `build.js` | Copies `../themes/*.css` into `dist/`. Run via `npm run build` / `prepublishOnly`. |
-| `package.json` | `@lilydesignsystem/themes`, `./*.css` subpath exports. |
-| `index.md` | User guide: install, usage, the 57 theme slugs. |
+| File            | Purpose                                                                            |
+| --------------- | ---------------------------------------------------------------------------------- |
+| `spec/index.md` | Specification-driven contract (canonical).                                         |
+| `build.js`      | Copies `../themes/*.css` into `dist/`. Run via `npm run build` / `prepublishOnly`. |
+| `package.json`  | `@lilydesignsystem/themes`, `./*.css` subpath exports.                             |
+| `index.md`      | User guide: install, usage, the 57 theme slugs.                                    |
 
 ## Public surface
 

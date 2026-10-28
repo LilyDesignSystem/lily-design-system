@@ -10,7 +10,7 @@ as a custom element (`<gantt-chart>`, no `lily-` prefix). Task bars are
 column-spanning grid cells (never pixel-positioned floating divs).
 Composes `@lilydesignsystem/html-date-time-picker` twice per edit
 session (task start, task end) — the first helper in this catalog to
-compose a sibling *helper* rather than only headless markup, following
+compose a sibling _helper_ rather than only headless markup, following
 the pattern `@lilydesignsystem/html-picker-bar` established. Ships no
 CSS.
 
@@ -27,13 +27,13 @@ naming) by hand, exclusively via `document.createElement`/`appendChild`.
 
 ## Files
 
-| File                   | Purpose                                                |
-| ----------------------- | ------------------------------------------------------- |
-| `spec/index.md`         | Specification-driven contract (canonical).             |
-| `gantt-chart.ts`        | Implementation. Vanilla TypeScript custom element.      |
-| `gantt-chart.test.ts`   | Vitest + jsdom spec, one or more assertions per §8.     |
-| `index.ts`              | Barrel re-export + side-effectful `customElements.define`. Also registers `<date-time-picker>`. |
-| `index.md`              | User guide.                                              |
+| File                  | Purpose                                                                                         |
+| --------------------- | ----------------------------------------------------------------------------------------------- |
+| `spec/index.md`       | Specification-driven contract (canonical).                                                      |
+| `gantt-chart.ts`      | Implementation. Vanilla TypeScript custom element.                                              |
+| `gantt-chart.test.ts` | Vitest + jsdom spec, one or more assertions per §8.                                             |
+| `index.ts`            | Barrel re-export + side-effectful `customElements.define`. Also registers `<date-time-picker>`. |
+| `index.md`            | User guide.                                                                                     |
 
 ## Public surface
 

@@ -17,7 +17,12 @@ Author attribution with optional publish and update timestamps. The component re
   published={<time dateTime="2026-04-15">April 15, 2026</time>}
   updated={<time dateTime="2026-04-16">Updated April 16, 2026</time>}
 >
-  <a href="/author/jane-smith" rel="author">Jane Smith</a>
+  <a
+    href="/author/jane-smith"
+    rel="author"
+  >
+    Jane Smith
+  </a>
 </Byline>
 ```
 

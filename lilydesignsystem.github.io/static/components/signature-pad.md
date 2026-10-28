@@ -24,35 +24,61 @@ Basic signature pad with a canvas:
 
 ```html
 <SignaturePad label="Sign to accept terms">
-  <canvas width="400" height="200"></canvas>
+  <canvas
+    width="400"
+    height="200"
+  ></canvas>
 </SignaturePad>
 ```
 
 Signature pad in a consent form:
 
 ```html
-<Form label="Patient consent" onsubmit={handleConsent}>
+<form
+  label="Patient consent"
+  onsubmit="{handleConsent}"
+>
   <p>I consent to the proposed treatment plan as described above.</p>
-  <Field label="Patient signature" required>
+  <Field
+    label="Patient signature"
+    required
+  >
     <SignaturePad label="Patient signature">
-      <canvas width="500" height="200" id="patient-sig"></canvas>
+      <canvas
+        width="500"
+        height="200"
+        id="patient-sig"
+      ></canvas>
     </SignaturePad>
   </Field>
   <Field label="Date">
-    <DateInput label="Date of signature" value={signatureDate} required />
+    <DateInput
+      label="Date of signature"
+      value="{signatureDate}"
+      required
+    />
   </Field>
   <div class="actions">
-    <Button type="button" onclick={clearSignature}>Clear signature</Button>
-    <Button type="submit">Submit consent</Button>
+    <button
+      type="button"
+      onclick="{clearSignature}"
+    >
+      Clear signature
+    </button>
+    <button type="submit">Submit consent</button>
   </div>
-</Form>
+</form>
 ```
 
 Signature pad for a delivery confirmation:
 
 ```html
 <SignaturePad label="Recipient signature for parcel delivery">
-  <canvas width="400" height="150" id="delivery-sig"></canvas>
+  <canvas
+    width="400"
+    height="150"
+    id="delivery-sig"
+  ></canvas>
 </SignaturePad>
 <p>By signing, you confirm receipt of the package.</p>
 ```
@@ -83,14 +109,11 @@ None -- this component is a passive container. Pointer-based interactions are ha
 
 This headless component provides a semantic container with `role="application"` and `aria-label` for complex pointer interactions. The consumer provides the actual drawing surface (HTML canvas, SVG, or third-party library) as children, along with all visual styling, stroke handling, and signature data capture.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.signature-pad` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<canvas>` element with class `signature-pad`
 - Verify role="application"` -- indicates a complex widget with custom pointer interactions, informing assistive technologies to pass keyboard events through to the application

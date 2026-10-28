@@ -49,20 +49,20 @@ keyboard contract as documented in that element's own `spec/index.md`.
 
 ## 4. Attributes and properties
 
-| Attribute      | Property        | Type                          | Required | Default              |
-| -------------- | ---------------- | ------------------------------ | -------- | --------------------- |
-| —              | `labels`         | `PickerBarLabels`              | yes      | —                      |
-| —              | `searchProps`    | `Partial<SearchPickerProps>`   | no       | `{}`                   |
-| `themes-url`   | `themesUrl`      | `string`                       | yes      | —                      |
-| `themes`       | `themes`         | `string[]` (CSV attr)          | no       | `DEFAULT_THEMES` (§5.1) |
-| —              | `themeProps`     | `Partial<ThemePickerProps>`    | no       | `{}`                   |
-| `locales`      | `locales`        | `string[]` (CSV attr)          | yes      | —                      |
-| —              | `localeProps`    | `Partial<LocalePickerProps>`   | no       | `{}`                   |
-| `sizes`        | `sizes`          | `string[]` (CSV attr)          | no       | `DEFAULT_SIZES` (§5.2)  |
-| —              | `textSizeProps`  | `Partial<TextSizePickerProps>` | no       | `{}`                   |
-| —              | `shareTargets`   | `ShareTarget[]`                | no       | `[]`                   |
-| —              | `shareProps`     | `Partial<SharePickerProps>`    | no       | `{}`                   |
-| `class`        | `className`\*    | `string`                       | no       | `""`                   |
+| Attribute    | Property        | Type                           | Required | Default                 |
+| ------------ | --------------- | ------------------------------ | -------- | ----------------------- |
+| —            | `labels`        | `PickerBarLabels`              | yes      | —                       |
+| —            | `searchProps`   | `Partial<SearchPickerProps>`   | no       | `{}`                    |
+| `themes-url` | `themesUrl`     | `string`                       | yes      | —                       |
+| `themes`     | `themes`        | `string[]` (CSV attr)          | no       | `DEFAULT_THEMES` (§5.1) |
+| —            | `themeProps`    | `Partial<ThemePickerProps>`    | no       | `{}`                    |
+| `locales`    | `locales`       | `string[]` (CSV attr)          | yes      | —                       |
+| —            | `localeProps`   | `Partial<LocalePickerProps>`   | no       | `{}`                    |
+| `sizes`      | `sizes`         | `string[]` (CSV attr)          | no       | `DEFAULT_SIZES` (§5.2)  |
+| —            | `textSizeProps` | `Partial<TextSizePickerProps>` | no       | `{}`                    |
+| —            | `shareTargets`  | `ShareTarget[]`                | no       | `[]`                    |
+| —            | `shareProps`    | `Partial<SharePickerProps>`    | no       | `{}`                    |
+| `class`      | `className`\*   | `string`                       | no       | `""`                    |
 
 \* `class` on the `<picker-bar>` host element itself, read via the
 standard `getAttribute("class")` / `element.className`, following this
@@ -181,7 +181,6 @@ app supplies them:
 - §L2 With `links` omitted or empty, or `labels.link` missing, no link picker renders and search is first (§7.2 and the search clause unchanged).
 - §L3 `linkProps` reaches the nested `<link-picker>` (`onNavigate`).
 - §L4 The links are real `<a href>` elements (not a menu).
-
 
 ## 8. Relationship to the `*-picker` helpers
 

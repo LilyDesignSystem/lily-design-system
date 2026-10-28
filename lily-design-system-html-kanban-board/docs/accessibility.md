@@ -18,7 +18,7 @@ The grid itself uses the WAI-ARIA APG Grid pattern's roving-tabindex
 model: exactly one `.kanban-table-td` carries `tabindex="0"` at a time,
 moved by arrow keys. This matches every other grid-shaped helper in the
 Lily ecosystem (`data-grid`, `gantt-chart`). The move menu that opens
-*inside* a focused cell uses `aria-activedescendant` instead — the
+_inside_ a focused cell uses `aria-activedescendant` instead — the
 correct pattern for a transient popup listbox, and the reason it is
 implemented as a separate, nested widget rather than folded into the
 grid's own navigation.

@@ -20,9 +20,15 @@ The component renders a `<ul>` with `role="list"` and delegates item rendering t
 
 ```tsx
 <CheckList label="Onboarding tasks">
-  <li><input type="checkbox" /> Create account</li>
-  <li><input type="checkbox" /> Set up profile</li>
-  <li><input type="checkbox" /> Invite team members</li>
+  <li>
+    <input type="checkbox" /> Create account
+  </li>
+  <li>
+    <input type="checkbox" /> Set up profile
+  </li>
+  <li>
+    <input type="checkbox" /> Invite team members
+  </li>
 </CheckList>
 ```
 

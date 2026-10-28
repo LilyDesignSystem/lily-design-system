@@ -23,12 +23,15 @@ Basic NPS rating input:
 
 ```svelte
 <script lang="ts">
-  import NetPromoterScorePicker from './NetPromoterScorePicker.svelte';
+  import NetPromoterScorePicker from "./NetPromoterScorePicker.svelte";
 
   let score = $state("");
 </script>
 
-<NetPromoterScorePicker label="How likely are you to recommend us?" bind:value={score} />
+<NetPromoterScorePicker
+  label="How likely are you to recommend us?"
+  bind:value={score}
+/>
 <p>Selected score: {score}</p>
 ```
 

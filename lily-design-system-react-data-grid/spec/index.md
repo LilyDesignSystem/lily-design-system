@@ -37,16 +37,16 @@ the root `<div>`.
 
 Required: `label`, `columns`, `rows`. React differences from the Svelte props:
 
-| Svelte                               | React                                                                  |
-| ------------------------------------ | ---------------------------------------------------------------------- |
-| `class`                              | `className`                                                            |
-| `selected` / `filter` / `sort` / `page` (bindable) | the controlled prop **or** a `default…` twin (`defaultSelected`, `defaultFilter`, `defaultSort`, `defaultPage`); a prop that is `undefined` leaves the value to the component |
-| (none)                               | `onPageChange(page)` — Svelte callers bind `page`; React callers need the callback |
-| `onSelectionChange`, `onFilterChange`, `onSortChange` | unchanged; each fires on every change, controlled or not |
-| `empty: Snippet`                     | `empty: ReactNode`                                                     |
-| `footer: Snippet<[{ columns, rows }]>` | `footer: (ctx: { columns, rows }) => ReactNode`                      |
-| column `cell: Snippet<[ctx]>`        | `cell: (ctx: DataGridCellContext) => ReactNode`                        |
-| column `headerCell: Snippet<[{ column }]>` | `headerCell: ({ column }) => ReactNode`                          |
+| Svelte                                                | React                                                                                                                                                                         |
+| ----------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `class`                                               | `className`                                                                                                                                                                   |
+| `selected` / `filter` / `sort` / `page` (bindable)    | the controlled prop **or** a `default…` twin (`defaultSelected`, `defaultFilter`, `defaultSort`, `defaultPage`); a prop that is `undefined` leaves the value to the component |
+| (none)                                                | `onPageChange(page)` — Svelte callers bind `page`; React callers need the callback                                                                                            |
+| `onSelectionChange`, `onFilterChange`, `onSortChange` | unchanged; each fires on every change, controlled or not                                                                                                                      |
+| `empty: Snippet`                                      | `empty: ReactNode`                                                                                                                                                            |
+| `footer: Snippet<[{ columns, rows }]>`                | `footer: (ctx: { columns, rows }) => ReactNode`                                                                                                                               |
+| column `cell: Snippet<[ctx]>`                         | `cell: (ctx: DataGridCellContext) => ReactNode`                                                                                                                               |
+| column `headerCell: Snippet<[{ column }]>`            | `headerCell: ({ column }) => ReactNode`                                                                                                                                       |
 
 Everything else — `caption`, `rowId`, `selectionMode`, `pageSize`, `storageKey`, `labels`,
 `mode`, `rowClass`, `rowAttrs`, `onRowActivate`, `busy`, `scroll`, and every column field

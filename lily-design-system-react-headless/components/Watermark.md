@@ -20,7 +20,11 @@ A decorative repeating overlay text or image marking a page. The headless compon
 ## Usage
 
 ```tsx
-<Watermark text="Confidential" rotate={-22} gap="120px">
+<Watermark
+  text="Confidential"
+  rotate={-22}
+  gap="120px"
+>
   <article>…page content…</article>
 </Watermark>
 ```

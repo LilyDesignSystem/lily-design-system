@@ -20,14 +20,14 @@ reference; Blazor is a direct port with framework idioms swapped.
 
 ## The first six helpers
 
-| Helper | Root markup | Applies | Persists |
-| --- | --- | --- | --- |
-| `theme-picker` | Icon button (◑) + listbox | Swaps a managed `<link>` href + `data-theme` on the document root | Optional `localStorage` |
-| `locale-picker` | Icon button (🌐) + listbox | Sets `lang` + `dir` on the document root | Optional `localStorage` |
-| `text-size-picker` | Icon button ("A") + listbox | Sets `data-text-size` on the document root | Optional `localStorage` |
-| `motion-picker` | Icon button (⏸) + listbox | Sets `data-motion` on the document root; defaults to the OS's own `(prefers-reduced-motion: reduce)` signal, checked via `IJSRuntime` | Optional `localStorage` |
-| `share-picker` | Icon button (➤) + disclosure of real `<a>` links | Nothing — opens the native share sheet, else lists consumer-supplied destinations + copy-to-clipboard | None |
-| `date-time-picker` | Text field + icon button (📅) opening an APG date-picker dialog | Nothing — it holds a form value | None |
+| Helper             | Root markup                                                     | Applies                                                                                                                               | Persists                |
+| ------------------ | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
+| `theme-picker`     | Icon button (◑) + listbox                                       | Swaps a managed `<link>` href + `data-theme` on the document root                                                                     | Optional `localStorage` |
+| `locale-picker`    | Icon button (🌐) + listbox                                      | Sets `lang` + `dir` on the document root                                                                                              | Optional `localStorage` |
+| `text-size-picker` | Icon button ("A") + listbox                                     | Sets `data-text-size` on the document root                                                                                            | Optional `localStorage` |
+| `motion-picker`    | Icon button (⏸) + listbox                                       | Sets `data-motion` on the document root; defaults to the OS's own `(prefers-reduced-motion: reduce)` signal, checked via `IJSRuntime` | Optional `localStorage` |
+| `share-picker`     | Icon button (➤) + disclosure of real `<a>` links                | Nothing — opens the native share sheet, else lists consumer-supplied destinations + copy-to-clipboard                                 | None                    |
+| `date-time-picker` | Text field + icon button (📅) opening an APG date-picker dialog | Nothing — it holds a form value                                                                                                       | None                    |
 
 The first four are a **user preference**: selection, DOM application,
 optional persistence. `share-picker` owns an **action** instead (applies and

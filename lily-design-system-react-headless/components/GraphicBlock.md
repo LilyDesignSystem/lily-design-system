@@ -23,7 +23,10 @@ When any of `title` / `description` / `notes` is provided they are rendered toge
   description="Year-over-year growth across all regions"
   notes="Source: Internal sales reports, 2026"
 >
-  <BarChart label="Q3 sales" categories={data} />
+  <BarChart
+    label="Q3 sales"
+    categories={data}
+  />
 </GraphicBlock>
 ```
 

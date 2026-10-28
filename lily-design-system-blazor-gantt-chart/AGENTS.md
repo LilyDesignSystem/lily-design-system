@@ -20,13 +20,13 @@ Ported from the canonical
 
 ## Files
 
-| File                  | Purpose                                                |
-| ---------------------- | ------------------------------------------------------- |
-| `spec/index.md`        | Specification-driven contract (canonical for this port).|
-| `GanttChart.razor`     | Razor markup.                                            |
-| `GanttChart.razor.cs`  | C# code-behind (partial class) — types, pure date-math helpers, state, behaviour. |
-| `GanttChartTests.cs`   | bUnit + xUnit spec: pure-helper unit tests plus one or more `[Fact]`s per §8 clause. |
-| `index.md`             | User guide.                                              |
+| File                  | Purpose                                                                              |
+| --------------------- | ------------------------------------------------------------------------------------ |
+| `spec/index.md`       | Specification-driven contract (canonical for this port).                             |
+| `GanttChart.razor`    | Razor markup.                                                                        |
+| `GanttChart.razor.cs` | C# code-behind (partial class) — types, pure date-math helpers, state, behaviour.    |
+| `GanttChartTests.cs`  | bUnit + xUnit spec: pure-helper unit tests plus one or more `[Fact]`s per §8 clause. |
+| `index.md`            | User guide.                                                                          |
 
 ## Public surface
 

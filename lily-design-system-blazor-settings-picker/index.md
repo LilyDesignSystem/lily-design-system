@@ -49,7 +49,7 @@ The context has `Open` and `Close()`:
 ## What differs in Blazor
 
 Blazor has no JS interop here (no JS file ships), so: there is **no outside-click or focus-out close** and **no automatic
-close-on-select** (`CloseOnSelect="true"` closes on *any* click inside); `ArrowDown`/`ArrowUp` on the button focus the panel
+close-on-select** (`CloseOnSelect="true"` closes on _any_ click inside); `ArrowDown`/`ArrowUp` on the button focus the panel
 itself and Tab then walks its content. The panel closes on the button, on `Escape`, and when your content calls `menu.Close()`.
 
 ## Parameters

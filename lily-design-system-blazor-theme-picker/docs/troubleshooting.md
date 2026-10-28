@@ -152,7 +152,7 @@ Almost always a caching issue. Either:
 
 - Add a cache-busting suffix via `Extension` (e.g. `.css?v=1`), or
 - Configure the static asset middleware to send `Cache-Control:
-  must-revalidate` for theme CSS files:
+must-revalidate` for theme CSS files:
 
 ```csharp
 app.UseStaticFiles(new StaticFileOptions

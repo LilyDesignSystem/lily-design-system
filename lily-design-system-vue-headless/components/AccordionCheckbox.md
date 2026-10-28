@@ -40,9 +40,12 @@ const open = ref(false);
 </script>
 
 <template>
-    <AccordionCheckbox label="I have additional comments" v-model:checked="open">
-        <textarea aria-label="Your comments" />
-    </AccordionCheckbox>
+  <AccordionCheckbox
+    label="I have additional comments"
+    v-model:checked="open"
+  >
+    <textarea aria-label="Your comments" />
+  </AccordionCheckbox>
 </template>
 ```
 

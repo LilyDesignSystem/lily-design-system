@@ -23,8 +23,8 @@ Open [http://localhost:4140](http://localhost:4140).
 
 ## Scripts
 
-| Command         | Description              |
-| --------------- | ------------------------ |
+| Command          | Description              |
+| ---------------- | ------------------------ |
 | `pnpm run dev`   | Start development server |
 | `pnpm run build` | Build for production     |
 | `pnpm start`     | Start production server  |
@@ -64,20 +64,20 @@ lily-design-system-react-next-examples/
 
 ## Example Pages
 
-| Page         | Route                   | Components Demonstrated                                                             |
-| ------------ | ----------------------- | ----------------------------------------------------------------------------------- |
+| Page         | Route                   | Components Demonstrated                                                                  |
+| ------------ | ----------------------- | ---------------------------------------------------------------------------------------- |
 | Contact Form | `/contact-form`         | Form, Field, TextInput, EmailInput, TextAreaInput, Select, Option, Button, ErrorSummary  |
-| Dashboard    | `/dashboard`            | Card, Progress, ProgressCircle, Badge, Banner, DataTable                            |
-| Dialog Flow  | `/dialog-flow`          | Dialog, AlertDialog, Drawer, Button, Popover, Tooltip                               |
-| File Upload  | `/file-upload-form`     | FileUpload, Progress, Button, Alert, Badge, Form, Field                             |
-| Navigation   | `/navigation-and-menus` | NavigationMenu, MenuBar, ToolBar, HamburgerMenu, DropdownMenu, Separator            |
-| Page Layout  | `/page-layout`          | SkipLink, Header, Footer, BreadcrumbNav, Sidebar                                    |
+| Dashboard    | `/dashboard`            | Card, Progress, ProgressCircle, Badge, Banner, DataTable                                 |
+| Dialog Flow  | `/dialog-flow`          | Dialog, AlertDialog, Drawer, Button, Popover, Tooltip                                    |
+| File Upload  | `/file-upload-form`     | FileUpload, Progress, Button, Alert, Badge, Form, Field                                  |
+| Navigation   | `/navigation-and-menus` | NavigationMenu, MenuBar, ToolBar, HamburgerMenu, DropdownMenu, Separator                 |
+| Page Layout  | `/page-layout`          | SkipLink, Header, Footer, BreadcrumbNav, Sidebar                                         |
 | Rating       | `/rating-and-feedback`  | FiveStarRatingPicker, FiveFaceRatingPicker, NetPromoterScorePicker, TextAreaInput, Alert |
-| Search       | `/search-and-filter`    | Combobox, SearchInput, TagInput, TagGroup, Tag, DataTable, Badge                    |
-| Settings     | `/settings-page`        | SwitchButton, RadioGroup, RadioInput, Select, Fieldset, Separator, Button, Banner   |
-| Tabs         | `/tabbed-interface`     | TabBar, TabBarButton, AccordionNav, Badge                                           |
-| Tasks        | `/task-management`      | TaskList, TaskListItem, TextInput, CheckboxInput, Button, Badge, Progress           |
-| Timeline     | `/timeline-and-cards`   | TimelineList, Card, DateRange, ReviewDate, SummaryList                              |
+| Search       | `/search-and-filter`    | Combobox, SearchInput, TagInput, TagGroup, Tag, DataTable, Badge                         |
+| Settings     | `/settings-page`        | SwitchButton, RadioGroup, RadioInput, Select, Fieldset, Separator, Button, Banner        |
+| Tabs         | `/tabbed-interface`     | TabBar, TabBarButton, AccordionNav, Badge                                                |
+| Tasks        | `/task-management`      | TaskList, TaskListItem, TextInput, CheckboxInput, Button, Badge, Progress                |
+| Timeline     | `/timeline-and-cards`   | TimelineList, Card, DateRange, ReviewDate, SummaryList                                   |
 
 ## Routes
 
@@ -130,9 +130,20 @@ Components are headless (unstyled) by default. Each component renders a semantic
 **Form pattern: Form > Field > Input**
 
 ```tsx
-<Form label="Contact" onSubmit={handleSubmit}>
-  <Field label="Name" required error={errors.name}>
-    <TextInput label="Name" value={name} onChange={setName} />
+<Form
+  label="Contact"
+  onSubmit={handleSubmit}
+>
+  <Field
+    label="Name"
+    required
+    error={errors.name}
+  >
+    <TextInput
+      label="Name"
+      value={name}
+      onChange={setName}
+    />
   </Field>
   <Button type="submit">Submit</Button>
 </Form>

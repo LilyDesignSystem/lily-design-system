@@ -6,12 +6,12 @@ This page covers the three resolution strategies, ordered by quality.
 
 ## TL;DR
 
-| Strategy                | Flash of default locale?  | Survives reload?      | SEO-friendly? |
-| ----------------------- | ------------------------- | --------------------- | ------------- |
-| `detectFromNavigator`   | yes (until client mounts) | only if `storageKey`  | no            |
-| `localStorage`          | yes (until client mounts) | yes                   | no            |
-| Cookie                  | **no**                    | yes                   | no            |
-| URL prefix (`/fr/about`)| **no**                    | yes                   | **yes**       |
+| Strategy                 | Flash of default locale?  | Survives reload?     | SEO-friendly? |
+| ------------------------ | ------------------------- | -------------------- | ------------- |
+| `detectFromNavigator`    | yes (until client mounts) | only if `storageKey` | no            |
+| `localStorage`           | yes (until client mounts) | yes                  | no            |
+| Cookie                   | **no**                    | yes                  | no            |
+| URL prefix (`/fr/about`) | **no**                    | yes                  | **yes**       |
 
 Use the **cookie** strategy unless you need SEO-distinct pages per
 locale; then use **URL prefix**.
@@ -54,15 +54,14 @@ import type { Handle } from "@sveltejs/kit";
 const RTL_RE = /^(ar|arc|ckb|dv|fa|he|iw|ji|ks|ku|mzn|ps|sd|ug|ur|yi)\b/i;
 
 export const handle: Handle = async ({ event, resolve }) => {
-    const locale = event.cookies.get("locale") ?? "en";
-    event.locals.locale = locale;
-    const dir = RTL_RE.test(locale) ? "rtl" : "ltr";
-    const tag = locale.replace(/_/g, "-");
+  const locale = event.cookies.get("locale") ?? "en";
+  event.locals.locale = locale;
+  const dir = RTL_RE.test(locale) ? "rtl" : "ltr";
+  const tag = locale.replace(/_/g, "-");
 
-    return resolve(event, {
-        transformPageChunk: ({ html }) =>
-            html.replace("%lang%", tag).replace("%dir%", dir),
-    });
+  return resolve(event, {
+    transformPageChunk: ({ html }) => html.replace("%lang%", tag).replace("%dir%", dir),
+  });
 };
 ```
 
@@ -71,14 +70,17 @@ export const handle: Handle = async ({ event, resolve }) => {
 ```html
 <!-- src/app.html -->
 <!doctype html>
-<html lang="%lang%" dir="%dir%">
-    <head>
-        <meta charset="utf-8" />
-        %sveltekit.head%
-    </head>
-    <body data-sveltekit-preload-data="hover">
-        <div>%sveltekit.body%</div>
-    </body>
+<html
+  lang="%lang%"
+  dir="%dir%"
+>
+  <head>
+    <meta charset="utf-8" />
+    %sveltekit.head%
+  </head>
+  <body data-sveltekit-preload-data="hover">
+    <div>%sveltekit.body%</div>
+  </body>
 </html>
 ```
 
@@ -91,7 +93,7 @@ Expose the cookie value to every page via `+layout.server.ts`:
 import type { LayoutServerLoad } from "./$types";
 
 export const load: LayoutServerLoad = async ({ locals }) => ({
-    locale: locals.locale,
+  locale: locals.locale,
 });
 ```
 
@@ -152,14 +154,13 @@ src/routes/
 ```ts
 // src/params/lang.ts — only match known locale codes
 import type { ParamMatcher } from "@sveltejs/kit";
-export const match: ParamMatcher = (param) =>
-    ["en", "fr", "ar"].includes(param);
+export const match: ParamMatcher = (param) => ["en", "fr", "ar"].includes(param);
 ```
 
 ```ts
 // src/routes/[[locale=lang]]/+layout.server.ts
 export const load = async ({ params }) => ({
-    locale: params.locale ?? "en",
+  locale: params.locale ?? "en",
 });
 ```
 
@@ -207,23 +208,21 @@ import type { Handle } from "@sveltejs/kit";
 const SUPPORTED = ["en", "fr", "ar"];
 
 function pickFromAcceptLanguage(header: string | null): string {
-    if (!header) return SUPPORTED[0];
-    for (const item of header.split(",")) {
-        const tag = item.split(";")[0].trim().toLowerCase();
-        if (SUPPORTED.includes(tag)) return tag;
-        const base = tag.split("-")[0];
-        if (SUPPORTED.includes(base)) return base;
-    }
-    return SUPPORTED[0];
+  if (!header) return SUPPORTED[0];
+  for (const item of header.split(",")) {
+    const tag = item.split(";")[0].trim().toLowerCase();
+    if (SUPPORTED.includes(tag)) return tag;
+    const base = tag.split("-")[0];
+    if (SUPPORTED.includes(base)) return base;
+  }
+  return SUPPORTED[0];
 }
 
 export const handle: Handle = async ({ event, resolve }) => {
-    const cookie = event.cookies.get("locale");
-    const locale = cookie ?? pickFromAcceptLanguage(
-        event.request.headers.get("accept-language"),
-    );
-    event.locals.locale = locale;
-    /* …rest like Strategy 1… */
+  const cookie = event.cookies.get("locale");
+  const locale = cookie ?? pickFromAcceptLanguage(event.request.headers.get("accept-language"));
+  event.locals.locale = locale;
+  /* …rest like Strategy 1… */
 };
 ```
 
@@ -243,11 +242,11 @@ else works.
 
 ```svelte
 <LocalePicker
-    label="Language"
-    locales={["en", "fr", "ar"]}
-    bind:value={locale}
-    storageKey="app-locale"
-    detectFromNavigator
+  label="Language"
+  locales={["en", "fr", "ar"]}
+  bind:value={locale}
+  storageKey="app-locale"
+  detectFromNavigator
 />
 ```
 

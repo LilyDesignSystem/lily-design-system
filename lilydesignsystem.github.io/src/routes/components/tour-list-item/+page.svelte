@@ -100,7 +100,7 @@
     <p>| <code>current</code>      | <code>boolean</code>       | <code>false</code>    | Whether this step is the currently visible step         |</p>
     <p>| <code>stepNumber</code>   | <code>number</code>        | (optional) | 1-based step number (e.g. 1, 2, 3)                      |</p>
     <p>| <code>totalSteps</code>   | <code>number</code>        | (optional) | Total number of steps in the tour                       |</p>
-    <p>| <code>children</code>     | <code>slot</code>       | (required) | Step content                                            |</p>
+    <p>| <code>children</code>     | <code>slot</code>          | (required) | Step content                                            |</p>
     <p>| <code>...restProps</code> | HTML attributes |            | Additional attributes spread onto the container <code>&lt;div&gt;</code> |</p>
 </section>
 <!-- END generated: canonical contract -->

@@ -42,14 +42,14 @@ This library does NOT depend on Nuxt. Components work in any Vue 3 host
 
 ### Framework + tooling
 
-| Concern             | Choice                                      |
-| ------------------- | ------------------------------------------- |
-| UI framework        | Vue 3 Composition API                       |
-| Language            | TypeScript (`<script setup lang="ts">`)     |
-| Package manager     | pnpm                                        |
-| Test runner         | vitest + @testing-library/vue + jsdom       |
-| Storybook           | yes — `*.stories.ts` per component          |
-| i18n                | none — consumer-supplied via props          |
+| Concern         | Choice                                  |
+| --------------- | --------------------------------------- |
+| UI framework    | Vue 3 Composition API                   |
+| Language        | TypeScript (`<script setup lang="ts">`) |
+| Package manager | pnpm                                    |
+| Test runner     | vitest + @testing-library/vue + jsdom   |
+| Storybook       | yes — `*.stories.ts` per component      |
+| i18n            | none — consumer-supplied via props      |
 
 ### Vue 3 conventions
 
@@ -245,15 +245,15 @@ pnpm run storybook                   # run Storybook
 
 ## 9. Prohibited
 
-| Prohibition                       | Reason                              |
-| --------------------------------- | ----------------------------------- |
-| Nuxt imports (`#app`, `#imports`) | this library is framework-only      |
-| `<style>`, `<style scoped>`       | headless: zero CSS                  |
-| `@testing-library/jest-dom`       | vitest matchers only                |
-| Options API                       | Composition API only                |
-| Tailwind, DaisyUI                 | no CSS framework dependency         |
-| Bundled fonts, images, icons      | consumer supplies all assets        |
-| Hardcoded user-facing strings     | i18n is the consumer's concern      |
+| Prohibition                       | Reason                         |
+| --------------------------------- | ------------------------------ |
+| Nuxt imports (`#app`, `#imports`) | this library is framework-only |
+| `<style>`, `<style scoped>`       | headless: zero CSS             |
+| `@testing-library/jest-dom`       | vitest matchers only           |
+| Options API                       | Composition API only           |
+| Tailwind, DaisyUI                 | no CSS framework dependency    |
+| Bundled fonts, images, icons      | consumer supplies all assets   |
+| Hardcoded user-facing strings     | i18n is the consumer's concern |
 
 ## 10. Tracking
 

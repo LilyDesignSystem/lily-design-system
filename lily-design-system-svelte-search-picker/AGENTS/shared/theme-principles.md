@@ -104,10 +104,10 @@ just in CSS), they can use a `$state` store at the root layout:
 
 ```svelte
 <script lang="ts">
-    let tokens = $state({
-        color: { primary: "#2563eb" },
-        space: { md: "1rem" },
-    });
+  let tokens = $state({
+    color: { primary: "#2563eb" },
+    space: { md: "1rem" },
+  });
 </script>
 ```
 

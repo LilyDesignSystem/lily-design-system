@@ -24,15 +24,26 @@ This component is suitable for any form field requiring free-text entry. It supp
 ## Usage
 
 ```svelte
-<TextInput label="Full name" bind:value />
+<TextInput
+  label="Full name"
+  bind:value
+/>
 ```
 
 ```svelte
-<TextInput label="Email" bind:value={email} required={true} />
+<TextInput
+  label="Email"
+  bind:value={email}
+  required={true}
+/>
 ```
 
 ```svelte
-<TextInput label="Notes" bind:value={notes} disabled={true} />
+<TextInput
+  label="Notes"
+  bind:value={notes}
+  disabled={true}
+/>
 ```
 
 ## Keyboard Interactions

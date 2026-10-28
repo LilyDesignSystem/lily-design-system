@@ -14,13 +14,13 @@ class hooks — see `docs/styling.md`.
 
 ## Files
 
-| File                    | Purpose                                       |
-| ----------------------- | --------------------------------------------- |
-| `spec/index.md`         | Specification-driven contract (canonical).    |
+| File                   | Purpose                                       |
+| ---------------------- | --------------------------------------------- |
+| `spec/index.md`        | Specification-driven contract (canonical).    |
 | `ThemePicker.razor`    | Razor markup.                                 |
 | `ThemePicker.razor.cs` | C# code-behind (partial class).               |
 | `ThemePickerTests.cs`  | bUnit + xUnit spec, one `[Fact]` per §7 item. |
-| `index.md`              | User guide.                                   |
+| `index.md`             | User guide.                                   |
 
 ## Public surface
 
@@ -66,8 +66,15 @@ lives in `Value` and rides a hidden input for form participation.
 ## HTML
 
 ```html
-<div class="theme-picker @CssClass" ...AdditionalAttributes>
-  <input type="hidden" name="@Name" value="@Value" />
+<div
+  class="theme-picker @CssClass"
+  ...AdditionalAttributes
+>
+  <input
+    type="hidden"
+    name="@Name"
+    value="@Value"
+  />
   <button
     type="button"
     class="theme-picker-button"
@@ -76,7 +83,13 @@ lives in `Value` and rides a hidden input for form participation.
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true">…</svg>
+    <svg
+      class="theme-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+    >
+      …
+    </svg>
   </button>
   <ul
     class="theme-picker-list"

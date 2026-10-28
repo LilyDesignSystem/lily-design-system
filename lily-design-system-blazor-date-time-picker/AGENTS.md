@@ -27,15 +27,15 @@ and persists nothing.
 
 ## Files
 
-| File | Purpose |
-| --- | --- |
-| `spec/index.md` | Specification-driven contract (canonical). |
-| `DateTimePicker.razor` | Razor markup. |
+| File                      | Purpose                                                              |
+| ------------------------- | -------------------------------------------------------------------- |
+| `spec/index.md`           | Specification-driven contract (canonical).                           |
+| `DateTimePicker.razor`    | Razor markup.                                                        |
 | `DateTimePicker.razor.cs` | C# code-behind (partial class), including the civil-date arithmetic. |
-| `DateTimePickerTests.cs` | bUnit + xUnit spec, mapped to the §7 clauses. |
-| `index.md` | User guide. |
-| `docs/accessibility.md` | Tradeoffs, stated plainly. |
-| `examples/` | Copy-pasteable Razor snippets. |
+| `DateTimePickerTests.cs`  | bUnit + xUnit spec, mapped to the §7 clauses.                        |
+| `index.md`                | User guide.                                                          |
+| `docs/accessibility.md`   | Tradeoffs, stated plainly.                                           |
+| `examples/`               | Copy-pasteable Razor snippets.                                       |
 
 ## Public surface
 
@@ -96,14 +96,15 @@ participation) + `.date-time-picker-field` (visible text `<input>` + the
 `.date-time-picker-button` trigger) → optional
 `.date-time-picker-status` (`role="status"`, only with `Labels.Invalid`;
 present-but-empty while valid, wired to the field via `aria-errormessage`
-+ appended `aria-describedby` while invalid) → `.date-time-picker-dialog`
-(`role="dialog"`, `aria-modal="true"`, `aria-describedby` → the optional
-`.date-time-picker-instructions` first child when `Labels.Instructions`)
-containing the header nav, the `role="grid"` calendar table (vetoed days:
-`aria-disabled="true"` + `data-disabled`, never `disabled`), the time
-`<select>`s (mode-dependent), the shortcut buttons, and the footer
-(`clear`/`cancel`/`confirm`). Full markup in
-[spec/index.md §4.3](./spec/index.md#43-dom-contract).
+
+- appended `aria-describedby` while invalid) → `.date-time-picker-dialog`
+  (`role="dialog"`, `aria-modal="true"`, `aria-describedby` → the optional
+  `.date-time-picker-instructions` first child when `Labels.Instructions`)
+  containing the header nav, the `role="grid"` calendar table (vetoed days:
+  `aria-disabled="true"` + `data-disabled`, never `disabled`), the time
+  `<select>`s (mode-dependent), the shortcut buttons, and the footer
+  (`clear`/`cancel`/`confirm`). Full markup in
+  [spec/index.md §4.3](./spec/index.md#43-dom-contract).
 
 ## Keyboard
 

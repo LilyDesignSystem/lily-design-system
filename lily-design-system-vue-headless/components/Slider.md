@@ -23,7 +23,13 @@ This headless component wraps a native `<input type="range">` element with confi
 ## Usage
 
 ```svelte
-<Slider label="Volume" bind:value min={0} max={100} step={5} />
+<Slider
+  label="Volume"
+  bind:value
+  min={0}
+  max={100}
+  step={5}
+/>
 ```
 
 ## Keyboard Interactions

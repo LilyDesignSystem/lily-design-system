@@ -23,7 +23,10 @@ Action links are useful when you want to draw attention to a key navigational st
 ```html
 <ActionLink href="/find-a-gp">Find a GP near you</ActionLink>
 
-<ActionLink href="/book-appointment" label="Book a vaccination appointment at your local pharmacy">
+<ActionLink
+  href="/book-appointment"
+  label="Book a vaccination appointment at your local pharmacy"
+>
   Book a vaccination appointment
 </ActionLink>
 ```
@@ -56,14 +59,11 @@ Action links are useful when you want to draw attention to a key navigational st
 
 This component provides a semantic `<a>` element with optional `aria-label` override and zero visual styling. The consumer is responsible for all CSS including colors, font weight, underline styles, hover effects, focus indicators, and any arrow or icon decoration.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.action-link` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<a>` element with class `action-link`
 - Verify aria-label` -- optional override for screen reader text when the visible link text does not fully convey the action

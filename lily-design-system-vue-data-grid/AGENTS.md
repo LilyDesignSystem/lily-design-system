@@ -16,14 +16,14 @@ Run `pnpm install`, `pnpm test`, `pnpm build` here; tests resolve `@lilydesignsy
 
 ## Files
 
-| File | Purpose |
-| --- | --- |
-| `spec/index.md` | Specification-driven contract (canonical). |
-| `DataGrid.vue` | Implementation. Vue 3 Composition API (`<script setup>` plus exported types). |
-| `cell-types.ts`, `export-data.ts` | Pure TypeScript, byte-for-byte copies of the Svelte modules. |
+| File                                      | Purpose                                                                          |
+| ----------------------------------------- | -------------------------------------------------------------------------------- |
+| `spec/index.md`                           | Specification-driven contract (canonical).                                       |
+| `DataGrid.vue`                            | Implementation. Vue 3 Composition API (`<script setup>` plus exported types).    |
+| `cell-types.ts`, `export-data.ts`         | Pure TypeScript, byte-for-byte copies of the Svelte modules.                     |
 | `DataGrid.test.ts`, `export-data.test.ts` | Vitest specs (`@testing-library/vue`), one or more assertions per §8 acceptance. |
-| `index.ts` | Barrel re-export. |
-| `index.md` | User guide. |
+| `index.ts`                                | Barrel re-export.                                                                |
+| `index.md`                                | User guide.                                                                      |
 
 ## Public surface
 

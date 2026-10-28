@@ -20,16 +20,16 @@ Every example assumes:
   it; see
   [`../docs/accessibility.md`](../docs/accessibility.md#common-mistakes-to-avoid).
 
-| #   | File                                                    | Demonstrates                                                              |
-| --- | -------------------------------------------------------- | -------------------------------------------------------------------------- |
-| 1   | [`basic.svelte`](./basic.svelte)                         | Minimal four-size picker, plus the `.text-size-picker-status` live region. |
-| 2   | [`two-way-binding.svelte`](./two-way-binding.svelte)     | `bind:value` and `onChange`.                                              |
-| 3   | [`persistence.svelte`](./persistence.svelte)             | `localStorage` survival across reloads.                                   |
-| 4   | [`custom-labels.svelte`](./custom-labels.svelte)         | `sizeLabels` for i18n / display names.                                    |
-| 5   | [`custom-rendering.svelte`](./custom-rendering.svelte)   | `children` snippet — glyph + visible label + caret inside the button.     |
-| 6   | [`multiple-pickers.svelte`](./multiple-pickers.svelte)   | Two pickers with independent `name` + `target` in one page.               |
-| 7   | [`external-buttons.svelte`](./external-buttons.svelte)   | Driving the picker from your own A- / A+ style buttons via `bind:value`.  |
-| 8   | [`sveltekit-cookie/`](./sveltekit-cookie/)               | SSR-resolved text size via a cookie, avoiding a post-hydration reflow.     |
+| #   | File                                                   | Demonstrates                                                               |
+| --- | ------------------------------------------------------ | -------------------------------------------------------------------------- |
+| 1   | [`basic.svelte`](./basic.svelte)                       | Minimal four-size picker, plus the `.text-size-picker-status` live region. |
+| 2   | [`two-way-binding.svelte`](./two-way-binding.svelte)   | `bind:value` and `onChange`.                                               |
+| 3   | [`persistence.svelte`](./persistence.svelte)           | `localStorage` survival across reloads.                                    |
+| 4   | [`custom-labels.svelte`](./custom-labels.svelte)       | `sizeLabels` for i18n / display names.                                     |
+| 5   | [`custom-rendering.svelte`](./custom-rendering.svelte) | `children` snippet — glyph + visible label + caret inside the button.      |
+| 6   | [`multiple-pickers.svelte`](./multiple-pickers.svelte) | Two pickers with independent `name` + `target` in one page.                |
+| 7   | [`external-buttons.svelte`](./external-buttons.svelte) | Driving the picker from your own A- / A+ style buttons via `bind:value`.   |
+| 8   | [`sveltekit-cookie/`](./sveltekit-cookie/)             | SSR-resolved text size via a cookie, avoiding a post-hydration reflow.     |
 
 ## What is deliberately missing
 

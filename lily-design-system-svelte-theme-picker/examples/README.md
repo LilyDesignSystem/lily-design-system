@@ -19,18 +19,18 @@ Every example assumes:
   it; see
   [`../docs/styling.md`](../docs/styling.md#positioning-the-listbox).
 
-| #   | File                                                     | Demonstrates                                                              |
-| --- | -------------------------------------------------------- | ------------------------------------------------------------------------- |
+| #   | File                                                     | Demonstrates                                                             |
+| --- | -------------------------------------------------------- | ------------------------------------------------------------------------ |
 | 1   | [`basic.svelte`](./basic.svelte)                         | Minimal three-theme select, plus the `.theme-picker-status` live region. |
-| 2   | [`two-way-binding.svelte`](./two-way-binding.svelte)     | `bind:value` and `onChange`.                                              |
-| 3   | [`persistence.svelte`](./persistence.svelte)             | `localStorage` survival across reloads.                                   |
-| 4   | [`custom-labels.svelte`](./custom-labels.svelte)         | `themeLabels` for i18n / display names.                                   |
-| 5   | [`custom-rendering.svelte`](./custom-rendering.svelte)   | `children` snippet — glyph + visible label + caret inside the button.     |
-| 6   | [`preloaded.svelte`](./preloaded.svelte)                 | Zero-flicker switching via preloading.                                    |
-| 7   | [`multiple-pickers.svelte`](./multiple-pickers.svelte) | Two pickers in one page via `name`.                                      |
-| 8   | [`system-preference.svelte`](./system-preference.svelte) | `detectFromSystem` — follow `prefers-color-scheme`.                       |
-| 9   | [`lily-themes.svelte`](./lily-themes.svelte)             | All 41 Lily / DaisyUI themes at once.                                     |
-| 10  | [`sveltekit-cookie/`](./sveltekit-cookie/)               | SSR-resolved theme via a cookie.                                          |
+| 2   | [`two-way-binding.svelte`](./two-way-binding.svelte)     | `bind:value` and `onChange`.                                             |
+| 3   | [`persistence.svelte`](./persistence.svelte)             | `localStorage` survival across reloads.                                  |
+| 4   | [`custom-labels.svelte`](./custom-labels.svelte)         | `themeLabels` for i18n / display names.                                  |
+| 5   | [`custom-rendering.svelte`](./custom-rendering.svelte)   | `children` snippet — glyph + visible label + caret inside the button.    |
+| 6   | [`preloaded.svelte`](./preloaded.svelte)                 | Zero-flicker switching via preloading.                                   |
+| 7   | [`multiple-pickers.svelte`](./multiple-pickers.svelte)   | Two pickers in one page via `name`.                                      |
+| 8   | [`system-preference.svelte`](./system-preference.svelte) | `detectFromSystem` — follow `prefers-color-scheme`.                      |
+| 9   | [`lily-themes.svelte`](./lily-themes.svelte)             | All 41 Lily / DaisyUI themes at once.                                    |
+| 10  | [`sveltekit-cookie/`](./sveltekit-cookie/)               | SSR-resolved theme via a cookie.                                         |
 
 ## The `children` snippet
 

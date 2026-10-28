@@ -36,101 +36,104 @@ Place inside a `GanttTable` after `GanttTableBody` and populate with `GanttTable
 
 ```svelte
 <script lang="ts">
-    import GanttTable from "../GanttTable/GanttTable.svelte";
-    import GanttTableTfoot from "./GanttTableTfoot.svelte";
-    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
-    import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
+  import GanttTable from "../GanttTable/GanttTable.svelte";
+  import GanttTableTfoot from "./GanttTableTfoot.svelte";
+  import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
+  import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
 </script>
 
 <GanttTable label="Plan">
-    <GanttTableTfoot>
-        <GanttTableTr>
-            <GanttTableTD>Total: 12 tasks</GanttTableTD>
-        </GanttTableTr>
-    </GanttTableTfoot>
+  <GanttTableTfoot>
+    <GanttTableTr>
+      <GanttTableTD>Total: 12 tasks</GanttTableTD>
+    </GanttTableTr>
+  </GanttTableTfoot>
 </GanttTable>
 ```
 
 ```svelte
 <script lang="ts">
-    import GanttTable from "../GanttTable/GanttTable.svelte";
-    import GanttTableHead from "../GanttTableHead/GanttTableHead.svelte";
-    import GanttTableBody from "../GanttTableBody/GanttTableBody.svelte";
-    import GanttTableTfoot from "./GanttTableTfoot.svelte";
-    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
-    import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
+  import GanttTable from "../GanttTable/GanttTable.svelte";
+  import GanttTableHead from "../GanttTableHead/GanttTableHead.svelte";
+  import GanttTableBody from "../GanttTableBody/GanttTableBody.svelte";
+  import GanttTableTfoot from "./GanttTableTfoot.svelte";
+  import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
+  import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
 </script>
 
 <GanttTable label="Sprint">
-    <GanttTableHead>
-        <GanttTableTr><th>Task</th><th>W1</th><th>W2</th></GanttTableTr>
-    </GanttTableHead>
-    <GanttTableBody>
-        <GanttTableTr>
-            <th>Implement</th>
-            <GanttTableTD active />
-            <GanttTableTD />
-        </GanttTableTr>
-    </GanttTableBody>
-    <GanttTableTfoot>
-        <GanttTableTr>
-            <GanttTableTD colspan="3">1 task in sprint</GanttTableTD>
-        </GanttTableTr>
-    </GanttTableTfoot>
+  <GanttTableHead>
+    <GanttTableTr><th>Task</th><th>W1</th><th>W2</th></GanttTableTr>
+  </GanttTableHead>
+  <GanttTableBody>
+    <GanttTableTr>
+      <th>Implement</th>
+      <GanttTableTD active />
+      <GanttTableTD />
+    </GanttTableTr>
+  </GanttTableBody>
+  <GanttTableTfoot>
+    <GanttTableTr>
+      <GanttTableTD colspan="3">1 task in sprint</GanttTableTD>
+    </GanttTableTr>
+  </GanttTableTfoot>
 </GanttTable>
 ```
 
 ```svelte
 <script lang="ts">
-    import GanttTable from "../GanttTable/GanttTable.svelte";
-    import GanttTableTfoot from "./GanttTableTfoot.svelte";
-    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
-    import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
+  import GanttTable from "../GanttTable/GanttTable.svelte";
+  import GanttTableTfoot from "./GanttTableTfoot.svelte";
+  import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
+  import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
 </script>
 
 <GanttTable label="Usage">
-    <GanttTableTfoot class="summary-row" data-testid="gantt-foot">
-        <GanttTableTr>
-            <GanttTableTD>Total utilisation: 68%</GanttTableTD>
-        </GanttTableTr>
-    </GanttTableTfoot>
+  <GanttTableTfoot
+    class="summary-row"
+    data-testid="gantt-foot"
+  >
+    <GanttTableTr>
+      <GanttTableTD>Total utilisation: 68%</GanttTableTD>
+    </GanttTableTr>
+  </GanttTableTfoot>
 </GanttTable>
 ```
 
 ```svelte
 <script lang="ts">
-    import GanttTable from "../GanttTable/GanttTable.svelte";
-    import GanttTableTfoot from "./GanttTableTfoot.svelte";
-    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
-    import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
-    const totals = [3, 4, 1];
+  import GanttTable from "../GanttTable/GanttTable.svelte";
+  import GanttTableTfoot from "./GanttTableTfoot.svelte";
+  import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
+  import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
+  const totals = [3, 4, 1];
 </script>
 
 <GanttTable label="Totals">
-    <GanttTableTfoot>
-        <GanttTableTr>
-            <th>Total</th>
-            {#each totals as t}<GanttTableTD>{t}</GanttTableTD>{/each}
-        </GanttTableTr>
-    </GanttTableTfoot>
+  <GanttTableTfoot>
+    <GanttTableTr>
+      <th>Total</th>
+      {#each totals as t}<GanttTableTD>{t}</GanttTableTD>{/each}
+    </GanttTableTr>
+  </GanttTableTfoot>
 </GanttTable>
 ```
 
 ```svelte
 <script lang="ts">
-    import GanttTable from "../GanttTable/GanttTable.svelte";
-    import GanttTableTfoot from "./GanttTableTfoot.svelte";
-    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
-    import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
+  import GanttTable from "../GanttTable/GanttTable.svelte";
+  import GanttTableTfoot from "./GanttTableTfoot.svelte";
+  import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
+  import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
 </script>
 
 <GanttTable label="Legend">
-    <GanttTableTfoot>
-        <GanttTableTr>
-            <GanttTableTD>--- = scheduled</GanttTableTD>
-            <GanttTableTD>◆ = milestone</GanttTableTD>
-        </GanttTableTr>
-    </GanttTableTfoot>
+  <GanttTableTfoot>
+    <GanttTableTr>
+      <GanttTableTD>--- = scheduled</GanttTableTD>
+      <GanttTableTD>◆ = milestone</GanttTableTD>
+    </GanttTableTr>
+  </GanttTableTfoot>
 </GanttTable>
 ```
 

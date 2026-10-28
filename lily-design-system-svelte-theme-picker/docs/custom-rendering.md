@@ -3,7 +3,7 @@
 The `children` snippet **replaces the glyph inside the trigger
 button**. That is its whole job.
 
-It does *not* render the options. The popup
+It does _not_ render the options. The popup
 `<ul role="listbox">` and its `<li role="option">` children are
 component-owned: they carry the ids that `aria-activedescendant`
 points at, the `aria-selected` state, and the click handlers, so the
@@ -17,8 +17,8 @@ inside a `<select>`. That contract is gone.
 
 ```ts
 type ChildArgs = {
-  value: string;                       // the active slug
-  open: boolean;                       // is the listbox open?
+  value: string; // the active slug
+  open: boolean; // is the listbox open?
   labelFor: (theme: string) => string; // resolved display label
 };
 ```
@@ -36,9 +36,16 @@ The most useful override, and the mitigation for
 give sighted users an on-screen word.
 
 ```svelte
-<ThemePicker label="Theme" themesUrl="/assets/themes/" themes={["light", "dark"]}>
+<ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark"]}
+>
   {#snippet children({ value, labelFor })}
-    <svg viewBox="0 0 16 16" aria-hidden="true">…</svg>
+    <svg
+      viewBox="0 0 16 16"
+      aria-hidden="true">…</svg
+    >
     <span class="theme-picker-text">{labelFor(value)}</span>
   {/snippet}
 </ThemePicker>
@@ -58,11 +65,30 @@ Removes the font dependency described in
 This package ships no assets, but nothing stops you supplying one.
 
 ```svelte
-<ThemePicker label="Theme" themesUrl="/assets/themes/" themes={["light", "dark"]}>
+<ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark"]}
+>
   {#snippet children()}
-    <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false">
-      <circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" />
-      <path d="M8 1a7 7 0 0 1 0 14z" fill="currentColor" />
+    <svg
+      viewBox="0 0 16 16"
+      width="16"
+      height="16"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <circle
+        cx="8"
+        cy="8"
+        r="7"
+        fill="none"
+        stroke="currentColor"
+      />
+      <path
+        d="M8 1a7 7 0 0 1 0 14z"
+        fill="currentColor"
+      />
     </svg>
   {/snippet}
 </ThemePicker>
@@ -79,7 +105,10 @@ without a CSS-only workaround. (`[aria-expanded="true"]` on
 
 ```svelte
 {#snippet children({ open })}
-  <svg viewBox="0 0 16 16" aria-hidden="true">…</svg>
+  <svg
+    viewBox="0 0 16 16"
+    aria-hidden="true">…</svg
+  >
   <span aria-hidden="true">{open ? "▴" : "▾"}</span>
 {/snippet}
 ```
@@ -88,7 +117,11 @@ without a CSS-only workaround. (`[aria-expanded="true"]` on
 
 ```svelte
 {#snippet children({ value })}
-  <span class="theme-picker-swatch" data-theme={value} aria-hidden="true"></span>
+  <span
+    class="theme-picker-swatch"
+    data-theme={value}
+    aria-hidden="true"
+  ></span>
 {/snippet}
 ```
 
@@ -97,7 +130,7 @@ through the same `:root[data-theme]` cascade the themes already use.
 Because it is decorative and duplicated by the `aria-label`, keep it
 `aria-hidden` — and do not let colour be the only signal (WCAG 1.4.1).
 
-## What the snippet should *not* do
+## What the snippet should _not_ do
 
 - **Don't render `<option>` elements.** There is no `<select>` to put
   them in. They will render as stray inline content inside the button.

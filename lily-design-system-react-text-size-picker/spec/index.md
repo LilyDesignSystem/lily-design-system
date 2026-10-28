@@ -60,20 +60,20 @@ read, so first-visit resolution falls straight through to
 
 ### 4.1 Props
 
-| Prop           | Type                                   | Required | Default                                           | Purpose                                                                                              |
-| -------------- | -------------------------------------- | -------- | ------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| `label`        | `string`                               | yes      | —                                                 | Accessible name for the button and the listbox.                                                      |
-| `sizes`        | `string[]`                             | yes      | —                                                 | Available size slugs (e.g. `["small","medium","large","x-large"]`).                                  |
-| `value`        | `string`                               | no       | `undefined` (uncontrolled)                        | Currently selected size slug. When supplied, the component is controlled.                            |
-| `defaultValue` | `string`                               | no       | `"medium"` if present in `sizes`, else first item | Initial size when nothing else is supplied.                                                          |
-| `storageKey`   | `string`                               | no       | `undefined`                                       | If set, persist the selection to `localStorage` under this key.                                      |
-| `name`         | `string`                               | no       | `"text-size"`                                     | `name` of the hidden input that carries the value in a form.                                         |
-| `target`       | `HTMLElement \| null`                  | no       | `document.documentElement`                        | Element that receives `data-text-size`.                                                              |
-| `sizeLabels`   | `Record<string, string>`               | no       | `{}`                                              | Optional pretty labels per slug.                                                                     |
+| Prop           | Type                                   | Required | Default                                           | Purpose                                                                                             |
+| -------------- | -------------------------------------- | -------- | ------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| `label`        | `string`                               | yes      | —                                                 | Accessible name for the button and the listbox.                                                     |
+| `sizes`        | `string[]`                             | yes      | —                                                 | Available size slugs (e.g. `["small","medium","large","x-large"]`).                                 |
+| `value`        | `string`                               | no       | `undefined` (uncontrolled)                        | Currently selected size slug. When supplied, the component is controlled.                           |
+| `defaultValue` | `string`                               | no       | `"medium"` if present in `sizes`, else first item | Initial size when nothing else is supplied.                                                         |
+| `storageKey`   | `string`                               | no       | `undefined`                                       | If set, persist the selection to `localStorage` under this key.                                     |
+| `name`         | `string`                               | no       | `"text-size"`                                     | `name` of the hidden input that carries the value in a form.                                        |
+| `target`       | `HTMLElement \| null`                  | no       | `document.documentElement`                        | Element that receives `data-text-size`.                                                             |
+| `sizeLabels`   | `Record<string, string>`               | no       | `{}`                                              | Optional pretty labels per slug.                                                                    |
 | `children`     | `(args: ChildArgs) => React.ReactNode` | no       | the default "A" icon                              | Replaces the icon **inside the button**. It does not render the options — the component owns those. |
-| `onChange`     | `(size: string) => void`               | no       | `undefined`                                       | Fires after the control applies a new size.                                                          |
-| `className`    | `string`                               | no       | `""`                                              | Extra CSS class on the root `<div>`.                                                                 |
-| `...restProps` | any HTML `<div>` attributes            | no       | —                                                 | Spread onto the root `<div>`.                                                                        |
+| `onChange`     | `(size: string) => void`               | no       | `undefined`                                       | Fires after the control applies a new size.                                                         |
+| `className`    | `string`                               | no       | `""`                                              | Extra CSS class on the root `<div>`.                                                                |
+| `...restProps` | any HTML `<div>` attributes            | no       | —                                                 | Spread onto the root `<div>`.                                                                       |
 
 ### 4.2 ChildArgs
 
@@ -97,8 +97,15 @@ must never be relied on for naming.
 ### 4.3 DOM contract
 
 ```html
-<div class="text-size-picker {className}" ...restProps>
-  <input type="hidden" name="{name}" value="{value}" />
+<div
+  class="text-size-picker {className}"
+  ...restProps
+>
+  <input
+    type="hidden"
+    name="{name}"
+    value="{value}"
+  />
   <button
     type="button"
     class="text-size-picker-button"
@@ -107,9 +114,20 @@ must never be relied on for naming.
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <span class="text-size-picker-icon" aria-hidden="true">A</span>
+    <span
+      class="text-size-picker-icon"
+      aria-hidden="true"
+      >A</span
+    >
   </button>
-  <div class="text-size-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
+  <div
+    class="text-size-picker-tooltip"
+    role="tooltip"
+    id="{tooltipId}"
+    hidden
+  >
+    {label}
+  </div>
   <ul
     class="text-size-picker-list"
     id="{listId}"
@@ -242,12 +260,12 @@ internal `useState`.
 
 ### 6.1 Roles and properties
 
-| Element        | Role / property                                                                                                    |
-| -------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `<button>`     | `aria-label={label}`, `aria-haspopup="listbox"`, `aria-expanded`, `aria-controls`                                  |
+| Element      | Role / property                                                                                                    |
+| ------------ | ------------------------------------------------------------------------------------------------------------------ |
+| `<button>`   | `aria-label={label}`, `aria-haspopup="listbox"`, `aria-expanded`, `aria-controls`                                  |
 | icon element | `aria-hidden="true"` — never part of the accessible name.                                                          |
-| `<ul>`         | `role="listbox"`, `aria-label={label}`, `tabindex="-1"`, `hidden` while closed, `aria-activedescendant` while open |
-| `<li>`         | `role="option"`, `aria-selected`, `data-active` on the keyboard-active option                                      |
+| `<ul>`       | `role="listbox"`, `aria-label={label}`, `tabindex="-1"`, `hidden` while closed, `aria-activedescendant` while open |
+| `<li>`       | `role="option"`, `aria-selected`, `data-active` on the keyboard-active option                                      |
 
 WCAG 2.2 AAA target. This helper is the one that most directly serves
 **1.4.4 (Resize Text)** and **1.4.12 (Text Spacing)**: it exists so a
@@ -272,15 +290,15 @@ On the **button**:
 
 On the **listbox**:
 
-| Key                     | Action                                                                                              |
-| ----------------------- | --------------------------------------------------------------------------------------------------- |
-| `ArrowDown` / `ArrowUp` | Move the active option. Clamps at the ends — it does not wrap.                                      |
-| `Home` / `End`          | Jump to the first / last option.                                                                    |
-| `Enter` / `Space`       | Select the active option, apply it, close, and return focus to the button.                          |
-| `Escape`                | Close and return focus to the button **without** changing the value.                                |
-| `PageUp`                | Move the active option up ten. Clamps at the first.                                                 |
-| `PageDown`              | Move the active option down ten. Clamps at the last.                                                |
-| `Tab`                   | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position. Hiding the focused list first would drop focus to `<body>` and restart Tab from the top of the document. |
+| Key                     | Action                                                                                                                                                                                                                                                              |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ArrowDown` / `ArrowUp` | Move the active option. Clamps at the ends — it does not wrap.                                                                                                                                                                                                      |
+| `Home` / `End`          | Jump to the first / last option.                                                                                                                                                                                                                                    |
+| `Enter` / `Space`       | Select the active option, apply it, close, and return focus to the button.                                                                                                                                                                                          |
+| `Escape`                | Close and return focus to the button **without** changing the value.                                                                                                                                                                                                |
+| `PageUp`                | Move the active option up ten. Clamps at the first.                                                                                                                                                                                                                 |
+| `PageDown`              | Move the active option down ten. Clamps at the last.                                                                                                                                                                                                                |
+| `Tab`                   | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position. Hiding the focused list first would drop focus to `<body>` and restart Tab from the top of the document.          |
 | Printable character     | Typeahead over the option **labels**; the buffer resets after 500 ms of inactivity. A single character advances to the **next** match and repeating it cycles onward; a buffer of differing characters refines the match from the active option. Search wraps once. |
 
 Pointer behaviour: clicking an option selects it, applies it, and closes the listbox — the same close

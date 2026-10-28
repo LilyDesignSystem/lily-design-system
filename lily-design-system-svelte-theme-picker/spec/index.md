@@ -130,8 +130,15 @@ type ChildArgs = {
 ### 4.2 DOM contract
 
 ```html
-<div class="theme-picker {class}" ...restProps>
-  <input type="hidden" name="{name}" value="{value}" />
+<div
+  class="theme-picker {class}"
+  ...restProps
+>
+  <input
+    type="hidden"
+    name="{name}"
+    value="{value}"
+  />
   <button
     type="button"
     class="theme-picker-button"
@@ -140,9 +147,36 @@ type ChildArgs = {
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>
+    <svg
+      class="theme-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle
+        cx="8"
+        cy="8"
+        r="6"
+      />
+      <path
+        d="M8 2a6 6 0 0 1 0 12z"
+        fill="currentColor"
+        stroke="none"
+      />
+    </svg>
   </button>
-  <div class="theme-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
+  <div
+    class="theme-picker-tooltip"
+    role="tooltip"
+    id="{tooltipId}"
+    hidden
+  >
+    {label}
+  </div>
   <ul
     class="theme-picker-list"
     id="{listId}"
@@ -183,7 +217,7 @@ the name twice). Position and appearance are consumer/theme CSS, via the
 - **Hidden input** preserves form participation. Its `name` is the
   `name` prop, which _also_ discriminates the managed `<link>`.
 - **Button icon** is a bundled SVG (contrast/half-circle, `viewBox="0
-  0 16 16"`), not a Unicode character (reversed 2026-09-16 — see §9).
+0 16 16"`), not a Unicode character (reversed 2026-09-16 — see §9).
   It is wrapped in `aria-hidden="true"`: the accessible name comes
   from the button's `aria-label`, never from the icon.
 - **`children` replaces the icon**, not the options. It receives
@@ -370,18 +404,18 @@ Opening moves focus to the `<ul>`; the active option is conveyed by
 
 On the **listbox**:
 
-| Key                 | Action                                                                                                                                         |
-| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Arrow Down`        | Move the active option down one. **Clamps** at the last option — it does not wrap.                                                             |
-| `Arrow Up`          | Move the active option up one. Clamps at the first.                                                                                            |
-| `Home`              | Make the first option active.                                                                                                                  |
-| `End`               | Make the last option active.                                                                                                                   |
-| `Enter`             | Select the active option, apply it, close, and return focus to the button.                                                                     |
-| `Space`             | Same as `Enter`.                                                                                                                               |
-| `Escape`            | Close and return focus to the button **without** changing the value.                                                                           |
-| `PageUp`            | Move the active option up ten. Clamps at the first.                                                                                            |
-| `PageDown`          | Move the active option down ten. Clamps at the last.                                                                                           |
-| `Tab`               | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position. Hiding the focused list first would drop focus to `<body>` and restart Tab from the top of the document. |
+| Key                 | Action                                                                                                                                                                                                                                                              |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Arrow Down`        | Move the active option down one. **Clamps** at the last option — it does not wrap.                                                                                                                                                                                  |
+| `Arrow Up`          | Move the active option up one. Clamps at the first.                                                                                                                                                                                                                 |
+| `Home`              | Make the first option active.                                                                                                                                                                                                                                       |
+| `End`               | Make the last option active.                                                                                                                                                                                                                                        |
+| `Enter`             | Select the active option, apply it, close, and return focus to the button.                                                                                                                                                                                          |
+| `Space`             | Same as `Enter`.                                                                                                                                                                                                                                                    |
+| `Escape`            | Close and return focus to the button **without** changing the value.                                                                                                                                                                                                |
+| `PageUp`            | Move the active option up ten. Clamps at the first.                                                                                                                                                                                                                 |
+| `PageDown`          | Move the active option down ten. Clamps at the last.                                                                                                                                                                                                                |
+| `Tab`               | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position. Hiding the focused list first would drop focus to `<body>` and restart Tab from the top of the document.          |
 | Printable character | Typeahead over the option **labels**; the buffer resets after 500 ms of inactivity. A single character advances to the **next** match and repeating it cycles onward; a buffer of differing characters refines the match from the active option. Search wraps once. |
 
 Pointer behaviour: clicking an option selects it, applies it, **and
@@ -441,9 +475,9 @@ builds the href from both forms.
 | Clause | Test asserts                                                                                                                                                         |
 | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | §7.1   | Renders a `<button type="button">` with `aria-haspopup="listbox"`, `aria-expanded="false"`, and an `aria-controls` pointing at an element whose `role` is `listbox`. |
-| §7.1   | The button renders the default SVG icon inside `.theme-picker-icon`, carrying `aria-hidden="true"`.                                                                 |
+| §7.1   | The button renders the default SVG icon inside `.theme-picker-icon`, carrying `aria-hidden="true"`.                                                                  |
 | §7.2   | `aria-label` names **both** the button and the listbox.                                                                                                              |
-| §7.3   | One `.theme-picker-option` per entry in `themes`; the hidden input carries the supplied `name` and the resolved value.                                              |
+| §7.3   | One `.theme-picker-option` per entry in `themes`; the hidden input carries the supplied `name` and the resolved value.                                               |
 | §7.4   | The listbox is `hidden` until the button is activated; activating it clears `hidden` and sets `aria-expanded="true"`.                                                |
 | §7.4   | Exactly one option has `aria-selected="true"`, and it is the active theme.                                                                                           |
 | §7.5   | Default labels title-case the slug; the word "default" never appears.                                                                                                |
@@ -451,21 +485,21 @@ builds the href from both forms.
 
 ### Dynamic loading (mirrors §5)
 
-| Clause | Test asserts                                                                                            |
-| ------ | ------------------------------------------------------------------------------------------------------- |
-| §7.6   | The default initial value is `"light"` when present in `themes`.                                        |
-| §7.6   | It falls back to `themes[0]` when `"light"` is absent.                                                  |
-| §7.7   | A managed `<link rel="stylesheet" data-lily-theme-picker="{name}">` is injected with the resolved href. |
-| §7.8   | Selecting an option with the pointer updates the link `href` and `data-theme`, fires `onChange` with the new slug, and closes the listbox (`aria-expanded="false"`, list `hidden`).   |
-| §7.9   | With `storageKey` set, the slug is written to `localStorage` and read back on a fresh mount.            |
-| §7.10  | A supplied `value` prop wins over storage and defaults.                                                 |
-| §7.11  | A `themesUrl` with no trailing slash still yields exactly one slash.                                    |
+| Clause | Test asserts                                                                                                                                                                        |
+| ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| §7.6   | The default initial value is `"light"` when present in `themes`.                                                                                                                    |
+| §7.6   | It falls back to `themes[0]` when `"light"` is absent.                                                                                                                              |
+| §7.7   | A managed `<link rel="stylesheet" data-lily-theme-picker="{name}">` is injected with the resolved href.                                                                             |
+| §7.8   | Selecting an option with the pointer updates the link `href` and `data-theme`, fires `onChange` with the new slug, and closes the listbox (`aria-expanded="false"`, list `hidden`). |
+| §7.9   | With `storageKey` set, the slug is written to `localStorage` and read back on a fresh mount.                                                                                        |
+| §7.10  | A supplied `value` prop wins over storage and defaults.                                                                                                                             |
+| §7.11  | A `themesUrl` with no trailing slash still yields exactly one slash.                                                                                                                |
 
 ### Spread and custom children (mirrors §4.1)
 
-| Clause | Test asserts                                                                                                                                                                                                         |
-| ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| §7.12  | Extra attributes (e.g. `data-testid`) spread onto the root.                                                                                                                                                          |
+| Clause | Test asserts                                                                                                                                                                                                       |
+| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| §7.12  | Extra attributes (e.g. `data-testid`) spread onto the root.                                                                                                                                                        |
 | §7.13  | A `children` snippet **replaces the button glyph**: the custom node renders inside `.theme-picker-button`, no `.theme-picker-icon` is emitted, and the snippet receives `ChildArgs` (`value`, `open`, `labelFor`). |
 
 ### Keyboard contract (mirrors §6.2)
@@ -495,37 +529,37 @@ builds the href from both forms.
 
 ### Accessibility hardening
 
-| Clause | Test asserts |
-| ------ | ------------ |
+| Clause | Test asserts                                                                                                              |
+| ------ | ------------------------------------------------------------------------------------------------------------------------- |
 | §7.21  | `Tab` from the open list puts focus on the button before closing, so the default Tab proceeds from the picker's position. |
-| §7.22  | A repeated typeahead character cycles through its matches; a multi-character buffer refines from the active option. |
-| §7.23  | `PageUp` / `PageDown` move the cursor by ten, clamped. |
-| §7.24  | An empty list opens without `aria-activedescendant`. |
+| §7.22  | A repeated typeahead character cycles through its matches; a multi-character buffer refines from the active option.       |
+| §7.23  | `PageUp` / `PageDown` move the cursor by ten, clamped.                                                                    |
+| §7.24  | An empty list opens without `aria-activedescendant`.                                                                      |
 
 ### Idempotent apply (mirrors §5.3)
 
-| Clause | Test asserts |
-| ------ | ------------ |
+| Clause | Test asserts                                                                                                                       |
+| ------ | ---------------------------------------------------------------------------------------------------------------------------------- |
 | §7.25  | `onChange` fires once per changed value, not once per effect run: a prop change that re-runs the apply effect does not re-fire it. |
 
 ### Focus never scrolls the page
 
-| Clause | Test asserts |
-| ------ | ------------ |
+| Clause | Test asserts                                                                                                                                                                                                                                                                                       |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | §7.26  | Every focus move the component makes on its own (opening the listbox, returning focus to the button on close/Tab) passes `{ preventScroll: true }`, so a listbox rendered partly off-screen by unstyled/un-overridden positioning CSS never forces the browser to scroll the whole page into view. |
 
 ### Tooltip
 
-| Clause | Test asserts |
-| ------ | ------------ |
-| §7.27 | Renders `.theme-picker-tooltip` with `role="tooltip"` right after the button, holding `label`, `hidden` at rest, and the button carries no `aria-describedby`. |
-| §7.28 | Pointer over the button shows it; leaving hides it. |
-| §7.29 | It stays visible while the pointer is over the tooltip itself. |
-| §7.30 | Keyboard focus on the button shows it (mouse-induced focus does not); blur hides it. |
-| §7.31 | `Escape` on the button dismisses it; re-entering shows it again. |
-| §7.32 | It is never shown while the listbox is open. |
-| §7.33 | While the tooltip is visible, `Escape` pressed anywhere (e.g. on `document.body` or another element, with the pointer hovering and focus elsewhere) dismisses it without moving focus or preventing default. |
-| §7.34 | The document `keydown` listener exists only while the tooltip is visible: added once on show, never doubled, removed on hide and on unmount. |
+| Clause | Test asserts                                                                                                                                                                                                 |
+| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| §7.27  | Renders `.theme-picker-tooltip` with `role="tooltip"` right after the button, holding `label`, `hidden` at rest, and the button carries no `aria-describedby`.                                               |
+| §7.28  | Pointer over the button shows it; leaving hides it.                                                                                                                                                          |
+| §7.29  | It stays visible while the pointer is over the tooltip itself.                                                                                                                                               |
+| §7.30  | Keyboard focus on the button shows it (mouse-induced focus does not); blur hides it.                                                                                                                         |
+| §7.31  | `Escape` on the button dismisses it; re-entering shows it again.                                                                                                                                             |
+| §7.32  | It is never shown while the listbox is open.                                                                                                                                                                 |
+| §7.33  | While the tooltip is visible, `Escape` pressed anywhere (e.g. on `document.body` or another element, with the pointer hovering and focus elsewhere) dismisses it without moving focus or preventing default. |
+| §7.34  | The document `keydown` listener exists only while the tooltip is visible: added once on show, never doubled, removed on hide and on unmount.                                                                 |
 
 ## 8. Out-of-scope (future, not implemented here)
 

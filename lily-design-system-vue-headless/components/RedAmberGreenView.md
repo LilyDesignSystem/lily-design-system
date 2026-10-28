@@ -22,11 +22,17 @@ The component renders as a `<span>` element with an accessible label, making the
 ## Usage
 
 ```svelte
-<RedAmberGreenView label="Project status" value="green" />
+<RedAmberGreenView
+  label="Project status"
+  value="green"
+/>
 ```
 
 ```svelte
-<RedAmberGreenView label="Health check" value={status} />
+<RedAmberGreenView
+  label="Health check"
+  value={status}
+/>
 ```
 
 ## Keyboard Interactions

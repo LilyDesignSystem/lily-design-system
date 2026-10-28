@@ -10,7 +10,7 @@ See [components/section-list/index.md](../../../../../components/section-list/in
 
 ```svelte
 <script lang="ts">
-    import SectionList from "./SectionList.svelte";
+  import SectionList from "./SectionList.svelte";
 </script>
 
 <SectionList />

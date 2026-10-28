@@ -24,17 +24,35 @@ The form is only rendered when the `editing` prop is true. Submitting the form a
 ## Usage
 
 ```svelte
-<EditableForm label="Edit profile" bind:editing onsubmit={save}>
-  <input name="name" value={name} />
+<EditableForm
+  label="Edit profile"
+  bind:editing
+  onsubmit={save}
+>
+  <input
+    name="name"
+    value={name}
+  />
   <button type="submit">Save</button>
 </EditableForm>
 ```
 
 ```svelte
-<EditableForm label="Rename item" bind:editing onsubmit={rename} oncancel={revert}>
-  <input name="title" value={title} />
+<EditableForm
+  label="Rename item"
+  bind:editing
+  onsubmit={rename}
+  oncancel={revert}
+>
+  <input
+    name="title"
+    value={title}
+  />
   <button type="submit">OK</button>
-  <button type="button" onclick={() => editing = false}>Cancel</button>
+  <button
+    type="button"
+    onclick={() => (editing = false)}>Cancel</button
+  >
 </EditableForm>
 ```
 

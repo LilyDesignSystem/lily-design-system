@@ -22,7 +22,7 @@ HrvatskaOsobniIdentifikacijskiBrojView is a headless read-only display of Croati
 ```html
 <SummaryList>
   <SummaryListItem term="Personal Identification Number">
-    <HrvatskaOsobniIdentifikacijskiBrojView value={value} />
+    <HrvatskaOsobniIdentifikacijskiBrojView value="{value}" />
   </SummaryListItem>
 </SummaryList>
 ```

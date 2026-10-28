@@ -23,8 +23,15 @@ HrvatskaOsobniIdentifikacijskiBrojInput is a headless input for entering Croatia
 ## Usage
 
 ```html
-<Field label="Personal Identification Number" required>
-  <HrvatskaOsobniIdentifikacijskiBrojInput label="Personal Identification Number" value={value} required />
+<Field
+  label="Personal Identification Number"
+  required
+>
+  <HrvatskaOsobniIdentifikacijskiBrojInput
+    label="Personal Identification Number"
+    value="{value}"
+    required
+  />
   <Hint>11 digits — 10 random digits plus a check digit</Hint>
   <ErrorMessage>Please enter a valid Personal Identification Number</ErrorMessage>
 </Field>

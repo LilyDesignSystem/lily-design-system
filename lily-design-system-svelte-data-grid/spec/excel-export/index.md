@@ -36,7 +36,7 @@ An export is a plain, native-control interaction that never depends on what happ
 
 ## 2. IME input
 
-An input method (for Japanese, Chinese, Korean and other scripts, and some dictation and handwriting tools) builds text in a *composition*: keys are not characters yet, a candidate list is open, and **Enter confirms a candidate** rather than submitting. Two places in the grid take typed text: the cell editor, and the filter field.
+An input method (for Japanese, Chinese, Korean and other scripts, and some dictation and handwriting tools) builds text in a _composition_: keys are not characters yet, a candidate list is open, and **Enter confirms a candidate** rather than submitting. Two places in the grid take typed text: the cell editor, and the filter field.
 
 ### Principles and rules
 

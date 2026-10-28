@@ -18,7 +18,12 @@ Full documentation: [components/wheel-picker/index.md](../../components/wheel-pi
 
 ```tsx
 const [month, setMonth] = useState("2");
-<WheelPicker label="Month" options={months} value={month} onChange={setMonth} />
+<WheelPicker
+  label="Month"
+  options={months}
+  value={month}
+  onChange={setMonth}
+/>;
 ```
 
 The keyboard model is `wheel-picker.ts`, a copy of `shared/wheel-picker.ts`.

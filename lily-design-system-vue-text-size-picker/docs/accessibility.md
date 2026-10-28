@@ -39,28 +39,28 @@ Two obligations come with shipping it:
    set the scale on `:root[data-text-size="…"]` as in
    [`../index.md`](../index.md).
 2. **Test your layout at the largest size.** The point of 1.4.4 is
-   *without loss of content or functionality*. Check your top size for
+   _without loss of content or functionality_. Check your top size for
    clipped text, overlapping controls, and truncation with an ellipsis
    — and check it in combination with 200% browser zoom, because users
    will use both at once.
 
 ## Roles and properties
 
-| Element                    | Role / Property                              | Source        |
-| -------------------------- | -------------------------------------------- | ------------- |
-| root `<div>`               | none (a plain grouping wrapper)              | Component     |
-| `<input type="hidden">`    | `name` — form participation only             | Component     |
-| `<button>`                 | implicit `role="button"`                     | Browser       |
-| `<button>`                 | `aria-label={label}`                         | Consumer prop |
-| `<button>`                 | `aria-haspopup="listbox"`                    | Component     |
-| `<button>`                 | `aria-expanded` — `"true"` / `"false"`       | Component     |
-| `<button>`                 | `aria-controls={listId}`                     | Component     |
-| `<span class="text-size-picker-icon">` | `aria-hidden="true"`             | Component     |
-| `<ul>`                     | `role="listbox"`, `aria-label={label}`       | Component     |
-| `<ul>`                     | `tabindex="-1"`, `hidden` while closed       | Component     |
-| `<ul>`                     | `aria-activedescendant` — **only while open** | Component     |
-| `<li>`                     | `role="option"`, `aria-selected`             | Component     |
-| `<li>`                     | `data-active` on the keyboard-active option  | Component     |
+| Element                                | Role / Property                               | Source        |
+| -------------------------------------- | --------------------------------------------- | ------------- |
+| root `<div>`                           | none (a plain grouping wrapper)               | Component     |
+| `<input type="hidden">`                | `name` — form participation only              | Component     |
+| `<button>`                             | implicit `role="button"`                      | Browser       |
+| `<button>`                             | `aria-label={label}`                          | Consumer prop |
+| `<button>`                             | `aria-haspopup="listbox"`                     | Component     |
+| `<button>`                             | `aria-expanded` — `"true"` / `"false"`        | Component     |
+| `<button>`                             | `aria-controls={listId}`                      | Component     |
+| `<span class="text-size-picker-icon">` | `aria-hidden="true"`                          | Component     |
+| `<ul>`                                 | `role="listbox"`, `aria-label={label}`        | Component     |
+| `<ul>`                                 | `tabindex="-1"`, `hidden` while closed        | Component     |
+| `<ul>`                                 | `aria-activedescendant` — **only while open** | Component     |
+| `<li>`                                 | `role="option"`, `aria-selected`              | Component     |
+| `<li>`                                 | `data-active` on the keyboard-active option   | Component     |
 
 Focus stays on the `<ul>` for the whole time the listbox is open; the
 active option is conveyed to assistive technology with
@@ -80,24 +80,24 @@ returns to the button on commit or cancel.
 
 On the **button**:
 
-| Key                  | Action                                                         |
-| -------------------- | -------------------------------------------------------------- |
-| `Tab` / `Shift+Tab`  | Move focus to / away from the button (native, one stop).       |
-| `ArrowDown`          | Open, active option = the selected one (or the first).         |
-| `Enter` / `Space`    | Open, active option = the selected one (or the first).         |
-| `ArrowUp`            | Open, active option = the **last** option.                     |
+| Key                 | Action                                                   |
+| ------------------- | -------------------------------------------------------- |
+| `Tab` / `Shift+Tab` | Move focus to / away from the button (native, one stop). |
+| `ArrowDown`         | Open, active option = the selected one (or the first).   |
+| `Enter` / `Space`   | Open, active option = the selected one (or the first).   |
+| `ArrowUp`           | Open, active option = the **last** option.               |
 
 On the **listbox**:
 
-| Key                  | Action                                                         |
-| -------------------- | -------------------------------------------------------------- |
-| `ArrowDown`          | Move the active option down one. **Clamps** — no wrapping.     |
-| `ArrowUp`            | Move the active option up one. **Clamps** — no wrapping.       |
-| `Home` / `End`       | Jump to the first / last option.                               |
-| `Enter` / `Space`    | Select the active option, apply it, close, refocus the button. |
-| `Escape`             | Close and refocus the button **without** changing the value.   |
+| Key                  | Action                                                                                   |
+| -------------------- | ---------------------------------------------------------------------------------------- |
+| `ArrowDown`          | Move the active option down one. **Clamps** — no wrapping.                               |
+| `ArrowUp`            | Move the active option up one. **Clamps** — no wrapping.                                 |
+| `Home` / `End`       | Jump to the first / last option.                                                         |
+| `Enter` / `Space`    | Select the active option, apply it, close, refocus the button.                           |
+| `Escape`             | Close and refocus the button **without** changing the value.                             |
 | `Tab`                | Close; focus lands on the button so the default Tab proceeds from the picker's position. |
-| Printable characters | Typeahead over the option **labels**; the buffer resets after 500 ms. |
+| Printable characters | Typeahead over the option **labels**; the buffer resets after 500 ms.                    |
 
 Clamping rather than wrapping is intentional: it matches the APG
 listbox, and on an ordered scale like text size it also preserves the
@@ -119,7 +119,7 @@ colour-only meaning is required:
 2. The `v-model:value` binding in user code.
 3. The hidden input's `value`, for plain form submission.
 
-Note what is *not* on that list: the closed control's visible surface.
+Note what is _not_ on that list: the closed control's visible surface.
 That is the first of three tradeoffs below.
 
 ## Tradeoff 1: the control is icon-only
@@ -143,7 +143,7 @@ That has consequences worth stating plainly:
   users, prefer the visible-text variant below.
 - **A visible-text variant is possible via the slot**, but the slot
   content must stay `aria-hidden="true"` so it does not compete with
-  `aria-label`. Vue offers no way to have slot content *become* the
+  `aria-label`. Vue offers no way to have slot content _become_ the
   accessible name here; `aria-label` on the button always wins, and two
   competing names is worse than one clear one. If you render visible
   text in the slot, make sure `label` says the same thing.
@@ -213,7 +213,7 @@ weight, size, or baseline alignment than you expect.
 letter was chosen. The obvious candidate — U+1F5DB DECREASE FONT SIZE
 SYMBOL — fails on two counts: it has no real glyph in common font
 stacks and degrades to a crude bitmap shape or tofu (`□`), and it
-means *decrease* rather than *size*, which is the wrong affordance for
+means _decrease_ rather than _size_, which is the wrong affordance for
 a control that also makes text bigger. `A` is present in every font
 that can render your page at all — if it were missing, your body copy
 would be broken too — it renders in the page's own face rather than a
@@ -237,9 +237,9 @@ everywhere and can inherit `currentColor`:
 
 ```vue
 <TextSizePicker
-    label="Text size"
-    :sizes="['small', 'medium', 'large', 'x-large']"
-    v-model:value="size"
+  label="Text size"
+  :sizes="['small', 'medium', 'large', 'x-large']"
+  v-model:value="size"
 >
     <template #default="{ open }">
         <svg
@@ -285,16 +285,19 @@ const sizeLabels = { small: "Small", medium: "Medium", large: "Large", "x-large"
 </script>
 
 <template>
-    <TextSizePicker
-        v-model:value="size"
-        label="Text size"
-        :sizes="['small', 'medium', 'large', 'x-large']"
-        storage-key="lily-text-size"
-    />
+  <TextSizePicker
+    v-model:value="size"
+    label="Text size"
+    :sizes="['small', 'medium', 'large', 'x-large']"
+    storage-key="lily-text-size"
+  />
 
-    <p class="text-size-picker-status" aria-live="polite">
-        Text size: {{ sizeLabels[size] ?? size }}
-    </p>
+  <p
+    class="text-size-picker-status"
+    aria-live="polite"
+  >
+    Text size: {{ sizeLabels[size] ?? size }}
+  </p>
 </template>
 ```
 
@@ -307,7 +310,7 @@ Three decisions are baked into that snippet:
    the other helpers: the status text is itself rendered at the
    selected size, so it doubles as a live preview.
 2. **`aria-live="polite"`, not `role="alert"`.** A polite live region
-   announces *mutations* only, so it is silent on first paint and
+   announces _mutations_ only, so it is silent on first paint and
    speaks once per change, without moving focus. That matters here:
    focus is being managed already (it returns to the button on commit),
    and a region that stole it would fight the component. It also
@@ -319,19 +322,19 @@ Three decisions are baked into that snippet:
    they localise with the rest of your copy.
 
 Be clear about what this does and does not fix. It announces the
-*transition* and leaves a persistent visible record. It does not put
+_transition_ and leaves a persistent visible record. It does not put
 the value on the control: a user who tabs to the button later, without
 re-reading the page, still hears only the label. If you need the value
 on the control itself, make `label` itself reactive. Note that passing
-a bare `aria-label` attribute will *not* work: `$attrs` falls through
+a bare `aria-label` attribute will _not_ work: `$attrs` falls through
 to the root `<div>`, not to the button, so the button keeps the name
 built from `label`. Bind the prop instead:
 
 ```vue
 <TextSizePicker
-    v-model:value="size"
-    :label="`Text size: ${sizeLabels[size] ?? size}`"
-    :sizes="['small', 'medium', 'large', 'x-large']"
+  v-model:value="size"
+  :label="`Text size: ${sizeLabels[size] ?? size}`"
+  :sizes="['small', 'medium', 'large', 'x-large']"
 />
 ```
 
@@ -403,7 +406,7 @@ list is a **required** check before shipping, not a nicety:
   are complementary, not alternatives. Never set
   `user-scalable=no` or `maximum-scale=1`.
 - **Rendering interactive markup in the default slot.** The slot's
-  content sits *inside* the `<button>`. A nested button or link is
+  content sits _inside_ the `<button>`. A nested button or link is
   invalid HTML and breaks activation. Render decorative markup only.
 - **Letting slot content carry text.** Visible text inside the button
   competes with `aria-label`. Mark slot content `aria-hidden="true"`,

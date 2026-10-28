@@ -35,7 +35,7 @@
 | Prop           | Type            | Default    | Description                                               |
 | -------------- | --------------- | ---------- | --------------------------------------------------------- |
 | `label`        | `string`        | (required) | Accessible name for the accordion region via `aria-label` |
-| `children`     | `slot`       | (required) | Accordion content to render inside the container          |
+| `children`     | `slot`          | (required) | Accordion content to render inside the container          |
 | `...restProps` | HTML attributes |            | Additional attributes spread onto the outer `<div>`       |
 
 ## Acceptance Criteria

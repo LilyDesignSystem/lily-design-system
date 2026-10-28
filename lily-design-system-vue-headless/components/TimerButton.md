@@ -18,11 +18,7 @@ The remaining seconds are exposed on the rendered button as `data-remaining-seco
 ## Usage
 
 ```vue
-<TimerButton
-  label="Continue automatically in 10 seconds"
-  :duration="10"
-  @click="handleContinue"
->
+<TimerButton label="Continue automatically in 10 seconds" :duration="10" @click="handleContinue">
   Continue
 </TimerButton>
 ```

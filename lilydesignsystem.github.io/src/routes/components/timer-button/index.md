@@ -25,19 +25,31 @@ This headless component uses a `<button>` element with a visible countdown timer
 ## Usage
 
 ```html
-<TimerButton duration={10} label="Undo delete" onclick={handleUndo}>
+<TimerButton
+  duration="{10}"
+  label="Undo delete"
+  onclick="{handleUndo}"
+>
   Undo deletion (10s remaining)
 </TimerButton>
 ```
 
 ```html
-<TimerButton duration={5} label="Auto-advance to next step" onclick={handleNext}>
+<TimerButton
+  duration="{5}"
+  label="Auto-advance to next step"
+  onclick="{handleNext}"
+>
   Continuing to next step in 5s...
 </TimerButton>
 ```
 
 ```html
-<TimerButton duration={15} label="Auto-submit form" onclick={handleSubmit}>
+<TimerButton
+  duration="{15}"
+  label="Auto-submit form"
+  onclick="{handleSubmit}"
+>
   Form will submit automatically in 15s
 </TimerButton>
 ```

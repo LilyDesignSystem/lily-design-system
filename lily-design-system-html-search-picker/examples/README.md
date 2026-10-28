@@ -10,10 +10,10 @@ package) emits it as `dist/index.js`, so
 either adjust the `<script type="module" src=…>` in each example or
 serve that file at the nominal path.
 
-| #   | File                                     | Demonstrates                                                         |
-| --- | ---------------------------------------- | -------------------------------------------------------------------- |
-| 1   | [`01-basic.html`](./01-basic.html)       | The three required labels and a placeholder; `foo` goes to `/?foo`.  |
-| 2   | [`02-events.html`](./02-events.html)     | A custom `action`, the `search` event, and an in-page `navigate`.    |
+| #   | File                                 | Demonstrates                                                        |
+| --- | ------------------------------------ | ------------------------------------------------------------------- |
+| 1   | [`01-basic.html`](./01-basic.html)   | The three required labels and a placeholder; `foo` goes to `/?foo`. |
+| 2   | [`02-events.html`](./02-events.html) | A custom `action`, the `search` event, and an in-page `navigate`.   |
 
 Every user-facing string is an attribute. `⏎` is the submit button's
 visible symbol only; its accessible name is `submit-label`.

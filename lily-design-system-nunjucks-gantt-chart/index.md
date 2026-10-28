@@ -98,11 +98,11 @@ derived date range for parent tasks — see
 
 ## Install
 
-| File | Purpose |
-| --- | --- |
-| `gantt-chart.njk` | The Nunjucks macro. |
-| `gantt-chart.client.js` | The ES-module runtime — builds the time axis and grid. |
-| `spec/index.md` / `index.md` | Documentation. |
+| File                         | Purpose                                                |
+| ---------------------------- | ------------------------------------------------------ |
+| `gantt-chart.njk`            | The Nunjucks macro.                                    |
+| `gantt-chart.client.js`      | The ES-module runtime — builds the time axis and grid. |
+| `spec/index.md` / `index.md` | Documentation.                                         |
 
 Runtime dependencies: `nunjucks` ≥ 3 server-side; standard DOM APIs
 client-side. `@lilydesignsystem/nunjucks-headless` (gantt-table macro
@@ -265,13 +265,13 @@ accessible dependency line as unsolved industry-wide.
 
 ## Keyboard
 
-| Key | Where | Action |
-| --- | --- | --- |
-| `Arrow` keys | Grid cell | Move the roving-tabindex cursor; clamp at the current grid's edges. |
-| `Home` / `End` | Grid cell | Jump to the first/last column of the current row. |
-| `Ctrl+Home` / `Ctrl+End` | Grid cell | Jump to the grid's first/last cell. |
-| `Enter` / `Space` | Grid cell (non-parent row) | Open that row's edit region. |
-| — | Grid cell (parent row) | Does nothing — parent rows are never directly editable. |
+| Key                      | Where                      | Action                                                              |
+| ------------------------ | -------------------------- | ------------------------------------------------------------------- |
+| `Arrow` keys             | Grid cell                  | Move the roving-tabindex cursor; clamp at the current grid's edges. |
+| `Home` / `End`           | Grid cell                  | Jump to the first/last column of the current row.                   |
+| `Ctrl+Home` / `Ctrl+End` | Grid cell                  | Jump to the grid's first/last cell.                                 |
+| `Enter` / `Space`        | Grid cell (non-parent row) | Open that row's edit region.                                        |
+| —                        | Grid cell (parent row)     | Does nothing — parent rows are never directly editable.             |
 
 ## Styling
 
@@ -303,17 +303,17 @@ behaviour and the collapse/expand DOM-removal mechanics described in
 
 ## Files in this directory
 
-| File | Purpose |
-| --- | --- |
-| `spec/index.md` | Single source of truth — API, behaviour, tests. |
-| `AGENTS.md` | Fast-index pointer. |
-| `gantt-chart.njk` | The macro. |
-| `gantt-chart.client.js` | The ES-module runtime. |
-| `gantt-chart.test.ts` | vitest suite covering every spec §9 item. |
-| `index.md` | This file. |
-| `docs/` | Deep-dive topic guides. |
-| `examples/` | Runnable Nunjucks templates. |
-| `CHANGELOG.md` | Version history. |
+| File                    | Purpose                                         |
+| ----------------------- | ----------------------------------------------- |
+| `spec/index.md`         | Single source of truth — API, behaviour, tests. |
+| `AGENTS.md`             | Fast-index pointer.                             |
+| `gantt-chart.njk`       | The macro.                                      |
+| `gantt-chart.client.js` | The ES-module runtime.                          |
+| `gantt-chart.test.ts`   | vitest suite covering every spec §9 item.       |
+| `index.md`              | This file.                                      |
+| `docs/`                 | Deep-dive topic guides.                         |
+| `examples/`             | Runnable Nunjucks templates.                    |
+| `CHANGELOG.md`          | Version history.                                |
 
 ## License
 

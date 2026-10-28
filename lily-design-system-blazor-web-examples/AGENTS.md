@@ -57,33 +57,33 @@ lily-design-system-blazor-web-examples/
 
 ## Example Pages
 
-| Page         | Route                   | Key Components                                                                         |
-| ------------ | ----------------------- | -------------------------------------------------------------------------------------- |
-| Home         | `/`                     | Links to all examples                                                                  |
-| Contact Form | `/contact-form`         | Form, Field, TextInput, EmailInput, TextAreaInput, Select, Option, Button, ErrorSummary     |
-| Dashboard    | `/dashboard`            | Card, Progress, ProgressCircle, Badge, Banner, DataTable                               |
-| Dialog Flow  | `/dialog-flow`          | Dialog, AlertDialog, Drawer, Tooltip, Button                                           |
-| File Upload  | `/file-upload-form`     | FileUpload, Progress, Button, Alert, Badge, Form, Field                                |
-| Navigation   | `/navigation-and-menus` | NavigationMenu, MenuBar, ToolBar, HamburgerMenu, DropdownMenu, Separator               |
-| Page Layout  | `/page-layout`          | Header, Footer, BreadcrumbNav, Sidebar, NavigationMenu                                 |
-| Rating       | `/rating-and-feedback`  | FiveStarRatingPicker, FiveStarRatingView, FiveFaceRatingPicker, NetPromoterScorePicker |
-| Search       | `/search-and-filter`    | Combobox, SearchInput, TextInput, TagGroup, Tag, DataTable, Badge                      |
-| Settings     | `/settings-page`        | SwitchButton, RadioGroup, RadioInput, Select, Fieldset, Banner                         |
-| Tabs         | `/tabbed-interface`     | TabBar, TabBarButton, AccordionNav, AccordionList, AccordionListItem, Badge            |
-| Tasks        | `/task-management`      | TaskList, TaskListItem, TextInput, CheckboxInput, Badge, Progress                      |
-| Timeline     | `/timeline-and-cards`   | TimelineList, TimelineListItem, Card, DateRange, ReviewDate, SummaryList               |
+| Page         | Route                   | Key Components                                                                          |
+| ------------ | ----------------------- | --------------------------------------------------------------------------------------- |
+| Home         | `/`                     | Links to all examples                                                                   |
+| Contact Form | `/contact-form`         | Form, Field, TextInput, EmailInput, TextAreaInput, Select, Option, Button, ErrorSummary |
+| Dashboard    | `/dashboard`            | Card, Progress, ProgressCircle, Badge, Banner, DataTable                                |
+| Dialog Flow  | `/dialog-flow`          | Dialog, AlertDialog, Drawer, Tooltip, Button                                            |
+| File Upload  | `/file-upload-form`     | FileUpload, Progress, Button, Alert, Badge, Form, Field                                 |
+| Navigation   | `/navigation-and-menus` | NavigationMenu, MenuBar, ToolBar, HamburgerMenu, DropdownMenu, Separator                |
+| Page Layout  | `/page-layout`          | Header, Footer, BreadcrumbNav, Sidebar, NavigationMenu                                  |
+| Rating       | `/rating-and-feedback`  | FiveStarRatingPicker, FiveStarRatingView, FiveFaceRatingPicker, NetPromoterScorePicker  |
+| Search       | `/search-and-filter`    | Combobox, SearchInput, TextInput, TagGroup, Tag, DataTable, Badge                       |
+| Settings     | `/settings-page`        | SwitchButton, RadioGroup, RadioInput, Select, Fieldset, Banner                          |
+| Tabs         | `/tabbed-interface`     | TabBar, TabBarButton, AccordionNav, AccordionList, AccordionListItem, Badge             |
+| Tasks        | `/task-management`      | TaskList, TaskListItem, TextInput, CheckboxInput, Badge, Progress                       |
+| Timeline     | `/timeline-and-cards`   | TimelineList, TimelineListItem, Card, DateRange, ReviewDate, SummaryList                |
 
 ## Blazor Translation Patterns
 
-| React                 | Blazor                                                                 |
-| --------------------- | ----------------------------------------------------------------------- |
-| `useState(val)`       | `private type field = val;`                                             |
+| React                 | Blazor                                                                                                                     |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `useState(val)`       | `private type field = val;`                                                                                                |
 | `onChange={fn}`       | `@onchange="@((ChangeEventArgs e) => field = e.Value?.ToString() ?? "")"` (native `value`/`checked` attribute — see below) |
-| `onClick={() => ...}` | `@onclick="() => ..."`                                                  |
-| `{cond && <X/>}`      | `@if (cond) { <X /> }`                                                  |
-| `{items.map(...)}`    | `@foreach (var i in items) { ... }`                                     |
-| `setTimeout(fn, ms)`  | `await Task.Delay(ms); StateHasChanged();`                              |
-| `setInterval(fn, ms)` | `System.Timers.Timer` + `InvokeAsync(StateHasChanged)`                  |
+| `onClick={() => ...}` | `@onclick="() => ..."`                                                                                                     |
+| `{cond && <X/>}`      | `@if (cond) { <X /> }`                                                                                                     |
+| `{items.map(...)}`    | `@foreach (var i in items) { ... }`                                                                                        |
+| `setTimeout(fn, ms)`  | `await Task.Delay(ms); StateHasChanged();`                                                                                 |
+| `setInterval(fn, ms)` | `System.Timers.Timer` + `InvokeAsync(StateHasChanged)`                                                                     |
 
 ## Key Component APIs
 

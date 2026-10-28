@@ -25,17 +25,17 @@ longer menus easier to scan.
 ## Usage
 
 ```html
-<Menu label="File menu">
+<menu label="File menu">
   <MenuGroup label="File">
-    <MenuItem>New</MenuItem>
-    <MenuItem>Open</MenuItem>
-    <MenuItem>Save</MenuItem>
+    <menuitem>New</menuitem>
+    <menuitem>Open</menuitem>
+    <menuitem>Save</menuitem>
   </MenuGroup>
   <MenuGroup label="Edit">
-    <MenuItem>Undo</MenuItem>
-    <MenuItem>Redo</MenuItem>
+    <menuitem>Undo</menuitem>
+    <menuitem>Redo</menuitem>
   </MenuGroup>
-</Menu>
+</menu>
 ```
 
 ## Keyboard Interactions
@@ -67,12 +67,12 @@ longer menus easier to scan.
 Menu groups sit inside a parent menu and contain `MenuItem` children:
 
 ```html
-<Menu label="Actions">
+<menu label="Actions">
   <MenuGroup label="Recent files">
-    <MenuItem>report.pdf</MenuItem>
-    <MenuItem>notes.md</MenuItem>
+    <menuitem>report.pdf</menuitem>
+    <menuitem>notes.md</menuitem>
   </MenuGroup>
-</Menu>
+</menu>
 ```
 
 ## Headless

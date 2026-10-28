@@ -127,7 +127,7 @@ GitHub Pages serves the site from it.
   deployed site has no server and no client-side fetch of catalog data.
   `src/lib/components.ts` is a static, generated array, not an API call.
 - **Current, not historical.** Naming, counts, and code samples on the
-  site must match the *current* state of the canonical catalog and helper
+  site must match the _current_ state of the canonical catalog and helper
   packages, not whatever was true when a page was written. A rename
   upstream (e.g. the 2026-07-28 `*-select`/`*-button` → `*-picker` helper
   rename) is a defect in this site's content until every prose mention,

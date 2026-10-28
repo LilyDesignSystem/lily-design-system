@@ -30,16 +30,24 @@ This headless component toggles between a display state (`<span role="button">`)
 ```
 
 ```tsx
-<Editable label="Title" value={title} onChange={setTitle} editing={isEditing} onEditingChange={setIsEditing} />
+<Editable
+  label="Title"
+  value={title}
+  onChange={setTitle}
+  editing={isEditing}
+  onEditingChange={setIsEditing}
+/>
 ```
 
 ## Keyboard Interactions
 
 In display mode:
+
 - Enter: Activate edit mode
 - Space: Activate edit mode
 
 In edit mode:
+
 - Enter: Confirm the edit and return to display mode
 - Escape: Cancel the edit and return to display mode
 

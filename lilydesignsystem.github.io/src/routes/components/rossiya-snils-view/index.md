@@ -22,7 +22,10 @@ RossiyaSnilsView is a headless read-only display of Russia's СНИЛС (Strakho
 ```html
 <SummaryList>
   <SummaryListItem term="СНИЛС (Strakhovoy Nomer Individualnogo Litsevogo Scheta)">
-    <RossiyaSnilsView label="СНИЛС (Strakhovoy Nomer Individualnogo Litsevogo Scheta)" value={value} />
+    <RossiyaSnilsView
+      label="СНИЛС (Strakhovoy Nomer Individualnogo Litsevogo Scheta)"
+      value="{value}"
+    />
   </SummaryListItem>
 </SummaryList>
 ```
@@ -66,7 +69,7 @@ Eleven digits, displayed as NNN-NNN-NNN CC. The first nine digits are an account
 
 ## References
 
-- Wikipedia: [SNILS (Russia)](https://en.wikipedia.org/wiki/SNILS_(Russia))
+- Wikipedia: [SNILS (Russia)](<https://en.wikipedia.org/wiki/SNILS_(Russia)>)
 
 ---
 

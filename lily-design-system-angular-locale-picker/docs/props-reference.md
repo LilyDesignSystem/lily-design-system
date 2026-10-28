@@ -21,7 +21,10 @@ Applied as `aria-label` to **both** the trigger button and the
 listbox. Always supplied, always translatable.
 
 ```html
-<lily-locale-picker label="Language" [locales]="locales" />
+<lily-locale-picker
+  label="Language"
+  [locales]="locales"
+/>
 ```
 
 The input is marked `input.required<string>()`, so the TypeScript
@@ -68,7 +71,10 @@ The active locale code, in your form. Two-way bindable with
 `[(value)]` so the surrounding code can read and write the selection.
 
 ```html
-<lily-locale-picker [(value)]="locale" ... />
+<lily-locale-picker
+  [(value)]="locale"
+  ...
+/>
 ```
 
 ```ts
@@ -92,7 +98,10 @@ match. If `defaultValue` is itself empty, the resolver falls back to
 `"en"` (when present in `locales`) and then to `locales[0]`.
 
 ```html
-<lily-locale-picker defaultValue="fr" ... />
+<lily-locale-picker
+  defaultValue="fr"
+  ...
+/>
 ```
 
 ## `storageKey` — optional, string — defaults to `""`
@@ -109,7 +118,10 @@ swallowed on both read and write — the select continues to work
 in-memory.
 
 ```html
-<lily-locale-picker storageKey="lily-locale" ... />
+<lily-locale-picker
+  storageKey="lily-locale"
+  ...
+/>
 ```
 
 The stored string is the consumer-form code, not the normalised tag,
@@ -126,7 +138,10 @@ exact-first, then language-only, so a browser preferring `fr-CH`
 lands on `fr` if `fr-CH` is not offered.
 
 ```html
-<lily-locale-picker [detectFromNavigator]="true" ... />
+<lily-locale-picker
+  [detectFromNavigator]="true"
+  ...
+/>
 ```
 
 Off by default, deliberately. Browser language preferences are often
@@ -147,7 +162,10 @@ reaches a form submission.
 
 ```html
 <form>
-  <lily-locale-picker name="ui-locale" ... />
+  <lily-locale-picker
+    name="ui-locale"
+    ...
+  />
 </form>
 ```
 
@@ -208,7 +226,10 @@ yourself — for instance when a framework, a server-rendered shell, or
 a CMS already owns the attribute and a second writer would fight it.
 
 ```html
-<lily-locale-picker [applyDir]="false" ... />
+<lily-locale-picker
+  [applyDir]="false"
+  ...
+/>
 ```
 
 Turning it off does not disable RTL detection generally: `isRtlLocale`
@@ -239,7 +260,10 @@ const labels = {
 ```
 
 ```html
-<lily-locale-picker [localeLabels]="labels" ... />
+<lily-locale-picker
+  [localeLabels]="labels"
+  ...
+/>
 ```
 
 These labels are also what the listbox typeahead matches against, so
@@ -255,7 +279,10 @@ Extra CSS class hook on the root `<div>`. Always emitted after
 `"locale-picker"`, so consumer styles can use either selector.
 
 ```html
-<lily-locale-picker className="my-extra" ... />
+<lily-locale-picker
+  className="my-extra"
+  ...
+/>
 ```
 
 Renders:
@@ -277,7 +304,10 @@ Emits the new code after every successful apply — that is, after
 a cookie write.
 
 ```html
-<lily-locale-picker (localeChange)="onLocaleChange($event)" ... />
+<lily-locale-picker
+  (localeChange)="onLocaleChange($event)"
+  ...
+/>
 ```
 
 ```ts
@@ -300,10 +330,17 @@ to that output automatically. You rarely need to subscribe directly:
 
 ```html
 <!-- Two-way binding (recommended) -->
-<lily-locale-picker [(value)]="locale" ... />
+<lily-locale-picker
+  [(value)]="locale"
+  ...
+/>
 
 <!-- Equivalent explicit form -->
-<lily-locale-picker [value]="locale()" (valueChange)="locale.set($event)" ... />
+<lily-locale-picker
+  [value]="locale()"
+  (valueChange)="locale.set($event)"
+  ...
+/>
 ```
 
 `valueChange` fires when the selection changes; `localeChange` fires
@@ -423,10 +460,11 @@ case-insensitively by `isRtlLocale`, so the set stores lowercase keys.
 
 Reversed 2026-09-16: the default button icon used to be a Unicode
 glyph exported as `GLOBE_WITH_MERIDIANS` (U+1F310 GLOBE WITH MERIDIANS
-+ U+FE0E VARIATION SELECTOR-15). The default icon is now a bundled
-inline SVG in the component template — there is no longer a single
-swappable character value to export. Project your own `<ng-template>`
-to swap the icon in a custom rendering.
+
+- U+FE0E VARIATION SELECTOR-15). The default icon is now a bundled
+  inline SVG in the component template — there is no longer a single
+  swappable character value to export. Project your own `<ng-template>`
+  to swap the icon in a custom rendering.
 
 ### `nextLocalePickerId`
 
@@ -448,8 +486,15 @@ _any_ projected `<ng-template>` via `contentChild(TemplateRef)`, so
 the marker is never required for matching.
 
 ```html
-<lily-locale-picker label="Language" [locales]="locales" [(value)]="locale">
-  <ng-template lilyLocalePickerIcon let-args>
+<lily-locale-picker
+  label="Language"
+  [locales]="locales"
+  [(value)]="locale"
+>
+  <ng-template
+    lilyLocalePickerIcon
+    let-args
+  >
     <span [attr.data-open]="args.open">{{ args.value }}</span>
   </ng-template>
 </lily-locale-picker>
@@ -473,7 +518,10 @@ Not an input, but part of the public surface. A projected
 button:
 
 ```html
-<lily-locale-picker label="Language" [locales]="locales">
+<lily-locale-picker
+  label="Language"
+  [locales]="locales"
+>
   <ng-template let-args>{{ args.labelFor(args.value) }}</ng-template>
 </lily-locale-picker>
 ```

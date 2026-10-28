@@ -24,14 +24,21 @@ The consumer provides `<option>` elements as children, giving full control over 
 ## Usage
 
 ```svelte
-<Select label="Country" bind:value>
+<Select
+  label="Country"
+  bind:value
+>
   <option value="us">United States</option>
   <option value="uk">United Kingdom</option>
 </Select>
 ```
 
 ```svelte
-<Select label="Priority" bind:value={priority} required>
+<Select
+  label="Priority"
+  bind:value={priority}
+  required
+>
   <option value="">Select priority...</option>
   <option value="low">Low</option>
   <option value="medium">Medium</option>
@@ -40,7 +47,11 @@ The consumer provides `<option>` elements as children, giving full control over 
 ```
 
 ```svelte
-<Select label="Status" bind:value disabled={isReadOnly}>
+<Select
+  label="Status"
+  bind:value
+  disabled={isReadOnly}
+>
   <option value="active">Active</option>
   <option value="inactive">Inactive</option>
 </Select>

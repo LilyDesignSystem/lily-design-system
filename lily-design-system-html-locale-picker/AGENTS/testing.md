@@ -20,10 +20,7 @@ import {
 } from "./locale-picker.js";
 
 // Register once; re-registering the same tag throws.
-if (
-  typeof customElements !== "undefined" &&
-  !customElements.get("locale-picker")
-) {
+if (typeof customElements !== "undefined" && !customElements.get("locale-picker")) {
   customElements.define("locale-picker", LocalePicker);
 }
 
@@ -54,13 +51,9 @@ function mount(attrs: Record<string, string>): LocalePicker {
   return el;
 }
 
-const button = () =>
-  document.body.querySelector<HTMLButtonElement>(".locale-picker-button")!;
-const list = () =>
-  document.body.querySelector<HTMLUListElement>(".locale-picker-list")!;
-const options = () => [
-  ...document.body.querySelectorAll<HTMLLIElement>(".locale-picker-option"),
-];
+const button = () => document.body.querySelector<HTMLButtonElement>(".locale-picker-button")!;
+const list = () => document.body.querySelector<HTMLUListElement>(".locale-picker-list")!;
+const options = () => [...document.body.querySelectorAll<HTMLLIElement>(".locale-picker-option")];
 ```
 
 ## Driving the control
@@ -70,15 +63,11 @@ synthetic events on the button and the list:
 
 ```ts
 function press(el: Element, key: string): void {
-  el.dispatchEvent(
-    new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true }),
-  );
+  el.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true }));
 }
 
 function click(el: Element): void {
-  el.dispatchEvent(
-    new MouseEvent("click", { bubbles: true, cancelable: true }),
-  );
+  el.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
 }
 
 /** Open the listbox and click the option for `code`. */
@@ -96,9 +85,7 @@ function pick(code: string, locales: string[] = LOCALES): void {
 const btn = button();
 expect(btn.getAttribute("aria-haspopup")).toBe("listbox");
 expect(btn.getAttribute("aria-expanded")).toBe("false");
-expect(document.getElementById(btn.getAttribute("aria-controls")!)).toBe(
-  list(),
-);
+expect(document.getElementById(btn.getAttribute("aria-controls")!)).toBe(list());
 
 const icon = document.body.querySelector<HTMLElement>(".locale-picker-icon")!;
 expect(icon.textContent).toBe("🌐︎"); // GLOBE + VS15 (text presentation)
@@ -238,9 +225,7 @@ expect(el.querySelector(".locale-picker-icon")).toBeNull();
 
 const btn = el.querySelector<HTMLButtonElement>(".locale-picker-button")!;
 expect(btn.getAttribute("aria-haspopup")).toBe("listbox");
-expect(
-  el.querySelector(`#${btn.getAttribute("aria-controls")}`),
-).not.toBeNull();
+expect(el.querySelector(`#${btn.getAttribute("aria-controls")}`)).not.toBeNull();
 ```
 
 ## jsdom gotchas
@@ -289,13 +274,13 @@ test("§7.16 selecting a different option updates lang, dir, and fires localecha
 
 Section map:
 
-| §7 group             | Clauses | Test focus                                                                 |
-| -------------------- | ------- | -------------------------------------------------------------------------- |
-| 7.1 markup           | 1–6     | div root, button, listbox, options, glyph, hidden input, per-option `lang` |
-| 7.2 pure helpers     | 7–12    | `bcp47LocaleTag`, `isRtlLocale`, `localeName`                              |
-| 7.3 application      | 13–17   | `target.lang`, `target.dir`, `applyDir`, CustomEvent                       |
-| 7.4 init value       | 18–21   | storage / value / navigator / defaultValue ordering                        |
-| 7.5 property API     | 22–23   | array / object property mirroring, class hook, unique ids                  |
-| 7.6 keyboard         | 24–28   | APG listbox contract, typeahead, outside click                             |
-| 7.7 custom rendering | 29      | `renderButtonContent()` override, base lifecycle intact                    |
+| §7 group             | Clauses | Test focus                                                                           |
+| -------------------- | ------- | ------------------------------------------------------------------------------------ |
+| 7.1 markup           | 1–6     | div root, button, listbox, options, glyph, hidden input, per-option `lang`           |
+| 7.2 pure helpers     | 7–12    | `bcp47LocaleTag`, `isRtlLocale`, `localeName`                                        |
+| 7.3 application      | 13–17   | `target.lang`, `target.dir`, `applyDir`, CustomEvent                                 |
+| 7.4 init value       | 18–21   | storage / value / navigator / defaultValue ordering                                  |
+| 7.5 property API     | 22–23   | array / object property mirroring, class hook, unique ids                            |
+| 7.6 keyboard         | 24–28   | APG listbox contract, typeahead, outside click                                       |
+| 7.7 custom rendering | 29      | `renderButtonContent()` override, base lifecycle intact                              |
 | 7.8 hardening        | 30–34   | Tab-to-button, endonym `lang` claims, typeahead cycling, PageUp/PageDown, empty list |

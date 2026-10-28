@@ -15,18 +15,21 @@ The component renders a `<div role="status" aria-live="polite" aria-atomic="true
 
 ## Props
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `class` | string | `""` | Appended to the base class |
-| `label` | string (optional) | — | Accessible name of the status region |
-| `streaming` | boolean | `false` | True while chunks are still arriving |
-| `children` | slot | — | The text so far |
-| `...restProps` | HTML attributes | — | Spread onto the root `<div>` |
+| Prop           | Type              | Default | Description                          |
+| -------------- | ----------------- | ------- | ------------------------------------ |
+| `class`        | string            | `""`    | Appended to the base class           |
+| `label`        | string (optional) | —       | Accessible name of the status region |
+| `streaming`    | boolean           | `false` | True while chunks are still arriving |
+| `children`     | slot              | —       | The text so far                      |
+| `...restProps` | HTML attributes   | —       | Spread onto the root `<div>`         |
 
 ## Usage
 
 ```svelte
-<StreamingText label="Assistant answer" streaming={isStreaming}>
+<StreamingText
+  label="Assistant answer"
+  streaming={isStreaming}
+>
   {answerSoFar}
 </StreamingText>
 ```

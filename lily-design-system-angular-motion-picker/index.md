@@ -46,18 +46,18 @@ export class Example {
 
 ## Inputs / Outputs
 
-| Name           | Type                     | Required | Description                                                |
-| -------------- | ------------------------ | -------- | ------------------------------------------------------------ |
-| `label`        | `string`                 | yes      | Accessible name (`aria-label`) for the button + listbox.      |
-| `motions`      | `string[]`               | yes      | Available motion slugs.                                       |
-| `value`        | `string` (model)         | no       | Selected slug. Two-way bindable via `[(value)]`.               |
-| `defaultValue` | `string`                 | no       | Initial slug when nothing else is supplied.                    |
-| `storageKey`   | `string`                 | no       | If set, persist the slug to `localStorage`.                    |
-| `name`         | `string`                 | no       | `name` of the hidden input (default `"motion"`).               |
-| `target`       | `HTMLElement \| null`    | no       | Element to receive `data-motion`. Default `<html>`.            |
-| `motionLabels` | `Record<string,string>`  | no       | Pretty labels per slug.                                        |
-| `className`    | `string`                 | no       | Extra CSS class on the root.                                   |
-| `motionChange` | `output<string>`         | —        | Emits after a new motion preference is applied.                |
+| Name           | Type                    | Required | Description                                              |
+| -------------- | ----------------------- | -------- | -------------------------------------------------------- |
+| `label`        | `string`                | yes      | Accessible name (`aria-label`) for the button + listbox. |
+| `motions`      | `string[]`              | yes      | Available motion slugs.                                  |
+| `value`        | `string` (model)        | no       | Selected slug. Two-way bindable via `[(value)]`.         |
+| `defaultValue` | `string`                | no       | Initial slug when nothing else is supplied.              |
+| `storageKey`   | `string`                | no       | If set, persist the slug to `localStorage`.              |
+| `name`         | `string`                | no       | `name` of the hidden input (default `"motion"`).         |
+| `target`       | `HTMLElement \| null`   | no       | Element to receive `data-motion`. Default `<html>`.      |
+| `motionLabels` | `Record<string,string>` | no       | Pretty labels per slug.                                  |
+| `className`    | `string`                | no       | Extra CSS class on the root.                             |
+| `motionChange` | `output<string>`        | —        | Emits after a new motion preference is applied.          |
 
 ## Behaviour
 

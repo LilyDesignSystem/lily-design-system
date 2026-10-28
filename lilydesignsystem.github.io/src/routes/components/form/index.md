@@ -23,30 +23,65 @@ A form component wraps a native HTML `<form>` element with accessible labeling, 
 Login form with email and password fields:
 
 ```html
-<Form label="Sign in" onsubmit={handleLogin}>
-  <Field label="Email" required>
-    <EmailInput label="Email" value={email} required />
+<form
+  label="Sign in"
+  onsubmit="{handleLogin}"
+>
+  <Field
+    label="Email"
+    required
+  >
+    <EmailInput
+      label="Email"
+      value="{email}"
+      required
+    />
   </Field>
-  <Field label="Password" required>
-    <PasswordInput label="Password" value={password} required />
+  <Field
+    label="Password"
+    required
+  >
+    <PasswordInput
+      label="Password"
+      value="{password}"
+      required
+    />
   </Field>
-  <Button type="submit">Sign in</Button>
-</Form>
+  <button type="submit">Sign in</button>
+</form>
 ```
 
 Contact form with reset support:
 
 ```html
-<Form label="Contact us" onsubmit={handleSubmit} onreset={handleReset}>
-  <Field label="Name" required>
-    <TextInput label="Name" value={name} required />
+<form
+  label="Contact us"
+  onsubmit="{handleSubmit}"
+  onreset="{handleReset}"
+>
+  <Field
+    label="Name"
+    required
+  >
+    <TextInput
+      label="Name"
+      value="{name}"
+      required
+    />
   </Field>
-  <Field label="Message" required>
-    <TextAreaInput label="Message" value={message} required />
+  <Field
+    label="Message"
+    required
+  >
+    <TextAreaInput
+      label="Message"
+      value="{message}"
+      required
+    />
   </Field>
   <SubmitInput value="Send message" />
   <ResetInput value="Clear form" />
-</Form>
+</form>
 ```
 
 ## Keyboard Interactions
@@ -74,14 +109,11 @@ None beyond native form behavior -- Enter key submits the form when a text input
 
 This headless component provides a native `<form>` element with `aria-label`, automatic submit default prevention, and reset support. The consumer provides all visual styling including layout, spacing, and button placement.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.form` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<form>` element with class `form`
 - Verify aria-label="..."` -- provides an accessible name for the form, helping screen readers identify its purpose

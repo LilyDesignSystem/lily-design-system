@@ -4,12 +4,12 @@ Each file is a self-contained Nunjucks template fragment. They assume
 `share-picker.njk` is resolvable by your environment's loader and that
 `share-picker.client.js` is served somewhere the browser can import it.
 
-| File | Shows |
-| ---- | ----- |
-| [`01-basic.njk`](./01-basic.njk) | Minimal control: label, two destinations, copy. |
-| [`02-strategies.njk`](./02-strategies.njk) | `auto` / `native` / `list`, and callbacks. |
-| [`03-client-function-hrefs.njk`](./03-client-function-hrefs.njk) | The canonical function-`href` API, on the client. |
-| [`04-custom-glyph.njk`](./04-custom-glyph.njk) | Replacing ➤ via a `{% call %}` body, with a visible label. |
+| File                                                             | Shows                                                      |
+| ---------------------------------------------------------------- | ---------------------------------------------------------- |
+| [`01-basic.njk`](./01-basic.njk)                                 | Minimal control: label, two destinations, copy.            |
+| [`02-strategies.njk`](./02-strategies.njk)                       | `auto` / `native` / `list`, and callbacks.                 |
+| [`03-client-function-hrefs.njk`](./03-client-function-hrefs.njk) | The canonical function-`href` API, on the client.          |
+| [`04-custom-glyph.njk`](./04-custom-glyph.njk)                   | Replacing ➤ via a `{% call %}` body, with a visible label. |
 
 ## Two things every example assumes
 

@@ -7,11 +7,11 @@ no prerender mismatch.
 Files in this folder match a Blazor Web App layout. Drop them into
 a Blazor Web App project under `Components/` and `Program.cs`.
 
-| File                       | Role                                                              |
-| -------------------------- | ----------------------------------------------------------------- |
-| `Program.snippet.cs`       | DI + POST `/api/theme` endpoint that writes the cookie.           |
-| `App.razor`                | Reads the `theme` cookie via `IHttpContextAccessor` and emits `<html data-theme="…">` + the matching `<link>`. |
-| `SettingsPage.razor`       | Renders the select, cascades the initial theme, posts to `/api/theme` on change. |
+| File                 | Role                                                                                                           |
+| -------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `Program.snippet.cs` | DI + POST `/api/theme` endpoint that writes the cookie.                                                        |
+| `App.razor`          | Reads the `theme` cookie via `IHttpContextAccessor` and emits `<html data-theme="…">` + the matching `<link>`. |
+| `SettingsPage.razor` | Renders the select, cascades the initial theme, posts to `/api/theme` on change.                               |
 
 Required setup in your project:
 

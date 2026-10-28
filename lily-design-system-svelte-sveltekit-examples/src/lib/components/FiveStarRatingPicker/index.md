@@ -46,69 +46,88 @@ Import the component, bind a number-typed state variable to `value`, and pass a 
 
 ```svelte
 <script lang="ts">
-    import FiveStarRatingPicker from "./FiveStarRatingPicker.svelte";
-    let rating = $state(0);
+  import FiveStarRatingPicker from "./FiveStarRatingPicker.svelte";
+  let rating = $state(0);
 </script>
 
-<FiveStarRatingPicker label="Rate this product" bind:value={rating} />
+<FiveStarRatingPicker
+  label="Rate this product"
+  bind:value={rating}
+/>
 <p>You selected: {rating}</p>
 ```
 
 ```svelte
 <script lang="ts">
-    import FiveStarRatingPicker from "./FiveStarRatingPicker.svelte";
-    let rating = $state(4);
+  import FiveStarRatingPicker from "./FiveStarRatingPicker.svelte";
+  let rating = $state(4);
 </script>
 
 <FiveStarRatingPicker
-    label="Your rating"
-    bind:value={rating}
-    disabled
+  label="Your rating"
+  bind:value={rating}
+  disabled
 />
 ```
 
 ```svelte
 <script lang="ts">
-    import FiveStarRatingPicker from "./FiveStarRatingPicker.svelte";
-    import Form from "../Form/Form.svelte";
-    import Button from "../Button/Button.svelte";
+  import FiveStarRatingPicker from "./FiveStarRatingPicker.svelte";
+  import Form from "../Form/Form.svelte";
+  import Button from "../Button/Button.svelte";
 
-    let rating = $state(0);
-    function handleSubmit() { console.log("submitted", rating); }
+  let rating = $state(0);
+  function handleSubmit() {
+    console.log("submitted", rating);
+  }
 </script>
 
-<Form label="Feedback" onsubmit={handleSubmit}>
-    <FiveStarRatingPicker
-        label="Overall satisfaction"
-        name="satisfaction"
-        bind:value={rating}
-    />
-    <Button type="submit" label="Submit">Submit</Button>
+<Form
+  label="Feedback"
+  onsubmit={handleSubmit}
+>
+  <FiveStarRatingPicker
+    label="Overall satisfaction"
+    name="satisfaction"
+    bind:value={rating}
+  />
+  <Button
+    type="submit"
+    label="Submit">Submit</Button
+  >
 </Form>
 ```
 
 ```svelte
 <script lang="ts">
-    import FiveStarRatingPicker from "./FiveStarRatingPicker.svelte";
-    let r1 = $state(0);
-    let r2 = $state(0);
+  import FiveStarRatingPicker from "./FiveStarRatingPicker.svelte";
+  let r1 = $state(0);
+  let r2 = $state(0);
 </script>
 
-<FiveStarRatingPicker label="Taste" name="taste" bind:value={r1} />
-<FiveStarRatingPicker label="Value" name="value" bind:value={r2} />
+<FiveStarRatingPicker
+  label="Taste"
+  name="taste"
+  bind:value={r1}
+/>
+<FiveStarRatingPicker
+  label="Value"
+  name="value"
+  bind:value={r2}
+/>
 ```
 
 ```svelte
 <script lang="ts">
-    import FiveStarRatingPicker from "./FiveStarRatingPicker.svelte";
-    let rating = $state(3);
+  import FiveStarRatingPicker from "./FiveStarRatingPicker.svelte";
+  let rating = $state(3);
 </script>
 
 <FiveStarRatingPicker
-    label="Rating"
-    bind:value={rating}
-    class="my-custom-stars"
-    data-testid="product-rating"
+  label="Rating"
+  bind:value={rating}
+  class="my-custom-stars"
+  data-testid="product-rating"
 />
 ```
 

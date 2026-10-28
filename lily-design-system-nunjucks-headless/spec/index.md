@@ -44,13 +44,13 @@ environment (Eleventy, Express, custom Node, Mozilla docs builds).
 
 ### Framework + tooling
 
-| Concern             | Choice                                      |
-| ------------------- | ------------------------------------------- |
-| Template engine     | Nunjucks 3.x                                |
-| Language            | JavaScript (for tests)                      |
-| Package manager     | pnpm                                        |
-| Test runner         | vitest + jsdom                              |
-| i18n                | none — consumer-supplied via `params`       |
+| Concern         | Choice                                |
+| --------------- | ------------------------------------- |
+| Template engine | Nunjucks 3.x                          |
+| Language        | JavaScript (for tests)                |
+| Package manager | pnpm                                  |
+| Test runner     | vitest + jsdom                        |
+| i18n            | none — consumer-supplied via `params` |
 
 ### Nunjucks conventions
 
@@ -125,9 +125,9 @@ The HTML tag is the canonical tag from the root
 
 ```js
 nunjucks.configure([
-  'components',          // Lily's nunjucks-headless components/ directory
-  '<YOUR-VIEWS-FOLDER>'  // consumer's templates
-])
+  "components", // Lily's nunjucks-headless components/ directory
+  "<YOUR-VIEWS-FOLDER>", // consumer's templates
+]);
 ```
 
 ## 5. Testing
@@ -216,14 +216,14 @@ pnpm exec vitest run                 # explicit one-shot run
 
 ## 9. Prohibited
 
-| Prohibition                       | Reason                              |
-| --------------------------------- | ----------------------------------- |
-| `<style>`, `<link rel="stylesheet">` | headless: zero CSS               |
-| Tailwind, DaisyUI, Bootstrap      | no CSS framework dependency         |
-| Bundled fonts, images, icons      | consumer supplies all assets        |
-| Hardcoded user-facing strings     | i18n is the consumer's concern      |
-| Raw `params.html` without sanitise | XSS risk                           |
-| Hyphenated macro names            | Nunjucks disallows; use camelCase   |
+| Prohibition                          | Reason                            |
+| ------------------------------------ | --------------------------------- |
+| `<style>`, `<link rel="stylesheet">` | headless: zero CSS                |
+| Tailwind, DaisyUI, Bootstrap         | no CSS framework dependency       |
+| Bundled fonts, images, icons         | consumer supplies all assets      |
+| Hardcoded user-facing strings        | i18n is the consumer's concern    |
+| Raw `params.html` without sanitise   | XSS risk                          |
+| Hyphenated macro names               | Nunjucks disallows; use camelCase |
 
 ## 10. Tracking
 

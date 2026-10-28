@@ -40,7 +40,7 @@ a component. Consumers copy the snippet or fetch/include it server-side.
 
 ## What this subproject is, and isn't
 
-- **Is**: a distributable skill scoped to *consuming* the HTML headless
+- **Is**: a distributable skill scoped to _consuming_ the HTML headless
   library — its file shape, its copy-and-use idiom, and how its class-hook
   theming and naming conventions map onto the catalog-wide rules.
 - **Isn't**: the HTML headless library itself (that's

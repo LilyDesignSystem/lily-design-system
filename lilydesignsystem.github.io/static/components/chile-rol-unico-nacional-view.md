@@ -22,7 +22,10 @@ ChileRolUnicoNacionalView is a headless read-only display of Chile's Rol Único 
 ```html
 <SummaryList>
   <SummaryListItem term="Rol Único Nacional (RUN)">
-    <ChileRolUnicoNacionalView label="Rol Único Nacional (RUN)" value={value} />
+    <ChileRolUnicoNacionalView
+      label="Rol Único Nacional (RUN)"
+      value="{value}"
+    />
   </SummaryListItem>
 </SummaryList>
 ```

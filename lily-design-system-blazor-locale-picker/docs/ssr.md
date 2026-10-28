@@ -7,12 +7,12 @@ resolution strategies, ordered by quality.
 
 ## TL;DR
 
-| Strategy                | Flash of default locale?  | Survives reload?      | SEO-friendly? |
-| ----------------------- | ------------------------- | --------------------- | ------------- |
-| `DetectFromNavigator`   | yes (until interactive)   | only if `StorageKey`  | no            |
-| `localStorage`          | yes (until interactive)   | yes                   | no            |
-| Cookie + `App.razor`    | **no**                    | yes                   | no            |
-| URL prefix (`/fr/about`)| **no**                    | yes                   | **yes**       |
+| Strategy                 | Flash of default locale? | Survives reload?     | SEO-friendly? |
+| ------------------------ | ------------------------ | -------------------- | ------------- |
+| `DetectFromNavigator`    | yes (until interactive)  | only if `StorageKey` | no            |
+| `localStorage`           | yes (until interactive)  | yes                  | no            |
+| Cookie + `App.razor`     | **no**                   | yes                  | no            |
+| URL prefix (`/fr/about`) | **no**                   | yes                  | **yes**       |
 
 Use the **cookie** strategy unless you need SEO-distinct pages per
 locale; then use **URL prefix**.

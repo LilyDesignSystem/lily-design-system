@@ -39,7 +39,7 @@
 | Prop           | Type            | Default    | Description                                            |
 | -------------- | --------------- | ---------- | ------------------------------------------------------ |
 | `disabled`     | `boolean`       | `false`    | Whether the button is disabled                         |
-| `children`     | `slot`       | (required) | Button content                                         |
+| `children`     | `slot`          | (required) | Button content                                         |
 | `...restProps` | HTML attributes |            | Additional attributes passed to the `<button>` element |
 
 ## Acceptance Criteria

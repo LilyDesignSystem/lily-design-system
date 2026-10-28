@@ -33,13 +33,21 @@ scroll position.
 ## Usage
 
 ```html
-<FloatButton label="Compose" position="bottom-right" onclick={openComposer}>
+<FloatButton
+  label="Compose"
+  position="bottom-right"
+  onclick="{openComposer}"
+>
   <svg>...</svg>
 </FloatButton>
 ```
 
 ```html
-<FloatButton label="Scroll to top" position="bottom-left" onclick={scrollTop}>
+<FloatButton
+  label="Scroll to top"
+  position="bottom-left"
+  onclick="{scrollTop}"
+>
   ↑
 </FloatButton>
 ```

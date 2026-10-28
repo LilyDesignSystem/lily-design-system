@@ -99,42 +99,42 @@ Identical to the canonical spec §2:
 
 ### 4.1 Parameters
 
-| Parameter | Type | Required | Default | Purpose |
-| --- | --- | --- | --- | --- |
-| `Label` | `string` | yes | — | Accessible name for **both** the trigger button and the dialog. |
-| `Labels` | `DateTimePickerLabels` | yes | — | Every other user-facing string. See §4.2. |
-| `Mode` | `DateTimeMode` | no | `Date` | What to collect: `Date`, `Time`, or `DateTime`. |
-| `Value` | `string` | no | `""` | ISO value. |
-| `ValueChanged` | `EventCallback<string>` | no | — | Two-way binding partner for `Value`, enabling `@bind-Value`. |
-| `Locale` | `string?` | no | runtime default | BCP 47 tag driving all formatting. |
-| `Min` | `string?` | no | — | Earliest selectable date, ISO. |
-| `Max` | `string?` | no | — | Latest selectable date, ISO. |
-| `IsDateDisabled` | `Func<string, bool>?` | no | — | Veto individual dates. |
-| `FirstDayOfWeek` | `int?` | no | from `Locale` | 0 = Sunday … 6 = Saturday. |
-| `MinuteStep` | `int` | no | `1` | Granularity of the minute select. |
-| `Hour12` | `bool?` | no | from `Locale` | 12-hour clock. |
-| `ShowWeekNumbers` | `bool` | no | `false` | Render an ISO-8601 week column. |
-| `Shortcuts` | `IReadOnlyList<DateTimeShortcut>` | no | empty | Quick-pick buttons. |
-| `ConfirmOnSelect` | `bool?` | no | `Mode == Date` | Commit and close on day click. |
-| `Name` | `string` | no | `"date-time"` | `name` of the hidden input. |
-| `InputId` | `string?` | no | generated | `id` of the text field, for a consumer `<label for>`. |
-| `DescribedBy` | `string?` | no | — | Forwarded as `aria-describedby`. |
-| `Placeholder` | `string?` | no | — | Placeholder for the text field. |
-| `Disabled` | `bool` | no | `false` | Disable the whole control. |
-| `ReadOnly` | `bool` | no | `false` | Show the value, refuse edits. |
-| `Required` | `bool` | no | `false` | Mark the field required. |
-| `FormatValue` | `Func<string, string>?` | no | culture-driven | Override field rendering. |
-| `ParseInput` | `Func<string, string?>?` | no | §5.4 | Override typed-text parsing. |
-| `ChildContent` | `RenderFragment<DateTimePickerContext>?` | no | the calendar glyph | **Replaces the glyph inside the button.** |
-| `OnChange` | `EventCallback<string>` | no | — | Fires after a value is committed. |
-| `OnShortcut` | `EventCallback<(string Id, string IsoDate)>` | no | — | Fires when a shortcut is used. |
-| `OnInvalidInput` | `EventCallback<string>` | no | — | Fires when typed text will not parse. |
-| `CssClass` | `string` | no | `""` | Extra CSS class on the root `<div>`. |
-| `TimeZone` | `string` | no | `""` | Selected IANA zone, or `""` for none. Rides `{Name}-time-zone` and `data-time-zone`. See §5.9. |
-| `TimeZones` | `IReadOnlyList<string>?` | no | `TimeZoneInfo.GetSystemTimeZones()` converted to IANA ids | Zones offered by the select. |
-| `TimeZoneLabels` | `IReadOnlyDictionary<string, string>?` | no | `null` | Display text per zone id; unlisted zones show their id. |
-| `TimeZoneChanged` | `EventCallback<string>` | no | — | Fires once per applied zone change. |
-| `AdditionalAttributes` | unmatched attributes | no | — | Spread onto the root `<div>`. |
+| Parameter              | Type                                         | Required | Default                                                   | Purpose                                                                                        |
+| ---------------------- | -------------------------------------------- | -------- | --------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `Label`                | `string`                                     | yes      | —                                                         | Accessible name for **both** the trigger button and the dialog.                                |
+| `Labels`               | `DateTimePickerLabels`                       | yes      | —                                                         | Every other user-facing string. See §4.2.                                                      |
+| `Mode`                 | `DateTimeMode`                               | no       | `Date`                                                    | What to collect: `Date`, `Time`, or `DateTime`.                                                |
+| `Value`                | `string`                                     | no       | `""`                                                      | ISO value.                                                                                     |
+| `ValueChanged`         | `EventCallback<string>`                      | no       | —                                                         | Two-way binding partner for `Value`, enabling `@bind-Value`.                                   |
+| `Locale`               | `string?`                                    | no       | runtime default                                           | BCP 47 tag driving all formatting.                                                             |
+| `Min`                  | `string?`                                    | no       | —                                                         | Earliest selectable date, ISO.                                                                 |
+| `Max`                  | `string?`                                    | no       | —                                                         | Latest selectable date, ISO.                                                                   |
+| `IsDateDisabled`       | `Func<string, bool>?`                        | no       | —                                                         | Veto individual dates.                                                                         |
+| `FirstDayOfWeek`       | `int?`                                       | no       | from `Locale`                                             | 0 = Sunday … 6 = Saturday.                                                                     |
+| `MinuteStep`           | `int`                                        | no       | `1`                                                       | Granularity of the minute select.                                                              |
+| `Hour12`               | `bool?`                                      | no       | from `Locale`                                             | 12-hour clock.                                                                                 |
+| `ShowWeekNumbers`      | `bool`                                       | no       | `false`                                                   | Render an ISO-8601 week column.                                                                |
+| `Shortcuts`            | `IReadOnlyList<DateTimeShortcut>`            | no       | empty                                                     | Quick-pick buttons.                                                                            |
+| `ConfirmOnSelect`      | `bool?`                                      | no       | `Mode == Date`                                            | Commit and close on day click.                                                                 |
+| `Name`                 | `string`                                     | no       | `"date-time"`                                             | `name` of the hidden input.                                                                    |
+| `InputId`              | `string?`                                    | no       | generated                                                 | `id` of the text field, for a consumer `<label for>`.                                          |
+| `DescribedBy`          | `string?`                                    | no       | —                                                         | Forwarded as `aria-describedby`.                                                               |
+| `Placeholder`          | `string?`                                    | no       | —                                                         | Placeholder for the text field.                                                                |
+| `Disabled`             | `bool`                                       | no       | `false`                                                   | Disable the whole control.                                                                     |
+| `ReadOnly`             | `bool`                                       | no       | `false`                                                   | Show the value, refuse edits.                                                                  |
+| `Required`             | `bool`                                       | no       | `false`                                                   | Mark the field required.                                                                       |
+| `FormatValue`          | `Func<string, string>?`                      | no       | culture-driven                                            | Override field rendering.                                                                      |
+| `ParseInput`           | `Func<string, string?>?`                     | no       | §5.4                                                      | Override typed-text parsing.                                                                   |
+| `ChildContent`         | `RenderFragment<DateTimePickerContext>?`     | no       | the calendar glyph                                        | **Replaces the glyph inside the button.**                                                      |
+| `OnChange`             | `EventCallback<string>`                      | no       | —                                                         | Fires after a value is committed.                                                              |
+| `OnShortcut`           | `EventCallback<(string Id, string IsoDate)>` | no       | —                                                         | Fires when a shortcut is used.                                                                 |
+| `OnInvalidInput`       | `EventCallback<string>`                      | no       | —                                                         | Fires when typed text will not parse.                                                          |
+| `CssClass`             | `string`                                     | no       | `""`                                                      | Extra CSS class on the root `<div>`.                                                           |
+| `TimeZone`             | `string`                                     | no       | `""`                                                      | Selected IANA zone, or `""` for none. Rides `{Name}-time-zone` and `data-time-zone`. See §5.9. |
+| `TimeZones`            | `IReadOnlyList<string>?`                     | no       | `TimeZoneInfo.GetSystemTimeZones()` converted to IANA ids | Zones offered by the select.                                                                   |
+| `TimeZoneLabels`       | `IReadOnlyDictionary<string, string>?`       | no       | `null`                                                    | Display text per zone id; unlisted zones show their id.                                        |
+| `TimeZoneChanged`      | `EventCallback<string>`                      | no       | —                                                         | Fires once per applied zone change.                                                            |
+| `AdditionalAttributes` | unmatched attributes                         | no       | —                                                         | Spread onto the root `<div>`.                                                                  |
 
 ```csharp
 public enum DateTimeMode { Date, Time, DateTime }
@@ -199,80 +199,236 @@ canonical accessibility hardening (as `Invalid` / `Instructions` here).
 ### 4.3 DOM contract
 
 ```html
-<div class="date-time-picker {CssClass}" id="{rootId}" data-mode="date" ...AdditionalAttributes>
-  <input type="hidden" name="{Name}" value="{Value}" />
+<div
+  class="date-time-picker {CssClass}"
+  id="{rootId}"
+  data-mode="date"
+  ...AdditionalAttributes
+>
+  <input
+    type="hidden"
+    name="{Name}"
+    value="{Value}"
+  />
   <!-- Only when Labels.TimeZone: the zone's own form participation. -->
-  <input type="hidden" name="{Name}-time-zone" value="{TimeZone}" />
+  <input
+    type="hidden"
+    name="{Name}-time-zone"
+    value="{TimeZone}"
+  />
 
   <div class="date-time-picker-field">
-    <input class="date-time-picker-input" id="{fieldId}" type="text"
-           autocomplete="off" value="{display}" aria-invalid="true|absent"
-           aria-errormessage="{statusId} while invalid, when Labels.Invalid" />
-    <button type="button" class="date-time-picker-button" aria-label="{Label}"
-            aria-haspopup="dialog" aria-expanded="false"
-            aria-controls="{dialogId}">
-      <span class="date-time-picker-icon" aria-hidden="true">📅︎</span>
+    <input
+      class="date-time-picker-input"
+      id="{fieldId}"
+      type="text"
+      autocomplete="off"
+      value="{display}"
+      aria-invalid="true|absent"
+      aria-errormessage="{statusId} while invalid, when Labels.Invalid"
+    />
+    <button
+      type="button"
+      class="date-time-picker-button"
+      aria-label="{Label}"
+      aria-haspopup="dialog"
+      aria-expanded="false"
+      aria-controls="{dialogId}"
+    >
+      <span
+        class="date-time-picker-icon"
+        aria-hidden="true"
+        >📅︎</span
+      >
     </button>
-    <div class="date-time-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{Label}</div>
+    <div
+      class="date-time-picker-tooltip"
+      role="tooltip"
+      id="{tooltipId}"
+      hidden
+    >
+      {Label}
+    </div>
   </div>
 
   <!-- Only when Labels.Invalid: always present, empty while valid. -->
-  <span class="date-time-picker-status" id="{statusId}" role="status"></span>
+  <span
+    class="date-time-picker-status"
+    id="{statusId}"
+    role="status"
+  ></span>
 
-  <div class="date-time-picker-dialog" id="{dialogId}" role="dialog"
-       aria-modal="true" aria-label="{Label}" tabindex="-1" hidden
-       aria-describedby="{instructionsId} when Labels.Instructions">
+  <div
+    class="date-time-picker-dialog"
+    id="{dialogId}"
+    role="dialog"
+    aria-modal="true"
+    aria-label="{Label}"
+    tabindex="-1"
+    hidden
+    aria-describedby="{instructionsId} when Labels.Instructions"
+  >
     <!-- Only when Labels.Instructions: keyboard help, spoken on open. -->
-    <p class="date-time-picker-instructions" id="{instructionsId}">…</p>
+    <p
+      class="date-time-picker-instructions"
+      id="{instructionsId}"
+    >
+      …
+    </p>
 
     <div class="date-time-picker-header">
-      <button class="date-time-picker-previous-year"  aria-label="…">…</button>
-      <button class="date-time-picker-previous-month" aria-label="…">…</button>
-      <button class="date-time-picker-previous-week"  aria-label="…">…</button>
-      <button class="date-time-picker-previous-day"   aria-label="…">…</button>
-      <span   class="date-time-picker-period" id="{periodId}" aria-live="polite">March 2026</span>
-      <button class="date-time-picker-next-day"       aria-label="…">…</button>
-      <button class="date-time-picker-next-week"      aria-label="…">…</button>
-      <button class="date-time-picker-next-month"     aria-label="…">…</button>
-      <button class="date-time-picker-next-year"      aria-label="…">…</button>
+      <button
+        class="date-time-picker-previous-year"
+        aria-label="…"
+      >
+        …
+      </button>
+      <button
+        class="date-time-picker-previous-month"
+        aria-label="…"
+      >
+        …
+      </button>
+      <button
+        class="date-time-picker-previous-week"
+        aria-label="…"
+      >
+        …
+      </button>
+      <button
+        class="date-time-picker-previous-day"
+        aria-label="…"
+      >
+        …
+      </button>
+      <span
+        class="date-time-picker-period"
+        id="{periodId}"
+        aria-live="polite"
+        >March 2026</span
+      >
+      <button
+        class="date-time-picker-next-day"
+        aria-label="…"
+      >
+        …
+      </button>
+      <button
+        class="date-time-picker-next-week"
+        aria-label="…"
+      >
+        …
+      </button>
+      <button
+        class="date-time-picker-next-month"
+        aria-label="…"
+      >
+        …
+      </button>
+      <button
+        class="date-time-picker-next-year"
+        aria-label="…"
+      >
+        …
+      </button>
     </div>
 
     <!-- Only when Labels.TimeZone. Before the grid: the zone is chosen
          before the instant. The empty first option is the "no zone" state. -->
     <div class="date-time-picker-time-zone">
-      <label class="date-time-picker-time-zone-label" for="{timeZoneId}">…</label>
-      <select class="date-time-picker-time-zone-select" id="{timeZoneId}">
+      <label
+        class="date-time-picker-time-zone-label"
+        for="{timeZoneId}"
+        >…</label
+      >
+      <select
+        class="date-time-picker-time-zone-select"
+        id="{timeZoneId}"
+      >
         <option value=""></option>
         <option value="Africa/Abidjan">Africa/Abidjan</option>
         <!-- … one per zone in TimeZones, default the runtime's TimeZoneInfo list converted to IANA ids … -->
       </select>
     </div>
 
-    <table class="date-time-picker-calendar" role="grid" aria-labelledby="{periodId}">
-      <thead><tr>
-        <th class="date-time-picker-week-heading" scope="col" abbr="…">…</th>
-        <th class="date-time-picker-weekday" scope="col" abbr="Monday">Mo</th>
-      </tr></thead>
-      <tbody><tr>
-        <th class="date-time-picker-week" scope="row">10</th>
-        <td role="gridcell" aria-selected="true|false">
-          <button class="date-time-picker-day" data-date="2026-03-01"
-                  data-outside data-today data-selected data-disabled
-                  tabindex="0|-1" aria-label="Sunday 1 March 2026"
-                  aria-current="date" aria-disabled="true|absent">1</button>
-        </td>
-      </tr></tbody>
+    <table
+      class="date-time-picker-calendar"
+      role="grid"
+      aria-labelledby="{periodId}"
+    >
+      <thead>
+        <tr>
+          <th
+            class="date-time-picker-week-heading"
+            scope="col"
+            abbr="…"
+          >
+            …
+          </th>
+          <th
+            class="date-time-picker-weekday"
+            scope="col"
+            abbr="Monday"
+          >
+            Mo
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th
+            class="date-time-picker-week"
+            scope="row"
+          >
+            10
+          </th>
+          <td
+            role="gridcell"
+            aria-selected="true|false"
+          >
+            <button
+              class="date-time-picker-day"
+              data-date="2026-03-01"
+              data-outside
+              data-today
+              data-selected
+              data-disabled
+              tabindex="0|-1"
+              aria-label="Sunday 1 March 2026"
+              aria-current="date"
+              aria-disabled="true|absent"
+            >
+              1
+            </button>
+          </td>
+        </tr>
+      </tbody>
     </table>
 
     <div class="date-time-picker-time">
-      <label class="date-time-picker-time-label" for="…">…</label>
-      <select class="date-time-picker-hour">…</select>
-      <select class="date-time-picker-minute">…</select>
-      <select class="date-time-picker-meridiem">…</select>
+      <label
+        class="date-time-picker-time-label"
+        for="…"
+        >…</label
+      >
+      <select class="date-time-picker-hour">
+        …
+      </select>
+      <select class="date-time-picker-minute">
+        …
+      </select>
+      <select class="date-time-picker-meridiem">
+        …
+      </select>
     </div>
 
     <div class="date-time-picker-shortcuts">
-      <button class="date-time-picker-shortcut" data-shortcut-id="today">…</button>
+      <button
+        class="date-time-picker-shortcut"
+        data-shortcut-id="today"
+      >
+        …
+      </button>
     </div>
 
     <div class="date-time-picker-footer">
@@ -331,23 +487,23 @@ plus `DateTimeMode`, `CivilDate`, `CivilTime`, `DateTimeShortcut`,
 Blazor has no module barrel, so the Svelte package's re-exports become
 `public static` members on `DateTimePicker` itself:
 
-| Svelte export | Blazor equivalent |
-| --- | --- |
-| `CALENDAR` | `DateTimePicker.Calendar` |
-| `addDays` / `addMonths` | `DateTimePicker.AddDays` / `AddMonths` |
-| `parseIsoDate` / `formatIsoDate` | `DateTimePicker.ParseIsoDate` / `FormatIsoDate` |
-| `toEpochDay` / `fromEpochDay` | `DateTimePicker.ToEpochDay` / `FromEpochDay` |
-| `weekdayOf` / `isoWeek` | `DateTimePicker.WeekdayOf` / `IsoWeek` |
-| `daysInMonth` | `DateTimePicker.DaysInMonth` |
-| `parseIsoTime` / `formatIsoTime` | `DateTimePicker.ParseIsoTime` / `FormatIsoTime` |
-| `splitValue` / `joinValue` | `DateTimePicker.SplitValue` / `JoinValue` |
-| `withinRange` | `DateTimePicker.WithinRange` |
-| `monthMatrix` | `DateTimePicker.MonthMatrix` |
-| `firstDayOfWeekFor` | `DateTimePicker.FirstDayOfWeekFor` |
-| `monthNames` | `DateTimePicker.MonthNames` |
-| `numericFieldOrder` | `DateTimePicker.NumericFieldOrder` |
+| Svelte export                       | Blazor equivalent                                  |
+| ----------------------------------- | -------------------------------------------------- |
+| `CALENDAR`                          | `DateTimePicker.Calendar`                          |
+| `addDays` / `addMonths`             | `DateTimePicker.AddDays` / `AddMonths`             |
+| `parseIsoDate` / `formatIsoDate`    | `DateTimePicker.ParseIsoDate` / `FormatIsoDate`    |
+| `toEpochDay` / `fromEpochDay`       | `DateTimePicker.ToEpochDay` / `FromEpochDay`       |
+| `weekdayOf` / `isoWeek`             | `DateTimePicker.WeekdayOf` / `IsoWeek`             |
+| `daysInMonth`                       | `DateTimePicker.DaysInMonth`                       |
+| `parseIsoTime` / `formatIsoTime`    | `DateTimePicker.ParseIsoTime` / `FormatIsoTime`    |
+| `splitValue` / `joinValue`          | `DateTimePicker.SplitValue` / `JoinValue`          |
+| `withinRange`                       | `DateTimePicker.WithinRange`                       |
+| `monthMatrix`                       | `DateTimePicker.MonthMatrix`                       |
+| `firstDayOfWeekFor`                 | `DateTimePicker.FirstDayOfWeekFor`                 |
+| `monthNames`                        | `DateTimePicker.MonthNames`                        |
+| `numericFieldOrder`                 | `DateTimePicker.NumericFieldOrder`                 |
 | `parseDateInput` / `parseTimeInput` | `DateTimePicker.ParseDateInput` / `ParseTimeInput` |
-| `nextDateTimePickerId` | `DateTimePicker.NextDateTimePickerId` |
+| `nextDateTimePickerId`              | `DateTimePicker.NextDateTimePickerId`              |
 
 Internal, visible to the test project via `InternalsVisibleTo`:
 `NowProvider` (the testable-clock seam, replacing `vi.useFakeTimers()`),
@@ -373,13 +529,13 @@ under the same numbering.
 
 ### 5.6 Locale resolution
 
-| Thing | Source |
-| --- | --- |
+| Thing                   | Source                                                                                                 |
+| ----------------------- | ------------------------------------------------------------------------------------------------------ |
 | Month and weekday names | `DateTimeFormatInfo.GetMonthName` / `GetAbbreviatedMonthName` / `GetDayName` / `GetAbbreviatedDayName` |
-| First day of week | `DateTimeFormatInfo.FirstDayOfWeek`, else Monday |
-| Numeric field order | Letter order (`d` / `M` / `y`) in `DateTimeFormatInfo.ShortDatePattern` |
-| 12- vs 24-hour clock | Presence of `h` in `DateTimeFormatInfo.ShortTimePattern` |
-| AM / PM names | `DateTimeFormatInfo.AMDesignator` / `PMDesignator` |
+| First day of week       | `DateTimeFormatInfo.FirstDayOfWeek`, else Monday                                                       |
+| Numeric field order     | Letter order (`d` / `M` / `y`) in `DateTimeFormatInfo.ShortDatePattern`                                |
+| 12- vs 24-hour clock    | Presence of `h` in `DateTimeFormatInfo.ShortTimePattern`                                               |
+| AM / PM names           | `DateTimeFormatInfo.AMDesignator` / `PMDesignator`                                                     |
 
 Every one of these is overridable by parameter. An unresolvable `Locale`
 tag (`CultureNotFoundException`) falls back to `CultureInfo.InvariantCulture`
@@ -434,7 +590,7 @@ the grid so the zone is chosen before the instant.
   root (absent while empty). `TimeZoneChanged` fires once per applied
   change.
 - The picker's **value contract is unchanged** — a zone is metadata
-  about *where* the civil time applies, not part of it; converting to
+  about _where_ the civil time applies, not part of it; converting to
   an instant is the consumer's job, and `OnChange`/`ValueChanged` never
   fire for a zone change.
 - No zone is selected unless the consumer sets one.
@@ -473,7 +629,7 @@ nothing is pending — with two implementation differences:
   a surrounding consumer dialog may also observe the keystroke — see §9.
 
 Paging the view carries the cursor with it, clamped into the new month;
-*focus* follows the cursor only for grid-originated paging (`PageUp` /
+_focus_ follows the cursor only for grid-originated paging (`PageUp` /
 `PageDown`), because the cell it sat on no longer exists. Paging from
 the header buttons leaves focus on the header button, so "next month"
 can be activated repeatedly without being yanked into the grid. Closing
@@ -502,97 +658,97 @@ can be read side by side.
 
 ### Pure arithmetic (mirrors §3, §4.4)
 
-| Clause | Test asserts |
-| --- | --- |
-| §7.1 | `ParseIsoDate` rejects impossible dates (`2026-02-31`) and accepts real ones. |
-| §7.1 | `DaysInMonth` handles leap years (2024-02 → 29, 2100-02 → 28). |
-| §7.2 | `AddDays` crosses month and year boundaries, forwards and backwards. |
-| §7.2 | `AddMonths` clamps rather than rolling over (2026-01-31 + 1 → 2026-02-28). |
-| §7.2 | `AddMonths` with a negative delta crosses the year boundary correctly. |
-| §7.3 | `WeekdayOf` returns 0 for Sunday. |
-| §7.3 | `IsoWeek` matches the ISO-8601 definition on the known-hard cases. |
-| §7.4 | `ToEpochDay` / `FromEpochDay` round-trip. |
-| §7.5 | `SplitValue` / `JoinValue` round-trip per mode, and refuse a half datetime. |
-| §7.6 | `MonthMatrix` always returns 6 × 7 and starts on `firstDayOfWeek`. |
-| §7.7 | `FirstDayOfWeekFor` gives Monday for en-GB, Sunday for en-US, Monday for an unknown tag. |
-| §7.8 | `ParseDateInput` reads ISO, locale-ordered numerics (en-GB vs en-US differ), and written months. |
-| §7.8 | `ParseDateInput` returns null for junk and for impossible dates. |
-| §7.9 | `ParseTimeInput` reads `9:30`, `0930`, `9.30`, `1:30pm`, and rejects `25:00`. |
+| Clause | Test asserts                                                                                     |
+| ------ | ------------------------------------------------------------------------------------------------ |
+| §7.1   | `ParseIsoDate` rejects impossible dates (`2026-02-31`) and accepts real ones.                    |
+| §7.1   | `DaysInMonth` handles leap years (2024-02 → 29, 2100-02 → 28).                                   |
+| §7.2   | `AddDays` crosses month and year boundaries, forwards and backwards.                             |
+| §7.2   | `AddMonths` clamps rather than rolling over (2026-01-31 + 1 → 2026-02-28).                       |
+| §7.2   | `AddMonths` with a negative delta crosses the year boundary correctly.                           |
+| §7.3   | `WeekdayOf` returns 0 for Sunday.                                                                |
+| §7.3   | `IsoWeek` matches the ISO-8601 definition on the known-hard cases.                               |
+| §7.4   | `ToEpochDay` / `FromEpochDay` round-trip.                                                        |
+| §7.5   | `SplitValue` / `JoinValue` round-trip per mode, and refuse a half datetime.                      |
+| §7.6   | `MonthMatrix` always returns 6 × 7 and starts on `firstDayOfWeek`.                               |
+| §7.7   | `FirstDayOfWeekFor` gives Monday for en-GB, Sunday for en-US, Monday for an unknown tag.         |
+| §7.8   | `ParseDateInput` reads ISO, locale-ordered numerics (en-GB vs en-US differ), and written months. |
+| §7.8   | `ParseDateInput` returns null for junk and for impossible dates.                                 |
+| §7.9   | `ParseTimeInput` reads `9:30`, `0930`, `9.30`, `1:30pm`, and rejects `25:00`.                    |
 
 ### Markup contract (mirrors §4.3)
 
-| Clause | Test asserts |
-| --- | --- |
-| §7.10 | Renders the trigger with `aria-haspopup="dialog"`, `aria-expanded="false"`, and `aria-controls` pointing at the `role="dialog"` element. |
-| §7.10 | The glyph renders inside `.date-time-picker-icon` with `aria-hidden="true"`. |
-| §7.11 | `aria-label` names **both** the trigger and the dialog. |
-| §7.12 | The hidden input carries `name` and the ISO value; the visible field carries the formatted display. |
-| §7.13 | The dialog is `hidden` until the trigger is activated. |
-| §7.14 | The grid renders 6 rows × 7 day cells, with `data-outside` on adjacent-month days. |
-| §7.15 | Exactly one day carries `tabindex="0"`. |
-| §7.16 | Extra attributes spread onto the root; `data-mode` reflects `Mode`. |
-| §7.17 | Today carries `data-today` and `aria-current="date"`. |
+| Clause | Test asserts                                                                                                                             |
+| ------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| §7.10  | Renders the trigger with `aria-haspopup="dialog"`, `aria-expanded="false"`, and `aria-controls` pointing at the `role="dialog"` element. |
+| §7.10  | The glyph renders inside `.date-time-picker-icon` with `aria-hidden="true"`.                                                             |
+| §7.11  | `aria-label` names **both** the trigger and the dialog.                                                                                  |
+| §7.12  | The hidden input carries `name` and the ISO value; the visible field carries the formatted display.                                      |
+| §7.13  | The dialog is `hidden` until the trigger is activated.                                                                                   |
+| §7.14  | The grid renders 6 rows × 7 day cells, with `data-outside` on adjacent-month days.                                                       |
+| §7.15  | Exactly one day carries `tabindex="0"`.                                                                                                  |
+| §7.16  | Extra attributes spread onto the root; `data-mode` reflects `Mode`.                                                                      |
+| §7.17  | Today carries `data-today` and `aria-current="date"`.                                                                                    |
 
 ### Selection and commit (mirrors §5.3)
 
-| Clause | Test asserts |
-| --- | --- |
-| §7.18 | Clicking a day in `Date` mode commits, fires `OnChange`, and closes. |
-| §7.19 | With `ConfirmOnSelect=false`, clicking a day does **not** commit; Confirm does. |
-| §7.20 | Cancel closes without changing `Value`. |
-| §7.21 | `Escape` closes without changing `Value`. |
-| §7.22 | The clear button renders only when `Labels.Clear` is set, and commits `""`. |
-| §7.23 | `OnChange` does not fire when the committed value is unchanged. |
+| Clause | Test asserts                                                                    |
+| ------ | ------------------------------------------------------------------------------- |
+| §7.18  | Clicking a day in `Date` mode commits, fires `OnChange`, and closes.            |
+| §7.19  | With `ConfirmOnSelect=false`, clicking a day does **not** commit; Confirm does. |
+| §7.20  | Cancel closes without changing `Value`.                                         |
+| §7.21  | `Escape` closes without changing `Value`.                                       |
+| §7.22  | The clear button renders only when `Labels.Clear` is set, and commits `""`.     |
+| §7.23  | `OnChange` does not fire when the committed value is unchanged.                 |
 
 ### Keyboard (mirrors §6.2)
 
-| Clause | Test asserts |
-| --- | --- |
-| §7.24 | Arrow keys move the cursor by a day and by a week. |
-| §7.25 | `Home` / `End` reach the ends of the week, respecting `FirstDayOfWeek`. |
-| §7.26 | `PageUp` / `PageDown` page the month; `Shift` pages the year. |
-| §7.27 | `Enter` on the grid selects the cursor's day. |
-| §7.28 | `Alt` + `Arrow Down` on the field opens the dialog. |
+| Clause | Test asserts                                                            |
+| ------ | ----------------------------------------------------------------------- |
+| §7.24  | Arrow keys move the cursor by a day and by a week.                      |
+| §7.25  | `Home` / `End` reach the ends of the week, respecting `FirstDayOfWeek`. |
+| §7.26  | `PageUp` / `PageDown` page the month; `Shift` pages the year.           |
+| §7.27  | `Enter` on the grid selects the cursor's day.                           |
+| §7.28  | `Alt` + `Arrow Down` on the field opens the dialog.                     |
 
 ### Range, vetoes, shortcuts (mirrors §5.5)
 
-| Clause | Test asserts |
-| --- | --- |
-| §7.29 | Days outside `Min`/`Max` render `aria-disabled="true"` + `data-disabled` — never the `disabled` attribute. |
-| §7.30 | `IsDateDisabled` marks individual days `aria-disabled`. |
-| §7.31 | Clicking a vetoed day does not commit. |
-| §7.32 | A shortcut moves the pending selection and fires `OnShortcut`. |
-| §7.33 | A shortcut resolving to a blocked date does nothing. |
+| Clause | Test asserts                                                                                               |
+| ------ | ---------------------------------------------------------------------------------------------------------- |
+| §7.29  | Days outside `Min`/`Max` render `aria-disabled="true"` + `data-disabled` — never the `disabled` attribute. |
+| §7.30  | `IsDateDisabled` marks individual days `aria-disabled`.                                                    |
+| §7.31  | Clicking a vetoed day does not commit.                                                                     |
+| §7.32  | A shortcut moves the pending selection and fires `OnShortcut`.                                             |
+| §7.33  | A shortcut resolving to a blocked date does nothing.                                                       |
 
 ### Typed input (mirrors §5.4)
 
-| Clause | Test asserts |
-| --- | --- |
-| §7.34 | Typing an ISO date and blurring commits it. |
-| §7.35 | Typing a locale-ordered numeric date commits the right day. |
-| §7.36 | Unparseable text sets `aria-invalid` and fires `OnInvalidInput` without changing `Value`. |
-| §7.37 | Text parsing to an out-of-range date is rejected the same way. |
-| §7.38 | Clearing the field commits `""`. |
-| §7.39 | A `ParseInput` parameter overrides the built-in parser. |
+| Clause | Test asserts                                                                              |
+| ------ | ----------------------------------------------------------------------------------------- |
+| §7.34  | Typing an ISO date and blurring commits it.                                               |
+| §7.35  | Typing a locale-ordered numeric date commits the right day.                               |
+| §7.36  | Unparseable text sets `aria-invalid` and fires `OnInvalidInput` without changing `Value`. |
+| §7.37  | Text parsing to an out-of-range date is rejected the same way.                            |
+| §7.38  | Clearing the field commits `""`.                                                          |
+| §7.39  | A `ParseInput` parameter overrides the built-in parser.                                   |
 
 ### Time and datetime (mirrors §5.1)
 
-| Clause | Test asserts |
-| --- | --- |
-| §7.40 | `Time` mode renders hour and minute selects and no grid. |
-| §7.41 | `MinuteStep` controls the minute options. |
-| §7.42 | `DateTime` mode renders both the grid and the time selects. |
-| §7.43 | `DateTime` does not commit a date with no time. |
-| §7.44 | `Hour12` renders a meridiem select whose labels come from the locale. |
+| Clause | Test asserts                                                          |
+| ------ | --------------------------------------------------------------------- |
+| §7.40  | `Time` mode renders hour and minute selects and no grid.              |
+| §7.41  | `MinuteStep` controls the minute options.                             |
+| §7.42  | `DateTime` mode renders both the grid and the time selects.           |
+| §7.43  | `DateTime` does not commit a date with no time.                       |
+| §7.44  | `Hour12` renders a meridiem select whose labels come from the locale. |
 
 ### Locale (mirrors §5.6)
 
-| Clause | Test asserts |
-| --- | --- |
-| §7.45 | Weekday headings start on Monday for en-GB and Sunday for en-US. |
-| §7.46 | `FirstDayOfWeek` overrides the locale. |
-| §7.47 | Month names and day `aria-label`s follow `Locale`. |
-| §7.48 | `ShowWeekNumbers` renders a week column with ISO week numbers. |
+| Clause | Test asserts                                                     |
+| ------ | ---------------------------------------------------------------- |
+| §7.45  | Weekday headings start on Monday for en-GB and Sunday for en-US. |
+| §7.46  | `FirstDayOfWeek` overrides the locale.                           |
+| §7.47  | Month names and day `aria-label`s follow `Locale`.               |
+| §7.48  | `ShowWeekNumbers` renders a week column with ISO week numbers.   |
 
 ### Assistive technology (mirrors §4.3, §5.3, §5.4, §6.2)
 
@@ -601,28 +757,28 @@ invocations bUnit records (which element the component asked the browser
 to focus), because bUnit has no live `document.activeElement` — see the
 harness note at the top of `DateTimePickerTests.cs`.
 
-| Clause | Test asserts |
-| --- | --- |
-| §7.49 | The cursor lands on a vetoed day with a real focus request; the day is `aria-disabled`, still tabbable, refuses `Enter`, and the cursor can continue past it. |
-| §7.50 | `Escape` in the field discards the pending edit, restores the committed display, clears `aria-invalid`, and commits nothing. |
-| §7.51 | `Labels.Invalid` renders an empty `role="status"` region that fills on refusal, wired via `aria-errormessage` and appended to `aria-describedby`; absent without the label. |
-| §7.52 | Closing requests focus on the field when opened by `Alt`+`ArrowDown`, and on the button when opened by click. |
-| §7.53 | Paging from a header button makes no focus request (the user stays on the button) while the cursor carries; paging from the grid requests focus on the carried cursor. |
-| §7.54 | `Labels.Instructions` renders keyboard help referenced by the dialog's `aria-describedby`; absent without the label. |
-| §7.55 | Clicking the text field while the dialog is open closes it without committing and without a focus request. |
-| §7.56 | The header renders eight step buttons in coarse-to-fine order around the period label, each named only by its label. |
-| §7.57 | Day steps move the pending day ±1 civil day, keep the grid on the shown month, make no focus request, and commit nothing until Confirm. |
-| §7.58 | Week steps move the pending day ±7 civil days and page the grid only when leaving the shown month. |
-| §7.59 | A step past `Min`/`Max` is refused; a step onto a vetoed day moves the cursor but not the pending selection. |
-| §7.60 | The time-zone select renders only with `Labels.TimeZone`, is labelled by it, lists the runtime's zones after an empty option by default, sits before the grid, and starts with no zone. |
-| §7.61 | Choosing a zone updates `{Name}-time-zone`, `data-time-zone`, and `TimeZoneChanged` once; `TimeZones`/`TimeZoneLabels` are honoured; the value and `OnChange` are untouched. |
-| §7.62 | The component renders a `<div class="date-time-picker-tooltip" role="tooltip">` as a sibling right after the icon button (the calendar trigger, not the text field), always in the DOM, `hidden` at rest, with an `id` and text equal to the button's `Label`; the button carries no `aria-describedby`. |
-| §7.63 | Pointer over the button shows the tooltip; leaving hides it. |
-| §7.64 | The tooltip stays visible while the pointer is over the tooltip itself (hoverable); leaving it hides it. |
-| §7.65 | Keyboard focus on the button shows the tooltip and blur hides it; a focus immediately preceded by a `mousedown` on the button (pointer-induced focus) does not show it, and the mark is consumed so the next focus is a keyboard focus (Blazor stand-in for `:focus-visible` — §9). |
-| §7.66 | `Escape` on the button dismisses a visible tooltip without moving focus (no focus request); re-entering the button with the pointer shows it again. |
-| §7.67 | The tooltip is never shown while the dialog is open, whether by hover or focus. |
-| §7.68 | While the tooltip is visible, `Escape` pressed anywhere inside the picker root dismisses it (pointer hover with focus on another child of the root; no focus request, default not prevented). Blazor deviation (no JS interop, so no document-level listener): Escape with focus entirely outside the root is not handled. Escape while the tooltip is hidden is a no-op and does not pre-dismiss the next show. |
+| Clause | Test asserts                                                                                                                                                                                                                                                                                                                                                                                                     |
+| ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| §7.49  | The cursor lands on a vetoed day with a real focus request; the day is `aria-disabled`, still tabbable, refuses `Enter`, and the cursor can continue past it.                                                                                                                                                                                                                                                    |
+| §7.50  | `Escape` in the field discards the pending edit, restores the committed display, clears `aria-invalid`, and commits nothing.                                                                                                                                                                                                                                                                                     |
+| §7.51  | `Labels.Invalid` renders an empty `role="status"` region that fills on refusal, wired via `aria-errormessage` and appended to `aria-describedby`; absent without the label.                                                                                                                                                                                                                                      |
+| §7.52  | Closing requests focus on the field when opened by `Alt`+`ArrowDown`, and on the button when opened by click.                                                                                                                                                                                                                                                                                                    |
+| §7.53  | Paging from a header button makes no focus request (the user stays on the button) while the cursor carries; paging from the grid requests focus on the carried cursor.                                                                                                                                                                                                                                           |
+| §7.54  | `Labels.Instructions` renders keyboard help referenced by the dialog's `aria-describedby`; absent without the label.                                                                                                                                                                                                                                                                                             |
+| §7.55  | Clicking the text field while the dialog is open closes it without committing and without a focus request.                                                                                                                                                                                                                                                                                                       |
+| §7.56  | The header renders eight step buttons in coarse-to-fine order around the period label, each named only by its label.                                                                                                                                                                                                                                                                                             |
+| §7.57  | Day steps move the pending day ±1 civil day, keep the grid on the shown month, make no focus request, and commit nothing until Confirm.                                                                                                                                                                                                                                                                          |
+| §7.58  | Week steps move the pending day ±7 civil days and page the grid only when leaving the shown month.                                                                                                                                                                                                                                                                                                               |
+| §7.59  | A step past `Min`/`Max` is refused; a step onto a vetoed day moves the cursor but not the pending selection.                                                                                                                                                                                                                                                                                                     |
+| §7.60  | The time-zone select renders only with `Labels.TimeZone`, is labelled by it, lists the runtime's zones after an empty option by default, sits before the grid, and starts with no zone.                                                                                                                                                                                                                          |
+| §7.61  | Choosing a zone updates `{Name}-time-zone`, `data-time-zone`, and `TimeZoneChanged` once; `TimeZones`/`TimeZoneLabels` are honoured; the value and `OnChange` are untouched.                                                                                                                                                                                                                                     |
+| §7.62  | The component renders a `<div class="date-time-picker-tooltip" role="tooltip">` as a sibling right after the icon button (the calendar trigger, not the text field), always in the DOM, `hidden` at rest, with an `id` and text equal to the button's `Label`; the button carries no `aria-describedby`.                                                                                                         |
+| §7.63  | Pointer over the button shows the tooltip; leaving hides it.                                                                                                                                                                                                                                                                                                                                                     |
+| §7.64  | The tooltip stays visible while the pointer is over the tooltip itself (hoverable); leaving it hides it.                                                                                                                                                                                                                                                                                                         |
+| §7.65  | Keyboard focus on the button shows the tooltip and blur hides it; a focus immediately preceded by a `mousedown` on the button (pointer-induced focus) does not show it, and the mark is consumed so the next focus is a keyboard focus (Blazor stand-in for `:focus-visible` — §9).                                                                                                                              |
+| §7.66  | `Escape` on the button dismisses a visible tooltip without moving focus (no focus request); re-entering the button with the pointer shows it again.                                                                                                                                                                                                                                                              |
+| §7.67  | The tooltip is never shown while the dialog is open, whether by hover or focus.                                                                                                                                                                                                                                                                                                                                  |
+| §7.68  | While the tooltip is visible, `Escape` pressed anywhere inside the picker root dismisses it (pointer hover with focus on another child of the root; no focus request, default not prevented). Blazor deviation (no JS interop, so no document-level listener): Escape with focus entirely outside the root is not handled. Escape while the tooltip is hidden is a no-op and does not pre-dismiss the next show. |
 
 ## 8. DHCW feature parity
 
@@ -658,8 +814,8 @@ Each of these is forced by the framework or by .NET, not chosen.
 - **Mousedown's default is suppressed on the grid, header, shortcuts, and
   footer** (`@onmousedown:preventDefault="true"`, the same idiom
   `SharePicker`'s list uses) so that clicking one control while a
-  *different* control already has focus does not fire a root `focusout` —
-  and this package's outside-dismissal *is* a root `focusout` — before the
+  _different_ control already has focus does not fire a root `focusout` —
+  and this package's outside-dismissal _is_ a root `focusout` — before the
   click's own handler runs. It is deliberately **not** applied to the time
   `<select>`s: suppressing a `<select>`'s own mousedown default prevents it
   opening by click in most browsers. Clicking directly into an hour/minute/
@@ -681,7 +837,7 @@ Each of these is forced by the framework or by .NET, not chosen.
   `ShortDatePattern`; 12-hour-clock detection is the presence of `h` in
   `ShortTimePattern`.
 - **`NowProvider` replaces `vi.useFakeTimers()`.** An `internal static
-  Func<DateTime>` seam, swapped by the test project via
+Func<DateTime>` seam, swapped by the test project via
   `InternalsVisibleTo`, gives deterministic "today" without a DI-scoped
   clock abstraction.
 - **`value` is `Value` + `ValueChanged`** (the two-way-binding convention,
@@ -728,7 +884,7 @@ Each of these is forced by the framework or by .NET, not chosen.
 - **Click-on-the-field dismissal is an explicit field `click` handler,
   not a document-level click listener.** The general "click anything
   outside" dismissal is the root-`focusout` deviation above; the
-  component's own text field is *inside* the root, so it gets its own
+  component's own text field is _inside_ the root, so it gets its own
   handler to honour the aria-modal contract (§5.3): a click on the field
   while the dialog is open closes it, committing nothing and moving no
   focus. The trigger button keeps its exemption — its own handler

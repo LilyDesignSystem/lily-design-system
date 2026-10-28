@@ -22,12 +22,15 @@ This component is useful in applications that need custom file operation interfa
 ## Usage
 
 ```svelte
-<FileDialog label="Open file" bind:open>
+<FileDialog
+  label="Open file"
+  bind:open
+>
   <ul>
     <li>document.txt</li>
     <li>image.png</li>
   </ul>
-  <button onclick={() => open = false}>Cancel</button>
+  <button onclick={() => (open = false)}>Cancel</button>
 </FileDialog>
 ```
 

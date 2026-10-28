@@ -5,9 +5,9 @@ Each file is a self-contained Nunjucks template fragment. They assume
 that `date-time-picker.client.js` is served somewhere the browser can
 import it.
 
-| File | Shows |
-| ---- | ----- |
-| [`01-basic.njk`](./01-basic.njk) | Minimal control: `"date"` mode, the six required labels, an initial value. |
+| File                                                                 | Shows                                                                                                                                                            |
+| -------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`01-basic.njk`](./01-basic.njk)                                     | Minimal control: `"date"` mode, the six required labels, an initial value.                                                                                       |
 | [`02-datetime-with-shortcuts.njk`](./02-datetime-with-shortcuts.njk) | `"datetime"` mode, shortcut buttons, `disabledDates`, week numbers, and the client-only `isDateDisabled` / `onChange` / `onShortcut` / `onInvalidInput` options. |
 
 ## Two things every example assumes

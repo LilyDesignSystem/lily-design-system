@@ -26,13 +26,20 @@ The component tracks a `copied` state that automatically resets after 2 seconds.
 Copy a URL to the clipboard:
 
 ```html
-<ClipboardCopyButton text="https://example.com" label="Copy link" />
+<ClipboardCopyButton
+  text="https://example.com"
+  label="Copy link"
+/>
 ```
 
 Copy button with custom content and success callback:
 
 ```html
-<ClipboardCopyButton text={code} label="Copy code" onsuccess={handleCopied}>
+<ClipboardCopyButton
+  text="{code}"
+  label="Copy code"
+  onsuccess="{handleCopied}"
+>
   Copy to clipboard
 </ClipboardCopyButton>
 ```
@@ -42,7 +49,10 @@ Copy button next to a reference number:
 ```html
 <div class="reference-row">
   <span>Booking ref: <strong>ABC-12345</strong></span>
-  <ClipboardCopyButton text="ABC-12345" label="Copy booking reference" />
+  <ClipboardCopyButton
+    text="ABC-12345"
+    label="Copy booking reference"
+  />
 </div>
 ```
 
@@ -89,14 +99,11 @@ Copy button alongside an API key:
 
 This headless ClipboardCopyButton component provides a `<button>` with `aria-label`, Clipboard API integration (`navigator.clipboard.writeText`), automatic `copied` state tracking with 2-second reset, and `data-copied` attribute for styling hooks. The consumer provides all visual styling including button appearance, copy/success icons, tooltip feedback, and animations.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.clipboard-copy-button` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<button>` element with class `clipboard-copy-button`
 - Verify aria-label` -- describes the copy action for screen readers

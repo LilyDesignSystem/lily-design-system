@@ -22,7 +22,10 @@ LuxembourgMatriculeView is a headless read-only display of Luxembourg's Numéro 
 ```html
 <SummaryList>
   <SummaryListItem term="Numéro d'Identification Nationale (Matricule)">
-    <LuxembourgMatriculeView label="Numéro d'Identification Nationale (Matricule)" value={value} />
+    <LuxembourgMatriculeView
+      label="Numéro d'Identification Nationale (Matricule)"
+      value="{value}"
+    />
   </SummaryListItem>
 </SummaryList>
 ```

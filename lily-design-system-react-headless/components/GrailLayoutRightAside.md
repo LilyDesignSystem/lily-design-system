@@ -11,5 +11,7 @@ GrailLayoutRightAside is a headless container for the right aside section of a G
 ## Usage
 
 ```tsx
-<GrailLayoutRightAside><aside>Supplementary content</aside></GrailLayoutRightAside>
+<GrailLayoutRightAside>
+  <aside>Supplementary content</aside>
+</GrailLayoutRightAside>
 ```

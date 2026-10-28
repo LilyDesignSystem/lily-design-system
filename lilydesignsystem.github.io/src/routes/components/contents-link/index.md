@@ -23,14 +23,14 @@ This headless component uses an `<a>` element for native link semantics and keyb
 ```html
 <ContentsNav label="Pages in this guide">
   <ContentsList>
-    <ContentsListItem aria-current="page">
-      What is type 2 diabetes?
-    </ContentsListItem>
+    <ContentsListItem aria-current="page"> What is type 2 diabetes? </ContentsListItem>
     <ContentsListItem>
       <ContentsLink href="/conditions/type-2-diabetes/symptoms">Symptoms</ContentsLink>
     </ContentsListItem>
     <ContentsListItem>
-      <ContentsLink href="/conditions/type-2-diabetes/getting-diagnosed">Getting diagnosed</ContentsLink>
+      <ContentsLink href="/conditions/type-2-diabetes/getting-diagnosed"
+        >Getting diagnosed</ContentsLink
+      >
     </ContentsListItem>
     <ContentsListItem>
       <ContentsLink href="/conditions/type-2-diabetes/treatment">Treatment</ContentsLink>

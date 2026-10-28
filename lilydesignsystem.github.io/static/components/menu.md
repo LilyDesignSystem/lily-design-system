@@ -27,32 +27,55 @@ The component manages vertical focus movement between menu items via arrow keys,
 Actions menu with MenuItem children:
 
 ```html
-<Menu label="Actions">
-    <MenuItem onclick={() => handleCut()}>Cut</MenuItem>
-    <MenuItem onclick={() => handleCopy()}>Copy</MenuItem>
-    <MenuItem onclick={() => handlePaste()}>Paste</MenuItem>
-</Menu>
+<menu label="Actions">
+  <menuitem
+    onclick="{()"
+    =""
+  >
+    handleCut()}>Cut</menuitem
+  >
+  <menuitem
+    onclick="{()"
+    =""
+  >
+    handleCopy()}>Copy</menuitem
+  >
+  <menuitem
+    onclick="{()"
+    =""
+  >
+    handlePaste()}>Paste</menuitem
+  >
+</menu>
 ```
 
 Dynamic actions menu from a list:
 
 ```html
-<Menu label="File actions">
-    {#each actions as action}
-        <MenuItem onclick={() => handleAction(action)}>
-            {action.label}
-        </MenuItem>
-    {/each}
-</Menu>
+<menu label="File actions">
+  {#each actions as action}
+  <menuitem
+    onclick="{()"
+    =""
+  >
+    handleAction(action)}> {action.label}
+  </menuitem>
+  {/each}
+</menu>
 ```
 
 Menu with a disabled item:
 
 ```html
-<Menu label="Edit">
-    <MenuItem onclick={() => handleUndo()}>Undo</MenuItem>
-    <MenuItem aria-disabled="true">Redo</MenuItem>
-</Menu>
+<menu label="Edit">
+  <menuitem
+    onclick="{()"
+    =""
+  >
+    handleUndo()}>Undo</menuitem
+  >
+  <menuitem aria-disabled="true">Redo</menuitem>
+</menu>
 ```
 
 ## Keyboard Interactions
@@ -85,14 +108,11 @@ Menu with a disabled item:
 
 This headless component provides the ARIA menu role, keyboard navigation (arrow keys with wrapping, Home, End), and focus management for child menuitem elements. The consumer provides all visual styling, including menu positioning, item appearance, hover states, and animations.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.menu` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `menu`
 - Verify role="menu"` -- identifies the container as a menu widget for presenting a list of actions.

@@ -29,7 +29,14 @@ Range inputs are commonly used for volume controls, brightness settings, price f
 ```
 
 ```tsx
-<RangeInput label="Price range" value={price} onChange={setPrice} min={10} max={500} step={10} />
+<RangeInput
+  label="Price range"
+  value={price}
+  onChange={setPrice}
+  min={10}
+  max={500}
+  step={10}
+/>
 ```
 
 ## Keyboard Interactions

@@ -22,7 +22,7 @@ BelgiqueNumeroDeRegistreNationalView is a headless read-only display of Belgium'
 ```html
 <SummaryList>
   <SummaryListItem term="National Register Number">
-    <BelgiqueNumeroDeRegistreNationalView value={value} />
+    <BelgiqueNumeroDeRegistreNationalView value="{value}" />
   </SummaryListItem>
 </SummaryList>
 ```

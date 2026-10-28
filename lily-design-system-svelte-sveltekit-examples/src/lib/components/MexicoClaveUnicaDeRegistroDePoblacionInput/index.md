@@ -21,7 +21,10 @@ MexicoClaveUnicaDeRegistroDePoblacionInput is a headless placeholder component, 
 ## Usage
 
 ```html
-<MexicoClaveUnicaDeRegistroDePoblacionInput label="MexicoClaveUnicaDeRegistroDePoblacionInput example">Content</MexicoClaveUnicaDeRegistroDePoblacionInput>
+<MexicoClaveUnicaDeRegistroDePoblacionInput
+  label="MexicoClaveUnicaDeRegistroDePoblacionInput example"
+  >Content</MexicoClaveUnicaDeRegistroDePoblacionInput
+>
 ```
 
 ## Keyboard Interactions

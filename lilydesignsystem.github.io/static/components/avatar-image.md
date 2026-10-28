@@ -16,7 +16,10 @@ Use AvatarImage inside an Avatar to display a user's photo. The parent Avatar ty
 ## Syntax
 
 ```html
-<AvatarImage src="..." alt="..." />
+<AvatarImage
+  src="..."
+  alt="..."
+/>
 ```
 
 ## Usage
@@ -24,16 +27,28 @@ Use AvatarImage inside an Avatar to display a user's photo. The parent Avatar ty
 Inside an Avatar with initials fallback:
 
 ```html
-<Avatar alt="Dr Sarah Mitchell" initials="SM">
-  <AvatarImage src="/photos/sarah-mitchell.jpg" alt="Dr Sarah Mitchell" />
+<Avatar
+  alt="Dr Sarah Mitchell"
+  initials="SM"
+>
+  <AvatarImage
+    src="/photos/sarah-mitchell.jpg"
+    alt="Dr Sarah Mitchell"
+  />
 </Avatar>
 ```
 
 In a team member list:
 
 ```html
-<Avatar alt="Nurse James Lee" initials="JL">
-  <AvatarImage src="/photos/james-lee.jpg" alt="Nurse James Lee" />
+<Avatar
+  alt="Nurse James Lee"
+  initials="JL"
+>
+  <AvatarImage
+    src="/photos/james-lee.jpg"
+    alt="Nurse James Lee"
+  />
 </Avatar>
 ```
 
@@ -50,7 +65,12 @@ In a team member list:
 With custom sizing:
 
 ```html
-<AvatarImage src="/photo.jpg" alt="Jane Doe" width="48" height="48" />
+<AvatarImage
+  src="/photo.jpg"
+  alt="Jane Doe"
+  width="48"
+  height="48"
+/>
 ```
 
 ## Keyboard Interactions
@@ -61,6 +81,7 @@ With custom sizing:
 
 - Native `<img>` element with `alt` text provides accessible image semantics
 - When inside an Avatar, the parent's `aria-label` provides the primary accessible name
+
 ## When to Use
 
 - Use inside Avatar to display a user's profile photo or image when a valid source is available.
@@ -77,14 +98,11 @@ With custom sizing:
 
 This component provides a semantic `<img>` element with `alt` text and zero visual styling. The consumer is responsible for all CSS including sizing, circular clipping (border-radius), object-fit behavior, and any border or shadow effects.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.avatar-image` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<img>` element with class `avatar-image`
 - Verify When inside an Avatar, the parent's `aria-label` provides the primary accessible name
@@ -105,8 +123,14 @@ AvatarImage is a child component within the Avatar composition pattern:
 - **AvatarText** -- `<span>` fallback for initials when the image is unavailable.
 
 ```html
-<Avatar alt="Jane Doe" initials="JD">
-  <AvatarImage src="/photo.jpg" alt="Jane Doe" />
+<Avatar
+  alt="Jane Doe"
+  initials="JD"
+>
+  <AvatarImage
+    src="/photo.jpg"
+    alt="Jane Doe"
+  />
 </Avatar>
 ```
 

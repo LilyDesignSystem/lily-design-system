@@ -49,16 +49,16 @@ The app ships:
 
 ### Framework + tooling
 
-| Concern             | Choice                                      |
-| ------------------- | ------------------------------------------- |
-| App framework       | Next.js 15 (App Router)                     |
-| Runtime             | React 19                                    |
-| Language            | TypeScript                                  |
-| Package manager     | pnpm                                        |
-| Unit test           | vitest + @testing-library/react + jsdom     |
-| E2E test            | Playwright                                  |
-| Storybook           | yes                                         |
-| Styling             | Plain CSS with custom properties (NHS)      |
+| Concern         | Choice                                  |
+| --------------- | --------------------------------------- |
+| App framework   | Next.js 15 (App Router)                 |
+| Runtime         | React 19                                |
+| Language        | TypeScript                              |
+| Package manager | pnpm                                    |
+| Unit test       | vitest + @testing-library/react + jsdom |
+| E2E test        | Playwright                              |
+| Storybook       | yes                                     |
+| Styling         | Plain CSS with custom properties (NHS)  |
 
 ### Headless dependency
 
@@ -70,9 +70,9 @@ Path alias to the sibling headless library:
   "compilerOptions": {
     "paths": {
       "@/*": ["./*"],
-      "@lily/*": ["./components/*"]
-    }
-  }
+      "@lily/*": ["./components/*"],
+    },
+  },
 }
 ```
 
@@ -116,11 +116,11 @@ lily-design-system-react-next-examples/
 
 ## 4. Required routes
 
-| Route                  | Purpose                                                |
-| ---------------------- | ------------------------------------------------------ |
-| `/`                    | Home — welcome, project description, links to demos    |
-| `/components`          | Catalog index — every component in `components.tsv`    |
-| `/components/[slug]`   | Per-component detail — live demo + metadata            |
+| Route                | Purpose                                             |
+| -------------------- | --------------------------------------------------- |
+| `/`                  | Home — welcome, project description, links to demos |
+| `/components`        | Catalog index — every component in `components.tsv` |
+| `/components/[slug]` | Per-component detail — live demo + metadata         |
 
 `/components/[slug]` renders the demo HTML from `component-demos.ts` using
 `dangerouslySetInnerHTML`. Demo data lives in `app/data/component-demos.ts`
@@ -233,12 +233,12 @@ pnpm run storybook                   # run Storybook
 
 ## 11. Prohibited
 
-| Prohibition                       | Reason                              |
-| --------------------------------- | ----------------------------------- |
-| `nhsuk-` prefixes in markup       | CSS targets Lily classes directly   |
-| Tailwind, DaisyUI, Bootstrap      | no CSS framework dependency         |
-| `@testing-library/jest-dom`       | vitest matchers only                |
-| Re-implementing headless comps    | import from sibling library         |
+| Prohibition                    | Reason                            |
+| ------------------------------ | --------------------------------- |
+| `nhsuk-` prefixes in markup    | CSS targets Lily classes directly |
+| Tailwind, DaisyUI, Bootstrap   | no CSS framework dependency       |
+| `@testing-library/jest-dom`    | vitest matchers only              |
+| Re-implementing headless comps | import from sibling library       |
 
 ## 12. Tracking
 

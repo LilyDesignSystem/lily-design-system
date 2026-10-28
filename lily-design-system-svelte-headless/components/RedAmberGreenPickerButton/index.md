@@ -54,17 +54,21 @@ import RedAmberGreenPickerButton from './RedAmberGreenPickerButton.svelte';
 
 ```svelte
 <script lang="ts">
-  import RedAmberGreenPickerButton from './RedAmberGreenPickerButton.svelte';
+  import RedAmberGreenPickerButton from "./RedAmberGreenPickerButton.svelte";
 </script>
 
-<RedAmberGreenPickerButton value="red" label="Red" selected={true} />
+<RedAmberGreenPickerButton
+  value="red"
+  label="Red"
+  selected={true}
+/>
 ```
 
 ### Full composed picker (composition with RedAmberGreenPicker pattern)
 
 ```svelte
 <script lang="ts">
-  import RedAmberGreenPickerButton from './RedAmberGreenPickerButton.svelte';
+  import RedAmberGreenPickerButton from "./RedAmberGreenPickerButton.svelte";
 
   let status = $state("green");
   const levels = [
@@ -74,7 +78,10 @@ import RedAmberGreenPickerButton from './RedAmberGreenPickerButton.svelte';
   ];
 </script>
 
-<div role="group" aria-label="Project status">
+<div
+  role="group"
+  aria-label="Project status"
+>
   {#each levels as lv}
     <RedAmberGreenPickerButton
       value={lv.value}
@@ -91,30 +98,43 @@ import RedAmberGreenPickerButton from './RedAmberGreenPickerButton.svelte';
 
 ```svelte
 <script lang="ts">
-  import RedAmberGreenPickerButton from './RedAmberGreenPickerButton.svelte';
+  import RedAmberGreenPickerButton from "./RedAmberGreenPickerButton.svelte";
 </script>
 
-<RedAmberGreenPickerButton value="amber" label="Amber" disabled={true} />
+<RedAmberGreenPickerButton
+  value="amber"
+  label="Amber"
+  disabled={true}
+/>
 ```
 
 ### CSS targeting via data-value
 
 ```svelte
 <script lang="ts">
-  import RedAmberGreenPickerButton from './RedAmberGreenPickerButton.svelte';
+  import RedAmberGreenPickerButton from "./RedAmberGreenPickerButton.svelte";
 </script>
 
 <!-- Consumer CSS can target [data-value="red"], [data-value="amber"], [data-value="green"] -->
-<RedAmberGreenPickerButton value="red" label="Red" />
-<RedAmberGreenPickerButton value="amber" label="Amber" />
-<RedAmberGreenPickerButton value="green" label="Green" />
+<RedAmberGreenPickerButton
+  value="red"
+  label="Red"
+/>
+<RedAmberGreenPickerButton
+  value="amber"
+  label="Amber"
+/>
+<RedAmberGreenPickerButton
+  value="green"
+  label="Green"
+/>
 ```
 
 ### Localized labels
 
 ```svelte
 <script lang="ts">
-  import RedAmberGreenPickerButton from './RedAmberGreenPickerButton.svelte';
+  import RedAmberGreenPickerButton from "./RedAmberGreenPickerButton.svelte";
 
   let status = $state("");
 </script>

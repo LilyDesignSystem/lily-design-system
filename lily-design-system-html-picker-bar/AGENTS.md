@@ -21,14 +21,14 @@ and the seven-step text-size scale (spec §5.2). `motion-picker` and
 
 ## Files
 
-| File                  | Purpose                                        |
-| ---------------------- | ------------------------------------------------ |
-| `spec/index.md`        | Specification-driven contract (canonical).       |
-| `picker-bar.ts`       | Implementation (TypeScript class).               |
-| `picker-bar.test.ts`  | Vitest + jsdom spec, one assertion per §7 item.  |
-| `index.ts`             | Barrel re-export + side-effectful registration.  |
-| `index.md`             | Human-readable guide.                            |
-| `tsconfig.json`        | Scoped to this package's own build only — see below. |
+| File                 | Purpose                                              |
+| -------------------- | ---------------------------------------------------- |
+| `spec/index.md`      | Specification-driven contract (canonical).           |
+| `picker-bar.ts`      | Implementation (TypeScript class).                   |
+| `picker-bar.test.ts` | Vitest + jsdom spec, one assertion per §7 item.      |
+| `index.ts`           | Barrel re-export + side-effectful registration.      |
+| `index.md`           | Human-readable guide.                                |
+| `tsconfig.json`      | Scoped to this package's own build only — see below. |
 
 ## Public surface
 

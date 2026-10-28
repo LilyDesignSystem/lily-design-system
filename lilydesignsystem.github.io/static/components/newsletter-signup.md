@@ -45,7 +45,7 @@ Idle state with heading and description:
   description="One email per week, no spam."
   emailLabel="Email address"
   submitLabel="Subscribe"
-  onsubmit={handleSubmit}
+  onsubmit="{handleSubmit}"
 />
 ```
 

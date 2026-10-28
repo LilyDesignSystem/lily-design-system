@@ -13,10 +13,7 @@ the catalog-wide test rules see
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { render } from "@testing-library/svelte";
 import { tick } from "svelte";
-import ThemePicker, {
-  themeHref,
-  normaliseThemesUrl,
-} from "./ThemePicker.svelte";
+import ThemePicker, { themeHref, normaliseThemesUrl } from "./ThemePicker.svelte";
 
 beforeEach(() => {
   // Reset shared state between tests.
@@ -145,9 +142,7 @@ deleting the property rather than stubbing it.
 ## Asserting the managed `<link>`
 
 ```ts
-const link = document.head.querySelector<HTMLLinkElement>(
-  'link[data-lily-theme-picker="theme"]',
-);
+const link = document.head.querySelector<HTMLLinkElement>('link[data-lily-theme-picker="theme"]');
 expect(link).not.toBeNull();
 expect(link!.href).toMatch(/\/t\/light\.css$/);
 ```

@@ -83,8 +83,15 @@ default globe glyph. It receives the `ChildArgs` context —
 optional `LocalePickerIcon` marker directive:
 
 ```html
-<lily-locale-picker label="Language" [locales]="locales" [(value)]="locale">
-  <ng-template lilyLocalePickerIcon let-args>
+<lily-locale-picker
+  label="Language"
+  [locales]="locales"
+  [(value)]="locale"
+>
+  <ng-template
+    lilyLocalePickerIcon
+    let-args
+  >
     {{ args.labelFor(args.value) }}
   </ng-template>
 </lily-locale-picker>

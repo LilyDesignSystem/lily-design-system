@@ -25,7 +25,10 @@ Basic tablet landscape mockup:
 
 ```html
 <MockupTabletLandscape label="App in landscape mode">
-  <Image src="app-landscape.png" alt="App screenshot in landscape" />
+  <image
+    src="app-landscape.png"
+    alt="App screenshot in landscape"
+  />
 </MockupTabletLandscape>
 ```
 
@@ -34,10 +37,16 @@ Tablet mockup for a video player demo:
 ```html
 <MockupTabletLandscape label="Video streaming app in landscape mode">
   <div class="video-player-demo">
-    <Image src="video-player.png" alt="Video player showing nature documentary" />
+    <image
+      src="video-player.png"
+      alt="Video player showing nature documentary"
+    />
     <div class="controls">
       <button>Play</button>
-      <progress value="35" max="100"></progress>
+      <progress
+        value="35"
+        max="100"
+      ></progress>
     </div>
   </div>
 </MockupTabletLandscape>
@@ -48,10 +57,16 @@ Tablet mockup in a device comparison layout:
 ```html
 <div class="device-showcase">
   <MockupPhonePortrait label="Mobile view of the calendar app">
-    <Image src="calendar-phone.png" alt="Calendar app on phone" />
+    <image
+      src="calendar-phone.png"
+      alt="Calendar app on phone"
+    />
   </MockupPhonePortrait>
   <MockupTabletLandscape label="Tablet landscape view of the calendar app">
-    <Image src="calendar-tablet.png" alt="Calendar app on tablet in landscape" />
+    <image
+      src="calendar-tablet.png"
+      alt="Calendar app on tablet in landscape"
+    />
   </MockupTabletLandscape>
 </div>
 ```

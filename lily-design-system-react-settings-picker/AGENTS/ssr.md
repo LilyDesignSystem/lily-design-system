@@ -48,15 +48,14 @@ End-to-end flow for cookie-based locale resolution:
 import { cookies } from "next/headers";
 import { LocaleClient } from "./locale-client";
 
-export default async function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const locale = (await cookies()).get("locale")?.value ?? "en";
   const dir = /^(ar|he|fa|ur|ps|sd)/.test(locale) ? "rtl" : "ltr";
   return (
-    <html lang={locale.replace(/_/g, "-")} dir={dir}>
+    <html
+      lang={locale.replace(/_/g, "-")}
+      dir={dir}
+    >
       <body>
         <LocaleClient initialLocale={locale}>{children}</LocaleClient>
       </body>
@@ -158,7 +157,10 @@ export default function App() {
   const { locale } = useLoaderData<typeof loader>();
   const dir = /^(ar|he|fa|ur|ps|sd)/.test(locale) ? "rtl" : "ltr";
   return (
-    <html lang={locale.replace(/_/g, "-")} dir={dir}>
+    <html
+      lang={locale.replace(/_/g, "-")}
+      dir={dir}
+    >
       <body>
         <LocaleClient initialLocale={locale} />
       </body>

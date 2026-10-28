@@ -31,62 +31,79 @@ Bind `value` to a `$state` variable. Provide `label` for accessibility since the
 
 ## Props
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `class` | `string` | `""` | CSS class name appended to the base class. |
-| `value` | `string` | `"#000000"` (bindable) | Current hex color. |
-| `label` | `string` | required | `aria-label`. |
-| `disabled` | `boolean` | `false` | Disables the input. |
-| `name` | `string` | `undefined` | Form field name. |
-| `id` | `string` | `undefined` | Element ID. |
-| `...restProps` | `unknown` | — | Additional attributes spread onto the `<input>`. |
+| Prop           | Type      | Default                | Description                                      |
+| -------------- | --------- | ---------------------- | ------------------------------------------------ |
+| `class`        | `string`  | `""`                   | CSS class name appended to the base class.       |
+| `value`        | `string`  | `"#000000"` (bindable) | Current hex color.                               |
+| `label`        | `string`  | required               | `aria-label`.                                    |
+| `disabled`     | `boolean` | `false`                | Disables the input.                              |
+| `name`         | `string`  | `undefined`            | Form field name.                                 |
+| `id`           | `string`  | `undefined`            | Element ID.                                      |
+| `...restProps` | `unknown` | —                      | Additional attributes spread onto the `<input>`. |
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-    import ColorInput from "./ColorInput.svelte";
+  import ColorInput from "./ColorInput.svelte";
 
-    let color = $state("#2563eb");
+  let color = $state("#2563eb");
 </script>
 
-<ColorInput label="Primary color" bind:value={color} />
+<ColorInput
+  label="Primary color"
+  bind:value={color}
+/>
 <p>Selected: {color}</p>
 ```
 
 ```svelte
 <script lang="ts">
-    import ColorInput from "./ColorInput.svelte";
+  import ColorInput from "./ColorInput.svelte";
 
-    let text = $state("#111827");
+  let text = $state("#111827");
 </script>
 
-<ColorInput label="Text color" bind:value={text} name="text_color" />
+<ColorInput
+  label="Text color"
+  bind:value={text}
+  name="text_color"
+/>
 ```
 
 ```svelte
 <script lang="ts">
-    import ColorInput from "./ColorInput.svelte";
+  import ColorInput from "./ColorInput.svelte";
 
-    let bg = $state("#ffffff");
-    let locked = $state(true);
+  let bg = $state("#ffffff");
+  let locked = $state(true);
 </script>
 
-<ColorInput label="Background" bind:value={bg} disabled={locked} />
+<ColorInput
+  label="Background"
+  bind:value={bg}
+  disabled={locked}
+/>
 ```
 
 ```svelte
 <script lang="ts">
-    import ColorInput from "./ColorInput.svelte";
+  import ColorInput from "./ColorInput.svelte";
 
-    let fg = $state("#000000");
-    let bg = $state("#ffffff");
+  let fg = $state("#000000");
+  let bg = $state("#ffffff");
 </script>
 
 <fieldset>
-    <legend>Theme</legend>
-    <ColorInput label="Foreground" bind:value={fg} />
-    <ColorInput label="Background" bind:value={bg} />
+  <legend>Theme</legend>
+  <ColorInput
+    label="Foreground"
+    bind:value={fg}
+  />
+  <ColorInput
+    label="Background"
+    bind:value={bg}
+  />
 </fieldset>
 ```
 

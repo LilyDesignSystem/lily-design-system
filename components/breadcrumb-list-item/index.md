@@ -30,9 +30,7 @@ Typically, each breadcrumb list item contains a link for navigable ancestor page
     <BreadcrumbListItem>
       <BreadcrumbLink href="/health-a-z">Health A to Z</BreadcrumbLink>
     </BreadcrumbListItem>
-    <BreadcrumbListItem aria-current="page">
-      Diabetes
-    </BreadcrumbListItem>
+    <BreadcrumbListItem aria-current="page"> Diabetes </BreadcrumbListItem>
   </BreadcrumbList>
 </BreadcrumbNav>
 ```
@@ -60,14 +58,11 @@ None directly -- keyboard interaction is handled by the contained links.
 
 This component provides a semantic `<li>` element with conditional `data-current` and zero visual styling. The consumer is responsible for all CSS including link styling, separator decorations, current-page visual treatment, and spacing.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.breadcrumb-list-item` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<li>` element with class `breadcrumb-list-item`
 - Verify pass-through attributes are applied
@@ -95,9 +90,7 @@ BreadcrumbListItem follows the Nav / List / ListItem composition pattern:
     <BreadcrumbListItem>
       <BreadcrumbLink href="/health-a-z">Health A to Z</BreadcrumbLink>
     </BreadcrumbListItem>
-    <BreadcrumbListItem aria-current="page">
-      Diabetes
-    </BreadcrumbListItem>
+    <BreadcrumbListItem aria-current="page"> Diabetes </BreadcrumbListItem>
   </BreadcrumbList>
 </BreadcrumbNav>
 ```

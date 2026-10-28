@@ -13,34 +13,40 @@ Field and button:
 
 ```html
 <input
-	class="date-time-picker-input"
-	id="date-time-picker-input"
-	type="text"
-	inputmode="numeric"
-	autocomplete="off"
-	aria-describedby="date-time-picker-status"
+  class="date-time-picker-input"
+  id="date-time-picker-input"
+  type="text"
+  inputmode="numeric"
+  autocomplete="off"
+  aria-describedby="date-time-picker-status"
 />
 <button
-	type="button"
-	class="date-time-picker-button"
-	aria-label="Date Time Picker"
-	aria-haspopup="dialog"
-	aria-expanded="false"
-	aria-controls="date-time-picker-dialog"
-><span class="date-time-picker-icon" aria-hidden="true">📅︎</span></button>
+  type="button"
+  class="date-time-picker-button"
+  aria-label="Date Time Picker"
+  aria-haspopup="dialog"
+  aria-expanded="false"
+  aria-controls="date-time-picker-dialog"
+>
+  <span
+    class="date-time-picker-icon"
+    aria-hidden="true"
+    >📅︎</span
+  >
+</button>
 ```
 
 Dialog:
 
 ```html
 <div
-	class="date-time-picker-dialog"
-	id="date-time-picker-dialog"
-	role="dialog"
-	aria-modal="true"
-	aria-label="Date Time Picker"
-	hidden=""
->
+  class="date-time-picker-dialog"
+  id="date-time-picker-dialog"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Date Time Picker"
+  hidden=""
+></div>
 ```
 
 Inside the dialog, in order: the navigation header, the time-zone
@@ -52,15 +58,68 @@ and day are new contract (see the status note at the end):
 
 ```html
 <div class="date-time-picker-header">
-	<button type="button" class="date-time-picker-previous-year"  aria-label="Previous year">«</button>
-	<button type="button" class="date-time-picker-previous-month" aria-label="Previous month">‹</button>
-	<button type="button" class="date-time-picker-previous-week"  aria-label="Previous week">‹‹</button>
-	<button type="button" class="date-time-picker-previous-day"   aria-label="Previous day">‹</button>
-	<span class="date-time-picker-period" id="date-time-picker-period" aria-live="polite">March 2026</span>
-	<button type="button" class="date-time-picker-next-day"       aria-label="Next day">›</button>
-	<button type="button" class="date-time-picker-next-week"      aria-label="Next week">››</button>
-	<button type="button" class="date-time-picker-next-month"     aria-label="Next month">›</button>
-	<button type="button" class="date-time-picker-next-year"      aria-label="Next year">»</button>
+  <button
+    type="button"
+    class="date-time-picker-previous-year"
+    aria-label="Previous year"
+  >
+    «
+  </button>
+  <button
+    type="button"
+    class="date-time-picker-previous-month"
+    aria-label="Previous month"
+  >
+    ‹
+  </button>
+  <button
+    type="button"
+    class="date-time-picker-previous-week"
+    aria-label="Previous week"
+  >
+    ‹‹
+  </button>
+  <button
+    type="button"
+    class="date-time-picker-previous-day"
+    aria-label="Previous day"
+  >
+    ‹
+  </button>
+  <span
+    class="date-time-picker-period"
+    id="date-time-picker-period"
+    aria-live="polite"
+    >March 2026</span
+  >
+  <button
+    type="button"
+    class="date-time-picker-next-day"
+    aria-label="Next day"
+  >
+    ›
+  </button>
+  <button
+    type="button"
+    class="date-time-picker-next-week"
+    aria-label="Next week"
+  >
+    ››
+  </button>
+  <button
+    type="button"
+    class="date-time-picker-next-month"
+    aria-label="Next month"
+  >
+    ›
+  </button>
+  <button
+    type="button"
+    class="date-time-picker-next-year"
+    aria-label="Next year"
+  >
+    »
+  </button>
 </div>
 ```
 
@@ -83,14 +142,26 @@ placed before the grid so the zone is chosen before the instant:
 
 ```html
 <div class="date-time-picker-time-zone">
-	<label class="date-time-picker-time-zone-label" for="date-time-picker-time-zone">Time zone</label>
-	<select class="date-time-picker-time-zone-select" id="date-time-picker-time-zone">
-		<option value=""></option>
-		<option value="Africa/Abidjan">Africa/Abidjan</option>
-		<!-- … one option per zone from Intl.supportedValuesOf("timeZone") … -->
-		<option value="Europe/London" selected>Europe/London</option>
-		<!-- … -->
-	</select>
+  <label
+    class="date-time-picker-time-zone-label"
+    for="date-time-picker-time-zone"
+    >Time zone</label
+  >
+  <select
+    class="date-time-picker-time-zone-select"
+    id="date-time-picker-time-zone"
+  >
+    <option value=""></option>
+    <option value="Africa/Abidjan">Africa/Abidjan</option>
+    <!-- … one option per zone from Intl.supportedValuesOf("timeZone") … -->
+    <option
+      value="Europe/London"
+      selected
+    >
+      Europe/London
+    </option>
+    <!-- … -->
+  </select>
 </div>
 ```
 
@@ -105,7 +176,7 @@ placed before the grid so the zone is chosen before the instant:
   (`{name}-time-zone`, not a `name` on the select) and is reflected as
   `data-time-zone` on the root. The picker's value
   contract is unchanged — a civil `YYYY-MM-DD` / `HH:MM` /
-  `YYYY-MM-DDTHH:MM` — because a zone is metadata about *where* the
+  `YYYY-MM-DDTHH:MM` — because a zone is metadata about _where_ the
   civil time applies, not part of the civil time. Converting to an
   instant is the consumer's job.
 - Default: no zone selected unless the consumer sets one; the picker

@@ -132,7 +132,7 @@ exported as the pure resolver and accepts **both** forms, so one
 
 | Key               | Type                       | Required | Default                | Purpose                                                                              |
 | ----------------- | -------------------------- | -------- | ---------------------- | ------------------------------------------------------------------------------------ |
-| `label`           | string                     | yes      | —                      | Accessible name for the trigger. Icon-only button, so this is its **only** name.    |
+| `label`           | string                     | yes      | —                      | Accessible name for the trigger. Icon-only button, so this is its **only** name.     |
 | `targets`         | array                      | no       | `[]`                   | Destinations. Empty is valid when `copyLabel` is set.                                |
 | `url`             | string                     | no       | —                      | URL to share. Emitted as a data attribute; the client falls back to `location.href`. |
 | `title`           | string                     | no       | `""`                   | Passed to the native sheet.                                                          |
@@ -142,10 +142,10 @@ exported as the pure resolver and accepts **both** forms, so one
 | `copyFailedLabel` | string                     | no       | —                      | Announced when the clipboard write fails.                                            |
 | `strategy`        | `"auto"｜"native"｜"list"` | no       | `"auto"`               | Whether to prefer the native sheet.                                                  |
 | `name`            | string                     | no       | `"share"`              | Discriminator used to derive ids.                                                    |
-| `id`              | string                     | no       | `share-picker-{name}` | Id prefix for the list and items.                                                    |
+| `id`              | string                     | no       | `share-picker-{name}`  | Id prefix for the list and items.                                                    |
 | `classes`         | string                     | no       | —                      | Extra classes on the root.                                                           |
 | `attributes`      | object                     | no       | —                      | Extra HTML attributes spread onto the root.                                          |
-| `{% call %}` body | —                          | no       | the default arrow icon | Replaces the icon inside the button.                                                |
+| `{% call %}` body | —                          | no       | the default arrow icon | Replaces the icon inside the button.                                                 |
 
 Each entry in `targets`:
 
@@ -159,7 +159,11 @@ Each entry in `targets`:
 ### 4.2 DOM contract
 
 ```html
-<div class="share-picker {classes}" data-lily-share-picker-root …>
+<div
+  class="share-picker {classes}"
+  data-lily-share-picker-root
+  …
+>
   <button
     type="button"
     class="share-picker-button"
@@ -168,9 +172,24 @@ Each entry in `targets`:
     aria-controls="{id}-list"
     data-lily-share-picker-button
   >
-    <svg class="share-picker-icon" viewBox="0 0 16 16" aria-hidden="true" width="1.05rem" height="1.05rem">…</svg>
+    <svg
+      class="share-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      width="1.05rem"
+      height="1.05rem"
+    >
+      …
+    </svg>
   </button>
-  <div class="share-picker-tooltip" role="tooltip" id="{id}-tooltip" hidden>{label}</div>
+  <div
+    class="share-picker-tooltip"
+    role="tooltip"
+    id="{id}-tooltip"
+    hidden
+  >
+    {label}
+  </div>
   <ul
     class="share-picker-list"
     id="{id}-list"
@@ -246,13 +265,13 @@ Either way the list closes.
 
 ### 5.3 Keyboard
 
-| Key               | On the trigger                       | In the list                                   |
-| ----------------- | ------------------------------------ | --------------------------------------------- |
-| `Enter` / `Space` | Activates (native browser behaviour) | Activates the focused item                    |
-| `ArrowDown`       | Opens, focuses the first item        | Moves focus down, clamping                    |
-| `ArrowUp`         | Opens, focuses the last item         | Moves focus up, clamping                      |
-| `Home` / `End`    | —                                    | First / last item                             |
-| `Escape`          | —                                    | Closes and returns focus to the trigger       |
+| Key               | On the trigger                       | In the list                                                                                                                                                      |
+| ----------------- | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Enter` / `Space` | Activates (native browser behaviour) | Activates the focused item                                                                                                                                       |
+| `ArrowDown`       | Opens, focuses the first item        | Moves focus down, clamping                                                                                                                                       |
+| `ArrowUp`         | Opens, focuses the last item         | Moves focus up, clamping                                                                                                                                         |
+| `Home` / `End`    | —                                    | First / last item                                                                                                                                                |
+| `Escape`          | —                                    | Closes and returns focus to the trigger                                                                                                                          |
 | `Tab`             | Moves on                             | Closes — focus goes to the trigger first, without cancelling the key, so the browser's default Tab proceeds from the picker's position rather than from `<body>` |
 
 Items are real focusable elements, so focus moves for real rather than

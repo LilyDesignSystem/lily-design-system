@@ -16,10 +16,10 @@ The rendered HTML before JS upgrade looks like:
 
 ```html
 <lily-theme-picker
-    label="Theme"
-    themes-url="/assets/themes/"
-    themes="light,dark,abyss"
-    value="dark"
+  label="Theme"
+  themes-url="/assets/themes/"
+  themes="light,dark,abyss"
+  value="dark"
 ></lily-theme-picker>
 ```
 
@@ -137,28 +137,31 @@ early-running script that reads `localStorage` and sets
 ```html
 <!doctype html>
 <html lang="en">
-    <head>
-        <script>
-            // Inline so it runs before the body paints.
-            const t = localStorage.getItem("lily-theme") || "light";
-            document.documentElement.dataset.theme = t;
-            document.write(`<link rel="stylesheet" href="/assets/themes/${t}.css">`);
-        </script>
-        <script type="module" src="/dist/theme-picker.js"></script>
-    </head>
-    <body>
-        <lily-theme-picker
-            label="Theme"
-            themes-url="/assets/themes/"
-            themes="light,dark,abyss"
-            storage-key="lily-theme"
-        ></lily-theme-picker>
-    </body>
+  <head>
+    <script>
+      // Inline so it runs before the body paints.
+      const t = localStorage.getItem("lily-theme") || "light";
+      document.documentElement.dataset.theme = t;
+      document.write(`<link rel="stylesheet" href="/assets/themes/${t}.css">`);
+    </script>
+    <script
+      type="module"
+      src="/dist/theme-picker.js"
+    ></script>
+  </head>
+  <body>
+    <lily-theme-picker
+      label="Theme"
+      themes-url="/assets/themes/"
+      themes="light,dark,abyss"
+      storage-key="lily-theme"
+    ></lily-theme-picker>
+  </body>
 </html>
 ```
 
 `document.write` is unfashionable but it's the only way to inject a
-stylesheet *before* the rest of the body parses. Use it sparingly.
+stylesheet _before_ the rest of the body parses. Use it sparingly.
 
 ## Why we don't auto-resolve from the cookie
 
@@ -223,9 +226,9 @@ host an intrinsic size in your CSS so the space is already there:
 
 ```css
 theme-picker {
-    display: inline-block;
-    min-inline-size: 2.5rem;
-    min-block-size: 2.25rem;
+  display: inline-block;
+  min-inline-size: 2.5rem;
+  min-block-size: 2.25rem;
 }
 ```
 

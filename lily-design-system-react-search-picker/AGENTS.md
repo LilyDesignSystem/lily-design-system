@@ -17,15 +17,15 @@ whose spec numbering this package mirrors clause for clause.
 
 ## Files
 
-| File                     | Purpose                                      |
-| ------------------------ | -------------------------------------------- |
-| `spec/index.md`          | Specification-driven contract (canonical).   |
-| `SearchPicker.tsx`       | Implementation. React 19 hooks + TypeScript. |
-| `SearchPicker.test.tsx`  | Vitest spec, mapped to the §7 clauses.       |
-| `index.ts`               | Barrel re-export.                            |
-| `index.md`               | User guide.                                  |
-| `docs/accessibility.md`  | Tradeoffs, stated plainly.                   |
-| `examples/`              | Runnable React 19 examples.                  |
+| File                    | Purpose                                      |
+| ----------------------- | -------------------------------------------- |
+| `spec/index.md`         | Specification-driven contract (canonical).   |
+| `SearchPicker.tsx`      | Implementation. React 19 hooks + TypeScript. |
+| `SearchPicker.test.tsx` | Vitest spec, mapped to the §7 clauses.       |
+| `index.ts`              | Barrel re-export.                            |
+| `index.md`              | User guide.                                  |
+| `docs/accessibility.md` | Tradeoffs, stated plainly.                   |
+| `examples/`             | Runnable React 19 examples.                  |
 
 ## Public surface
 

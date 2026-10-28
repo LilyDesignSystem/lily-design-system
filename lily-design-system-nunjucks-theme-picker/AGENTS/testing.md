@@ -16,12 +16,7 @@ import nunjucks from "nunjucks";
 import * as path from "node:path";
 import { fileURLToPath } from "node:url";
 
-import {
-  autoInit,
-  initThemePicker,
-  normaliseThemesUrl,
-  themeHref,
-} from "./theme-picker.client.js";
+import { autoInit, initThemePicker, normaliseThemesUrl, themeHref } from "./theme-picker.client.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const env = nunjucks.configure(__dirname, {
@@ -32,16 +27,11 @@ const env = nunjucks.configure(__dirname, {
 });
 
 function renderMacro(opts: Record<string, unknown>): string {
-  const src =
-    `{% from "./theme-picker.njk" import themePicker %}` +
-    `{{ themePicker(opts) }}`;
+  const src = `{% from "./theme-picker.njk" import themePicker %}` + `{{ themePicker(opts) }}`;
   return env.renderString(src, { opts });
 }
 
-function renderMacroWithCaller(
-  opts: Record<string, unknown>,
-  body: string,
-): string {
+function renderMacroWithCaller(opts: Record<string, unknown>, body: string): string {
   const src =
     `{% from "./theme-picker.njk" import themePicker %}` +
     `{% call themePicker(opts) %}${body}{% endcall %}`;
@@ -50,16 +40,12 @@ function renderMacroWithCaller(
 
 function mountIntoBody(html: string): HTMLElement {
   document.body.innerHTML = html;
-  return document.body.querySelector(
-    "[data-lily-theme-picker-root]",
-  ) as HTMLElement;
+  return document.body.querySelector("[data-lily-theme-picker-root]") as HTMLElement;
 }
 
 beforeEach(() => {
   document.documentElement.removeAttribute("data-theme");
-  document.head
-    .querySelectorAll("link[data-lily-theme-picker]")
-    .forEach((n) => n.remove());
+  document.head.querySelectorAll("link[data-lily-theme-picker]").forEach((n) => n.remove());
   document.body.innerHTML = "";
   localStorage.clear();
 });
@@ -76,12 +62,8 @@ function partsOf(root: HTMLElement) {
     root,
     button: root.querySelector(".theme-picker-button") as HTMLButtonElement,
     list: root.querySelector(".theme-picker-list") as HTMLElement,
-    options: Array.from(
-      root.querySelectorAll<HTMLElement>(".theme-picker-option"),
-    ),
-    input: root.querySelector(
-      "[data-lily-theme-picker-input]",
-    ) as HTMLInputElement,
+    options: Array.from(root.querySelectorAll<HTMLElement>(".theme-picker-option")),
+    input: root.querySelector("[data-lily-theme-picker-input]") as HTMLInputElement,
   };
 }
 ```
@@ -102,9 +84,7 @@ test("§7.7 initThemePicker injects a managed <link>", () => {
   });
   const root = mountIntoBody(html);
   initThemePicker(root);
-  const link = document.head.querySelector<HTMLLinkElement>(
-    'link[data-lily-theme-picker="theme"]',
-  );
+  const link = document.head.querySelector<HTMLLinkElement>('link[data-lily-theme-picker="theme"]');
   expect(link).not.toBeNull();
   expect(link!.href).toMatch(/\/assets\/themes\/light\.css$/);
 });
@@ -127,9 +107,7 @@ events. Both helpers must bubble:
 
 ```ts
 function key(el: Element, k: string, init: KeyboardEventInit = {}) {
-  el.dispatchEvent(
-    new KeyboardEvent("keydown", { key: k, bubbles: true, ...init }),
-  );
+  el.dispatchEvent(new KeyboardEvent("keydown", { key: k, bubbles: true, ...init }));
 }
 
 function click(el: Element) {
@@ -240,9 +218,7 @@ Unicode glyph `"◑"`).
 ## Asserting the managed `<link>`
 
 ```ts
-const link = document.head.querySelector<HTMLLinkElement>(
-  'link[data-lily-theme-picker="theme"]',
-);
+const link = document.head.querySelector<HTMLLinkElement>('link[data-lily-theme-picker="theme"]');
 expect(link).not.toBeNull();
 expect(link!.href).toMatch(/\/t\/light\.css$/);
 ```
@@ -342,12 +318,12 @@ test("§7.13-ish autoInit wires every root on the page", () => {
 
 | §7 group    | Test focus                                                                          |
 | ----------- | ----------------------------------------------------------------------------------- |
-| 7.1 — 7.6   | Macro DOM contract: root, button, listbox, icon, ids, labels                       |
+| 7.1 — 7.6   | Macro DOM contract: root, button, listbox, icon, ids, labels                        |
 | 7.7 — 7.11  | Client.js apply lifecycle (jsdom mutations)                                         |
 | 7.12        | Pure helpers (normaliseThemesUrl, themeHref)                                        |
 | 7.13        | Attribute spread, destroy, autoInit                                                 |
 | 7.14 — 7.16 | Server-rendered state: closed listbox, one selected option, pre-filled hidden input |
-| 7.17 — 7.19 | `data-lily-theme-picker-value` channel + the `{% call %}` icon override            |
+| 7.17 — 7.19 | `data-lily-theme-picker-value` channel + the `{% call %}` icon override             |
 | 7.20 — 7.24 | Keyboard and pointer contract (APG listbox)                                         |
 
 The old "only the placeholder is `selected`" regression guard is

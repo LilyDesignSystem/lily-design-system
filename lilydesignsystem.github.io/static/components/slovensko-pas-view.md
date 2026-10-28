@@ -22,7 +22,7 @@ SlovenskoPasView is a headless read-only display of Slovakia's Pas, Slovakia's p
 ```html
 <SummaryList>
   <SummaryListItem term="Slovak Passport">
-    <SlovenskoPasView value={value} />
+    <SlovenskoPasView value="{value}" />
   </SummaryListItem>
 </SummaryList>
 ```

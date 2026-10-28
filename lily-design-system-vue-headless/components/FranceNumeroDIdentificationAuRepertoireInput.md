@@ -44,19 +44,28 @@ screen readers.
 With two-way binding:
 
 ```svelte
-<FranceNumeroDIdentificationAuRepertoireInput label="NIR" bind:value={nir} />
+<FranceNumeroDIdentificationAuRepertoireInput
+  label="NIR"
+  bind:value={nir}
+/>
 ```
 
 Required field in a form:
 
 ```svelte
-<FranceNumeroDIdentificationAuRepertoireInput label="NIR" required />
+<FranceNumeroDIdentificationAuRepertoireInput
+  label="NIR"
+  required
+/>
 ```
 
 Disabled state:
 
 ```svelte
-<FranceNumeroDIdentificationAuRepertoireInput label="NIR" disabled />
+<FranceNumeroDIdentificationAuRepertoireInput
+  label="NIR"
+  disabled
+/>
 ```
 
 ## Keyboard Interactions

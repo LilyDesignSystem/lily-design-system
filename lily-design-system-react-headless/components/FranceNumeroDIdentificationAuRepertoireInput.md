@@ -36,25 +36,35 @@ import FranceNumeroDIdentificationAuRepertoireInput from "./FranceNumeroDIdentif
 
 const [nir, setNir] = useState("");
 
-<FranceNumeroDIdentificationAuRepertoireInput label="NIR" />
+<FranceNumeroDIdentificationAuRepertoireInput label="NIR" />;
 ```
 
 With two-way binding:
 
 ```tsx
-<FranceNumeroDIdentificationAuRepertoireInput label="NIR" value={nir} onChange={setNir} />
+<FranceNumeroDIdentificationAuRepertoireInput
+  label="NIR"
+  value={nir}
+  onChange={setNir}
+/>
 ```
 
 Required field in a form:
 
 ```tsx
-<FranceNumeroDIdentificationAuRepertoireInput label="NIR" required />
+<FranceNumeroDIdentificationAuRepertoireInput
+  label="NIR"
+  required
+/>
 ```
 
 Disabled state:
 
 ```tsx
-<FranceNumeroDIdentificationAuRepertoireInput label="NIR" disabled />
+<FranceNumeroDIdentificationAuRepertoireInput
+  label="NIR"
+  disabled
+/>
 ```
 
 ## Keyboard Interactions

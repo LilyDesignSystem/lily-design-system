@@ -19,7 +19,10 @@ The trigger line for "active step" sits at `offset` × viewport height from the 
 ```tsx
 const [step, setStep] = useState(0);
 return (
-  <ScrollerBase label="My story" onIndexChange={setStep}>
+  <ScrollerBase
+    label="My story"
+    onIndexChange={setStep}
+  >
     <section>Step 1</section>
     <section>Step 2</section>
     <section>Step 3</section>

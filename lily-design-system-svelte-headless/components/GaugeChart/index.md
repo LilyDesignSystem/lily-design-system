@@ -10,11 +10,11 @@ See [components/gauge-chart/index.md](../../../components/gauge-chart/index.md) 
 
 ```svelte
 <script lang="ts">
-    import GaugeChart from "./GaugeChart.svelte";
+  import GaugeChart from "./GaugeChart.svelte";
 </script>
 
 <GaugeChart label="Describe the chart">
-    <svg viewBox="0 0 10 10">…</svg>
+  <svg viewBox="0 0 10 10">…</svg>
 </GaugeChart>
 ```
 

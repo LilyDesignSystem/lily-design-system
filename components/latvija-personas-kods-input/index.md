@@ -23,9 +23,19 @@ LatvijaPersonasKodsInput is a headless input for entering Latvia's Personas kods
 ## Usage
 
 ```html
-<Field label="Personal Code" required>
-  <LatvijaPersonasKodsInput label="Personal Code" value={value} required />
-  <Hint>11 digits in the form DDMMYY-CZZZZ where the first 6 are the date of birth (DDMMYY) and C encodes the century (0 = 19th, 1 = 20th, 2 = 21st)</Hint>
+<Field
+  label="Personal Code"
+  required
+>
+  <LatvijaPersonasKodsInput
+    label="Personal Code"
+    value="{value}"
+    required
+  />
+  <Hint
+    >11 digits in the form DDMMYY-CZZZZ where the first 6 are the date of birth (DDMMYY) and C
+    encodes the century (0 = 19th, 1 = 20th, 2 = 21st)</Hint
+  >
   <ErrorMessage>Please enter a valid Personal Code</ErrorMessage>
 </Field>
 ```

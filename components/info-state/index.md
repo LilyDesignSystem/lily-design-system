@@ -41,7 +41,7 @@ Empty state with action:
   description="Try adjusting your filters."
 >
   <svg slot="illustration">...</svg>
-  <Button slot="action">Clear filters</Button>
+  <button slot="action">Clear filters</button>
 </InfoState>
 ```
 
@@ -53,14 +53,22 @@ Error state:
   title="Could not load orders"
   description="Please try again or contact support."
 >
-  <Button slot="action" onclick={retry}>Retry</Button>
+  <button
+    slot="action"
+    onclick="{retry}"
+  >
+    Retry
+  </button>
 </InfoState>
 ```
 
 Custom body via children slot:
 
 ```html
-<InfoState level="info" title="Welcome">
+<InfoState
+  level="info"
+  title="Welcome"
+>
   <p>Anything you want here.</p>
 </InfoState>
 ```

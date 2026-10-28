@@ -35,13 +35,13 @@ theme-picker catalog's convention.
 | 2   | [`02-custom-labels.njk`](./02-custom-labels.njk)           | A longer locale list with `localeLabels` driving option text and typeahead.    |
 | 3   | [`03-custom-rendering.njk`](./03-custom-rendering.njk)     | Replacing the trigger glyph via the `{% call %}` block, and the styling hooks. |
 | 4   | [`04-rtl-demo.njk`](./04-rtl-demo.njk)                     | RTL locales (ar, he, fa, ur, ps) showing `dir` flipping.                       |
-| 5   | [`05-nhs-style.njk`](./05-nhs-style.njk)                   | Kebab-case `locale-picker` class + NHS-style language banner.                 |
+| 5   | [`05-nhs-style.njk`](./05-nhs-style.njk)                   | Kebab-case `locale-picker` class + NHS-style language banner.                  |
 | 6   | [`06-with-eleventy-i18n.njk`](./06-with-eleventy-i18n.njk) | Eleventy i18n plugin pattern (URL-prefixed locales).                           |
 | 7   | [`07-with-intl.njk`](./07-with-intl.njk)                   | Native `Intl.DateTimeFormat` / `NumberFormat` client-side update.              |
 | 8   | [`08-ssr-cookie.njk`](./08-ssr-cookie.njk)                 | Eleventy / Express + cookie-resolved initial value before render.              |
 | 9   | [`09-scoped-target.njk`](./09-scoped-target.njk)           | `target` option pointing to a specific element; distinct `id` per instance.    |
 | 10  | [`10-typeahead.njk`](./10-typeahead.njk)                   | A 57-locale list and the built-in label typeahead.                             |
-|     | [`localePickerCustom.njk`](./localePickerCustom.njk)     | Reusable wrapper macro that swaps the glyph via `{% call %}`.                  |
+|     | [`localePickerCustom.njk`](./localePickerCustom.njk)       | Reusable wrapper macro that swaps the glyph via `{% call %}`.                  |
 
 ## Running the examples
 

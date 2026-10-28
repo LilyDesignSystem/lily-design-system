@@ -48,13 +48,19 @@ composing `date-time-picker` gives this package for free.
     cancelLabel: "Cancel",
     dependencySummary: (predecessors) => `Blocked by: ${predecessors.join(", ")}`,
     dateAnnouncement: (title, start, end) => `${title} rescheduled to ${start} – ${end}`,
-    collapseButton: (task, collapsed) => (collapsed ? `Expand ${task.label}` : `Collapse ${task.label}`),
+    collapseButton: (task, collapsed) =>
+      collapsed ? `Expand ${task.label}` : `Collapse ${task.label}`,
     dateTimePickerLabels: {
-      previousYear: "Previous year", previousMonth: "Previous month",
-      previousWeek: "Previous week", previousDay: "Previous day",
-      nextDay: "Next day", nextWeek: "Next week",
-      nextMonth: "Next month", nextYear: "Next year",
-      confirm: "Confirm", cancel: "Cancel",
+      previousYear: "Previous year",
+      previousMonth: "Previous month",
+      previousWeek: "Previous week",
+      previousDay: "Previous day",
+      nextDay: "Next day",
+      nextWeek: "Next week",
+      nextMonth: "Next month",
+      nextYear: "Next year",
+      confirm: "Confirm",
+      cancel: "Cancel",
     },
   }}
 />
@@ -115,7 +121,7 @@ requires it too.
 ## Weekend, holiday and time-off indicators (0.7.0)
 
 - **`unavailable`** is a list of dated ranges `{ start, end?, kind?, label? }` for holidays, time off and closures (`end` defaults to `start`; Lily ships no calendar, no kinds and no English). A column **every day of which is covered** gets `data-unavailable="<kinds>"` (the entries' `kind`s, `unavailable` when none, repeats removed) on its header and every cell; a column only **partly** covered gets `data-partly-unavailable` instead, so a holiday inside a week column is still marked. A `label` is rendered as text in the header (`.gantt-chart-unavailable-label`), so a day is never told apart by colour alone (WCAG 1.4.1). The weekend is `weekends`; `markers` flag one date; `isNonWorking` is a callback. Matching is the pure `unavailable.ts` (`unavailableOn`, `unavailableIn`, `unavailableKinds`), time-zone free.
-- **Shading** is CSS and ships in the 57 reference themes: weekends are tinted, unavailable days are tinted *and striped*, a partly unavailable column gets a bar under its header.
+- **Shading** is CSS and ships in the 57 reference themes: weekends are tinted, unavailable days are tinted _and striped_, a partly unavailable column gets a bar under its header.
 
 ## Direction and labels (0.7.0)
 

@@ -17,13 +17,13 @@ Every example assumes:
 - The example's `@page` route is mounted in the host's `App.razor`
   with the relevant interactive render mode.
 
-| #   | File                                               | Demonstrates                                                                             |
-| --- | -------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| 1   | [`Basic.razor`](./Basic.razor)                     | Minimal four-size select plus the status region.                                         |
-| 2   | [`Persistence.razor`](./Persistence.razor)         | `localStorage` survival across reloads; `OnChange`.                                      |
-| 3   | [`CustomLabels.razor`](./CustomLabels.razor)       | `SizeLabels` for i18n / display names.                                                   |
+| #   | File                                               | Demonstrates                                                                            |
+| --- | -------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| 1   | [`Basic.razor`](./Basic.razor)                     | Minimal four-size select plus the status region.                                        |
+| 2   | [`Persistence.razor`](./Persistence.razor)         | `localStorage` survival across reloads; `OnChange`.                                     |
+| 3   | [`CustomLabels.razor`](./CustomLabels.razor)       | `SizeLabels` for i18n / display names.                                                  |
 | 4   | [`CustomRendering.razor`](./CustomRendering.razor) | `RenderFragment<TextSizePickerContext>` — custom button face (inline SVG, state-aware). |
-| 5   | [`ExternalButtons.razor`](./ExternalButtons.razor) | Driving the control from your own UI via `SetSizeAsync` and a `@ref`.                    |
+| 5   | [`ExternalButtons.razor`](./ExternalButtons.razor) | Driving the control from your own UI via `SetSizeAsync` and a `@ref`.                   |
 
 ## Running the examples
 

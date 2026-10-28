@@ -24,11 +24,18 @@ The component supports two-way data binding through a bindable `value` prop, all
 ## Usage
 
 ```svelte
-<TelInput label="Phone number" bind:value />
+<TelInput
+  label="Phone number"
+  bind:value
+/>
 ```
 
 ```svelte
-<TelInput label="Mobile" bind:value required />
+<TelInput
+  label="Mobile"
+  bind:value
+  required
+/>
 ```
 
 ## Keyboard Interactions

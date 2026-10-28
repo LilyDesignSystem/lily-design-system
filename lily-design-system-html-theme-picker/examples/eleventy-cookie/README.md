@@ -15,11 +15,11 @@ to Astro or a dynamic SSR pipeline if you need cookie-driven theming.)
 Files in this folder match Eleventy's filesystem convention. Drop
 them under the corresponding paths in an Eleventy project.
 
-| File                            | Role                                                      |
-| ------------------------------- | --------------------------------------------------------- |
-| `_data/theme.js`                | Build-time default theme.                                 |
-| `_includes/layout.njk`          | Layout that inlines `<html data-theme>` and the matching `<link>`. |
-| `index.njk`                     | A page that uses the layout.                              |
+| File                   | Role                                                               |
+| ---------------------- | ------------------------------------------------------------------ |
+| `_data/theme.js`       | Build-time default theme.                                          |
+| `_includes/layout.njk` | Layout that inlines `<html data-theme>` and the matching `<link>`. |
+| `index.njk`            | A page that uses the layout.                                       |
 
 Required setup in your project:
 

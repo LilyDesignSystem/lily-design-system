@@ -22,7 +22,10 @@ SouthAfricaIdentityNumberView is a headless read-only display of South Africa's 
 ```html
 <SummaryList>
   <SummaryListItem term="South African Identity Number">
-    <SouthAfricaIdentityNumberView label="South African Identity Number" value={value} />
+    <SouthAfricaIdentityNumberView
+      label="South African Identity Number"
+      value="{value}"
+    />
   </SummaryListItem>
 </SummaryList>
 ```

@@ -25,7 +25,7 @@ This headless component uses a `<section>` element with an `aria-label` to creat
 <Hero label="Welcome to our platform">
   <h1>Build Something Amazing</h1>
   <p>The fastest way to create beautiful, accessible web applications.</p>
-  <Button>Get Started</Button>
+  <button>Get Started</button>
 </Hero>
 ```
 
@@ -41,8 +41,8 @@ This headless component uses a `<section>` element with an `aria-label` to creat
 <Hero label="Lily Design System">
   <h1>Lily Design System</h1>
   <p>Headless, accessible components for healthcare and government services.</p>
-  <Button>View components</Button>
-  <Button>Read the docs</Button>
+  <button>View components</button>
+  <button>Read the docs</button>
 </Hero>
 ```
 

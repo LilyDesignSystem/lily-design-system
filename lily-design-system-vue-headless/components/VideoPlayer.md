@@ -20,13 +20,7 @@ A `<video>` player rendered inside a `<figure>`. Supports autoplay-on-scroll via
 ## Usage
 
 ```vue
-<VideoPlayer
-  src="/demo.mp4"
-  label="Product demo"
-  poster="/demo-poster.jpg"
-  autoplay
-  muted
->
+<VideoPlayer src="/demo.mp4" label="Product demo" poster="/demo-poster.jpg" autoplay muted>
   <template #caption>Walkthrough of the new dashboard</template>
 </VideoPlayer>
 ```

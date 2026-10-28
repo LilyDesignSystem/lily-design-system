@@ -33,9 +33,15 @@ An identifier section that anchors a government site to its parent agency, with 
   description="An official website of the GSA."
 >
   <ul>
-    <li><a href="/about">About</a></li>
-    <li><a href="/accessibility">Accessibility</a></li>
-    <li><a href="/foia">FOIA</a></li>
+    <li>
+      <a href="/about">About</a>
+    </li>
+    <li>
+      <a href="/accessibility">Accessibility</a>
+    </li>
+    <li>
+      <a href="/foia">FOIA</a>
+    </li>
   </ul>
 </GovernmentIdentifier>
 ```

@@ -18,7 +18,11 @@ It is a subset of the canonical [`@lilydesignsystem/svelte-kanban-board`](../lil
   import lilyKanbanBoard from "@lilydesignsystem/alpine-kanban-board";
   Alpine.plugin(lilyKanbanBoard);
   window.boardOptions = {
-    columns: [{ id: "todo", title: "To do" }, { id: "doing", title: "Doing", wipLimit: 2 }, { id: "done", title: "Done" }],
+    columns: [
+      { id: "todo", title: "To do" },
+      { id: "doing", title: "Doing", wipLimit: 2 },
+      { id: "done", title: "Done" },
+    ],
     cards: [{ id: "c1", columnId: "todo", title: "Write the spec" }],
     labels: {
       grid: "Work board",

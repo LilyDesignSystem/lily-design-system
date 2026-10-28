@@ -4,21 +4,21 @@ Pattern (gantt-table uses HTML element names directly for sub-components):
 
 ```tsx
 <GanttTable>
-    <GanttTableThead>
-        <GanttTableTr>
-            <GanttTableTH>…</GanttTableTH>
-        </GanttTableTr>
-    </GanttTableThead>
-    <GanttTableTbody>
-        <GanttTableTr>
-            <GanttTableTD>…</GanttTableTD>
-        </GanttTableTr>
-    </GanttTableTbody>
-    <GanttTableTfoot>
-        <GanttTableTr>
-            <GanttTableTH>…</GanttTableTH>
-        </GanttTableTr>
-    </GanttTableTfoot>
+  <GanttTableThead>
+    <GanttTableTr>
+      <GanttTableTH>…</GanttTableTH>
+    </GanttTableTr>
+  </GanttTableThead>
+  <GanttTableTbody>
+    <GanttTableTr>
+      <GanttTableTD>…</GanttTableTD>
+    </GanttTableTr>
+  </GanttTableTbody>
+  <GanttTableTfoot>
+    <GanttTableTr>
+      <GanttTableTH>…</GanttTableTH>
+    </GanttTableTr>
+  </GanttTableTfoot>
 </GanttTable>
 ```
 

@@ -24,13 +24,13 @@ The helper is a **macro + client.js pair**:
 
 ## Files
 
-| File                       | Purpose                                                        |
-| -------------------------- | --------------------------------------------------------------- |
-| `spec/index.md`            | Specification-driven contract (canonical, Svelte-sourced).       |
-| `motion-picker.njk`        | Nunjucks macro (`motionPicker(opts)`).                          |
-| `motion-picker.client.js`  | ES module — `initMotionPicker`, `autoInit`, `motionName`, `prefersReducedMotion`. |
-| `motion-picker.test.ts`    | Vitest spec, one assertion per §7 acceptance.                    |
-| `index.md`                 | Concise user guide.                                              |
+| File                      | Purpose                                                                           |
+| ------------------------- | --------------------------------------------------------------------------------- |
+| `spec/index.md`           | Specification-driven contract (canonical, Svelte-sourced).                        |
+| `motion-picker.njk`       | Nunjucks macro (`motionPicker(opts)`).                                            |
+| `motion-picker.client.js` | ES module — `initMotionPicker`, `autoInit`, `motionName`, `prefersReducedMotion`. |
+| `motion-picker.test.ts`   | Vitest spec, one assertion per §7 acceptance.                                     |
+| `index.md`                | Concise user guide.                                                               |
 
 ## Public surface
 
@@ -76,7 +76,11 @@ movement, the APG keyboard contract, and typeahead.
 ## HTML
 
 ```html
-<div class="motion-picker {classes}" data-lily-motion-picker-root …>
+<div
+  class="motion-picker {classes}"
+  data-lily-motion-picker-root
+  …
+>
   <input
     type="hidden"
     name="{name}"
@@ -92,7 +96,15 @@ movement, the APG keyboard contract, and typeahead.
     aria-controls="{id}-list"
     data-lily-motion-picker-button
   >
-    <svg class="motion-picker-icon" viewBox="0 0 16 16" aria-hidden="true" width="1.05rem" height="1.05rem">…</svg>
+    <svg
+      class="motion-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      width="1.05rem"
+      height="1.05rem"
+    >
+      …
+    </svg>
   </button>
   <ul
     class="motion-picker-list"

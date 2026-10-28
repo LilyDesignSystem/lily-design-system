@@ -22,7 +22,7 @@ SlovenijaEmsoView is a headless read-only display of Slovenia's Enotna Matična 
 ```html
 <SummaryList>
   <SummaryListItem term="Unique Master Citizen Number">
-    <SlovenijaEmsoView value={value} />
+    <SlovenijaEmsoView value="{value}" />
   </SummaryListItem>
 </SummaryList>
 ```

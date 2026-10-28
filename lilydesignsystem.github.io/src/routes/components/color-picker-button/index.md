@@ -25,15 +25,28 @@ This component is useful in color palette UIs, theme builders, product customiza
 ## Usage
 
 ```html
-<ColorPicker color="#ff0000" label="Red" onclick={handleSelect} />
+<ColorPicker
+  color="#ff0000"
+  label="Red"
+  onclick="{handleSelect}"
+/>
 ```
 
 ```html
-<ColorPicker color="#0066cc" label="Blue" selected={true} onclick={handleSelect} />
+<ColorPicker
+  color="#0066cc"
+  label="Blue"
+  selected="{true}"
+  onclick="{handleSelect}"
+/>
 ```
 
 ```html
-<ColorPicker color="#cccccc" label="Gray" disabled={true} />
+<ColorPicker
+  color="#cccccc"
+  label="Gray"
+  disabled="{true}"
+/>
 ```
 
 ## Keyboard Interactions
@@ -61,14 +74,11 @@ This component is useful in color palette UIs, theme builders, product customiza
 
 This headless ColorPickerButton component provides a `<button>` with inline `style:background-color`, `aria-label` for the color name, `aria-pressed` for selected state, and `data-color` for CSS targeting. The consumer provides all visual styling including swatch size, border, selected-state ring or outline, hover effects, and layout within the palette.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.color-picker-button` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<button>` element with class `color-picker-button`
 - Verify aria-label={label}` -- provides an accessible name for the swatch since it has no visible text content

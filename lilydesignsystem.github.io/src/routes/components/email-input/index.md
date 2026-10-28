@@ -24,13 +24,22 @@ An email input wraps a native `<input type="email">` with accessible labeling. A
 Contact form email field:
 
 ```html
-<EmailInput label="Email address" value={email} required />
+<EmailInput
+  label="Email address"
+  value="{email}"
+  required
+/>
 ```
 
 Registration form with disabled state during submission:
 
 ```html
-<EmailInput label="Work email" value={workEmail} required disabled={isSubmitting} />
+<EmailInput
+  label="Work email"
+  value="{workEmail}"
+  required
+  disabled="{isSubmitting}"
+/>
 ```
 
 ## Keyboard Interactions
@@ -58,17 +67,14 @@ None -- keyboard behavior is provided by the browser-native email input.
 
 This headless component provides a native `<input type="email">` with accessible labeling via `aria-label`, two-way value binding, and support for `required` and `disabled` states. Browser-native email validation is included automatically. The consumer provides all visual styling, layout, and any custom validation messages.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.email-input` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
 
-
 - Verify the component renders a `<input>` element with class `email-input`
-- Verify aria-label="..."` -- provides an accessible name for the email input since it has no visible `<label>` element
+- Verify aria-label="..."`-- provides an accessible name for the email input since it has no visible`<label>` element
 - Verify pass-through attributes are applied
 
 ## Advice

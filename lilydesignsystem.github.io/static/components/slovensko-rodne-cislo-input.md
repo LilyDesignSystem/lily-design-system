@@ -23,8 +23,15 @@ SlovenskoRodneCisloInput is a headless input for entering Slovakia's Rodné čí
 ## Usage
 
 ```html
-<Field label="Slovak Personal Number" required>
-  <SlovenskoRodneCisloInput label="Slovak Personal Number" value={value} required />
+<Field
+  label="Slovak Personal Number"
+  required
+>
+  <SlovenskoRodneCisloInput
+    label="Slovak Personal Number"
+    value="{value}"
+    required
+  />
   <Hint>10 digits in the form YYMMDDCCCX where MM is 01-12 for males and 51-62 for females</Hint>
   <ErrorMessage>Please enter a valid Slovak Personal Number</ErrorMessage>
 </Field>

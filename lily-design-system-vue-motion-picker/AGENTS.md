@@ -19,13 +19,13 @@ media query before falling back to a fixed default.
 
 ## Files
 
-| File                    | Purpose                                          |
-| ----------------------- | ------------------------------------------------ |
-| `spec/index.md`         | Specification-driven contract (canonical, Svelte-sourced). |
-| `MotionPicker.vue`      | Implementation. `<script setup lang="ts">`.      |
-| `MotionPicker.test.ts`  | Vitest spec, one assertion per §7 acceptance.    |
-| `index.ts`              | Barrel re-export.                                |
-| `index.md`              | Human-readable guide.                            |
+| File                   | Purpose                                                    |
+| ---------------------- | ---------------------------------------------------------- |
+| `spec/index.md`        | Specification-driven contract (canonical, Svelte-sourced). |
+| `MotionPicker.vue`     | Implementation. `<script setup lang="ts">`.                |
+| `MotionPicker.test.ts` | Vitest spec, one assertion per §7 acceptance.              |
+| `index.ts`             | Barrel re-export.                                          |
+| `index.md`             | Human-readable guide.                                      |
 
 ## Public surface
 

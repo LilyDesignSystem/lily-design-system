@@ -33,11 +33,28 @@ Unlike `Details`, which uses a `<summary>` toggle, this component uses a real fo
 ```
 
 ```html
-<AccordionCheckbox label="Subscribe to optional updates" checked>
+<AccordionCheckbox
+  label="Subscribe to optional updates"
+  checked
+>
   <fieldset>
     <legend>Topics</legend>
-    <label><input type="checkbox" name="topic" value="news"> News</label>
-    <label><input type="checkbox" name="topic" value="events"> Events</label>
+    <label
+      ><input
+        type="checkbox"
+        name="topic"
+        value="news"
+      />
+      News</label
+    >
+    <label
+      ><input
+        type="checkbox"
+        name="topic"
+        value="events"
+      />
+      Events</label
+    >
   </fieldset>
 </AccordionCheckbox>
 ```

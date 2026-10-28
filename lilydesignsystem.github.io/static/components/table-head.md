@@ -21,14 +21,14 @@ Use this component within a Table to define the header section containing column
 ## Usage
 
 ```html
-<Table label="Users">
+<table label="Users">
   <TableHead>
     <TableRow>
       <th>Name</th>
       <th>Email</th>
     </TableRow>
   </TableHead>
-</Table>
+</table>
 ```
 
 ## Keyboard Interactions

@@ -17,23 +17,23 @@
 
 ## Common ARIA patterns
 
-| Pattern | When to use |
-|---|---|
-| `<label for="id">` | Form input labelling. Pair with `id` on the input. |
-| `aria-label` | Accessible name when no visible label is appropriate (icon-only buttons, region wrappers). |
-| `aria-labelledby` / `aria-describedby` | Link a control to a separate text node — heading, helptext, error message. |
-| `aria-invalid` + `aria-errormessage` | Form input error state — pair with the message id. |
+| Pattern                                                         | When to use                                                                                                       |
+| --------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `<label for="id">`                                              | Form input labelling. Pair with `id` on the input.                                                                |
+| `aria-label`                                                    | Accessible name when no visible label is appropriate (icon-only buttons, region wrappers).                        |
+| `aria-labelledby` / `aria-describedby`                          | Link a control to a separate text node — heading, helptext, error message.                                        |
+| `aria-invalid` + `aria-errormessage`                            | Form input error state — pair with the message id.                                                                |
 | `role="alert"` / `aria-live="polite"` / `aria-live="assertive"` | Announce dynamic content; pick `polite` by default, `assertive` only for `SuperBanner` and similar interruptions. |
-| `role="group"` with `aria-label` | Group of related controls (`DialGroup`, `Diff`, `PhotoPack`). |
-| `role="region"` with `aria-label` | Labelled landmark for a part of the page (`AnnouncementBanner`, `HorizontalScroller`). |
-| `role="status"` | Polite live region for indeterminate background activity (`Loading`). |
-| Roving tabindex (`tabindex="0"` / `tabindex="-1"`) | Grid / listbox / toolbar navigation — only the active item is tabbable. |
-| `aria-pressed` | Toggle button on/off state. |
-| `aria-expanded` | Disclosure / accordion / combobox open state. |
-| `aria-current` | Current page / step / location inside a nav, list, or breadcrumb. |
-| `aria-modal="true"` | Modal `<dialog>` (also use the `dialog.showModal()` API, not just `open`). |
-| `aria-roledescription="..."` | Override the auto-announced role name for specialised widgets (`TileMap`, `ScrollerVideo`). |
-| `aria-valuenow` / `aria-valuemin` / `aria-valuemax` | Slider / progress / dial position. |
+| `role="group"` with `aria-label`                                | Group of related controls (`DialGroup`, `Diff`, `PhotoPack`).                                                     |
+| `role="region"` with `aria-label`                               | Labelled landmark for a part of the page (`AnnouncementBanner`, `HorizontalScroller`).                            |
+| `role="status"`                                                 | Polite live region for indeterminate background activity (`Loading`).                                             |
+| Roving tabindex (`tabindex="0"` / `tabindex="-1"`)              | Grid / listbox / toolbar navigation — only the active item is tabbable.                                           |
+| `aria-pressed`                                                  | Toggle button on/off state.                                                                                       |
+| `aria-expanded`                                                 | Disclosure / accordion / combobox open state.                                                                     |
+| `aria-current`                                                  | Current page / step / location inside a nav, list, or breadcrumb.                                                 |
+| `aria-modal="true"`                                             | Modal `<dialog>` (also use the `dialog.showModal()` API, not just `open`).                                        |
+| `aria-roledescription="..."`                                    | Override the auto-announced role name for specialised widgets (`TileMap`, `ScrollerVideo`).                       |
+| `aria-valuenow` / `aria-valuemin` / `aria-valuemax`             | Slider / progress / dial position.                                                                                |
 
 ## Testing accessibility
 

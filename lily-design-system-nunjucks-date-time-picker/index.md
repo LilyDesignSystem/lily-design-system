@@ -109,32 +109,32 @@ Full rationale: [spec/index.md §3.4](./spec/index.md).
 
 ### Macro parameters
 
-| Key | Type | Required | Default | Purpose |
-| --- | ---- | -------- | ------- | ------- |
-| `label` | string | yes | — | Names both the trigger and the dialog. |
-| `labels` | object | yes | — | Every other user-facing string — see below. |
-| `mode` | `"date"｜"time"｜"datetime"` | no | `"date"` | What to collect. |
-| `value` | string | no | `""` | Initial ISO value, rendered raw (unformatted) until hydration. |
-| `locale` | string | no | — | BCP 47 tag. |
-| `min` / `max` | string | no | — | Inclusive ISO date bounds. |
-| `disabledDates` | array | no | `[]` | ISO date strings. See the deviations above. |
-| `firstDayOfWeek` | number | no | from `locale` | 0 = Sunday … 6 = Saturday. |
-| `minuteStep` | number | no | `1` | Granularity of the minute select. |
-| `hour12` | boolean | no | resolved from `locale` (client) | 12-hour clock. |
-| `showWeekNumbers` | boolean | no | `false` | ISO-8601 week column. |
-| `shortcuts` | array | no | `[]` | `{id, label, days?, months?, date?}`. |
-| `confirmOnSelect` | boolean | no | `mode === "date"` | Commit and close on day click. |
-| `name` | string | no | `"date-time"` | `name` of the hidden input; also drives ids. |
-| `timeZone` | string | no | `""` | Initial selected IANA zone, or `""` for none. Rides `{name}-time-zone` and `data-time-zone`. |
-| `timeZones` | array | no | `Intl.supportedValuesOf("timeZone")` | Zones offered by the select (init opt). |
-| `timeZoneLabels` | object | no | `{}` | Display text per zone id (init opt). |
-| `id` | string | no | `date-time-picker-{name}` | Id prefix. |
-| `inputId` | string | no | `{id}-input` | Field id, for a consumer `<label for>`. |
-| `describedBy` | string | no | — | Forwarded as `aria-describedby`. |
-| `placeholder` | string | no | — | |
-| `disabled` / `readonly` / `required` | boolean | no | `false` | |
-| `classes` | string | no | — | Extra CSS classes on the root. |
-| `attributes` | object | no | — | Extra HTML attributes spread onto the root. |
+| Key                                  | Type                         | Required | Default                              | Purpose                                                                                      |
+| ------------------------------------ | ---------------------------- | -------- | ------------------------------------ | -------------------------------------------------------------------------------------------- |
+| `label`                              | string                       | yes      | —                                    | Names both the trigger and the dialog.                                                       |
+| `labels`                             | object                       | yes      | —                                    | Every other user-facing string — see below.                                                  |
+| `mode`                               | `"date"｜"time"｜"datetime"` | no       | `"date"`                             | What to collect.                                                                             |
+| `value`                              | string                       | no       | `""`                                 | Initial ISO value, rendered raw (unformatted) until hydration.                               |
+| `locale`                             | string                       | no       | —                                    | BCP 47 tag.                                                                                  |
+| `min` / `max`                        | string                       | no       | —                                    | Inclusive ISO date bounds.                                                                   |
+| `disabledDates`                      | array                        | no       | `[]`                                 | ISO date strings. See the deviations above.                                                  |
+| `firstDayOfWeek`                     | number                       | no       | from `locale`                        | 0 = Sunday … 6 = Saturday.                                                                   |
+| `minuteStep`                         | number                       | no       | `1`                                  | Granularity of the minute select.                                                            |
+| `hour12`                             | boolean                      | no       | resolved from `locale` (client)      | 12-hour clock.                                                                               |
+| `showWeekNumbers`                    | boolean                      | no       | `false`                              | ISO-8601 week column.                                                                        |
+| `shortcuts`                          | array                        | no       | `[]`                                 | `{id, label, days?, months?, date?}`.                                                        |
+| `confirmOnSelect`                    | boolean                      | no       | `mode === "date"`                    | Commit and close on day click.                                                               |
+| `name`                               | string                       | no       | `"date-time"`                        | `name` of the hidden input; also drives ids.                                                 |
+| `timeZone`                           | string                       | no       | `""`                                 | Initial selected IANA zone, or `""` for none. Rides `{name}-time-zone` and `data-time-zone`. |
+| `timeZones`                          | array                        | no       | `Intl.supportedValuesOf("timeZone")` | Zones offered by the select (init opt).                                                      |
+| `timeZoneLabels`                     | object                       | no       | `{}`                                 | Display text per zone id (init opt).                                                         |
+| `id`                                 | string                       | no       | `date-time-picker-{name}`            | Id prefix.                                                                                   |
+| `inputId`                            | string                       | no       | `{id}-input`                         | Field id, for a consumer `<label for>`.                                                      |
+| `describedBy`                        | string                       | no       | —                                    | Forwarded as `aria-describedby`.                                                             |
+| `placeholder`                        | string                       | no       | —                                    |                                                                                              |
+| `disabled` / `readonly` / `required` | boolean                      | no       | `false`                              |                                                                                              |
+| `classes`                            | string                       | no       | —                                    | Extra CSS classes on the root.                                                               |
+| `attributes`                         | object                       | no       | —                                    | Extra HTML attributes spread onto the root.                                                  |
 
 `labels`:
 

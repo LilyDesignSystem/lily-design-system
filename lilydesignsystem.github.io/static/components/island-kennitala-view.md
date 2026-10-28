@@ -22,7 +22,7 @@ IslandKennitalaView is a headless read-only display of Iceland's Kennitala, Icel
 ```html
 <SummaryList>
   <SummaryListItem term="Personal Identity Code">
-    <IslandKennitalaView value={value} />
+    <IslandKennitalaView value="{value}" />
   </SummaryListItem>
 </SummaryList>
 ```

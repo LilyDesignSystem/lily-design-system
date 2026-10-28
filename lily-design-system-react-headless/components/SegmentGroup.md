@@ -23,8 +23,18 @@ Use SegmentGroup when you need a set of visually distinct toggle buttons where o
 
 ```tsx
 <SegmentGroup label="View">
-  <button role="radio" aria-checked="true">Grid</button>
-  <button role="radio" aria-checked="false">List</button>
+  <button
+    role="radio"
+    aria-checked="true"
+  >
+    Grid
+  </button>
+  <button
+    role="radio"
+    aria-checked="false"
+  >
+    List
+  </button>
 </SegmentGroup>
 ```
 

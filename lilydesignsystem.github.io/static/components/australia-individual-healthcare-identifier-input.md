@@ -23,8 +23,15 @@ AustraliaIndividualHealthcareIdentifierInput is a headless input for entering Au
 ## Usage
 
 ```html
-<Field label="Individual Healthcare Identifier" required>
-  <AustraliaIndividualHealthcareIdentifierInput label="Individual Healthcare Identifier" value={value} required />
+<Field
+  label="Individual Healthcare Identifier"
+  required
+>
+  <AustraliaIndividualHealthcareIdentifierInput
+    label="Individual Healthcare Identifier"
+    value="{value}"
+    required
+  />
   <Hint>16 digits assigned by the Healthcare Identifiers Service</Hint>
   <ErrorMessage>Please enter a valid Individual Healthcare Identifier</ErrorMessage>
 </Field>

@@ -17,20 +17,39 @@ Button:
   aria-expanded="false"
   aria-controls="menu-picker-panel"
 >
-  <svg class="menu-picker-icon" viewBox="0 0 16 16" aria-hidden="true">…three lines…</svg>
+  <svg
+    class="menu-picker-icon"
+    viewBox="0 0 16 16"
+    aria-hidden="true"
+  >
+    …three lines…
+  </svg>
 </button>
 ```
 
 Tooltip (a sibling right after the button, like every picker's):
 
 ```html
-<div class="menu-picker-tooltip" role="tooltip" id="menu-picker-tooltip" hidden>Menu</div>
+<div
+  class="menu-picker-tooltip"
+  role="tooltip"
+  id="menu-picker-tooltip"
+  hidden
+>
+  Menu
+</div>
 ```
 
 Panel:
 
 ```html
-<div class="menu-picker-panel" id="menu-picker-panel" role="group" aria-label="Menu" hidden>
+<div
+  class="menu-picker-panel"
+  id="menu-picker-panel"
+  role="group"
+  aria-label="Menu"
+  hidden
+>
   …whatever the app provides…
 </div>
 ```

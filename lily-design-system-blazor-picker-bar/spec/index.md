@@ -34,7 +34,10 @@ to storage.
 ## 3. Markup
 
 ```html
-<div class="picker-bar {CssClass}" ...AdditionalAttributes>
+<div
+  class="picker-bar {CssClass}"
+  ...AdditionalAttributes
+>
   <div class="search-picker">…</div>
   <div class="theme-picker">…</div>
   <div class="locale-picker">…</div>
@@ -51,21 +54,21 @@ markup of its own beyond the root wrapper.
 
 ## 4. Parameters
 
-| Parameter            | Type                              | Required | Default                |
-| --------------------- | ---------------------------------- | -------- | ------------------------ |
-| `Labels`               | `PickerBarLabels`                  | yes      | —                        |
-| `SearchAttributes`     | `Dictionary<string, object>?`      | no       | `null`                   |
-| `ThemesUrl`            | `string`                           | yes      | —                        |
-| `Themes`               | `IReadOnlyList<string>`            | no       | `DefaultThemes` (§5.1)   |
-| `ThemeAttributes`      | `Dictionary<string, object>?`      | no       | `null`                   |
-| `Locales`              | `IReadOnlyList<string>`            | yes      | —                        |
-| `LocaleAttributes`     | `Dictionary<string, object>?`      | no       | `null`                   |
-| `Sizes`                | `IReadOnlyList<string>`            | no       | `DefaultSizes` (§5.2)    |
-| `TextSizeAttributes`   | `Dictionary<string, object>?`      | no       | `null`                   |
-| `ShareTargets`         | `IReadOnlyList<ShareTarget>`       | no       | empty                    |
-| `ShareAttributes`      | `Dictionary<string, object>?`      | no       | `null`                   |
-| `CssClass`             | `string`                           | no       | `""`                     |
-| `AdditionalAttributes` | `Dictionary<string, object>?`      | no       | `null` (spread on root)  |
+| Parameter              | Type                          | Required | Default                 |
+| ---------------------- | ----------------------------- | -------- | ----------------------- |
+| `Labels`               | `PickerBarLabels`             | yes      | —                       |
+| `SearchAttributes`     | `Dictionary<string, object>?` | no       | `null`                  |
+| `ThemesUrl`            | `string`                      | yes      | —                       |
+| `Themes`               | `IReadOnlyList<string>`       | no       | `DefaultThemes` (§5.1)  |
+| `ThemeAttributes`      | `Dictionary<string, object>?` | no       | `null`                  |
+| `Locales`              | `IReadOnlyList<string>`       | yes      | —                       |
+| `LocaleAttributes`     | `Dictionary<string, object>?` | no       | `null`                  |
+| `Sizes`                | `IReadOnlyList<string>`       | no       | `DefaultSizes` (§5.2)   |
+| `TextSizeAttributes`   | `Dictionary<string, object>?` | no       | `null`                  |
+| `ShareTargets`         | `IReadOnlyList<ShareTarget>`  | no       | empty                   |
+| `ShareAttributes`      | `Dictionary<string, object>?` | no       | `null`                  |
+| `CssClass`             | `string`                      | no       | `""`                    |
+| `AdditionalAttributes` | `Dictionary<string, object>?` | no       | `null` (spread on root) |
 
 `Labels` carries the seven accessible names as one `PickerBarLabels`
 record (`Search`, `SearchInput`, `SearchSubmit`, `Theme`, `Locale`,
@@ -177,7 +180,6 @@ app supplies them:
 - §L2 With `links` omitted or empty, or `labels.link` missing, no link picker renders and search is first (§7.2 and the search clause unchanged).
 - §L3 `LinkAttributes` reach the nested `LinkPicker`.
 - §L4 The links are real `<a href>` elements (not a menu).
-
 
 ## 8. Relationship to the six `*-picker` helpers
 

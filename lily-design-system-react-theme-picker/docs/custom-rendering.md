@@ -8,7 +8,27 @@ custom glyph cannot break the pattern.
 By default the button holds:
 
 ```html
-<svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>
+<svg
+  class="theme-picker-icon"
+  viewBox="0 0 16 16"
+  aria-hidden="true"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.6"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <circle
+    cx="8"
+    cy="8"
+    r="6"
+  />
+  <path
+    d="M8 2a6 6 0 0 1 0 12z"
+    fill="currentColor"
+    stroke="none"
+  />
+</svg>
 ```
 
 that is U+25D1 CIRCLE WITH RIGHT HALF BLACK (`◑`), exported from
@@ -22,9 +42,9 @@ The render prop receives one argument with three fields:
 
 ```ts
 type ChildArgs = {
-    value: string;                       // the active slug
-    open: boolean;                       // is the listbox expanded?
-    labelFor: (theme: string) => string; // resolved display label
+  value: string; // the active slug
+  open: boolean; // is the listbox expanded?
+  labelFor: (theme: string) => string; // resolved display label
 };
 ```
 
@@ -46,7 +66,7 @@ need to drive the value from their own UI use the controlled
 **Keep everything you render `aria-hidden="true"`.**
 
 The button's accessible name comes from `aria-label`, which is the
-`label` prop. Anything visible you render that is *not* hidden joins the
+`label` prop. Anything visible you render that is _not_ hidden joins the
 accessible name computation and can leave the announced name out of step
 with the visible text — WCAG 2.5.3, Label in Name. Either hide your
 glyph content, or make `label` start with the visible text.
@@ -57,21 +77,21 @@ glyph content, or make `label` start with the visible text.
 
 ```tsx
 <ThemePicker
-    label="Theme"
-    themesUrl="/assets/themes/"
-    themes={["light", "dark", "abyss"]}
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "abyss"]}
 >
-    {({ value, open, labelFor }) => (
-        <>
-            <span
-                className="theme-picker-swatch"
-                data-theme={value}
-                aria-hidden="true"
-            />
-            <span aria-hidden="true">{labelFor(value)}</span>
-            <span aria-hidden="true">{open ? "▴" : "▾"}</span>
-        </>
-    )}
+  {({ value, open, labelFor }) => (
+    <>
+      <span
+        className="theme-picker-swatch"
+        data-theme={value}
+        aria-hidden="true"
+      />
+      <span aria-hidden="true">{labelFor(value)}</span>
+      <span aria-hidden="true">{open ? "▴" : "▾"}</span>
+    </>
+  )}
 </ThemePicker>
 ```
 
@@ -88,20 +108,33 @@ weight, fall back to a box, or be missing. When the visual must be
 certain, ship your own vector:
 
 ```tsx
-<ThemePicker label="Theme" themesUrl="/assets/themes/" themes={themes}>
-    {() => (
-        <svg
-            className="theme-picker-icon"
-            viewBox="0 0 16 16"
-            width="16"
-            height="16"
-            aria-hidden="true"
-            focusable="false"
-        >
-            <circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" />
-            <path d="M8 1a7 7 0 0 1 0 14Z" fill="currentColor" />
-        </svg>
-    )}
+<ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={themes}
+>
+  {() => (
+    <svg
+      className="theme-picker-icon"
+      viewBox="0 0 16 16"
+      width="16"
+      height="16"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <circle
+        cx="8"
+        cy="8"
+        r="7"
+        fill="none"
+        stroke="currentColor"
+      />
+      <path
+        d="M8 1a7 7 0 0 1 0 14Z"
+        fill="currentColor"
+      />
+    </svg>
+  )}
 </ThemePicker>
 ```
 
@@ -116,15 +149,13 @@ contains the visible text:
 
 ```tsx
 <ThemePicker
-    label={`Theme: ${labelFor(theme)}`}
-    themesUrl="/assets/themes/"
-    themes={themes}
-    value={theme}
-    onChange={setTheme}
+  label={`Theme: ${labelFor(theme)}`}
+  themesUrl="/assets/themes/"
+  themes={themes}
+  value={theme}
+  onChange={setTheme}
 >
-    {({ value, labelFor }) => (
-        <span aria-hidden="true">{labelFor(value)}</span>
-    )}
+  {({ value, labelFor }) => <span aria-hidden="true">{labelFor(value)}</span>}
 </ThemePicker>
 ```
 
@@ -141,32 +172,35 @@ state:
 
 ```tsx
 function ThemeSwatches({
-    value,
-    setTheme,
-    themes,
-    labelFor,
+  value,
+  setTheme,
+  themes,
+  labelFor,
 }: {
-    value: string;
-    setTheme: (slug: string) => void;
-    themes: string[];
-    labelFor: (slug: string) => string;
+  value: string;
+  setTheme: (slug: string) => void;
+  themes: string[];
+  labelFor: (slug: string) => string;
 }) {
-    return (
-        <div role="group" aria-label="Theme">
-            {themes.map((t) => (
-                <button
-                    key={t}
-                    type="button"
-                    className="theme-picker-swatch"
-                    data-theme={t}
-                    aria-pressed={value === t}
-                    onClick={() => setTheme(t)}
-                >
-                    {labelFor(t)}
-                </button>
-            ))}
-        </div>
-    );
+  return (
+    <div
+      role="group"
+      aria-label="Theme"
+    >
+      {themes.map((t) => (
+        <button
+          key={t}
+          type="button"
+          className="theme-picker-swatch"
+          data-theme={t}
+          aria-pressed={value === t}
+          onClick={() => setTheme(t)}
+        >
+          {labelFor(t)}
+        </button>
+      ))}
+    </div>
+  );
 }
 ```
 
@@ -176,7 +210,7 @@ your buttons and the select stay in step. You own the keyboard contract
 of whatever pattern you build: a button group gets `aria-pressed` and
 `Tab` between buttons, with no arrow-key navigation unless you add it.
 
-## What the render prop should *not* do
+## What the render prop should _not_ do
 
 - Don't render the options. The component owns them; anything you
   render lands inside the button.
@@ -197,10 +231,12 @@ optimisations. If a deeply nested child needs a stable reference, wrap
 it yourself:
 
 ```tsx
-{({ value, labelFor }) => {
+{
+  ({ value, labelFor }) => {
     const stable = useCallback(labelFor, [value]);
     // …
-}}
+  };
+}
 ```
 
 This is rarely needed; glyph content is cheap to re-render.

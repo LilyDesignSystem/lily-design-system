@@ -26,18 +26,31 @@ Submit inputs provide a simple, semantic way to add form submission capability t
 Form with a descriptive submit label:
 
 ```html
-<Form label="Contact us" onsubmit={handleSubmit}>
-  <Field label="Message" required>
-    <TextAreaInput label="Message" value={message} required />
+<form
+  label="Contact us"
+  onsubmit="{handleSubmit}"
+>
+  <Field
+    label="Message"
+    required
+  >
+    <TextAreaInput
+      label="Message"
+      value="{message}"
+      required
+    />
   </Field>
   <SubmitInput value="Send message" />
-</Form>
+</form>
 ```
 
 Disabled submit until form is valid:
 
 ```html
-<SubmitInput value="Save changes" disabled={!formValid} />
+<SubmitInput
+  value="Save changes"
+  disabled="{!formValid}"
+/>
 ```
 
 Simple submit with default label:
@@ -73,14 +86,11 @@ No additional ARIA attributes are needed. The native `<input type="submit">` ele
 
 This headless component renders a native `<input type="submit">` element with configurable `value` text and `disabled` state. It provides built-in form submission and validation behavior with no additional ARIA needed. The consumer provides all visual styling including colors, padding, borders, and hover/focus states.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.submit-input` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<input>` element with class `submit-input`
 - Verify keyboard interactions work correctly

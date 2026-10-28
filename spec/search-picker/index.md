@@ -25,18 +25,59 @@ Button:
   aria-expanded="false"
   aria-controls="search-picker-panel"
 >
-  <svg class="search-picker-icon" viewBox="0 0 16 16" width="1.05rem" height="1.05rem" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14"/></svg>
+  <svg
+    class="search-picker-icon"
+    viewBox="0 0 16 16"
+    width="1.05rem"
+    height="1.05rem"
+    aria-hidden="true"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.6"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <circle
+      cx="7"
+      cy="7"
+      r="4.5"
+    />
+    <path d="M10.5 10.5 14 14" />
+  </svg>
 </button>
 ```
 
 Panel:
 
 ```html
-<div class="search-picker-panel" id="search-picker-panel" hidden>
-  <form class="search-picker-form" role="search" aria-label="Search this site" action="/" method="get">
-    <input class="search-picker-input" type="search" aria-label="Search terms" enterkeyhint="search" />
-    <button type="submit" class="search-picker-submit" aria-label="Search">
-      <span class="search-picker-submit-symbol" aria-hidden="true">⏎</span>
+<div
+  class="search-picker-panel"
+  id="search-picker-panel"
+  hidden
+>
+  <form
+    class="search-picker-form"
+    role="search"
+    aria-label="Search this site"
+    action="/"
+    method="get"
+  >
+    <input
+      class="search-picker-input"
+      type="search"
+      aria-label="Search terms"
+      enterkeyhint="search"
+    />
+    <button
+      type="submit"
+      class="search-picker-submit"
+      aria-label="Search"
+    >
+      <span
+        class="search-picker-submit-symbol"
+        aria-hidden="true"
+        >⏎</span
+      >
     </button>
   </form>
 </div>

@@ -38,7 +38,7 @@ import TaskList from "./TaskList";
   <li>Review pull requests</li>
   <li>Update documentation</li>
   <li>Deploy to staging</li>
-</TaskList>
+</TaskList>;
 ```
 
 With checkboxes for completable tasks:

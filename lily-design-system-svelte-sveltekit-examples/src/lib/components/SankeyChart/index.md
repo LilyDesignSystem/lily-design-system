@@ -10,11 +10,11 @@ See [components/sankey-chart/index.md](../../../../../components/sankey-chart/in
 
 ```svelte
 <script lang="ts">
-    import SankeyChart from "./SankeyChart.svelte";
+  import SankeyChart from "./SankeyChart.svelte";
 </script>
 
 <SankeyChart label="Describe the chart">
-    <svg viewBox="0 0 10 10">…</svg>
+  <svg viewBox="0 0 10 10">…</svg>
 </SankeyChart>
 ```
 

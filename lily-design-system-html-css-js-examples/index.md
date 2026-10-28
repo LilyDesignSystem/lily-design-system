@@ -12,23 +12,23 @@ Styled example pages demonstrating headless components with Plain HTML + vanilla
 
 ## Routes
 
-| Route                    | Description                                              |
-| ------------------------ | -------------------------------------------------------- |
-| `/`                      | Home page with links to all examples                     |
-| `/components`            | Lists all 490 components with links to individual demos  |
-| `/components/{slug}`     | Demonstrates one component with a live interactive demo  |
-| `/contact-form`          | Contact form example page                                |
-| `/dashboard`             | Dashboard example page                                   |
-| `/dialog-flow`           | Dialog flow example page                                 |
-| `/file-upload-form`      | File upload example page                                 |
-| `/navigation-and-menus`  | Navigation example page                                  |
-| `/page-layout`           | Page layout example page                                 |
-| `/rating-and-feedback`   | Rating example page                                      |
-| `/search-and-filter`     | Search example page                                      |
-| `/settings-page`         | Settings example page                                    |
-| `/tabbed-interface`      | Tabbed interface example page                            |
-| `/task-management`       | Task management example page                             |
-| `/timeline-and-cards`    | Timeline example page                                    |
+| Route                   | Description                                             |
+| ----------------------- | ------------------------------------------------------- |
+| `/`                     | Home page with links to all examples                    |
+| `/components`           | Lists all 490 components with links to individual demos |
+| `/components/{slug}`    | Demonstrates one component with a live interactive demo |
+| `/contact-form`         | Contact form example page                               |
+| `/dashboard`            | Dashboard example page                                  |
+| `/dialog-flow`          | Dialog flow example page                                |
+| `/file-upload-form`     | File upload example page                                |
+| `/navigation-and-menus` | Navigation example page                                 |
+| `/page-layout`          | Page layout example page                                |
+| `/rating-and-feedback`  | Rating example page                                     |
+| `/search-and-filter`    | Search example page                                     |
+| `/settings-page`        | Settings example page                                   |
+| `/tabbed-interface`     | Tabbed interface example page                           |
+| `/task-management`      | Task management example page                            |
+| `/timeline-and-cards`   | Timeline example page                                   |
 
 ## Architecture
 

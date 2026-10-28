@@ -23,8 +23,15 @@ UnitedKingdomNationalInsuranceNumberInput is a headless input for entering Unite
 ## Usage
 
 ```html
-<Field label="National Insurance Number" required>
-  <UnitedKingdomNationalInsuranceNumberInput label="National Insurance Number" value={value} required />
+<Field
+  label="National Insurance Number"
+  required
+>
+  <UnitedKingdomNationalInsuranceNumberInput
+    label="National Insurance Number"
+    value="{value}"
+    required
+  />
   <Hint>two prefix letters, six digits, and a suffix letter (A, B, C, or D) — e.g. AB123456A</Hint>
   <ErrorMessage>Please enter a valid National Insurance Number</ErrorMessage>
 </Field>

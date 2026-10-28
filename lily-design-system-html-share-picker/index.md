@@ -142,9 +142,18 @@ Every attribute also has a mirrored camelCase property, plus read-only
       aria-expanded="false"
       aria-controls="share-picker-1-list"
     >
-      <span class="share-picker-icon" aria-hidden="true">➤</span>
+      <span
+        class="share-picker-icon"
+        aria-hidden="true"
+        >➤</span
+      >
     </button>
-    <ul class="share-picker-list" id="share-picker-1-list" aria-label="Share" hidden>
+    <ul
+      class="share-picker-list"
+      id="share-picker-1-list"
+      aria-label="Share"
+      hidden
+    >
       <li class="share-picker-list-item">
         <a
           class="share-picker-target"
@@ -156,10 +165,18 @@ Every attribute also has a mirrored camelCase property, plus read-only
         >
       </li>
       <li class="share-picker-list-item">
-        <button type="button" class="share-picker-copy">Copy link</button>
+        <button
+          type="button"
+          class="share-picker-copy"
+        >
+          Copy link
+        </button>
       </li>
     </ul>
-    <p class="share-picker-status" aria-live="polite"></p>
+    <p
+      class="share-picker-status"
+      aria-live="polite"
+    ></p>
   </div>
 </share-picker>
 ```
@@ -238,13 +255,13 @@ customElements.define("labelled-share-picker", LabelledSharePicker);
 
 ## Keyboard
 
-| Key               | On the trigger                | In the list                          |
-| ----------------- | ----------------------------- | ------------------------------------ |
-| `Enter` / `Space` | Activates                     | Activates the focused item           |
-| `ArrowDown`       | Opens, focuses the first item | Moves down, clamping                 |
-| `ArrowUp`         | Opens, focuses the last item  | Moves up, clamping                   |
-| `Home` / `End`    | —                             | First / last item                    |
-| `Escape`          | —                             | Closes, focus returns to the trigger |
+| Key               | On the trigger                | In the list                                                                                               |
+| ----------------- | ----------------------------- | --------------------------------------------------------------------------------------------------------- |
+| `Enter` / `Space` | Activates                     | Activates the focused item                                                                                |
+| `ArrowDown`       | Opens, focuses the first item | Moves down, clamping                                                                                      |
+| `ArrowUp`         | Opens, focuses the last item  | Moves up, clamping                                                                                        |
+| `Home` / `End`    | —                             | First / last item                                                                                         |
+| `Escape`          | —                             | Closes, focus returns to the trigger                                                                      |
 | `Tab`             | Moves on                      | Focus moves to the trigger, then the list closes — so the default Tab proceeds from the picker's position |
 
 Items are real focusable elements, so focus moves for real — no

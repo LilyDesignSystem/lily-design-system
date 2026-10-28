@@ -22,18 +22,24 @@ This component is suitable for primary navigation bars, sidebar navigation, foot
 
 ```tsx
 <NavigationMenu label="Main navigation">
-    <a href="/">Home</a>
-    <a href="/about">About</a>
+  <a href="/">Home</a>
+  <a href="/about">About</a>
 </NavigationMenu>
 ```
 
 ```tsx
 <NavigationMenu label="Footer navigation">
-    <ul>
-        <li><a href="/privacy">Privacy Policy</a></li>
-        <li><a href="/terms">Terms of Service</a></li>
-        <li><a href="/contact">Contact Us</a></li>
-    </ul>
+  <ul>
+    <li>
+      <a href="/privacy">Privacy Policy</a>
+    </li>
+    <li>
+      <a href="/terms">Terms of Service</a>
+    </li>
+    <li>
+      <a href="/contact">Contact Us</a>
+    </li>
+  </ul>
 </NavigationMenu>
 ```
 

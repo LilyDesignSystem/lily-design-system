@@ -33,7 +33,10 @@ This headless component uses an `<article>` element with an optional `aria-label
     <p>Key findings from the year.</p>
   </ContentBlock>
   <ContentBlock width="wide">
-    <img src="chart.png" alt="Revenue growth chart" />
+    <img
+      src="chart.png"
+      alt="Revenue growth chart"
+    />
   </ContentBlock>
 </ArticleLayout>
 ```

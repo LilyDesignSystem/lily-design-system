@@ -23,16 +23,14 @@ Kanban board header with three workflow stages:
 
 ```html
 <KanbanTable label="Sprint board">
-    <KanbanTableHead>
-        <KanbanTableRow>
-            <KanbanTableTD>To Do</KanbanTableTD>
-            <KanbanTableTD>In Progress</KanbanTableTD>
-            <KanbanTableTD>Done</KanbanTableTD>
-        </KanbanTableRow>
-    </KanbanTableHead>
-    <KanbanTableBody>
-        ...
-    </KanbanTableBody>
+  <KanbanTableHead>
+    <KanbanTableRow>
+      <KanbanTableTD>To Do</KanbanTableTD>
+      <KanbanTableTD>In Progress</KanbanTableTD>
+      <KanbanTableTD>Done</KanbanTableTD>
+    </KanbanTableRow>
+  </KanbanTableHead>
+  <KanbanTableBody> ... </KanbanTableBody>
 </KanbanTable>
 ```
 
@@ -60,14 +58,11 @@ None -- passive container for heading elements. Keyboard interaction depends on 
 
 This headless component provides a structural header wrapper for Kanban board column headings. It outputs a `<div>` container where the consumer places heading elements. The consumer provides all visual styling, including heading typography, alignment, and column width coordination.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.kanban-table-head` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<thead>` element with class `kanban-table-head`
 - Verify pass-through attributes are applied

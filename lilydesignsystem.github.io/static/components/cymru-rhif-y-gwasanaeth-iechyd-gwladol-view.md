@@ -22,7 +22,7 @@ CymruRhifYGwasanaethIechydGwladolView is a headless read-only display of Wales's
 ```html
 <SummaryList>
   <SummaryListItem term="National Health Service Number">
-    <CymruRhifYGwasanaethIechydGwladolView value={value} />
+    <CymruRhifYGwasanaethIechydGwladolView value="{value}" />
   </SummaryListItem>
 </SummaryList>
 ```

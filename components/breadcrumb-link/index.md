@@ -30,9 +30,7 @@ A breadcrumb link is a navigational anchor element representing one step in a br
     <BreadcrumbListItem>
       <BreadcrumbLink href="/health-a-z">Health A to Z</BreadcrumbLink>
     </BreadcrumbListItem>
-    <BreadcrumbListItem aria-current="page">
-      Diabetes
-    </BreadcrumbListItem>
+    <BreadcrumbListItem aria-current="page"> Diabetes </BreadcrumbListItem>
   </BreadcrumbList>
 </BreadcrumbNav>
 ```
@@ -95,9 +93,7 @@ BreadcrumbLink follows the Nav / List / ListItem composition pattern:
     <BreadcrumbListItem>
       <BreadcrumbLink href="/health-a-z">Health A to Z</BreadcrumbLink>
     </BreadcrumbListItem>
-    <BreadcrumbListItem aria-current="page">
-      Diabetes
-    </BreadcrumbListItem>
+    <BreadcrumbListItem aria-current="page"> Diabetes </BreadcrumbListItem>
   </BreadcrumbList>
 </BreadcrumbNav>
 ```

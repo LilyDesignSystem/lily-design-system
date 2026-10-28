@@ -22,7 +22,10 @@ ArgentinaCodigoUnicoDeIdentificacionLaboralView is a headless read-only display 
 ```html
 <SummaryList>
   <SummaryListItem term="Código Único de Identificación Laboral (CUIL)">
-    <ArgentinaCodigoUnicoDeIdentificacionLaboralView label="Código Único de Identificación Laboral (CUIL)" value={value} />
+    <ArgentinaCodigoUnicoDeIdentificacionLaboralView
+      label="Código Único de Identificación Laboral (CUIL)"
+      value="{value}"
+    />
   </SummaryListItem>
 </SummaryList>
 ```

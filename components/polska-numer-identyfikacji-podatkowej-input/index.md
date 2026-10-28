@@ -23,8 +23,15 @@ PolskaNumerIdentyfikacjiPodatkowejInput is a headless input for entering Poland'
 ## Usage
 
 ```html
-<Field label="Tax Identification Number" required>
-  <PolskaNumerIdentyfikacjiPodatkowejInput label="Tax Identification Number" value={value} required />
+<Field
+  label="Tax Identification Number"
+  required
+>
+  <PolskaNumerIdentyfikacjiPodatkowejInput
+    label="Tax Identification Number"
+    value="{value}"
+    required
+  />
   <Hint>10 numeric digits used for tax identification</Hint>
   <ErrorMessage>Please enter a valid Tax Identification Number</ErrorMessage>
 </Field>

@@ -24,7 +24,10 @@ media query before falling back to an arbitrary default.
 ## Usage
 
 ```html
-<script type="module" src="./motion-picker/index.js"></script>
+<script
+  type="module"
+  src="./motion-picker/index.js"
+></script>
 
 <motion-picker
   label="Motion"
@@ -44,17 +47,17 @@ picker.addEventListener("motionchange", (e) => {
 
 ## Attributes / Properties
 
-| Attribute        | Property       | Type                     | Required | Description                                                |
-| ---------------- | -------------- | ------------------------ | -------- | ------------------------------------------------------------ |
-| `label`          | `label`        | `string`                 | yes      | Accessible name for the button + listbox.                    |
-| `motions`        | `motions`      | CSV / `string[]`         | yes      | Available motion slugs.                                       |
-| `value`          | `value`        | `string`                 | no       | Selected slug.                                                 |
-| `default-value`  | `defaultValue` | `string`                 | no       | Initial slug when nothing else is supplied.                    |
-| `storage-key`    | `storageKey`   | `string`                 | no       | If set, persist the slug to `localStorage`.                    |
-| `name`           | `name`         | `string`                 | no       | `name` of the hidden input (default `"motion"`).               |
-| —                | `target`       | `HTMLElement \| null`    | no       | Element to receive `data-motion`. Default `<html>`.            |
-| `motion-labels`  | `motionLabels` | JSON / `Record<string,string>` | no | Pretty labels per slug.                                        |
-| `class`          | —              | `string`                 | no       | Extra CSS class on the root.                                   |
+| Attribute       | Property       | Type                           | Required | Description                                         |
+| --------------- | -------------- | ------------------------------ | -------- | --------------------------------------------------- |
+| `label`         | `label`        | `string`                       | yes      | Accessible name for the button + listbox.           |
+| `motions`       | `motions`      | CSV / `string[]`               | yes      | Available motion slugs.                             |
+| `value`         | `value`        | `string`                       | no       | Selected slug.                                      |
+| `default-value` | `defaultValue` | `string`                       | no       | Initial slug when nothing else is supplied.         |
+| `storage-key`   | `storageKey`   | `string`                       | no       | If set, persist the slug to `localStorage`.         |
+| `name`          | `name`         | `string`                       | no       | `name` of the hidden input (default `"motion"`).    |
+| —               | `target`       | `HTMLElement \| null`          | no       | Element to receive `data-motion`. Default `<html>`. |
+| `motion-labels` | `motionLabels` | JSON / `Record<string,string>` | no       | Pretty labels per slug.                             |
+| `class`         | —              | `string`                       | no       | Extra CSS class on the root.                        |
 
 Dispatches `motionchange` (`CustomEvent<{ motion: string }>`, bubbles,
 composed) after every applied change.

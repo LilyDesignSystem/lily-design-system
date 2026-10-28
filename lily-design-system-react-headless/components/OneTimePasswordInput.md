@@ -21,7 +21,12 @@ A single native one-time-password (verification code) input: numeric keypad, SMS
 ## Usage
 
 ```tsx
-<OneTimePasswordInput label="Verification code" length={6} value={code} onChange={setCode} />
+<OneTimePasswordInput
+  label="Verification code"
+  length={6}
+  value={code}
+  onChange={setCode}
+/>
 ```
 
 ## Keyboard Interactions

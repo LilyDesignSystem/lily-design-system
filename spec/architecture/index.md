@@ -46,16 +46,16 @@ lily-design-system/                              ← canonical catalog + tools
 
 ## The 184 implementation subprojects
 
-| Framework | Headless library | Example app |
-| --- | --- | --- |
-| HTML | `@lilydesignsystem/html-headless` | `lily-design-system-html-css-js-examples` |
-| Svelte | `@lilydesignsystem/svelte-headless` | `lily-design-system-svelte-sveltekit-examples` |
-| React | `@lilydesignsystem/react-headless` | `lily-design-system-react-next-examples` |
-| Vue | `@lilydesignsystem/vue-headless` | `lily-design-system-vue-nuxt-examples` |
-| Angular | `@lilydesignsystem/angular-headless` | `lily-design-system-angular-examples` |
-| Blazor | `LilyDesignSystem.Blazor.Headless` (NuGet) | `lily-design-system-blazor-web-examples` |
-| Nunjucks | `@lilydesignsystem/nunjucks-headless` | `lily-design-system-nunjucks-eleventy-examples` |
-| Alpine.js | `@lilydesignsystem/alpine-headless` (unpublished) | `lily-design-system-alpine-examples` |
+| Framework | Headless library                                  | Example app                                     |
+| --------- | ------------------------------------------------- | ----------------------------------------------- |
+| HTML      | `@lilydesignsystem/html-headless`                 | `lily-design-system-html-css-js-examples`       |
+| Svelte    | `@lilydesignsystem/svelte-headless`               | `lily-design-system-svelte-sveltekit-examples`  |
+| React     | `@lilydesignsystem/react-headless`                | `lily-design-system-react-next-examples`        |
+| Vue       | `@lilydesignsystem/vue-headless`                  | `lily-design-system-vue-nuxt-examples`          |
+| Angular   | `@lilydesignsystem/angular-headless`              | `lily-design-system-angular-examples`           |
+| Blazor    | `LilyDesignSystem.Blazor.Headless` (NuGet)        | `lily-design-system-blazor-web-examples`        |
+| Nunjucks  | `@lilydesignsystem/nunjucks-headless`             | `lily-design-system-nunjucks-eleventy-examples` |
+| Alpine.js | `@lilydesignsystem/alpine-headless` (unpublished) | `lily-design-system-alpine-examples`            |
 
 Headless libraries ship unstyled, accessible components; example apps demonstrate them with a full stylesheet and the three required routes (see [examples](../examples/index.md)).
 
@@ -86,23 +86,23 @@ Packages are published from this repository to npm and NuGet; see [trusted-publi
 
 ## Required files per subproject
 
-| File | Purpose |
-| --- | --- |
-| `index.md` | Human-readable overview |
-| `README.md` | Symlink to `index.md` |
-| `AGENTS.md` | AI coding help; loads modular `AGENTS/*.md` |
+| File            | Purpose                                                                    |
+| --------------- | -------------------------------------------------------------------------- |
+| `index.md`      | Human-readable overview                                                    |
+| `README.md`     | Symlink to `index.md`                                                      |
+| `AGENTS.md`     | AI coding help; loads modular `AGENTS/*.md`                                |
 | `spec/index.md` | Spec-driven plan + tasks (replaces the older split `plan.md` / `tasks.md`) |
 
 ## Required files per component directory
 
 Every `components/{slug}/` directory (581 of them) carries:
 
-| File | Purpose |
-| --- | --- |
-| `index.md` | Component docs (description, usage, props, ARIA, keyboard, references, "When to Use" / "When Not to Use") |
-| `README.md` | Symlink to `index.md` |
-| `AGENTS.md` | Canonical metadata (HTML tag, ARIA, keyboard, props) |
-| `spec/index.md` | Per-component spec-driven plan + tasks (replaces the older split `plan.md` / `tasks.md`) |
+| File            | Purpose                                                                                                   |
+| --------------- | --------------------------------------------------------------------------------------------------------- |
+| `index.md`      | Component docs (description, usage, props, ARIA, keyboard, references, "When to Use" / "When Not to Use") |
+| `README.md`     | Symlink to `index.md`                                                                                     |
+| `AGENTS.md`     | Canonical metadata (HTML tag, ARIA, keyboard, props)                                                      |
+| `spec/index.md` | Per-component spec-driven plan + tasks (replaces the older split `plan.md` / `tasks.md`)                  |
 
 ## Acceptance criteria
 

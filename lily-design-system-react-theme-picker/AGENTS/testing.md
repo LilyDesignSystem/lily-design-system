@@ -17,9 +17,7 @@ Reset both, plus `localStorage`:
 
 ```ts
 beforeEach(() => {
-  document.head
-    .querySelectorAll("link[data-lily-theme-picker]")
-    .forEach((el) => el.remove());
+  document.head.querySelectorAll("link[data-lily-theme-picker]").forEach((el) => el.remove());
   document.documentElement.removeAttribute("data-theme");
   localStorage.clear();
 });
@@ -27,26 +25,26 @@ beforeEach(() => {
 
 ## §7 acceptance map
 
-| #   | Assertion                                                                                                     | Hook                                                                              |
-| --- | ------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| #   | Assertion                                                                                                     | Hook                                                                             |
+| --- | ------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
 | 1   | Button + listbox wiring; `aria-hidden` glyph; root `<div>` class                                              | `getByRole("button")` attrs; `.theme-picker-icon`; `container.firstElementChild` |
-| 2   | `aria-label` names the button **and** the listbox                                                             | `getByRole("button", { name })`; list `aria-label`                                |
-| 3   | One `.theme-picker-option` per `themes[]`; hidden input carries `name` + value                               | `querySelectorAll(".theme-picker-option")`; `input[type=hidden]`                 |
-| 4   | Listbox `hidden` until activated; exactly one `aria-selected="true"`                                          | toggle `hidden` + `aria-expanded`; `[role=option][aria-selected=true]`            |
-| 5   | Label is `themeLabels[slug]` or title-cased; never "default"                                                  | `getByText`; `container.textContent`                                              |
-| 6   | Initial value resolves to "light" if in themes else `themes[0]`                                               | flush; `dataset.theme`                                                            |
-| 7   | Managed `<link>` exists with correct href; `name` discriminates it                                            | `head.querySelector('link[data-lily-theme-picker="…"]')`                          |
-| 8   | Choosing an option updates link / data-theme / fires onChange                                                 | open + click option; assertions                                                   |
-| 9   | `storageKey` persists across mounts                                                                           | first render writes; unmount; second render reads                                 |
-| 10  | `value` prop wins over storage/default                                                                        | preset localStorage; render with `value="light"`; assert light applied            |
-| 11  | `themesUrl` without trailing `/` still works                                                                  | render with `themesUrl="/t"`; assert href has one slash                           |
-| 12  | Extra attributes spread onto the root `<div>`                                                                 | render with `data-testid="x"`; assert `tagName === "DIV"`                         |
+| 2   | `aria-label` names the button **and** the listbox                                                             | `getByRole("button", { name })`; list `aria-label`                               |
+| 3   | One `.theme-picker-option` per `themes[]`; hidden input carries `name` + value                                | `querySelectorAll(".theme-picker-option")`; `input[type=hidden]`                 |
+| 4   | Listbox `hidden` until activated; exactly one `aria-selected="true"`                                          | toggle `hidden` + `aria-expanded`; `[role=option][aria-selected=true]`           |
+| 5   | Label is `themeLabels[slug]` or title-cased; never "default"                                                  | `getByText`; `container.textContent`                                             |
+| 6   | Initial value resolves to "light" if in themes else `themes[0]`                                               | flush; `dataset.theme`                                                           |
+| 7   | Managed `<link>` exists with correct href; `name` discriminates it                                            | `head.querySelector('link[data-lily-theme-picker="…"]')`                         |
+| 8   | Choosing an option updates link / data-theme / fires onChange                                                 | open + click option; assertions                                                  |
+| 9   | `storageKey` persists across mounts                                                                           | first render writes; unmount; second render reads                                |
+| 10  | `value` prop wins over storage/default                                                                        | preset localStorage; render with `value="light"`; assert light applied           |
+| 11  | `themesUrl` without trailing `/` still works                                                                  | render with `themesUrl="/t"`; assert href has one slash                          |
+| 12  | Extra attributes spread onto the root `<div>`                                                                 | render with `data-testid="x"`; assert `tagName === "DIV"`                        |
 | 13  | Custom `children` replaces the glyph and receives `ChildArgs`                                                 | assert `.theme-picker-icon` absent; read `value` / `open` / `labelFor`           |
-| 14  | Opening: `ArrowDown`/`Enter`/`Space` open; `ArrowUp` opens on the last option; focus moves to the list        | `fireEvent.keyDown(button, …)`                                                    |
-| 15  | Moving: Arrow keys clamp; `data-active` marks exactly one; `Home`/`End` jump                                  | `fireEvent.keyDown(list, …)` + `aria-activedescendant`                            |
-| 16  | Committing: `Enter`/`Space` select + close + refocus; `Escape` closes unchanged; `Tab` closes without refocus | `document.activeElement` + `dataset.theme`                                        |
-| 17  | Typeahead: prefix match, accumulation, 500 ms buffer reset                                                    | `fireEvent.keyDown(list, { key })`; `vi.useFakeTimers()`                          |
-| 18  | Pointer: option click applies; outside click closes unchanged; button click toggles closed                    | `fireEvent.click`                                                                 |
+| 14  | Opening: `ArrowDown`/`Enter`/`Space` open; `ArrowUp` opens on the last option; focus moves to the list        | `fireEvent.keyDown(button, …)`                                                   |
+| 15  | Moving: Arrow keys clamp; `data-active` marks exactly one; `Home`/`End` jump                                  | `fireEvent.keyDown(list, …)` + `aria-activedescendant`                           |
+| 16  | Committing: `Enter`/`Space` select + close + refocus; `Escape` closes unchanged; `Tab` closes without refocus | `document.activeElement` + `dataset.theme`                                       |
+| 17  | Typeahead: prefix match, accumulation, 500 ms buffer reset                                                    | `fireEvent.keyDown(list, { key })`; `vi.useFakeTimers()`                         |
+| 18  | Pointer: option click applies; outside click closes unchanged; button click toggles closed                    | `fireEvent.click`                                                                |
 
 Test names are tagged with their clause (`§7.14`, `§7.15`, …) so the
 map above stays checkable by grep.
@@ -106,9 +104,7 @@ open) and against the list element (to move and commit).
 test("§7.7 — managed <link> in head", async () => {
   render(<ThemePicker {...baseProps} />);
   await flush();
-  const link = document.head.querySelector<HTMLLinkElement>(
-    'link[data-lily-theme-picker="theme"]',
-  );
+  const link = document.head.querySelector<HTMLLinkElement>('link[data-lily-theme-picker="theme"]');
   expect(link?.href).toMatch(/\/t\/light\.css$/);
 });
 ```
@@ -121,7 +117,12 @@ test uses a custom `name`, update the selector.
 ```tsx
 test("§7.8 — choosing an option updates the DOM", async () => {
   const onChange = vi.fn();
-  render(<ThemePicker {...baseProps} onChange={onChange} />);
+  render(
+    <ThemePicker
+      {...baseProps}
+      onChange={onChange}
+    />,
+  );
   await flush();
 
   pick("dark", baseProps.themes);
@@ -130,9 +131,7 @@ test("§7.8 — choosing an option updates the DOM", async () => {
   expect(document.documentElement.dataset.theme).toBe("dark");
   expect(onChange).toHaveBeenCalledWith("dark");
   expect(
-    document.head.querySelector<HTMLLinkElement>(
-      'link[data-lily-theme-picker="theme"]',
-    )?.href,
+    document.head.querySelector<HTMLLinkElement>('link[data-lily-theme-picker="theme"]')?.href,
   ).toMatch(/\/t\/dark\.css$/);
 });
 ```
@@ -173,7 +172,10 @@ real timers in a `finally`.
 ```tsx
 test("§7.9 — storageKey persists", async () => {
   const { unmount } = render(
-    <ThemePicker {...baseProps} storageKey="lily-theme" />,
+    <ThemePicker
+      {...baseProps}
+      storageKey="lily-theme"
+    />,
   );
   await flush();
   pick("dark", baseProps.themes);
@@ -182,11 +184,14 @@ test("§7.9 — storageKey persists", async () => {
   unmount();
 
   document.documentElement.removeAttribute("data-theme");
-  document.head
-    .querySelectorAll("link[data-lily-theme-picker]")
-    .forEach((n) => n.remove());
+  document.head.querySelectorAll("link[data-lily-theme-picker]").forEach((n) => n.remove());
 
-  render(<ThemePicker {...baseProps} storageKey="lily-theme" />);
+  render(
+    <ThemePicker
+      {...baseProps}
+      storageKey="lily-theme"
+    />,
+  );
   await flush();
   expect(document.documentElement.dataset.theme).toBe("dark");
 });
@@ -214,11 +219,15 @@ test("§7.10 — value prop wins", async () => {
 
 ```tsx
 test("§7.11 — themesUrl without trailing slash", async () => {
-  render(<ThemePicker label="t" themesUrl="/themes" themes={["light"]} />);
-  await flush();
-  const link = document.head.querySelector<HTMLLinkElement>(
-    'link[data-lily-theme-picker="theme"]',
+  render(
+    <ThemePicker
+      label="t"
+      themesUrl="/themes"
+      themes={["light"]}
+    />,
   );
+  await flush();
+  const link = document.head.querySelector<HTMLLinkElement>('link[data-lily-theme-picker="theme"]');
   expect(link?.href).toMatch(/\/themes\/light\.css$/);
   // Crucially, no double slash:
   expect(link?.href).not.toMatch(/\/\/light/);
@@ -229,7 +238,13 @@ test("§7.11 — themesUrl without trailing slash", async () => {
 
 ```tsx
 test("§7.12 — extra attributes spread onto the root div", () => {
-  render(<ThemePicker {...baseProps} data-testid="custom" id="my-id" />);
+  render(
+    <ThemePicker
+      {...baseProps}
+      data-testid="custom"
+      id="my-id"
+    />,
+  );
   const el = screen.getByTestId("custom");
   expect(el.id).toBe("my-id");
   expect(el.tagName).toBe("DIV");
@@ -245,7 +260,10 @@ default `.theme-picker-icon` is gone and that the args arrived:
 ```tsx
 test("§7.13 — custom children replaces the glyph", async () => {
   render(
-    <ThemePicker {...baseProps} value="dark">
+    <ThemePicker
+      {...baseProps}
+      value="dark"
+    >
       {({ value, open, labelFor }) => (
         <span
           data-testid="custom"
@@ -290,7 +308,10 @@ test("StrictMode — no double-resolve", async () => {
   const onChange = vi.fn();
   render(
     <React.StrictMode>
-      <ThemePicker {...baseProps} onChange={onChange} />
+      <ThemePicker
+        {...baseProps}
+        onChange={onChange}
+      />
     </React.StrictMode>,
   );
   await flush();

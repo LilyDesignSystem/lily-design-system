@@ -28,11 +28,21 @@ This component is suitable for any form field requiring free-text entry. It supp
 ```
 
 ```tsx
-<TextInput label="Email" value={email} onChange={setEmail} required={true} />
+<TextInput
+  label="Email"
+  value={email}
+  onChange={setEmail}
+  required={true}
+/>
 ```
 
 ```tsx
-<TextInput label="Notes" value={notes} onChange={setNotes} disabled={true} />
+<TextInput
+  label="Notes"
+  value={notes}
+  onChange={setNotes}
+  disabled={true}
+/>
 ```
 
 ## Keyboard Interactions

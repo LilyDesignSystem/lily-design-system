@@ -14,18 +14,18 @@ the summary a reader, a reporter, or an evaluator wants first.
 
 _Updated 2026-10-21._
 
-| | |
-| --- | --- |
-| Version | 0.6.0 (pre-1.0; minor versions may break) |
-| Started | 2025-08-09 |
-| Catalog | 571 components |
-| Frameworks | 7 full-catalog — HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks — plus an 8th, Web Components, at its full achievable scope (536/571; the remaining 35 are permanently excluded, not backlog), and a 9th, Alpine.js, covering all 571 as HTML snippets plus one plugin (unpublished; no example app or helpers yet) |
-| Layers | 9 headless libraries, 8 example applications, 159 helper packages (one top-level subproject each since 2026-10-10) |
-| Themes | 57 reference stylesheets |
-| Published | 6 of 7 full-catalog headless libraries and the JS helper packages on npm (see [CHANGELOG.md](CHANGELOG.md) for exact per-package status); the 6 Blazor NuGet packages are packed, push pending credentials; Web Components headless and helpers are built but not yet subtree-pushed or published |
-| License | MIT, Apache-2.0, GPL-2.0-only, GPL-3.0-only, or BSD-3-Clause, at your option |
-| Maintainers | 1 |
-| Funding | [GitHub Sponsors](https://github.com/sponsors/joelparkerhenderson) live; Open Collective planned — see [CONTRIBUTING.md](CONTRIBUTING.md) for what money buys and does not |
+|             |                                                                                                                                                                                                                                                                                                                          |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Version     | 0.6.0 (pre-1.0; minor versions may break)                                                                                                                                                                                                                                                                                |
+| Started     | 2025-08-09                                                                                                                                                                                                                                                                                                               |
+| Catalog     | 571 components                                                                                                                                                                                                                                                                                                           |
+| Frameworks  | 7 full-catalog — HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks — plus an 8th, Web Components, at its full achievable scope (536/571; the remaining 35 are permanently excluded, not backlog), and a 9th, Alpine.js, covering all 571 as HTML snippets plus one plugin (unpublished; no example app or helpers yet) |
+| Layers      | 9 headless libraries, 8 example applications, 159 helper packages (one top-level subproject each since 2026-10-10)                                                                                                                                                                                                       |
+| Themes      | 57 reference stylesheets                                                                                                                                                                                                                                                                                                 |
+| Published   | 6 of 7 full-catalog headless libraries and the JS helper packages on npm (see [CHANGELOG.md](CHANGELOG.md) for exact per-package status); the 6 Blazor NuGet packages are packed, push pending credentials; Web Components headless and helpers are built but not yet subtree-pushed or published                        |
+| License     | MIT, Apache-2.0, GPL-2.0-only, GPL-3.0-only, or BSD-3-Clause, at your option                                                                                                                                                                                                                                             |
+| Maintainers | 1                                                                                                                                                                                                                                                                                                                        |
+| Funding     | [GitHub Sponsors](https://github.com/sponsors/joelparkerhenderson) live; Open Collective planned — see [CONTRIBUTING.md](CONTRIBUTING.md) for what money buys and does not                                                                                                                                               |
 
 ## Recent news
 

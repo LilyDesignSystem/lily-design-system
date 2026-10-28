@@ -29,19 +29,40 @@ Numbered pagination list with previous/next controls for search results:
 <PaginationNav label="Search results pages">
   <PaginationList>
     <PaginationListItem>
-      <PaginationLink href="/results?page=1" rel="prev">Previous</PaginationLink>
+      <PaginationLink
+        href="/results?page=1"
+        rel="prev"
+        >Previous</PaginationLink
+      >
     </PaginationListItem>
     <PaginationListItem>
-      <PaginationLink href="/results?page=1" label="Page 1">1</PaginationLink>
+      <PaginationLink
+        href="/results?page=1"
+        label="Page 1"
+        >1</PaginationLink
+      >
     </PaginationListItem>
     <PaginationListItem>
-      <PaginationLink href="/results?page=2" label="Page 2" aria-current="page">2</PaginationLink>
+      <PaginationLink
+        href="/results?page=2"
+        label="Page 2"
+        aria-current="page"
+        >2</PaginationLink
+      >
     </PaginationListItem>
     <PaginationListItem>
-      <PaginationLink href="/results?page=3" label="Page 3">3</PaginationLink>
+      <PaginationLink
+        href="/results?page=3"
+        label="Page 3"
+        >3</PaginationLink
+      >
     </PaginationListItem>
     <PaginationListItem>
-      <PaginationLink href="/results?page=3" rel="next">Next</PaginationLink>
+      <PaginationLink
+        href="/results?page=3"
+        rel="next"
+        >Next</PaginationLink
+      >
     </PaginationListItem>
   </PaginationList>
 </PaginationNav>
@@ -72,14 +93,11 @@ Numbered pagination list with previous/next controls for search results:
 
 This headless component provides a `<nav>` wrapping a `<ul>` with `aria-label` for landmark identification and proper list semantics for pagination items. The consumer provides all visual styling, including page link appearance, active-page highlighting, previous/next button styling, and responsive layout.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.pagination-list` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<ol>` element with class `pagination-list`
 - Verify <nav aria-label="...">` -- identifies the pagination as a navigation landmark with a descriptive label

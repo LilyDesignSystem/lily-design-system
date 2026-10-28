@@ -13,11 +13,11 @@ The component renders the native `<mark>` element, which means "highlighted for 
 
 ## Props
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `class` | string | `""` | Appended to the base class |
-| `children` | slot | — | The highlighted text |
-| `...restProps` | HTML attributes | — | Spread onto the root `<mark>` |
+| Prop           | Type            | Default | Description                   |
+| -------------- | --------------- | ------- | ----------------------------- |
+| `class`        | string          | `""`    | Appended to the base class    |
+| `children`     | slot            | —       | The highlighted text          |
+| `...restProps` | HTML attributes | —       | Spread onto the root `<mark>` |
 
 ## Usage
 

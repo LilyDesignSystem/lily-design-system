@@ -19,20 +19,20 @@ Import and invoke:
 
 ### `opts` keys
 
-| Key            | Type                    | Required | Default                  |
-| -------------- | ----------------------- | -------- | ------------------------ |
-| `label`        | `string`                | yes      | —                        |
-| `themesUrl`    | `string`                | yes      | —                        |
-| `themes`       | `string[]`              | yes      | —                        |
-| `value`        | `string`                | no       | `""`                     |
-| `defaultValue` | `string`                | no       | `""`                     |
-| `storageKey`   | `string`                | no       | `""`                     |
-| `name`         | `string`                | no       | `"theme"`                |
-| `extension`    | `string`                | no       | `".css"`                 |
-| `themeLabels`  | `Record<string,string>` | no       | `{}`                     |
+| Key            | Type                    | Required | Default                 |
+| -------------- | ----------------------- | -------- | ----------------------- |
+| `label`        | `string`                | yes      | —                       |
+| `themesUrl`    | `string`                | yes      | —                       |
+| `themes`       | `string[]`              | yes      | —                       |
+| `value`        | `string`                | no       | `""`                    |
+| `defaultValue` | `string`                | no       | `""`                    |
+| `storageKey`   | `string`                | no       | `""`                    |
+| `name`         | `string`                | no       | `"theme"`               |
+| `extension`    | `string`                | no       | `".css"`                |
+| `themeLabels`  | `Record<string,string>` | no       | `{}`                    |
 | `id`           | `string`                | no       | `"theme-picker-{name}"` |
-| `classes`      | `string`                | no       | `""`                     |
-| `attributes`   | `Record<string,string>` | no       | `{}`                     |
+| `classes`      | `string`                | no       | `""`                    |
+| `attributes`   | `Record<string,string>` | no       | `{}`                    |
 
 The macro emits a `<div>` root carrying the
 `data-lily-theme-picker-*` configuration attributes the client.js

@@ -7,11 +7,11 @@ stack, and what it deliberately leaves to you.
 
 A web app changes language across three independent axes:
 
-| Axis                       | What changes                                               | Owner                                  |
-| -------------------------- | ---------------------------------------------------------- | -------------------------------------- |
-| **Document language**      | The `lang` attribute on `<html>`. Screen readers, search engines, hyphenation, font selection. | `<lily-locale-picker>` (this helper).     |
-| **Writing direction**      | The `dir` attribute on `<html>`. Bidi text, scrollbar position, flexbox/grid mirror. | `<lily-locale-picker>` (auto-detected from the locale; opt out with `apply-dir="false"`). |
-| **Translated strings**     | The actual visible words on the page.                      | Your i18n library (FormatJS, i18next, raw `Intl.*`, Polyglot, etc.). |
+| Axis                   | What changes                                                                                   | Owner                                                                                     |
+| ---------------------- | ---------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| **Document language**  | The `lang` attribute on `<html>`. Screen readers, search engines, hyphenation, font selection. | `<lily-locale-picker>` (this helper).                                                     |
+| **Writing direction**  | The `dir` attribute on `<html>`. Bidi text, scrollbar position, flexbox/grid mirror.           | `<lily-locale-picker>` (auto-detected from the locale; opt out with `apply-dir="false"`). |
+| **Translated strings** | The actual visible words on the page.                                                          | Your i18n library (FormatJS, i18next, raw `Intl.*`, Polyglot, etc.).                      |
 
 The helper owns the first two and signals the third via a
 `localechange` `CustomEvent` and the `lang` attribute (which most

@@ -12,17 +12,59 @@ full closed control:
 
 ```html
 <div class="theme-picker">
-    <input type="hidden" name="theme" value="light" />
-    <button type="button" class="theme-picker-button" aria-label="Theme"
-            aria-haspopup="listbox" aria-expanded="false" aria-controls="theme-picker-1-list">
-        <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>
-    </button>
-    <ul class="theme-picker-list" id="theme-picker-1-list" role="listbox"
-        aria-label="Theme" tabindex="-1" hidden>
-        <li class="theme-picker-option" id="theme-picker-1-option-0"
-            role="option" aria-selected="true">Light</li>
-        …
-    </ul>
+  <input
+    type="hidden"
+    name="theme"
+    value="light"
+  />
+  <button
+    type="button"
+    class="theme-picker-button"
+    aria-label="Theme"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="theme-picker-1-list"
+  >
+    <svg
+      class="theme-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle
+        cx="8"
+        cy="8"
+        r="6"
+      />
+      <path
+        d="M8 2a6 6 0 0 1 0 12z"
+        fill="currentColor"
+        stroke="none"
+      />
+    </svg>
+  </button>
+  <ul
+    class="theme-picker-list"
+    id="theme-picker-1-list"
+    role="listbox"
+    aria-label="Theme"
+    tabindex="-1"
+    hidden
+  >
+    <li
+      class="theme-picker-option"
+      id="theme-picker-1-option-0"
+      role="option"
+      aria-selected="true"
+    >
+      Light
+    </li>
+    …
+  </ul>
 </div>
 ```
 
@@ -71,9 +113,9 @@ End-to-end code lives in
 ```ts
 // plugins/theme.ts
 export default defineNuxtPlugin(() => {
-    const event = useRequestEvent();
-    const initial = event?.context?.theme ?? "light";
-    return { provide: { initialTheme: initial } };
+  const event = useRequestEvent();
+  const initial = event?.context?.theme ?? "light";
+  return { provide: { initialTheme: initial } };
 });
 ```
 
@@ -89,19 +131,19 @@ const theme = ref<string>($initialTheme);
 useHead({ htmlAttrs: { "data-theme": theme } });
 
 function persistCookie(slug: string) {
-    document.cookie = `theme=${slug}; path=/; max-age=31536000; SameSite=Lax`;
+  document.cookie = `theme=${slug}; path=/; max-age=31536000; SameSite=Lax`;
 }
 </script>
 
 <template>
-    <ThemePicker
-        label="Theme"
-        themes-url="/assets/themes/"
-        :themes="['light', 'dark', 'abyss']"
-        v-model:value="theme"
-        @change="persistCookie"
-    />
-    <NuxtPage />
+  <ThemePicker
+    label="Theme"
+    themes-url="/assets/themes/"
+    :themes="['light', 'dark', 'abyss']"
+    v-model:value="theme"
+    @change="persistCookie"
+  />
+  <NuxtPage />
 </template>
 ```
 
@@ -139,15 +181,15 @@ import { renderToString } from "vue/server-renderer";
 import ThemePicker from "./ThemePicker.vue";
 
 export async function render(req) {
-    const cookieTheme = parseCookie(req.headers.cookie, "theme") ?? "light";
-    const app = createSSRApp(ThemePicker, {
-        label: "Theme",
-        themesUrl: "/assets/themes/",
-        themes: ["light", "dark", "abyss"],
-        value: cookieTheme,
-    });
-    const html = await renderToString(app);
-    return `<!doctype html>
+  const cookieTheme = parseCookie(req.headers.cookie, "theme") ?? "light";
+  const app = createSSRApp(ThemePicker, {
+    label: "Theme",
+    themesUrl: "/assets/themes/",
+    themes: ["light", "dark", "abyss"],
+    value: cookieTheme,
+  });
+  const html = await renderToString(app);
+  return `<!doctype html>
 <html lang="en" data-theme="${cookieTheme}">
     <head>
         <link rel="stylesheet" href="/assets/themes/${cookieTheme}.css" />

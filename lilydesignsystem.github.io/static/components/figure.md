@@ -24,40 +24,45 @@ This headless component renders a `<figure>` element with `role="img"` and an ac
 Figure with an SVG chart:
 
 ```html
-<Figure label="Monthly revenue for 2024">
+<figure label="Monthly revenue for 2024">
   <svg><!-- bar chart SVG here --></svg>
-</Figure>
+</figure>
 ```
 
 Figure with a canvas visualization:
 
 ```html
-<Figure label="User growth trend">
+<figure label="User growth trend">
   <canvas><!-- canvas chart here --></canvas>
-</Figure>
+</figure>
 ```
 
 Figure with an image and a visible caption:
 
 ```html
-<Figure label="System architecture diagram">
-  <Image src="architecture.png" alt="System architecture showing frontend, API, and database layers" />
-  <Caption>Figure 1: High-level system architecture for the patient portal.</Caption>
-</Figure>
+<figure label="System architecture diagram">
+  <image
+    src="architecture.png"
+    alt="System architecture showing frontend, API, and database layers"
+  />
+  <caption>
+    Figure 1: High-level system architecture for the patient portal.
+  </caption>
+</figure>
 ```
 
 Figure with a code example:
 
 ```html
-<Figure label="Example HTML form structure">
+<figure label="Example HTML form structure">
   <CodeBlock language="html">
-    &lt;form&gt;
-      &lt;label for="name"&gt;Name&lt;/label&gt;
-      &lt;input type="text" id="name" /&gt;
+    &lt;form&gt; &lt;label for="name"&gt;Name&lt;/label&gt; &lt;input type="text" id="name" /&gt;
     &lt;/form&gt;
   </CodeBlock>
-  <Caption>Figure 2: Basic form with a labelled text input.</Caption>
-</Figure>
+  <caption>
+    Figure 2: Basic form with a labelled text input.
+  </caption>
+</figure>
 ```
 
 ## Keyboard Interactions
@@ -86,14 +91,11 @@ None -- this component is a passive container for data visualization.
 
 This headless component provides a `<figure>` element with `role="img"` and `aria-label` for accessible identification of graphical content. It serves as a semantic container. The consumer provides all visualization content (SVG, canvas, charting libraries) and all visual styling.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.figure` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<figure>` element with class `figure`
 - Verify role="img"` -- identifies the figure as a graphical image to assistive technologies

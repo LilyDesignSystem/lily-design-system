@@ -19,92 +19,92 @@ It does **not** cover: how the NHS palette and tokens are actually wired (see [t
 
 ## Headless / unstyled component libraries
 
-| Reference                | What Lily learns                                     |
-| ------------------------ | --------------------------------------------------- |
-| Ark UI                   | Multi-framework headless components (Chakra team)   |
-| Bits UI                  | Svelte headless component library                   |
-| Melt UI                  | Svelte headless builders                            |
-| Radix UI                 | React headless primitives                           |
-| shadcn/ui                | Copy-paste React components on top of Radix         |
-| Origin UI                | Copy-paste Tailwind components (React)              |
-| Origin UI Angular        | Angular + Tailwind port on RadixNG + Angular CDK   |
-| Coss UI                  | Modern components built on Base UI (Origin UI successor) |
-| Reuters Graphics         | Svelte components for editorial graphics            |
+| Reference         | What Lily learns                                         |
+| ----------------- | -------------------------------------------------------- |
+| Ark UI            | Multi-framework headless components (Chakra team)        |
+| Bits UI           | Svelte headless component library                        |
+| Melt UI           | Svelte headless builders                                 |
+| Radix UI          | React headless primitives                                |
+| shadcn/ui         | Copy-paste React components on top of Radix              |
+| Origin UI         | Copy-paste Tailwind components (React)                   |
+| Origin UI Angular | Angular + Tailwind port on RadixNG + Angular CDK         |
+| Coss UI           | Modern components built on Base UI (Origin UI successor) |
+| Reuters Graphics  | Svelte components for editorial graphics                 |
 
 ## Styled / opinionated design systems
 
-| Reference            | Origin                          |
-| -------------------- | ------------------------------- |
-| Adobe Spectrum       | Adobe's design system           |
-| Ant Design           | React component framework       |
-| Carbon Design System | IBM                             |
-| DaisyUI              | Tailwind component library      |
-| Flowbite             | Tailwind UI components          |
-| Mozilla Protocol     | Mozilla                         |
-| Skeleton             | Svelte + Tailwind UI toolkit    |
-| Wonderflow Wanda     | Wonderflow                      |
-| Design System AU     | Australian Government           |
+| Reference            | Origin                       |
+| -------------------- | ---------------------------- |
+| Adobe Spectrum       | Adobe's design system        |
+| Ant Design           | React component framework    |
+| Carbon Design System | IBM                          |
+| DaisyUI              | Tailwind component library   |
+| Flowbite             | Tailwind UI components       |
+| Mozilla Protocol     | Mozilla                      |
+| Skeleton             | Svelte + Tailwind UI toolkit |
+| Wonderflow Wanda     | Wonderflow                   |
+| Design System AU     | Australian Government        |
 
 ## Public-sector reference designs
 
 These are the visual languages the example apps target. NHS UK is the current default.
 
-| Reference                  | Role                                         |
-| -------------------------- | -------------------------------------------- |
-| NHS UK Design System       | Current default reference visual language    |
-| GOV.UK Design System       | UK government services                        |
-| ONSdigital Design System   | UK Office for National Statistics            |
-| U.S. Web Design System     | USWDS, maintained by 18F / GSA               |
-| 18F UI Library             | Historically led USWDS development           |
+| Reference                | Role                                      |
+| ------------------------ | ----------------------------------------- |
+| NHS UK Design System     | Current default reference visual language |
+| GOV.UK Design System     | UK government services                    |
+| ONSdigital Design System | UK Office for National Statistics         |
+| U.S. Web Design System   | USWDS, maintained by 18F / GSA            |
+| 18F UI Library           | Historically led USWDS development        |
 
 ## NHS UK canonical pages
 
 The default visual reference draws on these specific NHS UK pages:
 
-| Topic              | Page                                                            |
-| ------------------ | -------------------------------------------------------------- |
-| Design system      | service-manual.nhs.uk/design-system                           |
-| Focus state        | …/design-system/styles/focus-state                            |
-| Icons              | …/design-system/styles/icons                                  |
-| Layout             | …/design-system/styles/layout                                 |
-| Page template      | …/design-system/styles/page-template                          |
-| Spacing            | …/design-system/styles/spacing                                |
-| Typography         | …/design-system/styles/typography                             |
-| Frutiger font      | …/design-system/styles/use-frutiger-font                      |
-| Accessibility      | service-manual.nhs.uk/accessibility/design                    |
-| Identity colours   | england.nhs.uk/nhsidentity/identity-guidelines/colours/       |
+| Topic            | Page                                                    |
+| ---------------- | ------------------------------------------------------- |
+| Design system    | service-manual.nhs.uk/design-system                     |
+| Focus state      | …/design-system/styles/focus-state                      |
+| Icons            | …/design-system/styles/icons                            |
+| Layout           | …/design-system/styles/layout                           |
+| Page template    | …/design-system/styles/page-template                    |
+| Spacing          | …/design-system/styles/spacing                          |
+| Typography       | …/design-system/styles/typography                       |
+| Frutiger font    | …/design-system/styles/use-frutiger-font                |
+| Accessibility    | service-manual.nhs.uk/accessibility/design              |
+| Identity colours | england.nhs.uk/nhsidentity/identity-guidelines/colours/ |
 
 ## Reuters Graphics influence
 
 The Reuters Graphics components library inspired Lily's editorial, scrollytelling, and layout primitives. Source component → Lily slug:
 
-| Reuters source                   | Lily slug(s)                                        |
-| -------------------------------- | --------------------------------------------------- |
-| Article                          | `article-layout`                                    |
-| Block                            | `content-block`                                     |
-| PaddingReset                     | `padding-reset`                                     |
-| Headline / HeroHeadline          | `headline` / `hero-headline`                        |
-| BodyText / Byline / EndNotes     | `body-text` / `byline` / `end-notes`                |
-| InfoBox                          | `information-callout`                               |
-| Scroller / ScrollerBase / ScrollerVideo | `scroller` / `scroller-base` / `scroller-video` |
-| HorizontalScroller / GraphicBlock | `horizontal-scroller` / `graphic-block`            |
-| FeaturePhoto / PhotoPack / Video | `feature-photo` / `photo-pack` / `video-player`     |
-| Visible / Framer / TileMap       | `visible` / `framer` / `tile-map`                   |
-| Theme                            | `theme-provider`                                    |
-| SimpleTimeline                   | `timeline-list`, `timeline-list-item`               |
+| Reuters source                              | Lily slug(s)                                                                               |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| Article                                     | `article-layout`                                                                           |
+| Block                                       | `content-block`                                                                            |
+| PaddingReset                                | `padding-reset`                                                                            |
+| Headline / HeroHeadline                     | `headline` / `hero-headline`                                                               |
+| BodyText / Byline / EndNotes                | `body-text` / `byline` / `end-notes`                                                       |
+| InfoBox                                     | `information-callout`                                                                      |
+| Scroller / ScrollerBase / ScrollerVideo     | `scroller` / `scroller-base` / `scroller-video`                                            |
+| HorizontalScroller / GraphicBlock           | `horizontal-scroller` / `graphic-block`                                                    |
+| FeaturePhoto / PhotoPack / Video            | `feature-photo` / `photo-pack` / `video-player`                                            |
+| Visible / Framer / TileMap                  | `visible` / `framer` / `tile-map`                                                          |
+| Theme                                       | `theme-provider`                                                                           |
+| SimpleTimeline                              | `timeline-list`, `timeline-list-item`                                                      |
 | Table / SearchInput / Spinner / BeforeAfter | covered by `data-table`+sub-elements, `search-input`, `loading`/`progress-spinner`, `diff` |
 
 ### Key adaptations
 
-| Reuters pattern                 | Lily adaptation                                                            |
-| ------------------------------- | -------------------------------------------------------------------------- |
+| Reuters pattern                 | Lily adaptation                                                                                                         |
+| ------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
 | `Block` with named widths       | CSS custom properties (`--content-width-*`) set by `article-layout`, read by `content-block`; consumer owns the values. |
-| SCSS mixins for typography      | Consumer provides typography via CSS targeting the kebab-case classes.     |
-| `Markdown` component            | Props accept plain text or `children` slots; rendering is the consumer's.  |
-| String-or-Snippet duality       | Props accept content via slots/children; consumer decides rendering.       |
-| `IntersectionObserver` baked in | Documented behaviour; the headless implementation wires the observer.      |
-| `display: contents` on Theme    | Recommended pattern for `theme-provider`; the only allowed inline style.   |
-| Svelte 5 `$bindable()`          | Documented as two-way binding props where applicable.                      |
+| SCSS mixins for typography      | Consumer provides typography via CSS targeting the kebab-case classes.                                                  |
+| `Markdown` component            | Props accept plain text or `children` slots; rendering is the consumer's.                                               |
+| String-or-Snippet duality       | Props accept content via slots/children; consumer decides rendering.                                                    |
+| `IntersectionObserver` baked in | Documented behaviour; the headless implementation wires the observer.                                                   |
+| `display: contents` on Theme    | Recommended pattern for `theme-provider`; the only allowed inline style.                                                |
+| Svelte 5 `$bindable()`          | Documented as two-way binding props where applicable.                                                                   |
 
 ### Excluded from Lily
 

@@ -21,14 +21,14 @@ see spec §1. Ported from the canonical
 
 ## Files
 
-| File                | Purpose                                       |
-| -------------------- | ---------------------------------------------- |
-| `spec/index.md`      | Specification-driven contract (canonical).     |
-| `PickerBar.vue`      | Implementation. `<script setup lang="ts">`.    |
-| `PickerBar.test.ts`  | Vitest + `@vue/test-utils` spec, one test per §7 acceptance. |
-| `shims.d.ts`         | Local-only ambient module declarations for the five sibling packages — works around a real vue-tsc limitation (spec §9). Not published (`package.json` `files` ships only `dist/`, `index.md`, `README.md`). |
-| `index.ts`           | Barrel re-export.                              |
-| `index.md`           | Comprehensive user guide.                      |
+| File                | Purpose                                                                                                                                                                                                      |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `spec/index.md`     | Specification-driven contract (canonical).                                                                                                                                                                   |
+| `PickerBar.vue`     | Implementation. `<script setup lang="ts">`.                                                                                                                                                                  |
+| `PickerBar.test.ts` | Vitest + `@vue/test-utils` spec, one test per §7 acceptance.                                                                                                                                                 |
+| `shims.d.ts`        | Local-only ambient module declarations for the five sibling packages — works around a real vue-tsc limitation (spec §9). Not published (`package.json` `files` ships only `dist/`, `index.md`, `README.md`). |
+| `index.ts`          | Barrel re-export.                                                                                                                                                                                            |
+| `index.md`          | Comprehensive user guide.                                                                                                                                                                                    |
 
 ## Public surface
 

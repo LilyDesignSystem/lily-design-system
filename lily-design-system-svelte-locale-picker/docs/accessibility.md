@@ -18,32 +18,32 @@ in mind throughout.
 
 ## Built in
 
-| WCAG item | How the select satisfies it |
-| --------- | --------------------------- |
-| 3.1.1 Language of Page | Writes `lang` to the document root (or `target`) on every locale change. |
-| 3.1.2 Language of Parts | Each `<li role="option">` carries its own `lang`, so option text is announced in the right language. |
-| 1.4.10 Reflow (RTL bidi) | Writes `dir="rtl"` for RTL locales so layout, scrollbar, and text inversion are correct. |
-| 4.1.2 Name, Role, Value | `aria-label` names the button and the listbox; `aria-haspopup` / `aria-expanded` expose the popup relationship; `aria-selected` exposes the current choice. |
-| 2.1.1 Keyboard | Full keyboard operation — but implemented by this component, not inherited from the platform. See [Keyboard contract](#keyboard-contract). |
-| 2.4.7 Focus Visible | The component never sets `outline: none`. Styling the ring — and the active-option indicator — is yours. |
-| 1.4.1 Use of Color | The selection is exposed via `aria-selected`, the root `lang`, the hidden input, and the `value` binding — never colour alone. |
-| 3.2.2 On Input | Choosing a locale does not move focus elsewhere or navigate; focus returns to the trigger button. |
+| WCAG item                | How the select satisfies it                                                                                                                                 |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 3.1.1 Language of Page   | Writes `lang` to the document root (or `target`) on every locale change.                                                                                    |
+| 3.1.2 Language of Parts  | Each `<li role="option">` carries its own `lang`, so option text is announced in the right language.                                                        |
+| 1.4.10 Reflow (RTL bidi) | Writes `dir="rtl"` for RTL locales so layout, scrollbar, and text inversion are correct.                                                                    |
+| 4.1.2 Name, Role, Value  | `aria-label` names the button and the listbox; `aria-haspopup` / `aria-expanded` expose the popup relationship; `aria-selected` exposes the current choice. |
+| 2.1.1 Keyboard           | Full keyboard operation — but implemented by this component, not inherited from the platform. See [Keyboard contract](#keyboard-contract).                  |
+| 2.4.7 Focus Visible      | The component never sets `outline: none`. Styling the ring — and the active-option indicator — is yours.                                                    |
+| 1.4.1 Use of Color       | The selection is exposed via `aria-selected`, the root `lang`, the hidden input, and the `value` binding — never colour alone.                              |
+| 3.2.2 On Input           | Choosing a locale does not move focus elsewhere or navigate; focus returns to the trigger button.                                                           |
 
 ## Roles and properties
 
-| Element          | Role / property                                 | Source        |
-| ---------------- | ----------------------------------------------- | ------------- |
-| `<button>`       | implicit `role="button"`                        | Browser       |
-| `<button>`       | `aria-label={label}`                            | Consumer prop |
-| `<button>`       | `aria-haspopup="listbox"`                       | Component     |
-| `<button>`       | `aria-expanded="true\|false"`                   | Component     |
-| `<button>`       | `aria-controls="{listId}"`                      | Component     |
-| `<span>` (glyph) | `aria-hidden="true"`                            | Component     |
-| `<ul>`           | `role="listbox"`                                | Component     |
-| `<ul>`           | `aria-label={label}`                            | Consumer prop |
-| `<ul>`           | `aria-activedescendant="{optionId}"` while open  | Component     |
-| `<li>`           | `role="option"`                                 | Component     |
-| `<li>`           | `aria-selected="true\|false"`                   | Component     |
+| Element          | Role / property                                             | Source        |
+| ---------------- | ----------------------------------------------------------- | ------------- |
+| `<button>`       | implicit `role="button"`                                    | Browser       |
+| `<button>`       | `aria-label={label}`                                        | Consumer prop |
+| `<button>`       | `aria-haspopup="listbox"`                                   | Component     |
+| `<button>`       | `aria-expanded="true\|false"`                               | Component     |
+| `<button>`       | `aria-controls="{listId}"`                                  | Component     |
+| `<span>` (glyph) | `aria-hidden="true"`                                        | Component     |
+| `<ul>`           | `role="listbox"`                                            | Component     |
+| `<ul>`           | `aria-label={label}`                                        | Consumer prop |
+| `<ul>`           | `aria-activedescendant="{optionId}"` while open             | Component     |
+| `<li>`           | `role="option"`                                             | Component     |
+| `<li>`           | `aria-selected="true\|false"`                               | Component     |
 | `<li>`           | `lang="{tag}"` — only when the label is the derived endonym | Component     |
 
 Focus sits on the `<ul>` while the listbox is open; the active option is
@@ -96,25 +96,25 @@ On the **button**:
 
 | Key                 | Action                                                    |
 | ------------------- | --------------------------------------------------------- |
-| `Tab` / `Shift+Tab` | Move focus to / from the button. It is a single tab stop.  |
-| `Enter`             | Open the listbox with the selected option active.          |
-| `Space`             | Same as `Enter`.                                           |
-| `Arrow Down`        | Same as `Enter`.                                           |
-| `Arrow Up`          | Open the listbox with the **last** option active.          |
+| `Tab` / `Shift+Tab` | Move focus to / from the button. It is a single tab stop. |
+| `Enter`             | Open the listbox with the selected option active.         |
+| `Space`             | Same as `Enter`.                                          |
+| `Arrow Down`        | Same as `Enter`.                                          |
+| `Arrow Up`          | Open the listbox with the **last** option active.         |
 
 On the **listbox**:
 
-| Key                 | Action                                                          |
-| ------------------- | ---------------------------------------------------------------- |
-| `Arrow Down`        | Move the active option down one; **clamps** at the last.         |
-| `Arrow Up`          | Move the active option up one; clamps at the first.              |
-| `Home`              | Make the first option active.                                    |
-| `End`               | Make the last option active.                                     |
-| `Enter`             | Select the active option, apply it, close, refocus the button.   |
-| `Space`             | Same as `Enter`.                                                 |
-| `Escape`            | Close and refocus the button **without** changing the locale.    |
+| Key                 | Action                                                                                                                                                            |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Arrow Down`        | Move the active option down one; **clamps** at the last.                                                                                                          |
+| `Arrow Up`          | Move the active option up one; clamps at the first.                                                                                                               |
+| `Home`              | Make the first option active.                                                                                                                                     |
+| `End`               | Make the last option active.                                                                                                                                      |
+| `Enter`             | Select the active option, apply it, close, refocus the button.                                                                                                    |
+| `Space`             | Same as `Enter`.                                                                                                                                                  |
+| `Escape`            | Close and refocus the button **without** changing the locale.                                                                                                     |
 | `Tab`               | Close — focus lands on the button first (without cancelling the key), so the default Tab proceeds from the picker's position instead of restarting from `<body>`. |
-| Printable character | Typeahead over the option labels, 500 ms buffer, wraps once.     |
+| Printable character | Typeahead over the option labels, 500 ms buffer, wraps once.                                                                                                      |
 
 Clicking an option selects it. Clicking outside the root, or moving
 focus out of it, closes the listbox without changing the locale.
@@ -169,22 +169,32 @@ What to do:
 - **Always pass a real `label`.** It is a required prop for this
   reason.
 - **Consider a language-neutral or multilingual label.** `"Language /
-  اللغة / Langue"` is clumsy but honest for a genuinely multilingual
-  audience. Some services use the endonym of the *current* locale plus
+اللغة / Langue"` is clumsy but honest for a genuinely multilingual
+  audience. Some services use the endonym of the _current_ locale plus
   the word in English.
 - **Prefer a visible text label next to the button** when the design
   allows. Point the button at it with `aria-labelledby` through
   rest-props rather than leaving a visible label and an `aria-label` to
   disagree.
-- **Consider the `children` snippet** to render the glyph *plus* the
+- **Consider the `children` snippet** to render the glyph _plus_ the
   active locale's endonym. This is the strongest mitigation available
   here: an endonym is readable by exactly the user who needs it.
 
   ```svelte
-  <LocalePicker label="Language" {locales} bind:value={locale}>
+  <LocalePicker
+    label="Language"
+    {locales}
+    bind:value={locale}
+  >
     {#snippet children({ value, labelFor })}
-      <svg viewBox="0 0 16 16" aria-hidden="true">…</svg>
-      <span class="locale-picker-text" lang={bcp47LocaleTag(value)}>
+      <svg
+        viewBox="0 0 16 16"
+        aria-hidden="true">…</svg
+      >
+      <span
+        class="locale-picker-text"
+        lang={bcp47LocaleTag(value)}
+      >
         {labelFor(value)}
       </span>
     {/snippet}
@@ -253,7 +263,7 @@ by the headless rule.
 Its rendering is therefore entirely at the mercy of the fonts on the
 user's device:
 
-- **The variation selector may be ignored.** VS15 *requests* text
+- **The variation selector may be ignored.** VS15 _requests_ text
   presentation; it does not guarantee it. A platform whose only
   covering font is a colour-emoji font will render a blue globe
   regardless, which is precisely the mismatch with `theme-picker`'s
@@ -276,7 +286,7 @@ user's device:
 
 Because the glyph is `aria-hidden`, none of this affects screen-reader
 users — it affects sighted users, who may face an unlabelled or empty
-button. That interacts badly with tradeoff 1: if the glyph fails *and*
+button. That interacts badly with tradeoff 1: if the glyph fails _and_
 there is no visible text label, the control is a mystery box for
 exactly the user who cannot read the page and cannot hear the
 `aria-label` in a language they know.
@@ -304,7 +314,7 @@ which locale is current. **The status region is no longer compensating
 for missing semantics.**
 
 It is still worth shipping, for a different and narrower reason: the
-*closed* control shows only a glyph. A user who has not opened the
+_closed_ control shows only a glyph. A user who has not opened the
 listbox — sighted or not — has no statement of the current locale
 anywhere on the page except the document's own `lang` attribute, which
 is not surfaced visually. The region supplies one without requiring
@@ -316,19 +326,23 @@ locale is self-evident only if you can read the page.
 
 ```svelte
 <script lang="ts">
-    import LocalePicker, {
-        bcp47LocaleTag,
-        localeName,
-    } from "../LocalePicker.svelte";
+  import LocalePicker, { bcp47LocaleTag, localeName } from "../LocalePicker.svelte";
 
-    let locale = $state("en");
+  let locale = $state("en");
 </script>
 
-<LocalePicker label="Language" locales={["en", "fr", "ar"]} bind:value={locale} />
+<LocalePicker
+  label="Language"
+  locales={["en", "fr", "ar"]}
+  bind:value={locale}
+/>
 
-<p class="locale-picker-status" aria-live="polite">
-    Active language:
-    <span lang={bcp47LocaleTag(locale)}>{localeName(locale)}</span>
+<p
+  class="locale-picker-status"
+  aria-live="polite"
+>
+  Active language:
+  <span lang={bcp47LocaleTag(locale)}>{localeName(locale)}</span>
 </p>
 ```
 
@@ -337,7 +351,7 @@ Why it is shaped this way:
 - **`aria-live="polite"` announces mutations only.** It is silent on
   first paint and speaks once on each subsequent change — no
   announcement on page load, one clear announcement per user action.
-- **Visible by default, not `sr-only`.** This is now the *main* reason
+- **Visible by default, not `sr-only`.** This is now the _main_ reason
   to ship it: it is the only on-screen statement of the active locale
   while the control is closed. Hiding it visually keeps the
   announcement but throws away the benefit for sighted users. If a
@@ -358,6 +372,7 @@ Why it is shaped this way:
   span: wrap an endonym in `lang`, and drop the `lang` if you show
   `localeName`'s English name, or the reader is told to pronounce an
   English word with a French voice.
+
 - **Use `localeName`, not the raw code.** The package exports it; it
   turns `fr_CA` into a human name rather than showing the
   consumer-form code.
@@ -370,9 +385,9 @@ glyph, the listbox, and both option states.
 
 ```css
 .locale-picker-button {
-    /* WCAG AAA-grade contrast against white */
-    color: #003087; /* NHS blue */
-    border: 1px solid #003087;
+  /* WCAG AAA-grade contrast against white */
+  color: #003087; /* NHS blue */
+  border: 1px solid #003087;
 }
 ```
 
@@ -387,7 +402,7 @@ in source order, which is the same source order as LTR. Tab still
 reaches the button in source order, and the listbox mirrors visually.
 That is the browser's job, not yours.
 
-What *is* your job: position the listbox with logical properties
+What _is_ your job: position the listbox with logical properties
 (`inset-inline-start` rather than `left`) so the popup anchors to the
 correct edge when the select flips a page to RTL — which is, after all,
 the whole point of this control. See
@@ -398,12 +413,12 @@ the whole point of this control. See
 Expected announcements, with the caveat from tradeoff 2 that coverage
 varies:
 
-| Reader    | OS       | Browser | On landing on the control |
-| --------- | -------- | ------- | ------------------------- |
-| VoiceOver | macOS    | Safari  | "{label}, pop-up button, collapsed". Opening announces the listbox and the active option. |
-| NVDA      | Windows  | Firefox | "{label} button, collapsed". Arrowing announces each option, with `lang`-correct pronunciation where a voice is installed. |
-| JAWS      | Windows  | Chrome  | "{label} button, collapsed". |
-| TalkBack  | Android  | Chrome  | Weakest case. Test on device. |
+| Reader    | OS      | Browser | On landing on the control                                                                                                  |
+| --------- | ------- | ------- | -------------------------------------------------------------------------------------------------------------------------- |
+| VoiceOver | macOS   | Safari  | "{label}, pop-up button, collapsed". Opening announces the listbox and the active option.                                  |
+| NVDA      | Windows | Firefox | "{label} button, collapsed". Arrowing announces each option, with `lang`-correct pronunciation where a voice is installed. |
+| JAWS      | Windows | Chrome  | "{label} button, collapsed".                                                                                               |
+| TalkBack  | Android | Chrome  | Weakest case. Test on device.                                                                                              |
 
 "`lang`-correct pronunciation" depends on the reader having a matching
 voice package installed. NVDA's default ships with English only; users

@@ -10,17 +10,21 @@ One section link in the navigation.
 
 ## Props
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `href` | string (required) | — | Link target |
-| `current` | boolean | false | Whether this link represents the current page |
-| `children` | slot (required) | — | Link text |
-| `...restProps` | HTML attributes | — | Spread onto the root `<a>` |
+| Prop           | Type              | Default | Description                                   |
+| -------------- | ----------------- | ------- | --------------------------------------------- |
+| `href`         | string (required) | —       | Link target                                   |
+| `current`      | boolean           | false   | Whether this link represents the current page |
+| `children`     | slot (required)   | —       | Link text                                     |
+| `...restProps` | HTML attributes   | —       | Spread onto the root `<a>`                    |
 
 ## Usage
 
 ```html
-<SectionLink href="/section-a" current>Section A</SectionLink>
+<SectionLink
+  href="/section-a"
+  current
+  >Section A</SectionLink
+>
 ```
 
 ## Keyboard Interactions

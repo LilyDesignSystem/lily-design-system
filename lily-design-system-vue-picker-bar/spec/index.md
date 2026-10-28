@@ -54,20 +54,20 @@ sibling picker in this catalog already relies on, no manual
 
 ## 4. Props
 
-| Prop            | Type                                | Required | Default              |
-| --------------- | ------------------------------------ | -------- | --------------------- |
-| `labels`         | `{ search, searchInput, searchSubmit, theme, locale, textSize, share }` | yes | — |
-| `searchProps`    | `Partial<SearchPicker Props>`        | no       | `{}`                   |
-| `themesUrl`      | `string`                             | yes      | —                      |
-| `themes`         | `string[]`                           | no       | `DEFAULT_THEMES` (§5.1) |
-| `themeProps`     | `Partial<ThemePicker Props>`         | no       | `{}`                   |
-| `locales`        | `string[]`                           | yes      | —                      |
-| `localeProps`    | `Partial<LocalePicker Props>`        | no       | `{}`                   |
-| `sizes`          | `string[]`                           | no       | `DEFAULT_SIZES` (§5.2)  |
-| `textSizeProps`  | `Partial<TextSizePicker Props>`      | no       | `{}`                   |
-| `shareTargets`   | `ShareTarget[]`                      | no       | `[]`                   |
-| `shareProps`     | `Partial<SharePicker Props>`         | no       | `{}`                   |
-| `class`          | `string`                             | no       | `""`                   |
+| Prop            | Type                                                                    | Required | Default                 |
+| --------------- | ----------------------------------------------------------------------- | -------- | ----------------------- |
+| `labels`        | `{ search, searchInput, searchSubmit, theme, locale, textSize, share }` | yes      | —                       |
+| `searchProps`   | `Partial<SearchPicker Props>`                                           | no       | `{}`                    |
+| `themesUrl`     | `string`                                                                | yes      | —                       |
+| `themes`        | `string[]`                                                              | no       | `DEFAULT_THEMES` (§5.1) |
+| `themeProps`    | `Partial<ThemePicker Props>`                                            | no       | `{}`                    |
+| `locales`       | `string[]`                                                              | yes      | —                       |
+| `localeProps`   | `Partial<LocalePicker Props>`                                           | no       | `{}`                    |
+| `sizes`         | `string[]`                                                              | no       | `DEFAULT_SIZES` (§5.2)  |
+| `textSizeProps` | `Partial<TextSizePicker Props>`                                         | no       | `{}`                    |
+| `shareTargets`  | `ShareTarget[]`                                                         | no       | `[]`                    |
+| `shareProps`    | `Partial<SharePicker Props>`                                            | no       | `{}`                    |
+| `class`         | `string`                                                                | no       | `""`                    |
 
 `labels` carries the seven accessible names as one object, following
 `date-time-picker`'s precedent (AGENTS/helpers.md): structural labels
@@ -95,15 +95,15 @@ re-emits each wrapped picker's own event under a bar-scoped, fully
 typed name instead of accepting an untyped `onChange` key inside a
 props bag:
 
-| PickerBar event    | Forwarded from              |
-| ------------------- | ---------------------------- |
-| `search`             | `SearchPicker`'s `search`    |
-| `theme-change`       | `ThemePicker`'s `change`     |
-| `locale-change`      | `LocalePicker`'s `change`    |
-| `text-size-change`   | `TextSizePicker`'s `change`  |
-| `share`              | `SharePicker`'s `share`      |
-| `copy`               | `SharePicker`'s `copy`       |
-| `native-share`       | `SharePicker`'s `nativeShare`|
+| PickerBar event    | Forwarded from                |
+| ------------------ | ----------------------------- |
+| `search`           | `SearchPicker`'s `search`     |
+| `theme-change`     | `ThemePicker`'s `change`      |
+| `locale-change`    | `LocalePicker`'s `change`     |
+| `text-size-change` | `TextSizePicker`'s `change`   |
+| `share`            | `SharePicker`'s `share`       |
+| `copy`             | `SharePicker`'s `copy`        |
+| `native-share`     | `SharePicker`'s `nativeShare` |
 
 ## 5. Defaults
 
@@ -193,7 +193,6 @@ app supplies them:
 - §L3 `linkProps` reaches the nested `LinkPicker` (`navigate`), and the bar re-emits the picker's event as `link-navigate`.
 - §L4 The links are real `<a href>` elements (not a menu).
 
-
 ## 8. Relationship to the six `*-picker` helpers
 
 `PickerBar` wraps five of the `*-picker` helpers in AGENTS/helpers.md
@@ -226,9 +225,9 @@ declarations. Fixed with a local, unpublished `shims.d.ts` (loose,
 `any`-typed ambient module declarations for the five specifiers,
 included only for this package's own build via a generic addition to
 `build.mjs`'s throwaway tsconfig) that sidesteps the conflicting
-generated shims entirely. This only weakens *this package's own local
-build-time* type-checking of the five nested components — the
-*published* `dist/PickerBar.vue.d.ts` still imports the real `Props`
+generated shims entirely. This only weakens _this package's own local
+build-time_ type-checking of the five nested components — the
+_published_ `dist/PickerBar.vue.d.ts` still imports the real `Props`
 types from each sibling's bare specifier, so a real consumer installing
 `@lilydesignsystem/vue-picker-bar` gets full type safety from their
 own installed copies of the five dependencies.

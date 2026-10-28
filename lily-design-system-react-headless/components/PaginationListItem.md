@@ -18,7 +18,9 @@ Consumers are responsible for adding `aria-current="page"` on the active page li
 ## Usage
 
 ```tsx
-<PaginationListItem><a href="/page/1">1</a></PaginationListItem>
+<PaginationListItem>
+  <a href="/page/1">1</a>
+</PaginationListItem>
 ```
 
 ## Keyboard Interactions

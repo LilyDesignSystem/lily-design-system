@@ -22,10 +22,7 @@ export {
 It additionally performs the side-effectful registration:
 
 ```ts
-if (
-  typeof customElements !== "undefined" &&
-  !customElements.get("theme-picker")
-) {
+if (typeof customElements !== "undefined" && !customElements.get("theme-picker")) {
   customElements.define("theme-picker", ThemePicker);
 }
 ```
@@ -90,15 +87,15 @@ object property writes back the JSON-encoded attribute.
 
 ## Listbox state and methods
 
-| Member                     | Type      | Notes                                                                                                                                                 |
-| -------------------------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `el.open`                  | `boolean` | Read-only. Whether the listbox is open.                                                                                                               |
-| `el.listId`                | `string`  | Read-only. id of the rendered `<ul role="listbox">`.                                                                                                  |
-| `el.optionId(index)`       | `string`  | id of the rendered option at `index`.                                                                                                                 |
+| Member                     | Type      | Notes                                                                                                                                                                                         |
+| -------------------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `el.open`                  | `boolean` | Read-only. Whether the listbox is open.                                                                                                                                                       |
+| `el.listId`                | `string`  | Read-only. id of the rendered `<ul role="listbox">`.                                                                                                                                          |
+| `el.optionId(index)`       | `string`  | id of the rendered option at `index`.                                                                                                                                                         |
 | `el.openList(startIndex?)` | `void`    | Open the list; `startIndex` overrides the active option (default: the selected one, else 0; `-1` with an empty `themes`, so `aria-activedescendant` stays absent). Moves focus to the `<ul>`. |
-| `el.closeList(refocus?)`   | `void`    | Close the list. Returns focus to the button unless `refocus` is `false`.                                                                              |
-| `el.labelFor(slug)`        | `string`  | Display label for a slug — `themeLabels[slug]`, else the title-cased slug.                                                                            |
-| `el.renderButtonContent()` | `Node`    | Overridable hook building the button's content. See below.                                                                                            |
+| `el.closeList(refocus?)`   | `void`    | Close the list. Returns focus to the button unless `refocus` is `false`.                                                                                                                      |
+| `el.labelFor(slug)`        | `string`  | Display label for a slug — `themeLabels[slug]`, else the title-cased slug.                                                                                                                    |
+| `el.renderButtonContent()` | `Node`    | Overridable hook building the button's content. See below.                                                                                                                                    |
 
 ids come from `nextThemePickerId()`, a module-level counter, so they
 are unique per instance, stable across runs, and SSR-safe — no
@@ -166,11 +163,7 @@ Two pure helpers exported from `theme-picker.ts`:
 
 ```ts
 export function normalizeThemesUrl(themesUrl: string): string;
-export function themeHref(
-  themesUrl: string,
-  slug: string,
-  extension: string,
-): string;
+export function themeHref(themesUrl: string, slug: string, extension: string): string;
 ```
 
 `normalizeThemesUrl(s)` ensures `s` ends with exactly one `/`.
@@ -200,7 +193,11 @@ Rendered children (recreated on every `#render()`):
 
 ```html
 <div class="theme-picker {class}">
-  <input type="hidden" name="{name}" value="light" />
+  <input
+    type="hidden"
+    name="{name}"
+    value="light"
+  />
   <button
     type="button"
     class="theme-picker-button"
@@ -209,7 +206,11 @@ Rendered children (recreated on every `#render()`):
     aria-expanded="false"
     aria-controls="theme-picker-1-list"
   >
-    <span class="theme-picker-icon" aria-hidden="true">◑</span>
+    <span
+      class="theme-picker-icon"
+      aria-hidden="true"
+      >◑</span
+    >
   </button>
   <ul
     class="theme-picker-list"

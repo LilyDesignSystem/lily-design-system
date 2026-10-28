@@ -4,7 +4,7 @@
 
 **Summary.** Trusted Publishing lets a CI workflow authenticate to a
 package registry with a short-lived OpenID Connect (OIDC) token that
-cryptographically proves *which repository and workflow* is publishing —
+cryptographically proves _which repository and workflow_ is publishing —
 instead of a long-lived API token stored as a secret that can leak,
 be exfiltrated, or outlive its purpose. Lily's standing position is to
 switch when it is production-ready across the forges this project
@@ -41,7 +41,7 @@ the credential inventory and its single-holder honesty is
   continuity strength.
 - **Provenance now, tokens until then.** The publish workflow already
   requests `id-token: write` and publishes npm packages with
-  `--provenance`, which attests *where a package was built* even while
+  `--provenance`, which attests _where a package was built_ even while
   authentication still uses a token. Trusted Publishing replaces the
   token; it does not replace provenance — the two compose.
 - **Tokens are scoped and named while they last.** `NPM_TOKEN` (npm
@@ -86,11 +86,11 @@ publishing is the procedure.
 
 ## Readiness picture (as of 2026-09)
 
-| Registry | Trusted Publishing state | Covers our forges? |
-| --- | --- | --- |
-| npm | OIDC trusted publishing available for GitHub Actions and GitLab CI/CD | GitHub ✔, GitLab ✔, Codeberg ✘ (Forgejo Actions is not a supported provider) — **not yet adopted**, `NPM_TOKEN` still in use |
-| NuGet | Trusted Publishing available for GitHub Actions | GitHub ✔ — **adopted 2026-09** via [`NuGet/login@v1`](https://github.com/NuGet/login) in `publish.yml`, `NUGET_API_KEY` retired as a secret. GitLab ✘, Codeberg ✘, unchanged — neither forge could publish to NuGet before this change either, so nothing was demoted |
-| (crates.io) | Supported for GitHub Actions — noted because this position is shared across the maintainer's projects; Lily ships no Rust | n/a |
+| Registry    | Trusted Publishing state                                                                                                  | Covers our forges?                                                                                                                                                                                                                                                    |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| npm         | OIDC trusted publishing available for GitHub Actions and GitLab CI/CD                                                     | GitHub ✔, GitLab ✔, Codeberg ✘ (Forgejo Actions is not a supported provider) — **not yet adopted**, `NPM_TOKEN` still in use                                                                                                                                          |
+| NuGet       | Trusted Publishing available for GitHub Actions                                                                           | GitHub ✔ — **adopted 2026-09** via [`NuGet/login@v1`](https://github.com/NuGet/login) in `publish.yml`, `NUGET_API_KEY` retired as a secret. GitLab ✘, Codeberg ✘, unchanged — neither forge could publish to NuGet before this change either, so nothing was demoted |
+| (crates.io) | Supported for GitHub Actions — noted because this position is shared across the maintainer's projects; Lily ships no Rust | n/a                                                                                                                                                                                                                                                                   |
 
 The "whole fan-out" bar still gates npm: Codeberg has no supported OIDC
 provider, so npm keeps `NPM_TOKEN` until that changes or the project

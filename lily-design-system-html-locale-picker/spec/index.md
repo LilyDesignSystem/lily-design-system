@@ -159,9 +159,16 @@ composed.
 ### 4.5 DOM contract
 
 ```html
-<locale-picker label="Locale" locales="en,fr,ar">
+<locale-picker
+  label="Locale"
+  locales="en,fr,ar"
+>
   <div class="locale-picker {class}">
-    <input type="hidden" name="locale" value="en" />
+    <input
+      type="hidden"
+      name="locale"
+      value="en"
+    />
     <button
       type="button"
       class="locale-picker-button"
@@ -170,12 +177,37 @@ composed.
       aria-expanded="false"
       aria-controls="locale-picker-1-list"
     >
-      <svg class="locale-picker-icon" viewBox="0 0 16 16" width="1.05rem" height="1.05rem" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="8" cy="8" r="6"></circle>
-        <path stroke-width="1.1" d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7"></path>
+      <svg
+        class="locale-picker-icon"
+        viewBox="0 0 16 16"
+        width="1.05rem"
+        height="1.05rem"
+        aria-hidden="true"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.6"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <circle
+          cx="8"
+          cy="8"
+          r="6"
+        ></circle>
+        <path
+          stroke-width="1.1"
+          d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7"
+        ></path>
       </svg>
     </button>
-    <div class="locale-picker-tooltip" role="tooltip" id="{baseId}-tooltip" hidden>{label}</div>
+    <div
+      class="locale-picker-tooltip"
+      role="tooltip"
+      id="{baseId}-tooltip"
+      hidden
+    >
+      {label}
+    </div>
     <ul
       class="locale-picker-list"
       id="locale-picker-1-list"
@@ -286,14 +318,14 @@ Opening moves focus to the `<ul>`.
 
 On the **listbox**:
 
-| Key                     | Action                                                                                                                                        |
-| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| `ArrowDown` / `ArrowUp` | Move the active option one step. **Clamps** at both ends — no wrapping.                                                                       |
-| `Home` / `End`          | Jump to the first / last option.                                                                                                              |
-| `Enter` / `Space`       | Select the active option, apply it, close, and return focus to the button.                                                                    |
-| `Escape`                | Close and return focus to the button **without** changing the value.                                                                          |
-| `PageUp` / `PageDown`   | Move the active option ten steps up / down. Clamps at both ends.                                                                              |
-| `Tab`                   | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position. Hiding the focused list first would drop focus to `<body>` and restart Tab from the top of the document. |
+| Key                     | Action                                                                                                                                                                                                                                                             |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `ArrowDown` / `ArrowUp` | Move the active option one step. **Clamps** at both ends — no wrapping.                                                                                                                                                                                            |
+| `Home` / `End`          | Jump to the first / last option.                                                                                                                                                                                                                                   |
+| `Enter` / `Space`       | Select the active option, apply it, close, and return focus to the button.                                                                                                                                                                                         |
+| `Escape`                | Close and return focus to the button **without** changing the value.                                                                                                                                                                                               |
+| `PageUp` / `PageDown`   | Move the active option ten steps up / down. Clamps at both ends.                                                                                                                                                                                                   |
+| `Tab`                   | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position. Hiding the focused list first would drop focus to `<body>` and restart Tab from the top of the document.         |
 | printable character     | Typeahead over the option **labels**; the buffer resets after 500 ms of no typing. A single character advances to the **next** match and repeating it cycles onward; a buffer of differing characters refines the match from the active option. Search wraps once. |
 
 Pointer and focus behaviour:
@@ -366,7 +398,7 @@ matches each entry against `locales` in order:
 
 Default option labels are endonyms — each language named in itself,
 "Cymraeg" not "Welsh" — resolved by the exported `localeEndonym()`
-via `Intl.DisplayNames` asked *in that language*. The user who needs
+via `Intl.DisplayNames` asked _in that language_. The user who needs
 a language menu is the one who cannot read the page's language, and
 the exonym means nothing to them. The endonym lookup is deterministic
 (no `navigator` dependency), so server and client render the same
@@ -638,7 +670,7 @@ local sequence instead.
     option.
 33. `PageUp` / `PageDown` move the cursor by ten, clamped.
 34. An empty list opens without `aria-activedescendant`.
-36. Every focus move the component makes on its own (opening the
+35. Every focus move the component makes on its own (opening the
     listbox, returning focus to the button on close/Tab) passes
     `{ preventScroll: true }`, so a listbox rendered partly off-screen
     by unstyled/un-overridden positioning CSS never forces the browser

@@ -26,14 +26,24 @@ The component auto-generates IDs for linking the label to its input and for asso
 ## Usage
 
 ```tsx
-<Field label="Name" description="Enter full name">
+<Field
+  label="Name"
+  description="Enter full name"
+>
   <input id="name-input" />
 </Field>
 ```
 
 ```tsx
-<Field label="Email" required error="Email is required">
-  <input id="email-input" type="email" />
+<Field
+  label="Email"
+  required
+  error="Email is required"
+>
+  <input
+    id="email-input"
+    type="email"
+  />
 </Field>
 ```
 

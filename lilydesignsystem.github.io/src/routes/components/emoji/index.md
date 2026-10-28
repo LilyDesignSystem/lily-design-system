@@ -21,20 +21,33 @@ The component renders a `<span>` with `role="img"` and a required `aria-label`, 
 Status indicator with meaningful emoji:
 
 ```html
-<Emoji emoji="✅" label="Approved" />
+<Emoji
+  emoji="✅"
+  label="Approved"
+/>
 ```
 
 Warning emoji alongside alert text:
 
 ```html
-<Emoji emoji="⚠️" label="Warning" /> This action cannot be undone.
+<Emoji
+  emoji="⚠️"
+  label="Warning"
+/>
+This action cannot be undone.
 ```
 
 Reaction emoji in a message:
 
 ```html
-<Emoji emoji="👍" label="Thumbs up" />
-<Emoji emoji="❤️" label="Love" />
+<Emoji
+  emoji="👍"
+  label="Thumbs up"
+/>
+<Emoji
+  emoji="❤️"
+  label="Love"
+/>
 ```
 
 ## Keyboard Interactions
@@ -62,14 +75,11 @@ None -- this component is a passive inline display element.
 
 This headless component provides a `<span>` with `role="img"` and a required `aria-label` to ensure emoji are announced meaningfully by screen readers. The consumer provides all visual styling such as font size, spacing, and color adjustments.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.emoji` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<span>` element with class `emoji`
 - Verify role="img"` -- identifies the emoji as an image for assistive technologies

@@ -66,17 +66,14 @@ None -- this component is a passive inline display element.
 
 This headless component provides a `<span>` with conditional `aria-hidden` or `aria-label` depending on whether the flair is decorative or meaningful. The consumer provides all visual styling including background color, border, font size, and padding.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.flair` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
 
-
 - Verify the component renders a `<span>` element with class `flair`
-- Verify aria-label` -- applied when `label` is provided, giving the flair an accessible name for screen readers
+- Verify aria-label`-- applied when`label` is provided, giving the flair an accessible name for screen readers
 - Verify pass-through attributes are applied
 
 ## Advice

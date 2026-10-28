@@ -17,7 +17,11 @@ Under SSR, `$effect` is a no-op. The select renders:
 
 ```html
 <div class="theme-picker">
-  <input type="hidden" name="theme" value="" />
+  <input
+    type="hidden"
+    name="theme"
+    value=""
+  />
   <button
     type="button"
     class="theme-picker-button"
@@ -26,7 +30,27 @@ Under SSR, `$effect` is a no-op. The select renders:
     aria-expanded="false"
     aria-controls="theme-picker-1-list"
   >
-    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>
+    <svg
+      class="theme-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle
+        cx="8"
+        cy="8"
+        r="6"
+      />
+      <path
+        d="M8 2a6 6 0 0 1 0 12z"
+        fill="currentColor"
+        stroke="none"
+      />
+    </svg>
   </button>
   <ul
     class="theme-picker-list"
@@ -98,10 +122,16 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 ```html
 <!doctype html>
-<html lang="en" data-theme="%lily.theme%">
+<html
+  lang="en"
+  data-theme="%lily.theme%"
+>
   <head>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="/assets/themes/%lily.theme%.css" />
+    <link
+      rel="stylesheet"
+      href="/assets/themes/%lily.theme%.css"
+    />
     %sveltekit.head%
   </head>
   <body>
@@ -124,22 +154,22 @@ export const load: LayoutServerLoad = ({ locals }) => ({
 
 ```svelte
 <script lang="ts">
-    import { ThemePicker } from "@lilydesignsystem/svelte-theme-picker";
+  import { ThemePicker } from "@lilydesignsystem/svelte-theme-picker";
 
-    let { data, children } = $props();
-    let theme = $state(data.theme);
+  let { data, children } = $props();
+  let theme = $state(data.theme);
 
-    function persistCookie(slug: string) {
-        document.cookie = `theme=${slug}; path=/; max-age=31536000; SameSite=Lax`;
-    }
+  function persistCookie(slug: string) {
+    document.cookie = `theme=${slug}; path=/; max-age=31536000; SameSite=Lax`;
+  }
 </script>
 
 <ThemePicker
-    label="Theme"
-    themesUrl="/assets/themes/"
-    themes={["light", "dark", "abyss"]}
-    bind:value={theme}
-    onChange={persistCookie}
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "abyss"]}
+  bind:value={theme}
+  onChange={persistCookie}
 />
 
 {@render children?.()}

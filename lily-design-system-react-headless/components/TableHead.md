@@ -12,7 +12,10 @@ The header section of a Table, rendered as a `<thead>` element. Contains TableRo
 
 ```tsx
 <TableHead>
-  <TableRow><TableTH>Name</TableTH><TableTH>Email</TableTH></TableRow>
+  <TableRow>
+    <TableTH>Name</TableTH>
+    <TableTH>Email</TableTH>
+  </TableRow>
 </TableHead>
 ```
 

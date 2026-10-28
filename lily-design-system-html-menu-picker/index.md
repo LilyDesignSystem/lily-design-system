@@ -33,7 +33,10 @@ panel's content (they are moved into it when the element first connects).
 
 ```js
 const menu = document.querySelector("menu-picker");
-document.querySelector("form").addEventListener("submit", (e) => { e.preventDefault(); menu.close(); });
+document.querySelector("form").addEventListener("submit", (e) => {
+  e.preventDefault();
+  menu.close();
+});
 menu.addEventListener("openchange", (e) => console.log(e.detail.open));
 ```
 

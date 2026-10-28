@@ -23,8 +23,18 @@ This headless table component renders a semantic `<table>` element with an acces
 
 ```tsx
 <Table label="User accounts">
-    <thead><tr><th scope="col">Name</th><th scope="col">Email</th></tr></thead>
-    <tbody><tr><td>Alice</td><td>alice@example.com</td></tr></tbody>
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Alice</td>
+      <td>alice@example.com</td>
+    </tr>
+  </tbody>
 </Table>
 ```
 

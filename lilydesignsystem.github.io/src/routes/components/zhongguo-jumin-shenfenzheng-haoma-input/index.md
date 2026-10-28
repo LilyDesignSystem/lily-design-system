@@ -23,9 +23,22 @@ ZhongguoJuminShenfenzhengHaomaInput is a headless input for entering China's 居
 ## Usage
 
 ```html
-<Field label="居民身份证号码 (Jūmín Shēnfènzhèng Hàomǎ)" required>
-  <ZhongguoJuminShenfenzhengHaomaInput label="居民身份证号码 (Jūmín Shēnfènzhèng Hàomǎ)" value={value} required />
-  <Hint>Eighteen characters under national standard GB 11643. The first six digits encode the region of registration; the next eight encode date of birth (YYYYMMDD); the next three are a sequence number whose last digit's parity encodes sex (odd male, even female); the eighteenth character is a check character computed with the ISO 7064:1983 MOD 11-2 algorithm over the first seventeen digits — a value of 10 is written as the letter X.</Hint>
+<Field
+  label="居民身份证号码 (Jūmín Shēnfènzhèng Hàomǎ)"
+  required
+>
+  <ZhongguoJuminShenfenzhengHaomaInput
+    label="居民身份证号码 (Jūmín Shēnfènzhèng Hàomǎ)"
+    value="{value}"
+    required
+  />
+  <Hint
+    >Eighteen characters under national standard GB 11643. The first six digits encode the region of
+    registration; the next eight encode date of birth (YYYYMMDD); the next three are a sequence
+    number whose last digit's parity encodes sex (odd male, even female); the eighteenth character
+    is a check character computed with the ISO 7064:1983 MOD 11-2 algorithm over the first seventeen
+    digits — a value of 10 is written as the letter X.</Hint
+  >
   <ErrorMessage>Please enter a valid 居民身份证号码</ErrorMessage>
 </Field>
 ```

@@ -22,7 +22,7 @@ PolskaNumerIdentyfikacjiPodatkowejView is a headless read-only display of Poland
 ```html
 <SummaryList>
   <SummaryListItem term="Tax Identification Number">
-    <PolskaNumerIdentyfikacjiPodatkowejView value={value} />
+    <PolskaNumerIdentyfikacjiPodatkowejView value="{value}" />
   </SummaryListItem>
 </SummaryList>
 ```

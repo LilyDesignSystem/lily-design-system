@@ -109,7 +109,7 @@ re-renders / re-applies as needed.
 | `storage-key`   | `string`        | no       | `undefined`                       | If set, persist the selection to `localStorage` under this key.                                                                                            |
 | `name`          | `string`        | no       | `"text-size"`                     | `name` on the rendered hidden `<input>`.                                                                                                                   |
 | `size-labels`   | `string` (JSON) | no       | `"{}"`                            | Pretty labels per slug, JSON-encoded object. The JS property `el.sizeLabels` accepts `Record<string, string>`.                                             |
-| `class`         | `string`        | no       | `""`                              | Extra CSS class on the rendered root `<div>` (in addition to `text-size-picker`).                                                                         |
+| `class`         | `string`        | no       | `""`                              | Extra CSS class on the rendered root `<div>` (in addition to `text-size-picker`).                                                                          |
 
 ### 4.2 JS properties
 
@@ -142,7 +142,7 @@ Read-only state and id accessors:
 
 - `static get observedAttributes()` returns
   `["label", "sizes", "value", "default-value", "storage-key",
-  "name", "size-labels", "class"]`.
+"name", "size-labels", "class"]`.
 - `connectedCallback()` resolves the initial value (per §5.2), renders
   the children, registers the document click listener, and applies the
   size.
@@ -168,9 +168,16 @@ After render, the element contains exactly one child `<div>` root
 holding a hidden `<input>`, the icon button, and the listbox:
 
 ```html
-<text-size-picker label="Text size" sizes="small,medium,large,x-large">
+<text-size-picker
+  label="Text size"
+  sizes="small,medium,large,x-large"
+>
   <div class="text-size-picker {consumer class}">
-    <input type="hidden" name="text-size" value="medium" />
+    <input
+      type="hidden"
+      name="text-size"
+      value="medium"
+    />
     <button
       type="button"
       class="text-size-picker-button"
@@ -179,11 +186,29 @@ holding a hidden `<input>`, the icon button, and the listbox:
       aria-expanded="false"
       aria-controls="text-size-picker-1-list"
     >
-      <svg class="text-size-picker-icon" viewBox="0 0 16 16" width="1.05rem" height="1.05rem" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <svg
+        class="text-size-picker-icon"
+        viewBox="0 0 16 16"
+        width="1.05rem"
+        height="1.05rem"
+        aria-hidden="true"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.6"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
         <path d="M4 13 7.2 3h1.6L12 13M5.4 9.5h5.2"></path>
       </svg>
     </button>
-    <div class="text-size-picker-tooltip" role="tooltip" id="{baseId}-tooltip" hidden>{label}</div>
+    <div
+      class="text-size-picker-tooltip"
+      role="tooltip"
+      id="{baseId}-tooltip"
+      hidden
+    >
+      {label}
+    </div>
     <ul
       class="text-size-picker-list"
       id="text-size-picker-1-list"
@@ -390,15 +415,15 @@ random source, nothing in the rendered markup varies between runs.
 The control implements the WAI-ARIA APG listbox pattern with a
 collapsed trigger:
 
-| Element                                 | Role / property                                                                                                     |
-| --------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| `<text-size-picker>` (host)            | none — a transparent lifecycle container.                                                                           |
-| `<div class="text-size-picker">`       | none — a styling root.                                                                                              |
-| `<button>`                              | implicit `button` role; `aria-label={label}`, `aria-haspopup="listbox"`, `aria-expanded`, `aria-controls={listId}`. |
-| `<svg class="text-size-picker-icon">` | `aria-hidden="true"` so the icon never becomes the name.                                                           |
-| `<ul>`                                  | `role="listbox"`, `aria-label={label}`, `tabindex="-1"`, `hidden` while closed, `aria-activedescendant` while open. |
-| `<li>`                                  | `role="option"`, unique `id`, `aria-selected`; `data-active` when keyboard-highlighted.                             |
-| `<input type="hidden">`                 | form participation only; not in the accessibility tree.                                                             |
+| Element                               | Role / property                                                                                                     |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `<text-size-picker>` (host)           | none — a transparent lifecycle container.                                                                           |
+| `<div class="text-size-picker">`      | none — a styling root.                                                                                              |
+| `<button>`                            | implicit `button` role; `aria-label={label}`, `aria-haspopup="listbox"`, `aria-expanded`, `aria-controls={listId}`. |
+| `<svg class="text-size-picker-icon">` | `aria-hidden="true"` so the icon never becomes the name.                                                            |
+| `<ul>`                                | `role="listbox"`, `aria-label={label}`, `tabindex="-1"`, `hidden` while closed, `aria-activedescendant` while open. |
+| `<li>`                                | `role="option"`, unique `id`, `aria-selected`; `data-active` when keyboard-highlighted.                             |
+| `<input type="hidden">`               | form participation only; not in the accessibility tree.                                                             |
 
 **Focus model.** Focus moves to the `<ul>` when the list opens and
 never to an individual `<li>`. The highlighted option is conveyed
@@ -421,18 +446,18 @@ On the **button**:
 
 On the **listbox** (`<ul>`, which holds focus while open):
 
-| Key                 | Action                                                                                                                                  |
-| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| `ArrowDown`         | Move the active option down one. Clamps at the last option — no wrapping.                                                               |
-| `ArrowUp`           | Move the active option up one. Clamps at the first option.                                                                              |
-| `Home`              | Make the first option active.                                                                                                           |
-| `End`               | Make the last option active.                                                                                                            |
-| `Enter`             | Select the active option, apply it, close, return focus to the button.                                                                  |
-| `Space`             | Same as `Enter`.                                                                                                                        |
-| `Escape`            | Close and return focus to the button **without** changing the value.                                                                    |
-| `PageUp`            | Move the active option up ten. Clamps at the first.                                                                                     |
-| `PageDown`          | Move the active option down ten. Clamps at the last.                                                                                    |
-| `Tab`               | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position. Hiding the focused list first would drop focus to `<body>` and restart Tab from the top of the document. |
+| Key                 | Action                                                                                                                                                                                                                                                           |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ArrowDown`         | Move the active option down one. Clamps at the last option — no wrapping.                                                                                                                                                                                        |
+| `ArrowUp`           | Move the active option up one. Clamps at the first option.                                                                                                                                                                                                       |
+| `Home`              | Make the first option active.                                                                                                                                                                                                                                    |
+| `End`               | Make the last option active.                                                                                                                                                                                                                                     |
+| `Enter`             | Select the active option, apply it, close, return focus to the button.                                                                                                                                                                                           |
+| `Space`             | Same as `Enter`.                                                                                                                                                                                                                                                 |
+| `Escape`            | Close and return focus to the button **without** changing the value.                                                                                                                                                                                             |
+| `PageUp`            | Move the active option up ten. Clamps at the first.                                                                                                                                                                                                              |
+| `PageDown`          | Move the active option down ten. Clamps at the last.                                                                                                                                                                                                             |
+| `Tab`               | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position. Hiding the focused list first would drop focus to `<body>` and restart Tab from the top of the document.       |
 | printable character | Typeahead over the option _labels_; the buffer resets after 500 ms of no typing. A single character advances to the **next** match and repeating it cycles onward; a buffer of differing characters refines the match from the active option. Search wraps once. |
 
 Pointer equivalents: clicking the button toggles the list, clicking an

@@ -21,13 +21,13 @@ not included — see spec §1.
 
 ## Files
 
-| File               | Purpose                                       |
-| ------------------ | ---------------------------------------------- |
-| `spec/index.md`    | Specification-driven contract (canonical).     |
-| `PickerBar.svelte` | Implementation. TypeScript + Svelte 5 runes.   |
-| `PickerBar.test.ts`| Vitest spec, one assertion per §7 acceptance.  |
-| `index.ts`         | Barrel re-export.                              |
-| `index.md`         | Comprehensive user guide.                      |
+| File                | Purpose                                       |
+| ------------------- | --------------------------------------------- |
+| `spec/index.md`     | Specification-driven contract (canonical).    |
+| `PickerBar.svelte`  | Implementation. TypeScript + Svelte 5 runes.  |
+| `PickerBar.test.ts` | Vitest spec, one assertion per §7 acceptance. |
+| `index.ts`          | Barrel re-export.                             |
+| `index.md`          | Comprehensive user guide.                     |
 
 ## Public surface
 
@@ -57,7 +57,10 @@ contract; see that picker's own `AGENTS.md`.
 ## HTML
 
 ```html
-<div class="picker-bar {class}" ...restProps>
+<div
+  class="picker-bar {class}"
+  ...restProps
+>
   <div class="search-picker">…</div>
   <div class="theme-picker">…</div>
   <div class="locale-picker">…</div>

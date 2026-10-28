@@ -33,18 +33,65 @@ NPS survey question with endpoint labels:
 
 ```html
 <p>How likely are you to recommend us to a friend or colleague?</p>
-<NetPromoterScorePicker label="How likely are you to recommend us?" value={score}>
-    <NetPromoterScorePickerButton value="0" label="0 - Not at all likely" onclick={handleClick} />
-    <NetPromoterScorePickerButton value="1" label="1" onclick={handleClick} />
-    <NetPromoterScorePickerButton value="2" label="2" onclick={handleClick} />
-    <NetPromoterScorePickerButton value="3" label="3" onclick={handleClick} />
-    <NetPromoterScorePickerButton value="4" label="4" onclick={handleClick} />
-    <NetPromoterScorePickerButton value="5" label="5" onclick={handleClick} />
-    <NetPromoterScorePickerButton value="6" label="6" onclick={handleClick} />
-    <NetPromoterScorePickerButton value="7" label="7" onclick={handleClick} />
-    <NetPromoterScorePickerButton value="8" label="8" onclick={handleClick} />
-    <NetPromoterScorePickerButton value="9" label="9" onclick={handleClick} />
-    <NetPromoterScorePickerButton value="10" label="10 - Extremely likely" onclick={handleClick} />
+<NetPromoterScorePicker
+  label="How likely are you to recommend us?"
+  value="{score}"
+>
+  <NetPromoterScorePickerButton
+    value="0"
+    label="0 - Not at all likely"
+    onclick="{handleClick}"
+  />
+  <NetPromoterScorePickerButton
+    value="1"
+    label="1"
+    onclick="{handleClick}"
+  />
+  <NetPromoterScorePickerButton
+    value="2"
+    label="2"
+    onclick="{handleClick}"
+  />
+  <NetPromoterScorePickerButton
+    value="3"
+    label="3"
+    onclick="{handleClick}"
+  />
+  <NetPromoterScorePickerButton
+    value="4"
+    label="4"
+    onclick="{handleClick}"
+  />
+  <NetPromoterScorePickerButton
+    value="5"
+    label="5"
+    onclick="{handleClick}"
+  />
+  <NetPromoterScorePickerButton
+    value="6"
+    label="6"
+    onclick="{handleClick}"
+  />
+  <NetPromoterScorePickerButton
+    value="7"
+    label="7"
+    onclick="{handleClick}"
+  />
+  <NetPromoterScorePickerButton
+    value="8"
+    label="8"
+    onclick="{handleClick}"
+  />
+  <NetPromoterScorePickerButton
+    value="9"
+    label="9"
+    onclick="{handleClick}"
+  />
+  <NetPromoterScorePickerButton
+    value="10"
+    label="10 - Extremely likely"
+    onclick="{handleClick}"
+  />
 </NetPromoterScorePicker>
 <p>Selected score: {score}</p>
 ```
@@ -52,7 +99,11 @@ NPS survey question with endpoint labels:
 With a custom radio group name:
 
 ```html
-<NetPromoterScorePicker label="Rate our service" value={score} name="service-nps" />
+<NetPromoterScorePicker
+  label="Rate our service"
+  value="{score}"
+  name="service-nps"
+/>
 ```
 
 ## Keyboard Interactions
@@ -85,14 +136,11 @@ With a custom radio group name:
 
 This headless component provides a `<fieldset>` with `role="radiogroup"` containing 11 radio buttons (0-10) with `aria-label` on each. The consumer provides all visual styling, including button layout, color coding for Detractor/Passive/Promoter ranges, and selected-state appearance.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.net-promoter-score-picker` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `net-promoter-score-picker`
 - Verify role="radiogroup"` on the fieldset

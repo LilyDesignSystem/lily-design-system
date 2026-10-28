@@ -23,12 +23,35 @@ A five-face rating input allows users to select a rating from 1 to 5 using label
 ## Usage
 
 ```html
-<FiveFaceRatingPicker label="How was your experience?" value={rating}>
-    <FiveFaceRatingPickerButton value="1" label="Very bad" onclick={handleClick} />
-    <FiveFaceRatingPickerButton value="2" label="Bad" onclick={handleClick} />
-    <FiveFaceRatingPickerButton value="3" label="Okay" onclick={handleClick} />
-    <FiveFaceRatingPickerButton value="4" label="Good" onclick={handleClick} />
-    <FiveFaceRatingPickerButton value="5" label="Very good" onclick={handleClick} />
+<FiveFaceRatingPicker
+  label="How was your experience?"
+  value="{rating}"
+>
+  <FiveFaceRatingPickerButton
+    value="1"
+    label="Very bad"
+    onclick="{handleClick}"
+  />
+  <FiveFaceRatingPickerButton
+    value="2"
+    label="Bad"
+    onclick="{handleClick}"
+  />
+  <FiveFaceRatingPickerButton
+    value="3"
+    label="Okay"
+    onclick="{handleClick}"
+  />
+  <FiveFaceRatingPickerButton
+    value="4"
+    label="Good"
+    onclick="{handleClick}"
+  />
+  <FiveFaceRatingPickerButton
+    value="5"
+    label="Very good"
+    onclick="{handleClick}"
+  />
 </FiveFaceRatingPicker>
 ```
 
@@ -71,17 +94,14 @@ Standard radio group keyboard behavior provided by the browser:
 
 This headless component provides a `<fieldset>` with `role="radiogroup"`, five `<label>`/`<input type="radio">` pairs with customizable face labels, two-way value binding, and `disabled` support. The consumer provides all visual styling, face icons or illustrations, and layout.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.five-face-rating-picker` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
 
-
 - Verify the component renders a `<div>` element with class `five-face-rating-picker`
-- Verify role="radiogroup"` -- on the `<fieldset>`, identifies the group as a set of radio buttons
+- Verify role="radiogroup"`-- on the`<fieldset>`, identifies the group as a set of radio buttons
 - Verify aria-label="..."` -- provides an accessible name for the entire rating group
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied

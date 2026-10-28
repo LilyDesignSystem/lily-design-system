@@ -36,8 +36,8 @@ element does no measuring and no repositioning.
 
 ## Class hooks
 
-| Selector                               | Element                                                          |
-| -------------------------------------- | ---------------------------------------------------------------- |
+| Selector                              | Element                                                          |
+| ------------------------------------- | ---------------------------------------------------------------- |
 | `theme-picker` (the host element tag) | The custom-element host.                                         |
 | `.theme-picker`                       | The rendered `<div>` root.                                       |
 | `.theme-picker.{consumerClass}`       | Both classes when `class` is passed.                             |
@@ -64,8 +64,8 @@ classes are up to your subclass.
 
 These are what make the control legible without any JS of your own.
 
-| Selector                                      | Meaning                                                         |
-| --------------------------------------------- | --------------------------------------------------------------- |
+| Selector                                     | Meaning                                                         |
+| -------------------------------------------- | --------------------------------------------------------------- |
 | `.theme-picker-button[aria-expanded="true"]` | The list is open.                                               |
 | `.theme-picker-list[hidden]`                 | The list is closed. (The UA stylesheet already hides it.)       |
 | `.theme-picker-option[data-active]`          | The **keyboard-highlighted** option — where `Enter` would land. |

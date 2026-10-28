@@ -25,7 +25,10 @@ An avatar circle text is the initials/text fallback within an Avatar. It renders
 
 ```svelte
 <Avatar alt="Jane Doe">
-  <AvatarImage src="/photo.jpg" alt="Jane Doe" />
+  <AvatarImage
+    src="/photo.jpg"
+    alt="Jane Doe"
+  />
   <AvatarText>JD</AvatarText>
 </Avatar>
 ```

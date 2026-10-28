@@ -37,7 +37,7 @@ Basic confirmation dialog:
 
 ```svelte
 <script lang="ts">
-  import AlertDialog from './AlertDialog.svelte';
+  import AlertDialog from "./AlertDialog.svelte";
 
   let showDialog = $state(false);
 
@@ -51,7 +51,7 @@ Basic confirmation dialog:
   }
 </script>
 
-<button onclick={() => showDialog = true}>Delete item</button>
+<button onclick={() => (showDialog = true)}>Delete item</button>
 
 <AlertDialog
   bind:open={showDialog}
@@ -67,13 +67,16 @@ Simple acknowledgment dialog without description:
 
 ```svelte
 <script lang="ts">
-  import AlertDialog from './AlertDialog.svelte';
+  import AlertDialog from "./AlertDialog.svelte";
 
   let showAlert = $state(false);
 </script>
 
-<AlertDialog bind:open={showAlert} title="Session Expired">
-  <button onclick={() => showAlert = false}>OK</button>
+<AlertDialog
+  bind:open={showAlert}
+  title="Session Expired"
+>
+  <button onclick={() => (showAlert = false)}>OK</button>
 </AlertDialog>
 ```
 

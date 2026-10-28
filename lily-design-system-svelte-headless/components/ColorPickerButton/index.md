@@ -7,7 +7,13 @@ A headless `<button>` representing a single predefined color swatch. It renders 
 ColorPickerButton is a Svelte 5 component that renders:
 
 ```html
-<button type="button" aria-label={label} aria-pressed={selected} data-color={color} style:background-color={color} />
+<button
+  type="button"
+  aria-label="{label}"
+  aria-pressed="{selected}"
+  data-color="{color}"
+  style:background-color="{color}"
+/>
 ```
 
 It intentionally includes an inline `background-color` style because the color is the swatch's purpose. All other styling comes from the consumer.
@@ -39,85 +45,101 @@ Set `color` to a CSS color. Provide a human-readable `label` (e.g. "Ocean Blue")
 
 ## Props
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `class` | `string` | `""` | CSS class name appended to the base class. |
-| `color` | `string` | required | CSS color value used for background and `data-color`. |
-| `label` | `string` | required | `aria-label`. |
-| `selected` | `boolean` | `false` | Reflected in `aria-pressed`. |
-| `disabled` | `boolean` | `false` | Disables the button. |
-| `onclick` | `(event: MouseEvent) => void` | `undefined` | Click handler. |
-| `...restProps` | `unknown` | — | Additional attributes spread onto the `<button>`. |
+| Prop           | Type                          | Default     | Description                                           |
+| -------------- | ----------------------------- | ----------- | ----------------------------------------------------- |
+| `class`        | `string`                      | `""`        | CSS class name appended to the base class.            |
+| `color`        | `string`                      | required    | CSS color value used for background and `data-color`. |
+| `label`        | `string`                      | required    | `aria-label`.                                         |
+| `selected`     | `boolean`                     | `false`     | Reflected in `aria-pressed`.                          |
+| `disabled`     | `boolean`                     | `false`     | Disables the button.                                  |
+| `onclick`      | `(event: MouseEvent) => void` | `undefined` | Click handler.                                        |
+| `...restProps` | `unknown`                     | —           | Additional attributes spread onto the `<button>`.     |
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-    import ColorPicker from "../ColorPicker/ColorPicker.svelte";
-    import ColorPickerButton from "./ColorPickerButton.svelte";
+  import ColorPicker from "../ColorPicker/ColorPicker.svelte";
+  import ColorPickerButton from "./ColorPickerButton.svelte";
 
-    let x = $state(0);
-    let y = $state(0);
-    let selected = $state("#2563eb");
+  let x = $state(0);
+  let y = $state(0);
+  let selected = $state("#2563eb");
 
-    const palette = [
-        { color: "#ef4444", label: "Red" },
-        { color: "#f59e0b", label: "Amber" },
-        { color: "#16a34a", label: "Green" },
-        { color: "#2563eb", label: "Blue" }
-    ];
+  const palette = [
+    { color: "#ef4444", label: "Red" },
+    { color: "#f59e0b", label: "Amber" },
+    { color: "#16a34a", label: "Green" },
+    { color: "#2563eb", label: "Blue" },
+  ];
 </script>
 
-<ColorPicker label="Color board" bind:x bind:y />
+<ColorPicker
+  label="Color board"
+  bind:x
+  bind:y
+/>
 
 {#each palette as p}
-    <ColorPickerButton
-        color={p.color}
-        label={p.label}
-        selected={selected === p.color}
-        onclick={() => (selected = p.color)}
-    />
+  <ColorPickerButton
+    color={p.color}
+    label={p.label}
+    selected={selected === p.color}
+    onclick={() => (selected = p.color)}
+  />
 {/each}
 ```
 
 ```svelte
 <script lang="ts">
-    import ColorPickerButton from "./ColorPickerButton.svelte";
+  import ColorPickerButton from "./ColorPickerButton.svelte";
 </script>
 
-<ColorPickerButton color="#0066cc" label="Blue" selected={true} />
-<ColorPickerButton color="#cccccc" label="Gray" disabled={true} />
+<ColorPickerButton
+  color="#0066cc"
+  label="Blue"
+  selected={true}
+/>
+<ColorPickerButton
+  color="#cccccc"
+  label="Gray"
+  disabled={true}
+/>
 ```
 
 ```svelte
 <script lang="ts">
-    import ColorPickerButton from "./ColorPickerButton.svelte";
+  import ColorPickerButton from "./ColorPickerButton.svelte";
 
-    let chosen = $state<string | null>(null);
-    const swatches = ["#ff0000", "#00ff00", "#0000ff"];
+  let chosen = $state<string | null>(null);
+  const swatches = ["#ff0000", "#00ff00", "#0000ff"];
 </script>
 
 {#each swatches as color}
-    <ColorPickerButton
-        {color}
-        label={`Color ${color}`}
-        selected={chosen === color}
-        onclick={() => (chosen = color)}
-    />
+  <ColorPickerButton
+    {color}
+    label={`Color ${color}`}
+    selected={chosen === color}
+    onclick={() => (chosen = color)}
+  />
 {/each}
 ```
 
 ```svelte
 <script lang="ts">
-    import ColorPickerButton from "./ColorPickerButton.svelte";
+  import ColorPickerButton from "./ColorPickerButton.svelte";
 
-    function handle(event: MouseEvent) {
-        const el = event.currentTarget as HTMLButtonElement;
-        console.log("Picked:", el.dataset.color);
-    }
+  function handle(event: MouseEvent) {
+    const el = event.currentTarget as HTMLButtonElement;
+    console.log("Picked:", el.dataset.color);
+  }
 </script>
 
-<ColorPickerButton color="#2563eb" label="Brand Blue" onclick={handle} />
+<ColorPickerButton
+  color="#2563eb"
+  label="Brand Blue"
+  onclick={handle}
+/>
 ```
 
 ## Accessibility

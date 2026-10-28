@@ -19,20 +19,25 @@ Use it for searches over large or remote datasets (countries, services, contacts
 
 ## Props
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `label` | string (required) | — | Accessible name for the input |
-| `value` | string | "" | Bindable input value |
-| `suggestions` | array of `{ value: string; label: string }` | [] | Current suggestions to show |
-| `onInput` | (query: string) => void | — | Fired when the typed value changes; consumer recomputes suggestions |
-| `onSelect` | (value: string) => void | — | Fired when the user selects a suggestion |
-| `placeholder` | string | — | Placeholder text |
-| `...restProps` | HTML attributes | — | Spread onto the wrapper `<div>` |
+| Prop           | Type                                        | Default | Description                                                         |
+| -------------- | ------------------------------------------- | ------- | ------------------------------------------------------------------- |
+| `label`        | string (required)                           | —       | Accessible name for the input                                       |
+| `value`        | string                                      | ""      | Bindable input value                                                |
+| `suggestions`  | array of `{ value: string; label: string }` | []      | Current suggestions to show                                         |
+| `onInput`      | (query: string) => void                     | —       | Fired when the typed value changes; consumer recomputes suggestions |
+| `onSelect`     | (value: string) => void                     | —       | Fired when the user selects a suggestion                            |
+| `placeholder`  | string                                      | —       | Placeholder text                                                    |
+| `...restProps` | HTML attributes                             | —       | Spread onto the wrapper `<div>`                                     |
 
 ## Usage
 
 ```html
-<Autosuggest label="Find a service" suggestions={current} onInput={handleQuery} onSelect={handleSelect} />
+<Autosuggest
+  label="Find a service"
+  suggestions="{current}"
+  onInput="{handleQuery}"
+  onSelect="{handleSelect}"
+/>
 ```
 
 ## Keyboard Interactions

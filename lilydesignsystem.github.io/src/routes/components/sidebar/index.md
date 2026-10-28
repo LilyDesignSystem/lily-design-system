@@ -39,17 +39,43 @@ Sidebar with filters for a search results page:
   <form>
     <fieldset>
       <legend>Category</legend>
-      <label><input type="checkbox" value="docs" /> Documentation</label>
-      <label><input type="checkbox" value="api" /> API Reference</label>
-      <label><input type="checkbox" value="guides" /> Guides</label>
+      <label
+        ><input
+          type="checkbox"
+          value="docs"
+        />
+        Documentation</label
+      >
+      <label
+        ><input
+          type="checkbox"
+          value="api"
+        />
+        API Reference</label
+      >
+      <label
+        ><input
+          type="checkbox"
+          value="guides"
+        />
+        Guides</label
+      >
     </fieldset>
     <Separator />
     <fieldset>
       <legend>Date range</legend>
       <label for="from">From</label>
-      <DateInput label="From date" id="from" value={fromDate} />
+      <DateInput
+        label="From date"
+        id="from"
+        value="{fromDate}"
+      />
       <label for="to">To</label>
-      <DateInput label="To date" id="to" value={toDate} />
+      <DateInput
+        label="To date"
+        id="to"
+        value="{toDate}"
+      />
     </fieldset>
   </form>
 </Sidebar>
@@ -62,7 +88,9 @@ Sidebar alongside main content:
   <Sidebar label="Documentation navigation">
     <TreeNav label="Docs sections">
       <TreeList>
-        <TreeListItem><TreeLink href="/docs/getting-started">Getting Started</TreeLink></TreeListItem>
+        <TreeListItem
+          ><TreeLink href="/docs/getting-started">Getting Started</TreeLink></TreeListItem
+        >
         <TreeListItem><TreeLink href="/docs/components">Components</TreeLink></TreeListItem>
       </TreeList>
     </TreeNav>
@@ -100,14 +128,11 @@ None -- this component is a passive container. Keyboard navigation depends on th
 
 This headless component renders a semantic `<aside>` element with an `aria-label` for landmark identification. It provides the complementary landmark role automatically. The consumer provides all visual styling including width, positioning, layout, and responsive behavior.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.sidebar` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<aside>` element with class `sidebar`
 - Verify aria-label={label}` -- provides an accessible name so screen readers can distinguish this sidebar from other landmarks on the page

@@ -22,7 +22,7 @@ LatvijaPersonasKodsView is a headless read-only display of Latvia's Personas kod
 ```html
 <SummaryList>
   <SummaryListItem term="Personal Code">
-    <LatvijaPersonasKodsView value={value} />
+    <LatvijaPersonasKodsView value="{value}" />
   </SummaryListItem>
 </SummaryList>
 ```

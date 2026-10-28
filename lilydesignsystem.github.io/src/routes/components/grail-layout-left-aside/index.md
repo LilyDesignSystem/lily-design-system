@@ -43,7 +43,6 @@ GrailLayoutLeftAside is a headless container for the left aside section of a Gra
 </GrailLayout>
 ```
 
-
 ## Keyboard Interactions
 
 - No keyboard interactions — this is a passive landmark container
@@ -62,9 +61,7 @@ This headless component renders semantic HTML. The consumer provides all visual 
 
 The consumer provides all CSS styling. The component renders with a `.grail-layout-left-aside` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<aside>` element with class `grail-layout-left-aside`
 - Verify pass-through attributes are applied

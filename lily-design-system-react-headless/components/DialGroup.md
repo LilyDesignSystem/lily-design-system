@@ -13,8 +13,14 @@ A labelled group container for one or more `Dial` components, rendered as a `<di
 
 ```tsx
 <DialGroup label="Audio settings">
-  <Dial label="Volume" value={50} />
-  <Dial label="Treble" value={20} />
+  <Dial
+    label="Volume"
+    value={50}
+  />
+  <Dial
+    label="Treble"
+    value={20}
+  />
 </DialGroup>
 ```
 

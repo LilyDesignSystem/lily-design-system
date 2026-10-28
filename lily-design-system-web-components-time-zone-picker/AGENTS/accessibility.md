@@ -27,17 +27,17 @@ ceremony.
 All three helpers share one markup shape — an icon button that opens
 an APG listbox — and one keyboard implementation:
 
-| Helper | Rendering | Icon | Keyboard comes from |
-| ------ | --------- | ---- | -------------------- |
-| `<lily-theme-picker>` | Icon button + `role="listbox"` dropdown | Bundled SVG (half-filled circle) | The element's own JS handlers |
-| `<lily-locale-picker>` | Icon button + `role="listbox"` dropdown | Bundled SVG (globe outline) | The element's own JS handlers |
-| `<lily-time-zone-picker>` | Icon button + `role="listbox"` dropdown | Bundled SVG (stroke-drawn "A") | The element's own JS handlers |
+| Helper                    | Rendering                               | Icon                             | Keyboard comes from           |
+| ------------------------- | --------------------------------------- | -------------------------------- | ----------------------------- |
+| `<lily-theme-picker>`     | Icon button + `role="listbox"` dropdown | Bundled SVG (half-filled circle) | The element's own JS handlers |
+| `<lily-locale-picker>`    | Icon button + `role="listbox"` dropdown | Bundled SVG (globe outline)      | The element's own JS handlers |
+| `<lily-time-zone-picker>` | Icon button + `role="listbox"` dropdown | Bundled SVG (stroke-drawn "A")   | The element's own JS handlers |
 
 `<lily-time-zone-picker>` was deliberately left as a native `<select>` when
 the other two converted, and joined them afterwards. Its icon was
 chosen as a plain ASCII letter shape rather than a pictograph: U+1F5DB
 DECREASE FONT SIZE SYMBOL has no real glyph in common font stacks and
-means *decrease* rather than *size*, whereas "A" is the conventional
+means _decrease_ rather than _size_, whereas "A" is the conventional
 resize-text affordance. As of 2026-09-16 every picker's default icon
 is a bundled SVG, not a Unicode character — see each helper's own
 `docs/accessibility.md` for the reversal record.
@@ -49,20 +49,41 @@ The accessible name belongs on the rendered control, not on the
 
 ```html
 <lily-theme-picker label="Theme">
-    <!-- the host has no role; nothing announced. -->
-    <div class="theme-picker">
-        <input type="hidden" name="theme" value="light" />
-        <!-- the button is what the screen reader names. -->
-        <button type="button" class="theme-picker-button"
-                aria-label="Theme" aria-haspopup="listbox"
-                aria-expanded="false" aria-controls="theme-picker-1-list">
-            <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true">…</svg>
-        </button>
-        <ul class="theme-picker-list" id="theme-picker-1-list"
-            role="listbox" aria-label="Theme" tabindex="-1" hidden>
-            <!-- one <li role="option"> per theme -->
-        </ul>
-    </div>
+  <!-- the host has no role; nothing announced. -->
+  <div class="theme-picker">
+    <input
+      type="hidden"
+      name="theme"
+      value="light"
+    />
+    <!-- the button is what the screen reader names. -->
+    <button
+      type="button"
+      class="theme-picker-button"
+      aria-label="Theme"
+      aria-haspopup="listbox"
+      aria-expanded="false"
+      aria-controls="theme-picker-1-list"
+    >
+      <svg
+        class="theme-picker-icon"
+        viewBox="0 0 16 16"
+        aria-hidden="true"
+      >
+        …
+      </svg>
+    </button>
+    <ul
+      class="theme-picker-list"
+      id="theme-picker-1-list"
+      role="listbox"
+      aria-label="Theme"
+      tabindex="-1"
+      hidden
+    >
+      <!-- one <li role="option"> per theme -->
+    </ul>
+  </div>
 </lily-theme-picker>
 ```
 
@@ -97,7 +118,7 @@ plainly rather than treating the APG pattern as strictly better.
 ### CustomEvent and screen-reader announcements
 
 `themechange` / `localechange` / `textsizechange` are **not** ARIA
-live regions. They are change notifications for *consumer code*, not
+live regions. They are change notifications for _consumer code_, not
 for assistive technology. If you want the change announced, add a
 `role="status"` or `aria-live` region elsewhere on the page and write
 into it from your listener. Each package's `docs/accessibility.md`
@@ -115,7 +136,7 @@ surface. There are two tiers, and they differ sharply in risk:
   working. This is the safe path and the one to recommend.
 - **Replace the rendering wholesale** (post-processing after
   `super.connectedCallback()`). The subclass then owns the entire
-  accessibility tree *and* the keyboard contract, because the base
+  accessibility tree _and_ the keyboard contract, because the base
   class's handlers are bound to the DOM it built. Each package's
   `docs/custom-rendering.md` lists the invariants such a subclass
   must preserve.
@@ -134,7 +155,7 @@ run a 500 ms typeahead over the option labels. Each package's
 ## Focus management
 
 Selection changes never move focus elsewhere on the page (WCAG
-3.2.2, On Input). The listbox helpers do move focus *within* the
+3.2.2, On Input). The listbox helpers do move focus _within_ the
 control, which the APG listbox pattern requires: opening moves focus
 to the `<ul>`, and selecting or cancelling returns it to the button.
 Tab closes the list without pulling focus back, so it lands wherever

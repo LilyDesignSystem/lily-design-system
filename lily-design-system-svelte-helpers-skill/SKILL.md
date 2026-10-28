@@ -22,24 +22,24 @@ with links: `spec/helpers/index.md` § "Svelte helper packages".
 
 ## The packages
 
-| Package | Owns | Shape |
-| --- | --- | --- |
-| `theme-picker` | a **preference** (theme stylesheet + `data-theme`) | icon button + listbox |
-| `locale-picker` | a **preference** (`lang`/`dir`) | icon button + listbox |
-| `text-size-picker` | a **preference** (`data-text-size`) | icon button + listbox |
-| `motion-picker` | a **preference** (`data-motion`; defaults to `prefers-reduced-motion`) | icon button + listbox |
-| `share-picker` | an **action** | icon button + disclosure of real `<a>` links |
-| `search-picker` | an **action** (GET to `/?<text>`) | icon button + disclosure holding a search form |
-| `link-picker` | an **action** (the app's page links) | home icon button + disclosure of real `<a>` links |
-| `menu-picker` | whatever the app provides | hamburger icon button + disclosure panel |
-| `settings-picker` | whatever the app provides | cog icon button + disclosure panel |
-| `date-time-picker` | a **form value** | typeable field + icon button opening an APG date-picker dialog |
-| `picker-bar` | a composition | link, search, theme, locale, text-size and share pickers in one row |
-| `data-grid` | grid state and behaviour | over the headless `DataTable` family |
-| `kanban-board` | board state and keyboard moves | over the headless `KanbanTable` family |
-| `gantt-chart` | schedule state and editing | over the headless `GanttTable` family + `date-time-picker` |
-| `calendar` | day / week / four-week / month / agenda browsing | over the headless `CalendarTable` family + `date-time-picker` |
-| `filter` | a filter tree (conditions and groups) | outputs JSON, SQL, MongoDB, OData or a predicate |
+| Package            | Owns                                                                   | Shape                                                               |
+| ------------------ | ---------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `theme-picker`     | a **preference** (theme stylesheet + `data-theme`)                     | icon button + listbox                                               |
+| `locale-picker`    | a **preference** (`lang`/`dir`)                                        | icon button + listbox                                               |
+| `text-size-picker` | a **preference** (`data-text-size`)                                    | icon button + listbox                                               |
+| `motion-picker`    | a **preference** (`data-motion`; defaults to `prefers-reduced-motion`) | icon button + listbox                                               |
+| `share-picker`     | an **action**                                                          | icon button + disclosure of real `<a>` links                        |
+| `search-picker`    | an **action** (GET to `/?<text>`)                                      | icon button + disclosure holding a search form                      |
+| `link-picker`      | an **action** (the app's page links)                                   | home icon button + disclosure of real `<a>` links                   |
+| `menu-picker`      | whatever the app provides                                              | hamburger icon button + disclosure panel                            |
+| `settings-picker`  | whatever the app provides                                              | cog icon button + disclosure panel                                  |
+| `date-time-picker` | a **form value**                                                       | typeable field + icon button opening an APG date-picker dialog      |
+| `picker-bar`       | a composition                                                          | link, search, theme, locale, text-size and share pickers in one row |
+| `data-grid`        | grid state and behaviour                                               | over the headless `DataTable` family                                |
+| `kanban-board`     | board state and keyboard moves                                         | over the headless `KanbanTable` family                              |
+| `gantt-chart`      | schedule state and editing                                             | over the headless `GanttTable` family + `date-time-picker`          |
+| `calendar`         | day / week / four-week / month / agenda browsing                       | over the headless `CalendarTable` family + `date-time-picker`       |
+| `filter`           | a filter tree (conditions and groups)                                  | outputs JSON, SQL, MongoDB, OData or a predicate                    |
 
 The four preference pickers share one contract: root
 `<div class="{helper} {class}">` with a hidden input for form

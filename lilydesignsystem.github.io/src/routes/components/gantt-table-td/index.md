@@ -20,15 +20,31 @@ A Gantt table data cell represents a single time period cell within a task row o
 <GanttTableBody>
   <GanttTableTr>
     <GanttTableTH scope="row">Design phase</GanttTableTH>
-    <GanttTableTD active aria-label="Design phase: Jan, in progress">████</GanttTableTD>
-    <GanttTableTD active aria-label="Design phase: Feb, in progress">████</GanttTableTD>
+    <GanttTableTD
+      active
+      aria-label="Design phase: Jan, in progress"
+      >████</GanttTableTD
+    >
+    <GanttTableTD
+      active
+      aria-label="Design phase: Feb, in progress"
+      >████</GanttTableTD
+    >
     <GanttTableTD aria-label="Design phase: Mar, not scheduled"></GanttTableTD>
   </GanttTableTr>
   <GanttTableTr>
     <GanttTableTH scope="row">Development</GanttTableTH>
     <GanttTableTD aria-label="Development: Jan, not scheduled"></GanttTableTD>
-    <GanttTableTD active aria-label="Development: Feb, in progress">████</GanttTableTD>
-    <GanttTableTD active aria-label="Development: Mar, in progress">████</GanttTableTD>
+    <GanttTableTD
+      active
+      aria-label="Development: Feb, in progress"
+      >████</GanttTableTD
+    >
+    <GanttTableTD
+      active
+      aria-label="Development: Mar, in progress"
+      >████</GanttTableTD
+    >
   </GanttTableTr>
 </GanttTableBody>
 ```
@@ -57,14 +73,11 @@ None built-in -- the consumer should implement grid keyboard navigation on cells
 
 This headless component provides a `<td>` element with implicit `gridcell` role when inside a `role="grid"` table. The consumer provides all visual styling including bar rendering, milestone markers, progress indicators, and background colors.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.gantt-table-td` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<td>` element with class `gantt-table-td`
 - Verify Implicit `gridcell` role from the `<td>` element when inside a `role="grid"` table

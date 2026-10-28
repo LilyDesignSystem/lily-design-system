@@ -24,7 +24,10 @@ This headless component uses an `<article>` element for self-contained place con
   <address>42 Thames Road, London SE1 7PB</address>
   <p>Walk-in clinic open Monday to Friday, 08:00 to 18:00.</p>
   <TelLink href="tel:+442079876543">020 7987 6543</TelLink>
-  <Image src="/maps/riverside-clinic.png" label="Map showing Riverside Clinic location" />
+  <image
+    src="/maps/riverside-clinic.png"
+    label="Map showing Riverside Clinic location"
+  />
 </Place>
 ```
 

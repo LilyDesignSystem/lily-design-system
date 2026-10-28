@@ -24,7 +24,10 @@ Supports `selected` for pre-selecting a theme and `disabled` for preventing sele
 ## Usage
 
 ```svelte
-<ThemeSelect label="Theme" bind:value={theme}>
+<ThemeSelect
+  label="Theme"
+  bind:value={theme}
+>
   <ThemeSelectOption value="light">Light</ThemeSelectOption>
   <ThemeSelectOption value="dark">Dark</ThemeSelectOption>
   <ThemeSelectOption value="high-contrast">High Contrast</ThemeSelectOption>

@@ -85,7 +85,7 @@ Rather than modify the headless components (explicitly out of scope for
 this port), each `role` is overridden per element to `grid`/`rowgroup`/
 `gridcell` via `AdditionalAttributes` splatting, relying on Blazor's
 documented attribute-merge order: in each headless component's own
-markup the explicit `role="…"` appears *before* its own
+markup the explicit `role="…"` appears _before_ its own
 `@attributes="AdditionalAttributes"`, so a caller-supplied `role` in
 the splatted dictionary always wins. This was verified against the
 actual rendered DOM (`KanbanBoardTests.cs`,
@@ -126,7 +126,7 @@ this catalog to copy a roving-tabindex model from).
 bUnit has no live browser focus model — a documented, pre-existing
 limitation of this test harness (see the project memory note on a
 prior picker bug that was "invisible to jsdom/bUnit"). This package's
-suite verifies focus *intent*: which `ElementReference`/element id a
+suite verifies focus _intent_: which `ElementReference`/element id a
 `FocusAsync`/`eval` interop call targeted, the same technique
 `ThemePickerTests`/`DateTimePickerTests` already use. 15 tests, one or
 more per §8 acceptance clause, all passing.

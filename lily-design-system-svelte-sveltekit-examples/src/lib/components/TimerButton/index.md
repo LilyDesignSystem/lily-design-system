@@ -10,7 +10,7 @@ See [components/timer-button/index.md](../../../../../components/timer-button/in
 
 ```svelte
 <script lang="ts">
-    import TimerButton from "./TimerButton.svelte";
+  import TimerButton from "./TimerButton.svelte";
 </script>
 
 <TimerButton />

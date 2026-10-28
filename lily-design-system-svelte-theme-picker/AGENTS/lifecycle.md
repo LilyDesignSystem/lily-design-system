@@ -108,8 +108,7 @@ $effect(() => {
       initial = matchSystemTheme(themes);
     }
     if (!initial) {
-      initial =
-        defaultValue ?? (themes.includes("light") ? "light" : themes[0]) ?? "";
+      initial = defaultValue ?? (themes.includes("light") ? "light" : themes[0]) ?? "";
     }
     if (initial && initial !== current) {
       value = initial;
@@ -190,15 +189,15 @@ mid-session, they can write back to `value`:
 
 ```svelte
 <script lang="ts">
-    let themesUrl = $state("/assets/themes/");
-    let theme = $state("light");
+  let themesUrl = $state("/assets/themes/");
+  let theme = $state("light");
 
-    $effect(() => {
-        themesUrl;  // track
-        const current = theme;
-        theme = "";
-        theme = current;
-    });
+  $effect(() => {
+    themesUrl; // track
+    const current = theme;
+    theme = "";
+    theme = current;
+  });
 </script>
 ```
 
@@ -231,12 +230,12 @@ can do it themselves:
 
 ```svelte
 <script lang="ts">
-    import { onDestroy } from "svelte";
+  import { onDestroy } from "svelte";
 
-    onDestroy(() => {
-        document.head.querySelector('[data-lily-theme-picker="theme"]')?.remove();
-        document.documentElement.removeAttribute("data-theme");
-    });
+  onDestroy(() => {
+    document.head.querySelector('[data-lily-theme-picker="theme"]')?.remove();
+    document.documentElement.removeAttribute("data-theme");
+  });
 </script>
 ```
 

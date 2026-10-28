@@ -23,16 +23,36 @@ Reset inputs are useful in forms where users may want to clear all entered data 
 Form with submit and reset actions:
 
 ```html
-<Form label="Registration" onsubmit={handleSubmit}>
-  <Field label="Name" required>
-    <TextInput label="Name" value={name} required />
+<form
+  label="Registration"
+  onsubmit="{handleSubmit}"
+>
+  <Field
+    label="Name"
+    required
+  >
+    <TextInput
+      label="Name"
+      value="{name}"
+      required
+    />
   </Field>
-  <Field label="Email" required>
-    <EmailInput label="Email" value={email} required />
+  <Field
+    label="Email"
+    required
+  >
+    <EmailInput
+      label="Email"
+      value="{email}"
+      required
+    />
   </Field>
   <SubmitInput value="Register" />
-  <ResetInput value="Clear form" disabled={!formDirty} />
-</Form>
+  <ResetInput
+    value="Clear form"
+    disabled="{!formDirty}"
+  />
+</form>
 ```
 
 Simple reset with default label:
@@ -68,14 +88,11 @@ No additional ARIA attributes are needed. The native `<input type="reset">` elem
 
 The ResetInput headless component provides a native `<input type="reset">` with configurable button text via the `value` prop and `disabled` state. The browser handles all form reset behavior natively. The consumer provides all visual styling for the button appearance.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.reset-input` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<input>` element with class `reset-input`
 - Verify keyboard interactions work correctly

@@ -22,7 +22,7 @@ MaltaPassportNumberView is a headless read-only display of Malta's Malta Passpor
 ```html
 <SummaryList>
   <SummaryListItem term="Malta Passport Number">
-    <MaltaPassportNumberView value={value} />
+    <MaltaPassportNumberView value="{value}" />
   </SummaryListItem>
 </SummaryList>
 ```

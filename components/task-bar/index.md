@@ -68,18 +68,15 @@ Task bars are commonly used to provide quick access to frequently performed acti
 
 This headless component renders a `<div>` with `role="toolbar"` and `aria-label` to identify it as a toolbar widget for assistive technologies. The consumer provides all child buttons, keyboard navigation (if arrow key support is desired), and visual styling including layout, spacing, and button appearance.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.task-bar` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `task-bar`
 - Verify role="toolbar"` -- identifies the container as a toolbar widget, grouping related controls
-- Verify aria-label` -- provides the accessible name for the toolbar, set from the `label` prop
+- Verify aria-label`-- provides the accessible name for the toolbar, set from the`label` prop
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied
 

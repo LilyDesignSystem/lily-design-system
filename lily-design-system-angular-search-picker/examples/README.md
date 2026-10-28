@@ -5,8 +5,8 @@ Self-contained Angular 20 examples for
 standalone component that can be dropped into any Angular 20 host
 (Analog page, Angular CLI route, Storybook story).
 
-| #   | File                                         | Demonstrates                                                                                  |
-| --- | -------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| #   | File                                         | Demonstrates                                                                                    |
+| --- | -------------------------------------------- | ----------------------------------------------------------------------------------------------- |
 | 1   | [`basic.component.ts`](./basic.component.ts) | The three required labels, an optional placeholder, and the `searched` output; `foo` → `/?foo`. |
 
 Every user-facing string is an input. `⏎` is the submit button's

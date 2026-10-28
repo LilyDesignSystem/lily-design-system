@@ -23,7 +23,11 @@ npm install @lilydesignsystem/themes
 **Static `<link>` (what the `theme-picker` helper does):**
 
 ```html
-<link rel="stylesheet" href="/node_modules/@lilydesignsystem/themes/light.css" data-lily-theme-picker>
+<link
+  rel="stylesheet"
+  href="/node_modules/@lilydesignsystem/themes/light.css"
+  data-lily-theme-picker
+/>
 ```
 
 `theme-picker` swaps this `href` at runtime and sets `data-theme` on

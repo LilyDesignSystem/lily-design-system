@@ -12,14 +12,14 @@ is part of wiring the component up. See
 
 ## Class hooks
 
-| Selector                         | Element                                                                                                                                                                                                 |
-| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `.theme-picker`                 | The root `<div>`.                                                                                                                                                                                       |
-| `.theme-picker.{consumerClass}` | Both classes when `class` is passed.                                                                                                                                                                    |
-| `.theme-picker-button`          | The trigger `<button type="button">`.                                                                                                                                                                   |
-| `.theme-picker-icon`            | The `<span>` wrapping the default `◑` glyph. **Absent** when you pass a default slot — the slot replaces it.                                                                                            |
-| `.theme-picker-list`            | The `<ul role="listbox">`. Carries `hidden` while closed.                                                                                                                                               |
-| `.theme-picker-option`          | Each `<li role="option">`.                                                                                                                                                                              |
+| Selector                        | Element                                                                                                                                                                                                |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `.theme-picker`                 | The root `<div>`.                                                                                                                                                                                      |
+| `.theme-picker.{consumerClass}` | Both classes when `class` is passed.                                                                                                                                                                   |
+| `.theme-picker-button`          | The trigger `<button type="button">`.                                                                                                                                                                  |
+| `.theme-picker-icon`            | The `<span>` wrapping the default `◑` glyph. **Absent** when you pass a default slot — the slot replaces it.                                                                                           |
+| `.theme-picker-list`            | The `<ul role="listbox">`. Carries `hidden` while closed.                                                                                                                                              |
+| `.theme-picker-option`          | Each `<li role="option">`.                                                                                                                                                                             |
 | `.theme-picker-status`          | The consumer-rendered live region that announces the active theme. Not emitted by the component — you render it next to the picker, as every example does. See [accessibility.md](./accessibility.md). |
 
 The hidden `<input type="hidden">` carries no class hook: it is never
@@ -33,12 +33,12 @@ the button, the listbox, or the options.
 
 | Attribute                         | On                          | Purpose                                                   |
 | --------------------------------- | --------------------------- | --------------------------------------------------------- |
-| `aria-expanded="true"`            | `.theme-picker-button`     | Style the trigger's open state.                           |
-| `hidden`                          | `.theme-picker-list`       | Present while closed. Prefer `[hidden]` over a class.     |
-| `aria-selected="true"`            | `.theme-picker-option`     | The **committed** selection — the active theme.           |
-| `data-active`                     | `.theme-picker-option`     | The **keyboard-active** option while the listbox is open. |
+| `aria-expanded="true"`            | `.theme-picker-button`      | Style the trigger's open state.                           |
+| `hidden`                          | `.theme-picker-list`        | Present while closed. Prefer `[hidden]` over a class.     |
+| `aria-selected="true"`            | `.theme-picker-option`      | The **committed** selection — the active theme.           |
+| `data-active`                     | `.theme-picker-option`      | The **keyboard-active** option while the listbox is open. |
 | `data-theme="<slug>"`             | `target` (default `<html>`) | Active theme indicator for theme CSS files.               |
-| `data-lily-theme-picker="<name>"` | the managed `<link>`        | Discriminator for multiple pickers.                      |
+| `data-lily-theme-picker="<name>"` | the managed `<link>`        | Discriminator for multiple pickers.                       |
 
 `aria-selected` and `data-active` are different things and both need
 styling. `aria-selected` marks the theme currently applied;
@@ -218,7 +218,10 @@ plain selectors for them will not match. Use `:deep()`:
 
 ```vue
 <template>
-  <ThemePicker class="my-theme-picker" ... />
+  <ThemePicker
+    class="my-theme-picker"
+    ...
+  />
 </template>
 
 <style scoped>

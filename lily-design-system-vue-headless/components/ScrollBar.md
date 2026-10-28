@@ -25,12 +25,18 @@ This component renders the structural markup and ARIA attributes for a custom sc
 
 ```svelte
 <!-- Vertical scrollbar -->
-<ScrollBar orientation="vertical" label="Page scroll">
+<ScrollBar
+  orientation="vertical"
+  label="Page scroll"
+>
   <div><!-- thumb element --></div>
 </ScrollBar>
 
 <!-- Horizontal scrollbar -->
-<ScrollBar orientation="horizontal" label="Timeline scroll">
+<ScrollBar
+  orientation="horizontal"
+  label="Timeline scroll"
+>
   <div><!-- thumb element --></div>
 </ScrollBar>
 ```

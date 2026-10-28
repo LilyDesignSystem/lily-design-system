@@ -32,19 +32,19 @@ const { locale } = useI18n();
 const current = ref<string>(locale.value);
 
 function onChange(code: string) {
-    locale.value = code;
+  locale.value = code;
 }
 </script>
 
 <template>
-    <LocalePicker
-        label="Language"
-        :locales="['en', 'fr', 'ar']"
-        v-model:value="current"
-        storage-key="app-locale"
-        detect-from-navigator
-        @change="onChange"
-    />
+  <LocalePicker
+    label="Language"
+    :locales="['en', 'fr', 'ar']"
+    v-model:value="current"
+    storage-key="app-locale"
+    detect-from-navigator
+    @change="onChange"
+  />
 </template>
 ```
 
@@ -55,11 +55,7 @@ your templates re-evaluates against the new locale.
 You can also bind `vue-i18n`'s `locale` ref directly:
 
 ```vue
-<LocalePicker
-    label="Language"
-    :locales="['en', 'fr', 'ar']"
-    v-model:value="locale"
-/>
+<LocalePicker label="Language" :locales="['en', 'fr', 'ar']" v-model:value="locale" />
 ```
 
 Use whichever fits your reactivity story.
@@ -82,13 +78,13 @@ const current = ref<string>(locale.value);
 </script>
 
 <template>
-    <LocalePicker
-        label="Language"
-        :locales="['en', 'fr', 'ar']"
-        v-model:value="current"
-        storage-key="nuxt-locale"
-        @change="(code) => setLocale(code)"
-    />
+  <LocalePicker
+    label="Language"
+    :locales="['en', 'fr', 'ar']"
+    v-model:value="current"
+    storage-key="nuxt-locale"
+    @change="(code) => setLocale(code)"
+  />
 </template>
 ```
 
@@ -99,8 +95,8 @@ Nuxt i18n's URL-prefix strategy needs a `router.push` instead of
 const route = useRoute();
 const router = useRouter();
 function navigateToLocale(next: string) {
-    const path = String(route.path).replace(/^\/(en|fr|ar)/, `/${next}`);
-    router.push(path);
+  const path = String(route.path).replace(/^\/(en|fr|ar)/, `/${next}`);
+  router.push(path);
 }
 ```
 
@@ -122,13 +118,13 @@ const current = ref<string>(getLocale());
 </script>
 
 <template>
-    <LocalePicker
-        label="Language"
-        :locales="['en', 'fr', 'ar']"
-        v-model:value="current"
-        storage-key="paraglide-locale"
-        @change="(code) => setLocale(code as Locale)"
-    />
+  <LocalePicker
+    label="Language"
+    :locales="['en', 'fr', 'ar']"
+    v-model:value="current"
+    storage-key="paraglide-locale"
+    @change="(code) => setLocale(code as Locale)"
+  />
 </template>
 ```
 
@@ -152,12 +148,10 @@ import LocalePicker from "@/lib/LocalePicker.vue";
 
 const locale = ref("en");
 
-const dateFmt = computed(() =>
-    new Intl.DateTimeFormat(locale.value, { dateStyle: "long" }),
-);
+const dateFmt = computed(() => new Intl.DateTimeFormat(locale.value, { dateStyle: "long" }));
 const numFmt = computed(() => new Intl.NumberFormat(locale.value));
-const currencyFmt = computed(() =>
-    new Intl.NumberFormat(locale.value, { style: "currency", currency: "GBP" }),
+const currencyFmt = computed(
+  () => new Intl.NumberFormat(locale.value, { style: "currency", currency: "GBP" }),
 );
 
 const today = new Date();
@@ -165,16 +159,16 @@ const balance = 1234.56;
 </script>
 
 <template>
-    <LocalePicker
-        label="Language"
-        :locales="['en', 'en-US', 'fr', 'fr-CA', 'ar']"
-        v-model:value="locale"
-        storage-key="app-locale"
-    />
+  <LocalePicker
+    label="Language"
+    :locales="['en', 'en-US', 'fr', 'fr-CA', 'ar']"
+    v-model:value="locale"
+    storage-key="app-locale"
+  />
 
-    <p>Today: {{ dateFmt.format(today) }}</p>
-    <p>Balance: {{ currencyFmt.format(balance) }}</p>
-    <p>Population: {{ numFmt.format(67_330_000) }}</p>
+  <p>Today: {{ dateFmt.format(today) }}</p>
+  <p>Balance: {{ currencyFmt.format(balance) }}</p>
+  <p>Population: {{ numFmt.format(67_330_000) }}</p>
 </template>
 ```
 
@@ -199,19 +193,19 @@ const router = useRouter();
 const current = computed(() => String(route.params.locale ?? "en"));
 
 function navigateToLocale(next: string) {
-    const path = String(route.path).replace(/^\/(en|fr|ar)/, `/${next}`);
-    router.push(path);
+  const path = String(route.path).replace(/^\/(en|fr|ar)/, `/${next}`);
+  router.push(path);
 }
 </script>
 
 <template>
-    <LocalePicker
-        label="Language"
-        :locales="['en', 'fr', 'ar']"
-        :value="current"
-        v-model:value="current"
-        @change="navigateToLocale"
-    />
+  <LocalePicker
+    label="Language"
+    :locales="['en', 'fr', 'ar']"
+    :value="current"
+    v-model:value="current"
+    @change="navigateToLocale"
+  />
 </template>
 ```
 
@@ -234,8 +228,8 @@ storage. Prefer a cookie when you have a Nuxt server:
 import { defineEventHandler, getCookie } from "h3";
 
 export default defineEventHandler((event) => {
-    const locale = getCookie(event, "locale") ?? "en";
-    event.context.locale = locale;
+  const locale = getCookie(event, "locale") ?? "en";
+  event.context.locale = locale;
 });
 ```
 
@@ -249,25 +243,25 @@ const { $initialLocale } = useNuxtApp() as unknown as { $initialLocale: string }
 const locale = ref<string>($initialLocale);
 
 useHead({
-    htmlAttrs: {
-        lang: () => bcp47LocaleTag(locale.value),
-        dir: () => (isRtlLocale(locale.value) ? "rtl" : "ltr"),
-    },
+  htmlAttrs: {
+    lang: () => bcp47LocaleTag(locale.value),
+    dir: () => (isRtlLocale(locale.value) ? "rtl" : "ltr"),
+  },
 });
 
 function persist(code: string) {
-    document.cookie = `locale=${code}; path=/; max-age=31536000; SameSite=Lax`;
+  document.cookie = `locale=${code}; path=/; max-age=31536000; SameSite=Lax`;
 }
 </script>
 
 <template>
-    <LocalePicker
-        label="Language"
-        :locales="['en', 'fr', 'ar']"
-        v-model:value="locale"
-        @change="persist"
-    />
-    <NuxtPage />
+  <LocalePicker
+    label="Language"
+    :locales="['en', 'fr', 'ar']"
+    v-model:value="locale"
+    @change="persist"
+  />
+  <NuxtPage />
 </template>
 ```
 
@@ -278,14 +272,14 @@ The page arrives with the correct `lang` and `dir` already on
 
 ## Picking the right strategy
 
-| Need                                       | Strategy                  |
-| ------------------------------------------ | ------------------------- |
-| One small SPA, English + French only       | Raw `Intl.*`              |
-| ICU MessageFormat, plurals, gender         | vue-i18n                  |
-| Tree-shaken type-safe messages, edge SSR   | Paraglide JS              |
-| Translator CMS, live editing, screenshots  | Tolgee                    |
-| SEO-friendly URLs per locale               | @nuxtjs/i18n              |
-| No FOUC, cookie-backed, server-rendered    | Cookie + middleware       |
+| Need                                      | Strategy            |
+| ----------------------------------------- | ------------------- |
+| One small SPA, English + French only      | Raw `Intl.*`        |
+| ICU MessageFormat, plurals, gender        | vue-i18n            |
+| Tree-shaken type-safe messages, edge SSR  | Paraglide JS        |
+| Translator CMS, live editing, screenshots | Tolgee              |
+| SEO-friendly URLs per locale              | @nuxtjs/i18n        |
+| No FOUC, cookie-backed, server-rendered   | Cookie + middleware |
 
 The picker is the same in every case. Only the `v-model:value`
 target and the `@change` body change.

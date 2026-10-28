@@ -60,8 +60,7 @@ its four wrapped pickers.
     selectRow: (label) => `Select ${label}`,
     previousPage: "Previous page",
     nextPage: "Next page",
-    pageStatus: (page, pageCount, rowCount) =>
-      `Page ${page} of ${pageCount} (${rowCount} rows)`,
+    pageStatus: (page, pageCount, rowCount) => `Page ${page} of ${pageCount} (${rowCount} rows)`,
     pageAnnouncement: (page, pageCount) => `Page ${page} of ${pageCount}`,
     sortAnnouncement: (header, direction) => `${header} sorted ${direction}`,
     filterAnnouncement: (matches, total) => `${matches} of ${total} rows match`,
@@ -92,7 +91,7 @@ doesn't render (no baked-in English fallback).
   `rows`, so ids survive sorting, filtering and paging. Pass a `rowId`
   that reads a real key if you replace `rows` with reordered data.
 - **Cells**: a column's `cell` snippet receives `{ value, formatted,
-  row, column }`; `format` still drives the filter.
+row, column }`; `format` still drives the filter.
 - **Interactive cells**: a `cell` snippet may hold links, buttons,
   inputs and selects. Keys pressed on such a widget are left alone
   (`Escape` returns focus to the cell); widgets are not tab stops until
@@ -141,7 +140,7 @@ doesn't render (no baked-in English fallback).
 - **Field-specific search.** `filterField` (bindable, `onFilterFieldChange`) limits the text filter to one column; `labels.searchField` (the select's name) with `labels.searchAllFields` (its first option) shows the select, listing the filterable columns. Without a field the whole row is searched.
 - **`movableColumns`** makes every column movable (Alt+Arrow on the header, or drag), unless a column's `movable` is `false`.
 - **Right-to-left.** The horizontal arrows are visual, so in a right-to-left layout (the nearest `dir`, else the computed direction) ArrowLeft goes to the next cell and ArrowRight to the previous, and Alt+Arrow moves a column the way the arrow points. Vertical keys, Home, End and the page keys do not change. The pure `isRtl` / `logicalKey` are exported.
-- **Labels.** `DataGridLabels` is the one bundle of every string. What each feature needs is listed in `CONTROL_LABELS` (labels that *name a control*) and `ANNOUNCEMENT_LABELS` (live-region messages), and `requiredLabels(features)` / `missingLabels(features, labels)` compute it, so an app can assert in a test that its bundle for a locale is complete. In development the grid logs once, naming the labels its features call for that `labels` leaves out (`warnMissingLabels={false}` silences it; it never logs in production). Lily has no English fallback: a missing label is a control with no name or an announcement never made. `sortAnnouncement` receives the ARIA token (`ascending`, `descending`, `none`), which the bundle turns into its own words.
+- **Labels.** `DataGridLabels` is the one bundle of every string. What each feature needs is listed in `CONTROL_LABELS` (labels that _name a control_) and `ANNOUNCEMENT_LABELS` (live-region messages), and `requiredLabels(features)` / `missingLabels(features, labels)` compute it, so an app can assert in a test that its bundle for a locale is complete. In development the grid logs once, naming the labels its features call for that `labels` leaves out (`warnMissingLabels={false}` silences it; it never logs in production). Lily has no English fallback: a missing label is a control with no name or an announcement never made. `sortAnnouncement` receives the ARIA token (`ascending`, `descending`, `none`), which the bundle turns into its own words.
 - **Row attributes.** `rowAttrs(row)` returns attributes spread onto each body row — the way to put test ids (`data-testid`), data attributes and other hooks on rows (`rowAttrs={(row) => ({ "data-testid": `row-${row.id}` })}`); `rowClass` does the same for classes, and a column's `cellAttrs` / `cellClass` for cells.
 
 ## Pager landmark (0.10.0)

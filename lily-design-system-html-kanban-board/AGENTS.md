@@ -30,13 +30,13 @@ class names (`kanban-table`, `kanban-table-head`/`-body`/`-row`/`-th`/
 
 ## Files
 
-| File                    | Purpose                                                |
-| ------------------------ | ------------------------------------------------------- |
-| `spec/index.md`          | Specification-driven contract (canonical).             |
-| `kanban-board.ts`        | Implementation. Vanilla TypeScript custom element.      |
-| `kanban-board.test.ts`   | Vitest + jsdom spec, one or more assertions per §8.     |
-| `index.ts`               | Barrel re-export + side-effectful `customElements.define`. |
-| `index.md`               | User guide.                                              |
+| File                   | Purpose                                                    |
+| ---------------------- | ---------------------------------------------------------- |
+| `spec/index.md`        | Specification-driven contract (canonical).                 |
+| `kanban-board.ts`      | Implementation. Vanilla TypeScript custom element.         |
+| `kanban-board.test.ts` | Vitest + jsdom spec, one or more assertions per §8.        |
+| `index.ts`             | Barrel re-export + side-effectful `customElements.define`. |
+| `index.md`             | User guide.                                                |
 
 ## Public surface
 

@@ -11,7 +11,10 @@ A single row in a Table, rendered as a <tr> element. Contains TableTH or TableTD
 ## Usage
 
 ```tsx
-<TableRow><TableTD>Alice</TableTD><TableTD>alice@example.com</TableTD></TableRow>
+<TableRow>
+  <TableTD>Alice</TableTD>
+  <TableTD>alice@example.com</TableTD>
+</TableRow>
 ```
 
 ## References

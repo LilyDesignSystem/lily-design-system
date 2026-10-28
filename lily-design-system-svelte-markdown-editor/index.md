@@ -48,18 +48,18 @@ entry in `labels` is not rendered: an unnamed button is worse than no button.
 
 ## Props
 
-| Prop           | Type                         | Required | Default      | Purpose                                                          |
-| -------------- | ---------------------------- | -------- | ------------ | ---------------------------------------------------------------- |
-| `value`        | `string` (bindable)          | no       | `""`         | The text, as Markdown.                                           |
-| `label`        | `string`                     | yes      | —            | Accessible name of the textarea.                                 |
-| `toolbarLabel` | `string`                     | yes      | —            | Accessible name of the toolbar.                                  |
-| `labels`       | `Partial<Record<ToolId,string>>` | yes  | —            | Accessible name per tool; a tool without one is not shown.       |
-| `tools`        | `ToolId[]`                   | no       | all nine     | Which tools to show, and in what order.                          |
-| `headingLevel` | `1`–`6`                      | no       | `2`          | How many `#` the heading tool writes.                            |
-| `name`, `id`, `rows`, `placeholder`, `disabled`, `readonly`, `required` | | no | | Passed to the `<textarea>`. |
-| `onchange`     | `(value: string) => void`    | no       | —            | After every change, typed or from a tool.                        |
-| `icon`         | `Snippet<[ToolId]>`          | no       | bundled SVGs | Replaces a tool's icon.                                          |
-| `class`, rest  |                              | no       |              | Appended to the root class; rest props spread onto the root.     |
+| Prop                                                                    | Type                             | Required | Default      | Purpose                                                      |
+| ----------------------------------------------------------------------- | -------------------------------- | -------- | ------------ | ------------------------------------------------------------ |
+| `value`                                                                 | `string` (bindable)              | no       | `""`         | The text, as Markdown.                                       |
+| `label`                                                                 | `string`                         | yes      | —            | Accessible name of the textarea.                             |
+| `toolbarLabel`                                                          | `string`                         | yes      | —            | Accessible name of the toolbar.                              |
+| `labels`                                                                | `Partial<Record<ToolId,string>>` | yes      | —            | Accessible name per tool; a tool without one is not shown.   |
+| `tools`                                                                 | `ToolId[]`                       | no       | all nine     | Which tools to show, and in what order.                      |
+| `headingLevel`                                                          | `1`–`6`                          | no       | `2`          | How many `#` the heading tool writes.                        |
+| `name`, `id`, `rows`, `placeholder`, `disabled`, `readonly`, `required` |                                  | no       |              | Passed to the `<textarea>`.                                  |
+| `onchange`                                                              | `(value: string) => void`        | no       | —            | After every change, typed or from a tool.                    |
+| `icon`                                                                  | `Snippet<[ToolId]>`              | no       | bundled SVGs | Replaces a tool's icon.                                      |
+| `class`, rest                                                           |                                  | no       |              | Appended to the root class; rest props spread onto the root. |
 
 `ToolId` is `heading | bold | italic | strikethrough | code | link | quote | bulletList | numberedList`.
 
@@ -81,35 +81,57 @@ entry in `labels` is not rendered: an unnamed button is worse than no button.
 
 `npm run test:e2e` runs `e2e/undo.spec.ts` in Chromium, Firefox and WebKit. As of 2026-10-24:
 
-| Engine   | Result |
-| -------- | ------ |
-| Chromium | Passes: a tool, native undo and redo; each tool is its own undo step; typing after a tool undoes separately. |
+| Engine   | Result                                                                                                                                                               |
+| -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Chromium | Passes: a tool, native undo and redo; each tool is its own undo step; typing after a tool undoes separately.                                                         |
 | WebKit   | Passes with one difference: it merges consecutive edits into one undo step, so two tools undo together, and undoing after typing also removes the tool just applied. |
-| Firefox  | **Not run.** Playwright's Firefox 157 does not launch on the maintainer's macOS ("Could not find profile folder"); run it elsewhere before relying on it. |
+| Firefox  | **Not run.** Playwright's Firefox 157 does not launch on the maintainer's macOS ("Could not find profile folder"); run it elsewhere before relying on it.            |
 
 ## Markup
 
 ```html
 <div class="markdown-editor {class}">
-  <div class="markdown-editor-toolbar" role="toolbar" aria-label aria-controls aria-orientation="horizontal">
-    <button class="markdown-editor-button" type="button" data-tool="bold" aria-label tabindex="0">
-      <svg class="markdown-editor-icon" aria-hidden="true">…</svg>
+  <div
+    class="markdown-editor-toolbar"
+    role="toolbar"
+    aria-label
+    aria-controls
+    aria-orientation="horizontal"
+  >
+    <button
+      class="markdown-editor-button"
+      type="button"
+      data-tool="bold"
+      aria-label
+      tabindex="0"
+    >
+      <svg
+        class="markdown-editor-icon"
+        aria-hidden="true"
+      >
+        …
+      </svg>
     </button>
     …
   </div>
-  <textarea class="markdown-editor-textarea" aria-label name …></textarea>
+  <textarea
+    class="markdown-editor-textarea"
+    aria-label
+    name
+    …
+  ></textarea>
 </div>
 ```
 
 ## Keyboard
 
-| Where    | Key                            | Action                                       |
-| -------- | ------------------------------ | -------------------------------------------- |
-| Toolbar  | `←` `→`                        | Move to the previous / next button (clamps). |
-| Toolbar  | `Home` `End`                   | First / last button.                         |
-| Toolbar  | `Tab`                          | Into the toolbar (one tab stop), then out.   |
-| Toolbar  | `Enter` `Space`                | Apply the tool; focus returns to the text.   |
-| Textarea | `Ctrl`/`Cmd` + `B` `I` `K`     | Bold, italic, link.                          |
+| Where    | Key                        | Action                                       |
+| -------- | -------------------------- | -------------------------------------------- |
+| Toolbar  | `←` `→`                    | Move to the previous / next button (clamps). |
+| Toolbar  | `Home` `End`               | First / last button.                         |
+| Toolbar  | `Tab`                      | Into the toolbar (one tab stop), then out.   |
+| Toolbar  | `Enter` `Space`            | Apply the tool; focus returns to the text.   |
+| Textarea | `Ctrl`/`Cmd` + `B` `I` `K` | Bold, italic, link.                          |
 
 ## What it is not
 

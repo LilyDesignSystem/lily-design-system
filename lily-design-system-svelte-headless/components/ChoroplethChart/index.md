@@ -10,11 +10,11 @@ See [components/choropleth-chart/index.md](../../../components/choropleth-chart/
 
 ```svelte
 <script lang="ts">
-    import ChoroplethChart from "./ChoroplethChart.svelte";
+  import ChoroplethChart from "./ChoroplethChart.svelte";
 </script>
 
 <ChoroplethChart label="Describe the chart">
-    <svg viewBox="0 0 10 10">…</svg>
+  <svg viewBox="0 0 10 10">…</svg>
 </ChoroplethChart>
 ```
 

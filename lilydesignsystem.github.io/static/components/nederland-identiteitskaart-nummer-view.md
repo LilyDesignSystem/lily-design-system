@@ -22,7 +22,7 @@ NederlandIdentiteitskaartNummerView is a headless read-only display of Netherlan
 ```html
 <SummaryList>
   <SummaryListItem term="Dutch National Identity Card Number">
-    <NederlandIdentiteitskaartNummerView value={value} />
+    <NederlandIdentiteitskaartNummerView value="{value}" />
   </SummaryListItem>
 </SummaryList>
 ```

@@ -2,13 +2,13 @@
 
 The package ships no CSS, including the panel's positioning; the monorepo's `themes/` do it for you.
 
-| Hook | Element |
-| ---- | ------- |
-| `.settings-picker` | Rendered root `<div>`. Your `class` attribute is appended. |
-| `.settings-picker-button` | The trigger `<button>`. |
-| `.settings-picker-icon` | The `aria-hidden` SVG. |
-| `.settings-picker-tooltip` | The `role="tooltip"` hint. Carries `hidden` when not shown. |
-| `.settings-picker-panel` | The `role="group"` panel holding your content. Carries `hidden` when closed. |
+| Hook                       | Element                                                                      |
+| -------------------------- | ---------------------------------------------------------------------------- |
+| `.settings-picker`         | Rendered root `<div>`. Your `class` attribute is appended.                   |
+| `.settings-picker-button`  | The trigger `<button>`.                                                      |
+| `.settings-picker-icon`    | The `aria-hidden` SVG.                                                       |
+| `.settings-picker-tooltip` | The `role="tooltip"` hint. Carries `hidden` when not shown.                  |
+| `.settings-picker-panel`   | The `role="group"` panel holding your content. Carries `hidden` when closed. |
 
 Minimum CSS: `.lily-settings-picker { position: relative; display: inline-block }`, `.settings-picker-panel { position: absolute }` and
 `.settings-picker-panel[hidden], .settings-picker-tooltip[hidden] { display: none }` (the `hidden` rule is the one people forget).

@@ -23,7 +23,12 @@ The NIR (also known as the Social Security number) is a 15-digit number printed 
 <SummaryList>
   <SummaryListItem>
     <dt>Numéro de Sécurité Sociale</dt>
-    <dd><FranceNumeroDIdentificationAuRepertoireView label="NIR" value="1 85 05 75 012 345 67" /></dd>
+    <dd>
+      <FranceNumeroDIdentificationAuRepertoireView
+        label="NIR"
+        value="1 85 05 75 012 345 67"
+      />
+    </dd>
   </SummaryListItem>
 </SummaryList>
 ```

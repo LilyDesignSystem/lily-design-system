@@ -24,7 +24,10 @@ This component is useful for date-related forms where the user needs to select a
 ## Usage
 
 ```svelte
-<MonthInput label="Start month" bind:value />
+<MonthInput
+  label="Start month"
+  bind:value
+/>
 ```
 
 ## Keyboard Interactions

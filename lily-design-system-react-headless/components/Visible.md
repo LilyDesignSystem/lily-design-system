@@ -16,9 +16,7 @@ The current visibility is also exposed via `data-visible` on the root `<div>` so
 ## Usage
 
 ```tsx
-<Visible once>
-  {(visible) => visible ? <HeavyChart /> : <Placeholder />}
-</Visible>
+<Visible once>{(visible) => (visible ? <HeavyChart /> : <Placeholder />)}</Visible>
 ```
 
 ## References

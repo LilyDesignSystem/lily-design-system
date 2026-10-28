@@ -23,13 +23,22 @@ This component renders as a semantic `<aside>` element with `role="note"`, givin
 ```
 
 ```tsx
-{/* In-page link from main content to footnote */}
-<p>This claim is supported by research.<a href="#fn1"><sup>1</sup></a></p>
+{
+  /* In-page link from main content to footnote */
+}
+<p>
+  This claim is supported by research.
+  <a href="#fn1">
+    <sup>1</sup>
+  </a>
+</p>;
 
-{/* Footnote at the bottom of the page or section */}
+{
+  /* Footnote at the bottom of the page or section */
+}
 <Footnote id="fn1">
   <a href="#ref1">1.</a> Example, A. (2024). <em>Research Title</em>. Journal Name.
-</Footnote>
+</Footnote>;
 ```
 
 ## Keyboard Interactions

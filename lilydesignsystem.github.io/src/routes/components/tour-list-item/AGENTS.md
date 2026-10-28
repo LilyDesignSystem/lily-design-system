@@ -42,7 +42,7 @@
 | `current`      | `boolean`       | `false`    | Whether this step is the currently visible step         |
 | `stepNumber`   | `number`        | (optional) | 1-based step number (e.g. 1, 2, 3)                      |
 | `totalSteps`   | `number`        | (optional) | Total number of steps in the tour                       |
-| `children`     | `slot`       | (required) | Step content                                            |
+| `children`     | `slot`          | (required) | Step content                                            |
 | `...restProps` | HTML attributes |            | Additional attributes spread onto the container `<div>` |
 
 ## Acceptance Criteria

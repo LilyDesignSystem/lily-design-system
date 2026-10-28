@@ -19,15 +19,15 @@ it applies nothing to the document root and persists nothing. No
 
 ## Files
 
-| File                              | Purpose                                           |
-| --------------------------------- | ------------------------------------------------- |
-| `spec/index.md`                   | Specification-driven contract (canonical).        |
+| File                             | Purpose                                           |
+| -------------------------------- | ------------------------------------------------- |
+| `spec/index.md`                  | Specification-driven contract (canonical).        |
 | `share-picker.component.ts`      | Implementation. Standalone, signal-based, OnPush. |
 | `share-picker.component.spec.ts` | Vitest spec, mapped to the §7 clauses (49 cases). |
-| `docs/accessibility.md`           | Tradeoffs, stated plainly.                        |
-| `examples/`                       | Runnable standalone example components.           |
-| `index.ts`                        | Barrel re-export.                                 |
-| `index.md`                        | User guide.                                       |
+| `docs/accessibility.md`          | Tradeoffs, stated plainly.                        |
+| `examples/`                      | Runnable standalone example components.           |
+| `index.ts`                       | Barrel re-export.                                 |
+| `index.md`                       | User guide.                                       |
 
 ## Public surface
 
@@ -66,10 +66,33 @@ clipboard API is a failure, never a crash. The URL is resolved lazily
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <svg class="share-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5"/></svg>
+    <svg
+      class="share-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" />
+    </svg>
   </button>
-  <div class="share-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
-  <ul class="share-picker-list" id="{listId}" aria-label="{label}" hidden>
+  <div
+    class="share-picker-tooltip"
+    role="tooltip"
+    id="{tooltipId}"
+    hidden
+  >
+    {label}
+  </div>
+  <ul
+    class="share-picker-list"
+    id="{listId}"
+    aria-label="{label}"
+    hidden
+  >
     <li class="share-picker-list-item">
       <a
         class="share-picker-target"
@@ -81,10 +104,18 @@ clipboard API is a failure, never a crash. The URL is resolved lazily
       >
     </li>
     <li class="share-picker-list-item">
-      <button type="button" class="share-picker-copy">{copyLabel}</button>
+      <button
+        type="button"
+        class="share-picker-copy"
+      >
+        {copyLabel}
+      </button>
     </li>
   </ul>
-  <p class="share-picker-status" aria-live="polite"></p>
+  <p
+    class="share-picker-status"
+    aria-live="polite"
+  ></p>
 </div>
 ```
 

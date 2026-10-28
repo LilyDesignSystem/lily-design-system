@@ -16,7 +16,10 @@ Compound component: use with DataTableHead, DataTableBody, DataTableFoot, DataTa
 ```tsx
 <DataTable label="User accounts">
   <DataTableHead>
-    <DataTableRow><th scope="col">Name</th><th scope="col">Email</th></DataTableRow>
+    <DataTableRow>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+    </DataTableRow>
   </DataTableHead>
   <DataTableBody>
     <DataTableRow>

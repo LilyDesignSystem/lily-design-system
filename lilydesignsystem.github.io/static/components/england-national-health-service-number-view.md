@@ -22,7 +22,7 @@ EnglandNationalHealthServiceNumberView is a headless read-only display of Englan
 ```html
 <SummaryList>
   <SummaryListItem term="National Health Service Number">
-    <EnglandNationalHealthServiceNumberView value={value} />
+    <EnglandNationalHealthServiceNumberView value="{value}" />
   </SummaryListItem>
 </SummaryList>
 ```

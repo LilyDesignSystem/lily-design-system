@@ -4,21 +4,21 @@ Pattern:
 
 ```tsx
 <CalendarTable>
-    <CalendarTableHead>
-        <CalendarTableRow>
-            <CalendarTableTH>…</CalendarTableTH>
-        </CalendarTableRow>
-    </CalendarTableHead>
-    <CalendarTableBody>
-        <CalendarTableRow>
-            <CalendarTableTD>…</CalendarTableTD>
-        </CalendarTableRow>
-    </CalendarTableBody>
-    <CalendarTableFoot>
-        <CalendarTableRow>
-            <CalendarTableTH>…</CalendarTableTH>
-        </CalendarTableRow>
-    </CalendarTableFoot>
+  <CalendarTableHead>
+    <CalendarTableRow>
+      <CalendarTableTH>…</CalendarTableTH>
+    </CalendarTableRow>
+  </CalendarTableHead>
+  <CalendarTableBody>
+    <CalendarTableRow>
+      <CalendarTableTD>…</CalendarTableTD>
+    </CalendarTableRow>
+  </CalendarTableBody>
+  <CalendarTableFoot>
+    <CalendarTableRow>
+      <CalendarTableTH>…</CalendarTableTH>
+    </CalendarTableRow>
+  </CalendarTableFoot>
 </CalendarTable>
 ```
 

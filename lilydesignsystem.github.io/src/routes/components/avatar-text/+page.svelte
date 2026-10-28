@@ -92,7 +92,7 @@
     <h3>Props</h3>
     <p>| Prop           | Type            | Default    | Description                                            |</p>
     <p>| -------------- | --------------- | ---------- | ------------------------------------------------------ |</p>
-    <p>| <code>children</code>     | <code>slot</code>       | (required) | Initials or short text to display                      |</p>
+    <p>| <code>children</code>     | <code>slot</code>          | (required) | Initials or short text to display                      |</p>
     <p>| <code>...restProps</code> | HTML attributes |            | Additional attributes spread onto the <code>&lt;span&gt;</code> element |</p>
 </section>
 <!-- END generated: canonical contract -->

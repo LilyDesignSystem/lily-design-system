@@ -63,7 +63,7 @@ Identical to the Svelte canonical's §2:
 - **Persistence.** Unlike the three preference helpers in this catalog
   (`theme-picker`, `locale-picker`, `text-size-picker`), this control
   does not write to `localStorage`, the same way `share-picker` does
-  not: a date in a form is *data*, not a preference.
+  not: a date in a form is _data_, not a preference.
 - **Relative-date parsing** ("tomorrow", "next Friday"). Use `shortcuts`.
 - **Shipped positioning CSS** for the dialog. The package stays headless.
 
@@ -114,33 +114,33 @@ Two decisions are specific to this port:
 
 ### 4.1 Observed attributes
 
-| Attribute | Type | Required | Default | Purpose |
-| --------- | ---- | -------- | ------- | ------- |
-| `label` | string | yes | `""` | Accessible name for **both** the trigger button and the dialog. |
-| `mode` | `"date" \| "time" \| "datetime"` | no | `"date"` | What to collect. An unrecognised value falls back to `"date"`. |
-| `value` | string | no | `""` | ISO value. |
-| `locale` | string | no | runtime default | BCP 47 tag driving all formatting. |
-| `min` | string | no | — | Earliest selectable date, ISO. |
-| `max` | string | no | — | Latest selectable date, ISO. |
-| `first-day-of-week` | number (`"0"`–`"6"`) | no | from `locale` | 0 = Sunday … 6 = Saturday. Absent, empty, or out of range falls back to the locale. |
-| `minute-step` | number | no | `1` | Granularity of the minute select. |
-| `hour12` | `"true" \| "false"` | no | from `locale` | 12-hour clock. **Tri-state** — see below. |
-| `show-week-numbers` | boolean (presence) | no | `false` | Render an ISO-8601 week column. |
-| `confirm-on-select` | `"true" \| "false"` | no | `mode === "date"` | Commit and close on day click. **Tri-state** — see below. |
-| `name` | string | no | `"date-time"` | `name` of the hidden input. |
-| `time-zone` | string | no | `""` | Selected IANA zone, or `""` for none. Rides `{name}-time-zone` and `data-time-zone`. See §5.9. |
-| `input-id` | string | no | generated | `id` of the text field, for a consumer `<label for>`. |
-| `described-by` | string | no | — | Forwarded as `aria-describedby`. |
-| `placeholder` | string | no | — | Placeholder for the text field. |
-| `disabled` | boolean (presence) | no | `false` | Disable the whole control. |
-| `readonly` | boolean (presence) | no | `false` | Show the value, refuse edits. |
-| `required` | boolean (presence) | no | `false` | Mark the field required. |
-| `class` | string | no | `""` | Extra CSS class on the rendered root `<div>`. |
+| Attribute           | Type                             | Required | Default           | Purpose                                                                                        |
+| ------------------- | -------------------------------- | -------- | ----------------- | ---------------------------------------------------------------------------------------------- |
+| `label`             | string                           | yes      | `""`              | Accessible name for **both** the trigger button and the dialog.                                |
+| `mode`              | `"date" \| "time" \| "datetime"` | no       | `"date"`          | What to collect. An unrecognised value falls back to `"date"`.                                 |
+| `value`             | string                           | no       | `""`              | ISO value.                                                                                     |
+| `locale`            | string                           | no       | runtime default   | BCP 47 tag driving all formatting.                                                             |
+| `min`               | string                           | no       | —                 | Earliest selectable date, ISO.                                                                 |
+| `max`               | string                           | no       | —                 | Latest selectable date, ISO.                                                                   |
+| `first-day-of-week` | number (`"0"`–`"6"`)             | no       | from `locale`     | 0 = Sunday … 6 = Saturday. Absent, empty, or out of range falls back to the locale.            |
+| `minute-step`       | number                           | no       | `1`               | Granularity of the minute select.                                                              |
+| `hour12`            | `"true" \| "false"`              | no       | from `locale`     | 12-hour clock. **Tri-state** — see below.                                                      |
+| `show-week-numbers` | boolean (presence)               | no       | `false`           | Render an ISO-8601 week column.                                                                |
+| `confirm-on-select` | `"true" \| "false"`              | no       | `mode === "date"` | Commit and close on day click. **Tri-state** — see below.                                      |
+| `name`              | string                           | no       | `"date-time"`     | `name` of the hidden input.                                                                    |
+| `time-zone`         | string                           | no       | `""`              | Selected IANA zone, or `""` for none. Rides `{name}-time-zone` and `data-time-zone`. See §5.9. |
+| `input-id`          | string                           | no       | generated         | `id` of the text field, for a consumer `<label for>`.                                          |
+| `described-by`      | string                           | no       | —                 | Forwarded as `aria-describedby`.                                                               |
+| `placeholder`       | string                           | no       | —                 | Placeholder for the text field.                                                                |
+| `disabled`          | boolean (presence)               | no       | `false`           | Disable the whole control.                                                                     |
+| `readonly`          | boolean (presence)               | no       | `false`           | Show the value, refuse edits.                                                                  |
+| `required`          | boolean (presence)               | no       | `false`           | Mark the field required.                                                                       |
+| `class`             | string                           | no       | `""`              | Extra CSS class on the rendered root `<div>`.                                                  |
 
 **Tri-state booleans (`hour12`, `confirm-on-select`).** This catalog's
 usual boolean-attribute convention — absent means `false`, present means
 `true` (`theme-picker`'s `detect-from-system`, this package's own
-`show-week-numbers`) — cannot express "absent means *compute a default*"
+`show-week-numbers`) — cannot express "absent means _compute a default_"
 because the resolved default depends on `locale` or `mode`. So these two
 read three states from the attribute: `"true"` and `"false"` are
 explicit; anything else (including absence) falls through to the
@@ -177,19 +177,19 @@ hidden input.
 
 Six parts of the canonical API cannot be attributes:
 
-| Member | Type | Why it cannot be an attribute | Paired event |
-| ------ | ---- | ------------------------------ | ------------ |
-| `labels: DateTimePickerLabels` | object, 6 required + 7 optional strings | See below. | — |
-| `shortcuts: DateTimeShortcut[]` | array of objects | Each entry mixes a string `label` with optional numeric `days`/`months` and an optional ISO `date`; no single attribute encoding covers the shape without ambiguity, and this catalog's usual "comma-separated string" convention only handles a flat array of plain strings. | `shortcut` |
-| `isDateDisabled` | `(isoDate: string) => boolean` | Function. | — |
-| `formatValue` | `(value: string) => string` | Function. | — |
-| `parseInput` | `(text: string) => string \| null` | Function. | — |
-| `onChange` | `(value: string) => void` | Function-valued callback. | `datetimechange` |
-| `onShortcut` | `(id: string, isoDate: string) => void` | Function-valued callback. | `shortcut` |
-| `onInvalidInput` | `(text: string) => void` | Function-valued callback. | `invalidinput` |
-| `timeZones: string[] \| undefined` | array of IANA zone ids | No single-string encoding fits an arbitrary-length list without a delimiter ambiguity, and this is set once at setup like `shortcuts`. | — |
-| `timeZoneLabels: Record<string, string>` | object | Object-valued, same reasoning as `labels`. | — |
-| `onTimeZoneChange` | `(timeZone: string) => void` | Function-valued callback. | `timezonechange` |
+| Member                                   | Type                                    | Why it cannot be an attribute                                                                                                                                                                                                                                                 | Paired event     |
+| ---------------------------------------- | --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- |
+| `labels: DateTimePickerLabels`           | object, 6 required + 7 optional strings | See below.                                                                                                                                                                                                                                                                    | —                |
+| `shortcuts: DateTimeShortcut[]`          | array of objects                        | Each entry mixes a string `label` with optional numeric `days`/`months` and an optional ISO `date`; no single attribute encoding covers the shape without ambiguity, and this catalog's usual "comma-separated string" convention only handles a flat array of plain strings. | `shortcut`       |
+| `isDateDisabled`                         | `(isoDate: string) => boolean`          | Function.                                                                                                                                                                                                                                                                     | —                |
+| `formatValue`                            | `(value: string) => string`             | Function.                                                                                                                                                                                                                                                                     | —                |
+| `parseInput`                             | `(text: string) => string \| null`      | Function.                                                                                                                                                                                                                                                                     | —                |
+| `onChange`                               | `(value: string) => void`               | Function-valued callback.                                                                                                                                                                                                                                                     | `datetimechange` |
+| `onShortcut`                             | `(id: string, isoDate: string) => void` | Function-valued callback.                                                                                                                                                                                                                                                     | `shortcut`       |
+| `onInvalidInput`                         | `(text: string) => void`                | Function-valued callback.                                                                                                                                                                                                                                                     | `invalidinput`   |
+| `timeZones: string[] \| undefined`       | array of IANA zone ids                  | No single-string encoding fits an arbitrary-length list without a delimiter ambiguity, and this is set once at setup like `shortcuts`.                                                                                                                                        | —                |
+| `timeZoneLabels: Record<string, string>` | object                                  | Object-valued, same reasoning as `labels`.                                                                                                                                                                                                                                    | —                |
+| `onTimeZoneChange`                       | `(timeZone: string) => void`            | Function-valued callback.                                                                                                                                                                                                                                                     | `timezonechange` |
 
 **Why `labels` is property-only rather than a JSON attribute.** This
 catalog does JSON-encode some object-valued attributes elsewhere
@@ -210,12 +210,12 @@ Every callback is paired with a bubbling, composed `CustomEvent`,
 matching `theme-picker`'s `themechange` and `share-picker`'s `share` /
 `copy` / `nativeshare`:
 
-| Event | Detail | Fires when |
-| ----- | ------ | ---------- |
-| `datetimechange` | `{ value: string }` | A value is committed (Confirm, a committing day click, Clear, or a resolved typed edit). |
-| `timezonechange` | `{ timeZone: string }` | A zone is chosen from the time-zone select. |
-| `shortcut` | `{ id: string; isoDate: string }` | A shortcut resolves to a selectable date. |
-| `invalidinput` | `{ text: string }` | Typed text will not parse, or parses outside `min`/`max`/`isDateDisabled`. |
+| Event            | Detail                            | Fires when                                                                               |
+| ---------------- | --------------------------------- | ---------------------------------------------------------------------------------------- |
+| `datetimechange` | `{ value: string }`               | A value is committed (Confirm, a committing day click, Clear, or a resolved typed edit). |
+| `timezonechange` | `{ timeZone: string }`            | A zone is chosen from the time-zone select.                                              |
+| `shortcut`       | `{ id: string; isoDate: string }` | A shortcut resolves to a selectable date.                                                |
+| `invalidinput`   | `{ text: string }`                | Typed text will not parse, or parses outside `min`/`max`/`isDateDisabled`.               |
 
 Ordering: callback first, then `dispatchEvent`. Both always fire when
 the underlying action fires at all — the callback is a convenience, not
@@ -227,81 +227,239 @@ shortcut resolves to a blocked date (§5.5) — both match the Svelte
 ### 4.4 DOM contract
 
 ```html
-<lily-date-time-picker label="Choose a date" mode="date" value="…">
-  <div class="date-time-picker {class}" data-mode="date">
-    <input type="hidden" name="{name}" value="{value}" />
+<lily-date-time-picker
+  label="Choose a date"
+  mode="date"
+  value="…"
+>
+  <div
+    class="date-time-picker {class}"
+    data-mode="date"
+  >
+    <input
+      type="hidden"
+      name="{name}"
+      value="{value}"
+    />
     <!-- Only when labels.timeZone: the zone's own form participation. -->
-    <input type="hidden" name="{name}-time-zone" value="{timeZone}" />
+    <input
+      type="hidden"
+      name="{name}-time-zone"
+      value="{timeZone}"
+    />
 
     <div class="date-time-picker-field">
-      <input class="date-time-picker-input" id="{fieldId}" type="text"
-             autocomplete="off" value="{display}" aria-invalid="true|absent"
-             aria-errormessage="{statusId} while invalid, when labels.invalid" />
-      <button type="button" class="date-time-picker-button" aria-label="{label}"
-              aria-haspopup="dialog" aria-expanded="false"
-              aria-controls="{dialogId}">
-        <span class="date-time-picker-icon" aria-hidden="true">📅︎</span>
+      <input
+        class="date-time-picker-input"
+        id="{fieldId}"
+        type="text"
+        autocomplete="off"
+        value="{display}"
+        aria-invalid="true|absent"
+        aria-errormessage="{statusId} while invalid, when labels.invalid"
+      />
+      <button
+        type="button"
+        class="date-time-picker-button"
+        aria-label="{label}"
+        aria-haspopup="dialog"
+        aria-expanded="false"
+        aria-controls="{dialogId}"
+      >
+        <span
+          class="date-time-picker-icon"
+          aria-hidden="true"
+          >📅︎</span
+        >
       </button>
-      <div class="date-time-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
+      <div
+        class="date-time-picker-tooltip"
+        role="tooltip"
+        id="{tooltipId}"
+        hidden
+      >
+        {label}
+      </div>
     </div>
 
     <!-- Only when labels.invalid: always present, empty while valid. -->
-    <span class="date-time-picker-status" id="{statusId}" role="status"></span>
+    <span
+      class="date-time-picker-status"
+      id="{statusId}"
+      role="status"
+    ></span>
 
-    <div class="date-time-picker-dialog" id="{dialogId}" role="dialog"
-         aria-modal="true" aria-label="{label}" tabindex="-1" hidden
-         aria-describedby="{instructionsId} when labels.instructions">
+    <div
+      class="date-time-picker-dialog"
+      id="{dialogId}"
+      role="dialog"
+      aria-modal="true"
+      aria-label="{label}"
+      tabindex="-1"
+      hidden
+      aria-describedby="{instructionsId} when labels.instructions"
+    >
       <!-- Only when labels.instructions: keyboard help, spoken on open. -->
-      <p class="date-time-picker-instructions" id="{instructionsId}">…</p>
+      <p
+        class="date-time-picker-instructions"
+        id="{instructionsId}"
+      >
+        …
+      </p>
 
       <div class="date-time-picker-header">
-        <button class="date-time-picker-previous-year"  aria-label="…">«</button>
-        <button class="date-time-picker-previous-month" aria-label="…">‹</button>
-        <button class="date-time-picker-previous-week"  aria-label="…">‹‹</button>
-        <button class="date-time-picker-previous-day"   aria-label="…">‹</button>
-        <span   class="date-time-picker-period" id="{periodId}" aria-live="polite">March 2026</span>
-        <button class="date-time-picker-next-day"       aria-label="…">›</button>
-        <button class="date-time-picker-next-week"      aria-label="…">››</button>
-        <button class="date-time-picker-next-month"     aria-label="…">›</button>
-        <button class="date-time-picker-next-year"      aria-label="…">»</button>
+        <button
+          class="date-time-picker-previous-year"
+          aria-label="…"
+        >
+          «
+        </button>
+        <button
+          class="date-time-picker-previous-month"
+          aria-label="…"
+        >
+          ‹
+        </button>
+        <button
+          class="date-time-picker-previous-week"
+          aria-label="…"
+        >
+          ‹‹
+        </button>
+        <button
+          class="date-time-picker-previous-day"
+          aria-label="…"
+        >
+          ‹
+        </button>
+        <span
+          class="date-time-picker-period"
+          id="{periodId}"
+          aria-live="polite"
+          >March 2026</span
+        >
+        <button
+          class="date-time-picker-next-day"
+          aria-label="…"
+        >
+          ›
+        </button>
+        <button
+          class="date-time-picker-next-week"
+          aria-label="…"
+        >
+          ››
+        </button>
+        <button
+          class="date-time-picker-next-month"
+          aria-label="…"
+        >
+          ›
+        </button>
+        <button
+          class="date-time-picker-next-year"
+          aria-label="…"
+        >
+          »
+        </button>
       </div>
 
       <!-- Only when labels.timeZone. Before the grid: the zone is chosen
            before the instant. The empty first option is the "no zone" state. -->
       <div class="date-time-picker-time-zone">
-        <label class="date-time-picker-time-zone-label" for="{timeZoneId}">…</label>
-        <select class="date-time-picker-time-zone-select" id="{timeZoneId}">
+        <label
+          class="date-time-picker-time-zone-label"
+          for="{timeZoneId}"
+          >…</label
+        >
+        <select
+          class="date-time-picker-time-zone-select"
+          id="{timeZoneId}"
+        >
           <option value=""></option>
           <option value="Africa/Abidjan">Africa/Abidjan</option>
           <!-- … one per zone in `timeZones`, default Intl.supportedValuesOf("timeZone") … -->
         </select>
       </div>
 
-      <table class="date-time-picker-calendar" role="grid" aria-labelledby="{periodId}">
-        <thead><tr>
-          <th class="date-time-picker-week-heading" scope="col" abbr="…">…</th>
-          <th class="date-time-picker-weekday" scope="col" abbr="Monday">Mo</th>
-        </tr></thead>
-        <tbody><tr>
-          <th class="date-time-picker-week" scope="row">10</th>
-          <td role="gridcell" aria-selected="true|false">
-            <button class="date-time-picker-day" data-date="2026-03-01"
-                    data-outside data-today data-selected data-disabled
-                    tabindex="0|-1" aria-label="Sunday 1 March 2026"
-                    aria-current="date" aria-disabled="true|absent">1</button>
-          </td>
-        </tr></tbody>
+      <table
+        class="date-time-picker-calendar"
+        role="grid"
+        aria-labelledby="{periodId}"
+      >
+        <thead>
+          <tr>
+            <th
+              class="date-time-picker-week-heading"
+              scope="col"
+              abbr="…"
+            >
+              …
+            </th>
+            <th
+              class="date-time-picker-weekday"
+              scope="col"
+              abbr="Monday"
+            >
+              Mo
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th
+              class="date-time-picker-week"
+              scope="row"
+            >
+              10
+            </th>
+            <td
+              role="gridcell"
+              aria-selected="true|false"
+            >
+              <button
+                class="date-time-picker-day"
+                data-date="2026-03-01"
+                data-outside
+                data-today
+                data-selected
+                data-disabled
+                tabindex="0|-1"
+                aria-label="Sunday 1 March 2026"
+                aria-current="date"
+                aria-disabled="true|absent"
+              >
+                1
+              </button>
+            </td>
+          </tr>
+        </tbody>
       </table>
 
       <div class="date-time-picker-time">
-        <label class="date-time-picker-time-label" for="…">…</label>
-        <select class="date-time-picker-hour">…</select>
-        <select class="date-time-picker-minute">…</select>
-        <select class="date-time-picker-meridiem">…</select>
+        <label
+          class="date-time-picker-time-label"
+          for="…"
+          >…</label
+        >
+        <select class="date-time-picker-hour">
+          …
+        </select>
+        <select class="date-time-picker-minute">
+          …
+        </select>
+        <select class="date-time-picker-meridiem">
+          …
+        </select>
       </div>
 
       <div class="date-time-picker-shortcuts">
-        <button class="date-time-picker-shortcut" data-shortcut-id="today">…</button>
+        <button
+          class="date-time-picker-shortcut"
+          data-shortcut-id="today"
+        >
+          …
+        </button>
       </div>
 
       <div class="date-time-picker-footer">
@@ -351,7 +509,7 @@ particular:
 - **The status region and the instructions paragraph render only when
   their label is supplied** (`labels.invalid`, `labels.instructions`) —
   the component never invents English. The status region is present but
-  *empty* while the field is valid, because a live region born with its
+  _empty_ while the field is valid, because a live region born with its
   message is routinely not announced at all; while invalid, the field
   points at it via `aria-errormessage` and appends its id to
   `aria-describedby`, after the consumer's `described-by`.
@@ -364,14 +522,14 @@ particular:
 
 ### 4.5 Read-only getters and public methods
 
-| Member | Notes |
-| ------ | ----- |
-| `open` (getter) | Is the dialog open? |
-| `dialogId` (getter) | id of the rendered dialog. |
-| `fieldId` (getter) | id of the rendered text field. |
-| `openDialog()` | Open the dialog, seeding pending state from the committed value (§5.2). No-op while `disabled` or `readonly`. |
-| `closeDialog(refocus = true)` | Close without committing. `value` is untouched. |
-| `renderButtonContent()` | Overridable hook building the trigger's content. Default: the `CALENDAR` glyph, `aria-hidden`. |
+| Member                        | Notes                                                                                                         |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `open` (getter)               | Is the dialog open?                                                                                           |
+| `dialogId` (getter)           | id of the rendered dialog.                                                                                    |
+| `fieldId` (getter)            | id of the rendered text field.                                                                                |
+| `openDialog()`                | Open the dialog, seeding pending state from the committed value (§5.2). No-op while `disabled` or `readonly`. |
+| `closeDialog(refocus = true)` | Close without committing. `value` is untouched.                                                               |
+| `renderButtonContent()`       | Overridable hook building the trigger's content. Default: the `CALENDAR` glyph, `aria-hidden`.                |
 
 ### 4.6 `renderButtonContent()` — the custom-rendering hook
 
@@ -425,15 +583,15 @@ when open.
 
 ### 5.3 Committing and discarding
 
-| Action | Effect |
-| ------ | ------ |
-| Click a day, `confirmOnSelect` true | Commit and close. |
-| Click a day, `confirmOnSelect` false | Update the pending selection only. |
-| Confirm button | Commit the pending selection and close. |
-| Cancel button, or `closeDialog()` | Close. `value` untouched. |
-| `Escape` | Close. `value` untouched. |
-| Clear button (renders only when `labels.clear` is set) | Set `value` to `""`, fire `onChange` + `datetimechange`, close. |
-| Click outside the dialog | Close without committing. This includes the component's own text field: the dialog claims `aria-modal="true"`, and a modal that stays open while the user edits behind it is telling assistive technology one thing and doing another. The trigger button is exempt because its own click handler toggles. |
+| Action                                                 | Effect                                                                                                                                                                                                                                                                                                     |
+| ------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Click a day, `confirmOnSelect` true                    | Commit and close.                                                                                                                                                                                                                                                                                          |
+| Click a day, `confirmOnSelect` false                   | Update the pending selection only.                                                                                                                                                                                                                                                                         |
+| Confirm button                                         | Commit the pending selection and close.                                                                                                                                                                                                                                                                    |
+| Cancel button, or `closeDialog()`                      | Close. `value` untouched.                                                                                                                                                                                                                                                                                  |
+| `Escape`                                               | Close. `value` untouched.                                                                                                                                                                                                                                                                                  |
+| Clear button (renders only when `labels.clear` is set) | Set `value` to `""`, fire `onChange` + `datetimechange`, close.                                                                                                                                                                                                                                            |
+| Click outside the dialog                               | Close without committing. This includes the component's own text field: the dialog claims `aria-modal="true"`, and a modal that stays open while the user edits behind it is telling assistive technology one thing and doing another. The trigger button is exempt because its own click handler toggles. |
 
 Closing returns focus to whichever element opened the dialog — the
 trigger button after a click, the **text field** after `Alt` + `Arrow
@@ -483,7 +641,7 @@ Svelte section to defer to.
   five attributes documented as structural in §4.1's attribute table
   (`mode`, `show-week-numbers`, `hour12`, `locale`, `first-day-of-week`),
   plus assignment to the `labels` or `shortcuts` properties. Each of
-  these either changes *which elements exist* (the grid vs. no grid,
+  these either changes _which elements exist_ (the grid vs. no grid,
   the meridiem select's presence, the week-number column, the clear
   button, the count of shortcut buttons) or invalidates content baked
   into elements at creation time in a way cheaper to recompute from
@@ -544,7 +702,7 @@ the grid so the zone is chosen before the instant.
   It rides its own hidden input, `{name}-time-zone`, and is reflected as
   `data-time-zone` on the root (absent while empty).
 - The picker's **value contract is unchanged**. A zone is metadata about
-  *where* the civil time applies, not part of the civil time; converting
+  _where_ the civil time applies, not part of the civil time; converting
   to an instant is the consumer's job, and `datetimechange` never fires
   for a zone change.
 - No zone is selected unless the consumer sets one.
@@ -595,127 +753,127 @@ persistence, listener cleanup on disconnect, and SSR import safety.
 
 ### Pure arithmetic (mirrors §3, §4.7)
 
-| Clause | Test asserts |
-| ------ | ------------ |
-| §7.1 | `parseIsoDate` rejects impossible dates (`2026-02-31`) and accepts real ones. |
-| §7.1 | `daysInMonth` handles leap years (2024-02 → 29, 2100-02 → 28). |
-| §7.2 | `addDays` crosses month and year boundaries, forwards and backwards. |
-| §7.2 | `addMonths` clamps rather than rolling over (2026-01-31 + 1 → 2026-02-28). |
-| §7.2 | `addMonths` with a negative delta crosses the year boundary correctly. |
-| §7.3 | `weekdayOf` returns 0 for Sunday. |
-| §7.3 | `isoWeek` matches the ISO-8601 definition on the known-hard cases. |
-| §7.4 | `toEpochDay` / `fromEpochDay` round-trip. |
-| §7.5 | `splitValue` / `joinValue` round-trip per mode, and refuse a half datetime. |
-| §7.6 | `monthMatrix` always returns 6 × 7 and starts on `firstDayOfWeek`. |
-| §7.7 | `firstDayOfWeekFor` gives Monday for en-GB, Sunday for en-US, Monday for an unknown tag. |
-| §7.8 | `parseDateInput` reads ISO, locale-ordered numerics (en-GB vs en-US differ), and written months. |
-| §7.8 | `parseDateInput` returns null for junk and for impossible dates. |
-| §7.9 | `parseTimeInput` reads `9:30`, `0930`, `9.30`, `1:30pm`, and rejects `25:00`. |
+| Clause | Test asserts                                                                                     |
+| ------ | ------------------------------------------------------------------------------------------------ |
+| §7.1   | `parseIsoDate` rejects impossible dates (`2026-02-31`) and accepts real ones.                    |
+| §7.1   | `daysInMonth` handles leap years (2024-02 → 29, 2100-02 → 28).                                   |
+| §7.2   | `addDays` crosses month and year boundaries, forwards and backwards.                             |
+| §7.2   | `addMonths` clamps rather than rolling over (2026-01-31 + 1 → 2026-02-28).                       |
+| §7.2   | `addMonths` with a negative delta crosses the year boundary correctly.                           |
+| §7.3   | `weekdayOf` returns 0 for Sunday.                                                                |
+| §7.3   | `isoWeek` matches the ISO-8601 definition on the known-hard cases.                               |
+| §7.4   | `toEpochDay` / `fromEpochDay` round-trip.                                                        |
+| §7.5   | `splitValue` / `joinValue` round-trip per mode, and refuse a half datetime.                      |
+| §7.6   | `monthMatrix` always returns 6 × 7 and starts on `firstDayOfWeek`.                               |
+| §7.7   | `firstDayOfWeekFor` gives Monday for en-GB, Sunday for en-US, Monday for an unknown tag.         |
+| §7.8   | `parseDateInput` reads ISO, locale-ordered numerics (en-GB vs en-US differ), and written months. |
+| §7.8   | `parseDateInput` returns null for junk and for impossible dates.                                 |
+| §7.9   | `parseTimeInput` reads `9:30`, `0930`, `9.30`, `1:30pm`, and rejects `25:00`.                    |
 
 ### Markup contract (mirrors §4.4)
 
-| Clause | Test asserts |
-| ------ | ------------ |
-| §7.10 | Renders the trigger with `aria-haspopup="dialog"`, `aria-expanded="false"`, and `aria-controls` pointing at the `role="dialog"` element. |
-| §7.10 | The glyph renders inside `.date-time-picker-icon` with `aria-hidden="true"`. |
-| §7.11 | `aria-label` names **both** the trigger and the dialog. |
-| §7.12 | The hidden input carries `name` and the ISO value; the visible field carries the formatted display. |
-| §7.13 | The dialog is `hidden` until the trigger is activated. |
-| §7.14 | The grid renders 6 rows × 7 day cells, with `data-outside` on adjacent-month days. |
-| §7.15 | Exactly one day carries `tabindex="0"`. |
-| §7.16 | The `class` attribute lands on the rendered root; `data-mode` reflects `mode`. |
-| §7.17 | Today's cell carries `data-today` and `aria-current="date"`. |
+| Clause | Test asserts                                                                                                                             |
+| ------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| §7.10  | Renders the trigger with `aria-haspopup="dialog"`, `aria-expanded="false"`, and `aria-controls` pointing at the `role="dialog"` element. |
+| §7.10  | The glyph renders inside `.date-time-picker-icon` with `aria-hidden="true"`.                                                             |
+| §7.11  | `aria-label` names **both** the trigger and the dialog.                                                                                  |
+| §7.12  | The hidden input carries `name` and the ISO value; the visible field carries the formatted display.                                      |
+| §7.13  | The dialog is `hidden` until the trigger is activated.                                                                                   |
+| §7.14  | The grid renders 6 rows × 7 day cells, with `data-outside` on adjacent-month days.                                                       |
+| §7.15  | Exactly one day carries `tabindex="0"`.                                                                                                  |
+| §7.16  | The `class` attribute lands on the rendered root; `data-mode` reflects `mode`.                                                           |
+| §7.17  | Today's cell carries `data-today` and `aria-current="date"`.                                                                             |
 
 ### Selection and commit (mirrors §5.3)
 
-| Clause | Test asserts |
-| ------ | ------------ |
-| §7.18 | Clicking a day in `"date"` mode commits, fires `onChange`, and closes. |
-| §7.19 | With `confirm-on-select="false"`, clicking a day does **not** commit; Confirm does. |
-| §7.20 | Cancel closes without changing `value`. |
-| §7.21 | `Escape` closes without changing `value`. |
-| §7.22 | The clear button renders only when `labels.clear` is set, and commits `""`. |
-| §7.23 | `onChange` does not fire when the committed value is unchanged. |
+| Clause | Test asserts                                                                        |
+| ------ | ----------------------------------------------------------------------------------- |
+| §7.18  | Clicking a day in `"date"` mode commits, fires `onChange`, and closes.              |
+| §7.19  | With `confirm-on-select="false"`, clicking a day does **not** commit; Confirm does. |
+| §7.20  | Cancel closes without changing `value`.                                             |
+| §7.21  | `Escape` closes without changing `value`.                                           |
+| §7.22  | The clear button renders only when `labels.clear` is set, and commits `""`.         |
+| §7.23  | `onChange` does not fire when the committed value is unchanged.                     |
 
 ### Keyboard (mirrors §6.2)
 
-| Clause | Test asserts |
-| ------ | ------------ |
-| §7.24 | Arrow keys move the cursor by a day and by a week. |
-| §7.25 | `Home` / `End` reach the ends of the week, respecting `firstDayOfWeek`. |
-| §7.26 | `Page Up` / `Page Down` page the month; `Shift` pages the year. |
-| §7.27 | `Enter` on the grid selects the cursor's day. |
-| §7.28 | `Alt` + `Arrow Down` on the field opens the dialog. |
+| Clause | Test asserts                                                            |
+| ------ | ----------------------------------------------------------------------- |
+| §7.24  | Arrow keys move the cursor by a day and by a week.                      |
+| §7.25  | `Home` / `End` reach the ends of the week, respecting `firstDayOfWeek`. |
+| §7.26  | `Page Up` / `Page Down` page the month; `Shift` pages the year.         |
+| §7.27  | `Enter` on the grid selects the cursor's day.                           |
+| §7.28  | `Alt` + `Arrow Down` on the field opens the dialog.                     |
 
 ### Range, vetoes, shortcuts (mirrors §5.5)
 
-| Clause | Test asserts |
-| ------ | ------------ |
-| §7.29 | Days outside `min`/`max` render `aria-disabled="true"` + `data-disabled` — never the `disabled` attribute. |
-| §7.30 | `isDateDisabled` marks individual days `aria-disabled`. |
-| §7.31 | Clicking a vetoed day does not commit. |
-| §7.32 | A shortcut moves the pending selection and fires `onShortcut`. |
-| §7.33 | A shortcut resolving to a blocked date does nothing. |
+| Clause | Test asserts                                                                                               |
+| ------ | ---------------------------------------------------------------------------------------------------------- |
+| §7.29  | Days outside `min`/`max` render `aria-disabled="true"` + `data-disabled` — never the `disabled` attribute. |
+| §7.30  | `isDateDisabled` marks individual days `aria-disabled`.                                                    |
+| §7.31  | Clicking a vetoed day does not commit.                                                                     |
+| §7.32  | A shortcut moves the pending selection and fires `onShortcut`.                                             |
+| §7.33  | A shortcut resolving to a blocked date does nothing.                                                       |
 
 ### Typed input (mirrors §5.4)
 
-| Clause | Test asserts |
-| ------ | ------------ |
-| §7.34 | Typing an ISO date and blurring commits it. |
-| §7.35 | Typing a locale-ordered numeric date commits the right day. |
-| §7.36 | Unparseable text sets `aria-invalid` and fires `onInvalidInput` without changing `value`. |
-| §7.37 | Text parsing to an out-of-range date is rejected the same way. |
-| §7.38 | Clearing the field commits `""`. |
-| §7.39 | A `parseInput` property overrides the built-in parser. |
+| Clause | Test asserts                                                                              |
+| ------ | ----------------------------------------------------------------------------------------- |
+| §7.34  | Typing an ISO date and blurring commits it.                                               |
+| §7.35  | Typing a locale-ordered numeric date commits the right day.                               |
+| §7.36  | Unparseable text sets `aria-invalid` and fires `onInvalidInput` without changing `value`. |
+| §7.37  | Text parsing to an out-of-range date is rejected the same way.                            |
+| §7.38  | Clearing the field commits `""`.                                                          |
+| §7.39  | A `parseInput` property overrides the built-in parser.                                    |
 
 ### Time and datetime (mirrors §5.1)
 
-| Clause | Test asserts |
-| ------ | ------------ |
-| §7.40 | `"time"` mode renders hour and minute selects and no grid. |
-| §7.41 | `minuteStep` controls the minute options. |
-| §7.42 | `"datetime"` mode renders both the grid and the time selects. |
-| §7.43 | `"datetime"` does not commit a date with no time. |
-| §7.44 | `hour12` renders a meridiem select whose labels come from the locale. |
+| Clause | Test asserts                                                          |
+| ------ | --------------------------------------------------------------------- |
+| §7.40  | `"time"` mode renders hour and minute selects and no grid.            |
+| §7.41  | `minuteStep` controls the minute options.                             |
+| §7.42  | `"datetime"` mode renders both the grid and the time selects.         |
+| §7.43  | `"datetime"` does not commit a date with no time.                     |
+| §7.44  | `hour12` renders a meridiem select whose labels come from the locale. |
 
 ### Locale (mirrors §5.6)
 
-| Clause | Test asserts |
-| ------ | ------------ |
-| §7.45 | Weekday headings start on Monday for en-GB and Sunday for en-US. |
-| §7.46 | `firstDayOfWeek` overrides the locale. |
-| §7.47 | Month names and day `aria-label`s follow `locale`. |
-| §7.48 | `showWeekNumbers` renders a week column with ISO week numbers. |
+| Clause | Test asserts                                                     |
+| ------ | ---------------------------------------------------------------- |
+| §7.45  | Weekday headings start on Monday for en-GB and Sunday for en-US. |
+| §7.46  | `firstDayOfWeek` overrides the locale.                           |
+| §7.47  | Month names and day `aria-label`s follow `locale`.               |
+| §7.48  | `showWeekNumbers` renders a week column with ISO week numbers.   |
 
 ### Assistive technology (mirrors §4.4, §5.3, §5.4, §6)
 
-| Clause | Test asserts |
-| ------ | ------------ |
-| §7.49 | The cursor lands on a vetoed day with real focus; the day is `aria-disabled`, still tabbable, refuses `Enter`, and the cursor can continue past it. |
-| §7.50 | `Escape` in the field discards the pending edit, restores the committed display, clears `aria-invalid`, and commits nothing. |
-| §7.51 | `labels.invalid` renders an empty `role="status"` region that fills on refusal, wired via `aria-errormessage` and appended to `aria-describedby`; absent without the label. |
-| §7.52 | Closing returns focus to the field when opened by `Alt`+`Arrow Down`, and to the button when opened by click. |
-| §7.53 | Paging from a header button keeps focus on that button while the cursor carries; paging from the grid moves focus with the cursor. |
-| §7.54 | `labels.instructions` renders keyboard help, first in the dialog, referenced by the dialog's `aria-describedby`; absent without the label. |
-| §7.55 | Clicking the text field while the dialog is open closes it without committing. |
-| §7.56 | The header renders eight step buttons in coarse-to-fine order around the period label, each named only by its label. |
-| §7.57 | Day steps move the pending day ±1 civil day, keep the grid on the shown month, keep focus on the button, and commit nothing until Confirm. |
-| §7.58 | Week steps move the pending day ±7 civil days and page the grid only when leaving the shown month. |
-| §7.59 | A step past `min`/`max` is refused; a step onto a vetoed day moves the cursor but not the pending selection. |
-| §7.60 | The time-zone select renders only with `labels.timeZone`, is labelled by it, lists the runtime's zones after an empty option by default, sits before the grid, and starts with no zone. |
-| §7.61 | Choosing a zone updates `{name}-time-zone`, `data-time-zone`, and `onTimeZoneChange`/`timezonechange` once; `timeZones`/`timeZoneLabels` are honoured; the value and `datetimechange` are untouched. |
+| Clause | Test asserts                                                                                                                                                                                         |
+| ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| §7.49  | The cursor lands on a vetoed day with real focus; the day is `aria-disabled`, still tabbable, refuses `Enter`, and the cursor can continue past it.                                                  |
+| §7.50  | `Escape` in the field discards the pending edit, restores the committed display, clears `aria-invalid`, and commits nothing.                                                                         |
+| §7.51  | `labels.invalid` renders an empty `role="status"` region that fills on refusal, wired via `aria-errormessage` and appended to `aria-describedby`; absent without the label.                          |
+| §7.52  | Closing returns focus to the field when opened by `Alt`+`Arrow Down`, and to the button when opened by click.                                                                                        |
+| §7.53  | Paging from a header button keeps focus on that button while the cursor carries; paging from the grid moves focus with the cursor.                                                                   |
+| §7.54  | `labels.instructions` renders keyboard help, first in the dialog, referenced by the dialog's `aria-describedby`; absent without the label.                                                           |
+| §7.55  | Clicking the text field while the dialog is open closes it without committing.                                                                                                                       |
+| §7.56  | The header renders eight step buttons in coarse-to-fine order around the period label, each named only by its label.                                                                                 |
+| §7.57  | Day steps move the pending day ±1 civil day, keep the grid on the shown month, keep focus on the button, and commit nothing until Confirm.                                                           |
+| §7.58  | Week steps move the pending day ±7 civil days and page the grid only when leaving the shown month.                                                                                                   |
+| §7.59  | A step past `min`/`max` is refused; a step onto a vetoed day moves the cursor but not the pending selection.                                                                                         |
+| §7.60  | The time-zone select renders only with `labels.timeZone`, is labelled by it, lists the runtime's zones after an empty option by default, sits before the grid, and starts with no zone.              |
+| §7.61  | Choosing a zone updates `{name}-time-zone`, `data-time-zone`, and `onTimeZoneChange`/`timezonechange` once; `timeZones`/`timeZoneLabels` are honoured; the value and `datetimechange` are untouched. |
 
 ### Tooltip
 
-| Clause | Test asserts |
-| ------ | ------------ |
-| §7.62 | `.date-time-picker-tooltip` renders with `role="tooltip"` right after the trigger button, holding `label` (kept in sync with it), `hidden` at rest, and the button carries no `aria-describedby`. |
-| §7.63 | Pointer over the button shows it; leaving hides it. |
-| §7.64 | It stays visible while the pointer is over the tooltip itself. |
-| §7.65 | Keyboard focus (`:focus-visible`) on the button shows it; blur hides it; mouse-induced focus does not show it. |
-| §7.66 | `Escape` on the button dismisses it without moving focus; re-entering shows it again. |
-| §7.67 | It is never shown while the dialog is open. |
-| §7.68 | Pointer hover shows the tooltip with focus elsewhere; `Escape` pressed on `document.body` or another element dismisses it (WCAG 1.4.13), without `preventDefault`/`stopPropagation` or moving focus. The `document` `keydown` listener exists only while the tooltip is visible and is removed on hide, popup open, re-render and disconnect, never added twice. |
+| Clause | Test asserts                                                                                                                                                                                                                                                                                                                                                     |
+| ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| §7.62  | `.date-time-picker-tooltip` renders with `role="tooltip"` right after the trigger button, holding `label` (kept in sync with it), `hidden` at rest, and the button carries no `aria-describedby`.                                                                                                                                                                |
+| §7.63  | Pointer over the button shows it; leaving hides it.                                                                                                                                                                                                                                                                                                              |
+| §7.64  | It stays visible while the pointer is over the tooltip itself.                                                                                                                                                                                                                                                                                                   |
+| §7.65  | Keyboard focus (`:focus-visible`) on the button shows it; blur hides it; mouse-induced focus does not show it.                                                                                                                                                                                                                                                   |
+| §7.66  | `Escape` on the button dismisses it without moving focus; re-entering shows it again.                                                                                                                                                                                                                                                                            |
+| §7.67  | It is never shown while the dialog is open.                                                                                                                                                                                                                                                                                                                      |
+| §7.68  | Pointer hover shows the tooltip with focus elsewhere; `Escape` pressed on `document.body` or another element dismisses it (WCAG 1.4.13), without `preventDefault`/`stopPropagation` or moving focus. The `document` `keydown` listener exists only while the tooltip is visible and is removed on hide, popup open, re-render and disconnect, never added twice. |
 
 ## 8. DHCW feature parity
 

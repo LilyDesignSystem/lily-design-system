@@ -122,15 +122,15 @@ Give a Vue 3 application a drop-in, headless locale picker that:
 | `detectFromNavigator` | `boolean`                  | no       | `false`                                    | Resolve `navigator.language` on first visit.                                                                |
 | `name`                | `string`                   | no       | `"locale"`                                 | `name` of the hidden input that carries the value in a form.                                                |
 | `target`              | `HTMLElement \| null`      | no       | `document.documentElement`                 | Element that receives `lang` and `dir`.                                                                     |
-| `applyDir`            | `boolean`                  | no       | `true`                                     | If false, the picker only writes `lang` and never touches `dir`.                                           |
+| `applyDir`            | `boolean`                  | no       | `true`                                     | If false, the picker only writes `lang` and never touches `dir`.                                            |
 | `localeLabels`        | `Record<string, string>`   | no       | `{}`                                       | Optional pretty labels per locale code.                                                                     |
 | `class`               | `string`                   | no       | `""`                                       | Extra CSS class on the root `<div>`.                                                                        |
 
 ### 4.2 Events
 
-| Event          | Payload  | Purpose                                                                          |
-| -------------- | -------- | -------------------------------------------------------------------------------- |
-| `update:value` | `string` | Emitted on selection (drives `v-model:value`).                                   |
+| Event          | Payload  | Purpose                                                                         |
+| -------------- | -------- | ------------------------------------------------------------------------------- |
+| `update:value` | `string` | Emitted on selection (drives `v-model:value`).                                  |
 | `change`       | `string` | Emitted after the picker applies a new locale (consumer-form code, not BCP 47). |
 
 ### 4.3 Slots
@@ -162,8 +162,15 @@ name.
 ### 4.4 DOM contract
 
 ```html
-<div class="locale-picker {class}" ...$attrs>
-  <input type="hidden" name="{name}" value="{value}" />
+<div
+  class="locale-picker {class}"
+  ...$attrs
+>
+  <input
+    type="hidden"
+    name="{name}"
+    value="{value}"
+  />
   <button
     type="button"
     class="locale-picker-button"
@@ -172,9 +179,35 @@ name.
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path stroke-width="1.1" d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7"/></svg>
+    <svg
+      class="locale-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle
+        cx="8"
+        cy="8"
+        r="6"
+      />
+      <path
+        stroke-width="1.1"
+        d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7"
+      />
+    </svg>
   </button>
-  <div class="locale-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
+  <div
+    class="locale-picker-tooltip"
+    role="tooltip"
+    id="{tooltipId}"
+    hidden
+  >
+    {label}
+  </div>
   <ul
     class="locale-picker-list"
     id="{listId}"
@@ -293,7 +326,7 @@ For each navigator entry `nav`:
 
 Default option labels are endonyms — each language named in itself,
 "Cymraeg" not "Welsh" — resolved by `localeEndonym()` via
-`Intl.DisplayNames` asked *in that language*. The user who needs a
+`Intl.DisplayNames` asked _in that language_. The user who needs a
 language menu is the one who cannot read the page's language, and the
 exonym means nothing to them. The endonym lookup is deterministic (no
 `navigator` dependency), so server and client render the same label,
@@ -393,17 +426,17 @@ On the **button**:
 
 On the **listbox**:
 
-| Key                  | Action                                                         |
-| -------------------- | -------------------------------------------------------------- |
-| `ArrowDown`          | Move the active option down one. **Clamps** — no wrapping.     |
-| `ArrowUp`            | Move the active option up one. **Clamps** — no wrapping.       |
-| `Home` / `End`       | Jump to the first / last option.                               |
-| `Enter` / `Space`    | Select the active option, apply it, close, refocus the button. |
-| `Escape`             | Close and refocus the button **without** changing the value.   |
-| `PageUp`             | Move the active option up ten. Clamps at the first.            |
-| `PageDown`           | Move the active option down ten. Clamps at the last.           |
+| Key                  | Action                                                                                                                                                                                                                                                     |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ArrowDown`          | Move the active option down one. **Clamps** — no wrapping.                                                                                                                                                                                                 |
+| `ArrowUp`            | Move the active option up one. **Clamps** — no wrapping.                                                                                                                                                                                                   |
+| `Home` / `End`       | Jump to the first / last option.                                                                                                                                                                                                                           |
+| `Enter` / `Space`    | Select the active option, apply it, close, refocus the button.                                                                                                                                                                                             |
+| `Escape`             | Close and refocus the button **without** changing the value.                                                                                                                                                                                               |
+| `PageUp`             | Move the active option up ten. Clamps at the first.                                                                                                                                                                                                        |
+| `PageDown`           | Move the active option down ten. Clamps at the last.                                                                                                                                                                                                       |
 | `Tab`                | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position. Hiding the focused list first would drop focus to `<body>` and restart Tab from the top of the document. |
-| Printable characters | Typeahead over the option **labels**, 500 ms buffer reset. A single character advances to the **next** match and repeating it cycles onward; a buffer of differing characters refines the match from the active option. Search wraps once. |
+| Printable characters | Typeahead over the option **labels**, 500 ms buffer reset. A single character advances to the **next** match and repeating it cycles onward; a buffer of differing characters refines the match from the active option. Search wraps once.                 |
 
 Typeahead matches the _label_, and default labels are **endonyms**
 (see §5.4), so typing `f` reaches "français"; with

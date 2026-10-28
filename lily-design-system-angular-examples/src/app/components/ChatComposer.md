@@ -9,7 +9,15 @@ See [components/chat-composer/index.md](../../../../components/chat-composer/ind
 ## Usage
 
 ```html
-<lily-chat-composer label="Message" sendLabel="Send" stopLabel="Stop" [(value)]="draft" [busy]="replying" (send)="send($event)" (stop)="cancel()" />
+<lily-chat-composer
+  label="Message"
+  sendLabel="Send"
+  stopLabel="Stop"
+  [(value)]="draft"
+  [busy]="replying"
+  (send)="send($event)"
+  (stop)="cancel()"
+/>
 ```
 
 ## Contract

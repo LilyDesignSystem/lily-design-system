@@ -12,19 +12,48 @@ looks like:
 
 ```html
 <div class="locale-picker">
-    <input type="hidden" name="locale" value="en" />
-    <button type="button" class="locale-picker-button" aria-label="Language"
-            aria-haspopup="listbox" aria-expanded="false"
-            aria-controls="locale-picker-1-list">
-        <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true"
-         width="1.05rem" height="1.05rem">…</svg>
-    </button>
-    <ul class="locale-picker-list" id="locale-picker-1-list" role="listbox"
-        aria-label="Language" tabindex="-1" hidden>
-        <li class="locale-picker-option" id="locale-picker-1-option-0"
-            role="option" aria-selected="true" lang="en">English</li>
-        …
-    </ul>
+  <input
+    type="hidden"
+    name="locale"
+    value="en"
+  />
+  <button
+    type="button"
+    class="locale-picker-button"
+    aria-label="Language"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="locale-picker-1-list"
+  >
+    <svg
+      class="locale-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      width="1.05rem"
+      height="1.05rem"
+    >
+      …
+    </svg>
+  </button>
+  <ul
+    class="locale-picker-list"
+    id="locale-picker-1-list"
+    role="listbox"
+    aria-label="Language"
+    tabindex="-1"
+    hidden
+  >
+    <li
+      class="locale-picker-option"
+      id="locale-picker-1-option-0"
+      role="option"
+      aria-selected="true"
+      lang="en"
+    >
+      English
+    </li>
+    …
+  </ul>
 </div>
 ```
 
@@ -215,17 +244,17 @@ inline `<script>` in `wwwroot/index.html`:
 
 ```html
 <script>
-    (function() {
-        try {
-            var stored = localStorage.getItem("app-locale") || "en";
-            var tag = stored.replace(/_/g, "-");
-            document.documentElement.setAttribute("lang", tag);
-            // Cheap RTL detection: starts with any of these prefixes.
-            if (/^(ar|he|fa|ur|ps|sd|ug)/.test(stored)) {
-                document.documentElement.setAttribute("dir", "rtl");
-            }
-        } catch (e) {}
-    })();
+  (function () {
+    try {
+      var stored = localStorage.getItem("app-locale") || "en";
+      var tag = stored.replace(/_/g, "-");
+      document.documentElement.setAttribute("lang", tag);
+      // Cheap RTL detection: starts with any of these prefixes.
+      if (/^(ar|he|fa|ur|ps|sd|ug)/.test(stored)) {
+        document.documentElement.setAttribute("dir", "rtl");
+      }
+    } catch (e) {}
+  })();
 </script>
 ```
 

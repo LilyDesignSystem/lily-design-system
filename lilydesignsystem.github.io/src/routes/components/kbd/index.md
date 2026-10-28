@@ -22,22 +22,22 @@ Use this component to display keyboard shortcuts, key combinations, or individua
 Key combination for copy:
 
 ```html
-<Kbd>Ctrl</Kbd> + <Kbd>C</Kbd>
+<kbd>Ctrl</kbd> + <kbd>C</kbd>
 ```
 
 Inline shortcut reference in help text:
 
 ```html
-Press <Kbd>Enter</Kbd> to submit the form.
+Press <kbd>Enter</kbd> to submit the form.
 ```
 
 Menu item with keyboard shortcut:
 
 ```html
-<MenuItem>
+<menuitem>
   Save
-  <span class="shortcut"><Kbd>Ctrl</Kbd> + <Kbd>S</Kbd></span>
-</MenuItem>
+  <span class="shortcut"><kbd>Ctrl</kbd> + <kbd>S</kbd></span>
+</menuitem>
 ```
 
 Multi-key shortcut in a keyboard shortcuts panel:
@@ -46,11 +46,11 @@ Multi-key shortcut in a keyboard shortcuts panel:
 <SummaryList>
   <SummaryListItem>
     <dt>Open command palette</dt>
-    <dd><Kbd>Ctrl</Kbd> + <Kbd>Shift</Kbd> + <Kbd>P</Kbd></dd>
+    <dd><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd></dd>
   </SummaryListItem>
   <SummaryListItem>
     <dt>Toggle sidebar</dt>
-    <dd><Kbd>Ctrl</Kbd> + <Kbd>B</Kbd></dd>
+    <dd><kbd>Ctrl</kbd> + <kbd>B</kbd></dd>
   </SummaryListItem>
 </SummaryList>
 ```

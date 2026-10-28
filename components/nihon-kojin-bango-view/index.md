@@ -22,7 +22,10 @@ NihonKojinBangoView is a headless read-only display of Japan's Individual Number
 ```html
 <SummaryList>
   <SummaryListItem term="Individual Number / My Number (マイナンバー)">
-    <NihonKojinBangoView label="Individual Number / My Number (マイナンバー)" value={value} />
+    <NihonKojinBangoView
+      label="Individual Number / My Number (マイナンバー)"
+      value="{value}"
+    />
   </SummaryListItem>
 </SummaryList>
 ```

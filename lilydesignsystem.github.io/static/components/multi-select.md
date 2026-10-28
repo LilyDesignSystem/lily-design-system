@@ -27,10 +27,14 @@ MultiSelect is a headless wrapper over the native `<select multiple>`. The binda
 ## Usage
 
 ```html
-<MultiSelect label="Toppings" bind:value={toppings} size={4}>
-  <Option value="cheese">Cheese</Option>
-  <Option value="olives">Olives</Option>
-  <Option value="onion">Onion</Option>
+<MultiSelect
+  label="Toppings"
+  bind:value="{toppings}"
+  size="{4}"
+>
+  <option value="cheese">Cheese</option>
+  <option value="olives">Olives</option>
+  <option value="onion">Onion</option>
 </MultiSelect>
 ```
 

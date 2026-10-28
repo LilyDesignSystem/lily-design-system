@@ -45,27 +45,27 @@ per page.
 
 ## Macro parameters
 
-| Param          | Type                    | Required | Description                                            |
+| Param          | Type                    | Required | Description                                              |
 | -------------- | ----------------------- | -------- | -------------------------------------------------------- |
-| `label`        | `string`                | yes      | Accessible name (`aria-label`) for the button + listbox.  |
-| `motions`      | `array<string>`         | yes      | Available motion slugs.                                   |
-| `value`        | `string`                | no       | Initial slug, emitted for the client to read.              |
-| `defaultValue` | `string`                | no       | Initial slug when nothing else is supplied.                |
-| `storageKey`   | `string`                | no       | If set, client.js persists to `localStorage`.              |
-| `name`         | `string`                | no       | Hidden-input `name` (default `"motion"`).                  |
-| `motionLabels` | `object<string,string>` | no       | Pretty label per slug.                                     |
-| `id`           | `string`                | no       | Id prefix for the listbox and its options.                 |
-| `classes`      | `string`                | no       | Extra CSS classes on the root `<div>`.                     |
-| `attributes`   | `object`                | no       | Extra HTML attributes spread onto the root.                |
+| `label`        | `string`                | yes      | Accessible name (`aria-label`) for the button + listbox. |
+| `motions`      | `array<string>`         | yes      | Available motion slugs.                                  |
+| `value`        | `string`                | no       | Initial slug, emitted for the client to read.            |
+| `defaultValue` | `string`                | no       | Initial slug when nothing else is supplied.              |
+| `storageKey`   | `string`                | no       | If set, client.js persists to `localStorage`.            |
+| `name`         | `string`                | no       | Hidden-input `name` (default `"motion"`).                |
+| `motionLabels` | `object<string,string>` | no       | Pretty label per slug.                                   |
+| `id`           | `string`                | no       | Id prefix for the listbox and its options.               |
+| `classes`      | `string`                | no       | Extra CSS classes on the root `<div>`.                   |
+| `attributes`   | `object`                | no       | Extra HTML attributes spread onto the root.              |
 
 ## Client.js exports
 
-| Export | Description |
-| --- | --- |
-| `initMotionPicker(root, opts?)` | Wires one rendered root. `opts.onChange`, `opts.target`. |
-| `autoInit(opts?)` | Wires every `[data-lily-motion-picker-root]` on the page. |
-| `motionName(slug)` | Title-cases a hyphenated slug. |
-| `prefersReducedMotion()` | Reads `(prefers-reduced-motion: reduce)`; `false` on the server. |
+| Export                          | Description                                                      |
+| ------------------------------- | ---------------------------------------------------------------- |
+| `initMotionPicker(root, opts?)` | Wires one rendered root. `opts.onChange`, `opts.target`.         |
+| `autoInit(opts?)`               | Wires every `[data-lily-motion-picker-root]` on the page.        |
+| `motionName(slug)`              | Title-cases a hyphenated slug.                                   |
+| `prefersReducedMotion()`        | Reads `(prefers-reduced-motion: reduce)`; `false` on the server. |
 
 No glyph constant — the default icon is a bundled SVG, not a Unicode
 character (reversed 2026-09-16).

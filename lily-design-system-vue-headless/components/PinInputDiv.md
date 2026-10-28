@@ -39,12 +39,15 @@ Basic 4-digit PIN input:
 
 ```svelte
 <script lang="ts">
-  import PinInputDiv from './PinInputDiv.svelte';
+  import PinInputDiv from "./PinInputDiv.svelte";
 
   let pin = $state("");
 </script>
 
-<PinInputDiv label="Enter PIN" bind:value={pin} />
+<PinInputDiv
+  label="Enter PIN"
+  bind:value={pin}
+/>
 <p>Entered PIN: {pin}</p>
 ```
 
@@ -52,24 +55,35 @@ Basic 4-digit PIN input:
 
 ```svelte
 <script lang="ts">
-  import PinInputDiv from './PinInputDiv.svelte';
+  import PinInputDiv from "./PinInputDiv.svelte";
 
   let code = $state("");
 </script>
 
-<PinInputDiv label="Verification Code" length={6} bind:value={code} />
+<PinInputDiv
+  label="Verification Code"
+  length={6}
+  bind:value={code}
+/>
 ```
 
 Disabled state:
 
 ```svelte
-<PinInputDiv label="Locked PIN" disabled />
+<PinInputDiv
+  label="Locked PIN"
+  disabled
+/>
 ```
 
 With additional HTML attributes:
 
 ```svelte
-<PinInputDiv label="OTP" bind:value={otp} data-form="login" />
+<PinInputDiv
+  label="OTP"
+  bind:value={otp}
+  data-form="login"
+/>
 ```
 
 ## Keyboard Interactions

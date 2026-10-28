@@ -23,14 +23,25 @@ This component is useful in buttons, menus, toolbars, and navigation where visua
 ## Usage
 
 ```tsx
-{/* Meaningful icon with accessible label */}
-<Icon label="Close">x</Icon>
+{
+  /* Meaningful icon with accessible label */
+}
+<Icon label="Close">x</Icon>;
 
-{/* Decorative icon hidden from screen readers */}
-<Icon decorative>*</Icon>
+{
+  /* Decorative icon hidden from screen readers */
+}
+<Icon decorative>*</Icon>;
 
-{/* Icon with custom attributes */}
-<Icon label="Search" data-testid="search-icon">Q</Icon>
+{
+  /* Icon with custom attributes */
+}
+<Icon
+  label="Search"
+  data-testid="search-icon"
+>
+  Q
+</Icon>;
 ```
 
 ## Keyboard Interactions

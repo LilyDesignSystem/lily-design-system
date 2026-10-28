@@ -8,22 +8,22 @@ in JavaScript, and documented in full below.
 
 ## Roles and properties
 
-| Element                                | Role / Property                                | Source        |
-| -------------------------------------- | ---------------------------------------------- | ------------- |
-| `<theme-picker>` (host)                | none (transparent)                             | —             |
-| `<div class="theme-picker">`           | none (styling root)                            | Element       |
-| `<button class="theme-picker-button">` | implicit `role="button"`                       | Browser       |
-| `<button>`                             | `aria-label={label}`                           | Consumer attr |
-| `<button>`                             | `aria-haspopup="listbox"`                      | Element       |
-| `<button>`                             | `aria-expanded="true" \| "false"`              | Element       |
-| `<button>`                             | `aria-controls={listId}`                       | Element       |
-| `<span class="theme-picker-icon">`     | `aria-hidden="true"`                           | Element       |
-| `<ul class="theme-picker-list">`       | `role="listbox"`, `aria-label={label}`         | Element       |
-| `<ul>`                                 | `tabindex="-1"`; `hidden` while closed         | Element       |
-| `<ul>`                                 | `aria-activedescendant={optionId}` while open  | Element       |
-| `<li class="theme-picker-option">`     | `role="option"`, unique `id`, `aria-selected`  | Element       |
-| `<li>`                                 | `data-active` when keyboard-highlighted        | Element       |
-| `<input type="hidden">`                | none — form participation only                 | Element       |
+| Element                                | Role / Property                               | Source        |
+| -------------------------------------- | --------------------------------------------- | ------------- |
+| `<theme-picker>` (host)                | none (transparent)                            | —             |
+| `<div class="theme-picker">`           | none (styling root)                           | Element       |
+| `<button class="theme-picker-button">` | implicit `role="button"`                      | Browser       |
+| `<button>`                             | `aria-label={label}`                          | Consumer attr |
+| `<button>`                             | `aria-haspopup="listbox"`                     | Element       |
+| `<button>`                             | `aria-expanded="true" \| "false"`             | Element       |
+| `<button>`                             | `aria-controls={listId}`                      | Element       |
+| `<span class="theme-picker-icon">`     | `aria-hidden="true"`                          | Element       |
+| `<ul class="theme-picker-list">`       | `role="listbox"`, `aria-label={label}`        | Element       |
+| `<ul>`                                 | `tabindex="-1"`; `hidden` while closed        | Element       |
+| `<ul>`                                 | `aria-activedescendant={optionId}` while open | Element       |
+| `<li class="theme-picker-option">`     | `role="option"`, unique `id`, `aria-selected` | Element       |
+| `<li>`                                 | `data-active` when keyboard-highlighted       | Element       |
+| `<input type="hidden">`                | none — form participation only                | Element       |
 
 The host `<theme-picker>` element has no implicit ARIA role. It is
 a lifecycle container that holds the rendered control.
@@ -64,31 +64,31 @@ platform.
 
 ### On the button
 
-| Key                 | Action                                                        |
-| ------------------- | ------------------------------------------------------------- |
-| `Tab`               | Move focus onto the button.                                   |
-| `Shift+Tab`         | Move focus backwards off the button.                          |
-| `ArrowDown`         | Open the list with the selected option active (else index 0). |
-| `Enter`             | Same as `ArrowDown`.                                          |
-| `Space`             | Same as `ArrowDown`.                                          |
-| `ArrowUp`           | Open the list with the **last** option active.                |
+| Key         | Action                                                        |
+| ----------- | ------------------------------------------------------------- |
+| `Tab`       | Move focus onto the button.                                   |
+| `Shift+Tab` | Move focus backwards off the button.                          |
+| `ArrowDown` | Open the list with the selected option active (else index 0). |
+| `Enter`     | Same as `ArrowDown`.                                          |
+| `Space`     | Same as `ArrowDown`.                                          |
+| `ArrowUp`   | Open the list with the **last** option active.                |
 
 Opening always moves focus to the `<ul>`.
 
 ### On the listbox
 
-| Key                 | Action                                                        |
-| ------------------- | ------------------------------------------------------------- |
-| `ArrowDown`         | Move the active option down one. **Clamps** at the last option — no wrapping. |
-| `ArrowUp`           | Move the active option up one. Clamps at the first option.    |
-| `Home`              | Make the first option active.                                 |
-| `End`               | Make the last option active.                                  |
-| `Enter`             | Select the active option, apply it, close, return focus to the button. |
-| `Space`             | Same as `Enter`.                                              |
-| `Escape`            | Close and return focus to the button, **without** changing the theme. |
-| `PageUp` / `PageDown` | Move the active option by ten. Clamps at both ends.         |
-| `Tab`               | Move focus to the button, then close — without cancelling the key, so the default Tab proceeds from the picker's position rather than restarting from `<body>`. |
-| printable character | Typeahead over the option *labels*. The buffer resets after 500 ms of no typing. A single character advances to the **next** match and repeating it cycles onward; a buffer of differing characters refines the match from the active option. Search wraps once. |
+| Key                   | Action                                                                                                                                                                                                                                                           |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ArrowDown`           | Move the active option down one. **Clamps** at the last option — no wrapping.                                                                                                                                                                                    |
+| `ArrowUp`             | Move the active option up one. Clamps at the first option.                                                                                                                                                                                                       |
+| `Home`                | Make the first option active.                                                                                                                                                                                                                                    |
+| `End`                 | Make the last option active.                                                                                                                                                                                                                                     |
+| `Enter`               | Select the active option, apply it, close, return focus to the button.                                                                                                                                                                                           |
+| `Space`               | Same as `Enter`.                                                                                                                                                                                                                                                 |
+| `Escape`              | Close and return focus to the button, **without** changing the theme.                                                                                                                                                                                            |
+| `PageUp` / `PageDown` | Move the active option by ten. Clamps at both ends.                                                                                                                                                                                                              |
+| `Tab`                 | Move focus to the button, then close — without cancelling the key, so the default Tab proceeds from the picker's position rather than restarting from `<body>`.                                                                                                  |
+| printable character   | Typeahead over the option _labels_. The buffer resets after 500 ms of no typing. A single character advances to the **next** match and repeating it cycles onward; a buffer of differing characters refines the match from the active option. Search wraps once. |
 
 Arrow-key movement deliberately clamps rather than wraps. The APG
 permits either; clamping means `End` and repeated `ArrowDown` agree,
@@ -112,7 +112,7 @@ colour-only meaning is required:
 3. The `value` attribute / `el.value` property on the host.
 4. The hidden `<input>`'s `value`, for form submission.
 
-All four describe the *open* control or the document. The **closed**
+All four describe the _open_ control or the document. The **closed**
 button exposes none of them to a user: it shows a glyph and nothing
 else.
 
@@ -185,19 +185,28 @@ has it. Leaving it out is the deliberate choice — a decision to make
 knowingly, with a reason — not something to opt into later:
 
 ```html
-<theme-picker label="Theme" themes-url="/t/" themes="light,dark"></theme-picker>
+<theme-picker
+  label="Theme"
+  themes-url="/t/"
+  themes="light,dark"
+></theme-picker>
 
-<p class="theme-picker-status" aria-live="polite">Active theme: Light</p>
+<p
+  class="theme-picker-status"
+  aria-live="polite"
+>
+  Active theme: Light
+</p>
 
 <script type="module">
-    await customElements.whenDefined("theme-picker");
+  await customElements.whenDefined("theme-picker");
 
-    const select = document.querySelector("theme-picker");
-    const status = document.querySelector(".theme-picker-status");
+  const select = document.querySelector("theme-picker");
+  const status = document.querySelector(".theme-picker-status");
 
-    select.addEventListener("themechange", (e) => {
-        status.textContent = `Active theme: ${select.labelFor(e.detail.theme)}`;
-    });
+  select.addEventListener("themechange", (e) => {
+    status.textContent = `Active theme: ${select.labelFor(e.detail.theme)}`;
+  });
 </script>
 ```
 
@@ -205,7 +214,7 @@ Why it is shaped this way:
 
 - **Visible, not `sr-only`.** The gap is not screen-reader-only:
   nothing in the closed control indicates the active theme to
-  *anyone*. A visible line answers "which theme am I on?" for
+  _anyone_. A visible line answers "which theme am I on?" for
   sighted users and helps cognitive accessibility, which is what AAA
   favours. The visually-hidden variant is in
   [styling.md](./styling.md#the-status-region) for designs that
@@ -223,7 +232,7 @@ Why it is shaped this way:
 
 ### What this does and does not fix
 
-It restores the *information*, not the *semantics*. A screen-reader
+It restores the _information_, not the _semantics_. A screen-reader
 user tabbing onto the closed button still hears only the label —
 "Theme, pop-up button, collapsed" — and must read on to learn the
 active value. That is a genuine residual cost of an icon-only
@@ -278,7 +287,7 @@ on the `data-theme` swap.
   then each option as the active descendant moves.
 - NVDA announces "{label} button collapsed", then "{label} list box"
   and the active option.
-- Verify explicitly that the *closed* control conveys nothing about
+- Verify explicitly that the _closed_ control conveys nothing about
   the active theme — that is expected, and it is what the status
   region exists to cover.
 

@@ -12,10 +12,7 @@ the catalog-wide test rules see
 ```ts
 import { describe, it, expect, beforeEach } from "vitest";
 import { mount } from "@vue/test-utils";
-import ThemePicker, {
-  themeHref,
-  normaliseThemesUrl,
-} from "./ThemePicker.vue";
+import ThemePicker, { themeHref, normaliseThemesUrl } from "./ThemePicker.vue";
 
 beforeEach(() => {
   // Reset shared state between tests.
@@ -205,9 +202,7 @@ document.body.dispatchEvent(new MouseEvent("click", { bubbles: true }));
 ## Asserting the managed `<link>`
 
 ```ts
-const link = document.head.querySelector<HTMLLinkElement>(
-  'link[data-lily-theme-picker="theme"]',
-);
+const link = document.head.querySelector<HTMLLinkElement>('link[data-lily-theme-picker="theme"]');
 expect(link).not.toBeNull();
 expect(link!.href).toMatch(/\/t\/light\.css$/);
 ```
@@ -255,9 +250,7 @@ const wrapper = mount(ThemePicker, {
   },
 });
 await flush();
-expect(wrapper.find("button.theme-picker-button").text()).toContain(
-  "custom glyph",
-);
+expect(wrapper.find("button.theme-picker-button").text()).toContain("custom glyph");
 expect(wrapper.find(".theme-picker-icon").exists()).toBe(false);
 expect(captured.value).toBe("dark");
 expect(captured.open).toBe(false);

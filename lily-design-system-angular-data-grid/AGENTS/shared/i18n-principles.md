@@ -82,7 +82,12 @@ binary. Consumers who use `@angular/localize` wrap the helper's
 
 ```ts
 @Component({
-  template: ` <lily-theme-picker [label]="themeLabel" ... /> `,
+  template: `
+    <lily-theme-picker
+      [label]="themeLabel"
+      ...
+    />
+  `,
 })
 export class Settings {
   themeLabel = $localize`:@@settings.theme:Theme`;

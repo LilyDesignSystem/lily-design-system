@@ -11,13 +11,13 @@ The catalog AGENTS file says all helpers render an icon button opening a
 `role="listbox"` dropdown with `aria-activedescendant`. `<lily-share-picker>`
 does **not**, and this is the correct exception:
 
-| | preference helpers | `<lily-share-picker>` |
-| --- | --- | --- |
-| Pattern | Listbox (APG) | Disclosure (APG) |
-| Items | `<li role="option">` | `<a>` (no role) + `<button>` |
-| Focus | Stays on the `<ul>` | Moves to the real item |
-| Active item | `aria-activedescendant` | Real DOM focus |
-| Selection | Persists a value | Performs an action |
+|             | preference helpers      | `<lily-share-picker>`        |
+| ----------- | ----------------------- | ---------------------------- |
+| Pattern     | Listbox (APG)           | Disclosure (APG)             |
+| Items       | `<li role="option">`    | `<a>` (no role) + `<button>` |
+| Focus       | Stays on the `<ul>`     | Moves to the real item       |
+| Active item | `aria-activedescendant` | Real DOM focus               |
+| Selection   | Persists a value        | Performs an action           |
 
 The reason is that share destinations **are navigation**. A listbox
 option or a `role="menuitem"` is not a link: overriding the role strips
@@ -37,7 +37,7 @@ regression. Say no.
   alone.
 - Destinations carry **no** `role`, plus `target="_blank"` and
   `rel="noopener noreferrer"` (the `rel` stays even when `newTab:
-  false`).
+false`).
 - Status region is `<p aria-live="polite">`, empty on load, so it
   announces the copy outcome and nothing else.
 - No colour-only meaning; nothing auto-animates.
@@ -46,14 +46,14 @@ regression. Say no.
 
 ## Keyboard contract
 
-| Key | Trigger | List |
-| --- | ------- | ---- |
-| `Enter` / `Space` | Native activation | Native activation of the item |
-| `ArrowDown` | Open, focus first | Move down, **clamp** |
-| `ArrowUp` | Open, focus last | Move up, **clamp** |
-| `Home` / `End` | — | First / last |
-| `Escape` | — | Close, refocus trigger |
-| `Tab` | Move on | Focus moves to the trigger, then the list closes — the default Tab proceeds from the picker's position |
+| Key               | Trigger           | List                                                                                                   |
+| ----------------- | ----------------- | ------------------------------------------------------------------------------------------------------ |
+| `Enter` / `Space` | Native activation | Native activation of the item                                                                          |
+| `ArrowDown`       | Open, focus first | Move down, **clamp**                                                                                   |
+| `ArrowUp`         | Open, focus last  | Move up, **clamp**                                                                                     |
+| `Home` / `End`    | —                 | First / last                                                                                           |
+| `Escape`          | —                 | Close, refocus trigger                                                                                 |
+| `Tab`             | Move on           | Focus moves to the trigger, then the list closes — the default Tab proceeds from the picker's position |
 
 `Enter` / `Space` are deliberately **not** handled on the trigger: they
 are the button's own activation keys and already produce a click.
@@ -76,7 +76,7 @@ do not soften them:
    `strategy="list"` guarantees they are reachable.
 3. **Copy fails invisibly** — insecure context, denied permission,
    unfocused document, or no API at all. The announcement is the entire
-   recovery path, so `copy-failed-label` must be *actionable*, and
+   recovery path, so `copy-failed-label` must be _actionable_, and
    omitting `copied-label` / `copy-failed-label` is silent failure.
 
 (A fourth cost — font-dependent glyph rendering — no longer applies:

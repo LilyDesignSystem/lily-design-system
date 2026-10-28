@@ -24,7 +24,10 @@ Use ScrollArea when you have content that may overflow its container, such as lo
 Chat message history with vertical scroll:
 
 ```html
-<ScrollArea label="Chat messages" style="max-height: 400px; overflow: auto;">
+<ScrollArea
+  label="Chat messages"
+  style="max-height: 400px; overflow: auto;"
+>
   <div class="message">Hello, how can I help?</div>
   <div class="message">I need to update my address.</div>
   <!-- more messages -->
@@ -34,7 +37,10 @@ Chat message history with vertical scroll:
 Code block viewer with horizontal and vertical scroll:
 
 ```html
-<ScrollArea label="Source code" style="max-height: 300px; overflow: auto;">
+<ScrollArea
+  label="Source code"
+  style="max-height: 300px; overflow: auto;"
+>
   <pre><code>function greet(name) { return `Hello, ${name}!`; }</code></pre>
 </ScrollArea>
 ```
@@ -42,7 +48,10 @@ Code block viewer with horizontal and vertical scroll:
 Sidebar navigation with constrained height:
 
 ```html
-<ScrollArea label="Navigation links" style="height: 100vh; overflow: auto;">
+<ScrollArea
+  label="Navigation links"
+  style="height: 100vh; overflow: auto;"
+>
   <nav>
     <a href="/dashboard">Dashboard</a>
     <a href="/patients">Patients</a>
@@ -81,14 +90,11 @@ Sidebar navigation with constrained height:
 
 The ScrollArea headless component provides a `<div>` with `role="region"`, `aria-label`, and `tabindex="0"` for keyboard-focusable scrolling. The consumer provides all visual styling, including `overflow`, dimensions, and custom scrollbar appearance.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.scroll-area` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `scroll-area`
 - Verify role="region"` -- identifies the container as a landmark region so assistive technologies can announce it

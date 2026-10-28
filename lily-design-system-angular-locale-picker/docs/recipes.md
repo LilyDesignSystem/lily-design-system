@@ -228,7 +228,10 @@ the server middleware that sets `lang` on the first byte:
 ## Submit the locale with a form
 
 ```html
-<form method="post" action="/preferences">
+<form
+  method="post"
+  action="/preferences"
+>
   <lily-locale-picker
     label="Language"
     [locales]="['en', 'fr', 'ar']"
@@ -269,11 +272,7 @@ is far away in the tree.
 ## Pick the initial locale on the server
 
 ```ts
-import {
-  matchNavigatorLanguage,
-  isRtlLocale,
-  bcp47LocaleTag,
-} from "../locale-picker.component";
+import { matchNavigatorLanguage, isRtlLocale, bcp47LocaleTag } from "../locale-picker.component";
 
 const SUPPORTED = ["en", "fr", "ar"];
 

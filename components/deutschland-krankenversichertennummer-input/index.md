@@ -23,8 +23,15 @@ DeutschlandKrankenversichertennummerInput is a headless input for entering Germa
 ## Usage
 
 ```html
-<Field label="Health Insurance Number" required>
-  <DeutschlandKrankenversichertennummerInput label="Health Insurance Number" value={value} required />
+<Field
+  label="Health Insurance Number"
+  required
+>
+  <DeutschlandKrankenversichertennummerInput
+    label="Health Insurance Number"
+    value="{value}"
+    required
+  />
   <Hint>a random capital letter followed by eight random digits and a Luhn check digit</Hint>
   <ErrorMessage>Please enter a valid Health Insurance Number</ErrorMessage>
 </Field>

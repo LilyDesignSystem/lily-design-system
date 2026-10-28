@@ -96,7 +96,7 @@
     <p>| -------------- | --------------- | ---------- | --------------------------------------------------------- |</p>
     <p>| <code>label</code>        | <code>string</code>        | (required) | Accessible name applied via <code>aria-label</code>                  |</p>
     <p>| <code>value</code>        | <code>string</code>        | <code>""</code>       | Bindable string representing the currently selected theme |</p>
-    <p>| <code>children</code>     | <code>slot</code>       | (required) | <code>&lt;option&gt;</code> elements representing available themes         |</p>
+    <p>| <code>children</code>     | <code>slot</code>          | (required) | <code>&lt;option&gt;</code> elements representing available themes         |</p>
     <p>| <code>...restProps</code> | HTML attributes |            | Additional attributes spread onto the <code>&lt;select&gt;</code> element  |</p>
 </section>
 <!-- END generated: canonical contract -->

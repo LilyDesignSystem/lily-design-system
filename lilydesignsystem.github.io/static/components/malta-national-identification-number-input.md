@@ -23,9 +23,19 @@ MaltaNationalIdentificationNumberInput is a headless input for entering Malta's 
 ## Usage
 
 ```html
-<Field label="Malta National Identification Number" required>
-  <MaltaNationalIdentificationNumberInput label="Malta National Identification Number" value={value} required />
-  <Hint>8 characters: 7 digits and a letter (A, B, G, H, L, M, P, or Z) that encodes geographic origin and registration era</Hint>
+<Field
+  label="Malta National Identification Number"
+  required
+>
+  <MaltaNationalIdentificationNumberInput
+    label="Malta National Identification Number"
+    value="{value}"
+    required
+  />
+  <Hint
+    >8 characters: 7 digits and a letter (A, B, G, H, L, M, P, or Z) that encodes geographic origin
+    and registration era</Hint
+  >
   <ErrorMessage>Please enter a valid Malta National Identification Number</ErrorMessage>
 </Field>
 ```

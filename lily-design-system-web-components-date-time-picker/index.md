@@ -66,11 +66,11 @@ call `customElements.define(...)`.
 
 ## The value is always ISO
 
-| `mode` | `value` |
-| ------ | ------- |
-| `"date"` (default) | `"2026-03-15"` |
-| `"time"` | `"09:30"` |
-| `"datetime"` | `"2026-03-15T09:30"` |
+| `mode`             | `value`              |
+| ------------------ | -------------------- |
+| `"date"` (default) | `"2026-03-15"`       |
+| `"time"`           | `"09:30"`            |
+| `"datetime"`       | `"2026-03-15T09:30"` |
 
 Sortable as a string, unambiguous in every locale, and identical to what
 `<input type="date">` posts — so you can swap the native control in or
@@ -82,30 +82,30 @@ in your own code, deliberately.
 
 ## Attributes
 
-| Attribute | Default | Purpose |
-| --------- | ------- | ------- |
-| `label` | `""` | **Required.** Accessible name for the trigger and the dialog. |
-| `mode` | `"date"` | `"date"` \| `"time"` \| `"datetime"`. |
-| `value` | `""` | ISO value. |
-| `locale` | runtime default | BCP 47 tag driving all formatting. |
-| `min` / `max` | — | Inclusive ISO date bounds. |
-| `first-day-of-week` | from `locale` | `0`–`6`, 0 = Sunday. |
-| `minute-step` | `1` | Granularity of the minute select. |
-| `hour12` | from `locale` | `"true"` \| `"false"`. Absent = auto (tri-state, see below). |
-| `show-week-numbers` | `false` | Presence-based boolean. |
-| `confirm-on-select` | `mode === "date"` | `"true"` \| `"false"`. Absent = auto (tri-state, see below). |
-| `name` | `"date-time"` | `name` of the hidden input. |
-| `time-zone` | `""` | Selected IANA zone, or `""` for none. Rides `{name}-time-zone` and `data-time-zone`. |
-| `input-id` | generated | `id` of the text field, for a `<label for>`. |
-| `described-by` | — | Forwarded as `aria-describedby`. |
-| `placeholder` | — | Placeholder for the text field. |
-| `disabled` / `readonly` / `required` | `false` | Presence-based booleans. |
-| `class` | `""` | Extra class on the rendered root `<div>`. |
+| Attribute                            | Default           | Purpose                                                                              |
+| ------------------------------------ | ----------------- | ------------------------------------------------------------------------------------ |
+| `label`                              | `""`              | **Required.** Accessible name for the trigger and the dialog.                        |
+| `mode`                               | `"date"`          | `"date"` \| `"time"` \| `"datetime"`.                                                |
+| `value`                              | `""`              | ISO value.                                                                           |
+| `locale`                             | runtime default   | BCP 47 tag driving all formatting.                                                   |
+| `min` / `max`                        | —                 | Inclusive ISO date bounds.                                                           |
+| `first-day-of-week`                  | from `locale`     | `0`–`6`, 0 = Sunday.                                                                 |
+| `minute-step`                        | `1`               | Granularity of the minute select.                                                    |
+| `hour12`                             | from `locale`     | `"true"` \| `"false"`. Absent = auto (tri-state, see below).                         |
+| `show-week-numbers`                  | `false`           | Presence-based boolean.                                                              |
+| `confirm-on-select`                  | `mode === "date"` | `"true"` \| `"false"`. Absent = auto (tri-state, see below).                         |
+| `name`                               | `"date-time"`     | `name` of the hidden input.                                                          |
+| `time-zone`                          | `""`              | Selected IANA zone, or `""` for none. Rides `{name}-time-zone` and `data-time-zone`. |
+| `input-id`                           | generated         | `id` of the text field, for a `<label for>`.                                         |
+| `described-by`                       | —                 | Forwarded as `aria-describedby`.                                                     |
+| `placeholder`                        | —                 | Placeholder for the text field.                                                      |
+| `disabled` / `readonly` / `required` | `false`           | Presence-based booleans.                                                             |
+| `class`                              | `""`              | Extra class on the rendered root `<div>`.                                            |
 
 ### Tri-state booleans: `hour12` and `confirm-on-select`
 
 Most boolean attributes in this catalog are presence-based: absent means
-`false`. These two are different, because their *default* depends on
+`false`. These two are different, because their _default_ depends on
 `locale` or `mode` — so absence means "let the component decide", not
 "false". Set the attribute to the literal string `"true"` or `"false"`
 to override; anything else (including leaving it off) falls back to the
@@ -120,16 +120,16 @@ Every attribute above has a mirrored camelCase property. Read-only:
 
 Eight parts of the API cannot be attributes:
 
-| Property | Type | Paired event |
-| -------- | ---- | ------------ |
-| `labels` | `DateTimePickerLabels` (required) | — |
-| `shortcuts` | `DateTimeShortcut[]` | — |
-| `isDateDisabled` | `(isoDate: string) => boolean` | — |
-| `formatValue` | `(value: string) => string` | — |
-| `parseInput` | `(text: string) => string \| null` | — |
-| `onChange` | `(value: string) => void` | `datetimechange` |
-| `onShortcut` | `(id: string, isoDate: string) => void` | `shortcut` |
-| `onInvalidInput` | `(text: string) => void` | `invalidinput` |
+| Property         | Type                                    | Paired event     |
+| ---------------- | --------------------------------------- | ---------------- |
+| `labels`         | `DateTimePickerLabels` (required)       | —                |
+| `shortcuts`      | `DateTimeShortcut[]`                    | —                |
+| `isDateDisabled` | `(isoDate: string) => boolean`          | —                |
+| `formatValue`    | `(value: string) => string`             | —                |
+| `parseInput`     | `(text: string) => string \| null`      | —                |
+| `onChange`       | `(value: string) => void`               | `datetimechange` |
+| `onShortcut`     | `(id: string, isoDate: string) => void` | `shortcut`       |
+| `onInvalidInput` | `(text: string) => void`                | `invalidinput`   |
 
 `labels` and `shortcuts` carry plain data and could, in principle, be
 JSON-attribute-encoded the way this catalog does elsewhere — they are
@@ -215,8 +215,8 @@ picker.labels = {
 ```
 
 - `invalid` renders a `<span class="date-time-picker-status"
-  role="status">` live region straight after the field — present in the
-  DOM whenever the label is supplied, *empty* while the field is valid,
+role="status">` live region straight after the field — present in the
+  DOM whenever the label is supplied, _empty_ while the field is valid,
   filled with the message when typed text is refused. The field points
   at it via `aria-errormessage` and appends its id to
   `aria-describedby` (after your own `described-by`). Without it,
@@ -244,8 +244,14 @@ a blocked date does nothing rather than landing near it.
 ## Time, and date-and-time
 
 ```html
-<lily-date-time-picker mode="time" ...></lily-date-time-picker>
-<lily-date-time-picker mode="datetime" ...></lily-date-time-picker>
+<lily-date-time-picker
+  mode="time"
+  ...
+></lily-date-time-picker>
+<lily-date-time-picker
+  mode="datetime"
+  ...
+></lily-date-time-picker>
 ```
 
 ```js
@@ -259,10 +265,21 @@ Full contract: [`spec/index.md` §4.4](./spec/index.md#44-dom-contract).
 
 ```html
 <lily-date-time-picker label="Choose a date">
-  <div class="date-time-picker" data-mode="date">
-    <input type="hidden" name="date-time" value="2026-03-15" />
+  <div
+    class="date-time-picker"
+    data-mode="date"
+  >
+    <input
+      type="hidden"
+      name="date-time"
+      value="2026-03-15"
+    />
     <div class="date-time-picker-field">
-      <input class="date-time-picker-input" type="text" autocomplete="off" />
+      <input
+        class="date-time-picker-input"
+        type="text"
+        autocomplete="off"
+      />
       <button
         type="button"
         class="date-time-picker-button"
@@ -270,10 +287,19 @@ Full contract: [`spec/index.md` §4.4](./spec/index.md#44-dom-contract).
         aria-haspopup="dialog"
         aria-expanded="false"
       >
-        <span class="date-time-picker-icon" aria-hidden="true">📅︎</span>
+        <span
+          class="date-time-picker-icon"
+          aria-hidden="true"
+          >📅︎</span
+        >
       </button>
     </div>
-    <div class="date-time-picker-dialog" role="dialog" aria-modal="true" hidden>
+    <div
+      class="date-time-picker-dialog"
+      role="dialog"
+      aria-modal="true"
+      hidden
+    >
       <!-- header, grid, time selects, shortcuts, footer -->
     </div>
   </div>

@@ -25,20 +25,37 @@ This headless component wraps a native `<input type="range">` element with confi
 Volume control with step increments:
 
 ```html
-<Slider label="Volume" value={volume} min={0} max={100} step={5} />
+<Slider
+  label="Volume"
+  value="{volume}"
+  min="{0}"
+  max="{100}"
+  step="{5}"
+/>
 ```
 
 Brightness adjustment with displayed value:
 
 ```html
-<Slider label="Brightness" value={brightness} min={0} max={100} />
+<Slider
+  label="Brightness"
+  value="{brightness}"
+  min="{0}"
+  max="{100}"
+/>
 <p>Brightness: {brightness}%</p>
 ```
 
 Price range filter:
 
 ```html
-<Slider label="Maximum price" value={maxPrice} min={0} max={500} step={10} />
+<Slider
+  label="Maximum price"
+  value="{maxPrice}"
+  min="{0}"
+  max="{500}"
+  step="{10}"
+/>
 ```
 
 ## Keyboard Interactions
@@ -73,14 +90,11 @@ Price range filter:
 
 This headless component wraps a native `<input type="range">` element with `aria-label`, configurable min/max/step values, and two-way binding. It provides full native slider keyboard navigation and accessibility. The consumer provides all visual styling for the track, thumb, and any value labels.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.slider` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `slider`
 - Verify aria-label={label}` -- provides an accessible name for the slider

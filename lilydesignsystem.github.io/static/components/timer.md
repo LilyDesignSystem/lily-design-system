@@ -29,11 +29,19 @@ through the children slot.
 ## Usage
 
 ```html
-<Timer label="Session timeout" datetime="PT5M30S">05:30</Timer>
+<Timer
+  label="Session timeout"
+  datetime="PT5M30S"
+  >05:30</Timer
+>
 ```
 
 ```html
-<Timer label="Exam time remaining" datetime="PT45M00S">45:00</Timer>
+<Timer
+  label="Exam time remaining"
+  datetime="PT45M00S"
+  >45:00</Timer
+>
 ```
 
 ```html
@@ -41,7 +49,11 @@ through the children slot.
 ```
 
 ```html
-<Timer label="Cooking timer" datetime="PT12M15S">12:15</Timer>
+<Timer
+  label="Cooking timer"
+  datetime="PT12M15S"
+  >12:15</Timer
+>
 ```
 
 ## Keyboard Interactions
@@ -71,14 +83,11 @@ through the children slot.
 
 This headless component provides a `<time>` element with `role="timer"`, `aria-label`, and `aria-live="polite"` for accessible live-updating time display. The consumer manages all timer logic (intervals, countdowns) and provides formatted display content through the children slot, plus all visual styling.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.timer` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<span>` element with class `timer`
 - Verify role="timer"` indicates countdown or elapsed time

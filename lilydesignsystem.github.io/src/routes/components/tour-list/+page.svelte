@@ -92,11 +92,11 @@
       <li>Escape: Closes the tour by setting <code>active</code> to false</li>
     </ul>
     <h3>Props</h3>
-    <p>| Prop           | Type            | Default    | Description                                                        |</p>
-    <p>| -------------- | --------------- | ---------- | ------------------------------------------------------------------ |</p>
-    <p>| <code>label</code>        | <code>string</code>        | (required) | Accessible name for the tour dialog via <code>aria-label</code>               |</p>
+    <p>| Prop           | Type            | Default    | Description                                                                   |</p>
+    <p>| -------------- | --------------- | ---------- | ----------------------------------------------------------------------------- |</p>
+    <p>| <code>label</code>        | <code>string</code>        | (required) | Accessible name for the tour dialog via <code>aria-label</code>                          |</p>
     <p>| <code>active</code>       | <code>boolean</code>       | <code>false</code>    | Whether the tour is currently visible; bindable with two-way <code>active</code> binding |</p>
-    <p>| <code>children</code>     | <code>slot</code>       | (required) | Tour step content, navigation controls, and any additional UI      |</p>
-    <p>| <code>...restProps</code> | HTML attributes |            | Additional attributes spread onto the dialog <code>&lt;div&gt;</code>               |</p>
+    <p>| <code>children</code>     | <code>slot</code>          | (required) | Tour step content, navigation controls, and any additional UI                 |</p>
+    <p>| <code>...restProps</code> | HTML attributes |            | Additional attributes spread onto the dialog <code>&lt;div&gt;</code>                          |</p>
 </section>
 <!-- END generated: canonical contract -->

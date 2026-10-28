@@ -10,7 +10,7 @@ See [components/thinking/index.md](../../../../../components/thinking/index.md) 
 
 ```svelte
 <script lang="ts">
-    import Thinking from "./Thinking.svelte";
+  import Thinking from "./Thinking.svelte";
 </script>
 
 <Thinking />

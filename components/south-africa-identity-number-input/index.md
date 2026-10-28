@@ -23,9 +23,21 @@ SouthAfricaIdentityNumberInput is a headless input for entering South Africa's S
 ## Usage
 
 ```html
-<Field label="South African Identity Number" required>
-  <SouthAfricaIdentityNumberInput label="South African Identity Number" value={value} required />
-  <Hint>Thirteen digits in the form YYMMDDSSSSCAZ: the first six encode date of birth; the next four encode sex (0000-4999 female, 5000-9999 male); the eleventh digit encodes citizenship status (0 citizen, 1 permanent resident, 2 refugee); the twelfth is a legacy field fixed at 8 on modern cards; the thirteenth is a Luhn (Modulus-10) check digit over the preceding twelve.</Hint>
+<Field
+  label="South African Identity Number"
+  required
+>
+  <SouthAfricaIdentityNumberInput
+    label="South African Identity Number"
+    value="{value}"
+    required
+  />
+  <Hint
+    >Thirteen digits in the form YYMMDDSSSSCAZ: the first six encode date of birth; the next four
+    encode sex (0000-4999 female, 5000-9999 male); the eleventh digit encodes citizenship status (0
+    citizen, 1 permanent resident, 2 refugee); the twelfth is a legacy field fixed at 8 on modern
+    cards; the thirteenth is a Luhn (Modulus-10) check digit over the preceding twelve.</Hint
+  >
   <ErrorMessage>Please enter a valid South African Identity Number</ErrorMessage>
 </Field>
 ```

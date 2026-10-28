@@ -36,22 +36,22 @@ A consumer adds the namespace import once:
 
 ## Parameters
 
-| Parameter              | Type                                   | Required | Default                                       |
-| ---------------------- | -------------------------------------- | -------- | --------------------------------------------- |
-| `Label`                | `string`                               | yes      | `""`                                          |
-| `ThemesUrl`            | `string`                               | yes      | `""`                                          |
-| `Themes`               | `IReadOnlyList<string>`                | yes      | `Array.Empty<string>()`                       |
-| `Value`                | `string`                               | no       | `""`                                          |
-| `ValueChanged`         | `EventCallback<string>`                | no       | —                                             |
-| `DefaultValue`         | `string?`                              | no       | `null` (resolves to `"light"` or `Themes[0]`) |
-| `StorageKey`           | `string?`                              | no       | `null`                                        |
-| `Name`                 | `string`                               | no       | `"theme"`                                     |
-| `Extension`            | `string`                               | no       | `".css"`                                      |
-| `ThemeLabels`          | `IReadOnlyDictionary<string,string>`   | no       | empty `Dictionary<string, string>()`          |
-| `OnChange`             | `EventCallback<string>`                | no       | —                                             |
+| Parameter              | Type                                  | Required | Default                                       |
+| ---------------------- | ------------------------------------- | -------- | --------------------------------------------- |
+| `Label`                | `string`                              | yes      | `""`                                          |
+| `ThemesUrl`            | `string`                              | yes      | `""`                                          |
+| `Themes`               | `IReadOnlyList<string>`               | yes      | `Array.Empty<string>()`                       |
+| `Value`                | `string`                              | no       | `""`                                          |
+| `ValueChanged`         | `EventCallback<string>`               | no       | —                                             |
+| `DefaultValue`         | `string?`                             | no       | `null` (resolves to `"light"` or `Themes[0]`) |
+| `StorageKey`           | `string?`                             | no       | `null`                                        |
+| `Name`                 | `string`                              | no       | `"theme"`                                     |
+| `Extension`            | `string`                              | no       | `".css"`                                      |
+| `ThemeLabels`          | `IReadOnlyDictionary<string,string>`  | no       | empty `Dictionary<string, string>()`          |
+| `OnChange`             | `EventCallback<string>`               | no       | —                                             |
 | `ChildContent`         | `RenderFragment<ThemePickerContext>?` | no       | `null` (the default glyph)                    |
-| `CssClass`             | `string`                               | no       | `""`                                          |
-| `AdditionalAttributes` | `Dictionary<string, object>?`          | no       | `null`                                        |
+| `CssClass`             | `string`                              | no       | `""`                                          |
+| `AdditionalAttributes` | `Dictionary<string, object>?`         | no       | `null`                                        |
 
 There is **no `Placeholder` parameter**. It existed only to pin a
 native `<select>`'s closed display; there is no `<select>` any more.
@@ -143,8 +143,15 @@ exposing the implementation to consumers.
 An icon button plus a dropdown listbox (`spec/index.md §4.2`):
 
 ```html
-<div class="theme-picker {CssClass}" ...AdditionalAttributes>
-  <input type="hidden" name="{Name}" value="{Value}" />
+<div
+  class="theme-picker {CssClass}"
+  ...AdditionalAttributes
+>
+  <input
+    type="hidden"
+    name="{Name}"
+    value="{Value}"
+  />
   <button
     type="button"
     class="theme-picker-button"
@@ -153,7 +160,13 @@ An icon button plus a dropdown listbox (`spec/index.md §4.2`):
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true">…</svg>
+    <svg
+      class="theme-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+    >
+      …
+    </svg>
   </button>
   <ul
     class="theme-picker-list"

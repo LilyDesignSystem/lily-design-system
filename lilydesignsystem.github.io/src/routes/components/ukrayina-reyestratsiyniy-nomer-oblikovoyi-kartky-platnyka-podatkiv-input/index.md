@@ -23,10 +23,24 @@ UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput is a headless 
 ## Usage
 
 ```html
-<Field label="Реєстраційний номер облікової картки платника податків (РНОКПП)" required>
-  <UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput label="Реєстраційний номер облікової картки платника податків (РНОКПП)" value={value} required />
-  <Hint>Ten digits. The first five encode date of birth as the number of days elapsed since 1 January 1900; the next four are a registration sequence number, whose own last digit's parity encodes sex (odd male, even female); the tenth digit is a check digit computed with a weighted-sum algorithm over the first nine digits.</Hint>
-  <ErrorMessage>Please enter a valid Реєстраційний номер облікової картки платника податків</ErrorMessage>
+<Field
+  label="Реєстраційний номер облікової картки платника податків (РНОКПП)"
+  required
+>
+  <UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput
+    label="Реєстраційний номер облікової картки платника податків (РНОКПП)"
+    value="{value}"
+    required
+  />
+  <Hint
+    >Ten digits. The first five encode date of birth as the number of days elapsed since 1 January
+    1900; the next four are a registration sequence number, whose own last digit's parity encodes
+    sex (odd male, even female); the tenth digit is a check digit computed with a weighted-sum
+    algorithm over the first nine digits.</Hint
+  >
+  <ErrorMessage
+    >Please enter a valid Реєстраційний номер облікової картки платника податків</ErrorMessage
+  >
 </Field>
 ```
 

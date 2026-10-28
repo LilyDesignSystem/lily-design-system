@@ -12,7 +12,10 @@ A box area that looks like a tablet computer in landscape mode. Renders a decora
 
 ```tsx
 <MockupTabletLandscape>
-  <img src="screenshot.png" alt="App screen" />
+  <img
+    src="screenshot.png"
+    alt="App screen"
+  />
 </MockupTabletLandscape>
 ```
 

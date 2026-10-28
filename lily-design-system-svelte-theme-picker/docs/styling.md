@@ -9,8 +9,8 @@ when it opens. See [Positioning the listbox](#positioning-the-listbox).
 
 ## Class hooks
 
-| Selector                         | Element                                                                                                                                                  |
-| -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Selector                        | Element                                                                                                                                                  |
+| ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `.theme-picker`                 | The root `<div>`.                                                                                                                                        |
 | `.theme-picker.{consumerClass}` | Both classes when `class` is passed.                                                                                                                     |
 | `.theme-picker-button`          | The trigger `<button type="button">`.                                                                                                                    |
@@ -29,10 +29,10 @@ button, so `.theme-picker-icon` disappears but every other hook stays.
 
 | Attribute                         | On                          | Purpose                                                                                         |
 | --------------------------------- | --------------------------- | ----------------------------------------------------------------------------------------------- |
-| `[aria-expanded="true"]`          | `.theme-picker-button`     | The listbox is open. Style the trigger's open state.                                            |
-| `[hidden]`                        | `.theme-picker-list`       | The listbox is closed.                                                                          |
-| `[aria-selected="true"]`          | `.theme-picker-option`     | The **applied** theme.                                                                          |
-| `[data-active]`                   | `.theme-picker-option`     | The **keyboard-active** option. Bare attribute, present on at most one option, only while open. |
+| `[aria-expanded="true"]`          | `.theme-picker-button`      | The listbox is open. Style the trigger's open state.                                            |
+| `[hidden]`                        | `.theme-picker-list`        | The listbox is closed.                                                                          |
+| `[aria-selected="true"]`          | `.theme-picker-option`      | The **applied** theme.                                                                          |
+| `[data-active]`                   | `.theme-picker-option`      | The **keyboard-active** option. Bare attribute, present on at most one option, only while open. |
 | `data-theme="<slug>"`             | `target` (default `<html>`) | Active theme indicator for theme CSS files.                                                     |
 | `data-lily-theme-picker="<name>"` | the managed `<link>`        | Discriminator for multiple selects.                                                             |
 
@@ -158,7 +158,10 @@ The component does not render it; you do, with the
 `.theme-picker-status` hook:
 
 ```svelte
-<p class="theme-picker-status" aria-live="polite">
+<p
+  class="theme-picker-status"
+  aria-live="polite"
+>
   Active theme: {labelFor(theme)}
 </p>
 ```

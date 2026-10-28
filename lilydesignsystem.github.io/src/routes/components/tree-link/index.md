@@ -22,7 +22,10 @@ A tree link is a navigational anchor element representing one link in a tree nav
 ```html
 <TreeNav label="Documentation sidebar">
   <TreeList label="Pages">
-    <TreeListItem tabindex="0" aria-expanded="true">
+    <TreeListItem
+      tabindex="0"
+      aria-expanded="true"
+    >
       <TreeLink href="/docs/components">Components</TreeLink>
       <ul role="group">
         <TreeListItem tabindex="-1">
@@ -34,7 +37,11 @@ A tree link is a navigational anchor element representing one link in a tree nav
       </ul>
     </TreeListItem>
     <TreeListItem tabindex="-1">
-      <TreeLink href="/docs/api" label="API reference documentation">API Reference</TreeLink>
+      <TreeLink
+        href="/docs/api"
+        label="API reference documentation"
+        >API Reference</TreeLink
+      >
     </TreeListItem>
   </TreeList>
 </TreeNav>

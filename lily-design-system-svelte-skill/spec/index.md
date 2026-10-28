@@ -31,7 +31,7 @@ headless components, no example app, no helper packages.
 
 The canonical-helpers relevance matters for this skill specifically:
 because Svelte's helper packages are the contract every other framework
-ports from, a task that touches the *design* of a picker helper (not just
+ports from, a task that touches the _design_ of a picker helper (not just
 its Svelte consumption) is more likely to land here or in
 `lily-design-system-svelte-helpers-skill` than in any other framework's
 helpers skill.

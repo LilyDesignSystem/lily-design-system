@@ -16,15 +16,15 @@ React/Vue/Angular/Blazor ports. Implemented 2026-09-22.
 
 ## Files
 
-| File | Purpose |
-| --- | --- |
-| `spec/index.md` | Specification-driven contract (canonical). |
-| `kanban-board.ts` | Implementation (TypeScript custom-element class). |
-| `kanban-board.test.ts` | Vitest + jsdom spec, one or more assertions per §8 acceptance clause, plus two extra regression tests (see below). |
-| `index.ts` | Barrel re-export + side-effectful registration. |
-| `index.md` | Human-readable guide. |
-| `docs/accessibility.md` | Tradeoffs, stated plainly. |
-| `examples/` | A runnable HTML page. |
+| File                    | Purpose                                                                                                            |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `spec/index.md`         | Specification-driven contract (canonical).                                                                         |
+| `kanban-board.ts`       | Implementation (TypeScript custom-element class).                                                                  |
+| `kanban-board.test.ts`  | Vitest + jsdom spec, one or more assertions per §8 acceptance clause, plus two extra regression tests (see below). |
+| `index.ts`              | Barrel re-export + side-effectful registration.                                                                    |
+| `index.md`              | Human-readable guide.                                                                                              |
+| `docs/accessibility.md` | Tradeoffs, stated plainly.                                                                                         |
+| `examples/`             | A runnable HTML page.                                                                                              |
 
 ## Public surface
 
@@ -96,7 +96,7 @@ spec/index.md §4).
 - Every user-facing string is a `labels.*` property; a label's
   presence gates the control it names — no baked-in English fallback.
   Exception: the move button itself always renders (keyboard access
-  depends on it existing); only its accessible *name* is gated.
+  depends on it existing); only its accessible _name_ is gated.
 - Non-goals (multi-select/bulk move, swimlanes, card detail editing,
   virtualization, column reorder, card sub-tasks) are documented, not
   silently missing — see spec/index.md §9.
@@ -105,7 +105,7 @@ spec/index.md §4).
 
 Every other framework catalog's port of this component independently
 found the same latent bug in the Svelte reference (a single shared
-button ref, refocusing the *last-mounted* card instead of the card
+button ref, refocusing the _last-mounted_ card instead of the card
 whose menu closed). This implementation has no framework ref-binding
 sugar at all — each card's `<lily-icon-button>` host lives in a
 `Map<cardId, HTMLElement>`, so there is no shared variable for the bug

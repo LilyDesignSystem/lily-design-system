@@ -41,7 +41,7 @@ Bottom banner with dismiss handler:
 <StickyPromoBanner
   label="Beta program promotion"
   dismissLabel="Dismiss banner"
-  ondismiss={handleDismiss}
+  ondismiss="{handleDismiss}"
 >
   <p>Try our new beta features. <a href="/beta">Learn more</a>.</p>
 </StickyPromoBanner>
@@ -53,10 +53,12 @@ Top banner, hidden until `open` becomes `true`:
 <StickyPromoBanner
   label="Maintenance window"
   position="top"
-  open={isOpen}
+  open="{isOpen}"
   dismissLabel="Dismiss"
-  ondismiss={() => setIsOpen(false)}
+  ondismiss="{()"
+  =""
 >
+  setIsOpen(false)} >
   <p>Scheduled maintenance Saturday 22:00–23:00 UTC.</p>
 </StickyPromoBanner>
 ```

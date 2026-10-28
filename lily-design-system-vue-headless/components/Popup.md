@@ -27,11 +27,14 @@ The component is similar to Popover but is designed as a general-purpose overlay
   let showPopup = $state(false);
 </script>
 
-<button onclick={() => showPopup = !showPopup}>Open popup</button>
-<Popup label="Confirmation" bind:open={showPopup}>
+<button onclick={() => (showPopup = !showPopup)}>Open popup</button>
+<Popup
+  label="Confirmation"
+  bind:open={showPopup}
+>
   <p>Are you sure you want to proceed?</p>
-  <button onclick={() => showPopup = false}>Yes</button>
-  <button onclick={() => showPopup = false}>No</button>
+  <button onclick={() => (showPopup = false)}>Yes</button>
+  <button onclick={() => (showPopup = false)}>No</button>
 </Popup>
 ```
 

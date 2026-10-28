@@ -48,22 +48,28 @@ import RedOrangeYellowGreenBluePicker from './RedOrangeYellowGreenBluePicker.sve
 
 ```svelte
 <script lang="ts">
-  import RedOrangeYellowGreenBluePicker from './RedOrangeYellowGreenBluePicker.svelte';
+  import RedOrangeYellowGreenBluePicker from "./RedOrangeYellowGreenBluePicker.svelte";
 </script>
 
-<RedOrangeYellowGreenBluePicker label="Alert status" value="green" />
+<RedOrangeYellowGreenBluePicker
+  label="Alert status"
+  value="green"
+/>
 ```
 
 ### Two-way binding
 
 ```svelte
 <script lang="ts">
-  import RedOrangeYellowGreenBluePicker from './RedOrangeYellowGreenBluePicker.svelte';
+  import RedOrangeYellowGreenBluePicker from "./RedOrangeYellowGreenBluePicker.svelte";
 
   let level = $state("yellow");
 </script>
 
-<RedOrangeYellowGreenBluePicker label="Project health" bind:value={level} />
+<RedOrangeYellowGreenBluePicker
+  label="Project health"
+  bind:value={level}
+/>
 <p>Level: {level}</p>
 ```
 
@@ -71,13 +77,16 @@ import RedOrangeYellowGreenBluePicker from './RedOrangeYellowGreenBluePicker.sve
 
 ```svelte
 <script lang="ts">
-  import RedOrangeYellowGreenBluePickerButton from '../RedOrangeYellowGreenBluePickerButton/RedOrangeYellowGreenBluePickerButton.svelte';
+  import RedOrangeYellowGreenBluePickerButton from "../RedOrangeYellowGreenBluePickerButton/RedOrangeYellowGreenBluePickerButton.svelte";
 
   let level = $state("green");
   const levels = ["red", "orange", "yellow", "green", "blue"] as const;
 </script>
 
-<div role="group" aria-label="Alert level">
+<div
+  role="group"
+  aria-label="Alert level"
+>
   {#each levels as lv}
     <RedOrangeYellowGreenBluePickerButton
       value={lv}
@@ -93,25 +102,38 @@ import RedOrangeYellowGreenBluePicker from './RedOrangeYellowGreenBluePicker.sve
 
 ```svelte
 <script lang="ts">
-  import RedOrangeYellowGreenBluePicker from './RedOrangeYellowGreenBluePicker.svelte';
-  import RedOrangeYellowGreenBlueView from '../RedOrangeYellowGreenBlueView/RedOrangeYellowGreenBlueView.svelte';
+  import RedOrangeYellowGreenBluePicker from "./RedOrangeYellowGreenBluePicker.svelte";
+  import RedOrangeYellowGreenBlueView from "../RedOrangeYellowGreenBlueView/RedOrangeYellowGreenBlueView.svelte";
 
   let level = $state("");
   let submitted = $state(false);
 </script>
 
 {#if submitted}
-  <RedOrangeYellowGreenBlueView label="Level" value={level} />
+  <RedOrangeYellowGreenBlueView
+    label="Level"
+    value={level}
+  />
 {:else}
-  <RedOrangeYellowGreenBluePicker label="Level" bind:value={level} />
-  <button type="button" onclick={() => (submitted = true)}>Confirm</button>
+  <RedOrangeYellowGreenBluePicker
+    label="Level"
+    bind:value={level}
+  />
+  <button
+    type="button"
+    onclick={() => (submitted = true)}>Confirm</button
+  >
 {/if}
 ```
 
 ### With a data attribute
 
 ```svelte
-<RedOrangeYellowGreenBluePicker label="Level" bind:value={level} data-dashboard="main" />
+<RedOrangeYellowGreenBluePicker
+  label="Level"
+  bind:value={level}
+  data-dashboard="main"
+/>
 ```
 
 ## Accessibility

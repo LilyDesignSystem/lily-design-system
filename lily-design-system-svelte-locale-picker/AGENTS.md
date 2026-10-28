@@ -14,17 +14,17 @@ positioning CSS).
 
 ## Files
 
-| File                       | Purpose                                          |
-| -------------------------- | ------------------------------------------------ |
-| `spec/index.md`                  | Specification-driven contract (canonical).       |
-| `LocalePicker.svelte`      | Implementation. Svelte 5 runes + TypeScript.     |
-| `LocalePicker.test.ts`     | Vitest spec, one assertion per §7 acceptance.    |
-| `locales.ts`               | Fallback code → English-name map and RTL sets; default labels are endonyms via `localeEndonym`. |
-| `locales.tsv`              | Canonical 436-row source for `locales.ts`.       |
-| `index.ts`                 | Barrel re-export.                                |
-| `index.md`                 | Human-readable guide.                            |
-| `docs/`                    | Topic guides: a11y, BCP 47, concepts, custom rendering, i18n, props, recipes, RTL, SSR, styling, troubleshooting. |
-| `examples/`                | Ten self-contained Svelte 5 examples.            |
+| File                   | Purpose                                                                                                           |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `spec/index.md`        | Specification-driven contract (canonical).                                                                        |
+| `LocalePicker.svelte`  | Implementation. Svelte 5 runes + TypeScript.                                                                      |
+| `LocalePicker.test.ts` | Vitest spec, one assertion per §7 acceptance.                                                                     |
+| `locales.ts`           | Fallback code → English-name map and RTL sets; default labels are endonyms via `localeEndonym`.                   |
+| `locales.tsv`          | Canonical 436-row source for `locales.ts`.                                                                        |
+| `index.ts`             | Barrel re-export.                                                                                                 |
+| `index.md`             | Human-readable guide.                                                                                             |
+| `docs/`                | Topic guides: a11y, BCP 47, concepts, custom rendering, i18n, props, recipes, RTL, SSR, styling, troubleshooting. |
+| `examples/`            | Ten self-contained Svelte 5 examples.                                                                             |
 
 ## Public surface
 
@@ -57,18 +57,71 @@ detection (if enabled) > `defaultValue` > `"en"` (if present) >
 ## HTML
 
 ```html
-<div class="locale-picker {class}" ...restProps>
-  <input type="hidden" name="{name}" value="{value}" />
-  <button type="button" class="locale-picker-button" aria-label="{label}"
-          aria-haspopup="listbox" aria-expanded="false" aria-controls="{listId}">
-    <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path stroke-width="1.1" d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7"/></svg>
+<div
+  class="locale-picker {class}"
+  ...restProps
+>
+  <input
+    type="hidden"
+    name="{name}"
+    value="{value}"
+  />
+  <button
+    type="button"
+    class="locale-picker-button"
+    aria-label="{label}"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="{listId}"
+  >
+    <svg
+      class="locale-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle
+        cx="8"
+        cy="8"
+        r="6"
+      />
+      <path
+        stroke-width="1.1"
+        d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7"
+      />
+    </svg>
   </button>
-  <div class="locale-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
-  <ul class="locale-picker-list" id="{listId}" role="listbox" aria-label="{label}"
-      tabindex="-1" hidden aria-activedescendant="{active optionId while open}">
-    <li class="locale-picker-option" id="{optionId}" role="option"
-        aria-selected="true|false" data-active
-        lang="{tag, only when the label is the derived endonym}">American English</li>
+  <div
+    class="locale-picker-tooltip"
+    role="tooltip"
+    id="{tooltipId}"
+    hidden
+  >
+    {label}
+  </div>
+  <ul
+    class="locale-picker-list"
+    id="{listId}"
+    role="listbox"
+    aria-label="{label}"
+    tabindex="-1"
+    hidden
+    aria-activedescendant="{active optionId while open}"
+  >
+    <li
+      class="locale-picker-option"
+      id="{optionId}"
+      role="option"
+      aria-selected="true|false"
+      data-active
+      lang="{tag, only when the label is the derived endonym}"
+    >
+      American English
+    </li>
   </ul>
 </div>
 ```
@@ -112,7 +165,7 @@ focus leaving the root closes.
 - Two honest tradeoffs — icon-only naming and hand-rolled listbox
   support — are documented in `docs/accessibility.md`. The first bites
   harder here than for `theme-picker`: `aria-label` is written in
-  *some* language, and a user who cannot read the page needs this
+  _some_ language, and a user who cannot read the page needs this
   control most. A native `<select>` remains the better choice for some
   audiences. (The font-dependent-rendering tradeoff no longer applies:
   the icon is a bundled SVG, not a Unicode character — reversed

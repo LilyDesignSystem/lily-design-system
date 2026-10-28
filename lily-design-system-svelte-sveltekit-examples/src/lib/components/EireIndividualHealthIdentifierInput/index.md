@@ -49,25 +49,28 @@ Import the component, pass a `label` (for example "IHI" or a localised equivalen
 
 ```svelte
 <script lang="ts">
-    import EireIndividualHealthIdentifierInput from "./EireIndividualHealthIdentifierInput.svelte";
-    let ihi = $state("");
+  import EireIndividualHealthIdentifierInput from "./EireIndividualHealthIdentifierInput.svelte";
+  let ihi = $state("");
 </script>
 
-<EireIndividualHealthIdentifierInput label="IHI" bind:value={ihi} />
+<EireIndividualHealthIdentifierInput
+  label="IHI"
+  bind:value={ihi}
+/>
 ```
 
 ### Required IHI input
 
 ```svelte
 <script lang="ts">
-    import EireIndividualHealthIdentifierInput from "./EireIndividualHealthIdentifierInput.svelte";
-    let ihi = $state("");
+  import EireIndividualHealthIdentifierInput from "./EireIndividualHealthIdentifierInput.svelte";
+  let ihi = $state("");
 </script>
 
 <EireIndividualHealthIdentifierInput
-    label="Individual Health Identifier"
-    bind:value={ihi}
-    required
+  label="Individual Health Identifier"
+  bind:value={ihi}
+  required
 />
 ```
 
@@ -75,37 +78,45 @@ Import the component, pass a `label` (for example "IHI" or a localised equivalen
 
 ```svelte
 <script lang="ts">
-    import EireIndividualHealthIdentifierInput from "./EireIndividualHealthIdentifierInput.svelte";
-    let ihi = $state("1234567890");
+  import EireIndividualHealthIdentifierInput from "./EireIndividualHealthIdentifierInput.svelte";
+  let ihi = $state("1234567890");
 </script>
 
-<EireIndividualHealthIdentifierInput label="IHI" bind:value={ihi} disabled />
+<EireIndividualHealthIdentifierInput
+  label="IHI"
+  bind:value={ihi}
+  disabled
+/>
 ```
 
 ### Inside a field with a localised label
 
 ```svelte
 <script lang="ts">
-    import EireIndividualHealthIdentifierInput from "./EireIndividualHealthIdentifierInput.svelte";
-    let ihi = $state("");
-    const t = { label: "Uimhir Aitheantais Sláinte Aonair" };
+  import EireIndividualHealthIdentifierInput from "./EireIndividualHealthIdentifierInput.svelte";
+  let ihi = $state("");
+  const t = { label: "Uimhir Aitheantais Sláinte Aonair" };
 </script>
 
-<EireIndividualHealthIdentifierInput label={t.label} bind:value={ihi} required />
+<EireIndividualHealthIdentifierInput
+  label={t.label}
+  bind:value={ihi}
+  required
+/>
 ```
 
 ### IHI input with placeholder
 
 ```svelte
 <script lang="ts">
-    import EireIndividualHealthIdentifierInput from "./EireIndividualHealthIdentifierInput.svelte";
-    let ihi = $state("");
+  import EireIndividualHealthIdentifierInput from "./EireIndividualHealthIdentifierInput.svelte";
+  let ihi = $state("");
 </script>
 
 <EireIndividualHealthIdentifierInput
-    label="IHI"
-    bind:value={ihi}
-    placeholder="10 digits"
+  label="IHI"
+  bind:value={ihi}
+  placeholder="10 digits"
 />
 ```
 

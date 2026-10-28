@@ -26,17 +26,20 @@ Checklist with completed, pending, and disabled items:
 
 ```html
 <CheckList label="Daily tasks">
-    <CheckListItem checked={true}>Buy groceries</CheckListItem>
-    <CheckListItem>Clean the house</CheckListItem>
-    <CheckListItem disabled>Optional task</CheckListItem>
+  <CheckListItem checked="{true}">Buy groceries</CheckListItem>
+  <CheckListItem>Clean the house</CheckListItem>
+  <CheckListItem disabled>Optional task</CheckListItem>
 </CheckList>
 ```
 
 Checklist item with change handler:
 
 ```html
-<CheckListItem checked={isComplete} onchange={handleToggle}>
-    Review pull request
+<CheckListItem
+  checked="{isComplete}"
+  onchange="{handleToggle}"
+>
+  Review pull request
 </CheckListItem>
 ```
 

@@ -27,9 +27,27 @@ Priority level selector:
 
 ```html
 <Listbox label="Select priority">
-    <div role="option" tabindex="-1" aria-selected="true">High</div>
-    <div role="option" tabindex="-1" aria-selected="false">Medium</div>
-    <div role="option" tabindex="-1" aria-selected="false">Low</div>
+  <div
+    role="option"
+    tabindex="-1"
+    aria-selected="true"
+  >
+    High
+  </div>
+  <div
+    role="option"
+    tabindex="-1"
+    aria-selected="false"
+  >
+    Medium
+  </div>
+  <div
+    role="option"
+    tabindex="-1"
+    aria-selected="false"
+  >
+    Low
+  </div>
 </Listbox>
 ```
 
@@ -37,16 +55,20 @@ Department filter in a settings panel:
 
 ```html
 <Listbox label="Filter by department">
-    {#each departments as dept}
-        <div
-            role="option"
-            tabindex="-1"
-            aria-selected={selectedDept === dept}
-            onclick={() => selectedDept = dept}
-        >
-            {dept}
-        </div>
-    {/each}
+  {#each departments as dept}
+  <div
+    role="option"
+    tabindex="-1"
+    aria-selected="{selectedDept"
+    =""
+    =""
+    ="dept}"
+    onclick="{()"
+    =""
+  >
+    selectedDept = dept} > {dept}
+  </div>
+  {/each}
 </Listbox>
 ```
 
@@ -54,9 +76,27 @@ Theme selection with visible options:
 
 ```html
 <Listbox label="Choose a theme">
-    <div role="option" tabindex="-1" aria-selected="false">Light</div>
-    <div role="option" tabindex="-1" aria-selected="false">Dark</div>
-    <div role="option" tabindex="-1" aria-selected="true">System</div>
+  <div
+    role="option"
+    tabindex="-1"
+    aria-selected="false"
+  >
+    Light
+  </div>
+  <div
+    role="option"
+    tabindex="-1"
+    aria-selected="false"
+  >
+    Dark
+  </div>
+  <div
+    role="option"
+    tabindex="-1"
+    aria-selected="true"
+  >
+    System
+  </div>
 </Listbox>
 ```
 
@@ -90,14 +130,11 @@ Theme selection with visible options:
 
 This headless component provides the ARIA listbox role, keyboard navigation (arrow keys, Home, End with wrapping), and focus management for child option elements. The consumer provides all visual styling, including option appearance, selected-state highlighting, scrolling behavior, and focus indicators.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.listbox` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `listbox`
 - Verify role="listbox"` -- identifies the container as a listbox widget for selecting from a list of options.

@@ -13,10 +13,10 @@ Every example assumes:
 - The example's `@page` route is mounted in the host's `App.razor` with an
   **interactive** render mode.
 
-| # | File | Demonstrates |
-| --- | --- | --- |
-| 1 | [`Basic.razor`](./Basic.razor) | Minimal `Date` mode usage: required `Label` + `Labels`, two-way `@bind-Value`, an optional clear button, and the optional `Invalid` / `Instructions` announcements. |
-| 2 | [`NhsBooking.razor`](./NhsBooking.razor) | `Mode="DateTime"`, `Min`/`Max`, `IsDateDisabled`, `MinuteStep`, `Shortcuts`, and switching `Locale` + `Labels` (including the bilingual `Invalid` / `Instructions` strings) together at runtime (English/Welsh). |
+| #   | File                                     | Demonstrates                                                                                                                                                                                                     |
+| --- | ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | [`Basic.razor`](./Basic.razor)           | Minimal `Date` mode usage: required `Label` + `Labels`, two-way `@bind-Value`, an optional clear button, and the optional `Invalid` / `Instructions` announcements.                                              |
+| 2   | [`NhsBooking.razor`](./NhsBooking.razor) | `Mode="DateTime"`, `Min`/`Max`, `IsDateDisabled`, `MinuteStep`, `Shortcuts`, and switching `Locale` + `Labels` (including the bilingual `Invalid` / `Instructions` strings) together at runtime (English/Welsh). |
 
 ## Running the examples
 

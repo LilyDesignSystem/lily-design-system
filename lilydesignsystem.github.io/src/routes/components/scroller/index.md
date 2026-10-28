@@ -26,10 +26,16 @@ This headless component uses a `<div>` element with an optional `aria-label` to 
 ## Usage
 
 ```html
-<Scroller label="Climate change data story" bind:index>
+<Scroller
+  label="Climate change data story"
+  bind:index
+>
   <div slot="background">
     <!-- Changes based on index -->
-    <img src="chart-{index}.png" alt="Chart showing step {index}" />
+    <img
+      src="chart-{index}.png"
+      alt="Chart showing step {index}"
+    />
   </div>
   <div class="step">
     <p>In 2020, temperatures rose significantly.</p>
@@ -41,9 +47,16 @@ This headless component uses a `<div>` element with an optional `aria-label` to 
 ```
 
 ```html
-<Scroller label="How a vaccine works" bind:index bind:progress>
+<Scroller
+  label="How a vaccine works"
+  bind:index
+  bind:progress
+>
   <div slot="background">
-    <Animation frame={index} progress={progress} />
+    <Animation
+      frame="{index}"
+      progress="{progress}"
+    />
   </div>
   <div class="step">
     <p>The vaccine enters the body.</p>

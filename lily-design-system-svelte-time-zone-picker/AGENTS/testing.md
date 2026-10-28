@@ -22,12 +22,12 @@ import { defineConfig } from "vitest/config";
 import { svelte } from "@sveltejs/vite-plugin-svelte";
 
 export default defineConfig({
-    plugins: [svelte({ hot: false })],
-    test: {
-        environment: "jsdom",
-        globals: true,
-        setupFiles: ["./vitest.setup.ts"],
-    },
+  plugins: [svelte({ hot: false })],
+  test: {
+    environment: "jsdom",
+    globals: true,
+    setupFiles: ["./vitest.setup.ts"],
+  },
 });
 ```
 
@@ -49,24 +49,24 @@ import { render } from "@testing-library/svelte";
 import ThemePicker from "./ThemePicker.svelte";
 
 beforeEach(() => {
-    document.head.innerHTML = "";
-    document.documentElement.removeAttribute("data-theme");
-    document.documentElement.removeAttribute("lang");
-    document.documentElement.removeAttribute("dir");
-    localStorage.clear();
+  document.head.innerHTML = "";
+  document.documentElement.removeAttribute("data-theme");
+  document.documentElement.removeAttribute("lang");
+  document.documentElement.removeAttribute("dir");
+  localStorage.clear();
 });
 
 it("§7.1 renders a <select> with the base class and label", () => {
-    const { container } = render(ThemePicker, {
-        props: {
-            label: "Theme",
-            themesUrl: "/themes/",
-            themes: ["light", "dark"],
-        },
-    });
-    const root = container.querySelector("select.theme-picker");
-    expect(root).not.toBeNull();
-    expect(root!.getAttribute("aria-label")).toBe("Theme");
+  const { container } = render(ThemePicker, {
+    props: {
+      label: "Theme",
+      themesUrl: "/themes/",
+      themes: ["light", "dark"],
+    },
+  });
+  const root = container.querySelector("select.theme-picker");
+  expect(root).not.toBeNull();
+  expect(root!.getAttribute("aria-label")).toBe("Theme");
 });
 ```
 
@@ -77,15 +77,15 @@ side-effect mutations the select performs.
 
 ## Common assertions
 
-| Goal                                | Pattern                                                              |
-| ----------------------------------- | -------------------------------------------------------------------- |
-| Wait for `$effect` to fire          | `await tick()` or `await Promise.resolve()`                          |
-| Find an option by value             | `container.querySelector('option[value="dark"]')`                    |
-| Change the selection                | `await fireEvent.change(select, { target: { value: "dark" } })`      |
-| Assert `onChange` was called        | `expect(onChange).toHaveBeenCalledWith("dark")`                      |
-| Inspect document mutations          | `document.documentElement.dataset.theme`                              |
-| Re-render fresh                     | `cleanup(); render(Select, { props })`                               |
-| `localStorage` round-trip           | `localStorage.setItem(...); /* re-render */`                         |
+| Goal                         | Pattern                                                         |
+| ---------------------------- | --------------------------------------------------------------- |
+| Wait for `$effect` to fire   | `await tick()` or `await Promise.resolve()`                     |
+| Find an option by value      | `container.querySelector('option[value="dark"]')`               |
+| Change the selection         | `await fireEvent.change(select, { target: { value: "dark" } })` |
+| Assert `onChange` was called | `expect(onChange).toHaveBeenCalledWith("dark")`                 |
+| Inspect document mutations   | `document.documentElement.dataset.theme`                        |
+| Re-render fresh              | `cleanup(); render(Select, { props })`                          |
+| `localStorage` round-trip    | `localStorage.setItem(...); /* re-render */`                    |
 
 ## Driving a `bind:value` test
 
@@ -96,15 +96,15 @@ component instance Svelte returns:
 import { tick } from "svelte";
 
 it("§7.6 resolves the initial theme to 'light'", async () => {
-    const { component } = render(ThemePicker, {
-        props: {
-            label: "Theme",
-            themesUrl: "/t/",
-            themes: ["light", "dark"],
-        },
-    });
-    await tick();
-    expect(document.documentElement.dataset.theme).toBe("light");
+  const { component } = render(ThemePicker, {
+    props: {
+      label: "Theme",
+      themesUrl: "/t/",
+      themes: ["light", "dark"],
+    },
+  });
+  await tick();
+  expect(document.documentElement.dataset.theme).toBe("light");
 });
 ```
 
@@ -121,22 +121,22 @@ small wrapper `.svelte` file or use the `createRawSnippet` helper:
 import { createRawSnippet } from "svelte";
 
 it("§7.13 children snippet receives ChildArgs", async () => {
-    let captured: any = null;
-    const children = createRawSnippet((args) => {
-        captured = args();
-        return { render: () => "<div data-testid='custom'></div>" };
-    });
-    render(ThemePicker, {
-        props: {
-            label: "Theme",
-            themesUrl: "/t/",
-            themes: ["light", "dark"],
-            children,
-        },
-    });
-    await tick();
-    expect(captured.themes).toEqual(["light", "dark"]);
-    expect(typeof captured.setTheme).toBe("function");
+  let captured: any = null;
+  const children = createRawSnippet((args) => {
+    captured = args();
+    return { render: () => "<div data-testid='custom'></div>" };
+  });
+  render(ThemePicker, {
+    props: {
+      label: "Theme",
+      themesUrl: "/t/",
+      themes: ["light", "dark"],
+      children,
+    },
+  });
+  await tick();
+  expect(captured.themes).toEqual(["light", "dark"]);
+  expect(typeof captured.setTheme).toBe("function");
 });
 ```
 
@@ -155,16 +155,16 @@ import { render as ssrRender } from "svelte/server";
 import ThemePicker from "./ThemePicker.svelte";
 
 it("renders cleanly under SSR", () => {
-    const { html } = ssrRender(ThemePicker, {
-        props: {
-            label: "Theme",
-            themesUrl: "/t/",
-            themes: ["light", "dark"],
-            value: "light",
-        },
-    });
-    expect(html).toContain('class="theme-picker');
-    expect(html).toContain('value="light"');
+  const { html } = ssrRender(ThemePicker, {
+    props: {
+      label: "Theme",
+      themesUrl: "/t/",
+      themes: ["light", "dark"],
+      value: "light",
+    },
+  });
+  expect(html).toContain('class="theme-picker');
+  expect(html).toContain('value="light"');
 });
 ```
 

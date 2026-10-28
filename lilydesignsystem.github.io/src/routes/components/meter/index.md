@@ -30,19 +30,42 @@ This component is useful for displaying disk usage, battery level, password stre
 Disk usage gauge with thresholds:
 
 ```html
-<Meter label="Disk space used" value={72} max={100} low={25} high={75} optimum={50} />
+<meter
+  label="Disk space used"
+  value="{72}"
+  max="{100}"
+  low="{25}"
+  high="{75}"
+  optimum="{50}"
+/>
 ```
 
 Battery level indicator:
 
 ```html
-<Meter label="Battery level" value={35} min={0} max={100} low={20} high={80} optimum={100} />
+<meter
+  label="Battery level"
+  value="{35}"
+  min="{0}"
+  max="{100}"
+  low="{20}"
+  high="{80}"
+  optimum="{100}"
+/>
 ```
 
 Password strength meter:
 
 ```html
-<Meter label="Password strength" value={3} min={0} max={5} low={1} high={4} optimum={5} />
+<meter
+  label="Password strength"
+  value="{3}"
+  min="{0}"
+  max="{5}"
+  low="{1}"
+  high="{4}"
+  optimum="{5}"
+/>
 ```
 
 ## Keyboard Interactions
@@ -70,14 +93,11 @@ None -- this component is a passive display element with no interactive behavior
 
 This headless component renders a native `<meter>` element with `aria-label`, supporting `min`, `max`, `low`, `high`, and `optimum` attributes for threshold semantics. The consumer provides all visual styling, including gauge colors, threshold color changes, size, and layout.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.meter` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<meter>` element with class `meter`
 - Verify aria-label={label}` -- provides an accessible name describing what the meter measures

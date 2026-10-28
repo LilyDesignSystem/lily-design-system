@@ -24,11 +24,20 @@ Toggles are commonly used for settings like dark mode, notifications, or feature
 ## Usage
 
 ```tsx
-<ToggleButton label="Dark mode" pressed={isPressed} onChange={setIsPressed} />
+<ToggleButton
+  label="Dark mode"
+  pressed={isPressed}
+  onChange={setIsPressed}
+/>
 ```
 
 ```tsx
-<ToggleButton label="Mute audio" pressed={muted} onChange={setMuted} disabled={locked} />
+<ToggleButton
+  label="Mute audio"
+  pressed={muted}
+  onChange={setMuted}
+  disabled={locked}
+/>
 ```
 
 ## Keyboard Interactions

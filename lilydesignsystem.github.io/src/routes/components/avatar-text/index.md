@@ -39,7 +39,7 @@ Single-character initial for compact display:
 
 | Prop           | Type            | Default    | Description                                            |
 | -------------- | --------------- | ---------- | ------------------------------------------------------ |
-| `children`     | `slot`       | (required) | Initials or short text to display                      |
+| `children`     | `slot`          | (required) | Initials or short text to display                      |
 | `...restProps` | HTML attributes |            | Additional attributes spread onto the `<span>` element |
 
 ## Examples
@@ -64,6 +64,7 @@ Various initials:
 
 - Typically marked `aria-hidden="true"` when inside an Avatar, since the parent's `aria-label` already provides the accessible name
 - When used standalone, ensure the text is accessible or the parent provides an accessible label
+
 ## When to Use
 
 - Use inside Avatar as a text fallback (typically initials) when no AvatarImage is available or the image fails to load.
@@ -80,14 +81,11 @@ Various initials:
 
 This component provides a `<span>` element for displaying initials text with zero visual styling. The consumer is responsible for all CSS including font size, font weight, text color, text alignment, and positioning within the avatar container.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.avatar-text` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<span>` element with class `avatar-text`
 - Verify Typically marked `aria-hidden="true"` when inside an Avatar, since the parent's `aria-label` already provides the accessible name

@@ -29,8 +29,18 @@ A contextual action bar that appears when items are selected, showing the select
   clearSelectionLabel="Clear selection"
   onClearSelection={() => setSelected([])}
 >
-  <ActionBarButton label="Delete" onClick={handleDelete}>Delete</ActionBarButton>
-  <ActionBarButton label="Archive" onClick={handleArchive}>Archive</ActionBarButton>
+  <ActionBarButton
+    label="Delete"
+    onClick={handleDelete}
+  >
+    Delete
+  </ActionBarButton>
+  <ActionBarButton
+    label="Archive"
+    onClick={handleArchive}
+  >
+    Archive
+  </ActionBarButton>
 </ActionBar>
 ```
 

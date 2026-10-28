@@ -53,7 +53,10 @@ function App() {
       />
       <Button onClick={() => alert(`Hello, ${name}!`)}>Greet</Button>
       {name && (
-        <Alert type="success" heading="Greeting">
+        <Alert
+          type="success"
+          heading="Greeting"
+        >
           Welcome, {name}!
         </Alert>
       )}
@@ -110,9 +113,9 @@ Component names follow a suffix-based pattern that indicates the root HTML eleme
 | TableHead | `<thead>`    | `DataTableHead`                              |
 | TableBody | `<tbody>`    | `DataTableBody`                              |
 | TableFoot | `<tfoot>`    | `DataTableFoot`                              |
-| TableTD  | `<th>`       | `DataTableTD`                               |
+| TableTD   | `<th>`       | `DataTableTD`                                |
 | TableRow  | `<tr>`       | `DataTableRow`                               |
-| TableTD | `<td>`       | `DataTableTD`                              |
+| TableTD   | `<td>`       | `DataTableTD`                                |
 | Div       | `<div>`      | `PinInputDiv`, `PasswordInputOrTextInputDiv` |
 | Meter     | `<meter>`    | `Meter`                                      |
 | Progress  | `<progress>` | `Progress`                                   |
@@ -205,7 +208,7 @@ Every component's root element includes a semantic CSS class matching its kebab-
 | TagInput                    | Input for adding and removing tags                                        |
 | TelInput                    | Telephone number input                                                    |
 | TextInput                   | Single-line text input                                                    |
-| TextAreaInput                    | Multi-line text area                                                      |
+| TextAreaInput               | Multi-line text area                                                      |
 | ThemeSelect                 | Visual theme picker                                                       |
 | ThemeSelect                 | Theme select dropdown                                                     |
 | ThemeSelectOption           | One option in theme select                                                |
@@ -225,24 +228,24 @@ Every component's root element includes a semantic CSS class matching its kebab-
 | Badge                       | Small label for counts/statuses           |
 | CalendarTable               | Calendar grid for dates                   |
 | CalendarTableHead/Body/Foot | Calendar table sections                   |
-| CalendarTableTD/Row/Data   | Calendar table cells                      |
+| CalendarTableTD/Row/Data    | Calendar table cells                      |
 | Card                        | Grouped content container                 |
 | DataTable                   | Sortable data table grid                  |
 | DataTableHead/Body/Foot     | Data table sections                       |
-| DataTableTD/Row/Data       | Data table cells                          |
+| DataTableTD/Row/Data        | Data table cells                          |
 | GanttTable                  | Gantt chart schedule table                |
 | GanttTableHead/Body/Foot    | Gantt table sections                      |
-| GanttTableTH/Row/Data      | Gantt table cells                         |
+| GanttTableTH/Row/Data       | Gantt table cells                         |
 | KanbanTable                 | Kanban board table                        |
 | KanbanTableHead/Body/Foot   | Kanban table sections                     |
-| KanbanTableTD/Row/Data     | Kanban table cells                        |
+| KanbanTableTD/Row/Data      | Kanban table cells                        |
 | Table                       | Table with rows and columns               |
 | TableHead                   | Table thead                               |
 | TableBody                   | Table tbody                               |
 | TableFoot                   | Table tfoot                               |
-| TableTD                    | Table column                              |
+| TableTD                     | Table column                              |
 | TableRow                    | Table row                                 |
-| TableTD                   | Table data cell                           |
+| TableTD                     | Table data cell                           |
 | Caption                     | Table/figure caption                      |
 | SuperBanner                 | High-priority state banner for entire app |
 | SummaryList                 | Key-value summary pairs                   |
@@ -268,7 +271,7 @@ Every component's root element includes a semantic CSS class matching its kebab-
 | Meter                        | Scalar value gauge                                  |
 | MockupBrowser                | Box area that looks like a web browser              |
 | MockupLaptop                 | Box area that looks like a laptop computer          |
-| MockupPhonePortrait                  | Box area that looks like a mobile phone             |
+| MockupPhonePortrait          | Box area that looks like a mobile phone             |
 | MockupTabletLandscape        | Box area that looks like a tablet in landscape mode |
 | MockupTabletPortrait         | Box area that looks like a tablet in portrait mode  |
 | MockupShell                  | Box area that looks like a terminal shell           |
@@ -343,7 +346,7 @@ Every component's root element includes a semantic CSS class matching its kebab-
 | Image                | Accessible image element                                  |
 | InsetText            | Indented distinguishing text                              |
 | Kbd                  | Keyboard shortcuts and key combinations display           |
-| QrCodeImage               | QR code generator                                         |
+| QrCodeImage          | QR code generator                                         |
 | Skeleton             | Loading placeholder animation                             |
 | Sparkline            | Inline data trend chart                                   |
 | Notification         | Event notification message                                |
@@ -448,13 +451,13 @@ See the `examples/` directory for comprehensive standalone examples:
 
 | Example                                               | Components Used                                                                                        |
 | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| [ContactForm](examples/ContactForm.tsx)               | Form, Field, TextInput, EmailInput, TextAreaInput, Select, Option, Button, ErrorSummary                     |
+| [ContactForm](examples/ContactForm.tsx)               | Form, Field, TextInput, EmailInput, TextAreaInput, Select, Option, Button, ErrorSummary                |
 | [SettingsPage](examples/SettingsPage.tsx)             | SwitchButton, RadioGroup, RadioInput, Select, Separator, Fieldset, Button, Banner                      |
 | [Dashboard](examples/Dashboard.tsx)                   | Card, Progress, ProgressCircle, Badge, Banner, DataTable, DataTableHead/Body/Row/Data                  |
 | [PageLayout](examples/PageLayout.tsx)                 | SkipLink, Header, Footer, NavigationMenu, BreadcrumbNav/List/ListItem, Sidebar                         |
 | [TabbedInterface](examples/TabbedInterface.tsx)       | TabBar, TabBarButton, AccordionNav/List/ListItem, Badge                                                |
 | [DialogFlow](examples/DialogFlow.tsx)                 | Dialog, AlertDialog, Drawer, Button, Popover, Tooltip                                                  |
-| [RatingAndFeedback](examples/RatingAndFeedback.tsx)   | FiveStarRatingPicker/View, FiveFaceRatingPicker, NetPromoterScorePicker, TextAreaInput, Alert               |
+| [RatingAndFeedback](examples/RatingAndFeedback.tsx)   | FiveStarRatingPicker/View, FiveFaceRatingPicker, NetPromoterScorePicker, TextAreaInput, Alert          |
 | [FileUploadForm](examples/FileUploadForm.tsx)         | FileUpload, Progress, Button, Alert, Badge, Form, Field                                                |
 | [TaskManagement](examples/TaskManagement.tsx)         | TaskList, TaskListItem, TextInput, CheckboxInput, Button, Badge, Progress                              |
 | [NavigationAndMenus](examples/NavigationAndMenus.tsx) | NavigationMenu, MenuBar, MenuBarButton, ToolBar, ToolBarButton, HamburgerMenu, DropdownMenu, Separator |
@@ -503,11 +506,27 @@ function ContactForm() {
           </ul>
         </ErrorSummary>
       )}
-      <Field label="Name" required error={errors.name}>
-        <TextInput label="Name" value={name} onChange={setName} />
+      <Field
+        label="Name"
+        required
+        error={errors.name}
+      >
+        <TextInput
+          label="Name"
+          value={name}
+          onChange={setName}
+        />
       </Field>
-      <Field label="Email" required error={errors.email}>
-        <EmailInput label="Email" value={email} onChange={setEmail} />
+      <Field
+        label="Email"
+        required
+        error={errors.email}
+      >
+        <EmailInput
+          label="Email"
+          value={email}
+          onChange={setEmail}
+        />
       </Field>
       <Button onClick={handleSubmit}>Submit</Button>
     </div>
@@ -543,9 +562,7 @@ function TabbedContent() {
           Details
         </TabBarButton>
       </TabBar>
-      {activeTab === "overview" && (
-        <div id="overview-panel">Overview content</div>
-      )}
+      {activeTab === "overview" && <div id="overview-panel">Overview content</div>}
       {activeTab === "details" && <div id="details-panel">Details content</div>}
     </div>
   );
@@ -589,7 +606,11 @@ function ConfirmDelete() {
   return (
     <div>
       <Button onClick={() => setOpen(true)}>Delete Item</Button>
-      <Dialog open={open} label="Confirm Deletion" onChange={setOpen}>
+      <Dialog
+        open={open}
+        label="Confirm Deletion"
+        onChange={setOpen}
+      >
         <p>Are you sure you want to delete this item?</p>
         <Button onClick={() => setOpen(false)}>Cancel</Button>
         <Button
@@ -656,7 +677,10 @@ function RatingExample() {
         value={rating}
         onChange={setRating}
       />
-      <FiveStarRatingView label="Current rating" value={rating} />
+      <FiveStarRatingView
+        label="Current rating"
+        value={rating}
+      />
     </div>
   );
 }
@@ -677,15 +701,15 @@ function FAQ() {
         <AccordionListItem>
           <h3>What is a headless component?</h3>
           <p>
-            A headless component provides behavior, accessibility, and structure
-            without any visual styling. You supply all CSS.
+            A headless component provides behavior, accessibility, and structure without any visual
+            styling. You supply all CSS.
           </p>
         </AccordionListItem>
         <AccordionListItem>
           <h3>Can I use Tailwind CSS?</h3>
           <p>
-            Yes. Pass Tailwind classes via the className prop on every
-            component. Any CSS framework works.
+            Yes. Pass Tailwind classes via the className prop on every component. Any CSS framework
+            works.
           </p>
         </AccordionListItem>
         <AccordionListItem>
@@ -746,11 +770,17 @@ function EditableProfile() {
       <h2>Profile</h2>
       <div>
         <span>Name: </span>
-        <Editable label="Edit name" value="Jane Doe" />
+        <Editable
+          label="Edit name"
+          value="Jane Doe"
+        />
       </div>
       <div>
         <span>Title: </span>
-        <Editable label="Edit title" value="Software Engineer" />
+        <Editable
+          label="Edit title"
+          value="Software Engineer"
+        />
       </div>
     </div>
   );
@@ -781,7 +811,10 @@ function TermsForm() {
         checked={newsletter}
         onChange={setNewsletter}
       />
-      <Button type="submit" disabled={!accepted}>
+      <Button
+        type="submit"
+        disabled={!accepted}
+      >
         Sign Up
       </Button>
     </form>
@@ -834,7 +867,10 @@ function Dashboard() {
         Sprint ends in 3 days. {tasksTotal - tasksCompleted} tasks remaining.
       </Banner>
       <div>
-        <ProgressCircle label="Sprint progress" value={percent} />
+        <ProgressCircle
+          label="Sprint progress"
+          value={percent}
+        />
         <Badge type="success">{percent}% complete</Badge>
       </div>
     </div>

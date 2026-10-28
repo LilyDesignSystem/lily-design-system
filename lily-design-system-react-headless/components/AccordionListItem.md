@@ -22,7 +22,10 @@ The `open` prop is two-way controlled, allowing parent components to programmati
 ```
 
 ```tsx
-<AccordionListItem open={isOpen} onChange={setIsOpen}>
+<AccordionListItem
+  open={isOpen}
+  onChange={setIsOpen}
+>
   <summary>Details</summary>
   <p>Expanded content here.</p>
 </AccordionListItem>

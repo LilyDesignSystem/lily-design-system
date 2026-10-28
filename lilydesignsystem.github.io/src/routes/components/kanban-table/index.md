@@ -23,20 +23,20 @@ Sprint board with three workflow stages:
 
 ```html
 <KanbanTable label="Sprint 5 board">
-    <KanbanTableHead>
-        <KanbanTableRow>
-            <KanbanTableTD>To Do</KanbanTableTD>
-            <KanbanTableTD>In Progress</KanbanTableTD>
-            <KanbanTableTD>Done</KanbanTableTD>
-        </KanbanTableRow>
-    </KanbanTableHead>
-    <KanbanTableBody>
-        <KanbanTableRow>
-            <KanbanTableTD label="Fix login bug">Fix login bug</KanbanTableTD>
-            <KanbanTableTD label="Add dashboard">Add dashboard</KanbanTableTD>
-            <KanbanTableTD label="Setup CI/CD">Setup CI/CD</KanbanTableTD>
-        </KanbanTableRow>
-    </KanbanTableBody>
+  <KanbanTableHead>
+    <KanbanTableRow>
+      <KanbanTableTD>To Do</KanbanTableTD>
+      <KanbanTableTD>In Progress</KanbanTableTD>
+      <KanbanTableTD>Done</KanbanTableTD>
+    </KanbanTableRow>
+  </KanbanTableHead>
+  <KanbanTableBody>
+    <KanbanTableRow>
+      <KanbanTableTD label="Fix login bug">Fix login bug</KanbanTableTD>
+      <KanbanTableTD label="Add dashboard">Add dashboard</KanbanTableTD>
+      <KanbanTableTD label="Setup CI/CD">Setup CI/CD</KanbanTableTD>
+    </KanbanTableRow>
+  </KanbanTableBody>
 </KanbanTable>
 ```
 
@@ -66,14 +66,11 @@ None built-in -- the consumer should implement keyboard interactions for moving 
 
 This headless component provides a `<div>` with `role="region"` and `aria-label` for defining a named landmark for the Kanban board. The consumer provides all visual styling including column layout, card design, drag-and-drop interactions, and status color coding.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.kanban-table` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<table>` element with class `kanban-table`
 - Verify role="region"` -- defines the Kanban board as a named landmark section

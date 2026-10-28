@@ -108,20 +108,20 @@ select that:
 `{% from "./locale-picker.njk" import localePicker %}` then
 `{{ localePicker(opts) }}`.
 
-| Key                   | Type                    | Required | Default                   | Purpose                                                                                                                                  |
-| --------------------- | ----------------------- | -------- | ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| `label`               | `string`                | yes      | —                         | Accessible name for BOTH the button and the listbox (`aria-label`). The button is icon-only, so this is the only accessible name it has. |
-| `locales`             | `array<string>`         | yes      | —                         | Available locale codes (e.g. `["en", "en_US", "fr", "ar"]`).                                                                             |
-| `value`               | `string`                | no       | `""`                      | Initial locale. Emitted as `data-lily-locale-picker-value` for the client to read (see §4.2).                                            |
-| `defaultValue`        | `string`                | no       | `""`                      | Initial locale when nothing else is supplied at runtime.                                                                                 |
-| `storageKey`          | `string`                | no       | `""`                      | If non-empty, the client.js persists to `localStorage`.                                                                                  |
-| `detectFromNavigator` | `boolean`               | no       | `false`                   | If true, the client.js resolves `navigator.languages` on first init.                                                                     |
-| `name`                | `string`                | no       | `"locale"`                | Hidden-input `name`, AND the default id prefix.                                                                                          |
-| `applyDir`            | `boolean`               | no       | `true`                    | If false, the client.js never writes `dir`.                                                                                              |
-| `localeLabels`        | `object<string,string>` | no       | `{}`                      | Optional pretty labels per locale code.                                                                                                  |
+| Key                   | Type                    | Required | Default                  | Purpose                                                                                                                                  |
+| --------------------- | ----------------------- | -------- | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| `label`               | `string`                | yes      | —                        | Accessible name for BOTH the button and the listbox (`aria-label`). The button is icon-only, so this is the only accessible name it has. |
+| `locales`             | `array<string>`         | yes      | —                        | Available locale codes (e.g. `["en", "en_US", "fr", "ar"]`).                                                                             |
+| `value`               | `string`                | no       | `""`                     | Initial locale. Emitted as `data-lily-locale-picker-value` for the client to read (see §4.2).                                            |
+| `defaultValue`        | `string`                | no       | `""`                     | Initial locale when nothing else is supplied at runtime.                                                                                 |
+| `storageKey`          | `string`                | no       | `""`                     | If non-empty, the client.js persists to `localStorage`.                                                                                  |
+| `detectFromNavigator` | `boolean`               | no       | `false`                  | If true, the client.js resolves `navigator.languages` on first init.                                                                     |
+| `name`                | `string`                | no       | `"locale"`               | Hidden-input `name`, AND the default id prefix.                                                                                          |
+| `applyDir`            | `boolean`               | no       | `true`                   | If false, the client.js never writes `dir`.                                                                                              |
+| `localeLabels`        | `object<string,string>` | no       | `{}`                     | Optional pretty labels per locale code.                                                                                                  |
 | `id`                  | `string`                | no       | `"locale-picker-{name}"` | Id prefix for the listbox (`{id}-list`) and its options (`{id}-option-{i}`). Pass an explicit value when two instances share a `name`.   |
-| `classes`             | `string`                | no       | `""`                      | Extra CSS classes on the root `<div>`.                                                                                                   |
-| `attributes`          | `object`                | no       | —                         | Extra HTML attributes spread onto the root.                                                                                              |
+| `classes`             | `string`                | no       | `""`                     | Extra CSS classes on the root `<div>`.                                                                                                   |
+| `attributes`          | `object`                | no       | —                        | Extra HTML attributes spread onto the root.                                                                                              |
 
 The `placeholder` parameter was **removed** in the icon-button release.
 There is no `<select>` left to pin a placeholder onto, and the closed
@@ -199,7 +199,7 @@ must not supply the accessible name — that stays on `aria-label`.
 - The root is a `<div>` carrying the `locale-picker` class hook plus the
   consumer's `classes`; `attributes` spread onto it.
 - The button icon is a bundled globe-outline SVG (`viewBox="0 0 16
-  16"`), not a Unicode character (reversed 2026-09-16 — see §9),
+16"`), not a Unicode character (reversed 2026-09-16 — see §9),
   wrapped in `aria-hidden="true"`. The accessible name comes from
   `aria-label` alone — the icon is never the name. (Historical note,
   selector). Verified in Chromium.
@@ -242,19 +242,19 @@ must not supply the accessible name — that stays on `aria-label`.
 
 `locale-picker.client.js` is an ES module exporting:
 
-| Export                                      | Type                                             | Purpose                            |
-| ------------------------------------------- | ------------------------------------------------ | ---------------------------------- |
-| `bcp47LocaleTag(locale)`                    | `(string) => string`                             | `en_US` → `en-US`.                 |
-| `isRtlLocale(locale)`                       | `(string) => boolean`                            | See §5.6.                          |
-| `localeName(locale)`                        | `(string) => string`                             | Lookup in built-in table.          |
-| `localeEndonym(locale)`                     | `(string) => string`                             | The language's own name for itself, via `Intl.DisplayNames` asked *in that language*; `""` when the runtime has no data or echoes the tag back. |
-| `derivedLocaleLabel(locale)`                | `(string) => string`                             | endonym → English table → raw code (§5.4). |
-| `matchNavigatorLanguage(navLangs, locales)` | `(string[], string[]) => string`                 | First match, "" if none.           |
-| `defaultLocaleLabels`                       | `Record<string, string>`                         | Built-in 436-row table.            |
-| `RTL_LANGUAGE_TAGS`                         | `Set<string>`                                    | Base subtag RTL set.               |
-| `RTL_SCRIPT_SUBTAGS`                        | `Set<string>`                                    | Script subtag RTL set.             |
-| `initLocalePicker(root, opts?)`            | `(HTMLElement, object?) => {setLocale, destroy}` | Wire one rendered root.            |
-| `autoInit(opts?)`                           | `(object?) => Array<{setLocale, destroy}>`       | Wire every root on the page.       |
+| Export                                      | Type                                             | Purpose                                                                                                                                         |
+| ------------------------------------------- | ------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `bcp47LocaleTag(locale)`                    | `(string) => string`                             | `en_US` → `en-US`.                                                                                                                              |
+| `isRtlLocale(locale)`                       | `(string) => boolean`                            | See §5.6.                                                                                                                                       |
+| `localeName(locale)`                        | `(string) => string`                             | Lookup in built-in table.                                                                                                                       |
+| `localeEndonym(locale)`                     | `(string) => string`                             | The language's own name for itself, via `Intl.DisplayNames` asked _in that language_; `""` when the runtime has no data or echoes the tag back. |
+| `derivedLocaleLabel(locale)`                | `(string) => string`                             | endonym → English table → raw code (§5.4).                                                                                                      |
+| `matchNavigatorLanguage(navLangs, locales)` | `(string[], string[]) => string`                 | First match, "" if none.                                                                                                                        |
+| `defaultLocaleLabels`                       | `Record<string, string>`                         | Built-in 436-row table.                                                                                                                         |
+| `RTL_LANGUAGE_TAGS`                         | `Set<string>`                                    | Base subtag RTL set.                                                                                                                            |
+| `RTL_SCRIPT_SUBTAGS`                        | `Set<string>`                                    | Script subtag RTL set.                                                                                                                          |
+| `initLocalePicker(root, opts?)`             | `(HTMLElement, object?) => {setLocale, destroy}` | Wire one rendered root.                                                                                                                         |
+| `autoInit(opts?)`                           | `(object?) => Array<{setLocale, destroy}>`       | Wire every root on the page.                                                                                                                    |
 
 Optional `opts`:
 
@@ -310,7 +310,7 @@ If no entry matches, falls through to step 4 of §5.2.
 
 Default option labels are endonyms — each language named in itself,
 "Cymraeg" not "Welsh" — resolved by `localeEndonym()` via
-`Intl.DisplayNames` asked *in that language*. The user who needs a
+`Intl.DisplayNames` asked _in that language_. The user who needs a
 language menu is the one who cannot read the page's language, and the
 exonym means nothing to them. Resolution order: `localeLabels`
 (consumer) → endonym → built-in English table → the raw code
@@ -354,7 +354,7 @@ Applying a locale `code` performs, in order:
 
 Applying is **idempotent**: a locale already applied is a no-op, so none
 of the steps above repeat and `onChange` does not re-fire. `setLocale` on
-the returned controller *is* this function, so without the guard a
+the returned controller _is_ this function, so without the guard a
 consumer that mirrors the value back from `onChange` re-enters it
 forever.
 
@@ -395,14 +395,14 @@ On the **button**:
 
 On the **listbox**:
 
-| Key                     | Action                                                                                                                                          |
-| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| `ArrowDown` / `ArrowUp` | Move the active option. Clamps at the ends; does NOT wrap.                                                                                      |
-| `Home` / `End`          | Jump to the first / last option.                                                                                                                |
-| `Enter` / `Space`       | Select the active option, apply it, close, return focus to the button.                                                                          |
-| `Escape`                | Close and return focus, leaving the value unchanged.                                                                                            |
-| `PageUp` / `PageDown`   | Move the active option by ten, clamped — an APG-optional key for long locale lists.                                                             |
-| `Tab`                   | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position rather than from `<body>`. |
+| Key                     | Action                                                                                                                                                                                                                                                                                                                                                       |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `ArrowDown` / `ArrowUp` | Move the active option. Clamps at the ends; does NOT wrap.                                                                                                                                                                                                                                                                                                   |
+| `Home` / `End`          | Jump to the first / last option.                                                                                                                                                                                                                                                                                                                             |
+| `Enter` / `Space`       | Select the active option, apply it, close, return focus to the button.                                                                                                                                                                                                                                                                                       |
+| `Escape`                | Close and return focus, leaving the value unchanged.                                                                                                                                                                                                                                                                                                         |
+| `PageUp` / `PageDown`   | Move the active option by ten, clamped — an APG-optional key for long locale lists.                                                                                                                                                                                                                                                                          |
+| `Tab`                   | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position rather than from `<body>`.                                                                                                                                                                                  |
 | Printable character     | APG typeahead over the option labels: a single character advances to the NEXT option starting with it, and repeating that character keeps cycling through its matches; only a buffer of differing characters refines the match, anchored at the active option. The buffer resets 500 ms after the last keystroke. Chords with Ctrl / Meta / Alt are ignored. |
 
 Pointer behaviour: clicking an option selects it, applies it, and closes the listbox — the same close

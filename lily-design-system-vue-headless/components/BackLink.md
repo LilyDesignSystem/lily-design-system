@@ -23,7 +23,10 @@ Back links are especially important in mobile and multi-step interfaces, helping
 
 ```svelte
 <BackLink href="/previous-page">Back to previous page</BackLink>
-<BackLink href="/dashboard" label="Return to dashboard">Back</BackLink>
+<BackLink
+  href="/dashboard"
+  label="Return to dashboard">Back</BackLink
+>
 ```
 
 ## Keyboard Interactions

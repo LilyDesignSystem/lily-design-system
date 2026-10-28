@@ -23,9 +23,18 @@ EspanaCodigoDeIdentificacionFiscalInput is a headless input for entering Spain's
 ## Usage
 
 ```html
-<Field label="Tax Identification Code" required>
-  <EspanaCodigoDeIdentificacionFiscalInput label="Tax Identification Code" value={value} required />
-  <Hint>9 characters: 8 numbers and a control letter (the letters I, Ñ, O, and U are not used)</Hint>
+<Field
+  label="Tax Identification Code"
+  required
+>
+  <EspanaCodigoDeIdentificacionFiscalInput
+    label="Tax Identification Code"
+    value="{value}"
+    required
+  />
+  <Hint
+    >9 characters: 8 numbers and a control letter (the letters I, Ñ, O, and U are not used)</Hint
+  >
   <ErrorMessage>Please enter a valid Tax Identification Code</ErrorMessage>
 </Field>
 ```

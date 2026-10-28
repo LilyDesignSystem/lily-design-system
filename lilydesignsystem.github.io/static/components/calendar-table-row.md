@@ -33,7 +33,11 @@ The component renders a `<tr>` element and passes through its children, which ar
     <CalendarTableTD>7</CalendarTableTD>
   </CalendarTableRow>
   <CalendarTableRow>
-    <CalendarTableTD today selected>8</CalendarTableTD>
+    <CalendarTableTD
+      today
+      selected
+      >8</CalendarTableTD
+    >
     <CalendarTableTD>9</CalendarTableTD>
     <CalendarTableTD>10</CalendarTableTD>
     <CalendarTableTD>11</CalendarTableTD>
@@ -67,14 +71,11 @@ None -- this component is a passive container. Keyboard navigation is handled by
 
 This component provides a semantic `<tr>` element with implicit `row` role and zero visual styling. The consumer is responsible for all CSS including row height, cell alignment, borders between rows, and any alternate-row shading.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.calendar-table-row` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<tr>` element with class `calendar-table-row`
 - Verify pass-through attributes are applied

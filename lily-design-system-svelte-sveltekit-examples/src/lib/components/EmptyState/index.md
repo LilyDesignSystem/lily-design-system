@@ -10,7 +10,7 @@ See [components/empty-state/index.md](../../../../../components/empty-state/inde
 
 ```svelte
 <script lang="ts">
-    import EmptyState from "./EmptyState.svelte";
+  import EmptyState from "./EmptyState.svelte";
 </script>
 
 <EmptyState />

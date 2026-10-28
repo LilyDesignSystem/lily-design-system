@@ -21,11 +21,18 @@ This headless component wraps a native `<input type="time">` element with an acc
 ## Usage
 
 ```svelte
-<TimePickerInput label="Appointment time" bind:value />
+<TimePickerInput
+  label="Appointment time"
+  bind:value
+/>
 ```
 
 ```svelte
-<TimePickerInput label="Departure time" bind:value required />
+<TimePickerInput
+  label="Departure time"
+  bind:value
+  required
+/>
 ```
 
 ## Keyboard Interactions

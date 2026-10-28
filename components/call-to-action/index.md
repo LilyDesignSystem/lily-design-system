@@ -35,7 +35,7 @@ Navigation CTA linking to a sign-up page:
 Action CTA triggering a workflow:
 
 ```html
-<CallToAction onclick={handleAction}>Get Started</CallToAction>
+<CallToAction onclick="{handleAction}">Get Started</CallToAction>
 ```
 
 Hero section with a primary CTA:
@@ -51,7 +51,10 @@ Hero section with a primary CTA:
 CTA with a screen reader label override:
 
 ```html
-<CallToAction href="/pricing" label="View pricing plans for Lily Design System">
+<CallToAction
+  href="/pricing"
+  label="View pricing plans for Lily Design System"
+>
   View Pricing
 </CallToAction>
 ```
@@ -86,14 +89,11 @@ CTA with a screen reader label override:
 
 This component provides either a semantic `<a>` or `<button>` element (based on the `href` prop), optional `aria-label`, and disabled state management, all with zero visual styling. The consumer is responsible for all CSS including prominent sizing, bold colors, padding, border-radius, hover/focus effects, and any arrow or icon decoration.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.call-to-action` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `call-to-action`
 - Verify Optional `aria-label` -- provides screen reader text when visible text alone is insufficient

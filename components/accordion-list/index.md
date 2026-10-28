@@ -26,7 +26,10 @@ Use AccordionList as the list container inside an AccordionNav. It holds Accordi
 ```html
 <AccordionNav label="Service categories">
   <AccordionList>
-    <AccordionListItem heading="Mental health" expanded>
+    <AccordionListItem
+      heading="Mental health"
+      expanded
+    >
       <AccordionLink href="/services/anxiety">Anxiety</AccordionLink>
       <AccordionLink href="/services/depression">Depression</AccordionLink>
       <AccordionLink href="/services/stress">Stress management</AccordionLink>
@@ -53,15 +56,9 @@ Settings panel:
 ```html
 <AccordionNav label="Settings">
   <AccordionList>
-    <AccordionListItem summary="Account"
-      >Account settings content</AccordionListItem
-    >
-    <AccordionListItem summary="Privacy"
-      >Privacy settings content</AccordionListItem
-    >
-    <AccordionListItem summary="Notifications"
-      >Notification preferences</AccordionListItem
-    >
+    <AccordionListItem summary="Account">Account settings content</AccordionListItem>
+    <AccordionListItem summary="Privacy">Privacy settings content</AccordionListItem>
+    <AccordionListItem summary="Notifications">Notification preferences</AccordionListItem>
   </AccordionList>
 </AccordionNav>
 ```

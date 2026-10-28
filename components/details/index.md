@@ -24,19 +24,22 @@ The native `<details>` element provides built-in accessibility support without r
 ## Usage
 
 ```html
-<Details summary="Why are we asking about your ethnicity?">
-  <p>We ask about ethnicity to help ensure services are meeting the
-  needs of all communities. This information is optional and will
-  not affect your care.</p>
-</Details>
+<details summary="Why are we asking about your ethnicity?">
+  <p>
+    We ask about ethnicity to help ensure services are meeting the needs of all communities. This
+    information is optional and will not affect your care.
+  </p>
+</details>
 ```
 
 ```html
-<Details summary="How to find your NHS number">
+<details summary="How to find your NHS number">
   <p>Your NHS number is a 10-digit number, like 485 777 3456.</p>
-  <p>You can find it on any letter the NHS has sent you, on a
-  prescription, or by logging in to your GP surgery's online services.</p>
-</Details>
+  <p>
+    You can find it on any letter the NHS has sent you, on a prescription, or by logging in to your
+    GP surgery's online services.
+  </p>
+</details>
 ```
 
 ## Keyboard Interactions
@@ -67,14 +70,11 @@ The native `<details>` element provides built-in accessibility support without r
 
 This headless component provides native `<details>` and `<summary>` elements with built-in browser accessibility, including automatic expanded/collapsed state announcements. It supports two-way binding on the `open` prop. The consumer provides all visual styling for the summary toggle and expanded content area.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.details` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<details>` element with class `details`
 - Verify keyboard interactions work correctly

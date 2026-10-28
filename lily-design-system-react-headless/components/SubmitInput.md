@@ -30,7 +30,10 @@ Submit inputs provide a simple, semantic way to add form submission capability t
 ```
 
 ```tsx
-<SubmitInput value="Save changes" disabled={!formValid} />
+<SubmitInput
+  value="Save changes"
+  disabled={!formValid}
+/>
 ```
 
 ## Keyboard Interactions

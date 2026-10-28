@@ -53,7 +53,13 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
   selector: "lily-button",
   standalone: true,
-  template: `<button class="button {{ className() }}" type="button" [attr.aria-label]="label() || null"><ng-content /></button>`,
+  template: `<button
+    class="button {{ className() }}"
+    type="button"
+    [attr.aria-label]="label() || null"
+  >
+    <ng-content />
+  </button>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Button {
@@ -78,7 +84,13 @@ import { ChangeDetectionStrategy, Component, input, model } from "@angular/core"
 @Component({
   selector: "lily-text-input",
   standalone: true,
-  template: `<input class="text-input {{ className() }}" type="text" [attr.aria-label]="label()" [value]="value()" (input)="value.set(($event.target as HTMLInputElement).value)" />`,
+  template: `<input
+    class="text-input {{ className() }}"
+    type="text"
+    [attr.aria-label]="label()"
+    [value]="value()"
+    (input)="value.set(($event.target as HTMLInputElement).value)"
+  />`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TextInput {

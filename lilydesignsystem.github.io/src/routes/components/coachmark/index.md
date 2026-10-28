@@ -29,11 +29,11 @@ user from continuing their task.
 
 ```html
 <Coachmark
-  open={open}
+  open="{open}"
   title="Try the new filter"
   description="Filter by status to find items faster."
   dismissLabel="Dismiss"
-  onDismiss={handleDismiss}
+  onDismiss="{handleDismiss}"
 />
 ```
 

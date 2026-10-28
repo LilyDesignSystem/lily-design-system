@@ -26,7 +26,10 @@ Use Resizable when you need a panel, pane, or content area that users can resize
 Resizable code editor panel:
 
 ```html
-<Resizable label="Code editor" direction="both">
+<Resizable
+  label="Code editor"
+  direction="both"
+>
   <pre><code>const x = 42;</code></pre>
 </Resizable>
 ```
@@ -34,7 +37,10 @@ Resizable code editor panel:
 Horizontally resizable sidebar:
 
 ```html
-<Resizable label="Sidebar navigation" direction="horizontal">
+<Resizable
+  label="Sidebar navigation"
+  direction="horizontal"
+>
   <nav>
     <a href="/dashboard">Dashboard</a>
     <a href="/settings">Settings</a>
@@ -45,8 +51,14 @@ Horizontally resizable sidebar:
 Vertically resizable preview area:
 
 ```html
-<Resizable label="Document preview" direction="vertical">
-  <iframe src="/preview" title="Document preview"></iframe>
+<Resizable
+  label="Document preview"
+  direction="vertical"
+>
+  <iframe
+    src="/preview"
+    title="Document preview"
+  ></iframe>
 </Resizable>
 ```
 
@@ -76,14 +88,11 @@ None -- this component is a passive container. The consumer is responsible for i
 
 The Resizable headless component provides a `<div>` with `role="region"`, `aria-label`, `tabindex="0"` for keyboard focus, and a `data-resize` attribute indicating the allowed direction. The consumer provides all visual styling including CSS `resize` and `overflow` properties, drag handles, and dimension constraints.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.resizable` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `resizable`
 - Verify role="region"` -- identifies the container as a landmark region for assistive technologies

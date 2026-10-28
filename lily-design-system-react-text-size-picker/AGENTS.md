@@ -13,14 +13,14 @@ hook and maps each `[data-text-size="…"]` slug to real typography.
 
 ## Files
 
-| File                       | Purpose                                          |
-| -------------------------- | ------------------------------------------------ |
-| `spec/index.md`            | Specification-driven contract (canonical).       |
-| `TextSizePicker.tsx`       | Implementation. TypeScript + React 19 hooks.     |
-| `TextSizePicker.test.tsx`  | Vitest spec, one assertion per §7 acceptance.    |
-| `index.ts`                 | Barrel re-export.                                |
-| `index.md`                 | User guide.                                      |
-| `docs/accessibility.md`    | Roles, keyboard contract, and the tradeoffs.     |
+| File                      | Purpose                                       |
+| ------------------------- | --------------------------------------------- |
+| `spec/index.md`           | Specification-driven contract (canonical).    |
+| `TextSizePicker.tsx`      | Implementation. TypeScript + React 19 hooks.  |
+| `TextSizePicker.test.tsx` | Vitest spec, one assertion per §7 acceptance. |
+| `index.ts`                | Barrel re-export.                             |
+| `index.md`                | User guide.                                   |
+| `docs/accessibility.md`   | Roles, keyboard contract, and the tradeoffs.  |
 
 ## Public surface
 
@@ -60,18 +60,54 @@ focus to the button when a selection or `Escape` closes the list.
 ## HTML
 
 ```html
-<div class="text-size-picker {className}" ...restProps>
-  <input type="hidden" name="{name}" value="{value}" />
-  <button type="button" class="text-size-picker-button"
-          aria-label="{label}" aria-haspopup="listbox"
-          aria-expanded="false" aria-controls="{listId}">
-    <svg class="text-size-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13 7.2 3h1.6L12 13M5.4 9.5h5.2"/></svg>
+<div
+  class="text-size-picker {className}"
+  ...restProps
+>
+  <input
+    type="hidden"
+    name="{name}"
+    value="{value}"
+  />
+  <button
+    type="button"
+    class="text-size-picker-button"
+    aria-label="{label}"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="{listId}"
+  >
+    <svg
+      class="text-size-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M4 13 7.2 3h1.6L12 13M5.4 9.5h5.2" />
+    </svg>
   </button>
-  <ul class="text-size-picker-list" id="{listId}" role="listbox"
-      aria-label="{label}" tabindex="-1" hidden
-      aria-activedescendant="{optionId of active, only while open}">
-    <li class="text-size-picker-option" id="{optionId}" role="option"
-        aria-selected="true|false" data-active>Medium</li>
+  <ul
+    class="text-size-picker-list"
+    id="{listId}"
+    role="listbox"
+    aria-label="{label}"
+    tabindex="-1"
+    hidden
+    aria-activedescendant="{optionId of active, only while open}"
+  >
+    <li
+      class="text-size-picker-option"
+      id="{optionId}"
+      role="option"
+      aria-selected="true|false"
+      data-active
+    >
+      Medium
+    </li>
   </ul>
 </div>
 ```
@@ -102,7 +138,7 @@ the component owns the options.
 - The icon is a bundled SVG (a stroke-drawn "A"), not a Unicode
   character (reversed 2026-09-16). The old glyph, U+1F5DB, was rejected
   even before that reversal: it had no real glyph in common font
-  stacks and means *decrease* rather than *size*.
+  stacks and means _decrease_ rather than _size_.
 
 ## Conventions this package follows
 

@@ -33,7 +33,10 @@ once a user understands the icon.
 Close button with required label:
 
 ```html
-<IconButton label="Close" onclick={handleDismiss}>
+<IconButton
+  label="Close"
+  onclick="{handleDismiss}"
+>
   <svg>...</svg>
 </IconButton>
 ```
@@ -41,7 +44,11 @@ Close button with required label:
 Toggle favorite:
 
 ```html
-<IconButton label="Favorite" pressed={isFavorited} onclick={toggleFavorite}>
+<IconButton
+  label="Favorite"
+  pressed="{isFavorited}"
+  onclick="{toggleFavorite}"
+>
   ★
 </IconButton>
 ```
@@ -49,7 +56,10 @@ Toggle favorite:
 Disabled icon action:
 
 ```html
-<IconButton label="Delete" disabled>
+<IconButton
+  label="Delete"
+  disabled
+>
   <svg>...</svg>
 </IconButton>
 ```

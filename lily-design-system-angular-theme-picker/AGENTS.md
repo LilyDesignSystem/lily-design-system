@@ -15,13 +15,13 @@ listbox positioning.
 
 ## Files
 
-| File                              | Purpose                                           |
-| --------------------------------- | ------------------------------------------------- |
-| `spec/index.md`                   | Specification-driven contract (canonical).        |
+| File                             | Purpose                                           |
+| -------------------------------- | ------------------------------------------------- |
+| `spec/index.md`                  | Specification-driven contract (canonical).        |
 | `theme-picker.component.ts`      | Implementation. Standalone, signal-based, OnPush. |
 | `theme-picker.component.spec.ts` | Vitest spec, one assertion per §7 acceptance.     |
-| `index.ts`                        | Barrel re-export.                                 |
-| `index.md`                        | User guide.                                       |
+| `index.ts`                       | Barrel re-export.                                 |
+| `index.md`                       | User guide.                                       |
 
 ## Public surface
 
@@ -58,7 +58,11 @@ mirrors it for form participation.
 
 ```html
 <div class="theme-picker {className}">
-  <input type="hidden" name="{name}" value="{value}" />
+  <input
+    type="hidden"
+    name="{name}"
+    value="{value}"
+  />
   <button
     type="button"
     class="theme-picker-button"
@@ -67,9 +71,36 @@ mirrors it for form participation.
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>
+    <svg
+      class="theme-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle
+        cx="8"
+        cy="8"
+        r="6"
+      />
+      <path
+        d="M8 2a6 6 0 0 1 0 12z"
+        fill="currentColor"
+        stroke="none"
+      />
+    </svg>
   </button>
-  <div class="theme-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
+  <div
+    class="theme-picker-tooltip"
+    role="tooltip"
+    id="{tooltipId}"
+    hidden
+  >
+    {label}
+  </div>
   <ul
     class="theme-picker-list"
     id="{listId}"

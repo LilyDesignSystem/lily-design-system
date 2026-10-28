@@ -16,11 +16,11 @@ For service-wide announcements that aren't about development phase, use `Announc
 
 ## Props
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `phase` | string (required) | — | Phase label, e.g. "Alpha", "Beta", "Live" |
-| `children` | slot (required) | — | Descriptive text and feedback link |
-| `...restProps` | HTML attributes | — | Spread onto the root `<div>` |
+| Prop           | Type              | Default | Description                               |
+| -------------- | ----------------- | ------- | ----------------------------------------- |
+| `phase`        | string (required) | —       | Phase label, e.g. "Alpha", "Beta", "Live" |
+| `children`     | slot (required)   | —       | Descriptive text and feedback link        |
+| `...restProps` | HTML attributes   | —       | Spread onto the root `<div>`              |
 
 ## Usage
 

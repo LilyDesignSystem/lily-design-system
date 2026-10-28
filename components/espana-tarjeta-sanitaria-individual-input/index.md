@@ -21,8 +21,15 @@ EspanaTarjetaSanitariaIndividualInput is a headless input for entering a España
 ## Usage
 
 ```html
-<Field label="Tarjeta Sanitaria Individual" required>
-  <EspanaTarjetaSanitariaIndividualInput label="TSI" value={tsi} required />
+<Field
+  label="Tarjeta Sanitaria Individual"
+  required
+>
+  <EspanaTarjetaSanitariaIndividualInput
+    label="TSI"
+    value="{tsi}"
+    required
+  />
   <Hint>Enter your CIP-SNS code from your health card</Hint>
   <ErrorMessage>Please enter a valid TSI number</ErrorMessage>
 </Field>

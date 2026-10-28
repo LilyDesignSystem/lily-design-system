@@ -56,7 +56,9 @@ which overrides the user-agent's `[hidden] { display: none }` rule.
 **Fix.** Add an explicit reset:
 
 ```css
-.theme-picker-list[hidden] { display: none; }
+.theme-picker-list[hidden] {
+  display: none;
+}
 ```
 
 ## "Keyboard users can't see which option they're on"
@@ -154,7 +156,7 @@ Almost always a caching issue. Either:
 
 - Add a cache-busting suffix via `extension` (e.g. `.css?v=1`), or
 - Configure the static asset server to send `Cache-Control:
-  must-revalidate` for theme CSS files.
+must-revalidate` for theme CSS files.
 
 ---
 

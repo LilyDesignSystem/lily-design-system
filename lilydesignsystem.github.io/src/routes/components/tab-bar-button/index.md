@@ -34,11 +34,16 @@ tabindex pattern where only the selected tab participates in the tab order.
 
 ```html
 <TabBarButton
-  selected={activeTab === 'overview'}
+  selected="{activeTab"
+  =""
+  =""
+  ="overview"
+  }
   controls="panel-overview"
-  onclick={() => activeTab = 'overview'}
+  onclick="{()"
+  =""
 >
-  Overview
+  activeTab = 'overview'} > Overview
 </TabBarButton>
 ```
 
@@ -71,14 +76,11 @@ tabindex pattern where only the selected tab participates in the tab order.
 
 This headless component renders a `<button>` with `role="tab"`, `aria-selected`, `aria-controls`, and roving `tabindex` for proper tab semantics and keyboard navigation. The consumer provides all visual styling including active/inactive states, typography, and spacing.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.tab-bar-button` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<button>` element with class `tab-bar-button`
 - Verify role="tab"` identifies this as a tab

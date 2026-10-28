@@ -25,22 +25,23 @@ Properly associated labels are essential for form usability. When a user clicks 
 Label linked to a form control by ID:
 
 ```html
-<Label for="patient-name">Patient name</Label>
-<input id="patient-name" type="text" />
+<label for="patient-name">Patient name</label>
+<input
+  id="patient-name"
+  type="text"
+/>
 ```
 
 Label wrapping a checkbox (no `for` attribute needed):
 
 ```html
-<Label>
-  <input type="checkbox" /> I agree to the terms and conditions
-</Label>
+<label> <input type="checkbox" /> I agree to the terms and conditions </label>
 ```
 
 Label for a select dropdown:
 
 ```html
-<Label for="country-select">Country</Label>
+<label for="country-select">Country</label>
 <select id="country-select">
   <option>United Kingdom</option>
   <option>Ireland</option>
@@ -73,14 +74,11 @@ None -- this component is a passive form label. Clicking the label focuses or ac
 
 This headless component renders a native `<label>` element with optional `for` attribute linking, providing built-in browser accessibility and click-to-focus behavior. The consumer provides all visual styling, including typography, spacing, required-field indicators, and layout relative to the associated control.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.label` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<label>` element with class `label`
 - Verify pass-through attributes are applied

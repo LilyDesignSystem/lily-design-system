@@ -44,33 +44,33 @@ Place `GanttTableTH` elements inside a `GanttTableTr` within `GanttTableHead`, o
 
 ```svelte
 <script lang="ts">
-    import GanttTable from "../GanttTable/GanttTable.svelte";
-    import GanttTableHead from "../GanttTableHead/GanttTableHead.svelte";
-    import GanttTableBody from "../GanttTableBody/GanttTableBody.svelte";
-    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
-    import GanttTableTH from "./GanttTableTH.svelte";
-    import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
+  import GanttTable from "../GanttTable/GanttTable.svelte";
+  import GanttTableHead from "../GanttTableHead/GanttTableHead.svelte";
+  import GanttTableBody from "../GanttTableBody/GanttTableBody.svelte";
+  import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
+  import GanttTableTH from "./GanttTableTH.svelte";
+  import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
 </script>
 
 <GanttTable label="Project schedule">
-    <GanttTableHead>
-        <GanttTableTr>
-            <GanttTableTH>Task</GanttTableTH>
-            <GanttTableTH>W1</GanttTableTH>
-            <GanttTableTH>W2</GanttTableTH>
-            <GanttTableTH>W3</GanttTableTH>
-            <GanttTableTH>W4</GanttTableTH>
-        </GanttTableTr>
-    </GanttTableHead>
-    <GanttTableBody>
-        <GanttTableTr>
-            <th scope="row">Design</th>
-            <GanttTableTD />
-            <GanttTableTD />
-            <GanttTableTD />
-            <GanttTableTD />
-        </GanttTableTr>
-    </GanttTableBody>
+  <GanttTableHead>
+    <GanttTableTr>
+      <GanttTableTH>Task</GanttTableTH>
+      <GanttTableTH>W1</GanttTableTH>
+      <GanttTableTH>W2</GanttTableTH>
+      <GanttTableTH>W3</GanttTableTH>
+      <GanttTableTH>W4</GanttTableTH>
+    </GanttTableTr>
+  </GanttTableHead>
+  <GanttTableBody>
+    <GanttTableTr>
+      <th scope="row">Design</th>
+      <GanttTableTD />
+      <GanttTableTD />
+      <GanttTableTD />
+      <GanttTableTD />
+    </GanttTableTr>
+  </GanttTableBody>
 </GanttTable>
 ```
 
@@ -78,19 +78,25 @@ Place `GanttTableTH` elements inside a `GanttTableTr` within `GanttTableHead`, o
 
 ```svelte
 <GanttTableHead>
-    <GanttTableTr>
-        <GanttTableTH rowspan={2}>Task</GanttTableTH>
-        <GanttTableTH colspan={3} scope="colgroup">Q1</GanttTableTH>
-        <GanttTableTH colspan={3} scope="colgroup">Q2</GanttTableTH>
-    </GanttTableTr>
-    <GanttTableTr>
-        <GanttTableTH>Jan</GanttTableTH>
-        <GanttTableTH>Feb</GanttTableTH>
-        <GanttTableTH>Mar</GanttTableTH>
-        <GanttTableTH>Apr</GanttTableTH>
-        <GanttTableTH>May</GanttTableTH>
-        <GanttTableTH>Jun</GanttTableTH>
-    </GanttTableTr>
+  <GanttTableTr>
+    <GanttTableTH rowspan={2}>Task</GanttTableTH>
+    <GanttTableTH
+      colspan={3}
+      scope="colgroup">Q1</GanttTableTH
+    >
+    <GanttTableTH
+      colspan={3}
+      scope="colgroup">Q2</GanttTableTH
+    >
+  </GanttTableTr>
+  <GanttTableTr>
+    <GanttTableTH>Jan</GanttTableTH>
+    <GanttTableTH>Feb</GanttTableTH>
+    <GanttTableTH>Mar</GanttTableTH>
+    <GanttTableTH>Apr</GanttTableTH>
+    <GanttTableTH>May</GanttTableTH>
+    <GanttTableTH>Jun</GanttTableTH>
+  </GanttTableTr>
 </GanttTableHead>
 ```
 
@@ -98,14 +104,14 @@ Place `GanttTableTH` elements inside a `GanttTableTr` within `GanttTableHead`, o
 
 ```svelte
 <script lang="ts">
-    const weeks = [1, 2, 3, 4];
+  const weeks = [1, 2, 3, 4];
 </script>
 
 <GanttTableHead>
-    <GanttTableTr>
-        <GanttTableTH>Task</GanttTableTH>
-        {#each weeks as w}<GanttTableTH>W{w}</GanttTableTH>{/each}
-    </GanttTableTr>
+  <GanttTableTr>
+    <GanttTableTH>Task</GanttTableTH>
+    {#each weeks as w}<GanttTableTH>W{w}</GanttTableTH>{/each}
+  </GanttTableTr>
 </GanttTableHead>
 ```
 

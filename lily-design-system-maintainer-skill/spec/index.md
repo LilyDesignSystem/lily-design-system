@@ -8,7 +8,7 @@ two-skill plan this subproject implements one half of.
 
 ## 1. Role in the ecosystem
 
-A Claude Skill that packages the *maintainer* workflow for the Lily Design
+A Claude Skill that packages the _maintainer_ workflow for the Lily Design
 System monorepo: the required-files layout, the `bin/` tooling, the
 spec-driven development workflow, and pointers into the binding
 `AGENTS/*.md` design-principle rules. It is content and documentation, not
@@ -16,7 +16,7 @@ a component implementation — it ships no headless components, no example
 app, no helper packages.
 
 Its sibling, [`lily-design-system-skill`](../../lily-design-system-skill/),
-covers the *consumer* side (concepts, terminology, composition patterns).
+covers the _consumer_ side (concepts, terminology, composition patterns).
 Both packages now follow the `lily-design-system-` naming convention (as
 of 2026-08-31; `lily-design-system-skill` was renamed from `lily-skill`,
 which deliberately sat outside it) and get the same full-subproject

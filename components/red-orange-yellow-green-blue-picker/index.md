@@ -38,13 +38,37 @@ consumers to apply their own visual styling.
 Risk matrix with five-level granularity:
 
 ```html
-<Field label="Clinical risk assessment" required>
+<Field
+  label="Clinical risk assessment"
+  required
+>
   <RedOrangeYellowGreenBluePicker label="Clinical risk level">
-    <RedOrangeYellowGreenBluePickerButton value="red" label="Red - Critical" onclick={handleSelect} />
-    <RedOrangeYellowGreenBluePickerButton value="orange" label="Orange - Serious" onclick={handleSelect} />
-    <RedOrangeYellowGreenBluePickerButton value="yellow" label="Yellow - Caution" selected onclick={handleSelect} />
-    <RedOrangeYellowGreenBluePickerButton value="green" label="Green - Good" onclick={handleSelect} />
-    <RedOrangeYellowGreenBluePickerButton value="blue" label="Blue - Excellent" onclick={handleSelect} />
+    <RedOrangeYellowGreenBluePickerButton
+      value="red"
+      label="Red - Critical"
+      onclick="{handleSelect}"
+    />
+    <RedOrangeYellowGreenBluePickerButton
+      value="orange"
+      label="Orange - Serious"
+      onclick="{handleSelect}"
+    />
+    <RedOrangeYellowGreenBluePickerButton
+      value="yellow"
+      label="Yellow - Caution"
+      selected
+      onclick="{handleSelect}"
+    />
+    <RedOrangeYellowGreenBluePickerButton
+      value="green"
+      label="Green - Good"
+      onclick="{handleSelect}"
+    />
+    <RedOrangeYellowGreenBluePickerButton
+      value="blue"
+      label="Blue - Excellent"
+      onclick="{handleSelect}"
+    />
   </RedOrangeYellowGreenBluePicker>
 </Field>
 ```
@@ -52,12 +76,36 @@ Risk matrix with five-level granularity:
 Detailed project health assessment:
 
 ```html
-<RedOrangeYellowGreenBluePicker label="Project health" data-dashboard="main">
-  <RedOrangeYellowGreenBluePickerButton value="red" label="Red - Blocked" onclick={handleSelect} />
-  <RedOrangeYellowGreenBluePickerButton value="orange" label="Orange - Major risks" onclick={handleSelect} />
-  <RedOrangeYellowGreenBluePickerButton value="yellow" label="Yellow - Minor risks" onclick={handleSelect} />
-  <RedOrangeYellowGreenBluePickerButton value="green" label="Green - On track" selected onclick={handleSelect} />
-  <RedOrangeYellowGreenBluePickerButton value="blue" label="Blue - Ahead of schedule" onclick={handleSelect} />
+<RedOrangeYellowGreenBluePicker
+  label="Project health"
+  data-dashboard="main"
+>
+  <RedOrangeYellowGreenBluePickerButton
+    value="red"
+    label="Red - Blocked"
+    onclick="{handleSelect}"
+  />
+  <RedOrangeYellowGreenBluePickerButton
+    value="orange"
+    label="Orange - Major risks"
+    onclick="{handleSelect}"
+  />
+  <RedOrangeYellowGreenBluePickerButton
+    value="yellow"
+    label="Yellow - Minor risks"
+    onclick="{handleSelect}"
+  />
+  <RedOrangeYellowGreenBluePickerButton
+    value="green"
+    label="Green - On track"
+    selected
+    onclick="{handleSelect}"
+  />
+  <RedOrangeYellowGreenBluePickerButton
+    value="blue"
+    label="Blue - Ahead of schedule"
+    onclick="{handleSelect}"
+  />
 </RedOrangeYellowGreenBluePicker>
 ```
 
@@ -88,14 +136,11 @@ Detailed project health assessment:
 
 The RedOrangeYellowGreenBluePicker headless component provides a `<select>` with `aria-label` and five predefined options (red, orange, yellow, green, blue) with two-way value binding. Native select keyboard navigation is fully supported. The consumer provides all visual styling, including color coding.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.red-orange-yellow-green-blue-picker` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `red-orange-yellow-green-blue-picker`
 - Verify aria-label` on the select from the label prop

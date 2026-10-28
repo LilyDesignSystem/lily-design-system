@@ -105,9 +105,7 @@ onMounted(() => {
   }
   if (!initial) {
     initial =
-      props.defaultValue ??
-      (props.themes.includes("light") ? "light" : props.themes[0]) ??
-      "";
+      props.defaultValue ?? (props.themes.includes("light") ? "light" : props.themes[0]) ?? "";
   }
   if (initial && initial !== current.value) {
     current.value = initial;

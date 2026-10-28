@@ -25,7 +25,11 @@ ShowMore holds long content and a button that toggles it between clamped and ful
 ## Usage
 
 ```html
-<ShowMore moreLabel="Show more" lessLabel="Show less" bind:expanded>
+<ShowMore
+  moreLabel="Show more"
+  lessLabel="Show less"
+  bind:expanded
+>
   <p>A long description...</p>
 </ShowMore>
 ```
@@ -33,7 +37,10 @@ ShowMore holds long content and a button that toggles it between clamped and ful
 Consumer CSS:
 
 ```css
-.show-more-content[data-expanded="false"] { max-height: 6em; overflow: hidden; }
+.show-more-content[data-expanded="false"] {
+  max-height: 6em;
+  overflow: hidden;
+}
 ```
 
 ## Keyboard Interactions

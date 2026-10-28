@@ -22,7 +22,10 @@ PrathetThaiLekPrajamTuaPrachachonView is a headless read-only display of Thailan
 ```html
 <SummaryList>
   <SummaryListItem term="เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)">
-    <PrathetThaiLekPrajamTuaPrachachonView label="เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)" value={value} />
+    <PrathetThaiLekPrajamTuaPrachachonView
+      label="เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)"
+      value="{value}"
+    />
   </SummaryListItem>
 </SummaryList>
 ```

@@ -7,15 +7,15 @@ responsibility, not the browser's.
 
 ## Roles and properties
 
-| Element                   | Role / Property                                          | Source        |
-| ------------------------- | -------------------------------------------------------- | ------------- |
-| `<button>`                | `aria-label={label}`                                      | Consumer prop |
-| `<button>`                | `aria-haspopup="listbox"`, `aria-expanded`, `aria-controls` | Component  |
-| `<span class="theme-picker-icon">` | `aria-hidden="true"`                             | Component     |
-| `<ul>`                    | `role="listbox"`, `aria-label={label}`, `tabindex="-1"`, `hidden` | Component |
-| `<ul>`                    | `aria-activedescendant` (only while open)                 | Component     |
-| `<li>`                    | `role="option"`, `aria-selected`                          | Component     |
-| `<li>`                    | `data-active` on the keyboard-active option               | Component     |
+| Element                            | Role / Property                                                   | Source        |
+| ---------------------------------- | ----------------------------------------------------------------- | ------------- |
+| `<button>`                         | `aria-label={label}`                                              | Consumer prop |
+| `<button>`                         | `aria-haspopup="listbox"`, `aria-expanded`, `aria-controls`       | Component     |
+| `<span class="theme-picker-icon">` | `aria-hidden="true"`                                              | Component     |
+| `<ul>`                             | `role="listbox"`, `aria-label={label}`, `tabindex="-1"`, `hidden` | Component     |
+| `<ul>`                             | `aria-activedescendant` (only while open)                         | Component     |
+| `<li>`                             | `role="option"`, `aria-selected`                                  | Component     |
+| `<li>`                             | `data-active` on the keyboard-active option                       | Component     |
 
 The active option is tracked with `aria-activedescendant` on a focused
 listbox — not with roving `tabindex` on the options. Option ids come
@@ -29,21 +29,21 @@ Implemented by the component. Nothing is inherited from a native
 
 On the **button**:
 
-| Key                             | Action                                              |
-| ------------------------------- | --------------------------------------------------- |
-| `Tab` / `Shift+Tab`             | Move focus to / from the button (one tab stop).     |
+| Key                             | Action                                                                                      |
+| ------------------------------- | ------------------------------------------------------------------------------------------- |
+| `Tab` / `Shift+Tab`             | Move focus to / from the button (one tab stop).                                             |
 | `ArrowDown` / `Enter` / `Space` | Open, with the currently-selected option active (or the first). Focus moves to the listbox. |
-| `ArrowUp`                       | Open with the **last** option active. Focus moves to the listbox. |
+| `ArrowUp`                       | Open with the **last** option active. Focus moves to the listbox.                           |
 
 On the **listbox**:
 
-| Key                     | Action                                                        |
-| ----------------------- | -------------------------------------------------------------- |
-| `ArrowDown` / `ArrowUp` | Move the active option. Clamps at the ends — it does not wrap. |
-| `Home` / `End`          | Jump to the first / last option.                               |
-| `Enter` / `Space`       | Select the active option, apply it, close, and return focus to the button. |
-| `Escape`                | Close and return focus to the button, leaving the value unchanged. |
-| `Tab`                   | Close; focus lands on the button so the default Tab proceeds from the picker's position. |
+| Key                     | Action                                                                                          |
+| ----------------------- | ----------------------------------------------------------------------------------------------- |
+| `ArrowDown` / `ArrowUp` | Move the active option. Clamps at the ends — it does not wrap.                                  |
+| `Home` / `End`          | Jump to the first / last option.                                                                |
+| `Enter` / `Space`       | Select the active option, apply it, close, and return focus to the button.                      |
+| `Escape`                | Close and return focus to the button, leaving the value unchanged.                              |
+| `Tab`                   | Close; focus lands on the button so the default Tab proceeds from the picker's position.        |
 | Printable character     | Typeahead over the option labels; the buffer accumulates and resets after 500 ms of inactivity. |
 
 Pointer: clicking an option selects it; clicking the button again,
@@ -73,7 +73,7 @@ Two related hazards:
   the announced name can diverge. That is WCAG 2.5.3 (Label in Name).
   Either keep custom glyph content `aria-hidden="true"`, or make `label`
   begin with the visible text.
-- An icon-only trigger also has no *visible* label. Sighted users who
+- An icon-only trigger also has no _visible_ label. Sighted users who
   do not recognise the half-circle glyph get no hint of what the button
   does. Pair it with a visible caption, or use `children` to render the
   theme name alongside the glyph.
@@ -134,21 +134,21 @@ into when you happen to care about accessibility.
 Why it is shaped this way:
 
 - **Visible, not `sr-only`.** With an icon-only trigger the active
-  theme is invisible to *everyone*, not just to screen-reader users. A
+  theme is invisible to _everyone_, not just to screen-reader users. A
   visible line serves sighted users and cognitive accessibility, and
   AAA favours showing state over hiding it (WCAG 1.4.1 — no
   colour-only meaning). Teams that truly cannot spare the line should
   hide the element with the visually-hidden recipe in
   [styling.md](./styling.md) and keep it in the DOM.
 - **`aria-live="polite"`, not `role="alert"`.** A polite live region
-  announces *mutations*, so it is silent on first paint and speaks once
+  announces _mutations_, so it is silent on first paint and speaks once
   per user-initiated change, without moving focus (WCAG 3.2.2).
 - **Human label, not the raw slug.** Show `labelFor(slug)` /
   your `themeLabels` value, so the line reads "Active theme: Dark"
   rather than "Active theme: dark".
 
 **Honest limits.** A status region does not restore what an icon-only
-trigger costs. The button's *own* accessible name is still just
+trigger costs. The button's _own_ accessible name is still just
 `label`, so a user who tabs back to the control later — rather than
 being present for the change announcement — hears "Theme", not "Dark".
 A live region announces transitions; it does not give the button a
@@ -224,7 +224,7 @@ what keeps the control usable there.
 
 - **Rendering visible text in `children` without `aria-hidden`.** The
   visible text and the `aria-label` then disagree — WCAG 2.5.3.
-- **Removing or overriding the `aria-label`.** It is the *only*
+- **Removing or overriding the `aria-label`.** It is the _only_
   accessible name the control has; without it the button is unnamed.
 - **Assuming the glyph will render.** Ship your own SVG via `children`
   if the visual must be certain.
@@ -232,7 +232,7 @@ what keeps the control usable there.
   what the consumer tells it; locale-aware copy is the consumer's
   responsibility.
 - **Setting `outline: none` in CSS.** Visible focus is a WCAG AAA
-  requirement — on the button *and* the listbox. Don't strip it.
+  requirement — on the button _and_ the listbox. Don't strip it.
 - **Styling only `:focus-visible` on the options.** They never take DOM
   focus; style `[data-active]` instead.
 - **Shipping without a screen-reader pass.** A custom listbox earns no

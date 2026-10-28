@@ -104,8 +104,8 @@ every example app runs.
   own scoped styles; only the example app has stylesheets.
 - **TypeScript everywhere**, Vite as the build tool, pnpm (not npm).
 - **vitest, not Jest** — `@testing-library/svelte` + `@testing-library/user-event`
-  + jsdom, vitest's own built-in matchers only (`@testing-library/jest-dom`
-  is explicitly prohibited across all three subprojects).
+  - jsdom, vitest's own built-in matchers only (`@testing-library/jest-dom`
+    is explicitly prohibited across all three subprojects).
 - **Internationalisation is the consumer's concern** — no i18n library is
   bundled anywhere (no Paraglide, no svelte-i18n); every user-facing string
   arrives as a prop.

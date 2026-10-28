@@ -15,15 +15,18 @@ import { LinkPicker, type LinkItem } from "@lilydesignsystem/angular-link-picker
   selector: "app-header",
   standalone: true,
   imports: [LinkPicker],
-  template: `<lily-link-picker label="Pages" [links]="links" />`,
+  template: `<lily-link-picker
+    label="Pages"
+    [links]="links"
+  />`,
 })
 export class AppHeader {
   links: LinkItem[] = [
-  { label: "Home", href: "/" },
-  { label: "About Us", href: "/about/" },
-  { label: "Contact Us", href: "/contact/" },
-  { label: "Privacy Policy", href: "/privacy/" },
-];
+    { label: "Home", href: "/" },
+    { label: "About Us", href: "/about/" },
+    { label: "Contact Us", href: "/contact/" },
+    { label: "Privacy Policy", href: "/privacy/" },
+  ];
 }
 ```
 
@@ -40,17 +43,22 @@ import { LinkPicker } from "@lilydesignsystem/angular-link-picker";
   selector: "app-header",
   standalone: true,
   imports: [LinkPicker],
-  template: `<lily-link-picker label="Pages" [links]="links()" [navigate]="go" />`,
+  template: `<lily-link-picker
+    label="Pages"
+    [links]="links()"
+    [navigate]="go"
+  />`,
 })
 export class AppHeader {
   private router = inject(Router);
   go = (href: string) => void this.router.navigateByUrl(href);
-  links = () => [
-  { label: "Home", href: "/" },
-  { label: "About Us", href: "/about/" },
-  { label: "Contact Us", href: "/contact/" },
-  { label: "Privacy Policy", href: "/privacy/" },
-].map((p) => ({ ...p, current: this.router.url === p.href }));
+  links = () =>
+    [
+      { label: "Home", href: "/" },
+      { label: "About Us", href: "/about/" },
+      { label: "Contact Us", href: "/contact/" },
+      { label: "Privacy Policy", href: "/privacy/" },
+    ].map((p) => ({ ...p, current: this.router.url === p.href }));
 }
 ```
 
@@ -58,13 +66,13 @@ Ctrl/Cmd/Shift/Alt-click, middle-click and `newTab` links always stay native bro
 
 ## `LinkItem`
 
-| Field | Notes |
-| --- | --- |
-| label | Visible text. Yours, so it localises. |
-| href | A route (`"/about/"`) or a full URL. |
-| id | Reported when a link is chosen; defaults to the href. |
-| current | Marks the current page with `aria-current="page"`. |
-| newTab | `target="_blank"` with `rel="noopener noreferrer"`. |
+| Field   | Notes                                                 |
+| ------- | ----------------------------------------------------- |
+| label   | Visible text. Yours, so it localises.                 |
+| href    | A route (`"/about/"`) or a full URL.                  |
+| id      | Reported when a link is chosen; defaults to the href. |
+| current | Marks the current page with `aria-current="page"`.    |
+| newTab  | `target="_blank"` with `rel="noopener noreferrer"`.   |
 
 ## Props
 

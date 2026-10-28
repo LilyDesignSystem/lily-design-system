@@ -24,14 +24,20 @@ The consumer provides ThemeSelectOption elements as children to define the avail
 ## Usage
 
 ```svelte
-<ThemeSelect label="Theme" bind:value>
+<ThemeSelect
+  label="Theme"
+  bind:value
+>
   <ThemeSelectOption value="light">Light</ThemeSelectOption>
   <ThemeSelectOption value="dark">Dark</ThemeSelectOption>
 </ThemeSelect>
 ```
 
 ```svelte
-<ThemeSelect label="Color scheme" bind:value={theme}>
+<ThemeSelect
+  label="Color scheme"
+  bind:value={theme}
+>
   <ThemeSelectOption value="light">Light</ThemeSelectOption>
   <ThemeSelectOption value="dark">Dark</ThemeSelectOption>
   <ThemeSelectOption value="high-contrast">High Contrast</ThemeSelectOption>

@@ -6,27 +6,27 @@ A single recommended-practice item within a "Do" list. Renders a semantic `<li>`
 
 ```svelte
 <script lang="ts">
-    import DoListItem from './DoListItem.svelte';
+  import DoListItem from "./DoListItem.svelte";
 </script>
 
 <ul aria-label="Recommended practices">
-    <DoListItem>Use descriptive alt text for images</DoListItem>
-    <DoListItem>Provide visible focus indicators</DoListItem>
-    <DoListItem>Use sufficient color contrast</DoListItem>
+  <DoListItem>Use descriptive alt text for images</DoListItem>
+  <DoListItem>Provide visible focus indicators</DoListItem>
+  <DoListItem>Use sufficient color contrast</DoListItem>
 </ul>
 ```
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `Snippet` | required | The recommendation content |
-| `...restProps` | HTML attributes | — | Spread onto the `<li>` element |
+| Prop           | Type            | Default  | Description                    |
+| -------------- | --------------- | -------- | ------------------------------ |
+| `children`     | `Snippet`       | required | The recommendation content     |
+| `...restProps` | HTML attributes | —        | Spread onto the `<li>` element |
 
 ## Data attributes
 
-| Attribute | Value | Description |
-|-----------|-------|-------------|
+| Attribute             | Value  | Description                          |
+| --------------------- | ------ | ------------------------------------ |
 | `data-recommendation` | `"do"` | Always set; use for consumer styling |
 
 ## Accessibility

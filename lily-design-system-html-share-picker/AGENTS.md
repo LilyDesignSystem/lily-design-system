@@ -22,8 +22,8 @@ Svelte wins on behaviour; this package supplies the custom-element idiom.
 | File                    | Purpose                                           |
 | ----------------------- | ------------------------------------------------- |
 | `spec/index.md`         | Specification-driven contract (canonical).        |
-| `share-picker.ts`      | Implementation (TypeScript custom-element class). |
-| `share-picker.test.ts` | Vitest + jsdom spec, mapped to the §7 clauses.    |
+| `share-picker.ts`       | Implementation (TypeScript custom-element class). |
+| `share-picker.test.ts`  | Vitest + jsdom spec, mapped to the §7 clauses.    |
 | `index.ts`              | Barrel re-export + side-effectful registration.   |
 | `index.md`              | Human-readable guide.                             |
 | `docs/accessibility.md` | Tradeoffs, stated plainly.                        |

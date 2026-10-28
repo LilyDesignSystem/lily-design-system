@@ -12,12 +12,12 @@ either adjust the `<script type="module" src=…>` in each example or
 serve that file at the nominal path. The path is a convention, not a
 requirement.
 
-| #   | File                                                     | Demonstrates                                                    |
-| --- | -------------------------------------------------------- | --------------------------------------------------------------- |
-| 1   | [`01-basic.html`](./01-basic.html)                       | Two destinations plus a copy action.                            |
-| 2   | [`02-copy-only.html`](./02-copy-only.html)               | No targets at all — copy the page URL and nothing else.         |
-| 3   | [`03-strategies.html`](./03-strategies.html)             | `auto` vs `native` vs `list` side by side.                      |
-| 4   | [`04-events.html`](./04-events.html)                     | `share` / `copy` / `nativeshare` events and their callbacks.    |
+| #   | File                                                     | Demonstrates                                                   |
+| --- | -------------------------------------------------------- | -------------------------------------------------------------- |
+| 1   | [`01-basic.html`](./01-basic.html)                       | Two destinations plus a copy action.                           |
+| 2   | [`02-copy-only.html`](./02-copy-only.html)               | No targets at all — copy the page URL and nothing else.        |
+| 3   | [`03-strategies.html`](./03-strategies.html)             | `auto` vs `native` vs `list` side by side.                     |
+| 4   | [`04-events.html`](./04-events.html)                     | `share` / `copy` / `nativeshare` events and their callbacks.   |
 | 5   | [`05-custom-rendering.html`](./05-custom-rendering.html) | `renderButtonContent()`: inline SVG, and icon + visible label. |
 
 ## No social networks ship with this package

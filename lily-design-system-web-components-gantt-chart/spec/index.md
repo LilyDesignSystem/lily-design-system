@@ -43,7 +43,7 @@ real npm dependency and renders it unmodified, and on the sibling
 helper `@lilydesignsystem/web-components-date-time-picker`, composed
 TWICE per edit session (task start, task end) — this catalog's first
 helper-to-helper composition, mirroring `picker-bar.ts`'s established
-bare-side-effect-import pattern for a sibling *helper* dependency
+bare-side-effect-import pattern for a sibling _helper_ dependency
 (`import "@lilydesignsystem/web-components-date-time-picker";`, plus
 `import type {...}` for types).
 
@@ -80,7 +80,10 @@ the Svelte reference's exported surface for these two.
 ## 4. HTML
 
 ```html
-<lily-gantt-chart label="…" caption="…"></lily-gantt-chart>
+<lily-gantt-chart
+  label="…"
+  caption="…"
+></lily-gantt-chart>
 ```
 
 renders:
@@ -88,29 +91,87 @@ renders:
 ```html
 <div class="gantt-chart {class}">
   <lily-gantt-table label="{label}">
-    <table class="gantt-table" role="grid" aria-label="{label}">
-      <caption>{caption}</caption> <!-- only when caption is set -->
+    <table
+      class="gantt-table"
+      role="grid"
+      aria-label="{label}"
+    >
+      <caption>
+        {caption}
+      </caption>
+      <!-- only when caption is set -->
       <thead>
         <tr>
-          <th class="gantt-chart-th" scope="col"></th> <!-- leading task-label column -->
-          <th class="gantt-chart-th" scope="col" data-today>{columnLabel(start,end,timeUnit) ?? start}</th>
+          <th
+            class="gantt-chart-th"
+            scope="col"
+          ></th>
+          <!-- leading task-label column -->
+          <th
+            class="gantt-chart-th"
+            scope="col"
+            data-today
+          >
+            {columnLabel(start,end,timeUnit) ?? start}
+          </th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <th class="gantt-chart-row-header" scope="row" data-depth="{depth}">
-            <button class="gantt-chart-collapse-button" aria-expanded aria-label="{labels.collapseButton(task,collapsed)}">▾</button> <!-- only on parent rows -->
+          <th
+            class="gantt-chart-row-header"
+            scope="row"
+            data-depth="{depth}"
+          >
+            <button
+              class="gantt-chart-collapse-button"
+              aria-expanded
+              aria-label="{labels.collapseButton(task,collapsed)}"
+            >
+              ▾
+            </button>
+            <!-- only on parent rows -->
             {taskLabel(task)}
-            <span class="gantt-chart-dependency-summary" id="{dependencyId}" hidden>{labels.dependencySummary(preds)}</span> <!-- only when deps exist and the label is set -->
+            <span
+              class="gantt-chart-dependency-summary"
+              id="{dependencyId}"
+              hidden
+              >{labels.dependencySummary(preds)}</span
+            >
+            <!-- only when deps exist and the label is set -->
           </th>
-          <td class="gantt-chart-td" role="gridcell" data-row data-col tabindex data-in-range data-milestone data-today aria-describedby="{dependencyId}">
-            <span class="gantt-chart-bar" data-percent-complete="{n}" draggable="true"></span> <!-- only in the task's own leading in-range cell -->
+          <td
+            class="gantt-chart-td"
+            role="gridcell"
+            data-row
+            data-col
+            tabindex
+            data-in-range
+            data-milestone
+            data-today
+            aria-describedby="{dependencyId}"
+          >
+            <span
+              class="gantt-chart-bar"
+              data-percent-complete="{n}"
+              draggable="true"
+            ></span>
+            <!-- only in the task's own leading in-range cell -->
           </td>
         </tr>
-        <tr class="gantt-chart-edit-row"> <!-- only while this row's task is being edited; inserted/removed, not hidden -->
+        <tr class="gantt-chart-edit-row">
+          <!-- only while this row's task is being edited; inserted/removed, not hidden -->
           <td colspan="{columns.length + 1}">
-            <lily-date-time-picker label="{labels.startLabel}" mode="date" value="{editStart}"></lily-date-time-picker>
-            <lily-date-time-picker label="{labels.endLabel}" mode="date" value="{editEnd}"></lily-date-time-picker>
+            <lily-date-time-picker
+              label="{labels.startLabel}"
+              mode="date"
+              value="{editStart}"
+            ></lily-date-time-picker>
+            <lily-date-time-picker
+              label="{labels.endLabel}"
+              mode="date"
+              value="{editEnd}"
+            ></lily-date-time-picker>
             <button class="gantt-chart-save-button">{labels.saveLabel}</button>
             <button class="gantt-chart-cancel-button">{labels.cancelLabel}</button>
           </td>
@@ -118,7 +179,10 @@ renders:
       </tbody>
     </table>
   </lily-gantt-table>
-  <p class="gantt-chart-status" aria-live="polite"></p>
+  <p
+    class="gantt-chart-status"
+    aria-live="polite"
+  ></p>
 </div>
 ```
 
@@ -136,18 +200,18 @@ remove, not a full-grid rebuild.
 
 ## 5. Public surface
 
-| Member | Kind | Type | Required | Default |
-| --- | --- | --- | --- | --- |
-| `label` | attribute + property | `string` | yes | — |
-| `caption` | attribute + property | `string` | no | — |
-| `today` | attribute + property | `string` (ISO date) | no | — (no marker unless supplied) |
-| `time-unit` / `timeUnit` | attribute + property | `"day" \| "week" \| "month"` | no | `"day"` |
-| `range` | property-only | `{ start: string; end: string }` | yes | `{start:"",end:""}` |
-| `tasks` | property-only | `GanttTask[]` | yes | `[]` |
-| `taskLabel` | property-only | `(task: GanttTask) => string` | no | `task.label` |
-| `onTaskChange` | property-only | `(taskId, start, end) => void` | no | — |
-| `labels` | property-only | `GanttLabels` | no | `{}` |
-| `class` | attribute | `string` | no | `""` |
+| Member                   | Kind                 | Type                             | Required | Default                       |
+| ------------------------ | -------------------- | -------------------------------- | -------- | ----------------------------- |
+| `label`                  | attribute + property | `string`                         | yes      | —                             |
+| `caption`                | attribute + property | `string`                         | no       | —                             |
+| `today`                  | attribute + property | `string` (ISO date)              | no       | — (no marker unless supplied) |
+| `time-unit` / `timeUnit` | attribute + property | `"day" \| "week" \| "month"`     | no       | `"day"`                       |
+| `range`                  | property-only        | `{ start: string; end: string }` | yes      | `{start:"",end:""}`           |
+| `tasks`                  | property-only        | `GanttTask[]`                    | yes      | `[]`                          |
+| `taskLabel`              | property-only        | `(task: GanttTask) => string`    | no       | `task.label`                  |
+| `onTaskChange`           | property-only        | `(taskId, start, end) => void`   | no       | —                             |
+| `labels`                 | property-only        | `GanttLabels`                    | no       | `{}`                          |
+| `class`                  | attribute            | `string`                         | no       | `""`                          |
 
 `GanttTask`: `id` (required), `label` (required), `start`/`end` (ISO
 dates, required, inclusive; equal values mean a milestone),
@@ -393,7 +457,7 @@ The matching is the pure `typeahead.ts` (`isTypeaheadKey`, `nextTypeaheadState`,
 ## Weekend, holiday and time-off indicators (0.7.0, 2026-10-17)
 
 - **`unavailable`** is a list of dated ranges `{ start, end?, kind?, label? }` for holidays, time off and closures (`end` defaults to `start`; Lily ships no calendar, no kinds and no English). A column **every day of which is covered** gets `data-unavailable="<kinds>"` (the entries' `kind`s, `unavailable` when none, repeats removed) on its header and every cell; a column only **partly** covered gets `data-partly-unavailable` instead, so a holiday inside a week column is still marked. A `label` is rendered as text in the header (`.gantt-chart-unavailable-label`), so a day is never told apart by colour alone (WCAG 1.4.1). The weekend is `weekends`; `markers` flag one date; `isNonWorking` is a callback. Matching is the pure `unavailable.ts` (`unavailableOn`, `unavailableIn`, `unavailableKinds`), time-zone free.
-- **Shading** is CSS and ships in the 57 reference themes: weekends are tinted, unavailable days are tinted *and striped*, a partly unavailable column gets a bar under its header.
+- **Shading** is CSS and ships in the 57 reference themes: weekends are tinted, unavailable days are tinted _and striped_, a partly unavailable column gets a bar under its header.
 
 ## Direction and labels (0.7.0, 2026-10-17)
 

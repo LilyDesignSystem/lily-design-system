@@ -20,30 +20,36 @@ The semantic `<header>` element helps assistive technologies identify the header
 ## Usage
 
 ```html
-<Header label="Service name">
+<header label="Service name">
   <nav aria-label="Primary navigation">
     <ul>
       <li><a href="/dashboard">Dashboard</a></li>
-      <li><a href="/patients" aria-current="page">Patients</a></li>
+      <li>
+        <a
+          href="/patients"
+          aria-current="page"
+          >Patients</a
+        >
+      </li>
       <li><a href="/appointments">Appointments</a></li>
     </ul>
   </nav>
-</Header>
+</header>
 ```
 
 ```html
 <!-- Simplified transactional header without navigation -->
-<Header label="Register with a GP">
+<header label="Register with a GP">
   <span>Register with a GP</span>
-</Header>
+</header>
 ```
 
 ```html
 <!-- Section header with aria-label to distinguish from page header -->
-<Header label="Article header">
+<header label="Article header">
   <h2>Article Title</h2>
   <p>Published on 2024-01-15</p>
-</Header>
+</header>
 ```
 
 ## Keyboard Interactions
@@ -74,14 +80,11 @@ None -- this component is a passive container. Keyboard interactions are determi
 
 This headless component provides a semantic `<header>` element that automatically exposes the `banner` landmark role (when a direct child of `<body>`) to assistive technologies. The consumer provides all visual styling including layout, background, typography, and spacing.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.header` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<header>` element with class `header`
 - Verify aria-label={label}` -- optionally provides an accessible name for the header landmark, useful when multiple headers exist on a page to help screen reader users distinguish between them

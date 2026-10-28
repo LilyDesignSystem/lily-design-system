@@ -22,7 +22,7 @@ EestiIsikukoodView is a headless read-only display of Estonia's Isikukood (IK), 
 ```html
 <SummaryList>
   <SummaryListItem term="Personal Identification Code">
-    <EestiIsikukoodView value={value} />
+    <EestiIsikukoodView value="{value}" />
   </SummaryListItem>
 </SummaryList>
 ```

@@ -142,7 +142,10 @@ true**. Only the explicit string `"false"` turns it off.
 
 ```html
 <!-- writes lang and dir (the default) -->
-<lily-locale-picker label="Language" locales="en,ar"></lily-locale-picker>
+<lily-locale-picker
+  label="Language"
+  locales="en,ar"
+></lily-locale-picker>
 
 <!-- writes lang only; you own dir -->
 <lily-locale-picker

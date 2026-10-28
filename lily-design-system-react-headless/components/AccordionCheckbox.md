@@ -18,14 +18,14 @@ Unlike `Details`, which uses a `<summary>` toggle, this component uses a real fo
 
 ## Props
 
-| Prop        | Type                          | Default | Description                                                              |
-| ----------- | ----------------------------- | ------- | ------------------------------------------------------------------------ |
-| `label`     | `string`                      | —       | The checkbox label text. Required.                                       |
-| `checked`   | `boolean`                     | `false` | Whether the checkbox is checked. Pass with `onChange` for controlled.    |
-| `id`        | `string`                      | auto    | Base id for the checkbox (`<id>-checkbox`) and panel (`<id>-panel`).     |
-| `onChange`  | `(checked: boolean) => void`  | —       | Callback fired when the checked state changes.                           |
-| `children`  | `ReactNode`                   | —       | Content shown when checked. Required.                                    |
-| `className` | `string`                      | `""`    | Extra CSS classes appended to `accordion-checkbox`.                      |
+| Prop        | Type                         | Default | Description                                                           |
+| ----------- | ---------------------------- | ------- | --------------------------------------------------------------------- |
+| `label`     | `string`                     | —       | The checkbox label text. Required.                                    |
+| `checked`   | `boolean`                    | `false` | Whether the checkbox is checked. Pass with `onChange` for controlled. |
+| `id`        | `string`                     | auto    | Base id for the checkbox (`<id>-checkbox`) and panel (`<id>-panel`).  |
+| `onChange`  | `(checked: boolean) => void` | —       | Callback fired when the checked state changes.                        |
+| `children`  | `ReactNode`                  | —       | Content shown when checked. Required.                                 |
+| `className` | `string`                     | `""`    | Extra CSS classes appended to `accordion-checkbox`.                   |
 
 Additional HTML attributes are spread onto the root `<div>`.
 
@@ -36,12 +36,16 @@ import { useState } from "react";
 import AccordionCheckbox from "./AccordionCheckbox";
 
 export function CommentToggle() {
-    const [open, setOpen] = useState(false);
-    return (
-        <AccordionCheckbox label="I have additional comments" checked={open} onChange={setOpen}>
-            <textarea aria-label="Your comments" />
-        </AccordionCheckbox>
-    );
+  const [open, setOpen] = useState(false);
+  return (
+    <AccordionCheckbox
+      label="I have additional comments"
+      checked={open}
+      onChange={setOpen}
+    >
+      <textarea aria-label="Your comments" />
+    </AccordionCheckbox>
+  );
 }
 ```
 

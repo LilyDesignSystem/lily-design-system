@@ -26,25 +26,31 @@ When activated, the button toggles the visibility of a navigation region contain
 Mobile navigation with site links:
 
 ```html
-<HamburgerMenu label="Main menu" open={menuOpen}>
-    <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/about">About</a></li>
-        <li><a href="/contact">Contact</a></li>
-    </ul>
+<HamburgerMenu
+  label="Main menu"
+  open="{menuOpen}"
+>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/contact">Contact</a></li>
+  </ul>
 </HamburgerMenu>
 ```
 
 Dashboard navigation hidden behind hamburger toggle:
 
 ```html
-<HamburgerMenu label="Dashboard menu" open={navOpen}>
-    <ul>
-        <li><a href="/dashboard">Dashboard</a></li>
-        <li><a href="/reports">Reports</a></li>
-        <li><a href="/settings">Settings</a></li>
-        <li><a href="/logout">Log out</a></li>
-    </ul>
+<HamburgerMenu
+  label="Dashboard menu"
+  open="{navOpen}"
+>
+  <ul>
+    <li><a href="/dashboard">Dashboard</a></li>
+    <li><a href="/reports">Reports</a></li>
+    <li><a href="/settings">Settings</a></li>
+    <li><a href="/logout">Log out</a></li>
+  </ul>
 </HamburgerMenu>
 ```
 
@@ -79,14 +85,11 @@ Dashboard navigation hidden behind hamburger toggle:
 
 This headless component provides a `<button>` with `aria-expanded`, `aria-controls`, and a conditional navigation region with `role="navigation"`. The consumer provides all visual styling including the hamburger icon, animation, panel positioning, and overlay effects.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.hamburger-menu` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<button>` element with class `hamburger-menu`
 - Verify aria-label={label}` -- on the button, provides an accessible name for the toggle control

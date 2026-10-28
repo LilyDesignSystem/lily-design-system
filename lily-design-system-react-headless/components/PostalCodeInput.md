@@ -29,11 +29,21 @@ This component is useful in address forms, checkout flows, shipping calculators,
 ```
 
 ```tsx
-<PostalCodeInput label="ZIP code" value={zipCode} onChange={setZipCode} required={true} />
+<PostalCodeInput
+  label="ZIP code"
+  value={zipCode}
+  onChange={setZipCode}
+  required={true}
+/>
 ```
 
 ```tsx
-<PostalCodeInput label="Postcode" value={postcode} onChange={setPostcode} placeholder="SW1A 1AA" />
+<PostalCodeInput
+  label="Postcode"
+  value={postcode}
+  onChange={setPostcode}
+  placeholder="SW1A 1AA"
+/>
 ```
 
 ## Keyboard Interactions

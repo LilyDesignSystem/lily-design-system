@@ -31,60 +31,73 @@ Provide an accessible `label` (also used as button text) and a handler.
 
 ```svelte
 <script lang="ts">
-    import FileUpload from "./FileUpload.svelte";
-    function handleFiles(files: FileList | null) { /* … */ }
+  import FileUpload from "./FileUpload.svelte";
+  function handleFiles(files: FileList | null) {
+    /* … */
+  }
 </script>
 
-<FileUpload label="Upload files" accept=".pdf" onchange={handleFiles} />
+<FileUpload
+  label="Upload files"
+  accept=".pdf"
+  onchange={handleFiles}
+/>
 ```
 
 ## Props
 
-| Prop       | Type                                    | Default     | Description                                   |
-| ---------- | --------------------------------------- | ----------- | --------------------------------------------- |
-| `class`    | `string`                                | `""`        | CSS class appended to the base class.        |
-| `label`    | `string`                                | required    | Accessible name and button text.              |
-| `accept`   | `string`                                | `undefined` | Accepted file types.                          |
-| `multiple` | `boolean`                               | `false`     | Allow selecting multiple files.               |
-| `disabled` | `boolean`                               | `false`     | Whether the button is disabled.               |
-| `onchange` | `(files: FileList \| null) => void`     | `undefined` | Callback when files are selected.             |
-| `...rest`  | `unknown`                               | —           | Additional HTML attributes on the wrapper.    |
+| Prop       | Type                                | Default     | Description                                |
+| ---------- | ----------------------------------- | ----------- | ------------------------------------------ |
+| `class`    | `string`                            | `""`        | CSS class appended to the base class.      |
+| `label`    | `string`                            | required    | Accessible name and button text.           |
+| `accept`   | `string`                            | `undefined` | Accepted file types.                       |
+| `multiple` | `boolean`                           | `false`     | Allow selecting multiple files.            |
+| `disabled` | `boolean`                           | `false`     | Whether the button is disabled.            |
+| `onchange` | `(files: FileList \| null) => void` | `undefined` | Callback when files are selected.          |
+| `...rest`  | `unknown`                           | —           | Additional HTML attributes on the wrapper. |
 
 ## Usage
 
 ### 1. Basic upload
 
 ```svelte
-<FileUpload label="Upload files" accept=".pdf" onchange={handleFiles} />
+<FileUpload
+  label="Upload files"
+  accept=".pdf"
+  onchange={handleFiles}
+/>
 ```
 
 ### 2. Multiple images
 
 ```svelte
 <FileUpload
-    label="Upload images"
-    accept="image/*"
-    multiple
-    onchange={handleImages}
+  label="Upload images"
+  accept="image/*"
+  multiple
+  onchange={handleImages}
 />
 ```
 
 ### 3. Disabled state
 
 ```svelte
-<FileUpload label="Upload" disabled />
+<FileUpload
+  label="Upload"
+  disabled
+/>
 ```
 
 ### 4. Inside a Field
 
 ```svelte
 <Field label="Supporting documents">
-    <FileUpload
-        label="Attach files"
-        accept=".pdf,.doc,.docx"
-        multiple
-        onchange={handleFiles}
-    />
+  <FileUpload
+    label="Attach files"
+    accept=".pdf,.doc,.docx"
+    multiple
+    onchange={handleFiles}
+  />
 </Field>
 ```
 
@@ -92,14 +105,18 @@ Provide an accessible `label` (also used as button text) and a handler.
 
 ```svelte
 <script lang="ts">
-    import FileUpload from "./FileUpload.svelte";
-    async function handleFiles(files: FileList | null) {
-        if (!files) return;
-        for (const file of files) await upload(file);
-    }
+  import FileUpload from "./FileUpload.svelte";
+  async function handleFiles(files: FileList | null) {
+    if (!files) return;
+    for (const file of files) await upload(file);
+  }
 </script>
 
-<FileUpload label="Upload" multiple onchange={handleFiles} />
+<FileUpload
+  label="Upload"
+  multiple
+  onchange={handleFiles}
+/>
 ```
 
 ## Accessibility

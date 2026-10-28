@@ -25,23 +25,49 @@ This component is ideal when you need a bare checkbox that you will wrap in your
 ## Usage
 
 ```html
-<Fieldset legend="What symptoms are you experiencing?">
+<fieldset legend="What symptoms are you experiencing?">
   <Hint>Select all that apply</Hint>
   <CheckboxGroup>
-    <CheckboxInput label="Headache" name="symptoms" value="headache" />
-    <CheckboxInput label="Fever" name="symptoms" value="fever" />
-    <CheckboxInput label="Cough" name="symptoms" value="cough" />
-    <CheckboxInput label="Fatigue" name="symptoms" value="fatigue" />
+    <CheckboxInput
+      label="Headache"
+      name="symptoms"
+      value="headache"
+    />
+    <CheckboxInput
+      label="Fever"
+      name="symptoms"
+      value="fever"
+    />
+    <CheckboxInput
+      label="Cough"
+      name="symptoms"
+      value="cough"
+    />
+    <CheckboxInput
+      label="Fatigue"
+      name="symptoms"
+      value="fatigue"
+    />
   </CheckboxGroup>
-</Fieldset>
+</fieldset>
 ```
 
 ```html
-<CheckboxInput label="I agree to the terms and conditions" checked={agreed} required name="terms" value="yes" />
+<CheckboxInput
+  label="I agree to the terms and conditions"
+  checked="{agreed}"
+  required
+  name="terms"
+  value="yes"
+/>
 ```
 
 ```html
-<CheckboxInput label="Subscribe to newsletter" checked={subscribed} disabled={!hasEmail} />
+<CheckboxInput
+  label="Subscribe to newsletter"
+  checked="{subscribed}"
+  disabled="{!hasEmail}"
+/>
 ```
 
 ## Keyboard Interactions
@@ -71,17 +97,14 @@ This component is ideal when you need a bare checkbox that you will wrap in your
 
 This headless CheckboxInput component provides a native `<input type="checkbox">` with `aria-label` for accessible naming, two-way binding on the `checked` prop, and support for `disabled`, `required`, and form attributes. The consumer provides all visual styling including custom checkbox indicators, colors, sizes, and label positioning.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.checkbox-input` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
 
-
 - Verify the component renders a `<input>` element with class `checkbox-input`
-- Verify aria-label={label}` -- provides an accessible name for the checkbox since there is no visible `<label>` element
+- Verify aria-label={label}`-- provides an accessible name for the checkbox since there is no visible`<label>` element
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied
 

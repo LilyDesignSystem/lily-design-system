@@ -50,17 +50,17 @@ entry in `labels` is not rendered: an unnamed button is worse than no button.
 
 ## Props
 
-| Prop | Type | Required | Default | Purpose |
-| ---- | ---- | -------- | ------- | ------- |
-| `label` | `string` | yes | — | Accessible name of the textarea. |
-| `toolbarLabel` | `string` | yes | — | Accessible name of the toolbar. |
-| `labels` | `object` | yes | — | Accessible name per tool; a tool without one is not rendered. |
-| `tools` | `string[]` | no | all nine | Which tools to show, and in what order. |
-| `headingLevel` | `1`–`6` | no | `2` | How many `#` the heading tool writes. |
-| `value` | `string` | no | `""` | The initial text. |
-| `name`, `id`, `rows`, `placeholder`, `disabled`, `readonly`, `required` | | no | | Passed to the `<textarea>`. |
-| `classes`, `attributes` | | no | | Appended to the root class; extra attributes on the root. |
-| `lily:valuechange` (client event) | `CustomEvent<{ value: string }>` | | | On the root after every change, typed or from a tool. |
+| Prop                                                                    | Type                             | Required | Default  | Purpose                                                       |
+| ----------------------------------------------------------------------- | -------------------------------- | -------- | -------- | ------------------------------------------------------------- |
+| `label`                                                                 | `string`                         | yes      | —        | Accessible name of the textarea.                              |
+| `toolbarLabel`                                                          | `string`                         | yes      | —        | Accessible name of the toolbar.                               |
+| `labels`                                                                | `object`                         | yes      | —        | Accessible name per tool; a tool without one is not rendered. |
+| `tools`                                                                 | `string[]`                       | no       | all nine | Which tools to show, and in what order.                       |
+| `headingLevel`                                                          | `1`–`6`                          | no       | `2`      | How many `#` the heading tool writes.                         |
+| `value`                                                                 | `string`                         | no       | `""`     | The initial text.                                             |
+| `name`, `id`, `rows`, `placeholder`, `disabled`, `readonly`, `required` |                                  | no       |          | Passed to the `<textarea>`.                                   |
+| `classes`, `attributes`                                                 |                                  | no       |          | Appended to the root class; extra attributes on the root.     |
+| `lily:valuechange` (client event)                                       | `CustomEvent<{ value: string }>` |          |          | On the root after every change, typed or from a tool.         |
 
 `ToolId` is `heading | bold | italic | strikethrough | code | link | quote | bulletList | numberedList`.
 
@@ -84,25 +84,47 @@ entry in `labels` is not rendered: an unnamed button is worse than no button.
 
 ```html
 <div class="markdown-editor {class}">
-  <div class="markdown-editor-toolbar" role="toolbar" aria-label aria-controls aria-orientation="horizontal">
-    <button class="markdown-editor-button" type="button" data-tool="bold" aria-label tabindex="0">
-      <svg class="markdown-editor-icon" aria-hidden="true">…</svg>
+  <div
+    class="markdown-editor-toolbar"
+    role="toolbar"
+    aria-label
+    aria-controls
+    aria-orientation="horizontal"
+  >
+    <button
+      class="markdown-editor-button"
+      type="button"
+      data-tool="bold"
+      aria-label
+      tabindex="0"
+    >
+      <svg
+        class="markdown-editor-icon"
+        aria-hidden="true"
+      >
+        …
+      </svg>
     </button>
     …
   </div>
-  <textarea class="markdown-editor-textarea" aria-label name …></textarea>
+  <textarea
+    class="markdown-editor-textarea"
+    aria-label
+    name
+    …
+  ></textarea>
 </div>
 ```
 
 ## Keyboard
 
-| Where    | Key                            | Action                                       |
-| -------- | ------------------------------ | -------------------------------------------- |
-| Toolbar  | `←` `→`                        | Move to the previous / next button (clamps). |
-| Toolbar  | `Home` `End`                   | First / last button.                         |
-| Toolbar  | `Tab`                          | Into the toolbar (one tab stop), then out.   |
-| Toolbar  | `Enter` `Space`                | Apply the tool; focus returns to the text.   |
-| Textarea | `Ctrl`/`Cmd` + `B` `I` `K`     | Bold, italic, link.                          |
+| Where    | Key                        | Action                                       |
+| -------- | -------------------------- | -------------------------------------------- |
+| Toolbar  | `←` `→`                    | Move to the previous / next button (clamps). |
+| Toolbar  | `Home` `End`               | First / last button.                         |
+| Toolbar  | `Tab`                      | Into the toolbar (one tab stop), then out.   |
+| Toolbar  | `Enter` `Space`            | Apply the tool; focus returns to the text.   |
+| Textarea | `Ctrl`/`Cmd` + `B` `I` `K` | Bold, italic, link.                          |
 
 ## What it is not
 

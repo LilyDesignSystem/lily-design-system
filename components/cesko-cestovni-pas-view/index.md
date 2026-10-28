@@ -22,7 +22,7 @@ CeskoCestovniPasView is a headless read-only display of Czech Republic's Cestovn
 ```html
 <SummaryList>
   <SummaryListItem term="Czech Passport">
-    <CeskoCestovniPasView value={value} />
+    <CeskoCestovniPasView value="{value}" />
   </SummaryListItem>
 </SummaryList>
 ```

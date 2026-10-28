@@ -22,7 +22,11 @@ The component supports both determinate progress (with a known value and maximum
 ## Usage
 
 ```tsx
-<Progress label="Upload progress" value={50} max={100} />
+<Progress
+  label="Upload progress"
+  value={50}
+  max={100}
+/>
 ```
 
 ```tsx
@@ -30,7 +34,11 @@ The component supports both determinate progress (with a known value and maximum
 ```
 
 ```tsx
-<Progress label="Installation" value={3} max={5} />
+<Progress
+  label="Installation"
+  value={3}
+  max={5}
+/>
 ```
 
 ## Keyboard Interactions

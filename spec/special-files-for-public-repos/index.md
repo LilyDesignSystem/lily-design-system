@@ -54,24 +54,24 @@ or the publish pipeline (see [tooling](../tooling/index.md)).
 
 ## The file set
 
-| File | Mode | Notes |
-| --- | --- | --- |
-| `README.md` | local | Symlink to `index.md`; already present everywhere; untouched by the sync |
-| `LICENSE.md` | copy | SPDX expression + trademark note. **The reason this topic exists** |
-| `CITATION.cff` | generate | Per-repository title, abstract, and `repository-code`; shared author and ORCID |
-| `NEWS.md` | copy | News, release highlights, press contacts, boilerplate |
-| `COMPARISONS.md` | copy | Positioning against other design systems, with honest limitations |
-| `BENCHMARKS.md` | copy | Measured package sizes and test scale; states plainly that no runtime benchmarks exist |
-| `INSTALL.md` | generate | Per-framework install and usage; the file that most needs to differ |
-| `CONTRIBUTING.md` | copy | Time, code, and money |
-| `CODEOWNERS` | copy | `@joelparkerhenderson` and <joel@joelparkerhenderson.com> |
-| `MAINTAINERS.md` | copy | Roster and the bus-factor-of-one continuity statement |
-| `CHANGELOG.md` | local, else stub | 10 subprojects have real ones; the rest get a pointer |
-| `AI_STATEMENT.md` | copy | Disclosure of AI use in development |
-| `GOVERNANCE.md` | copy | Who decides, where decisions are recorded, what the project will not do |
-| `SECURITY.md` | copy | Supported versions, reporting route, scope and non-scope |
-| `CODE_OF_CONDUCT.md` | copy | Required: `CONTRIBUTING.md` links to it |
-| `RFC.md` | copy | Open questions the project wants answered |
+| File                 | Mode             | Notes                                                                                  |
+| -------------------- | ---------------- | -------------------------------------------------------------------------------------- |
+| `README.md`          | local            | Symlink to `index.md`; already present everywhere; untouched by the sync               |
+| `LICENSE.md`         | copy             | SPDX expression + trademark note. **The reason this topic exists**                     |
+| `CITATION.cff`       | generate         | Per-repository title, abstract, and `repository-code`; shared author and ORCID         |
+| `NEWS.md`            | copy             | News, release highlights, press contacts, boilerplate                                  |
+| `COMPARISONS.md`     | copy             | Positioning against other design systems, with honest limitations                      |
+| `BENCHMARKS.md`      | copy             | Measured package sizes and test scale; states plainly that no runtime benchmarks exist |
+| `INSTALL.md`         | generate         | Per-framework install and usage; the file that most needs to differ                    |
+| `CONTRIBUTING.md`    | copy             | Time, code, and money                                                                  |
+| `CODEOWNERS`         | copy             | `@joelparkerhenderson` and <joel@joelparkerhenderson.com>                              |
+| `MAINTAINERS.md`     | copy             | Roster and the bus-factor-of-one continuity statement                                  |
+| `CHANGELOG.md`       | local, else stub | 10 subprojects have real ones; the rest get a pointer                                  |
+| `AI_STATEMENT.md`    | copy             | Disclosure of AI use in development                                                    |
+| `GOVERNANCE.md`      | copy             | Who decides, where decisions are recorded, what the project will not do                |
+| `SECURITY.md`        | copy             | Supported versions, reporting route, scope and non-scope                               |
+| `CODE_OF_CONDUCT.md` | copy             | Required: `CONTRIBUTING.md` links to it                                                |
+| `RFC.md`             | copy             | Open questions the project wants answered                                              |
 
 `AI_STATEMENT.md` in this directory is the **project-agnostic template** — the
 reusable form, with no Lily-specific content. The root `AI_STATEMENT.md` is Lily's
@@ -90,11 +90,11 @@ vulnerabilities filed as public issues.
 For every copied file, each markdown link target that is relative (not `http`,
 `mailto:`, or a bare `#anchor`) is tested against the destination directory:
 
-| Condition | Result |
-| --- | --- |
-| Target exists in the destination subproject | Left relative |
-| Target is missing, and names a file | `https://github.com/LilyDesignSystem/lily-design-system/blob/main/{target}` |
-| Target is missing, and names a directory | `https://github.com/LilyDesignSystem/lily-design-system/tree/main/{target}` |
+| Condition                                   | Result                                                                      |
+| ------------------------------------------- | --------------------------------------------------------------------------- |
+| Target exists in the destination subproject | Left relative                                                               |
+| Target is missing, and names a file         | `https://github.com/LilyDesignSystem/lily-design-system/blob/main/{target}` |
+| Target is missing, and names a directory    | `https://github.com/LilyDesignSystem/lily-design-system/tree/main/{target}` |
 
 So a link whose target is `spec/index.md` stays relative in a headless subproject,
 which has its own `spec/index.md`, while a link to the catalog TSV becomes an
@@ -102,11 +102,11 @@ absolute link on the canonical repository, which is the only place that file exi
 
 ## Tooling
 
-| Script | Purpose |
-| --- | --- |
+| Script                                                   | Purpose                                                                                             |
+| -------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
 | [`bin/sync-special-files`](../../bin/sync-special-files) | Propagate the set into all 172 subprojects, rewriting links and generating the per-subproject files |
-| [`bin/test`](../../bin/test) | Verify the set is present and non-empty in the root and every subproject |
-| [`bin/check-links`](../../bin/check-links) | Verify every rewritten relative link still resolves |
+| [`bin/test`](../../bin/test)                             | Verify the set is present and non-empty in the root and every subproject                            |
+| [`bin/check-links`](../../bin/check-links)               | Verify every rewritten relative link still resolves                                                 |
 
 `bin/sync-special-files` is idempotent: running it twice produces no diff. Run it
 after editing any canonical file, and before publishing.

@@ -15,12 +15,12 @@ language [- script] [- region] [- variant]* [- extension]* [- privateuse]
 
 The subtags come from four sources:
 
-| Subtag type | Source                       | Example                                    |
-| ----------- | ---------------------------- | ------------------------------------------ |
-| Language    | ISO 639-1 / 639-3            | `en`, `zh`, `cmn`                          |
-| Script      | ISO 15924                    | `Latn`, `Hant`, `Arab`                     |
-| Region      | ISO 3166-1 alpha-2 / UN M.49 | `US`, `GB`, `419` (Latin America)          |
-| Variant     | IANA Language Subtag Registry | `valencia`, `1996`, `posix`              |
+| Subtag type | Source                        | Example                           |
+| ----------- | ----------------------------- | --------------------------------- |
+| Language    | ISO 639-1 / 639-3             | `en`, `zh`, `cmn`                 |
+| Script      | ISO 15924                     | `Latn`, `Hant`, `Arab`            |
+| Region      | ISO 3166-1 alpha-2 / UN M.49  | `US`, `GB`, `419` (Latin America) |
+| Variant     | IANA Language Subtag Registry | `valencia`, `1996`, `posix`       |
 
 The IANA Language Subtag Registry is the **single source of truth**
 for every subtag. The ISO standards are upstream of it, but the
@@ -37,10 +37,10 @@ BCP stands for "Best Current Practice", which is the IETF's name
 for a series of RFCs whose numbers change as the practice is
 updated. **BCP 47** today maps to:
 
-| Document | Title                                                    | Status                                                |
-| -------- | -------------------------------------------------------- | ----------------------------------------------------- |
-| RFC 5646 | Tags for Identifying Languages                           | Current syntax (obsoletes 4646, 3066, 1766).          |
-| RFC 4647 | Matching of Language Tags                                | Current matching (lookup, filtering, best-fit).       |
+| Document | Title                          | Status                                          |
+| -------- | ------------------------------ | ----------------------------------------------- |
+| RFC 5646 | Tags for Identifying Languages | Current syntax (obsoletes 4646, 3066, 1766).    |
+| RFC 4647 | Matching of Language Tags      | Current matching (lookup, filtering, best-fit). |
 
 When a tutorial says "use BCP 47 tags", they mean tags that
 conform to RFC 5646's grammar. When a tutorial says "use BCP 47
@@ -69,10 +69,10 @@ References:
 
 Two conventions exist:
 
-| Form              | Used by                                                                       | Example       |
-| ----------------- | ----------------------------------------------------------------------------- | ------------- |
-| **Hyphen** (`-`)  | BCP 47 (the spec), HTML `lang`, all browsers, CLDR's "BCP 47 form"            | `en-US`       |
-| **Underscore** (`_`) | POSIX locale identifiers, Java, ICU, glibc, CLDR "POSIX form", `Accept-Language` legacy | `en_US`       |
+| Form                 | Used by                                                                                 | Example |
+| -------------------- | --------------------------------------------------------------------------------------- | ------- |
+| **Hyphen** (`-`)     | BCP 47 (the spec), HTML `lang`, all browsers, CLDR's "BCP 47 form"                      | `en-US` |
+| **Underscore** (`_`) | POSIX locale identifiers, Java, ICU, glibc, CLDR "POSIX form", `Accept-Language` legacy | `en_US` |
 
 The two are otherwise interchangeable. This helper accepts either
 form in your `locales` attribute (treats them as equivalent for
@@ -82,12 +82,12 @@ round-trips are lossless.
 
 If you want canonical casing while you're at it:
 
-| Subtag type | Canonical case | Example  |
-| ----------- | -------------- | -------- |
-| Language    | lowercase      | `en`, `zh` |
+| Subtag type | Canonical case | Example        |
+| ----------- | -------------- | -------------- |
+| Language    | lowercase      | `en`, `zh`     |
 | Script      | Title Case     | `Hant`, `Latn` |
-| Region      | UPPERCASE      | `US`, `GB` |
-| Variant     | lowercase      | `valencia` |
+| Region      | UPPERCASE      | `US`, `GB`     |
+| Variant     | lowercase      | `valencia`     |
 
 So `zh_Hant_TW` and `zh-Hant-TW` are both fine on input; the
 spec-canonical written form is `zh-Hant-TW`.
@@ -99,19 +99,19 @@ spec-canonical written form is `zh-Hant-TW`.
 You only need a script subtag when the language is written in more
 than one script. Common ones:
 
-| Code   | Script          | Used in                            |
-| ------ | --------------- | ---------------------------------- |
-| `Latn` | Latin           | English, French, Vietnamese, …     |
-| `Cyrl` | Cyrillic        | Russian, Serbian (Cyrillic), …     |
-| `Hant` | Han Traditional | Chinese (Taiwan, Hong Kong)        |
-| `Hans` | Han Simplified  | Chinese (Mainland, Singapore)      |
-| `Arab` | Arabic          | Arabic, Persian, Urdu, Uyghur, …   |
-| `Hebr` | Hebrew          | Hebrew, Yiddish                    |
-| `Thaa` | Thaana          | Divehi                             |
-| `Mong` | Mongolian       | Mongolian (traditional script)     |
-| `Syrc` | Syriac          | Syriac, Assyrian Neo-Aramaic       |
-| `Nkoo` | N'Ko            | Manding languages                  |
-| `Adlm` | Adlam           | Fulfulde                           |
+| Code   | Script          | Used in                          |
+| ------ | --------------- | -------------------------------- |
+| `Latn` | Latin           | English, French, Vietnamese, …   |
+| `Cyrl` | Cyrillic        | Russian, Serbian (Cyrillic), …   |
+| `Hant` | Han Traditional | Chinese (Taiwan, Hong Kong)      |
+| `Hans` | Han Simplified  | Chinese (Mainland, Singapore)    |
+| `Arab` | Arabic          | Arabic, Persian, Urdu, Uyghur, … |
+| `Hebr` | Hebrew          | Hebrew, Yiddish                  |
+| `Thaa` | Thaana          | Divehi                           |
+| `Mong` | Mongolian       | Mongolian (traditional script)   |
+| `Syrc` | Syriac          | Syriac, Assyrian Neo-Aramaic     |
+| `Nkoo` | N'Ko            | Manding languages                |
+| `Adlm` | Adlam           | Fulfulde                         |
 
 `Arab`, `Hebr`, `Thaa`, `Mong`, `Syrc`, `Nkoo`, and `Adlm` are
 right-to-left and trigger `dir="rtl"` in this helper regardless of
@@ -157,12 +157,11 @@ valid; the helper's RTL set includes both for back-compat.
 
 ## How `Intl.DisplayNames` fits
 
-Modern browsers ship `Intl.DisplayNames` (ECMA-402, Stage 4 since
-2021) which translates BCP 47 tags into human names in any locale:
+Modern browsers ship `Intl.DisplayNames` (ECMA-402, Stage 4 since 2021) which translates BCP 47 tags into human names in any locale:
 
 ```ts
 const dn = new Intl.DisplayNames(["fr"], { type: "language" });
-dn.of("en-US");   // "anglais (États-Unis)"
+dn.of("en-US"); // "anglais (États-Unis)"
 dn.of("zh-Hant"); // "chinois (traditionnel)"
 ```
 

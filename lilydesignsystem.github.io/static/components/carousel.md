@@ -24,19 +24,31 @@ The consumer is responsible for providing the slide content as children and impl
 
 ```html
 <Carousel label="Customer testimonials">
-  <div role="group" aria-roledescription="slide" aria-label="Slide 1 of 3">
+  <div
+    role="group"
+    aria-roledescription="slide"
+    aria-label="Slide 1 of 3"
+  >
     <blockquote>
       <p>"The service transformed how we manage patient records."</p>
       <cite>Dr Sarah Mitchell, GP</cite>
     </blockquote>
   </div>
-  <div role="group" aria-roledescription="slide" aria-label="Slide 2 of 3">
+  <div
+    role="group"
+    aria-roledescription="slide"
+    aria-label="Slide 2 of 3"
+  >
     <blockquote>
       <p>"Setup took less than a day and the team was incredibly helpful."</p>
       <cite>James O'Brien, Practice Manager</cite>
     </blockquote>
   </div>
-  <div role="group" aria-roledescription="slide" aria-label="Slide 3 of 3">
+  <div
+    role="group"
+    aria-roledescription="slide"
+    aria-label="Slide 3 of 3"
+  >
     <blockquote>
       <p>"We reduced administrative time by 40% in the first month."</p>
       <cite>Nurse Karen Phillips</cite>
@@ -47,13 +59,27 @@ The consumer is responsible for providing the slide content as children and impl
 
 ```html
 <Carousel label="Featured articles">
-  <div role="group" aria-roledescription="slide" aria-label="Slide 1 of 2">
-    <Image src="/images/article-1.jpg" alt="Accessible design patterns" />
+  <div
+    role="group"
+    aria-roledescription="slide"
+    aria-label="Slide 1 of 2"
+  >
+    <image
+      src="/images/article-1.jpg"
+      alt="Accessible design patterns"
+    />
     <h3>Building Accessible Forms</h3>
     <p>Learn how to create forms that work for everyone.</p>
   </div>
-  <div role="group" aria-roledescription="slide" aria-label="Slide 2 of 2">
-    <Image src="/images/article-2.jpg" alt="Component composition" />
+  <div
+    role="group"
+    aria-roledescription="slide"
+    aria-label="Slide 2 of 2"
+  >
+    <image
+      src="/images/article-2.jpg"
+      alt="Component composition"
+    />
     <h3>Component Composition Patterns</h3>
     <p>How to combine headless components for complex UIs.</p>
   </div>
@@ -68,6 +94,7 @@ The component supplies only the labelled region. Everything that makes a carouse
 example of the tabbed variant.)
 
 **Rotation control (WCAG 2.2.2).** Anything that moves on its own for more than five seconds needs a way to pause it.
+
 - Start paused. Do not auto-rotate until the reader presses Play, or when `prefers-reduced-motion` is set.
 - Put a real `<button>` Pause / Play first in the carousel. Its accessible name changes with the state ("Pause gallery",
   "Play gallery", supplied by the consumer), and focus stays on it when pressed.
@@ -77,6 +104,7 @@ example of the tabbed variant.)
 consumer's, by locale). In the tabbed variant each slide is `role="tabpanel"` and is labelled by its tab instead.
 
 **Slide controls.** Either Previous / Next `<button>`s, or a tablist:
+
 - `role="tablist"` with a `role="tab"` per slide, `aria-selected` on the current one and `aria-controls` naming its slide.
 - Roving tabindex: only the selected tab is tabbable. ArrowLeft / ArrowRight move between tabs and select them, Home / End
   jump to the first and last (reverse the arrows under `dir="rtl"`).
@@ -119,7 +147,6 @@ None -- this component is a passive container. The consumer builds the controls 
 
 This headless Carousel component provides the semantic container with `role="region"`, `aria-roledescription="carousel"`, and `aria-label` for screen reader identification. The consumer provides all visual styling, slide navigation controls (previous/next buttons, pagination dots), autoplay logic, transition animations, and slide layout.
 
-
 ## Reduced motion
 
 Reduced motion changes how content appears, never whether it does. Apply it in consumer CSS under `@media (prefers-reduced-motion: reduce)` and under the `motion-picker`'s `[data-motion="reduce"]` on the document root (the 57 reference themes already honour both for the preference hooks they style). For a carousel, the rules are in "Controls the consumer builds" above: no auto-rotation under the preference, and an instant change or a cross-fade in place of the slide transition. The slides still change, so no content is dropped.
@@ -128,9 +155,7 @@ Reduced motion changes how content appears, never whether it does. Apply it in c
 
 The consumer provides all CSS styling. The component renders with a `.carousel` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `carousel`
 - Verify role="region"` -- identifies the carousel as a landmark region so screen readers can navigate to it.

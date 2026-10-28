@@ -62,14 +62,11 @@ None -- this component is a passive container. Keyboard navigation is handled by
 
 This headless component provides a `<tbody>` element with implicit `rowgroup` role for grouping body rows within a Gantt chart grid. The consumer provides all visual styling including row spacing, alternating row colors, and bar rendering.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.gantt-table-tbody` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<tbody>` element with class `gantt-table-tbody`
 - Verify pass-through attributes are applied

@@ -28,28 +28,28 @@ locale lifecycle and starts closed on every mount.
 ```tsx
 const initialisedRef = React.useRef(false);
 React.useEffect(() => {
-    if (initialisedRef.current) return;
-    initialisedRef.current = true;
+  if (initialisedRef.current) return;
+  initialisedRef.current = true;
 
-    const initial = resolveInitialLocale(
-        currentValue || undefined,
-        storageKey,
-        detectFromNavigator,
-        defaultValue,
-        locales,
-    );
-    if (!initial) return;
+  const initial = resolveInitialLocale(
+    currentValue || undefined,
+    storageKey,
+    detectFromNavigator,
+    defaultValue,
+    locales,
+  );
+  if (!initial) return;
 
-    if (isControlled) {
-        applyLocale(initial);
+  if (isControlled) {
+    applyLocale(initial);
+  } else {
+    if (initial !== internalValue) {
+      setInternalValue(initial);
     } else {
-        if (initial !== internalValue) {
-            setInternalValue(initial);
-        } else {
-            applyLocale(initial);
-        }
+      applyLocale(initial);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
 }, []);
 ```
 
@@ -64,10 +64,10 @@ Properties:
 
 ```tsx
 React.useEffect(() => {
-    if (!initialisedRef.current) return;
-    if (!currentValue) return;
-    applyLocale(currentValue);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  if (!initialisedRef.current) return;
+  if (!currentValue) return;
+  applyLocale(currentValue);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [currentValue]);
 ```
 
@@ -85,16 +85,16 @@ Four more effects manage the listbox. They never touch the locale.
 
 ```tsx
 React.useEffect(() => {
-    if (open) {
-        listRef.current?.focus();
-    } else if (refocusRef.current) {
-        refocusRef.current = false;
-        buttonRef.current?.focus();
-    }
+  if (open) {
+    listRef.current?.focus();
+  } else if (refocusRef.current) {
+    refocusRef.current = false;
+    buttonRef.current?.focus();
+  }
 }, [open]);
 ```
 
-Focus moves *after* the commit, so the `<ul>` is already unhidden when
+Focus moves _after_ the commit, so the `<ul>` is already unhidden when
 `.focus()` runs. `refocusRef` is set by `closeList(true)` — selection,
 `Escape`, and the button toggle — and left unset by `closeList(false)`
 for `Tab`, outside clicks, and focus-out, where the user has already
@@ -104,7 +104,7 @@ chosen where focus goes.
 
 ```tsx
 React.useEffect(() => {
-    if (open) scrollActiveIntoView(activeIndex);
+  if (open) scrollActiveIntoView(activeIndex);
 }, [open, activeIndex]);
 ```
 
@@ -116,10 +116,12 @@ throw without it.
 
 ```tsx
 React.useEffect(() => {
-    if (!open) return;
-    function onDocumentClick(event: MouseEvent) { /* … */ }
-    document.addEventListener("click", onDocumentClick);
-    return () => document.removeEventListener("click", onDocumentClick);
+  if (!open) return;
+  function onDocumentClick(event: MouseEvent) {
+    /* … */
+  }
+  document.addEventListener("click", onDocumentClick);
+  return () => document.removeEventListener("click", onDocumentClick);
 }, [open]);
 ```
 
@@ -147,9 +149,9 @@ still inside the root (button ↔ list moves), and otherwise closes with
 
 ```tsx
 function choose(index: number): void {
-    const code = locales[index];
-    if (code) setLocale(code);
-    closeList();
+  const code = locales[index];
+  if (code) setLocale(code);
+  closeList();
 }
 ```
 
@@ -160,29 +162,34 @@ Used by both `Enter` / `Space` on the list and by an option's
 
 ```tsx
 function resolveInitialLocale(
-    value: string | undefined,
-    storageKey: string | undefined,
-    detectFromNavigator: boolean,
-    defaultValue: string | undefined,
-    locales: string[],
+  value: string | undefined,
+  storageKey: string | undefined,
+  detectFromNavigator: boolean,
+  defaultValue: string | undefined,
+  locales: string[],
 ): string {
-    if (value) return value;
-    if (storageKey) {
-        try {
-            const stored = localStorage.getItem(storageKey);
-            if (stored) return stored;
-        } catch { /* ignore */ }
+  if (value) return value;
+  if (storageKey) {
+    try {
+      const stored = localStorage.getItem(storageKey);
+      if (stored) return stored;
+    } catch {
+      /* ignore */
     }
-    if (detectFromNavigator && typeof navigator !== "undefined") {
-        const navLangs = navigator.languages && navigator.languages.length > 0
-            ? Array.from(navigator.languages)
-            : navigator.language ? [navigator.language] : [];
-        const match = matchNavigatorLanguage(navLangs, locales);
-        if (match) return match;
-    }
-    if (defaultValue) return defaultValue;
-    if (locales.includes("en")) return "en";
-    return locales[0] ?? "";
+  }
+  if (detectFromNavigator && typeof navigator !== "undefined") {
+    const navLangs =
+      navigator.languages && navigator.languages.length > 0
+        ? Array.from(navigator.languages)
+        : navigator.language
+          ? [navigator.language]
+          : [];
+    const match = matchNavigatorLanguage(navLangs, locales);
+    if (match) return match;
+  }
+  if (defaultValue) return defaultValue;
+  if (locales.includes("en")) return "en";
+  return locales[0] ?? "";
 }
 ```
 
@@ -200,24 +207,24 @@ Order matches [`spec/index.md §5.2`](../spec/index.md#52-initial-value-resoluti
 
 ```ts
 export function matchNavigatorLanguage(
-    navLangs: readonly string[],
-    locales: readonly string[],
+  navLangs: readonly string[],
+  locales: readonly string[],
 ): string | "" {
-    const lc = (s: string) => s.toLowerCase().replace(/_/g, "-");
-    const localesLc = locales.map(lc);
-    for (const raw of navLangs) {
-        const nav = lc(raw);
-        // 1. Exact match.
-        const exactIndex = localesLc.indexOf(nav);
-        if (exactIndex !== -1) return locales[exactIndex];
-        // 2. Language-only match.
-        const navBase = nav.split("-")[0];
-        for (let i = 0; i < locales.length; i++) {
-            const base = localesLc[i].split("-")[0];
-            if (base === navBase) return locales[i];
-        }
+  const lc = (s: string) => s.toLowerCase().replace(/_/g, "-");
+  const localesLc = locales.map(lc);
+  for (const raw of navLangs) {
+    const nav = lc(raw);
+    // 1. Exact match.
+    const exactIndex = localesLc.indexOf(nav);
+    if (exactIndex !== -1) return locales[exactIndex];
+    // 2. Language-only match.
+    const navBase = nav.split("-")[0];
+    for (let i = 0; i < locales.length; i++) {
+      const base = localesLc[i].split("-")[0];
+      if (base === navBase) return locales[i];
     }
-    return "";
+  }
+  return "";
 }
 ```
 
@@ -228,18 +235,20 @@ RFC 4647 best-fit matcher — consumers needing that bring their own.
 
 ```tsx
 function applyLocale(code: string): void {
-    if (typeof document === "undefined" || !code) return;
-    const root = target ?? document.documentElement;
-    root.setAttribute("lang", bcp47LocaleTag(code));
-    if (applyDir) {
-        root.setAttribute("dir", isRtlLocale(code) ? "rtl" : "ltr");
+  if (typeof document === "undefined" || !code) return;
+  const root = target ?? document.documentElement;
+  root.setAttribute("lang", bcp47LocaleTag(code));
+  if (applyDir) {
+    root.setAttribute("dir", isRtlLocale(code) ? "rtl" : "ltr");
+  }
+  if (storageKey) {
+    try {
+      localStorage.setItem(storageKey, code);
+    } catch {
+      /* ignore */
     }
-    if (storageKey) {
-        try {
-            localStorage.setItem(storageKey, code);
-        } catch { /* ignore */ }
-    }
-    onChange?.(code);
+  }
+  onChange?.(code);
 }
 ```
 
@@ -259,11 +268,11 @@ tag.
 
 ```ts
 function labelFor(locale: string): string {
-    if (locale in localeLabels) return localeLabels[locale];
-    if (locale in defaultLocaleLabels) return defaultLocaleLabels[locale];
-    const intl = intlDisplayName(locale);
-    if (intl) return intl;
-    return locale;
+  if (locale in localeLabels) return localeLabels[locale];
+  if (locale in defaultLocaleLabels) return defaultLocaleLabels[locale];
+  const intl = intlDisplayName(locale);
+  if (intl) return intl;
+  return locale;
 }
 ```
 
@@ -278,15 +287,13 @@ Four-step resolution per [`spec/index.md §5.4`](../spec/index.md#54-default-lab
 
 ```ts
 function intlDisplayName(locale: string): string {
-    try {
-        const env = typeof navigator !== "undefined" && navigator.language
-            ? navigator.language
-            : "en";
-        const dn = new Intl.DisplayNames([env], { type: "language" });
-        return dn.of(bcp47LocaleTag(locale)) ?? "";
-    } catch {
-        return "";
-    }
+  try {
+    const env = typeof navigator !== "undefined" && navigator.language ? navigator.language : "en";
+    const dn = new Intl.DisplayNames([env], { type: "language" });
+    return dn.of(bcp47LocaleTag(locale)) ?? "";
+  } catch {
+    return "";
+  }
 }
 ```
 
@@ -297,15 +304,15 @@ Try/catch guards old browsers, jsdom, and any environment where
 
 ```tsx
 function setLocale(code: string): void {
-    if (isControlled) {
-        // The consumer owns `value`; apply straight away so the DOM
-        // stays in step even if they never write the value back.
-        applyLocale(code);
-    } else {
-        // Effect 2 runs applyLocale, so the locale is applied exactly
-        // once per change.
-        setInternalValue(code);
-    }
+  if (isControlled) {
+    // The consumer owns `value`; apply straight away so the DOM
+    // stays in step even if they never write the value back.
+    applyLocale(code);
+  } else {
+    // Effect 2 runs applyLocale, so the locale is applied exactly
+    // once per change.
+    setInternalValue(code);
+  }
 }
 ```
 
@@ -344,10 +351,13 @@ transient unmount.
 If a consumer needs to clean up:
 
 ```tsx
-useEffect(() => () => {
+useEffect(
+  () => () => {
     document.documentElement.removeAttribute("lang");
     document.documentElement.removeAttribute("dir");
-}, []);
+  },
+  [],
+);
 ```
 
 Almost never needed.

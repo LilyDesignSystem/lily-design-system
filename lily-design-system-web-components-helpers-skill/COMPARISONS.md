@@ -13,32 +13,32 @@ component rows across 18 systems.
 
 ## Read the matrix carefully
 
-The matrix answers one question per cell: *does this system ship a component that
-matches this Lily row?* The rows are Lily's catalog, so **Lily scores 428/428 by
+The matrix answers one question per cell: _does this system ship a component that
+matches this Lily row?_ The rows are Lily's catalog, so **Lily scores 428/428 by
 construction**. That is a property of how the table was built, not evidence of
 superiority, and anyone using this table to evaluate Lily should discount it
 accordingly.
 
-| System | Rows matched (of 428) |
-| --- | --- |
-| Lily | 428 *(tautological — see above)* |
-| DaisyUI | 194 |
-| Flowbite | 188 |
-| Ant Design | 187 |
-| shadcn/ui | 152 |
-| Adobe Spectrum | 152 |
-| ONS Digital | 142 |
-| IBM Carbon | 131 |
-| Ark UI | 126 |
-| USWDS | 123 |
-| Wonderflow Wanda | 110 |
-| Skeleton | 103 |
-| Bits UI | 102 |
-| NHS UK | 95 |
-| Melt UI | 80 |
-| GOV.UK | 76 |
-| Mozilla Protocol | 30 |
-| 18F | not surveyed |
+| System           | Rows matched (of 428)            |
+| ---------------- | -------------------------------- |
+| Lily             | 428 _(tautological — see above)_ |
+| DaisyUI          | 194                              |
+| Flowbite         | 188                              |
+| Ant Design       | 187                              |
+| shadcn/ui        | 152                              |
+| Adobe Spectrum   | 152                              |
+| ONS Digital      | 142                              |
+| IBM Carbon       | 131                              |
+| Ark UI           | 126                              |
+| USWDS            | 123                              |
+| Wonderflow Wanda | 110                              |
+| Skeleton         | 103                              |
+| Bits UI          | 102                              |
+| NHS UK           | 95                               |
+| Melt UI          | 80                               |
+| GOV.UK           | 76                               |
+| Mozilla Protocol | 30                               |
+| 18F              | not surveyed                     |
 
 The honest reading: a mature system with 100–200 components has usually earned
 each one through production use. Lily has more entries; it has not yet had the
@@ -56,7 +56,7 @@ and Blazor on another can share a single stylesheet and a single set of componen
 docs. Ark UI is multi-framework (React, Vue, Solid); nothing else in the table
 spans this range, and nothing else includes Blazor or Nunjucks.
 
-**2. Headless *and* fully worked examples.**
+**2. Headless _and_ fully worked examples.**
 Most systems pick one side. Radix, Bits, Melt, and Ark ship behaviour and leave
 you the visuals. DaisyUI, Flowbite, Ant, Carbon, and Spectrum ship the visuals
 and their opinions with them. Lily ships an unstyled layer with zero CSS, plus
@@ -79,15 +79,15 @@ addresses this, and it is the one area where Lily's breadth is not just breadth.
 
 Written for someone deciding, not someone already convinced.
 
-| If you need | Use | Because |
-| --- | --- | --- |
-| Production-proven behaviour with years of edge cases | **Radix**, **Ark UI**, **Bits UI**, **React Aria** | Lily is new. Their combobox has met more browsers, screen readers, and users than Lily's has |
-| To ship a good-looking app this week | **DaisyUI**, **Flowbite**, **shadcn/ui**, **Skeleton** | They hand you the design. Lily deliberately does not |
-| A design language your team can adopt wholesale | **IBM Carbon**, **Adobe Spectrum**, **Ant Design** | Full token systems, Figma kits, and design guidance. Lily's `themes/` are references, not a language |
-| Actual GOV.UK or NHS compliance | **govuk-frontend**, **nhsuk-frontend** | Those are the real thing, maintained by the organisations, and audited. Lily's themes take *visual reference* from them and carry no endorsement |
-| A vendor relationship, SLA, or support contract | any commercial system | Lily is one unpaid person; see [MAINTAINERS.md](MAINTAINERS.md) |
-| An accessibility conformance statement or VPAT | **Carbon**, **Spectrum**, **USWDS** | Lily *targets* WCAG 2.2 AAA and runs automated AA checks. It has never been audited |
-| Copy-paste ownership of the source | **shadcn/ui** | Its model is deliberate and excellent. Lily supports copying too, but shadcn's tooling for it is better |
+| If you need                                          | Use                                                    | Because                                                                                                                                          |
+| ---------------------------------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Production-proven behaviour with years of edge cases | **Radix**, **Ark UI**, **Bits UI**, **React Aria**     | Lily is new. Their combobox has met more browsers, screen readers, and users than Lily's has                                                     |
+| To ship a good-looking app this week                 | **DaisyUI**, **Flowbite**, **shadcn/ui**, **Skeleton** | They hand you the design. Lily deliberately does not                                                                                             |
+| A design language your team can adopt wholesale      | **IBM Carbon**, **Adobe Spectrum**, **Ant Design**     | Full token systems, Figma kits, and design guidance. Lily's `themes/` are references, not a language                                             |
+| Actual GOV.UK or NHS compliance                      | **govuk-frontend**, **nhsuk-frontend**                 | Those are the real thing, maintained by the organisations, and audited. Lily's themes take _visual reference_ from them and carry no endorsement |
+| A vendor relationship, SLA, or support contract      | any commercial system                                  | Lily is one unpaid person; see [MAINTAINERS.md](MAINTAINERS.md)                                                                                  |
+| An accessibility conformance statement or VPAT       | **Carbon**, **Spectrum**, **USWDS**                    | Lily _targets_ WCAG 2.2 AAA and runs automated AA checks. It has never been audited                                                              |
+| Copy-paste ownership of the source                   | **shadcn/ui**                                          | Its model is deliberate and excellent. Lily supports copying too, but shadcn's tooling for it is better                                          |
 
 ## Honest limitations
 

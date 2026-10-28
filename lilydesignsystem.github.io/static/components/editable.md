@@ -30,28 +30,41 @@ This headless component toggles between a display state (`<span role="button">`)
 Inline-editable project name:
 
 ```html
-<Editable label="Project name" value={projectName} />
+<Editable
+  label="Project name"
+  value="{projectName}"
+/>
 ```
 
 Editable status text with controlled edit state:
 
 ```html
-<Editable label="Status" value={statusText} editing={isEditing} />
+<Editable
+  label="Status"
+  value="{statusText}"
+  editing="{isEditing}"
+/>
 ```
 
 Disabled editable field for read-only users:
 
 ```html
-<Editable label="Owner" value={ownerName} disabled={!canEdit} />
+<Editable
+  label="Owner"
+  value="{ownerName}"
+  disabled="{!canEdit}"
+/>
 ```
 
 ## Keyboard Interactions
 
 In display mode:
+
 - Enter: Activate edit mode
 - Space: Activate edit mode
 
 In edit mode:
+
 - Enter: Confirm the edit and return to display mode
 - Escape: Cancel the edit and return to display mode
 
@@ -80,14 +93,11 @@ In edit mode:
 
 This headless component provides a display mode (`<span>` with `role="button"`) and edit mode (`<input type="text">`) with full keyboard support (Enter to confirm, Escape to cancel), draft value management, two-way binding on both `value` and `editing`, and disabled state handling. The consumer provides all visual styling for both display and edit modes.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.editable` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `editable`
 - Verify the display-mode button's `aria-label` is `"value, label"` and the edit-mode input's is the `label`

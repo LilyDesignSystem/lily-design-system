@@ -16,9 +16,24 @@ Compound component: use with RedAmberGreenPicker.
 ## Usage
 
 ```svelte
-<RedAmberGreenPickerButton value="red" label="Red" selected={status === "red"} onclick={() => status = "red"} />
-<RedAmberGreenPickerButton value="amber" label="Amber" selected={status === "amber"} onclick={() => status = "amber"} />
-<RedAmberGreenPickerButton value="green" label="Green" selected={status === "green"} onclick={() => status = "green"} />
+<RedAmberGreenPickerButton
+  value="red"
+  label="Red"
+  selected={status === "red"}
+  onclick={() => (status = "red")}
+/>
+<RedAmberGreenPickerButton
+  value="amber"
+  label="Amber"
+  selected={status === "amber"}
+  onclick={() => (status = "amber")}
+/>
+<RedAmberGreenPickerButton
+  value="green"
+  label="Green"
+  selected={status === "green"}
+  onclick={() => (status = "green")}
+/>
 ```
 
 ## ARIA

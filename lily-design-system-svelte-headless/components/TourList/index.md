@@ -51,12 +51,25 @@ Import and place inside `Tour` (or use standalone with your own trigger), passin
   let step = $state(0);
 </script>
 
-<TourList label="Getting started" bind:active>
-  <TourListItem label="Welcome" current={step === 0} stepNumber={1} totalSteps={2}>
+<TourList
+  label="Getting started"
+  bind:active
+>
+  <TourListItem
+    label="Welcome"
+    current={step === 0}
+    stepNumber={1}
+    totalSteps={2}
+  >
     <p>Welcome!</p>
     <button onclick={() => step++}>Next</button>
   </TourListItem>
-  <TourListItem label="Done" current={step === 1} stepNumber={2} totalSteps={2}>
+  <TourListItem
+    label="Done"
+    current={step === 1}
+    stepNumber={2}
+    totalSteps={2}
+  >
     <button onclick={() => (active = false)}>Finish</button>
   </TourListItem>
 </TourList>
@@ -72,15 +85,36 @@ Import and place inside `Tour` (or use standalone with your own trigger), passin
   let step = $state(0);
 </script>
 
-<Tour label="Tour" bind:active>
-  <TourList label="Steps" active>
-    <TourListItem label="Intro" current={step === 0} stepNumber={1} totalSteps={3}>
+<Tour
+  label="Tour"
+  bind:active
+>
+  <TourList
+    label="Steps"
+    active
+  >
+    <TourListItem
+      label="Intro"
+      current={step === 0}
+      stepNumber={1}
+      totalSteps={3}
+    >
       Step 1 <button onclick={() => step++}>Next</button>
     </TourListItem>
-    <TourListItem label="Features" current={step === 1} stepNumber={2} totalSteps={3}>
+    <TourListItem
+      label="Features"
+      current={step === 1}
+      stepNumber={2}
+      totalSteps={3}
+    >
       Step 2 <button onclick={() => step++}>Next</button>
     </TourListItem>
-    <TourListItem label="Wrap up" current={step === 2} stepNumber={3} totalSteps={3}>
+    <TourListItem
+      label="Wrap up"
+      current={step === 2}
+      stepNumber={3}
+      totalSteps={3}
+    >
       <button onclick={() => (active = false)}>Done</button>
     </TourListItem>
   </TourList>
@@ -96,13 +130,31 @@ Import and place inside `Tour` (or use standalone with your own trigger), passin
   let step = $state(0);
 </script>
 
-<button onclick={() => { step = 0; active = true; }}>Launch tour</button>
+<button
+  onclick={() => {
+    step = 0;
+    active = true;
+  }}>Launch tour</button
+>
 
-<TourList label="Site tour" bind:active>
-  <TourListItem label="Dashboard" current={step === 0} stepNumber={1} totalSteps={2}>
+<TourList
+  label="Site tour"
+  bind:active
+>
+  <TourListItem
+    label="Dashboard"
+    current={step === 0}
+    stepNumber={1}
+    totalSteps={2}
+  >
     Dashboard overview <button onclick={() => step++}>Next</button>
   </TourListItem>
-  <TourListItem label="Settings" current={step === 1} stepNumber={2} totalSteps={2}>
+  <TourListItem
+    label="Settings"
+    current={step === 1}
+    stepNumber={2}
+    totalSteps={2}
+  >
     Settings overview <button onclick={() => (active = false)}>Close</button>
   </TourListItem>
 </TourList>
@@ -121,7 +173,10 @@ Import and place inside `Tour` (or use standalone with your own trigger), passin
   let step = $state(0);
 </script>
 
-<TourList label="Guided tour" bind:active>
+<TourList
+  label="Guided tour"
+  bind:active
+>
   {#each steps as s, i}
     <TourListItem
       label={s.label}

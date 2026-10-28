@@ -10,11 +10,14 @@ See [components/streaming-text/index.md](../../../components/streaming-text/inde
 
 ```svelte
 <script lang="ts">
-    import StreamingText from "./StreamingText.svelte";
+  import StreamingText from "./StreamingText.svelte";
 </script>
 
-<StreamingText label="Assistant answer" streaming={isStreaming}>
-    {answerSoFar}
+<StreamingText
+  label="Assistant answer"
+  streaming={isStreaming}
+>
+  {answerSoFar}
 </StreamingText>
 ```
 

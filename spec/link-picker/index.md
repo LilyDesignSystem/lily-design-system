@@ -16,24 +16,67 @@ Button:
   aria-expanded="false"
   aria-controls="link-picker-list"
 >
-  <svg class="link-picker-icon" viewBox="0 0 16 16" aria-hidden="true">…home…</svg>
+  <svg
+    class="link-picker-icon"
+    viewBox="0 0 16 16"
+    aria-hidden="true"
+  >
+    …home…
+  </svg>
 </button>
 ```
 
 Tooltip (a sibling right after the button, like every picker's):
 
 ```html
-<div class="link-picker-tooltip" role="tooltip" id="link-picker-tooltip" hidden>Pages</div>
+<div
+  class="link-picker-tooltip"
+  role="tooltip"
+  id="link-picker-tooltip"
+  hidden
+>
+  Pages
+</div>
 ```
 
 List:
 
 ```html
-<ul class="link-picker-list" id="link-picker-list" aria-label="Pages" hidden>
-  <li class="link-picker-list-item"><a class="link-picker-link" href="/" aria-current="page">Home</a></li>
-  <li class="link-picker-list-item"><a class="link-picker-link" href="/about/">About Us</a></li>
-  <li class="link-picker-list-item"><a class="link-picker-link" href="/contact/">Contact Us</a></li>
-  <li class="link-picker-list-item"><a class="link-picker-link" href="/privacy/">Privacy Policy</a></li>
+<ul
+  class="link-picker-list"
+  id="link-picker-list"
+  aria-label="Pages"
+  hidden
+>
+  <li class="link-picker-list-item">
+    <a
+      class="link-picker-link"
+      href="/"
+      aria-current="page"
+      >Home</a
+    >
+  </li>
+  <li class="link-picker-list-item">
+    <a
+      class="link-picker-link"
+      href="/about/"
+      >About Us</a
+    >
+  </li>
+  <li class="link-picker-list-item">
+    <a
+      class="link-picker-link"
+      href="/contact/"
+      >Contact Us</a
+    >
+  </li>
+  <li class="link-picker-list-item">
+    <a
+      class="link-picker-link"
+      href="/privacy/"
+      >Privacy Policy</a
+    >
+  </li>
 </ul>
 ```
 

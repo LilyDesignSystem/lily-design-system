@@ -20,7 +20,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
 - Added field `validate` (with `aria-invalid` and `labels.editRefused`) and undo / redo of field edits (Ctrl/Cmd+Z, Ctrl/Cmd+Shift+Z / Ctrl+Y) through the `fieldEdit` output.
 - Added PageUp / PageDown and type-ahead to the grid keyboard.
 - Added copy to the clipboard (`labels.copy`, `copyAnnouncement`, `copyFailed`, `copyHandler`; `toClipboardText`, `copyToClipboard`).
-- Search: every word must appear (any order), ignoring case and diacritics; typed field text is searched; matches are highlighted with `<mark>` (not in the data grid's cells); `labels.searchAnnouncement(matches, total)`; Escape clears. 
+- Search: every word must appear (any order), ignoring case and diacritics; typed field text is searched; matches are highlighted with `<mark>` (not in the data grid's cells); `labels.searchAnnouncement(matches, total)`; Escape clears.
 - Ported from the Svelte 0.7.0; the pure modules come from `shared/` (`bin/sync-shared-modules`).
 
 ## 0.6.0 — 2026-10-16
@@ -114,7 +114,7 @@ One additive extension to the shared headless `IconButton` component
 needed and made: a `tabIndex` input (default `null`, unchanged
 behaviour when unset) so the per-card move-menu trigger is not an
 independent Tab stop inside the WAI-ARIA APG grid — the roving-tabindex
-cursor must be the *only* stop. The Svelte reference achieves the same
+cursor must be the _only_ stop. The Svelte reference achieves the same
 thing with a plain `tabindex="-1"` rest-prop spread, which Angular's
 `IconButton` (no generic spread-onto-inputs mechanism, per its own doc
 comment) has no equivalent for. This mirrors the same additive-only
@@ -130,7 +130,7 @@ calibration standard): the first draft of `focusMoveButton` used a
 single shared reference to "the move button," matching a latent defect
 already present in the Svelte reference this package ports (there,
 every card's `IconButton` binds the same `bind:ref` variable, so
-whichever card's button mounts *last* wins, not necessarily the one
+whichever card's button mounts _last_ wins, not necessarily the one
 whose menu just closed — invisible because the original test only
 asserted the focused element's shared CSS class, which every card's
 button carries regardless). Fixed here by querying the specific card's

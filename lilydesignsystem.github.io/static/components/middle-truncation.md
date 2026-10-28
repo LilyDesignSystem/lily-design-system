@@ -15,26 +15,40 @@ A string shortened in the middle to fit the width its container gives it, keepin
 
 ## Props
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `class` | string | `""` | Appended to the base class |
-| `text` | string (required) | — | The full text |
-| `ellipsis` | string (required) | — | The cut marker. No default: the headless layer ships no text, and the marker differs by language and context |
-| `strategy` | `"even"` \| `"fixed-end"` \| `"min-end"` | `"even"` | How the room is shared |
-| `end` | number | — | Characters kept at the end for `fixed-end` and `min-end` |
-| `...restProps` | HTML attributes | — | Spread onto the root `<span>` |
+| Prop           | Type                                     | Default  | Description                                                                                                  |
+| -------------- | ---------------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------ |
+| `class`        | string                                   | `""`     | Appended to the base class                                                                                   |
+| `text`         | string (required)                        | —        | The full text                                                                                                |
+| `ellipsis`     | string (required)                        | —        | The cut marker. No default: the headless layer ships no text, and the marker differs by language and context |
+| `strategy`     | `"even"` \| `"fixed-end"` \| `"min-end"` | `"even"` | How the room is shared                                                                                       |
+| `end`          | number                                   | —        | Characters kept at the end for `fixed-end` and `min-end`                                                     |
+| `...restProps` | HTML attributes                          | —        | Spread onto the root `<span>`                                                                                |
 
 ## Usage
 
 ```svelte
-<MiddleTruncation text="quarterly-report-final-version-3.pdf" ellipsis="…" strategy="min-end" end={6} />
+<MiddleTruncation
+  text="quarterly-report-final-version-3.pdf"
+  ellipsis="…"
+  strategy="min-end"
+  end={6}
+/>
 ```
 
 ```css
 /* consumer CSS */
-.middle-truncation { display: block; overflow: hidden; white-space: nowrap; }
+.middle-truncation {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+}
 .middle-truncation-full {
-  position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 ```
 

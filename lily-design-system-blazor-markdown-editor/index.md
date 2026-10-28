@@ -46,17 +46,17 @@ entry in `labels` is not rendered: an unnamed button is worse than no button.
 
 ## Props
 
-| Prop | Type | Required | Default | Purpose |
-| ---- | ---- | -------- | ------- | ------- |
-| `Value` / `ValueChanged` (`@bind-Value`) | `string` | no | `""` | The text, as Markdown. |
-| `Label` | `string` | yes | — | Accessible name of the textarea. |
-| `ToolbarLabel` | `string` | yes | — | Accessible name of the toolbar. |
-| `Labels` | `IReadOnlyDictionary<string,string>` | yes | — | Accessible name per tool id; a tool without one is not rendered. |
-| `Tools` | `IReadOnlyList<string>` | no | all nine | Which tools to show, and in what order. |
-| `HeadingLevel` | `1`–`6` | no | `2` | How many `#` the heading tool writes. |
-| `Name`, `Id`, `Rows`, `Placeholder`, `Disabled`, `ReadOnly`, `Required` | | no | | Passed to the `<textarea>`. |
-| `Icon` | `RenderFragment<string>` | no | bundled SVGs | Replaces a tool's icon; receives the tool id. |
-| `CssClass`, unmatched attributes | | no | | Appended to the root class; spread onto the root. |
+| Prop                                                                    | Type                                 | Required | Default      | Purpose                                                          |
+| ----------------------------------------------------------------------- | ------------------------------------ | -------- | ------------ | ---------------------------------------------------------------- |
+| `Value` / `ValueChanged` (`@bind-Value`)                                | `string`                             | no       | `""`         | The text, as Markdown.                                           |
+| `Label`                                                                 | `string`                             | yes      | —            | Accessible name of the textarea.                                 |
+| `ToolbarLabel`                                                          | `string`                             | yes      | —            | Accessible name of the toolbar.                                  |
+| `Labels`                                                                | `IReadOnlyDictionary<string,string>` | yes      | —            | Accessible name per tool id; a tool without one is not rendered. |
+| `Tools`                                                                 | `IReadOnlyList<string>`              | no       | all nine     | Which tools to show, and in what order.                          |
+| `HeadingLevel`                                                          | `1`–`6`                              | no       | `2`          | How many `#` the heading tool writes.                            |
+| `Name`, `Id`, `Rows`, `Placeholder`, `Disabled`, `ReadOnly`, `Required` |                                      | no       |              | Passed to the `<textarea>`.                                      |
+| `Icon`                                                                  | `RenderFragment<string>`             | no       | bundled SVGs | Replaces a tool's icon; receives the tool id.                    |
+| `CssClass`, unmatched attributes                                        |                                      | no       |              | Appended to the root class; spread onto the root.                |
 
 `ToolId` is `heading | bold | italic | strikethrough | code | link | quote | bulletList | numberedList`.
 
@@ -88,25 +88,47 @@ Blazor cannot decide `preventDefault` per key without a script, and ships none:
 
 ```html
 <div class="markdown-editor {class}">
-  <div class="markdown-editor-toolbar" role="toolbar" aria-label aria-controls aria-orientation="horizontal">
-    <button class="markdown-editor-button" type="button" data-tool="bold" aria-label tabindex="0">
-      <svg class="markdown-editor-icon" aria-hidden="true">…</svg>
+  <div
+    class="markdown-editor-toolbar"
+    role="toolbar"
+    aria-label
+    aria-controls
+    aria-orientation="horizontal"
+  >
+    <button
+      class="markdown-editor-button"
+      type="button"
+      data-tool="bold"
+      aria-label
+      tabindex="0"
+    >
+      <svg
+        class="markdown-editor-icon"
+        aria-hidden="true"
+      >
+        …
+      </svg>
     </button>
     …
   </div>
-  <textarea class="markdown-editor-textarea" aria-label name …></textarea>
+  <textarea
+    class="markdown-editor-textarea"
+    aria-label
+    name
+    …
+  ></textarea>
 </div>
 ```
 
 ## Keyboard
 
-| Where    | Key                            | Action                                       |
-| -------- | ------------------------------ | -------------------------------------------- |
-| Toolbar  | `←` `→`                        | Move to the previous / next button (clamps). |
-| Toolbar  | `Home` `End`                   | First / last button.                         |
-| Toolbar  | `Tab`                          | Into the toolbar (one tab stop), then out.   |
-| Toolbar  | `Enter` `Space`                | Apply the tool; focus returns to the text.   |
-| Textarea | `Ctrl`/`Cmd` + `B` `I` `K`     | Bold, italic, link.                          |
+| Where    | Key                        | Action                                       |
+| -------- | -------------------------- | -------------------------------------------- |
+| Toolbar  | `←` `→`                    | Move to the previous / next button (clamps). |
+| Toolbar  | `Home` `End`               | First / last button.                         |
+| Toolbar  | `Tab`                      | Into the toolbar (one tab stop), then out.   |
+| Toolbar  | `Enter` `Space`            | Apply the tool; focus returns to the text.   |
+| Textarea | `Ctrl`/`Cmd` + `B` `I` `K` | Bold, italic, link.                          |
 
 ## What it is not
 

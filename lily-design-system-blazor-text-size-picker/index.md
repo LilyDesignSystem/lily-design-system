@@ -40,27 +40,80 @@ see [docs/accessibility.md](./docs/accessibility.md).
 Then style the slugs in your own CSS:
 
 ```css
-:root[data-text-size="small"]   { font-size: 87.5%; }
-:root[data-text-size="medium"]  { font-size: 100%; }
-:root[data-text-size="large"]   { font-size: 112.5%; }
-:root[data-text-size="x-large"] { font-size: 125%; }
+:root[data-text-size="small"] {
+  font-size: 87.5%;
+}
+:root[data-text-size="medium"] {
+  font-size: 100%;
+}
+:root[data-text-size="large"] {
+  font-size: 112.5%;
+}
+:root[data-text-size="x-large"] {
+  font-size: 125%;
+}
 ```
 
 ## Rendered HTML
 
 ```html
 <div class="text-size-picker">
-  <input type="hidden" name="text-size" value="medium" />
-  <button type="button" class="text-size-picker-button" aria-label="Text size"
-          aria-haspopup="listbox" aria-expanded="false" aria-controls="text-size-picker-1-list">
-    <span class="text-size-picker-icon" aria-hidden="true">A</span>
+  <input
+    type="hidden"
+    name="text-size"
+    value="medium"
+  />
+  <button
+    type="button"
+    class="text-size-picker-button"
+    aria-label="Text size"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="text-size-picker-1-list"
+  >
+    <span
+      class="text-size-picker-icon"
+      aria-hidden="true"
+      >A</span
+    >
   </button>
-  <ul class="text-size-picker-list" id="text-size-picker-1-list" role="listbox"
-      aria-label="Text size" tabindex="-1" hidden>
-    <li class="text-size-picker-option" role="option" aria-selected="false">Small</li>
-    <li class="text-size-picker-option" role="option" aria-selected="true" data-active>Medium</li>
-    <li class="text-size-picker-option" role="option" aria-selected="false">Large</li>
-    <li class="text-size-picker-option" role="option" aria-selected="false">X Large</li>
+  <ul
+    class="text-size-picker-list"
+    id="text-size-picker-1-list"
+    role="listbox"
+    aria-label="Text size"
+    tabindex="-1"
+    hidden
+  >
+    <li
+      class="text-size-picker-option"
+      role="option"
+      aria-selected="false"
+    >
+      Small
+    </li>
+    <li
+      class="text-size-picker-option"
+      role="option"
+      aria-selected="true"
+      data-active
+    >
+      Medium
+    </li>
+    <li
+      class="text-size-picker-option"
+      role="option"
+      aria-selected="false"
+    >
+      Large
+    </li>
+    <li
+      class="text-size-picker-option"
+      role="option"
+      aria-selected="false"
+    >
+      X Large
+    </li>
   </ul>
 </div>
 ```
@@ -71,20 +124,20 @@ See [docs/styling.md](./docs/styling.md).
 
 ## Parameters
 
-| Parameter             | Type                                     | Required | Default                                |
-| --------------------- | ---------------------------------------- | -------- | -------------------------------------- |
-| `Label`               | `string`                                 | yes      | —                                      |
-| `Sizes`               | `IReadOnlyList<string>`                  | yes      | —                                      |
-| `Value`               | `string`                                 | no       | `""`                                   |
-| `ValueChanged`        | `EventCallback<string>`                  | no       | —                                      |
-| `DefaultValue`        | `string?`                                | no       | `"medium"` if present, else `Sizes[0]` |
-| `StorageKey`          | `string?`                                | no       | `null`                                 |
-| `Name`                | `string`                                 | no       | `"text-size"`                          |
-| `SizeLabels`          | `IReadOnlyDictionary<string,string>`     | no       | empty                                  |
-| `ChildContent`        | `RenderFragment<TextSizePickerContext>?` | no       | the `"A"` glyph                        |
-| `OnChange`            | `EventCallback<string>`                  | no       | —                                      |
-| `CssClass`            | `string`                                 | no       | `""`                                   |
-| `AdditionalAttributes`| `Dictionary<string,object>?`             | no       | —                                      |
+| Parameter              | Type                                     | Required | Default                                |
+| ---------------------- | ---------------------------------------- | -------- | -------------------------------------- |
+| `Label`                | `string`                                 | yes      | —                                      |
+| `Sizes`                | `IReadOnlyList<string>`                  | yes      | —                                      |
+| `Value`                | `string`                                 | no       | `""`                                   |
+| `ValueChanged`         | `EventCallback<string>`                  | no       | —                                      |
+| `DefaultValue`         | `string?`                                | no       | `"medium"` if present, else `Sizes[0]` |
+| `StorageKey`           | `string?`                                | no       | `null`                                 |
+| `Name`                 | `string`                                 | no       | `"text-size"`                          |
+| `SizeLabels`           | `IReadOnlyDictionary<string,string>`     | no       | empty                                  |
+| `ChildContent`         | `RenderFragment<TextSizePickerContext>?` | no       | the `"A"` glyph                        |
+| `OnChange`             | `EventCallback<string>`                  | no       | —                                      |
+| `CssClass`             | `string`                                 | no       | `""`                                   |
+| `AdditionalAttributes` | `Dictionary<string,object>?`             | no       | —                                      |
 
 `CssClass` and `AdditionalAttributes` land on the root `<div>`, not on a
 form control.

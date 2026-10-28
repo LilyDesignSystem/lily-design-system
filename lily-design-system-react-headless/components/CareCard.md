@@ -25,8 +25,13 @@ Each care card has a heading that describes the action and a body containing the
 ## Usage
 
 ```tsx
-<CareCard type="non-urgent" heading="Speak to a GP if:">
-  <ul><li>you have symptoms</li></ul>
+<CareCard
+  type="non-urgent"
+  heading="Speak to a GP if:"
+>
+  <ul>
+    <li>you have symptoms</li>
+  </ul>
 </CareCard>
 ```
 

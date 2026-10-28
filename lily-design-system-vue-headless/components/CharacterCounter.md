@@ -22,7 +22,11 @@ The component uses `role="status"` with `aria-live="polite"` so screen readers a
 ## Usage
 
 ```svelte
-<CharacterCounter count={text.length} max={280} label="Characters" />
+<CharacterCounter
+  count={text.length}
+  max={280}
+  label="Characters"
+/>
 ```
 
 ## Keyboard Interactions

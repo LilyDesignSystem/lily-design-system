@@ -203,9 +203,9 @@ behaviour; they do not need a prop.
 
 ## Events
 
-| Event          | Payload  | Fires                                                   |
-| -------------- | -------- | ------------------------------------------------------- |
-| `update:value` | `string` | On selection. Drives `v-model:value`.                   |
+| Event          | Payload  | Fires                                                  |
+| -------------- | -------- | ------------------------------------------------------ |
+| `update:value` | `string` | On selection. Drives `v-model:value`.                  |
 | `change`       | `string` | After the picker has applied `lang` / `dir` / storage. |
 
 `change` is the side-effect hook: cookie writes, imperative i18n

@@ -27,7 +27,12 @@ This component renders the SSN as an inline `<span>` element with an accessible 
 <SummaryList>
   <SummaryListItem>
     <dt>Social Security Number</dt>
-    <dd><UnitedStatesSocialSecurityNumberView label="SSN" value="123-45-6789" /></dd>
+    <dd>
+      <UnitedStatesSocialSecurityNumberView
+        label="SSN"
+        value="123-45-6789"
+      />
+    </dd>
   </SummaryListItem>
 </SummaryList>
 ```
@@ -57,17 +62,14 @@ This component renders the SSN as an inline `<span>` element with an accessible 
 
 This headless component provides a `<span>` element with `aria-label` for accessible read-only display of a Social Security Number. The consumer provides the pre-formatted value and all visual styling.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.united-states-social-security-number-view` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
 
-
 - Verify the component renders a `<div>` element with class `united-states-social-security-number-view`
-- Verify aria-label` -- provides the accessible name from the `label` prop so screen readers can announce the purpose of the displayed number
+- Verify aria-label`-- provides the accessible name from the`label` prop so screen readers can announce the purpose of the displayed number
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied
 

@@ -25,14 +25,14 @@ directory inside the `lily-design-system-nunjucks-helpers` catalog.
 
 ## The one-line contract per helper
 
-| Helper              | Applies                                                                 | Persists                          |
-| -------------------- | ------------------------------------------------------------------------ | ----------------------------------- |
-| `theme-picker`      | Swaps a managed `<link>` href and sets `data-theme` on the document root. | Optional `localStorage`.          |
-| `locale-picker`     | Sets `lang` and `dir` on the document root. No translation.              | Optional `localStorage` / `navigator.language` fallback. |
-| `text-size-picker`  | Sets `data-text-size` on the document root.                              | Optional `localStorage`.          |
-| `motion-picker`     | Sets `data-motion` on the document root; defers to `(prefers-reduced-motion: reduce)` unconditionally as one step of initial-value resolution. | Optional `localStorage`.          |
-| `share-picker`      | Nothing — opens the native share sheet, or a disclosure of consumer-supplied destinations plus copy-to-clipboard. | None.                              |
-| `date-time-picker`  | Nothing — it holds a form value (a text field + trigger opening an APG date-picker dialog). | None.                              |
+| Helper             | Applies                                                                                                                                        | Persists                                                 |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| `theme-picker`     | Swaps a managed `<link>` href and sets `data-theme` on the document root.                                                                      | Optional `localStorage`.                                 |
+| `locale-picker`    | Sets `lang` and `dir` on the document root. No translation.                                                                                    | Optional `localStorage` / `navigator.language` fallback. |
+| `text-size-picker` | Sets `data-text-size` on the document root.                                                                                                    | Optional `localStorage`.                                 |
+| `motion-picker`    | Sets `data-motion` on the document root; defers to `(prefers-reduced-motion: reduce)` unconditionally as one step of initial-value resolution. | Optional `localStorage`.                                 |
+| `share-picker`     | Nothing — opens the native share sheet, or a disclosure of consumer-supplied destinations plus copy-to-clipboard.                              | None.                                                    |
+| `date-time-picker` | Nothing — it holds a form value (a text field + trigger opening an APG date-picker dialog).                                                    | None.                                                    |
 
 ## The Nunjucks-specific split: macro + client.js
 
@@ -42,10 +42,10 @@ listeners — those only exist in the browser. So, unlike the single-file
 component every other framework catalog ships, **each Nunjucks helper is
 a macro-plus-client.js pair**:
 
-| File                     | Runs where                | Owns                                                  |
-| ------------------------ | -------------------------- | ------------------------------------------------------- |
-| `{kebab-name}.njk`       | Nunjucks render time       | Markup, ARIA, class hooks, `data-lily-*` hooks.        |
-| `{kebab-name}.client.js` | Browser, after page load   | Storage, attribute application, dynamic CSS loading, the entire listbox/dialog interaction. |
+| File                     | Runs where               | Owns                                                                                        |
+| ------------------------ | ------------------------ | ------------------------------------------------------------------------------------------- |
+| `{kebab-name}.njk`       | Nunjucks render time     | Markup, ARIA, class hooks, `data-lily-*` hooks.                                             |
+| `{kebab-name}.client.js` | Browser, after page load | Storage, attribute application, dynamic CSS loading, the entire listbox/dialog interaction. |
 
 The macro emits static markup carrying `data-lily-*` attributes
 describing the control's configuration. The companion ES module finds
@@ -79,7 +79,7 @@ is an `aria-hidden` glyph span, and a
 the four is operable without JavaScript** — the button has no handler
 and the listbox stays `hidden` until the client module runs. The macro
 does still emit a server-filled hidden `<input>`, so a plain form submit
-carries a value even with no client script; only the *choosing* needs
+carries a value even with no client script; only the _choosing_ needs
 the client.
 
 `share-picker` breaks that shape deliberately: its destinations are real

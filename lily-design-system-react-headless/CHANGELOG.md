@@ -74,7 +74,7 @@ them instead of hand-rolling equivalent markup/keyboard logic** —
 porting the same change already made to `@lilydesignsystem/svelte-headless`.
 Both components had zero real consumers elsewhere in this
 491-component catalog (confirmed by search before changing either;
-`Listbox` had two doc-comment *mentions* as an example, no actual
+`Listbox` had two doc-comment _mentions_ as an example, no actual
 imports) — full suite (2679 tests) still green.
 
 - `IconButton` gains `baseClass` (default `"icon-button"`, unchanged)
@@ -117,7 +117,7 @@ Metadata-only patch; no code change. Ships the corrected package
 metadata to the registry:
 
 - `license` is the project SPDX menu (`MIT OR Apache-2.0 OR
-  GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause`), replacing the
+GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause`), replacing the
   single-license field that contradicted the repository's LICENSE.md.
 - `repository`, `homepage`, and `bugs` point at the LilyDesignSystem
   organisation and the documentation site.

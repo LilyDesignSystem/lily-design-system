@@ -22,7 +22,7 @@ PortugalNumeroDeIdentificacaoFiscalView is a headless read-only display of Portu
 ```html
 <SummaryList>
   <SummaryListItem term="Tax Identification Number">
-    <PortugalNumeroDeIdentificacaoFiscalView value={value} />
+    <PortugalNumeroDeIdentificacaoFiscalView value="{value}" />
   </SummaryListItem>
 </SummaryList>
 ```

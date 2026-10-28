@@ -21,15 +21,15 @@ A ninth framework family alongside HTML, Svelte, React, Vue, Angular, Blazor, Nu
 
 ## 3. Architecture
 
-| Concern | Choice |
-| ------- | ------ |
-| Output | `components/{slug}.html` snippets + `lily-alpine.js` plugin |
-| Language | JavaScript (ES modules); Storybook stories are TypeScript like the other catalogs |
-| Build | None |
-| Peer dependency | `alpinejs` ^3.14 |
-| Tests | vitest + jsdom, snippet mounted under real Alpine |
-| Storybook | `@storybook/html-vite`, one story per component |
-| i18n | none: the consumer supplies all text |
+| Concern         | Choice                                                                            |
+| --------------- | --------------------------------------------------------------------------------- |
+| Output          | `components/{slug}.html` snippets + `lily-alpine.js` plugin                       |
+| Language        | JavaScript (ES modules); Storybook stories are TypeScript like the other catalogs |
+| Build           | None                                                                              |
+| Peer dependency | `alpinejs` ^3.14                                                                  |
+| Tests           | vitest + jsdom, snippet mounted under real Alpine                                 |
+| Storybook       | `@storybook/html-vite`, one story per component                                   |
+| i18n            | none: the consumer supplies all text                                              |
 
 Conventions:
 
@@ -42,18 +42,18 @@ Conventions:
 
 Each follows the WAI-ARIA APG pattern and the matching `components/{slug}/AGENTS.md`.
 
-| Component | Plugin | Contract |
-| --------- | ------ | -------- |
-| toggle-button | `lilyToggleButton` | `aria-pressed` follows state |
-| switch-button | `lilySwitchButton` | `role="switch"`, `aria-checked` |
-| collapsible | `lilyCollapsible` | trigger `aria-expanded` + `aria-controls`; content `hidden` while collapsed |
-| show-more | `lilyShowMore` | button `aria-expanded`; content `data-expanded` |
-| popover | `lilyPopover` | `aria-haspopup="dialog"`, Escape closes and returns focus, outside click closes |
-| tooltip | `lilyTooltip` | `role="tooltip"`; hover, focus; hoverable; Escape dismisses without moving focus (WCAG 1.4.13) |
-| clipboard-copy-button | `lilyClipboardCopy` | copies the supplied text; `data-copied` |
-| toggle-group | `lilyToggleGroup` | `role="group"`; independent `aria-pressed` items |
-| tab-bar family | `lilyTabs` | tablist, roving `tabindex`, Arrow/Home/End with automatic activation, `aria-controls`/`aria-labelledby` both ways |
-| dialog | `lilyDialog` | native `<dialog>`, `showModal()`, Escape closes, `aria-modal` |
+| Component             | Plugin              | Contract                                                                                                          |
+| --------------------- | ------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| toggle-button         | `lilyToggleButton`  | `aria-pressed` follows state                                                                                      |
+| switch-button         | `lilySwitchButton`  | `role="switch"`, `aria-checked`                                                                                   |
+| collapsible           | `lilyCollapsible`   | trigger `aria-expanded` + `aria-controls`; content `hidden` while collapsed                                       |
+| show-more             | `lilyShowMore`      | button `aria-expanded`; content `data-expanded`                                                                   |
+| popover               | `lilyPopover`       | `aria-haspopup="dialog"`, Escape closes and returns focus, outside click closes                                   |
+| tooltip               | `lilyTooltip`       | `role="tooltip"`; hover, focus; hoverable; Escape dismisses without moving focus (WCAG 1.4.13)                    |
+| clipboard-copy-button | `lilyClipboardCopy` | copies the supplied text; `data-copied`                                                                           |
+| toggle-group          | `lilyToggleGroup`   | `role="group"`; independent `aria-pressed` items                                                                  |
+| tab-bar family        | `lilyTabs`          | tablist, roving `tabindex`, Arrow/Home/End with automatic activation, `aria-controls`/`aria-labelledby` both ways |
+| dialog                | `lilyDialog`        | native `<dialog>`, `showModal()`, Escape closes, `aria-modal`                                                     |
 
 ## 5. Acceptance criteria
 

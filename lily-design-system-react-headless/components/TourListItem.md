@@ -26,17 +26,36 @@ This component is designed to be placed inside a TourList container. The consume
 ## Usage
 
 ```tsx
-<TourList label="Getting started" active={isActive} onChange={setIsActive}>
-  <TourListItem label="Welcome" current={step === 0} stepNumber={1} totalSteps={3}>
+<TourList
+  label="Getting started"
+  active={isActive}
+  onChange={setIsActive}
+>
+  <TourListItem
+    label="Welcome"
+    current={step === 0}
+    stepNumber={1}
+    totalSteps={3}
+  >
     <p>Welcome to the app!</p>
     <button onClick={() => setStep(step + 1)}>Next</button>
   </TourListItem>
-  <TourListItem label="Features" current={step === 1} stepNumber={2} totalSteps={3}>
+  <TourListItem
+    label="Features"
+    current={step === 1}
+    stepNumber={2}
+    totalSteps={3}
+  >
     <p>Here are the features.</p>
     <button onClick={() => setStep(step - 1)}>Back</button>
     <button onClick={() => setStep(step + 1)}>Next</button>
   </TourListItem>
-  <TourListItem label="Finish" current={step === 2} stepNumber={3} totalSteps={3}>
+  <TourListItem
+    label="Finish"
+    current={step === 2}
+    stepNumber={3}
+    totalSteps={3}
+  >
     <p>You're all set!</p>
     <button onClick={() => setIsActive(false)}>Done</button>
   </TourListItem>

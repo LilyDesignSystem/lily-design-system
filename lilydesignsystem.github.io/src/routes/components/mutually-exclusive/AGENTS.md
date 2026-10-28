@@ -13,7 +13,7 @@
 
 - Wraps a group of selectable controls (typically checkboxes) and enforces that only one can be checked at a time
 - When the user checks one option, the previously-checked option is unchecked
-- Behaves like a radio group but allows the user to *uncheck* the current selection (to leave the group with no selection)
+- Behaves like a radio group but allows the user to _uncheck_ the current selection (to leave the group with no selection)
 - Renders `role="group"` with an `aria-label` so the constraint is communicated to assistive technology
 - Children are passed via the `children` slot; the consumer composes the individual `CheckboxInput` controls
 

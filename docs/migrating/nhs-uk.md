@@ -23,56 +23,56 @@ layer — Lily is not a drop-in replacement for `nhsuk-frontend`; see
 
 ### Form elements
 
-| nhsuk-frontend | Lily component | Notes |
-| --- | --- | --- |
-| Buttons | [`Button`](../../components/button/) | |
-| Character count | — | **Gap** — compose `TextArea` + your own live region |
-| Checkboxes | [`CheckboxInput`](../../components/checkbox-input/) | |
-| Date input | [`DateInput`](../../components/date-input/) | For a calendar-dialog picker, see the [`date-time-picker` helper](../../AGENTS/helpers.md) |
-| Error message | [`ErrorMessage`](../../components/error-message/) | |
-| Error summary | [`ErrorSummary`](../../components/error-summary/) | |
-| Fieldset | [`Fieldset`](../../components/fieldset/) | |
-| File upload | [`FileUpload`](../../components/file-upload/) | |
-| Hint text | [`Hint`](../../components/hint/) | |
-| Password input | [`PasswordInput`](../../components/password-input/) | |
-| Radios | [`RadioInput`](../../components/radio-input/) | |
-| Search input | [`SearchInput`](../../components/search-input/) | |
-| Select | [`Select`](../../components/select/) | |
-| Text input | [`TextInput`](../../components/text-input/) | |
-| Textarea | — | **Gap** — check the current catalog; if genuinely absent, [request it](../../RFC.md) |
+| nhsuk-frontend  | Lily component                                      | Notes                                                                                      |
+| --------------- | --------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| Buttons         | [`Button`](../../components/button/)                |                                                                                            |
+| Character count | —                                                   | **Gap** — compose `TextArea` + your own live region                                        |
+| Checkboxes      | [`CheckboxInput`](../../components/checkbox-input/) |                                                                                            |
+| Date input      | [`DateInput`](../../components/date-input/)         | For a calendar-dialog picker, see the [`date-time-picker` helper](../../AGENTS/helpers.md) |
+| Error message   | [`ErrorMessage`](../../components/error-message/)   |                                                                                            |
+| Error summary   | [`ErrorSummary`](../../components/error-summary/)   |                                                                                            |
+| Fieldset        | [`Fieldset`](../../components/fieldset/)            |                                                                                            |
+| File upload     | [`FileUpload`](../../components/file-upload/)       |                                                                                            |
+| Hint text       | [`Hint`](../../components/hint/)                    |                                                                                            |
+| Password input  | [`PasswordInput`](../../components/password-input/) |                                                                                            |
+| Radios          | [`RadioInput`](../../components/radio-input/)       |                                                                                            |
+| Search input    | [`SearchInput`](../../components/search-input/)     |                                                                                            |
+| Select          | [`Select`](../../components/select/)                |                                                                                            |
+| Text input      | [`TextInput`](../../components/text-input/)         |                                                                                            |
+| Textarea        | —                                                   | **Gap** — check the current catalog; if genuinely absent, [request it](../../RFC.md)       |
 
 ### Content presentation
 
-| nhsuk-frontend | Lily component | Notes |
-| --- | --- | --- |
-| Card | [`Card`](../../components/card/) | |
-| Details | [`Details`](../../components/details/) | Native `<details>`; see also [`Expander`](../../components/expander/) for a styled non-native disclosure |
-| Do and Don't lists | [`DoList`](../../components/do-list/) / [`DontList`](../../components/dont-list/) | Two components, one per list type; each with its own `*ListItem` |
-| Expander | [`Expander`](../../components/expander/) | |
-| Images | [`Figure`](../../components/figure/) | |
-| Inset text | [`InsetText`](../../components/inset-text/) | |
-| Notification banners | [`Notification`](../../components/notification/) | |
-| Panel | [`Panel`](../../components/panel/) | |
-| Review date | [`ReviewDate`](../../components/review-date/) | |
-| Summary list | [`SummaryList`](../../components/summary-list/) | Family: `SummaryList` + `SummaryListItem` |
-| Table | [`Table`](../../components/table/) | Family includes `TableHead`/`TableBody`/`TableFoot`/`TableRow`/`TableTH`/`TableTD` |
-| Tabs | [`TabBar`](../../components/tab-bar/) | |
-| Tag | [`Tag`](../../components/tag/) | See also [`StatusTag`](../../components/status-tag/) |
-| Task list | [`TaskList`](../../components/task-list/) | |
-| Warning callout | [`WarningCallout`](../../components/warning-callout/) | |
+| nhsuk-frontend       | Lily component                                                                    | Notes                                                                                                    |
+| -------------------- | --------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| Card                 | [`Card`](../../components/card/)                                                  |                                                                                                          |
+| Details              | [`Details`](../../components/details/)                                            | Native `<details>`; see also [`Expander`](../../components/expander/) for a styled non-native disclosure |
+| Do and Don't lists   | [`DoList`](../../components/do-list/) / [`DontList`](../../components/dont-list/) | Two components, one per list type; each with its own `*ListItem`                                         |
+| Expander             | [`Expander`](../../components/expander/)                                          |                                                                                                          |
+| Images               | [`Figure`](../../components/figure/)                                              |                                                                                                          |
+| Inset text           | [`InsetText`](../../components/inset-text/)                                       |                                                                                                          |
+| Notification banners | [`Notification`](../../components/notification/)                                  |                                                                                                          |
+| Panel                | [`Panel`](../../components/panel/)                                                |                                                                                                          |
+| Review date          | [`ReviewDate`](../../components/review-date/)                                     |                                                                                                          |
+| Summary list         | [`SummaryList`](../../components/summary-list/)                                   | Family: `SummaryList` + `SummaryListItem`                                                                |
+| Table                | [`Table`](../../components/table/)                                                | Family includes `TableHead`/`TableBody`/`TableFoot`/`TableRow`/`TableTH`/`TableTD`                       |
+| Tabs                 | [`TabBar`](../../components/tab-bar/)                                             |                                                                                                          |
+| Tag                  | [`Tag`](../../components/tag/)                                                    | See also [`StatusTag`](../../components/status-tag/)                                                     |
+| Task list            | [`TaskList`](../../components/task-list/)                                         |                                                                                                          |
+| Warning callout      | [`WarningCallout`](../../components/warning-callout/)                             |                                                                                                          |
 
 ### Navigation
 
-| nhsuk-frontend | Lily component | Notes |
-| --- | --- | --- |
-| Action link | [`ActionLink`](../../components/action-link/) | |
-| Back link | [`BackLink`](../../components/back-link/) | |
-| Breadcrumbs | [`BreadcrumbNav`](../../components/breadcrumb-nav/) | Family: `BreadcrumbNav` + `BreadcrumbList` + `BreadcrumbListItem` |
-| Contents list | [`ContentsNav`](../../components/contents-nav/) | Family: `ContentsNav` + `ContentsList` + `ContentsListItem` |
-| Footer | [`Footer`](../../components/footer/) | Generic; NHS branding is your CSS |
-| Header | [`Header`](../../components/header/) | Generic; NHS branding is your CSS |
-| Pagination | [`PaginationNav`](../../components/pagination-nav/) | |
-| Skip link | [`SkipLink`](../../components/skip-link/) | |
+| nhsuk-frontend | Lily component                                      | Notes                                                             |
+| -------------- | --------------------------------------------------- | ----------------------------------------------------------------- |
+| Action link    | [`ActionLink`](../../components/action-link/)       |                                                                   |
+| Back link      | [`BackLink`](../../components/back-link/)           |                                                                   |
+| Breadcrumbs    | [`BreadcrumbNav`](../../components/breadcrumb-nav/) | Family: `BreadcrumbNav` + `BreadcrumbList` + `BreadcrumbListItem` |
+| Contents list  | [`ContentsNav`](../../components/contents-nav/)     | Family: `ContentsNav` + `ContentsList` + `ContentsListItem`       |
+| Footer         | [`Footer`](../../components/footer/)                | Generic; NHS branding is your CSS                                 |
+| Header         | [`Header`](../../components/header/)                | Generic; NHS branding is your CSS                                 |
+| Pagination     | [`PaginationNav`](../../components/pagination-nav/) |                                                                   |
+| Skip link      | [`SkipLink`](../../components/skip-link/)           |                                                                   |
 
 **36 of 38 map directly; 2 are open catalog gaps** (character count,
 textarea) worth an [RFC](../../RFC.md) rather than a workaround, unlike

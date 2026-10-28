@@ -31,25 +31,25 @@ Tooltip behaviour is the same as the other pickers: shown on hover (of the butto
 
 ## 4. Props
 
-| Prop           | Type                         | Required | Default          |
-| -------------- | ---------------------------- | -------- | ---------------- |
-| `label`        | `string`                     | yes      | —                |
-| `locale`       | `string`                     | yes      | —                |
-| `zones`        | `readonly string[]`          | no       | `DEFAULT_ZONES`  |
-| `date`         | `Date`                       | no       | now, read once   |
-| `value`        | `string`                     | no       | `""`             |
-| `defaultValue` | `string`                     | no       | —                |
-| `storageKey`   | `string`                     | no       | —                |
-| `name`         | `string`                     | no       | `"time-zone"`    |
-| `target`       | `HTMLElement \| null`        | no       | `<html>`         |
-| `labelFor`     | `(zone: ZoneInfo) => string` | no       | `defaultLabel`   |
-| `names`        | `ZoneNames`                  | no       | —                |
-| `children`     | `Snippet<[ChildArgs]>`       | no       | clock icon       |
-| `onChange`     | `(zone: string) => void`     | no       | —                |
-| `open`         | `boolean`                    | no       | `false`          |
-| `onOpenChange` | `(open: boolean) => void`    | no       | —                |
-| `disabled`     | `boolean`                    | no       | `false`          |
-| `class`        | `string`                     | no       | `""`             |
+| Prop           | Type                         | Required | Default         |
+| -------------- | ---------------------------- | -------- | --------------- |
+| `label`        | `string`                     | yes      | —               |
+| `locale`       | `string`                     | yes      | —               |
+| `zones`        | `readonly string[]`          | no       | `DEFAULT_ZONES` |
+| `date`         | `Date`                       | no       | now, read once  |
+| `value`        | `string`                     | no       | `""`            |
+| `defaultValue` | `string`                     | no       | —               |
+| `storageKey`   | `string`                     | no       | —               |
+| `name`         | `string`                     | no       | `"time-zone"`   |
+| `target`       | `HTMLElement \| null`        | no       | `<html>`        |
+| `labelFor`     | `(zone: ZoneInfo) => string` | no       | `defaultLabel`  |
+| `names`        | `ZoneNames`                  | no       | —               |
+| `children`     | `Snippet<[ChildArgs]>`       | no       | clock icon      |
+| `onChange`     | `(zone: string) => void`     | no       | —               |
+| `open`         | `boolean`                    | no       | `false`         |
+| `onOpenChange` | `(open: boolean) => void`    | no       | —               |
+| `disabled`     | `boolean`                    | no       | `false`         |
+| `class`        | `string`                     | no       | `""`            |
 
 ## 5. Zones
 

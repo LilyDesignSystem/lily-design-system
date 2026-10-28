@@ -25,8 +25,14 @@ The component renders as an `<article>` element for standalone content grouping.
 ## Usage
 
 ```svelte
-<Card><h3>Title</h3><p>Content</p></Card>
-<Card heading="Product" href="/products/1"><p>Description</p></Card>
+<Card
+  ><h3>Title</h3>
+  <p>Content</p></Card
+>
+<Card
+  heading="Product"
+  href="/products/1"><p>Description</p></Card
+>
 ```
 
 ## Keyboard Interactions

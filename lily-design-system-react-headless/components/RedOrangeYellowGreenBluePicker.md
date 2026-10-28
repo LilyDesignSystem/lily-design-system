@@ -49,7 +49,10 @@ const [level, setLevel] = useState("");
 Pre-selected value:
 
 ```tsx
-<RedOrangeYellowGreenBluePicker label="Alert status" value="green" />
+<RedOrangeYellowGreenBluePicker
+  label="Alert status"
+  value="green"
+/>
 ```
 
 With additional HTML attributes:
@@ -57,7 +60,8 @@ With additional HTML attributes:
 ```tsx
 <RedOrangeYellowGreenBluePicker
   label="Project health"
-  value={level} onChange={setLevel}
+  value={level}
+  onChange={setLevel}
   data-dashboard="main"
 />
 ```

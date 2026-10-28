@@ -21,7 +21,10 @@ SingaporeNationalRegistrationIdentityCardView is a headless placeholder componen
 ## Usage
 
 ```html
-<SingaporeNationalRegistrationIdentityCardView label="SingaporeNationalRegistrationIdentityCardView example">Content</SingaporeNationalRegistrationIdentityCardView>
+<SingaporeNationalRegistrationIdentityCardView
+  label="SingaporeNationalRegistrationIdentityCardView example"
+  >Content</SingaporeNationalRegistrationIdentityCardView
+>
 ```
 
 ## Keyboard Interactions

@@ -14,13 +14,13 @@ client. Resolving it on the server avoids that reflow entirely.
 Files in this folder match SvelteKit's filesystem-routing convention.
 Drop them under `src/routes/` in a SvelteKit project.
 
-| File                 | Role                                                       |
-| -------------------- | ----------------------------------------------------------- |
-| `hooks.server.ts`    | Reads the `text-size` cookie into `event.locals.textSize`.  |
-| `+layout.server.ts`  | Exposes the resolved size to all routes.                    |
-| `+layout.svelte`     | Renders the picker, reflects `data-text-size` on `<html>` before paint via `app.html`. |
-| `+page.svelte`       | A trivial page that demonstrates the result.                |
-| `app.html.snippet`   | Snippet to inline `data-text-size="…"` on `<html>` before first paint. |
+| File                | Role                                                                                   |
+| ------------------- | -------------------------------------------------------------------------------------- |
+| `hooks.server.ts`   | Reads the `text-size` cookie into `event.locals.textSize`.                             |
+| `+layout.server.ts` | Exposes the resolved size to all routes.                                               |
+| `+layout.svelte`    | Renders the picker, reflects `data-text-size` on `<html>` before paint via `app.html`. |
+| `+page.svelte`      | A trivial page that demonstrates the result.                                           |
+| `app.html.snippet`  | Snippet to inline `data-text-size="…"` on `<html>` before first paint.                 |
 
 Required setup in your project:
 

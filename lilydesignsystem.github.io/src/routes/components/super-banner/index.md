@@ -28,7 +28,11 @@ This headless component uses a `<div>` element with `role="alert"` for immediate
 ```
 
 ```html
-<SuperBanner label="Scheduled maintenance" dismissable ondismiss={handleDismiss}>
+<SuperBanner
+  label="Scheduled maintenance"
+  dismissable
+  ondismiss="{handleDismiss}"
+>
   Planned maintenance on Saturday 12 April from 02:00 to 06:00 UTC. Save your work before then.
 </SuperBanner>
 ```

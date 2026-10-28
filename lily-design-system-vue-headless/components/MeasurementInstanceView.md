@@ -22,7 +22,10 @@ The component supports an optional `aria-label` for additional accessible contex
 
 ```svelte
 <MeasurementInstanceView value="72 kg" />
-<MeasurementInstanceView value="98.6 F" label="Body temperature" />
+<MeasurementInstanceView
+  value="98.6 F"
+  label="Body temperature"
+/>
 ```
 
 ## Keyboard Interactions

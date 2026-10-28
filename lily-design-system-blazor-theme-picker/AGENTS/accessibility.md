@@ -8,21 +8,21 @@ contract; the canonical contract is in
 
 ## Roles and properties
 
-| Element                    | Role / Property                       | Source             |
-| -------------------------- | ------------------------------------- | ------------------ |
-| `<button type="button">`   | `aria-haspopup="listbox"`             | Component          |
-| `<button>`                 | `aria-expanded="true\|false"`          | Component          |
-| `<button>`                 | `aria-controls="{listId}"`            | Component          |
-| `<button>`                 | `aria-label="@Label"`                 | Consumer parameter |
-| `<span class="theme-picker-icon">` | `aria-hidden="true"`          | Component          |
-| `<ul>`                     | `role="listbox"`                      | Component          |
-| `<ul>`                     | `tabindex="-1"`                       | Component          |
-| `<ul>`                     | `aria-label="@Label"`                 | Consumer parameter |
-| `<ul>`                     | `aria-activedescendant` (open only)   | Component          |
-| `<li>`                     | `role="option"`                       | Component          |
-| `<li>`                     | `aria-selected="true\|false"`          | Component          |
-| `<li>`                     | `data-active` (styling hook)          | Component          |
-| `<input type="hidden">`    | `name`                                | Component          |
+| Element                            | Role / Property                     | Source             |
+| ---------------------------------- | ----------------------------------- | ------------------ |
+| `<button type="button">`           | `aria-haspopup="listbox"`           | Component          |
+| `<button>`                         | `aria-expanded="true\|false"`       | Component          |
+| `<button>`                         | `aria-controls="{listId}"`          | Component          |
+| `<button>`                         | `aria-label="@Label"`               | Consumer parameter |
+| `<span class="theme-picker-icon">` | `aria-hidden="true"`                | Component          |
+| `<ul>`                             | `role="listbox"`                    | Component          |
+| `<ul>`                             | `tabindex="-1"`                     | Component          |
+| `<ul>`                             | `aria-label="@Label"`               | Consumer parameter |
+| `<ul>`                             | `aria-activedescendant` (open only) | Component          |
+| `<li>`                             | `role="option"`                     | Component          |
+| `<li>`                             | `aria-selected="true\|false"`       | Component          |
+| `<li>`                             | `data-active` (styling hook)        | Component          |
+| `<input type="hidden">`            | `name`                              | Component          |
 
 Focus stays on the `<ul>` while the listbox is open; the active
 option is conveyed by `aria-activedescendant`, per the APG. The
@@ -33,29 +33,29 @@ hidden input, not an ARIA attribute.
 
 Implemented by the component. On the **button**:
 
-| Key                 | Action                                                  |
-| ------------------- | ------------------------------------------------------- |
-| `Tab` / `Shift+Tab` | Move focus to / away from the button (one stop).        |
-| `Arrow Down`        | Open, active option = the selected one (else index 0).  |
-| `Enter` / `Space`   | Open, active option = the selected one (else index 0).  |
-| `Arrow Up`          | Open with the **last** option active.                   |
+| Key                 | Action                                                 |
+| ------------------- | ------------------------------------------------------ |
+| `Tab` / `Shift+Tab` | Move focus to / away from the button (one stop).       |
+| `Arrow Down`        | Open, active option = the selected one (else index 0). |
+| `Enter` / `Space`   | Open, active option = the selected one (else index 0). |
+| `Arrow Up`          | Open with the **last** option active.                  |
 
 Opening moves focus to the `<ul>`.
 
 On the **listbox**:
 
-| Key               | Action                                                              |
-| ----------------- | ------------------------------------------------------------------- |
-| `Arrow Down`      | Move the active option down one; **clamps** at the last (no wrap).  |
-| `Arrow Up`        | Move the active option up one; **clamps** at the first (no wrap).   |
-| `Home`            | Jump to the first option.                                           |
-| `End`             | Jump to the last option.                                            |
-| `Enter` / `Space` | Select the active option, apply it, close, return focus to the button. |
-| `Escape`          | Close and return focus **without** changing the value.              |
-| `PageUp`          | Move the active option up ten; clamps at the first.                    |
-| `PageDown`        | Move the active option down ten; clamps at the last.                   |
-| `Tab`             | Close and move on: the browser's default Tab proceeds from the picker's position. |
-| Printable chars   | Typeahead over the option *labels*, 500 ms buffer reset. A single character advances to the **next** match and repeating it cycles onward; differing characters refine the match from the active option. |
+| Key               | Action                                                                                                                                                                                                   |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Arrow Down`      | Move the active option down one; **clamps** at the last (no wrap).                                                                                                                                       |
+| `Arrow Up`        | Move the active option up one; **clamps** at the first (no wrap).                                                                                                                                        |
+| `Home`            | Jump to the first option.                                                                                                                                                                                |
+| `End`             | Jump to the last option.                                                                                                                                                                                 |
+| `Enter` / `Space` | Select the active option, apply it, close, return focus to the button.                                                                                                                                   |
+| `Escape`          | Close and return focus **without** changing the value.                                                                                                                                                   |
+| `PageUp`          | Move the active option up ten; clamps at the first.                                                                                                                                                      |
+| `PageDown`        | Move the active option down ten; clamps at the last.                                                                                                                                                     |
+| `Tab`             | Close and move on: the browser's default Tab proceeds from the picker's position.                                                                                                                        |
+| Printable chars   | Typeahead over the option _labels_, 500 ms buffer reset. A single character advances to the **next** match and repeating it cycles onward; differing characters refine the match from the active option. |
 
 Pointer and focus: clicking an option selects, applies, and closes;
 focus leaving the root closes the listbox without changing the value.
@@ -141,7 +141,7 @@ transitions on the `data-theme` swap.
 ## Common mistakes to avoid
 
 - **Rendering options in `ChildContent`.** The fragment replaces the
-  glyph *inside the button*; the `<li role="option">` elements are
+  glyph _inside the button_; the `<li role="option">` elements are
   always component-owned.
 - **Hiding the options with `display: none`.** Use the component's
   own `hidden` on the `<ul>`, which it toggles with `aria-expanded`.

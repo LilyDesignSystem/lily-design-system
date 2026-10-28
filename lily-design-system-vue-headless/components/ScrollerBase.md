@@ -25,7 +25,10 @@ const step = ref(0);
 </script>
 
 <template>
-  <ScrollerBase label="My story" @indexChange="step = $event">
+  <ScrollerBase
+    label="My story"
+    @indexChange="step = $event"
+  >
     <section>Step 1</section>
     <section>Step 2</section>
     <section>Step 3</section>

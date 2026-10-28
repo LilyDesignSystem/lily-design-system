@@ -24,7 +24,11 @@ A file upload component provides a button-triggered file picker for uploading fi
 ## Usage
 
 ```tsx
-<FileUpload label="Upload files" accept=".pdf" onInputChange={handleFiles} />
+<FileUpload
+  label="Upload files"
+  accept=".pdf"
+  onInputChange={handleFiles}
+/>
 ```
 
 ## Keyboard Interactions

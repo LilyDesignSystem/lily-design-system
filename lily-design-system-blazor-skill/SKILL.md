@@ -122,7 +122,7 @@ app in practice.
   consumer's `CssClass`.
 - **`RenderFragment ChildContent`** for the default slot;
   **`[Parameter(CaptureUnmatchedValues = true)] Dictionary<string, object>?
-  AdditionalAttributes`** for rest-attribute pass-through, spread via
+AdditionalAttributes`** for rest-attribute pass-through, spread via
   `@attributes="AdditionalAttributes"`.
 - **`IJSRuntime` for any DOM work**, gated on `OnAfterRenderAsync` (never
   during render) — this is how the helpers stay safe across Blazor Server,

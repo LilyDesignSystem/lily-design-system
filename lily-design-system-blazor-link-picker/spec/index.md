@@ -30,14 +30,14 @@ and no words: every link, and every accessible name, comes from the consumer.
 
 ### 4.1 Props
 
-| Prop | Type | Required | Notes |
-| --- | --- | --- | --- |
-| `Label` | `string` | yes | Accessible name of the button **and** the list; also the tooltip text. |
-| `Links` | `IReadOnlyList<LinkItem>` | yes | `{ Id?, Label, Href, Current, NewTab }`. `Id` defaults to `Href`. |
-| `OnNavigate` | `EventCallback<LinkNavigateEventArgs>` | no | Fires after a link is chosen (`Id`, `Href`). |
-| `ChildContent` | `RenderFragment<LinkPickerContext>` | no | Replaces the **icon**, not the links. |
-| `CssClass` | `string` | no | Appended to the root class. |
-| `AdditionalAttributes` | | | Captured and spread on the root. |
+| Prop                   | Type                                   | Required | Notes                                                                  |
+| ---------------------- | -------------------------------------- | -------- | ---------------------------------------------------------------------- |
+| `Label`                | `string`                               | yes      | Accessible name of the button **and** the list; also the tooltip text. |
+| `Links`                | `IReadOnlyList<LinkItem>`              | yes      | `{ Id?, Label, Href, Current, NewTab }`. `Id` defaults to `Href`.      |
+| `OnNavigate`           | `EventCallback<LinkNavigateEventArgs>` | no       | Fires after a link is chosen (`Id`, `Href`).                           |
+| `ChildContent`         | `RenderFragment<LinkPickerContext>`    | no       | Replaces the **icon**, not the links.                                  |
+| `CssClass`             | `string`                               | no       | Appended to the root class.                                            |
+| `AdditionalAttributes` |                                        |          | Captured and spread on the root.                                       |
 
 **Differences from the Svelte contract (idiom, not behaviour).** There is **no `navigate` hook**: Blazor's own router intercepts a same-origin `<a href>` click, so the links navigate client-side by themselves. Without JS interop the component cannot add a document-level click listener, so a click outside does not close the list (focus leaving the root does), and the tooltip distinguishes pointer from keyboard focus by a preceding `mousedown`; Escape with focus outside the picker does not dismiss it. All three are the same documented deviations as `share-picker`.
 
@@ -45,12 +45,42 @@ and no words: every link, and every accessible name, comes from the consumer.
 
 ```html
 <div class="link-picker {class}">
-  <button class="link-picker-button" type="button" aria-label="{label}" aria-expanded="false" aria-controls="{id}-list">
-    <svg class="link-picker-icon" aria-hidden="true" viewBox="0 0 16 16" …home…/>
+  <button
+    class="link-picker-button"
+    type="button"
+    aria-label="{label}"
+    aria-expanded="false"
+    aria-controls="{id}-list"
+  >
+    <svg
+      class="link-picker-icon"
+      aria-hidden="true"
+      viewBox="0 0 16 16"
+      …home…
+    />
   </button>
-  <div class="link-picker-tooltip" role="tooltip" id="{id}-tooltip" hidden>{label}</div>
-  <ul class="link-picker-list" id="{id}-list" aria-label="{label}" hidden>
-    <li class="link-picker-list-item"><a class="link-picker-link" href="/" data-link-id="/">Home</a></li>
+  <div
+    class="link-picker-tooltip"
+    role="tooltip"
+    id="{id}-tooltip"
+    hidden
+  >
+    {label}
+  </div>
+  <ul
+    class="link-picker-list"
+    id="{id}-list"
+    aria-label="{label}"
+    hidden
+  >
+    <li class="link-picker-list-item">
+      <a
+        class="link-picker-link"
+        href="/"
+        data-link-id="/"
+        >Home</a
+      >
+    </li>
     …
   </ul>
 </div>

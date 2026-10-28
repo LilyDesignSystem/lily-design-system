@@ -27,7 +27,10 @@ The component uses `role="status"` with `aria-live="polite"` for standard notifi
 <Notification label="Success">Your changes have been saved.</Notification>
 
 <!-- Urgent notification (assertive) -->
-<Notification label="Error" urgent>Something went wrong. Please try again.</Notification>
+<Notification
+  label="Error"
+  urgent>Something went wrong. Please try again.</Notification
+>
 
 <!-- Notification without explicit label -->
 <Notification>3 new messages</Notification>

@@ -23,16 +23,52 @@ Emoji picker for a messaging interface:
 
 ```html
 <EmojiCharacterPicker label="Choose an emoji">
-    <div role="row" aria-label="Smileys">
-        <button role="gridcell" aria-label="Grinning face">😀</button>
-        <button role="gridcell" aria-label="Face with tears of joy">😂</button>
-        <button role="gridcell" aria-label="Smiling face with heart-eyes">😍</button>
-    </div>
-    <div role="row" aria-label="Gestures">
-        <button role="gridcell" aria-label="Thumbs up">👍</button>
-        <button role="gridcell" aria-label="Clapping hands">👏</button>
-        <button role="gridcell" aria-label="Waving hand">👋</button>
-    </div>
+  <div
+    role="row"
+    aria-label="Smileys"
+  >
+    <button
+      role="gridcell"
+      aria-label="Grinning face"
+    >
+      😀
+    </button>
+    <button
+      role="gridcell"
+      aria-label="Face with tears of joy"
+    >
+      😂
+    </button>
+    <button
+      role="gridcell"
+      aria-label="Smiling face with heart-eyes"
+    >
+      😍
+    </button>
+  </div>
+  <div
+    role="row"
+    aria-label="Gestures"
+  >
+    <button
+      role="gridcell"
+      aria-label="Thumbs up"
+    >
+      👍
+    </button>
+    <button
+      role="gridcell"
+      aria-label="Clapping hands"
+    >
+      👏
+    </button>
+    <button
+      role="gridcell"
+      aria-label="Waving hand"
+    >
+      👋
+    </button>
+  </div>
 </EmojiCharacterPicker>
 ```
 
@@ -61,14 +97,11 @@ None built-in -- the consumer should implement grid keyboard navigation on cells
 
 This headless component provides a `<div>` with `role="grid"` and accessible labeling via `aria-label`, defining the semantic structure for emoji grid navigation. The consumer provides all visual styling, emoji grid content, category navigation, selection behavior, and keyboard navigation on cells.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.emoji-character-picker` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `emoji-character-picker`
 - Verify role="grid"` -- identifies the container as a grid widget for structured cell navigation

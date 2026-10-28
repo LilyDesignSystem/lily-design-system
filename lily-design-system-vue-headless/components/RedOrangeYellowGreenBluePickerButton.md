@@ -16,11 +16,36 @@ Compound component: use with RedOrangeYellowGreenBluePicker.
 ## Usage
 
 ```svelte
-<RedOrangeYellowGreenBluePickerButton value="red" label="Red" selected={status === "red"} onclick={() => status = "red"} />
-<RedOrangeYellowGreenBluePickerButton value="orange" label="Orange" selected={status === "orange"} onclick={() => status = "orange"} />
-<RedOrangeYellowGreenBluePickerButton value="yellow" label="Yellow" selected={status === "yellow"} onclick={() => status = "yellow"} />
-<RedOrangeYellowGreenBluePickerButton value="green" label="Green" selected={status === "green"} onclick={() => status = "green"} />
-<RedOrangeYellowGreenBluePickerButton value="blue" label="Blue" selected={status === "blue"} onclick={() => status = "blue"} />
+<RedOrangeYellowGreenBluePickerButton
+  value="red"
+  label="Red"
+  selected={status === "red"}
+  onclick={() => (status = "red")}
+/>
+<RedOrangeYellowGreenBluePickerButton
+  value="orange"
+  label="Orange"
+  selected={status === "orange"}
+  onclick={() => (status = "orange")}
+/>
+<RedOrangeYellowGreenBluePickerButton
+  value="yellow"
+  label="Yellow"
+  selected={status === "yellow"}
+  onclick={() => (status = "yellow")}
+/>
+<RedOrangeYellowGreenBluePickerButton
+  value="green"
+  label="Green"
+  selected={status === "green"}
+  onclick={() => (status = "green")}
+/>
+<RedOrangeYellowGreenBluePickerButton
+  value="blue"
+  label="Blue"
+  selected={status === "blue"}
+  onclick={() => (status = "blue")}
+/>
 ```
 
 ## ARIA

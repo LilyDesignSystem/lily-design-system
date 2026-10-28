@@ -49,14 +49,14 @@ The app ships:
 
 ### Framework + tooling
 
-| Concern             | Choice                                      |
-| ------------------- | ------------------------------------------- |
-| App framework       | Blazor Web App (.NET 10.0)                  |
-| Render mode         | Interactive Server                          |
-| Language            | C# 13                                       |
-| Build               | `dotnet build`                              |
-| Test runner         | bUnit (component tests) + Playwright (e2e)  |
-| Styling             | Plain CSS with custom properties (NHS)      |
+| Concern       | Choice                                     |
+| ------------- | ------------------------------------------ |
+| App framework | Blazor Web App (.NET 10.0)                 |
+| Render mode   | Interactive Server                         |
+| Language      | C# 13                                      |
+| Build         | `dotnet build`                             |
+| Test runner   | bUnit (component tests) + Playwright (e2e) |
+| Styling       | Plain CSS with custom properties (NHS)     |
 
 ### Headless dependency
 
@@ -101,11 +101,11 @@ lily-design-system-blazor-web-examples/
 
 ## 4. Required routes
 
-| Route                  | Page                          | Purpose                                |
-| ---------------------- | ----------------------------- | -------------------------------------- |
-| `/`                    | `Pages/Home.razor`            | Home, links to demos                   |
-| `/components`          | `Pages/Components.razor`      | Catalog index                          |
-| `/components/{slug}`   | `Pages/ComponentDetail.razor` | Live demo + metadata                   |
+| Route                | Page                          | Purpose              |
+| -------------------- | ----------------------------- | -------------------- |
+| `/`                  | `Pages/Home.razor`            | Home, links to demos |
+| `/components`        | `Pages/Components.razor`      | Catalog index        |
+| `/components/{slug}` | `Pages/ComponentDetail.razor` | Live demo + metadata |
 
 `ComponentDetail.razor` renders the demo HTML from `ComponentData.cs` using
 `MarkupString`. `ComponentData.Components` is a `List<ComponentInfo>` with
@@ -243,13 +243,13 @@ pnpm exec playwright test                              # e2e tests
 
 ## 13. Prohibited
 
-| Prohibition                       | Reason                              |
-| --------------------------------- | ----------------------------------- |
-| `nhsuk-` prefixes in markup       | CSS targets Lily classes directly   |
-| Tailwind, DaisyUI, Bootstrap      | no CSS framework dependency         |
-| Re-implementing headless comps    | reference the sibling project       |
-| `.razor.css` isolation in pages   | use the shared `wwwroot/css/nhs.css`|
-| Blazor WebAssembly mode           | this app is Interactive Server      |
+| Prohibition                     | Reason                               |
+| ------------------------------- | ------------------------------------ |
+| `nhsuk-` prefixes in markup     | CSS targets Lily classes directly    |
+| Tailwind, DaisyUI, Bootstrap    | no CSS framework dependency          |
+| Re-implementing headless comps  | reference the sibling project        |
+| `.razor.css` isolation in pages | use the shared `wwwroot/css/nhs.css` |
+| Blazor WebAssembly mode         | this app is Interactive Server       |
 
 ## 14. Tracking
 

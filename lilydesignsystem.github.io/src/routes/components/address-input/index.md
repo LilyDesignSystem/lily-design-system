@@ -15,19 +15,23 @@ The component is intentionally minimal: it provides only the input and the autoc
 
 ## Props
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `label` | string (required) | — | Accessible name set on `aria-label` |
-| `value` | string | "" | Bindable address value |
-| `required` | boolean | false | Whether the field is required |
-| `disabled` | boolean | false | Whether the field is disabled |
-| `autocomplete` | string | "street-address" | HTML autocomplete token; useful values include `street-address`, `address-line1`, `address-line2`, `postal-code` |
-| `...restProps` | HTML attributes | — | Spread onto the root `<input>` element |
+| Prop           | Type              | Default          | Description                                                                                                      |
+| -------------- | ----------------- | ---------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `label`        | string (required) | —                | Accessible name set on `aria-label`                                                                              |
+| `value`        | string            | ""               | Bindable address value                                                                                           |
+| `required`     | boolean           | false            | Whether the field is required                                                                                    |
+| `disabled`     | boolean           | false            | Whether the field is disabled                                                                                    |
+| `autocomplete` | string            | "street-address" | HTML autocomplete token; useful values include `street-address`, `address-line1`, `address-line2`, `postal-code` |
+| `...restProps` | HTML attributes   | —                | Spread onto the root `<input>` element                                                                           |
 
 ## Usage
 
 ```html
-<AddressInput label="Postal address" value="" autocomplete="street-address" />
+<AddressInput
+  label="Postal address"
+  value=""
+  autocomplete="street-address"
+/>
 ```
 
 ## Keyboard Interactions

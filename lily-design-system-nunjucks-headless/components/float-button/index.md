@@ -24,7 +24,7 @@ Because the visible content is typically an icon, the consumer
 
 - `label` — string. **Required.** `aria-label` for the button.
 - `position` — `"top-left" | "top-right" | "bottom-left" |
-  "bottom-right"`. Default `"bottom-right"`.
+"bottom-right"`. Default `"bottom-right"`.
 - `type` — `"button" | "submit" | "reset"`. Default `"button"`.
 - `disabled` — boolean.
 - `text` — string. Plain text content (escaped).

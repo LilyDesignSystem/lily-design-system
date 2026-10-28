@@ -27,11 +27,11 @@ A multi-level dropdown for selecting a value from a hierarchy. The component ren
 
 ```vue
 <Cascader
-    label="Region"
-    :expanded="open"
-    placeholder="Select region…"
-    :value="selected"
-    @click="open = !open"
+  label="Region"
+  :expanded="open"
+  placeholder="Select region…"
+  :value="selected"
+  @click="open = !open"
 >
     <ul role="tree">
         <li role="treeitem">North America</li>

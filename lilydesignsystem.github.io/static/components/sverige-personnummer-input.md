@@ -23,9 +23,19 @@ SverigePersonnummerInput is a headless input for entering Sweden's Personnummer,
 ## Usage
 
 ```html
-<Field label="Personal Identity Number" required>
-  <SverigePersonnummerInput label="Personal Identity Number" value={value} required />
-  <Hint>12 digits in the format CCYYMMDDZZZQ: CCYYMMDD is the date of birth, ZZZ a serial (odd male, even female), and Q a Luhn check digit</Hint>
+<Field
+  label="Personal Identity Number"
+  required
+>
+  <SverigePersonnummerInput
+    label="Personal Identity Number"
+    value="{value}"
+    required
+  />
+  <Hint
+    >12 digits in the format CCYYMMDDZZZQ: CCYYMMDD is the date of birth, ZZZ a serial (odd male,
+    even female), and Q a Luhn check digit</Hint
+  >
   <ErrorMessage>Please enter a valid Personal Identity Number</ErrorMessage>
 </Field>
 ```

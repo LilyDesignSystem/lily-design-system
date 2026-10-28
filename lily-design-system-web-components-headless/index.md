@@ -30,7 +30,11 @@ pnpm install @lilydesignsystem/web-components-headless
 
 <lily-text-input label="Your name"></lily-text-input>
 <lily-button label="Greet">Greet</lily-button>
-<lily-alert type="success" heading="Greeting" hidden>
+<lily-alert
+  type="success"
+  heading="Greeting"
+  hidden
+>
   Welcome!
 </lily-alert>
 

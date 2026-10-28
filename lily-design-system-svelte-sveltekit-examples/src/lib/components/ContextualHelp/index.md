@@ -35,12 +35,16 @@ A headless Svelte 5 component that renders a wrapper `<div class="contextual-hel
 
 ```svelte
 <script lang="ts">
-  import ContextualHelp from './ContextualHelp.svelte';
+  import ContextualHelp from "./ContextualHelp.svelte";
 
   let open = $state(false);
 </script>
 
-<ContextualHelp label="Help with this field" expanded={open} onclick={() => (open = !open)}>
+<ContextualHelp
+  label="Help with this field"
+  expanded={open}
+  onclick={() => (open = !open)}
+>
   <p>Why we ask: this helps verify your account.</p>
 </ContextualHelp>
 ```

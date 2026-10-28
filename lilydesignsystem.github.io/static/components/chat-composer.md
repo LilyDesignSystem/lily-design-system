@@ -17,20 +17,20 @@ A chat input form kept deliberately narrow: a `<textarea>` and **one** button. T
 
 ## Props
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `label` | string (required) | — | Accessible name of the textarea |
-| `sendLabel` | string (required) | — | Word for the send button |
-| `stopLabel` | string (required) | — | Word for the stop button |
-| `value` | string | `""` | The text (bindable / `v-model` / controlled) |
-| `placeholder`, `name` | string | — | Passed to the textarea |
-| `minRows`, `maxRows` | number | `1`, `8` | Row limits for the growing textarea |
-| `busy` | boolean | `false` | A reply is in progress: the button becomes stop |
-| `disabled` | boolean | `false` | Disables the textarea and the button |
-| `onSend(value)` / `send` event | callback | — | Enter or submit, when there is text and not busy/disabled |
-| `onStop()` / `stop` event | callback | — | The stop button was pressed |
-| `children` | slot | — | Rendered inside the form before the textarea |
-| `class`, `...restProps` | | | Appended to the base class / spread onto the `<form>` |
+| Prop                           | Type              | Default  | Description                                               |
+| ------------------------------ | ----------------- | -------- | --------------------------------------------------------- |
+| `label`                        | string (required) | —        | Accessible name of the textarea                           |
+| `sendLabel`                    | string (required) | —        | Word for the send button                                  |
+| `stopLabel`                    | string (required) | —        | Word for the stop button                                  |
+| `value`                        | string            | `""`     | The text (bindable / `v-model` / controlled)              |
+| `placeholder`, `name`          | string            | —        | Passed to the textarea                                    |
+| `minRows`, `maxRows`           | number            | `1`, `8` | Row limits for the growing textarea                       |
+| `busy`                         | boolean           | `false`  | A reply is in progress: the button becomes stop           |
+| `disabled`                     | boolean           | `false`  | Disables the textarea and the button                      |
+| `onSend(value)` / `send` event | callback          | —        | Enter or submit, when there is text and not busy/disabled |
+| `onStop()` / `stop` event      | callback          | —        | The stop button was pressed                               |
+| `children`                     | slot              | —        | Rendered inside the form before the textarea              |
+| `class`, `...restProps`        |                   |          | Appended to the base class / spread onto the `<form>`     |
 
 ## Usage
 
@@ -41,19 +41,22 @@ A chat input form kept deliberately narrow: a `<textarea>` and **one** button. T
   stopLabel="Stop"
   bind:value={draft}
   busy={replying}
-  onSend={(text) => { send(text); draft = ""; }}
+  onSend={(text) => {
+    send(text);
+    draft = "";
+  }}
   onStop={cancelReply}
 />
 ```
 
 ## Keyboard Interactions
 
-| Key | Action |
-| --- | ------ |
-| Enter | Send (when there is text, and not busy or disabled) |
-| Shift+Enter | Insert a line break |
-| Enter during IME composition | Nothing |
-| Enter or Space on the button | Send, or stop while busy |
+| Key                          | Action                                              |
+| ---------------------------- | --------------------------------------------------- |
+| Enter                        | Send (when there is text, and not busy or disabled) |
+| Shift+Enter                  | Insert a line break                                 |
+| Enter during IME composition | Nothing                                             |
+| Enter or Space on the button | Send, or stop while busy                            |
 
 ## ARIA
 

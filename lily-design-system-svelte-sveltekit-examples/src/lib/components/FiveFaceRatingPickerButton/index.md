@@ -31,34 +31,37 @@ Render one button per value (1–5) and track selection in the parent.
 
 ```svelte
 <script lang="ts">
-    import FiveFaceRatingPickerButton from "./FiveFaceRatingPickerButton.svelte";
-    let rating = $state(0);
-    const labels = ["Very bad", "Bad", "Okay", "Good", "Very good"];
+  import FiveFaceRatingPickerButton from "./FiveFaceRatingPickerButton.svelte";
+  let rating = $state(0);
+  const labels = ["Very bad", "Bad", "Okay", "Good", "Very good"];
 </script>
 
-<div role="group" aria-label="Rate us">
-    {#each labels as l, i}
-        <FiveFaceRatingPickerButton
-            value={i + 1}
-            label={l}
-            selected={rating === i + 1}
-            onclick={() => rating = i + 1}
-        />
-    {/each}
+<div
+  role="group"
+  aria-label="Rate us"
+>
+  {#each labels as l, i}
+    <FiveFaceRatingPickerButton
+      value={i + 1}
+      label={l}
+      selected={rating === i + 1}
+      onclick={() => (rating = i + 1)}
+    />
+  {/each}
 </div>
 ```
 
 ## Props
 
-| Prop       | Type                              | Default     | Description                                |
-| ---------- | --------------------------------- | ----------- | ------------------------------------------ |
-| `class`    | `string`                          | `""`        | CSS class appended to the base class.     |
-| `value`    | `number`                          | required    | Rating value (1–5).                        |
-| `label`    | `string`                          | required    | Accessible name and visible button text.   |
-| `selected` | `boolean`                         | `false`     | Whether this face is currently selected.   |
-| `disabled` | `boolean`                         | `false`     | Whether the button is disabled.            |
-| `onclick`  | `(event: MouseEvent) => void`     | `undefined` | Click handler.                             |
-| `...rest`  | `unknown`                         | —           | Additional HTML attributes on the button.  |
+| Prop       | Type                          | Default     | Description                               |
+| ---------- | ----------------------------- | ----------- | ----------------------------------------- |
+| `class`    | `string`                      | `""`        | CSS class appended to the base class.     |
+| `value`    | `number`                      | required    | Rating value (1–5).                       |
+| `label`    | `string`                      | required    | Accessible name and visible button text.  |
+| `selected` | `boolean`                     | `false`     | Whether this face is currently selected.  |
+| `disabled` | `boolean`                     | `false`     | Whether the button is disabled.           |
+| `onclick`  | `(event: MouseEvent) => void` | `undefined` | Click handler.                            |
+| `...rest`  | `unknown`                     | —           | Additional HTML attributes on the button. |
 
 ## Usage
 
@@ -66,46 +69,64 @@ Render one button per value (1–5) and track selection in the parent.
 
 ```svelte
 <script lang="ts">
-    import FiveFaceRatingPickerButton from "./FiveFaceRatingPickerButton.svelte";
-    let rating = $state(0);
-    const labels = ["Very bad", "Bad", "Okay", "Good", "Very good"];
+  import FiveFaceRatingPickerButton from "./FiveFaceRatingPickerButton.svelte";
+  let rating = $state(0);
+  const labels = ["Very bad", "Bad", "Okay", "Good", "Very good"];
 </script>
 
-<div role="group" aria-label="Experience">
-    {#each labels as label, i}
-        <FiveFaceRatingPickerButton
-            value={i + 1}
-            {label}
-            selected={rating === i + 1}
-            onclick={() => rating = i + 1}
-        />
-    {/each}
+<div
+  role="group"
+  aria-label="Experience"
+>
+  {#each labels as label, i}
+    <FiveFaceRatingPickerButton
+      value={i + 1}
+      {label}
+      selected={rating === i + 1}
+      onclick={() => (rating = i + 1)}
+    />
+  {/each}
 </div>
 ```
 
 ### 2. Selected state
 
 ```svelte
-<FiveFaceRatingPickerButton value={4} label="Good" selected />
+<FiveFaceRatingPickerButton
+  value={4}
+  label="Good"
+  selected
+/>
 ```
 
 ### 3. Disabled
 
 ```svelte
-<FiveFaceRatingPickerButton value={1} label="Very bad" disabled />
+<FiveFaceRatingPickerButton
+  value={1}
+  label="Very bad"
+  disabled
+/>
 ```
 
 ### 4. Styled via data-value
 
 ```svelte
-<FiveFaceRatingPickerButton value={3} label="Okay" />
+<FiveFaceRatingPickerButton
+  value={3}
+  label="Okay"
+/>
 <!-- CSS may target [data-value="3"] for a specific face colour -->
 ```
 
 ### 5. Localised
 
 ```svelte
-<FiveFaceRatingPickerButton value={5} label="Excelente" onclick={pickFive} />
+<FiveFaceRatingPickerButton
+  value={5}
+  label="Excelente"
+  onclick={pickFive}
+/>
 ```
 
 ## Accessibility

@@ -29,13 +29,25 @@ OneTimePasswordInput is a headless field for entering a one-time passcode (OTP) 
 ## Usage
 
 ```html
-<OneTimePasswordInput label="Verification code" length={6} bind:value={code} name="otp" required />
+<OneTimePasswordInput
+  label="Verification code"
+  length="{6}"
+  bind:value="{code}"
+  name="otp"
+  required
+/>
 ```
 
 Alphanumeric code:
 
 ```html
-<OneTimePasswordInput label="Backup code" length={8} inputMode="text" pattern="[A-Za-z0-9]*" bind:value={backup} />
+<OneTimePasswordInput
+  label="Backup code"
+  length="{8}"
+  inputMode="text"
+  pattern="[A-Za-z0-9]*"
+  bind:value="{backup}"
+/>
 ```
 
 ## Keyboard Interactions

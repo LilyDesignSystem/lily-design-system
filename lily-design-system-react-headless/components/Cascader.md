@@ -23,7 +23,12 @@ A multi-level dropdown for selecting a value from a hierarchy. The component is 
 ## Usage
 
 ```tsx
-<Cascader label="Region" expanded={open} value={selected} onClick={toggle}>
+<Cascader
+  label="Region"
+  expanded={open}
+  value={selected}
+  onClick={toggle}
+>
   <ul role="tree">…</ul>
 </Cascader>
 ```

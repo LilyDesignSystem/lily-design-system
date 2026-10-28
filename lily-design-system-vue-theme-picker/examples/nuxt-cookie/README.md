@@ -7,12 +7,12 @@ no SSR hydration mismatch.
 Files in this folder match Nuxt 3's filesystem-routing convention.
 Drop them under the corresponding paths in a Nuxt 3 project.
 
-| File                            | Role                                                      |
-| ------------------------------- | --------------------------------------------------------- |
-| `server/middleware/theme.ts`    | Reads the `theme` cookie into `event.context.theme`.      |
-| `plugins/theme.ts`              | Exposes the resolved theme to the client via `useNuxtApp`. |
-| `app.vue`                       | Renders the picker; calls `useHead` to inline `data-theme`. |
-| `server/api/theme.post.ts`      | Tiny endpoint that writes the cookie on change.           |
+| File                         | Role                                                        |
+| ---------------------------- | ----------------------------------------------------------- |
+| `server/middleware/theme.ts` | Reads the `theme` cookie into `event.context.theme`.        |
+| `plugins/theme.ts`           | Exposes the resolved theme to the client via `useNuxtApp`.  |
+| `app.vue`                    | Renders the picker; calls `useHead` to inline `data-theme`. |
+| `server/api/theme.post.ts`   | Tiny endpoint that writes the cookie on change.             |
 
 Required setup in your project:
 
@@ -36,7 +36,7 @@ next SSR request sees the new cookie.
 ## SSR caveat
 
 Calling `document.cookie = …` from the browser is enough for the
-*current* tab but does not write a server-readable cookie when the
+_current_ tab but does not write a server-readable cookie when the
 page is rendered server-side on the next request unless the path,
 SameSite, and Max-Age match. The endpoint version is more
 defensive; the direct `document.cookie` write is fine for SPA-only

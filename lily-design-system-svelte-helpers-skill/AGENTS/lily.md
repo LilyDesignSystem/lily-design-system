@@ -48,7 +48,6 @@ behaviour. Its example app is [`lily-design-system-alpine-examples`](../lily-des
 
 Each framework ships eleven `*-picker` helpers — theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, search-picker (added 2026-10-02), link-picker (added 2026-10-07: a home icon opening the page links the app defines), menu-picker and settings-picker (added 2026-10-08: a hamburger / a cog opening a dropdown of whatever the app provides), time-zone-picker (added 2026-10-24: time zones by UTC offset, named by Unicode CLDR in 64 languages), date-time-picker. The first seven are an icon button that opens a popup; none is a native `<select>` any more. `date-time-picker` is the exception: a form control, so it pairs a typeable text field with its trigger and opens an APG date-picker dialog. Svelte is the canonical reference; the other seven are idiom ports. Every framework's helpers are one top-level subproject per package (below), since 2026-10-10.
 
-
 The Svelte helpers (canonical reference) are one top-level subproject per package, since 2026-10-10 (the data grid since 2026-10-09); the `lily-design-system-svelte-helpers` catalog that held them is gone. `bin/list-helper-packages svelte` lists them in build order:
 
 - [`lily-design-system-svelte-data-grid`](../lily-design-system-svelte-data-grid) — `@lilydesignsystem/svelte-data-grid`
@@ -73,15 +72,15 @@ The Svelte helpers (canonical reference) are one top-level subproject per packag
 
 The other seven catalogs mirror the Svelte list one package per subproject, named `lily-design-system-<framework>-<package>` and published as `@lilydesignsystem/<framework>-<package>` (Blazor: `LilyDesignSystem.Blazor.<Package>` on NuGet). Do not hand-maintain per-framework lists here; ask the script, which prints them in dependency (build) order:
 
-| Framework | List its packages |
-| --------- | ----------------- |
-| React | `bin/list-helper-packages react` |
-| Vue | `bin/list-helper-packages vue` |
-| Angular | `bin/list-helper-packages angular` |
-| HTML | `bin/list-helper-packages html` |
+| Framework      | List its packages                         |
+| -------------- | ----------------------------------------- |
+| React          | `bin/list-helper-packages react`          |
+| Vue            | `bin/list-helper-packages vue`            |
+| Angular        | `bin/list-helper-packages angular`        |
+| HTML           | `bin/list-helper-packages html`           |
 | Web Components | `bin/list-helper-packages web-components` |
-| Nunjucks | `bin/list-helper-packages nunjucks` |
-| Blazor | `bin/list-helper-packages blazor` |
+| Nunjucks       | `bin/list-helper-packages nunjucks`       |
+| Blazor         | `bin/list-helper-packages blazor`         |
 
 Nunjucks also ships `nunjucks-listbox-behavior`. Alpine ships only `alpine-{data-grid,kanban-board,calendar,gantt-chart}`. Port gaps are allow-listed with reasons in `bin/check-port-parity`.
 
@@ -93,8 +92,8 @@ The [themes/](../themes) directory ships 57 standalone theme stylesheets (NHS En
 
 Twenty-seven top-level Claude Skill packages in three tiers, spec: [spec/agent-skills/index.md](../spec/agent-skills/index.md).
 
-- [lily-design-system-skill](../lily-design-system-skill) — general-purpose: concepts, terminology, naming conventions, composition patterns, for people building *with* Lily.
-- [lily-design-system-maintainer-skill](../lily-design-system-maintainer-skill) — technical: required files, `bin/` tooling, the spec-driven workflow, for people working *on* this monorepo.
+- [lily-design-system-skill](../lily-design-system-skill) — general-purpose: concepts, terminology, naming conventions, composition patterns, for people building _with_ Lily.
+- [lily-design-system-maintainer-skill](../lily-design-system-maintainer-skill) — technical: required files, `bin/` tooling, the spec-driven workflow, for people working _on_ this monorepo.
 - Eight framework-umbrella skills (2026-09-05), one `{framework}-skill` per framework family, each mapping that framework's up-to-three real subprojects (headless, helpers, example app — the one layer neither sibling skill below covers) and pointing down into them: `lily-design-system-angular-skill`, `lily-design-system-blazor-skill`, `lily-design-system-html-skill`, `lily-design-system-nunjucks-skill`, `lily-design-system-react-skill`, `lily-design-system-svelte-skill`, `lily-design-system-vue-skill`, `lily-design-system-web-components-skill` (the one with only two subprojects to map — no Web Components example app exists yet).
 - [lily-design-system-alpine-headless-skill](../lily-design-system-alpine-headless-skill) (2026-10-21) — the Alpine.js headless catalog: the snippet-plus-plugin idiom, behaviours, events. Alpine has no helpers or example app yet, so it has no helpers-skill or umbrella.
 - Sixteen framework-specific skills (2026-09-04), one `{framework}-headless-skill` and one `{framework}-helpers-skill` per framework family, each scoped to exactly the one real subproject it covers: `lily-design-system-angular-headless-skill`, `lily-design-system-angular-helpers-skill`, `lily-design-system-blazor-headless-skill`, `lily-design-system-blazor-helpers-skill`, `lily-design-system-html-headless-skill`, `lily-design-system-html-helpers-skill`, `lily-design-system-nunjucks-headless-skill`, `lily-design-system-nunjucks-helpers-skill`, `lily-design-system-react-headless-skill`, `lily-design-system-react-helpers-skill`, `lily-design-system-svelte-headless-skill`, `lily-design-system-svelte-helpers-skill`, `lily-design-system-vue-headless-skill`, `lily-design-system-vue-helpers-skill`, `lily-design-system-web-components-headless-skill` (covers its full achievable scope), `lily-design-system-web-components-helpers-skill`.
@@ -112,22 +111,22 @@ Edit the source, never the output. These files are written by a generator; a han
 the script lacks, or omits a script that has one. Rows whose check is "none" are known gaps (tasks.md P13-T1), not
 exemptions.
 
-| Source (edit this) | Generator | Generated output (never edit) | Check |
-| ------------------ | --------- | ----------------------------- | ----- |
-| `components/{slug}/AGENTS.md`, `components.tsv` | `bin/generate-component-categories` | `components-categories.tsv` | none (staleness is caught indirectly by `bin/generate-registries --check`) |
-| `components.tsv`, `components-categories.tsv`, the Svelte `component-demos.ts` | `bin/generate-registries` | the example apps' registries and `component-demos.ts` copies, `ComponentData.cs`, the HTML app's embedded arrays, the site's `src/lib/components.ts`, the component listing in `index.md` | `bin/generate-registries --check` |
-| each component's `## Usage` doc, `component-variants.json` | `bin/generate-examples` | every app's `component-examples` data, `ComponentExamples.cs`, the HTML app's `componentExamples` region, the Nunjucks app's generated examples regions | none |
-| `components/{slug}/index.md`, the demo map, the examples data | `bin/generate-site-pages` | the docs site's `src/routes/components/{slug}/+page.svelte` (placeholder rebuild and the Example region) | none |
-| `components/{slug}/AGENTS.md`, the headless file layout | `bin/generate-api-docs` | the canonical-contract region on each site page, `static/r/{slug}.json` and `static/r/index.json`, `static/components/{slug}.md` | `bin/generate-api-docs --check` |
-| the SvelteKit route tree | `bin/generate-sitemap` | `lilydesignsystem.github.io/static/sitemap.xml` | `bin/generate-sitemap --check` (not yet in `bin/test`) |
-| `themes/tokens/*.json` | `bin/generate-theme-tokens` | the token block of each `themes/*.css` | `bin/generate-theme-tokens --check` |
-| each headless library's components | `bin/sync-example-components` | the same components inside each example app | `bin/sync-example-components --check` |
-| `shared/*.ts`, `shared/label-packs/*.json` | `bin/sync-shared-modules` | each package's copy of a shared module, and the locale-translations label packs | `bin/sync-shared-modules --check` |
-| the root special files (LICENSE, CONTRIBUTING, …) | `bin/sync-special-files` | the same files in every subproject | `bin/sync-special-files --check` |
-| the Unicode CLDR (through Node's ICU), `shared/label-packs/` locale list | `bin/generate-zone-names` | `shared/zone-names/*.json`, and its copies in the locale-translations packages | `bin/generate-zone-names --check` |
-| `src/lib/pages/*/en.html` | `bin/generate-page-markdown` | `static/<route>.md`, one Markdown twin per English text page | `bin/generate-page-markdown --check` |
-| the site's English route pages | `bin/extract-site-pages` | `src/lib/pages/{slug}/en.html` | `bin/extract-site-pages --check` |
-| `src/lib/pages/*` translations | `bin/generate-locale-pages` | `src/routes/<code>/<slug>/+page.svelte` | `bin/generate-locale-pages --check` |
+| Source (edit this)                                                             | Generator                           | Generated output (never edit)                                                                                                                                                             | Check                                                                      |
+| ------------------------------------------------------------------------------ | ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| `components/{slug}/AGENTS.md`, `components.tsv`                                | `bin/generate-component-categories` | `components-categories.tsv`                                                                                                                                                               | none (staleness is caught indirectly by `bin/generate-registries --check`) |
+| `components.tsv`, `components-categories.tsv`, the Svelte `component-demos.ts` | `bin/generate-registries`           | the example apps' registries and `component-demos.ts` copies, `ComponentData.cs`, the HTML app's embedded arrays, the site's `src/lib/components.ts`, the component listing in `index.md` | `bin/generate-registries --check`                                          |
+| each component's `## Usage` doc, `component-variants.json`                     | `bin/generate-examples`             | every app's `component-examples` data, `ComponentExamples.cs`, the HTML app's `componentExamples` region, the Nunjucks app's generated examples regions                                   | none                                                                       |
+| `components/{slug}/index.md`, the demo map, the examples data                  | `bin/generate-site-pages`           | the docs site's `src/routes/components/{slug}/+page.svelte` (placeholder rebuild and the Example region)                                                                                  | none                                                                       |
+| `components/{slug}/AGENTS.md`, the headless file layout                        | `bin/generate-api-docs`             | the canonical-contract region on each site page, `static/r/{slug}.json` and `static/r/index.json`, `static/components/{slug}.md`                                                          | `bin/generate-api-docs --check`                                            |
+| the SvelteKit route tree                                                       | `bin/generate-sitemap`              | `lilydesignsystem.github.io/static/sitemap.xml`                                                                                                                                           | `bin/generate-sitemap --check` (not yet in `bin/test`)                     |
+| `themes/tokens/*.json`                                                         | `bin/generate-theme-tokens`         | the token block of each `themes/*.css`                                                                                                                                                    | `bin/generate-theme-tokens --check`                                        |
+| each headless library's components                                             | `bin/sync-example-components`       | the same components inside each example app                                                                                                                                               | `bin/sync-example-components --check`                                      |
+| `shared/*.ts`, `shared/label-packs/*.json`                                     | `bin/sync-shared-modules`           | each package's copy of a shared module, and the locale-translations label packs                                                                                                           | `bin/sync-shared-modules --check`                                          |
+| the root special files (LICENSE, CONTRIBUTING, …)                              | `bin/sync-special-files`            | the same files in every subproject                                                                                                                                                        | `bin/sync-special-files --check`                                           |
+| the Unicode CLDR (through Node's ICU), `shared/label-packs/` locale list       | `bin/generate-zone-names`           | `shared/zone-names/*.json`, and its copies in the locale-translations packages                                                                                                            | `bin/generate-zone-names --check`                                          |
+| `src/lib/pages/*/en.html`                                                      | `bin/generate-page-markdown`        | `static/<route>.md`, one Markdown twin per English text page                                                                                                                              | `bin/generate-page-markdown --check`                                       |
+| the site's English route pages                                                 | `bin/extract-site-pages`            | `src/lib/pages/{slug}/en.html`                                                                                                                                                            | `bin/extract-site-pages --check`                                           |
+| `src/lib/pages/*` translations                                                 | `bin/generate-locale-pages`         | `src/routes/<code>/<slug>/+page.svelte`                                                                                                                                                   | `bin/generate-locale-pages --check`                                        |
 
 Also copied rather than generated: `bin/sync` rsyncs the root `AGENTS/` and `themes/` into subprojects, and
 `bin/generate-storybook-stories.mjs` writes Svelte story files. Neither has a `--check`.

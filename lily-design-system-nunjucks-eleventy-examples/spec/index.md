@@ -49,14 +49,14 @@ framework. Pages work without JavaScript (progressive enhancement only).
 
 ### Framework + tooling
 
-| Concern             | Choice                                      |
-| ------------------- | ------------------------------------------- |
-| Static-site builder | Eleventy 3.x                                |
-| Template engine     | Nunjucks 3.x                                |
-| Language            | JavaScript (Eleventy config + data)         |
-| Package manager     | pnpm                                        |
-| E2E test            | Playwright                                  |
-| Styling             | Plain CSS with custom properties (NHS)      |
+| Concern             | Choice                                 |
+| ------------------- | -------------------------------------- |
+| Static-site builder | Eleventy 3.x                           |
+| Template engine     | Nunjucks 3.x                           |
+| Language            | JavaScript (Eleventy config + data)    |
+| Package manager     | pnpm                                   |
+| E2E test            | Playwright                             |
+| Styling             | Plain CSS with custom properties (NHS) |
 
 ### Headless dependency
 
@@ -67,12 +67,9 @@ transparently:
 ```js
 // .eleventy.js
 const nunjucksEnv = new Nunjucks.Environment(
-  new Nunjucks.FileSystemLoader([
-    'src',
-    '../lily-design-system-nunjucks-headless/components',
-  ])
+  new Nunjucks.FileSystemLoader(["src", "../lily-design-system-nunjucks-headless/components"]),
 );
-eleventyConfig.setLibrary('njk', nunjucksEnv);
+eleventyConfig.setLibrary("njk", nunjucksEnv);
 ```
 
 Macros are then imported in templates like:
@@ -111,11 +108,11 @@ lily-design-system-nunjucks-eleventy-examples/
 
 ## 4. Required routes
 
-| Route                       | File                                  | Purpose                          |
-| --------------------------- | ------------------------------------- | -------------------------------- |
-| `/`                         | `src/index.njk`                       | Home, links to demos             |
-| `/components/`              | `src/components/index.njk`            | Catalog index                    |
-| `/components/{slug}/`       | `src/components/{slug}.njk` (paged)   | Per-component live demo          |
+| Route                 | File                                | Purpose                 |
+| --------------------- | ----------------------------------- | ----------------------- |
+| `/`                   | `src/index.njk`                     | Home, links to demos    |
+| `/components/`        | `src/components/index.njk`          | Catalog index           |
+| `/components/{slug}/` | `src/components/{slug}.njk` (paged) | Per-component live demo |
 
 The catalog is paged from `src/_data/components.js` and emits one HTML page
 per canonical slug. Each per-slug page imports the corresponding Nunjucks
@@ -232,15 +229,15 @@ pnpm exec playwright test            # e2e tests
 
 ## 11. Prohibited
 
-| Prohibition                       | Reason                              |
-| --------------------------------- | ----------------------------------- |
-| Framework coupling (React, etc.)  | static site, no UI framework        |
-| SSR server runtime                | output is a static site             |
-| Tailwind, DaisyUI, Bootstrap      | no CSS framework dependency         |
-| SCSS / Sass / Less                | plain CSS only                      |
-| Bundled proprietary fonts         | NHS UK spec uses system fonts       |
-| Analytics, trackers               | no third-party scripts              |
-| `nhsuk-` prefixes in markup       | CSS targets Lily classes directly   |
+| Prohibition                      | Reason                            |
+| -------------------------------- | --------------------------------- |
+| Framework coupling (React, etc.) | static site, no UI framework      |
+| SSR server runtime               | output is a static site           |
+| Tailwind, DaisyUI, Bootstrap     | no CSS framework dependency       |
+| SCSS / Sass / Less               | plain CSS only                    |
+| Bundled proprietary fonts        | NHS UK spec uses system fonts     |
+| Analytics, trackers              | no third-party scripts            |
+| `nhsuk-` prefixes in markup      | CSS targets Lily classes directly |
 
 ## 12. Tracking
 

@@ -15,18 +15,18 @@ Every example assumes:
 - Each theme CSS file scopes its tokens with
   `:root[data-theme="<slug>"]`.
 
-| #   | File                                               | Demonstrates                                                                                          |
-| --- | -------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| #   | File                                               | Demonstrates                                                                                        |
+| --- | -------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
 | 1   | [`basic.vue`](./basic.vue)                         | Minimal three-theme picker, plus the `.theme-picker-status` live region every consumer should ship. |
-| 2   | [`two-way-binding.vue`](./two-way-binding.vue)     | `v-model:value` and `@change`.                                                                        |
-| 3   | [`persistence.vue`](./persistence.vue)             | `localStorage` survival across reloads.                                                               |
-| 4   | [`custom-labels.vue`](./custom-labels.vue)         | `themeLabels` for i18n / display names.                                                               |
-| 5   | [`custom-rendering.vue`](./custom-rendering.vue)   | Custom button glyph via the default scoped slot.                                                      |
-| 6   | [`preloaded.vue`](./preloaded.vue)                 | Zero-flicker switching via preloading.                                                                |
-| 7   | [`multiple-pickers.vue`](./multiple-pickers.vue) | Two pickers in one page via `name`.                                                                  |
-| 8   | [`system-preference.vue`](./system-preference.vue) | Follow `prefers-color-scheme`.                                                                        |
-| 9   | [`lily-themes.vue`](./lily-themes.vue)             | All 45 Lily themes at once.                                                                           |
-| 10  | [`nuxt-cookie/`](./nuxt-cookie/)                   | SSR-resolved theme via a cookie (Nuxt 3).                                                             |
+| 2   | [`two-way-binding.vue`](./two-way-binding.vue)     | `v-model:value` and `@change`.                                                                      |
+| 3   | [`persistence.vue`](./persistence.vue)             | `localStorage` survival across reloads.                                                             |
+| 4   | [`custom-labels.vue`](./custom-labels.vue)         | `themeLabels` for i18n / display names.                                                             |
+| 5   | [`custom-rendering.vue`](./custom-rendering.vue)   | Custom button glyph via the default scoped slot.                                                    |
+| 6   | [`preloaded.vue`](./preloaded.vue)                 | Zero-flicker switching via preloading.                                                              |
+| 7   | [`multiple-pickers.vue`](./multiple-pickers.vue)   | Two pickers in one page via `name`.                                                                 |
+| 8   | [`system-preference.vue`](./system-preference.vue) | Follow `prefers-color-scheme`.                                                                      |
+| 9   | [`lily-themes.vue`](./lily-themes.vue)             | All 45 Lily themes at once.                                                                         |
+| 10  | [`nuxt-cookie/`](./nuxt-cookie/)                   | SSR-resolved theme via a cookie (Nuxt 3).                                                           |
 
 ## Running the examples
 
@@ -46,7 +46,11 @@ By default the component renders an icon button that opens a listbox:
 
 ```html
 <div class="theme-picker">
-  <input type="hidden" name="theme" value="light" />
+  <input
+    type="hidden"
+    name="theme"
+    value="light"
+  />
   <button
     type="button"
     class="theme-picker-button"
@@ -55,7 +59,27 @@ By default the component renders an icon button that opens a listbox:
     aria-expanded="false"
     aria-controls="theme-picker-1-list"
   >
-    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>
+    <svg
+      class="theme-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle
+        cx="8"
+        cy="8"
+        r="6"
+      />
+      <path
+        d="M8 2a6 6 0 0 1 0 12z"
+        fill="currentColor"
+        stroke="none"
+      />
+    </svg>
   </button>
   <ul
     class="theme-picker-list"

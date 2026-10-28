@@ -29,12 +29,12 @@ A select dropdown showing a tree of hierarchical options. Renders a `role="combo
 
 ```vue
 <TreeSelect
-    label="Department"
-    :expanded="open"
-    :multiple="true"
-    placeholder="Select department…"
-    :value="selected"
-    @click="open = !open"
+  label="Department"
+  :expanded="open"
+  :multiple="true"
+  placeholder="Select department…"
+  :value="selected"
+  @click="open = !open"
 >
     <ul role="tree">
         <li role="treeitem">Engineering</li>

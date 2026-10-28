@@ -4,7 +4,7 @@ _Last reviewed 2026-08-28. This statement changes in the same commit as
 the practice it describes._
 
 Lily **targets WCAG 2.2 AAA** and follows the WAI-ARIA Authoring
-Practices Guide 1.2. That word — *targets* — is deliberate and this
+Practices Guide 1.2. That word — _targets_ — is deliberate and this
 document exists to make it precise: what is verified, by what, what is
 not verified by anything, and what we intend to do about the gap. The
 project's standing rule is that no artifact may claim WCAG
@@ -12,14 +12,14 @@ project's standing rule is that no artifact may claim WCAG
 
 ## What is verified, and by what
 
-| Claim | Verified by | Standing |
-| --- | --- | --- |
-| Every component renders its canonical semantic element, ARIA attributes, and class hooks | Per-framework unit suites asserting rendered DOM (15,000+ cases across seven frameworks; counts in [spec §11.4](../spec/index.md)) | Continuous (CI) |
-| Every one of the 571 component demo pages is axe-clean in the SvelteKit app | The full-catalog sweep (`e2e/axe-catalog.spec.ts`, 571/571, re-run 2026-10-06) plus per-app axe baselines on home, catalog, and composed routes — rule sets WCAG 2.0 A+AA, 2.1 A+AA, **2.2 AA** | Baselined 2026-08-27; per-app suites in the e2e runs |
-| Keyboard contracts for interactive components | Documented per component in `components/{slug}/AGENTS.md`; exercised by unit suites and, for the helpers, by real-browser Playwright specs | Continuous |
-| Touch targets meet WCAG 2.2 target-size (2.5.8) on themed pages | A shared floor in all 45 themes, checked by the axe 2.2 rule set in every sweep | Continuous |
-| No hardcoded user-facing strings; `lang`/`dir` application | The i18n rules in [AGENTS/internationalization.md](../AGENTS/internationalization.md); locale-picker e2e asserts `lang` and the RTL flip in all seven example apps | Continuous |
-| Skip-link, landmarks, no horizontal overflow at four viewports | Responsive sweeps per example app | Continuous |
+| Claim                                                                                    | Verified by                                                                                                                                                                                     | Standing                                             |
+| ---------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
+| Every component renders its canonical semantic element, ARIA attributes, and class hooks | Per-framework unit suites asserting rendered DOM (15,000+ cases across seven frameworks; counts in [spec §11.4](../spec/index.md))                                                              | Continuous (CI)                                      |
+| Every one of the 571 component demo pages is axe-clean in the SvelteKit app              | The full-catalog sweep (`e2e/axe-catalog.spec.ts`, 571/571, re-run 2026-10-06) plus per-app axe baselines on home, catalog, and composed routes — rule sets WCAG 2.0 A+AA, 2.1 A+AA, **2.2 AA** | Baselined 2026-08-27; per-app suites in the e2e runs |
+| Keyboard contracts for interactive components                                            | Documented per component in `components/{slug}/AGENTS.md`; exercised by unit suites and, for the helpers, by real-browser Playwright specs                                                      | Continuous                                           |
+| Touch targets meet WCAG 2.2 target-size (2.5.8) on themed pages                          | A shared floor in all 45 themes, checked by the axe 2.2 rule set in every sweep                                                                                                                 | Continuous                                           |
+| No hardcoded user-facing strings; `lang`/`dir` application                               | The i18n rules in [AGENTS/internationalization.md](../AGENTS/internationalization.md); locale-picker e2e asserts `lang` and the RTL flip in all seven example apps                              | Continuous                                           |
+| Skip-link, landmarks, no horizontal overflow at four viewports                           | Responsive sweeps per example app                                                                                                                                                               | Continuous                                           |
 
 ## What is not verified by anything
 

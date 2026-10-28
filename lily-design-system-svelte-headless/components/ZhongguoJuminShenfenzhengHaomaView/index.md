@@ -21,7 +21,9 @@ ZhongguoJuminShenfenzhengHaomaView is a headless placeholder component, generate
 ## Usage
 
 ```html
-<ZhongguoJuminShenfenzhengHaomaView label="ZhongguoJuminShenfenzhengHaomaView example">Content</ZhongguoJuminShenfenzhengHaomaView>
+<ZhongguoJuminShenfenzhengHaomaView label="ZhongguoJuminShenfenzhengHaomaView example"
+  >Content</ZhongguoJuminShenfenzhengHaomaView
+>
 ```
 
 ## Keyboard Interactions

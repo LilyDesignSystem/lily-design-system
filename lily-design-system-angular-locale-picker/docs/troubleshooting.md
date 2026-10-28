@@ -53,7 +53,11 @@ locale = signal<string>("");
 ```
 
 ```html
-<lily-locale-picker label="Language" [locales]="locales" [(value)]="locale" />
+<lily-locale-picker
+  label="Language"
+  [locales]="locales"
+  [(value)]="locale"
+/>
 ```
 
 **Cause 2.** The wrong name. The bindable is `value`, not `locale` or
@@ -345,7 +349,9 @@ Add the exported `LocalePickerIcon` marker directive to the `<ng-template>`
 and to your component's `imports`:
 
 ```html
-<ng-template lilyLocalePickerIcon let-args
+<ng-template
+  lilyLocalePickerIcon
+  let-args
   >{{ args.labelFor(args.value) }}</ng-template
 >
 ```

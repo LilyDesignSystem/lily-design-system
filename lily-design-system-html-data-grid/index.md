@@ -13,7 +13,12 @@ whose [spec](../lily-design-system-svelte-data-grid/spec/index.md) is the contra
 ## Usage
 
 ```html
-<data-grid id="users" label="Users" selection-mode="multiple" page-size="25"></data-grid>
+<data-grid
+  id="users"
+  label="Users"
+  selection-mode="multiple"
+  page-size="25"
+></data-grid>
 <script type="module">
   import "@lilydesignsystem/html-data-grid";
   const grid = document.getElementById("users");
@@ -21,21 +26,28 @@ whose [spec](../lily-design-system-svelte-data-grid/spec/index.md) is the contra
     { id: "name", header: "Name", sortable: true, resizable: true },
     { id: "email", header: "Email", hidable: true },
   ];
-  grid.rows = [{ name: "Alice", email: "alice@example.com" }, { name: "Bob", email: "bob@example.com" }];
-  grid.labels = { search: "Search users", selectAll: "Select all rows", selectRow: (name) => `Select ${name}` };
+  grid.rows = [
+    { name: "Alice", email: "alice@example.com" },
+    { name: "Bob", email: "bob@example.com" },
+  ];
+  grid.labels = {
+    search: "Search users",
+    selectAll: "Select all rows",
+    selectRow: (name) => `Select ${name}`,
+  };
   grid.addEventListener("selectionchange", (e) => console.log(e.detail));
 </script>
 ```
 
 ## What is HTML-specific
 
-| Svelte | HTML custom element |
-| --- | --- |
-| bindable `selected`, `filter`, `sort`, `columnOrder`, `page` | properties, plus the events `selectionchange`, `filterchange`, `sortchange`, `columnorderchange`, `pagechange` (`detail` is the new value) |
-| `onCellEdit`, `onFilesSelected`, `onFileRemove`, `onRowActivate`, `onExport` | the same `on…` properties, and the events `celledit`, `filesselected`, `fileremove`, `rowactivate`, `exportfile`; `onExport` returning `false` stops the save |
-| snippets (`empty`, `footer`, `cell`, `headerCell`, `avatar`, `personEditor`) | functions returning a `Node` or a string |
-| `scroll` | `scrollable` property / `no-scroll` attribute (`scroll` is an `HTMLElement` method) |
-| scalar props | attributes: `label`, `caption`, `selection-mode`, `page-size`, `storage-key`, `mode`, `busy`, `no-scroll`, `locale`, `export-filename`, `export-scope`, `export-formulas`, `activate-rows` |
+| Svelte                                                                       | HTML custom element                                                                                                                                                                        |
+| ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| bindable `selected`, `filter`, `sort`, `columnOrder`, `page`                 | properties, plus the events `selectionchange`, `filterchange`, `sortchange`, `columnorderchange`, `pagechange` (`detail` is the new value)                                                 |
+| `onCellEdit`, `onFilesSelected`, `onFileRemove`, `onRowActivate`, `onExport` | the same `on…` properties, and the events `celledit`, `filesselected`, `fileremove`, `rowactivate`, `exportfile`; `onExport` returning `false` stops the save                              |
+| snippets (`empty`, `footer`, `cell`, `headerCell`, `avatar`, `personEditor`) | functions returning a `Node` or a string                                                                                                                                                   |
+| `scroll`                                                                     | `scrollable` property / `no-scroll` attribute (`scroll` is an `HTMLElement` method)                                                                                                        |
+| scalar props                                                                 | attributes: `label`, `caption`, `selection-mode`, `page-size`, `storage-key`, `mode`, `busy`, `no-scroll`, `locale`, `export-filename`, `export-scope`, `export-formulas`, `activate-rows` |
 
 Everything else — columns, labels, `rowId`, `selectionMode`, `pageSize`, `storageKey`, `mode`,
 the keyboard model, the cell types, editing, export and virtualization — is as in the Svelte
@@ -75,7 +87,7 @@ Requires `@lilydesignsystem/html-headless`.
 - **Field-specific search.** `filterField` (a property, `onFilterFieldChange`) limits the text filter to one column; `labels.searchField` (the select's name) with `labels.searchAllFields` (its first option) shows the select, listing the filterable columns. Without a field the whole row is searched.
 - **`movableColumns`** makes every column movable (Alt+Arrow on the header, or drag), unless a column's `movable` is `false`.
 - **Right-to-left.** The horizontal arrows are visual, so in a right-to-left layout (the nearest `dir`, else the computed direction) ArrowLeft goes to the next cell and ArrowRight to the previous, and Alt+Arrow moves a column the way the arrow points. Vertical keys, Home, End and the page keys do not change. The pure `isRtl` / `logicalKey` are exported.
-- **Labels.** `DataGridLabels` is the one bundle of every string. What each feature needs is listed in `CONTROL_LABELS` (labels that *name a control*) and `ANNOUNCEMENT_LABELS` (live-region messages), and `requiredLabels(features)` / `missingLabels(features, labels)` compute it, so an app can assert in a test that its bundle for a locale is complete. In development the grid logs once, naming the labels its features call for that `labels` leaves out (`warnMissingLabels={false}` silences it; it never logs in production). Lily has no English fallback: a missing label is a control with no name or an announcement never made. `sortAnnouncement` receives the ARIA token (`ascending`, `descending`, `none`), which the bundle turns into its own words.
+- **Labels.** `DataGridLabels` is the one bundle of every string. What each feature needs is listed in `CONTROL_LABELS` (labels that _name a control_) and `ANNOUNCEMENT_LABELS` (live-region messages), and `requiredLabels(features)` / `missingLabels(features, labels)` compute it, so an app can assert in a test that its bundle for a locale is complete. In development the grid logs once, naming the labels its features call for that `labels` leaves out (`warnMissingLabels={false}` silences it; it never logs in production). Lily has no English fallback: a missing label is a control with no name or an announcement never made. `sortAnnouncement` receives the ARIA token (`ascending`, `descending`, `none`), which the bundle turns into its own words.
 - **Row attributes.** `rowAttrs(row)` returns attributes spread onto each body row — the way to put test ids (`data-testid`), data attributes and other hooks on rows (`rowAttrs={(row) => ({ "data-testid": `row-${row.id}` })}`); `rowClass` does the same for classes, and a column's `cellAttrs` / `cellClass` for cells.
 
 ## Pager landmark (0.10.0)

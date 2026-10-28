@@ -32,8 +32,8 @@ The component uses `<button type="button">` to avoid unintended form submissions
 
 ```html
 <TaskBar label="Patient actions">
-  <TaskBarButton onclick={handleReferral}>New Referral</TaskBarButton>
-  <TaskBarButton onclick={handleAppointment}>Book Appointment</TaskBarButton>
+  <TaskBarButton onclick="{handleReferral}">New Referral</TaskBarButton>
+  <TaskBarButton onclick="{handleAppointment}">Book Appointment</TaskBarButton>
 </TaskBar>
 ```
 
@@ -64,14 +64,11 @@ The component uses `<button type="button">` to avoid unintended form submissions
 
 This headless component renders a `<button type="button">` element with `disabled` support and a children slot for content. It provides native button semantics without accidental form submission. The consumer provides all visual styling including colors, sizing, icons, and hover/focus states.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.task-bar-button` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<button>` element with class `task-bar-button`
 - Verify keyboard interactions work correctly

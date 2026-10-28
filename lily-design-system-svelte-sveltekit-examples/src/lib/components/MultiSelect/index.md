@@ -10,7 +10,7 @@ See [components/multi-select/index.md](../../../../../components/multi-select/in
 
 ```svelte
 <script lang="ts">
-    import MultiSelect from "./MultiSelect.svelte";
+  import MultiSelect from "./MultiSelect.svelte";
 </script>
 
 <MultiSelect />

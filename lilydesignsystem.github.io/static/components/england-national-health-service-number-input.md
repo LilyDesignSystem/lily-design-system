@@ -23,9 +23,19 @@ EnglandNationalHealthServiceNumberInput is a headless input for entering England
 ## Usage
 
 ```html
-<Field label="National Health Service Number" required>
-  <EnglandNationalHealthServiceNumberInput label="National Health Service Number" value={value} required />
-  <Hint>10 digits in 3-3-4 format with a Modulus-11 check digit, allocated through the Personal Demographics Service</Hint>
+<Field
+  label="National Health Service Number"
+  required
+>
+  <EnglandNationalHealthServiceNumberInput
+    label="National Health Service Number"
+    value="{value}"
+    required
+  />
+  <Hint
+    >10 digits in 3-3-4 format with a Modulus-11 check digit, allocated through the Personal
+    Demographics Service</Hint
+  >
   <ErrorMessage>Please enter a valid National Health Service Number</ErrorMessage>
 </Field>
 ```

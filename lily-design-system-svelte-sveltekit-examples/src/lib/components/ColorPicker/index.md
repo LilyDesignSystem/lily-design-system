@@ -33,78 +33,101 @@ Bind `x` and `y` state, paint a background behind the component (hue gradient is
 
 ## Props
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `class` | `string` | `""` | CSS class name appended to the base class. |
-| `x` | `number` | `0` (bindable) | Horizontal position, 0–100. |
-| `y` | `number` | `0` (bindable) | Vertical position, 0–100. |
-| `label` | `string` | required | `aria-label`. |
-| `disabled` | `boolean` | `false` | Disables keyboard interaction. |
-| `...restProps` | `unknown` | — | Additional attributes spread onto the `<div>`. |
+| Prop           | Type      | Default        | Description                                    |
+| -------------- | --------- | -------------- | ---------------------------------------------- |
+| `class`        | `string`  | `""`           | CSS class name appended to the base class.     |
+| `x`            | `number`  | `0` (bindable) | Horizontal position, 0–100.                    |
+| `y`            | `number`  | `0` (bindable) | Vertical position, 0–100.                      |
+| `label`        | `string`  | required       | `aria-label`.                                  |
+| `disabled`     | `boolean` | `false`        | Disables keyboard interaction.                 |
+| `...restProps` | `unknown` | —              | Additional attributes spread onto the `<div>`. |
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-    import ColorPicker from "./ColorPicker.svelte";
+  import ColorPicker from "./ColorPicker.svelte";
 
-    let saturation = $state(50);
-    let brightness = $state(50);
+  let saturation = $state(50);
+  let brightness = $state(50);
 </script>
 
-<ColorPicker label="Saturation and brightness" bind:x={saturation} bind:y={brightness} />
+<ColorPicker
+  label="Saturation and brightness"
+  bind:x={saturation}
+  bind:y={brightness}
+/>
 <p>S: {saturation}, B: {brightness}</p>
 ```
 
 ```svelte
 <script lang="ts">
-    import ColorPicker from "./ColorPicker.svelte";
-    import ColorPickerButton from "../ColorPickerButton/ColorPickerButton.svelte";
+  import ColorPicker from "./ColorPicker.svelte";
+  import ColorPickerButton from "../ColorPickerButton/ColorPickerButton.svelte";
 
-    let x = $state(0);
-    let y = $state(0);
-    let selected = $state("#ff0000");
-    const presets = [
-        { color: "#ff0000", label: "Red" },
-        { color: "#00ff00", label: "Green" },
-        { color: "#0000ff", label: "Blue" }
-    ];
+  let x = $state(0);
+  let y = $state(0);
+  let selected = $state("#ff0000");
+  const presets = [
+    { color: "#ff0000", label: "Red" },
+    { color: "#00ff00", label: "Green" },
+    { color: "#0000ff", label: "Blue" },
+  ];
 </script>
 
-<ColorPicker label="Color board" bind:x bind:y />
+<ColorPicker
+  label="Color board"
+  bind:x
+  bind:y
+/>
 {#each presets as p}
-    <ColorPickerButton
-        color={p.color}
-        label={p.label}
-        selected={selected === p.color}
-        onclick={() => (selected = p.color)}
-    />
+  <ColorPickerButton
+    color={p.color}
+    label={p.label}
+    selected={selected === p.color}
+    onclick={() => (selected = p.color)}
+  />
 {/each}
 ```
 
 ```svelte
 <script lang="ts">
-    import ColorPicker from "./ColorPicker.svelte";
+  import ColorPicker from "./ColorPicker.svelte";
 
-    let x = $state(25);
-    let y = $state(75);
+  let x = $state(25);
+  let y = $state(75);
 </script>
 
-<ColorPicker label="Color" bind:x bind:y disabled />
+<ColorPicker
+  label="Color"
+  bind:x
+  bind:y
+  disabled
+/>
 ```
 
 ```svelte
 <script lang="ts">
-    import ColorPicker from "./ColorPicker.svelte";
+  import ColorPicker from "./ColorPicker.svelte";
 
-    let x = $state(0);
-    let y = $state(0);
+  let x = $state(0);
+  let y = $state(0);
 
-    function reset() { x = 0; y = 0; }
+  function reset() {
+    x = 0;
+    y = 0;
+  }
 </script>
 
-<ColorPicker label="Pick" bind:x bind:y />
-<button type="button" onclick={reset}>Reset</button>
+<ColorPicker
+  label="Pick"
+  bind:x
+  bind:y
+/>
+<button
+  type="button"
+  onclick={reset}>Reset</button
+>
 ```
 
 ## Accessibility

@@ -17,13 +17,13 @@ decides what `[data-motion="reduce"]` actually suppresses.
 
 ## Files
 
-| File                    | Purpose                                          |
-| ----------------------- | ------------------------------------------------ |
-| `spec/index.md`         | Specification-driven contract (canonical).       |
-| `MotionPicker.svelte`   | Implementation. TypeScript + Svelte 5 runes.     |
-| `MotionPicker.test.ts`  | Vitest spec, one assertion per §7 acceptance.    |
-| `index.ts`              | Barrel re-export.                                |
-| `index.md`              | User guide.                                      |
+| File                   | Purpose                                       |
+| ---------------------- | --------------------------------------------- |
+| `spec/index.md`        | Specification-driven contract (canonical).    |
+| `MotionPicker.svelte`  | Implementation. TypeScript + Svelte 5 runes.  |
+| `MotionPicker.test.ts` | Vitest spec, one assertion per §7 acceptance. |
+| `index.ts`             | Barrel re-export.                             |
+| `index.md`             | User guide.                                   |
 
 ## Public surface
 

@@ -30,14 +30,14 @@ and no words: every link, and every accessible name, comes from the consumer.
 
 ### 4.1 Props
 
-| Prop | Type | Required | Notes |
-| --- | --- | --- | --- |
-| `label` | `string` | yes | Accessible name of the button **and** the list; also the tooltip text. |
-| `links` | `LinkItem[]` | yes | `{ id?, label, href, current?, newTab? }`. `id` defaults to `href`. |
-| `navigate` | `(href: string) => void` | no | Client-side navigation hook (a router's `push`). |
-| `navigate` event | `(id: string, href: string)` | no | Emitted after a link is chosen (the Svelte `onNavigate` callback). |
-| default slot | `{ open }` | no | Replaces the **icon**, not the links. |
-| `class` | `string` | no | Appended to the root class. |
+| Prop             | Type                         | Required | Notes                                                                  |
+| ---------------- | ---------------------------- | -------- | ---------------------------------------------------------------------- |
+| `label`          | `string`                     | yes      | Accessible name of the button **and** the list; also the tooltip text. |
+| `links`          | `LinkItem[]`                 | yes      | `{ id?, label, href, current?, newTab? }`. `id` defaults to `href`.    |
+| `navigate`       | `(href: string) => void`     | no       | Client-side navigation hook (a router's `push`).                       |
+| `navigate` event | `(id: string, href: string)` | no       | Emitted after a link is chosen (the Svelte `onNavigate` callback).     |
+| default slot     | `{ open }`                   | no       | Replaces the **icon**, not the links.                                  |
+| `class`          | `string`                     | no       | Appended to the root class.                                            |
 
 **Differences from the Svelte contract (idiom, not behaviour).** Vue renders the same DOM; the Svelte `onNavigate` callback is an emitted `navigate` event, the icon override is the default scoped slot, and focus is moved after `nextTick`.
 
@@ -45,12 +45,42 @@ and no words: every link, and every accessible name, comes from the consumer.
 
 ```html
 <div class="link-picker {class}">
-  <button class="link-picker-button" type="button" aria-label="{label}" aria-expanded="false" aria-controls="{id}-list">
-    <svg class="link-picker-icon" aria-hidden="true" viewBox="0 0 16 16" …home…/>
+  <button
+    class="link-picker-button"
+    type="button"
+    aria-label="{label}"
+    aria-expanded="false"
+    aria-controls="{id}-list"
+  >
+    <svg
+      class="link-picker-icon"
+      aria-hidden="true"
+      viewBox="0 0 16 16"
+      …home…
+    />
   </button>
-  <div class="link-picker-tooltip" role="tooltip" id="{id}-tooltip" hidden>{label}</div>
-  <ul class="link-picker-list" id="{id}-list" aria-label="{label}" hidden>
-    <li class="link-picker-list-item"><a class="link-picker-link" href="/" data-link-id="/">Home</a></li>
+  <div
+    class="link-picker-tooltip"
+    role="tooltip"
+    id="{id}-tooltip"
+    hidden
+  >
+    {label}
+  </div>
+  <ul
+    class="link-picker-list"
+    id="{id}-list"
+    aria-label="{label}"
+    hidden
+  >
+    <li class="link-picker-list-item">
+      <a
+        class="link-picker-link"
+        href="/"
+        data-link-id="/"
+        >Home</a
+      >
+    </li>
     …
   </ul>
 </div>

@@ -24,7 +24,11 @@ A file upload component provides a button-triggered file picker for uploading fi
 ## Usage
 
 ```svelte
-<FileUpload label="Upload files" accept=".pdf" onchange={handleFiles} />
+<FileUpload
+  label="Upload files"
+  accept=".pdf"
+  onchange={handleFiles}
+/>
 ```
 
 ## Keyboard Interactions

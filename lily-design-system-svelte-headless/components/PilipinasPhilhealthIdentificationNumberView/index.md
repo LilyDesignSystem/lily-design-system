@@ -21,7 +21,10 @@ PilipinasPhilhealthIdentificationNumberView is a headless placeholder component,
 ## Usage
 
 ```html
-<PilipinasPhilhealthIdentificationNumberView label="PilipinasPhilhealthIdentificationNumberView example">Content</PilipinasPhilhealthIdentificationNumberView>
+<PilipinasPhilhealthIdentificationNumberView
+  label="PilipinasPhilhealthIdentificationNumberView example"
+  >Content</PilipinasPhilhealthIdentificationNumberView
+>
 ```
 
 ## Keyboard Interactions

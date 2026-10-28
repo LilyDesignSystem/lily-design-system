@@ -33,31 +33,41 @@ accessibility and keyboard support. It supports toggle button semantics via the
 Submit button for saving progress:
 
 ```html
-<Button type="submit">Save and continue</Button>
+<button type="submit">Save and continue</button>
 ```
 
 Action button with disabled state:
 
 ```html
-<Button onclick={handleSave} disabled={isSaving}>
+<button
+  onclick="{handleSave}"
+  disabled="{isSaving}"
+>
   Save your progress
-</Button>
+</button>
 ```
 
 Toggle button with pressed state:
 
 ```html
-<Button pressed={isBold} onclick={() => isBold = !isBold}>
-  Bold
-</Button>
+<button
+  pressed="{isBold}"
+  onclick="{()"
+  =""
+>
+  isBold = !isBold}> Bold
+</button>
 ```
 
 With accessible label override:
 
 ```html
-<Button label="Close notification" onclick={handleDismiss}>
+<button
+  label="Close notification"
+  onclick="{handleDismiss}"
+>
   ✕
-</Button>
+</button>
 ```
 
 ## Keyboard Interactions
@@ -93,14 +103,11 @@ With accessible label override:
 
 This component provides a native `<button>` element with optional `aria-pressed` for toggle state, `aria-label` override, and standard button types, all with zero visual styling. The consumer is responsible for all CSS including colors, padding, border, border-radius, hover states, focus indicators, disabled appearance, and icon layout.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.button` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<button>` element with class `button`
 - Verify aria-label` for screen reader text override

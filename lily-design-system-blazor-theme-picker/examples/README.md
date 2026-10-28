@@ -17,18 +17,18 @@ Every example assumes:
 - The example's `@page` route is mounted in the host's `App.razor`
   with the relevant interactive render mode.
 
-| #   | File                                                 | Demonstrates                                                                          |
-| --- | ---------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| 1   | [`Basic.razor`](./Basic.razor)                       | Minimal three-theme select.                                                           |
-| 2   | [`TwoWayBinding.razor`](./TwoWayBinding.razor)       | `@bind-Value` and `OnChange`.                                                         |
-| 3   | [`Persistence.razor`](./Persistence.razor)           | `localStorage` survival across reloads.                                               |
-| 4   | [`CustomLabels.razor`](./CustomLabels.razor)         | `ThemeLabels` for i18n / display names.                                               |
+| #   | File                                                 | Demonstrates                                                                         |
+| --- | ---------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| 1   | [`Basic.razor`](./Basic.razor)                       | Minimal three-theme select.                                                          |
+| 2   | [`TwoWayBinding.razor`](./TwoWayBinding.razor)       | `@bind-Value` and `OnChange`.                                                        |
+| 3   | [`Persistence.razor`](./Persistence.razor)           | `localStorage` survival across reloads.                                              |
+| 4   | [`CustomLabels.razor`](./CustomLabels.razor)         | `ThemeLabels` for i18n / display names.                                              |
 | 5   | [`CustomRendering.razor`](./CustomRendering.razor)   | `RenderFragment<ThemePickerContext>` — custom button face (inline SVG, state-aware). |
-| 6   | [`Preloaded.razor`](./Preloaded.razor)               | Zero-flicker switching via `<HeadContent>` preloads.                                  |
-| 7   | [`MultiplePickers.razor`](./MultiplePickers.razor) | Two selects in one page via distinct `Name`.                                          |
-| 8   | [`SystemPreference.razor`](./SystemPreference.razor) | Follow OS `prefers-color-scheme`.                                                     |
-| 9   | [`LilyThemes.razor`](./LilyThemes.razor)             | All 41 Lily / DaisyUI themes at once.                                                 |
-| 10  | [`BlazorServerCookie/`](./BlazorServerCookie/)       | SSR-resolved theme via a cookie (Blazor Web App).                                     |
+| 6   | [`Preloaded.razor`](./Preloaded.razor)               | Zero-flicker switching via `<HeadContent>` preloads.                                 |
+| 7   | [`MultiplePickers.razor`](./MultiplePickers.razor)   | Two selects in one page via distinct `Name`.                                         |
+| 8   | [`SystemPreference.razor`](./SystemPreference.razor) | Follow OS `prefers-color-scheme`.                                                    |
+| 9   | [`LilyThemes.razor`](./LilyThemes.razor)             | All 41 Lily / DaisyUI themes at once.                                                |
+| 10  | [`BlazorServerCookie/`](./BlazorServerCookie/)       | SSR-resolved theme via a cookie (Blazor Web App).                                    |
 
 ## Running the examples
 

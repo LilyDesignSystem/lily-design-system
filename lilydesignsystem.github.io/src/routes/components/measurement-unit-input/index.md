@@ -26,20 +26,34 @@ The component uses `aria-label` for accessible labeling in a headless context, a
 Unit selection alongside a numeric value input:
 
 ```html
-<NumberInput label="Weight" value={weightValue} />
-<MeasurementUnitInput label="Weight unit" value={weightUnit} />
+<NumberInput
+  label="Weight"
+  value="{weightValue}"
+/>
+<MeasurementUnitInput
+  label="Weight unit"
+  value="{weightUnit}"
+/>
 ```
 
 Required unit input in a laboratory form:
 
 ```html
-<MeasurementUnitInput label="Unit of measure" value={unit} required />
+<MeasurementUnitInput
+  label="Unit of measure"
+  value="{unit}"
+  required
+/>
 ```
 
 Disabled unit display in a read-only context:
 
 ```html
-<MeasurementUnitInput label="Unit" value="kg" disabled />
+<MeasurementUnitInput
+  label="Unit"
+  value="kg"
+  disabled
+/>
 ```
 
 ## Keyboard Interactions
@@ -66,17 +80,14 @@ Disabled unit display in a read-only context:
 
 This headless component provides a text input with `aria-label` for accessible naming and two-way bindable value for reactive form integration. The consumer provides all visual styling, including input dimensions, borders, and any unit-selection UI enhancements.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.measurement-unit-input` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
 
-
 - Verify the component renders a `<input>` element with class `measurement-unit-input`
-- Verify aria-label` -- set from the `label` prop to provide an accessible name
+- Verify aria-label`-- set from the`label` prop to provide an accessible name
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied
 

@@ -70,7 +70,11 @@ export class SettingsPage {
 
 ```html
 <div class="text-size-picker">
-  <input type="hidden" name="text-size" value="medium" />
+  <input
+    type="hidden"
+    name="text-size"
+    value="medium"
+  />
   <button
     type="button"
     class="text-size-picker-button"
@@ -79,9 +83,22 @@ export class SettingsPage {
     aria-expanded="false"
     aria-controls="…-list"
   >
-    <svg class="text-size-picker-icon" viewBox="0 0 16 16" aria-hidden="true">…</svg>
+    <svg
+      class="text-size-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+    >
+      …
+    </svg>
   </button>
-  <div class="text-size-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
+  <div
+    class="text-size-picker-tooltip"
+    role="tooltip"
+    id="{tooltipId}"
+    hidden
+  >
+    {label}
+  </div>
   <ul
     class="text-size-picker-list"
     id="…-list"
@@ -114,9 +131,22 @@ Project an `<ng-template>` to replace the icon inside the button. It
 receives `{ value, open, labelFor }`; it does **not** render options.
 
 ```html
-<lily-text-size-picker label="Text size" [sizes]="sizes">
-  <ng-template lilyTextSizePickerIcon let-args>
-    <svg width="16" height="16" aria-hidden="true" focusable="false">…</svg>
+<lily-text-size-picker
+  label="Text size"
+  [sizes]="sizes"
+>
+  <ng-template
+    lilyTextSizePickerIcon
+    let-args
+  >
+    <svg
+      width="16"
+      height="16"
+      aria-hidden="true"
+      focusable="false"
+    >
+      …
+    </svg>
   </ng-template>
 </lily-text-size-picker>
 ```

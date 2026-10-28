@@ -33,40 +33,46 @@ Bind `value` and provide a `label`.
 
 ```svelte
 <script lang="ts">
-    import FiveFaceRatingPicker from "./FiveFaceRatingPicker.svelte";
-    let rating = $state(0);
+  import FiveFaceRatingPicker from "./FiveFaceRatingPicker.svelte";
+  let rating = $state(0);
 </script>
 
-<FiveFaceRatingPicker label="How was your experience?" bind:value={rating} />
+<FiveFaceRatingPicker
+  label="How was your experience?"
+  bind:value={rating}
+/>
 ```
 
 ## Props
 
-| Prop       | Type       | Default                                                      | Description                                  |
-| ---------- | ---------- | ------------------------------------------------------------ | -------------------------------------------- |
-| `class`    | `string`   | `""`                                                         | CSS class appended to the base class.       |
-| `label`    | `string`   | required                                                     | Accessible name via `aria-label`.            |
-| `value`    | `number`   | `0`                                                          | Current rating (1–5). Bindable. 0 = none.    |
-| `name`     | `string`   | `"face-rating"`                                              | Radio group `name`.                          |
-| `labels`   | `string[]` | `["Very bad", "Bad", "Okay", "Good", "Very good"]`           | Label for each face.                         |
-| `disabled` | `boolean`  | `false`                                                      | Whether the group is disabled.               |
-| `...rest`  | `unknown`  | —                                                            | Additional HTML attributes on the fieldset.  |
+| Prop       | Type       | Default                                            | Description                                 |
+| ---------- | ---------- | -------------------------------------------------- | ------------------------------------------- |
+| `class`    | `string`   | `""`                                               | CSS class appended to the base class.       |
+| `label`    | `string`   | required                                           | Accessible name via `aria-label`.           |
+| `value`    | `number`   | `0`                                                | Current rating (1–5). Bindable. 0 = none.   |
+| `name`     | `string`   | `"face-rating"`                                    | Radio group `name`.                         |
+| `labels`   | `string[]` | `["Very bad", "Bad", "Okay", "Good", "Very good"]` | Label for each face.                        |
+| `disabled` | `boolean`  | `false`                                            | Whether the group is disabled.              |
+| `...rest`  | `unknown`  | —                                                  | Additional HTML attributes on the fieldset. |
 
 ## Usage
 
 ### 1. Basic binding
 
 ```svelte
-<FiveFaceRatingPicker label="How was your experience?" bind:value={rating} />
+<FiveFaceRatingPicker
+  label="How was your experience?"
+  bind:value={rating}
+/>
 ```
 
 ### 2. Custom labels
 
 ```svelte
 <FiveFaceRatingPicker
-    label="Rate the service"
-    bind:value={rating}
-    labels={["Terrible", "Poor", "Fair", "Great", "Excellent"]}
+  label="Rate the service"
+  bind:value={rating}
+  labels={["Terrible", "Poor", "Fair", "Great", "Excellent"]}
 />
 ```
 
@@ -74,9 +80,9 @@ Bind `value` and provide a `label`.
 
 ```svelte
 <FiveFaceRatingPicker
-    label="¿Cómo fue su experiencia?"
-    bind:value={rating}
-    labels={["Muy mala", "Mala", "Regular", "Buena", "Muy buena"]}
+  label="¿Cómo fue su experiencia?"
+  bind:value={rating}
+  labels={["Muy mala", "Mala", "Regular", "Buena", "Muy buena"]}
 />
 ```
 
@@ -84,17 +90,29 @@ Bind `value` and provide a `label`.
 
 ```svelte
 <form method="post">
-    <FiveFaceRatingPicker label="Rating" name="satisfaction" bind:value={rating} />
-    <button type="submit">Submit</button>
+  <FiveFaceRatingPicker
+    label="Rating"
+    name="satisfaction"
+    bind:value={rating}
+  />
+  <button type="submit">Submit</button>
 </form>
 ```
 
 ### 5. Paired view after selection
 
 ```svelte
-<FiveFaceRatingPicker label="Rate this" bind:value={rating} />
+<FiveFaceRatingPicker
+  label="Rate this"
+  bind:value={rating}
+/>
 {#if rating > 0}
-    <p>You selected: <FiveFaceRatingView value={rating} label="Your rating" /></p>
+  <p>
+    You selected: <FiveFaceRatingView
+      value={rating}
+      label="Your rating"
+    />
+  </p>
 {/if}
 ```
 

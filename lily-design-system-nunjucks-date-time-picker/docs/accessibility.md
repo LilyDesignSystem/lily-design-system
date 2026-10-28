@@ -12,9 +12,9 @@ this catalog.
 
 `share-picker`'s destination links are real `<a href>` elements with
 final URLs, so they navigate with no JavaScript at all — only the
-*disclosure* is lost. The three `*-select` helpers at least paint a
+_disclosure_ is lost. The three `*-select` helpers at least paint a
 correct, server-resolved value and carry it in a hidden input on form
-submit, even though the value cannot be *changed* without JS.
+submit, even though the value cannot be _changed_ without JS.
 
 `date-time-picker` has neither consolation. Its calendar grid, weekday
 headers, period heading, and hour/minute option lists genuinely do not
@@ -29,7 +29,7 @@ template cannot perform (`spec/index.md` §3.2). With no client script:
   accepts anything and validates nothing.
 - The hidden input still carries whatever `value` the server resolved,
   so a form that is never touched still posts a sensible default — but
-  a user who wants to *change* the date has no way to.
+  a user who wants to _change_ the date has no way to.
 
 If a hard no-JS requirement applies to your service, this control is
 the wrong tool for that page. Reach for a native `<input type="date">`
@@ -71,7 +71,7 @@ remain the right default for many simpler forms.
 
 Typing a date correctly is a genuine cognitive load for many users
 regardless of how good the calendar is. The typed field exists
-specifically so the calendar dialog is never the *only* route to a
+specifically so the calendar dialog is never the _only_ route to a
 value — but a hard date is still hard. Where the domain allows it,
 `shortcuts` ("Today", "Next available", "+2 weeks") reduce the load
 more than any amount of dialog polish.
@@ -81,7 +81,7 @@ more than any amount of dialog polish.
 A vetoed day renders `aria-disabled="true"` rather than the `disabled`
 attribute, so the keyboard cursor can land on it and a screen reader
 announces it as unavailable instead of going silent — but nothing on
-the individual cell explains *why* a date is blocked (booked? holiday?
+the individual cell explains _why_ a date is blocked (booked? holiday?
 past?), only the full-date `aria-label` and the unavailable state
 itself. If the reason matters to your users, say it near the field via
 `describedBy`, or in the label copy itself. And supply
@@ -105,7 +105,7 @@ invents English; both are strongly recommended.
 Unlike a component library that ships `aria-modal="true"` and calls it
 done, this control implements the trap itself (`spec/index.md` §6.2):
 `Tab` cannot walk out of the open dialog, closing returns focus to the
-element that *opened* it — the text field after `Alt`+`ArrowDown`, the
+element that _opened_ it — the text field after `Alt`+`ArrowDown`, the
 trigger after a click — and exactly one day in the grid is ever
 `tabindex="0"`, an invariant that holds even when the cursor sits on a
 vetoed (`aria-disabled`) day. Paging months carries that cursor with it

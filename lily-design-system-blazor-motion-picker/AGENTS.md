@@ -21,13 +21,13 @@ back to a fixed default — the one behaviour difference from
 
 ## Files
 
-| File                    | Purpose                                          |
-| ----------------------- | ------------------------------------------------ |
-| `spec/index.md`         | Specification-driven contract (canonical, Svelte-sourced). |
-| `MotionPicker.razor`    | Razor markup.                                    |
-| `MotionPicker.razor.cs` | C# code-behind (partial class).                  |
+| File                    | Purpose                                                                               |
+| ----------------------- | ------------------------------------------------------------------------------------- |
+| `spec/index.md`         | Specification-driven contract (canonical, Svelte-sourced).                            |
+| `MotionPicker.razor`    | Razor markup.                                                                         |
+| `MotionPicker.razor.cs` | C# code-behind (partial class).                                                       |
 | `MotionPickerTests.cs`  | bUnit + xUnit spec, one `[Fact]` per §7 item (compiled into the shared test project). |
-| `index.md`              | User guide.                                      |
+| `index.md`              | User guide.                                                                           |
 
 ## Public surface
 
@@ -67,17 +67,51 @@ lives in `Value` and rides a hidden input for form participation.
 ## HTML
 
 ```html
-<div class="motion-picker @CssClass" ...AdditionalAttributes>
-  <input type="hidden" name="@Name" value="@Value" />
-  <button type="button" class="motion-picker-button" aria-label="@Label"
-          aria-haspopup="listbox" aria-expanded="false" aria-controls="{listId}">
-    <svg class="motion-picker-icon" viewBox="0 0 16 16" aria-hidden="true"
-         width="1.05rem" height="1.05rem">…</svg>
+<div
+  class="motion-picker @CssClass"
+  ...AdditionalAttributes
+>
+  <input
+    type="hidden"
+    name="@Name"
+    value="@Value"
+  />
+  <button
+    type="button"
+    class="motion-picker-button"
+    aria-label="@Label"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="{listId}"
+  >
+    <svg
+      class="motion-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      width="1.05rem"
+      height="1.05rem"
+    >
+      …
+    </svg>
   </button>
-  <ul class="motion-picker-list" id="{listId}" role="listbox" aria-label="@Label"
-      tabindex="-1" hidden aria-activedescendant="{active option id, open only}">
-    <li class="motion-picker-option" id="{optionId}" role="option"
-        aria-selected="true|false" data-active>{LabelFor(slug)}</li>
+  <ul
+    class="motion-picker-list"
+    id="{listId}"
+    role="listbox"
+    aria-label="@Label"
+    tabindex="-1"
+    hidden
+    aria-activedescendant="{active option id, open only}"
+  >
+    <li
+      class="motion-picker-option"
+      id="{optionId}"
+      role="option"
+      aria-selected="true|false"
+      data-active
+    >
+      {LabelFor(slug)}
+    </li>
   </ul>
 </div>
 ```

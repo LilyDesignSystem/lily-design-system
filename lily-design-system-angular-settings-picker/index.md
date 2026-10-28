@@ -22,7 +22,14 @@ import { SettingsPicker, SettingsPickerIcon } from "@lilydesignsystem/angular-se
       <ul>
         <li><a href="/">Home</a></li>
         <li><a href="/about/">About Us</a></li>
-        <li><button type="button" (click)="signOut()">Sign out</button></li>
+        <li>
+          <button
+            type="button"
+            (click)="signOut()"
+          >
+            Sign out
+          </button>
+        </li>
       </ul>
     </lily-settings-picker>
   `,
@@ -38,9 +45,15 @@ ships no links and no English, so the panel's content, and every word on it, is 
 Give the element a template reference to its `exportAs`:
 
 ```html
-<lily-settings-picker #menu="lilySettingsPicker" label="Settings">
+<lily-settings-picker
+  #menu="lilySettingsPicker"
+  label="Settings"
+>
   <form (submit)="$event.preventDefault(); search(); menu.close()">
-    <input type="search" aria-label="Search" />
+    <input
+      type="search"
+      aria-label="Search"
+    />
   </form>
 </lily-settings-picker>
 ```

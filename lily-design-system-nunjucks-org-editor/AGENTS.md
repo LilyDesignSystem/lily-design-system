@@ -13,16 +13,16 @@ The canonical implementation is the Svelte package (`../lily-design-system-svelt
 
 ## Files
 
-| File | Purpose |
-| ---- | ------- |
-| `spec/index.md` | Specification-driven contract (canonical). |
-| `org-editor.njk` | The macro: the whole control, rendered on the server. |
-| `org-editor.client.js` | The browser runtime: tools, roving tabindex, shortcuts. |
-| `org-format.js` | Pure Org transforms. **Generated from `shared/org-format.ts` (types stripped) by `bin/sync-shared-modules`; never edit this copy.** |
-| `org-editor.test.ts` | Vitest + jsdom spec, rendering the macro. |
-| `index.md` | User guide. |
-| `docs/accessibility.md` | Tradeoffs, stated plainly. |
-| `examples/` | Runnable examples. |
+| File                    | Purpose                                                                                                                             |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `spec/index.md`         | Specification-driven contract (canonical).                                                                                          |
+| `org-editor.njk`        | The macro: the whole control, rendered on the server.                                                                               |
+| `org-editor.client.js`  | The browser runtime: tools, roving tabindex, shortcuts.                                                                             |
+| `org-format.js`         | Pure Org transforms. **Generated from `shared/org-format.ts` (types stripped) by `bin/sync-shared-modules`; never edit this copy.** |
+| `org-editor.test.ts`    | Vitest + jsdom spec, rendering the macro.                                                                                           |
+| `index.md`              | User guide.                                                                                                                         |
+| `docs/accessibility.md` | Tradeoffs, stated plainly.                                                                                                          |
+| `examples/`             | Runnable examples.                                                                                                                  |
 
 ## Rules that matter
 

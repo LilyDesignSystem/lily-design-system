@@ -24,7 +24,10 @@ Basic phone mockup:
 
 ```html
 <MockupPhonePortrait label="Phone showing app home screen">
-  <img src="screenshot.png" alt="App home screen" />
+  <img
+    src="screenshot.png"
+    alt="App home screen"
+  />
 </MockupPhonePortrait>
 ```
 
@@ -34,7 +37,10 @@ Phone mockup with live content:
 <MockupPhonePortrait label="Phone showing login form">
   <form>
     <label for="email">Email</label>
-    <input type="email" id="email" />
+    <input
+      type="email"
+      id="email"
+    />
     <button type="submit">Sign In</button>
   </form>
 </MockupPhonePortrait>

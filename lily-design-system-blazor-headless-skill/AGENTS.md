@@ -31,7 +31,7 @@ in the same rules the Blazor headless library itself is held to.
 
 ## What this subproject is, and isn't
 
-- **Is**: a distributable skill scoped to *consuming* Lily's Blazor headless
+- **Is**: a distributable skill scoped to _consuming_ Lily's Blazor headless
   component library — package install, the `CssClass`/`RenderFragment`/
   `EventCallback`/`AdditionalAttributes` idiom, and where to find the
   framework-agnostic naming and composition references.

@@ -5,29 +5,39 @@ A single task item within a task list, rendering a semantic `<li>` element conta
 ## Usage
 
 ```tsx
-
-import TaskListItem from './TaskListItem';
+import TaskListItem from "./TaskListItem";
 const [termsAccepted, setTermsAccepted] = useState(false);
 
+<ul
+  aria-label="Today's tasks"
+  role="list"
+>
+  <TaskListItem label="Review pull request" />
+  <TaskListItem
+    label="Update documentation"
+    checked
+  />
+  <TaskListItem label="Deploy to staging" />
+</ul>;
 
-<ul aria-label="Today's tasks" role="list">
-    <TaskListItem label="Review pull request" />
-    <TaskListItem label="Update documentation" checked />
-    <TaskListItem label="Deploy to staging" />
-</ul>
-
-{/* Controlled checked state */}
-<TaskListItem label="Accept terms" checked={termsAccepted} onChange={setTermsAccepted} />
+{
+  /* Controlled checked state */
+}
+<TaskListItem
+  label="Accept terms"
+  checked={termsAccepted}
+  onChange={setTermsAccepted}
+/>;
 ```
 
 ## Props
 
-| Prop           | Type            | Default  | Description                              |
-| -------------- | --------------- | -------- | ---------------------------------------- |
-| `label`        | `string`        | required | The task description text                |
+| Prop           | Type            | Default  | Description                                |
+| -------------- | --------------- | -------- | ------------------------------------------ |
+| `label`        | `string`        | required | The task description text                  |
 | `checked`      | `boolean`       | `false`  | Whether the task is completed (controlled) |
-| `disabled`     | `boolean`       | `false`  | Whether the checkbox is disabled         |
-| `...restProps` | HTML attributes | —        | Spread onto the `<li>` element           |
+| `disabled`     | `boolean`       | `false`  | Whether the checkbox is disabled           |
+| `...restProps` | HTML attributes | —        | Spread onto the `<li>` element             |
 
 ## Data attributes
 

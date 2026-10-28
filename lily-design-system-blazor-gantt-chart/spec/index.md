@@ -41,7 +41,7 @@ unmodified. It also depends on the **sibling helper package**
 `LilyDesignSystem.Blazor.DateTimePicker` — used twice per edit session,
 once for a task's start date and once for its end — the same
 `ProjectReference`-to-a-sibling-package pattern `PickerBar` established
-for composing other *helpers* (not just headless components) from this
+for composing other _helpers_ (not just headless components) from this
 catalog.
 
 **Important finding, contradicting the task brief's own working
@@ -106,19 +106,19 @@ own role defaults. Verified against the actual rendered DOM in
 
 ## 5. Parameters
 
-| Parameter       | Type                                                       | Required | Default |
-| ---------------- | ------------------------------------------------------------ | -------- | ------- |
-| `Label`          | `string`                                                       | yes      | —       |
-| `Range`          | `GanttRange { Start, End }` (ISO dates)                        | yes      | —       |
-| `Tasks`          | `IReadOnlyList<GanttTask>`                                     | yes      | —       |
-| `Caption`        | `string?`                                                       | no       | —       |
-| `TimeUnit`       | `GanttTimeUnit` (`Day`/`Week`/`Month`)                          | no       | `Day`   |
-| `Today`          | `string?` (ISO date)                                            | no       | — (no marker unless supplied; never computed internally, stays SSR-safe) |
-| `TaskLabel`      | `Func<GanttTask, string>?`                                      | no       | `task.Label` |
-| `OnTaskChange`   | `EventCallback<(string TaskId, string Start, string End)>`      | no       | —       |
-| `Labels`         | `GanttLabels`                                                   | no       | `new()` |
-| `CssClass`       | `string`                                                        | no       | `""`    |
-| `AdditionalAttributes` | `Dictionary<string, object>?`                             | no       | `null` (spread on root) |
+| Parameter              | Type                                                       | Required | Default                                                                  |
+| ---------------------- | ---------------------------------------------------------- | -------- | ------------------------------------------------------------------------ |
+| `Label`                | `string`                                                   | yes      | —                                                                        |
+| `Range`                | `GanttRange { Start, End }` (ISO dates)                    | yes      | —                                                                        |
+| `Tasks`                | `IReadOnlyList<GanttTask>`                                 | yes      | —                                                                        |
+| `Caption`              | `string?`                                                  | no       | —                                                                        |
+| `TimeUnit`             | `GanttTimeUnit` (`Day`/`Week`/`Month`)                     | no       | `Day`                                                                    |
+| `Today`                | `string?` (ISO date)                                       | no       | — (no marker unless supplied; never computed internally, stays SSR-safe) |
+| `TaskLabel`            | `Func<GanttTask, string>?`                                 | no       | `task.Label`                                                             |
+| `OnTaskChange`         | `EventCallback<(string TaskId, string Start, string End)>` | no       | —                                                                        |
+| `Labels`               | `GanttLabels`                                              | no       | `new()`                                                                  |
+| `CssClass`             | `string`                                                   | no       | `""`                                                                     |
+| `AdditionalAttributes` | `Dictionary<string, object>?`                              | no       | `null` (spread on root)                                                  |
 
 `GanttTask`: `Id` (required), `Label` (required), `Start`/`End` (ISO
 dates, required, inclusive; equal values mean a milestone),
@@ -275,7 +275,7 @@ Deviations: (1) `GanttTableTD`'s `role="grid"` bug and its override
 edit region is open, for the same Blazor `KeyboardEventArgs`
 target-introspection limitation `KanbanBoard` documents (§6); (3)
 `@ondragover` cannot carry both a plain handler and a
-`:preventDefault` modifier on the same *component* tag (`RZ10010`), so
+`:preventDefault` modifier on the same _component_ tag (`RZ10010`), so
 dragover-accepts-drop is unconditional rather than gated on "a task
 drag is in progress" — harmless, since the drop handler still only
 acts when it can resolve a real dragged `GanttTask`.

@@ -18,9 +18,17 @@ An ordered list of step items showing progress through a multi-step process. Ren
 ## Usage
 
 ```tsx
-<StepList label="Sign up" current={1}>
+<StepList
+  label="Sign up"
+  current={1}
+>
   <StepListItem status="finished">Account</StepListItem>
-  <StepListItem status="in-progress" current>Profile</StepListItem>
+  <StepListItem
+    status="in-progress"
+    current
+  >
+    Profile
+  </StepListItem>
   <StepListItem status="waiting">Confirm</StepListItem>
 </StepList>
 ```

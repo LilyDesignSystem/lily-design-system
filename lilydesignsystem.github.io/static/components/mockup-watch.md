@@ -24,7 +24,10 @@ Basic watch mockup with a screenshot:
 
 ```html
 <MockupWatch label="Fitness tracking app">
-  <Image src="fitness-watch.png" alt="Fitness app on watch" />
+  <image
+    src="fitness-watch.png"
+    alt="Fitness app on watch"
+  />
 </MockupWatch>
 ```
 
@@ -44,10 +47,16 @@ Watch mockup in a multi-device showcase:
 ```html
 <div class="device-family">
   <MockupWatch label="Heart rate on watch">
-    <Image src="heart-rate-watch.png" alt="Heart rate display on watch" />
+    <image
+      src="heart-rate-watch.png"
+      alt="Heart rate display on watch"
+    />
   </MockupWatch>
   <MockupPhonePortrait label="Heart rate history on phone">
-    <Image src="heart-rate-phone.png" alt="Heart rate history chart on phone" />
+    <image
+      src="heart-rate-phone.png"
+      alt="Heart rate history chart on phone"
+    />
   </MockupPhonePortrait>
 </div>
 ```

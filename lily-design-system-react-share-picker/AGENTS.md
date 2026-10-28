@@ -21,8 +21,8 @@ whose spec numbering this package mirrors clause for clause.
 | File                    | Purpose                                      |
 | ----------------------- | -------------------------------------------- |
 | `spec/index.md`         | Specification-driven contract (canonical).   |
-| `SharePicker.tsx`      | Implementation. React 19 hooks + TypeScript. |
-| `SharePicker.test.tsx` | Vitest spec, mapped to the §7 clauses.       |
+| `SharePicker.tsx`       | Implementation. React 19 hooks + TypeScript. |
+| `SharePicker.test.tsx`  | Vitest spec, mapped to the §7 clauses.       |
 | `index.ts`              | Barrel re-export.                            |
 | `index.md`              | User guide.                                  |
 | `docs/accessibility.md` | Tradeoffs, stated plainly.                   |

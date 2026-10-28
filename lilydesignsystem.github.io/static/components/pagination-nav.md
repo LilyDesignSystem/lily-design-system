@@ -26,12 +26,18 @@ Previous/next style pagination for a series of related content pages, such as a 
 <PaginationNav label="Pagination">
   <PaginationList>
     <PaginationListItem>
-      <PaginationLink href="/conditions/diabetes/symptoms" rel="prev">
+      <PaginationLink
+        href="/conditions/diabetes/symptoms"
+        rel="prev"
+      >
         Previous: Symptoms
       </PaginationLink>
     </PaginationListItem>
     <PaginationListItem>
-      <PaginationLink href="/conditions/diabetes/treatment" rel="next">
+      <PaginationLink
+        href="/conditions/diabetes/treatment"
+        rel="next"
+      >
         Next: Treatment
       </PaginationLink>
     </PaginationListItem>
@@ -45,13 +51,26 @@ Numbered pagination for search results, with `aria-current="page"` on the active
 <PaginationNav label="Search results pages">
   <PaginationList>
     <PaginationListItem>
-      <PaginationLink href="/results?page=1" label="Page 1">1</PaginationLink>
+      <PaginationLink
+        href="/results?page=1"
+        label="Page 1"
+        >1</PaginationLink
+      >
     </PaginationListItem>
     <PaginationListItem>
-      <PaginationLink href="/results?page=2" label="Page 2" aria-current="page">2</PaginationLink>
+      <PaginationLink
+        href="/results?page=2"
+        label="Page 2"
+        aria-current="page"
+        >2</PaginationLink
+      >
     </PaginationListItem>
     <PaginationListItem>
-      <PaginationLink href="/results?page=3" label="Page 3">3</PaginationLink>
+      <PaginationLink
+        href="/results?page=3"
+        label="Page 3"
+        >3</PaginationLink
+      >
     </PaginationListItem>
   </PaginationList>
 </PaginationNav>
@@ -85,14 +104,11 @@ Numbered pagination for search results, with `aria-current="page"` on the active
 
 This headless component provides a `<nav>` element with `aria-label` for navigation landmark identification. The consumer provides all visual styling, including layout, positioning, and responsive behavior of the pagination region.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.pagination-nav` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<nav>` element with class `pagination-nav`
 - Verify <nav aria-label="...">` -- creates a navigation landmark with a descriptive label for the pagination region

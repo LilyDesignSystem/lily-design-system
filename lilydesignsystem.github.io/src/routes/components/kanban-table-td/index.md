@@ -25,19 +25,19 @@ Task card with title and assignee:
 
 ```html
 <KanbanTableTD label="Fix login bug">
-    <h3>Fix login bug</h3>
-    <p>Assigned to Alice</p>
-    <span>High priority</span>
+  <h3>Fix login bug</h3>
+  <p>Assigned to Alice</p>
+  <span>High priority</span>
 </KanbanTableTD>
 ```
 
 Dynamic task card with data binding:
 
 ```html
-<KanbanTableTD label={task.title}>
-    <span>{task.title}</span>
-    <span>{task.priority}</span>
-    <span>{task.assignee}</span>
+<KanbanTableTD label="{task.title}">
+  <span>{task.title}</span>
+  <span>{task.priority}</span>
+  <span>{task.assignee}</span>
 </KanbanTableTD>
 ```
 
@@ -65,18 +65,15 @@ Dynamic task card with data binding:
 
 This headless component provides semantic listitem structure with `role="listitem"` and optional `aria-label` for accessible card identification. The consumer provides all visual styling, including card layout, colors, shadows, drag handles, and any interactive affordances.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.kanban-table-td` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
 
-
 - Verify the component renders a `<td>` element with class `kanban-table-td`
-- Verify role="listitem"` -- identifies this as an item within a list container (the parent Kanban column with `role="list"`)
-- Verify aria-label` -- optional accessible name for the card, set from the `label` prop, allowing screen readers to identify individual cards
+- Verify role="listitem"`-- identifies this as an item within a list container (the parent Kanban column with`role="list"`)
+- Verify aria-label`-- optional accessible name for the card, set from the`label` prop, allowing screen readers to identify individual cards
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied
 

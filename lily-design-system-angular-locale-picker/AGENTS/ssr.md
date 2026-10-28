@@ -13,7 +13,11 @@ renders:
 
 ```html
 <div class="locale-picker">
-  <input type="hidden" name="locale" value="en" />
+  <input
+    type="hidden"
+    name="locale"
+    value="en"
+  />
   <button
     type="button"
     class="locale-picker-button"
@@ -22,7 +26,13 @@ renders:
     aria-expanded="false"
     aria-controls="locale-picker-1-list"
   >
-    <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true">…</svg>
+    <svg
+      class="locale-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+    >
+      …
+    </svg>
   </button>
   <ul
     class="locale-picker-list"
@@ -195,10 +205,7 @@ export const config = mergeApplicationConfig(appConfig, {
       const doc = inject(DOCUMENT);
       const code = inject(INITIAL_LOCALE);
       doc.documentElement.setAttribute("lang", bcp47LocaleTag(code));
-      doc.documentElement.setAttribute(
-        "dir",
-        isRtlLocale(code) ? "rtl" : "ltr",
-      );
+      doc.documentElement.setAttribute("dir", isRtlLocale(code) ? "rtl" : "ltr");
     }),
   ],
 });
@@ -268,8 +275,7 @@ function pickFromAcceptLanguage(header: string | undefined): string {
 export default defineEventHandler((event) => {
   const cookie = getCookie(event, "locale");
   event.context.locale =
-    cookie ??
-    pickFromAcceptLanguage(getRequestHeader(event, "accept-language"));
+    cookie ?? pickFromAcceptLanguage(getRequestHeader(event, "accept-language"));
 });
 ```
 

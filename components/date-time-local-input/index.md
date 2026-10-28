@@ -29,19 +29,33 @@ This component is useful for scheduling interfaces, event creation forms, appoin
 Scheduling an event with constrained date-time range:
 
 ```html
-<DateTimeLocalInput label="Meeting start" value={meetingStart} min="2026-01-01T08:00" max="2026-12-31T18:00" required />
+<DateTimeLocalInput
+  label="Meeting start"
+  value="{meetingStart}"
+  min="2026-01-01T08:00"
+  max="2026-12-31T18:00"
+  required
+/>
 ```
 
 Booking an appointment:
 
 ```html
-<DateTimeLocalInput label="Appointment date and time" value={appointmentDatetime} required />
+<DateTimeLocalInput
+  label="Appointment date and time"
+  value="{appointmentDatetime}"
+  required
+/>
 ```
 
 Read-only locked departure time:
 
 ```html
-<DateTimeLocalInput label="Departure" value={departure} disabled={true} />
+<DateTimeLocalInput
+  label="Departure"
+  value="{departure}"
+  disabled="{true}"
+/>
 ```
 
 ## Keyboard Interactions
@@ -72,17 +86,14 @@ Read-only locked departure time:
 
 This headless component provides a native `<input type="datetime-local">` with accessible labeling via `aria-label`, two-way value binding, and standard form attributes. The browser supplies the native datetime picker UI. The consumer provides all visual styling, layout, and any custom validation feedback.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.date-time-local-input` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
 
-
 - Verify the component renders a `<input>` element with class `date-time-local-input`
-- Verify aria-label={label}` -- provides an accessible name for the datetime input since there is no visible `<label>` element
+- Verify aria-label={label}`-- provides an accessible name for the datetime input since there is no visible`<label>` element
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied
 

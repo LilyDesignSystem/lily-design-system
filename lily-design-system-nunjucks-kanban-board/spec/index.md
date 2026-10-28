@@ -60,15 +60,15 @@ A Nunjucks macro cannot evaluate a callback prop. Every deviation below
 follows an established precedent elsewhere in this catalog (see
 `kanban-board.njk`'s own header comment for the full reasoning):
 
-| Svelte prop | Nunjucks shape | Rule |
-| --- | --- | --- |
-| `cardLabel: (card) => string` | not a macro param | Always renders `card.title`. Resolve the display text on the card data itself before calling the macro — mirrors `share-picker`'s "pass the already-resolved value" precedent. |
-| `labels.cardCount: (count) => string` | `labels.cardCount` — template string, `{count}` token | e.g. `"{count} cards"`. Substituted via the `replace` filter. |
-| `labels.overLimit: (count, limit) => string` | `labels.overLimit` — template string, `{count}`/`{limit}` tokens | e.g. `"Over limit: {count}/{limit}"`. |
-| `labels.moveButton: (card) => string` | `labels.moveButton` — template string, `{card}` token | e.g. `"Move {card}"`, substituted with the card's title. |
-| `labels.moveMenuLabel` | `labels.moveMenuLabel` — plain string | Already a plain string in Svelte; no deviation needed. |
-| `labels.moveAnnouncement: (cardTitle, columnTitle) => string` | `initKanbanBoard(root, {labels: {moveAnnouncement}})` — stays a real function | Never called by the macro: a move only ever happens after hydration, so the announcement is entirely `kanban-board.client.js`'s concern. |
-| `onMove: (cardId, toColumnId) => void` | `initKanbanBoard(root, {onMove})` — client.js init option | Same reasoning as `moveAnnouncement`. |
+| Svelte prop                                                   | Nunjucks shape                                                                | Rule                                                                                                                                                                           |
+| ------------------------------------------------------------- | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `cardLabel: (card) => string`                                 | not a macro param                                                             | Always renders `card.title`. Resolve the display text on the card data itself before calling the macro — mirrors `share-picker`'s "pass the already-resolved value" precedent. |
+| `labels.cardCount: (count) => string`                         | `labels.cardCount` — template string, `{count}` token                         | e.g. `"{count} cards"`. Substituted via the `replace` filter.                                                                                                                  |
+| `labels.overLimit: (count, limit) => string`                  | `labels.overLimit` — template string, `{count}`/`{limit}` tokens              | e.g. `"Over limit: {count}/{limit}"`.                                                                                                                                          |
+| `labels.moveButton: (card) => string`                         | `labels.moveButton` — template string, `{card}` token                         | e.g. `"Move {card}"`, substituted with the card's title.                                                                                                                       |
+| `labels.moveMenuLabel`                                        | `labels.moveMenuLabel` — plain string                                         | Already a plain string in Svelte; no deviation needed.                                                                                                                         |
+| `labels.moveAnnouncement: (cardTitle, columnTitle) => string` | `initKanbanBoard(root, {labels: {moveAnnouncement}})` — stays a real function | Never called by the macro: a move only ever happens after hydration, so the announcement is entirely `kanban-board.client.js`'s concern.                                       |
+| `onMove: (cardId, toColumnId) => void`                        | `initKanbanBoard(root, {onMove})` — client.js init option                     | Same reasoning as `moveAnnouncement`.                                                                                                                                          |
 
 Every `labels.*` field stays optional; its presence gates the
 control/text it names, matching every other Lily helper's i18n-clean
@@ -77,17 +77,17 @@ string.
 
 Params (single `opts` object):
 
-| Param | Type | Required | Default |
-| --- | --- | --- | --- |
-| `label` | `string` | yes | — |
-| `columns` | `array<{id, title, wipLimit?}>` | yes | — |
-| `cards` | `array<{id, columnId, title}>` | yes | — |
-| `caption` | `string` | no | — |
-| `labels` | `object` (see table above) | no | `{}` |
-| `name` | `string` | no | `"board"` |
-| `id` | `string` | no | `"kanban-board-{name}"` |
-| `classes` | `string` | no | — |
-| `attributes` | `object` | no | — |
+| Param        | Type                            | Required | Default                 |
+| ------------ | ------------------------------- | -------- | ----------------------- |
+| `label`      | `string`                        | yes      | —                       |
+| `columns`    | `array<{id, title, wipLimit?}>` | yes      | —                       |
+| `cards`      | `array<{id, columnId, title}>`  | yes      | —                       |
+| `caption`    | `string`                        | no       | —                       |
+| `labels`     | `object` (see table above)      | no       | `{}`                    |
+| `name`       | `string`                        | no       | `"board"`               |
+| `id`         | `string`                        | no       | `"kanban-board-{name}"` |
+| `classes`    | `string`                        | no       | —                       |
+| `attributes` | `object`                        | no       | —                       |
 
 Card order within a column follows the order cards appear in the
 `cards` array — matches the Svelte canonical.
@@ -207,7 +207,7 @@ through one live region.
 ## 9. Acceptance criteria
 
 - §9.1 Renders `<div class="kanban-board">` wrapping a `<table
-  role="grid">` whose `aria-label` comes from `label`.
+role="grid">` whose `aria-label` comes from `label`.
 - §9.2 Renders one header cell per column with its title and, when
   `labels.cardCount` is supplied, a derived card count.
 - §9.3 A column over `wipLimit` (including exactly `0`) carries

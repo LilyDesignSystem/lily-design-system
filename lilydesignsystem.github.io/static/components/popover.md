@@ -27,23 +27,58 @@ Unlike tooltips, popovers can contain rich interactive content such as text, for
 Basic popover with a toggle trigger:
 
 ```html
-<button onclick={() => showPopover = !showPopover}>Toggle info</button>
-<Popover label="Additional information" open={showPopover}>
+<button
+  onclick="{()"
+  =""
+>
+  showPopover = !showPopover}>Toggle info
+</button>
+<Popover
+  label="Additional information"
+  open="{showPopover}"
+>
   <p>Here is some contextual information.</p>
-  <button onclick={() => showPopover = false}>Close</button>
+  <button
+    onclick="{()"
+    =""
+  >
+    showPopover = false}>Close
+  </button>
 </Popover>
 ```
 
 Popover with an inline edit form:
 
 ```html
-<button onclick={() => editOpen = !editOpen}>Edit name</button>
-<Popover label="Edit display name" open={editOpen}>
-  <form onsubmit={(e) => { e.preventDefault(); saveName(); editOpen = false; }}>
+<button
+  onclick="{()"
+  =""
+>
+  editOpen = !editOpen}>Edit name
+</button>
+<Popover
+  label="Edit display name"
+  open="{editOpen}"
+>
+  <form
+    onsubmit="{(e)"
+    =""
+  >
+    { e.preventDefault(); saveName(); editOpen = false; }}>
     <label for="display-name">Display name</label>
-    <input type="text" id="display-name" value={name} />
+    <input
+      type="text"
+      id="display-name"
+      value="{name}"
+    />
     <button type="submit">Save</button>
-    <button type="button" onclick={() => editOpen = false}>Cancel</button>
+    <button
+      type="button"
+      onclick="{()"
+      =""
+    >
+      editOpen = false}>Cancel
+    </button>
   </form>
 </Popover>
 ```
@@ -51,14 +86,39 @@ Popover with an inline edit form:
 Popover for a filter panel:
 
 ```html
-<button onclick={() => filterOpen = !filterOpen}>Filter results</button>
-<Popover label="Filter options" open={filterOpen}>
+<button
+  onclick="{()"
+  =""
+>
+  filterOpen = !filterOpen}>Filter results
+</button>
+<Popover
+  label="Filter options"
+  open="{filterOpen}"
+>
   <fieldset>
     <legend>Status</legend>
-    <label><input type="checkbox" value="active" /> Active</label>
-    <label><input type="checkbox" value="archived" /> Archived</label>
+    <label
+      ><input
+        type="checkbox"
+        value="active"
+      />
+      Active</label
+    >
+    <label
+      ><input
+        type="checkbox"
+        value="archived"
+      />
+      Archived</label
+    >
   </fieldset>
-  <button onclick={() => { applyFilters(); filterOpen = false; }}>Apply</button>
+  <button
+    onclick="{()"
+    =""
+  >
+    { applyFilters(); filterOpen = false; }}>Apply
+  </button>
 </Popover>
 ```
 
@@ -91,14 +151,11 @@ Popover for a filter panel:
 
 The Popover headless component provides a conditionally rendered `<div>` with `role="dialog"` and `aria-label` for accessible naming. It handles open/close state via two-way binding. The consumer provides all visual styling, positioning logic, trigger elements, and focus management.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.popover` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `popover`
 - Verify role="dialog"` -- identifies the popover as a dialog overlay for assistive technology

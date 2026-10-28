@@ -35,8 +35,14 @@ Basic collection of articles:
 
 ```html
 <CollectionList label="Recent articles">
-  <CollectionListItem heading="First post" meta="Jan 5" />
-  <CollectionListItem heading="Second post" meta="Jan 12" />
+  <CollectionListItem
+    heading="First post"
+    meta="Jan 5"
+  />
+  <CollectionListItem
+    heading="Second post"
+    meta="Jan 12"
+  />
 </CollectionList>
 ```
 

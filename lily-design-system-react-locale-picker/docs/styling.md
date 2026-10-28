@@ -5,15 +5,15 @@ to the consumer. This guide lists the hooks it exposes.
 
 ## Class hooks
 
-| Selector                           | Element                                  |
-| ---------------------------------- | ---------------------------------------- |
-| `.locale-picker`                   | The root `<div>`.                        |
-| `.locale-picker.{consumerClass}`   | Both classes when `className` is passed. |
-| `.locale-picker-button`            | The trigger `<button>`.                  |
-| `.locale-picker-icon`              | The `<span>` holding the default globe glyph. Absent when you pass `children`. |
-| `.locale-picker-list`              | The `<ul role="listbox">` dropdown.      |
-| `.locale-picker-option`            | Each `<li role="option">`.               |
-| `.locale-picker-status`            | The consumer-rendered status line naming the active locale. Not emitted by the component — you render it, and the examples always do. |
+| Selector                         | Element                                                                                                                               |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `.locale-picker`                 | The root `<div>`.                                                                                                                     |
+| `.locale-picker.{consumerClass}` | Both classes when `className` is passed.                                                                                              |
+| `.locale-picker-button`          | The trigger `<button>`.                                                                                                               |
+| `.locale-picker-icon`            | The `<span>` holding the default globe glyph. Absent when you pass `children`.                                                        |
+| `.locale-picker-list`            | The `<ul role="listbox">` dropdown.                                                                                                   |
+| `.locale-picker-option`          | Each `<li role="option">`.                                                                                                            |
+| `.locale-picker-status`          | The consumer-rendered status line naming the active locale. Not emitted by the component — you render it, and the examples always do. |
 
 A `children` render prop replaces the contents of the button only, so
 every hook above except `.locale-picker-icon` is still guaranteed.
@@ -27,33 +27,38 @@ active locale is stated in visible text. See
 
 ```css
 .locale-picker-status {
-    margin-block-start: 0.5rem;
-    font-size: 0.875rem;
-    color: var(--theme-color-base-content, currentColor);
+  margin-block-start: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--theme-color-base-content, currentColor);
 }
 ```
 
 ## Attribute hooks
 
-| Attribute                     | On                          | Purpose                          |
-| ----------------------------- | --------------------------- | -------------------------------- |
-| `aria-expanded="true\|false"` | `.locale-picker-button`     | Open state — style the trigger, e.g. rotate a caret. |
-| `hidden`                      | `.locale-picker-list`       | Present while closed. This is what opens and closes the dropdown. |
-| `aria-selected="true\|false"` | `.locale-picker-option`     | The locale currently in effect.  |
+| Attribute                     | On                          | Purpose                                                               |
+| ----------------------------- | --------------------------- | --------------------------------------------------------------------- |
+| `aria-expanded="true\|false"` | `.locale-picker-button`     | Open state — style the trigger, e.g. rotate a caret.                  |
+| `hidden`                      | `.locale-picker-list`       | Present while closed. This is what opens and closes the dropdown.     |
+| `aria-selected="true\|false"` | `.locale-picker-option`     | The locale currently in effect.                                       |
 | `data-active`                 | `.locale-picker-option`     | The keyboard-active option (present on exactly one, only while open). |
-| `lang="<bcp47>"`              | `.locale-picker-option`     | Each option's own language. Also a styling hook — see below. |
-| `lang` / `dir`                | `target` (default `<html>`) | Written by the control on every change. |
+| `lang="<bcp47>"`              | `.locale-picker-option`     | Each option's own language. Also a styling hook — see below.          |
+| `lang` / `dir`                | `target` (default `<html>`) | Written by the control on every change.                               |
 
 `aria-selected` and `data-active` are different things and both need a
-style: `aria-selected` is *the locale in effect*, `data-active` is
-*what `Enter` would pick right now*. The options never take DOM focus
+style: `aria-selected` is _the locale in effect_, `data-active` is
+_what `Enter` would pick right now_. The options never take DOM focus
 (the listbox does, and tracks them with `aria-activedescendant`), so
 `:focus-visible` will never match an option — `[data-active]` is the
 only hook for the moving highlight.
 
 ```css
-.locale-picker-option[aria-selected="true"] { font-weight: 600; }
-.locale-picker-option[data-active] { background: Highlight; color: HighlightText; }
+.locale-picker-option[aria-selected="true"] {
+  font-weight: 600;
+}
+.locale-picker-option[data-active] {
+  background: Highlight;
+  color: HighlightText;
+}
 ```
 
 ## Styling per language with `lang`
@@ -66,13 +71,13 @@ stay legible next to Latin text:
 .locale-picker-option:lang(ar),
 .locale-picker-option:lang(fa),
 .locale-picker-option:lang(ur) {
-    font-family: "Noto Naskh Arabic", serif;
-    font-size: 1.0625em;
+  font-family: "Noto Naskh Arabic", serif;
+  font-size: 1.0625em;
 }
 
 .locale-picker-option:lang(ja),
 .locale-picker-option:lang(zh) {
-    font-family: "Noto Sans CJK", sans-serif;
+  font-family: "Noto Sans CJK", sans-serif;
 }
 ```
 
@@ -89,7 +94,7 @@ list, isolate each label:
 
 ```css
 .locale-picker-option {
-    unicode-bidi: isolate;
+  unicode-bidi: isolate;
 }
 ```
 
@@ -103,21 +108,21 @@ page around when it opens. The minimum to make it a dropdown:
 
 ```css
 .locale-picker {
-    position: relative;
-    display: inline-block;
+  position: relative;
+  display: inline-block;
 }
 
 .locale-picker-list {
-    position: absolute;
-    inset-block-start: 100%;
-    inset-inline-start: 0;
-    z-index: 1;
-    min-inline-size: 100%;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    max-block-size: 20rem;
-    overflow-y: auto;
+  position: absolute;
+  inset-block-start: 100%;
+  inset-inline-start: 0;
+  z-index: 1;
+  min-inline-size: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  max-block-size: 20rem;
+  overflow-y: auto;
 }
 ```
 
@@ -141,60 +146,77 @@ close. If you need `display: flex` or `display: grid`, re-assert the
 rule:
 
 ```css
-.locale-picker-list { display: grid; }
-.locale-picker-list[hidden] { display: none; }
+.locale-picker-list {
+  display: grid;
+}
+.locale-picker-list[hidden] {
+  display: none;
+}
 ```
 
 ## A minimal complete example
 
 ```css
-.locale-picker { position: relative; display: inline-block; }
+.locale-picker {
+  position: relative;
+  display: inline-block;
+}
 
 .locale-picker-button {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.375rem;
-    padding: 0.5rem;
-    background: none;
-    border: 1px solid currentColor;
-    border-radius: 0.25rem;
-    cursor: pointer;
-    font: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem;
+  background: none;
+  border: 1px solid currentColor;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font: inherit;
 }
 
 .locale-picker-button:focus-visible {
-    outline: 3px solid var(--theme-color-focus, #ffeb3b);
-    outline-offset: 2px;
+  outline: 3px solid var(--theme-color-focus, #ffeb3b);
+  outline-offset: 2px;
 }
 
-.locale-picker-icon { font-size: 1.25em; line-height: 1; }
+.locale-picker-icon {
+  font-size: 1.25em;
+  line-height: 1;
+}
 
 .locale-picker-list {
-    position: absolute;
-    inset-block-start: 100%;
-    inset-inline-start: 0;
-    z-index: 1;
-    margin: 0;
-    padding: 0.25rem 0;
-    list-style: none;
-    min-inline-size: 12rem;
-    max-block-size: 20rem;
-    overflow-y: auto;
-    background: Canvas;
-    border: 1px solid currentColor;
-    border-radius: 0.25rem;
+  position: absolute;
+  inset-block-start: 100%;
+  inset-inline-start: 0;
+  z-index: 1;
+  margin: 0;
+  padding: 0.25rem 0;
+  list-style: none;
+  min-inline-size: 12rem;
+  max-block-size: 20rem;
+  overflow-y: auto;
+  background: Canvas;
+  border: 1px solid currentColor;
+  border-radius: 0.25rem;
 }
 
-.locale-picker-list[hidden] { display: none; }
+.locale-picker-list[hidden] {
+  display: none;
+}
 
 .locale-picker-option {
-    padding: 0.375rem 0.75rem;
-    cursor: pointer;
-    unicode-bidi: isolate;
+  padding: 0.375rem 0.75rem;
+  cursor: pointer;
+  unicode-bidi: isolate;
 }
 
-.locale-picker-option[aria-selected="true"] { font-weight: 600; }
-.locale-picker-option[data-active] { background: Highlight; color: HighlightText; }
+.locale-picker-option[aria-selected="true"] {
+  font-weight: 600;
+}
+.locale-picker-option[data-active] {
+  background: Highlight;
+  color: HighlightText;
+}
 ```
 
 Note the focus style on the button: the package never suppresses focus

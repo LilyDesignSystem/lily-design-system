@@ -15,14 +15,14 @@ The helpers sit on the headless table families (`DataTable`, `CalendarTable`, `K
 
 ## Tier 1 — additive props on the table parts (no breaking change)
 
-| Add | To | Why |
-| --- | --- | --- |
-| `sort` (`"ascending" \| "descending" \| "none"`) → `aria-sort`, plus `sortOrder` → `data-sort-order` | `*TableTH` | Every helper writes `aria-sort` and `data-sort-order` by hand. |
-| `rowCount`, `colCount` → `aria-rowcount`, `aria-colcount`; `rowIndex` → `aria-rowindex`; `colIndex` → `aria-colindex` | `*Table`, `*TableRow`, `*TableTD/TH` | Needed whenever rows are paged or virtualized; the data grid, kanban and Gantt set them by hand. |
-| `selected` → `aria-selected` and `data-selected`, separate from `active` | `*TableRow`, `*TableTD` (Data, Kanban, Gantt) | Make the four families agree with `CalendarTableTD`. |
-| `weekend`, `outside`, `disabled`, `unavailable` (kinds) → `data-weekend`, `data-outside-period`, `data-disabled` + `aria-disabled`, `data-unavailable` | `CalendarTableTD/TH`, `GanttTableTD/TH` | The helpers set these through rest props; the names should be one contract (`data-partly-unavailable` too). |
-| `pinned` → `data-pinned` | `DataTableTH/TD` | Sticky columns. |
-| `dropAllowed` → `data-drop-allowed` / `data-drop-blocked` | `KanbanTableTD` | The "can't drop here" cue (see the open feedback). |
+| Add                                                                                                                                                    | To                                            | Why                                                                                                         |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `sort` (`"ascending" \| "descending" \| "none"`) → `aria-sort`, plus `sortOrder` → `data-sort-order`                                                   | `*TableTH`                                    | Every helper writes `aria-sort` and `data-sort-order` by hand.                                              |
+| `rowCount`, `colCount` → `aria-rowcount`, `aria-colcount`; `rowIndex` → `aria-rowindex`; `colIndex` → `aria-colindex`                                  | `*Table`, `*TableRow`, `*TableTD/TH`          | Needed whenever rows are paged or virtualized; the data grid, kanban and Gantt set them by hand.            |
+| `selected` → `aria-selected` and `data-selected`, separate from `active`                                                                               | `*TableRow`, `*TableTD` (Data, Kanban, Gantt) | Make the four families agree with `CalendarTableTD`.                                                        |
+| `weekend`, `outside`, `disabled`, `unavailable` (kinds) → `data-weekend`, `data-outside-period`, `data-disabled` + `aria-disabled`, `data-unavailable` | `CalendarTableTD/TH`, `GanttTableTD/TH`       | The helpers set these through rest props; the names should be one contract (`data-partly-unavailable` too). |
+| `pinned` → `data-pinned`                                                                                                                               | `DataTableTH/TD`                              | Sticky columns.                                                                                             |
+| `dropAllowed` → `data-drop-allowed` / `data-drop-blocked`                                                                                              | `KanbanTableTD`                               | The "can't drop here" cue (see the open feedback).                                                          |
 
 ## Tier 2 — shared behaviour (highest leverage)
 
@@ -33,16 +33,16 @@ The helpers sit on the headless table families (`DataTable`, `CalendarTable`, `K
 
 ## Tier 3 — use what already exists
 
-| Existing headless component | Replaces in the helpers |
-| --- | --- |
-| `Mark` | the highlighted-match `<mark>` in search results |
-| `SearchInput` | the hand-written `<input type="search">` + Escape-to-clear in four helpers (add `onclear` / Escape handling to `SearchInput` first) |
-| `Tooltip` | the tooltip each of the eleven pickers builds itself |
-| `PaginationNav` / `PaginationList` | the data grid's footer |
-| `EmptyState` | the data grid's empty row, the kanban empty-column text |
-| `Editable` / `EditableForm` | the cell editors (Escape cancels, Enter commits, IME-safe) |
-| `DataFilterForm` | the wrapper for the new `svelte-filter` builder; and `svelte-filter`'s rules could be offered as headless `FilterRule` / `FilterGroup` parts |
-| `*-view` components (`DateTimeView`, …) | formatting a typed cell: a `DataTableCell` that takes `type`, `value`, `locale` |
+| Existing headless component             | Replaces in the helpers                                                                                                                      |
+| --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Mark`                                  | the highlighted-match `<mark>` in search results                                                                                             |
+| `SearchInput`                           | the hand-written `<input type="search">` + Escape-to-clear in four helpers (add `onclear` / Escape handling to `SearchInput` first)          |
+| `Tooltip`                               | the tooltip each of the eleven pickers builds itself                                                                                         |
+| `PaginationNav` / `PaginationList`      | the data grid's footer                                                                                                                       |
+| `EmptyState`                            | the data grid's empty row, the kanban empty-column text                                                                                      |
+| `Editable` / `EditableForm`             | the cell editors (Escape cancels, Enter commits, IME-safe)                                                                                   |
+| `DataFilterForm`                        | the wrapper for the new `svelte-filter` builder; and `svelte-filter`'s rules could be offered as headless `FilterRule` / `FilterGroup` parts |
+| `*-view` components (`DateTimeView`, …) | formatting a typed cell: a `DataTableCell` that takes `type`, `value`, `locale`                                                              |
 
 Adoption needs checking against each helper's accessibility behaviour; where a headless component cannot yet do what the helper does, improve the component first — that is the point of moving down.
 

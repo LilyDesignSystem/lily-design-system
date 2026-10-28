@@ -21,7 +21,10 @@ UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput is a headless 
 ## Usage
 
 ```html
-<UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput label="UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput example">Content</UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput>
+<UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput
+  label="UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput example"
+  >Content</UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput
+>
 ```
 
 ## Keyboard Interactions

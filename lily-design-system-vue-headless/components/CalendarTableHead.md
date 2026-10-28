@@ -11,7 +11,10 @@ The header section of a CalendarTable, rendered as a `<thead>` element. Contains
 
 ```svelte
 <CalendarTableHead>
-  <CalendarTableRow><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></CalendarTableRow>
+  <CalendarTableRow
+    ><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th
+    ></CalendarTableRow
+  >
 </CalendarTableHead>
 ```
 

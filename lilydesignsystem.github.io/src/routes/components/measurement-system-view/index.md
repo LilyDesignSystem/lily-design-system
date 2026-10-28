@@ -29,13 +29,19 @@ Display the current measurement system in a settings summary:
 Display an abbreviated system with accessible label expansion:
 
 ```html
-<MeasurementSystemView value="SI" label="International System of Units" />
+<MeasurementSystemView
+  value="SI"
+  label="International System of Units"
+/>
 ```
 
 Display imperial system in a patient profile:
 
 ```html
-<MeasurementSystemView value="imperial" label="Imperial measurement system" />
+<MeasurementSystemView
+  value="imperial"
+  label="Imperial measurement system"
+/>
 ```
 
 ## Keyboard Interactions
@@ -61,17 +67,14 @@ None -- this is a display-only component.
 
 This headless component renders a `<span>` with the measurement system name as text content and optional `aria-label` for additional accessible context. The consumer provides all visual styling, including typography, abbreviation expansion, and layout.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.measurement-system-view` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
 
-
 - Verify the component renders a `<div>` element with class `measurement-system-view`
-- Verify aria-label` -- optionally set from the `label` prop to provide additional context beyond the displayed system name
+- Verify aria-label`-- optionally set from the`label` prop to provide additional context beyond the displayed system name
 - Verify pass-through attributes are applied
 
 ## Advice

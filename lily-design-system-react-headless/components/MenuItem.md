@@ -37,7 +37,7 @@ import MenuItem from "./MenuItem";
   <MenuItem>Open File</MenuItem>
   <MenuItem>Save</MenuItem>
   <MenuItem>Exit</MenuItem>
-</div>
+</div>;
 ```
 
 With click handlers:
@@ -59,7 +59,12 @@ Disabled menu item:
 Submenu trigger:
 
 ```tsx
-<MenuItem aria-haspopup="true" aria-expanded={submenuOpen}>Recent Files</MenuItem>
+<MenuItem
+  aria-haspopup="true"
+  aria-expanded={submenuOpen}
+>
+  Recent Files
+</MenuItem>
 ```
 
 ## Keyboard Interactions

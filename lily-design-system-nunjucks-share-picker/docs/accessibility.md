@@ -43,7 +43,7 @@ Consequences to weigh before shipping:
   required for this reason. Make it say what it shares — "Share this
   article", not "Share".
 - **Voice-control users must guess.** Someone saying "click Share" is
-  relying on the `aria-label` matching what they *see*, and they see an
+  relying on the `aria-label` matching what they _see_, and they see an
   arrow. WCAG 2.5.3 (Label in Name) is satisfied vacuously here because
   there is no visible text to disagree with — but the spirit of it is
   not. If your users use voice control, put a visible text label next to
@@ -56,7 +56,8 @@ Consequences to weigh before shipping:
   ```
 
   Note the visible word then duplicates part of the `aria-label`, which
-  is fine and intended: the label must *contain* the visible string.
+  is fine and intended: the label must _contain_ the visible string.
+
 - **Cognitive load.** An unlabelled arrow is not self-evident as
   "share". A visible label, or a tooltip you supply yourself, helps
   everyone and costs nothing.
@@ -139,14 +140,14 @@ renders only when you name it.
 
 ## Keyboard
 
-| Key | On the trigger | In the list |
-| --- | -------------- | ----------- |
-| `Enter` / `Space` | Activates (native button behaviour) | Activates the focused item |
-| `ArrowDown` | Opens, focuses the first item | Moves focus down, clamping |
-| `ArrowUp` | Opens, focuses the last item | Moves focus up, clamping |
-| `Home` / `End` | — | First / last item |
-| `Escape` | — | Closes, returns focus to the trigger |
-| `Tab` | Moves on | Closes — focus goes to the trigger first, so the default Tab proceeds from the picker's position |
+| Key               | On the trigger                      | In the list                                                                                      |
+| ----------------- | ----------------------------------- | ------------------------------------------------------------------------------------------------ |
+| `Enter` / `Space` | Activates (native button behaviour) | Activates the focused item                                                                       |
+| `ArrowDown`       | Opens, focuses the first item       | Moves focus down, clamping                                                                       |
+| `ArrowUp`         | Opens, focuses the last item        | Moves focus up, clamping                                                                         |
+| `Home` / `End`    | —                                   | First / last item                                                                                |
+| `Escape`          | —                                   | Closes, returns focus to the trigger                                                             |
+| `Tab`             | Moves on                            | Closes — focus goes to the trigger first, so the default Tab proceeds from the picker's position |
 
 Items are real focusable elements, so focus **actually moves** — no
 `aria-activedescendant`. That means a screen reader announces each item

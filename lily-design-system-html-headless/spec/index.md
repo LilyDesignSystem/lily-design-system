@@ -43,15 +43,15 @@ and keyboard behaviour that every other framework binding mirrors.
 
 ### Framework + tooling
 
-| Concern             | Choice                                      |
-| ------------------- | ------------------------------------------- |
-| Output              | Plain HTML + vanilla JS                     |
-| Language            | JavaScript (no TS)                          |
-| Build               | None                                        |
-| Package manager     | pnpm (dev-only)                             |
-| Test runner         | WebDriverIO (real browser)                  |
-| Storybook           | yes — `*.stories.ts` per component          |
-| i18n                | none — consumer supplies all text           |
+| Concern         | Choice                             |
+| --------------- | ---------------------------------- |
+| Output          | Plain HTML + vanilla JS            |
+| Language        | JavaScript (no TS)                 |
+| Build           | None                               |
+| Package manager | pnpm (dev-only)                    |
+| Test runner     | WebDriverIO (real browser)         |
+| Storybook       | yes — `*.stories.ts` per component |
+| i18n            | none — consumer supplies all text  |
 
 ### Vanilla conventions
 
@@ -205,16 +205,16 @@ pnpm run storybook                            # run Storybook
 
 ## 9. Prohibited
 
-| Prohibition                       | Reason                              |
-| --------------------------------- | ----------------------------------- |
-| Framework imports (React, Svelte, Vue) | this is the framework-free reference |
-| TypeScript                        | plain JavaScript only               |
-| Build tools                       | components must work without a bundler |
-| `<style>`, `<link rel="stylesheet">` | headless: zero CSS               |
-| Tailwind, DaisyUI                 | no CSS framework dependency         |
-| Bundled fonts, images, icons      | consumer supplies all assets        |
-| Hardcoded user-facing strings     | i18n is the consumer's concern      |
-| `@testing-library/jest-dom`       | WebDriverIO, not vitest             |
+| Prohibition                            | Reason                                 |
+| -------------------------------------- | -------------------------------------- |
+| Framework imports (React, Svelte, Vue) | this is the framework-free reference   |
+| TypeScript                             | plain JavaScript only                  |
+| Build tools                            | components must work without a bundler |
+| `<style>`, `<link rel="stylesheet">`   | headless: zero CSS                     |
+| Tailwind, DaisyUI                      | no CSS framework dependency            |
+| Bundled fonts, images, icons           | consumer supplies all assets           |
+| Hardcoded user-facing strings          | i18n is the consumer's concern         |
+| `@testing-library/jest-dom`            | WebDriverIO, not vitest                |
 
 ## 10. Tracking
 

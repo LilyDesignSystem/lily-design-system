@@ -27,20 +27,36 @@ URL inputs are commonly used in profile forms, link submission pages, and any co
 Basic website URL input:
 
 ```html
-<UrlInput label="Website URL" value={websiteUrl} placeholder="https://example.com" />
+<UrlInput
+  label="Website URL"
+  value="{websiteUrl}"
+  placeholder="https://example.com"
+/>
 ```
 
 Required portfolio link in a profile form:
 
 ```html
-<UrlInput label="Portfolio link" value={portfolioUrl} required />
+<UrlInput
+  label="Portfolio link"
+  value="{portfolioUrl}"
+  required
+/>
 ```
 
 Webhook URL configuration field:
 
 ```html
-<Field label="Webhook URL" required>
-  <UrlInput label="Webhook URL" value={webhookUrl} required placeholder="https://api.example.com/webhook" />
+<Field
+  label="Webhook URL"
+  required
+>
+  <UrlInput
+    label="Webhook URL"
+    value="{webhookUrl}"
+    required
+    placeholder="https://api.example.com/webhook"
+  />
   <Hint>We will send POST requests to this URL when events occur.</Hint>
 </Field>
 ```
@@ -48,15 +64,26 @@ Webhook URL configuration field:
 Social media link in a user profile form:
 
 ```html
-<Form label="Social links" onsubmit={saveProfile}>
+<form
+  label="Social links"
+  onsubmit="{saveProfile}"
+>
   <Field label="Personal website">
-    <UrlInput label="Personal website" value={website} placeholder="https://yoursite.com" />
+    <UrlInput
+      label="Personal website"
+      value="{website}"
+      placeholder="https://yoursite.com"
+    />
   </Field>
   <Field label="LinkedIn profile">
-    <UrlInput label="LinkedIn profile URL" value={linkedin} placeholder="https://linkedin.com/in/username" />
+    <UrlInput
+      label="LinkedIn profile URL"
+      value="{linkedin}"
+      placeholder="https://linkedin.com/in/username"
+    />
   </Field>
-  <Button type="submit">Save</Button>
-</Form>
+  <button type="submit">Save</button>
+</form>
 ```
 
 ## Keyboard Interactions
@@ -84,14 +111,11 @@ None beyond native text input behavior. The `<input type="url">` element support
 
 This headless component provides a native `<input type="url">` element with `aria-label`, two-way value binding, and support for `required` and `disabled` states. Built-in browser validation ensures URL format compliance. The consumer provides all visual styling and any surrounding labels or hints.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.url-input` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<input>` element with class `url-input`
 - Verify aria-label={label}` -- provides the accessible name for the URL input since no visible label element is associated

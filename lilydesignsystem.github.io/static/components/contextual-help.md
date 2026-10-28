@@ -32,8 +32,8 @@ default and revealed only when the user requests it.
 ```html
 <ContextualHelp
   label="Help for username"
-  expanded={open}
-  onClick={handleToggle}
+  expanded="{open}"
+  onClick="{handleToggle}"
 >
   <h3>Username</h3>
   <p>Use 3-20 characters. Letters, numbers, and underscores only.</p>

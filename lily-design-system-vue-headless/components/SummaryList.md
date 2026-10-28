@@ -23,9 +23,12 @@ This component renders as a semantic `<dl>` (description list) element with an a
 
 ```svelte
 <SummaryList label="Order summary">
-    <dt>Product</dt><dd>Widget</dd>
-    <dt>Quantity</dt><dd>3</dd>
-    <dt>Total</dt><dd>$29.97</dd>
+  <dt>Product</dt>
+  <dd>Widget</dd>
+  <dt>Quantity</dt>
+  <dd>3</dd>
+  <dt>Total</dt>
+  <dd>$29.97</dd>
 </SummaryList>
 ```
 

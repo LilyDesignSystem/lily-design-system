@@ -49,19 +49,12 @@ a client component (the select wrapper).
 ```tsx
 // app/layout.tsx — SERVER component
 import { cookies } from "next/headers";
-import {
-  isRtlLocale,
-  bcp47LocaleTag,
-} from "@lilydesignsystem/react-locale-picker";
+import { isRtlLocale, bcp47LocaleTag } from "@lilydesignsystem/react-locale-picker";
 import { LocaleClient } from "./locale-client";
 
 const KNOWN = new Set(["en", "fr", "ar", "he"]);
 
-export default async function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const cookieStore = await cookies();
   const cookieLocale = cookieStore.get("locale")?.value;
   const locale = cookieLocale && KNOWN.has(cookieLocale) ? cookieLocale : "en";
@@ -69,7 +62,10 @@ export default async function RootLayout({
   const dir = isRtlLocale(locale) ? "rtl" : "ltr";
 
   return (
-    <html lang={lang} dir={dir}>
+    <html
+      lang={lang}
+      dir={dir}
+    >
       <body>
         <LocaleClient initialLocale={locale}>{children}</LocaleClient>
       </body>
@@ -147,10 +143,7 @@ app/
 ```tsx
 // app/[locale]/layout.tsx — SERVER component
 import { notFound } from "next/navigation";
-import {
-  isRtlLocale,
-  bcp47LocaleTag,
-} from "@lilydesignsystem/react-locale-picker";
+import { isRtlLocale, bcp47LocaleTag } from "@lilydesignsystem/react-locale-picker";
 
 const KNOWN = new Set(["en", "fr", "ar"]);
 
@@ -228,11 +221,7 @@ function pickFromAcceptLanguage(header: string | null): string {
   return matchNavigatorLanguage(tags, SUPPORTED) || SUPPORTED[0];
 }
 
-export default async function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const cookieStore = await cookies();
   const requestHeaders = await headers();
 
@@ -299,10 +288,7 @@ Remix's loader on `root.tsx` plays the role of Next.js's layout.tsx:
 // app/root.tsx
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json, useLoaderData } from "@remix-run/react";
-import {
-  isRtlLocale,
-  bcp47LocaleTag,
-} from "@lilydesignsystem/react-locale-picker";
+import { isRtlLocale, bcp47LocaleTag } from "@lilydesignsystem/react-locale-picker";
 import { LocaleClient } from "./locale-client";
 
 const SUPPORTED = ["en", "fr", "ar"];
@@ -310,8 +296,7 @@ const SUPPORTED = ["en", "fr", "ar"];
 export async function loader({ request }: LoaderFunctionArgs) {
   const cookie = request.headers.get("cookie") ?? "";
   const cookieLocale = cookie.match(/locale=([^;]+)/)?.[1];
-  const locale =
-    cookieLocale && SUPPORTED.includes(cookieLocale) ? cookieLocale : "en";
+  const locale = cookieLocale && SUPPORTED.includes(cookieLocale) ? cookieLocale : "en";
   return json({ locale });
 }
 
@@ -402,10 +387,7 @@ runtime into the server bundle. Import only the pure helpers
 import { LocalePicker } from "@lilydesignsystem/react-locale-picker";
 
 // ✅ Do this in a server component
-import {
-  bcp47LocaleTag,
-  isRtlLocale,
-} from "@lilydesignsystem/react-locale-picker";
+import { bcp47LocaleTag, isRtlLocale } from "@lilydesignsystem/react-locale-picker";
 ```
 
 ---

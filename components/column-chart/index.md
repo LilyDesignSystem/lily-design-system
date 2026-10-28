@@ -18,18 +18,22 @@ For the same comparison with horizontal bars (better for long labels) use `BarCh
 
 ## Props
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `label` | string (required) | — | Accessible name |
-| `description` | string | — | Extended description |
-| `categories` | array of `{ label: string; value: number }` | [] | Categories to plot |
-| `dataTable` | slot | — | Optional fallback `<table>` |
-| `...restProps` | HTML attributes | — | Spread onto the root `<figure>` |
+| Prop           | Type                                        | Default | Description                     |
+| -------------- | ------------------------------------------- | ------- | ------------------------------- |
+| `label`        | string (required)                           | —       | Accessible name                 |
+| `description`  | string                                      | —       | Extended description            |
+| `categories`   | array of `{ label: string; value: number }` | []      | Categories to plot              |
+| `dataTable`    | slot                                        | —       | Optional fallback `<table>`     |
+| `...restProps` | HTML attributes                             | —       | Spread onto the root `<figure>` |
 
 ## Usage
 
 ```html
-<ColumnChart label="Monthly revenue" categories={monthlyRevenue} description="Revenue per month for the last year" />
+<ColumnChart
+  label="Monthly revenue"
+  categories="{monthlyRevenue}"
+  description="Revenue per month for the last year"
+/>
 ```
 
 ## Keyboard Interactions

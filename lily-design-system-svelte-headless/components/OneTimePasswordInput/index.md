@@ -10,7 +10,7 @@ See [components/one-time-password-input/index.md](../../../components/one-time-p
 
 ```svelte
 <script lang="ts">
-    import OneTimePasswordInput from "./OneTimePasswordInput.svelte";
+  import OneTimePasswordInput from "./OneTimePasswordInput.svelte";
 </script>
 
 <OneTimePasswordInput />

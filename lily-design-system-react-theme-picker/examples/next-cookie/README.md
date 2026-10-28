@@ -7,10 +7,10 @@ hydration mismatch.
 Files in this folder mirror Next.js App Router conventions. Drop them
 into `app/` in a Next.js project.
 
-| File         | Role                                                                         |
-| ------------ | ---------------------------------------------------------------------------- |
+| File         | Role                                                                                                                        |
+| ------------ | --------------------------------------------------------------------------------------------------------------------------- |
 | `layout.tsx` | Server component. Reads the `theme` cookie via `cookies()` and writes `<html data-theme>` plus the active theme's `<link>`. |
-| `page.tsx`   | Client component. Renders the select; `onChange` writes the cookie back.    |
+| `page.tsx`   | Client component. Renders the select; `onChange` writes the cookie back.                                                    |
 
 ## Required setup in your project
 

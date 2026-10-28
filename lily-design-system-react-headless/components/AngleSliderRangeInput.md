@@ -50,13 +50,16 @@ Basic angle slider range input:
 With step snapping (every 15 degrees):
 
 ```tsx
+import AngleSliderRangeInput from "./AngleSliderRangeInput";
 
-  import AngleSliderRangeInput from './AngleSliderRangeInput';
+const [direction, setDirection] = useState(90);
 
-  const [direction, setDirection] = useState(90);
-
-
-<AngleSliderRangeInput label="Direction" value={direction} onChange={setDirection} step={15} />
+<AngleSliderRangeInput
+  label="Direction"
+  value={direction}
+  onChange={setDirection}
+  step={15}
+/>;
 ```
 
 Custom range and suffix:
@@ -64,7 +67,8 @@ Custom range and suffix:
 ```tsx
 <AngleSliderRangeInput
   label="Tilt"
-  value={tilt} onChange={setTilt}
+  value={tilt}
+  onChange={setTilt}
   min={-90}
   max={90}
   valueTextSuffix=" degrees"
@@ -74,14 +78,24 @@ Custom range and suffix:
 Disabled slider:
 
 ```tsx
-<AngleSliderRangeInput label="Locked rotation" value={45} disabled />
+<AngleSliderRangeInput
+  label="Locked rotation"
+  value={45}
+  disabled
+/>
 ```
 
 Within a form:
 
 ```tsx
 <form>
-  <AngleSliderRangeInput label="Gradient angle" value={angle} onChange={setAngle} name="gradient-angle" id="gradient" />
+  <AngleSliderRangeInput
+    label="Gradient angle"
+    value={angle}
+    onChange={setAngle}
+    name="gradient-angle"
+    id="gradient"
+  />
 </form>
 ```
 

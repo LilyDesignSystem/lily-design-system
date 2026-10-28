@@ -23,7 +23,12 @@ EireIndividualHealthIdentifierView is a read-only display of an Eire Individual 
 <SummaryList>
   <SummaryListItem>
     <dt>Individual Health Identifier</dt>
-    <dd><EireIndividualHealthIdentifierView label="IHI" value="1234567890" /></dd>
+    <dd>
+      <EireIndividualHealthIdentifierView
+        label="IHI"
+        value="1234567890"
+      />
+    </dd>
   </SummaryListItem>
 </SummaryList>
 ```

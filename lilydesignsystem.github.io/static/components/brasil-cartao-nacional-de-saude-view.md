@@ -22,7 +22,10 @@ BrasilCartaoNacionalDeSaudeView is a headless read-only display of Brazil's Cart
 ```html
 <SummaryList>
   <SummaryListItem term="Cartão Nacional de Saúde (CNS)">
-    <BrasilCartaoNacionalDeSaudeView label="Cartão Nacional de Saúde (CNS)" value={value} />
+    <BrasilCartaoNacionalDeSaudeView
+      label="Cartão Nacional de Saúde (CNS)"
+      value="{value}"
+    />
   </SummaryListItem>
 </SummaryList>
 ```

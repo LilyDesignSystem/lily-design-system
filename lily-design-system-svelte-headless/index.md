@@ -394,7 +394,7 @@ A headless Svelte 5 component library with 490 components. All components are he
 | table-body | `<tbody>`    |
 | table-foot | `<tfoot>`    |
 | table-row  | `<tr>`       |
-| table-td | `<td>`       |
+| table-td   | `<td>`       |
 | select     | `<select>`   |
 | span       | `<span>`     |
 

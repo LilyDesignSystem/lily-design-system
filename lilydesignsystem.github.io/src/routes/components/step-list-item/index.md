@@ -28,11 +28,18 @@ pattern. See StepList for full usage.
 ## Usage
 
 ```html
-<StepListItem status="in-progress" current>Address</StepListItem>
+<StepListItem
+  status="in-progress"
+  current
+  >Address</StepListItem
+>
 ```
 
 ```html
-<StepListItem status="error" label="Payment failed">
+<StepListItem
+  status="error"
+  label="Payment failed"
+>
   <strong>Payment</strong>
   <span>Card declined</span>
 </StepListItem>

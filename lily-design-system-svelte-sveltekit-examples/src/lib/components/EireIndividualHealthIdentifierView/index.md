@@ -43,23 +43,29 @@ Import the component, pass the `value` (the IHI string) and a `label`, and rende
 
 ```svelte
 <script lang="ts">
-    import EireIndividualHealthIdentifierView from "./EireIndividualHealthIdentifierView.svelte";
+  import EireIndividualHealthIdentifierView from "./EireIndividualHealthIdentifierView.svelte";
 </script>
 
-<EireIndividualHealthIdentifierView label="IHI" value="1234567890" />
+<EireIndividualHealthIdentifierView
+  label="IHI"
+  value="1234567890"
+/>
 ```
 
 ### IHI inline with descriptive text
 
 ```svelte
 <script lang="ts">
-    import EireIndividualHealthIdentifierView from "./EireIndividualHealthIdentifierView.svelte";
-    let ihi = $state("1234567890");
+  import EireIndividualHealthIdentifierView from "./EireIndividualHealthIdentifierView.svelte";
+  let ihi = $state("1234567890");
 </script>
 
 <p>
-    Patient IHI:
-    <EireIndividualHealthIdentifierView label="IHI" value={ihi} />
+  Patient IHI:
+  <EireIndividualHealthIdentifierView
+    label="IHI"
+    value={ihi}
+  />
 </p>
 ```
 
@@ -67,17 +73,17 @@ Import the component, pass the `value` (the IHI string) and a `label`, and rende
 
 ```svelte
 <script lang="ts">
-    import EireIndividualHealthIdentifierView from "./EireIndividualHealthIdentifierView.svelte";
+  import EireIndividualHealthIdentifierView from "./EireIndividualHealthIdentifierView.svelte";
 </script>
 
 <dl>
-    <dt>Individual Health Identifier</dt>
-    <dd>
-        <EireIndividualHealthIdentifierView
-            label="IHI"
-            value="1234567890"
-        />
-    </dd>
+  <dt>Individual Health Identifier</dt>
+  <dd>
+    <EireIndividualHealthIdentifierView
+      label="IHI"
+      value="1234567890"
+    />
+  </dd>
 </dl>
 ```
 
@@ -85,20 +91,20 @@ Import the component, pass the `value` (the IHI string) and a `label`, and rende
 
 ```svelte
 <script lang="ts">
-    import EireIndividualHealthIdentifierView from "./EireIndividualHealthIdentifierView.svelte";
+  import EireIndividualHealthIdentifierView from "./EireIndividualHealthIdentifierView.svelte";
 </script>
 
 <EireIndividualHealthIdentifierView
-    class="ihi-monospace"
-    label="IHI"
-    value="1234567890"
+  class="ihi-monospace"
+  label="IHI"
+  value="1234567890"
 />
 
 <style>
-    :global(.ihi-monospace) {
-        font-family: ui-monospace, monospace;
-        letter-spacing: 0.05em;
-    }
+  :global(.ihi-monospace) {
+    font-family: ui-monospace, monospace;
+    letter-spacing: 0.05em;
+  }
 </style>
 ```
 
@@ -106,13 +112,13 @@ Import the component, pass the `value` (the IHI string) and a `label`, and rende
 
 ```svelte
 <script lang="ts">
-    import EireIndividualHealthIdentifierView from "./EireIndividualHealthIdentifierView.svelte";
-    let ihi = $state("");
+  import EireIndividualHealthIdentifierView from "./EireIndividualHealthIdentifierView.svelte";
+  let ihi = $state("");
 </script>
 
 <EireIndividualHealthIdentifierView
-    label="IHI (not recorded)"
-    value={ihi || "—"}
+  label="IHI (not recorded)"
+  value={ihi || "—"}
 />
 ```
 

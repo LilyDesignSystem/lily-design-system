@@ -13,12 +13,12 @@ The input or arguments passed to the tool. A `<div>` that becomes a named group 
 
 ## Props
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `class` | string | `""` | Appended to the base class |
-| `label` | string (optional) | — | Adds `role="group"` and `aria-label`; without it neither is rendered |
-| `children` | slot | — | The arguments |
-| `...restProps` | HTML attributes | — | Spread onto the root `<div>` |
+| Prop           | Type              | Default | Description                                                          |
+| -------------- | ----------------- | ------- | -------------------------------------------------------------------- |
+| `class`        | string            | `""`    | Appended to the base class                                           |
+| `label`        | string (optional) | —       | Adds `role="group"` and `aria-label`; without it neither is rendered |
+| `children`     | slot              | —       | The arguments                                                        |
+| `...restProps` | HTML attributes   | —       | Spread onto the root `<div>`                                         |
 
 ## Usage
 

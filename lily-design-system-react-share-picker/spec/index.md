@@ -79,23 +79,23 @@ Give a React 19 application a drop-in, headless share control that:
 
 ### 4.1 Props
 
-| Prop              | Type                                   | Required | Default          | Purpose                                                        |
-| ----------------- | -------------------------------------- | -------- | ---------------- | -------------------------------------------------------------- |
-| `label`           | `string`                               | yes      | —                | Accessible name for the button and the list.                   |
-| `targets`         | `ShareTarget[]`                        | no       | `[]`             | Destinations to offer. Empty is valid when `copyLabel` is set. |
-| `url`             | `string`                               | no       | current page URL | URL to share. Resolved lazily, so the default is SSR-safe.     |
-| `title`           | `string`                               | no       | `""`             | Passed to `href(...)` and the native sheet.                    |
-| `text`            | `string`                               | no       | `""`             | Passed to `href(...)` and the native sheet.                    |
-| `copyLabel`       | `string`                               | no       | `undefined`      | Label for the copy item. Omit it and no copy item renders.     |
-| `copiedLabel`     | `string`                               | no       | `undefined`      | Announced in the status region after a successful copy.        |
-| `copyFailedLabel` | `string`                               | no       | `undefined`      | Announced when the clipboard write fails.                      |
-| `strategy`        | `"auto" \| "native" \| "list"`         | no       | `"auto"`         | Whether to prefer the native sheet.                            |
-| `children`        | `(args: ChildArgs) => React.ReactNode` | no       | the default arrow icon | Replaces the button icon.                                |
-| `onShare`         | `(id, url) => void`                    | no       | —                | Fires when a destination is chosen.                            |
-| `onCopy`          | `(url) => void`                        | no       | —                | Fires after a successful copy.                                 |
-| `onNativeShare`   | `(url) => void`                        | no       | —                | Fires when the native sheet was used instead of the list.      |
-| `className`       | `string`                               | no       | `""`             | Extra class on the root.                                       |
-| `...restProps`    | any HTML attributes                    | no       | —                | Spread onto the root `<div>`.                                  |
+| Prop              | Type                                   | Required | Default                | Purpose                                                        |
+| ----------------- | -------------------------------------- | -------- | ---------------------- | -------------------------------------------------------------- |
+| `label`           | `string`                               | yes      | —                      | Accessible name for the button and the list.                   |
+| `targets`         | `ShareTarget[]`                        | no       | `[]`                   | Destinations to offer. Empty is valid when `copyLabel` is set. |
+| `url`             | `string`                               | no       | current page URL       | URL to share. Resolved lazily, so the default is SSR-safe.     |
+| `title`           | `string`                               | no       | `""`                   | Passed to `href(...)` and the native sheet.                    |
+| `text`            | `string`                               | no       | `""`                   | Passed to `href(...)` and the native sheet.                    |
+| `copyLabel`       | `string`                               | no       | `undefined`            | Label for the copy item. Omit it and no copy item renders.     |
+| `copiedLabel`     | `string`                               | no       | `undefined`            | Announced in the status region after a successful copy.        |
+| `copyFailedLabel` | `string`                               | no       | `undefined`            | Announced when the clipboard write fails.                      |
+| `strategy`        | `"auto" \| "native" \| "list"`         | no       | `"auto"`               | Whether to prefer the native sheet.                            |
+| `children`        | `(args: ChildArgs) => React.ReactNode` | no       | the default arrow icon | Replaces the button icon.                                      |
+| `onShare`         | `(id, url) => void`                    | no       | —                      | Fires when a destination is chosen.                            |
+| `onCopy`          | `(url) => void`                        | no       | —                      | Fires after a successful copy.                                 |
+| `onNativeShare`   | `(url) => void`                        | no       | —                      | Fires when the native sheet was used instead of the list.      |
+| `className`       | `string`                               | no       | `""`                   | Extra class on the root.                                       |
+| `...restProps`    | any HTML attributes                    | no       | —                      | Spread onto the root `<div>`.                                  |
 
 ```ts
 type ShareTarget = {
@@ -117,7 +117,10 @@ clipboard write rather than being the DOM's `ClipboardEvent` handler.
 ### 4.2 DOM contract
 
 ```html
-<div class="share-picker {className}" ...restProps>
+<div
+  class="share-picker {className}"
+  ...restProps
+>
   <button
     type="button"
     class="share-picker-button"
@@ -125,10 +128,33 @@ clipboard write rather than being the DOM's `ClipboardEvent` handler.
     aria-expanded
     aria-controls="{listId}"
   >
-    <svg class="share-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5"/></svg>
+    <svg
+      class="share-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" />
+    </svg>
   </button>
-  <div class="share-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
-  <ul class="share-picker-list" id="{listId}" aria-label="{label}" hidden>
+  <div
+    class="share-picker-tooltip"
+    role="tooltip"
+    id="{tooltipId}"
+    hidden
+  >
+    {label}
+  </div>
+  <ul
+    class="share-picker-list"
+    id="{listId}"
+    aria-label="{label}"
+    hidden
+  >
     <li class="share-picker-list-item">
       <a
         class="share-picker-target"
@@ -140,10 +166,18 @@ clipboard write rather than being the DOM's `ClipboardEvent` handler.
       >
     </li>
     <li class="share-picker-list-item">
-      <button type="button" class="share-picker-copy">{copyLabel}</button>
+      <button
+        type="button"
+        class="share-picker-copy"
+      >
+        {copyLabel}
+      </button>
     </li>
   </ul>
-  <p class="share-picker-status" aria-live="polite"></p>
+  <p
+    class="share-picker-status"
+    aria-live="polite"
+  ></p>
 </div>
 ```
 
@@ -187,13 +221,13 @@ Either way the list closes.
 
 ### 5.3 Keyboard
 
-| Key               | On the button                        | In the list                                   |
-| ----------------- | ------------------------------------ | --------------------------------------------- |
-| `Enter` / `Space` | Activates (native browser behaviour) | Activates the focused item                    |
-| `ArrowDown`       | Opens, focuses the first item        | Moves focus down, clamping                    |
-| `ArrowUp`         | Opens, focuses the last item         | Moves focus up, clamping                      |
-| `Home` / `End`    | —                                    | First / last item                             |
-| `Escape`          | —                                    | Closes and returns focus to the button        |
+| Key               | On the button                        | In the list                                                                                                                 |
+| ----------------- | ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
+| `Enter` / `Space` | Activates (native browser behaviour) | Activates the focused item                                                                                                  |
+| `ArrowDown`       | Opens, focuses the first item        | Moves focus down, clamping                                                                                                  |
+| `ArrowUp`         | Opens, focuses the last item         | Moves focus up, clamping                                                                                                    |
+| `Home` / `End`    | —                                    | First / last item                                                                                                           |
+| `Escape`          | —                                    | Closes and returns focus to the button                                                                                      |
 | `Tab`             | Moves on                             | Closes — focus goes to the button first, without cancelling the key, so the default Tab proceeds from the picker's position |
 
 Items are real focusable elements, so focus moves for real rather than

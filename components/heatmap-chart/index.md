@@ -15,17 +15,20 @@ The component renders a `<figure>` holding a `<div class="heatmap-chart-graphic"
 
 ## Props
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `class` | string | `""` | Appended to the base class |
-| `label` | string (required) | — | Accessible name |
-| `children` | slot (required) | — | The consumer-drawn inline `<svg>` |
-| `...restProps` | HTML attributes | — | Spread onto the root `<figure>`, e.g. `aria-describedby` |
+| Prop           | Type              | Default | Description                                              |
+| -------------- | ----------------- | ------- | -------------------------------------------------------- |
+| `class`        | string            | `""`    | Appended to the base class                               |
+| `label`        | string (required) | —       | Accessible name                                          |
+| `children`     | slot (required)   | —       | The consumer-drawn inline `<svg>`                        |
+| `...restProps` | HTML attributes   | —       | Spread onto the root `<figure>`, e.g. `aria-describedby` |
 
 ## Usage
 
 ```svelte
-<HeatmapChart label="Heatmap Chart of example data" aria-describedby="heatmap-chart-data">
+<HeatmapChart
+  label="Heatmap Chart of example data"
+  aria-describedby="heatmap-chart-data"
+>
   <svg viewBox="0 0 100 100">…</svg>
 </HeatmapChart>
 <table id="heatmap-chart-data">…</table>

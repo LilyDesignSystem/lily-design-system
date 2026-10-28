@@ -20,7 +20,10 @@ The component serves as a semantic container that consumers populate with their 
 
 ```svelte
 <ImageCropper label="Crop your profile photo">
-  <img src="avatar.jpg" alt="" />
+  <img
+    src="avatar.jpg"
+    alt=""
+  />
 </ImageCropper>
 ```
 

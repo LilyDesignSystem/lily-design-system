@@ -52,22 +52,22 @@ lily-design-system-html-css-js-examples/
 
 ## Example Pages
 
-| Page         | Key Components                                                     |
-| ------------ | ------------------------------------------------------------------ |
+| Page                | Key Components                                                                                                                                                                                 |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Book an Appointment | StepList, RadioGroup, DateInput, Select, SummaryList, ErrorSummary, SuccessPanel — flagship 5-step wizard, see [docs/patterns/book-an-appointment.md](../docs/patterns/book-an-appointment.md) |
-| Contact Form | Form, Field, TextInput, EmailInput, TextAreaInput, Select, Button       |
-| Dashboard    | Card, Progress, ProgressCircle, Badge, Banner, DataTable           |
-| Dialog Flow  | Dialog, AlertDialog, Drawer, Button, Tooltip                       |
-| File Upload  | FileUpload, Progress, Button, Alert, Badge, Form, Field            |
-| Navigation   | NavigationMenu, MenuBar, ToolBar, HamburgerMenu, DropdownMenu      |
-| Page Layout  | Header, Footer, BreadcrumbNav, Sidebar, NavigationMenu             |
-| Rating       | FiveStarRatingPicker, FiveFaceRatingPicker, NetPromoterScorePicker |
-| RTL Demo     | BreadcrumbNav, DataTable, PaginationNav, Form, RadioGroup, CheckboxInput — dir="rtl" + Arabic content, see [docs/patterns](../docs/patterns) and `e2e/rtl-demo.spec.ts` |
-| Search       | Combobox, SearchInput, TagInput, TagGroup, Tag, DataTable, Badge   |
-| Settings     | SwitchButton, RadioGroup, RadioInput, Select, Fieldset, Banner     |
-| Tabs         | TabBar, TabBarButton, AccordionNav, Badge                          |
-| Tasks        | TaskList, TaskListItem, TextInput, CheckboxInput, Badge, Progress  |
-| Timeline     | TimelineList, Card, DateRange, ReviewDate, SummaryList             |
+| Contact Form        | Form, Field, TextInput, EmailInput, TextAreaInput, Select, Button                                                                                                                              |
+| Dashboard           | Card, Progress, ProgressCircle, Badge, Banner, DataTable                                                                                                                                       |
+| Dialog Flow         | Dialog, AlertDialog, Drawer, Button, Tooltip                                                                                                                                                   |
+| File Upload         | FileUpload, Progress, Button, Alert, Badge, Form, Field                                                                                                                                        |
+| Navigation          | NavigationMenu, MenuBar, ToolBar, HamburgerMenu, DropdownMenu                                                                                                                                  |
+| Page Layout         | Header, Footer, BreadcrumbNav, Sidebar, NavigationMenu                                                                                                                                         |
+| Rating              | FiveStarRatingPicker, FiveFaceRatingPicker, NetPromoterScorePicker                                                                                                                             |
+| RTL Demo            | BreadcrumbNav, DataTable, PaginationNav, Form, RadioGroup, CheckboxInput — dir="rtl" + Arabic content, see [docs/patterns](../docs/patterns) and `e2e/rtl-demo.spec.ts`                        |
+| Search              | Combobox, SearchInput, TagInput, TagGroup, Tag, DataTable, Badge                                                                                                                               |
+| Settings            | SwitchButton, RadioGroup, RadioInput, Select, Fieldset, Banner                                                                                                                                 |
+| Tabs                | TabBar, TabBarButton, AccordionNav, Badge                                                                                                                                                      |
+| Tasks               | TaskList, TaskListItem, TextInput, CheckboxInput, Badge, Progress                                                                                                                              |
+| Timeline            | TimelineList, Card, DateRange, ReviewDate, SummaryList                                                                                                                                         |
 
 ## Internationalization
 

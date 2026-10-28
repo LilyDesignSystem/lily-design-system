@@ -56,8 +56,17 @@ value out-of-band rather than baking it into control state the browser
 would paint before the client could correct it.
 
 ```html
-<div class="locale-picker" … data-lily-locale-picker-value="fr">
-  <input type="hidden" name="locale" value="fr" data-lily-locale-picker-input />
+<div
+  class="locale-picker"
+  …
+  data-lily-locale-picker-value="fr"
+>
+  <input
+    type="hidden"
+    name="locale"
+    value="fr"
+    data-lily-locale-picker-input
+  />
   <button
     type="button"
     class="locale-picker-button"
@@ -66,7 +75,9 @@ would paint before the client could correct it.
     aria-expanded="false"
     aria-controls="locale-picker-locale-list"
   >
-    <span class="locale-picker-icon" aria-hidden="true"
+    <span
+      class="locale-picker-icon"
+      aria-hidden="true"
       >🌐︎</span
     >
   </button>
@@ -332,9 +343,7 @@ app.get("/", (req, res) => {
   const cookie = req.cookies.locale;
   const accept = req.headers["accept-language"];
   const locale =
-    cookie && SUPPORTED.includes(cookie)
-      ? cookie
-      : pickFromAcceptLanguage(accept, SUPPORTED);
+    cookie && SUPPORTED.includes(cookie) ? cookie : pickFromAcceptLanguage(accept, SUPPORTED);
   res.render("index.njk", { locale /* … */ });
 });
 ```

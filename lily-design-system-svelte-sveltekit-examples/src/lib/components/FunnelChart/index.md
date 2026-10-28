@@ -10,11 +10,11 @@ See [components/funnel-chart/index.md](../../../../../components/funnel-chart/in
 
 ```svelte
 <script lang="ts">
-    import FunnelChart from "./FunnelChart.svelte";
+  import FunnelChart from "./FunnelChart.svelte";
 </script>
 
 <FunnelChart label="Describe the chart">
-    <svg viewBox="0 0 10 10">…</svg>
+  <svg viewBox="0 0 10 10">…</svg>
 </FunnelChart>
 ```
 

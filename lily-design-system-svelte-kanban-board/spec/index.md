@@ -78,16 +78,16 @@ never `aria-selected` since 2026-10-10) is reused as-is for body cells, the same
 
 ## 5. Props
 
-| Prop         | Type                                                     | Required | Default |
-| ------------ | --------------------------------------------------------- | -------- | ------- |
-| `label`      | `string`                                                   | yes      | —       |
-| `columns`    | `KanbanColumn[]`                                           | yes      | —       |
-| `cards`      | `KanbanCard[]`                                             | yes      | —       |
-| `caption`    | `string`                                                    | no       | —       |
-| `cardLabel`  | `(card: KanbanCard) => string`                              | no       | `card.title` |
-| `onMove`     | `(cardId: string, toColumnId: string) => void`              | no       | —       |
-| `labels`     | `KanbanLabels`                                              | no       | `{}`    |
-| `class`      | `string`                                                    | no       | `""`    |
+| Prop        | Type                                           | Required | Default      |
+| ----------- | ---------------------------------------------- | -------- | ------------ |
+| `label`     | `string`                                       | yes      | —            |
+| `columns`   | `KanbanColumn[]`                               | yes      | —            |
+| `cards`     | `KanbanCard[]`                                 | yes      | —            |
+| `caption`   | `string`                                       | no       | —            |
+| `cardLabel` | `(card: KanbanCard) => string`                 | no       | `card.title` |
+| `onMove`    | `(cardId: string, toColumnId: string) => void` | no       | —            |
+| `labels`    | `KanbanLabels`                                 | no       | `{}`         |
+| `class`     | `string`                                       | no       | `""`         |
 
 `KanbanColumn`: `id` (required), `title` (required), `wipLimit?: number`.
 
@@ -130,7 +130,7 @@ Choosing the card's current column is not a move: the menu closes with
 no `onMove` and no announcement (dropping a card on its own column is
 likewise ignored). Escape closes without moving.
 
-**Focus after the menu closes** goes to *that* card — found by its id
+**Focus after the menu closes** goes to _that_ card — found by its id
 after the next render, so when the consumer's `cards` has moved it, focus
 and the roving cursor follow it into its new column — landing on its move
 button, or on its cell when no button renders. The menu's own keys
@@ -291,7 +291,7 @@ Ideas 1, 3 and 7 of §11 (tests §8.22–§8.30).
 - **Add card**: `labels.addCard` gates a `+` button per column; `onAddCard(columnId)`. Lily ships no editor. Never rendered when read-only.
 - **Hard limits**: `column.strictLimit` with `wipLimit` refuses a move into a full column (menu option `aria-disabled`, drops announce
   `moveBlocked`). Without it the limit stays a warning.
-Not built: drop position, card snippet, filter/sort, grouping, virtualization (§11 ideas 2, 4, 5, 6, 8).
+  Not built: drop position, card snippet, filter/sort, grouping, virtualization (§11 ideas 2, 4, 5, 6, 8).
 
 ## 13. Shipped later in 0.3.0 (2026-10-14)
 

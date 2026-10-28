@@ -16,11 +16,36 @@ Compound component: use with FiveStarRatingPicker.
 ## Usage
 
 ```svelte
-<FiveStarRatingPickerButton value={1} label="1 star" selected={rating === 1} onclick={() => rating = 1} />
-<FiveStarRatingPickerButton value={2} label="2 stars" selected={rating === 2} onclick={() => rating = 2} />
-<FiveStarRatingPickerButton value={3} label="3 stars" selected={rating === 3} onclick={() => rating = 3} />
-<FiveStarRatingPickerButton value={4} label="4 stars" selected={rating === 4} onclick={() => rating = 4} />
-<FiveStarRatingPickerButton value={5} label="5 stars" selected={rating === 5} onclick={() => rating = 5} />
+<FiveStarRatingPickerButton
+  value={1}
+  label="1 star"
+  selected={rating === 1}
+  onclick={() => (rating = 1)}
+/>
+<FiveStarRatingPickerButton
+  value={2}
+  label="2 stars"
+  selected={rating === 2}
+  onclick={() => (rating = 2)}
+/>
+<FiveStarRatingPickerButton
+  value={3}
+  label="3 stars"
+  selected={rating === 3}
+  onclick={() => (rating = 3)}
+/>
+<FiveStarRatingPickerButton
+  value={4}
+  label="4 stars"
+  selected={rating === 4}
+  onclick={() => (rating = 4)}
+/>
+<FiveStarRatingPickerButton
+  value={5}
+  label="5 stars"
+  selected={rating === 5}
+  onclick={() => (rating = 5)}
+/>
 ```
 
 ## ARIA

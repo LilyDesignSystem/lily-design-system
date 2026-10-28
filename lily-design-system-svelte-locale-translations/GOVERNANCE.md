@@ -27,7 +27,7 @@ footnote; see
 
 ## The specification is the authority, not the maintainer
 
-The one place the maintainer explicitly does *not* have final say is conformance to
+The one place the maintainer explicitly does _not_ have final say is conformance to
 the project's own written contracts. [spec/](spec/index.md) and the rules in
 [AGENTS/](https://github.com/LilyDesignSystem/lily-design-system/tree/main/AGENTS) are the oracle: the canonical element, ARIA, keyboard contract
 and props for each component are fixed in `components/{slug}/AGENTS.md`, and an
@@ -49,16 +49,16 @@ There is no separate architecture-decision-record layer, deliberately: an ADR th
 outlives the code it justified becomes a false authority. Decisions live in the
 places that cannot drift out of sync with the tree.
 
-| Kind of decision | Where it lives |
-| --- | --- |
-| What a component *is* — element, ARIA, keyboard, props | `components/{slug}/AGENTS.md`, and the row in [components.tsv](https://github.com/LilyDesignSystem/lily-design-system/blob/main/components.tsv) |
-| Standing design rules | the relevant file in [AGENTS/](https://github.com/LilyDesignSystem/lily-design-system/tree/main/AGENTS) — headless, accessibility, internationalization, theme, helpers |
-| Why the system is shaped this way | the relevant topic under [spec/](spec/index.md) |
-| Why a change looks the way it does | the pull request description that landed it, and the entry in [CHANGELOG.md](CHANGELOG.md) |
-| What a release contains | [CHANGELOG.md](CHANGELOG.md) and [NEWS.md](NEWS.md) |
-| Who may decide a specific release is ready and execute its publish | this file, § AI agent publish authority |
-| Questions still open | [RFC.md](RFC.md) |
-| What the project will not do | this file, and the "settled" table in [RFC.md](RFC.md) |
+| Kind of decision                                                   | Where it lives                                                                                          |
+| ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------- |
+| What a component _is_ — element, ARIA, keyboard, props             | `components/{slug}/AGENTS.md`, and the row in [components.tsv](https://github.com/LilyDesignSystem/lily-design-system/blob/main/components.tsv)                          |
+| Standing design rules                                              | the relevant file in [AGENTS/](https://github.com/LilyDesignSystem/lily-design-system/tree/main/AGENTS) — headless, accessibility, internationalization, theme, helpers |
+| Why the system is shaped this way                                  | the relevant topic under [spec/](spec/index.md)                                                         |
+| Why a change looks the way it does                                 | the pull request description that landed it, and the entry in [CHANGELOG.md](CHANGELOG.md)              |
+| What a release contains                                            | [CHANGELOG.md](CHANGELOG.md) and [NEWS.md](NEWS.md)                                                     |
+| Who may decide a specific release is ready and execute its publish | this file, § AI agent publish authority                                                                 |
+| Questions still open                                               | [RFC.md](RFC.md)                                                                                        |
+| What the project will not do                                       | this file, and the "settled" table in [RFC.md](RFC.md)                                                  |
 
 A decision that exists only in a conversation — or only inside an AI coding session
 ([AI_STATEMENT.md](AI_STATEMENT.md) §6) — is not a decision this project made. It
@@ -113,7 +113,7 @@ authorized too now.)
 An agent working in this repository may work through §§1–4 above, decide the
 release meets them, and carry out §5 itself — the maintainer no longer has to
 tick every box personally before the publish runs. This authorizes readiness and
-execution together; it still does not extend to choosing *what* a release
+execution together; it still does not extend to choosing _what_ a release
 contains, a design-principle ruling, or a licensing or trademark decision — those
 stay the maintainer's alone, per [AI_STATEMENT.md](AI_STATEMENT.md) §5.
 

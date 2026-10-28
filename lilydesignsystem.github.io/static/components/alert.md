@@ -39,7 +39,10 @@ emphasis without assuming a heading level.
 Session expiry warning:
 
 ```html
-<Alert type="warning" heading="Session expiring">
+<Alert
+  type="warning"
+  heading="Session expiring"
+>
   Your session will expire in 5 minutes. Save your work to avoid losing changes.
 </Alert>
 ```
@@ -47,7 +50,10 @@ Session expiry warning:
 Form submission confirmation:
 
 ```html
-<Alert type="success" heading="Appointment confirmed">
+<Alert
+  type="success"
+  heading="Appointment confirmed"
+>
   Your appointment for 14 March 2026 at 10:00 has been booked successfully.
 </Alert>
 ```
@@ -55,7 +61,10 @@ Form submission confirmation:
 Error feedback after a failed action:
 
 ```html
-<Alert type="error" heading="Payment failed">
+<Alert
+  type="error"
+  heading="Payment failed"
+>
   We could not process your payment. Check your card details and try again.
 </Alert>
 ```
@@ -95,17 +104,14 @@ Polite status update using `role="status"`:
 
 This component provides ARIA live region semantics (`role="alert"` or `role="status"`), `aria-atomic`, and a `data-type` attribute for severity variants, with zero visual styling. The consumer is responsible for all CSS including background colors, border styles, icons, typography, and spacing for each severity level.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.alert` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
 
-
 - Verify the component renders a `<div>` element with class `alert`
-- Verify role="alert"` or `role="status"` for live region semantics
+- Verify role="alert"`or`role="status"` for live region semantics
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied
 

@@ -17,20 +17,39 @@ Button:
   aria-expanded="false"
   aria-controls="settings-picker-panel"
 >
-  <svg class="settings-picker-icon" viewBox="0 0 16 16" aria-hidden="true">…cog…</svg>
+  <svg
+    class="settings-picker-icon"
+    viewBox="0 0 16 16"
+    aria-hidden="true"
+  >
+    …cog…
+  </svg>
 </button>
 ```
 
 Tooltip (a sibling right after the button, like every picker's):
 
 ```html
-<div class="settings-picker-tooltip" role="tooltip" id="settings-picker-tooltip" hidden>Settings</div>
+<div
+  class="settings-picker-tooltip"
+  role="tooltip"
+  id="settings-picker-tooltip"
+  hidden
+>
+  Settings
+</div>
 ```
 
 Panel:
 
 ```html
-<div class="settings-picker-panel" id="settings-picker-panel" role="group" aria-label="Settings" hidden>
+<div
+  class="settings-picker-panel"
+  id="settings-picker-panel"
+  role="group"
+  aria-label="Settings"
+  hidden
+>
   …whatever the app provides…
 </div>
 ```

@@ -23,9 +23,21 @@ NihonKojinBangoInput is a headless input for entering Japan's Individual Number 
 ## Usage
 
 ```html
-<Field label="Individual Number / My Number (マイナンバー)" required>
-  <NihonKojinBangoInput label="Individual Number / My Number (マイナンバー)" value={value} required />
-  <Hint>Twelve digits, issued to every resident of Japan since 2016. The twelfth digit is a check digit: the first eleven digits are each multiplied by a position-dependent weight (6,5,4,3,2 for positions 1-5; 7,6,5,4,3,2 for positions 6-11), summed, taken Modulus-11, and the remainder subtracted from 11 (remainders of 0 or 1 both yield a check digit of 0).</Hint>
+<Field
+  label="Individual Number / My Number (マイナンバー)"
+  required
+>
+  <NihonKojinBangoInput
+    label="Individual Number / My Number (マイナンバー)"
+    value="{value}"
+    required
+  />
+  <Hint
+    >Twelve digits, issued to every resident of Japan since 2016. The twelfth digit is a check
+    digit: the first eleven digits are each multiplied by a position-dependent weight (6,5,4,3,2 for
+    positions 1-5; 7,6,5,4,3,2 for positions 6-11), summed, taken Modulus-11, and the remainder
+    subtracted from 11 (remainders of 0 or 1 both yield a check digit of 0).</Hint
+  >
   <ErrorMessage>Please enter a valid Individual Number / My Number</ErrorMessage>
 </Field>
 ```

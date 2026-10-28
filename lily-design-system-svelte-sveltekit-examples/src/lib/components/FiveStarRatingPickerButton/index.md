@@ -46,73 +46,84 @@ Compose five instances (values 1-5) inside a container. Track the selected value
 
 ```svelte
 <script lang="ts">
-    import FiveStarRatingPickerButton from "./FiveStarRatingPickerButton.svelte";
-    let rating = $state(0);
-    const stars = [
-        { value: 1, label: "1 star" },
-        { value: 2, label: "2 stars" },
-        { value: 3, label: "3 stars" },
-        { value: 4, label: "4 stars" },
-        { value: 5, label: "5 stars" },
-    ];
+  import FiveStarRatingPickerButton from "./FiveStarRatingPickerButton.svelte";
+  let rating = $state(0);
+  const stars = [
+    { value: 1, label: "1 star" },
+    { value: 2, label: "2 stars" },
+    { value: 3, label: "3 stars" },
+    { value: 4, label: "4 stars" },
+    { value: 5, label: "5 stars" },
+  ];
 </script>
 
-<div role="group" aria-label="Rate this">
-    {#each stars as s}
-        <FiveStarRatingPickerButton
-            value={s.value}
-            label={s.label}
-            selected={rating === s.value}
-            onclick={() => (rating = s.value)}
-        />
-    {/each}
+<div
+  role="group"
+  aria-label="Rate this"
+>
+  {#each stars as s}
+    <FiveStarRatingPickerButton
+      value={s.value}
+      label={s.label}
+      selected={rating === s.value}
+      onclick={() => (rating = s.value)}
+    />
+  {/each}
 </div>
 ```
 
 ```svelte
 <script lang="ts">
-    import FiveStarRatingPickerButton from "./FiveStarRatingPickerButton.svelte";
-</script>
-
-<FiveStarRatingPickerButton value={4} label="4 stars" selected />
-```
-
-```svelte
-<script lang="ts">
-    import FiveStarRatingPickerButton from "./FiveStarRatingPickerButton.svelte";
-</script>
-
-<FiveStarRatingPickerButton value={1} label="1 star" disabled />
-```
-
-```svelte
-<script lang="ts">
-    import FiveStarRatingPickerButton from "./FiveStarRatingPickerButton.svelte";
-    let hovered = $state<number | null>(null);
+  import FiveStarRatingPickerButton from "./FiveStarRatingPickerButton.svelte";
 </script>
 
 <FiveStarRatingPickerButton
-    value={3}
-    label="3 stars"
-    onclick={() => console.log("clicked 3")}
-    onmouseenter={() => (hovered = 3)}
-    onmouseleave={() => (hovered = null)}
+  value={4}
+  label="4 stars"
+  selected
 />
 ```
 
 ```svelte
 <script lang="ts">
-    import FiveStarRatingPickerButton from "./FiveStarRatingPickerButton.svelte";
-    let rating = $state(2);
+  import FiveStarRatingPickerButton from "./FiveStarRatingPickerButton.svelte";
 </script>
 
 <FiveStarRatingPickerButton
-    value={2}
-    label="2 stars"
-    selected={rating === 2}
-    class="custom-star"
-    data-testid="star-2"
-    onclick={() => (rating = 2)}
+  value={1}
+  label="1 star"
+  disabled
+/>
+```
+
+```svelte
+<script lang="ts">
+  import FiveStarRatingPickerButton from "./FiveStarRatingPickerButton.svelte";
+  let hovered = $state<number | null>(null);
+</script>
+
+<FiveStarRatingPickerButton
+  value={3}
+  label="3 stars"
+  onclick={() => console.log("clicked 3")}
+  onmouseenter={() => (hovered = 3)}
+  onmouseleave={() => (hovered = null)}
+/>
+```
+
+```svelte
+<script lang="ts">
+  import FiveStarRatingPickerButton from "./FiveStarRatingPickerButton.svelte";
+  let rating = $state(2);
+</script>
+
+<FiveStarRatingPickerButton
+  value={2}
+  label="2 stars"
+  selected={rating === 2}
+  class="custom-star"
+  data-testid="star-2"
+  onclick={() => (rating = 2)}
 />
 ```
 

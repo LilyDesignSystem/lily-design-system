@@ -24,7 +24,10 @@ When activated, the button toggles the visibility of a navigation region contain
 ## Usage
 
 ```svelte
-<HamburgerMenu label="Main menu" bind:open>
+<HamburgerMenu
+  label="Main menu"
+  bind:open
+>
   <nav>
     <ul>
       <li><a href="/">Home</a></li>

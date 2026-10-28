@@ -23,19 +23,28 @@ Tooltips are used to clarify the function or meaning of an element without clutt
 ## Usage
 
 ```svelte
-<button aria-describedby="tip"
-  onmouseenter={() => showTip = true}
-  onmouseleave={() => showTip = false}
-  onfocusin={() => showTip = true}
-  onfocusout={() => showTip = false}
+<button
+  aria-describedby="tip"
+  onmouseenter={() => (showTip = true)}
+  onmouseleave={() => (showTip = false)}
+  onfocusin={() => (showTip = true)}
+  onfocusout={() => (showTip = false)}
 >
   Hover me
 </button>
-<Tooltip id="tip" label="Additional info" bind:visible={showTip} />
+<Tooltip
+  id="tip"
+  label="Additional info"
+  bind:visible={showTip}
+/>
 ```
 
 ```svelte
-<Tooltip id="help-tip" label="Click to submit your form" visible={true} />
+<Tooltip
+  id="help-tip"
+  label="Click to submit your form"
+  visible={true}
+/>
 ```
 
 ## Keyboard Interactions

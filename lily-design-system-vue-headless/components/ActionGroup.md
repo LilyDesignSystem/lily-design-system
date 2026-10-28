@@ -25,10 +25,10 @@ A group of action buttons that can collapse to an overflow menu when space is co
 
 ```vue
 <ActionGroup
-    label="Toolbar"
-    :overflow-open="open"
-    overflow-label="More actions"
-    @overflow-toggle="open = !open"
+  label="Toolbar"
+  :overflow-open="open"
+  overflow-label="More actions"
+  @overflow-toggle="open = !open"
 >
     <Button>One</Button>
     <Button>Two</Button>

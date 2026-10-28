@@ -28,16 +28,31 @@ The component renders as a `div` with `role="slider"` and full keyboard navigati
 ## Usage
 
 ```html
-<Dial label="Volume" value={value} min={0} max={100} />
+<Dial
+  label="Volume"
+  value="{value}"
+  min="{0}"
+  max="{100}"
+/>
 ```
 
 ```html
-<Dial label="Brightness" value={brightness} min={0} max={100} step={5} />
+<Dial
+  label="Brightness"
+  value="{brightness}"
+  min="{0}"
+  max="{100}"
+  step="{5}"
+/>
 <p>Brightness: {brightness}%</p>
 ```
 
 ```html
-<Dial label="Disabled control" value={30} disabled />
+<Dial
+  label="Disabled control"
+  value="{30}"
+  disabled
+/>
 ```
 
 ## Keyboard Interactions
@@ -75,14 +90,11 @@ The component renders as a `div` with `role="slider"` and full keyboard navigati
 
 This headless component provides a `<div>` with `role="slider"`, full ARIA value attributes (`aria-valuenow`, `aria-valuemin`, `aria-valuemax`), keyboard navigation with fine and coarse step support, and two-way binding. The consumer provides all visual styling, the rotary knob appearance, and any value display.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.dial` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `dial`
 - Verify role="slider"` -- indicates a range input control

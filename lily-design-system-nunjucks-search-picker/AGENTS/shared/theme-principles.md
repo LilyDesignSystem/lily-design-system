@@ -49,9 +49,9 @@ is enough to switch the live theme.
 
 ```css
 :root[data-theme="dark"] {
-    --theme-color-primary: #60a5fa;
-    --theme-color-base-background: #0b1220;
-    --theme-color-base-content: #f9fafb;
+  --theme-color-primary: #60a5fa;
+  --theme-color-base-background: #0b1220;
+  --theme-color-base-content: #f9fafb;
 }
 ```
 
@@ -111,8 +111,8 @@ import { join } from "node:path";
 
 const dir = join(process.cwd(), "src", "assets", "themes");
 export default readdirSync(dir)
-    .filter((f) => f.endsWith(".css"))
-    .map((f) => f.replace(/\.css$/, ""));
+  .filter((f) => f.endsWith(".css"))
+  .map((f) => f.replace(/\.css$/, ""));
 ```
 
 ```njk

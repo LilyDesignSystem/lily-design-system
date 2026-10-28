@@ -9,7 +9,12 @@ See [components/streaming-text/index.md](../../components/streaming-text/index.m
 ## Usage
 
 ```tsx
-<StreamingText label="Assistant answer" streaming={isStreaming}>{answerSoFar}</StreamingText>
+<StreamingText
+  label="Assistant answer"
+  streaming={isStreaming}
+>
+  {answerSoFar}
+</StreamingText>
 ```
 
 ## Contract

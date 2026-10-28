@@ -148,7 +148,12 @@ picks up `theme-labels` and translations for free:
   themes-url="/assets/themes/"
   themes="light,dark"
 ></theme-picker>
-<p class="theme-picker-status" aria-live="polite">Active theme: Light</p>
+<p
+  class="theme-picker-status"
+  aria-live="polite"
+>
+  Active theme: Light
+</p>
 
 <script type="module">
   await customElements.whenDefined("theme-picker");

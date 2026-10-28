@@ -42,155 +42,158 @@ Import `GanttTable` along with the sub-components and compose head/body/foot row
 
 ```svelte
 <script lang="ts">
-    import GanttTable from "./GanttTable.svelte";
-    import GanttTableHead from "../GanttTableHead/GanttTableHead.svelte";
-    import GanttTableBody from "../GanttTableBody/GanttTableBody.svelte";
-    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
-    import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
-</script>
-
-<GanttTable label="Project timeline" caption="Q2 plan">
-    <GanttTableHead>
-        <GanttTableTr>
-            <th>Task</th>
-            <th>Week 1</th>
-            <th>Week 2</th>
-            <th>Week 3</th>
-        </GanttTableTr>
-    </GanttTableHead>
-    <GanttTableBody>
-        <GanttTableTr>
-            <th>Design</th>
-            <GanttTableTD active>---</GanttTableTD>
-            <GanttTableTD />
-            <GanttTableTD />
-        </GanttTableTr>
-        <GanttTableTr>
-            <th>Development</th>
-            <GanttTableTD />
-            <GanttTableTD active>---</GanttTableTD>
-            <GanttTableTD active>---</GanttTableTD>
-        </GanttTableTr>
-    </GanttTableBody>
-</GanttTable>
-```
-
-```svelte
-<script lang="ts">
-    import GanttTable from "./GanttTable.svelte";
-    import GanttTableHead from "../GanttTableHead/GanttTableHead.svelte";
-    import GanttTableBody from "../GanttTableBody/GanttTableBody.svelte";
-    import GanttTableTfoot from "../GanttTableTfoot/GanttTableTfoot.svelte";
-    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
-    import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
-</script>
-
-<GanttTable label="Release plan">
-    <GanttTableHead>
-        <GanttTableTr>
-            <th>Feature</th><th>Jan</th><th>Feb</th><th>Mar</th>
-        </GanttTableTr>
-    </GanttTableHead>
-    <GanttTableBody>
-        <GanttTableTr>
-            <th>Auth</th>
-            <GanttTableTD active />
-            <GanttTableTD active />
-            <GanttTableTD />
-        </GanttTableTr>
-    </GanttTableBody>
-    <GanttTableTfoot>
-        <GanttTableTr>
-            <GanttTableTD>Total: 1 feature</GanttTableTD>
-        </GanttTableTr>
-    </GanttTableTfoot>
-</GanttTable>
-```
-
-```svelte
-<script lang="ts">
-    import GanttTable from "./GanttTable.svelte";
-    import GanttTableHead from "../GanttTableHead/GanttTableHead.svelte";
-    import GanttTableBody from "../GanttTableBody/GanttTableBody.svelte";
-    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
-    import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
-    import GanttTableTH from "../GanttTableTH/GanttTableTH.svelte";
-</script>
-
-<GanttTable label="Schedule with columns">
-    <colgroup>
-        <GanttTableTH />
-        <GanttTableTH span={3} />
-    </colgroup>
-    <GanttTableHead>
-        <GanttTableTr>
-            <th>Task</th><th>W1</th><th>W2</th><th>W3</th>
-        </GanttTableTr>
-    </GanttTableHead>
-    <GanttTableBody>
-        <GanttTableTr>
-            <th>Research</th>
-            <GanttTableTD active />
-            <GanttTableTD />
-            <GanttTableTD />
-        </GanttTableTr>
-    </GanttTableBody>
-</GanttTable>
-```
-
-```svelte
-<script lang="ts">
-    import GanttTable from "./GanttTable.svelte";
-    import GanttTableHead from "../GanttTableHead/GanttTableHead.svelte";
-    import GanttTableBody from "../GanttTableBody/GanttTableBody.svelte";
-    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
-    import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
-    const weeks = ["W1", "W2", "W3", "W4"];
-    const tasks = [
-        { name: "Design", active: [true, true, false, false] },
-        { name: "Build", active: [false, true, true, true] },
-    ];
-</script>
-
-<GanttTable label="Four week plan">
-    <GanttTableHead>
-        <GanttTableTr>
-            <th>Task</th>
-            {#each weeks as w}<th>{w}</th>{/each}
-        </GanttTableTr>
-    </GanttTableHead>
-    <GanttTableBody>
-        {#each tasks as t}
-            <GanttTableTr>
-                <th>{t.name}</th>
-                {#each t.active as active}
-                    <GanttTableTD {active}>{active ? "---" : ""}</GanttTableTD>
-                {/each}
-            </GanttTableTr>
-        {/each}
-    </GanttTableBody>
-</GanttTable>
-```
-
-```svelte
-<script lang="ts">
-    import GanttTable from "./GanttTable.svelte";
-    import GanttTableBody from "../GanttTableBody/GanttTableBody.svelte";
-    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
-    import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
+  import GanttTable from "./GanttTable.svelte";
+  import GanttTableHead from "../GanttTableHead/GanttTableHead.svelte";
+  import GanttTableBody from "../GanttTableBody/GanttTableBody.svelte";
+  import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
+  import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
 </script>
 
 <GanttTable
-    label="Sprint plan"
-    class="sprint-gantt"
-    data-testid="sprint-gantt"
+  label="Project timeline"
+  caption="Q2 plan"
 >
-    <GanttTableBody>
-        <GanttTableTr>
-            <th>Ticket 1</th>
-            <GanttTableTD active>▮</GanttTableTD>
-        </GanttTableTr>
-    </GanttTableBody>
+  <GanttTableHead>
+    <GanttTableTr>
+      <th>Task</th>
+      <th>Week 1</th>
+      <th>Week 2</th>
+      <th>Week 3</th>
+    </GanttTableTr>
+  </GanttTableHead>
+  <GanttTableBody>
+    <GanttTableTr>
+      <th>Design</th>
+      <GanttTableTD active>---</GanttTableTD>
+      <GanttTableTD />
+      <GanttTableTD />
+    </GanttTableTr>
+    <GanttTableTr>
+      <th>Development</th>
+      <GanttTableTD />
+      <GanttTableTD active>---</GanttTableTD>
+      <GanttTableTD active>---</GanttTableTD>
+    </GanttTableTr>
+  </GanttTableBody>
+</GanttTable>
+```
+
+```svelte
+<script lang="ts">
+  import GanttTable from "./GanttTable.svelte";
+  import GanttTableHead from "../GanttTableHead/GanttTableHead.svelte";
+  import GanttTableBody from "../GanttTableBody/GanttTableBody.svelte";
+  import GanttTableTfoot from "../GanttTableTfoot/GanttTableTfoot.svelte";
+  import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
+  import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
+</script>
+
+<GanttTable label="Release plan">
+  <GanttTableHead>
+    <GanttTableTr>
+      <th>Feature</th><th>Jan</th><th>Feb</th><th>Mar</th>
+    </GanttTableTr>
+  </GanttTableHead>
+  <GanttTableBody>
+    <GanttTableTr>
+      <th>Auth</th>
+      <GanttTableTD active />
+      <GanttTableTD active />
+      <GanttTableTD />
+    </GanttTableTr>
+  </GanttTableBody>
+  <GanttTableTfoot>
+    <GanttTableTr>
+      <GanttTableTD>Total: 1 feature</GanttTableTD>
+    </GanttTableTr>
+  </GanttTableTfoot>
+</GanttTable>
+```
+
+```svelte
+<script lang="ts">
+  import GanttTable from "./GanttTable.svelte";
+  import GanttTableHead from "../GanttTableHead/GanttTableHead.svelte";
+  import GanttTableBody from "../GanttTableBody/GanttTableBody.svelte";
+  import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
+  import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
+  import GanttTableTH from "../GanttTableTH/GanttTableTH.svelte";
+</script>
+
+<GanttTable label="Schedule with columns">
+  <colgroup>
+    <GanttTableTH />
+    <GanttTableTH span={3} />
+  </colgroup>
+  <GanttTableHead>
+    <GanttTableTr>
+      <th>Task</th><th>W1</th><th>W2</th><th>W3</th>
+    </GanttTableTr>
+  </GanttTableHead>
+  <GanttTableBody>
+    <GanttTableTr>
+      <th>Research</th>
+      <GanttTableTD active />
+      <GanttTableTD />
+      <GanttTableTD />
+    </GanttTableTr>
+  </GanttTableBody>
+</GanttTable>
+```
+
+```svelte
+<script lang="ts">
+  import GanttTable from "./GanttTable.svelte";
+  import GanttTableHead from "../GanttTableHead/GanttTableHead.svelte";
+  import GanttTableBody from "../GanttTableBody/GanttTableBody.svelte";
+  import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
+  import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
+  const weeks = ["W1", "W2", "W3", "W4"];
+  const tasks = [
+    { name: "Design", active: [true, true, false, false] },
+    { name: "Build", active: [false, true, true, true] },
+  ];
+</script>
+
+<GanttTable label="Four week plan">
+  <GanttTableHead>
+    <GanttTableTr>
+      <th>Task</th>
+      {#each weeks as w}<th>{w}</th>{/each}
+    </GanttTableTr>
+  </GanttTableHead>
+  <GanttTableBody>
+    {#each tasks as t}
+      <GanttTableTr>
+        <th>{t.name}</th>
+        {#each t.active as active}
+          <GanttTableTD {active}>{active ? "---" : ""}</GanttTableTD>
+        {/each}
+      </GanttTableTr>
+    {/each}
+  </GanttTableBody>
+</GanttTable>
+```
+
+```svelte
+<script lang="ts">
+  import GanttTable from "./GanttTable.svelte";
+  import GanttTableBody from "../GanttTableBody/GanttTableBody.svelte";
+  import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
+  import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
+</script>
+
+<GanttTable
+  label="Sprint plan"
+  class="sprint-gantt"
+  data-testid="sprint-gantt"
+>
+  <GanttTableBody>
+    <GanttTableTr>
+      <th>Ticket 1</th>
+      <GanttTableTD active>▮</GanttTableTD>
+    </GanttTableTr>
+  </GanttTableBody>
 </GanttTable>
 ```
 

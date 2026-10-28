@@ -88,8 +88,17 @@ value out-of-band rather than baking it into control state the browser
 would paint before the client could correct it.
 
 ```html
-<div class="theme-picker" … data-lily-theme-picker-value="dark">
-  <input type="hidden" name="theme" value="dark" data-lily-theme-picker-input />
+<div
+  class="theme-picker"
+  …
+  data-lily-theme-picker-value="dark"
+>
+  <input
+    type="hidden"
+    name="theme"
+    value="dark"
+    data-lily-theme-picker-input
+  />
   <button
     type="button"
     class="theme-picker-button"
@@ -98,7 +107,11 @@ would paint before the client could correct it.
     aria-expanded="false"
     aria-controls="theme-picker-theme-list"
   >
-    <span class="theme-picker-icon" aria-hidden="true">◑</span>
+    <span
+      class="theme-picker-icon"
+      aria-hidden="true"
+      >◑</span
+    >
   </button>
   <ul
     class="theme-picker-list"

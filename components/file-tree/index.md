@@ -27,19 +27,36 @@ FileTree is a headless tree widget for folders and files following the WAI-ARIA 
 
 ```html
 <FileTree label="Project files">
-  <li role="treeitem" aria-expanded="true" aria-selected="false">src
+  <li
+    role="treeitem"
+    aria-expanded="true"
+    aria-selected="false"
+  >
+    src
     <ul role="group">
-      <li role="treeitem" aria-selected="false">index.ts</li>
+      <li
+        role="treeitem"
+        aria-selected="false"
+      >
+        index.ts
+      </li>
     </ul>
   </li>
-  <li role="treeitem" aria-selected="false">readme.md</li>
+  <li
+    role="treeitem"
+    aria-selected="false"
+  >
+    readme.md
+  </li>
 </FileTree>
 ```
 
 Consumer CSS hides a closed folder's group:
 
 ```css
-[role="treeitem"][aria-expanded="false"] > [role="group"] { display: none; }
+[role="treeitem"][aria-expanded="false"] > [role="group"] {
+  display: none;
+}
 ```
 
 ## Keyboard Interactions

@@ -15,9 +15,16 @@ Step List is the parent of Step List Items in the `*List`/`*ListItem`
 pattern.
 
 ```html
-<StepList label="Checkout" current={1}>
+<StepList
+  label="Checkout"
+  current="{1}"
+>
   <StepListItem status="finished">Cart</StepListItem>
-  <StepListItem status="in-progress" current>Address</StepListItem>
+  <StepListItem
+    status="in-progress"
+    current
+    >Address</StepListItem
+  >
   <StepListItem status="waiting">Payment</StepListItem>
 </StepList>
 ```
@@ -40,10 +47,17 @@ pattern.
 ## Usage
 
 ```html
-<StepList label="Onboarding" current={2}>
+<StepList
+  label="Onboarding"
+  current="{2}"
+>
   <StepListItem status="finished">Sign up</StepListItem>
   <StepListItem status="finished">Verify email</StepListItem>
-  <StepListItem status="in-progress" current>Set preferences</StepListItem>
+  <StepListItem
+    status="in-progress"
+    current
+    >Set preferences</StepListItem
+  >
   <StepListItem status="waiting">Done</StepListItem>
 </StepList>
 ```

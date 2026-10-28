@@ -4,13 +4,13 @@ An email input wraps a native `<input type="email">` with accessible labeling. P
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| label | string | required | Accessible name via aria-label |
-| value | string | "" | Current email value (controlled) |
-| required | boolean | false | Whether the field is required |
-| disabled | boolean | false | Whether the field is disabled |
-| ...restProps | HTML attributes | — | Spread onto the `<input>` |
+| Prop         | Type            | Default  | Description                      |
+| ------------ | --------------- | -------- | -------------------------------- |
+| label        | string          | required | Accessible name via aria-label   |
+| value        | string          | ""       | Current email value (controlled) |
+| required     | boolean         | false    | Whether the field is required    |
+| disabled     | boolean         | false    | Whether the field is disabled    |
+| ...restProps | HTML attributes | —        | Spread onto the `<input>`        |
 
 ## Usage
 

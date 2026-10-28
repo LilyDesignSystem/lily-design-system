@@ -23,19 +23,47 @@ This component is commonly used in search results, product listings, and data ta
 
 ```tsx
 <PaginationList label="Pagination">
-  <li><a href="/page/1">1</a></li>
-  <li><a href="/page/2" aria-current="page">2</a></li>
-  <li><a href="/page/3">3</a></li>
-</PaginationList>
+  <li>
+    <a href="/page/1">1</a>
+  </li>
+  <li>
+    <a
+      href="/page/2"
+      aria-current="page"
+    >
+      2
+    </a>
+  </li>
+  <li>
+    <a href="/page/3">3</a>
+  </li>
+</PaginationList>;
 
-{/* With previous/next controls */}
+{
+  /* With previous/next controls */
+}
 <PaginationList label="Search results pages">
-  <li><a href="/page/1">Previous</a></li>
-  <li><a href="/page/1">1</a></li>
-  <li><a href="/page/2" aria-current="page">2</a></li>
-  <li><a href="/page/3">3</a></li>
-  <li><a href="/page/3">Next</a></li>
-</PaginationList>
+  <li>
+    <a href="/page/1">Previous</a>
+  </li>
+  <li>
+    <a href="/page/1">1</a>
+  </li>
+  <li>
+    <a
+      href="/page/2"
+      aria-current="page"
+    >
+      2
+    </a>
+  </li>
+  <li>
+    <a href="/page/3">3</a>
+  </li>
+  <li>
+    <a href="/page/3">Next</a>
+  </li>
+</PaginationList>;
 ```
 
 ## Keyboard Interactions

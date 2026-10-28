@@ -13,7 +13,12 @@ A headless wrapper for a year-of-days heatmap (one cell per day, week columns by
 ## Usage
 
 ```vue
-<HeatmapChartWithYearOfDays label="Activity per day in 2026" :year="2026" :week-start="1" aria-describedby="chart-data">
+<HeatmapChartWithYearOfDays
+  label="Activity per day in 2026"
+  :year="2026"
+  :week-start="1"
+  aria-describedby="chart-data"
+>
   <svg viewBox="0 0 10 10">...</svg>
 </HeatmapChartWithYearOfDays>
 ```

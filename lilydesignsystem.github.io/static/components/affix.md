@@ -29,7 +29,7 @@ must remain visible while the user scrolls past long-form content.
 Pin a sidebar 16 pixels from the top of the viewport:
 
 ```html
-<Affix offsetTop={16}>
+<Affix offsetTop="{16}">
   <nav>...</nav>
 </Affix>
 ```
@@ -37,7 +37,7 @@ Pin a sidebar 16 pixels from the top of the viewport:
 Pin a footer action bar 0 pixels from the bottom:
 
 ```html
-<Affix offsetBottom={0}>
+<Affix offsetBottom="{0}">
   <div role="toolbar">...</div>
 </Affix>
 ```

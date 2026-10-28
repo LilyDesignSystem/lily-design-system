@@ -72,8 +72,8 @@ Nunjucks render time                 │  Browser runtime
 Copy the core files into your project or wire as a workspace
 dependency:
 
-| File                          | Purpose                |
-| ----------------------------- | ---------------------- |
+| File                         | Purpose                |
+| ---------------------------- | ---------------------- |
 | `text-size-picker.njk`       | The Nunjucks macro.    |
 | `text-size-picker.client.js` | The ES-module runtime. |
 
@@ -148,8 +148,16 @@ A worked end-to-end example, including the type scale, is in
 ## Markup
 
 ```html
-<div class="text-size-picker" data-lily-text-size-picker-root …>
-  <input type="hidden" name="text-size" value="medium" />
+<div
+  class="text-size-picker"
+  data-lily-text-size-picker-root
+  …
+>
+  <input
+    type="hidden"
+    name="text-size"
+    value="medium"
+  />
   <button
     type="button"
     class="text-size-picker-button"
@@ -158,7 +166,15 @@ A worked end-to-end example, including the type scale, is in
     aria-expanded="false"
     aria-controls="text-size-picker-text-size-list"
   >
-    <svg class="text-size-picker-icon" viewBox="0 0 16 16" aria-hidden="true" width="1.05rem" height="1.05rem">…</svg>
+    <svg
+      class="text-size-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      width="1.05rem"
+      height="1.05rem"
+    >
+      …
+    </svg>
   </button>
   <ul
     class="text-size-picker-list"
@@ -238,11 +254,7 @@ exposes no OS "preferred text size" signal.
 ## Client.js API
 
 ```js
-import {
-  initTextSizePicker,
-  autoInit,
-  sizeName,
-} from "./text-size-picker.client.js";
+import { initTextSizePicker, autoInit, sizeName } from "./text-size-picker.client.js";
 ```
 
 - `autoInit(opts?)` — find every

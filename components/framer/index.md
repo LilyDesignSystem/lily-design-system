@@ -23,19 +23,28 @@ This headless component uses a `<div>` element with an optional `aria-label` for
 
 ```html
 <Framer label="Screenshot of the application dashboard">
-  <img src="screenshot.png" alt="Dashboard showing metrics" />
+  <img
+    src="screenshot.png"
+    alt="Dashboard showing metrics"
+  />
 </Framer>
 ```
 
 ```html
 <Framer label="Artwork: Sunset over the mountains">
-  <img src="painting.jpg" alt="Oil painting of a sunset over a mountain range" />
+  <img
+    src="painting.jpg"
+    alt="Oil painting of a sunset over a mountain range"
+  />
 </Framer>
 ```
 
 ```html
 <Framer>
-  <iframe src="https://example.com/embed" title="Interactive demo"></iframe>
+  <iframe
+    src="https://example.com/embed"
+    title="Interactive demo"
+  ></iframe>
 </Framer>
 ```
 

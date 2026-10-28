@@ -18,7 +18,7 @@ discussion is in [`../docs/accessibility.md`](../docs/accessibility.md).
 | `<span>` (glyph) | `aria-hidden="true"`                            | Component     |
 | `<ul>`           | `role="listbox"`                                | Component     |
 | `<ul>`           | `aria-label={label}`                            | Consumer prop |
-| `<ul>`           | `aria-activedescendant="{optionId}"` while open  | Component     |
+| `<ul>`           | `aria-activedescendant="{optionId}"` while open | Component     |
 | `<li>`           | `role="option"`                                 | Component     |
 | `<li>`           | `aria-selected="true\|false"`                   | Component     |
 | `<li>`           | `lang={bcp47LocaleTag(code)}`                   | Component     |
@@ -71,7 +71,7 @@ Do not paper over these when editing docs; state them:
 1. **Icon-only naming.** The glyph is `aria-hidden`, so `aria-label` is
    the control's entire accessible name, with no visible-text fallback.
    This bites harder here than for `theme-picker`: `aria-label` is
-   written in *one* language, and this is the control a user reaches
+   written in _one_ language, and this is the control a user reaches
    for precisely when they cannot read the page. Pairing the glyph with
    the active locale's endonym via `children` is the strongest
    mitigation.
@@ -128,12 +128,12 @@ control has no way back.
 Coverage varies (tradeoff 2), so treat these as expectations, not
 evidence:
 
-| Reader     | OS       | Browser   | On landing on the control |
-| ---------- | -------- | --------- | ------------------------- |
-| VoiceOver  | macOS    | Safari    | "Language, pop-up button, collapsed"; opening announces the listbox and the active option. |
-| NVDA       | Windows  | Firefox   | "Language button, collapsed"; arrowing announces each option with `lang`-correct pronunciation. |
-| JAWS       | Windows  | Chrome    | "Language button, collapsed". |
-| TalkBack   | Android  | Chrome    | Weakest case. Test on device. |
+| Reader    | OS      | Browser | On landing on the control                                                                       |
+| --------- | ------- | ------- | ----------------------------------------------------------------------------------------------- |
+| VoiceOver | macOS   | Safari  | "Language, pop-up button, collapsed"; opening announces the listbox and the active option.      |
+| NVDA      | Windows | Firefox | "Language button, collapsed"; arrowing announces each option with `lang`-correct pronunciation. |
+| JAWS      | Windows | Chrome  | "Language button, collapsed".                                                                   |
+| TalkBack  | Android | Chrome  | Weakest case. Test on device.                                                                   |
 
 "`lang`-correct pronunciation" depends on the reader having a matching
 voice package installed.
@@ -145,7 +145,7 @@ in source order — the same source order as LTR. Tab still reaches the
 button in source order, and the listbox mirrors visually. This is the
 browser's job.
 
-What *is* the consumer's job: positioning the listbox with logical
+What _is_ the consumer's job: positioning the listbox with logical
 properties (`inset-inline-start`, not `left`), so the popup anchors to
 the correct edge once this control flips the page to RTL. See
 [`../docs/styling.md`](../docs/styling.md).

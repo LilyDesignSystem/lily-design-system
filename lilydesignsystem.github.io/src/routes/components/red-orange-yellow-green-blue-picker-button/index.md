@@ -28,11 +28,32 @@ Five-level risk assessment picker:
 
 ```html
 <RedOrangeYellowGreenBluePicker label="Risk assessment">
-  <RedOrangeYellowGreenBluePickerButton value="red" label="Red - Critical" onclick={handleSelect} />
-  <RedOrangeYellowGreenBluePickerButton value="orange" label="Orange - Serious" onclick={handleSelect} />
-  <RedOrangeYellowGreenBluePickerButton value="yellow" label="Yellow - Caution" selected onclick={handleSelect} />
-  <RedOrangeYellowGreenBluePickerButton value="green" label="Green - Good" onclick={handleSelect} />
-  <RedOrangeYellowGreenBluePickerButton value="blue" label="Blue - Excellent" onclick={handleSelect} />
+  <RedOrangeYellowGreenBluePickerButton
+    value="red"
+    label="Red - Critical"
+    onclick="{handleSelect}"
+  />
+  <RedOrangeYellowGreenBluePickerButton
+    value="orange"
+    label="Orange - Serious"
+    onclick="{handleSelect}"
+  />
+  <RedOrangeYellowGreenBluePickerButton
+    value="yellow"
+    label="Yellow - Caution"
+    selected
+    onclick="{handleSelect}"
+  />
+  <RedOrangeYellowGreenBluePickerButton
+    value="green"
+    label="Green - Good"
+    onclick="{handleSelect}"
+  />
+  <RedOrangeYellowGreenBluePickerButton
+    value="blue"
+    label="Blue - Excellent"
+    onclick="{handleSelect}"
+  />
 </RedOrangeYellowGreenBluePicker>
 ```
 
@@ -44,20 +65,44 @@ Individual button with custom data attribute:
   label="Orange - Significant risk"
   selected
   data-severity="high"
-  onclick={handleSelect}
+  onclick="{handleSelect}"
 />
 ```
 
 Inside a form field for patient triage:
 
 ```html
-<Field label="Triage level" required>
+<Field
+  label="Triage level"
+  required
+>
   <RedOrangeYellowGreenBluePicker label="Patient triage level">
-    <RedOrangeYellowGreenBluePickerButton value="red" label="Red - Emergency" onclick={handleSelect} />
-    <RedOrangeYellowGreenBluePickerButton value="orange" label="Orange - Urgent" onclick={handleSelect} />
-    <RedOrangeYellowGreenBluePickerButton value="yellow" label="Yellow - Standard" selected onclick={handleSelect} />
-    <RedOrangeYellowGreenBluePickerButton value="green" label="Green - Minor" onclick={handleSelect} />
-    <RedOrangeYellowGreenBluePickerButton value="blue" label="Blue - Routine" onclick={handleSelect} />
+    <RedOrangeYellowGreenBluePickerButton
+      value="red"
+      label="Red - Emergency"
+      onclick="{handleSelect}"
+    />
+    <RedOrangeYellowGreenBluePickerButton
+      value="orange"
+      label="Orange - Urgent"
+      onclick="{handleSelect}"
+    />
+    <RedOrangeYellowGreenBluePickerButton
+      value="yellow"
+      label="Yellow - Standard"
+      selected
+      onclick="{handleSelect}"
+    />
+    <RedOrangeYellowGreenBluePickerButton
+      value="green"
+      label="Green - Minor"
+      onclick="{handleSelect}"
+    />
+    <RedOrangeYellowGreenBluePickerButton
+      value="blue"
+      label="Blue - Routine"
+      onclick="{handleSelect}"
+    />
   </RedOrangeYellowGreenBluePicker>
 </Field>
 ```
@@ -89,14 +134,11 @@ Inside a form field for patient triage:
 
 The RedOrangeYellowGreenBluePickerButton headless component provides a `<button>` with `aria-pressed` for toggle state, `aria-label` for accessible naming, and `data-value` for CSS targeting. The consumer provides all visual styling, including color indicators and selected-state appearance.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.red-orange-yellow-green-blue-picker-button` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<button>` element with class `red-orange-yellow-green-blue-picker-button`
 - Verify aria-label` -- provides the accessible name for the button (e.g., "Yellow - Caution")

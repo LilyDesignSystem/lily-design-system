@@ -17,7 +17,10 @@ a native multiple-choice select with before and after content slots
 ## Usage
 
 ```vue
-<MultiSelectWithExtras label="Toppings" v-model="picked"><template #before>...</template><option value="a">A</option></MultiSelectWithExtras>
+<MultiSelectWithExtras
+  label="Toppings"
+  v-model="picked"
+><template #before>...</template><option value="a">A</option></MultiSelectWithExtras>
 ```
 
 ## Keyboard Interactions

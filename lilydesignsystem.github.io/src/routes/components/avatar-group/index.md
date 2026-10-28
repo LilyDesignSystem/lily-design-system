@@ -23,9 +23,19 @@ Care team avatar group:
 
 ```html
 <AvatarGroup label="Care team">
-  <Avatar src="/photos/sarah-mitchell.jpg" alt="Dr Sarah Mitchell" initials="SM" />
-  <Avatar alt="Nurse James Lee" initials="JL" />
-  <Avatar alt="Dr Priya Sharma" initials="PS" />
+  <Avatar
+    src="/photos/sarah-mitchell.jpg"
+    alt="Dr Sarah Mitchell"
+    initials="SM"
+  />
+  <Avatar
+    alt="Nurse James Lee"
+    initials="JL"
+  />
+  <Avatar
+    alt="Dr Priya Sharma"
+    initials="PS"
+  />
 </AvatarGroup>
 ```
 
@@ -33,10 +43,22 @@ Conversation participants:
 
 ```html
 <AvatarGroup label="Participants in this thread">
-  <Avatar alt="Alice Chen" initials="AC" />
-  <Avatar alt="Bob Rivera" initials="BR" />
-  <Avatar alt="Carol Okonkwo" initials="CO" />
-  <Avatar alt="David Park" initials="DP" />
+  <Avatar
+    alt="Alice Chen"
+    initials="AC"
+  />
+  <Avatar
+    alt="Bob Rivera"
+    initials="BR"
+  />
+  <Avatar
+    alt="Carol Okonkwo"
+    initials="CO"
+  />
+  <Avatar
+    alt="David Park"
+    initials="DP"
+  />
 </AvatarGroup>
 ```
 

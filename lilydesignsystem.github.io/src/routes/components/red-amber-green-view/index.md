@@ -24,7 +24,10 @@ The component renders as a `<span>` element with an accessible label, making the
 Display RAG status in a project dashboard:
 
 ```html
-<RedAmberGreenView label="Project status" value="green" />
+<RedAmberGreenView
+  label="Project status"
+  value="green"
+/>
 ```
 
 Display dynamic status in a summary card:
@@ -33,7 +36,12 @@ Display dynamic status in a summary card:
 <SummaryList>
   <SummaryListItem>
     <dt>Health check</dt>
-    <dd><RedAmberGreenView label="Health check status" value={status} /></dd>
+    <dd>
+      <RedAmberGreenView
+        label="Health check status"
+        value="{status}"
+      />
+    </dd>
   </SummaryListItem>
 </SummaryList>
 ```
@@ -41,7 +49,11 @@ Display dynamic status in a summary card:
 With data attribute for CSS color coding:
 
 ```html
-<RedAmberGreenView label="Compliance status" value="amber" data-value="amber" />
+<RedAmberGreenView
+  label="Compliance status"
+  value="amber"
+  data-value="amber"
+/>
 ```
 
 ## Keyboard Interactions
@@ -69,14 +81,11 @@ None -- this is a passive informational display, not an interactive element.
 
 The RedAmberGreenView headless component provides a `<span>` with `aria-label` for accessible naming and displays the RAG status value as text content. The consumer provides all visual styling, including color-coded backgrounds, text colors, or badge indicators.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.red-amber-green-view` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `red-amber-green-view`
 - Verify aria-label={label}` -- provides the accessible name for the status display, allowing screen readers to announce the context of the value

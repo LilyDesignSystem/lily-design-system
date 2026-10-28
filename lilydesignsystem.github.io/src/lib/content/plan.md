@@ -56,7 +56,7 @@ Recorded so the delta is auditable; details in
   [spec/special-files-for-public-repos/](spec/special-files-for-public-repos/index.md).
 - **Licensing**: the `CC BY-NC-SA` / MIT / ISC contradiction resolved
   to one SPDX menu (`MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only
-  OR BSD-3-Clause`) across `LICENSE.md`, spec §14, all 50 JS manifests
+OR BSD-3-Clause`) across `LICENSE.md`, spec §14, all 50 JS manifests
   and 5 `.csproj` files. "WCAG 2.2 AAA compliant" corrected to
   "Targets WCAG 2.2 AAA" in package descriptions. Wrong npm repository
   URLs (react/vue pointed at `github.com/lily`, an unrelated account)
@@ -75,7 +75,7 @@ Recorded so the delta is auditable; details in
 
 ## Current state (verified 2026-10-18)
 
-Facts below were read from the tree, the registries or a command run on 2026-10-18, except where marked *not re-verified*.
+Facts below were read from the tree, the registries or a command run on 2026-10-18, except where marked _not re-verified_.
 Earlier snapshots are kept in `CHANGELOG.md` and `spec/history/`.
 
 - **Catalog**: **571 rows** in `components.tsv`. All 8 headless libraries implement every row except Web
@@ -101,7 +101,7 @@ Earlier snapshots are kept in `CHANGELOG.md` and `spec/history/`.
   (`bin/verify-published`). **Unreleased in the tree**, committed but not versioned or published: the Svelte
   widgets' peer dependency on `svelte-headless`, `criticalLabel`, `periodTitle`'s anchor argument, the data grid
   and kanban additions, the title-edit and `criticalLabel` ports, and the label-pack loaders.
-- **Releases**: monorepo tags `v0.2.0`–`v0.9.0` exist (latest `v0.9.0`). *Not re-verified*: the GitHub Releases
+- **Releases**: monorepo tags `v0.2.0`–`v0.9.0` exist (latest `v0.9.0`). _Not re-verified_: the GitHub Releases
   and which subtree/forge pushes are current.
 - **Publishing**: NuGet publishes through OIDC trusted publishing from `publish.yml` (`NUGET_USER` must be the
   policy creator's username). npm publishes from the maintainer's machine (`bin/publish-helpers`): the repository
@@ -132,7 +132,7 @@ What the systems Lily learns from are doing, and what it implies here.
    added task-list and panel components). Lily's GDS and NHS reference
    themes were authored against the earlier visual languages, and
    nothing records which upstream version each theme tracks. →
-   *Theme provenance pinning and a refresh pass* (P3).
+   _Theme provenance pinning and a refresh pass_ (P3).
 2. **GOV.UK's professional apparatus** — a public roadmap, a
    "what's new" page, a published accessibility strategy, disciplined
    versioned releases with migration notes, and explicit contribution
@@ -150,11 +150,11 @@ What the systems Lily learns from are doing, and what it implies here.
    v4, Figma Variables, Tokens Studio, Penpot and Sketch support it;
    adoption hit ~84% of surveyed teams in 2026. Lily's `--theme-*`
    flat-token convention predates this. A DTCG-format token source
-   that *generates* the custom properties would cost little, make the
+   that _generates_ the custom properties would cost little, make the
    45 themes machine-consumable, and give the placeholder `lily-figma`
    page something real to say. → P3/P5, and RFC.md §RFC 6.
 5. **Patterns, not just components.** NHS and GOV.UK ship
-   task-oriented *patterns* ("ask users for…", multi-page flows) above
+   task-oriented _patterns_ ("ask users for…", multi-page flows) above
    the component layer. Lily has composition patterns in AGENTS but no
    pattern-level guidance; the flagship scenario route (P6) is the
    first step and should be written up as a pattern doc, not only code.
@@ -183,7 +183,7 @@ techniques, not its catalog. What it implies here:
 3. **Touch target size.** It enlarges controls under `@media (pointer: coarse)` (a 2.75rem minimum). None of Lily's 45
    themes has a coarse-pointer rule, though Lily targets WCAG 2.2 AAA, whose 2.5.5 asks for 44×44 CSS px targets. →
    P10-T3.
-4. **Report contrast, don't repair it.** Its theme tooling is to validate final contrast pairs and *report* failures
+4. **Report contrast, don't repair it.** Its theme tooling is to validate final contrast pairs and _report_ failures
    without silently replacing the author's colours. `bin/check-theme` checks no contrast today; the error-text defect
    closed in P9-T13 was found by an axe sweep, not by the theme check. → P10-T4.
 5. **One compact agent entry per component.** Its `/llms.txt` gives every component the same short block — purpose,
@@ -211,7 +211,7 @@ input — Lily keeps `progress` and `slider` separate.
 
 ## Phase 1 — Truth, hygiene, and registry cleanup
 
-Goal: every live claim is true — in the spec *and on npm*.
+Goal: every live claim is true — in the spec _and on npm_.
 
 1. **Reconcile catalog counts** (carried): identify the 491st
    component, verify full propagation, fix spec §11.4/§14 and any
@@ -284,7 +284,7 @@ standards-based token layer underneath.
 
 ## Phase 4 — Accessibility assurance
 
-Goal: move from "targets WCAG 2.2 AAA" toward *demonstrated* claims,
+Goal: move from "targets WCAG 2.2 AAA" toward _demonstrated_ claims,
 per-component and per-app.
 
 1. **Full-catalog axe sweep**: all 491 `/components/{slug}` routes in
@@ -315,7 +315,7 @@ Goal: the site carries the living surfaces a maintained system shows.
    outreach plan's blog-route gate).
 2. **Developer on-ramp in CONTRIBUTING**: dev setup, the copy-pattern,
    add-a-component walkthrough across all 14 subprojects + registries
-   + CSS hook (the July P4-T1 content the current file lacks).
+   - CSS hook (the July P4-T1 content the current file lacks).
 3. **`bin/generate-api-docs`**: per-component reference pages
    generated from `components/{slug}/AGENTS.md` into the site;
    idempotent; drift fails `bin/test` (carried).
@@ -341,7 +341,7 @@ Goal: examples demonstrate the system, not just the components.
    composed pages for nunjucks-eleventy (carried).
 2. **Flagship "book an appointment" scenario** — SvelteKit first, then
    ports; ~30 components; Playwright + axe; written up as Lily's first
-   *pattern* doc (carried, extended per research finding 5).
+   _pattern_ doc (carried, extended per research finding 5).
 3. **RTL demo route** per app (carried).
 4. **`/components` search upgrade**: category + suffix filters
    (carried).

@@ -22,7 +22,7 @@ SlovenskoRodneCisloView is a headless read-only display of Slovakia's Rodné č�
 ```html
 <SummaryList>
   <SummaryListItem term="Slovak Personal Number">
-    <SlovenskoRodneCisloView value={value} />
+    <SlovenskoRodneCisloView value="{value}" />
   </SummaryListItem>
 </SummaryList>
 ```

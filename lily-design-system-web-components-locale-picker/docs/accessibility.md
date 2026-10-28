@@ -12,18 +12,18 @@ remains the consumer's responsibility.
 
 ## Built-in
 
-| WCAG / APG item               | How the select satisfies it                                                                                                                                                                     |
-| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| WCAG 3.1.1 Language of Page   | Writes `lang` to the document root on every locale change.                                                                                                                                      |
-| WCAG 3.1.2 Language of Parts  | Default option text is the locale's endonym, and an `<li role="option">` carries its own `lang` attribute exactly when its text is that endonym — so option text is announced in the right language, and an English label is never handed to a foreign speech engine.  |
-| WCAG 1.4.10 Reflow (RTL bidi) | Writes `dir="rtl"` for RTL locales so layout, scrollbar, and text inversion are correct.                                                                                                        |
-| WCAG 4.1.2 Name, Role, Value  | The button carries `aria-label`, `aria-haspopup="listbox"`, and `aria-expanded`; the `<ul>` carries `role="listbox"` and `aria-label`; each `<li>` carries `role="option"` and `aria-selected`. |
-| WCAG 2.1.1 Keyboard           | Full APG listbox keyboard contract, implemented in JS — see below.                                                                                                                              |
-| WCAG 2.1.2 No Keyboard Trap   | `Escape` and `Tab` both close the list; `Tab` moves focus to the button first — without cancelling the key — so the default Tab proceeds from the picker's position instead of restarting from `<body>`.  |
-| WCAG 2.4.3 Focus Order        | Opening moves focus to the list; selecting or cancelling returns it to the button. The button is the control's only tab stop.                                                                   |
-| WCAG 2.4.7 Focus Visible      | The browser's default focus ring is preserved; the element never sets `outline: none`.                                                                                                          |
-| WCAG 1.4.1 Use of Color       | Selection is exposed via `aria-selected` and the hidden input's value, and the active option via `data-active` — never colour alone. Consumer CSS must also give both a non-colour signal.      |
-| APG Listbox pattern           | `aria-activedescendant` on the list, `role="option"` + `aria-selected` on each item, focus on the list container.                                                                               |
+| WCAG / APG item               | How the select satisfies it                                                                                                                                                                                                                                           |
+| ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| WCAG 3.1.1 Language of Page   | Writes `lang` to the document root on every locale change.                                                                                                                                                                                                            |
+| WCAG 3.1.2 Language of Parts  | Default option text is the locale's endonym, and an `<li role="option">` carries its own `lang` attribute exactly when its text is that endonym — so option text is announced in the right language, and an English label is never handed to a foreign speech engine. |
+| WCAG 1.4.10 Reflow (RTL bidi) | Writes `dir="rtl"` for RTL locales so layout, scrollbar, and text inversion are correct.                                                                                                                                                                              |
+| WCAG 4.1.2 Name, Role, Value  | The button carries `aria-label`, `aria-haspopup="listbox"`, and `aria-expanded`; the `<ul>` carries `role="listbox"` and `aria-label`; each `<li>` carries `role="option"` and `aria-selected`.                                                                       |
+| WCAG 2.1.1 Keyboard           | Full APG listbox keyboard contract, implemented in JS — see below.                                                                                                                                                                                                    |
+| WCAG 2.1.2 No Keyboard Trap   | `Escape` and `Tab` both close the list; `Tab` moves focus to the button first — without cancelling the key — so the default Tab proceeds from the picker's position instead of restarting from `<body>`.                                                              |
+| WCAG 2.4.3 Focus Order        | Opening moves focus to the list; selecting or cancelling returns it to the button. The button is the control's only tab stop.                                                                                                                                         |
+| WCAG 2.4.7 Focus Visible      | The browser's default focus ring is preserved; the element never sets `outline: none`.                                                                                                                                                                                |
+| WCAG 1.4.1 Use of Color       | Selection is exposed via `aria-selected` and the hidden input's value, and the active option via `data-active` — never colour alone. Consumer CSS must also give both a non-colour signal.                                                                            |
+| APG Listbox pattern           | `aria-activedescendant` on the list, `role="option"` + `aria-selected` on each item, focus on the list container.                                                                                                                                                     |
 
 ## The focus model: `aria-activedescendant`
 
@@ -101,14 +101,14 @@ Opening moves focus to the `<ul>`.
 
 On the **listbox**:
 
-| Key                 | Action                                                                                                                           |
-| ------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| ArrowDown / ArrowUp | Move the active option one step. **Clamps** at both ends — no wrapping.                                                          |
-| Home / End          | Jump to the first / last option.                                                                                                 |
-| Enter / Space       | Select the active option, apply it, close, return focus to the button.                                                           |
-| Escape              | Close and return focus to the button **without** changing the locale.                                                            |
-| PageUp / PageDown   | Move the active option ten steps. Clamps at both ends.                                                                           |
-| Tab                 | Move focus to the button, then close — without cancelling the key, so the default Tab proceeds from the picker's position rather than restarting from `<body>`. |
+| Key                 | Action                                                                                                                                                                                                                                                |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ArrowDown / ArrowUp | Move the active option one step. **Clamps** at both ends — no wrapping.                                                                                                                                                                               |
+| Home / End          | Jump to the first / last option.                                                                                                                                                                                                                      |
+| Enter / Space       | Select the active option, apply it, close, return focus to the button.                                                                                                                                                                                |
+| Escape              | Close and return focus to the button **without** changing the locale.                                                                                                                                                                                 |
+| PageUp / PageDown   | Move the active option ten steps. Clamps at both ends.                                                                                                                                                                                                |
+| Tab                 | Move focus to the button, then close — without cancelling the key, so the default Tab proceeds from the picker's position rather than restarting from `<body>`.                                                                                       |
 | printable character | Typeahead over the option **labels**; the buffer resets after 500 ms. A single character advances to the **next** match and repeating it cycles onward; a buffer of differing characters refines the match from the active option. Search wraps once. |
 
 Pointer and focus behaviour: clicking an option selects and applies
@@ -130,13 +130,28 @@ Without it, "Français" gets pronounced "Franc-ess" in an English
 voice — comprehensible but ugly. With it, the reader says "Fran-SAY".
 
 ```html
-<li class="locale-picker-option" role="option" aria-selected="true" lang="en">
+<li
+  class="locale-picker-option"
+  role="option"
+  aria-selected="true"
+  lang="en"
+>
   English
 </li>
-<li class="locale-picker-option" role="option" aria-selected="false" lang="fr">
+<li
+  class="locale-picker-option"
+  role="option"
+  aria-selected="false"
+  lang="fr"
+>
   Français
 </li>
-<li class="locale-picker-option" role="option" aria-selected="false" lang="ar">
+<li
+  class="locale-picker-option"
+  role="option"
+  aria-selected="false"
+  lang="ar"
+>
   العربية
 </li>
 ```
@@ -223,9 +238,17 @@ already has it. Leaving it out is the deliberate choice — a decision
 to make knowingly, with a reason — not something to opt into later.
 
 ```html
-<lily-locale-picker label="Language" locales="en,fr,ar"></lily-locale-picker>
+<lily-locale-picker
+  label="Language"
+  locales="en,fr,ar"
+></lily-locale-picker>
 
-<p class="locale-picker-status" aria-live="polite">Active language: English</p>
+<p
+  class="locale-picker-status"
+  aria-live="polite"
+>
+  Active language: English
+</p>
 
 <script type="module">
   import { localeName } from "/dist/locale-picker.js";
@@ -234,11 +257,9 @@ to make knowingly, with a reason — not something to opt into later.
 
   const status = document.querySelector(".locale-picker-status");
 
-  document
-    .querySelector("locale-picker")
-    .addEventListener("localechange", (e) => {
-      status.textContent = `Active language: ${localeName(e.detail.locale)}`;
-    });
+  document.querySelector("locale-picker").addEventListener("localechange", (e) => {
+    status.textContent = `Active language: ${localeName(e.detail.locale)}`;
+  });
 </script>
 ```
 
@@ -330,10 +351,7 @@ class ViewerLanguageLocalePicker extends LocalePicker {
     }
   }
 }
-customElements.define(
-  "viewer-language-locale-picker",
-  ViewerLanguageLocalePicker,
-);
+customElements.define("viewer-language-locale-picker", ViewerLanguageLocalePicker);
 ```
 
 The default rendering's assumption is that labels show **in their own

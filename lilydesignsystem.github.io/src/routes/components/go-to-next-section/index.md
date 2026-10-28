@@ -18,7 +18,10 @@ A link that takes users to the next section of the current page.
 ## Usage
 
 ```html
-<GoToNextSection href="#section-3" label="Next section: Implementation" />
+<GoToNextSection
+  href="#section-3"
+  label="Next section: Implementation"
+/>
 ```
 
 ## Keyboard Interactions

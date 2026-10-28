@@ -34,26 +34,51 @@ keyboard, tooltip. It owns no content and no words: the panel's content and ever
 
 ### 4.1 Props
 
-| Prop | Type | Required | Notes |
-| --- | --- | --- | --- |
-| `label` | `string` | yes | Accessible name of the button **and** the panel; also the tooltip text. |
-| `[(open)]` | `boolean` (model) | no | Is the panel open? Default `false`. |
-| `closeOnSelect` | `boolean` | no | Close when a link/button/menuitem inside is activated. Default `true`. |
-| `(openChange)` | output `boolean` | no | Emitted whenever the open state changes (the `[(open)]` update). |
-| projected content | `<ng-content>` | no | The panel's content. Call `menu.close()` on a `#menu="lilySettingsPicker"` reference to close it. |
-| `<ng-template lilySettingsPickerIcon>` | context `{ open }` | no | Replaces the cog **icon** inside the button. |
-| `className` | `string` | no | Appended to the root class. |
-| `...rest` | | | Spread on the root. |
+| Prop                                   | Type               | Required | Notes                                                                                             |
+| -------------------------------------- | ------------------ | -------- | ------------------------------------------------------------------------------------------------- |
+| `label`                                | `string`           | yes      | Accessible name of the button **and** the panel; also the tooltip text.                           |
+| `[(open)]`                             | `boolean` (model)  | no       | Is the panel open? Default `false`.                                                               |
+| `closeOnSelect`                        | `boolean`          | no       | Close when a link/button/menuitem inside is activated. Default `true`.                            |
+| `(openChange)`                         | output `boolean`   | no       | Emitted whenever the open state changes (the `[(open)]` update).                                  |
+| projected content                      | `<ng-content>`     | no       | The panel's content. Call `menu.close()` on a `#menu="lilySettingsPicker"` reference to close it. |
+| `<ng-template lilySettingsPickerIcon>` | context `{ open }` | no       | Replaces the cog **icon** inside the button.                                                      |
+| `className`                            | `string`           | no       | Appended to the root class.                                                                       |
+| `...rest`                              |                    |          | Spread on the root.                                                                               |
 
 ### 4.2 DOM contract
 
 ```html
 <div class="settings-picker {class}">
-  <button class="settings-picker-button" type="button" aria-label="{label}" aria-expanded="false" aria-controls="{id}-panel">
-    <svg class="settings-picker-icon" aria-hidden="true" viewBox="0 0 16 16" …a cog…/>
+  <button
+    class="settings-picker-button"
+    type="button"
+    aria-label="{label}"
+    aria-expanded="false"
+    aria-controls="{id}-panel"
+  >
+    <svg
+      class="settings-picker-icon"
+      aria-hidden="true"
+      viewBox="0 0 16 16"
+      …a
+      cog…
+    />
   </button>
-  <div class="settings-picker-tooltip" role="tooltip" id="{id}-tooltip" hidden>{label}</div>
-  <div class="settings-picker-panel" id="{id}-panel" role="group" aria-label="{label}" hidden>
+  <div
+    class="settings-picker-tooltip"
+    role="tooltip"
+    id="{id}-tooltip"
+    hidden
+  >
+    {label}
+  </div>
+  <div
+    class="settings-picker-panel"
+    id="{id}-panel"
+    role="group"
+    aria-label="{label}"
+    hidden
+  >
     …whatever the app provides…
   </div>
 </div>

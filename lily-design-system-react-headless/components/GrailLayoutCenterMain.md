@@ -11,5 +11,7 @@ GrailLayoutCenterMain is a headless container for the center main content sectio
 ## Usage
 
 ```tsx
-<GrailLayoutCenterMain><main>Primary content</main></GrailLayoutCenterMain>
+<GrailLayoutCenterMain>
+  <main>Primary content</main>
+</GrailLayoutCenterMain>
 ```

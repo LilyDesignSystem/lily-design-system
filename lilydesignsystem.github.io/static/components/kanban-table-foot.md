@@ -23,19 +23,15 @@ Kanban board footer with item count and action button:
 
 ```html
 <KanbanTable label="Sprint board">
-    <KanbanTableHead>
-        ...
-    </KanbanTableHead>
-    <KanbanTableBody>
-        ...
-    </KanbanTableBody>
-    <KanbanTableFoot>
-        <KanbanTableRow>
-            <KanbanTableTD>3 items</KanbanTableTD>
-            <KanbanTableTD>5 items</KanbanTableTD>
-            <KanbanTableTD>4 items</KanbanTableTD>
-        </KanbanTableRow>
-    </KanbanTableFoot>
+  <KanbanTableHead> ... </KanbanTableHead>
+  <KanbanTableBody> ... </KanbanTableBody>
+  <KanbanTableFoot>
+    <KanbanTableRow>
+      <KanbanTableTD>3 items</KanbanTableTD>
+      <KanbanTableTD>5 items</KanbanTableTD>
+      <KanbanTableTD>4 items</KanbanTableTD>
+    </KanbanTableRow>
+  </KanbanTableFoot>
 </KanbanTable>
 ```
 
@@ -63,14 +59,11 @@ None -- passive container. Keyboard interaction depends on interactive elements 
 
 This headless component provides a structural footer wrapper for a Kanban board. It outputs a `<div>` container with no ARIA roles, relying on its child content for semantics. The consumer provides all visual styling, including layout, spacing, and appearance of footer controls.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.kanban-table-foot` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<tfoot>` element with class `kanban-table-foot`
 - Verify pass-through attributes are applied

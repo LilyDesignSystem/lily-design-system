@@ -41,7 +41,6 @@ GrailLayoutCenterMain is a headless container for the center main content sectio
 </GrailLayout>
 ```
 
-
 ## Keyboard Interactions
 
 - No keyboard interactions — this is a passive landmark container
@@ -60,9 +59,7 @@ This headless component renders semantic HTML. The consumer provides all visual 
 
 The consumer provides all CSS styling. The component renders with a `.grail-layout-center-main` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<main>` element with class `grail-layout-center-main`
 - Verify pass-through attributes are applied

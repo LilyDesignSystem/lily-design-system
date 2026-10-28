@@ -24,14 +24,21 @@ An accordion link is a navigational anchor element representing one link within 
 ```html
 <AccordionNav label="Service categories">
   <AccordionList>
-    <AccordionListItem heading="Mental health" expanded>
+    <AccordionListItem
+      heading="Mental health"
+      expanded
+    >
       <AccordionLink href="/services/anxiety">Anxiety</AccordionLink>
       <AccordionLink href="/services/depression">Depression</AccordionLink>
       <AccordionLink href="/services/stress">Stress management</AccordionLink>
     </AccordionListItem>
     <AccordionListItem heading="Physical health">
       <AccordionLink href="/services/back-pain">Back pain</AccordionLink>
-      <AccordionLink href="/services/headaches" label="Headaches and migraines">Headaches</AccordionLink>
+      <AccordionLink
+        href="/services/headaches"
+        label="Headaches and migraines"
+        >Headaches</AccordionLink
+      >
     </AccordionListItem>
   </AccordionList>
 </AccordionNav>

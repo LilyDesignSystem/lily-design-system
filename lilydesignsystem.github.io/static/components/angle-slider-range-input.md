@@ -39,14 +39,21 @@ like 15 or 45 degrees.
 Basic angle slider range input:
 
 ```html
-<AngleSliderRangeInput label="Rotation" value={angle} />
+<AngleSliderRangeInput
+  label="Rotation"
+  value="{angle}"
+/>
 <p>Angle: {angle} degrees</p>
 ```
 
 With step snapping (every 15 degrees):
 
 ```html
-<AngleSliderRangeInput label="Direction" value={direction} step={15} />
+<AngleSliderRangeInput
+  label="Direction"
+  value="{direction}"
+  step="{15}"
+/>
 ```
 
 Custom range and suffix:
@@ -54,9 +61,9 @@ Custom range and suffix:
 ```html
 <AngleSliderRangeInput
   label="Tilt"
-  value={tilt}
-  min={-90}
-  max={90}
+  value="{tilt}"
+  min="{-90}"
+  max="{90}"
   valueTextSuffix=" degrees"
 />
 ```
@@ -64,14 +71,23 @@ Custom range and suffix:
 Disabled slider:
 
 ```html
-<AngleSliderRangeInput label="Locked rotation" value={45} disabled />
+<AngleSliderRangeInput
+  label="Locked rotation"
+  value="{45}"
+  disabled
+/>
 ```
 
 Within a form:
 
 ```html
 <form>
-  <AngleSliderRangeInput label="Gradient angle" value={angle} name="gradient-angle" id="gradient" />
+  <AngleSliderRangeInput
+    label="Gradient angle"
+    value="{angle}"
+    name="gradient-angle"
+    id="gradient"
+  />
 </form>
 ```
 
@@ -106,14 +122,11 @@ Within a form:
 
 This component provides a native `<input type="range">` with ARIA slider attributes (`aria-valuetext` with degree formatting, `aria-label`, `aria-valuemin`, `aria-valuemax`) and zero visual styling. The consumer is responsible for all CSS including track appearance, thumb styling, tick marks, and any visual degree indicator or dial overlay.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.angle-slider-range-input` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<input>` element with class `angle-slider-range-input`
 - Verify role="slider"` (implicit from input[type="range"])

@@ -24,18 +24,32 @@ A floating panel is a container that overlays page content, typically used for t
 Chat widget floating above page content:
 
 ```html
-<button onclick={() => (chatOpen = !chatOpen)}>Chat</button>
-<FloatingPanel open={chatOpen} label="Live chat">
+<button
+  onclick="{()"
+  =""
+>
+  (chatOpen = !chatOpen)}>Chat
+</button>
+<FloatingPanel
+  open="{chatOpen}"
+  label="Live chat"
+>
   <h3>Support chat</h3>
   <div class="messages">...</div>
-  <input type="text" placeholder="Type a message..." />
+  <input
+    type="text"
+    placeholder="Type a message..."
+  />
 </FloatingPanel>
 ```
 
 Help panel triggered by a button:
 
 ```html
-<FloatingPanel open={showHelp} label="Help">
+<FloatingPanel
+  open="{showHelp}"
+  label="Help"
+>
   <h3>Need assistance?</h3>
   <p>Contact support at help@example.com</p>
 </FloatingPanel>
@@ -66,14 +80,11 @@ None -- this component is a passive container. Consumers should implement focus 
 
 This headless component provides a `<div>` with `role="region"` and `aria-label` that conditionally renders based on the `open` prop. The consumer provides all visual styling including positioning, shadows, borders, and z-index layering.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.floating-panel` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `floating-panel`
 - Verify role="region"` -- identifies the panel as a landmark region

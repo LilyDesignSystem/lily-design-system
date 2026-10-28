@@ -21,7 +21,10 @@ SingaporeNationalRegistrationIdentityCardInput is a headless placeholder compone
 ## Usage
 
 ```html
-<SingaporeNationalRegistrationIdentityCardInput label="SingaporeNationalRegistrationIdentityCardInput example">Content</SingaporeNationalRegistrationIdentityCardInput>
+<SingaporeNationalRegistrationIdentityCardInput
+  label="SingaporeNationalRegistrationIdentityCardInput example"
+  >Content</SingaporeNationalRegistrationIdentityCardInput
+>
 ```
 
 ## Keyboard Interactions

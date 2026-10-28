@@ -10,15 +10,15 @@ shown as its UTC offset and its full name from `Intl`, ordered by offset. The ch
 
 ## Files
 
-| File                     | Purpose                                                        |
-| ------------------------ | -------------------------------------------------------------- |
-| `spec/index.md`          | Specification-driven contract (canonical).                     |
-| `time-zone-picker.ts`  | The component. TypeScript + Web Components runes.                    |
-| `zones.ts`               | Pure zone logic: offsets, names, order, matching. No DOM.      |
-| `zones.test.ts`          | Tests for `zones.ts` (DST, half-hour offsets, locales).        |
-| `TimeZonePicker.test.ts` | Component tests, one per §7 acceptance clause.                 |
-| `index.ts`               | Barrel re-export.                                              |
-| `index.md`               | User guide.                                                    |
+| File                     | Purpose                                                   |
+| ------------------------ | --------------------------------------------------------- |
+| `spec/index.md`          | Specification-driven contract (canonical).                |
+| `time-zone-picker.ts`    | The component. TypeScript + Web Components runes.         |
+| `zones.ts`               | Pure zone logic: offsets, names, order, matching. No DOM. |
+| `zones.test.ts`          | Tests for `zones.ts` (DST, half-hour offsets, locales).   |
+| `TimeZonePicker.test.ts` | Component tests, one per §7 acceptance clause.            |
+| `index.ts`               | Barrel re-export.                                         |
+| `index.md`               | User guide.                                               |
 
 ## Public surface
 

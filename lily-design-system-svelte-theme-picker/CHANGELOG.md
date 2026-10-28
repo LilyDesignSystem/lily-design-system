@@ -24,7 +24,6 @@ there); this picker's clauses are §7.27–§7.32.
 
 **Fix: the tooltip's `Escape` dismissal now works wherever focus is (WCAG 1.4.13).** It was bound to the button's keydown only, so a tooltip shown by pointer hover alone could not be dismissed. While the tooltip is visible a document `keydown` listener (added once, removed on hide/unmount; no `preventDefault`, no focus move) sets it dismissed. New clauses §7.33–§7.34.
 
-
 ## 0.1.2 — 2026-09-25
 
 **Fix: dependency range on `@lilydesignsystem/svelte-headless` widened
@@ -158,7 +157,7 @@ part of 0.1.0 rather than a later version.
   cancelling the key — so the default Tab proceeds from the picker's
   own position.
 - **Typeahead follows the APG single-character rule.** A single
-  character advances to the *next* matching option, and repeating that
+  character advances to the _next_ matching option, and repeating that
   character cycles through the matches; only a buffer of differing
   characters refines the match anchored on the active option.
   Previously a character that matched the active option went nowhere.

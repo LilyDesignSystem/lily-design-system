@@ -29,12 +29,12 @@ A button with a primary action and a dropdown trigger for related actions. Rende
 
 ```vue
 <SplitButton
-    label="Save options"
-    primary-label="Save"
-    menu-label="More save actions"
-    :menu-open="open"
-    @primary-click="onSave"
-    @menu-toggle="onToggle"
+  label="Save options"
+  primary-label="Save"
+  menu-label="More save actions"
+  :menu-open="open"
+  @primary-click="onSave"
+  @menu-toggle="onToggle"
 >
     <Menu>
         <MenuItem>Save and close</MenuItem>

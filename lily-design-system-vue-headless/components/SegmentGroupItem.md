@@ -26,10 +26,18 @@ Use SegmentGroupItem inside a SegmentGroup to build custom segmented controls su
 
 ```svelte
 <SegmentGroup label="View">
-  <SegmentGroupItem checked={mode === 'grid'} value="grid" onclick={() => mode = 'grid'}>
+  <SegmentGroupItem
+    checked={mode === "grid"}
+    value="grid"
+    onclick={() => (mode = "grid")}
+  >
     Grid
   </SegmentGroupItem>
-  <SegmentGroupItem checked={mode === 'list'} value="list" onclick={() => mode = 'list'}>
+  <SegmentGroupItem
+    checked={mode === "list"}
+    value="list"
+    onclick={() => (mode = "list")}
+  >
     List
   </SegmentGroupItem>
 </SegmentGroup>

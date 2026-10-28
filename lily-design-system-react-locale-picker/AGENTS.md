@@ -14,17 +14,17 @@ the list.
 
 ## Files
 
-| File                       | Purpose                                          |
-| -------------------------- | ------------------------------------------------ |
-| `spec/index.md`                  | Specification-driven contract (canonical).       |
-| `LocalePicker.tsx`         | Implementation. TypeScript + React 19 hooks.    |
-| `LocalePicker.test.tsx`    | Vitest spec, one assertion per §7 acceptance.    |
-| `locales.ts`               | Fallback code → English-name map and RTL sets; default labels are endonyms via `localeEndonym`. |
-| `locales.tsv`              | Canonical 436-row locale list.                   |
-| `index.ts`                 | Barrel re-export.                                |
-| `index.md`                 | User guide.                                      |
-| `docs/`                    | Topic guides: props, a11y, BCP 47, concepts, i18n, RTL, SSR, styling, custom rendering, recipes, troubleshooting. |
-| `examples/`                | Ten self-contained React 19 examples, descriptively named. |
+| File                    | Purpose                                                                                                           |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `spec/index.md`         | Specification-driven contract (canonical).                                                                        |
+| `LocalePicker.tsx`      | Implementation. TypeScript + React 19 hooks.                                                                      |
+| `LocalePicker.test.tsx` | Vitest spec, one assertion per §7 acceptance.                                                                     |
+| `locales.ts`            | Fallback code → English-name map and RTL sets; default labels are endonyms via `localeEndonym`.                   |
+| `locales.tsv`           | Canonical 436-row locale list.                                                                                    |
+| `index.ts`              | Barrel re-export.                                                                                                 |
+| `index.md`              | User guide.                                                                                                       |
+| `docs/`                 | Topic guides: props, a11y, BCP 47, concepts, i18n, RTL, SSR, styling, custom rendering, recipes, troubleshooting. |
+| `examples/`             | Ten self-contained React 19 examples, descriptively named.                                                        |
 
 ## Public surface
 
@@ -48,28 +48,73 @@ hyphen form of the locale code, (2) sets `target.dir` to `"rtl"` or
 code to `localStorage[storageKey]`, and (4) calls `onChange(code)`.
 SSR-safe — all DOM writes happen inside `useEffect`. Initial value
 resolves from `value` > storage > navigator (if `detectFromNavigator`)
+
 > `defaultValue` > `"en"` (if present) > `locales[0]`. The component
-also owns the disclosure state: opening the listbox moves focus to the
-`<ul>` and tracks the keyboard cursor with `aria-activedescendant`;
-selecting, `Escape`, or toggling the button returns focus to the
-button.
+> also owns the disclosure state: opening the listbox moves focus to the
+> `<ul>` and tracks the keyboard cursor with `aria-activedescendant`;
+> selecting, `Escape`, or toggling the button returns focus to the
+> button.
 
 ## HTML
 
 ```html
-<div class="locale-picker {className}" ...restProps>
-  <input type="hidden" name="{name}" value="{value}" />
-  <button type="button" class="locale-picker-button"
-          aria-label="{label}" aria-haspopup="listbox"
-          aria-expanded="false" aria-controls="{listId}">
-    <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path stroke-width="1.1" d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7"/></svg>
+<div
+  class="locale-picker {className}"
+  ...restProps
+>
+  <input
+    type="hidden"
+    name="{name}"
+    value="{value}"
+  />
+  <button
+    type="button"
+    class="locale-picker-button"
+    aria-label="{label}"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="{listId}"
+  >
+    <svg
+      class="locale-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle
+        cx="8"
+        cy="8"
+        r="6"
+      />
+      <path
+        stroke-width="1.1"
+        d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7"
+      />
+    </svg>
   </button>
-  <ul class="locale-picker-list" id="{listId}" role="listbox"
-      aria-label="{label}" tabindex="-1" hidden
-      aria-activedescendant="{optionId of active, only while open}">
-    <li class="locale-picker-option" id="{optionId}" role="option"
-        aria-selected="true|false" data-active
-        lang="{tag, only when the label is the derived endonym}">American English</li>
+  <ul
+    class="locale-picker-list"
+    id="{listId}"
+    role="listbox"
+    aria-label="{label}"
+    tabindex="-1"
+    hidden
+    aria-activedescendant="{optionId of active, only while open}"
+  >
+    <li
+      class="locale-picker-option"
+      id="{optionId}"
+      role="option"
+      aria-selected="true|false"
+      data-active
+      lang="{tag, only when the label is the derived endonym}"
+    >
+      American English
+    </li>
   </ul>
 </div>
 ```
@@ -97,7 +142,7 @@ replaces the icon inside the button — it does not render options.
   See [spec/index.md §6.2](./spec/index.md#62-keyboard-contract).
 - `aria-label` carries the consumer-supplied accessible name on both
   the button and the listbox. Because the icon is `aria-hidden`, it is
-  the button's *only* name — never omit it.
+  the button's _only_ name — never omit it.
 - An option carries its locale via `lang` only when its label is the
   derived endonym, so screen readers switch voice only when the claim
   is true.

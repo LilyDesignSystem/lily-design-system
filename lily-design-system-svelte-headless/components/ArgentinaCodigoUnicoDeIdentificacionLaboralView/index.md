@@ -21,7 +21,10 @@ ArgentinaCodigoUnicoDeIdentificacionLaboralView is a headless placeholder compon
 ## Usage
 
 ```html
-<ArgentinaCodigoUnicoDeIdentificacionLaboralView label="ArgentinaCodigoUnicoDeIdentificacionLaboralView example">Content</ArgentinaCodigoUnicoDeIdentificacionLaboralView>
+<ArgentinaCodigoUnicoDeIdentificacionLaboralView
+  label="ArgentinaCodigoUnicoDeIdentificacionLaboralView example"
+  >Content</ArgentinaCodigoUnicoDeIdentificacionLaboralView
+>
 ```
 
 ## Keyboard Interactions

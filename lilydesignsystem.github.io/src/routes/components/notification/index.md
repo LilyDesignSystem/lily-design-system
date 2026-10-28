@@ -24,23 +24,25 @@ The component uses `role="status"` with `aria-live="polite"` for standard notifi
 
 ```html
 <!-- Non-urgent notification for new messages -->
-<Notification label="New messages">
-  You have 3 unread messages
-</Notification>
+<Notification label="New messages"> You have 3 unread messages </Notification>
 
 <!-- Non-urgent success notification -->
-<Notification label="Success">
-  Your changes have been saved.
-</Notification>
+<Notification label="Success"> Your changes have been saved. </Notification>
 
 <!-- Urgent session expiry warning -->
-<Notification label="Session warning" urgent>
+<Notification
+  label="Session warning"
+  urgent
+>
   Your session will expire in 5 minutes.
   <a href="/session/extend">Extend session</a>.
 </Notification>
 
 <!-- Urgent error notification -->
-<Notification label="Error" urgent>
+<Notification
+  label="Error"
+  urgent
+>
   Something went wrong. Please try again.
 </Notification>
 ```
@@ -75,18 +77,15 @@ None -- this component is a passive announcement container. Notifications are an
 
 This headless component provides a `<div>` with ARIA live region semantics -- `role="status"` with `aria-live="polite"` by default, or `role="alert"` with `aria-live="assertive"` when urgent. The consumer provides all visual styling, including colors, icons, animations, positioning, and auto-dismiss behavior.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.notification` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `notification`
 - Verify role="status"` -- applied by default for non-urgent notifications; politely announces content changes
-- Verify role="alert"` -- applied when `urgent` is true; assertively interrupts the user
+- Verify role="alert"`-- applied when`urgent` is true; assertively interrupts the user
 - Verify aria-label="..."` -- provides an accessible name for the notification region
 - Verify pass-through attributes are applied
 

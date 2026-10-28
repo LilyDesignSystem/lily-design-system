@@ -46,7 +46,10 @@ const [status, setStatus] = useState("");
 Pre-selected value:
 
 ```tsx
-<RedAmberGreenPicker label="Health check" value="green" />
+<RedAmberGreenPicker
+  label="Health check"
+  value="green"
+/>
 ```
 
 With additional HTML attributes:
@@ -54,7 +57,8 @@ With additional HTML attributes:
 ```tsx
 <RedAmberGreenPicker
   label="Sprint status"
-  value={status} onChange={setStatus}
+  value={status}
+  onChange={setStatus}
   data-project="alpha"
 />
 ```

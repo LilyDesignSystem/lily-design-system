@@ -49,53 +49,75 @@ import RedAmberGreenView from './RedAmberGreenView.svelte';
 
 ```svelte
 <script lang="ts">
-  import RedAmberGreenView from './RedAmberGreenView.svelte';
+  import RedAmberGreenView from "./RedAmberGreenView.svelte";
 </script>
 
-<RedAmberGreenView label="Project status" value="green" />
+<RedAmberGreenView
+  label="Project status"
+  value="green"
+/>
 ```
 
 ### Dynamic value
 
 ```svelte
 <script lang="ts">
-  import RedAmberGreenView from './RedAmberGreenView.svelte';
+  import RedAmberGreenView from "./RedAmberGreenView.svelte";
 
   let status = $state("amber");
 </script>
 
-<RedAmberGreenView label="Health check" value={status} />
+<RedAmberGreenView
+  label="Health check"
+  value={status}
+/>
 ```
 
 ### Paired with the picker counterpart
 
 ```svelte
 <script lang="ts">
-  import RedAmberGreenPicker from '../RedAmberGreenPicker/RedAmberGreenPicker.svelte';
-  import RedAmberGreenView from './RedAmberGreenView.svelte';
+  import RedAmberGreenPicker from "../RedAmberGreenPicker/RedAmberGreenPicker.svelte";
+  import RedAmberGreenView from "./RedAmberGreenView.svelte";
 
   let status = $state("");
   let submitted = $state(false);
 </script>
 
 {#if submitted}
-  <RedAmberGreenView label="Status" value={status} />
+  <RedAmberGreenView
+    label="Status"
+    value={status}
+  />
 {:else}
-  <RedAmberGreenPicker label="Status" bind:value={status} />
-  <button type="button" onclick={() => (submitted = true)}>Confirm</button>
+  <RedAmberGreenPicker
+    label="Status"
+    bind:value={status}
+  />
+  <button
+    type="button"
+    onclick={() => (submitted = true)}>Confirm</button
+  >
 {/if}
 ```
 
 ### Color-coded via data attribute
 
 ```svelte
-<RedAmberGreenView label="Risk level" value="amber" data-tone="warning" />
+<RedAmberGreenView
+  label="Risk level"
+  value="amber"
+  data-tone="warning"
+/>
 ```
 
 ### Localized value
 
 ```svelte
-<RedAmberGreenView label="Estado" value="rojo" />
+<RedAmberGreenView
+  label="Estado"
+  value="rojo"
+/>
 ```
 
 ## Accessibility

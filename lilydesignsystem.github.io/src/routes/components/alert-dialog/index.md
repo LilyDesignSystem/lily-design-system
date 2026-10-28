@@ -36,15 +36,20 @@ critical error messages that require acknowledgment.
 Destructive action confirmation:
 
 ```html
-<button onclick={() => showDialog = true}>Remove patient record</button>
+<button
+  onclick="{()"
+  =""
+>
+  showDialog = true}>Remove patient record
+</button>
 
 <AlertDialog
-  open={showDialog}
+  open="{showDialog}"
   title="Remove patient record"
   description="This will permanently delete the patient record and all associated notes. This action cannot be undone."
 >
-  <button onclick={handleConfirm}>Yes, remove record</button>
-  <button onclick={handleCancel}>Cancel</button>
+  <button onclick="{handleConfirm}">Yes, remove record</button>
+  <button onclick="{handleCancel}">Cancel</button>
 </AlertDialog>
 ```
 
@@ -52,20 +57,28 @@ Unsaved changes warning:
 
 ```html
 <AlertDialog
-  open={showUnsaved}
+  open="{showUnsaved}"
   title="Unsaved changes"
   description="You have unsaved changes that will be lost if you leave this page."
 >
-  <button onclick={handleDiscard}>Discard changes</button>
-  <button onclick={handleStay}>Stay on page</button>
+  <button onclick="{handleDiscard}">Discard changes</button>
+  <button onclick="{handleStay}">Stay on page</button>
 </AlertDialog>
 ```
 
 Simple acknowledgment without description:
 
 ```html
-<AlertDialog open={showExpired} title="Session expired">
-  <button onclick={() => showExpired = false}>OK</button>
+<AlertDialog
+  open="{showExpired}"
+  title="Session expired"
+>
+  <button
+    onclick="{()"
+    =""
+  >
+    showExpired = false}>OK
+  </button>
 </AlertDialog>
 ```
 
@@ -98,14 +111,11 @@ Simple acknowledgment without description:
 
 This component provides `role="alertdialog"`, `aria-modal`, `aria-labelledby`, and `aria-describedby` attributes on a native `<dialog>` element with zero visual styling. The consumer is responsible for all CSS including backdrop overlay, dialog positioning, sizing, padding, button styles, and focus trap implementation.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.alert-dialog` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<dialog>` element with class `alert-dialog`
 - Verify role="alertdialog"

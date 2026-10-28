@@ -27,13 +27,26 @@ Numbered page links with descriptive `label` props for screen readers:
 <PaginationNav label="Pagination">
   <PaginationList>
     <PaginationListItem>
-      <PaginationLink href="/results?page=1" label="Page 1">1</PaginationLink>
+      <PaginationLink
+        href="/results?page=1"
+        label="Page 1"
+        >1</PaginationLink
+      >
     </PaginationListItem>
     <PaginationListItem>
-      <PaginationLink href="/results?page=2" label="Page 2" aria-current="page">2</PaginationLink>
+      <PaginationLink
+        href="/results?page=2"
+        label="Page 2"
+        aria-current="page"
+        >2</PaginationLink
+      >
     </PaginationListItem>
     <PaginationListItem>
-      <PaginationLink href="/results?page=3" label="Page 3">3</PaginationLink>
+      <PaginationLink
+        href="/results?page=3"
+        label="Page 3"
+        >3</PaginationLink
+      >
     </PaginationListItem>
   </PaginationList>
 </PaginationNav>
@@ -43,12 +56,18 @@ Previous/next links with `rel` attributes for a content series:
 
 ```html
 <PaginationListItem>
-  <PaginationLink href="/conditions/diabetes/symptoms" rel="prev">
+  <PaginationLink
+    href="/conditions/diabetes/symptoms"
+    rel="prev"
+  >
     Previous: Symptoms
   </PaginationLink>
 </PaginationListItem>
 <PaginationListItem>
-  <PaginationLink href="/conditions/diabetes/treatment" rel="next">
+  <PaginationLink
+    href="/conditions/diabetes/treatment"
+    rel="next"
+  >
     Next: Treatment
   </PaginationLink>
 </PaginationListItem>
@@ -108,10 +127,18 @@ PaginationLink follows the Nav / List / ListItem composition pattern:
 <PaginationNav label="Pagination">
   <PaginationList>
     <PaginationListItem>
-      <PaginationLink href="/page/1" label="Page 1">1</PaginationLink>
+      <PaginationLink
+        href="/page/1"
+        label="Page 1"
+        >1</PaginationLink
+      >
     </PaginationListItem>
     <PaginationListItem>
-      <PaginationLink href="/page/2" label="Page 2">2</PaginationLink>
+      <PaginationLink
+        href="/page/2"
+        label="Page 2"
+        >2</PaginationLink
+      >
     </PaginationListItem>
   </PaginationList>
 </PaginationNav>

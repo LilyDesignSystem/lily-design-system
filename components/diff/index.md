@@ -36,11 +36,17 @@ Before/after image comparison:
 ```html
 <Diff label="Image comparison">
   <figure>
-    <img src="before.jpg" alt="Before redesign" />
+    <img
+      src="before.jpg"
+      alt="Before redesign"
+    />
     <figcaption>Before</figcaption>
   </figure>
   <figure>
-    <img src="after.jpg" alt="After redesign" />
+    <img
+      src="after.jpg"
+      alt="After redesign"
+    />
     <figcaption>After</figcaption>
   </figure>
 </Diff>

@@ -8,7 +8,7 @@ binding `AGENTS/*.md` design-principle rules.
 
 It is the maintainer-facing counterpart to [`lily-design-system-skill`](../lily-design-system-skill/),
 which explains Lily Design System's concepts and usage to people building
-*with* it rather than *on* it. Both packages follow the `lily-design-system-`
+_with_ it rather than _on_ it. Both packages follow the `lily-design-system-`
 prefix that marks the monorepo's implementation subprojects, because both
 are: fully bound to this repository's own tooling and conventions, not
 portable general-audience references living outside it.

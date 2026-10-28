@@ -22,7 +22,12 @@ TuaisceartEireannHealthAndCareNumberView is a read-only display of a Tuaisceart 
 <SummaryList>
   <SummaryListItem>
     <dt>Health and Care Number</dt>
-    <dd><TuaisceartEireannHealthAndCareNumberView label="H&C Number" value="320 000 0001" /></dd>
+    <dd>
+      <TuaisceartEireannHealthAndCareNumberView
+        label="H&C Number"
+        value="320 000 0001"
+      />
+    </dd>
   </SummaryListItem>
 </SummaryList>
 ```

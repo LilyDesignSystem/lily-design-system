@@ -195,19 +195,19 @@ they can write back to `value`:
 ```ts
 import { Component, effect, signal } from "@angular/core";
 
-@Component({ /* … */ })
+@Component({/* … */})
 export class Settings {
-    locale = signal("en");
-    target = signal<HTMLElement | null>(null);
+  locale = signal("en");
+  target = signal<HTMLElement | null>(null);
 
-    constructor() {
-        effect(() => {
-            this.target();          // track
-            const current = this.locale();
-            this.locale.set("");
-            this.locale.set(current); // forces re-apply
-        });
-    }
+  constructor() {
+    effect(() => {
+      this.target(); // track
+      const current = this.locale();
+      this.locale.set("");
+      this.locale.set(current); // forces re-apply
+    });
+  }
 }
 ```
 
@@ -242,18 +242,18 @@ If a consumer wants to fully reset, they can do it via
 
 ## Watch graph
 
-| Signal                  | Read where                         | Effect on change                          |
-| ----------------------- | ---------------------------------- | ----------------------------------------- |
-| `value()`               | top of the effect                  | re-runs the whole effect                  |
-| `locales()`             | initial-value resolution           | only affects the first run                |
-| `storageKey()`          | initial-value resolution + apply   | next value change re-reads / re-writes    |
-| `defaultValue()`        | initial-value resolution           | only affects the first run                |
-| `detectFromNavigator()` | initial-value resolution           | only affects the first run                |
-| `applyDir()`            | apply                              | next value change toggles dir write       |
-| `target()`              | apply                              | next value change writes lang/dir on the new target |
-| `name()`                | template                           | re-renders template                       |
-| `localeLabels()`        | template (via `labelFor`)          | re-renders template                       |
-| `className()`           | template                           | re-renders template                       |
+| Signal                  | Read where                       | Effect on change                                    |
+| ----------------------- | -------------------------------- | --------------------------------------------------- |
+| `value()`               | top of the effect                | re-runs the whole effect                            |
+| `locales()`             | initial-value resolution         | only affects the first run                          |
+| `storageKey()`          | initial-value resolution + apply | next value change re-reads / re-writes              |
+| `defaultValue()`        | initial-value resolution         | only affects the first run                          |
+| `detectFromNavigator()` | initial-value resolution         | only affects the first run                          |
+| `applyDir()`            | apply                            | next value change toggles dir write                 |
+| `target()`              | apply                            | next value change writes lang/dir on the new target |
+| `name()`                | template                         | re-renders template                                 |
+| `localeLabels()`        | template (via `labelFor`)        | re-renders template                                 |
+| `className()`           | template                         | re-renders template                                 |
 
 ## Watch vs the navigator-detection helper
 

@@ -25,8 +25,7 @@ import { ThemePicker } from "../theme-picker.component";
 })
 export class Settings {
   readonly prefersDark =
-    typeof window !== "undefined" &&
-    window.matchMedia?.("(prefers-color-scheme: dark)").matches;
+    typeof window !== "undefined" && window.matchMedia?.("(prefers-color-scheme: dark)").matches;
 }
 ```
 
@@ -198,9 +197,7 @@ export class Settings {
       }
     };
     window.addEventListener("storage", handler);
-    this.destroyRef.onDestroy(() =>
-      window.removeEventListener("storage", handler),
-    );
+    this.destroyRef.onDestroy(() => window.removeEventListener("storage", handler));
   }
 }
 ```

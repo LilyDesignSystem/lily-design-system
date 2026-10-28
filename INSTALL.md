@@ -14,32 +14,32 @@ tutorials are at **<https://lilydesignsystem.com/>**.
 
 ## Requirements
 
-| Path | Needs |
-| --- | --- |
-| Copy the markup | a browser |
-| npm packages | Node.js 18+ and npm, pnpm, or yarn |
-| Svelte | Svelte 5 |
-| React | React 18 or 19 (`react` and `react-dom` are peer dependencies) |
-| Vue | Vue 3.4+ |
-| Blazor | .NET 8+ |
-| Nunjucks | Nunjucks 3+ |
+| Path            | Needs                                                          |
+| --------------- | -------------------------------------------------------------- |
+| Copy the markup | a browser                                                      |
+| npm packages    | Node.js 18+ and npm, pnpm, or yarn                             |
+| Svelte          | Svelte 5                                                       |
+| React           | React 18 or 19 (`react` and `react-dom` are peer dependencies) |
+| Vue             | Vue 3.4+                                                       |
+| Blazor          | .NET 8+                                                        |
+| Nunjucks        | Nunjucks 3+                                                    |
 
 ## What is actually published today
 
 Be aware of this before you plan around it — the website documents all seven
 frameworks, but not all seven are on a registry yet.
 
-| Package family | Registry | Status |
-| --- | --- | --- |
-| `@lilydesignsystem/svelte-headless` | npm | **0.3.1** |
-| `@lilydesignsystem/react-headless` | npm | **0.3.1** |
-| `@lilydesignsystem/vue-headless` | npm | **0.3.1** |
-| `@lilydesignsystem/html-headless` | npm | **0.1.0** |
-| `@lilydesignsystem/angular-headless` | npm | **0.1.0** |
-| `@lilydesignsystem/nunjucks-headless` | npm | **0.1.0** |
-| `LilyDesignSystem.Blazor.Headless` | NuGet | **0.1.1** |
-| All 30 JavaScript helper packages (6 frameworks × 5 helpers) | npm | **0.1.0** |
-| The 5 Blazor helper packages | NuGet | **0.1.0** |
+| Package family                                               | Registry | Status    |
+| ------------------------------------------------------------ | -------- | --------- |
+| `@lilydesignsystem/svelte-headless`                          | npm      | **0.3.1** |
+| `@lilydesignsystem/react-headless`                           | npm      | **0.3.1** |
+| `@lilydesignsystem/vue-headless`                             | npm      | **0.3.1** |
+| `@lilydesignsystem/html-headless`                            | npm      | **0.1.0** |
+| `@lilydesignsystem/angular-headless`                         | npm      | **0.1.0** |
+| `@lilydesignsystem/nunjucks-headless`                        | npm      | **0.1.0** |
+| `LilyDesignSystem.Blazor.Headless`                           | NuGet    | **0.1.1** |
+| All 30 JavaScript helper packages (6 frameworks × 5 helpers) | npm      | **0.1.0** |
+| The 5 Blazor helper packages                                 | NuGet    | **0.1.0** |
 
 All seven headless libraries and all 35 helper packages are installable from
 a registry as of 2026-09-02. Path 1 always works regardless — nothing about
@@ -47,15 +47,23 @@ Lily requires the registry.
 
 ## Path 1 — Copy the markup (zero install)
 
-Lily is headless: a component *is* its semantic HTML, its ARIA, and its class
+Lily is headless: a component _is_ its semantic HTML, its ARIA, and its class
 hook. You can take that markup straight out of the catalog and paste it into any
 project, in any language, on any stack.
 
 ```html
-<nav class="breadcrumb-nav" aria-label="Breadcrumb">
+<nav
+  class="breadcrumb-nav"
+  aria-label="Breadcrumb"
+>
   <ol class="breadcrumb-list">
     <li class="breadcrumb-list-item"><a href="/">Home</a></li>
-    <li class="breadcrumb-list-item" aria-current="page">Settings</li>
+    <li
+      class="breadcrumb-list-item"
+      aria-current="page"
+    >
+      Settings
+    </li>
   </ol>
 </nav>
 ```
@@ -63,7 +71,11 @@ project, in any language, on any stack.
 Then style the class hooks. The kebab-case base class is the whole contract:
 
 ```css
-.breadcrumb-list { display: flex; gap: 0.5rem; list-style: none; }
+.breadcrumb-list {
+  display: flex;
+  gap: 0.5rem;
+  list-style: none;
+}
 ```
 
 [`css-style-sheet-template.css`](css-style-sheet-template.css) declares a hook for
@@ -83,7 +95,11 @@ npm install @lilydesignsystem/svelte-headless
 
 ```svelte
 <script>
-  import { BreadcrumbNav, BreadcrumbList, BreadcrumbListItem } from "@lilydesignsystem/svelte-headless";
+  import {
+    BreadcrumbNav,
+    BreadcrumbList,
+    BreadcrumbListItem,
+  } from "@lilydesignsystem/svelte-headless";
 </script>
 
 <BreadcrumbNav label="Breadcrumb">
@@ -101,13 +117,19 @@ npm install @lilydesignsystem/react-headless
 ```
 
 ```jsx
-import { BreadcrumbNav, BreadcrumbList, BreadcrumbListItem } from "@lilydesignsystem/react-headless";
+import {
+  BreadcrumbNav,
+  BreadcrumbList,
+  BreadcrumbListItem,
+} from "@lilydesignsystem/react-headless";
 
 export function Crumbs() {
   return (
     <BreadcrumbNav label="Breadcrumb">
       <BreadcrumbList>
-        <BreadcrumbListItem><a href="/">Home</a></BreadcrumbListItem>
+        <BreadcrumbListItem>
+          <a href="/">Home</a>
+        </BreadcrumbListItem>
         <BreadcrumbListItem current>Settings</BreadcrumbListItem>
       </BreadcrumbList>
     </BreadcrumbNav>
@@ -199,7 +221,7 @@ import { ThemePicker } from "@lilydesignsystem/react-theme-picker";
   themesUrl="/themes/"
   themes={["light", "dark", "nhs-england-patient"]}
   storageKey="theme"
-/>
+/>;
 ```
 
 Every user-facing string is a prop — there are no English defaults to override.
@@ -215,7 +237,10 @@ Lily's class hooks and use `:where(...)` selectors so your own rules always win.
 Link one directly:
 
 ```html
-<link rel="stylesheet" href="/themes/nhs-england-patient.css">
+<link
+  rel="stylesheet"
+  href="/themes/nhs-england-patient.css"
+/>
 ```
 
 Or let `theme-picker` swap them at runtime — that is exactly what it is for.

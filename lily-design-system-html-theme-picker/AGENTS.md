@@ -15,13 +15,13 @@ children, and must supply the list's positioning.
 
 ## Files
 
-| File                    | Purpose                                         |
-| ----------------------- | ----------------------------------------------- |
-| `spec/index.md`         | Specification-driven contract (canonical).      |
+| File                   | Purpose                                         |
+| ---------------------- | ----------------------------------------------- |
+| `spec/index.md`        | Specification-driven contract (canonical).      |
 | `theme-picker.ts`      | Implementation (TypeScript class).              |
 | `theme-picker.test.ts` | Vitest + jsdom spec, one assertion per §7 item. |
-| `index.ts`              | Barrel re-export + side-effectful registration. |
-| `index.md`              | Human-readable guide.                           |
+| `index.ts`             | Barrel re-export + side-effectful registration. |
+| `index.md`             | Human-readable guide.                           |
 
 ## Public surface
 

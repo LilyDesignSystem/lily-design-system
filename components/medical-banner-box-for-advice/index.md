@@ -24,9 +24,7 @@ This component is useful in clinical interfaces, electronic health records, and 
 
 ```html
 <MedicalBanner label="Patient summary">
-  <MedicalBannerBox>
-    <strong>Sarah Mitchell</strong> | NHS: 485 777 3456
-  </MedicalBannerBox>
+  <MedicalBannerBox> <strong>Sarah Mitchell</strong> | NHS: 485 777 3456 </MedicalBannerBox>
   <MedicalBannerBoxForAdvice label="Care team contacts">
     <p>GP: Dr James Lee</p>
     <p>District Nurse: Nurse Jones</p>

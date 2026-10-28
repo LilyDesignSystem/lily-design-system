@@ -30,7 +30,10 @@ import { Button, TextInput } from "@lilydesignsystem/angular-headless";
   standalone: true,
   imports: [Button, TextInput],
   template: `
-    <lily-text-input label="Email" [(value)]="email" />
+    <lily-text-input
+      label="Email"
+      [(value)]="email"
+    />
     <lily-button>Submit</lily-button>
   `,
 })

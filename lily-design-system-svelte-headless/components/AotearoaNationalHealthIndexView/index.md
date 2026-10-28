@@ -21,7 +21,9 @@ AotearoaNationalHealthIndexView is a headless placeholder component, generated b
 ## Usage
 
 ```html
-<AotearoaNationalHealthIndexView label="AotearoaNationalHealthIndexView example">Content</AotearoaNationalHealthIndexView>
+<AotearoaNationalHealthIndexView label="AotearoaNationalHealthIndexView example"
+  >Content</AotearoaNationalHealthIndexView
+>
 ```
 
 ## Keyboard Interactions

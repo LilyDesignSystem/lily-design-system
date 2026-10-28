@@ -34,19 +34,25 @@ Basic RAG status selection:
 
 ```svelte
 <script lang="ts">
-  import RedAmberGreenPicker from './RedAmberGreenPicker.svelte';
+  import RedAmberGreenPicker from "./RedAmberGreenPicker.svelte";
 
   let status = $state("");
 </script>
 
-<RedAmberGreenPicker label="Project status" bind:value={status} />
+<RedAmberGreenPicker
+  label="Project status"
+  bind:value={status}
+/>
 <p>Current status: {status}</p>
 ```
 
 Pre-selected value:
 
 ```svelte
-<RedAmberGreenPicker label="Health check" value="green" />
+<RedAmberGreenPicker
+  label="Health check"
+  value="green"
+/>
 ```
 
 With additional HTML attributes:

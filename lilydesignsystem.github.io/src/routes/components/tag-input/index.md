@@ -26,7 +26,14 @@ This component is commonly used alongside TagGroup to build tag management inter
 Basic tag input:
 
 ```html
-<TagInput label="Add tag" value={tagText} onadd={(tag) => tags.push(tag)} />
+<TagInput
+  label="Add tag"
+  value="{tagText}"
+  onadd="{(tag)"
+  =""
+>
+  tags.push(tag)} /></TagInput
+>
 ```
 
 Tag input paired with a TagGroup for skills on a profile:
@@ -96,14 +103,11 @@ Tag input in a blog post editor for categories:
 
 This headless component renders a native `<input type="text">` with `aria-label`, Enter key handling for tag submission, and two-way value binding. It provides the text input semantics and add-on-enter behavior. The consumer provides all visual styling and manages the tag collection state.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.tag-input` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `tag-input`
 - Verify aria-label={label}` -- provides an accessible name for the text input

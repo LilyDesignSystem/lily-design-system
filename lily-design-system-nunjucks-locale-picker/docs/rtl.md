@@ -19,15 +19,15 @@ If the locale string contains any of these as a `-`- or `_`-separated
 component (case-insensitive), it's RTL — regardless of the base
 language:
 
-| Script    | Code   | Used in                                                                          |
-| --------- | ------ | -------------------------------------------------------------------------------- |
-| Arabic    | `Arab` | Arabic, Persian, Urdu, Uyghur, Sindhi, Kurdish (Sorani), Kashmiri, Pashto, …     |
-| Hebrew    | `Hebr` | Hebrew, Yiddish, Judeo-Arabic                                                    |
-| Thaana    | `Thaa` | Divehi (Maldivian)                                                               |
-| Syriac    | `Syrc` | Syriac, Assyrian Neo-Aramaic                                                     |
-| N'Ko      | `Nkoo` | Manding languages                                                                |
-| Mongolian | `Mong` | Mongolian (traditional vertical)                                                 |
-| Adlam     | `Adlm` | Fulfulde                                                                         |
+| Script    | Code   | Used in                                                                      |
+| --------- | ------ | ---------------------------------------------------------------------------- |
+| Arabic    | `Arab` | Arabic, Persian, Urdu, Uyghur, Sindhi, Kurdish (Sorani), Kashmiri, Pashto, … |
+| Hebrew    | `Hebr` | Hebrew, Yiddish, Judeo-Arabic                                                |
+| Thaana    | `Thaa` | Divehi (Maldivian)                                                           |
+| Syriac    | `Syrc` | Syriac, Assyrian Neo-Aramaic                                                 |
+| N'Ko      | `Nkoo` | Manding languages                                                            |
+| Mongolian | `Mong` | Mongolian (traditional vertical)                                             |
+| Adlam     | `Adlm` | Fulfulde                                                                     |
 
 Example: `uz_Arab_AF` (Uzbek written in Arabic script, in
 Afghanistan) → RTL.
@@ -37,24 +37,24 @@ Afghanistan) → RTL.
 If the first subtag (before the first `-` or `_`) is one of these,
 it's RTL:
 
-| Code  | Language                  |
-| ----- | ------------------------- |
-| `ar`  | Arabic                    |
-| `arc` | Aramaic                   |
-| `ckb` | Sorani (Central) Kurdish  |
-| `dv`  | Divehi                    |
-| `fa`  | Persian / Farsi           |
-| `he`  | Hebrew (current)          |
-| `iw`  | Hebrew (legacy)           |
-| `ji`  | Yiddish (legacy)          |
-| `ks`  | Kashmiri                  |
-| `ku`  | Kurdish (umbrella)        |
-| `mzn` | Mazanderani               |
-| `ps`  | Pashto                    |
-| `sd`  | Sindhi                    |
-| `ug`  | Uyghur                    |
-| `ur`  | Urdu                      |
-| `yi`  | Yiddish (current)         |
+| Code  | Language                 |
+| ----- | ------------------------ |
+| `ar`  | Arabic                   |
+| `arc` | Aramaic                  |
+| `ckb` | Sorani (Central) Kurdish |
+| `dv`  | Divehi                   |
+| `fa`  | Persian / Farsi          |
+| `he`  | Hebrew (current)         |
+| `iw`  | Hebrew (legacy)          |
+| `ji`  | Yiddish (legacy)         |
+| `ks`  | Kashmiri                 |
+| `ku`  | Kurdish (umbrella)       |
+| `mzn` | Mazanderani              |
+| `ps`  | Pashto                   |
+| `sd`  | Sindhi                   |
+| `ug`  | Uyghur                   |
+| `ur`  | Urdu                     |
+| `yi`  | Yiddish (current)        |
 
 This catches the common cases (`ar`, `he`, `fa`) without requiring
 the consumer to write `Arab` / `Hebr` script tags every time.
@@ -139,16 +139,16 @@ Use logical properties throughout your CSS:
 ```css
 /* Bad — breaks in RTL */
 .banner {
-    padding-left: 1rem;
-    margin-right: 0.5rem;
-    text-align: left;
+  padding-left: 1rem;
+  margin-right: 0.5rem;
+  text-align: left;
 }
 
 /* Good — works in both */
 .banner {
-    padding-inline-start: 1rem;
-    margin-inline-end: 0.5rem;
-    text-align: start;
+  padding-inline-start: 1rem;
+  margin-inline-end: 0.5rem;
+  text-align: start;
 }
 ```
 
@@ -157,11 +157,11 @@ mirrored CSS:
 
 ```css
 .next-icon {
-    transform: scaleX(-1);
+  transform: scaleX(-1);
 }
 
 :dir(ltr) .next-icon {
-    transform: none;
+  transform: none;
 }
 ```
 
@@ -179,36 +179,36 @@ popup), your CSS controls all of this directly:
 
 ```css
 .locale-picker {
-    position: relative;
-    display: inline-block;
-    /* No padding/margin physical-side specifics — let logical
+  position: relative;
+  display: inline-block;
+  /* No padding/margin physical-side specifics — let logical
        properties drive direction. */
 }
 
 .locale-picker-list {
-    position: absolute;
-    /* inset-inline-start, not `left`: the popup anchors to the
+  position: absolute;
+  /* inset-inline-start, not `left`: the popup anchors to the
        reading-start edge in both directions. */
-    inset-block-start: 100%;
-    inset-inline-start: 0;
-    margin: 0;
-    padding: 0;
-    list-style: none;
+  inset-block-start: 100%;
+  inset-inline-start: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .locale-picker-list[hidden] {
-    display: none;
+  display: none;
 }
 
 .locale-picker-option {
-    display: flex;
-    align-items: center;
-    gap: 0.25em;
-    text-align: start;
-    /* unicode-bidi: isolate keeps each option in its own bidi
+  display: flex;
+  align-items: center;
+  gap: 0.25em;
+  text-align: start;
+  /* unicode-bidi: isolate keeps each option in its own bidi
        context, so an Arabic option never spills into the next
        option's run. */
-    unicode-bidi: isolate;
+  unicode-bidi: isolate;
 }
 ```
 

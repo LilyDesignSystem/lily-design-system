@@ -60,7 +60,10 @@ export function App() {
       />
 
       <h1>
-        <FormattedMessage id="home.heading" defaultMessage="Welcome" />
+        <FormattedMessage
+          id="home.heading"
+          defaultMessage="Welcome"
+        />
       </h1>
     </IntlProvider>
   );

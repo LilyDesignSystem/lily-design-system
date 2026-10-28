@@ -34,8 +34,12 @@ close the overlay or where a darkened scrim is required.
 Backdrop wrapping a dialog:
 
 ```html
-<OverlayContainer open={isOpen} onclick={close} label="Modal backdrop">
-  <Dialog open={isOpen}>...</Dialog>
+<OverlayContainer
+  open="{isOpen}"
+  onclick="{close}"
+  label="Modal backdrop"
+>
+  <dialog open="{isOpen}">...</dialog>
 </OverlayContainer>
 ```
 

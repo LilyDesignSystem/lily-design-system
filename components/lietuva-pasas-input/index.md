@@ -23,8 +23,15 @@ LietuvaPasasInput is a headless input for entering Lithuania's Pasas, Lithuania'
 ## Usage
 
 ```html
-<Field label="Lithuanian Passport" required>
-  <LietuvaPasasInput label="Lithuanian Passport" value={value} required />
+<Field
+  label="Lithuanian Passport"
+  required
+>
+  <LietuvaPasasInput
+    label="Lithuanian Passport"
+    value="{value}"
+    required
+  />
   <Hint>8-digit passport or identity card number</Hint>
   <ErrorMessage>Please enter a valid Lithuanian Passport</ErrorMessage>
 </Field>

@@ -6,17 +6,17 @@ the custom-element idiom forced a change.
 
 ## Attributes → properties
 
-| Attribute | Property | Type | Default |
-| --------- | -------- | ---- | ------- |
-| `label` | `label` | string | `""` (required in practice) |
-| `url` | `url` | string | `""` → falls back to `location.href` |
-| `share-title` | `shareTitle` | string | `""` |
-| `text` | `text` | string | `""` |
-| `copy-label` | `copyLabel` | string | `""` (no copy item) |
-| `copied-label` | `copiedLabel` | string | `""` |
-| `copy-failed-label` | `copyFailedLabel` | string | `""` |
-| `strategy` | `strategy` | `"auto"\|"native"\|"list"` | `"auto"` |
-| `class` | — | string | `""` |
+| Attribute           | Property          | Type                       | Default                              |
+| ------------------- | ----------------- | -------------------------- | ------------------------------------ |
+| `label`             | `label`           | string                     | `""` (required in practice)          |
+| `url`               | `url`             | string                     | `""` → falls back to `location.href` |
+| `share-title`       | `shareTitle`      | string                     | `""`                                 |
+| `text`              | `text`            | string                     | `""`                                 |
+| `copy-label`        | `copyLabel`       | string                     | `""` (no copy item)                  |
+| `copied-label`      | `copiedLabel`     | string                     | `""`                                 |
+| `copy-failed-label` | `copyFailedLabel` | string                     | `""`                                 |
+| `strategy`          | `strategy`        | `"auto"\|"native"\|"list"` | `"auto"`                             |
+| `class`             | —                 | string                     | `""`                                 |
 
 Writing a property writes the attribute; reading reads it. There is no
 separate backing field for any of them, so the attribute is always the
@@ -43,12 +43,12 @@ Svelte/React/Vue versions. Do not "fix" it.
 Attributes are strings. These carry functions, so they cannot be
 attributes at all:
 
-| Member | Type |
-| ------ | ---- |
-| `targets` | `ShareTarget[]` — `href` is a function |
-| `onShare` | `(targetId: string, url: string) => void` |
-| `onCopy` | `(url: string) => void` |
-| `onNativeShare` | `(url: string) => void` |
+| Member          | Type                                      |
+| --------------- | ----------------------------------------- |
+| `targets`       | `ShareTarget[]` — `href` is a function    |
+| `onShare`       | `(targetId: string, url: string) => void` |
+| `onCopy`        | `(url: string) => void`                   |
+| `onNativeShare` | `(url: string) => void`                   |
 
 `targets` has a getter that returns a **copy**, so callers cannot mutate
 the element's internals by mutating what they read. Its setter
@@ -65,11 +65,11 @@ Every callback is paired with a bubbling, composed `CustomEvent`,
 matching `theme-picker`'s `themechange` and `locale-picker`'s
 `localechange`:
 
-| Event | Detail | Callback |
-| ----- | ------ | -------- |
-| `share` | `SharePickerShareDetail` = `{ targetId, url }` | `onShare(targetId, url)` |
-| `copy` | `SharePickerUrlDetail` = `{ url }` | `onCopy(url)` |
-| `nativeshare` | `SharePickerUrlDetail` = `{ url }` | `onNativeShare(url)` |
+| Event         | Detail                                         | Callback                 |
+| ------------- | ---------------------------------------------- | ------------------------ |
+| `share`       | `SharePickerShareDetail` = `{ targetId, url }` | `onShare(targetId, url)` |
+| `copy`        | `SharePickerUrlDetail` = `{ url }`             | `onCopy(url)`            |
+| `nativeshare` | `SharePickerUrlDetail` = `{ url }`             | `onNativeShare(url)`     |
 
 Ordering: callback first, then `dispatchEvent`. Both always fire — the
 callback is a convenience, not an alternative.
@@ -79,21 +79,21 @@ an error.
 
 ## Read-only getters
 
-| Getter | Meaning |
-| ------ | ------- |
-| `open` | Is the list open? |
-| `status` | Current live-region text. |
+| Getter   | Meaning                                      |
+| -------- | -------------------------------------------- |
+| `open`   | Is the list open?                            |
+| `status` | Current live-region text.                    |
 | `listId` | id of the rendered `<ul>`, `${baseId}-list`. |
 
 ## Methods
 
-| Method | Notes |
-| ------ | ----- |
+| Method                        | Notes                                                                                        |
+| ----------------------------- | -------------------------------------------------------------------------------------------- |
 | `openList(focusLast = false)` | No-op when `items()` is empty — a list with no targets and no copy item has nothing to show. |
-| `closeList(refocus = true)` | No-op when already closed. |
-| `items()` | `.share-picker-target, .share-picker-copy` in DOM order. |
-| `currentUrl()` | `url` attribute, else `location.href`. Lazy — never evaluated at import. |
-| `renderButtonContent()` | Overridable. See [`../docs/custom-rendering.md`](../docs/custom-rendering.md). |
+| `closeList(refocus = true)`   | No-op when already closed.                                                                   |
+| `items()`                     | `.share-picker-target, .share-picker-copy` in DOM order.                                     |
+| `currentUrl()`                | `url` attribute, else `location.href`. Lazy — never evaluated at import.                     |
+| `renderButtonContent()`       | Overridable. See [`../docs/custom-rendering.md`](../docs/custom-rendering.md).               |
 
 ## Module exports
 

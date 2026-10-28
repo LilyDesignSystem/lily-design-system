@@ -8,34 +8,34 @@ away from a native `<select>` cost.
 
 ## Built-in
 
-| WCAG item | How the control satisfies it |
-| --------------- | --------------------------- |
-| WCAG 3.1.1 Language of Page | The client.js writes `lang` to the document root on every locale change. |
-| WCAG 3.1.2 Language of Parts | The client sets `lang="{tag}"` on each `<li role="option">` whose text is the derived endonym — and only on those, because `lang` is a claim about the text's language. The button and the `<ul>` carry none — they are chrome, not content. |
-| WCAG 1.4.10 Reflow (RTL bidi) | The client.js writes `dir="rtl"` for RTL locales. |
-| WCAG 4.1.2 Name, Role, Value | `aria-label` names the button and the listbox; `aria-haspopup` / `aria-expanded` / `aria-controls` expose the relationship; each `<li>` carries `role="option"` and an explicit `aria-selected`. |
-| WCAG 2.1.1 Keyboard | The client.js implements the full APG listbox keyboard contract — see below. Nothing works before it runs. |
-| WCAG 2.4.7 Focus Visible | The helper never sets `outline: none`. Consumer CSS must style focus on BOTH the button and the `<ul>`, which takes DOM focus while open. |
-| WCAG 1.4.1 Use of Color | Selection state is exposed in `lang` / `dir` on the target, in the hidden input's value, and in `aria-selected` — not colour alone. |
+| WCAG item                     | How the control satisfies it                                                                                                                                                                                                                 |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| WCAG 3.1.1 Language of Page   | The client.js writes `lang` to the document root on every locale change.                                                                                                                                                                     |
+| WCAG 3.1.2 Language of Parts  | The client sets `lang="{tag}"` on each `<li role="option">` whose text is the derived endonym — and only on those, because `lang` is a claim about the text's language. The button and the `<ul>` carry none — they are chrome, not content. |
+| WCAG 1.4.10 Reflow (RTL bidi) | The client.js writes `dir="rtl"` for RTL locales.                                                                                                                                                                                            |
+| WCAG 4.1.2 Name, Role, Value  | `aria-label` names the button and the listbox; `aria-haspopup` / `aria-expanded` / `aria-controls` expose the relationship; each `<li>` carries `role="option"` and an explicit `aria-selected`.                                             |
+| WCAG 2.1.1 Keyboard           | The client.js implements the full APG listbox keyboard contract — see below. Nothing works before it runs.                                                                                                                                   |
+| WCAG 2.4.7 Focus Visible      | The helper never sets `outline: none`. Consumer CSS must style focus on BOTH the button and the `<ul>`, which takes DOM focus while open.                                                                                                    |
+| WCAG 1.4.1 Use of Color       | Selection state is exposed in `lang` / `dir` on the target, in the hidden input's value, and in `aria-selected` — not colour alone.                                                                                                          |
 
 ## Roles and properties
 
-| Element               | Role / Property                      | Source             |
-| --------------------- | ------------------------------------ | ------------------ |
-| `<div>` root          | none (a plain container)             | Macro              |
-| `<button>`            | implicit `role="button"`             | Browser            |
-| `<button>`            | `aria-label="{label}"`               | `opts.label`       |
-| `<button>`            | `aria-haspopup="listbox"`            | Macro              |
-| `<button>`            | `aria-expanded="true|false"`         | Macro + client     |
-| `<button>`            | `aria-controls="{id}-list"`          | Macro              |
-| `<span>` glyph        | `aria-hidden="true"`                 | Macro              |
-| `<ul>`                | `role="listbox"`                     | Macro              |
-| `<ul>`                | `aria-label="{label}"`               | `opts.label`       |
-| `<ul>`                | `aria-activedescendant="{optionId}"` | Client, while open |
-| `<li>`                | `role="option"`                      | Macro              |
-| `<li>`                | `aria-selected="true|false"`         | Macro + client     |
-| `<li>`                | `lang="{bcp47}"` (endonym-labelled options only) | Client |
-| `<input type=hidden>` | `name`                               | Macro              |
+| Element               | Role / Property                                  | Source             |
+| --------------------- | ------------------------------------------------ | ------------------ |
+| `<div>` root          | none (a plain container)                         | Macro              |
+| `<button>`            | implicit `role="button"`                         | Browser            |
+| `<button>`            | `aria-label="{label}"`                           | `opts.label`       |
+| `<button>`            | `aria-haspopup="listbox"`                        | Macro              |
+| `<button>`            | `aria-expanded="true                             | false"`            | Macro + client |
+| `<button>`            | `aria-controls="{id}-list"`                      | Macro              |
+| `<span>` glyph        | `aria-hidden="true"`                             | Macro              |
+| `<ul>`                | `role="listbox"`                                 | Macro              |
+| `<ul>`                | `aria-label="{label}"`                           | `opts.label`       |
+| `<ul>`                | `aria-activedescendant="{optionId}"`             | Client, while open |
+| `<li>`                | `role="option"`                                  | Macro              |
+| `<li>`                | `aria-selected="true                             | false"`            | Macro + client |
+| `<li>`                | `lang="{bcp47}"` (endonym-labelled options only) | Client             |
+| `<input type=hidden>` | `name`                                           | Macro              |
 
 The active option is conveyed with `aria-activedescendant` on the
 focused `<ul>`; DOM focus stays on the `<ul>` and never moves to an
@@ -62,7 +62,7 @@ straight WCAG 4.1.2 failure with no partial credit.
 
 Voice control deserves specific mention: users of Voice Control and
 Voice Access say the visible name of a control. An icon-only button
-has none, so `aria-label` is also the *spoken* target. Keep it short,
+has none, so `aria-label` is also the _spoken_ target. Keep it short,
 literal, and matched to what a user would plausibly call it
 ("Language", not "Interface locale preference").
 
@@ -88,7 +88,7 @@ reliably than real focus are all documented in the wild.
 Per-option `lang` is affected too. Screen readers honour `lang` on an
 `<li>` more consistently than some platforms honour it on an
 `<option>`, so this is one place where the custom listbox is arguably
-*better* — but verify it with the assistive technology your users
+_better_ — but verify it with the assistive technology your users
 actually run rather than assuming.
 
 If no-JS or maximal AT compatibility is a hard requirement, render
@@ -102,7 +102,7 @@ stack lacks the glyph it degrades to a tofu box. It may be re-coloured
 or hidden entirely by a user stylesheet or forced-colors mode.
 
 The macro emits the glyph followed by U+FE0E VARIATION SELECTOR-15,
-which requests the *text* presentation. Without it browsers reach for
+which requests the _text_ presentation. Without it browsers reach for
 the colour-emoji font and the globe renders blue — inconsistent with
 theme-picker's monochrome ◑, and at a different optical size and
 baseline. VS15 is a request, not a guarantee: a platform with no text
@@ -146,10 +146,9 @@ import { autoInit, localeName } from "./locale-picker.client.js";
 const status = document.querySelector(".locale-picker-status");
 
 autoInit({
-    onChange(code) {
-        status.textContent =
-            translate("Active language: {name}", { name: localeName(code) });
-    },
+  onChange(code) {
+    status.textContent = translate("Active language: {name}", { name: localeName(code) });
+  },
 });
 ```
 
@@ -173,7 +172,7 @@ Why this shape:
   same moment the region updates, so give the status element its own
   `lang` if the message is written in the newly selected language.
 
-What this does *not* fix: focusing the closed button still announces
+What this does _not_ fix: focusing the closed button still announces
 only the label. The status region tells the user what is active; it
 does not make the control self-describing. Opening the listbox does
 surface the state — the applied locale is the `aria-selected` option —
@@ -183,7 +182,7 @@ but that requires an interaction.
 
 By default the client labels each option with the language's
 **endonym** — its own name for itself, "Cymraeg" not "Welsh", via
-`Intl.DisplayNames` asked *in that language* — and sets `lang="…"` on
+`Intl.DisplayNames` asked _in that language_ — and sets `lang="…"` on
 exactly those options. This satisfies WCAG 3.1.2 (Language of Parts):
 when a screen reader encounters the option "Français" inside an
 English page, the `lang` attribute makes the reader switch to a
@@ -214,23 +213,23 @@ before that module runs — see [`./ssr.md`](./ssr.md).
 
 On the **button**:
 
-| Key                          | Action                                                    |
-| ---------------------------- | --------------------------------------------------------- |
-| `Tab` / `Shift+Tab`          | Move focus to / away from the button (one stop).           |
-| `ArrowDown`, `Enter`, `Space`| Open, with the selected locale active. Focus moves to the list. |
-| `ArrowUp`                    | Open, with the LAST option active.                         |
+| Key                           | Action                                                          |
+| ----------------------------- | --------------------------------------------------------------- |
+| `Tab` / `Shift+Tab`           | Move focus to / away from the button (one stop).                |
+| `ArrowDown`, `Enter`, `Space` | Open, with the selected locale active. Focus moves to the list. |
+| `ArrowUp`                     | Open, with the LAST option active.                              |
 
 On the **listbox**:
 
-| Key                | Action                                                        |
-| ------------------ | ------------------------------------------------------------- |
-| `ArrowDown` / `ArrowUp` | Move the active option. Clamps at the ends; no wrapping. |
-| `Home` / `End`     | Jump to the first / last option.                              |
-| `Enter` / `Space`  | Select the active option, apply it, close, return focus.      |
-| `Escape`           | Close and return focus, leaving the locale unchanged.         |
-| `PageUp` / `PageDown` | Move the active option by ten, clamped. |
-| `Tab`              | Close and move on — focus goes to the button first, so the default Tab proceeds from the picker's position. |
-| Printable character| APG typeahead: one character advances to the next match, a repeated character cycles; differing characters refine. 500 ms buffer reset. |
+| Key                     | Action                                                                                                                                  |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `ArrowDown` / `ArrowUp` | Move the active option. Clamps at the ends; no wrapping.                                                                                |
+| `Home` / `End`          | Jump to the first / last option.                                                                                                        |
+| `Enter` / `Space`       | Select the active option, apply it, close, return focus.                                                                                |
+| `Escape`                | Close and return focus, leaving the locale unchanged.                                                                                   |
+| `PageUp` / `PageDown`   | Move the active option by ten, clamped.                                                                                                 |
+| `Tab`                   | Close and move on — focus goes to the button first, so the default Tab proceeds from the picker's position.                             |
+| Printable character     | APG typeahead: one character advances to the next match, a repeated character cycles; differing characters refine. 500 ms buffer reset. |
 
 Clicking an option selects it. Clicking outside the root, or moving
 focus out of it, closes the listbox without changing the locale.
@@ -254,12 +253,12 @@ keep choosing.
 
 ## Screen-reader behaviour matrix
 
-| Reader     | OS       | Browser   | What's announced |
-| ---------- | -------- | --------- | ---------------- |
-| VoiceOver  | macOS 14 | Safari 17 | Closed: "Language, pop-up button, collapsed". Open: "Language, list box", then each option with its `lang`-correct pronunciation and "selected / not selected". |
-| NVDA       | Windows  | Firefox   | Closed: "Language button collapsed". Open: "Language list box", active option read as it moves. Pronounces "Français" in a French voice if that voice is installed. |
-| JAWS       | Windows  | Chrome    | Similar to NVDA; `aria-activedescendant` movement is announced. |
-| TalkBack   | Android  | Chrome    | "Language, button, double-tap to activate". Custom-listbox handling is less reliable than a native `<select>`'s OS picker — see tradeoff 2. |
+| Reader    | OS       | Browser   | What's announced                                                                                                                                                    |
+| --------- | -------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| VoiceOver | macOS 14 | Safari 17 | Closed: "Language, pop-up button, collapsed". Open: "Language, list box", then each option with its `lang`-correct pronunciation and "selected / not selected".     |
+| NVDA      | Windows  | Firefox   | Closed: "Language button collapsed". Open: "Language list box", active option read as it moves. Pronounces "Français" in a French voice if that voice is installed. |
+| JAWS      | Windows  | Chrome    | Similar to NVDA; `aria-activedescendant` movement is announced.                                                                                                     |
+| TalkBack  | Android  | Chrome    | "Language, button, double-tap to activate". Custom-listbox handling is less reliable than a native `<select>`'s OS picker — see tradeoff 2.                         |
 
 The "lang-correct pronunciation" depends on the reader having a
 matching voice package installed. Verify against your own AT.
@@ -273,9 +272,9 @@ to the button, the list, and the options. A safe default:
 ```css
 .locale-picker-button,
 .locale-picker-list {
-    /* WCAG AAA-grade contrast against white */
-    color: #003087; /* NHS blue */
-    border: 1px solid #003087;
+  /* WCAG AAA-grade contrast against white */
+  color: #003087; /* NHS blue */
+  border: 1px solid #003087;
 }
 ```
 
@@ -315,7 +314,7 @@ provided you position the list with logical properties
   be `aria-hidden="true"` too.
 - **Styling the list open by default.** The `hidden` attribute is the
   open-state contract; a CSS rule like `.locale-picker-list { display:
-  block }` overrides `hidden` and leaves the list permanently visible
+block }` overrides `hidden` and leaves the list permanently visible
   and out of sync with `aria-expanded`. Use
   `.locale-picker-list:not([hidden])` for open-state styling.
 - **Hiding the button with `display: none`.** That removes it from the

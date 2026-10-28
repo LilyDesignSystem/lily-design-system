@@ -10,7 +10,7 @@ See [components/mockup-tablet-portrait/index.md](../../../../../components/mocku
 
 ```svelte
 <script lang="ts">
-    import MockupTabletPortrait from "./MockupTabletPortrait.svelte";
+  import MockupTabletPortrait from "./MockupTabletPortrait.svelte";
 </script>
 
 <MockupTabletPortrait />

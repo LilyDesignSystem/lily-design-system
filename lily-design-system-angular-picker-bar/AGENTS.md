@@ -21,13 +21,13 @@ deliberately not included — see spec §1.
 
 ## Files
 
-| File                          | Purpose                                       |
-| ------------------------------ | ---------------------------------------------- |
-| `spec/index.md`                | Specification-driven contract (canonical).     |
+| File                           | Purpose                                                      |
+| ------------------------------ | ------------------------------------------------------------ |
+| `spec/index.md`                | Specification-driven contract (canonical).                   |
 | `picker-bar.component.ts`      | Implementation. Standalone component, signal inputs/outputs. |
-| `picker-bar.component.spec.ts` | Vitest spec, one describe block per §7 acceptance area. |
-| `index.ts`                     | Barrel re-export.                              |
-| `index.md`                     | Comprehensive user guide.                      |
+| `picker-bar.component.spec.ts` | Vitest spec, one describe block per §7 acceptance area.      |
+| `index.ts`                     | Barrel re-export.                                            |
+| `index.md`                     | Comprehensive user guide.                                    |
 
 ## Public surface
 

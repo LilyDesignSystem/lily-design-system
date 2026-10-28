@@ -36,8 +36,8 @@ Import `CalendarTableRow` from `./CalendarTableRow.svelte`. Fill with `<th>` cel
 
 ```svelte
 <script lang="ts">
-  import CalendarTableRow from './CalendarTableRow.svelte';
-  import CalendarTableTD from '../CalendarTableTD/CalendarTableTD.svelte';
+  import CalendarTableRow from "./CalendarTableRow.svelte";
+  import CalendarTableTD from "../CalendarTableTD/CalendarTableTD.svelte";
 </script>
 
 <CalendarTableRow>
@@ -51,7 +51,7 @@ Import `CalendarTableRow` from `./CalendarTableRow.svelte`. Fill with `<th>` cel
 
 ```svelte
 <script lang="ts">
-  import CalendarTableRow from './CalendarTableRow.svelte';
+  import CalendarTableRow from "./CalendarTableRow.svelte";
 </script>
 
 <CalendarTableRow>
@@ -65,8 +65,8 @@ Import `CalendarTableRow` from `./CalendarTableRow.svelte`. Fill with `<th>` cel
 
 ```svelte
 <script lang="ts">
-  import CalendarTableRow from './CalendarTableRow.svelte';
-  import CalendarTableTD from '../CalendarTableTD/CalendarTableTD.svelte';
+  import CalendarTableRow from "./CalendarTableRow.svelte";
+  import CalendarTableTD from "../CalendarTableTD/CalendarTableTD.svelte";
 </script>
 
 <CalendarTableRow>
@@ -78,10 +78,10 @@ Import `CalendarTableRow` from `./CalendarTableRow.svelte`. Fill with `<th>` cel
 
 ```svelte
 <script lang="ts">
-  import CalendarTable from '../CalendarTable/CalendarTable.svelte';
-  import CalendarTableBody from '../CalendarTableBody/CalendarTableBody.svelte';
-  import CalendarTableRow from './CalendarTableRow.svelte';
-  import CalendarTableTD from '../CalendarTableTD/CalendarTableTD.svelte';
+  import CalendarTable from "../CalendarTable/CalendarTable.svelte";
+  import CalendarTableBody from "../CalendarTableBody/CalendarTableBody.svelte";
+  import CalendarTableRow from "./CalendarTableRow.svelte";
+  import CalendarTableTD from "../CalendarTableTD/CalendarTableTD.svelte";
 </script>
 
 <CalendarTable label="January 2025">
@@ -104,8 +104,8 @@ Import `CalendarTableRow` from `./CalendarTableRow.svelte`. Fill with `<th>` cel
 
 ```svelte
 <script lang="ts">
-  import CalendarTableRow from './CalendarTableRow.svelte';
-  import CalendarTableTD from '../CalendarTableTD/CalendarTableTD.svelte';
+  import CalendarTableRow from "./CalendarTableRow.svelte";
+  import CalendarTableTD from "../CalendarTableTD/CalendarTableTD.svelte";
 </script>
 
 <CalendarTableRow data-week={1}>

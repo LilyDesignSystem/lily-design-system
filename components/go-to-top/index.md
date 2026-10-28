@@ -13,16 +13,19 @@ A link that returns users to the top of a long page. Typically rendered as a fix
 
 ## Props
 
-| Prop           | Type              | Default | Description                                          |
-| -------------- | ----------------- | ------- | ---------------------------------------------------- |
-| `href`         | `string`          | `#top`  | Anchor target on the current page                    |
-| `label`        | `string`          | —       | Visible link text. Required.                         |
-| `...restProps` | HTML attributes   | —       | Spread onto the root `<a>` element                   |
+| Prop           | Type            | Default | Description                        |
+| -------------- | --------------- | ------- | ---------------------------------- |
+| `href`         | `string`        | `#top`  | Anchor target on the current page  |
+| `label`        | `string`        | —       | Visible link text. Required.       |
+| `...restProps` | HTML attributes | —       | Spread onto the root `<a>` element |
 
 ## Usage
 
 ```html
-<GoToTop label="Back to top" href="#top" />
+<GoToTop
+  label="Back to top"
+  href="#top"
+/>
 ```
 
 ## Keyboard Interactions

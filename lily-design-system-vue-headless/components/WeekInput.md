@@ -24,11 +24,18 @@ Week inputs are useful for scheduling applications, time tracking systems, repor
 ## Usage
 
 ```svelte
-<WeekInput label="Select week" bind:value />
+<WeekInput
+  label="Select week"
+  bind:value
+/>
 ```
 
 ```svelte
-<WeekInput label="Report week" bind:value={selectedWeek} required />
+<WeekInput
+  label="Report week"
+  bind:value={selectedWeek}
+  required
+/>
 ```
 
 ## Keyboard Interactions

@@ -35,16 +35,11 @@ const env = nunjucks.configure(__dirname, {
 });
 
 function renderMacro(opts: Record<string, unknown>): string {
-  const src =
-    `{% from "./locale-picker.njk" import localePicker %}` +
-    `{{ localePicker(opts) }}`;
+  const src = `{% from "./locale-picker.njk" import localePicker %}` + `{{ localePicker(opts) }}`;
   return env.renderString(src, { opts });
 }
 
-function renderMacroWithCaller(
-  opts: Record<string, unknown>,
-  body: string,
-): string {
+function renderMacroWithCaller(opts: Record<string, unknown>, body: string): string {
   const src =
     `{% from "./locale-picker.njk" import localePicker %}` +
     `{% call localePicker(opts) %}${body}{% endcall %}`;
@@ -53,9 +48,7 @@ function renderMacroWithCaller(
 
 function mountIntoBody(html: string): HTMLElement {
   document.body.innerHTML = html;
-  return document.body.querySelector(
-    "[data-lily-locale-picker-root]",
-  ) as HTMLElement;
+  return document.body.querySelector("[data-lily-locale-picker-root]") as HTMLElement;
 }
 
 beforeEach(() => {
@@ -77,12 +70,8 @@ function partsOf(root: HTMLElement) {
     root,
     button: root.querySelector(".locale-picker-button") as HTMLButtonElement,
     list: root.querySelector(".locale-picker-list") as HTMLElement,
-    options: Array.from(
-      root.querySelectorAll<HTMLElement>(".locale-picker-option"),
-    ),
-    input: root.querySelector(
-      "[data-lily-locale-picker-input]",
-    ) as HTMLInputElement,
+    options: Array.from(root.querySelectorAll<HTMLElement>(".locale-picker-option")),
+    input: root.querySelector("[data-lily-locale-picker-input]") as HTMLInputElement,
   };
 }
 ```
@@ -310,7 +299,7 @@ test("§7.23 autoInit wires every root on the page", () => {
 
 | §7 group    | Test focus                                                                 |
 | ----------- | -------------------------------------------------------------------------- |
-| 7.1 — 7.6   | Macro DOM contract (root, button, listbox, icon, ids, per-option `lang`). |
+| 7.1 — 7.6   | Macro DOM contract (root, button, listbox, icon, ids, per-option `lang`).  |
 | 7.7 — 7.12  | Pure helpers (`bcp47LocaleTag`, `isRtlLocale`, `localeName`).              |
 | 7.13 — 7.17 | Client.js apply lifecycle (`lang`, `dir`, custom `target`).                |
 | 7.18 — 7.21 | Initial-value resolution (value, storage, navigator, default).             |

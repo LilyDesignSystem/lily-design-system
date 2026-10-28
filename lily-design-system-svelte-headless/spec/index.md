@@ -48,15 +48,15 @@ work in any Svelte 5 host (SvelteKit, plain Vite + Svelte, Astro, Storybook).
 
 ### Framework + tooling
 
-| Concern             | Choice                                      |
-| ------------------- | ------------------------------------------- |
-| UI framework        | Svelte 5 with runes                         |
-| Language            | TypeScript everywhere                       |
-| Build tool          | Vite                                        |
-| Package manager     | pnpm                                        |
-| Test runner         | vitest + @testing-library/svelte + jsdom    |
-| Storybook           | yes — `*.stories.svelte` per component      |
-| i18n                | none — consumer-supplied via props          |
+| Concern         | Choice                                   |
+| --------------- | ---------------------------------------- |
+| UI framework    | Svelte 5 with runes                      |
+| Language        | TypeScript everywhere                    |
+| Build tool      | Vite                                     |
+| Package manager | pnpm                                     |
+| Test runner     | vitest + @testing-library/svelte + jsdom |
+| Storybook       | yes — `*.stories.svelte` per component   |
+| i18n            | none — consumer-supplied via props       |
 
 ### Svelte 5 conventions
 
@@ -171,12 +171,12 @@ Vitest built-in matchers ONLY. Never use jest-dom matchers:
 
 ```ts
 // CORRECT — vitest matchers
-expect(el).toBeTruthy();                                // element exists
-expect(el).toBeNull();                                  // element doesn't exist
-expect(el.getAttribute("role")).toBe("button");         // attribute
-expect(el.textContent).toContain("hello");              // text
-expect(button.disabled).toBe(true);                     // property
-expect(handleClick).toHaveBeenCalledOnce();             // callback
+expect(el).toBeTruthy(); // element exists
+expect(el).toBeNull(); // element doesn't exist
+expect(el.getAttribute("role")).toBe("button"); // attribute
+expect(el.textContent).toContain("hello"); // text
+expect(button.disabled).toBe(true); // property
+expect(handleClick).toHaveBeenCalledOnce(); // callback
 
 // WRONG — jest-dom matchers (NEVER use)
 expect(el).toBeInTheDocument();
@@ -288,16 +288,16 @@ pnpm run storybook                   # run Storybook
 
 ## 9. Prohibited
 
-| Prohibition                       | Reason                              |
-| --------------------------------- | ----------------------------------- |
-| `<style>` block in `*.svelte`     | headless: zero CSS                  |
-| `@testing-library/jest-dom`       | vitest matchers only                |
-| SvelteKit imports (`$app/*`)      | this library is framework-only      |
-| `svelte-i18n`, Paraglide          | strings come from props             |
-| Tailwind, DaisyUI, Bootstrap      | no CSS framework dependency         |
-| Bundled fonts, images, icons      | consumer supplies all assets        |
-| Hardcoded user-facing strings     | i18n is the consumer's concern      |
-| `role="button"` on `<div>`        | use `<button>` (semantic-first)     |
+| Prohibition                   | Reason                          |
+| ----------------------------- | ------------------------------- |
+| `<style>` block in `*.svelte` | headless: zero CSS              |
+| `@testing-library/jest-dom`   | vitest matchers only            |
+| SvelteKit imports (`$app/*`)  | this library is framework-only  |
+| `svelte-i18n`, Paraglide      | strings come from props         |
+| Tailwind, DaisyUI, Bootstrap  | no CSS framework dependency     |
+| Bundled fonts, images, icons  | consumer supplies all assets    |
+| Hardcoded user-facing strings | i18n is the consumer's concern  |
+| `role="button"` on `<div>`    | use `<button>` (semantic-first) |
 
 ## 10. Tracking
 

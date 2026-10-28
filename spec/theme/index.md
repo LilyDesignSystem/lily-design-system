@@ -45,17 +45,20 @@ The theme is exposed as a flat object; keys flatten into `--theme-{path}` custom
 }
 ```
 
-| Object path     | CSS custom property      |
-| --------------- | ------------------------ |
-| `color.primary` | `--theme-color-primary`  |
-| `space.md`      | `--theme-space-md`       |
-| `font.body`     | `--theme-font-body`      |
-| `radius.lg`     | `--theme-radius-lg`      |
+| Object path     | CSS custom property     |
+| --------------- | ----------------------- |
+| `color.primary` | `--theme-color-primary` |
+| `space.md`      | `--theme-space-md`      |
+| `font.body`     | `--theme-font-body`     |
+| `radius.lg`     | `--theme-radius-lg`     |
 
 Consumer CSS reads these:
 
 ```css
-.button { background: var(--theme-color-primary); padding: var(--theme-space-md); }
+.button {
+  background: var(--theme-color-primary);
+  padding: var(--theme-space-md);
+}
 ```
 
 ## Light / dark / high-contrast
@@ -63,14 +66,26 @@ Consumer CSS reads these:
 `base` is reflected as `data-theme` on the wrapper; consumer CSS swaps variables per value. High-contrast is an additional `data-theme` value, layered the same way.
 
 ```css
-[data-theme="light"] { --theme-color-primary: #2563eb; --theme-bg: #f9fafb; }
-[data-theme="dark"]  { --theme-color-primary: #60a5fa; --theme-bg: #111827; }
-[data-theme="high-contrast"] { --theme-color-primary: #0000ff; --theme-bg: #ffffff; }
+[data-theme="light"] {
+  --theme-color-primary: #2563eb;
+  --theme-bg: #f9fafb;
+}
+[data-theme="dark"] {
+  --theme-color-primary: #60a5fa;
+  --theme-bg: #111827;
+}
+[data-theme="high-contrast"] {
+  --theme-color-primary: #0000ff;
+  --theme-bg: #ffffff;
+}
 ```
 
 ```tsx
 // display: contents is the only inline style; tokens set as CSS variables.
-<ThemeProvider base="dark" theme={theme}>
+<ThemeProvider
+  base="dark"
+  theme={theme}
+>
   {children}
 </ThemeProvider>
 ```
@@ -99,7 +114,7 @@ and `min()` does not accept intrinsic keywords. Regression test: the docs site's
 `--color-error` is a **fill** colour (a badge, a border, a tint), not a text colour: used as text it failed WCAG
 contrast in 26 of the 45 themes (2.35–4.4:1 on the error-tinted callout). Every theme therefore defines
 `--lily-error-text` — the error colour mixed 22% into the theme's own `--color-base-content` — and uses it for error
-*text*: `.error-message`, a failed `.validation-list-item` and the `.dont-list-item` marker. It deliberately mixes
+_text_: `.error-message`, a failed `.validation-list-item` and the `.dont-list-item` marker. It deliberately mixes
 `--color-base-content`, not `--lily-text`, so a host page that overrides `--lily-text` (the docs site does) cannot
 break it. Verified by switching all 45 themes on `/components/error-message/` under axe (0 failures). Any new
 status-coloured text should follow the same pattern rather than reuse a fill token.
@@ -133,12 +148,12 @@ that existed on 2026-08-27 (plan P3-T8). `bin/check-theme` guards the
 structural contracts; this matrix records scheme coverage and the
 deliberate exclusions.
 
-| Family | Light | Dark | High-contrast |
-| --- | --- | --- | --- |
-| General-purpose (34 themes) | 20 | 14 — abyss, aqua, black, business, coffee, dark, dim, dracula, forest, halloween, luxury, night, sunset, synthwave | none |
-| NHS England / Scotland / Wales (6) | 6 | 0 | none |
-| GOV.UK GDS, USWDS, Adobe Spectrum, Mozilla Protocol (4) | 4 | 0 | none |
-| `light` / `dark` canonical pair | 1 | 1 | — |
+| Family                                                  | Light | Dark                                                                                                               | High-contrast |
+| ------------------------------------------------------- | ----- | ------------------------------------------------------------------------------------------------------------------ | ------------- |
+| General-purpose (34 themes)                             | 20    | 14 — abyss, aqua, black, business, coffee, dark, dim, dracula, forest, halloween, luxury, night, sunset, synthwave | none          |
+| NHS England / Scotland / Wales (6)                      | 6     | 0                                                                                                                  | none          |
+| GOV.UK GDS, USWDS, Adobe Spectrum, Mozilla Protocol (4) | 4     | 0                                                                                                                  | none          |
+| `light` / `dark` canonical pair                         | 1     | 1                                                                                                                  | —             |
 
 Added 2026-10-16 (57 themes in all): eleven design-system references —
 Ant Design, Atlassian, Excel, Fluent, GitHub Primer, IBM Carbon, Notion,
@@ -170,13 +185,13 @@ Totals: 57 themes, 42 light and 15 dark.
 
 None of the following may appear in headless markup; they live in example CSS and consume the theme custom properties.
 
-| Forbidden value                                | Lives instead in                 |
-| ---------------------------------------------- | -------------------------------- |
-| Hardcoded hex / named colours / RGB / HSL      | `--theme-color-*`                |
-| `font-family`, `font-size`, `line-height`      | `--theme-font-*` + example CSS   |
-| `padding`, `margin`, `gap`, `width`, `height`  | `--theme-space-*` + example CSS  |
-| Breakpoint media queries                       | example CSS                      |
-| Shadow, border-radius, opacity values          | `--theme-radius-*` + example CSS |
+| Forbidden value                               | Lives instead in                 |
+| --------------------------------------------- | -------------------------------- |
+| Hardcoded hex / named colours / RGB / HSL     | `--theme-color-*`                |
+| `font-family`, `font-size`, `line-height`     | `--theme-font-*` + example CSS   |
+| `padding`, `margin`, `gap`, `width`, `height` | `--theme-space-*` + example CSS  |
+| Breakpoint media queries                      | example CSS                      |
+| Shadow, border-radius, opacity values         | `--theme-radius-*` + example CSS |
 
 ## Reuters content-width convention
 
@@ -185,15 +200,22 @@ Editorial / scrollytelling primitives use CSS custom properties for column width
 ```css
 .article-layout {
   --content-width-narrower: 330px;
-  --content-width-narrow:   510px;
-  --content-width-normal:   660px;
-  --content-width-wide:     930px;
-  --content-width-wider:    1200px;
+  --content-width-narrow: 510px;
+  --content-width-normal: 660px;
+  --content-width-wide: 930px;
+  --content-width-wider: 1200px;
 }
 
-.content-block { max-width: var(--content-width-normal); margin-inline: auto; }
-.content-block[data-width="wide"]  { max-width: var(--content-width-wide); }
-.content-block[data-width="wider"] { max-width: var(--content-width-wider); }
+.content-block {
+  max-width: var(--content-width-normal);
+  margin-inline: auto;
+}
+.content-block[data-width="wide"] {
+  max-width: var(--content-width-wide);
+}
+.content-block[data-width="wider"] {
+  max-width: var(--content-width-wider);
+}
 ```
 
 ## Acceptance criteria

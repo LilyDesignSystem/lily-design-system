@@ -85,22 +85,22 @@ Give a Blazor application a drop-in, headless locale select that:
 
 ### 4.1 Parameters
 
-| Parameter              | Type                                    | Required | Default                              | Purpose                                                                                                         |
-| ---------------------- | --------------------------------------- | -------- | ------------------------------------ | --------------------------------------------------------------------------------------------------------------- |
-| `Label`                | `string`                                | yes      | —                                    | Accessible name for the button AND the listbox. The button is icon-only, so this is its entire accessible name. |
-| `Locales`              | `IReadOnlyList<string>`                 | yes      | —                                    | Available locale codes.                                                                                         |
-| `Value`                | `string`                                | no       | `""`                                 | Currently selected locale code. Two-way bindable via `@bind-Value`.                                             |
-| `ValueChanged`         | `EventCallback<string>`                 | no       | —                                    | Two-way binding callback.                                                                                       |
-| `DefaultValue`         | `string?`                               | no       | `"en"` if present, else `Locales[0]` | Initial locale when nothing else is supplied.                                                                   |
-| `StorageKey`           | `string?`                               | no       | `null`                               | If set, persist selection to `localStorage`.                                                                    |
-| `DetectFromNavigator`  | `bool`                                  | no       | `false`                              | If true and no value/storage entry exists, resolve `navigator.language`.                                        |
-| `Name`                 | `string`                                | no       | `"locale"`                           | `name` set on the hidden input.                                                                                 |
-| `ApplyDir`             | `bool`                                  | no       | `true`                               | If false, the control only writes `lang` and never touches `dir`.                                               |
-| `LocaleLabels`         | `IReadOnlyDictionary<string,string>`    | no       | empty                                | Optional pretty labels per locale code.                                                                         |
+| Parameter              | Type                                   | Required | Default                              | Purpose                                                                                                         |
+| ---------------------- | -------------------------------------- | -------- | ------------------------------------ | --------------------------------------------------------------------------------------------------------------- |
+| `Label`                | `string`                               | yes      | —                                    | Accessible name for the button AND the listbox. The button is icon-only, so this is its entire accessible name. |
+| `Locales`              | `IReadOnlyList<string>`                | yes      | —                                    | Available locale codes.                                                                                         |
+| `Value`                | `string`                               | no       | `""`                                 | Currently selected locale code. Two-way bindable via `@bind-Value`.                                             |
+| `ValueChanged`         | `EventCallback<string>`                | no       | —                                    | Two-way binding callback.                                                                                       |
+| `DefaultValue`         | `string?`                              | no       | `"en"` if present, else `Locales[0]` | Initial locale when nothing else is supplied.                                                                   |
+| `StorageKey`           | `string?`                              | no       | `null`                               | If set, persist selection to `localStorage`.                                                                    |
+| `DetectFromNavigator`  | `bool`                                 | no       | `false`                              | If true and no value/storage entry exists, resolve `navigator.language`.                                        |
+| `Name`                 | `string`                               | no       | `"locale"`                           | `name` set on the hidden input.                                                                                 |
+| `ApplyDir`             | `bool`                                 | no       | `true`                               | If false, the control only writes `lang` and never touches `dir`.                                               |
+| `LocaleLabels`         | `IReadOnlyDictionary<string,string>`   | no       | empty                                | Optional pretty labels per locale code.                                                                         |
 | `ChildContent`         | `RenderFragment<LocalePickerContext>?` | no       | the default SVG icon                 | **Replaces the icon inside the button.** It does not render options.                                            |
-| `OnChange`             | `EventCallback<string>`                 | no       | —                                    | Fires after the control applies a new locale.                                                                   |
-| `CssClass`             | `string`                                | no       | `""`                                 | Extra CSS class merged into the root `<div>`.                                                                   |
-| `AdditionalAttributes` | `Dictionary<string,object>?`            | no       | —                                    | Captures unmatched attributes; spread onto the root `<div>`.                                                    |
+| `OnChange`             | `EventCallback<string>`                | no       | —                                    | Fires after the control applies a new locale.                                                                   |
+| `CssClass`             | `string`                               | no       | `""`                                 | Extra CSS class merged into the root `<div>`.                                                                   |
+| `AdditionalAttributes` | `Dictionary<string,object>?`           | no       | —                                    | Captures unmatched attributes; spread onto the root `<div>`.                                                    |
 
 There is **no `Placeholder` parameter**. It existed only to pin a native
 `<select>`'s closed display; there is no `<select>` any more.
@@ -138,8 +138,15 @@ The pure helpers `Bcp47LocaleTag`, `IsRtlLocale`, `LocaleName`,
 The control is an icon button plus a dropdown listbox:
 
 ```html
-<div class="locale-picker {CssClass}" ...AdditionalAttributes>
-  <input type="hidden" name="{Name}" value="{Value}" />
+<div
+  class="locale-picker {CssClass}"
+  ...AdditionalAttributes
+>
+  <input
+    type="hidden"
+    name="{Name}"
+    value="{Value}"
+  />
   <button
     type="button"
     class="locale-picker-button"
@@ -148,9 +155,22 @@ The control is an icon button plus a dropdown listbox:
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true">…</svg>
+    <svg
+      class="locale-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+    >
+      …
+    </svg>
   </button>
-  <div class="locale-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{Label}</div>
+  <div
+    class="locale-picker-tooltip"
+    role="tooltip"
+    id="{tooltipId}"
+    hidden
+  >
+    {Label}
+  </div>
   <ul
     class="locale-picker-list"
     id="{listId}"
@@ -199,7 +219,7 @@ see the deviations section.
 - An option carries `lang="{TagFor(locale)}"` **only when its label is
   the derived endonym**, so assistive technology pronounces "Français"
   with a French voice — WCAG 3.1.2 Language of Parts. `lang` is a claim
-  about the language of the option's *text*: a consumer-supplied label
+  about the language of the option's _text_: a consumer-supplied label
   or the English-table fallback is in whatever language the consumer's
   UI speaks, and claiming otherwise sends a screen reader's speech
   engine to the wrong voice — the English word "Arabic" read out by an
@@ -348,17 +368,17 @@ Opening moves focus to the `<ul>`.
 
 On the **listbox**:
 
-| Key               | Action                                                                 |
-| ----------------- | ---------------------------------------------------------------------- |
-| `Arrow Down`      | Move the active option down one; **clamps** at the last (no wrap).     |
-| `Arrow Up`        | Move the active option up one; **clamps** at the first (no wrap).      |
-| `Home`            | Jump to the first option.                                              |
-| `End`             | Jump to the last option.                                               |
-| `Enter` / `Space` | Select the active option, apply it, close, return focus to the button. |
-| `Escape`          | Close and return focus **without** changing the value.                 |
-| `PageUp`          | Move the active option up ten; clamps at the first.                    |
-| `PageDown`        | Move the active option down ten; clamps at the last.                   |
-| `Tab`             | Close and move on: the browser's default Tab proceeds from the picker's position (see §6.2.1 for why this port must not refocus the button). |
+| Key               | Action                                                                                                                                                                                                                                                                        |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Arrow Down`      | Move the active option down one; **clamps** at the last (no wrap).                                                                                                                                                                                                            |
+| `Arrow Up`        | Move the active option up one; **clamps** at the first (no wrap).                                                                                                                                                                                                             |
+| `Home`            | Jump to the first option.                                                                                                                                                                                                                                                     |
+| `End`             | Jump to the last option.                                                                                                                                                                                                                                                      |
+| `Enter` / `Space` | Select the active option, apply it, close, return focus to the button.                                                                                                                                                                                                        |
+| `Escape`          | Close and return focus **without** changing the value.                                                                                                                                                                                                                        |
+| `PageUp`          | Move the active option up ten; clamps at the first.                                                                                                                                                                                                                           |
+| `PageDown`        | Move the active option down ten; clamps at the last.                                                                                                                                                                                                                          |
+| `Tab`             | Close and move on: the browser's default Tab proceeds from the picker's position (see §6.2.1 for why this port must not refocus the button).                                                                                                                                  |
 | Printable chars   | Typeahead over the option _labels_, 500 ms buffer reset. A single character advances to the **next** match and repeating it cycles onward; a buffer of differing characters refines the match anchored on the active option. Search wraps once, even though the arrows clamp. |
 
 Pointer and focus:
@@ -386,14 +406,14 @@ bindings; both are behavioural refinements, not contract breaks.
   `relatedTarget`, the component flags focus moves it makes itself and
   ignores the matching `focusout`.
 - **`Tab` from the open list does not refocus the button.** The
-  canonical Svelte fix moves focus to the button *before* hiding the
+  canonical Svelte fix moves focus to the button _before_ hiding the
   list, because there the hide is synchronous and would otherwise
   precede the browser's default Tab — dropping focus to `<body>` and
   restarting Tab from the top of the document. Blazor cannot reproduce
   that bug: the default Tab always runs before the async handler, so it
   proceeds from the still-visible list (the picker's own position), and
   focus has already landed on the next tab stop by the time the list
-  hides. Issuing a button-focus request here would run *after* the
+  hides. Issuing a button-focus request here would run _after_ the
   default Tab and yank the user back to the trigger they just left.
   Both implementations end with focus on the tab stop after the picker.
 - **Endonyms come from `CultureInfo.NativeName`,** not
@@ -469,7 +489,7 @@ run under bUnit + xUnit.
    `aria-controls` pointing at a `<ul role="listbox" tabindex="-1">`.
    No `<select>` is rendered.
 2. The button renders `<svg class="locale-picker-icon"
-   viewBox="0 0 16 16" aria-hidden="true">` (a bundled globe-outline
+viewBox="0 0 16 16" aria-hidden="true">` (a bundled globe-outline
    icon, not a Unicode character).
 3. `aria-label` is the supplied `Label` on BOTH the button and the
    listbox.
@@ -486,8 +506,8 @@ run under bUnit + xUnit.
    at the active option, which also carries `data-active`.
 8. The default rendering shows `LocaleLabels[code] ??
 LocaleEndonym(code) ?? DefaultLocaleLabels[code] ?? code` as the
-visible option text (§5.4): the endonym beats the English table, so
-"de" renders "Deutsch", not "German".
+   visible option text (§5.4): the endonym beats the English table, so
+   "de" renders "Deutsch", not "German".
 9. List and option ids are stable across re-render and unique across
    instances, prefixed `locale-picker-`.
 

@@ -26,7 +26,10 @@ This headless component renders a `<div>` with `role="status"` and `aria-live="p
 ```
 
 ```svelte
-<BeachBall label="Processing request" active={isLoading} />
+<BeachBall
+  label="Processing request"
+  active={isLoading}
+/>
 ```
 
 ## Keyboard Interactions

@@ -12,7 +12,7 @@
 
 **Working directory for ALL tasks:** `lilydesignsystem.github.io/` (i.e. `/Users/jph/git/lilydesignsystem/lily-design-system/lilydesignsystem.github.io`). All paths in this plan are relative to that directory unless prefixed with the monorepo root `lily-design-system/`.
 
-**Note on "TDD" framing:** This plan migrates static content with no business logic, so per-step Vitest tests would test nothing meaningful. Each task instead has explicit *verification gates* (build, check, preview, route smoke) that must pass before the commit step. Treat those gates with the same rigor as a failing-test-first cycle.
+**Note on "TDD" framing:** This plan migrates static content with no business logic, so per-step Vitest tests would test nothing meaningful. Each task instead has explicit _verification gates_ (build, check, preview, route smoke) that must pass before the commit step. Treat those gates with the same rigor as a failing-test-first cycle.
 
 ---
 
@@ -87,6 +87,7 @@ REMOVED at end of plan (Task 14):
 ## Task 1: Scaffold SvelteKit project files
 
 **Files:**
+
 - Create: `package.json`
 - Create: `svelte.config.js`
 - Create: `vite.config.ts`
@@ -128,20 +129,20 @@ REMOVED at end of plan (Task 14):
 - [ ] **Step 1.2: Create `svelte.config.js`**
 
 ```js
-import adapter from '@sveltejs/adapter-static';
-import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
+import adapter from "@sveltejs/adapter-static";
+import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
   preprocess: vitePreprocess(),
   kit: {
     adapter: adapter({
-      pages: 'build',
-      assets: 'build',
-      fallback: '404.html',
-      strict: true
-    })
-  }
+      pages: "build",
+      assets: "build",
+      fallback: "404.html",
+      strict: true,
+    }),
+  },
 };
 
 export default config;
@@ -150,11 +151,11 @@ export default config;
 - [ ] **Step 1.3: Create `vite.config.ts`**
 
 ```ts
-import { sveltekit } from '@sveltejs/kit/vite';
-import { defineConfig } from 'vite';
+import { sveltekit } from "@sveltejs/kit/vite";
+import { defineConfig } from "vite";
 
 export default defineConfig({
-  plugins: [sveltekit()]
+  plugins: [sveltekit()],
 });
 ```
 
@@ -184,9 +185,19 @@ export default defineConfig({
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="%sveltekit.assets%/assets/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="%sveltekit.assets%/assets/style.css" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="%sveltekit.assets%/assets/favicon.svg"
+    />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1"
+    />
+    <link
+      rel="stylesheet"
+      href="%sveltekit.assets%/assets/style.css"
+    />
     %sveltekit.head%
   </head>
   <body data-sveltekit-preload-data="hover">
@@ -214,6 +225,7 @@ export {};
 - [ ] **Step 1.7: Update `.gitignore`**
 
 Read the current `.gitignore`:
+
 ```
 .DS_Store
 .idea/
@@ -224,6 +236,7 @@ node_modules/
 ```
 
 Replace with:
+
 ```
 .DS_Store
 .idea/
@@ -260,6 +273,7 @@ git commit -m "Scaffold SvelteKit project for lilydesignsystem.github.io"
 ## Task 2: Migrate static assets to `static/`
 
 **Files:**
+
 - Move: `assets/style.css` → `static/assets/style.css`
 - Move: `assets/favicon.svg` → `static/assets/favicon.svg`
 - Move: `assets/images/` → `static/assets/images/`
@@ -288,6 +302,7 @@ git mv .nojekyll static/.nojekyll
 - [ ] **Step 2.3: Create `static/CNAME`**
 
 File contents (no trailing newline beyond a single one):
+
 ```
 lilydesignsystem.com
 ```
@@ -314,6 +329,7 @@ git commit -m "Move static assets into SvelteKit static/ directory and add CNAME
 ## Task 3: Create the components data module
 
 **Files:**
+
 - Create: `src/lib/components.ts`
 - Reference for input data: `assets/components-data.js` (still on disk after Task 2; Task 14 deletes the leftover empty `assets/` parent if applicable, but `assets/components-data.js` and `assets/components.js` are deleted in Task 14 too).
 
@@ -331,8 +347,7 @@ export type LilyComponent = {
   description: string;
 };
 
-export const LILY_COMPONENTS: LilyComponent[] = [
-];
+export const LILY_COMPONENTS: LilyComponent[] = [];
 ```
 
 - [ ] **Step 3.2: Copy the data lines from the old file**
@@ -364,6 +379,7 @@ git commit -m "Add typed component catalog module"
 ## Task 4: Create the root layout and prerender opt-in
 
 **Files:**
+
 - Create: `src/routes/+layout.svelte`
 - Create: `src/routes/+layout.ts`
 
@@ -373,24 +389,24 @@ The site chrome (skip-link, header, nav, footer) currently appears verbatim on e
 
 ```ts
 export const prerender = true;
-export const trailingSlash = 'always';
+export const trailingSlash = "always";
 ```
 
 - [ ] **Step 4.2: Create `src/routes/+layout.svelte`**
 
 ```svelte
 <script lang="ts">
-  import { page } from '$app/stores';
+  import { page } from "$app/stores";
 
   let { children } = $props();
 
   type NavLink = { href: string; label: string };
   const navLinks: NavLink[] = [
-    { href: '/', label: 'Home' },
-    { href: '/about/', label: 'About' },
-    { href: '/components/', label: 'Components' },
-    { href: '/examples/', label: 'Examples' },
-    { href: '/help/', label: 'Help' }
+    { href: "/", label: "Home" },
+    { href: "/about/", label: "About" },
+    { href: "/components/", label: "Components" },
+    { href: "/examples/", label: "Examples" },
+    { href: "/help/", label: "Help" },
   ];
 
   function isCurrent(href: string): boolean {
@@ -398,11 +414,18 @@ export const trailingSlash = 'always';
   }
 </script>
 
-<a class="skip-link" href="#main">Skip to main content</a>
+<a
+  class="skip-link"
+  href="#main">Skip to main content</a
+>
 
 <header class="site-header">
   <div class="site-header-inner">
-    <a class="site-brand" href="/" aria-label="Lily Design System home">
+    <a
+      class="site-brand"
+      href="/"
+      aria-label="Lily Design System home"
+    >
       <img
         class="site-brand-mark"
         src="/assets/images/lily-design-system-icon/lily-design-system-icon.svg"
@@ -411,9 +434,15 @@ export const trailingSlash = 'always';
       />
       <span>Lily Design System</span>
     </a>
-    <nav class="site-nav" aria-label="Main">
+    <nav
+      class="site-nav"
+      aria-label="Main"
+    >
       {#each navLinks as link}
-        <a href={link.href} aria-current={isCurrent(link.href) ? 'page' : undefined}>
+        <a
+          href={link.href}
+          aria-current={isCurrent(link.href) ? "page" : undefined}
+        >
           {link.label}
         </a>
       {/each}
@@ -422,7 +451,10 @@ export const trailingSlash = 'always';
   </div>
 </header>
 
-<main id="main" class="site-main">
+<main
+  id="main"
+  class="site-main"
+>
   {@render children()}
 </main>
 
@@ -455,6 +487,7 @@ git commit -m "Add root layout with site chrome and full prerender opt-in"
 ## Task 5: Home route
 
 **Files:**
+
 - Create: `src/routes/+page.svelte`
 
 Port the existing `index.html` body — hero, quick-start, and the "all components, alphabetical" list. The list now reads from the typed catalog instead of a global.
@@ -463,7 +496,7 @@ Port the existing `index.html` body — hero, quick-start, and the "all componen
 
 ```svelte
 <script lang="ts">
-  import { LILY_COMPONENTS } from '$lib/components';
+  import { LILY_COMPONENTS } from "$lib/components";
 </script>
 
 <svelte:head>
@@ -484,13 +517,18 @@ Port the existing `index.html` body — hero, quick-start, and the "all componen
   <p class="hero-eyebrow">Free, open source, accessible</p>
   <h1>Build products faster.</h1>
   <p class="hero-tagline">
-    Lily is a free design system with headless components for HTML, Svelte,
-    React, Vue, Blazor, and Nunjucks. Bring your own styles — keep accessibility
-    and i18n built in.
+    Lily is a free design system with headless components for HTML, Svelte, React, Vue, Blazor, and
+    Nunjucks. Bring your own styles — keep accessibility and i18n built in.
   </p>
   <div class="button-row">
-    <a class="button button-primary" href="/components/">Browse components</a>
-    <a class="button button-secondary" href="/help/">Get started</a>
+    <a
+      class="button button-primary"
+      href="/components/">Browse components</a
+    >
+    <a
+      class="button button-secondary"
+      href="/help/">Get started</a
+    >
   </div>
 </section>
 
@@ -500,26 +538,36 @@ Port the existing `index.html` body — hero, quick-start, and the "all componen
     <h2>Try Lily in 30 seconds</h2>
   </header>
 
-  <div class="prose" style="margin: 0 auto;">
+  <div
+    class="prose"
+    style="margin: 0 auto;"
+  >
     <p>Pick the framework you use. Browse the source. Copy a component. Style it.</p>
     <p>
-      Each component is a single file — no runtime, no compiler magic, no design
-      tokens you didn't ask for. Headless components export semantic HTML with the
-      kebab-case class name; you write the CSS.
+      Each component is a single file — no runtime, no compiler magic, no design tokens you didn't
+      ask for. Headless components export semantic HTML with the kebab-case class name; you write
+      the CSS.
     </p>
 
-    <pre><code>{`<!-- HTML headless: Button -->
+    <pre><code
+        >{`<!-- HTML headless: Button -->
 <button class="button" type="button" aria-label="Save">
   Save
-</button>`}</code></pre>
+</button>`}</code
+      ></pre>
 
-    <pre><code>{`// React headless: Button
+    <pre><code
+        >{`// React headless: Button
 import Button from "lily-design-system-react-headless/components/Button";
 
-<Button onClick={save}>Save</Button>`}</code></pre>
+<Button onClick={save}>Save</Button>`}</code
+      ></pre>
 
     <p style="text-align: center; margin-top: 2rem;">
-      <a class="button button-primary" href="/help/">Read the full setup guide →</a>
+      <a
+        class="button button-primary"
+        href="/help/">Read the full setup guide →</a
+      >
     </p>
   </div>
 </section>
@@ -530,7 +578,10 @@ import Button from "lily-design-system-react-headless/components/Button";
     <h2>All components, alphabetical</h2>
   </header>
 
-  <ul class="component-list component-list-stacked" aria-label="All components">
+  <ul
+    class="component-list component-list-stacked"
+    aria-label="All components"
+  >
     {#each LILY_COMPONENTS as component (component.name)}
       <li class="component-list-item">
         <span class="component-list-item-name">{component.name}</span>
@@ -546,6 +597,7 @@ import Button from "lily-design-system-react-headless/components/Button";
 Run: `pnpm dev`
 In browser: `http://localhost:5173/`
 Expected:
+
 - Hero with logo, eyebrow, h1 "Build products faster.", tagline, two buttons.
 - Quick-start section with two code blocks.
 - Component catalog section listing the full alphabetical list (~407 entries).
@@ -565,6 +617,7 @@ git commit -m "Add home route with hero, quick-start, and component catalog list
 ## Task 6: About route
 
 **Files:**
+
 - Create: `src/routes/about/+page.svelte`
 
 - [ ] **Step 6.1: Create `src/routes/about/+page.svelte`**
@@ -582,74 +635,79 @@ git commit -m "Add home route with hero, quick-start, and component catalog list
   <p class="hero-eyebrow">About</p>
   <h1>What is Lily?</h1>
   <p class="hero-tagline">
-    A free, open-source, accessible-first design system that meets you where you
-    code — and gets out of your way when you don't need it.
+    A free, open-source, accessible-first design system that meets you where you code — and gets out
+    of your way when you don't need it.
   </p>
 </section>
 
-<section class="section prose" style="margin: 0 auto;">
+<section
+  class="section prose"
+  style="margin: 0 auto;"
+>
   <h2>The short version</h2>
   <p>
-    Lily is a catalog of <strong>web components</strong>, each implemented in
-    six headless flavors (HTML, Svelte, React, Vue, Blazor, Nunjucks) plus a set
-    of batteries-included example apps that show how to style them.
+    Lily is a catalog of <strong>web components</strong>, each implemented in six headless flavors
+    (HTML, Svelte, React, Vue, Blazor, Nunjucks) plus a set of batteries-included example apps that
+    show how to style them.
   </p>
   <p>
-    The headless versions ship <em>zero CSS</em>. They give you semantic HTML, ARIA
-    roles and states, keyboard support, and i18n-friendly props. You bring the
-    visual design.
+    The headless versions ship <em>zero CSS</em>. They give you semantic HTML, ARIA roles and
+    states, keyboard support, and i18n-friendly props. You bring the visual design.
   </p>
 
   <h2>Design principles</h2>
 
   <h3>Accessible</h3>
   <p>
-    Every component starts from semantic HTML. ARIA is layered on only where the
-    HTML alone can't express the pattern. Components target
-    <strong>WCAG 2.2 AAA</strong> — colors, spacing, focus, and keyboard
-    navigation are all considered.
+    Every component starts from semantic HTML. ARIA is layered on only where the HTML alone can't
+    express the pattern. Components target
+    <strong>WCAG 2.2 AAA</strong> — colors, spacing, focus, and keyboard navigation are all considered.
   </p>
 
   <h3>Composable</h3>
   <p>
-    Lily favors small, single-purpose components that snap together. Compound
-    patterns appear over and over:
+    Lily favors small, single-purpose components that snap together. Compound patterns appear over
+    and over:
   </p>
   <ul>
-    <li><code>Nav → List → ListItem</code> — for breadcrumbs, contents lists, accordion menus, tree menus, and pagination</li>
+    <li>
+      <code>Nav → List → ListItem</code> — for breadcrumbs, contents lists, accordion menus, tree menus,
+      and pagination
+    </li>
     <li><code>Form → Field → Input</code> — for any form layout with labels, hints, and errors</li>
-    <li><code>Table → Head/Body/Foot → Row → Data</code> — for tables, calendars, gantt charts, and kanban boards</li>
-    <li><code>Bar → BarButton</code> — for tool bars, tab bars, task bars, action bars, and menu bars</li>
+    <li>
+      <code>Table → Head/Body/Foot → Row → Data</code> — for tables, calendars, gantt charts, and kanban
+      boards
+    </li>
+    <li>
+      <code>Bar → BarButton</code> — for tool bars, tab bars, task bars, action bars, and menu bars
+    </li>
     <li><code>Picker → PickerButton</code> — for color pickers, rating pickers, theme pickers</li>
   </ul>
 
   <h3>Internationalizable</h3>
   <p>
-    Not a single user-facing string is hardcoded. Labels, placeholders, error
-    messages, button text — all parameters. Drop in your own translation system
-    and Lily speaks any language you do.
+    Not a single user-facing string is hardcoded. Labels, placeholders, error messages, button text
+    — all parameters. Drop in your own translation system and Lily speaks any language you do.
   </p>
 
   <h3>Headless</h3>
   <p>
     Headless components have <strong>no CSS</strong>, no
-    <code>&lt;style&gt;</code> blocks, no design tokens you didn't opt into. They
-    expose a single kebab-case class name on each root element so you can target
-    them however you like — semantic CSS, Tailwind, CSS-in-JS, your call.
+    <code>&lt;style&gt;</code> blocks, no design tokens you didn't opt into. They expose a single kebab-case
+    class name on each root element so you can target them however you like — semantic CSS, Tailwind,
+    CSS-in-JS, your call.
   </p>
 
   <h3>Batteries-included examples</h3>
   <p>
-    The example apps show how to style the components for real use — what design
-    tokens to set, what variations to add, how to compose pages. They are full
-    SvelteKit, Next.js, Nuxt, Blazor, and Eleventy apps, not just sandboxes.
+    The example apps show how to style the components for real use — what design tokens to set, what
+    variations to add, how to compose pages. They are full SvelteKit, Next.js, Nuxt, Blazor, and
+    Eleventy apps, not just sandboxes.
   </p>
 
   <h2 id="inspirations">Inspirations</h2>
-  <p>
-    Lily draws patterns and language from a deliberately broad set of design
-    systems:
-  </p>
+  <p>Lily draws patterns and language from a deliberately broad set of design systems:</p>
   <ul>
     <li><a href="https://design-system.service.gov.uk/">GOV.UK Design System</a></li>
     <li><a href="https://designsystem.digital.gov/">U.S. Web Design System (USWDS)</a></li>
@@ -661,13 +719,17 @@ git commit -m "Add home route with hero, quick-start, and component catalog list
     <li><a href="https://design.wonderflow.ai/">Wonderflow Wanda</a></li>
     <li><a href="https://daisyui.com/">DaisyUI</a></li>
     <li><a href="https://ui.shadcn.com/">shadcn/ui</a></li>
-    <li><a href="https://github.com/reuters-graphics/graphics-components">Reuters graphics components</a></li>
+    <li>
+      <a href="https://github.com/reuters-graphics/graphics-components"
+        >Reuters graphics components</a
+      >
+    </li>
   </ul>
 
   <h2>License</h2>
   <p>
-    Lily is multi-licensed under <strong>BSD, MIT, Apache-2.0, GPL-2.0, or GPL-3.0</strong>.
-    Pick whichever license fits your project. If none of those work, get in touch.
+    Lily is multi-licensed under <strong>BSD, MIT, Apache-2.0, GPL-2.0, or GPL-3.0</strong>. Pick
+    whichever license fits your project. If none of those work, get in touch.
   </p>
 
   <h2>Contact</h2>
@@ -676,15 +738,14 @@ git commit -m "Add home route with hero, quick-start, and component catalog list
     <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
   </p>
   <p>
-    Found a bug, have an idea, want to contribute a component? Open an issue or
-    a pull request on
+    Found a bug, have an idea, want to contribute a component? Open an issue or a pull request on
     <a href="https://github.com/LilyDesignSystem">GitHub</a>.
   </p>
 
   <div class="callout">
     <p style="margin: 0;">
-      <strong>Status:</strong> Lily is brand-new work and we welcome
-      collaboration, guidance, and feedback. Things will move and evolve.
+      <strong>Status:</strong> Lily is brand-new work and we welcome collaboration, guidance, and feedback.
+      Things will move and evolve.
     </p>
   </div>
 </section>
@@ -711,6 +772,7 @@ git commit -m "Add about route"
 ## Task 7: Components route with search and tag filtering
 
 **Files:**
+
 - Create: `src/routes/components/+page.svelte`
 
 This is the only route with non-trivial behavior. Reimplement `assets/components.js` (~67 lines of vanilla JS) using Svelte 5 runes — no DOM lookups, just `$state` and `$derived`.
@@ -719,21 +781,21 @@ This is the only route with non-trivial behavior. Reimplement `assets/components
 
 ```svelte
 <script lang="ts">
-  import { LILY_COMPONENTS, type LilyComponent } from '$lib/components';
+  import { LILY_COMPONENTS, type LilyComponent } from "$lib/components";
 
-  let query = $state('');
+  let query = $state("");
 
   const tags: { label: string; filter: string }[] = [
-    { label: 'buttons', filter: 'button' },
-    { label: 'inputs', filter: 'input' },
-    { label: 'lists', filter: 'list' },
-    { label: 'tables', filter: 'table' },
-    { label: 'navigation', filter: 'nav' },
-    { label: 'dialogs', filter: 'dialog' },
-    { label: 'pickers', filter: 'picker' },
-    { label: 'layouts', filter: 'layout' },
-    { label: 'cards', filter: 'card' },
-    { label: 'all', filter: '' }
+    { label: "buttons", filter: "button" },
+    { label: "inputs", filter: "input" },
+    { label: "lists", filter: "list" },
+    { label: "tables", filter: "table" },
+    { label: "navigation", filter: "nav" },
+    { label: "dialogs", filter: "dialog" },
+    { label: "pickers", filter: "picker" },
+    { label: "layouts", filter: "layout" },
+    { label: "cards", filter: "card" },
+    { label: "all", filter: "" },
   ];
 
   const total = LILY_COMPONENTS.length;
@@ -745,14 +807,12 @@ This is the only route with non-trivial behavior. Reimplement `assets/components
       (c) =>
         c.name.includes(q) ||
         c.pascal.toLowerCase().includes(q) ||
-        c.description.toLowerCase().includes(q)
+        c.description.toLowerCase().includes(q),
     );
   });
 
   const countLine: string = $derived(
-    matches.length === total
-      ? 'Showing all components.'
-      : `Showing ${matches.length} components.`
+    matches.length === total ? "Showing all components." : `Showing ${matches.length} components.`,
   );
 
   function applyTag(filter: string) {
@@ -772,13 +832,16 @@ This is the only route with non-trivial behavior. Reimplement `assets/components
   <p class="hero-eyebrow">Catalog</p>
   <h1>All Lily components</h1>
   <p class="hero-tagline">
-    Each component is implemented in HTML, Svelte, React, Vue, Blazor, and
-    Nunjucks. Search by name or description.
+    Each component is implemented in HTML, Svelte, React, Vue, Blazor, and Nunjucks. Search by name
+    or description.
   </p>
 </section>
 
 <section class="section">
-  <ul class="tag-list" aria-label="Common categories">
+  <ul
+    class="tag-list"
+    aria-label="Common categories"
+  >
     {#each tags as tag}
       <li>
         <button
@@ -807,9 +870,17 @@ This is the only route with non-trivial behavior. Reimplement `assets/components
     bind:value={query}
   />
 
-  <p class="component-count-line" aria-live="polite">{countLine}</p>
+  <p
+    class="component-count-line"
+    aria-live="polite"
+  >
+    {countLine}
+  </p>
 
-  <ul class="component-list component-list-stacked" aria-label="Component list">
+  <ul
+    class="component-list component-list-stacked"
+    aria-label="Component list"
+  >
     {#each matches as component (component.name)}
       <li class="component-list-item">
         <span class="component-list-item-name">{component.name}</span>
@@ -827,6 +898,7 @@ This is the only route with non-trivial behavior. Reimplement `assets/components
 Run: `pnpm dev`
 Visit: `http://localhost:5173/components/`
 Expected:
+
 - Full alphabetical list renders before any typing.
 - Typing "button" filters the list and the count line updates to e.g. "Showing 21 components."
 - Clicking the "tables" tag chip populates the search input and filters the list.
@@ -847,6 +919,7 @@ git commit -m "Add components route with search and tag filtering"
 ## Task 8: Examples route
 
 **Files:**
+
 - Create: `src/routes/examples/+page.svelte`
 
 - [ ] **Step 8.1: Create `src/routes/examples/+page.svelte`**
@@ -864,8 +937,8 @@ git commit -m "Add components route with search and tag filtering"
   <p class="hero-eyebrow">Examples</p>
   <h1>See Lily in real apps</h1>
   <p class="hero-tagline">
-    Six worked example projects show how to take the headless components, layer
-    on styling, and ship a real website. Pick the framework you use.
+    Six worked example projects show how to take the headless components, layer on styling, and ship
+    a real website. Pick the framework you use.
   </p>
 </section>
 
@@ -876,56 +949,73 @@ git commit -m "Add components route with search and tag filtering"
   </header>
 
   <div class="card-grid">
-    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system-html-css-js-examples">
+    <a
+      class="card"
+      href="https://github.com/LilyDesignSystem/lily-design-system-html-css-js-examples"
+    >
       <h3 class="card-heading">HTML JavaScript</h3>
       <p class="card-description">
-        Plain HTML pages, vanilla JavaScript, no build tools. Drops into any
-        static host — perfect for tiny sites and progressive enhancement.
+        Plain HTML pages, vanilla JavaScript, no build tools. Drops into any static host — perfect
+        for tiny sites and progressive enhancement.
       </p>
       <p class="card-meta">→ View on GitHub</p>
     </a>
 
-    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system-svelte-sveltekit-examples">
+    <a
+      class="card"
+      href="https://github.com/LilyDesignSystem/lily-design-system-svelte-sveltekit-examples"
+    >
       <h3 class="card-heading">Svelte + SvelteKit</h3>
       <p class="card-description">
-        SvelteKit app using Svelte 5 runes. Component routes, file-based
-        routing, and a styled storybook of every component.
+        SvelteKit app using Svelte 5 runes. Component routes, file-based routing, and a styled
+        storybook of every component.
       </p>
       <p class="card-meta">→ View on GitHub</p>
     </a>
 
-    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system-react-next-examples">
+    <a
+      class="card"
+      href="https://github.com/LilyDesignSystem/lily-design-system-react-next-examples"
+    >
       <h3 class="card-heading">React + Next.js</h3>
       <p class="card-description">
-        Next.js 15 app showing each component in context, with TypeScript
-        throughout and demo pages for compound patterns.
+        Next.js 15 app showing each component in context, with TypeScript throughout and demo pages
+        for compound patterns.
       </p>
       <p class="card-meta">→ View on GitHub</p>
     </a>
 
-    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system-vue-nuxt-examples">
+    <a
+      class="card"
+      href="https://github.com/LilyDesignSystem/lily-design-system-vue-nuxt-examples"
+    >
       <h3 class="card-heading">Vue + Nuxt.js</h3>
       <p class="card-description">
-        Nuxt 3 app. <code>&lt;script setup&gt;</code> and the Composition API
-        across every demo route.
+        Nuxt 3 app. <code>&lt;script setup&gt;</code> and the Composition API across every demo route.
       </p>
       <p class="card-meta">→ View on GitHub</p>
     </a>
 
-    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system-blazor-web-examples">
+    <a
+      class="card"
+      href="https://github.com/LilyDesignSystem/lily-design-system-blazor-web-examples"
+    >
       <h3 class="card-heading">Blazor Web</h3>
       <p class="card-description">
-        Blazor Web app with Razor components. Server- and WebAssembly-friendly,
-        with .NET 10 baseline.
+        Blazor Web app with Razor components. Server- and WebAssembly-friendly, with .NET 10
+        baseline.
       </p>
       <p class="card-meta">→ View on GitHub</p>
     </a>
 
-    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system-nunjucks-eleventy-examples">
+    <a
+      class="card"
+      href="https://github.com/LilyDesignSystem/lily-design-system-nunjucks-eleventy-examples"
+    >
       <h3 class="card-heading">Nunjucks + Eleventy</h3>
       <p class="card-description">
-        Eleventy site using Nunjucks macros. Ideal for content-heavy static
-        sites that still want a real component system.
+        Eleventy site using Nunjucks macros. Ideal for content-heavy static sites that still want a
+        real component system.
       </p>
       <p class="card-meta">→ View on GitHub</p>
     </a>
@@ -938,7 +1028,10 @@ git commit -m "Add components route with search and tag filtering"
     <h2>Every example app has the same shape</h2>
   </header>
 
-  <div class="prose" style="margin: 0 auto;">
+  <div
+    class="prose"
+    style="margin: 0 auto;"
+  >
     <p>To make framework-hopping feel familiar, every example app provides:</p>
     <ul>
       <li>A welcome route at <code>/</code> that introduces the project.</li>
@@ -951,20 +1044,25 @@ git commit -m "Add components route with search and tag filtering"
     <h3>Need to see how a single component is styled?</h3>
     <p>
       Open the relevant example app, navigate to
-      <code>/components/&lt;name&gt;</code>, and copy the markup and CSS into your
-      own project. The example apps deliberately use plain CSS (or near-plain) so
-      you can adapt them to any system you prefer.
+      <code>/components/&lt;name&gt;</code>, and copy the markup and CSS into your own project. The
+      example apps deliberately use plain CSS (or near-plain) so you can adapt them to any system
+      you prefer.
     </p>
 
     <h3>Want headless instead?</h3>
     <p>
       Pair any of the example apps with their corresponding <em>headless</em>
-      package — those publish the same components without any CSS, ready for
-      your own design tokens.
+      package — those publish the same components without any CSS, ready for your own design tokens.
     </p>
     <p>
-      <a class="button button-primary" href="/components/">Browse the catalog →</a>
-      <a class="button button-secondary" href="/help/">Read the setup guide</a>
+      <a
+        class="button button-primary"
+        href="/components/">Browse the catalog →</a
+      >
+      <a
+        class="button button-secondary"
+        href="/help/">Read the setup guide</a
+      >
     </p>
   </div>
 </section>
@@ -989,6 +1087,7 @@ git commit -m "Add examples route"
 ## Task 9: Help route
 
 **Files:**
+
 - Create: `src/routes/help/+page.svelte`
 
 This is the longest page; it's mostly content. Port verbatim.
@@ -1008,12 +1107,16 @@ This is the longest page; it's mostly content. Port verbatim.
   <p class="hero-eyebrow">Help</p>
   <h1>Getting started with Lily</h1>
   <p class="hero-tagline">
-    Pick a framework, clone the headless repo or the example app, and start
-    composing your own pages.
+    Pick a framework, clone the headless repo or the example app, and start composing your own
+    pages.
   </p>
 </section>
 
-<nav aria-label="On this page" class="prose" style="margin: 0 auto;">
+<nav
+  aria-label="On this page"
+  class="prose"
+  style="margin: 0 auto;"
+>
   <p><strong>On this page:</strong></p>
   <ul>
     <li><a href="#install">Install</a></li>
@@ -1028,98 +1131,135 @@ This is the longest page; it's mostly content. Port verbatim.
   </ul>
 </nav>
 
-<section class="section prose" id="install" style="margin: 0 auto;">
+<section
+  class="section prose"
+  id="install"
+  style="margin: 0 auto;"
+>
   <h2>Install</h2>
   <p>
-    Lily is published as separate Git repos per framework. The fastest way to try
-    it is to clone the headless repo for your stack:
+    Lily is published as separate Git repos per framework. The fastest way to try it is to clone the
+    headless repo for your stack:
   </p>
-  <pre><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-react-headless
+  <pre><code
+      >{`git clone https://github.com/LilyDesignSystem/lily-design-system-react-headless
 cd lily-design-system-react-headless
-pnpm install`}</code></pre>
+pnpm install`}</code
+    ></pre>
   <p>The same pattern works for the other frameworks:</p>
   <ul>
-    <li><code>@lilydesignsystem/html-headless</code> — no install needed; copy <code>.html</code> files</li>
+    <li>
+      <code>@lilydesignsystem/html-headless</code> — no install needed; copy <code>.html</code> files
+    </li>
     <li><code>@lilydesignsystem/svelte-headless</code> — <code>pnpm install</code></li>
     <li><code>@lilydesignsystem/react-headless</code> — <code>pnpm install</code></li>
     <li><code>@lilydesignsystem/vue-headless</code> — <code>pnpm install</code></li>
     <li><code>@lilydesignsystem/nunjucks-headless</code> — <code>pnpm install</code></li>
-    <li><code>lily-design-system-blazor-headless</code> — <code>dotnet build</code> (in progress)</li>
+    <li>
+      <code>lily-design-system-blazor-headless</code> — <code>dotnet build</code> (in progress)
+    </li>
   </ul>
   <p>
-    Lily is being released bit-by-bit; npm/PyPI/NuGet packaging is on the
-    roadmap. For now, treat the source as the source of truth and copy what you
-    need.
+    Lily is being released bit-by-bit; npm/PyPI/NuGet packaging is on the roadmap. For now, treat
+    the source as the source of truth and copy what you need.
   </p>
 </section>
 
-<section class="section prose" id="use-headless" style="margin: 0 auto;">
+<section
+  class="section prose"
+  id="use-headless"
+  style="margin: 0 auto;"
+>
   <h2>Use a headless component</h2>
   <p>
-    Headless components ship semantic HTML, ARIA, and props — but no CSS. Here's
-    a Button in each framework:
+    Headless components ship semantic HTML, ARIA, and props — but no CSS. Here's a Button in each
+    framework:
   </p>
 
   <h3>HTML</h3>
-  <pre><code>{`<button class="button" type="button" aria-label="Save">
+  <pre><code
+      >{`<button class="button" type="button" aria-label="Save">
   Save
-</button>`}</code></pre>
+</button>`}</code
+    ></pre>
 
   <h3>Svelte</h3>
-  <pre><code>{`<script>
+  <pre><code
+      >{`<script>
   import Button from "lily-design-system-svelte-headless/components/Button/Button.svelte";
 </script>
 
-<Button onclick={save}>Save</Button>`}</code></pre>
+<Button onclick={save}>Save</Button>`}</code
+    ></pre>
 
   <h3>React</h3>
-  <pre><code>{`import Button from "lily-design-system-react-headless/components/Button";
+  <pre><code
+      >{`import Button from "lily-design-system-react-headless/components/Button";
 
-<Button onClick={save}>Save</Button>`}</code></pre>
+<Button onClick={save}>Save</Button>`}</code
+    ></pre>
 
   <h3>Vue</h3>
-  <pre><code>{`<script setup>
+  <pre><code
+      >{`<script setup>
   import Button from "lily-design-system-vue-headless/components/Button.vue";
 </script>
 
-<Button @click="save">Save</Button>`}</code></pre>
+<Button @click="save">Save</Button>`}</code
+    ></pre>
 
   <h3>Nunjucks</h3>
-  <pre><code>{`{% from "components/button/macro.njk" import button %}
+  <pre><code
+      >{`{% from "components/button/macro.njk" import button %}
 
-{{ button({ text: "Save", type: "button" }) }}`}</code></pre>
+{{ button({ text: "Save", type: "button" }) }}`}</code
+    ></pre>
 </section>
 
-<section class="section prose" id="use-styled" style="margin: 0 auto;">
+<section
+  class="section prose"
+  id="use-styled"
+  style="margin: 0 auto;"
+>
   <h2>Use a styled example</h2>
   <p>
-    The example apps include CSS, routes, and full demo pages. The fastest way
-    to experiment is to start the SvelteKit, Next, Nuxt, or Eleventy example
-    app and view the demo at <code>/components</code>.
+    The example apps include CSS, routes, and full demo pages. The fastest way to experiment is to
+    start the SvelteKit, Next, Nuxt, or Eleventy example app and view the demo at <code
+      >/components</code
+    >.
   </p>
-  <pre><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-sveltekit-examples
+  <pre><code
+      >{`git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-sveltekit-examples
 cd lily-design-system-svelte-sveltekit-examples
 pnpm install
-pnpm run dev`}</code></pre>
+pnpm run dev`}</code
+    ></pre>
   <p>
     Then open <code>http://localhost:5173</code> and browse <code>/components</code>.
   </p>
 </section>
 
-<section class="section prose" id="styling" style="margin: 0 auto;">
+<section
+  class="section prose"
+  id="styling"
+  style="margin: 0 auto;"
+>
   <h2>Styling and design tokens</h2>
   <p>
-    Each component renders with a single kebab-case class on its root element.
-    For example, <code>&lt;Button&gt;</code> renders <code>&lt;button class="button"&gt;</code>.
-    Style it however you like:
+    Each component renders with a single kebab-case class on its root element. For example, <code
+      >&lt;Button&gt;</code
+    >
+    renders <code>&lt;button class="button"&gt;</code>. Style it however you like:
   </p>
-  <pre><code>{`.button {
+  <pre><code
+      >{`.button {
   background: var(--my-primary);
   color: #fff;
   padding: 0.75rem 1.5rem;
   border-radius: 0.5rem;
 }
-.button:hover { background: var(--my-primary-hover); }`}</code></pre>
+.button:hover { background: var(--my-primary-hover); }`}</code
+    ></pre>
   <p>The default Lily color palette (used in the example apps) is:</p>
   <ul>
     <li>Primary: <code>#2563eb</code></li>
@@ -1130,12 +1270,16 @@ pnpm run dev`}</code></pre>
     <li>Card background: <code>#ffffff</code></li>
   </ul>
   <p>
-    These are suggestions, not requirements. Replace them with your own brand
-    palette and Lily comes along happily.
+    These are suggestions, not requirements. Replace them with your own brand palette and Lily comes
+    along happily.
   </p>
 </section>
 
-<section class="section prose" id="a11y" style="margin: 0 auto;">
+<section
+  class="section prose"
+  id="a11y"
+  style="margin: 0 auto;"
+>
   <h2>Accessibility</h2>
   <p>Components target <strong>WCAG 2.2 AAA</strong>. They follow these patterns:</p>
   <ul>
@@ -1144,30 +1288,42 @@ pnpm run dev`}</code></pre>
     <li><code>aria-labelledby</code> / <code>aria-describedby</code> for cross-references.</li>
     <li><code>aria-invalid</code> + <code>aria-errormessage</code> for error states.</li>
     <li><code>role="alert"</code> and <code>aria-live</code> for dynamic content.</li>
-    <li><code>aria-pressed</code>, <code>aria-expanded</code>, <code>aria-current</code> for state.</li>
+    <li>
+      <code>aria-pressed</code>, <code>aria-expanded</code>, <code>aria-current</code> for state.
+    </li>
     <li>Roving <code>tabindex</code> for grids.</li>
   </ul>
   <p>
-    Focus indicators are intentionally consumer-supplied — Lily never paints a
-    default focus ring that conflicts with your design.
+    Focus indicators are intentionally consumer-supplied — Lily never paints a default focus ring
+    that conflicts with your design.
   </p>
 </section>
 
-<section class="section prose" id="i18n" style="margin: 0 auto;">
+<section
+  class="section prose"
+  id="i18n"
+  style="margin: 0 auto;"
+>
   <h2>Internationalization</h2>
   <p>
-    Every label, placeholder, error message, and button text is a prop. There
-    are no hardcoded strings. Drop in your translation framework of choice —
-    Paraglide, i18next, vue-i18n, react-intl, .resx files, anything.
+    Every label, placeholder, error message, and button text is a prop. There are no hardcoded
+    strings. Drop in your translation framework of choice — Paraglide, i18next, vue-i18n,
+    react-intl, .resx files, anything.
   </p>
   <p>
-    For dates, numbers, and currencies, the components accept pre-formatted
-    strings: you format with <code>Intl.DateTimeFormat</code> /
+    For dates, numbers, and currencies, the components accept pre-formatted strings: you format with <code
+      >Intl.DateTimeFormat</code
+    >
+    /
     <code>Intl.NumberFormat</code> / your preferred library and pass the result.
   </p>
 </section>
 
-<section class="section prose" id="testing" style="margin: 0 auto;">
+<section
+  class="section prose"
+  id="testing"
+  style="margin: 0 auto;"
+>
   <h2>Testing</h2>
   <p>Each framework subproject ships its own tests using its idiomatic stack:</p>
   <ul>
@@ -1184,7 +1340,11 @@ pnpm run dev`}</code></pre>
   </p>
 </section>
 
-<section class="section prose" id="contributing" style="margin: 0 auto;">
+<section
+  class="section prose"
+  id="contributing"
+  style="margin: 0 auto;"
+>
   <h2>Contributing</h2>
   <p>Lily is brand-new and welcomes collaboration. The most useful contributions right now are:</p>
   <ul>
@@ -1200,61 +1360,63 @@ pnpm run dev`}</code></pre>
   </p>
 </section>
 
-<section class="section prose" id="faq" style="margin: 0 auto;">
+<section
+  class="section prose"
+  id="faq"
+  style="margin: 0 auto;"
+>
   <h2>FAQ</h2>
 
   <details class="faq-item">
     <summary>Why headless instead of styled?</summary>
     <p>
-      Pre-styled components are convenient — until they don't match your brand.
-      Headless components are slightly more work up front but give you total
-      control over the visual design. The example apps show one way to style
-      them; you can take that or replace it entirely.
+      Pre-styled components are convenient — until they don't match your brand. Headless components
+      are slightly more work up front but give you total control over the visual design. The example
+      apps show one way to style them; you can take that or replace it entirely.
     </p>
   </details>
 
   <details class="faq-item">
     <summary>Why so many components?</summary>
     <p>
-      Lily aims to cover the patterns most apps need without forcing you to build
-      them from scratch. The catalog draws from a dozen established design
-      systems plus original work — see <a href="/about/#inspirations">About</a>.
+      Lily aims to cover the patterns most apps need without forcing you to build them from scratch.
+      The catalog draws from a dozen established design systems plus original work — see <a
+        href="/about/#inspirations">About</a
+      >.
     </p>
   </details>
 
   <details class="faq-item">
     <summary>Can I use Lily with Tailwind?</summary>
     <p>
-      Yes. Each component exposes a single kebab-case root class plus a
-      consumer-provided <code>className</code> / <code>class</code>. Layer
-      Tailwind utilities on top however you like.
+      Yes. Each component exposes a single kebab-case root class plus a consumer-provided <code
+        >className</code
+      >
+      / <code>class</code>. Layer Tailwind utilities on top however you like.
     </p>
   </details>
 
   <details class="faq-item">
     <summary>Can I use Lily with semantic CSS frameworks like DaisyUI?</summary>
     <p>
-      Yes. The kebab-case class names on the root element work as semantic CSS
-      hooks. Pair Lily with a semantic framework and you get pre-styled
-      components that still respect ARIA and i18n.
+      Yes. The kebab-case class names on the root element work as semantic CSS hooks. Pair Lily with
+      a semantic framework and you get pre-styled components that still respect ARIA and i18n.
     </p>
   </details>
 
   <details class="faq-item">
     <summary>Is there an npm package?</summary>
     <p>
-      Not yet. The headless repos are intended to be cloned and used directly,
-      or vendored into your project. npm/PyPI/NuGet publishing is on the
-      roadmap.
+      Not yet. The headless repos are intended to be cloned and used directly, or vendored into your
+      project. npm/PyPI/NuGet publishing is on the roadmap.
     </p>
   </details>
 
   <details class="faq-item">
     <summary>Why multi-licensed?</summary>
     <p>
-      Different projects have different license needs. BSD and MIT are
-      permissive, Apache-2.0 has a patent grant, and the GPL options support
-      copyleft. Choose whichever fits your situation.
+      Different projects have different license needs. BSD and MIT are permissive, Apache-2.0 has a
+      patent grant, and the GPL options support copyleft. Choose whichever fits your situation.
     </p>
   </details>
 
@@ -1289,6 +1451,7 @@ git commit -m "Add help route"
 ## Task 10: Stub routes (comparisons, claude-code, claude-design, figma, tutorials)
 
 **Files:**
+
 - Create: `src/routes/comparisons/+page.svelte`
 - Create: `src/routes/lily-claude-code/+page.svelte`
 - Create: `src/routes/lily-claude-design/+page.svelte`
@@ -1323,7 +1486,10 @@ The plan inlines this content below; you do not need to read the legacy files.
   <h1>Comparisons</h1>
 </section>
 
-<section class="section prose" style="margin: 0 auto;">
+<section
+  class="section prose"
+  style="margin: 0 auto;"
+>
   <table>
     <thead>
       <tr>
@@ -1335,11 +1501,29 @@ The plan inlines this content below; you do not need to read the legacy files.
       </tr>
     </thead>
     <tbody>
-      <tr><td>Lily</td><td>Yes</td><td>HTML, Svelte, React, Vue, Blazor, Nunjucks</td><td>WCAG 2.2 AAA</td><td>BSD, MIT, Apache-2.0, GPL-2.0, GPL-3.0</td></tr>
-      <tr><td>GOV.UK Design System</td><td>No</td><td>Nunjucks</td><td>WCAG 2.2 AA</td><td>MIT</td></tr>
-      <tr><td>U.S. Web Design System</td><td>No</td><td>HTML, Twig</td><td>WCAG 2.1 AA</td><td>Public domain (CC0)</td></tr>
-      <tr><td>Adobe Spectrum</td><td>No</td><td>React, Web Components</td><td>WCAG 2.1 AA</td><td>Apache-2.0</td></tr>
-      <tr><td>Ant Design</td><td>No</td><td>React, Vue, Angular</td><td>WCAG 2.1 AA</td><td>MIT</td></tr>
+      <tr
+        ><td>Lily</td><td>Yes</td><td>HTML, Svelte, React, Vue, Blazor, Nunjucks</td><td
+          >WCAG 2.2 AAA</td
+        ><td>BSD, MIT, Apache-2.0, GPL-2.0, GPL-3.0</td></tr
+      >
+      <tr
+        ><td>GOV.UK Design System</td><td>No</td><td>Nunjucks</td><td>WCAG 2.2 AA</td><td>MIT</td
+        ></tr
+      >
+      <tr
+        ><td>U.S. Web Design System</td><td>No</td><td>HTML, Twig</td><td>WCAG 2.1 AA</td><td
+          >Public domain (CC0)</td
+        ></tr
+      >
+      <tr
+        ><td>Adobe Spectrum</td><td>No</td><td>React, Web Components</td><td>WCAG 2.1 AA</td><td
+          >Apache-2.0</td
+        ></tr
+      >
+      <tr
+        ><td>Ant Design</td><td>No</td><td>React, Vue, Angular</td><td>WCAG 2.1 AA</td><td>MIT</td
+        ></tr
+      >
       <tr><td>shadcn/ui</td><td>Yes</td><td>React</td><td>WCAG 2.1 AA</td><td>MIT</td></tr>
       <tr><td>DaisyUI</td><td>No</td><td>HTML/CSS</td><td>WCAG 2.1 AA</td><td>MIT</td></tr>
     </tbody>
@@ -1351,11 +1535,11 @@ The plan inlines this content below; you do not need to read the legacy files.
 
 Each file is identical except for the heading text. Substitute `<HEADING>` from this list:
 
-| File | `<HEADING>` |
-|------|-------------|
-| `src/routes/lily-claude-code/+page.svelte` | `Lily + Claude Code` |
+| File                                         | `<HEADING>`            |
+| -------------------------------------------- | ---------------------- |
+| `src/routes/lily-claude-code/+page.svelte`   | `Lily + Claude Code`   |
 | `src/routes/lily-claude-design/+page.svelte` | `Lily + Claude Design` |
-| `src/routes/lily-figma/+page.svelte` | `Lily + Figma` |
+| `src/routes/lily-figma/+page.svelte`         | `Lily + Figma`         |
 
 ```svelte
 <svelte:head>
@@ -1385,7 +1569,10 @@ Each file is identical except for the heading text. Substitute `<HEADING>` from 
   <p class="hero-tagline">Step-by-step guides for each supported framework.</p>
 </section>
 
-<section class="section prose" style="margin: 0 auto;">
+<section
+  class="section prose"
+  style="margin: 0 auto;"
+>
   <ul>
     <li><a href="/tutorials/html/">HTML tutorial</a></li>
     <li><a href="/tutorials/svelte/">Svelte tutorial</a></li>
@@ -1400,13 +1587,13 @@ Each file is identical except for the heading text. Substitute `<HEADING>` from 
 
 Each file is identical except for the heading text. Substitute `<HEADING>` from this list:
 
-| File | `<HEADING>` |
-|------|-------------|
+| File                                       | `<HEADING>`       |
+| ------------------------------------------ | ----------------- |
 | `src/routes/tutorials/blazor/+page.svelte` | `Blazor tutorial` |
-| `src/routes/tutorials/html/+page.svelte` | `HTML tutorial` |
-| `src/routes/tutorials/react/+page.svelte` | `React tutorial` |
+| `src/routes/tutorials/html/+page.svelte`   | `HTML tutorial`   |
+| `src/routes/tutorials/react/+page.svelte`  | `React tutorial`  |
 | `src/routes/tutorials/svelte/+page.svelte` | `Svelte tutorial` |
-| `src/routes/tutorials/vue/+page.svelte` | `Vue tutorial` |
+| `src/routes/tutorials/vue/+page.svelte`    | `Vue tutorial`    |
 
 ```svelte
 <svelte:head>
@@ -1442,6 +1629,7 @@ git commit -m "Add stub routes for comparisons, claude integrations, figma, tuto
 ## Task 11: Add the GitHub Actions deploy workflow
 
 **Files:**
+
 - Create: `.github/workflows/deploy.yml`
 
 This file is committed in the monorepo, carried along by `git subtree push`, and runs in the public `LilyDesignSystem/lilydesignsystem.github.io` repo when that repo's `main` branch updates.
@@ -1541,6 +1729,7 @@ Expected: build completes without errors. No "page X was not prerendered" warnin
 
 Run: `ls build/`
 Expected to include all of:
+
 - `index.html`
 - `404.html`
 - `CNAME`
@@ -1580,6 +1769,7 @@ Stop the preview: `kill %1`
 ## Task 13: Update the regenerate-catalog recipe in `index.md`
 
 **Files:**
+
 - Modify: `index.md`
 
 The dev-docs file currently includes an `awk` snippet that regenerates `assets/components-data.js`. Update it to emit `src/lib/components.ts` instead.
@@ -1708,6 +1898,7 @@ After each `git rm`, the parent directory may now be empty. Empty directories ar
 Run: `ls tutorials/blazor tutorials/html tutorials/react tutorials/svelte tutorials/vue 2>/dev/null`
 
 If any of these list children, remove them:
+
 ```bash
 git rm -r tutorials/
 ```
@@ -1724,6 +1915,7 @@ git rm assets/components-data.js
 ```
 
 If `assets/` is now empty, remove the empty dir from the working tree (git doesn't track empty dirs):
+
 ```bash
 rmdir assets 2>/dev/null || true
 ```
@@ -1766,6 +1958,7 @@ Expected: success.
 - [ ] **Step 15.3: One-time manual step (DO NOT automate — write it into the post-merge notes)**
 
 After the first `git subtree push` of this directory to `LilyDesignSystem/lilydesignsystem.github.io`:
+
 1. Open `https://github.com/LilyDesignSystem/lilydesignsystem.github.io/settings/pages`.
 2. Set **Source** to **GitHub Actions**.
 3. Set **Custom domain** to `lilydesignsystem.com`.

@@ -12,7 +12,7 @@ the monorepo.
 
 ## Scope
 
-This topic covers why the docs site needs a *standalone* repository at
+This topic covers why the docs site needs a _standalone_ repository at
 all (GitHub Pages user/org sites must be served from a repo named exactly
 `{org}.github.io`), how that standalone repo is derived from the monorepo
 without duplicating maintenance effort, and the one rule that keeps the
@@ -79,14 +79,14 @@ and `bin/git-subtree-push` removed.
 
 ### Path map
 
-| What | Where |
-| --- | --- |
-| Monorepo (source of truth) | `~/git/lilydesignsystem/lily-design-system/` |
-| Docs site subproject (edit here) | `~/git/lilydesignsystem/lily-design-system/lilydesignsystem.github.io/` |
-| Standalone export (read-only, derived) | `~/git/lilydesignsystem/lilydesignsystem.github.io/` — a **sibling** of the monorepo, not nested inside it |
-| Standalone remote(s) | `git@{github,codeberg,gitlab}.com:LilyDesignSystem/lilydesignsystem.github.io.git`, reachable from the monorepo as the `github-pages` git remote (`make github-pages`) |
-| Live site | <https://lilydesignsystem.com/> |
-| Publish shortcut | `make github-pages` (root `Makefile`) → `bin/make-github-pages` |
+| What                                   | Where                                                                                                                                                                  |
+| -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Monorepo (source of truth)             | `~/git/lilydesignsystem/lily-design-system/`                                                                                                                           |
+| Docs site subproject (edit here)       | `~/git/lilydesignsystem/lily-design-system/lilydesignsystem.github.io/`                                                                                                |
+| Standalone export (read-only, derived) | `~/git/lilydesignsystem/lilydesignsystem.github.io/` — a **sibling** of the monorepo, not nested inside it                                                             |
+| Standalone remote(s)                   | `git@{github,codeberg,gitlab}.com:LilyDesignSystem/lilydesignsystem.github.io.git`, reachable from the monorepo as the `github-pages` git remote (`make github-pages`) |
+| Live site                              | <https://lilydesignsystem.com/>                                                                                                                                        |
+| Publish shortcut                       | `make github-pages` (root `Makefile`) → `bin/make-github-pages`                                                                                                        |
 
 ### Publish flow
 
@@ -126,7 +126,7 @@ rediscovering by surprise.
       shell script `bin/make-github-pages`, which runs
       `git subtree push --prefix=lilydesignsystem.github.io github-pages main`
       against the `github-pages` remote — verified 2026-08-31 (`Everything
-      up-to-date` on all three push URLs). Since 2026-10-10 it is the
+up-to-date` on all three push URLs). Since 2026-10-10 it is the
       only publish path.
 
 ## Related topics

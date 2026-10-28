@@ -38,12 +38,15 @@ Basic angle slider range input:
 
 ```svelte
 <script lang="ts">
-  import AngleSliderRangeInput from './AngleSliderRangeInput.svelte';
+  import AngleSliderRangeInput from "./AngleSliderRangeInput.svelte";
 
   let angle = $state(0);
 </script>
 
-<AngleSliderRangeInput label="Rotation" bind:value={angle} />
+<AngleSliderRangeInput
+  label="Rotation"
+  bind:value={angle}
+/>
 <p>Angle: {angle} degrees</p>
 ```
 
@@ -51,12 +54,16 @@ With step snapping (every 15 degrees):
 
 ```svelte
 <script lang="ts">
-  import AngleSliderRangeInput from './AngleSliderRangeInput.svelte';
+  import AngleSliderRangeInput from "./AngleSliderRangeInput.svelte";
 
   let direction = $state(90);
 </script>
 
-<AngleSliderRangeInput label="Direction" bind:value={direction} step={15} />
+<AngleSliderRangeInput
+  label="Direction"
+  bind:value={direction}
+  step={15}
+/>
 ```
 
 Custom range and suffix:
@@ -74,14 +81,23 @@ Custom range and suffix:
 Disabled slider:
 
 ```svelte
-<AngleSliderRangeInput label="Locked rotation" value={45} disabled />
+<AngleSliderRangeInput
+  label="Locked rotation"
+  value={45}
+  disabled
+/>
 ```
 
 Within a form:
 
 ```svelte
 <form>
-  <AngleSliderRangeInput label="Gradient angle" bind:value={angle} name="gradient-angle" id="gradient" />
+  <AngleSliderRangeInput
+    label="Gradient angle"
+    bind:value={angle}
+    name="gradient-angle"
+    id="gradient"
+  />
 </form>
 ```
 

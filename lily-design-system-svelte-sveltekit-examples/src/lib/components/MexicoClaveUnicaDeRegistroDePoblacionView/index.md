@@ -21,7 +21,9 @@ MexicoClaveUnicaDeRegistroDePoblacionView is a headless placeholder component, g
 ## Usage
 
 ```html
-<MexicoClaveUnicaDeRegistroDePoblacionView label="MexicoClaveUnicaDeRegistroDePoblacionView example">Content</MexicoClaveUnicaDeRegistroDePoblacionView>
+<MexicoClaveUnicaDeRegistroDePoblacionView label="MexicoClaveUnicaDeRegistroDePoblacionView example"
+  >Content</MexicoClaveUnicaDeRegistroDePoblacionView
+>
 ```
 
 ## Keyboard Interactions

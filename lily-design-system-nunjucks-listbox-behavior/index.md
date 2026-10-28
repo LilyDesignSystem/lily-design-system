@@ -24,9 +24,15 @@ const keyboard = createListboxKeyboard(listElement, {
   clamp: true,
   typeahead: true,
   pageSize: 10,
-  onActivate: (option) => { /* select it */ },
-  onEscape: () => { /* close, keep value */ },
-  onTabOut: () => { /* close and move on */ },
+  onActivate: (option) => {
+    /* select it */
+  },
+  onEscape: () => {
+    /* close, keep value */
+  },
+  onTabOut: () => {
+    /* close and move on */
+  },
 });
 ```
 

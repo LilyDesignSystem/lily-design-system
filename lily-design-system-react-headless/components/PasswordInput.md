@@ -26,15 +26,29 @@ Unlike PasswordInputOrTextInputDiv, which includes a show/hide toggle button in 
 ## Usage
 
 ```tsx
-<PasswordInput label="Password" value={value} onChange={setValue} />
+<PasswordInput
+  label="Password"
+  value={value}
+  onChange={setValue}
+/>
 ```
 
 ```tsx
-<PasswordInput label="New password" value={value} onChange={setValue} autocomplete="new-password" />
+<PasswordInput
+  label="New password"
+  value={value}
+  onChange={setValue}
+  autocomplete="new-password"
+/>
 ```
 
 ```tsx
-<PasswordInput label="Password" value={value} onChange={setValue} required />
+<PasswordInput
+  label="Password"
+  value={value}
+  onChange={setValue}
+  required
+/>
 ```
 
 ## Keyboard Interactions

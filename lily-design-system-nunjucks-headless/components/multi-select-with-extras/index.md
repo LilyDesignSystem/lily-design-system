@@ -8,7 +8,6 @@ A native multiple-choice select wrapped in a div with optional content before an
 - `params.attributes` is spread onto the root element
 - Port of the Svelte canonical (`lily-design-system-svelte-headless`)
 
-
 ## Props
 
 - `label` (required): aria-label on the inner select, not the wrapper

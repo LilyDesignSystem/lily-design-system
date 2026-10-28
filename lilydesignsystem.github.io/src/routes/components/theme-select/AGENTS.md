@@ -39,7 +39,7 @@
 | -------------- | --------------- | ---------- | --------------------------------------------------------- |
 | `label`        | `string`        | (required) | Accessible name applied via `aria-label`                  |
 | `value`        | `string`        | `""`       | Bindable string representing the currently selected theme |
-| `children`     | `slot`       | (required) | `<option>` elements representing available themes         |
+| `children`     | `slot`          | (required) | `<option>` elements representing available themes         |
 | `...restProps` | HTML attributes |            | Additional attributes spread onto the `<select>` element  |
 
 ## Acceptance Criteria

@@ -54,15 +54,15 @@ The app ships:
 
 ### Framework + tooling
 
-| Concern             | Choice                                      |
-| ------------------- | ------------------------------------------- |
-| App framework       | SvelteKit 2 (Svelte 5 with runes)           |
-| Language            | TypeScript                                  |
-| Build tool          | Vite                                        |
-| Package manager     | pnpm                                        |
-| Unit test           | vitest + @testing-library/svelte + jsdom    |
-| E2E test            | Playwright                                  |
-| Styling             | Plain CSS with custom properties (NHS palette) |
+| Concern         | Choice                                         |
+| --------------- | ---------------------------------------------- |
+| App framework   | SvelteKit 2 (Svelte 5 with runes)              |
+| Language        | TypeScript                                     |
+| Build tool      | Vite                                           |
+| Package manager | pnpm                                           |
+| Unit test       | vitest + @testing-library/svelte + jsdom       |
+| E2E test        | Playwright                                     |
+| Styling         | Plain CSS with custom properties (NHS palette) |
 
 ### Headless dependency
 
@@ -100,11 +100,11 @@ lily-design-system-svelte-sveltekit-examples/
 Every example subproject must ship these three routes per the root
 [AGENTS/examples.md](../../AGENTS/examples.md):
 
-| Route                  | Purpose                                                |
-| ---------------------- | ------------------------------------------------------ |
-| `/`                    | Home — welcome, project description, links to demos    |
-| `/components`          | Catalog index — every component in `components.tsv`    |
-| `/components/[slug]`   | Per-component detail — live demo + metadata            |
+| Route                | Purpose                                             |
+| -------------------- | --------------------------------------------------- |
+| `/`                  | Home — welcome, project description, links to demos |
+| `/components`        | Catalog index — every component in `components.tsv` |
+| `/components/[slug]` | Per-component detail — live demo + metadata         |
 
 `/components/[slug]` renders the demo HTML from `component-demos.ts` using
 `{@html demo}`. Demo data lives in `src/lib/data/component-demos.ts` and
@@ -114,20 +114,20 @@ contains **490 entries** (one per canonical slug).
 
 Twelve composed-page demos exercise multiple components together:
 
-| Page                     | Key components                                                 |
-| ------------------------ | -------------------------------------------------------------- |
-| `/contact-form`          | Form, Field, TextInput, EmailInput, TextAreaInput, Select, Button, ErrorSummary |
-| `/dashboard`             | Card, Progress, ProgressCircle, Badge, Banner, DataTable       |
-| `/dialog-flow`           | Dialog, AlertDialog, Drawer, Tooltip, Button                   |
-| `/file-upload-form`      | FileUpload, Progress, Button, Alert, Badge, Form, Field        |
-| `/navigation-and-menus`  | NavigationMenu, MenuBar, ToolBar, HamburgerMenu, DropdownMenu  |
-| `/page-layout`           | Header, Footer, BreadcrumbNav, Sidebar, NavigationMenu         |
-| `/rating-and-feedback`   | FiveStarRatingPicker, FiveFaceRatingPicker, NetPromoterScorePicker |
-| `/search-and-filter`     | Combobox, SearchInput, TagInput, TagGroup, Tag, DataTable, Badge |
-| `/settings-page`         | SwitchButton, RadioGroup, RadioInput, Select, Fieldset, Banner |
-| `/tabbed-interface`      | TabBar, TabBarButton, TabPanel, AccordionNav, Badge            |
-| `/task-management`       | TaskList, TaskListItem, TextInput, CheckboxInput, Badge, Progress |
-| `/timeline-and-cards`    | TimelineList, Card, DateRange, ReviewDate, SummaryList         |
+| Page                    | Key components                                                                  |
+| ----------------------- | ------------------------------------------------------------------------------- |
+| `/contact-form`         | Form, Field, TextInput, EmailInput, TextAreaInput, Select, Button, ErrorSummary |
+| `/dashboard`            | Card, Progress, ProgressCircle, Badge, Banner, DataTable                        |
+| `/dialog-flow`          | Dialog, AlertDialog, Drawer, Tooltip, Button                                    |
+| `/file-upload-form`     | FileUpload, Progress, Button, Alert, Badge, Form, Field                         |
+| `/navigation-and-menus` | NavigationMenu, MenuBar, ToolBar, HamburgerMenu, DropdownMenu                   |
+| `/page-layout`          | Header, Footer, BreadcrumbNav, Sidebar, NavigationMenu                          |
+| `/rating-and-feedback`  | FiveStarRatingPicker, FiveFaceRatingPicker, NetPromoterScorePicker              |
+| `/search-and-filter`    | Combobox, SearchInput, TagInput, TagGroup, Tag, DataTable, Badge                |
+| `/settings-page`        | SwitchButton, RadioGroup, RadioInput, Select, Fieldset, Banner                  |
+| `/tabbed-interface`     | TabBar, TabBarButton, TabPanel, AccordionNav, Badge                             |
+| `/task-management`      | TaskList, TaskListItem, TextInput, CheckboxInput, Badge, Progress               |
+| `/timeline-and-cards`   | TimelineList, Card, DateRange, ReviewDate, SummaryList                          |
 
 ## 6. Styling
 
@@ -239,14 +239,14 @@ pnpm exec playwright test            # e2e tests
 
 ## 11. Prohibited
 
-| Prohibition                       | Reason                              |
-| --------------------------------- | ----------------------------------- |
-| `nhsuk-` prefixes in markup       | CSS targets Lily classes directly   |
-| Tailwind, DaisyUI, Bootstrap      | no CSS framework dependency         |
-| `@testing-library/jest-dom`       | vitest matchers only                |
-| Re-implementing headless comps    | import from sibling library         |
-| Hardcoded strings outside demos   | demos may use English; CSS class    |
-|                                   | hooks are stable                    |
+| Prohibition                     | Reason                            |
+| ------------------------------- | --------------------------------- |
+| `nhsuk-` prefixes in markup     | CSS targets Lily classes directly |
+| Tailwind, DaisyUI, Bootstrap    | no CSS framework dependency       |
+| `@testing-library/jest-dom`     | vitest matchers only              |
+| Re-implementing headless comps  | import from sibling library       |
+| Hardcoded strings outside demos | demos may use English; CSS class  |
+|                                 | hooks are stable                  |
 
 ## 12. Tracking
 

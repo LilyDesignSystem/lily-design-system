@@ -19,11 +19,17 @@ The component renders a `<span>` with `role="img"` and a required `aria-label`, 
 ## Usage
 
 ```tsx
-<Emoji emoji="👍" label="Thumbs up" />
+<Emoji
+  emoji="👍"
+  label="Thumbs up"
+/>
 ```
 
 ```tsx
-<Emoji emoji="⚠️" label="Warning" />
+<Emoji
+  emoji="⚠️"
+  label="Warning"
+/>
 ```
 
 ## Keyboard Interactions

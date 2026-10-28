@@ -23,13 +23,21 @@ The `side` prop indicates which edge the drawer enters from via a `data-side` at
 ## Usage
 
 ```svelte
-<Drawer label="Navigation" bind:open side="left">
+<Drawer
+  label="Navigation"
+  bind:open
+  side="left"
+>
   <nav>...</nav>
 </Drawer>
 ```
 
 ```svelte
-<Drawer label="Filters" bind:open={showFilters} side="right">
+<Drawer
+  label="Filters"
+  bind:open={showFilters}
+  side="right"
+>
   <form>...</form>
 </Drawer>
 ```

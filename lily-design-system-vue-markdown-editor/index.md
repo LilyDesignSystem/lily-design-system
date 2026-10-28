@@ -25,8 +25,15 @@ import { MarkdownEditor } from "@lilydesignsystem/vue-markdown-editor";
 
 const body = ref("");
 const labels = {
-  heading: "Heading", bold: "Bold", italic: "Italic", strikethrough: "Strikethrough", code: "Code",
-  link: "Link", quote: "Quote", bulletList: "Bulleted list", numberedList: "Numbered list",
+  heading: "Heading",
+  bold: "Bold",
+  italic: "Italic",
+  strikethrough: "Strikethrough",
+  code: "Code",
+  link: "Link",
+  quote: "Quote",
+  bulletList: "Bulleted list",
+  numberedList: "Numbered list",
 };
 </script>
 
@@ -47,18 +54,18 @@ entry in `labels` is not rendered: an unnamed button is worse than no button.
 
 ## Props
 
-| Prop | Type | Required | Default | Purpose |
-| ---- | ---- | -------- | ------- | ------- |
-| `modelValue` | `string` | no | `""` | The text, as Markdown. Use with `v-model`. |
-| `label` | `string` | yes | — | Accessible name of the textarea. |
-| `toolbarLabel` | `string` | yes | — | Accessible name of the toolbar (`toolbar-label` in a template). |
-| `labels` | `Partial<Record<ToolId,string>>` | yes | — | Accessible name per tool; a tool without one is not shown. |
-| `tools` | `ToolId[]` | no | all nine | Which tools to show, and in what order. |
-| `headingLevel` | `1`–`6` | no | `2` | How many `#` the heading tool writes. |
-| `name`, `id`, `rows`, `placeholder`, `disabled`, `readonly`, `required` | | no | | Passed to the `<textarea>`. |
-| `update:modelValue`, `change` (events) | `(value: string)` | | | After every change, typed or from a tool. |
-| `icon` (scoped slot, `{ tool }`) | | no | bundled SVGs | Replaces a tool's icon. |
-| `class` and other attributes | | no | | Fall through to the root `<div>`. |
+| Prop                                                                    | Type                             | Required | Default      | Purpose                                                         |
+| ----------------------------------------------------------------------- | -------------------------------- | -------- | ------------ | --------------------------------------------------------------- |
+| `modelValue`                                                            | `string`                         | no       | `""`         | The text, as Markdown. Use with `v-model`.                      |
+| `label`                                                                 | `string`                         | yes      | —            | Accessible name of the textarea.                                |
+| `toolbarLabel`                                                          | `string`                         | yes      | —            | Accessible name of the toolbar (`toolbar-label` in a template). |
+| `labels`                                                                | `Partial<Record<ToolId,string>>` | yes      | —            | Accessible name per tool; a tool without one is not shown.      |
+| `tools`                                                                 | `ToolId[]`                       | no       | all nine     | Which tools to show, and in what order.                         |
+| `headingLevel`                                                          | `1`–`6`                          | no       | `2`          | How many `#` the heading tool writes.                           |
+| `name`, `id`, `rows`, `placeholder`, `disabled`, `readonly`, `required` |                                  | no       |              | Passed to the `<textarea>`.                                     |
+| `update:modelValue`, `change` (events)                                  | `(value: string)`                |          |              | After every change, typed or from a tool.                       |
+| `icon` (scoped slot, `{ tool }`)                                        |                                  | no       | bundled SVGs | Replaces a tool's icon.                                         |
+| `class` and other attributes                                            |                                  | no       |              | Fall through to the root `<div>`.                               |
 
 `ToolId` is `heading | bold | italic | strikethrough | code | link | quote | bulletList | numberedList`.
 
@@ -80,25 +87,47 @@ entry in `labels` is not rendered: an unnamed button is worse than no button.
 
 ```html
 <div class="markdown-editor {class}">
-  <div class="markdown-editor-toolbar" role="toolbar" aria-label aria-controls aria-orientation="horizontal">
-    <button class="markdown-editor-button" type="button" data-tool="bold" aria-label tabindex="0">
-      <svg class="markdown-editor-icon" aria-hidden="true">…</svg>
+  <div
+    class="markdown-editor-toolbar"
+    role="toolbar"
+    aria-label
+    aria-controls
+    aria-orientation="horizontal"
+  >
+    <button
+      class="markdown-editor-button"
+      type="button"
+      data-tool="bold"
+      aria-label
+      tabindex="0"
+    >
+      <svg
+        class="markdown-editor-icon"
+        aria-hidden="true"
+      >
+        …
+      </svg>
     </button>
     …
   </div>
-  <textarea class="markdown-editor-textarea" aria-label name …></textarea>
+  <textarea
+    class="markdown-editor-textarea"
+    aria-label
+    name
+    …
+  ></textarea>
 </div>
 ```
 
 ## Keyboard
 
-| Where    | Key                            | Action                                       |
-| -------- | ------------------------------ | -------------------------------------------- |
-| Toolbar  | `←` `→`                        | Move to the previous / next button (clamps). |
-| Toolbar  | `Home` `End`                   | First / last button.                         |
-| Toolbar  | `Tab`                          | Into the toolbar (one tab stop), then out.   |
-| Toolbar  | `Enter` `Space`                | Apply the tool; focus returns to the text.   |
-| Textarea | `Ctrl`/`Cmd` + `B` `I` `K`     | Bold, italic, link.                          |
+| Where    | Key                        | Action                                       |
+| -------- | -------------------------- | -------------------------------------------- |
+| Toolbar  | `←` `→`                    | Move to the previous / next button (clamps). |
+| Toolbar  | `Home` `End`               | First / last button.                         |
+| Toolbar  | `Tab`                      | Into the toolbar (one tab stop), then out.   |
+| Toolbar  | `Enter` `Space`            | Apply the tool; focus returns to the text.   |
+| Textarea | `Ctrl`/`Cmd` + `B` `I` `K` | Bold, italic, link.                          |
 
 ## What it is not
 

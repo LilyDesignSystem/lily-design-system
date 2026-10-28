@@ -44,19 +44,28 @@ states, and provides accessible labeling for screen readers.
 With two-way binding:
 
 ```svelte
-<UnitedStatesSocialSecurityNumberInput label="SSN" bind:value={ssn} />
+<UnitedStatesSocialSecurityNumberInput
+  label="SSN"
+  bind:value={ssn}
+/>
 ```
 
 Required field in a form:
 
 ```svelte
-<UnitedStatesSocialSecurityNumberInput label="Social Security Number" required />
+<UnitedStatesSocialSecurityNumberInput
+  label="Social Security Number"
+  required
+/>
 ```
 
 Disabled state:
 
 ```svelte
-<UnitedStatesSocialSecurityNumberInput label="Social Security Number" disabled />
+<UnitedStatesSocialSecurityNumberInput
+  label="Social Security Number"
+  disabled
+/>
 ```
 
 ## Keyboard Interactions

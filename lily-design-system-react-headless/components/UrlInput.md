@@ -27,7 +27,12 @@ URL inputs are commonly used in profile forms, link submission pages, and any co
 ```
 
 ```tsx
-<UrlInput label="Portfolio link" value={portfolioUrl} onChange={setPortfolioUrl} required />
+<UrlInput
+  label="Portfolio link"
+  value={portfolioUrl}
+  onChange={setPortfolioUrl}
+  required
+/>
 ```
 
 ## Keyboard Interactions

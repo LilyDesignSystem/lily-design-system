@@ -49,38 +49,47 @@ import NetPromoterScoreView from './NetPromoterScoreView.svelte';
 
 ```svelte
 <script lang="ts">
-  import NetPromoterScoreView from './NetPromoterScoreView.svelte';
+  import NetPromoterScoreView from "./NetPromoterScoreView.svelte";
 </script>
 
-<NetPromoterScoreView label="NPS Score" value="8" />
+<NetPromoterScoreView
+  label="NPS Score"
+  value="8"
+/>
 ```
 
 ### Dynamic value
 
 ```svelte
 <script lang="ts">
-  import NetPromoterScoreView from './NetPromoterScoreView.svelte';
+  import NetPromoterScoreView from "./NetPromoterScoreView.svelte";
 
   let score = $state("9");
 </script>
 
-<NetPromoterScoreView label="Customer rating" value={score} />
+<NetPromoterScoreView
+  label="Customer rating"
+  value={score}
+/>
 ```
 
 ### Paired with the input counterpart
 
 ```svelte
 <script lang="ts">
-  import NetPromoterScorePicker from '../NetPromoterScorePicker/NetPromoterScorePicker.svelte';
-  import NetPromoterScorePickerButton from '../NetPromoterScorePickerButton/NetPromoterScorePickerButton.svelte';
-  import NetPromoterScoreView from './NetPromoterScoreView.svelte';
+  import NetPromoterScorePicker from "../NetPromoterScorePicker/NetPromoterScorePicker.svelte";
+  import NetPromoterScorePickerButton from "../NetPromoterScorePickerButton/NetPromoterScorePickerButton.svelte";
+  import NetPromoterScoreView from "./NetPromoterScoreView.svelte";
 
   let nps = $state<number | undefined>(undefined);
   let submitted = $state(false);
 </script>
 
 {#if submitted}
-  <NetPromoterScoreView label="Your score" value={String(nps ?? "")} />
+  <NetPromoterScoreView
+    label="Your score"
+    value={String(nps ?? "")}
+  />
 {:else}
   <NetPromoterScorePicker label="Rate us">
     {#each Array.from({ length: 11 }, (_, i) => i) as score}
@@ -98,7 +107,11 @@ import NetPromoterScoreView from './NetPromoterScoreView.svelte';
 ### Color-coded via data attribute
 
 ```svelte
-<NetPromoterScoreView label="NPS" value="3" data-band="detractor" />
+<NetPromoterScoreView
+  label="NPS"
+  value="3"
+  data-band="detractor"
+/>
 ```
 
 ## Accessibility

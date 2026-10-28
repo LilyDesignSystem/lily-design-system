@@ -28,19 +28,31 @@ This component is useful for date-related forms where the user needs to select a
 Credit card expiry month:
 
 ```html
-<MonthInput label="Card expiry" value={expiryMonth} required />
+<MonthInput
+  label="Card expiry"
+  value="{expiryMonth}"
+  required
+/>
 ```
 
 Reporting period selection with constraints:
 
 ```html
-<MonthInput label="Report month" value={reportMonth} min="2025-01" max="2026-12" />
+<MonthInput
+  label="Report month"
+  value="{reportMonth}"
+  min="2025-01"
+  max="2026-12"
+/>
 ```
 
 Billing cycle start:
 
 ```html
-<MonthInput label="Billing start month" value={billingMonth} />
+<MonthInput
+  label="Billing start month"
+  value="{billingMonth}"
+/>
 ```
 
 ## Keyboard Interactions
@@ -67,14 +79,11 @@ None at the component level. Keyboard behavior is handled natively by the browse
 
 This headless component wraps a native `<input type="month">` with `aria-label` for accessible naming and two-way bindable value in `YYYY-MM` format. The consumer provides all visual styling, including input dimensions, borders, calendar icon, and any custom picker UI for browsers without native month picker support.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.month-input` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<input>` element with class `month-input`
 - Verify aria-label={label}` -- provides an accessible name describing the purpose of the month input

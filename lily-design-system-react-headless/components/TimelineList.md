@@ -33,10 +33,30 @@ define individual timeline entries.
 
 ```tsx
 <TimelineList label="Project milestones">
-  <TimelineListItem datetime="2024-01" heading="Jan 2024">Project kickoff</TimelineListItem>
-  <TimelineListItem datetime="2024-03" heading="Mar 2024">Alpha release</TimelineListItem>
-  <TimelineListItem datetime="2024-06" heading="Jun 2024">Beta release</TimelineListItem>
-  <TimelineListItem datetime="2024-09" heading="Sep 2024">General availability</TimelineListItem>
+  <TimelineListItem
+    datetime="2024-01"
+    heading="Jan 2024"
+  >
+    Project kickoff
+  </TimelineListItem>
+  <TimelineListItem
+    datetime="2024-03"
+    heading="Mar 2024"
+  >
+    Alpha release
+  </TimelineListItem>
+  <TimelineListItem
+    datetime="2024-06"
+    heading="Jun 2024"
+  >
+    Beta release
+  </TimelineListItem>
+  <TimelineListItem
+    datetime="2024-09"
+    heading="Sep 2024"
+  >
+    General availability
+  </TimelineListItem>
 </TimelineList>
 ```
 
@@ -44,13 +64,22 @@ With semantic `<time>` elements:
 
 ```tsx
 <TimelineList label="Order history">
-  <TimelineListItem datetime="2024-01-15" heading="January 15, 2024">
+  <TimelineListItem
+    datetime="2024-01-15"
+    heading="January 15, 2024"
+  >
     Order placed
   </TimelineListItem>
-  <TimelineListItem datetime="2024-01-16" heading="January 16, 2024">
+  <TimelineListItem
+    datetime="2024-01-16"
+    heading="January 16, 2024"
+  >
     Order shipped
   </TimelineListItem>
-  <TimelineListItem datetime="2024-01-19" heading="January 19, 2024">
+  <TimelineListItem
+    datetime="2024-01-19"
+    heading="January 19, 2024"
+  >
     Order delivered
   </TimelineListItem>
 </TimelineList>

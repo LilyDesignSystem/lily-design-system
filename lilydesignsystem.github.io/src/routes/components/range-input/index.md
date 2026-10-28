@@ -27,19 +27,36 @@ Range inputs are commonly used for volume controls, brightness settings, price f
 Volume control:
 
 ```html
-<RangeInput label="Volume" value={volume} min={0} max={100} />
+<RangeInput
+  label="Volume"
+  value="{volume}"
+  min="{0}"
+  max="{100}"
+/>
 ```
 
 Price filter with step increments:
 
 ```html
-<RangeInput label="Maximum price" value={maxPrice} min={10} max={500} step={10} />
+<RangeInput
+  label="Maximum price"
+  value="{maxPrice}"
+  min="{10}"
+  max="{500}"
+  step="{10}"
+/>
 ```
 
 Satisfaction rating from 1 to 10:
 
 ```html
-<RangeInput label="Satisfaction" value={satisfaction} min={1} max={10} step={1} />
+<RangeInput
+  label="Satisfaction"
+  value="{satisfaction}"
+  min="{1}"
+  max="{10}"
+  step="{1}"
+/>
 ```
 
 ## Keyboard Interactions
@@ -74,14 +91,11 @@ Note: keyboard interactions are provided natively by the `<input type="range">` 
 
 The RangeInput headless component provides a native `<input type="range">` with `aria-label`, configurable `min`, `max`, and `step` values, and two-way value binding. The browser handles all slider keyboard interactions natively. The consumer provides all visual styling for the track, thumb, and labels.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.range-input` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<input>` element with class `range-input`
 - Verify aria-label={label}` -- provides the accessible name for the slider control since no visible label element is associated

@@ -10,11 +10,11 @@ See [components/heatmap-chart/index.md](../../../../../components/heatmap-chart/
 
 ```svelte
 <script lang="ts">
-    import HeatmapChart from "./HeatmapChart.svelte";
+  import HeatmapChart from "./HeatmapChart.svelte";
 </script>
 
 <HeatmapChart label="Describe the chart">
-    <svg viewBox="0 0 10 10">…</svg>
+  <svg viewBox="0 0 10 10">…</svg>
 </HeatmapChart>
 ```
 

@@ -44,14 +44,14 @@ WebAssembly, and Blazor Hybrid hosts.
 
 ### Framework + tooling
 
-| Concern             | Choice                                      |
-| ------------------- | ------------------------------------------- |
-| Runtime             | .NET 10.0                                   |
-| Language            | C# 13                                       |
-| UI framework        | Blazor (Razor components)                   |
-| Build               | `dotnet build`                              |
-| Test runner         | bUnit + xUnit (`dotnet test`)               |
-| i18n                | none — consumer-supplied via parameters     |
+| Concern      | Choice                                  |
+| ------------ | --------------------------------------- |
+| Runtime      | .NET 10.0                               |
+| Language     | C# 13                                   |
+| UI framework | Blazor (Razor components)               |
+| Build        | `dotnet build`                          |
+| Test runner  | bUnit + xUnit (`dotnet test`)           |
+| i18n         | none — consumer-supplied via parameters |
 
 ### Blazor conventions
 
@@ -250,15 +250,15 @@ dotnet test                                                     # run bUnit test
 
 ## 9. Prohibited
 
-| Prohibition                       | Reason                              |
-| --------------------------------- | ----------------------------------- |
-| `*.razor.css`, scoped CSS         | headless: zero CSS                  |
-| CSS isolation                     | headless: zero CSS                  |
-| Tailwind, DaisyUI, Bootstrap      | no CSS framework dependency         |
-| Bundled fonts, images, icons      | consumer supplies all assets        |
-| Hardcoded user-facing strings     | i18n is the consumer's concern      |
-| `role="button"` on `<div>`        | use `<button>` (semantic-first)     |
-| JavaScript interop libraries      | minimal browser-API JS only         |
+| Prohibition                   | Reason                          |
+| ----------------------------- | ------------------------------- |
+| `*.razor.css`, scoped CSS     | headless: zero CSS              |
+| CSS isolation                 | headless: zero CSS              |
+| Tailwind, DaisyUI, Bootstrap  | no CSS framework dependency     |
+| Bundled fonts, images, icons  | consumer supplies all assets    |
+| Hardcoded user-facing strings | i18n is the consumer's concern  |
+| `role="button"` on `<div>`    | use `<button>` (semantic-first) |
+| JavaScript interop libraries  | minimal browser-API JS only     |
 
 ## 10. Tracking
 

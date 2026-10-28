@@ -29,14 +29,20 @@ Inline AI indicator within text:
 Custom label with explainability context:
 
 ```html
-<AiLabel text="AI generated" label="AI generated content" />
+<AiLabel
+  text="AI generated"
+  label="AI generated content"
+/>
 ```
 
 Wrapped in a button as an explainability trigger:
 
 ```html
-<button onclick={showExplainability}>
-  <AiLabel text="AI assisted" label="AI assisted diagnosis -- click for details" />
+<button onclick="{showExplainability}">
+  <AiLabel
+    text="AI assisted"
+    label="AI assisted diagnosis -- click for details"
+  />
 </button>
 ```
 

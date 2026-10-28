@@ -30,14 +30,14 @@ and no words: every link, and every accessible name, comes from the consumer.
 
 ### 4.1 Props
 
-| Prop | Type | Required | Notes |
-| --- | --- | --- | --- |
-| `label` | `input.required<string>()` | yes | Accessible name of the button **and** the list; also the tooltip text. |
-| `links` | `input.required<LinkItem[]>()` | yes | `{ id?, label, href, current?, newTab? }`. `id` defaults to `href`. |
-| `navigate` | `input<(href: string) => void>()` | no | Client-side navigation hook (a router's `navigateByUrl`). |
-| `navigated` | `output<{ id, href }>()` | no | Emitted after a link is chosen (the Svelte `onNavigate` callback). |
-| icon template | `<ng-template lilyLinkPickerIcon let-args>` | no | Replaces the **icon**, not the links. |
-| `className` | `input<string>()` | no | Appended to the root class. |
+| Prop          | Type                                        | Required | Notes                                                                  |
+| ------------- | ------------------------------------------- | -------- | ---------------------------------------------------------------------- |
+| `label`       | `input.required<string>()`                  | yes      | Accessible name of the button **and** the list; also the tooltip text. |
+| `links`       | `input.required<LinkItem[]>()`              | yes      | `{ id?, label, href, current?, newTab? }`. `id` defaults to `href`.    |
+| `navigate`    | `input<(href: string) => void>()`           | no       | Client-side navigation hook (a router's `navigateByUrl`).              |
+| `navigated`   | `output<{ id, href }>()`                    | no       | Emitted after a link is chosen (the Svelte `onNavigate` callback).     |
+| icon template | `<ng-template lilyLinkPickerIcon let-args>` | no       | Replaces the **icon**, not the links.                                  |
+| `className`   | `input<string>()`                           | no       | Appended to the root class.                                            |
 
 **Differences from the Svelte contract (idiom, not behaviour).** Angular renders the same DOM through the `lily-link-picker` selector; the trigger is the headless `lily-icon-button`, the Svelte `onNavigate` callback is the `navigated` output, and the icon override is a projected `<ng-template>`.
 
@@ -45,12 +45,42 @@ and no words: every link, and every accessible name, comes from the consumer.
 
 ```html
 <div class="link-picker {class}">
-  <button class="link-picker-button" type="button" aria-label="{label}" aria-expanded="false" aria-controls="{id}-list">
-    <svg class="link-picker-icon" aria-hidden="true" viewBox="0 0 16 16" …home…/>
+  <button
+    class="link-picker-button"
+    type="button"
+    aria-label="{label}"
+    aria-expanded="false"
+    aria-controls="{id}-list"
+  >
+    <svg
+      class="link-picker-icon"
+      aria-hidden="true"
+      viewBox="0 0 16 16"
+      …home…
+    />
   </button>
-  <div class="link-picker-tooltip" role="tooltip" id="{id}-tooltip" hidden>{label}</div>
-  <ul class="link-picker-list" id="{id}-list" aria-label="{label}" hidden>
-    <li class="link-picker-list-item"><a class="link-picker-link" href="/" data-link-id="/">Home</a></li>
+  <div
+    class="link-picker-tooltip"
+    role="tooltip"
+    id="{id}-tooltip"
+    hidden
+  >
+    {label}
+  </div>
+  <ul
+    class="link-picker-list"
+    id="{id}-list"
+    aria-label="{label}"
+    hidden
+  >
+    <li class="link-picker-list-item">
+      <a
+        class="link-picker-link"
+        href="/"
+        data-link-id="/"
+        >Home</a
+      >
+    </li>
     …
   </ul>
 </div>

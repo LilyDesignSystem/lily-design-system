@@ -25,11 +25,22 @@ Range inputs are commonly used for volume controls, brightness settings, price f
 ## Usage
 
 ```svelte
-<RangeInput label="Volume" bind:value min={0} max={100} />
+<RangeInput
+  label="Volume"
+  bind:value
+  min={0}
+  max={100}
+/>
 ```
 
 ```svelte
-<RangeInput label="Price range" bind:value={price} min={10} max={500} step={10} />
+<RangeInput
+  label="Price range"
+  bind:value={price}
+  min={10}
+  max={500}
+  step={10}
+/>
 ```
 
 ## Keyboard Interactions

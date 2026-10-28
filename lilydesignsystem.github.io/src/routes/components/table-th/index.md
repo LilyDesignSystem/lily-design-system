@@ -25,7 +25,7 @@ Use this component to label the columns of a table.
 ## Usage
 
 ```html
-<Table label="Users">
+<table label="Users">
   <TableHead>
     <TableRow>
       <TableTH>Name</TableTH>
@@ -38,7 +38,7 @@ Use this component to label the columns of a table.
       <TableTD>alice@example.com</TableTD>
     </TableRow>
   </TableBody>
-</Table>
+</table>
 ```
 
 ## Keyboard Interactions

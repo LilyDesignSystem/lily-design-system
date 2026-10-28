@@ -175,36 +175,35 @@ on `:root`.
 
 ### Colours
 
-| Token                  | Value     | NHS role                                   |
-| ---------------------- | --------- | ------------------------------------------ |
-| `--nhsuk-blue`         | `#005eb8` | Primary brand colour                       |
-| `--nhsuk-dark-blue`    | `#003087` | Header background, hover                   |
-| `--nhsuk-bright-blue`  | `#0072ce` | Links on light backgrounds                 |
-| `--nhsuk-light-blue`   | `#41b6e6` | Secondary accent                           |
-| `--nhsuk-aqua-blue`    | `#00a9ce` | Accent                                     |
-| `--nhsuk-black`        | `#212b32` | Body text                                  |
-| `--nhsuk-dark-grey`    | `#425563` | Muted text                                 |
-| `--nhsuk-mid-grey`     | `#768692` | Dividers                                   |
-| `--nhsuk-light-grey`   | `#d8dde0` | Borders                                    |
-| `--nhsuk-pale-grey`    | `#f0f4f5` | Page background, callout background        |
-| `--nhsuk-white`        | `#ffffff` | Content surfaces                           |
-| `--nhsuk-red`          | `#d5281b` | Errors, warning callouts                   |
-| `--nhsuk-warm-yellow`  | `#ffb81c` | Warnings                                   |
-| `--nhsuk-yellow`       | `#ffeb3b` | Focus state                                |
-| `--nhsuk-green`        | `#007f3b` | Success                                    |
-| `--nhsuk-pink`         | `#ae2573` | Emergency                                  |
-| `--nhsuk-purple`       | `#330072` | Care card: non-urgent                      |
+| Token                 | Value     | NHS role                            |
+| --------------------- | --------- | ----------------------------------- |
+| `--nhsuk-blue`        | `#005eb8` | Primary brand colour                |
+| `--nhsuk-dark-blue`   | `#003087` | Header background, hover            |
+| `--nhsuk-bright-blue` | `#0072ce` | Links on light backgrounds          |
+| `--nhsuk-light-blue`  | `#41b6e6` | Secondary accent                    |
+| `--nhsuk-aqua-blue`   | `#00a9ce` | Accent                              |
+| `--nhsuk-black`       | `#212b32` | Body text                           |
+| `--nhsuk-dark-grey`   | `#425563` | Muted text                          |
+| `--nhsuk-mid-grey`    | `#768692` | Dividers                            |
+| `--nhsuk-light-grey`  | `#d8dde0` | Borders                             |
+| `--nhsuk-pale-grey`   | `#f0f4f5` | Page background, callout background |
+| `--nhsuk-white`       | `#ffffff` | Content surfaces                    |
+| `--nhsuk-red`         | `#d5281b` | Errors, warning callouts            |
+| `--nhsuk-warm-yellow` | `#ffb81c` | Warnings                            |
+| `--nhsuk-yellow`      | `#ffeb3b` | Focus state                         |
+| `--nhsuk-green`       | `#007f3b` | Success                             |
+| `--nhsuk-pink`        | `#ae2573` | Emergency                           |
+| `--nhsuk-purple`      | `#330072` | Care card: non-urgent               |
 
 ### Typography
 
 ```css
 :root {
-  --nhsuk-font-family:
-    "Frutiger W01", Arial, sans-serif;
+  --nhsuk-font-family: "Frutiger W01", Arial, sans-serif;
 
   /* modular type scale, matching NHS UK */
-  --nhsuk-font-size-14: 0.875rem;  /* 14px */
-  --nhsuk-font-size-16: 1rem;      /* 16px */
+  --nhsuk-font-size-14: 0.875rem; /* 14px */
+  --nhsuk-font-size-16: 1rem; /* 16px */
   --nhsuk-font-size-19: 1.1875rem; /* 19px */
   --nhsuk-font-size-22: 1.375rem;
   --nhsuk-font-size-26: 1.625rem;
@@ -228,13 +227,13 @@ NHS UK's spacing scale, exposed as tokens:
 ```css
 :root {
   --nhsuk-spacing-0: 0;
-  --nhsuk-spacing-1: 0.25rem;  /* 4px */
-  --nhsuk-spacing-2: 0.5rem;   /* 8px */
-  --nhsuk-spacing-3: 1rem;     /* 16px */
-  --nhsuk-spacing-4: 1.5rem;   /* 24px */
-  --nhsuk-spacing-5: 2rem;     /* 32px */
-  --nhsuk-spacing-6: 2.5rem;   /* 40px */
-  --nhsuk-spacing-7: 4rem;     /* 64px */
+  --nhsuk-spacing-1: 0.25rem; /* 4px */
+  --nhsuk-spacing-2: 0.5rem; /* 8px */
+  --nhsuk-spacing-3: 1rem; /* 16px */
+  --nhsuk-spacing-4: 1.5rem; /* 24px */
+  --nhsuk-spacing-5: 2rem; /* 32px */
+  --nhsuk-spacing-6: 2.5rem; /* 40px */
+  --nhsuk-spacing-7: 4rem; /* 64px */
 }
 ```
 

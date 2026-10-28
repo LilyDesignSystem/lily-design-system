@@ -12,11 +12,11 @@ responsibility.
 | WCAG item                     | How the select satisfies it                                                                                                                                                                  |
 | ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | WCAG 3.1.1 Language of Page   | Writes `lang` to the document root on every locale change.                                                                                                                                   |
-| WCAG 3.1.2 Language of Parts  | Each endonym-labelled option carries its own `lang` attribute so option text is announced in the right language; consumer-labelled options make no claim.                                                                                              |
+| WCAG 3.1.2 Language of Parts  | Each endonym-labelled option carries its own `lang` attribute so option text is announced in the right language; consumer-labelled options make no claim.                                    |
 | WCAG 1.4.10 Reflow (RTL bidi) | Writes `dir="rtl"` for RTL locales so layout, scrollbar, and text inversion are correct.                                                                                                     |
 | WCAG 4.1.2 Name, Role, Value  | `<button aria-label aria-haspopup="listbox" aria-expanded aria-controls>` exposes the trigger; `<ul role="listbox">` and `<li role="option" aria-selected>` expose the list and each choice. |
 | WCAG 2.1.1 Keyboard           | Full APG listbox keyboard contract, implemented in the component — see [Keyboard contract](#keyboard-contract).                                                                              |
-| WCAG 2.4.3 Focus Order        | Opening moves focus to the list; committing or cancelling returns it to the button. `Tab` closes via the button, so the default Tab proceeds from the picker's position.                                                                    |
+| WCAG 2.4.3 Focus Order        | Opening moves focus to the list; committing or cancelling returns it to the button. `Tab` closes via the button, so the default Tab proceeds from the picker's position.                     |
 | WCAG 2.4.7 Focus Visible      | The component never sets `outline: none`. Supplying a visible ring on the button **and** the `<ul>` is your CSS's job.                                                                       |
 | WCAG 1.4.1 Use of Color       | Selection is exposed via `aria-selected`, the `lang` attribute, and the `[(value)]` binding — not colour alone.                                                                              |
 | WCAG 3.2.2 On Input           | Choosing a locale changes no context beyond the documented `lang` / `dir` write; focus returns to the trigger.                                                                               |
@@ -88,9 +88,16 @@ The pattern: bind `[(value)]` and render a visible status line beside
 the control.
 
 ```html
-<lily-locale-picker label="Language" [locales]="locales" [(value)]="locale" />
+<lily-locale-picker
+  label="Language"
+  [locales]="locales"
+  [(value)]="locale"
+/>
 
-<p class="locale-picker-status" aria-live="polite">
+<p
+  class="locale-picker-status"
+  aria-live="polite"
+>
   Active language:
   <span [attr.lang]="tagFor(locale())">{{ nameFor(locale()) }}</span>
 </p>
@@ -170,7 +177,12 @@ widget. Always carry the locale's BCP 47 tag onto each `<option>`:
 ```html
 <select>
   @for (l of locales; track l) {
-  <option [value]="l" [attr.lang]="tagFor(l)">{{ labelFor(l) }}</option>
+  <option
+    [value]="l"
+    [attr.lang]="tagFor(l)"
+  >
+    {{ labelFor(l) }}
+  </option>
   }
 </select>
 ```

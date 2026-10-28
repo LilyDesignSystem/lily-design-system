@@ -16,7 +16,10 @@ Use TourListItem for each individual step in a TourGuideList walkthrough. Common
 ## Syntax
 
 ```html
-<TourListItem label="..." current={...}>
+<TourListItem
+  label="..."
+  current="{...}"
+>
   <!-- step content -->
 </TourListItem>
 ```
@@ -24,15 +27,49 @@ Use TourListItem for each individual step in a TourGuideList walkthrough. Common
 ## Usage
 
 ```html
-<TourList label="Feature tour" active={showTour}>
-  <TourListItem label="Search patients" current={step === 0} stepNumber={1} totalSteps={2}>
+<TourList
+  label="Feature tour"
+  active="{showTour}"
+>
+  <TourListItem
+    label="Search patients"
+    current="{step"
+    =""
+    =""
+    ="0}"
+    stepNumber="{1}"
+    totalSteps="{2}"
+  >
     <p>Type a patient name or NHS number into the search bar to find their record.</p>
-    <button onclick={() => step++}>Next</button>
+    <button
+      onclick="{()"
+      =""
+    >
+      step++}>Next
+    </button>
   </TourListItem>
-  <TourListItem label="View results" current={step === 1} stepNumber={2} totalSteps={2}>
+  <TourListItem
+    label="View results"
+    current="{step"
+    =""
+    =""
+    ="1}"
+    stepNumber="{2}"
+    totalSteps="{2}"
+  >
     <p>Click a result to open the full patient record.</p>
-    <button onclick={() => step--}>Back</button>
-    <button onclick={() => showTour = false}>Done</button>
+    <button
+      onclick="{()"
+      =""
+    >
+      step--}>Back
+    </button>
+    <button
+      onclick="{()"
+      =""
+    >
+      showTour = false}>Done
+    </button>
   </TourListItem>
 </TourList>
 ```
@@ -45,7 +82,7 @@ Use TourListItem for each individual step in a TourGuideList walkthrough. Common
 | `current`      | `boolean`       | `false`    | Whether this step is the currently visible step         |
 | `stepNumber`   | `number`        | (optional) | 1-based step number (e.g. 1, 2, 3)                      |
 | `totalSteps`   | `number`        | (optional) | Total number of steps in the tour                       |
-| `children`     | `slot`       | (required) | Step content                                            |
+| `children`     | `slot`          | (required) | Step content                                            |
 | `...restProps` | HTML attributes |            | Additional attributes spread onto the container `<div>` |
 
 ## Examples
@@ -53,19 +90,66 @@ Use TourListItem for each individual step in a TourGuideList walkthrough. Common
 Multi-step tour:
 
 ```html
-<TourGuideList label="Getting started" active={active}>
-  <TourListItem label="Welcome" current={step === 0} stepNumber={1} totalSteps={3}>
+<TourGuideList
+  label="Getting started"
+  active="{active}"
+>
+  <TourListItem
+    label="Welcome"
+    current="{step"
+    =""
+    =""
+    ="0}"
+    stepNumber="{1}"
+    totalSteps="{3}"
+  >
     <p>Welcome to the app!</p>
-    <button onclick={() => step++}>Next</button>
+    <button
+      onclick="{()"
+      =""
+    >
+      step++}>Next
+    </button>
   </TourListItem>
-  <TourListItem label="Features" current={step === 1} stepNumber={2} totalSteps={3}>
+  <TourListItem
+    label="Features"
+    current="{step"
+    =""
+    =""
+    ="1}"
+    stepNumber="{2}"
+    totalSteps="{3}"
+  >
     <p>Here are the features.</p>
-    <button onclick={() => step--}>Back</button>
-    <button onclick={() => step++}>Next</button>
+    <button
+      onclick="{()"
+      =""
+    >
+      step--}>Back
+    </button>
+    <button
+      onclick="{()"
+      =""
+    >
+      step++}>Next
+    </button>
   </TourListItem>
-  <TourListItem label="Finish" current={step === 2} stepNumber={3} totalSteps={3}>
+  <TourListItem
+    label="Finish"
+    current="{step"
+    =""
+    =""
+    ="2}"
+    stepNumber="{3}"
+    totalSteps="{3}"
+  >
     <p>You're all set!</p>
-    <button onclick={() => active = false}>Done</button>
+    <button
+      onclick="{()"
+      =""
+    >
+      active = false}>Done
+    </button>
   </TourListItem>
 </TourGuideList>
 ```
@@ -82,6 +166,7 @@ Multi-step tour:
 - `aria-current="step"` -- indicates the currently active step
 - `aria-hidden="true"` -- hides inactive steps from assistive technology
 - `hidden` -- hides inactive steps from visual rendering
+
 ## When to Use
 
 - Use inside TourList to represent one step in the guided tour.
@@ -97,14 +182,11 @@ Multi-step tour:
 
 This headless component provides a `<div>` with `role="group"`, `aria-roledescription="step"`, `aria-label` (with optional step progress), `aria-current`, and `hidden`/`aria-hidden` for conditional visibility. The consumer provides all step content, navigation buttons, and all visual styling.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.tour-list-item` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<li>` element with class `tour-list-item`
 - Verify role="group"` -- groups the step content semantically

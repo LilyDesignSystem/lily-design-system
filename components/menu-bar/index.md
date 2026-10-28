@@ -29,10 +29,30 @@ Desktop-style application menu bar:
 
 ```html
 <MenuBar label="Application menu">
-    <MenuBarButton onclick={() => openSubmenu('file')}>File</MenuBarButton>
-    <MenuBarButton onclick={() => openSubmenu('edit')}>Edit</MenuBarButton>
-    <MenuBarButton onclick={() => openSubmenu('view')}>View</MenuBarButton>
-    <MenuBarButton onclick={() => openSubmenu('help')}>Help</MenuBarButton>
+  <MenuBarButton
+    onclick="{()"
+    =""
+  >
+    openSubmenu('file')}>File</MenuBarButton
+  >
+  <MenuBarButton
+    onclick="{()"
+    =""
+  >
+    openSubmenu('edit')}>Edit</MenuBarButton
+  >
+  <MenuBarButton
+    onclick="{()"
+    =""
+  >
+    openSubmenu('view')}>View</MenuBarButton
+  >
+  <MenuBarButton
+    onclick="{()"
+    =""
+  >
+    openSubmenu('help')}>Help</MenuBarButton
+  >
 </MenuBar>
 ```
 
@@ -40,11 +60,14 @@ Dynamic menu bar from a configuration list:
 
 ```html
 <MenuBar label="Main menu">
-    {#each menuItems as item}
-        <MenuBarButton onclick={() => openSubmenu(item)}>
-            {item.label}
-        </MenuBarButton>
-    {/each}
+  {#each menuItems as item}
+  <MenuBarButton
+    onclick="{()"
+    =""
+  >
+    openSubmenu(item)}> {item.label}
+  </MenuBarButton>
+  {/each}
 </MenuBar>
 ```
 
@@ -78,14 +101,11 @@ Dynamic menu bar from a configuration list:
 
 This headless component provides the ARIA menubar role with horizontal keyboard navigation (ArrowLeft/ArrowRight with wrapping, Home, End) and focus management for child menuitem elements. The consumer provides all visual styling, including bar layout, item appearance, submenu triggers, and hover states.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.menu-bar` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `menu-bar`
 - Verify role="menubar"` -- identifies the container as a horizontal menu bar widget.

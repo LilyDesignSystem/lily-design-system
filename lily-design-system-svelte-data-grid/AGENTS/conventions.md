@@ -37,50 +37,57 @@ lily-design-system-svelte-<name>/
 Every helper component follows this template:
 
 ```svelte
-<script lang="ts" module>
-    import type { Snippet } from "svelte";
+<script
+  lang="ts"
+  module
+>
+  import type { Snippet } from "svelte";
 
-    /** Public children-snippet args. */
-    export type ChildArgs = { /* … */ };
+  /** Public children-snippet args. */
+  export type ChildArgs = {/* … */};
 
-    /** Public props — see spec/index.md §4. */
-    export type Props = {
-        label: string;
-        value?: string;
-        children?: Snippet<[ChildArgs]>;
-        onChange?: (value: string) => void;
-        class?: string;
-        [key: string]: unknown;
-    };
+  /** Public props — see spec/index.md §4. */
+  export type Props = {
+    label: string;
+    value?: string;
+    children?: Snippet<[ChildArgs]>;
+    onChange?: (value: string) => void;
+    class?: string;
+    [key: string]: unknown;
+  };
 
-    /** Pure helpers exported for consumer reuse. */
-    export function helperName() { /* … */ }
+  /** Pure helpers exported for consumer reuse. */
+  export function helperName() {
+    /* … */
+  }
 </script>
 
 <script lang="ts">
-    let {
-        class: className = "",
-        label,
-        value = $bindable(""),
-        children,
-        onChange,
-        ...restProps
-    }: Props = $props();
+  let {
+    class: className = "",
+    label,
+    value = $bindable(""),
+    children,
+    onChange,
+    ...restProps
+  }: Props = $props();
 
-    $effect(() => { /* initial-value resolution + apply */ });
+  $effect(() => {
+    /* initial-value resolution + apply */
+  });
 </script>
 
 <root-element
-    class={`{base-class} ${className}`.trim()}
-    role="..."
-    aria-label={label}
-    {...restProps}
+  class={`{base-class} ${className}`.trim()}
+  role="..."
+  aria-label={label}
+  {...restProps}
 >
-    {#if children}
-        {@render children({ /* ChildArgs */ })}
-    {:else}
-        <!-- default markup -->
-    {/if}
+  {#if children}
+    {@render children({/* ChildArgs */})}
+  {:else}
+    <!-- default markup -->
+  {/if}
 </root-element>
 ```
 
@@ -114,7 +121,12 @@ The bindable selection is a `$bindable("")` prop named `value`.
 Consumers use Svelte's `bind:value`:
 
 ```svelte
-<ThemePicker label="Theme" themesUrl="/t/" themes={["light","dark"]} bind:value={theme} />
+<ThemePicker
+  label="Theme"
+  themesUrl="/t/"
+  themes={["light", "dark"]}
+  bind:value={theme}
+/>
 ```
 
 Inside the component:
@@ -134,10 +146,14 @@ Custom rendering uses a `children` prop typed as `Snippet<[ChildArgs]>`.
 Consumers pass a `{#snippet children(args)}` block:
 
 ```svelte
-<ThemePicker label="Theme" themesUrl="/t/" themes={["light","dark"]}>
-    {#snippet children({ themes, value, setTheme, name, labelFor })}
-        <!-- custom markup -->
-    {/snippet}
+<ThemePicker
+  label="Theme"
+  themesUrl="/t/"
+  themes={["light", "dark"]}
+>
+  {#snippet children({ themes, value, setTheme, name, labelFor })}
+    <!-- custom markup -->
+  {/snippet}
 </ThemePicker>
 ```
 
@@ -146,9 +162,9 @@ supplied:
 
 ```svelte
 {#if children}
-    {@render children({ themes, value: value ?? "", setTheme, name, labelFor })}
+  {@render children({ themes, value: value ?? "", setTheme, name, labelFor })}
 {:else}
-    <!-- default markup -->
+  <!-- default markup -->
 {/if}
 ```
 
@@ -237,11 +253,11 @@ The `.svelte` files themselves import each other by their `.svelte`
 extension:
 
 ```svelte
-<script lang="ts" module>
-    import {
-        defaultLocaleLabels,
-        RTL_LANGUAGE_TAGS,
-    } from "./locales.js";
+<script
+  lang="ts"
+  module
+>
+  import { defaultLocaleLabels, RTL_LANGUAGE_TAGS } from "./locales.js";
 </script>
 ```
 

@@ -22,10 +22,29 @@ This component manages menu visibility, keyboard navigation, and focus. When ope
 ## Usage
 
 ```tsx
-<ContextMenu label="Actions" open={isOpen} onChange={setIsOpen}>
-  <li role="menuitem" tabindex="-1">Cut</li>
-  <li role="menuitem" tabindex="-1">Copy</li>
-  <li role="menuitem" tabindex="-1">Paste</li>
+<ContextMenu
+  label="Actions"
+  open={isOpen}
+  onChange={setIsOpen}
+>
+  <li
+    role="menuitem"
+    tabindex="-1"
+  >
+    Cut
+  </li>
+  <li
+    role="menuitem"
+    tabindex="-1"
+  >
+    Copy
+  </li>
+  <li
+    role="menuitem"
+    tabindex="-1"
+  >
+    Paste
+  </li>
 </ContextMenu>
 ```
 

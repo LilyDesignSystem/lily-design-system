@@ -12,17 +12,17 @@ no CSS; consumer styles the `locale-picker` class hook.
 
 ## Files
 
-| File                       | Purpose                                          |
-| -------------------------- | ------------------------------------------------ |
-| `spec/index.md`                  | Specification-driven contract (canonical).       |
-| `LocalePicker.vue`         | Implementation. `<script setup lang="ts">`.      |
-| `LocalePicker.test.ts`     | Vitest spec, one assertion per §7 acceptance.    |
-| `locales.ts`               | Fallback code → English-name map and RTL sets; default labels are endonyms via `localeEndonym`. |
-| `locales.tsv`              | Canonical 436-row source for `locales.ts`.       |
-| `index.ts`                 | Barrel re-export.                                |
-| `index.md`                 | Human-readable guide.                            |
-| `docs/`                    | Topic guides: a11y, BCP 47, concepts, i18n, RTL, SSR, props, styling, custom rendering, recipes, troubleshooting. |
-| `examples/`                | Self-contained Vue 3 examples, descriptively named. |
+| File                   | Purpose                                                                                                           |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `spec/index.md`        | Specification-driven contract (canonical).                                                                        |
+| `LocalePicker.vue`     | Implementation. `<script setup lang="ts">`.                                                                       |
+| `LocalePicker.test.ts` | Vitest spec, one assertion per §7 acceptance.                                                                     |
+| `locales.ts`           | Fallback code → English-name map and RTL sets; default labels are endonyms via `localeEndonym`.                   |
+| `locales.tsv`          | Canonical 436-row source for `locales.ts`.                                                                        |
+| `index.ts`             | Barrel re-export.                                                                                                 |
+| `index.md`             | Human-readable guide.                                                                                             |
+| `docs/`                | Topic guides: a11y, BCP 47, concepts, i18n, RTL, SSR, props, styling, custom rendering, recipes, troubleshooting. |
+| `examples/`            | Self-contained Vue 3 examples, descriptively named.                                                               |
 
 ## Public surface
 

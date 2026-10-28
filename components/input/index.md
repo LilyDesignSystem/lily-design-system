@@ -29,19 +29,37 @@ The component supports bindable value state, required and disabled attributes, a
 Generic text input for a custom field type:
 
 ```html
-<Input label="Reference code" value={refCode} type="text" required placeholder="e.g. ABC-1234" />
+<input
+  label="Reference code"
+  value="{refCode}"
+  type="text"
+  required
+  placeholder="e.g. ABC-1234"
+/>
 ```
 
 Numeric input for a quantity field:
 
 ```html
-<Input label="Quantity" value={qty} type="number" min="1" max="100" required />
+<input
+  label="Quantity"
+  value="{qty}"
+  type="number"
+  min="1"
+  max="100"
+  required
+/>
 ```
 
 Disabled input during form submission:
 
 ```html
-<Input label="Account ID" value={accountId} type="text" disabled={isSubmitting} />
+<input
+  label="Account ID"
+  value="{accountId}"
+  type="text"
+  disabled="{isSubmitting}"
+/>
 ```
 
 ## Keyboard Interactions
@@ -68,14 +86,11 @@ None -- this component uses the native `<input>` element, which provides built-i
 
 This headless component provides a native `<input>` element with `aria-label`, two-way value binding, and support for `required` and `disabled` attributes. The consumer provides all visual styling including borders, padding, focus states, and placeholder text appearance.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.input` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<input>` element with class `input`
 - Verify aria-label` -- provides an accessible name for the input when no visible label is present.

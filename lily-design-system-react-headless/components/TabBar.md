@@ -16,13 +16,27 @@ Compound component: use with TabBarButton.
 const [activeTab, setActiveTab] = useState("general");
 
 <TabBar label="Settings">
-  <TabBarButton selected={activeTab === "general"} controls="panel-general"
-    onClick={() => setActiveTab("general")}>General</TabBarButton>
-  <TabBarButton selected={activeTab === "advanced"} controls="panel-advanced"
-    onClick={() => setActiveTab("advanced")}>Advanced</TabBarButton>
-</TabBar>
-{activeTab === "general" && <div id="panel-general">General settings</div>}
-{activeTab === "advanced" && <div id="panel-advanced">Advanced settings</div>}
+  <TabBarButton
+    selected={activeTab === "general"}
+    controls="panel-general"
+    onClick={() => setActiveTab("general")}
+  >
+    General
+  </TabBarButton>
+  <TabBarButton
+    selected={activeTab === "advanced"}
+    controls="panel-advanced"
+    onClick={() => setActiveTab("advanced")}
+  >
+    Advanced
+  </TabBarButton>
+</TabBar>;
+{
+  activeTab === "general" && <div id="panel-general">General settings</div>;
+}
+{
+  activeTab === "advanced" && <div id="panel-advanced">Advanced settings</div>;
+}
 ```
 
 ## Keyboard Interactions

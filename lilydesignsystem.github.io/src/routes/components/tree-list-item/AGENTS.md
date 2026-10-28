@@ -42,7 +42,7 @@
 
 | Prop           | Type            | Default    | Description                                                                                          |
 | -------------- | --------------- | ---------- | ---------------------------------------------------------------------------------------------------- |
-| `children`     | `slot`       | (required) | Content for the tree item                                                                            |
+| `children`     | `slot`          | (required) | Content for the tree item                                                                            |
 | `...restProps` | HTML attributes |            | Additional attributes spread onto the `<li>` element (including `role`, `tabindex`, `aria-expanded`) |
 
 ## Acceptance Criteria

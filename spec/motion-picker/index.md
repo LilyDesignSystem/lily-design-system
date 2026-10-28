@@ -13,33 +13,53 @@ Button:
 
 ```html
 <button
-	type="button"
-	class="motion-picker-button"
-	aria-label="Motion Picker"
-	aria-haspopup="listbox"
-	aria-expanded="false"
-	aria-controls="motion-picker-list"
-><span class="motion-picker-icon" aria-hidden="true">⏸︎</span></button>
+  type="button"
+  class="motion-picker-button"
+  aria-label="Motion Picker"
+  aria-haspopup="listbox"
+  aria-expanded="false"
+  aria-controls="motion-picker-list"
+>
+  <span
+    class="motion-picker-icon"
+    aria-hidden="true"
+    >⏸︎</span
+  >
+</button>
 ```
 
 List:
 
 ```html
 <ul
-	class="motion-picker-list"
-	id="motion-picker-list"
-	role="listbox"
-	aria-label="Motion Picker"
-	tabindex="-1"
-	hidden=""
->
+  class="motion-picker-list"
+  id="motion-picker-list"
+  role="listbox"
+  aria-label="Motion Picker"
+  tabindex="-1"
+  hidden=""
+></ul>
 ```
 
 List items:
 
 ```html
-<li role="option" class="motion-picker-option" id="motion-picker-option-no-preference" aria-selected="true">No Preference</li>
-<li role="option" class="motion-picker-option" id="motion-picker-option-reduce" aria-selected="false">Reduce</li>
+<li
+  role="option"
+  class="motion-picker-option"
+  id="motion-picker-option-no-preference"
+  aria-selected="true"
+>
+  No Preference
+</li>
+<li
+  role="option"
+  class="motion-picker-option"
+  id="motion-picker-option-reduce"
+  aria-selected="false"
+>
+  Reduce
+</li>
 ```
 
 Applies `data-motion="{slug}"` to the document root; consumer CSS/JS maps

@@ -8,7 +8,6 @@ A placeholder shown when a list, table, or view has nothing to display yet.
 - `params.attributes` is spread onto the root element
 - Port of the Svelte canonical (`lily-design-system-svelte-headless`)
 
-
 ## Props
 
 - `label` (optional): adds `role="group"` and `aria-label`

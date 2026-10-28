@@ -25,15 +25,29 @@ The component supports bindable value state, required and disabled attributes, a
 ## Usage
 
 ```svelte
-<Input label="Search" bind:value />
+<Input
+  label="Search"
+  bind:value
+/>
 ```
 
 ```svelte
-<Input label="Name" bind:value type="text" required />
+<Input
+  label="Name"
+  bind:value
+  type="text"
+  required
+/>
 ```
 
 ```svelte
-<Input label="Email address" bind:value type="email" required disabled={isSubmitting} />
+<Input
+  label="Email address"
+  bind:value
+  type="email"
+  required
+  disabled={isSubmitting}
+/>
 ```
 
 ## Keyboard Interactions

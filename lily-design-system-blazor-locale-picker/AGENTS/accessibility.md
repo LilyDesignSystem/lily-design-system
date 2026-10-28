@@ -7,21 +7,21 @@ native `<select>`. The canonical contract is in
 
 ## Roles and properties
 
-| Element                    | Role / Property                          | Source             |
-| -------------------------- | ---------------------------------------- | ------------------ |
-| `<button>`                 | `aria-haspopup="listbox"`                | Component          |
-| `<button>`                 | `aria-expanded="true\|false"`            | Component          |
-| `<button>`                 | `aria-controls="{listId}"`               | Component          |
-| `<button>`                 | `aria-label="@Label"`                    | Consumer parameter |
-| `<span class="locale-picker-icon">` | `aria-hidden="true"`            | Component          |
-| `<ul>`                     | `role="listbox"`                         | Component          |
-| `<ul>`                     | `tabindex="-1"`                          | Component          |
-| `<ul>`                     | `aria-label="@Label"`                    | Consumer parameter |
-| `<ul>`                     | `aria-activedescendant` (open only)      | Component          |
-| `<li>`                     | `role="option"`                          | Component          |
-| `<li>`                     | `aria-selected="true\|false"`            | Component          |
-| `<li>`                     | `data-active` (styling hook)             | Component          |
-| `<li>`                     | `lang` (only when the label is the derived endonym, WCAG 3.1.2) | Component          |
+| Element                             | Role / Property                                                 | Source             |
+| ----------------------------------- | --------------------------------------------------------------- | ------------------ |
+| `<button>`                          | `aria-haspopup="listbox"`                                       | Component          |
+| `<button>`                          | `aria-expanded="true\|false"`                                   | Component          |
+| `<button>`                          | `aria-controls="{listId}"`                                      | Component          |
+| `<button>`                          | `aria-label="@Label"`                                           | Consumer parameter |
+| `<span class="locale-picker-icon">` | `aria-hidden="true"`                                            | Component          |
+| `<ul>`                              | `role="listbox"`                                                | Component          |
+| `<ul>`                              | `tabindex="-1"`                                                 | Component          |
+| `<ul>`                              | `aria-label="@Label"`                                           | Consumer parameter |
+| `<ul>`                              | `aria-activedescendant` (open only)                             | Component          |
+| `<li>`                              | `role="option"`                                                 | Component          |
+| `<li>`                              | `aria-selected="true\|false"`                                   | Component          |
+| `<li>`                              | `data-active` (styling hook)                                    | Component          |
+| `<li>`                              | `lang` (only when the label is the derived endonym, WCAG 3.1.2) | Component          |
 
 The button is icon-only, so `Label` is its **entire** accessible name:
 the glyph is `aria-hidden="true"` and contributes nothing. The same
@@ -49,18 +49,18 @@ Opening moves focus to the `<ul>`.
 
 On the **listbox**:
 
-| Key               | Action                                                                 |
-| ----------------- | ---------------------------------------------------------------------- |
-| `Arrow Down`      | Move the active option down one; **clamps** at the last (no wrap).     |
-| `Arrow Up`        | Move the active option up one; **clamps** at the first (no wrap).      |
-| `Home`            | Jump to the first option.                                              |
-| `End`             | Jump to the last option.                                               |
-| `Enter` / `Space` | Select the active option, apply it, close, return focus to the button. |
-| `Escape`          | Close and return focus **without** changing the value.                 |
-| `PageUp`          | Move the active option up ten; clamps at the first.                    |
-| `PageDown`        | Move the active option down ten; clamps at the last.                   |
-| `Tab`             | Close and move on: the browser's default Tab proceeds from the picker's position. |
-| Printable chars   | Typeahead over the option *labels*, 500 ms buffer reset. A single character advances to the **next** match and repeating it cycles onward; differing characters refine the match from the active option. |
+| Key               | Action                                                                                                                                                                                                   |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Arrow Down`      | Move the active option down one; **clamps** at the last (no wrap).                                                                                                                                       |
+| `Arrow Up`        | Move the active option up one; **clamps** at the first (no wrap).                                                                                                                                        |
+| `Home`            | Jump to the first option.                                                                                                                                                                                |
+| `End`             | Jump to the last option.                                                                                                                                                                                 |
+| `Enter` / `Space` | Select the active option, apply it, close, return focus to the button.                                                                                                                                   |
+| `Escape`          | Close and return focus **without** changing the value.                                                                                                                                                   |
+| `PageUp`          | Move the active option up ten; clamps at the first.                                                                                                                                                      |
+| `PageDown`        | Move the active option down ten; clamps at the last.                                                                                                                                                     |
+| `Tab`             | Close and move on: the browser's default Tab proceeds from the picker's position.                                                                                                                        |
+| Printable chars   | Typeahead over the option _labels_, 500 ms buffer reset. A single character advances to the **next** match and repeating it cycles onward; differing characters refine the match from the active option. |
 
 Pointer and focus: clicking an option selects, applies, and closes;
 focus leaving the root closes the listbox without changing the value.
@@ -120,8 +120,14 @@ it, the reader says "Fran-SAY".
 The attribute is emitted in BCP 47 hyphen form via `TagFor`:
 
 ```html
-<li class="locale-picker-option" role="option"
-    aria-selected="false" lang="fr-CA">Français (Canada)</li>
+<li
+  class="locale-picker-option"
+  role="option"
+  aria-selected="false"
+  lang="fr-CA"
+>
+  Français (Canada)
+</li>
 ```
 
 `ChildContent` cannot change this: it replaces the glyph inside the
@@ -144,13 +150,13 @@ Both focus moves are deferred to `OnAfterRenderAsync`, because the
 
 Tested against the major combinations:
 
-| Reader     | OS       | Browser   | What's announced when the user lands on the button |
-| ---------- | -------- | --------- | -------------------------------------------------- |
-| VoiceOver  | macOS 14 | Safari 17 | "Language, pop-up button, collapsed". |
-| NVDA       | Windows  | Firefox   | "Language button, collapsed". |
-| Narrator   | Windows  | Edge      | "Language button, collapsed". |
-| JAWS       | Windows  | Chrome    | "Language button, collapsed". |
-| TalkBack   | Android  | Chrome    | "Language, button, double-tap to activate". |
+| Reader    | OS       | Browser   | What's announced when the user lands on the button |
+| --------- | -------- | --------- | -------------------------------------------------- |
+| VoiceOver | macOS 14 | Safari 17 | "Language, pop-up button, collapsed".              |
+| NVDA      | Windows  | Firefox   | "Language button, collapsed".                      |
+| Narrator  | Windows  | Edge      | "Language button, collapsed".                      |
+| JAWS      | Windows  | Chrome    | "Language button, collapsed".                      |
+| TalkBack  | Android  | Chrome    | "Language, button, double-tap to activate".        |
 
 Once opened, the reader announces the listbox by its `aria-label`
 and then the active option — "English, 1 of 5" — as

@@ -49,11 +49,14 @@ Vertical scrollbar with a simple thumb:
 
 ```svelte
 <script lang="ts">
-    import ScrollBar from "./ScrollBar.svelte";
+  import ScrollBar from "./ScrollBar.svelte";
 </script>
 
-<ScrollBar orientation="vertical" label="Page scroll">
-    <div class="thumb"></div>
+<ScrollBar
+  orientation="vertical"
+  label="Page scroll"
+>
+  <div class="thumb"></div>
 </ScrollBar>
 ```
 
@@ -61,11 +64,14 @@ Horizontal timeline scrollbar:
 
 ```svelte
 <script lang="ts">
-    import ScrollBar from "./ScrollBar.svelte";
+  import ScrollBar from "./ScrollBar.svelte";
 </script>
 
-<ScrollBar orientation="horizontal" label="Timeline scroll">
-    <div class="thumb"></div>
+<ScrollBar
+  orientation="horizontal"
+  label="Timeline scroll"
+>
+  <div class="thumb"></div>
 </ScrollBar>
 ```
 
@@ -73,12 +79,19 @@ Reflecting a bound scroll position:
 
 ```svelte
 <script lang="ts">
-    import ScrollBar from "./ScrollBar.svelte";
-    let pos = $state(42);
+  import ScrollBar from "./ScrollBar.svelte";
+  let pos = $state(42);
 </script>
 
-<ScrollBar orientation="vertical" label="List scroll" aria-valuenow={pos}>
-    <div class="thumb" style={`top:${pos}%`}></div>
+<ScrollBar
+  orientation="vertical"
+  label="List scroll"
+  aria-valuenow={pos}
+>
+  <div
+    class="thumb"
+    style={`top:${pos}%`}
+  ></div>
 </ScrollBar>
 ```
 
@@ -86,15 +99,18 @@ Paired with a scroll area:
 
 ```svelte
 <script lang="ts">
-    import ScrollArea from "../ScrollArea/ScrollArea.svelte";
-    import ScrollBar from "./ScrollBar.svelte";
+  import ScrollArea from "../ScrollArea/ScrollArea.svelte";
+  import ScrollBar from "./ScrollBar.svelte";
 </script>
 
 <div class="scroll-layout">
-    <ScrollArea label="Content">...</ScrollArea>
-    <ScrollBar orientation="vertical" label="Content scroll">
-        <div class="thumb"></div>
-    </ScrollBar>
+  <ScrollArea label="Content">...</ScrollArea>
+  <ScrollBar
+    orientation="vertical"
+    label="Content scroll"
+  >
+    <div class="thumb"></div>
+  </ScrollBar>
 </div>
 ```
 
@@ -106,6 +122,7 @@ Paired with a scroll area:
 - Keyboard support (Arrow / Page / Home / End) must be implemented by the consumer.
 
 References:
+
 - WAI-ARIA `scrollbar` role: https://www.w3.org/TR/wai-aria-1.2/#scrollbar
 
 ## Related components

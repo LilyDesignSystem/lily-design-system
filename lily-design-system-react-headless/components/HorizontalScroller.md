@@ -20,7 +20,10 @@ A horizontally scrollable region. Renders a `<div role="region">` with `tabindex
 ## Usage
 
 ```tsx
-<HorizontalScroller label="Featured stories" step={200}>
+<HorizontalScroller
+  label="Featured stories"
+  step={200}
+>
   <article>Story 1</article>
   <article>Story 2</article>
   <article>Story 3</article>

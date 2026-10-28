@@ -33,7 +33,7 @@ helpers themselves are held to.
 
 ## What this subproject is, and isn't
 
-- **Is**: a distributable skill scoped to *consuming* Lily's Blazor
+- **Is**: a distributable skill scoped to _consuming_ Lily's Blazor
   `*-picker` helper packages — NuGet install per package, the shared
   icon-button/listbox contract and its two exceptions (`share-picker`,
   `date-time-picker`), and the Blazor-specific `IJSRuntime`/SSR pattern.

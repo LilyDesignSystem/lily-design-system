@@ -59,14 +59,11 @@ None -- this is a passive informational display, not an interactive element.
 
 This headless component renders a semantic `<dl>` element with `aria-label` for accessible naming. It provides description list semantics for key-value pairs. The consumer provides all visual styling including layout, spacing, typography, and row separation.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.summary-list` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<ol>` element with class `summary-list`
 - Verify aria-label={label}` -- provides the accessible name for the description list, allowing screen readers to announce the context of the key-value pairs

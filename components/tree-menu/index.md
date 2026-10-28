@@ -24,31 +24,78 @@ This headless component renders a `<ul>` with `role="tree"` and provides keyboar
 
 ```html
 <TreeMenu label="File actions">
-  <li role="treeitem" tabindex="0" aria-expanded="true">
+  <li
+    role="treeitem"
+    tabindex="0"
+    aria-expanded="true"
+  >
     File
     <ul role="group">
-      <li role="treeitem" tabindex="-1">New</li>
-      <li role="treeitem" tabindex="-1">Open</li>
-      <li role="treeitem" tabindex="-1">Save</li>
+      <li
+        role="treeitem"
+        tabindex="-1"
+      >
+        New
+      </li>
+      <li
+        role="treeitem"
+        tabindex="-1"
+      >
+        Open
+      </li>
+      <li
+        role="treeitem"
+        tabindex="-1"
+      >
+        Save
+      </li>
     </ul>
   </li>
-  <li role="treeitem" tabindex="-1" aria-expanded="false">
+  <li
+    role="treeitem"
+    tabindex="-1"
+    aria-expanded="false"
+  >
     Edit
   </li>
-  <li role="treeitem" tabindex="-1">Help</li>
+  <li
+    role="treeitem"
+    tabindex="-1"
+  >
+    Help
+  </li>
 </TreeMenu>
 ```
 
 ```html
 <TreeMenu label="Category browser">
-  <li role="treeitem" tabindex="0" aria-expanded="true">
+  <li
+    role="treeitem"
+    tabindex="0"
+    aria-expanded="true"
+  >
     Cardiology
     <ul role="group">
-      <li role="treeitem" tabindex="-1">Heart Failure</li>
-      <li role="treeitem" tabindex="-1">Arrhythmia</li>
+      <li
+        role="treeitem"
+        tabindex="-1"
+      >
+        Heart Failure
+      </li>
+      <li
+        role="treeitem"
+        tabindex="-1"
+      >
+        Arrhythmia
+      </li>
     </ul>
   </li>
-  <li role="treeitem" tabindex="-1">Oncology</li>
+  <li
+    role="treeitem"
+    tabindex="-1"
+  >
+    Oncology
+  </li>
 </TreeMenu>
 ```
 
@@ -82,14 +129,11 @@ This headless component renders a `<ul>` with `role="tree"` and provides keyboar
 
 This headless component provides a `<ul>` with `role="tree"`, `aria-label`, and built-in keyboard navigation (ArrowUp, ArrowDown, Home, End with wrapping). The consumer provides `<li role="treeitem">` children and all visual styling including indentation, expansion indicators, and icons.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.tree-menu` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `tree-menu`
 - Verify role="tree"` -- identifies the container as a tree view widget

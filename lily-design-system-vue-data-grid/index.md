@@ -20,7 +20,12 @@ import type { DataGridColumn } from "@lilydesignsystem/vue-data-grid";
 
 const columns: DataGridColumn[] = [
   { id: "name", header: "Name", sortable: true, resizable: true },
-  { id: "email", header: "Email", sortable: true, cell: ({ value, formatted }) => h("a", { href: `mailto:${value}` }, formatted) },
+  {
+    id: "email",
+    header: "Email",
+    sortable: true,
+    cell: ({ value, formatted }) => h("a", { href: `mailto:${value}` }, formatted),
+  },
   { id: "role", header: "Role", sortable: true, hidable: true },
 ];
 const rows = [
@@ -28,25 +33,36 @@ const rows = [
   { name: "Bob", email: "bob@example.com", role: "Editor" },
 ];
 const selected = ref<string[]>([]);
-const labels = { search: "Search users", selectAll: "Select all rows", selectRow: (name: string) => `Select ${name}` };
+const labels = {
+  search: "Search users",
+  selectAll: "Select all rows",
+  selectRow: (name: string) => `Select ${name}`,
+};
 </script>
 
 <template>
-  <DataGrid label="Users" :columns="columns" :rows="rows" selection-mode="multiple" v-model:selected="selected" :labels="labels" />
+  <DataGrid
+    label="Users"
+    :columns="columns"
+    :rows="rows"
+    selection-mode="multiple"
+    v-model:selected="selected"
+    :labels="labels"
+  />
 </template>
 ```
 
 ## What is Vue-specific
 
-| Svelte | Vue |
-| --- | --- |
-| `selected`, `filter`, `sort`, `columnOrder`, `page` (bindable) | `v-model:selected`, `v-model:filter`, `v-model:sort`, `v-model:columnOrder`, `v-model:page` |
-| `onSelectionChange`, `onFilterChange`, `onSortChange`, `onColumnOrderChange` | the matching `update:` events of those models |
-| `onCellEdit`, `onFilesSelected`, `onFileRemove`, `onRowActivate` | the events `cell-edit`, `files-selected`, `file-remove`, `row-activate` (Enter on a cell activates its row only when a `row-activate` listener is attached) |
-| `onExport` (return `false` to stop the save) | the `exportHandler` prop (return `false`) and the `export-file` event |
-| `empty: Snippet`, `footer: Snippet<[{ columns, rows }]>` | the `empty` slot and the `footer` slot (props `columns`, `rows`) |
-| column `cell`, `headerCell`, `avatar`, `personEditor` snippets | functions returning a vnode (`h()`) |
-| `class` | `class` (falls through to the root `<div>`) |
+| Svelte                                                                       | Vue                                                                                                                                                         |
+| ---------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `selected`, `filter`, `sort`, `columnOrder`, `page` (bindable)               | `v-model:selected`, `v-model:filter`, `v-model:sort`, `v-model:columnOrder`, `v-model:page`                                                                 |
+| `onSelectionChange`, `onFilterChange`, `onSortChange`, `onColumnOrderChange` | the matching `update:` events of those models                                                                                                               |
+| `onCellEdit`, `onFilesSelected`, `onFileRemove`, `onRowActivate`             | the events `cell-edit`, `files-selected`, `file-remove`, `row-activate` (Enter on a cell activates its row only when a `row-activate` listener is attached) |
+| `onExport` (return `false` to stop the save)                                 | the `exportHandler` prop (return `false`) and the `export-file` event                                                                                       |
+| `empty: Snippet`, `footer: Snippet<[{ columns, rows }]>`                     | the `empty` slot and the `footer` slot (props `columns`, `rows`)                                                                                            |
+| column `cell`, `headerCell`, `avatar`, `personEditor` snippets               | functions returning a vnode (`h()`)                                                                                                                         |
+| `class`                                                                      | `class` (falls through to the root `<div>`)                                                                                                                 |
 
 Everything else — columns, labels, `rowId`, `selectionMode`, `pageSize`, `storageKey`, `mode`,
 the keyboard model, the cell types, editing, export and virtualization — is as in the Svelte
@@ -86,7 +102,7 @@ Requires `@lilydesignsystem/vue-headless`.
 - **Field-specific search.** `filterField` (a `v-model`, `onFilterFieldChange`) limits the text filter to one column; `labels.searchField` (the select's name) with `labels.searchAllFields` (its first option) shows the select, listing the filterable columns. Without a field the whole row is searched.
 - **`movableColumns`** makes every column movable (Alt+Arrow on the header, or drag), unless a column's `movable` is `false`.
 - **Right-to-left.** The horizontal arrows are visual, so in a right-to-left layout (the nearest `dir`, else the computed direction) ArrowLeft goes to the next cell and ArrowRight to the previous, and Alt+Arrow moves a column the way the arrow points. Vertical keys, Home, End and the page keys do not change. The pure `isRtl` / `logicalKey` are exported.
-- **Labels.** `DataGridLabels` is the one bundle of every string. What each feature needs is listed in `CONTROL_LABELS` (labels that *name a control*) and `ANNOUNCEMENT_LABELS` (live-region messages), and `requiredLabels(features)` / `missingLabels(features, labels)` compute it, so an app can assert in a test that its bundle for a locale is complete. In development the grid logs once, naming the labels its features call for that `labels` leaves out (`warnMissingLabels={false}` silences it; it never logs in production). Lily has no English fallback: a missing label is a control with no name or an announcement never made. `sortAnnouncement` receives the ARIA token (`ascending`, `descending`, `none`), which the bundle turns into its own words.
+- **Labels.** `DataGridLabels` is the one bundle of every string. What each feature needs is listed in `CONTROL_LABELS` (labels that _name a control_) and `ANNOUNCEMENT_LABELS` (live-region messages), and `requiredLabels(features)` / `missingLabels(features, labels)` compute it, so an app can assert in a test that its bundle for a locale is complete. In development the grid logs once, naming the labels its features call for that `labels` leaves out (`warnMissingLabels={false}` silences it; it never logs in production). Lily has no English fallback: a missing label is a control with no name or an announcement never made. `sortAnnouncement` receives the ARIA token (`ascending`, `descending`, `none`), which the bundle turns into its own words.
 - **Row attributes.** `rowAttrs(row)` returns attributes spread onto each body row — the way to put test ids (`data-testid`), data attributes and other hooks on rows (`rowAttrs={(row) => ({ "data-testid": `row-${row.id}` })}`); `rowClass` does the same for classes, and a column's `cellAttrs` / `cellClass` for cells.
 
 ## Pager landmark (0.10.0)

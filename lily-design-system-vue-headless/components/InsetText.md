@@ -25,7 +25,7 @@ The component renders its content within a semantic container that screen reader
 
 ```svelte
 <InsetText>
-    <p>You must apply before the deadline. Late applications will not be accepted.</p>
+  <p>You must apply before the deadline. Late applications will not be accepted.</p>
 </InsetText>
 ```
 

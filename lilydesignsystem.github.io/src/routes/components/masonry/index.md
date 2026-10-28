@@ -38,7 +38,10 @@ Default three-column masonry:
 Two columns with larger gap:
 
 ```html
-<Masonry columns={2} gap="2rem">
+<Masonry
+  columns="{2}"
+  gap="2rem"
+>
   <PhotoPack>...</PhotoPack>
   <PhotoPack>...</PhotoPack>
 </Masonry>

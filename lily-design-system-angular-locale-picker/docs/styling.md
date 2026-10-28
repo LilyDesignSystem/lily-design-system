@@ -16,8 +16,8 @@ before shipping.
 
 ## Class hooks
 
-| Selector                          | Element                                                                                                                                                                                                               |
-| --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Selector                         | Element                                                                                                                                                                                                               |
+| -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `.locale-picker`                 | The root `<div>`.                                                                                                                                                                                                     |
 | `.locale-picker.{consumerClass}` | Both classes when `className` is passed.                                                                                                                                                                              |
 | `.locale-picker-button`          | The trigger `<button>`. Icon-only by default.                                                                                                                                                                         |
@@ -28,8 +28,8 @@ before shipping.
 
 ## State selectors
 
-| Selector                                       | Meaning                                                       |
-| ---------------------------------------------- | ------------------------------------------------------------- |
+| Selector                                      | Meaning                                                       |
+| --------------------------------------------- | ------------------------------------------------------------- |
 | `.locale-picker-option[data-active]`          | The option the **keyboard** is currently pointing at.         |
 | `.locale-picker-option[aria-selected="true"]` | The locale currently **in effect**.                           |
 | `.locale-picker-button[aria-expanded="true"]` | The listbox is open.                                          |
@@ -375,7 +375,10 @@ because the closed button shows a globe and nothing else — on its own
 it never tells any user which locale is in effect:
 
 ```html
-<p class="locale-picker-status" aria-live="polite">
+<p
+  class="locale-picker-status"
+  aria-live="polite"
+>
   Active language:
   <span [attr.lang]="tagFor(locale())">{{ nameFor(locale()) }}</span>
 </p>

@@ -25,10 +25,17 @@ This headless component uses a `<div>` element that wraps content and passes a v
 ## Usage
 
 ```html
-<Visible once threshold={0.5}>
-  {(isVisible) => isVisible
-    ? <img src="photo.jpg" alt="Lazy loaded photo" />
-    : <div class="placeholder" />
+<Visible
+  once
+  threshold="{0.5}"
+>
+  {(isVisible) => isVisible ?
+  <img
+    src="photo.jpg"
+    alt="Lazy loaded photo"
+  />
+  :
+  <div class="placeholder" />
   }
 </Visible>
 ```
@@ -46,9 +53,13 @@ This headless component uses a `<div>` element that wraps content and passes a v
 
 ```html
 <Visible once>
-  {(isVisible) => isVisible
-    ? <iframe src="https://example.com/embed" title="Embedded content" />
-    : <div class="loading-placeholder">Loading...</div>
+  {(isVisible) => isVisible ?
+  <iframe
+    src="https://example.com/embed"
+    title="Embedded content"
+  />
+  :
+  <div class="loading-placeholder">Loading...</div>
   }
 </Visible>
 ```

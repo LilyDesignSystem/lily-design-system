@@ -24,7 +24,11 @@ This headless component uses a `<div>` element with an `aria-label` to create a 
 ## Usage
 
 ```html
-<ScrollerBase offset={0.5} bind:index bind:progress>
+<ScrollerBase
+  offset="{0.5}"
+  bind:index
+  bind:progress
+>
   <div class="step">Step 1 content</div>
   <div class="step">Step 2 content</div>
   <div class="step">Step 3 content</div>
@@ -32,7 +36,10 @@ This headless component uses a `<div>` element with an `aria-label` to create a 
 ```
 
 ```html
-<ScrollerBase offset={0.3} bind:index>
+<ScrollerBase
+  offset="{0.3}"
+  bind:index
+>
   <div class="step">
     <h2>Introduction</h2>
     <p>The story begins here.</p>

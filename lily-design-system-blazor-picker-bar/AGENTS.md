@@ -21,12 +21,12 @@ deliberately not included — see spec §1.
 ## Files
 
 | File                 | Purpose                                       |
-| -------------------- | ---------------------------------------------- |
-| `spec/index.md`      | Specification-driven contract (canonical).     |
-| `PickerBar.razor`    | Razor markup.                                  |
-| `PickerBar.razor.cs` | C# code-behind (partial class).                |
-| `PickerBarTests.cs`  | bUnit + xUnit spec, one `[Fact]` per §7 item.  |
-| `index.md`           | User guide.                                    |
+| -------------------- | --------------------------------------------- |
+| `spec/index.md`      | Specification-driven contract (canonical).    |
+| `PickerBar.razor`    | Razor markup.                                 |
+| `PickerBar.razor.cs` | C# code-behind (partial class).               |
+| `PickerBarTests.cs`  | bUnit + xUnit spec, one `[Fact]` per §7 item. |
+| `index.md`           | User guide.                                   |
 
 ## Public surface
 
@@ -62,7 +62,10 @@ contract; see that picker's own `AGENTS.md`.
 ## Markup
 
 ```html
-<div class="picker-bar {CssClass}" ...AdditionalAttributes>
+<div
+  class="picker-bar {CssClass}"
+  ...AdditionalAttributes
+>
   <div class="search-picker">…</div>
   <div class="theme-picker">…</div>
   <div class="locale-picker">…</div>

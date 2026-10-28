@@ -13,15 +13,15 @@ The canonical implementation is the Svelte package (`../lily-design-system-svelt
 
 ## Files
 
-| File | Purpose |
-| ---- | ------- |
-| `spec/index.md` | Specification-driven contract (canonical). |
-| `org-editor.ts` | Implementation: the `createOrgEditor` state and the Alpine plugin. |
-| `snippet.html` | The markup, bound to the state. |
-| `org-editor.test.ts` | Vitest + jsdom + Alpine spec, run against the snippet. |
-| `index.md` | User guide. |
-| `docs/accessibility.md` | Tradeoffs, stated plainly. |
-| `examples/` | Runnable examples. |
+| File                    | Purpose                                                            |
+| ----------------------- | ------------------------------------------------------------------ |
+| `spec/index.md`         | Specification-driven contract (canonical).                         |
+| `org-editor.ts`         | Implementation: the `createOrgEditor` state and the Alpine plugin. |
+| `snippet.html`          | The markup, bound to the state.                                    |
+| `org-editor.test.ts`    | Vitest + jsdom + Alpine spec, run against the snippet.             |
+| `index.md`              | User guide.                                                        |
+| `docs/accessibility.md` | Tradeoffs, stated plainly.                                         |
+| `examples/`             | Runnable examples.                                                 |
 
 ## Rules that matter
 

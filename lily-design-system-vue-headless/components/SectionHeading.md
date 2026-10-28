@@ -20,10 +20,10 @@ A styled heading introducing a major content section, with optional eyebrow and 
 
 ```vue
 <SectionHeading
-    eyebrow="GET STARTED"
-    heading="Build a privacy-first product"
-    subtitle="Tools and resources to help you ship faster."
-    :level="2"
+  eyebrow="GET STARTED"
+  heading="Build a privacy-first product"
+  subtitle="Tools and resources to help you ship faster."
+  :level="2"
 />
 ```
 

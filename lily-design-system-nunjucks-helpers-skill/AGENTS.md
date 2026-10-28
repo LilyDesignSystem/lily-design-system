@@ -41,7 +41,7 @@ all seven.
 
 ## What this subproject is, and isn't
 
-- **Is**: a distributable skill scoped to *consuming*
+- **Is**: a distributable skill scoped to _consuming_
   `lily-design-system-nunjucks-helpers` — the six helpers' contracts, the
   macro-plus-client.js split unique to this catalog, and the
   no-JavaScript degradation story for each helper.

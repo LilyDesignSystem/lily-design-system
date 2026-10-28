@@ -34,8 +34,15 @@ accessible labeling for screen readers.
 ## Usage
 
 ```html
-<Field label="NHS Number" required>
-  <UnitedKingdomNationalHealthServiceNumberInput label="NHS Number" value={nhsNumber} required />
+<Field
+  label="NHS Number"
+  required
+>
+  <UnitedKingdomNationalHealthServiceNumberInput
+    label="NHS Number"
+    value="{nhsNumber}"
+    required
+  />
   <Hint>Format: XXX XXX XXXX (10 digits from your NHS records)</Hint>
   <ErrorMessage>Please enter a valid NHS number</ErrorMessage>
 </Field>
@@ -69,14 +76,11 @@ accessible labeling for screen readers.
 
 This headless component provides an `<input type="text">` with NHS number pattern validation, `inputmode="numeric"`, `autocomplete="off"`, `aria-label`, and support for `required`/`disabled` states. The consumer provides all visual styling, surrounding labels, hints, and error messages.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.united-kingdom-national-health-service-number-input` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<input>` element with class `united-kingdom-national-health-service-number-input`
 - Verify aria-label` provides accessible name from label prop

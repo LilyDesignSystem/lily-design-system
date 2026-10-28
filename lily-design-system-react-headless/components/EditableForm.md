@@ -24,17 +24,39 @@ The form is only rendered when the `editing` prop is true. Submitting the form a
 ## Usage
 
 ```tsx
-<EditableForm label="Edit profile" editing={isEditing} onChange={setIsEditing} onSubmit={save}>
-  <input name="name" value={name} />
+<EditableForm
+  label="Edit profile"
+  editing={isEditing}
+  onChange={setIsEditing}
+  onSubmit={save}
+>
+  <input
+    name="name"
+    value={name}
+  />
   <button type="submit">Save</button>
 </EditableForm>
 ```
 
 ```tsx
-<EditableForm label="Rename item" editing={isEditing} onChange={setIsEditing} onSubmit={rename} onCancel={revert}>
-  <input name="title" value={title} />
+<EditableForm
+  label="Rename item"
+  editing={isEditing}
+  onChange={setIsEditing}
+  onSubmit={rename}
+  onCancel={revert}
+>
+  <input
+    name="title"
+    value={title}
+  />
   <button type="submit">OK</button>
-  <button type="button" onClick={() => setIsEditing(false)}>Cancel</button>
+  <button
+    type="button"
+    onClick={() => setIsEditing(false)}
+  >
+    Cancel
+  </button>
 </EditableForm>
 ```
 

@@ -12,7 +12,10 @@ A box area that looks like a web browser. Renders a decorative `<div>` container
 
 ```tsx
 <MockupBrowser>
-  <img src="screenshot.png" alt="App screen" />
+  <img
+    src="screenshot.png"
+    alt="App screen"
+  />
 </MockupBrowser>
 ```
 

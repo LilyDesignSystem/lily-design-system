@@ -12,7 +12,10 @@ A box area that looks like a laptop computer. Renders a decorative `<div>` conta
 
 ```tsx
 <MockupLaptop>
-  <img src="screenshot.png" alt="App screen" />
+  <img
+    src="screenshot.png"
+    alt="App screen"
+  />
 </MockupLaptop>
 ```
 

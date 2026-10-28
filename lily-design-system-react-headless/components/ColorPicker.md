@@ -25,7 +25,13 @@ This component is useful for advanced color pickers where the user needs fine-gr
 ## Usage
 
 ```tsx
-<ColorPicker label="Color saturation and brightness" x={xPos} onXChange={setXPos} y={yPos} onYChange={setYPos} />
+<ColorPicker
+  label="Color saturation and brightness"
+  x={xPos}
+  onXChange={setXPos}
+  y={yPos}
+  onYChange={setYPos}
+/>
 ```
 
 ## Keyboard Interactions

@@ -61,14 +61,11 @@ None -- this component is a passive container. Keyboard navigation is handled by
 
 This headless component provides a `<tr>` element with implicit `row` role for identifying a row within the Gantt chart grid. The consumer provides all visual styling including row height, hover states, and borders.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.gantt-table-tr` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<tr>` element with class `gantt-table-tr`
 - Verify pass-through attributes are applied

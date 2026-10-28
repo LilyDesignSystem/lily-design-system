@@ -125,8 +125,8 @@ import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
 test("theme picker page is accessible", async ({ page }) => {
-    await page.goto("/tmp/site/select/");
-    const results = await new AxeBuilder({ page }).analyze();
-    expect(results.violations).toEqual([]);
+  await page.goto("/tmp/site/select/");
+  const results = await new AxeBuilder({ page }).analyze();
+  expect(results.violations).toEqual([]);
 });
 ```

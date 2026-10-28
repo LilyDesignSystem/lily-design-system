@@ -157,7 +157,7 @@ private bool SawEvalContaining(string needle)
 Assert.True(SawEvalContaining("setAttribute('lang',\"en-US\")"));
 ```
 
-The attribute *name* is single-quoted and the *value* is emitted as a
+The attribute _name_ is single-quoted and the _value_ is emitted as a
 JSON string literal, so the needle mixes both quote styles.
 
 ## BuildApplyScript tests
@@ -273,12 +273,12 @@ dispatches the click directly.
 
 Section map:
 
-| §7 group                      | Clauses | Test focus                                              |
-| ----------------------------- | ------- | ------------------------------------------------------- |
+| §7 group                      | Clauses | Test focus                                                                                                                                                                                                                                                   |
+| ----------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | 7.1 markup contract           | 1–9     | root `<div>`, button + `<ul role="listbox">`, glyph, `aria-label` on both, one `<li>` per locale + hidden input, per-option `lang`, `hidden` / `aria-expanded`, `aria-selected` + `aria-activedescendant` + `data-active`, label fallback, stable unique ids |
-| 7.2 keyboard contract         | 10–18   | button open keys, `ArrowUp` opens on last, arrow clamping, `Home` / `End`, `Enter` / `Space` select-apply-close, `Escape` closes unchanged, typeahead, option click, `focusout` |
-| 7.3 pure helpers              | 19–26   | `Bcp47LocaleTag`, `IsRtlLocale`, `LocaleName`, apply-script `lang` / `dir` / storage, `MatchNavigatorLanguage` |
-| 7.4 lifecycle, spread, custom | 27–29   | explicit `Value` wins, `AdditionalAttributes` spread onto the root, `ChildContent` replaces the glyph |
+| 7.2 keyboard contract         | 10–18   | button open keys, `ArrowUp` opens on last, arrow clamping, `Home` / `End`, `Enter` / `Space` select-apply-close, `Escape` closes unchanged, typeahead, option click, `focusout`                                                                              |
+| 7.3 pure helpers              | 19–26   | `Bcp47LocaleTag`, `IsRtlLocale`, `LocaleName`, apply-script `lang` / `dir` / storage, `MatchNavigatorLanguage`                                                                                                                                               |
+| 7.4 lifecycle, spread, custom | 27–29   | explicit `Value` wins, `AdditionalAttributes` spread onto the root, `ChildContent` replaces the glyph                                                                                                                                                        |
 
 Each `[Fact]` method name starts with the clause number:
 

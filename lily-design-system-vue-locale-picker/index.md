@@ -62,9 +62,7 @@ assistive technology all see the change.
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import LocalePicker, {
-  localeName,
-} from "./lily-design-system-vue-locale-picker/LocalePicker.vue";
+import LocalePicker, { localeName } from "./lily-design-system-vue-locale-picker/LocalePicker.vue";
 
 const locale = ref("");
 </script>
@@ -78,7 +76,10 @@ const locale = ref("");
     detect-from-navigator
   />
 
-  <p class="locale-picker-status" aria-live="polite">
+  <p
+    class="locale-picker-status"
+    aria-live="polite"
+  >
     Current language: {{ localeName(locale) }}
   </p>
 </template>
@@ -114,7 +115,11 @@ input for form participation, an icon button, and a listbox.
 
 ```html
 <div class="locale-picker">
-  <input type="hidden" name="locale" value="en" />
+  <input
+    type="hidden"
+    name="locale"
+    value="en"
+  />
   <button
     type="button"
     class="locale-picker-button"
@@ -123,7 +128,26 @@ input for form participation, an icon button, and a listbox.
     aria-expanded="false"
     aria-controls="locale-picker-1-list"
   >
-    <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path stroke-width="1.1" d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7"/></svg>
+    <svg
+      class="locale-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle
+        cx="8"
+        cy="8"
+        r="6"
+      />
+      <path
+        stroke-width="1.1"
+        d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7"
+      />
+    </svg>
   </button>
   <ul
     class="locale-picker-list"
@@ -441,9 +465,9 @@ There is no `placeholder` prop — it was removed along with the
 
 ## Events
 
-| Event          | Payload  | When                                                         |
-| -------------- | -------- | ------------------------------------------------------------ |
-| `update:value` | `string` | After selection, drives `v-model:value`.                     |
+| Event          | Payload  | When                                                        |
+| -------------- | -------- | ----------------------------------------------------------- |
+| `update:value` | `string` | After selection, drives `v-model:value`.                    |
 | `change`       | `string` | After the picker applies a new locale (consumer-form code). |
 
 ## Accessibility
@@ -501,21 +525,21 @@ server (cookie / `Accept-Language`) and pass it as `value`. See
 
 ## Files in this directory
 
-| File                    | Purpose                                                              |
-| ----------------------- | -------------------------------------------------------------------- |
-| `spec/index.md`         | Single source of truth — API, behaviour, tests.                      |
-| `AGENTS.md`             | Fast-index pointer; loads the AGENTS bundle.                         |
-| `AGENTS/`               | Topic-by-topic agent files.                                          |
-| `CLAUDE.md`             | `@AGENTS.md`.                                                        |
+| File                   | Purpose                                                              |
+| ---------------------- | -------------------------------------------------------------------- |
+| `spec/index.md`        | Single source of truth — API, behaviour, tests.                      |
+| `AGENTS.md`            | Fast-index pointer; loads the AGENTS bundle.                         |
+| `AGENTS/`              | Topic-by-topic agent files.                                          |
+| `CLAUDE.md`            | `@AGENTS.md`.                                                        |
 | `LocalePicker.vue`     | The component implementation.                                        |
 | `LocalePicker.test.ts` | vitest suite covering every spec §7 item.                            |
-| `locales.ts`            | Built-in code → English-name map and RTL sets.                       |
-| `locales.tsv`           | Canonical 436-row source for `locales.ts`.                           |
-| `index.ts`              | Re-export barrel.                                                    |
-| `index.md`              | This file.                                                           |
-| `docs/`                 | Deep-dive guides — see [Documentation](#documentation).              |
-| `examples/`             | Runnable Vue 3 SFCs — see [Examples directory](#examples-directory). |
-| `CHANGELOG.md`          | Version history.                                                     |
+| `locales.ts`           | Built-in code → English-name map and RTL sets.                       |
+| `locales.tsv`          | Canonical 436-row source for `locales.ts`.                           |
+| `index.ts`             | Re-export barrel.                                                    |
+| `index.md`             | This file.                                                           |
+| `docs/`                | Deep-dive guides — see [Documentation](#documentation).              |
+| `examples/`            | Runnable Vue 3 SFCs — see [Examples directory](#examples-directory). |
+| `CHANGELOG.md`         | Version history.                                                     |
 
 ## Documentation
 
@@ -540,7 +564,7 @@ copy into your project.
 
 | Example                                                     | Demonstrates                                                                    |
 | ----------------------------------------------------------- | ------------------------------------------------------------------------------- |
-| [basic.vue](./examples/basic.vue)                           | The default rendering, plus the `.locale-picker-status` live region.           |
+| [basic.vue](./examples/basic.vue)                           | The default rendering, plus the `.locale-picker-status` live region.            |
 | [custom-rendering.vue](./examples/custom-rendering.vue)     | Custom button glyph — the active locale's short code — via the default slot.    |
 | [script-aware-glyph.vue](./examples/script-aware-glyph.vue) | Script-aware button glyph: the active locale in its own script and direction.   |
 | [rtl-demo.vue](./examples/rtl-demo.vue)                     | Live RTL preview — Arabic, Hebrew, Persian, Urdu, Pashto.                       |
@@ -548,7 +572,7 @@ copy into your project.
 | [with-vue-i18n.vue](./examples/with-vue-i18n.vue)           | Binding to vue-i18n's `locale` ref.                                             |
 | [with-paraglide.vue](./examples/with-paraglide.vue)         | Driving Paraglide JS's `setLocale()` from `@change`.                            |
 | [ssr-cookie.vue](./examples/ssr-cookie.vue)                 | Nuxt 3 cookie-based SSR — no flash of default locale.                           |
-| [scoped-target.vue](./examples/scoped-target.vue)           | Multiple per-region pickers, each scoped to its own panel.                     |
+| [scoped-target.vue](./examples/scoped-target.vue)           | Multiple per-region pickers, each scoped to its own panel.                      |
 | [combobox.vue](./examples/combobox.vue)                     | Built-in typeahead over 436 locales, plus a side-by-side `<datalist>` combobox. |
 
 ---

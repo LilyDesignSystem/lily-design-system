@@ -34,26 +34,51 @@ keyboard, tooltip. It owns no content and no words: the panel's content and ever
 
 ### 4.1 Props
 
-| Prop | Type | Required | Notes |
-| --- | --- | --- | --- |
-| `label` | `string` | yes | Accessible name of the button **and** the panel; also the tooltip text. |
-| `open` | `boolean` | no | Controlled open state; omit for an uncontrolled picker. `defaultOpen` sets the initial state. |
-| `closeOnSelect` | `boolean` | no | Close when a link/button/menuitem inside is activated. Default `true`. |
-| `onOpenChange` | `(open: boolean) => void` | no | Fires when the open state changes. |
-| `children` | `ReactNode \| (args: { open, close }) => ReactNode` | no | The panel's content. |
-| `icon` | `(args: { open, close }) => ReactNode` | no | Replaces the hamburger **icon** inside the button. |
-| `className` | `string` | no | Appended to the root class. |
-| `...rest` | | | Spread on the root. |
+| Prop            | Type                                                | Required | Notes                                                                                         |
+| --------------- | --------------------------------------------------- | -------- | --------------------------------------------------------------------------------------------- |
+| `label`         | `string`                                            | yes      | Accessible name of the button **and** the panel; also the tooltip text.                       |
+| `open`          | `boolean`                                           | no       | Controlled open state; omit for an uncontrolled picker. `defaultOpen` sets the initial state. |
+| `closeOnSelect` | `boolean`                                           | no       | Close when a link/button/menuitem inside is activated. Default `true`.                        |
+| `onOpenChange`  | `(open: boolean) => void`                           | no       | Fires when the open state changes.                                                            |
+| `children`      | `ReactNode \| (args: { open, close }) => ReactNode` | no       | The panel's content.                                                                          |
+| `icon`          | `(args: { open, close }) => ReactNode`              | no       | Replaces the hamburger **icon** inside the button.                                            |
+| `className`     | `string`                                            | no       | Appended to the root class.                                                                   |
+| `...rest`       |                                                     |          | Spread on the root.                                                                           |
 
 ### 4.2 DOM contract
 
 ```html
 <div class="menu-picker {class}">
-  <button class="menu-picker-button" type="button" aria-label="{label}" aria-expanded="false" aria-controls="{id}-panel">
-    <svg class="menu-picker-icon" aria-hidden="true" viewBox="0 0 16 16" …three lines…/>
+  <button
+    class="menu-picker-button"
+    type="button"
+    aria-label="{label}"
+    aria-expanded="false"
+    aria-controls="{id}-panel"
+  >
+    <svg
+      class="menu-picker-icon"
+      aria-hidden="true"
+      viewBox="0 0 16 16"
+      …three
+      lines…
+    />
   </button>
-  <div class="menu-picker-tooltip" role="tooltip" id="{id}-tooltip" hidden>{label}</div>
-  <div class="menu-picker-panel" id="{id}-panel" role="group" aria-label="{label}" hidden>
+  <div
+    class="menu-picker-tooltip"
+    role="tooltip"
+    id="{id}-tooltip"
+    hidden
+  >
+    {label}
+  </div>
+  <div
+    class="menu-picker-panel"
+    id="{id}-panel"
+    role="group"
+    aria-label="{label}"
+    hidden
+  >
     …whatever the app provides…
   </div>
 </div>

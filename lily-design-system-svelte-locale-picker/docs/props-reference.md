@@ -10,7 +10,7 @@ rationale and common usage.
 `<ul role="listbox">`. Always supplied, always translatable.
 
 Because the button renders only an `aria-hidden` glyph, this prop is
-the control's *entire* accessible name — there is no visible text to
+the control's _entire_ accessible name — there is no visible text to
 fall back on.
 
 For a locale select this carries a wrinkle worth thinking about: the
@@ -55,7 +55,7 @@ Be deliberate before doing that — see the note on long lists in
 
 ## `value` — optional, string (bindable)
 
-The active locale code, in *your* form. Two-way bindable with
+The active locale code, in _your_ form. Two-way bindable with
 `bind:value={locale}` so the surrounding code can read and write the
 selection.
 
@@ -86,7 +86,7 @@ Storage beats navigator detection on purpose: a user who explicitly
 picked a language keeps it even when travelling with a device set to
 something else.
 
-For a preference that must survive on the *server* (so SSR can paint
+For a preference that must survive on the _server_ (so SSR can paint
 the right `lang` before hydration), use a cookie instead — see
 [ssr.md](./ssr.md).
 
@@ -187,7 +187,7 @@ analytics. See [i18n-integration.md](./i18n-integration.md).
 
 ## `children` — optional, Snippet<[ChildArgs]>
 
-**Replaces the glyph inside the trigger button.** It does *not* render
+**Replaces the glyph inside the trigger button.** It does _not_ render
 the options — the listbox and its `<li role="option">` children are
 component-owned and always emitted.
 
@@ -220,7 +220,7 @@ Extra CSS class hook on the root `<div>`. Always emitted after
 Spread onto the root `<div>`. Use to attach `data-*`, `id`, event
 handlers, and ARIA overrides.
 
-Note that attributes intended for the *button* — `aria-labelledby`,
+Note that attributes intended for the _button_ — `aria-labelledby`,
 `title`, `disabled` — land on the root instead. Pass them
 deliberately, or wrap the select.
 

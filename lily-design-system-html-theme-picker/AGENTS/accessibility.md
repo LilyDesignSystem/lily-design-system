@@ -9,21 +9,21 @@ custom-element-flavoured view; the canonical contract is in
 
 ## Roles and properties
 
-| Element                              | Role / Property                                | Source        |
-| ------------------------------------ | ---------------------------------------------- | ------------- |
-| `<theme-picker>` (host)              | none (silent container)                        | —             |
-| `<div class="theme-picker">`         | none (styling root)                            | Element       |
-| `<button class="theme-picker-button">` | implicit `role="button"`                     | Browser       |
-| `<button>`                           | `aria-label={label}`                           | Consumer attr |
-| `<button>`                           | `aria-haspopup="listbox"`                      | Element       |
-| `<button>`                           | `aria-expanded` (synced open/closed)           | Element       |
-| `<button>`                           | `aria-controls={listId}`                       | Element       |
-| `<span class="theme-picker-icon">`   | `aria-hidden="true"`                           | Element       |
-| `<ul class="theme-picker-list">`      | `role="listbox"`, `aria-label={label}`, `tabindex="-1"` | Element |
-| `<ul>`                               | `hidden` while closed; `aria-activedescendant` only while open | Element |
-| `<li class="theme-picker-option">`   | `role="option"`, unique `id`, `aria-selected`  | Element       |
-| `<li>`                               | `data-active` when keyboard-highlighted        | Element       |
-| `<input type="hidden">`              | none — form participation only                 | Element       |
+| Element                                | Role / Property                                                | Source        |
+| -------------------------------------- | -------------------------------------------------------------- | ------------- |
+| `<theme-picker>` (host)                | none (silent container)                                        | —             |
+| `<div class="theme-picker">`           | none (styling root)                                            | Element       |
+| `<button class="theme-picker-button">` | implicit `role="button"`                                       | Browser       |
+| `<button>`                             | `aria-label={label}`                                           | Consumer attr |
+| `<button>`                             | `aria-haspopup="listbox"`                                      | Element       |
+| `<button>`                             | `aria-expanded` (synced open/closed)                           | Element       |
+| `<button>`                             | `aria-controls={listId}`                                       | Element       |
+| `<span class="theme-picker-icon">`     | `aria-hidden="true"`                                           | Element       |
+| `<ul class="theme-picker-list">`       | `role="listbox"`, `aria-label={label}`, `tabindex="-1"`        | Element       |
+| `<ul>`                                 | `hidden` while closed; `aria-activedescendant` only while open | Element       |
+| `<li class="theme-picker-option">`     | `role="option"`, unique `id`, `aria-selected`                  | Element       |
+| `<li>`                                 | `data-active` when keyboard-highlighted                        | Element       |
+| `<input type="hidden">`                | none — form participation only                                 | Element       |
 
 The host `<theme-picker>` element has no implicit ARIA role. It is
 a lifecycle container; the rendered button and listbox are what
@@ -44,27 +44,27 @@ platform.
 
 On the button:
 
-| Key                 | Action                                                        |
-| ------------------- | ------------------------------------------------------------- |
-| `Tab` / `Shift+Tab` | Move focus onto / off the button.                             |
-| `ArrowDown`         | Open with the selected option active (else index 0).          |
-| `Enter`             | Same as `ArrowDown`.                                          |
-| `Space`             | Same as `ArrowDown`.                                          |
-| `ArrowUp`           | Open with the **last** option active.                         |
+| Key                 | Action                                               |
+| ------------------- | ---------------------------------------------------- |
+| `Tab` / `Shift+Tab` | Move focus onto / off the button.                    |
+| `ArrowDown`         | Open with the selected option active (else index 0). |
+| `Enter`             | Same as `ArrowDown`.                                 |
+| `Space`             | Same as `ArrowDown`.                                 |
+| `ArrowUp`           | Open with the **last** option active.                |
 
 On the listbox (`<ul>`, which holds focus while open):
 
-| Key                 | Action                                                        |
-| ------------------- | ------------------------------------------------------------- |
-| `ArrowDown`         | Move the active option down one; clamps at the last (no wrap). |
-| `ArrowUp`           | Move the active option up one; clamps at the first.           |
-| `Home` / `End`      | Make the first / last option active.                          |
-| `Enter`             | Select the active option, apply, close, refocus the button.   |
-| `Space`             | Same as `Enter`.                                              |
-| `Escape`            | Close and refocus the button **without** changing the value.  |
-| `PageUp` / `PageDown` | Move the active option by ten; clamps at both ends.         |
-| `Tab`               | Move focus to the button, then close — the default Tab proceeds from the picker's position. |
-| printable character | Typeahead over option labels; buffer resets after 500 ms. A repeated character cycles through its matches; differing characters refine from the active option. |
+| Key                   | Action                                                                                                                                                         |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ArrowDown`           | Move the active option down one; clamps at the last (no wrap).                                                                                                 |
+| `ArrowUp`             | Move the active option up one; clamps at the first.                                                                                                            |
+| `Home` / `End`        | Make the first / last option active.                                                                                                                           |
+| `Enter`               | Select the active option, apply, close, refocus the button.                                                                                                    |
+| `Space`               | Same as `Enter`.                                                                                                                                               |
+| `Escape`              | Close and refocus the button **without** changing the value.                                                                                                   |
+| `PageUp` / `PageDown` | Move the active option by ten; clamps at both ends.                                                                                                            |
+| `Tab`                 | Move focus to the button, then close — the default Tab proceeds from the picker's position.                                                                    |
+| printable character   | Typeahead over option labels; buffer resets after 500 ms. A repeated character cycles through its matches; differing characters refine from the active option. |
 
 Pointer equivalents: the button toggles, an option click selects, a
 click outside the root closes, and focus leaving the root closes.
@@ -116,7 +116,7 @@ element and write into it from your `themechange` listener:
 ```ts
 const status = document.querySelector("#theme-status")!;
 document.querySelector("theme-picker")!.addEventListener("themechange", (e) => {
-    status.textContent = `Theme changed to ${(e as CustomEvent).detail.theme}`;
+  status.textContent = `Theme changed to ${(e as CustomEvent).detail.theme}`;
 });
 ```
 
@@ -187,7 +187,7 @@ transitions on the `data-theme` swap.
   are bound to the DOM it built. Subclasses that only override
   `renderButtonContent()` keep the whole contract intact.
 - `inheritAttrs`-style fall-through is moot — the host element
-  *is* the attribute collector. Consumer-passed `id`, `data-*`,
+  _is_ the attribute collector. Consumer-passed `id`, `data-*`,
   event handlers all live on `<theme-picker>` itself.
 
 ## Testing for a11y

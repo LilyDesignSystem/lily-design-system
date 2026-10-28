@@ -50,46 +50,66 @@ that finding), so no workaround is needed here.
 
 ```html
 <div class="kanban-board {class}">
-  <KanbanTable :label="label" :caption="caption" @keydown="onGridKeydown">
+  <KanbanTable
+    :label="label"
+    :caption="caption"
+    @keydown="onGridKeydown"
+  >
     <KanbanTableHead>
       <KanbanTableRow>
-        <KanbanTableTH data-over-limit>            <!-- only when column.wipLimit is exceeded -->
+        <KanbanTableTH data-over-limit>
+          <!-- only when column.wipLimit is exceeded -->
           {{ column.title }}
           <span class="kanban-board-count">{{ labels.cardCount(count) }}</span>
-          <span class="kanban-board-wip-warning">{{ labels.overLimit(count, limit) }}</span>  <!-- only when over limit -->
+          <span class="kanban-board-wip-warning">{{ labels.overLimit(count, limit) }}</span>
+          <!-- only when over limit -->
         </KanbanTableTH>
       </KanbanTableRow>
     </KanbanTableHead>
     <KanbanTableBody>
       <KanbanTableRow>
-        <KanbanTableTD>                             <!-- active = the roving-tabindex cursor -->
+        <KanbanTableTD>
+          <!-- active = the roving-tabindex cursor -->
           <span class="kanban-board-card-title">{{ cardLabel(card) }}</span>
-          <button class="kanban-board-move-button" aria-haspopup="listbox" aria-expanded>…</button>
-          <Listbox class="kanban-board-move-list" role="listbox">  <!-- only while open -->
+          <button
+            class="kanban-board-move-button"
+            aria-haspopup="listbox"
+            aria-expanded
+          >
+            …
+          </button>
+          <Listbox
+            class="kanban-board-move-list"
+            role="listbox"
+          >
+            <!-- only while open -->
             <li role="option">{{ destinationColumn.title }}</li>
           </Listbox>
         </KanbanTableTD>
       </KanbanTableRow>
     </KanbanTableBody>
   </KanbanTable>
-  <p class="kanban-board-status" aria-live="polite"></p>
+  <p
+    class="kanban-board-status"
+    aria-live="polite"
+  ></p>
 </div>
 ```
 
 ## 5. Props and events
 
-| Prop        | Type                              | Required | Default |
-| ----------- | ---------------------------------- | -------- | ------- |
-| `label`     | `string`                            | yes      | —       |
-| `columns`   | `KanbanColumn[]`                    | yes      | —       |
-| `cards`     | `KanbanCard[]`                      | yes      | —       |
-| `caption`   | `string`                             | no       | —       |
-| `cardLabel` | `(card: KanbanCard) => string`       | no       | `card.title` |
-| `labels`    | `KanbanLabels`                       | no       | `{}`    |
-| `class`     | `string`                             | no       | `""`    |
+| Prop        | Type                           | Required | Default      |
+| ----------- | ------------------------------ | -------- | ------------ |
+| `label`     | `string`                       | yes      | —            |
+| `columns`   | `KanbanColumn[]`               | yes      | —            |
+| `cards`     | `KanbanCard[]`                 | yes      | —            |
+| `caption`   | `string`                       | no       | —            |
+| `cardLabel` | `(card: KanbanCard) => string` | no       | `card.title` |
+| `labels`    | `KanbanLabels`                 | no       | `{}`         |
+| `class`     | `string`                       | no       | `""`         |
 
-| Event  | Payload                        | Fires                                                        |
-| ------ | -------------------------------- | -------------------------------------------------------------- |
+| Event  | Payload                                | Fires                                                               |
+| ------ | -------------------------------------- | ------------------------------------------------------------------- |
 | `move` | `(cardId: string, toColumnId: string)` | After a card moves to a new column, by pointer or by the move menu. |
 
 Vue separates props from events by design (matching `picker-bar`'s and

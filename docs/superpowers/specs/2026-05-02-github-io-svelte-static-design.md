@@ -56,16 +56,16 @@ github.com/LilyDesignSystem/lilydesignsystem.github.io
 
 Aligned with the sibling `lily-design-system-svelte-sveltekit-examples` subproject so the team only learns one toolchain.
 
-| Tool                          | Version                       |
-|-------------------------------|-------------------------------|
-| Svelte                        | ^5.25                         |
-| SvelteKit                     | ^2.55                         |
-| `@sveltejs/adapter-static`    | ^3 (latest stable)            |
-| `@sveltejs/vite-plugin-svelte`| ^5                            |
-| Vite                          | ^6                            |
-| TypeScript                    | ^5.8                          |
-| Package manager               | pnpm                          |
-| Node                          | 20 (in CI)                    |
+| Tool                           | Version            |
+| ------------------------------ | ------------------ |
+| Svelte                         | ^5.25              |
+| SvelteKit                      | ^2.55              |
+| `@sveltejs/adapter-static`     | ^3 (latest stable) |
+| `@sveltejs/vite-plugin-svelte` | ^5                 |
+| Vite                           | ^6                 |
+| TypeScript                     | ^5.8               |
+| Package manager                | pnpm               |
+| Node                           | 20 (in CI)         |
 
 ## File layout after migration
 
@@ -126,8 +126,8 @@ lilydesignsystem.github.io/
 ```ts
 // src/lib/components.ts
 export type LilyComponent = {
-  name: string;        // kebab-case
-  pascal: string;      // PascalCase
+  name: string; // kebab-case
+  pascal: string; // PascalCase
   description: string;
 };
 
@@ -143,6 +143,7 @@ The existing regeneration recipe in `index.md` (the `awk` block that builds `com
 ## Routing & layout
 
 `src/routes/+layout.svelte` holds the site chrome currently duplicated across every HTML page:
+
 - skip-link
 - `<header class="site-header">` with brand and nav
 - `<main id="main" class="site-main"><slot /></main>`
@@ -153,7 +154,7 @@ The existing regeneration recipe in `index.md` (the `awk` block that builds `com
 ```ts
 // src/routes/+layout.ts
 export const prerender = true;
-export const trailingSlash = 'always';   // keeps /about/ style URLs that GH Pages prefers
+export const trailingSlash = "always"; // keeps /about/ style URLs that GH Pages prefers
 ```
 
 Each route is a 1:1 port of the corresponding HTML file's `<main>` content into a `+page.svelte`.
@@ -162,20 +163,20 @@ Each route is a 1:1 port of the corresponding HTML file's `<main>` content into 
 
 ```js
 // svelte.config.js
-import adapter from '@sveltejs/adapter-static';
-import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
+import adapter from "@sveltejs/adapter-static";
+import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
 
 export default {
   preprocess: vitePreprocess(),
   kit: {
     adapter: adapter({
-      pages: 'build',
-      assets: 'build',
-      fallback: '404.html',
-      strict: true
-    })
+      pages: "build",
+      assets: "build",
+      fallback: "404.html",
+      strict: true,
+    }),
     // No paths.base — custom domain serves from root.
-  }
+  },
 };
 ```
 
@@ -186,7 +187,10 @@ export default {
 The existing `assets/style.css` is moved verbatim to `static/assets/style.css`. The root layout links it:
 
 ```html
-<link rel="stylesheet" href="/assets/style.css">
+<link
+  rel="stylesheet"
+  href="/assets/style.css"
+/>
 ```
 
 This keeps absolute `/assets/...` URLs working unchanged in any inline references and avoids touching the design.
@@ -262,14 +266,14 @@ Minimal — no behavior under test in v1. Verification gates:
 
 ## Risks and mitigations
 
-| Risk | Mitigation |
-|------|------------|
-| Subtree-pushed `node_modules`/`build` polluting the public repo | `.gitignore` lists both; the subtree only copies tracked files. |
-| `CNAME` reset by Pages settings UI | `static/CNAME` is the source of truth and is recreated on every deploy. |
-| First deploy fails because GitHub Pages source is still set to "Branch" | One-time manual switch to "GitHub Actions" in the public repo's settings. Documented in the migration plan. |
-| `paths.base` confusion if the custom domain is ever dropped | The repo is `<org>.github.io`, so even without the custom domain it serves at `https://lilydesignsystem.com/` (root). `paths.base` stays empty in either case. |
-| Existing inbound links to `/assets/style.css`, `/assets/favicon.svg`, `/assets/images/...` | Preserved by mirroring those paths under `static/assets/`. |
-| Tutorial / comparison / claude / figma directories currently hold empty or 1-line markdown stubs | Each becomes a thin `+page.svelte` reproducing the existing one-line content under the same URL, preserving inbound links; content can be filled in later. |
+| Risk                                                                                             | Mitigation                                                                                                                                                     |
+| ------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Subtree-pushed `node_modules`/`build` polluting the public repo                                  | `.gitignore` lists both; the subtree only copies tracked files.                                                                                                |
+| `CNAME` reset by Pages settings UI                                                               | `static/CNAME` is the source of truth and is recreated on every deploy.                                                                                        |
+| First deploy fails because GitHub Pages source is still set to "Branch"                          | One-time manual switch to "GitHub Actions" in the public repo's settings. Documented in the migration plan.                                                    |
+| `paths.base` confusion if the custom domain is ever dropped                                      | The repo is `<org>.github.io`, so even without the custom domain it serves at `https://lilydesignsystem.com/` (root). `paths.base` stays empty in either case. |
+| Existing inbound links to `/assets/style.css`, `/assets/favicon.svg`, `/assets/images/...`       | Preserved by mirroring those paths under `static/assets/`.                                                                                                     |
+| Tutorial / comparison / claude / figma directories currently hold empty or 1-line markdown stubs | Each becomes a thin `+page.svelte` reproducing the existing one-line content under the same URL, preserving inbound links; content can be filled in later.     |
 
 ## Out of scope
 

@@ -23,8 +23,15 @@ RomaniaCodNumericPersonalInput is a headless input for entering Romania's Cod Nu
 ## Usage
 
 ```html
-<Field label="Personal Numerical Code" required>
-  <RomaniaCodNumericPersonalInput label="Personal Numerical Code" value={value} required />
+<Field
+  label="Personal Numerical Code"
+  required
+>
+  <RomaniaCodNumericPersonalInput
+    label="Personal Numerical Code"
+    value="{value}"
+    required
+  />
   <Hint>13 digits: gender and century (1/3/5/7 male</Hint>
   <ErrorMessage>Please enter a valid Personal Numerical Code</ErrorMessage>
 </Field>

@@ -27,13 +27,38 @@ is selected.
 
 ```html
 <TabBar>
-  <TabBarButton id="tab-overview" controls="panel-overview" selected>Overview</TabBarButton>
-  <TabBarButton id="tab-details" controls="panel-details">Details</TabBarButton>
+  <TabBarButton
+    id="tab-overview"
+    controls="panel-overview"
+    selected
+    >Overview</TabBarButton
+  >
+  <TabBarButton
+    id="tab-details"
+    controls="panel-details"
+    >Details</TabBarButton
+  >
 </TabBar>
-<TabPanel id="panel-overview" labelledBy="tab-overview" selected={tab === 'overview'}>
+<TabPanel
+  id="panel-overview"
+  labelledBy="tab-overview"
+  selected="{tab"
+  =""
+  =""
+  ="overview"
+  }
+>
   Overview content...
 </TabPanel>
-<TabPanel id="panel-details" labelledBy="tab-details" selected={tab === 'details'}>
+<TabPanel
+  id="panel-details"
+  labelledBy="tab-details"
+  selected="{tab"
+  =""
+  =""
+  ="details"
+  }
+>
   Details content...
 </TabPanel>
 ```
@@ -69,11 +94,29 @@ Tab panels pair with tabs:
 
 ```html
 <TabBar label="Sections">
-  <TabBarButton id="t1" controls="p1" selected>One</TabBarButton>
-  <TabBarButton id="t2" controls="p2">Two</TabBarButton>
+  <TabBarButton
+    id="t1"
+    controls="p1"
+    selected
+    >One</TabBarButton
+  >
+  <TabBarButton
+    id="t2"
+    controls="p2"
+    >Two</TabBarButton
+  >
 </TabBar>
-<TabPanel id="p1" labelledBy="t1" selected>...</TabPanel>
-<TabPanel id="p2" labelledBy="t2">...</TabPanel>
+<TabPanel
+  id="p1"
+  labelledBy="t1"
+  selected
+  >...</TabPanel
+>
+<TabPanel
+  id="p2"
+  labelledBy="t2"
+  >...</TabPanel
+>
 ```
 
 ## Headless

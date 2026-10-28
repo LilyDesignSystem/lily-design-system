@@ -136,7 +136,10 @@ the button. It does **not** render options — the listbox is
 component-owned.
 
 ```html
-<lily-locale-picker label="Language" [locales]="locales">
+<lily-locale-picker
+  label="Language"
+  [locales]="locales"
+>
   <ng-template let-args>{{ args.labelFor(args.value) }}</ng-template>
 </lily-locale-picker>
 ```
@@ -162,7 +165,11 @@ The rendered tree, with the listbox closed:
 
 ```html
 <div class="locale-picker {className}">
-  <input type="hidden" name="{name}" value="{value}" />
+  <input
+    type="hidden"
+    name="{name}"
+    value="{value}"
+  />
   <button
     type="button"
     class="locale-picker-button"
@@ -171,9 +178,37 @@ The rendered tree, with the listbox closed:
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <svg class="locale-picker-icon" viewBox="0 0 16 16" width="1.05rem" height="1.05rem" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path stroke-width="1.1" d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7"/></svg>
+    <svg
+      class="locale-picker-icon"
+      viewBox="0 0 16 16"
+      width="1.05rem"
+      height="1.05rem"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle
+        cx="8"
+        cy="8"
+        r="6"
+      />
+      <path
+        stroke-width="1.1"
+        d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7"
+      />
+    </svg>
   </button>
-  <div class="locale-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
+  <div
+    class="locale-picker-tooltip"
+    role="tooltip"
+    id="{tooltipId}"
+    hidden
+  >
+    {label}
+  </div>
   <ul
     class="locale-picker-list"
     id="{listId}"
@@ -196,6 +231,7 @@ The rendered tree, with the listbox closed:
   </ul>
 </div>
 ```
+
 **Tooltip.** `.locale-picker-tooltip` is a sibling of the button, always in
 the DOM, `hidden` at rest, holding the button's `label` text. It is shown
 while the pointer is over the button or over the tooltip itself
@@ -212,7 +248,6 @@ attribute. Angular idiom: four signals (`hoverButton`, `hoverTooltip`,
 pointer and focus listeners sit on the `lily-icon-button` host
 (`mouseenter`/`mouseleave`/`focusin`/`focusout`), and the tooltip text is
 the existing `label` input, so there is no new input and no new English text.
-
 
 An option's `lang` attribute is present only when its label is the
 derived endonym (see §5.4); consumer-labelled options and English-table
@@ -324,7 +359,7 @@ If nothing matches, returns `""`.
 
 Default option labels are **endonyms** — each language named in
 itself, "Cymraeg" not "Welsh" — resolved by the exported
-`localeEndonym()` via `Intl.DisplayNames` asked *in that language*.
+`localeEndonym()` via `Intl.DisplayNames` asked _in that language_.
 The user who needs a language menu is the one who cannot read the
 page's language, and the exonym means nothing to them. The endonym
 lookup is deterministic (no `navigator` dependency), so server and
@@ -475,14 +510,14 @@ Opening always moves focus to the `<ul>`.
 
 On the **listbox**:
 
-| Key                       | Action                                                                               |
-| ------------------------- | ------------------------------------------------------------------------------------ |
-| `Arrow Down` / `Arrow Up` | Move the active option one step; **clamps**, never wraps.                            |
-| `Home` / `End`            | Jump to the first / last option.                                                     |
-| `Enter` / `Space`         | Select the active option, apply it, close, refocus button.                           |
-| `Escape`                  | Close and refocus the button; the value is unchanged.                                |
-| `PageUp` / `PageDown`     | Move the active option by ten; **clamps** at the ends.                               |
-| `Tab`                     | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position. Hiding the focused list first would drop focus to `<body>` and restart Tab from the top of the document. |
+| Key                       | Action                                                                                                                                                                                                                                                               |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Arrow Down` / `Arrow Up` | Move the active option one step; **clamps**, never wraps.                                                                                                                                                                                                            |
+| `Home` / `End`            | Jump to the first / last option.                                                                                                                                                                                                                                     |
+| `Enter` / `Space`         | Select the active option, apply it, close, refocus button.                                                                                                                                                                                                           |
+| `Escape`                  | Close and refocus the button; the value is unchanged.                                                                                                                                                                                                                |
+| `PageUp` / `PageDown`     | Move the active option by ten; **clamps** at the ends.                                                                                                                                                                                                               |
+| `Tab`                     | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position. Hiding the focused list first would drop focus to `<body>` and restart Tab from the top of the document.           |
 | Printable characters      | Typeahead over the option **labels**; buffer clears 500 ms after the last keystroke. A single character advances to the **next** match and repeating it cycles onward; a buffer of differing characters refines the match from the active option. Search wraps once. |
 
 Pointer and focus equivalents:

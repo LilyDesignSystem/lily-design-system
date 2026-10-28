@@ -10,7 +10,7 @@ See [components/show-more/index.md](../../../../../components/show-more/index.md
 
 ```svelte
 <script lang="ts">
-    import ShowMore from "./ShowMore.svelte";
+  import ShowMore from "./ShowMore.svelte";
 </script>
 
 <ShowMore />

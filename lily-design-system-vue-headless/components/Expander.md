@@ -24,13 +24,19 @@ This component is useful for progressive disclosure patterns such as FAQ section
 ## Usage
 
 ```svelte
-<Expander label="Show details" bind:expanded>
+<Expander
+  label="Show details"
+  bind:expanded
+>
   <p>Details here...</p>
 </Expander>
 ```
 
 ```svelte
-<Expander label="Advanced settings" bind:expanded={showAdvanced}>
+<Expander
+  label="Advanced settings"
+  bind:expanded={showAdvanced}
+>
   <form>...</form>
 </Expander>
 ```

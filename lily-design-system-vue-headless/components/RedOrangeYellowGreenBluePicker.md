@@ -37,19 +37,25 @@ Basic ROYGB status selection:
 
 ```svelte
 <script lang="ts">
-  import RedOrangeYellowGreenBluePicker from './RedOrangeYellowGreenBluePicker.svelte';
+  import RedOrangeYellowGreenBluePicker from "./RedOrangeYellowGreenBluePicker.svelte";
 
   let level = $state("");
 </script>
 
-<RedOrangeYellowGreenBluePicker label="Risk level" bind:value={level} />
+<RedOrangeYellowGreenBluePicker
+  label="Risk level"
+  bind:value={level}
+/>
 <p>Current level: {level}</p>
 ```
 
 Pre-selected value:
 
 ```svelte
-<RedOrangeYellowGreenBluePicker label="Alert status" value="green" />
+<RedOrangeYellowGreenBluePicker
+  label="Alert status"
+  value="green"
+/>
 ```
 
 With additional HTML attributes:

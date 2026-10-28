@@ -33,9 +33,13 @@ translation of our own: every name is CLDR's.
 ## Format
 
 ```json
-{ "locale": "fr-001", "cldrLocale": "fr", "cldr": "48.0",
+{
+  "locale": "fr-001",
+  "cldrLocale": "fr",
+  "cldr": "48.0",
   "names": ["heure normale d’Europe centrale", "heure d’été d’Europe centrale", "..."],
-  "zones": { "Europe/Paris": [0, 1], "Africa/Abidjan": 2 } }
+  "zones": { "Europe/Paris": [0, 1], "Africa/Abidjan": 2 }
+}
 ```
 
 `cldrLocale` is the locale ICU actually supplied (`null` when CLDR has none for the language). A zone is an index into
@@ -43,11 +47,11 @@ translation of our own: every name is CLDR's.
 
 ## Using the packs
 
-| Catalog | How |
-| ------- | --- |
+| Catalog                                           | How                                                                                                                |
+| ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
 | Svelte, React, Vue, Angular, HTML, Web Components | `zoneNamesFrom(pack)` (from `@lilydesignsystem/{framework}-locale-translations`) gives the picker's `names` input. |
-| Nunjucks | `timeZoneOptions({ locale, names: zoneNamesFrom(pack) })` at build time. |
-| Blazor | `LocaleTranslations.ZoneNames("fr-001")` gives the picker's `Names` parameter: `(Standard, Daylight)` per zone. |
+| Nunjucks                                          | `timeZoneOptions({ locale, names: zoneNamesFrom(pack) })` at build time.                                           |
+| Blazor                                            | `LocaleTranslations.ZoneNames("fr-001")` gives the picker's `Names` parameter: `(Standard, Daylight)` per zone.    |
 
 A picker's name for a zone is, in order: the supplied `names` entry (its daylight name while daylight time is in force),
 else `Intl`'s, else the zone id. In Blazor, else the platform's own name.

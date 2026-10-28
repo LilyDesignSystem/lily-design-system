@@ -108,15 +108,18 @@ Consumers consume it via a `{#snippet}` block:
 
 ```svelte
 <ThemePicker
-    label="Theme"
-    themesUrl="/assets/themes/"
-    themes={["light", "dark", "abyss"]}
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "abyss"]}
 >
-    {#snippet children({ value, open, labelFor })}
-        <svg viewBox="0 0 16 16" aria-hidden="true">…</svg>
-        <span class="theme-picker-text">{labelFor(value)}</span>
-        <span aria-hidden="true">{open ? "▴" : "▾"}</span>
-    {/snippet}
+  {#snippet children({ value, open, labelFor })}
+    <svg
+      viewBox="0 0 16 16"
+      aria-hidden="true">…</svg
+    >
+    <span class="theme-picker-text">{labelFor(value)}</span>
+    <span aria-hidden="true">{open ? "▴" : "▾"}</span>
+  {/snippet}
 </ThemePicker>
 ```
 
@@ -133,11 +136,7 @@ Exported from the `<script lang="ts" module>` block:
 
 ```ts
 export function normaliseThemesUrl(themesUrl: string): string;
-export function themeHref(
-  themesUrl: string,
-  slug: string,
-  extension: string,
-): string;
+export function themeHref(themesUrl: string, slug: string, extension: string): string;
 export function themeName(theme: string): string;
 export function matchSystemTheme(themes: readonly string[]): string;
 export function nextThemePickerId(): string;
@@ -167,8 +166,15 @@ select.
 ## DOM contract
 
 ```html
-<div class="theme-picker {class}" ...restProps>
-  <input type="hidden" name="{name}" value="{value}" />
+<div
+  class="theme-picker {class}"
+  ...restProps
+>
+  <input
+    type="hidden"
+    name="{name}"
+    value="{value}"
+  />
   <button
     type="button"
     class="theme-picker-button"
@@ -177,7 +183,27 @@ select.
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>
+    <svg
+      class="theme-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle
+        cx="8"
+        cy="8"
+        r="6"
+      />
+      <path
+        d="M8 2a6 6 0 0 1 0 12z"
+        fill="currentColor"
+        stroke="none"
+      />
+    </svg>
     <!-- or the children snippet output -->
   </button>
   <ul

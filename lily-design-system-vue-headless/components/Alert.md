@@ -45,13 +45,19 @@ emphasis without assuming a heading level.
 With heading and error type:
 
 ```svelte
-<Alert type="error" heading="Error">Something went wrong. Please try again.</Alert>
+<Alert
+  type="error"
+  heading="Error">Something went wrong. Please try again.</Alert
+>
 ```
 
 Success notification:
 
 ```svelte
-<Alert type="success" heading="Saved">Your changes have been saved successfully.</Alert>
+<Alert
+  type="success"
+  heading="Saved">Your changes have been saved successfully.</Alert
+>
 ```
 
 Polite status message using role="status":

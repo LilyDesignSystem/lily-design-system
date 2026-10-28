@@ -25,17 +25,26 @@ This component is suitable for any form field requiring free-text entry. It supp
 
 ```html
 <Field label="What is your full name?">
-  <TextInput label="Full name" autocomplete="name" />
+  <TextInput
+    label="Full name"
+    autocomplete="name"
+  />
 </Field>
 
 <Field label="Enter a full postcode in England">
   <Hint>For example, LS1 1AB</Hint>
-  <TextInput label="Postcode" autocomplete="postal-code" />
+  <TextInput
+    label="Postcode"
+    autocomplete="postal-code"
+  />
 </Field>
 
 <Field label="What is your NHS number?">
   <Hint>This is a 10-digit number, like 485 777 3456</Hint>
-  <TextInput label="NHS number" inputmode="numeric" />
+  <TextInput
+    label="NHS number"
+    inputmode="numeric"
+  />
 </Field>
 ```
 
@@ -66,17 +75,14 @@ None beyond native input behavior -- standard text editing keys (typing, backspa
 
 This headless component renders a native `<input type="text">` with `aria-label` and two-way value binding. It provides standard text input semantics, required/disabled states, and rest prop forwarding for attributes like `placeholder`, `maxlength`, and `pattern`. The consumer provides all visual styling.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.text-input` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
 
-
 - Verify the component renders a `<input>` element with class `text-input`
-- Verify aria-label={label}` -- provides an accessible name for the input since no visible `<label>` element is included
+- Verify aria-label={label}`-- provides an accessible name for the input since no visible`<label>` element is included
 - Verify pass-through attributes are applied
 
 ## Advice

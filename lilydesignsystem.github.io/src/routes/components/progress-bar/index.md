@@ -20,7 +20,11 @@ A horizontal progress indicator.
 ## Usage
 
 ```html
-<ProgressBar label="Upload progress" value={42} max={100} />
+<ProgressBar
+  label="Upload progress"
+  value="{42}"
+  max="{100}"
+/>
 ```
 
 ## Keyboard Interactions

@@ -39,7 +39,11 @@ The component renders as a `div` with `role="slider"` and full keyboard navigati
 ```
 
 ```tsx
-<Dial label="Disabled control" value={30} disabled />
+<Dial
+  label="Disabled control"
+  value={30}
+  disabled
+/>
 ```
 
 ## Keyboard Interactions

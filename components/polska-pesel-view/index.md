@@ -22,7 +22,7 @@ PolskaPeselView is a headless read-only display of Poland's PESEL, Poland's nati
 ```html
 <SummaryList>
   <SummaryListItem term="PESEL">
-    <PolskaPeselView value={value} />
+    <PolskaPeselView value="{value}" />
   </SummaryListItem>
 </SummaryList>
 ```

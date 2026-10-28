@@ -34,8 +34,15 @@ states, and provides accessible labeling for screen readers.
 ## Usage
 
 ```html
-<Field label="Social Security Number" required>
-  <UnitedStatesSocialSecurityNumberInput label="SSN" value={ssn} required />
+<Field
+  label="Social Security Number"
+  required
+>
+  <UnitedStatesSocialSecurityNumberInput
+    label="SSN"
+    value="{ssn}"
+    required
+  />
   <Hint>Format: XXX-XX-XXXX</Hint>
   <ErrorMessage>Please enter a valid Social Security Number</ErrorMessage>
 </Field>
@@ -69,14 +76,11 @@ states, and provides accessible labeling for screen readers.
 
 This headless component provides an `<input type="text">` with SSN pattern validation, `inputmode="numeric"`, `autocomplete="off"`, `aria-label`, and support for `required`/`disabled` states. The consumer provides all visual styling, surrounding labels, hints, and error messages.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.united-states-social-security-number-input` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<input>` element with class `united-states-social-security-number-input`
 - Verify aria-label` provides accessible name from label prop

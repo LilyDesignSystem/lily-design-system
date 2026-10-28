@@ -42,7 +42,9 @@ With dynamic elapsed time:
 
   let elapsed = $state(0);
   let formatted = $derived(
-    `${Math.floor(elapsed / 60).toString().padStart(2, "0")}:${(elapsed % 60).toString().padStart(2, "0")}`
+    `${Math.floor(elapsed / 60)
+      .toString()
+      .padStart(2, "0")}:${(elapsed % 60).toString().padStart(2, "0")}`,
   );
 
   $effect(() => {
@@ -57,7 +59,10 @@ With dynamic elapsed time:
 With machine-readable datetime attribute:
 
 ```svelte
-<Timer label="Session timeout" datetime="PT5M30S">5:30</Timer>
+<Timer
+  label="Session timeout"
+  datetime="PT5M30S">5:30</Timer
+>
 ```
 
 ## Keyboard Interactions

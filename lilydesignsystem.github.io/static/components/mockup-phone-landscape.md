@@ -20,7 +20,10 @@ A box area that looks like a mobile phone in landscape orientation.
 
 ```html
 <MockupPhoneLandscape>
-  <img src="screenshot-landscape.png" alt="App screen" />
+  <img
+    src="screenshot-landscape.png"
+    alt="App screen"
+  />
 </MockupPhoneLandscape>
 ```
 

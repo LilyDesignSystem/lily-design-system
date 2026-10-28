@@ -48,72 +48,91 @@ Adding to a list:
 
 ```svelte
 <script lang="ts">
-    import TagInput from "./TagInput.svelte";
-    let tags = $state<string[]>([]);
-    let value = $state("");
+  import TagInput from "./TagInput.svelte";
+  let tags = $state<string[]>([]);
+  let value = $state("");
 </script>
 
-<TagInput label="Add tag" bind:value onadd={(t) => (tags = [...tags, t])} />
-<ul>{#each tags as t}<li>{t}</li>{/each}</ul>
+<TagInput
+  label="Add tag"
+  bind:value
+  onadd={(t) => (tags = [...tags, t])}
+/>
+<ul>
+  {#each tags as t}<li>{t}</li>{/each}
+</ul>
 ```
 
 With `TagGroup` and `Tag` for rendering:
 
 ```svelte
 <script lang="ts">
-    import TagInput from "./TagInput.svelte";
-    import TagGroup from "../TagGroup/TagGroup.svelte";
-    import Tag from "../Tag/Tag.svelte";
-    let skills = $state<string[]>(["Svelte"]);
-    let v = $state("");
+  import TagInput from "./TagInput.svelte";
+  import TagGroup from "../TagGroup/TagGroup.svelte";
+  import Tag from "../Tag/Tag.svelte";
+  let skills = $state<string[]>(["Svelte"]);
+  let v = $state("");
 </script>
 
 <TagGroup label="Skills">
-    {#each skills as s}<Tag label="Skill">{s}</Tag>{/each}
+  {#each skills as s}<Tag label="Skill">{s}</Tag>{/each}
 </TagGroup>
-<TagInput label="Add skill" bind:value={v} onadd={(s) => (skills = [...skills, s])} />
+<TagInput
+  label="Add skill"
+  bind:value={v}
+  onadd={(s) => (skills = [...skills, s])}
+/>
 ```
 
 De-duplicated on add:
 
 ```svelte
 <script lang="ts">
-    import TagInput from "./TagInput.svelte";
-    let tags = $state<string[]>([]);
-    let v = $state("");
-    function add(t: string) {
-        if (!tags.includes(t)) tags = [...tags, t];
-    }
+  import TagInput from "./TagInput.svelte";
+  let tags = $state<string[]>([]);
+  let v = $state("");
+  function add(t: string) {
+    if (!tags.includes(t)) tags = [...tags, t];
+  }
 </script>
 
-<TagInput label="Add unique tag" bind:value={v} onadd={add} />
+<TagInput
+  label="Add unique tag"
+  bind:value={v}
+  onadd={add}
+/>
 ```
 
 Disabled while submitting:
 
 ```svelte
 <script lang="ts">
-    import TagInput from "./TagInput.svelte";
-    let v = $state("");
-    let submitting = $state(false);
+  import TagInput from "./TagInput.svelte";
+  let v = $state("");
+  let submitting = $state(false);
 </script>
 
-<TagInput label="Add" bind:value={v} disabled={submitting} onadd={() => {}} />
+<TagInput
+  label="Add"
+  bind:value={v}
+  disabled={submitting}
+  onadd={() => {}}
+/>
 ```
 
 Placeholder via restProps:
 
 ```svelte
 <script lang="ts">
-    import TagInput from "./TagInput.svelte";
-    let v = $state("");
+  import TagInput from "./TagInput.svelte";
+  let v = $state("");
 </script>
 
 <TagInput
-    label="Add tag"
-    bind:value={v}
-    placeholder="Type and press Enter..."
-    onadd={(t) => console.log("add", t)}
+  label="Add tag"
+  bind:value={v}
+  placeholder="Type and press Enter..."
+  onadd={(t) => console.log("add", t)}
 />
 ```
 

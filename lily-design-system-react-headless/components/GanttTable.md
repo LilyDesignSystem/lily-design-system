@@ -17,7 +17,10 @@ Compound component: use with GanttTableHead, GanttTableBody, GanttTableTfoot, Ga
 <GanttTable label="Project Alpha timeline">
   <GanttTableHead>
     <GanttTableTr>
-      <th>Task</th><th>Week 1</th><th>Week 2</th><th>Week 3</th>
+      <th>Task</th>
+      <th>Week 1</th>
+      <th>Week 2</th>
+      <th>Week 3</th>
     </GanttTableTr>
   </GanttTableHead>
   <GanttTableBody>

@@ -22,7 +22,10 @@ This headless component renders a `<table>` element with `role="grid"` and an ac
 ## Usage
 
 ```html
-<GanttTable caption="Project timeline" label="Q1 2025 schedule">
+<GanttTable
+  caption="Project timeline"
+  label="Q1 2025 schedule"
+>
   <GanttTableHead>
     <GanttTableTr>
       <GanttTableTH scope="col">Task</GanttTableTH>
@@ -76,14 +79,11 @@ None built-in -- the consumer should implement grid keyboard navigation on cells
 
 This headless component provides a `<table>` with `role="grid"` and `aria-label` for structured task/timeline grid semantics. The consumer provides all visual styling including bar rendering, color coding, column widths, and timeline axis formatting.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.gantt-table` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<table>` element with class `gantt-table`
 - Verify role="grid"` -- identifies the table as an interactive grid widget

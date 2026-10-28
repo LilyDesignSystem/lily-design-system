@@ -93,7 +93,7 @@
     <h3>Props</h3>
     <p>| Prop           | Type            | Default    | Description                                          |</p>
     <p>| -------------- | --------------- | ---------- | ---------------------------------------------------- |</p>
-    <p>| <code>children</code>     | <code>slot</code>       | (required) | Content for the timeline entry                       |</p>
+    <p>| <code>children</code>     | <code>slot</code>          | (required) | Content for the timeline entry                       |</p>
     <p>| <code>...restProps</code> | HTML attributes |            | Additional attributes spread onto the <code>&lt;li&gt;</code> element |</p>
 </section>
 <!-- END generated: canonical contract -->

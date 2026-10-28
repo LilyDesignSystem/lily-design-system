@@ -24,8 +24,9 @@ import {
 
 ```svelte
 <script lang="ts">
-  import SharePicker, { type ShareTarget }
-    from "./lily-design-system-svelte-share-picker/SharePicker.svelte";
+  import SharePicker, {
+    type ShareTarget,
+  } from "./lily-design-system-svelte-share-picker/SharePicker.svelte";
 
   const targets: ShareTarget[] = [
     {
@@ -93,16 +94,27 @@ the page. Use `share-picker` with `strategy="list"` (the native share sheet has 
 
 ```svelte
 <script lang="ts">
-  import SharePicker, { type ShareTarget } from "./lily-design-system-svelte-share-picker/SharePicker.svelte";
+  import SharePicker, {
+    type ShareTarget,
+  } from "./lily-design-system-svelte-share-picker/SharePicker.svelte";
 
   const prompt = `Read ${location.href} so I can ask questions about it.`;
   // Your assistants, your endpoints: none is bundled.
   const targets: ShareTarget[] = [
-    { id: "assistant", label: "Assistant", href: (_url, _title, text) => `https://assistant.example/new?q=${encodeURIComponent(text)}` },
+    {
+      id: "assistant",
+      label: "Assistant",
+      href: (_url, _title, text) => `https://assistant.example/new?q=${encodeURIComponent(text)}`,
+    },
   ];
 </script>
 
-<SharePicker label="Ask an assistant about this page" text={prompt} strategy="list" {targets} />
+<SharePicker
+  label="Ask an assistant about this page"
+  text={prompt}
+  strategy="list"
+  {targets}
+/>
 ```
 
 Which assistants to offer is an editorial and privacy decision (the page URL, and any text in the prompt, goes to a third

@@ -23,7 +23,10 @@ This component is commonly paired with ThemeSelect in an Input/View pattern. Whi
 Display the current theme in a settings summary:
 
 ```html
-<ThemeView label="Current theme" value="dark" />
+<ThemeView
+  label="Current theme"
+  value="dark"
+/>
 ```
 
 In a summary list alongside other preferences:
@@ -32,7 +35,12 @@ In a summary list alongside other preferences:
 <SummaryList>
   <SummaryListItem>
     <dt>Theme</dt>
-    <dd><ThemeView label="Current theme" value={currentTheme} /></dd>
+    <dd>
+      <ThemeView
+        label="Current theme"
+        value="{currentTheme}"
+      />
+    </dd>
   </SummaryListItem>
   <SummaryListItem>
     <dt>Language</dt>
@@ -45,7 +53,11 @@ In a status bar showing the active theme:
 
 ```html
 <footer>
-  <ThemeView label="Active theme" value={theme} data-theme={theme} />
+  <ThemeView
+    label="Active theme"
+    value="{theme}"
+    data-theme="{theme}"
+  />
 </footer>
 ```
 
@@ -73,14 +85,11 @@ None -- this component is a passive display element with no interactive behavior
 
 This headless component provides a `<span>` element with `aria-label` for accessible read-only theme display. The consumer provides all visual styling, including typography, color, and layout.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.theme-view` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `theme-view`
 - Verify aria-label={label}` -- provides an accessible name describing what the displayed value represents

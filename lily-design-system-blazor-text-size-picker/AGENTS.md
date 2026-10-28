@@ -16,15 +16,15 @@ real typography.
 
 ## Files
 
-| File                       | Purpose                                          |
-| -------------------------- | ------------------------------------------------ |
-| `spec/index.md`            | Specification-driven contract (canonical).       |
-| `TextSizePicker.razor`     | Razor markup.                                    |
-| `TextSizePicker.razor.cs`  | C# code-behind (partial class).                  |
-| `TextSizePickerTests.cs`   | bUnit + xUnit spec, one `[Fact]` per §7 item.    |
-| `index.md`                 | User guide.                                      |
-| `docs/`                    | Accessibility and styling guides.                |
-| `examples/`                | Copy-pasteable Razor snippets.                   |
+| File                      | Purpose                                       |
+| ------------------------- | --------------------------------------------- |
+| `spec/index.md`           | Specification-driven contract (canonical).    |
+| `TextSizePicker.razor`    | Razor markup.                                 |
+| `TextSizePicker.razor.cs` | C# code-behind (partial class).               |
+| `TextSizePickerTests.cs`  | bUnit + xUnit spec, one `[Fact]` per §7 item. |
+| `index.md`                | User guide.                                   |
+| `docs/`                   | Accessibility and styling guides.             |
+| `examples/`               | Copy-pasteable Razor snippets.                |
 
 ## Public surface
 
@@ -66,16 +66,49 @@ lives in `Value` and rides a hidden input for form participation.
 ## HTML
 
 ```html
-<div class="text-size-picker @CssClass" ...AdditionalAttributes>
-  <input type="hidden" name="@Name" value="@Value" />
-  <button type="button" class="text-size-picker-button" aria-label="@Label"
-          aria-haspopup="listbox" aria-expanded="false" aria-controls="{listId}">
-    <svg class="text-size-picker-icon" viewBox="0 0 16 16" aria-hidden="true">…</svg>
+<div
+  class="text-size-picker @CssClass"
+  ...AdditionalAttributes
+>
+  <input
+    type="hidden"
+    name="@Name"
+    value="@Value"
+  />
+  <button
+    type="button"
+    class="text-size-picker-button"
+    aria-label="@Label"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="{listId}"
+  >
+    <svg
+      class="text-size-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+    >
+      …
+    </svg>
   </button>
-  <ul class="text-size-picker-list" id="{listId}" role="listbox" aria-label="@Label"
-      tabindex="-1" hidden aria-activedescendant="{active option id, open only}">
-    <li class="text-size-picker-option" id="{optionId}" role="option"
-        aria-selected="true|false" data-active>{LabelFor(slug)}</li>
+  <ul
+    class="text-size-picker-list"
+    id="{listId}"
+    role="listbox"
+    aria-label="@Label"
+    tabindex="-1"
+    hidden
+    aria-activedescendant="{active option id, open only}"
+  >
+    <li
+      class="text-size-picker-option"
+      id="{optionId}"
+      role="option"
+      aria-selected="true|false"
+      data-active
+    >
+      {LabelFor(slug)}
+    </li>
   </ul>
 </div>
 ```

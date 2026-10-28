@@ -22,7 +22,7 @@ SuomiHenkilotunnusView is a headless read-only display of Finland's Henkilötunn
 ```html
 <SummaryList>
   <SummaryListItem term="Personal Identity Code">
-    <SuomiHenkilotunnusView value={value} />
+    <SuomiHenkilotunnusView value="{value}" />
   </SummaryListItem>
 </SummaryList>
 ```

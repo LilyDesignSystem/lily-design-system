@@ -25,11 +25,22 @@ The component supports two labelling strategies: a visible `<caption>` element f
 A patient appointments table with sortable columns and status tags:
 
 ```html
-<DataTable caption="Patient appointments" label="Upcoming appointments">
+<DataTable
+  caption="Patient appointments"
+  label="Upcoming appointments"
+>
   <DataTableHead>
     <DataTableRow>
-      <DataTableTD scope="col" sortable>Patient name</DataTableTD>
-      <DataTableTD scope="col" sortable>Date</DataTableTD>
+      <DataTableTD
+        scope="col"
+        sortable
+        >Patient name</DataTableTD
+      >
+      <DataTableTD
+        scope="col"
+        sortable
+        >Date</DataTableTD
+      >
       <DataTableTD scope="col">Status</DataTableTD>
     </DataTableRow>
   </DataTableHead>
@@ -75,14 +86,11 @@ None -- this component is a passive container. Navigation within the table follo
 
 This headless DataTable component provides a semantic `<table>` element with conditional `<caption>` or `aria-label` for accessible naming. The consumer provides all visual styling including borders, striping, hover highlights, column widths, responsive behavior, and sorting indicators.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.data-table` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<table>` element with class `data-table`
 - Verify aria-label={label}` -- provides an accessible name when no visible caption is present

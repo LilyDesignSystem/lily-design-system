@@ -39,7 +39,10 @@ Key takeaways summary:
 Next steps summary with custom aria-label:
 
 ```html
-<SummaryBox heading="Next steps" label="What to do next">
+<SummaryBox
+  heading="Next steps"
+  label="What to do next"
+>
   <ol>
     <li>Gather your supporting documents.</li>
     <li>Complete the online form.</li>

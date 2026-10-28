@@ -25,15 +25,28 @@ This component is useful for scheduling interfaces, event creation forms, appoin
 ## Usage
 
 ```svelte
-<DateTimeLocalInput label="Event start" bind:value />
+<DateTimeLocalInput
+  label="Event start"
+  bind:value
+/>
 ```
 
 ```svelte
-<DateTimeLocalInput label="Appointment" bind:value min="2024-01-01T08:00" max="2024-12-31T18:00" />
+<DateTimeLocalInput
+  label="Appointment"
+  bind:value
+  min="2024-01-01T08:00"
+  max="2024-12-31T18:00"
+/>
 ```
 
 ```svelte
-<DateTimeLocalInput label="Departure time" bind:value required disabled={isLocked} />
+<DateTimeLocalInput
+  label="Departure time"
+  bind:value
+  required
+  disabled={isLocked}
+/>
 ```
 
 ## Keyboard Interactions

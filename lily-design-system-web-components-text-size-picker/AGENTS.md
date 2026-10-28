@@ -19,14 +19,14 @@ siblings in this catalog — all three helpers are the same shape.
 
 ## Files
 
-| File                        | Purpose                                          |
-| --------------------------- | ------------------------------------------------ |
-| `spec/index.md`             | Specification-driven contract (canonical).       |
-| `text-size-picker.ts`       | Implementation (TypeScript class).               |
-| `text-size-picker.test.ts`  | Vitest + jsdom spec, one assertion per §7 item.  |
-| `index.ts`                  | Barrel re-export + side-effectful registration.  |
-| `index.md`                  | Human-readable guide.                            |
-| `docs/accessibility.md`     | Roles, keyboard contract, known tradeoffs.       |
+| File                       | Purpose                                         |
+| -------------------------- | ----------------------------------------------- |
+| `spec/index.md`            | Specification-driven contract (canonical).      |
+| `text-size-picker.ts`      | Implementation (TypeScript class).              |
+| `text-size-picker.test.ts` | Vitest + jsdom spec, one assertion per §7 item. |
+| `index.ts`                 | Barrel re-export + side-effectful registration. |
+| `index.md`                 | Human-readable guide.                           |
+| `docs/accessibility.md`    | Roles, keyboard contract, known tradeoffs.      |
 
 ## Public surface
 

@@ -41,7 +41,7 @@ If your code is legitimately RTL and returns false, it is missing from
 ## "The page flashes English before switching"
 
 Expected with client-only persistence. `localStorage` and
-`navigator.languages` are only readable *after* the client starts, so
+`navigator.languages` are only readable _after_ the client starts, so
 the server necessarily paints something first.
 
 The only real fix is a cookie the server can read before render. See
@@ -57,7 +57,7 @@ Name a symbol font ahead of the emoji font:
 
 ```css
 .locale-picker-icon {
-    font-family: "Segoe UI Symbol", "Noto Sans Symbols 2", system-ui, sans-serif;
+  font-family: "Segoe UI Symbol", "Noto Sans Symbols 2", system-ui, sans-serif;
 }
 ```
 
@@ -69,7 +69,7 @@ If you need guaranteed monochrome, supply an inline SVG via
 The font stack has no glyph for U+1F310. Same fix as above: name a font
 that covers it, or replace it with an SVG. Do not rely on the glyph
 alone as the only indication of what the button does — the accessible
-name comes from `Label` regardless, but sighted users need *something*
+name comes from `Label` regardless, but sighted users need _something_
 legible.
 
 ## "Options show codes, not names"
@@ -93,12 +93,15 @@ The package ships no CSS, including no positioning. The `<ul>` is
 in-flow until you take it out:
 
 ```css
-.locale-picker { position: relative; display: inline-block; }
+.locale-picker {
+  position: relative;
+  display: inline-block;
+}
 .locale-picker-list {
-    position: absolute;
-    z-index: 10;
-    inset-block-start: 100%;
-    inset-inline-start: 0;
+  position: absolute;
+  z-index: 10;
+  inset-block-start: 100%;
+  inset-inline-start: 0;
 }
 ```
 
@@ -123,7 +126,9 @@ has the glyphs:
 ```css
 .locale-picker-option:lang(zh),
 .locale-picker-option:lang(ja),
-.locale-picker-option:lang(ko) { font-family: var(--font-cjk, system-ui); }
+.locale-picker-option:lang(ko) {
+  font-family: var(--font-cjk, system-ui);
+}
 ```
 
 ## "A screen reader reads 'Français' with an English voice"

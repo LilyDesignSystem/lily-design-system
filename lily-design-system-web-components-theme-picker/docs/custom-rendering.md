@@ -188,14 +188,9 @@ class SegmentedThemePicker extends ThemePicker {
     this.#rebuild();
   }
 
-  attributeChangedCallback(
-    n: string,
-    o: string | null,
-    v: string | null,
-  ): void {
+  attributeChangedCallback(n: string, o: string | null, v: string | null): void {
     super.attributeChangedCallback(n, o, v);
-    if (n === "value" || n === "themes" || n === "theme-labels")
-      this.#rebuild();
+    if (n === "value" || n === "themes" || n === "theme-labels") this.#rebuild();
   }
 
   #rebuild(): void {
@@ -293,9 +288,7 @@ test("renderButtonContent replaces the icon and keeps the aria wiring", async ()
   const btn = el.querySelector<HTMLButtonElement>(".theme-picker-button")!;
   expect(btn.getAttribute("aria-haspopup")).toBe("listbox");
   expect(btn.getAttribute("aria-label")).toBe("Theme");
-  expect(
-    el.querySelector(`#${btn.getAttribute("aria-controls")}`),
-  ).not.toBeNull();
+  expect(el.querySelector(`#${btn.getAttribute("aria-controls")}`)).not.toBeNull();
 });
 
 test("subclass still fires themechange through the base lifecycle", async () => {

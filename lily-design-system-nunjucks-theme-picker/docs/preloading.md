@@ -33,11 +33,13 @@ control's managed `<link>` also exists, but its href resolves to a
 URL that is already cached — the cost is a 304.
 
 Pros:
+
 - Instant switching.
 - Works with any theme catalog.
 - No extra build step.
 
 Cons:
+
 - Up-front bandwidth cost equal to the sum of all theme CSS
   sizes.
 - Each theme's CSS competes for the cascade — important when
@@ -46,7 +48,7 @@ Cons:
 
 ## Strategy 2 — `<link rel="preload" as="style">` warmup
 
-When you want the *first* switch to be instant but don't want to
+When you want the _first_ switch to be instant but don't want to
 pay the cost up front for every other theme:
 
 ```njk
@@ -65,11 +67,13 @@ them. When the client swaps the managed `<link>` href to one of
 the preloaded URLs, the browser uses the cached response.
 
 Pros:
+
 - Lower CPU cost than Strategy 1 (only one theme parsed at a
   time).
 - Instant switching after the preload completes.
 
 Cons:
+
 - Doesn't help the very first switch if it happens before the
   preload resolves.
 
@@ -98,10 +102,12 @@ client then doesn't need to swap stylesheets at all — only
 ```
 
 Pros:
+
 - One round-trip, instant switching.
 - Easiest to cache.
 
 Cons:
+
 - Largest single payload — every visitor pays for themes they
   will never use.
 - Requires a build step to concatenate themes (or a single
@@ -118,26 +124,26 @@ import { readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 export default function (eleventyConfig) {
-    eleventyConfig.on("eleventy.before", () => {
-        const dir = join(process.cwd(), "src/assets/themes");
-        const all = readdirSync(dir)
-            .filter((f) => f.endsWith(".css") && f !== "all.css")
-            .map((f) => readFileSync(join(dir, f), "utf8"))
-            .join("\n");
-        writeFileSync(join(dir, "all.css"), all);
-    });
-    eleventyConfig.addPassthroughCopy("src/assets/themes");
+  eleventyConfig.on("eleventy.before", () => {
+    const dir = join(process.cwd(), "src/assets/themes");
+    const all = readdirSync(dir)
+      .filter((f) => f.endsWith(".css") && f !== "all.css")
+      .map((f) => readFileSync(join(dir, f), "utf8"))
+      .join("\n");
+    writeFileSync(join(dir, "all.css"), all);
+  });
+  eleventyConfig.addPassthroughCopy("src/assets/themes");
 }
 ```
 
 ## Which strategy to pick
 
-| Constraint                            | Strategy             |
-| ------------------------------------- | -------------------- |
-| Casual use, occasional theme change   | Default (no preload) |
-| Designer / preview UI                 | Strategy 1           |
-| Mobile-conscious, mostly-light apps   | Strategy 2           |
-| Small catalog (2–4 themes), CDN-cached | Strategy 3          |
+| Constraint                             | Strategy             |
+| -------------------------------------- | -------------------- |
+| Casual use, occasional theme change    | Default (no preload) |
+| Designer / preview UI                  | Strategy 1           |
+| Mobile-conscious, mostly-light apps    | Strategy 2           |
+| Small catalog (2–4 themes), CDN-cached | Strategy 3           |
 
 ---
 

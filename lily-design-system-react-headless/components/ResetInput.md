@@ -29,7 +29,10 @@ Reset inputs are useful in forms where users may want to clear all entered data 
 ```
 
 ```tsx
-<ResetInput value="Start over" disabled={!formDirty} />
+<ResetInput
+  value="Start over"
+  disabled={!formDirty}
+/>
 ```
 
 ## Keyboard Interactions

@@ -33,13 +33,18 @@ This component is useful for progressive disclosure patterns such as FAQ section
 </Expander>
 
 <Expander summary="How to measure your blood glucose levels">
-  <p>Testing your blood glucose levels involves a simple finger prick test
-  using a blood glucose monitor.</p>
+  <p>
+    Testing your blood glucose levels involves a simple finger prick test using a blood glucose
+    monitor.
+  </p>
 </Expander>
 ```
 
 ```html
-<Expander label="Advanced settings" expanded={showAdvanced}>
+<Expander
+  label="Advanced settings"
+  expanded="{showAdvanced}"
+>
   <form>...</form>
 </Expander>
 ```
@@ -76,14 +81,11 @@ This component is useful for progressive disclosure patterns such as FAQ section
 
 This headless component provides a `<div>` wrapper with a `<button>` toggle using `aria-expanded` and `aria-controls`, a conditionally rendered content `<div>` with `role="region"`, and two-way binding on the `expanded` prop. The consumer provides all visual styling for the button, expanded content area, and any transition animations.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.expander` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `expander`
 - Verify role="region"` -- on the content container, identifies the expandable area as a landmark region

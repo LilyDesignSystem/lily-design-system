@@ -41,7 +41,9 @@ Icon-only link with screen reader label:
 Expanding abbreviated text for screen readers:
 
 ```html
-<p>Published <time datetime="2025-01-15">3 min<ScreenReaderSpan>utes</ScreenReaderSpan> ago</time></p>
+<p>
+  Published <time datetime="2025-01-15">3 min<ScreenReaderSpan>utes</ScreenReaderSpan> ago</time>
+</p>
 ```
 
 Adding context to a "Read more" link:

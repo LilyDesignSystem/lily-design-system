@@ -19,7 +19,9 @@ which overrides the user-agent's `[hidden] { display: none }` rule.
 **Fix.** Add an explicit reset:
 
 ```css
-.locale-picker-list[hidden] { display: none; }
+.locale-picker-list[hidden] {
+  display: none;
+}
 ```
 
 ## "The popup jumps to the wrong side after picking Arabic"
@@ -45,7 +47,7 @@ applied locale, `data-active` is the keyboard cursor.
 ## "The globe renders blue / as a colour emoji"
 
 **Likely cause.** The glyph is U+1F310 plus U+FE0E VARIATION
-SELECTOR-15, which *requests* monochrome text presentation. It does not
+SELECTOR-15, which _requests_ monochrome text presentation. It does not
 guarantee it: a platform whose only covering font is a colour-emoji
 font renders colour anyway.
 
@@ -78,7 +80,7 @@ Checklist:
 ## "The wrong language is announced / pronounced"
 
 **Likely cause.** A mismatch between the option's `lang` attribute
-(always derived from the *code*) and its visible text (derived from
+(always derived from the _code_) and its visible text (derived from
 your `localeLabels`). Labelling `fr` as "French" gives you
 `<li lang="fr">French</li>`, which tells the reader to pronounce an
 English word with a French voice.

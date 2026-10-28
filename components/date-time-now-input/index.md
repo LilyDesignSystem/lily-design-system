@@ -33,19 +33,34 @@ This component is useful for event logging, timestamping, incident reporting, an
 Clinical observation timestamp with "Now" button:
 
 ```html
-<DateTimeNowInput label="Observation recorded" dateValue={obsDate} timeValue={obsTime} nowLabel="Record now" required />
+<DateTimeNowInput
+  label="Observation recorded"
+  dateValue="{obsDate}"
+  timeValue="{obsTime}"
+  nowLabel="Record now"
+  required
+/>
 ```
 
 Incident reporting with default labels:
 
 ```html
-<DateTimeNowInput label="Incident occurred" dateValue={incidentDate} timeValue={incidentTime} />
+<DateTimeNowInput
+  label="Incident occurred"
+  dateValue="{incidentDate}"
+  timeValue="{incidentTime}"
+/>
 ```
 
 Locked timestamp that has already been recorded:
 
 ```html
-<DateTimeNowInput label="Administered at" dateValue={adminDate} timeValue={adminTime} disabled={true} />
+<DateTimeNowInput
+  label="Administered at"
+  dateValue="{adminDate}"
+  timeValue="{adminTime}"
+  disabled="{true}"
+/>
 ```
 
 ## Keyboard Interactions

@@ -27,7 +27,10 @@ Each care card has a heading that describes the action and a body containing the
 ## Usage
 
 ```html
-<CareCard type="non-urgent" heading="See a GP if:">
+<CareCard
+  type="non-urgent"
+  heading="See a GP if:"
+>
   <ul>
     <li>your symptoms do not improve after 2 weeks</li>
     <li>you have a high temperature for more than 3 days</li>
@@ -36,7 +39,10 @@ Each care card has a heading that describes the action and a body containing the
 ```
 
 ```html
-<CareCard type="urgent" heading="Ask for an urgent GP appointment or call 111 if:">
+<CareCard
+  type="urgent"
+  heading="Ask for an urgent GP appointment or call 111 if:"
+>
   <ul>
     <li>you have difficulty breathing</li>
     <li>you have chest pain</li>
@@ -45,7 +51,10 @@ Each care card has a heading that describes the action and a body containing the
 ```
 
 ```html
-<CareCard type="immediate" heading="Call 999 if:">
+<CareCard
+  type="immediate"
+  heading="Call 999 if:"
+>
   <ul>
     <li>someone is unconscious</li>
     <li>someone is having a seizure for the first time</li>
@@ -82,18 +91,15 @@ Each care card has a heading that describes the action and a body containing the
 
 This headless CareCard component provides the semantic `<section>` with `role="region"`, accessible labeling from the heading, and a `data-type` attribute exposing the urgency level. The consumer provides all visual styling including urgency-specific colors (e.g., blue for non-urgent, red for immediate), card borders, spacing, and typography.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.care-card` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `care-card`
 - Verify role="region"` -- identifies the card as a named landmark
-- Verify aria-label` -- set from `label` prop or `heading` prop for screen reader identification
+- Verify aria-label`-- set from`label`prop or`heading` prop for screen reader identification
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied
 

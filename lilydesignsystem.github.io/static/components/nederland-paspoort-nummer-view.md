@@ -22,7 +22,7 @@ NederlandPaspoortNummerView is a headless read-only display of Netherlands's Pas
 ```html
 <SummaryList>
   <SummaryListItem term="Dutch Passport Number">
-    <NederlandPaspoortNummerView value={value} />
+    <NederlandPaspoortNummerView value="{value}" />
   </SummaryListItem>
 </SummaryList>
 ```

@@ -27,11 +27,11 @@ Suggested tiers, so a partial budget still buys something coherent:
 
 ## Environments
 
-| Surface | How to run |
-| --- | --- |
-| SvelteKit harness | `cd lily-design-system-svelte-sveltekit-examples && pnpm install && pnpm build && pnpm preview` |
-| Any other framework | six sibling apps, same routes; [INSTALL.md](../INSTALL.md) |
-| Assistive tech of record | auditor's choice; the project's own gap is precisely that none has been systematically used |
+| Surface                  | How to run                                                                                      |
+| ------------------------ | ----------------------------------------------------------------------------------------------- |
+| SvelteKit harness        | `cd lily-design-system-svelte-sveltekit-examples && pnpm install && pnpm build && pnpm preview` |
+| Any other framework      | six sibling apps, same routes; [INSTALL.md](../INSTALL.md)                                      |
+| Assistive tech of record | auditor's choice; the project's own gap is precisely that none has been systematically used     |
 
 ## What the auditor gets on day one
 

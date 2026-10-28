@@ -28,7 +28,10 @@ Use AccordionNav as the outermost container for an accordion component. Common s
 ```html
 <AccordionNav label="Service categories">
   <AccordionList>
-    <AccordionListItem heading="Mental health" expanded>
+    <AccordionListItem
+      heading="Mental health"
+      expanded
+    >
       <AccordionLink href="/services/anxiety">Anxiety</AccordionLink>
       <AccordionLink href="/services/depression">Depression</AccordionLink>
       <AccordionLink href="/services/stress">Stress management</AccordionLink>
@@ -46,7 +49,7 @@ Use AccordionNav as the outermost container for an accordion component. Common s
 | Prop           | Type            | Default    | Description                                               |
 | -------------- | --------------- | ---------- | --------------------------------------------------------- |
 | `label`        | `string`        | (required) | Accessible name for the accordion region via `aria-label` |
-| `children`     | `slot`       | (required) | Accordion content to render inside the container          |
+| `children`     | `slot`          | (required) | Accordion content to render inside the container          |
 | `...restProps` | HTML attributes |            | Additional attributes spread onto the outer `<div>`       |
 
 ## Examples
@@ -74,6 +77,7 @@ None -- this component is a passive container. Keyboard interactions are handled
 
 - `role="region"` -- identifies the accordion as a landmark region
 - `aria-label` -- provides an accessible name for the region, allowing screen readers to announce it
+
 ## When to Use
 
 - Use as a navigation landmark containing collapsible accordion sections, such as service category menus or grouped resource directories.
@@ -93,14 +97,11 @@ None -- this component is a passive container. Keyboard interactions are handled
 
 This component provides a `<nav>` landmark with `role="region"` and `aria-label` for accessibility, with zero visual styling. The consumer is responsible for all CSS including container borders, background colors, spacing, and overall layout. Use the `data-*` attributes or element selectors as styling hooks.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.accordion-nav` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<nav>` element with class `accordion-nav`
 - Verify role="region"` -- identifies the accordion as a landmark region

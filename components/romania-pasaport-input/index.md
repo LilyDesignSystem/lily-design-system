@@ -23,8 +23,15 @@ RomaniaPasaportInput is a headless input for entering Romania's Paşaport, Roman
 ## Usage
 
 ```html
-<Field label="Romanian Passport" required>
-  <RomaniaPasaportInput label="Romanian Passport" value={value} required />
+<Field
+  label="Romanian Passport"
+  required
+>
+  <RomaniaPasaportInput
+    label="Romanian Passport"
+    value="{value}"
+    required
+  />
   <Hint>8 characters: positions 1-2 [A-Z] and positions 3-8 [0-9]</Hint>
   <ErrorMessage>Please enter a valid Romanian Passport</ErrorMessage>
 </Field>

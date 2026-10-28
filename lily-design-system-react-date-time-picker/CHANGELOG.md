@@ -137,7 +137,7 @@ assertions moved from `disabled` to `aria-disabled`.
 - **Paging from the header buttons no longer steals focus into the
   grid.** `shiftMonth` refocuses the cursor only when focus was already
   inside the grid (where the focused cell is about to be unrendered) —
-  checked against `document.activeElement` *before* the state updates
+  checked against `document.activeElement` _before_ the state updates
   are queued; a user activating "next month" now stays on "next month"
   and can page repeatedly. Grid `PageUp`/`PageDown` behaviour is
   unchanged.
@@ -213,9 +213,9 @@ assertions moved from `disabled` to `aria-disabled`.
   about to be committed, rather than reading `pendingDate` / `pendingTime`
   state immediately after queuing an update to it. React's `setState`
   does not land until the next render, so a day click or a shortcut that
-  both updates the pending selection *and* commits in the same handler
+  both updates the pending selection _and_ commits in the same handler
   needs the fresh value passed in directly, or it would commit the
-  *previous* render's selection. Svelte's `$state` assignment takes
+  _previous_ render's selection. Svelte's `$state` assignment takes
   effect immediately, so the original did not need this. Documented in
   `spec/index.md` §3.1 and `AGENTS.md` so a future edit does not "simplify"
   it back into a one-render-stale bug.

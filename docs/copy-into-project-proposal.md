@@ -25,7 +25,7 @@ A copy is only useful if it can learn about later fixes, so the proposal is that
 2. **A `lily.json` lockfile** in the project records each copied component: package, version, and a hash of each file
    as it was copied.
 3. **`lily outdated`** lists copied components whose upstream files changed in a newer installed version. **`lily diff
-   <slug>`** shows that upstream change, so the team applies it to its own edited copy by hand. This is the part that
+<slug>`** shows that upstream change, so the team applies it to its own edited copy by hand. This is the part that
    answers RFC 8. It is deliberately not an automatic merge, because the copy is now the team's code.
 
 ## How it fits the repository

@@ -25,15 +25,26 @@ This component is useful in address forms, checkout flows, shipping calculators,
 ## Usage
 
 ```svelte
-<PostalCodeInput label="Postal code" bind:value />
+<PostalCodeInput
+  label="Postal code"
+  bind:value
+/>
 ```
 
 ```svelte
-<PostalCodeInput label="ZIP code" bind:value={zipCode} required={true} />
+<PostalCodeInput
+  label="ZIP code"
+  bind:value={zipCode}
+  required={true}
+/>
 ```
 
 ```svelte
-<PostalCodeInput label="Postcode" bind:value={postcode} placeholder="SW1A 1AA" />
+<PostalCodeInput
+  label="Postcode"
+  bind:value={postcode}
+  placeholder="SW1A 1AA"
+/>
 ```
 
 ## Keyboard Interactions

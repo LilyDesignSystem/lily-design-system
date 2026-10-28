@@ -37,7 +37,7 @@ With eyebrow and subtitle, h3 level:
 
 ```html
 <SectionHeading
-  level={3}
+  level="{3}"
   eyebrow="Why Lily"
   heading="Designed for healthcare"
   subtitle="Patient-first, clinician-tested, accessible by default."

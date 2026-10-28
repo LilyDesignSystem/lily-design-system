@@ -25,45 +25,58 @@ Tooltips are used to clarify the function or meaning of an element without clutt
 Tooltip on an icon button:
 
 ```html
-<button aria-describedby="save-tip"
-  onmouseenter={() => showSaveTip = true}
-  onmouseleave={() => showSaveTip = false}
-  onfocusin={() => showSaveTip = true}
-  onfocusout={() => showSaveTip = false}
+<button
+  aria-describedby="save-tip"
+  onmouseenter="{()"
+  =""
 >
+  showSaveTip = true} onmouseleave={() => showSaveTip = false} onfocusin={() => showSaveTip = true}
+  onfocusout={() => showSaveTip = false} >
   <Icon name="save" />
   <ScreenReaderSpan>Save document</ScreenReaderSpan>
 </button>
-<Tooltip id="save-tip" label="Save document" visible={showSaveTip} />
+<Tooltip
+  id="save-tip"
+  label="Save document"
+  visible="{showSaveTip}"
+/>
 ```
 
 Tooltip explaining an abbreviation:
 
 ```html
-<span aria-describedby="a11y-tip"
-  onmouseenter={() => showA11yTip = true}
-  onmouseleave={() => showA11yTip = false}
-  onfocusin={() => showA11yTip = true}
-  onfocusout={() => showA11yTip = false}
-  tabindex="0"
+<span
+  aria-describedby="a11y-tip"
+  onmouseenter="{()"
+  =""
 >
-  WCAG
+  showA11yTip = true} onmouseleave={() => showA11yTip = false} onfocusin={() => showA11yTip = true}
+  onfocusout={() => showA11yTip = false} tabindex="0" > WCAG
 </span>
-<Tooltip id="a11y-tip" label="Web Content Accessibility Guidelines" visible={showA11yTip} />
+<Tooltip
+  id="a11y-tip"
+  label="Web Content Accessibility Guidelines"
+  visible="{showA11yTip}"
+/>
 ```
 
 Tooltip for a toolbar action:
 
 ```html
-<button aria-describedby="delete-tip"
-  onmouseenter={() => showDeleteTip = true}
-  onmouseleave={() => showDeleteTip = false}
-  onfocusin={() => showDeleteTip = true}
-  onfocusout={() => showDeleteTip = false}
+<button
+  aria-describedby="delete-tip"
+  onmouseenter="{()"
+  =""
 >
+  showDeleteTip = true} onmouseleave={() => showDeleteTip = false} onfocusin={() => showDeleteTip =
+  true} onfocusout={() => showDeleteTip = false} >
   <Icon name="trash" />
 </button>
-<Tooltip id="delete-tip" label="Delete selected items" visible={showDeleteTip} />
+<Tooltip
+  id="delete-tip"
+  label="Delete selected items"
+  visible="{showDeleteTip}"
+/>
 ```
 
 ## Keyboard Interactions
@@ -95,14 +108,11 @@ Tooltip for a toolbar action:
 
 This headless component provides a `<div>` with `role="tooltip"` and conditional rendering (fully removed from DOM when hidden). The consumer manages visibility toggling (hover, focus events), positioning, and all visual styling including background, border, and arrow indicators.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.tooltip` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `tooltip`
 - Verify role="tooltip"` -- identifies the element as a tooltip, a popup that displays a description for an element

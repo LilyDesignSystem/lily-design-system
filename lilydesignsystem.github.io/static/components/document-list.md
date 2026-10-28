@@ -12,17 +12,27 @@ A list displaying documents with titles and metadata.
 
 ## Props
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `children` | slot (required) | — | `DocumentListItem` children |
-| `...restProps` | HTML attributes | — | Spread onto the root `<ol>` |
+| Prop           | Type            | Default | Description                 |
+| -------------- | --------------- | ------- | --------------------------- |
+| `children`     | slot (required) | —       | `DocumentListItem` children |
+| `...restProps` | HTML attributes | —       | Spread onto the root `<ol>` |
 
 ## Usage
 
 ```html
 <DocumentList>
-  <DocumentListItem title="Annual report 2025" href="/docs/annual-2025.pdf" type="PDF" size="1.2 MB" />
-  <DocumentListItem title="Statement of accounts" href="/docs/accounts-2025.pdf" type="PDF" size="540 KB" />
+  <DocumentListItem
+    title="Annual report 2025"
+    href="/docs/annual-2025.pdf"
+    type="PDF"
+    size="1.2 MB"
+  />
+  <DocumentListItem
+    title="Statement of accounts"
+    href="/docs/accounts-2025.pdf"
+    type="PDF"
+    size="540 KB"
+  />
 </DocumentList>
 ```
 

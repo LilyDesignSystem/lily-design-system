@@ -25,7 +25,10 @@ This component is designed to work alongside form inputs where the consumer link
 
 ```svelte
 <Hint id="password-hint">Must be at least 8 characters</Hint>
-<input type="password" aria-describedby="password-hint" />
+<input
+  type="password"
+  aria-describedby="password-hint"
+/>
 ```
 
 ## Keyboard Interactions

@@ -116,21 +116,21 @@ supplies the control.
 
 ## Macro parameters
 
-| Key               | Type                               | Required | Default                | Purpose                                                                          |
-| ----------------- | ---------------------------------- | -------- | ---------------------- | -------------------------------------------------------------------------------- |
-| `label`           | string                             | yes      | —                      | Accessible name for the trigger. It is icon-only, so this is its **only** name. |
-| `targets`         | array                              | no       | `[]`                   | Destinations. Empty is valid when `copyLabel` is set.                            |
-| `url`             | string                             | no       | —                      | URL to share. The client falls back to `location.href`.                          |
-| `title`           | string                             | no       | `""`                   | Passed to the native sheet.                                                      |
-| `text`            | string                             | no       | `""`                   | Passed to the native sheet.                                                      |
-| `copyLabel`       | string                             | no       | —                      | Label for the copy item. **Omit it and no copy item renders.**                   |
-| `copiedLabel`     | string                             | no       | —                      | Announced after a successful copy.                                               |
-| `copyFailedLabel` | string                             | no       | —                      | Announced when the clipboard write fails.                                        |
-| `strategy`        | `"auto"` \| `"native"` \| `"list"` | no       | `"auto"`               | Whether to prefer the native sheet.                                              |
-| `name`            | string                             | no       | `"share"`              | Discriminator used to derive ids.                                                |
-| `id`              | string                             | no       | `share-picker-{name}` | Id prefix. Needed when two instances share a `name`.                             |
-| `classes`         | string                             | no       | —                      | Extra classes on the root.                                                       |
-| `attributes`      | object                             | no       | —                      | Extra HTML attributes on the root.                                               |
+| Key               | Type                               | Required | Default               | Purpose                                                                         |
+| ----------------- | ---------------------------------- | -------- | --------------------- | ------------------------------------------------------------------------------- |
+| `label`           | string                             | yes      | —                     | Accessible name for the trigger. It is icon-only, so this is its **only** name. |
+| `targets`         | array                              | no       | `[]`                  | Destinations. Empty is valid when `copyLabel` is set.                           |
+| `url`             | string                             | no       | —                     | URL to share. The client falls back to `location.href`.                         |
+| `title`           | string                             | no       | `""`                  | Passed to the native sheet.                                                     |
+| `text`            | string                             | no       | `""`                  | Passed to the native sheet.                                                     |
+| `copyLabel`       | string                             | no       | —                     | Label for the copy item. **Omit it and no copy item renders.**                  |
+| `copiedLabel`     | string                             | no       | —                     | Announced after a successful copy.                                              |
+| `copyFailedLabel` | string                             | no       | —                     | Announced when the clipboard write fails.                                       |
+| `strategy`        | `"auto"` \| `"native"` \| `"list"` | no       | `"auto"`              | Whether to prefer the native sheet.                                             |
+| `name`            | string                             | no       | `"share"`             | Discriminator used to derive ids.                                               |
+| `id`              | string                             | no       | `share-picker-{name}` | Id prefix. Needed when two instances share a `name`.                            |
+| `classes`         | string                             | no       | —                     | Extra classes on the root.                                                      |
+| `attributes`      | object                             | no       | —                     | Extra HTML attributes on the root.                                              |
 
 Each target: `id` (required), `label` (required), `href` (required
 string), `newTab` (default `true`).
@@ -192,16 +192,16 @@ comes from `label`.
 
 No CSS ships. The hooks:
 
-| Class                      | Element                          |
-| -------------------------- | -------------------------------- |
-| `.share-picker`           | root `<div>`                     |
-| `.share-picker-button`    | the `<button>` trigger           |
-| `.share-picker-icon`      | the default icon `<svg>`         |
+| Class                     | Element                                                             |
+| ------------------------- | ------------------------------------------------------------------- |
+| `.share-picker`           | root `<div>`                                                        |
+| `.share-picker-button`    | the `<button>` trigger                                              |
+| `.share-picker-icon`      | the default icon `<svg>`                                            |
 | `.share-picker-list`      | the `<ul>`, `hidden` when closed; carries the picker's `aria-label` |
-| `.share-picker-list-item` | each `<li>`                      |
-| `.share-picker-target`    | each destination `<a>`           |
-| `.share-picker-copy`      | the copy `<button>`              |
-| `.share-picker-status`    | the polite live region `<p>`     |
+| `.share-picker-list-item` | each `<li>`                                                         |
+| `.share-picker-target`    | each destination `<a>`                                              |
+| `.share-picker-copy`      | the copy `<button>`                                                 |
+| `.share-picker-status`    | the polite live region `<p>`                                        |
 
 The root `themes/` stylesheets already style these.
 

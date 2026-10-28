@@ -25,25 +25,27 @@ When a caption is provided, the component renders a `<figure>` containing the `<
 ## Usage
 
 ```html
-<Image
+<image
   src="/images/stretch-marks.jpg"
   alt="Close-up of a person's skin showing pink and silver stretch marks across the abdomen"
 />
 ```
 
 ```html
-<Figure>
-  <Image
+<figure>
+  <image
     src="/images/chickenpox-rash.jpg"
     alt="Small red spots on a child's chest and arms, typical of chickenpox"
   />
-  <Caption>Chickenpox starts with small, itchy spots. They can appear anywhere on the body.</Caption>
-</Figure>
+  <caption>
+    Chickenpox starts with small, itchy spots. They can appear anywhere on the body.
+  </caption>
+</figure>
 ```
 
 ```html
 <!-- Lazy-loaded image below the fold -->
-<Image
+<image
   src="/images/physiotherapy-exercise.jpg"
   alt="A person performing a seated hamstring stretch with one leg extended"
   loading="lazy"
@@ -77,14 +79,11 @@ None -- this component is a passive content element. Images are not interactive 
 
 This headless component provides an `<img>` element with required `alt` text, optional `<figure>`/`<figcaption>` wrapping, and native `loading` attribute support. The consumer provides all visual styling including sizing, borders, rounded corners, and responsive behavior.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.image` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<img>` element with class `image`
 - Verify pass-through attributes are applied

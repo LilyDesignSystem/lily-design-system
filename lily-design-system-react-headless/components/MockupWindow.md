@@ -12,7 +12,10 @@ A box area that looks like a desktop window. Renders a decorative `<div>` contai
 
 ```tsx
 <MockupWindow>
-  <img src="screenshot.png" alt="App screen" />
+  <img
+    src="screenshot.png"
+    alt="App screen"
+  />
 </MockupWindow>
 ```
 

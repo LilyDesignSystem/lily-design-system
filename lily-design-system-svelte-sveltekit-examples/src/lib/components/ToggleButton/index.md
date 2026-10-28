@@ -51,7 +51,10 @@ Import, bind `pressed`, and pass a translated `label`. Optionally render visible
   let dark = $state(false);
 </script>
 
-<ToggleButton label="Dark mode" bind:pressed={dark} />
+<ToggleButton
+  label="Dark mode"
+  bind:pressed={dark}
+/>
 ```
 
 ```svelte
@@ -62,7 +65,11 @@ Import, bind `pressed`, and pass a translated `label`. Optionally render visible
   let locked = $state(false);
 </script>
 
-<ToggleButton label="Mute audio" bind:pressed={muted} disabled={locked}>
+<ToggleButton
+  label="Mute audio"
+  bind:pressed={muted}
+  disabled={locked}
+>
   {muted ? "Muted" : "Audible"}
 </ToggleButton>
 ```
@@ -78,9 +85,18 @@ Import, bind `pressed`, and pass a translated `label`. Optionally render visible
 </script>
 
 <ToggleGroup label="Text formatting">
-  <ToggleButton label="Bold" bind:pressed={bold}>B</ToggleButton>
-  <ToggleButton label="Italic" bind:pressed={italic}>I</ToggleButton>
-  <ToggleButton label="Underline" bind:pressed={underline}>U</ToggleButton>
+  <ToggleButton
+    label="Bold"
+    bind:pressed={bold}>B</ToggleButton
+  >
+  <ToggleButton
+    label="Italic"
+    bind:pressed={italic}>I</ToggleButton
+  >
+  <ToggleButton
+    label="Underline"
+    bind:pressed={underline}>U</ToggleButton
+  >
 </ToggleGroup>
 ```
 
@@ -91,7 +107,10 @@ Import, bind `pressed`, and pass a translated `label`. Optionally render visible
   let autosave = $state(true);
 </script>
 
-<ToggleButton label="Autosave" bind:pressed={autosave}>
+<ToggleButton
+  label="Autosave"
+  bind:pressed={autosave}
+>
   Autosave: {autosave ? "On" : "Off"}
 </ToggleButton>
 ```

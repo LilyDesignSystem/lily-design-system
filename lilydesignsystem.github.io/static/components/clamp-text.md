@@ -32,15 +32,18 @@ Default two-line clamp:
 
 ```html
 <ClampText>
-  This is a long description that will be visually truncated to two lines
-  while remaining fully present in the document for assistive technology.
+  This is a long description that will be visually truncated to two lines while remaining fully
+  present in the document for assistive technology.
 </ClampText>
 ```
 
 Three-line clamp with accessible label:
 
 ```html
-<ClampText lines={3} label="Product description">
+<ClampText
+  lines="{3}"
+  label="Product description"
+>
   A longer marketing block of text that should clamp to three lines.
 </ClampText>
 ```

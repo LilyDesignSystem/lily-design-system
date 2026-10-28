@@ -17,7 +17,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
 - Added type-ahead to the grid keyboard.
 - Added copy to the clipboard (`labels.copy`, `copyAnnouncement`, `copyFailed`, `onCopy`; `toClipboardText`, `copyToClipboard`).
 - Added `rowFilter` and multi-column sort (`thenBy`, Shift+click).
-- Search: every word must appear (any order), ignoring case and diacritics; typed field text is searched; matches are highlighted with `<mark>` (not in the data grid's cells); `labels.searchAnnouncement(matches, total)`; Escape clears. 
+- Search: every word must appear (any order), ignoring case and diacritics; typed field text is searched; matches are highlighted with `<mark>` (not in the data grid's cells); `labels.searchAnnouncement(matches, total)`; Escape clears.
 - Ported from the Svelte 0.10.0; the pure modules come from `shared/` (`bin/sync-shared-modules`).
 
 ## 0.9.0 — 2026-10-16

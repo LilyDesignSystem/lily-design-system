@@ -20,15 +20,15 @@ twelve defects along the way; parity table in spec §8, departures in §9.
 
 ## Files
 
-| File | Purpose |
-| ---- | ------- |
-| `spec/index.md` | Specification-driven contract (canonical). |
-| `DateTimePicker.vue` | Implementation. `<script setup lang="ts">`. |
+| File                     | Purpose                                           |
+| ------------------------ | ------------------------------------------------- |
+| `spec/index.md`          | Specification-driven contract (canonical).        |
+| `DateTimePicker.vue`     | Implementation. `<script setup lang="ts">`.       |
 | `DateTimePicker.test.ts` | Vitest spec, mapped to the §7 clauses (67 tests). |
-| `index.ts` | Barrel re-export. |
-| `index.md` | User guide. |
-| `docs/accessibility.md` | Tradeoffs, stated plainly. |
-| `examples/` | Runnable Vue 3 SFCs. |
+| `index.ts`               | Barrel re-export.                                 |
+| `index.md`               | User guide.                                       |
+| `docs/accessibility.md`  | Tradeoffs, stated plainly.                        |
+| `examples/`              | Runnable Vue 3 SFCs.                              |
 
 ## Public surface
 
@@ -48,7 +48,7 @@ Required props: `label`, `labels`.
 
 The value is an ISO string shaped by `mode`: `YYYY-MM-DD`, `HH:MM`, or
 `YYYY-MM-DDTHH:MM`, two-way bindable via `v-model:value`. Selection inside
-the dialog writes to *pending* refs; only Confirm — or a day click when
+the dialog writes to _pending_ refs; only Confirm — or a day click when
 `confirmOnSelect` (default: date-only mode) — writes to the committed
 value and emits `change` + `update:value`. Cancel, Escape and
 click-outside close without committing. Typed text resolves on blur or

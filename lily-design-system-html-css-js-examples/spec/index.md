@@ -52,16 +52,16 @@ The app ships:
 
 ### Framework + tooling
 
-| Concern             | Choice                                      |
-| ------------------- | ------------------------------------------- |
-| App                 | Plain HTML + vanilla JavaScript             |
-| Routing             | One HTML file per route + client-side `?slug=` |
-| Language            | JavaScript (no TS)                          |
-| Build               | None                                        |
-| Package manager     | pnpm (dev-only, for test tooling)           |
-| Unit / smoke test   | WebDriverIO                                 |
-| E2E test            | Playwright                                  |
-| Styling             | Plain CSS with custom properties (NHS)      |
+| Concern           | Choice                                         |
+| ----------------- | ---------------------------------------------- |
+| App               | Plain HTML + vanilla JavaScript                |
+| Routing           | One HTML file per route + client-side `?slug=` |
+| Language          | JavaScript (no TS)                             |
+| Build             | None                                           |
+| Package manager   | pnpm (dev-only, for test tooling)              |
+| Unit / smoke test | WebDriverIO                                    |
+| E2E test          | Playwright                                     |
+| Styling           | Plain CSS with custom properties (NHS)         |
 
 ### Headless dependency
 
@@ -91,11 +91,11 @@ lily-design-system-html-css-js-examples/
 
 ## 4. Required routes
 
-| Route                       | File                                    | Purpose                          |
-| --------------------------- | --------------------------------------- | -------------------------------- |
-| `/`                         | `pages/index.html`                      | Home, links to demos             |
-| `/components`               | `pages/components/index.html`           | Catalog index                    |
-| `/components?slug={slug}`   | `pages/components/component.html`       | Per-component live demo via JS   |
+| Route                     | File                              | Purpose                        |
+| ------------------------- | --------------------------------- | ------------------------------ |
+| `/`                       | `pages/index.html`                | Home, links to demos           |
+| `/components`             | `pages/components/index.html`     | Catalog index                  |
+| `/components?slug={slug}` | `pages/components/component.html` | Per-component live demo via JS |
 
 The catalog index lists all 490 canonical slugs and links each entry to
 `component.html?slug={slug}`. `component.html` reads the `slug` query
@@ -226,14 +226,14 @@ npx http-server pages -p 8080                 # serve locally for manual testing
 
 ## 12. Prohibited
 
-| Prohibition                       | Reason                              |
-| --------------------------------- | ----------------------------------- |
-| UI frameworks (React, etc.)       | this is the framework-free reference |
-| TypeScript                        | plain JavaScript only               |
-| Build tools                       | pages must load directly            |
-| `nhsuk-` prefixes in markup       | CSS targets Lily classes directly   |
-| Tailwind, DaisyUI, Bootstrap      | no CSS framework dependency         |
-| Raw newlines in JS strings        | invalid JS, breaks page load        |
+| Prohibition                  | Reason                               |
+| ---------------------------- | ------------------------------------ |
+| UI frameworks (React, etc.)  | this is the framework-free reference |
+| TypeScript                   | plain JavaScript only                |
+| Build tools                  | pages must load directly             |
+| `nhsuk-` prefixes in markup  | CSS targets Lily classes directly    |
+| Tailwind, DaisyUI, Bootstrap | no CSS framework dependency          |
+| Raw newlines in JS strings   | invalid JS, breaks page load         |
 
 ## 13. Tracking
 

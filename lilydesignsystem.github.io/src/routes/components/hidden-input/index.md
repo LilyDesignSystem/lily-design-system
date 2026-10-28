@@ -23,19 +23,31 @@ This component is useful whenever a form needs to carry data that the user shoul
 CSRF token included in a form:
 
 ```html
-<Form label="Update settings" onsubmit={save}>
-  <HiddenInput name="_csrf" value={csrfToken} />
+<form
+  label="Update settings"
+  onsubmit="{save}"
+>
+  <HiddenInput
+    name="_csrf"
+    value="{csrfToken}"
+  />
   <Field label="Display name">
-    <TextInput label="Display name" value={displayName} />
+    <TextInput
+      label="Display name"
+      value="{displayName}"
+    />
   </Field>
   <SubmitInput value="Save" />
-</Form>
+</form>
 ```
 
 Record ID for an update operation:
 
 ```html
-<HiddenInput name="recordId" value={patient.id} />
+<HiddenInput
+  name="recordId"
+  value="{patient.id}"
+/>
 ```
 
 ## Keyboard Interactions
@@ -61,14 +73,11 @@ None -- hidden inputs are not perceivable by users or assistive technologies, so
 
 This headless component provides a native `<input type="hidden">` element with `name` and `value` attributes for form submission. No ARIA or visual styling is needed because hidden inputs are not perceivable by any user or assistive technology.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.hidden-input` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<input>` element with class `hidden-input`
 - Verify pass-through attributes are applied

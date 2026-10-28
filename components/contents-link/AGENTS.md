@@ -17,7 +17,7 @@
 - `href` attribute links to the target page or section anchor
 - Fine for same-page links (local anchors such as `#symptoms`) and as a same-page "scrollspy" entry: inside a `ContentsNav` with `spy`, the link for the section in view gets `aria-current="true"`; on a same-page outline every entry stays a link, including the current one
 - **Count (optional)**: `countLabel` renders a visible, localised count (for example "3 to do") in a
-  `<span class="contents-link-count">` *inside* the link, after the text, so the link's accessible name includes it.
+  `<span class="contents-link-count">` _inside_ the link, after the text, so the link's accessible name includes it.
   `count` sets `data-count` on the link (and `data-complete` when it is 0) as CSS hooks. The count is text, never colour
   alone (WCAG 1.4.1). Lily ships no default text: the consumer supplies the whole phrase, so plural forms and languages
   stay theirs

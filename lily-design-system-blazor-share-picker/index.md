@@ -154,11 +154,11 @@ Required: `Label`. Everything else is optional.
 
 ## Static helpers
 
-| Member | Purpose |
-| ------ | ------- |
-| `SharePicker.NextSharePickerId()` | Mint a stable, prerender-safe id prefix. |
-| `SharePicker.CanShareNativelyAsync(js)` | Does this browser have a share sheet? |
-| `SharePicker.CanCopyAsync(js)` | Does this browser have an async clipboard? |
+| Member                                  | Purpose                                    |
+| --------------------------------------- | ------------------------------------------ |
+| `SharePicker.NextSharePickerId()`       | Mint a stable, prerender-safe id prefix.   |
+| `SharePicker.CanShareNativelyAsync(js)` | Does this browser have a share sheet?      |
+| `SharePicker.CanCopyAsync(js)`          | Does this browser have an async clipboard? |
 
 Both probes are async — the browser is only reachable over JS interop —
 and both return `false` during prerender rather than throwing.

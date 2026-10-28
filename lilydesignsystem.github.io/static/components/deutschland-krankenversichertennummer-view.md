@@ -22,7 +22,7 @@ DeutschlandKrankenversichertennummerView is a headless read-only display of Germ
 ```html
 <SummaryList>
   <SummaryListItem term="Health Insurance Number">
-    <DeutschlandKrankenversichertennummerView value={value} />
+    <DeutschlandKrankenversichertennummerView value="{value}" />
   </SummaryListItem>
 </SummaryList>
 ```

@@ -24,13 +24,22 @@ Used for project milestones, activity feeds, order histories, or any chronologic
 
 ```tsx
 <TimelineList label="Order history">
-  <TimelineListItem datetime="2024-01-15" heading="January 15, 2024">
+  <TimelineListItem
+    datetime="2024-01-15"
+    heading="January 15, 2024"
+  >
     Order placed
   </TimelineListItem>
-  <TimelineListItem datetime="2024-01-16" heading="January 16, 2024">
+  <TimelineListItem
+    datetime="2024-01-16"
+    heading="January 16, 2024"
+  >
     Order shipped
   </TimelineListItem>
-  <TimelineListItem datetime="2024-01-19" heading="January 19, 2024">
+  <TimelineListItem
+    datetime="2024-01-19"
+    heading="January 19, 2024"
+  >
     Order delivered
   </TimelineListItem>
 </TimelineList>

@@ -10,7 +10,7 @@ See [components/multi-select-with-extras/index.md](../../../components/multi-sel
 
 ```svelte
 <script lang="ts">
-    import MultiSelectWithExtras from "./MultiSelectWithExtras.svelte";
+  import MultiSelectWithExtras from "./MultiSelectWithExtras.svelte";
 </script>
 
 <MultiSelectWithExtras />

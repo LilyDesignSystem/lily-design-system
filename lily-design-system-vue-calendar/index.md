@@ -47,7 +47,14 @@ const labels = {
   >
     <template #day="{ date, events: dayEvents, openEvent }">
       <span>{{ Number(date.slice(8)) }}</span>
-      <button v-for="e in dayEvents" :key="e.id" type="button" @click="openEvent(e)">{{ e.title }}</button>
+      <button
+        v-for="e in dayEvents"
+        :key="e.id"
+        type="button"
+        @click="openEvent(e)"
+      >
+        {{ e.title }}
+      </button>
     </template>
   </CalendarView>
 </template>
@@ -57,6 +64,7 @@ const labels = {
 
 Arrows move the cursor by a day or a week; Home/End go to the row's ends; PageUp/PageDown step by the
 view's length; Enter/Space pick the day; `t` goes to today. Disabled days stay focusable but cannot be picked.
+
 - **Typed event fields and editing** (0.5.0): `eventFields` + `event.values` show typed values in the agenda; `field-edit` edits them in place. See [spec](./spec/index.md#typed-event-fields-inline-editing-export-hot-path-caching-050-2026-10-16).
 - **Export** (0.5.0): `labels.exportCsv` / `exportTsv` / `exportExcel` plus `labels.exportHeaders` add CSV, TSV and Excel buttons for the shown period's (or every) event.
 

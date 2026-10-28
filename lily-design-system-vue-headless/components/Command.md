@@ -24,10 +24,14 @@ The component renders a search region containing a text input and a listbox for 
 ## Usage
 
 ```svelte
-<Command label="Command palette" placeholder="Search commands..." bind:value={query}>
-    {#each filteredCommands as cmd}
-        <div role="option">{cmd.name}</div>
-    {/each}
+<Command
+  label="Command palette"
+  placeholder="Search commands..."
+  bind:value={query}
+>
+  {#each filteredCommands as cmd}
+    <div role="option">{cmd.name}</div>
+  {/each}
 </Command>
 ```
 

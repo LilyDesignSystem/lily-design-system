@@ -29,16 +29,16 @@ immediately usable without configuration.
 
 ```tsx
 <DontList>
-    <li>Skip alt text</li>
-    <li>Use only color for meaning</li>
+  <li>Skip alt text</li>
+  <li>Use only color for meaning</li>
 </DontList>
 ```
 
 ```tsx
 <DontList label="Avoid">
-    <li>Hard-code user-facing strings</li>
-    <li>Rely on placeholder text as labels</li>
-    <li>Remove focus indicators</li>
+  <li>Hard-code user-facing strings</li>
+  <li>Rely on placeholder text as labels</li>
+  <li>Remove focus indicators</li>
 </DontList>
 ```
 

@@ -28,7 +28,12 @@ Week inputs are useful for scheduling applications, time tracking systems, repor
 ```
 
 ```tsx
-<WeekInput label="Report week" value={selectedWeek} onChange={setSelectedWeek} required />
+<WeekInput
+  label="Report week"
+  value={selectedWeek}
+  onChange={setSelectedWeek}
+  required
+/>
 ```
 
 ## Keyboard Interactions

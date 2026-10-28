@@ -21,7 +21,9 @@ OsterreichSozialversicherungsnummerView is a headless placeholder component, gen
 ## Usage
 
 ```html
-<OsterreichSozialversicherungsnummerView label="OsterreichSozialversicherungsnummerView example">Content</OsterreichSozialversicherungsnummerView>
+<OsterreichSozialversicherungsnummerView label="OsterreichSozialversicherungsnummerView example"
+  >Content</OsterreichSozialversicherungsnummerView
+>
 ```
 
 ## Keyboard Interactions

@@ -13,7 +13,10 @@ Displays a keyboard shortcut: an outer `<kbd class="kbd-shortcut">` with one inn
 ## Usage
 
 ```tsx
-<KbdShortcut keys={["Ctrl", "K"]} label="Control K" />
+<KbdShortcut
+  keys={["Ctrl", "K"]}
+  label="Control K"
+/>
 ```
 
 ## Related components

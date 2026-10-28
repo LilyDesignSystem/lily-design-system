@@ -25,7 +25,13 @@ This headless component renders a `<table>` element with `role="grid"` and an ac
 <CalendarTable label="April 2026">
   <CalendarTableHead>
     <CalendarTableRow>
-      <th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th>
+      <th>Mon</th>
+      <th>Tue</th>
+      <th>Wed</th>
+      <th>Thu</th>
+      <th>Fri</th>
+      <th>Sat</th>
+      <th>Sun</th>
     </CalendarTableRow>
   </CalendarTableHead>
   <CalendarTableBody>
@@ -39,7 +45,11 @@ This headless component renders a `<table>` element with `role="grid"` and an ac
       <CalendarTableTD>7</CalendarTableTD>
     </CalendarTableRow>
     <CalendarTableRow>
-      <CalendarTableTD today selected>8</CalendarTableTD>
+      <CalendarTableTD
+        today
+        selected
+        >8</CalendarTableTD
+      >
       <CalendarTableTD>9</CalendarTableTD>
       <CalendarTableTD>10</CalendarTableTD>
       <CalendarTableTD>11</CalendarTableTD>
@@ -82,14 +92,11 @@ None built-in -- the consumer should implement grid keyboard navigation on cells
 
 This component provides a `<table>` element with `role="grid"` and `aria-label` for accessible calendar grid semantics, with zero visual styling. The consumer is responsible for all CSS including cell sizing, grid lines, day-of-week header styling, selected/today state highlights, and month navigation controls.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.calendar-table` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<table>` element with class `calendar-table`
 - Verify role="grid"` -- identifies the table as an interactive grid widget
@@ -115,12 +122,20 @@ CalendarTable follows the Table composition pattern:
 ```html
 <CalendarTable label="January 2025">
   <CalendarTableHead>
-    <CalendarTableRow><th>Sun</th><th>Mon</th><th>Tue</th></CalendarTableRow>
+    <CalendarTableRow
+      ><th>Sun</th>
+      <th>Mon</th>
+      <th>Tue</th></CalendarTableRow
+    >
   </CalendarTableHead>
   <CalendarTableBody>
     <CalendarTableRow>
       <CalendarTableCell>1</CalendarTableCell>
-      <CalendarTableCell today selected>2</CalendarTableCell>
+      <CalendarTableCell
+        today
+        selected
+        >2</CalendarTableCell
+      >
       <CalendarTableCell>3</CalendarTableCell>
     </CalendarTableRow>
   </CalendarTableBody>

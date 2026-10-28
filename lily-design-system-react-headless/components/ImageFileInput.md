@@ -27,7 +27,11 @@ The consumer can override the accepted file types, control required/disabled sta
 ```
 
 ```tsx
-<ImageFileInput label="Upload document scan" accept="image/png, image/jpeg" required />
+<ImageFileInput
+  label="Upload document scan"
+  accept="image/png, image/jpeg"
+  required
+/>
 ```
 
 ## Keyboard Interactions

@@ -93,7 +93,7 @@
     <p>| Prop           | Type            | Default    | Description                                               |</p>
     <p>| -------------- | --------------- | ---------- | --------------------------------------------------------- |</p>
     <p>| <code>label</code>        | <code>string</code>        | (required) | Accessible name for the accordion region via <code>aria-label</code> |</p>
-    <p>| <code>children</code>     | <code>slot</code>       | (required) | Accordion content to render inside the container          |</p>
+    <p>| <code>children</code>     | <code>slot</code>          | (required) | Accordion content to render inside the container          |</p>
     <p>| <code>...restProps</code> | HTML attributes |            | Additional attributes spread onto the outer <code>&lt;div&gt;</code>       |</p>
 </section>
 <!-- END generated: canonical contract -->

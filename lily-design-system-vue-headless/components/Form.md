@@ -21,7 +21,10 @@ A form component wraps a native HTML `<form>` element with accessible labeling, 
 ## Usage
 
 ```svelte
-<Form label="Login" onsubmit={handleLogin}>
+<Form
+  label="Login"
+  onsubmit={handleLogin}
+>
   <input name="email" />
   <button type="submit">Sign in</button>
 </Form>

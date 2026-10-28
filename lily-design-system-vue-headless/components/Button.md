@@ -34,7 +34,7 @@ Basic action button:
 
 ```svelte
 <script lang="ts">
-  import Button from './Button.svelte';
+  import Button from "./Button.svelte";
 
   function handleClick() {
     console.log("clicked");
@@ -48,13 +48,16 @@ Submit button in a form:
 
 ```svelte
 <script lang="ts">
-  import Button from './Button.svelte';
+  import Button from "./Button.svelte";
 
   let isSubmitting = $state(false);
 </script>
 
 <form>
-  <Button type="submit" disabled={isSubmitting}>Submit</Button>
+  <Button
+    type="submit"
+    disabled={isSubmitting}>Submit</Button
+  >
 </form>
 ```
 
@@ -62,18 +65,24 @@ Toggle button with pressed state:
 
 ```svelte
 <script lang="ts">
-  import Button from './Button.svelte';
+  import Button from "./Button.svelte";
 
   let isBold = $state(false);
 </script>
 
-<Button pressed={isBold} onclick={() => isBold = !isBold}>Bold</Button>
+<Button
+  pressed={isBold}
+  onclick={() => (isBold = !isBold)}>Bold</Button
+>
 ```
 
 With accessible label override:
 
 ```svelte
-<Button label="Close dialog" onclick={handleClose}>X</Button>
+<Button
+  label="Close dialog"
+  onclick={handleClose}>X</Button
+>
 ```
 
 ## Keyboard Interactions

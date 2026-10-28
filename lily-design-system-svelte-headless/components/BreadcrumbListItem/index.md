@@ -39,7 +39,7 @@ Import `BreadcrumbListItem` from `./BreadcrumbListItem.svelte`. Put inside `Brea
 
 ```svelte
 <script lang="ts">
-  import BreadcrumbListItem from './BreadcrumbListItem.svelte';
+  import BreadcrumbListItem from "./BreadcrumbListItem.svelte";
 </script>
 
 <BreadcrumbListItem><a href="/products">Products</a></BreadcrumbListItem>
@@ -49,7 +49,7 @@ Import `BreadcrumbListItem` from `./BreadcrumbListItem.svelte`. Put inside `Brea
 
 ```svelte
 <script lang="ts">
-  import BreadcrumbListItem from './BreadcrumbListItem.svelte';
+  import BreadcrumbListItem from "./BreadcrumbListItem.svelte";
 </script>
 
 <BreadcrumbListItem current>About</BreadcrumbListItem>
@@ -59,9 +59,9 @@ Import `BreadcrumbListItem` from `./BreadcrumbListItem.svelte`. Put inside `Brea
 
 ```svelte
 <script lang="ts">
-  import BreadcrumbNav from '../BreadcrumbNav/BreadcrumbNav.svelte';
-  import BreadcrumbList from '../BreadcrumbList/BreadcrumbList.svelte';
-  import BreadcrumbListItem from './BreadcrumbListItem.svelte';
+  import BreadcrumbNav from "../BreadcrumbNav/BreadcrumbNav.svelte";
+  import BreadcrumbList from "../BreadcrumbList/BreadcrumbList.svelte";
+  import BreadcrumbListItem from "./BreadcrumbListItem.svelte";
 </script>
 
 <BreadcrumbNav label="Breadcrumb">
@@ -91,7 +91,7 @@ Import `BreadcrumbListItem` from `./BreadcrumbListItem.svelte`. Put inside `Brea
 
 ```svelte
 <script lang="ts">
-  import BreadcrumbListItem from './BreadcrumbListItem.svelte';
+  import BreadcrumbListItem from "./BreadcrumbListItem.svelte";
 </script>
 
 <BreadcrumbListItem data-depth="2"><a href="/guides">Guides</a></BreadcrumbListItem>

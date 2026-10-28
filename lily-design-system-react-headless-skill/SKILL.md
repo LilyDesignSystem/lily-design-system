@@ -20,7 +20,7 @@ library itself has zero runtime dependencies beyond React.
 Like every Lily headless library it is **headless**: semantic HTML, ARIA,
 focus management, and keyboard behaviour only — zero CSS, zero fonts, zero
 icons, zero images. Consumers supply every visual decision. If a request is
-about how a component *looks*, point at the sibling example app,
+about how a component _looks_, point at the sibling example app,
 `lily-design-system-react-next-examples`, and its CSS — not this library.
 
 ## Import shape

@@ -9,7 +9,7 @@ A reusable Svelte 5 headless interactive Gantt chart. It composes
 `@lilydesignsystem/svelte-headless`'s `GanttTable` family (a real npm
 dependency, unmodified — task bars are column-spanning grid cells,
 never pixel-positioned floating divs) and, for the first time among
-Lily helpers, a sibling *helper* rather than only headless components:
+Lily helpers, a sibling _helper_ rather than only headless components:
 `@lilydesignsystem/svelte-date-time-picker`, used twice per edit
 session (start date, end date) as the keyboard-accessible way to
 reschedule or resize a task. Ships no CSS.
@@ -22,12 +22,12 @@ ports it yet.
 ## Files
 
 | File                 | Purpose                                                |
-| -------------------- | ------------------------------------------------------- |
+| -------------------- | ------------------------------------------------------ |
 | `spec/index.md`      | Specification-driven contract (canonical).             |
-| `GanttChart.svelte`  | Implementation. TypeScript + Svelte 5 runes.            |
+| `GanttChart.svelte`  | Implementation. TypeScript + Svelte 5 runes.           |
 | `GanttChart.test.ts` | Vitest spec, one or more assertions per §8 acceptance. |
-| `index.ts`           | Barrel re-export.                                       |
-| `index.md`           | User guide.                                             |
+| `index.ts`           | Barrel re-export.                                      |
+| `index.md`           | User guide.                                            |
 
 ## Public surface
 
@@ -52,7 +52,7 @@ overlapping column's cell `data-in-range`; a milestone (`start ===
 end`) marks exactly one cell `data-milestone`. `task.parentId` builds a
 row hierarchy; a parent's own `start`/`end` are derived (min/max) from
 its descendants and rendered read-only, with a collapse button that
-removes descendant rows from the DOM outright.  `task.dependsOn`
+removes descendant rows from the DOM outright. `task.dependsOn`
 renders as an `aria-describedby` text summary, never a drawn arrow
 (documented non-goal — every accessibility source consulted treats
 dependency-arrow rendering as an unsolved problem industry-wide, not

@@ -52,14 +52,11 @@ None -- this component is a passive container. Navigation within the table follo
 
 This headless DataTableTD component provides a semantic `<td>` element with implicit `cell` role for assistive technology. The consumer provides all visual styling including text alignment, padding, borders, truncation, and responsive behavior.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.data-table-td` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<td>` element with class `data-table-td`
 - Verify pass-through attributes are applied

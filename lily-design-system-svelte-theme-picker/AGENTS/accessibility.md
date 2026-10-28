@@ -19,7 +19,7 @@ discussion is in [`../docs/accessibility.md`](../docs/accessibility.md).
 | `<span>` (glyph) | `aria-hidden="true"`                            | Component     |
 | `<ul>`           | `role="listbox"`                                | Component     |
 | `<ul>`           | `aria-label={label}`                            | Consumer prop |
-| `<ul>`           | `aria-activedescendant="{optionId}"` while open  | Component     |
+| `<ul>`           | `aria-activedescendant="{optionId}"` while open | Component     |
 | `<li>`           | `role="option"`                                 | Component     |
 | `<li>`           | `aria-selected="true\|false"`                   | Component     |
 
@@ -143,7 +143,7 @@ evidence:
 
 ```ts
 render(ThemePicker, {
-    props: { label: "Theme", themesUrl: "/t/", themes: ["light", "dark"] },
+  props: { label: "Theme", themesUrl: "/t/", themes: ["light", "dark"] },
 });
 const button = screen.getByRole("button");
 expect(button.getAttribute("aria-label")).toBe("Theme");

@@ -24,26 +24,26 @@ It explicitly does **not** cover: visual styling of text (see [theme](../theme/i
 
 These names are reused across every framework. Prefer them over synonyms.
 
-| Prop           | Purpose                                                        |
-| -------------- | ------------------------------------------------------------- |
-| `label`        | Accessible / visible name for a control or region.            |
-| `description`  | Supporting descriptive text.                                  |
-| `placeholder`  | Input placeholder text.                                       |
-| `error`        | Validation / error message text.                              |
-| `helpText`     | Inline help / hint text.                                      |
-| `dismissLabel` | Accessible name for a dismiss / close affordance.             |
-| `loadingLabel` | Announced text for a loading / busy state.                    |
-| `confirmLabel` | Text for a confirm / primary action.                          |
-| `cancelLabel`  | Text for a cancel / secondary action.                         |
+| Prop           | Purpose                                            |
+| -------------- | -------------------------------------------------- |
+| `label`        | Accessible / visible name for a control or region. |
+| `description`  | Supporting descriptive text.                       |
+| `placeholder`  | Input placeholder text.                            |
+| `error`        | Validation / error message text.                   |
+| `helpText`     | Inline help / hint text.                           |
+| `dismissLabel` | Accessible name for a dismiss / close affordance.  |
+| `loadingLabel` | Announced text for a loading / busy state.         |
+| `confirmLabel` | Text for a confirm / primary action.               |
+| `cancelLabel`  | Text for a cancel / secondary action.              |
 
 ## Locale-aware formatting
 
 Locale-sensitive components take the identifier as a prop and never default it.
 
-| Prop           | Example consumers                          | Typical use                               |
-| -------------- | ------------------------------------------ | ----------------------------------------- |
-| `locale`       | date, number, measurement components       | passed to `Intl.*` or exposed via `data-` |
-| `currencyCode` | currency-input and related views           | passed to `Intl.NumberFormat`             |
+| Prop           | Example consumers                    | Typical use                               |
+| -------------- | ------------------------------------ | ----------------------------------------- |
+| `locale`       | date, number, measurement components | passed to `Intl.*` or exposed via `data-` |
+| `currencyCode` | currency-input and related views     | passed to `Intl.NumberFormat`             |
 
 ```tsx
 // Consumer supplies locale + currencyCode; component never assumes one.
@@ -62,15 +62,18 @@ The component either formats via `Intl.*` with the supplied identifier, or surfa
 
 Live-region components own the ARIA plumbing but never the words.
 
-| Concern                              | Owner    |
-| ------------------------------------ | -------- |
+| Concern                              | Owner     |
+| ------------------------------------ | --------- |
 | `role` / `aria-live` / `aria-atomic` | component |
-| announced text content               | consumer |
-| ARIA labels for the region           | consumer |
+| announced text content               | consumer  |
+| ARIA labels for the region           | consumer  |
 
 ```tsx
 // role + aria-live are baked in; the message text is a prop.
-<Toast label="Saved" description="Your changes have been saved." />
+<Toast
+  label="Saved"
+  description="Your changes have been saved."
+/>
 ```
 
 ## Links and anchors
@@ -96,7 +99,7 @@ reference for any app built on Lily. The full contract is the site's own
 the binding rules are:
 
 - **Locale directory names are `<language>-<region>`**, lowercase: a two- or three-letter language code, a hyphen, and a region — a
-  two-letter country code (`cy-gb`, `en-us`, `zh-cn`) or the UN M49 code `001` ("world") for a language's *international* locale
+  two-letter country code (`cy-gb`, `en-us`, `zh-cn`) or the UN M49 code `001` ("world") for a language's _international_ locale
   (`en-001`, `fr-001`). **There are no bare-language directories** (`/en/` is not a route). **There is no `/locales/` URL prefix since 2026-10-07:** a locale is served at `/<code>/` (`/en-us/`, `/cy-gb/help/`); only the list of locales stays at `/locales/`, and the old `/locales/<code>/` URLs were removed (404), not redirected. The one existing extra segment is
   `en-gb-oxendict` (British English, Oxford spelling, which has no standard subtag). `bin/test` enforces the rule on
   `src/routes/`.
@@ -104,8 +107,8 @@ the binding rules are:
   untranslated, canonical English site. There are 111 locales (2026-10-20: 96 added, each non-English language also gaining the eight translated main pages; the 52 languages added that day are machine drafts pending native-speaker review, and the Wu Chinese (`wuu`) pages were derived from the Simplified Chinese pages by Shanghainese function-word substitution rather than translated afresh, Cornish (`kw`) is the lowest-confidence draft): `ar-001 bg-001 bg-bg bh-001 bn-001 cs-001 cs-cz cy-001 cy-gb da-001 da-dk de-001 de-at de-de el-001 el-cy el-gr en-001 en-gb en-gb-oxendict en-us es-001 es-es et-001 et-ee eu-001 eu-es fa-001 fi-001 fi-fi fr-001 fr-be fr-fr ga-001 ga-ie gd-001 gd-gb gu-001 ha-001 he-001 hi-001 hi-in hr-001 hr-hr hu-001 hu-hu id-001 id-id is-001 is-is it-001 it-it ja-001 ja-jp jv-001 km-001 km-kh kn-001 ko-001 ko-kr kw-001 kw-gb lb-001 lb-lu lo-001 lo-la lt-001 lt-lt lv-001 lv-lv mr-001 ms-001 mt-001 mt-mt nb-001 nb-no nl-001 nl-nl pa-001 pcm-001 pl-001 pl-pl pt-001 pt-pt ro-001 ro-ro ru-001 sco-gb sk-001 sk-sk sl-001 sl-si sv-001 sv-se sw-001 sw-tz ta-001 te-001 th-001 th-th tl-001 tr-001 tr-tr uk-001 ur-001 vi-001 vi-vn wuu-001 yue-001 zh-001 zh-cn`. Component docs and the per-framework tutorials are still English-only, and the translated home page says so in its own language.
 - **The eight main pages are translated too (2026-10-07).** About, Why Lily, Accessibility, Help, Comparisons, Tutorials, Examples and
   Skills exist at `/<code>/<page>/` for every non-English locale (63 languages, which cover 107 locale directories because a language's `-001` and regional locales share one set of files, e.g. `cy-001` and `cy-gb`). The English page (`src/routes/<page>/+page.svelte`) is the source:
-  `bin/extract-site-pages` turns it into `src/lib/pages/<page>/en.html`, each language adds `<language>.html` with *identical markup
-  structure* (same tags, `id`s, `href`s and byte-identical `<pre>` code samples; only text and `aria-label`s differ), and
+  `bin/extract-site-pages` turns it into `src/lib/pages/<page>/en.html`, each language adds `<language>.html` with _identical markup
+  structure_ (same tags, `id`s, `href`s and byte-identical `<pre>` code samples; only text and `aria-label`s differ), and
   `bin/generate-locale-pages` writes the thin route files. `bin/check-site-page-translations` enforces structure, code-sample identity,
   that the text is not just English, and that a language is either fully covered (all eight pages) or absent. Internal links inside a
   translated page, the header nav, the footer, the home cards and the link picker all point at the same locale's pages. Only Welsh was
@@ -135,12 +138,12 @@ the binding rules are:
   language's `-001` locale (`fr-CA` → `fr-001`; `en-AU`, which has no `en-au` route, → `/en-001/`). Nothing else is guessed
   (`zh-TW` stays on `/`). It runs only in the browser, so the prerendered page and crawlers see the English home page, and only from `/`.
 - **Every locale supplies every UI string**, including the picker labels (theme, language, text size, share, search, search field,
-  search button). Translations should follow an authoritative term base where one exists: the Welsh strings use *TermCymru* (Welsh
+  search button). Translations should follow an authoritative term base where one exists: the Welsh strings use _TermCymru_ (Welsh
   Government), the Spanish ones follow the project's terminology note.
 
 ## Acceptance criteria
 
-- [ ] No headless component contains a hardcoded user-facing string (label, description, placeholder, error, action verb, or announcement). Two real violations found 2026-09-06: (1) React's `EditableForm.tsx` rendered `{children}` *and* its own hardcoded `<button type="submit">Save</button>`, contradicting its own doc comment and its Svelte/Vue counterparts — **fixed**, in both `@lilydesignsystem/react-headless` and its `lily-design-system-react-next-examples` copy, tests updated to supply the button as a child. (2) `RedAmberGreenPicker`/`RedOrangeYellowGreenBluePicker` in svelte (canonical), react, and vue hardcode English `<option>` text ("Red"/"Amber"/"Green", "Orange"/"Yellow"/"Blue"), self-documented in their own header comment as "hardcoded; wrap or fork to localize" — **still open**; angular/blazor/nunjucks implement the div/radiogroup composition pattern instead and have no such strings, so fixing this needs a decision on which shape (native `<select>` vs. composed radiogroup) is actually canonical before the 3 affected catalogs can be brought in line — see the related, still-open `headless` topic item on the same div-vs-select disagreement.
+- [ ] No headless component contains a hardcoded user-facing string (label, description, placeholder, error, action verb, or announcement). Two real violations found 2026-09-06: (1) React's `EditableForm.tsx` rendered `{children}` _and_ its own hardcoded `<button type="submit">Save</button>`, contradicting its own doc comment and its Svelte/Vue counterparts — **fixed**, in both `@lilydesignsystem/react-headless` and its `lily-design-system-react-next-examples` copy, tests updated to supply the button as a child. (2) `RedAmberGreenPicker`/`RedOrangeYellowGreenBluePicker` in svelte (canonical), react, and vue hardcode English `<option>` text ("Red"/"Amber"/"Green", "Orange"/"Yellow"/"Blue"), self-documented in their own header comment as "hardcoded; wrap or fork to localize" — **still open**; angular/blazor/nunjucks implement the div/radiogroup composition pattern instead and have no such strings, so fixing this needs a decision on which shape (native `<select>` vs. composed radiogroup) is actually canonical before the 3 affected catalogs can be brought in line — see the related, still-open `headless` topic item on the same div-vs-select disagreement.
 - [x] Text-bearing props use the canonical names (`label`, `description`, `placeholder`, `error`, `helpText`, `dismissLabel`, `loadingLabel`, `confirmLabel`, `cancelLabel`) rather than synonyms.
 - [x] Locale-aware components accept `locale` / `currencyCode` (etc.) as props and pick no default locale.
 - [x] Live-region components bake in `role` / `aria-live` / `aria-atomic` but take announced text and ARIA labels as props.

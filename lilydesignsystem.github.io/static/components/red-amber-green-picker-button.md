@@ -30,9 +30,22 @@ Basic RAG picker with one button selected:
 
 ```html
 <RedAmberGreenPicker label="Project status">
-  <RedAmberGreenPickerButton value="red" label="Red - Critical" onclick={handleSelect} />
-  <RedAmberGreenPickerButton value="amber" label="Amber - Caution" selected onclick={handleSelect} />
-  <RedAmberGreenPickerButton value="green" label="Green - On track" onclick={handleSelect} />
+  <RedAmberGreenPickerButton
+    value="red"
+    label="Red - Critical"
+    onclick="{handleSelect}"
+  />
+  <RedAmberGreenPickerButton
+    value="amber"
+    label="Amber - Caution"
+    selected
+    onclick="{handleSelect}"
+  />
+  <RedAmberGreenPickerButton
+    value="green"
+    label="Green - On track"
+    onclick="{handleSelect}"
+  />
 </RedAmberGreenPicker>
 ```
 
@@ -44,18 +57,34 @@ With custom data attributes for CSS targeting:
   label="Red - Immediate action required"
   selected
   data-severity="high"
-  onclick={handleSelect}
+  onclick="{handleSelect}"
 />
 ```
 
 Inside a form field for risk assessment:
 
 ```html
-<Field label="Delivery risk" required>
+<Field
+  label="Delivery risk"
+  required
+>
   <RedAmberGreenPicker label="Delivery risk level">
-    <RedAmberGreenPickerButton value="red" label="Red - Blocked" onclick={handleSelect} />
-    <RedAmberGreenPickerButton value="amber" label="Amber - At risk" onclick={handleSelect} />
-    <RedAmberGreenPickerButton value="green" label="Green - On track" selected onclick={handleSelect} />
+    <RedAmberGreenPickerButton
+      value="red"
+      label="Red - Blocked"
+      onclick="{handleSelect}"
+    />
+    <RedAmberGreenPickerButton
+      value="amber"
+      label="Amber - At risk"
+      onclick="{handleSelect}"
+    />
+    <RedAmberGreenPickerButton
+      value="green"
+      label="Green - On track"
+      selected
+      onclick="{handleSelect}"
+    />
   </RedAmberGreenPicker>
 </Field>
 ```
@@ -87,14 +116,11 @@ Inside a form field for risk assessment:
 
 The RedAmberGreenPickerButton headless component provides a `<button>` with `aria-pressed` for toggle state, `aria-label` for accessible naming, and `data-value` for CSS targeting. The consumer provides all visual styling, including color indicators and selected-state appearance.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.red-amber-green-picker-button` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<button>` element with class `red-amber-green-picker-button`
 - Verify aria-label` -- provides the accessible name for the button (e.g., "Amber - Caution")

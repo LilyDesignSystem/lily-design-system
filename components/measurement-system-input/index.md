@@ -28,19 +28,30 @@ The component uses `aria-label` for accessible labeling in a headless context, a
 Measurement system selection in a user preferences form:
 
 ```html
-<MeasurementSystemInput label="Measurement system" value={system} />
+<MeasurementSystemInput
+  label="Measurement system"
+  value="{system}"
+/>
 ```
 
 Required measurement system in a clinical configuration:
 
 ```html
-<MeasurementSystemInput label="System" value={system} required />
+<MeasurementSystemInput
+  label="System"
+  value="{system}"
+  required
+/>
 ```
 
 Disabled system input showing the current setting:
 
 ```html
-<MeasurementSystemInput label="Measurement system" value="metric" disabled />
+<MeasurementSystemInput
+  label="Measurement system"
+  value="metric"
+  disabled
+/>
 ```
 
 ## Keyboard Interactions
@@ -67,17 +78,14 @@ Disabled system input showing the current setting:
 
 This headless component provides a text input with `aria-label` for accessible naming and two-way bindable value for reactive form integration. The consumer provides all visual styling, including input dimensions, borders, and any autocomplete or suggestion UI.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.measurement-system-input` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
 
-
 - Verify the component renders a `<input>` element with class `measurement-system-input`
-- Verify aria-label` -- set from the `label` prop to provide an accessible name
+- Verify aria-label`-- set from the`label` prop to provide an accessible name
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied
 

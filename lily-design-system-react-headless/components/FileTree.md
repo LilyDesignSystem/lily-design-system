@@ -17,15 +17,15 @@ Deviation (React): like the Svelte canonical, expanded state and the roving tabi
 
 ## Keyboard Interactions
 
-| Key | Action |
-| --- | --- |
-| ArrowDown / ArrowUp | next / previous visible item (no wrap) |
-| ArrowRight | closed folder opens; open folder moves to first child |
-| ArrowLeft | open folder closes; otherwise moves to parent |
-| Home / End | first / last visible item |
-| `*` | expand all closed sibling folders at the focused level |
-| printable characters | typeahead on the item's own text |
-| Enter / Space | activate (click) the item |
+| Key                  | Action                                                 |
+| -------------------- | ------------------------------------------------------ |
+| ArrowDown / ArrowUp  | next / previous visible item (no wrap)                 |
+| ArrowRight           | closed folder opens; open folder moves to first child  |
+| ArrowLeft            | open folder closes; otherwise moves to parent          |
+| Home / End           | first / last visible item                              |
+| `*`                  | expand all closed sibling folders at the focused level |
+| printable characters | typeahead on the item's own text                       |
+| Enter / Space        | activate (click) the item                              |
 
 ## ARIA
 

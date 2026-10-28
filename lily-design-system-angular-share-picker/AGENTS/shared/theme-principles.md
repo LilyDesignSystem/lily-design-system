@@ -67,8 +67,7 @@ consumer's signal computation:
 
 ```ts
 const prefersDark =
-  typeof window !== "undefined" &&
-  window.matchMedia?.("(prefers-color-scheme: dark)").matches;
+  typeof window !== "undefined" && window.matchMedia?.("(prefers-color-scheme: dark)").matches;
 const initial = prefersDark ? "dark" : "light";
 ```
 

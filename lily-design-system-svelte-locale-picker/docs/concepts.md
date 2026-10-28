@@ -7,11 +7,11 @@ and what it deliberately leaves to you.
 
 A web app changes language across three independent axes:
 
-| Axis                       | What changes                                               | Owner                                  |
-| -------------------------- | ---------------------------------------------------------- | -------------------------------------- |
-| **Document language**      | The `lang` attribute on `<html>`. Screen readers, search engines, hyphenation, font selection. | `LocalePicker` (this helper).        |
-| **Writing direction**      | The `dir` attribute on `<html>`. Bidi text, scrollbar position, flexbox/grid mirror. | `LocalePicker` (auto-detected from the locale; opt out with `applyDir={false}`). |
-| **Translated strings**     | The actual visible words on the page.                      | Your i18n library (`svelte-i18n`, Paraglide, Inlang, Tolgee, raw `Intl`). |
+| Axis                   | What changes                                                                                   | Owner                                                                            |
+| ---------------------- | ---------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| **Document language**  | The `lang` attribute on `<html>`. Screen readers, search engines, hyphenation, font selection. | `LocalePicker` (this helper).                                                    |
+| **Writing direction**  | The `dir` attribute on `<html>`. Bidi text, scrollbar position, flexbox/grid mirror.           | `LocalePicker` (auto-detected from the locale; opt out with `applyDir={false}`). |
+| **Translated strings** | The actual visible words on the page.                                                          | Your i18n library (`svelte-i18n`, Paraglide, Inlang, Tolgee, raw `Intl`).        |
 
 The helper owns the first two and signals the third via a bindable
 `value`, a one-shot `onChange` callback, and the `lang` attribute (which

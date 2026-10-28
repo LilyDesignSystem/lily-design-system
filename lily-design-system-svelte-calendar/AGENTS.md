@@ -5,7 +5,7 @@ below is a fast index.
 
 ## What this package is
 
-A reusable Svelte 5 headless calendar *viewing* surface — week,
+A reusable Svelte 5 headless calendar _viewing_ surface — week,
 rolling four-week, or padded-month browse, never a date-selection
 input (`date-time-picker` already owns that) or a date-range picker
 (`CalendarRangePicker` already owns that). It composes
@@ -21,21 +21,21 @@ catalog ports it yet.
 
 ## Files
 
-| File                  | Purpose                                                |
-| ---------------------- | ------------------------------------------------------- |
-| `spec/index.md`        | Specification-driven contract (canonical).             |
-| `CalendarView.svelte`  | Implementation. TypeScript + Svelte 5 runes.            |
-| `CalendarView.test.ts` | Vitest spec, one or more assertions per §8 acceptance. |
+| File                                | Purpose                                                                            |
+| ----------------------------------- | ---------------------------------------------------------------------------------- |
+| `spec/index.md`                     | Specification-driven contract (canonical).                                         |
+| `CalendarView.svelte`               | Implementation. TypeScript + Svelte 5 runes.                                       |
+| `CalendarView.test.ts`              | Vitest spec, one or more assertions per §8 acceptance.                             |
 | `CalendarViewEventsTestHost.svelte` | Test-only host exercising the `day` snippet prop with real Svelte template syntax. |
-| `index.ts`             | Barrel re-export.                                       |
-| `index.md`             | User guide.                                             |
+| `index.ts`                          | Barrel re-export.                                                                  |
+| `index.md`                          | User guide.                                                                        |
 
 ## Public surface
 
 - Default export: `CalendarView` component.
 - Named export: `CalendarView`.
 - Type exports: `Props`, `CalendarViewMode` (the `"week" | "four-week"
-  | "month"` union — renamed on export from the component's own
+| "month"` union — renamed on export from the component's own
   `CalendarView` type to avoid colliding with the component's own
   name), `CalendarEvent`, `CalendarViewLabels`, `DayArgs`.
 - Utility exports: `weekStart`, `periodDays`, `periodRange`,

@@ -38,14 +38,14 @@ rendered; only its COLUMNS and CELLS are not.
 one. Everything it needs about a row comes from that row's own `<tr>`
 data attributes, already resolved by the macro:
 
-| Attribute | Set by | Read by |
-| --- | --- | --- |
-| `data-lily-gantt-chart-task-id` | macro | client.js (row lookup, drag/drop, edit) |
-| `data-lily-gantt-chart-task-label` | macro | client.js (announcements, collapse button label substitution) |
-| `data-lily-gantt-chart-depth` | macro | client.js (collapse/expand descendant detection) |
-| `data-lily-gantt-chart-start` / `-end` | macro (derived for parents, own for leaves); UPDATED by client.js after a save/drop | client.js (grid cell overlap testing) |
-| `data-lily-gantt-chart-has-children` | macro | client.js (Enter/Space gating, bar draggability) |
-| `data-lily-gantt-chart-percent-complete` | macro | client.js (bar rendering) |
+| Attribute                                | Set by                                                                              | Read by                                                       |
+| ---------------------------------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| `data-lily-gantt-chart-task-id`          | macro                                                                               | client.js (row lookup, drag/drop, edit)                       |
+| `data-lily-gantt-chart-task-label`       | macro                                                                               | client.js (announcements, collapse button label substitution) |
+| `data-lily-gantt-chart-depth`            | macro                                                                               | client.js (collapse/expand descendant detection)              |
+| `data-lily-gantt-chart-start` / `-end`   | macro (derived for parents, own for leaves); UPDATED by client.js after a save/drop | client.js (grid cell overlap testing)                         |
+| `data-lily-gantt-chart-has-children`     | macro                                                                               | client.js (Enter/Space gating, bar draggability)              |
+| `data-lily-gantt-chart-percent-complete` | macro                                                                               | client.js (bar rendering)                                     |
 
 This is deliberate: it keeps a single source of truth in the DOM
 rather than a JS object that could drift out of sync with what's

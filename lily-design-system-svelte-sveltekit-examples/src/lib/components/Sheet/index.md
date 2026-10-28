@@ -61,14 +61,18 @@ Right-side sheet toggled by a button:
 
 ```svelte
 <script lang="ts">
-    import Sheet from "./Sheet.svelte";
-    let open = $state(false);
+  import Sheet from "./Sheet.svelte";
+  let open = $state(false);
 </script>
 
 <button onclick={() => (open = true)}>Open</button>
-<Sheet label="Settings" bind:open side="right">
-    <h2>Settings</h2>
-    <button onclick={() => (open = false)}>Close</button>
+<Sheet
+  label="Settings"
+  bind:open
+  side="right"
+>
+  <h2>Settings</h2>
+  <button onclick={() => (open = false)}>Close</button>
 </Sheet>
 ```
 
@@ -76,13 +80,17 @@ Left-side navigation:
 
 ```svelte
 <script lang="ts">
-    import Sheet from "./Sheet.svelte";
-    let navOpen = $state(false);
+  import Sheet from "./Sheet.svelte";
+  let navOpen = $state(false);
 </script>
 
 <button onclick={() => (navOpen = true)}>Menu</button>
-<Sheet label="Navigation" bind:open={navOpen} side="left">
-    <nav><a href="/">Home</a></nav>
+<Sheet
+  label="Navigation"
+  bind:open={navOpen}
+  side="left"
+>
+  <nav><a href="/">Home</a></nav>
 </Sheet>
 ```
 
@@ -90,15 +98,19 @@ Bottom action sheet:
 
 ```svelte
 <script lang="ts">
-    import Sheet from "./Sheet.svelte";
-    let actionsOpen = $state(false);
+  import Sheet from "./Sheet.svelte";
+  let actionsOpen = $state(false);
 </script>
 
 <button onclick={() => (actionsOpen = true)}>Actions</button>
-<Sheet label="Actions" bind:open={actionsOpen} side="bottom">
-    <button>Share</button>
-    <button>Delete</button>
-    <button onclick={() => (actionsOpen = false)}>Close</button>
+<Sheet
+  label="Actions"
+  bind:open={actionsOpen}
+  side="bottom"
+>
+  <button>Share</button>
+  <button>Delete</button>
+  <button onclick={() => (actionsOpen = false)}>Close</button>
 </Sheet>
 ```
 
@@ -106,12 +118,16 @@ Top notification-style sheet:
 
 ```svelte
 <script lang="ts">
-    import Sheet from "./Sheet.svelte";
-    let notifOpen = $state(false);
+  import Sheet from "./Sheet.svelte";
+  let notifOpen = $state(false);
 </script>
 
-<Sheet label="Notifications" bind:open={notifOpen} side="top">
-    <ul><li>Message received</li></ul>
+<Sheet
+  label="Notifications"
+  bind:open={notifOpen}
+  side="top"
+>
+  <ul><li>Message received</li></ul>
 </Sheet>
 ```
 
@@ -119,8 +135,14 @@ Styling by side via CSS:
 
 ```svelte
 <style>
-    .sheet[data-side="right"] { right: 0; animation: slideIn-right .2s; }
-    .sheet[data-side="left"] { left: 0; animation: slideIn-left .2s; }
+  .sheet[data-side="right"] {
+    right: 0;
+    animation: slideIn-right 0.2s;
+  }
+  .sheet[data-side="left"] {
+    left: 0;
+    animation: slideIn-left 0.2s;
+  }
 </style>
 ```
 
@@ -133,6 +155,7 @@ Styling by side via CSS:
 - Underlying page should be made inert while the sheet is open.
 
 References:
+
 - WAI-ARIA Dialog (Modal) Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
 
 ## Related components

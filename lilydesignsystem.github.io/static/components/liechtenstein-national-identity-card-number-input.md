@@ -23,8 +23,15 @@ LiechtensteinNationalIdentityCardNumberInput is a headless input for entering Li
 ## Usage
 
 ```html
-<Field label="Liechtenstein National Identity Card Number" required>
-  <LiechtensteinNationalIdentityCardNumberInput label="Liechtenstein National Identity Card Number" value={value} required />
+<Field
+  label="Liechtenstein National Identity Card Number"
+  required
+>
+  <LiechtensteinNationalIdentityCardNumberInput
+    label="Liechtenstein National Identity Card Number"
+    value="{value}"
+    required
+  />
   <Hint>2 letters followed by 8 digits (e.g. ID022143586)</Hint>
   <ErrorMessage>Please enter a valid Liechtenstein National Identity Card Number</ErrorMessage>
 </Field>

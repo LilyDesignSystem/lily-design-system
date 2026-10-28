@@ -72,14 +72,11 @@ The component queries focusable children via `button`, `[role='button']`, and `[
 
 This headless component provides a `<div>` with `role="toolbar"`, `aria-label`, and built-in roving focus keyboard navigation (ArrowLeft, ArrowRight, Home, End). It queries focusable children automatically. The consumer provides all button elements as children and all visual styling.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.tool-bar` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `tool-bar`
 - Verify role="toolbar"` -- identifies the container as a toolbar widget

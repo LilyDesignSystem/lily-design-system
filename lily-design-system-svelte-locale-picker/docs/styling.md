@@ -13,15 +13,15 @@ has to survive that switch. Use logical properties throughout — see
 
 ## Class hooks
 
-| Selector                   | Element                                                    |
-| -------------------------- | ---------------------------------------------------------- |
-| `.locale-picker`           | The root `<div>`.                                          |
-| `.locale-picker.{consumerClass}` | Both classes when `class` is passed.                 |
-| `.locale-picker-button`    | The trigger `<button type="button">`.                      |
-| `.locale-picker-icon`      | The `<span>` wrapping the globe glyph. Absent when a `children` snippet replaces the glyph. |
-| `.locale-picker-list`      | The popup `<ul role="listbox">`.                           |
-| `.locale-picker-option`    | Each `<li role="option">`.                                 |
-| `.locale-picker-status`    | The status line stating the active locale. Rendered by the consumer *next to* the select, not by the component — see [The status line](#the-status-line). |
+| Selector                         | Element                                                                                                                                                   |
+| -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `.locale-picker`                 | The root `<div>`.                                                                                                                                         |
+| `.locale-picker.{consumerClass}` | Both classes when `class` is passed.                                                                                                                      |
+| `.locale-picker-button`          | The trigger `<button type="button">`.                                                                                                                     |
+| `.locale-picker-icon`            | The `<span>` wrapping the globe glyph. Absent when a `children` snippet replaces the glyph.                                                               |
+| `.locale-picker-list`            | The popup `<ul role="listbox">`.                                                                                                                          |
+| `.locale-picker-option`          | Each `<li role="option">`.                                                                                                                                |
+| `.locale-picker-status`          | The status line stating the active locale. Rendered by the consumer _next to_ the select, not by the component — see [The status line](#the-status-line). |
 
 The `locale-picker-placeholder` hook from 0.3.0 **no longer exists.**
 There is no placeholder option, because there is no `<select>`.
@@ -31,14 +31,14 @@ button, so `.locale-picker-icon` disappears but every other hook stays.
 
 ## Attribute hooks
 
-| Attribute                | On                       | Purpose                                     |
-| ------------------------ | ------------------------ | ------------------------------------------- |
-| `[aria-expanded="true"]` | `.locale-picker-button`  | The listbox is open. Style the trigger's open state. |
-| `[hidden]`               | `.locale-picker-list`    | The listbox is closed.                      |
-| `[aria-selected="true"]` | `.locale-picker-option`  | The **applied** locale.                     |
-| `[data-active]`          | `.locale-picker-option`  | The **keyboard-active** option. Bare attribute, present on at most one option, only while open. |
-| `[lang]`                 | `.locale-picker-option`  | The option's BCP 47 tag. Usable with `:lang()` for per-script typography. |
-| `lang` / `dir`           | `target` (default `<html>`) | The applied locale and direction. Your page-level RTL hook. |
+| Attribute                | On                          | Purpose                                                                                         |
+| ------------------------ | --------------------------- | ----------------------------------------------------------------------------------------------- |
+| `[aria-expanded="true"]` | `.locale-picker-button`     | The listbox is open. Style the trigger's open state.                                            |
+| `[hidden]`               | `.locale-picker-list`       | The listbox is closed.                                                                          |
+| `[aria-selected="true"]` | `.locale-picker-option`     | The **applied** locale.                                                                         |
+| `[data-active]`          | `.locale-picker-option`     | The **keyboard-active** option. Bare attribute, present on at most one option, only while open. |
+| `[lang]`                 | `.locale-picker-option`     | The option's BCP 47 tag. Usable with `:lang()` for per-script typography.                       |
+| `lang` / `dir`           | `target` (default `<html>`) | The applied locale and direction. Your page-level RTL hook.                                     |
 
 `[aria-selected]` and `[data-active]` are different things and both
 need styling. `aria-selected` is "this is the locale in force";
@@ -92,14 +92,14 @@ Notes:
 Every rule you write for this control should use logical properties, so
 that it survives the direction switch the control itself performs:
 
-| Physical            | Logical                                   |
-| ------------------- | ----------------------------------------- |
-| `left` / `right`    | `inset-inline-start` / `inset-inline-end` |
-| `margin-left`       | `margin-inline-start`                     |
-| `padding-right`     | `padding-inline-end`                      |
-| `text-align: left`  | `text-align: start`                       |
-| `border-left`       | `border-inline-start`                     |
-| `width` / `height`  | `inline-size` / `block-size`              |
+| Physical           | Logical                                   |
+| ------------------ | ----------------------------------------- |
+| `left` / `right`   | `inset-inline-start` / `inset-inline-end` |
+| `margin-left`      | `margin-inline-start`                     |
+| `padding-right`    | `padding-inline-end`                      |
+| `text-align: left` | `text-align: start`                       |
+| `border-left`      | `border-inline-start`                     |
+| `width` / `height` | `inline-size` / `block-size`              |
 
 A useful test: switch to an RTL locale and confirm the popup still
 hangs from the button, the option text still aligns to the reading
@@ -222,9 +222,12 @@ The component does not render it; you do, with the
 `.locale-picker-status` hook:
 
 ```svelte
-<p class="locale-picker-status" aria-live="polite">
-    Active language:
-    <span lang={bcp47LocaleTag(locale)}>{localeName(locale)}</span>
+<p
+  class="locale-picker-status"
+  aria-live="polite"
+>
+  Active language:
+  <span lang={bcp47LocaleTag(locale)}>{localeName(locale)}</span>
 </p>
 ```
 

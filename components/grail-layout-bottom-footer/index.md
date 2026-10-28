@@ -35,11 +35,10 @@ GrailLayoutBottomFooter is a headless container for the bottom footer section of
   <GrailLayoutCenterMain>...</GrailLayoutCenterMain>
   <GrailLayoutRightAside>...</GrailLayoutRightAside>
   <GrailLayoutBottomFooter>
-    <Footer />
+    <footer />
   </GrailLayoutBottomFooter>
 </GrailLayout>
 ```
-
 
 ## Keyboard Interactions
 
@@ -59,9 +58,7 @@ This headless component renders semantic HTML. The consumer provides all visual 
 
 The consumer provides all CSS styling. The component renders with a `.grail-layout-bottom-footer` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<footer>` element with class `grail-layout-bottom-footer`
 - Verify pass-through attributes are applied

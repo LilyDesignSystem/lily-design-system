@@ -13,12 +13,12 @@ The status of a tool call as a visible word (pending, running, done, error), in 
 
 ## Props
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `class` | string | `""` | Appended to the base class |
-| `status` | string (optional) | — | `pending`, `running`, `done` or `error`; sets `data-status` |
-| `children` | slot | — | The visible status word |
-| `...restProps` | HTML attributes | — | Spread onto the root `<span>` |
+| Prop           | Type              | Default | Description                                                 |
+| -------------- | ----------------- | ------- | ----------------------------------------------------------- |
+| `class`        | string            | `""`    | Appended to the base class                                  |
+| `status`       | string (optional) | —       | `pending`, `running`, `done` or `error`; sets `data-status` |
+| `children`     | slot              | —       | The visible status word                                     |
+| `...restProps` | HTML attributes   | —       | Spread onto the root `<span>`                               |
 
 ## Usage
 

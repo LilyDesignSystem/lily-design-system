@@ -8,7 +8,6 @@ A native multiple-choice select.
 - `params.attributes` is spread onto the root element
 - Port of the Svelte canonical (`lily-design-system-svelte-headless`)
 
-
 ## Props
 
 - `label` (required): aria-label

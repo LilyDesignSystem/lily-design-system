@@ -36,10 +36,10 @@ another trigger.
 ```html
 <MentionsInput
   label="Mention a teammate"
-  value={text}
+  value="{text}"
   triggerChar="@"
-  expanded={showSuggestions}
-  oninput={handleInput}
+  expanded="{showSuggestions}"
+  oninput="{handleInput}"
 >
   <ul role="listbox">
     <li role="option">@alice</li>

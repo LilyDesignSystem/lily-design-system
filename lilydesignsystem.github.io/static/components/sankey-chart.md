@@ -15,17 +15,20 @@ The component renders a `<figure>` holding a `<div class="sankey-chart-graphic" 
 
 ## Props
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `class` | string | `""` | Appended to the base class |
-| `label` | string (required) | — | Accessible name |
-| `children` | slot (required) | — | The consumer-drawn inline `<svg>` |
-| `...restProps` | HTML attributes | — | Spread onto the root `<figure>`, e.g. `aria-describedby` |
+| Prop           | Type              | Default | Description                                              |
+| -------------- | ----------------- | ------- | -------------------------------------------------------- |
+| `class`        | string            | `""`    | Appended to the base class                               |
+| `label`        | string (required) | —       | Accessible name                                          |
+| `children`     | slot (required)   | —       | The consumer-drawn inline `<svg>`                        |
+| `...restProps` | HTML attributes   | —       | Spread onto the root `<figure>`, e.g. `aria-describedby` |
 
 ## Usage
 
 ```svelte
-<SankeyChart label="Sankey Chart of example data" aria-describedby="sankey-chart-data">
+<SankeyChart
+  label="Sankey Chart of example data"
+  aria-describedby="sankey-chart-data"
+>
   <svg viewBox="0 0 100 100">…</svg>
 </SankeyChart>
 <table id="sankey-chart-data">…</table>

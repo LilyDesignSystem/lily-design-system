@@ -23,18 +23,16 @@ Project file browser with folder navigation:
 
 ```html
 <FileManager label="Project files">
-    <nav aria-label="Folder breadcrumb">
-        <a href="/">Root</a> / <a href="/docs">docs</a>
-    </nav>
-    <ul>
-        <li><button>📁 reports/</button></li>
-        <li><button>📄 meeting-notes.pdf</button></li>
-        <li><button>📄 budget.xlsx</button></li>
-    </ul>
-    <div>
-        <button>Upload</button>
-        <button>New folder</button>
-    </div>
+  <nav aria-label="Folder breadcrumb"><a href="/">Root</a> / <a href="/docs">docs</a></nav>
+  <ul>
+    <li><button>📁 reports/</button></li>
+    <li><button>📄 meeting-notes.pdf</button></li>
+    <li><button>📄 budget.xlsx</button></li>
+  </ul>
+  <div>
+    <button>Upload</button>
+    <button>New folder</button>
+  </div>
 </FileManager>
 ```
 
@@ -63,14 +61,11 @@ None built-in -- the consumer should implement keyboard navigation for file sele
 
 This headless component provides a `<div>` with `role="region"` and `aria-label`, defining a named landmark that screen reader users can navigate to directly. The consumer provides all visual styling, file listing content, folder navigation, action controls, and keyboard navigation.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.file-manager` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `file-manager`
 - Verify role="region"` -- defines the file manager as a named landmark section

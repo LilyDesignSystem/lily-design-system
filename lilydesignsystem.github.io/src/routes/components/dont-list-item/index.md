@@ -50,14 +50,11 @@ The consumer provides the content through the children slot. The component is in
 
 This headless component provides a semantic `<li>` element that inherits list context from its parent DontList. It handles proper list item semantics. The consumer provides all visual styling, icons, and content for the individual item.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.dont-list-item` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<li>` element with class `dont-list-item`
 - Verify keyboard interactions work correctly

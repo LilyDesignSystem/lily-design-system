@@ -22,8 +22,8 @@ Open [http://localhost:5173](http://localhost:5173).
 
 ## Scripts
 
-| Command           | Description              |
-| ----------------- | ------------------------ |
+| Command            | Description              |
+| ------------------ | ------------------------ |
 | `pnpm run dev`     | Start development server |
 | `pnpm run build`   | Build for production     |
 | `pnpm run preview` | Preview production build |
@@ -61,20 +61,20 @@ lily-design-system-svelte-sveltekit-examples/
 
 ## Example Pages
 
-| Page         | Route                   | Components Demonstrated                                                                                 |
-| ------------ | ----------------------- | ------------------------------------------------------------------------------------------------------- |
+| Page         | Route                   | Components Demonstrated                                                                                      |
+| ------------ | ----------------------- | ------------------------------------------------------------------------------------------------------------ |
 | Contact Form | `/contact-form`         | Form, Field, TextInput, EmailInput, TextAreaInput, Select, Option, Button, ErrorSummary                      |
-| Dashboard    | `/dashboard`            | Card, Progress, ProgressCircle, Badge, Banner, DataTable                                                |
-| Dialog Flow  | `/dialog-flow`          | Dialog, AlertDialog, Drawer, Button, Tooltip                                                            |
-| File Upload  | `/file-upload-form`     | FileUpload, Progress, Button, Alert, Badge, Form, Field                                                 |
-| Navigation   | `/navigation-and-menus` | NavigationMenu, MenuBar, ToolBar, HamburgerMenu, DropdownMenu, Separator                                |
-| Page Layout  | `/page-layout`          | SkipLink, Header, Footer, BreadcrumbNav, Sidebar, NavigationMenu                                        |
+| Dashboard    | `/dashboard`            | Card, Progress, ProgressCircle, Badge, Banner, DataTable                                                     |
+| Dialog Flow  | `/dialog-flow`          | Dialog, AlertDialog, Drawer, Button, Tooltip                                                                 |
+| File Upload  | `/file-upload-form`     | FileUpload, Progress, Button, Alert, Badge, Form, Field                                                      |
+| Navigation   | `/navigation-and-menus` | NavigationMenu, MenuBar, ToolBar, HamburgerMenu, DropdownMenu, Separator                                     |
+| Page Layout  | `/page-layout`          | SkipLink, Header, Footer, BreadcrumbNav, Sidebar, NavigationMenu                                             |
 | Rating       | `/rating-and-feedback`  | FiveStarRatingPicker, FiveStarRatingView, FiveFaceRatingPicker, NetPromoterScorePicker, TextAreaInput, Alert |
-| Search       | `/search-and-filter`    | Combobox, SearchInput, TagInput, TagGroup, Tag, DataTable, Badge                                        |
-| Settings     | `/settings-page`        | SwitchButton, RadioGroup, RadioInput, Select, Fieldset, Separator, Button, Banner                       |
-| Tabs         | `/tabbed-interface`     | TabBar, TabBarButton, AccordionNav, Badge                                                               |
-| Tasks        | `/task-management`      | TaskList, TaskListItem, TextInput, CheckboxInput, Button, Badge, Progress                               |
-| Timeline     | `/timeline-and-cards`   | TimelineList, Card, DateRange, ReviewDate, SummaryList                                                  |
+| Search       | `/search-and-filter`    | Combobox, SearchInput, TagInput, TagGroup, Tag, DataTable, Badge                                             |
+| Settings     | `/settings-page`        | SwitchButton, RadioGroup, RadioInput, Select, Fieldset, Separator, Button, Banner                            |
+| Tabs         | `/tabbed-interface`     | TabBar, TabBarButton, AccordionNav, Badge                                                                    |
+| Tasks        | `/task-management`      | TaskList, TaskListItem, TextInput, CheckboxInput, Button, Badge, Progress                                    |
+| Timeline     | `/timeline-and-cards`   | TimelineList, Card, DateRange, ReviewDate, SummaryList                                                       |
 
 ## Routes
 
@@ -104,11 +104,24 @@ Components live in `src/lib/components/` and are imported into SvelteKit pages. 
 
 ```svelte
 <script lang="ts">
-    let { type = "button", disabled = false, label, children, class: className = "", ...restProps } = $props();
+  let {
+    type = "button",
+    disabled = false,
+    label,
+    children,
+    class: className = "",
+    ...restProps
+  } = $props();
 </script>
 
-<button class={`button ${className}`} {type} {disabled} aria-label={label} {...restProps}>
-    {@render children()}
+<button
+  class={`button ${className}`}
+  {type}
+  {disabled}
+  aria-label={label}
+  {...restProps}
+>
+  {@render children()}
 </button>
 ```
 
@@ -129,9 +142,19 @@ Components are headless (unstyled) by default. Each component renders a semantic
 **Form pattern: Form > Field > Input**
 
 ```svelte
-<Form label="Contact" onsubmit={handleSubmit}>
-  <Field label="Name" required error={errors.name}>
-    <TextInput label="Name" bind:value={name} />
+<Form
+  label="Contact"
+  onsubmit={handleSubmit}
+>
+  <Field
+    label="Name"
+    required
+    error={errors.name}
+  >
+    <TextInput
+      label="Name"
+      bind:value={name}
+    />
   </Field>
   <Button type="submit">Submit</Button>
 </Form>

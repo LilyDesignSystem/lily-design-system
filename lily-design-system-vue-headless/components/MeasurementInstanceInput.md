@@ -24,8 +24,15 @@ The component uses `aria-label` for accessible labeling in a headless context, a
 ## Usage
 
 ```svelte
-<MeasurementInstanceInput label="Weight" bind:value />
-<MeasurementInstanceInput label="Temperature" bind:value required />
+<MeasurementInstanceInput
+  label="Weight"
+  bind:value
+/>
+<MeasurementInstanceInput
+  label="Temperature"
+  bind:value
+  required
+/>
 ```
 
 ## Keyboard Interactions

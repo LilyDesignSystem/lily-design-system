@@ -41,7 +41,14 @@ session.
   chart.range = { start: "2026-10-01", end: "2026-10-31" };
   chart.tasks = [
     { id: "design", label: "Design", start: "2026-10-01", end: "2026-10-05" },
-    { id: "build", label: "Build", start: "2026-10-06", end: "2026-10-20", dependsOn: ["design"], percentComplete: 30 },
+    {
+      id: "build",
+      label: "Build",
+      start: "2026-10-06",
+      end: "2026-10-20",
+      dependsOn: ["design"],
+      percentComplete: 30,
+    },
     { id: "launch", label: "Launch", start: "2026-10-21", end: "2026-10-21" }, // milestone
   ];
   chart.today = "2026-10-10";
@@ -50,17 +57,23 @@ session.
     startLabel: "Start date",
     endLabel: "End date",
     dateTimePickerLabels: {
-      previousYear: "Previous year", previousMonth: "Previous month",
-      previousWeek: "Previous week", previousDay: "Previous day",
-      nextDay: "Next day", nextWeek: "Next week",
-      nextMonth: "Next month", nextYear: "Next year",
-      confirm: "Confirm", cancel: "Cancel",
+      previousYear: "Previous year",
+      previousMonth: "Previous month",
+      previousWeek: "Previous week",
+      previousDay: "Previous day",
+      nextDay: "Next day",
+      nextWeek: "Next week",
+      nextMonth: "Next month",
+      nextYear: "Next year",
+      confirm: "Confirm",
+      cancel: "Cancel",
     },
     saveLabel: "Save",
     cancelLabel: "Cancel",
     dependencySummary: (preds) => `Blocked by: ${preds.join(", ")}`,
     dateAnnouncement: (title, start, end) => `${title} moved to ${start} – ${end}`,
-    collapseButton: (task, collapsed) => (collapsed ? `Expand ${task.label}` : `Collapse ${task.label}`),
+    collapseButton: (task, collapsed) =>
+      collapsed ? `Expand ${task.label}` : `Collapse ${task.label}`,
   };
   chart.addEventListener("taskchange", (event) => {
     const { taskId, start, end } = event.detail;
@@ -97,32 +110,32 @@ hooks and `data-in-range`/`data-milestone`/`data-today`/
 
 ## Attributes
 
-| Attribute   | Type                             | Required | Default |
-| ----------- | ----------------------------------- | -------- | ------- |
-| `label`     | string                              | yes      | —       |
-| `caption`   | string                              | no       | —       |
-| `time-unit` | `"day" \| "week" \| "month"`         | no       | `"day"` |
-| `today`     | ISO date                            | no       | — (no marker unless set) |
-| `class`     | string                              | no       | —       |
+| Attribute   | Type                         | Required | Default                  |
+| ----------- | ---------------------------- | -------- | ------------------------ |
+| `label`     | string                       | yes      | —                        |
+| `caption`   | string                       | no       | —                        |
+| `time-unit` | `"day" \| "week" \| "month"` | no       | `"day"`                  |
+| `today`     | ISO date                     | no       | — (no marker unless set) |
+| `class`     | string                       | no       | —                        |
 
 ## JS properties
 
-| Property        | Type                                                    | Required | Default |
-| ---------------- | ---------------------------------------------------------- | -------- | ------- |
-| `range`          | `{ start: string; end: string }` (ISO dates)                 | yes      | —       |
-| `tasks`          | `GanttTask[]`                                                | yes      | `[]`    |
-| `taskLabel`      | `(task: GanttTask) => string`                                 | no       | `task.label` |
-| `onTaskChange`   | `(taskId: string, start: string, end: string) => void`        | no       | —       |
-| `labels`         | `GanttLabels`                                                 | no       | `{}`    |
+| Property       | Type                                                   | Required | Default      |
+| -------------- | ------------------------------------------------------ | -------- | ------------ |
+| `range`        | `{ start: string; end: string }` (ISO dates)           | yes      | —            |
+| `tasks`        | `GanttTask[]`                                          | yes      | `[]`         |
+| `taskLabel`    | `(task: GanttTask) => string`                          | no       | `task.label` |
+| `onTaskChange` | `(taskId: string, start: string, end: string) => void` | no       | —            |
+| `labels`       | `GanttLabels`                                          | no       | `{}`         |
 
 `GanttTask`: `{ id, label, start, end, percentComplete?, parentId?,
 dependsOn? }`. `start === end` marks a milestone.
 
 ## Events
 
-| Event        | Detail                                                 | Fires when |
-| ------------ | --------------------------------------------------------- | ---------- |
-| `taskchange` | `{ taskId: string; start: string; end: string }`           | A task's dates change, by pointer drag or the edit region. |
+| Event        | Detail                                           | Fires when                                                 |
+| ------------ | ------------------------------------------------ | ---------------------------------------------------------- |
+| `taskchange` | `{ taskId: string; start: string; end: string }` | A task's dates change, by pointer drag or the edit region. |
 
 ## Row hierarchy and dependencies
 
@@ -160,6 +173,7 @@ announcements.
 ```sh
 npx vitest run lily-design-system-html-gantt-chart/gantt-chart.test.ts
 ```
+
 - **Typed fields and editing** (0.5.0): `fields` + `task.values` add typed columns; `onFieldEdit` edits them in place (click, F2, Tab). See [spec §12](./spec/index.md#12-typed-fields-inline-editing-export-virtualization-050-2026-10-16).
 - **Export and virtualization** (0.5.0): `labels.exportCsv` / `exportTsv` / `exportExcel` plus `labels.exportHeaders` add CSV, TSV and Excel buttons; `virtualize` windows long task lists.
 
@@ -185,7 +199,7 @@ npx vitest run lily-design-system-html-gantt-chart/gantt-chart.test.ts
 ## Weekend, holiday and time-off indicators (0.7.0)
 
 - **`unavailable`** is a list of dated ranges `{ start, end?, kind?, label? }` for holidays, time off and closures (`end` defaults to `start`; Lily ships no calendar, no kinds and no English). A column **every day of which is covered** gets `data-unavailable="<kinds>"` (the entries' `kind`s, `unavailable` when none, repeats removed) on its header and every cell; a column only **partly** covered gets `data-partly-unavailable` instead, so a holiday inside a week column is still marked. A `label` is rendered as text in the header (`.gantt-chart-unavailable-label`), so a day is never told apart by colour alone (WCAG 1.4.1). The weekend is `weekends`; `markers` flag one date; `isNonWorking` is a callback. Matching is the pure `unavailable.ts` (`unavailableOn`, `unavailableIn`, `unavailableKinds`), time-zone free.
-- **Shading** is CSS and ships in the 57 reference themes: weekends are tinted, unavailable days are tinted *and striped*, a partly unavailable column gets a bar under its header.
+- **Shading** is CSS and ships in the 57 reference themes: weekends are tinted, unavailable days are tinted _and striped_, a partly unavailable column gets a bar under its header.
 
 ## Direction and labels (0.7.0)
 

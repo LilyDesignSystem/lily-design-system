@@ -10,15 +10,15 @@ default button icon.
 
 ## Files
 
-| File | Purpose |
-| ---- | ------- |
-| `spec/index.md` | Specification-driven contract (canonical). |
-| `SettingsPicker.vue` | Implementation. Vue 3 `<script setup>` + TypeScript. |
-| `SettingsPicker.test.ts` | Vitest spec, mapped to the §7 clauses. |
-| `index.ts` | Barrel re-export. |
-| `index.md` | User guide. |
-| `docs/accessibility.md` | Tradeoffs, stated plainly. |
-| `examples/` | A links panel, a form panel using `close`, and a custom icon. |
+| File                     | Purpose                                                       |
+| ------------------------ | ------------------------------------------------------------- |
+| `spec/index.md`          | Specification-driven contract (canonical).                    |
+| `SettingsPicker.vue`     | Implementation. Vue 3 `<script setup>` + TypeScript.          |
+| `SettingsPicker.test.ts` | Vitest spec, mapped to the §7 clauses.                        |
+| `index.ts`               | Barrel re-export.                                             |
+| `index.md`               | User guide.                                                   |
+| `docs/accessibility.md`  | Tradeoffs, stated plainly.                                    |
+| `examples/`              | A links panel, a form panel using `close`, and a custom icon. |
 
 ## Public surface
 

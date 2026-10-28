@@ -33,7 +33,8 @@ A headless read-only display for a Tuaisceart Eireann Health and Care (H&C) Numb
 Import and render with the required `label`. The `value` prop is rendered verbatim between the `<span>` tags.
 
 ```svelte
-import TuaisceartEireannHealthAndCareNumberView from './TuaisceartEireannHealthAndCareNumberView.svelte';
+import TuaisceartEireannHealthAndCareNumberView from
+'./TuaisceartEireannHealthAndCareNumberView.svelte';
 ```
 
 ## Props
@@ -49,34 +50,43 @@ import TuaisceartEireannHealthAndCareNumberView from './TuaisceartEireannHealthA
 
 ```svelte
 <script lang="ts">
-  import TuaisceartEireannHealthAndCareNumberView from './TuaisceartEireannHealthAndCareNumberView.svelte';
+  import TuaisceartEireannHealthAndCareNumberView from "./TuaisceartEireannHealthAndCareNumberView.svelte";
 </script>
 
-<TuaisceartEireannHealthAndCareNumberView label="H&C Number" value="320 000 0001" />
+<TuaisceartEireannHealthAndCareNumberView
+  label="H&C Number"
+  value="320 000 0001"
+/>
 ```
 
 ### Dynamic value
 
 ```svelte
 <script lang="ts">
-  import TuaisceartEireannHealthAndCareNumberView from './TuaisceartEireannHealthAndCareNumberView.svelte';
+  import TuaisceartEireannHealthAndCareNumberView from "./TuaisceartEireannHealthAndCareNumberView.svelte";
 
   let hc = $state("320 000 0001");
 </script>
 
-<TuaisceartEireannHealthAndCareNumberView label="Patient H&C Number" value={hc} />
+<TuaisceartEireannHealthAndCareNumberView
+  label="Patient H&C Number"
+  value={hc}
+/>
 ```
 
 ### Inline within a sentence
 
 ```svelte
 <script lang="ts">
-  import TuaisceartEireannHealthAndCareNumberView from './TuaisceartEireannHealthAndCareNumberView.svelte';
+  import TuaisceartEireannHealthAndCareNumberView from "./TuaisceartEireannHealthAndCareNumberView.svelte";
 </script>
 
 <p>
   Registered H&C Number:
-  <TuaisceartEireannHealthAndCareNumberView label="H&C Number" value="320 000 0001" />
+  <TuaisceartEireannHealthAndCareNumberView
+    label="H&C Number"
+    value="320 000 0001"
+  />
 </p>
 ```
 
@@ -84,17 +94,23 @@ import TuaisceartEireannHealthAndCareNumberView from './TuaisceartEireannHealthA
 
 ```svelte
 <script lang="ts">
-  import TuaisceartEireannHealthAndCareNumberInput from '../TuaisceartEireannHealthAndCareNumberInput/TuaisceartEireannHealthAndCareNumberInput.svelte';
-  import TuaisceartEireannHealthAndCareNumberView from './TuaisceartEireannHealthAndCareNumberView.svelte';
+  import TuaisceartEireannHealthAndCareNumberInput from "../TuaisceartEireannHealthAndCareNumberInput/TuaisceartEireannHealthAndCareNumberInput.svelte";
+  import TuaisceartEireannHealthAndCareNumberView from "./TuaisceartEireannHealthAndCareNumberView.svelte";
 
   let hc = $state("320 000 0001");
   let editing = $state(false);
 </script>
 
 {#if editing}
-  <TuaisceartEireannHealthAndCareNumberInput label="H&C Number" bind:value={hc} />
+  <TuaisceartEireannHealthAndCareNumberInput
+    label="H&C Number"
+    bind:value={hc}
+  />
 {:else}
-  <TuaisceartEireannHealthAndCareNumberView label="H&C Number" value={hc} />
+  <TuaisceartEireannHealthAndCareNumberView
+    label="H&C Number"
+    value={hc}
+  />
 {/if}
 ```
 

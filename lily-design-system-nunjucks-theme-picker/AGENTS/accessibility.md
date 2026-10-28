@@ -178,9 +178,7 @@ expect(button.getAttribute("aria-haspopup")).toBe("listbox");
 expect(button.getAttribute("aria-expanded")).toBe("false");
 expect(button.getAttribute("aria-controls")).toBe(list.id);
 expect(list.getAttribute("role")).toBe("listbox");
-expect(
-  root.querySelector(".theme-picker-icon")!.getAttribute("aria-hidden"),
-).toBe("true");
+expect(root.querySelector(".theme-picker-icon")!.getAttribute("aria-hidden")).toBe("true");
 ```
 
 For broader a11y testing run axe-core against a real Nunjucks host

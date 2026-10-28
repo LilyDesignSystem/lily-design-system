@@ -115,8 +115,8 @@ files into your project or wire as a workspace dependency:
 
 | File                        | Purpose                                  |
 | --------------------------- | ---------------------------------------- |
-| `locale-picker.njk`        | The Nunjucks macro.                      |
-| `locale-picker.client.js`  | The ES-module runtime.                   |
+| `locale-picker.njk`         | The Nunjucks macro.                      |
+| `locale-picker.client.js`   | The ES-module runtime.                   |
 | `locales.ts` / `locales.js` | Built-in 436-row label table + RTL sets. |
 | `locales.tsv`               | Canonical source for `locales.ts`.       |
 
@@ -209,8 +209,17 @@ The macro renders a `<div>` root holding three things: a hidden
 input, an icon-only trigger button, and a listbox of options.
 
 ```html
-<div class="locale-picker" data-lily-locale-picker-root …>
-  <input type="hidden" name="locale" value="en" data-lily-locale-picker-input />
+<div
+  class="locale-picker"
+  data-lily-locale-picker-root
+  …
+>
+  <input
+    type="hidden"
+    name="locale"
+    value="en"
+    data-lily-locale-picker-input
+  />
   <button
     type="button"
     class="locale-picker-button"
@@ -220,7 +229,28 @@ input, an icon-only trigger button, and a listbox of options.
     aria-controls="locale-picker-locale-list"
     data-lily-locale-picker-button
   >
-    <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="1.05rem" height="1.05rem"><circle cx="8" cy="8" r="6"/><path stroke-width="1.1" d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7"/></svg>
+    <svg
+      class="locale-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      width="1.05rem"
+      height="1.05rem"
+    >
+      <circle
+        cx="8"
+        cy="8"
+        r="6"
+      />
+      <path
+        stroke-width="1.1"
+        d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7"
+      />
+    </svg>
   </button>
   <ul
     class="locale-picker-list"
@@ -259,7 +289,7 @@ Options without a `localeLabels` entry render the raw code and are
 marked `data-lily-locale-picker-derive` — a template cannot ask ICU
 for anything. When the client runs, each marked option is upgraded to
 the language's **endonym** ("English", "العربية") via
-`Intl.DisplayNames` asked *in that language*, falling back to the
+`Intl.DisplayNames` asked _in that language_, falling back to the
 built-in English table, then the raw code; and it gains `lang="en"` /
 `lang="ar"` **only when the text really is the endonym**, so a screen
 reader may switch voice for text that genuinely is in that language.
@@ -310,20 +340,20 @@ non-empty value of:
 
 Full table in [spec/index.md §4.1](./spec/index.md#41-macro-parameters).
 
-| Key                   | Type                    | Required | Default                   |
-| --------------------- | ----------------------- | -------- | ------------------------- |
-| `label`               | `string`                | yes      | —                         |
-| `locales`             | `array<string>`         | yes      | —                         |
-| `value`               | `string`                | no       | `""`                      |
-| `defaultValue`        | `string`                | no       | `""`                      |
-| `storageKey`          | `string`                | no       | `""`                      |
-| `detectFromNavigator` | `boolean`               | no       | `false`                   |
-| `name`                | `string`                | no       | `"locale"`                |
-| `applyDir`            | `boolean`               | no       | `true`                    |
-| `localeLabels`        | `object<string,string>` | no       | `{}`                      |
+| Key                   | Type                    | Required | Default                  |
+| --------------------- | ----------------------- | -------- | ------------------------ |
+| `label`               | `string`                | yes      | —                        |
+| `locales`             | `array<string>`         | yes      | —                        |
+| `value`               | `string`                | no       | `""`                     |
+| `defaultValue`        | `string`                | no       | `""`                     |
+| `storageKey`          | `string`                | no       | `""`                     |
+| `detectFromNavigator` | `boolean`               | no       | `false`                  |
+| `name`                | `string`                | no       | `"locale"`               |
+| `applyDir`            | `boolean`               | no       | `true`                   |
+| `localeLabels`        | `object<string,string>` | no       | `{}`                     |
 | `id`                  | `string`                | no       | `"locale-picker-{name}"` |
-| `classes`             | `string`                | no       | `""`                      |
-| `attributes`          | `object`                | no       | `{}`                      |
+| `classes`             | `string`                | no       | `""`                     |
+| `attributes`          | `object`                | no       | `{}`                     |
 
 `label` is the `aria-label` on both the button and the listbox; the
 button is icon-only, so this is its only accessible name. `name` is
@@ -484,16 +514,16 @@ Topic guide: [`docs/accessibility.md`](./docs/accessibility.md).
 Every key below is implemented in `locale-picker.client.js`; none of
 it works before that module loads.
 
-| Key                       | Where   | Action                                                         |
-| ------------------------- | ------- | -------------------------------------------------------------- |
-| Enter / Space / ArrowDown | Button  | Open, with the selected option active (or the first).          |
-| ArrowUp                   | Button  | Open, with the **last** option active.                         |
-| ArrowDown / ArrowUp       | Listbox | Move the active option. Clamps at the ends; does not wrap.     |
-| Home / End                | Listbox | Jump to the first / last option.                               |
-| Enter / Space             | Listbox | Select the active option, apply it, close, refocus the button. |
-| Escape                    | Listbox | Close and refocus the button **without** changing the locale.  |
-| PageUp / PageDown         | Listbox | Move the active option by ten, clamped.                        |
-| Tab                       | Listbox | Close and move on — focus goes to the button first, so the default Tab proceeds from the picker's position. |
+| Key                       | Where   | Action                                                                                                                              |
+| ------------------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| Enter / Space / ArrowDown | Button  | Open, with the selected option active (or the first).                                                                               |
+| ArrowUp                   | Button  | Open, with the **last** option active.                                                                                              |
+| ArrowDown / ArrowUp       | Listbox | Move the active option. Clamps at the ends; does not wrap.                                                                          |
+| Home / End                | Listbox | Jump to the first / last option.                                                                                                    |
+| Enter / Space             | Listbox | Select the active option, apply it, close, refocus the button.                                                                      |
+| Escape                    | Listbox | Close and refocus the button **without** changing the locale.                                                                       |
+| PageUp / PageDown         | Listbox | Move the active option by ten, clamped.                                                                                             |
+| Tab                       | Listbox | Close and move on — focus goes to the button first, so the default Tab proceeds from the picker's position.                         |
 | Printable characters      | Listbox | APG typeahead: one character advances to the next match and repeats cycle; differing characters refine. Buffer resets after 500 ms. |
 
 Opening moves focus to the `<ul>`. Clicking an option selects it;
@@ -577,7 +607,7 @@ acceptance criterion in
 
 | Guide                                                            | Covers                                                                 |
 | ---------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| [`docs/macro-opts-reference.md`](./docs/macro-opts-reference.md) | Every `localePicker(opts)` key, field by field.                       |
+| [`docs/macro-opts-reference.md`](./docs/macro-opts-reference.md) | Every `localePicker(opts)` key, field by field.                        |
 | [`docs/concepts.md`](./docs/concepts.md)                         | The macro / client.js split, lifecycle, persistence.                   |
 | [`docs/bcp47.md`](./docs/bcp47.md)                               | Tag composition, normalisation, `Intl.*` compatibility.                |
 | [`docs/rtl.md`](./docs/rtl.md)                                   | RTL detection, `dir`, logical properties.                              |
@@ -585,27 +615,27 @@ acceptance criterion in
 | [`docs/ssr.md`](./docs/ssr.md)                                   | Render-time vs runtime; cookie-resolved `value`.                       |
 | [`docs/accessibility.md`](./docs/accessibility.md)               | WCAG 2.2 AAA, the APG listbox contract, the tradeoffs.                 |
 | [`docs/styling.md`](./docs/styling.md)                           | Class hooks and state selectors.                                       |
-| [`docs/custom-rendering.md`](./docs/custom-rendering.md)         | Icon override, CSS-only styling, hand-written DOM.                    |
+| [`docs/custom-rendering.md`](./docs/custom-rendering.md)         | Icon override, CSS-only styling, hand-written DOM.                     |
 | [`docs/recipes.md`](./docs/recipes.md)                           | Task-shaped solutions: status region, cookies, `Intl`, scoped targets. |
 | [`docs/troubleshooting.md`](./docs/troubleshooting.md)           | Symptoms, causes, fixes.                                               |
 
 ## Files in this directory
 
-| File                       | Purpose                                         |
-| -------------------------- | ----------------------------------------------- |
-| `spec/index.md`            | Single source of truth — API, behaviour, tests. |
-| `AGENTS.md`                | Fast-index pointer; loads the AGENTS bundle.    |
-| `AGENTS/`                  | Topic-by-topic agent files.                     |
-| `CLAUDE.md`                | `@AGENTS.md`.                                   |
+| File                      | Purpose                                         |
+| ------------------------- | ----------------------------------------------- |
+| `spec/index.md`           | Single source of truth — API, behaviour, tests. |
+| `AGENTS.md`               | Fast-index pointer; loads the AGENTS bundle.    |
+| `AGENTS/`                 | Topic-by-topic agent files.                     |
+| `CLAUDE.md`               | `@AGENTS.md`.                                   |
 | `locale-picker.njk`       | The macro.                                      |
 | `locale-picker.client.js` | The ES-module runtime.                          |
 | `locale-picker.test.ts`   | vitest suite covering every spec §7 item.       |
-| `locales.ts`               | Built-in code → English-name map + RTL sets.    |
-| `locales.tsv`              | Canonical 436-row source.                       |
-| `index.md`                 | This file.                                      |
-| `docs/`                    | Deep-dive topic guides.                         |
-| `examples/`                | Runnable Nunjucks templates.                    |
-| `CHANGELOG.md`             | Version history.                                |
+| `locales.ts`              | Built-in code → English-name map + RTL sets.    |
+| `locales.tsv`             | Canonical 436-row source.                       |
+| `index.md`                | This file.                                      |
+| `docs/`                   | Deep-dive topic guides.                         |
+| `examples/`               | Runnable Nunjucks templates.                    |
+| `CHANGELOG.md`            | Version history.                                |
 
 ## License
 

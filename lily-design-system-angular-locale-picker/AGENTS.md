@@ -15,15 +15,15 @@ supply positioning for the list — see
 
 ## Files
 
-| File                               | Purpose                                           |
-| ---------------------------------- | ------------------------------------------------- |
-| `spec/index.md`                    | Specification-driven contract (canonical).        |
-| `locale-picker.component.ts`      | Implementation. Standalone, signal-based, OnPush. |
-| `locale-picker.component.spec.ts` | Vitest spec, one assertion per §7 acceptance.     |
-| `locales.ts`                       | Fallback code → English-name map and RTL sets; default labels are endonyms via `localeEndonym`. |
-| `locales.tsv`                      | Canonical 436-row source for `locales.ts`.        |
-| `index.ts`                         | Barrel re-export.                                 |
-| `index.md`                         | User guide.                                       |
+| File                              | Purpose                                                                                         |
+| --------------------------------- | ----------------------------------------------------------------------------------------------- |
+| `spec/index.md`                   | Specification-driven contract (canonical).                                                      |
+| `locale-picker.component.ts`      | Implementation. Standalone, signal-based, OnPush.                                               |
+| `locale-picker.component.spec.ts` | Vitest spec, one assertion per §7 acceptance.                                                   |
+| `locales.ts`                      | Fallback code → English-name map and RTL sets; default labels are endonyms via `localeEndonym`. |
+| `locales.tsv`                     | Canonical 436-row source for `locales.ts`.                                                      |
+| `index.ts`                        | Barrel re-export.                                                                               |
+| `index.md`                        | User guide.                                                                                     |
 
 ## Public surface
 
@@ -63,7 +63,11 @@ button — the apply pipeline then runs off the `value` change.
 
 ```html
 <div class="locale-picker {className}">
-  <input type="hidden" name="{name}" value="{value}" />
+  <input
+    type="hidden"
+    name="{name}"
+    value="{value}"
+  />
   <button
     type="button"
     class="locale-picker-button"
@@ -72,9 +76,35 @@ button — the apply pipeline then runs off the `value` change.
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path stroke-width="1.1" d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7"/></svg>
+    <svg
+      class="locale-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle
+        cx="8"
+        cy="8"
+        r="6"
+      />
+      <path
+        stroke-width="1.1"
+        d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7"
+      />
+    </svg>
   </button>
-  <div class="locale-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
+  <div
+    class="locale-picker-tooltip"
+    role="tooltip"
+    id="{tooltipId}"
+    hidden
+  >
+    {label}
+  </div>
   <ul
     class="locale-picker-list"
     id="{listId}"

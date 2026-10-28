@@ -6,16 +6,16 @@ applies.
 
 ## Class hooks
 
-| Hook | Element |
-| ---- | ------- |
-| `.share-picker` | Rendered root `<div>`. Your `class` attribute is appended here. |
-| `.share-picker-button` | The trigger `<button>`. |
-| `.share-picker-icon` | The `aria-hidden` glyph `<span>`. |
-| `.share-picker-list` | The `<ul>`. Carries `hidden` when closed. |
-| `.share-picker-list-item` | Each `<li>`. |
-| `.share-picker-target` | Each destination `<a>`. Also `[data-target-id]`. |
-| `.share-picker-copy` | The copy `<button>`, when `copy-label` is set. |
-| `.share-picker-status` | The polite live region `<p>`. |
+| Hook                      | Element                                                         |
+| ------------------------- | --------------------------------------------------------------- |
+| `.share-picker`           | Rendered root `<div>`. Your `class` attribute is appended here. |
+| `.share-picker-button`    | The trigger `<button>`.                                         |
+| `.share-picker-icon`      | The `aria-hidden` glyph `<span>`.                               |
+| `.share-picker-list`      | The `<ul>`. Carries `hidden` when closed.                       |
+| `.share-picker-list-item` | Each `<li>`.                                                    |
+| `.share-picker-target`    | Each destination `<a>`. Also `[data-target-id]`.                |
+| `.share-picker-copy`      | The copy `<button>`, when `copy-label` is set.                  |
+| `.share-picker-status`    | The polite live region `<p>`.                                   |
 
 The custom element itself (`share-picker`) is an unstyled inline element
 until you give it a `display`.
@@ -26,7 +26,9 @@ Without this the list renders in normal flow, pushing the page around
 when it opens.
 
 ```css
-share-picker { display: inline-block; }
+share-picker {
+  display: inline-block;
+}
 
 .share-picker {
   position: relative;

@@ -51,11 +51,11 @@ npm install @lilydesignsystem/svelte-date-time-picker
 
 ## The value is always ISO
 
-| `mode` | `value` |
-| ------ | ------- |
-| `"date"` (default) | `"2026-03-15"` |
-| `"time"` | `"09:30"` |
-| `"datetime"` | `"2026-03-15T09:30"` |
+| `mode`             | `value`              |
+| ------------------ | -------------------- |
+| `"date"` (default) | `"2026-03-15"`       |
+| `"time"`           | `"09:30"`            |
+| `"datetime"`       | `"2026-03-15T09:30"` |
 
 Sortable as a string, unambiguous in every locale, and identical to what
 `<input type="date">` posts — so you can swap the native control in or out
@@ -71,7 +71,8 @@ your own code, deliberately.
 
 ```svelte
 <DateTimePicker
-  {label} {labels}
+  {label}
+  {labels}
   min="2026-03-01"
   max="2026-09-30"
   isDateDisabled={(iso) => weekdayOf(iso) === 0 || weekdayOf(iso) === 6}
@@ -89,7 +90,8 @@ going silent — but they refuse selection.
 
 ```svelte
 <DateTimePicker
-  {label} {labels}
+  {label}
+  {labels}
   shortcuts={[
     { id: "today", label: "Today", days: 0 },
     { id: "week", label: "In 1 week", days: 7 },
@@ -121,7 +123,11 @@ incomplete datetime is never committed.
 ### Week numbers
 
 ```svelte
-<DateTimePicker {label} labels={{ ...labels, week: "Wk" }} showWeekNumbers />
+<DateTimePicker
+  {label}
+  labels={{ ...labels, week: "Wk" }}
+  showWeekNumbers
+/>
 ```
 
 Real ISO-8601 week numbers, with the Thursday rule — so the week
@@ -167,7 +173,10 @@ once on open — hide it visually with your own CSS if you prefer.
 ### Replace the glyph
 
 ```svelte
-<DateTimePicker {label} {labels}>
+<DateTimePicker
+  {label}
+  {labels}
+>
   {#snippet children({ open, display })}
     <MyCalendarIcon expanded={open} />
     <span class="visually-hidden">{display}</span>
@@ -198,13 +207,17 @@ The package is headless. Nothing positions the dialog for you — without
 your CSS it renders in normal flow rather than as an overlay:
 
 ```css
-.date-time-picker { position: relative; }
+.date-time-picker {
+  position: relative;
+}
 .date-time-picker-dialog {
   position: absolute;
   z-index: 10;
   inset-inline-start: 0;
 }
-.date-time-picker-dialog[hidden] { display: none; }
+.date-time-picker-dialog[hidden] {
+  display: none;
+}
 ```
 
 Class hooks: `date-time-picker`, `-field`, `-input`, `-button`, `-icon`,

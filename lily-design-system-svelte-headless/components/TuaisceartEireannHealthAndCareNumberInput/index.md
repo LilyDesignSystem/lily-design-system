@@ -35,7 +35,8 @@ A headless input for entering a Tuaisceart Eireann Health and Care (H&C) Number 
 Import the component from its directory and bind a string value. Text containing spaces between the 3-3-4 groups passes the pattern validator.
 
 ```svelte
-import TuaisceartEireannHealthAndCareNumberInput from './TuaisceartEireannHealthAndCareNumberInput.svelte';
+import TuaisceartEireannHealthAndCareNumberInput from
+'./TuaisceartEireannHealthAndCareNumberInput.svelte';
 ```
 
 ## Props
@@ -53,42 +54,54 @@ import TuaisceartEireannHealthAndCareNumberInput from './TuaisceartEireannHealth
 
 ```svelte
 <script lang="ts">
-  import TuaisceartEireannHealthAndCareNumberInput from './TuaisceartEireannHealthAndCareNumberInput.svelte';
+  import TuaisceartEireannHealthAndCareNumberInput from "./TuaisceartEireannHealthAndCareNumberInput.svelte";
 
   let hc = $state("");
 </script>
 
-<TuaisceartEireannHealthAndCareNumberInput label="H&C Number" bind:value={hc} />
+<TuaisceartEireannHealthAndCareNumberInput
+  label="H&C Number"
+  bind:value={hc}
+/>
 ```
 
 ### Required field
 
 ```svelte
 <script lang="ts">
-  import TuaisceartEireannHealthAndCareNumberInput from './TuaisceartEireannHealthAndCareNumberInput.svelte';
+  import TuaisceartEireannHealthAndCareNumberInput from "./TuaisceartEireannHealthAndCareNumberInput.svelte";
 </script>
 
-<TuaisceartEireannHealthAndCareNumberInput label="H&C Number" required />
+<TuaisceartEireannHealthAndCareNumberInput
+  label="H&C Number"
+  required
+/>
 ```
 
 ### Disabled field
 
 ```svelte
 <script lang="ts">
-  import TuaisceartEireannHealthAndCareNumberInput from './TuaisceartEireannHealthAndCareNumberInput.svelte';
+  import TuaisceartEireannHealthAndCareNumberInput from "./TuaisceartEireannHealthAndCareNumberInput.svelte";
 </script>
 
-<TuaisceartEireannHealthAndCareNumberInput label="H&C Number" value="320 000 0001" disabled />
+<TuaisceartEireannHealthAndCareNumberInput
+  label="H&C Number"
+  value="320 000 0001"
+  disabled
+/>
 ```
 
 ### With a placeholder and submission
 
 ```svelte
 <script lang="ts">
-  import TuaisceartEireannHealthAndCareNumberInput from './TuaisceartEireannHealthAndCareNumberInput.svelte';
+  import TuaisceartEireannHealthAndCareNumberInput from "./TuaisceartEireannHealthAndCareNumberInput.svelte";
 
   let hc = $state("");
-  function submit(e: SubmitEvent) { e.preventDefault(); /* send hc */ }
+  function submit(e: SubmitEvent) {
+    e.preventDefault(); /* send hc */
+  }
 </script>
 
 <form onsubmit={submit}>
@@ -106,17 +119,23 @@ import TuaisceartEireannHealthAndCareNumberInput from './TuaisceartEireannHealth
 
 ```svelte
 <script lang="ts">
-  import TuaisceartEireannHealthAndCareNumberInput from './TuaisceartEireannHealthAndCareNumberInput.svelte';
-  import TuaisceartEireannHealthAndCareNumberView from '../TuaisceartEireannHealthAndCareNumberView/TuaisceartEireannHealthAndCareNumberView.svelte';
+  import TuaisceartEireannHealthAndCareNumberInput from "./TuaisceartEireannHealthAndCareNumberInput.svelte";
+  import TuaisceartEireannHealthAndCareNumberView from "../TuaisceartEireannHealthAndCareNumberView/TuaisceartEireannHealthAndCareNumberView.svelte";
 
   let hc = $state("320 000 0001");
   let editing = $state(false);
 </script>
 
 {#if editing}
-  <TuaisceartEireannHealthAndCareNumberInput label="H&C Number" bind:value={hc} />
+  <TuaisceartEireannHealthAndCareNumberInput
+    label="H&C Number"
+    bind:value={hc}
+  />
 {:else}
-  <TuaisceartEireannHealthAndCareNumberView label="H&C Number" value={hc} />
+  <TuaisceartEireannHealthAndCareNumberView
+    label="H&C Number"
+    value={hc}
+  />
 {/if}
 <button onclick={() => (editing = !editing)}>Toggle</button>
 ```

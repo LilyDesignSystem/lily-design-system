@@ -27,7 +27,12 @@ Search inputs are commonly used for site-wide search bars, filtering lists, and 
 ```
 
 ```tsx
-<SearchInput label="Filter products" value={query} onChange={setQuery} required />
+<SearchInput
+  label="Filter products"
+  value={query}
+  onChange={setQuery}
+  required
+/>
 ```
 
 ## Keyboard Interactions

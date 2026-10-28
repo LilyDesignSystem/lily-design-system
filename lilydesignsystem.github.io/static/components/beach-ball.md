@@ -28,14 +28,20 @@ This headless component renders a `<div>` with `role="status"` and `aria-live="p
 ```
 
 ```html
-<BeachBall label="Processing payment" active={isProcessing} />
+<BeachBall
+  label="Processing payment"
+  active="{isProcessing}"
+/>
 ```
 
 ```html
 <!-- Conditional loading with a fallback message -->
-<BeachBall label="Fetching search results" active={isSearching} />
+<BeachBall
+  label="Fetching search results"
+  active="{isSearching}"
+/>
 {#if !isSearching}
-  <p>Showing {results.length} results</p>
+<p>Showing {results.length} results</p>
 {/if}
 ```
 
@@ -67,18 +73,15 @@ This headless component renders a `<div>` with `role="status"` and `aria-live="p
 
 This component provides `role="status"`, `aria-live="polite"`, `aria-busy`, and a `data-active` attribute with an inner `<span>` animation target, all with zero visual styling. The consumer is responsible for all CSS including the spinning animation, colors, size, and any backdrop or overlay effects.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.beach-ball` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `beach-ball`
 - Verify role="status"` -- identifies this as a status region that announces updates to screen readers
-- Verify aria-label` -- provides the accessible name describing what is loading, set from the `label` prop
+- Verify aria-label`-- provides the accessible name describing what is loading, set from the`label` prop
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied
 

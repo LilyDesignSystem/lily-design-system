@@ -25,19 +25,30 @@ The consumer can override the accepted file types, control required/disabled sta
 Profile photo upload:
 
 ```html
-<ImageFileInput label="Upload profile photo" accept="image/png, image/jpeg" required />
+<ImageFileInput
+  label="Upload profile photo"
+  accept="image/png, image/jpeg"
+  required
+/>
 ```
 
 Medical image attachment:
 
 ```html
-<ImageFileInput label="Upload scan image" accept="image/png, image/jpeg, image/dicom" />
+<ImageFileInput
+  label="Upload scan image"
+  accept="image/png, image/jpeg, image/dicom"
+/>
 ```
 
 ID document scan:
 
 ```html
-<ImageFileInput label="Upload ID photo" accept="image/png, image/jpeg" required />
+<ImageFileInput
+  label="Upload ID photo"
+  accept="image/png, image/jpeg"
+  required
+/>
 ```
 
 ## Keyboard Interactions
@@ -64,14 +75,11 @@ None -- this component uses the native `<input type="file">` element, which prov
 
 This headless component provides a native `<input type="file">` with `accept="image/*"` and `aria-label` for accessible file selection. The consumer provides all visual styling including the file button appearance, drag-and-drop zones, and image preview functionality.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.image-file-input` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<input>` element with class `image-file-input`
 - Verify aria-label` -- provides an accessible name for the file input when no visible label is present.

@@ -52,7 +52,10 @@ Import, supply `label`, and pass formatted time content through `children`. Opti
   import Timer from "./Timer.svelte";
 </script>
 
-<Timer label="Session timeout" datetime="PT5M30S">5:30</Timer>
+<Timer
+  label="Session timeout"
+  datetime="PT5M30S">5:30</Timer
+>
 ```
 
 ```svelte
@@ -66,12 +69,19 @@ Import, supply `label`, and pass formatted time content through `children`. Opti
     }, 1000);
     return () => clearInterval(id);
   });
-  const mm = $derived(Math.floor(remaining / 60).toString().padStart(2, "0"));
+  const mm = $derived(
+    Math.floor(remaining / 60)
+      .toString()
+      .padStart(2, "0"),
+  );
   const ss = $derived((remaining % 60).toString().padStart(2, "0"));
   const iso = $derived(`PT${Math.floor(remaining / 60)}M${remaining % 60}S`);
 </script>
 
-<Timer label="Time remaining" datetime={iso}>{mm}:{ss}</Timer>
+<Timer
+  label="Time remaining"
+  datetime={iso}>{mm}:{ss}</Timer
+>
 ```
 
 ```svelte

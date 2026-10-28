@@ -15,15 +15,15 @@ If the locale string contains any of these as a `-`- or
 `_`-separated component (case-insensitive), it's RTL — regardless
 of the base language:
 
-| Script | Code   | Used in                                |
-| ------ | ------ | -------------------------------------- |
-| Arabic | `Arab` | Arabic, Persian, Urdu, Uyghur, Sindhi, Kurdish (Sorani), Kashmiri, Pashto, Punjabi (Pakistan), Malay (traditional Jawi), … |
-| Hebrew | `Hebr` | Hebrew, Yiddish, Judeo-Arabic          |
-| Thaana | `Thaa` | Divehi (Maldivian)                     |
-| Syriac | `Syrc` | Syriac, Assyrian Neo-Aramaic           |
-| N'Ko   | `Nkoo` | Manding languages                      |
-| Mongolian | `Mong` | Mongolian (traditional vertical)   |
-| Adlam  | `Adlm` | Fulfulde                               |
+| Script    | Code   | Used in                                                                                                                    |
+| --------- | ------ | -------------------------------------------------------------------------------------------------------------------------- |
+| Arabic    | `Arab` | Arabic, Persian, Urdu, Uyghur, Sindhi, Kurdish (Sorani), Kashmiri, Pashto, Punjabi (Pakistan), Malay (traditional Jawi), … |
+| Hebrew    | `Hebr` | Hebrew, Yiddish, Judeo-Arabic                                                                                              |
+| Thaana    | `Thaa` | Divehi (Maldivian)                                                                                                         |
+| Syriac    | `Syrc` | Syriac, Assyrian Neo-Aramaic                                                                                               |
+| N'Ko      | `Nkoo` | Manding languages                                                                                                          |
+| Mongolian | `Mong` | Mongolian (traditional vertical)                                                                                           |
+| Adlam     | `Adlm` | Fulfulde                                                                                                                   |
 
 Example: `uz_Arab_AF` (Uzbek written in Arabic script, in
 Afghanistan) → RTL.
@@ -33,24 +33,24 @@ Afghanistan) → RTL.
 If the first subtag (before the first `-` or `_`) is one of
 these, it's RTL:
 
-| Code | Language          |
-| ---- | ----------------- |
-| `ar` | Arabic            |
-| `arc` | Aramaic          |
+| Code  | Language                 |
+| ----- | ------------------------ |
+| `ar`  | Arabic                   |
+| `arc` | Aramaic                  |
 | `ckb` | Sorani (Central) Kurdish |
-| `dv` | Divehi            |
-| `fa` | Persian / Farsi   |
-| `he` | Hebrew (current)  |
-| `iw` | Hebrew (legacy)   |
-| `ji` | Yiddish (legacy)  |
-| `ks` | Kashmiri          |
-| `ku` | Kurdish (umbrella) |
-| `mzn` | Mazanderani      |
-| `ps` | Pashto            |
-| `sd` | Sindhi            |
-| `ug` | Uyghur            |
-| `ur` | Urdu              |
-| `yi` | Yiddish (current) |
+| `dv`  | Divehi                   |
+| `fa`  | Persian / Farsi          |
+| `he`  | Hebrew (current)         |
+| `iw`  | Hebrew (legacy)          |
+| `ji`  | Yiddish (legacy)         |
+| `ks`  | Kashmiri                 |
+| `ku`  | Kurdish (umbrella)       |
+| `mzn` | Mazanderani              |
+| `ps`  | Pashto                   |
+| `sd`  | Sindhi                   |
+| `ug`  | Uyghur                   |
+| `ur`  | Urdu                     |
+| `yi`  | Yiddish (current)        |
 
 This catches the common cases (`ar`, `he`, `fa`) without
 requiring the consumer to write `Arab` / `Hebr` script tags every
@@ -82,17 +82,17 @@ likely-subtag tables. Cases the helper will get wrong:
 When the browser sees `dir="rtl"` on `<html>` or an ancestor of
 an element:
 
-| Aspect             | Behaviour with `dir="rtl"`                              |
-| ------------------ | ------------------------------------------------------- |
-| Text direction     | Bidi base direction is RTL; weak characters resolve RTL. |
-| Paragraph flow     | First line starts at the right edge.                    |
-| Inline-axis        | `inline-start` is right, `inline-end` is left.          |
-| Flexbox            | `flex-direction: row` flows right-to-left.              |
-| Grid               | Columns flow right-to-left.                             |
-| Scrollbar          | Vertical scrollbar appears on the left (some browsers). |
-| Form controls      | Number inputs, dates, native selects mirror.            |
+| Aspect             | Behaviour with `dir="rtl"`                                                                            |
+| ------------------ | ----------------------------------------------------------------------------------------------------- |
+| Text direction     | Bidi base direction is RTL; weak characters resolve RTL.                                              |
+| Paragraph flow     | First line starts at the right edge.                                                                  |
+| Inline-axis        | `inline-start` is right, `inline-end` is left.                                                        |
+| Flexbox            | `flex-direction: row` flows right-to-left.                                                            |
+| Grid               | Columns flow right-to-left.                                                                           |
+| Scrollbar          | Vertical scrollbar appears on the left (some browsers).                                               |
+| Form controls      | Number inputs, dates, native selects mirror.                                                          |
 | Logical CSS        | `padding-inline-start`, `margin-inline-end`, `border-inline-start`, etc. swap to physical right/left. |
-| Default text-align | `start` resolves to right; `end` resolves to left.       |
+| Default text-align | `start` resolves to right; `end` resolves to left.                                                    |
 
 What `dir="rtl"` does NOT change:
 
@@ -112,16 +112,16 @@ Use logical properties throughout your CSS:
 ```css
 /* Bad — breaks in RTL */
 .banner {
-    padding-left: 1rem;
-    margin-right: 0.5rem;
-    text-align: left;
+  padding-left: 1rem;
+  margin-right: 0.5rem;
+  text-align: left;
 }
 
 /* Good — works in both */
 .banner {
-    padding-inline-start: 1rem;
-    margin-inline-end: 0.5rem;
-    text-align: start;
+  padding-inline-start: 1rem;
+  margin-inline-end: 0.5rem;
+  text-align: start;
 }
 ```
 
@@ -134,19 +134,19 @@ for the next open. Anchor it with logical properties:
 ```css
 /* Bad — the list stays on the physical left after switching to RTL */
 .locale-picker-list {
-    position: absolute;
-    left: 0;
+  position: absolute;
+  left: 0;
 }
 
 /* Good — the list follows the writing direction */
 .locale-picker {
-    position: relative;
+  position: relative;
 }
 .locale-picker-list {
-    position: absolute;
-    z-index: 10;
-    inset-block-start: 100%;
-    inset-inline-start: 0;
+  position: absolute;
+  z-index: 10;
+  inset-block-start: 100%;
+  inset-inline-start: 0;
 }
 ```
 
@@ -155,11 +155,11 @@ mirrored CSS:
 
 ```css
 .next-icon {
-    transform: scaleX(-1);
+  transform: scaleX(-1);
 }
 
 :dir(ltr) .next-icon {
-    transform: none;
+  transform: none;
 }
 ```
 
@@ -240,10 +240,10 @@ the same as anywhere:
 
 ```css
 .my-icon {
-    transform: scaleX(-1);
+  transform: scaleX(-1);
 }
 :dir(ltr) .my-icon {
-    transform: none;
+  transform: none;
 }
 ```
 

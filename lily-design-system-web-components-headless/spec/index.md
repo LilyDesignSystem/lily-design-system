@@ -156,7 +156,7 @@ The Web Components spec defines two ways to register a custom element:
 - **Autonomous** (`class X extends HTMLElement`, used with a hyphenated tag
   name like `<lily-button>`): works in every evergreen browser.
 - **Customized built-in** (`class X extends HTMLButtonElement`, used as
-  `<button is="lily-button">`): lets the custom element *be* the real native
+  `<button is="lily-button">`): lets the custom element _be_ the real native
   element with no extra host node — but WebKit has never implemented this
   half of the spec and has stated it will not
   ([WebKit bug 182671](https://bugs.webkit.org/show_bug.cgi?id=182671)),
@@ -243,7 +243,7 @@ only reliable way to populate their rows/cells is DOM construction
 (`createElement`/`appendChild`), never a static or templated HTML string.
 Documented in each component's own header comment. This is a real,
 structural consequence of the table-sub-element exclusion (§2) — it is not
-merely that this catalog doesn't *implement* `TableRow`/`TableTD` etc.,
+merely that this catalog doesn't _implement_ `TableRow`/`TableTD` etc.,
 it's that the platform itself won't let plain HTML express them inside any
 non-`<table>`-context element, custom or otherwise.
 
@@ -268,8 +268,8 @@ class hook (e.g. `.affix { position: sticky; top: var(--affix-offset-top, 0); }`
 attribute alone is enough for the consumer's CSS to select the right fixed
 edge. The reasoning generalises: since every visual behaviour in this
 catalog already requires matching consumer CSS keyed to a class hook or
-`data-*` attribute, a raw inline property is never actually *required* —
-only a per-instance *value* needs to cross from attribute to style, and
+`data-*` attribute, a raw inline property is never actually _required_ —
+only a per-instance _value_ needs to cross from attribute to style, and
 CSS custom properties already do exactly that without inventing a new
 exception each time. Two later batches (`flex-stack`/`grid`/`masonry`,
 `container-with-fixed-width`/`container-with-fluid-width`) independently
@@ -300,14 +300,14 @@ lily-design-system-web-components-headless/
 
 ## 6. Shared helpers (`lib/dom-utils.ts`)
 
-| Helper | Purpose |
-| --- | --- |
-| `moveChildrenInto(host, target)` | Move the host's original light-DOM children into a generated element. |
-| `rootClassName(host, base)` | `"{base} {consumer's class attribute}"`, trimmed. |
-| `applySelfClassName(host, base)` | Same, applied to the host itself (pattern 2 components). |
+| Helper                                         | Purpose                                                                                                                    |
+| ---------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `moveChildrenInto(host, target)`               | Move the host's original light-DOM children into a generated element.                                                      |
+| `rootClassName(host, base)`                    | `"{base} {consumer's class attribute}"`, trimmed.                                                                          |
+| `applySelfClassName(host, base)`               | Same, applied to the host itself (pattern 2 components).                                                                   |
 | `passThroughAttributes(host, target, handled)` | Copy every attribute the component doesn't itself interpret onto the generated element — the rest-props-spread equivalent. |
-| `hasBooleanAttr(host, name)` | Presence-based boolean attribute read. |
-| `nextId(prefix)` | Monotonic id generator for `aria-labelledby`/`aria-describedby` targets. |
+| `hasBooleanAttr(host, name)`                   | Presence-based boolean attribute read.                                                                                     |
+| `nextId(prefix)`                               | Monotonic id generator for `aria-labelledby`/`aria-describedby` targets.                                                   |
 
 ## 7. Testing
 

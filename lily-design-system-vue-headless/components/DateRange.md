@@ -24,11 +24,11 @@ This headless component renders a `<fieldset>` containing two native `<input typ
 
 ```svelte
 <DateRange
-    label="Trip dates"
-    startLabel="Departure"
-    endLabel="Return"
-    bind:start
-    bind:end
+  label="Trip dates"
+  startLabel="Departure"
+  endLabel="Return"
+  bind:start
+  bind:end
 />
 ```
 

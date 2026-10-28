@@ -19,18 +19,22 @@ For ordered continuous data use `LineChart` or `AreaChart`. For categorical comp
 
 ## Props
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `label` | string (required) | — | Accessible name |
-| `description` | string | — | Extended description |
-| `series` | array of series | [] | Each series is `{ name: string; points: { x: number; y: number }[] }` |
-| `dataTable` | slot | — | Optional fallback `<table>` |
-| `...restProps` | HTML attributes | — | Spread onto the root `<figure>` |
+| Prop           | Type              | Default | Description                                                           |
+| -------------- | ----------------- | ------- | --------------------------------------------------------------------- |
+| `label`        | string (required) | —       | Accessible name                                                       |
+| `description`  | string            | —       | Extended description                                                  |
+| `series`       | array of series   | []      | Each series is `{ name: string; points: { x: number; y: number }[] }` |
+| `dataTable`    | slot              | —       | Optional fallback `<table>`                                           |
+| `...restProps` | HTML attributes   | —       | Spread onto the root `<figure>`                                       |
 
 ## Usage
 
 ```html
-<ScatterChart label="Height vs weight by age" series={healthSeries} description="Height vs weight for participants, grouped by age cohort" />
+<ScatterChart
+  label="Height vs weight by age"
+  series="{healthSeries}"
+  description="Height vs weight for participants, grouped by age cohort"
+/>
 ```
 
 ## Keyboard Interactions

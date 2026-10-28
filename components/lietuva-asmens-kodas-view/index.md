@@ -22,7 +22,7 @@ LietuvaAsmensKodasView is a headless read-only display of Lithuania's Asmens kod
 ```html
 <SummaryList>
   <SummaryListItem term="Personal Code">
-    <LietuvaAsmensKodasView value={value} />
+    <LietuvaAsmensKodasView value="{value}" />
   </SummaryListItem>
 </SummaryList>
 ```

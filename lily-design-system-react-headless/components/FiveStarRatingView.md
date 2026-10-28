@@ -19,7 +19,10 @@ A read-only five-star rating display that renders filled and empty star characte
 ## Usage
 
 ```tsx
-<FiveStarRatingView value={4} label="4 out of 5 stars" />
+<FiveStarRatingView
+  value={4}
+  label="4 out of 5 stars"
+/>
 ```
 
 ## Keyboard Interactions

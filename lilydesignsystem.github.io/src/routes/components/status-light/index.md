@@ -25,9 +25,18 @@ color alone because the label is always present.
 ## Usage
 
 ```html
-<StatusLight variant="positive" label="Active" />
-<StatusLight variant="negative" label="Offline" />
-<StatusLight variant="notice" label="Pending review" />
+<StatusLight
+  variant="positive"
+  label="Active"
+/>
+<StatusLight
+  variant="negative"
+  label="Offline"
+/>
+<StatusLight
+  variant="notice"
+  label="Pending review"
+/>
 ```
 
 ## Keyboard Interactions

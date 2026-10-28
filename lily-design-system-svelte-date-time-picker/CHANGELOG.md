@@ -25,7 +25,6 @@ there); this picker's clauses are §7.62–§7.67.
 
 **Fix: the tooltip's `Escape` dismissal now works wherever focus is (WCAG 1.4.13).** It was bound to the button's keydown only, so a tooltip shown by pointer hover alone could not be dismissed. While the tooltip is visible a document `keydown` listener (added once, removed on hide/unmount; no `preventDefault`, no focus move) sets it dismissed. New clauses §7.68–§7.69.
 
-
 ## 0.1.2 — 2026-09-25
 
 **Fix: dependency range on `@lilydesignsystem/svelte-headless` widened
@@ -231,7 +230,7 @@ Full list in `spec/index.md` §9; the four that matter most:
 - **No hardcoded English.** DHCW bakes in `MONTHS`, `SHORT_MONTHS`,
   `"Today"`, `"+1 week"`, `"Cancel"`, `"OK"`, `"Previous year"` and
   `"Open calendar for …"`. Here, month and weekday names come from `Intl`
-  and every other string is a prop. For a *Welsh* design system this is not
+  and every other string is a prop. For a _Welsh_ design system this is not
   a technicality: it is the difference between a bilingual service and an
   English one with a Welsh veneer.
 - **Monday is not assumed.** DHCW hardcodes a Monday-first grid. First day
@@ -240,7 +239,7 @@ Full list in `spec/index.md` §9; the four that matter most:
   nothing, which is worse than not declaring it: the user is told the rest
   of the page is inert while Tab quietly walks into it.
 - **Civil dates, not local-midnight `Date`.** DHCW builds every date with
-  `new Date(y, m, d)`, which is an *instant* at local midnight and resolves
+  `new Date(y, m, d)`, which is an _instant_ at local midnight and resolves
   to the previous day in zones whose DST transition falls at midnight. All
   arithmetic here goes through UTC epoch days.
 
@@ -249,7 +248,7 @@ at all, so a booking picker will offer last Tuesday); a fixed six-row grid
 so the dialog does not change height as you page; no `innerHTML` string
 building with interpolated attributes; SSR-safe ids instead of
 `Math.random()`; Escape that genuinely discards; and typed text that is
-*marked* invalid rather than silently ignored while the field goes on
+_marked_ invalid rather than silently ignored while the field goes on
 showing something that is not the value.
 
 #### Notes

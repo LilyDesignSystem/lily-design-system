@@ -12,20 +12,14 @@ to this helper. For the catalog-wide test rules see
 ```ts
 import { describe, test, expect, beforeEach, afterEach, vi } from "vitest";
 import { TestBed, type ComponentFixture } from "@angular/core/testing";
-import {
-  ThemePicker,
-  themeHref,
-  normaliseThemesUrl,
-} from "./theme-picker.component";
+import { ThemePicker, themeHref, normaliseThemesUrl } from "./theme-picker.component";
 
 let fixtures: ComponentFixture<unknown>[] = [];
 
 beforeEach(() => {
   // Reset shared state between tests.
   document.documentElement.removeAttribute("data-theme");
-  document.head
-    .querySelectorAll("link[data-lily-theme-picker]")
-    .forEach((n) => n.remove());
+  document.head.querySelectorAll("link[data-lily-theme-picker]").forEach((n) => n.remove());
   localStorage.clear();
 });
 
@@ -36,9 +30,7 @@ afterEach(() => {
   document.documentElement.removeAttribute("data-theme");
 });
 
-function mount(
-  inputs: Record<string, unknown> = {},
-): ComponentFixture<ThemePicker> {
+function mount(inputs: Record<string, unknown> = {}): ComponentFixture<ThemePicker> {
   const fixture = TestBed.createComponent(ThemePicker);
   fixture.componentRef.setInput("label", "Theme");
   fixture.componentRef.setInput("themesUrl", "/assets/themes/");
@@ -62,8 +54,7 @@ same three elements:
 ```ts
 const button = (f) => f.nativeElement.querySelector(".theme-picker-button");
 const list = (f) => f.nativeElement.querySelector(".theme-picker-list");
-const options = (f) =>
-  Array.from(f.nativeElement.querySelectorAll(".theme-picker-option"));
+const options = (f) => Array.from(f.nativeElement.querySelectorAll(".theme-picker-option"));
 ```
 
 ## Async waits
@@ -117,11 +108,7 @@ function click(fixture: ComponentFixture<unknown>, target: HTMLElement): void {
   fixture.detectChanges();
 }
 
-function press(
-  fixture: ComponentFixture<unknown>,
-  target: HTMLElement,
-  key: string,
-): void {
+function press(fixture: ComponentFixture<unknown>, target: HTMLElement, key: string): void {
   target.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true }));
   fixture.detectChanges();
 }
@@ -154,9 +141,7 @@ Open state lives on two attributes; the active option on a third:
 ```ts
 expect(list(fixture).hasAttribute("hidden")).toBe(false);
 expect(button(fixture).getAttribute("aria-expanded")).toBe("true");
-expect(list(fixture).getAttribute("aria-activedescendant")).toBe(
-  list(fixture).children[1].id,
-);
+expect(list(fixture).getAttribute("aria-activedescendant")).toBe(list(fixture).children[1].id);
 ```
 
 Assert against `children[i].id` rather than a hardcoded id string —
@@ -206,9 +191,17 @@ component in a host:
   standalone: true,
   imports: [ThemePicker],
   template: `
-    <lily-theme-picker label="Theme" [themesUrl]="url" [themes]="themes">
+    <lily-theme-picker
+      label="Theme"
+      [themesUrl]="url"
+      [themes]="themes"
+    >
       <ng-template let-args>
-        <span data-testid="custom" [attr.data-value]="args.value">…</span>
+        <span
+          data-testid="custom"
+          [attr.data-value]="args.value"
+          >…</span
+        >
       </ng-template>
     </lily-theme-picker>
   `,
@@ -237,9 +230,7 @@ don't assert on scrolling.
 ## Asserting the managed `<link>`
 
 ```ts
-const link = document.head.querySelector<HTMLLinkElement>(
-  'link[data-lily-theme-picker="theme"]',
-);
+const link = document.head.querySelector<HTMLLinkElement>('link[data-lily-theme-picker="theme"]');
 expect(link).not.toBeNull();
 expect(link!.href).toMatch(/\/t\/light\.css$/);
 ```

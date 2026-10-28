@@ -24,14 +24,17 @@ This component is useful for user profile previews, link previews, contextual he
 
 ```svelte
 <button
-  onmouseenter={() => open = true}
-  onmouseleave={() => open = false}
-  onfocus={() => open = true}
-  onblur={() => open = false}
+  onmouseenter={() => (open = true)}
+  onmouseleave={() => (open = false)}
+  onfocus={() => (open = true)}
+  onblur={() => (open = false)}
 >
   Hover me
 </button>
-<HoverCard label="User info" bind:open>
+<HoverCard
+  label="User info"
+  bind:open
+>
   <p>Profile details here</p>
 </HoverCard>
 ```

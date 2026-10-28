@@ -23,36 +23,47 @@ This headless component lets consumers control all visual presentation while ens
 Caption inside a figure with an image:
 
 ```html
-<Figure label="Sunset photograph">
-  <Image src="sunset.jpg" alt="Sunset over the ocean with orange and purple sky" />
-  <Caption>Photo of a sunset over the ocean.</Caption>
-</Figure>
+<figure label="Sunset photograph">
+  <image
+    src="sunset.jpg"
+    alt="Sunset over the ocean with orange and purple sky"
+  />
+  <caption>
+    Photo of a sunset over the ocean.
+  </caption>
+</figure>
 ```
 
 Caption with a numbered figure reference:
 
 ```html
-<Figure label="Revenue growth chart">
+<figure label="Revenue growth chart">
   <svg><!-- chart SVG --></svg>
-  <Caption id="chart-caption">Figure 1: Revenue growth over time, 2023-2025.</Caption>
-</Figure>
+  <caption id="chart-caption">
+    Figure 1: Revenue growth over time, 2023-2025.
+  </caption>
+</figure>
 ```
 
 Caption inside a figure with a data table:
 
 ```html
-<Figure label="Patient demographics summary">
+<figure label="Patient demographics summary">
   <DataTable label="Patient demographics">
     <DataTableHead>
-      <DataTableRow><DataTableTD>Age Group</DataTableTD><DataTableTD>Count</DataTableTD></DataTableRow>
+      <DataTableRow
+        ><DataTableTD>Age Group</DataTableTD><DataTableTD>Count</DataTableTD></DataTableRow
+      >
     </DataTableHead>
     <DataTableBody>
       <DataTableRow><DataTableTD>18-30</DataTableTD><DataTableTD>142</DataTableTD></DataTableRow>
       <DataTableRow><DataTableTD>31-50</DataTableTD><DataTableTD>287</DataTableTD></DataTableRow>
     </DataTableBody>
   </DataTable>
-  <Caption>Table 1: Patient demographics by age group.</Caption>
-</Figure>
+  <caption>
+    Table 1: Patient demographics by age group.
+  </caption>
+</figure>
 ```
 
 ## Keyboard Interactions
@@ -79,14 +90,11 @@ None -- this component is a passive container for descriptive text.
 
 This component provides a semantic `<figcaption>` element with automatic `<figure>` association and zero visual styling. The consumer is responsible for all CSS including font size, font style (e.g., italic), color, alignment, spacing relative to the media, and any border or background treatment.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.caption` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<caption>` element with class `caption`
 - Verify pass-through attributes are applied

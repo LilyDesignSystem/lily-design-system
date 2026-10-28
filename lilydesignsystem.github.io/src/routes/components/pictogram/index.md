@@ -32,7 +32,10 @@ concept more clearly than text alone.
 Centered pictogram:
 
 ```html
-<Pictogram heading="Privacy" description="Your data stays yours.">
+<Pictogram
+  heading="Privacy"
+  description="Your data stays yours."
+>
   {#snippet icon()}<svg>...</svg>{/snippet}
 </Pictogram>
 ```
@@ -40,7 +43,10 @@ Centered pictogram:
 Side layout with custom caption content:
 
 ```html
-<Pictogram layout="side" heading="Speed">
+<Pictogram
+  layout="side"
+  heading="Speed"
+>
   {#snippet icon()}<svg>...</svg>{/snippet}
   <p>Loads in under a second on any connection.</p>
 </Pictogram>

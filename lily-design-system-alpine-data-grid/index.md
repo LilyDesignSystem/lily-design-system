@@ -26,7 +26,12 @@ It is a subset of the canonical [`@lilydesignsystem/svelte-data-grid`](../lily-d
     rowId: "id",
     selectionMode: "multiple",
     pageSize: 25,
-    labels: { grid: "Users", search: "Search users", selectAll: "Select all rows", selectRow: (name) => `Select ${name}` },
+    labels: {
+      grid: "Users",
+      search: "Search users",
+      selectAll: "Select all rows",
+      selectRow: (name) => `Select ${name}`,
+    },
   };
   Alpine.start();
 </script>

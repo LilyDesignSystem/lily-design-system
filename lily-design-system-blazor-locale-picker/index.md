@@ -146,21 +146,57 @@ Renders (ids abbreviated; the listbox is shown open):
 
 ```html
 <div class="locale-picker">
-    <input type="hidden" name="locale" value="en" />
-    <button type="button" class="locale-picker-button"
-            aria-label="Language" aria-haspopup="listbox"
-            aria-expanded="true" aria-controls="locale-picker-1-list">
-        <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true"
-             width="1.05rem" height="1.05rem">…</svg>
-    </button>
-    <ul class="locale-picker-list" id="locale-picker-1-list" role="listbox"
-        aria-label="Language" tabindex="-1"
-        aria-activedescendant="locale-picker-1-option-0">
-        <li class="locale-picker-option" id="locale-picker-1-option-0"
-            role="option" aria-selected="true" data-active lang="en">English</li>
-        <li class="locale-picker-option" id="locale-picker-1-option-1"
-            role="option" aria-selected="false" lang="cy">Cymraeg</li>
-    </ul>
+  <input
+    type="hidden"
+    name="locale"
+    value="en"
+  />
+  <button
+    type="button"
+    class="locale-picker-button"
+    aria-label="Language"
+    aria-haspopup="listbox"
+    aria-expanded="true"
+    aria-controls="locale-picker-1-list"
+  >
+    <svg
+      class="locale-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      width="1.05rem"
+      height="1.05rem"
+    >
+      …
+    </svg>
+  </button>
+  <ul
+    class="locale-picker-list"
+    id="locale-picker-1-list"
+    role="listbox"
+    aria-label="Language"
+    tabindex="-1"
+    aria-activedescendant="locale-picker-1-option-0"
+  >
+    <li
+      class="locale-picker-option"
+      id="locale-picker-1-option-0"
+      role="option"
+      aria-selected="true"
+      data-active
+      lang="en"
+    >
+      English
+    </li>
+    <li
+      class="locale-picker-option"
+      id="locale-picker-1-option-1"
+      role="option"
+      aria-selected="false"
+      lang="cy"
+    >
+      Cymraeg
+    </li>
+  </ul>
 </div>
 ```
 
@@ -199,17 +235,23 @@ flow and shoves the rest of the page around. Positioning it is your
 job:
 
 ```css
-.locale-picker { position: relative; }
-
-.locale-picker-list {
-    position: absolute;
-    inset-block-start: 100%;
-    inset-inline-start: 0;   /* logical, not `left` */
-    min-inline-size: 12ch;
+.locale-picker {
+  position: relative;
 }
 
-.locale-picker-option[data-active] { outline: 2px solid currentColor; }
-.locale-picker-option[aria-selected="true"] { font-weight: 600; }
+.locale-picker-list {
+  position: absolute;
+  inset-block-start: 100%;
+  inset-inline-start: 0; /* logical, not `left` */
+  min-inline-size: 12ch;
+}
+
+.locale-picker-option[data-active] {
+  outline: 2px solid currentColor;
+}
+.locale-picker-option[aria-selected="true"] {
+  font-weight: 600;
+}
 ```
 
 Use **logical properties** (`inset-inline-start`, `min-inline-size`)
@@ -379,17 +421,17 @@ Opening moves focus to the `<ul>`.
 
 On the **listbox**:
 
-| Key               | Action                                                                 |
-| ----------------- | ---------------------------------------------------------------------- |
-| `Arrow Down`      | Move the active option down one; **clamps** at the last (no wrap).     |
-| `Arrow Up`        | Move the active option up one; **clamps** at the first (no wrap).      |
-| `Home`            | Jump to the first option.                                              |
-| `End`             | Jump to the last option.                                               |
-| `Enter` / `Space` | Select the active option, apply it, close, return focus to the button. |
-| `Escape`          | Close and return focus **without** changing the value.                 |
-| `PageUp` / `PageDown` | Move the active option by ten; clamps at the ends.                 |
-| `Tab`             | Close and move on; the browser's default Tab proceeds from the picker's position. |
-| Printable chars   | Typeahead over the option *labels*, 500 ms buffer reset. A single character advances to the **next** match and repeating it cycles onward; differing characters refine the match from the active option. |
+| Key                   | Action                                                                                                                                                                                                   |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Arrow Down`          | Move the active option down one; **clamps** at the last (no wrap).                                                                                                                                       |
+| `Arrow Up`            | Move the active option up one; **clamps** at the first (no wrap).                                                                                                                                        |
+| `Home`                | Jump to the first option.                                                                                                                                                                                |
+| `End`                 | Jump to the last option.                                                                                                                                                                                 |
+| `Enter` / `Space`     | Select the active option, apply it, close, return focus to the button.                                                                                                                                   |
+| `Escape`              | Close and return focus **without** changing the value.                                                                                                                                                   |
+| `PageUp` / `PageDown` | Move the active option by ten; clamps at the ends.                                                                                                                                                       |
+| `Tab`                 | Close and move on; the browser's default Tab proceeds from the picker's position.                                                                                                                        |
+| Printable chars       | Typeahead over the option _labels_, 500 ms buffer reset. A single character advances to the **next** match and repeating it cycles onward; differing characters refine the match from the active option. |
 
 Pointer and focus:
 
@@ -435,20 +477,20 @@ native `<select>`'s closed display; there is no `<select>` any more.
 
 The parameters that attach to specific parts of the markup:
 
-| Parameter              | Attaches to                                                        |
-| ---------------------- | ------------------------------------------------------------------ |
-| `Label`                | `aria-label` on **both** the button and the `<ul role="listbox">`.  |
-| `Name`                 | `name` on the hidden input that carries `Value` for form posts.     |
-| `CssClass`             | Merged into the class list of the root `<div>`.                     |
-| `AdditionalAttributes` | Captures unmatched attributes; spread onto the root `<div>`.        |
+| Parameter              | Attaches to                                                                 |
+| ---------------------- | --------------------------------------------------------------------------- |
+| `Label`                | `aria-label` on **both** the button and the `<ul role="listbox">`.          |
+| `Name`                 | `name` on the hidden input that carries `Value` for form posts.             |
+| `CssClass`             | Merged into the class list of the root `<div>`.                             |
+| `AdditionalAttributes` | Captures unmatched attributes; spread onto the root `<div>`.                |
 | `ChildContent`         | Replaces the glyph inside the button; receives `{ Value, Open, LabelFor }`. |
 
 ## Events
 
-| Event           | Payload  | When                                                  |
-| --------------- | -------- | ----------------------------------------------------- |
-| `ValueChanged`  | `string` | After selection, drives `@bind-Value`.                |
-| `OnChange`      | `string` | After the select applies a new locale (consumer-form code). |
+| Event          | Payload  | When                                                        |
+| -------------- | -------- | ----------------------------------------------------------- |
+| `ValueChanged` | `string` | After selection, drives `@bind-Value`.                      |
+| `OnChange`     | `string` | After the select applies a new locale (consumer-form code). |
 
 ## Accessibility
 
@@ -461,7 +503,7 @@ The parameters that attach to specific parts of the markup:
   itself — see [Keyboard](#keyboard).
 - Each locale `<li role="option">` carries `lang="…"` so its name is
   pronounced in the right language (WCAG 3.1.2, Language of Parts).
-  This is *more* reliable than a native `<select>`, whose popup is
+  This is _more_ reliable than a native `<select>`, whose popup is
   often drawn by the OS and ignores per-option `lang` entirely.
 - The document root carries `lang` and (by default) `dir` so the
   page satisfies WCAG 3.1.1 (Language of Page) and bidi
@@ -495,37 +537,37 @@ paint, resolve the locale on the server (cookie /
 
 ## Files in this directory
 
-| File                          | Purpose                                          |
-| ----------------------------- | ------------------------------------------------ |
-| `spec/index.md`                     | Single source of truth — API, behaviour, tests.  |
-| `AGENTS.md`                   | Fast-index pointer; loads the AGENTS bundle.     |
-| `AGENTS/`                     | Topic-by-topic agent files.                      |
-| `CLAUDE.md`                   | `@AGENTS.md`.                                    |
-| `LocalePicker.razor`          | Razor markup.                                    |
-| `LocalePicker.razor.cs`       | C# code-behind (partial class).                  |
-| `LocalePickerTests.cs`        | bUnit + xUnit spec covering every spec §7 item.  |
-| `Locales.cs`                  | Built-in code → English-name map and RTL sets.   |
-| `locales.tsv`                 | Canonical 436-row source for `Locales.cs`.       |
-| `index.md`                    | This file.                                       |
-| `docs/`                       | Deep-dive guides — see [Documentation](#documentation). |
-| `examples/`                   | Runnable `.razor` files — see [Examples directory](#examples-directory). |
-| `CHANGELOG.md`                | Version history.                                 |
+| File                    | Purpose                                                                  |
+| ----------------------- | ------------------------------------------------------------------------ |
+| `spec/index.md`         | Single source of truth — API, behaviour, tests.                          |
+| `AGENTS.md`             | Fast-index pointer; loads the AGENTS bundle.                             |
+| `AGENTS/`               | Topic-by-topic agent files.                                              |
+| `CLAUDE.md`             | `@AGENTS.md`.                                                            |
+| `LocalePicker.razor`    | Razor markup.                                                            |
+| `LocalePicker.razor.cs` | C# code-behind (partial class).                                          |
+| `LocalePickerTests.cs`  | bUnit + xUnit spec covering every spec §7 item.                          |
+| `Locales.cs`            | Built-in code → English-name map and RTL sets.                           |
+| `locales.tsv`           | Canonical 436-row source for `Locales.cs`.                               |
+| `index.md`              | This file.                                                               |
+| `docs/`                 | Deep-dive guides — see [Documentation](#documentation).                  |
+| `examples/`             | Runnable `.razor` files — see [Examples directory](#examples-directory). |
+| `CHANGELOG.md`          | Version history.                                                         |
 
 ## Documentation
 
-| Guide                                                | Covers                                                                  |
-| ---------------------------------------------------- | ----------------------------------------------------------------------- |
-| [docs/concepts.md](./docs/concepts.md)               | Mental model, lifecycle diagram, why the defaults are what they are.    |
-| [docs/parameters-reference.md](./docs/parameters-reference.md) | Field-by-field reference for every parameter, method, and static. |
-| [docs/styling.md](./docs/styling.md)                 | Class hooks, state hooks, positioning CSS, the status region.          |
-| [docs/custom-rendering.md](./docs/custom-rendering.md) | Replacing the button glyph via `ChildContent`; driving from your own UI. |
-| [docs/recipes.md](./docs/recipes.md)                 | Task-shaped solutions — endonyms, cookies, culture switching, sorting. |
-| [docs/troubleshooting.md](./docs/troubleshooting.md) | Symptom-first fixes for the common failure modes.                      |
-| [docs/bcp47.md](./docs/bcp47.md)                     | Language-tag syntax (RFC 5646), IANA registry, subtag composition.      |
-| [docs/rtl.md](./docs/rtl.md)                         | What's auto-detected, what `dir="rtl"` actually changes, CSS tips.      |
-| [docs/i18n-integration.md](./docs/i18n-integration.md) | Wiring `IStringLocalizer<T>`, ResX, `Microsoft.Extensions.Localization`. |
-| [docs/ssr.md](./docs/ssr.md)                         | Cookie, URL-prefix, Accept-Language, FOUC avoidance for Blazor Web App. |
-| [docs/accessibility.md](./docs/accessibility.md)     | WCAG 2.2 AAA mapping, keyboard contract, screen-reader matrix.          |
+| Guide                                                          | Covers                                                                   |
+| -------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| [docs/concepts.md](./docs/concepts.md)                         | Mental model, lifecycle diagram, why the defaults are what they are.     |
+| [docs/parameters-reference.md](./docs/parameters-reference.md) | Field-by-field reference for every parameter, method, and static.        |
+| [docs/styling.md](./docs/styling.md)                           | Class hooks, state hooks, positioning CSS, the status region.            |
+| [docs/custom-rendering.md](./docs/custom-rendering.md)         | Replacing the button glyph via `ChildContent`; driving from your own UI. |
+| [docs/recipes.md](./docs/recipes.md)                           | Task-shaped solutions — endonyms, cookies, culture switching, sorting.   |
+| [docs/troubleshooting.md](./docs/troubleshooting.md)           | Symptom-first fixes for the common failure modes.                        |
+| [docs/bcp47.md](./docs/bcp47.md)                               | Language-tag syntax (RFC 5646), IANA registry, subtag composition.       |
+| [docs/rtl.md](./docs/rtl.md)                                   | What's auto-detected, what `dir="rtl"` actually changes, CSS tips.       |
+| [docs/i18n-integration.md](./docs/i18n-integration.md)         | Wiring `IStringLocalizer<T>`, ResX, `Microsoft.Extensions.Localization`. |
+| [docs/ssr.md](./docs/ssr.md)                                   | Cookie, URL-prefix, Accept-Language, FOUC avoidance for Blazor Web App.  |
+| [docs/accessibility.md](./docs/accessibility.md)               | WCAG 2.2 AAA mapping, keyboard contract, screen-reader matrix.           |
 
 ## Examples directory
 
@@ -538,18 +580,18 @@ Examples that need an affordance other than the component's own button
 combobox) drive it externally via `@ref` + `SetLocaleAsync`, because
 `ChildContent` replaces only the glyph inside the button.
 
-| Example                                                                | Demonstrates                                                       |
-| ---------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| [Basic.razor](./examples/Basic.razor)                                  | The default rendering, plus the `aria-live` status region.         |
-| [CustomRendering.razor](./examples/CustomRendering.razor)              | Custom button glyph via `ChildContent` — inline SVG, state-aware caret. |
-| [ExternalButtons.razor](./examples/ExternalButtons.razor)              | Toggle-button group driving `SetLocaleAsync` via `@ref`.           |
-| [RtlDemo.razor](./examples/RtlDemo.razor)                              | Live RTL preview — Arabic, Hebrew, Persian, Urdu, Pashto.          |
-| [NhsStyle.razor](./examples/NhsStyle.razor)                            | NHS UK-style endonym banner driving `SetLocaleAsync` via `@ref`.   |
-| [WithIStringLocalizer.razor](./examples/WithIStringLocalizer.razor)    | Wiring `IStringLocalizer<T>`.                                      |
-| [WithResX.razor](./examples/WithResX.razor)                            | Per-component `.resx` file driving labels.                         |
-| [SsrCookie.razor](./examples/SsrCookie.razor)                          | Cookie + `IHttpContextAccessor` for flicker-free SSR.              |
-| [ScopedTarget.razor](./examples/ScopedTarget.razor)                    | Multiple per-region selects, each scoped to its own panel.         |
-| [Combobox.razor](./examples/Combobox.razor)                            | `<datalist>` type-ahead over the 436 built-in locales, driving `SetLocaleAsync`. |
+| Example                                                             | Demonstrates                                                                     |
+| ------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| [Basic.razor](./examples/Basic.razor)                               | The default rendering, plus the `aria-live` status region.                       |
+| [CustomRendering.razor](./examples/CustomRendering.razor)           | Custom button glyph via `ChildContent` — inline SVG, state-aware caret.          |
+| [ExternalButtons.razor](./examples/ExternalButtons.razor)           | Toggle-button group driving `SetLocaleAsync` via `@ref`.                         |
+| [RtlDemo.razor](./examples/RtlDemo.razor)                           | Live RTL preview — Arabic, Hebrew, Persian, Urdu, Pashto.                        |
+| [NhsStyle.razor](./examples/NhsStyle.razor)                         | NHS UK-style endonym banner driving `SetLocaleAsync` via `@ref`.                 |
+| [WithIStringLocalizer.razor](./examples/WithIStringLocalizer.razor) | Wiring `IStringLocalizer<T>`.                                                    |
+| [WithResX.razor](./examples/WithResX.razor)                         | Per-component `.resx` file driving labels.                                       |
+| [SsrCookie.razor](./examples/SsrCookie.razor)                       | Cookie + `IHttpContextAccessor` for flicker-free SSR.                            |
+| [ScopedTarget.razor](./examples/ScopedTarget.razor)                 | Multiple per-region selects, each scoped to its own panel.                       |
+| [Combobox.razor](./examples/Combobox.razor)                         | `<datalist>` type-ahead over the 436 built-in locales, driving `SetLocaleAsync`. |
 
 ## License
 

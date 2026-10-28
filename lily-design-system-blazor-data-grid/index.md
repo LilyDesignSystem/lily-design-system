@@ -45,15 +45,15 @@ whose [spec](../lily-design-system-svelte-data-grid/spec/index.md) is the contra
 
 ## What is Blazor-specific
 
-| Svelte | Blazor |
-| --- | --- |
-| `selected`, `filter`, `sort`, `columnOrder`, `page` (bindable) | `@bind-Selected`, `@bind-Filter`, `@bind-Sort`, `@bind-ColumnOrder`, `@bind-Page` (a value plus a `…Changed` `EventCallback`) |
-| a row (`Record<string, unknown>`) | `DataGridRow`, a `Dictionary<string, object?>`; links are `DataGridLink`, zoned times `DataGridZonedTime`, people `DataGridPerson`, files `DataGridFile` |
-| `onCellEdit`, `onFilesSelected`, `onFileRemove`, `onRowActivate`, `onExport` | `OnCellEdit`, `OnFilesSelected`, `OnFileRemove`, `OnRowActivate` (`EventCallback`s), `OnExport`, and `ExportHandler` (a `Func<DataGridExport, bool>`: return `false` to stop the save) |
-| `empty`, `footer`, column `cell`, `headerCell`, `avatar`, `personEditor` snippets | `Empty`, `Footer`, `DataGridColumn.Cell`, `HeaderCell`, `Avatar`, `PersonEditor` (`RenderFragment`s) |
-| the closed string unions (`type`, `editor`, `pinned`, `align`, `aggregate`, …) | enums (`DataGridCellType`, `DataGridEditor`, `DataGridPinned`, …) |
-| `Intl.NumberFormat` / `Intl.DateTimeFormat` options | .NET format strings: `NumberFormat`, `DateFormat`, `TimeFormat` (a zone shows as its id, never a short name) |
-| `class` | `CssClass`; extra attributes splat onto the root |
+| Svelte                                                                            | Blazor                                                                                                                                                                                 |
+| --------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `selected`, `filter`, `sort`, `columnOrder`, `page` (bindable)                    | `@bind-Selected`, `@bind-Filter`, `@bind-Sort`, `@bind-ColumnOrder`, `@bind-Page` (a value plus a `…Changed` `EventCallback`)                                                          |
+| a row (`Record<string, unknown>`)                                                 | `DataGridRow`, a `Dictionary<string, object?>`; links are `DataGridLink`, zoned times `DataGridZonedTime`, people `DataGridPerson`, files `DataGridFile`                               |
+| `onCellEdit`, `onFilesSelected`, `onFileRemove`, `onRowActivate`, `onExport`      | `OnCellEdit`, `OnFilesSelected`, `OnFileRemove`, `OnRowActivate` (`EventCallback`s), `OnExport`, and `ExportHandler` (a `Func<DataGridExport, bool>`: return `false` to stop the save) |
+| `empty`, `footer`, column `cell`, `headerCell`, `avatar`, `personEditor` snippets | `Empty`, `Footer`, `DataGridColumn.Cell`, `HeaderCell`, `Avatar`, `PersonEditor` (`RenderFragment`s)                                                                                   |
+| the closed string unions (`type`, `editor`, `pinned`, `align`, `aggregate`, …)    | enums (`DataGridCellType`, `DataGridEditor`, `DataGridPinned`, …)                                                                                                                      |
+| `Intl.NumberFormat` / `Intl.DateTimeFormat` options                               | .NET format strings: `NumberFormat`, `DateFormat`, `TimeFormat` (a zone shows as its id, never a short name)                                                                           |
+| `class`                                                                           | `CssClass`; extra attributes splat onto the root                                                                                                                                       |
 
 Everything else — columns, labels, `rowId`, `selectionMode`, `pageSize`, `storageKey`, `mode`,
 the keyboard model, the cell types, editing, export and virtualization — is as in the Svelte

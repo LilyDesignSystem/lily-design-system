@@ -23,11 +23,18 @@ URL inputs are commonly used in profile forms, link submission pages, and any co
 ## Usage
 
 ```svelte
-<UrlInput label="Website URL" bind:value />
+<UrlInput
+  label="Website URL"
+  bind:value
+/>
 ```
 
 ```svelte
-<UrlInput label="Portfolio link" bind:value={portfolioUrl} required />
+<UrlInput
+  label="Portfolio link"
+  bind:value={portfolioUrl}
+  required
+/>
 ```
 
 ## Keyboard Interactions

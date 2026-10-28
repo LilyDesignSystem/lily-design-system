@@ -18,13 +18,13 @@ Compound component: must be placed inside a TabBar container with `role="tablist
   <TabBarButton
     selected={activeTab === "general"}
     controls="panel-general"
-    onclick={() => activeTab = "general"}
-  >General</TabBarButton>
+    onclick={() => (activeTab = "general")}>General</TabBarButton
+  >
   <TabBarButton
     selected={activeTab === "advanced"}
     controls="panel-advanced"
-    onclick={() => activeTab = "advanced"}
-  >Advanced</TabBarButton>
+    onclick={() => (activeTab = "advanced")}>Advanced</TabBarButton
+  >
 </TabBar>
 ```
 

@@ -29,7 +29,7 @@ through the children snippet.
 ```tsx
 import Timer from "./Timer";
 
-<Timer label="Countdown">05:30</Timer>
+<Timer label="Countdown">05:30</Timer>;
 ```
 
 With dynamic elapsed time:
@@ -39,8 +39,11 @@ import Timer from "./Timer";
 
 const [elapsed, setElapsed] = useState(0);
 const formatted = useMemo(
-  () => `${Math.floor(elapsed / 60).toString().padStart(2, "0")}:${(elapsed % 60).toString().padStart(2, "0")}`,
-  [elapsed]
+  () =>
+    `${Math.floor(elapsed / 60)
+      .toString()
+      .padStart(2, "0")}:${(elapsed % 60).toString().padStart(2, "0")}`,
+  [elapsed],
 );
 
 useEffect(() => {
@@ -48,13 +51,18 @@ useEffect(() => {
   return () => clearInterval(interval);
 }, []);
 
-<Timer label="Elapsed time">{formatted}</Timer>
+<Timer label="Elapsed time">{formatted}</Timer>;
 ```
 
 With machine-readable datetime attribute:
 
 ```tsx
-<Timer label="Session timeout" datetime="PT5M30S">5:30</Timer>
+<Timer
+  label="Session timeout"
+  datetime="PT5M30S"
+>
+  5:30
+</Timer>
 ```
 
 ## Keyboard Interactions

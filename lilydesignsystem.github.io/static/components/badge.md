@@ -26,9 +26,7 @@ The component renders as a `<span>` with `role="status"`, creating an ARIA live 
 Unread message count on a navigation link:
 
 ```html
-<a href="/messages">
-  Messages <Badge label="12 unread messages">12</Badge>
-</a>
+<a href="/messages"> Messages <Badge label="12 unread messages">12</Badge> </a>
 ```
 
 Notification count on an icon button:
@@ -43,7 +41,11 @@ Notification count on an icon button:
 Warning status badge:
 
 ```html
-<Badge type="warning" label="2 items require attention">2</Badge>
+<Badge
+  type="warning"
+  label="2 items require attention"
+  >2</Badge
+>
 ```
 
 ## Keyboard Interactions
@@ -74,14 +76,11 @@ Warning status badge:
 
 This component provides `role="status"` for ARIA live region announcements, a `data-type` attribute for semantic variants, and optional `aria-label` with zero visual styling. The consumer is responsible for all CSS including background color, text color, border radius, font size, padding, and positioning relative to the parent element.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.badge` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<span>` element with class `badge`
 - Verify role="status"` -- creates an ARIA live region for dynamic content announcements

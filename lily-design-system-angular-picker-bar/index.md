@@ -49,7 +49,13 @@ import { PickerBar } from "@lilydesignsystem/angular-picker-bar";
       }"
       themesUrl="/assets/themes/"
       [locales]="['en', 'cy', 'gd', 'ga']"
-      [shareTargets]="[{ id: 'email', label: 'Email', href: (url, title) => 'mailto:?subject=' + title + '&body=' + url }]"
+      [shareTargets]="[
+        {
+          id: 'email',
+          label: 'Email',
+          href: (url, title) => 'mailto:?subject=' + title + '&body=' + url,
+        },
+      ]"
     />
   `,
 })
@@ -111,7 +117,10 @@ Two-way bind a picker's current value with the matching `model()`
 input:
 
 ```html
-<lily-picker-bar ... [(themeValue)]="currentTheme" />
+<lily-picker-bar
+  ...
+  [(themeValue)]="currentTheme"
+/>
 ```
 
 For anything not flattened here (a custom icon template, for

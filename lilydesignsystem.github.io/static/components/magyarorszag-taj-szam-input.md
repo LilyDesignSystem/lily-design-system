@@ -23,9 +23,21 @@ MagyarorszagTajSzamInput is a headless input for entering Hungary's Társadalomb
 ## Usage
 
 ```html
-<Field label="Társadalombiztosítási Azonosító Jel (TAJ)" required>
-  <MagyarorszagTajSzamInput label="Társadalombiztosítási Azonosító Jel (TAJ)" value={value} required />
-  <Hint>Nine digits, displayed as SSS SSS SSK. The first eight digits are a simple issued-in-order serial number; the ninth is a check digit computed by multiplying the first eight digits by alternating weights 3 and 7, summing the products, and taking the result Modulus 10 — an algorithm unique to Hungary, distinct from Luhn.</Hint>
+<Field
+  label="Társadalombiztosítási Azonosító Jel (TAJ)"
+  required
+>
+  <MagyarorszagTajSzamInput
+    label="Társadalombiztosítási Azonosító Jel (TAJ)"
+    value="{value}"
+    required
+  />
+  <Hint
+    >Nine digits, displayed as SSS SSS SSK. The first eight digits are a simple issued-in-order
+    serial number; the ninth is a check digit computed by multiplying the first eight digits by
+    alternating weights 3 and 7, summing the products, and taking the result Modulus 10 — an
+    algorithm unique to Hungary, distinct from Luhn.</Hint
+  >
   <ErrorMessage>Please enter a valid Társadalombiztosítási Azonosító Jel</ErrorMessage>
 </Field>
 ```

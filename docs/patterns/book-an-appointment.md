@@ -5,7 +5,7 @@ flagship composed-page demo: a multi-step GP-appointment booking wizard
 that composes 32 components into one realistic flow, in the SvelteKit
 example app at [`/book-an-appointment`](../../lily-design-system-svelte-sveltekit-examples/src/routes/book-an-appointment/+page.svelte).
 It exists to answer a question the 12 required composed pages don't:
-what does a *long*, *stateful*, *validated* flow look like when it's
+what does a _long_, _stateful_, _validated_ flow look like when it's
 built entirely from Lily's headless components?
 
 Ported to the other six example apps in plan P6-T3.
@@ -50,8 +50,8 @@ between wizard steps uses a plain `Button`, because WAI-ARIA authoring
 practice is explicit that a control which performs an action rather
 than navigating should be a button, not a link. A production service
 handling real appointment data would very likely want real per-step
-URLs; this pattern doc's job is to show what the *component
-composition* looks like, and that lesson doesn't depend on the URL
+URLs; this pattern doc's job is to show what the _component
+composition_ looks like, and that lesson doesn't depend on the URL
 shape.
 
 ## Patterns worth reusing elsewhere
@@ -59,7 +59,7 @@ shape.
 **`novalidate` is required alongside a custom error summary.** Every
 required `TextInput` / `DateInput` / `Select` in this flow also sets
 the HTML `required` attribute (for baseline non-JS behaviour). Without
-`novalidate` on the `<Form>`, the *browser's own* constraint validation
+`novalidate` on the `<Form>`, the _browser's own_ constraint validation
 intercepts `Continue` first and blocks the `submit` event entirely —
 the custom `ErrorSummary` never renders, `errors` never gets set, and a
 screen reader announces whatever the browser's native validation
@@ -126,7 +126,7 @@ reasonable things a user might want here, even though this demo's
 - The route is also included in the app's generic
   `accessibility.spec.ts` and `responsive.spec.ts` composed-page
   sweeps (covering the start screen at four viewports), and `pnpm run
-  check` (svelte-check) reports no errors or warnings against this
+check` (svelte-check) reports no errors or warnings against this
   file.
 - A production build (`pnpm run build && pnpm run preview`) was used
   for the definitive end-to-end pass — the dev server's on-demand

@@ -22,9 +22,7 @@ This component is useful in clinical interfaces, electronic health records, and 
 
 ```html
 <MedicalBanner label="Patient summary">
-  <MedicalBannerBox>
-    <strong>Sarah Mitchell</strong> | NHS: 485 777 3456
-  </MedicalBannerBox>
+  <MedicalBannerBox> <strong>Sarah Mitchell</strong> | NHS: 485 777 3456 </MedicalBannerBox>
   <MedicalBannerBoxForDanger label="Allergies and reactions">
     <p>Penicillin -- Anaphylaxis</p>
     <p>Latex -- Skin rash</p>

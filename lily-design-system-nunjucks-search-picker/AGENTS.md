@@ -23,15 +23,15 @@ The helper is a **macro + client.js pair**:
 
 ## Files
 
-| File                       | Purpose                                                   |
-| -------------------------- | --------------------------------------------------------- |
-| `spec/index.md`            | Specification-driven contract (canonical).                |
-| `search-picker.njk`        | Nunjucks macro (`searchPicker(opts)`).                    |
-| `search-picker.client.js`  | ES module — `initSearchPicker`, `autoInit`, helpers.      |
-| `search-picker.test.ts`    | Vitest spec, mapped to the §7 clauses.                    |
-| `index.md`                 | User guide.                                               |
-| `docs/accessibility.md`    | Tradeoffs, stated plainly.                                |
-| `docs/ssr.md`              | Server rendering and the no-JS story.                     |
+| File                      | Purpose                                              |
+| ------------------------- | ---------------------------------------------------- |
+| `spec/index.md`           | Specification-driven contract (canonical).           |
+| `search-picker.njk`       | Nunjucks macro (`searchPicker(opts)`).               |
+| `search-picker.client.js` | ES module — `initSearchPicker`, `autoInit`, helpers. |
+| `search-picker.test.ts`   | Vitest spec, mapped to the §7 clauses.               |
+| `index.md`                | User guide.                                          |
+| `docs/accessibility.md`   | Tradeoffs, stated plainly.                           |
+| `docs/ssr.md`             | Server rendering and the no-JS story.                |
 
 ## Public surface
 

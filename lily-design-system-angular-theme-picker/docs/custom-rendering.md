@@ -19,7 +19,11 @@ default bundled `<svg class="theme-picker-icon" aria-hidden="true">…</svg>`
 inside the button.
 
 ```html
-<lily-theme-picker label="Theme" [themesUrl]="url" [themes]="themes">
+<lily-theme-picker
+  label="Theme"
+  [themesUrl]="url"
+  [themes]="themes"
+>
   <ng-template let-args>{{ args.labelFor(args.value) }}</ng-template>
 </lily-theme-picker>
 ```
@@ -51,7 +55,11 @@ binding styles work:
 <ng-template let-args>{{ args.labelFor(args.value) }}</ng-template>
 
 <!-- Individual named properties -->
-<ng-template let-value="value" let-open="open" let-labelFor="labelFor">
+<ng-template
+  let-value="value"
+  let-open="open"
+  let-labelFor="labelFor"
+>
   {{ labelFor(value) }}{{ open ? " ▴" : " ▾" }}
 </ng-template>
 ```
@@ -68,10 +76,7 @@ By default `let-args` is implicitly `any`. Add the exported
 `strictTemplates`:
 
 ```ts
-import {
-  ThemePicker,
-  ThemePickerIcon,
-} from "./lily-design-system-angular-theme-picker";
+import { ThemePicker, ThemePickerIcon } from "./lily-design-system-angular-theme-picker";
 
 @Component({
   selector: "app-settings",
@@ -85,7 +90,10 @@ import {
       [themes]="themes"
       [(value)]="theme"
     >
-      <ng-template lilyThemePickerIcon let-args>
+      <ng-template
+        lilyThemePickerIcon
+        let-args
+      >
         {{ args.labelFor(args.value) }}
       </ng-template>
     </lily-theme-picker>
@@ -111,7 +119,11 @@ purely a branding choice now, not a font-coverage workaround (before
 platform font coverage). Project your own SVG the same way.
 
 ```html
-<lily-theme-picker label="Theme" [themesUrl]="url" [themes]="themes">
+<lily-theme-picker
+  label="Theme"
+  [themesUrl]="url"
+  [themes]="themes"
+>
   <ng-template>
     <svg
       width="16"
@@ -120,8 +132,17 @@ platform font coverage). Project your own SVG the same way.
       aria-hidden="true"
       focusable="false"
     >
-      <circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" />
-      <path d="M8 1a7 7 0 0 1 0 14z" fill="currentColor" />
+      <circle
+        cx="8"
+        cy="8"
+        r="7"
+        fill="none"
+        stroke="currentColor"
+      />
+      <path
+        d="M8 1a7 7 0 0 1 0 14z"
+        fill="currentColor"
+      />
     </svg>
   </ng-template>
 </lily-theme-picker>
@@ -171,9 +192,16 @@ it sidesteps both problems.
 `open` lets the glyph respond to the listbox:
 
 ```html
-<lily-theme-picker label="Theme" [themesUrl]="url" [themes]="themes">
+<lily-theme-picker
+  label="Theme"
+  [themesUrl]="url"
+  [themes]="themes"
+>
   <ng-template let-args>
-    <span [class.is-open]="args.open" aria-hidden="true">
+    <span
+      [class.is-open]="args.open"
+      aria-hidden="true"
+    >
       {{ args.open ? "▴" : "▾" }}
     </span>
   </ng-template>
@@ -208,25 +236,19 @@ the behavioural contract in
 about thirty lines:
 
 ```ts
-import {
-  ChangeDetectionStrategy,
-  Component,
-  effect,
-  input,
-  model,
-  output,
-} from "@angular/core";
-import {
-  normaliseThemesUrl,
-  themeHref,
-} from "./lily-design-system-angular-theme-picker";
+import { ChangeDetectionStrategy, Component, effect, input, model, output } from "@angular/core";
+import { normaliseThemesUrl, themeHref } from "./lily-design-system-angular-theme-picker";
 
 @Component({
   selector: "my-theme-swatches",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="my-theme-swatches" role="group" [attr.aria-label]="label()">
+    <div
+      class="my-theme-swatches"
+      role="group"
+      [attr.aria-label]="label()"
+    >
       @for (theme of themes(); track theme) {
         <button
           type="button"
@@ -286,7 +308,10 @@ signal.
       className="sr-only"
     />
 
-    <div role="group" [attr.aria-label]="groupLabel">
+    <div
+      role="group"
+      [attr.aria-label]="groupLabel"
+    >
       @for (t of themes; track t) {
         <button
           type="button"

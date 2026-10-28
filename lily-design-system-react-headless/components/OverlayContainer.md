@@ -20,8 +20,15 @@ A full-viewport overlay backdrop for modals, sheets, and drawers. Renders a pres
 ## Usage
 
 ```tsx
-<OverlayContainer open={isOpen} onClick={() => setIsOpen(false)}>
-  <div role="dialog" aria-modal="true" aria-labelledby="title">
+<OverlayContainer
+  open={isOpen}
+  onClick={() => setIsOpen(false)}
+>
+  <div
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="title"
+  >
     <h2 id="title">Confirm action</h2>
     ...
   </div>

@@ -22,7 +22,7 @@ LietuvaPasasView is a headless read-only display of Lithuania's Pasas, Lithuania
 ```html
 <SummaryList>
   <SummaryListItem term="Lithuanian Passport">
-    <LietuvaPasasView value={value} />
+    <LietuvaPasasView value="{value}" />
   </SummaryListItem>
 </SummaryList>
 ```

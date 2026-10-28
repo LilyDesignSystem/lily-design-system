@@ -26,10 +26,10 @@ The default export is `LocalePicker` for consumers who prefer
 
 ## Required props
 
-| Prop      | Type       | Notes                                                                                                                        |
-| --------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| Prop      | Type       | Notes                                                                                                                       |
+| --------- | ---------- | --------------------------------------------------------------------------------------------------------------------------- |
 | `label`   | `string`   | Accessible name (`aria-label`) on the button and the listbox. The icon is `aria-hidden`, so this is the button's only name. |
-| `locales` | `string[]` | Available locale codes (`en`, `fr_CA`, `zh_Hant`).                                                                           |
+| `locales` | `string[]` | Available locale codes (`en`, `fr_CA`, `zh_Hant`).                                                                          |
 
 ## Optional props
 
@@ -55,14 +55,21 @@ authoritative; consumer is responsible for updating it from `onChange`.
 
 ```tsx
 const [locale, setLocale] = useState("");
-<LocalePicker value={locale} onChange={setLocale} {...required} />;
+<LocalePicker
+  value={locale}
+  onChange={setLocale}
+  {...required}
+/>;
 ```
 
 **Uncontrolled.** Consumer omits `value`. The select manages internal
 state. Use `defaultValue` or `detectFromNavigator` to seed.
 
 ```tsx
-<LocalePicker defaultValue="fr" {...required} />
+<LocalePicker
+  defaultValue="fr"
+  {...required}
+/>
 ```
 
 The select decides at first render based on `value !== undefined`.
@@ -100,7 +107,10 @@ named by `aria-label={label}`, so unhidden content is announced twice.
   onChange={setLocale}
 >
   {({ value, open, labelFor }) => (
-    <span aria-hidden="true" title={labelFor(value)}>
+    <span
+      aria-hidden="true"
+      title={labelFor(value)}
+    >
       {value.split("_")[0].toUpperCase()} {open ? "▴" : "▾"}
     </span>
   )}
@@ -144,8 +154,15 @@ is safe to import from a server component.
 Rendered markup — root `<div>`, hidden input, icon button, listbox:
 
 ```html
-<div class="locale-picker {className}" ...restProps>
-  <input type="hidden" name="{name}" value="{value}" />
+<div
+  class="locale-picker {className}"
+  ...restProps
+>
+  <input
+    type="hidden"
+    name="{name}"
+    value="{value}"
+  />
   <button
     type="button"
     class="locale-picker-button"
@@ -154,7 +171,26 @@ Rendered markup — root `<div>`, hidden input, icon button, listbox:
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path stroke-width="1.1" d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7"/></svg>
+    <svg
+      class="locale-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle
+        cx="8"
+        cy="8"
+        r="6"
+      />
+      <path
+        stroke-width="1.1"
+        d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7"
+      />
+    </svg>
   </button>
   <ul
     class="locale-picker-list"

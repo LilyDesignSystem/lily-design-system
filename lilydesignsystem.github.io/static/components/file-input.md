@@ -29,19 +29,31 @@ This component is useful in upload forms, profile editors, document management i
 Document attachment allowing multiple files:
 
 ```html
-<FileInput label="Attach supporting documents" accept=".pdf,.doc,.docx" multiple={true} required />
+<FileInput
+  label="Attach supporting documents"
+  accept=".pdf,.doc,.docx"
+  multiple="{true}"
+  required
+/>
 ```
 
 Single file upload for a form submission:
 
 ```html
-<FileInput label="Upload signed consent form" accept=".pdf" required />
+<FileInput
+  label="Upload signed consent form"
+  accept=".pdf"
+  required
+/>
 ```
 
 Optional photo upload:
 
 ```html
-<FileInput label="Upload photo" accept="image/png,image/jpeg" />
+<FileInput
+  label="Upload photo"
+  accept="image/png,image/jpeg"
+/>
 ```
 
 ## Keyboard Interactions
@@ -69,17 +81,14 @@ None beyond native input behavior -- **Enter** or **Space** opens the file picke
 
 This headless component provides a native `<input type="file">` with accessible labeling via `aria-label`, support for `accept`, `multiple`, `required`, and `disabled` attributes, and `restProps` for consumer extensibility. The consumer provides all visual styling, custom button appearance, and any file list display.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.file-input` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
 
-
 - Verify the component renders a `<input>` element with class `file-input`
-- Verify aria-label={label}` -- provides an accessible name for the file input since no visible `<label>` element is included
+- Verify aria-label={label}`-- provides an accessible name for the file input since no visible`<label>` element is included
 - Verify pass-through attributes are applied
 
 ## Advice

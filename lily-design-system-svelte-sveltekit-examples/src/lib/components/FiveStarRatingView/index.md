@@ -39,62 +39,74 @@ Pass the numeric `value` (0-5) and a descriptive `label` (e.g. "4 out of 5 stars
 
 ```svelte
 <script lang="ts">
-    import FiveStarRatingView from "./FiveStarRatingView.svelte";
-</script>
-
-<FiveStarRatingView value={4} label="4 out of 5 stars" />
-```
-
-```svelte
-<script lang="ts">
-    import FiveStarRatingView from "./FiveStarRatingView.svelte";
-</script>
-
-<FiveStarRatingView value={0} label="No rating yet" />
-```
-
-```svelte
-<script lang="ts">
-    import FiveStarRatingView from "./FiveStarRatingView.svelte";
-    const review = { author: "Pat", rating: 5, excerpt: "Excellent." };
-</script>
-
-<article>
-    <p>{review.author}</p>
-    <FiveStarRatingView
-        value={review.rating}
-        label={`${review.rating} out of 5 stars`}
-    />
-    <p>{review.excerpt}</p>
-</article>
-```
-
-```svelte
-<script lang="ts">
-    import FiveStarRatingView from "./FiveStarRatingView.svelte";
+  import FiveStarRatingView from "./FiveStarRatingView.svelte";
 </script>
 
 <FiveStarRatingView
-    value={3}
-    label="Average rating: 3 stars"
-    class="product-rating"
-    data-testid="avg-stars"
+  value={4}
+  label="4 out of 5 stars"
 />
 ```
 
 ```svelte
 <script lang="ts">
-    import FiveStarRatingPicker from "../FiveStarRatingPicker/FiveStarRatingPicker.svelte";
-    import FiveStarRatingView from "./FiveStarRatingView.svelte";
-    let rating = $state(0);
-    let saved = $state(0);
+  import FiveStarRatingView from "./FiveStarRatingView.svelte";
+</script>
+
+<FiveStarRatingView
+  value={0}
+  label="No rating yet"
+/>
+```
+
+```svelte
+<script lang="ts">
+  import FiveStarRatingView from "./FiveStarRatingView.svelte";
+  const review = { author: "Pat", rating: 5, excerpt: "Excellent." };
+</script>
+
+<article>
+  <p>{review.author}</p>
+  <FiveStarRatingView
+    value={review.rating}
+    label={`${review.rating} out of 5 stars`}
+  />
+  <p>{review.excerpt}</p>
+</article>
+```
+
+```svelte
+<script lang="ts">
+  import FiveStarRatingView from "./FiveStarRatingView.svelte";
+</script>
+
+<FiveStarRatingView
+  value={3}
+  label="Average rating: 3 stars"
+  class="product-rating"
+  data-testid="avg-stars"
+/>
+```
+
+```svelte
+<script lang="ts">
+  import FiveStarRatingPicker from "../FiveStarRatingPicker/FiveStarRatingPicker.svelte";
+  import FiveStarRatingView from "./FiveStarRatingView.svelte";
+  let rating = $state(0);
+  let saved = $state(0);
 </script>
 
 {#if saved > 0}
-    <FiveStarRatingView value={saved} label={`${saved} out of 5 stars`} />
+  <FiveStarRatingView
+    value={saved}
+    label={`${saved} out of 5 stars`}
+  />
 {:else}
-    <FiveStarRatingPicker label="Rate this" bind:value={rating} />
-    <button onclick={() => (saved = rating)}>Save</button>
+  <FiveStarRatingPicker
+    label="Rate this"
+    bind:value={rating}
+  />
+  <button onclick={() => (saved = rating)}>Save</button>
 {/if}
 ```
 

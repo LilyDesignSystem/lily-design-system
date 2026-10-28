@@ -44,7 +44,7 @@ Two distinct flavours:
   Astro, Hugo, Jekyll, Nunjucks + Eleventy.
 - **Streaming SSR with declarative shadow DOM** — Node renders
   pre-defined custom elements with a `<template
-  shadowrootmode="open">` child so the shadow DOM exists before JS
+shadowrootmode="open">` child so the shadow DOM exists before JS
   loads. The Web Components helpers use light DOM, so this flavour does not
   apply; the simpler "static markup + client upgrade" path is the
   canonical strategy.
@@ -65,8 +65,8 @@ End-to-end recipe lives in
 // For SSG + client upgrade, ship the default theme in the HTML.
 
 module.exports = {
-    defaultTheme: "light",
-    available: ["light", "dark", "abyss"],
+  defaultTheme: "light",
+  available: ["light", "dark", "abyss"],
 };
 ```
 
@@ -175,18 +175,27 @@ file:
 
 ```html
 <!doctype html>
-<html lang="en" data-theme="light">
-    <head>
-        <link rel="stylesheet" href="/assets/themes/light.css">
-        <script type="module" src="/dist/theme-picker.js"></script>
-    </head>
-    <body>
-        <lily-theme-picker
-            label="Theme"
-            themes-url="/assets/themes/"
-            themes="light,dark,abyss"
-        ></lily-theme-picker>
-    </body>
+<html
+  lang="en"
+  data-theme="light"
+>
+  <head>
+    <link
+      rel="stylesheet"
+      href="/assets/themes/light.css"
+    />
+    <script
+      type="module"
+      src="/dist/theme-picker.js"
+    ></script>
+  </head>
+  <body>
+    <lily-theme-picker
+      label="Theme"
+      themes-url="/assets/themes/"
+      themes="light,dark,abyss"
+    ></lily-theme-picker>
+  </body>
 </html>
 ```
 

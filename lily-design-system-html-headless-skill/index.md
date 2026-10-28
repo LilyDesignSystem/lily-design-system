@@ -9,7 +9,7 @@ embedded vanilla-JS behavior layer, no build step, no framework runtime.
 It is the framework-specific counterpart, for the HTML headless library, to
 the general [`lily-design-system-skill`](../lily-design-system-skill/) — the
 same relationship the maintainer skill has to this repository's own tooling,
-but scoped here to *using* one particular headless library rather than the
+but scoped here to _using_ one particular headless library rather than the
 whole system's concepts. It follows the `lily-design-system-` prefix that
 marks the monorepo's implementation subprojects, because it is fully bound
 to this repository's own catalog and conventions, not a portable

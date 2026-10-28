@@ -25,15 +25,28 @@ This component is ideal when you need a bare checkbox that you will wrap in your
 ## Usage
 
 ```svelte
-<CheckboxInput label="Accept terms" bind:checked />
+<CheckboxInput
+  label="Accept terms"
+  bind:checked
+/>
 ```
 
 ```svelte
-<CheckboxInput label="Subscribe to newsletter" bind:checked={subscribed} disabled={!hasEmail} />
+<CheckboxInput
+  label="Subscribe to newsletter"
+  bind:checked={subscribed}
+  disabled={!hasEmail}
+/>
 ```
 
 ```svelte
-<CheckboxInput label="Required field" bind:checked required name="agree" value="yes" />
+<CheckboxInput
+  label="Required field"
+  bind:checked
+  required
+  name="agree"
+  value="yes"
+/>
 ```
 
 ## Keyboard Interactions

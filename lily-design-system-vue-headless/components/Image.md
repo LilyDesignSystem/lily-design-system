@@ -24,13 +24,24 @@ When a caption is provided, the component renders a `<figure>` containing the `<
 
 ```svelte
 <!-- Basic image with alt text -->
-<Image src="/photo.jpg" alt="A sunset over the ocean" />
+<Image
+  src="/photo.jpg"
+  alt="A sunset over the ocean"
+/>
 
 <!-- Image with caption wrapped in figure/figcaption -->
-<Image src="/photo.jpg" alt="A sunset over the ocean" caption="Photo by Jane Doe" />
+<Image
+  src="/photo.jpg"
+  alt="A sunset over the ocean"
+  caption="Photo by Jane Doe"
+/>
 
 <!-- Lazy-loaded image -->
-<Image src="/large-photo.jpg" alt="Landscape" loading="lazy" />
+<Image
+  src="/large-photo.jpg"
+  alt="Landscape"
+  loading="lazy"
+/>
 ```
 
 ## Keyboard Interactions

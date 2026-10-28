@@ -18,20 +18,20 @@ Import and invoke:
 
 ### `opts` keys
 
-| Key                   | Type                    | Required | Default                   |
-| --------------------- | ----------------------- | -------- | ------------------------- |
-| `label`               | `string`                | yes      | —                         |
-| `locales`             | `string[]`              | yes      | —                         |
-| `value`               | `string`                | no       | `""`                      |
-| `defaultValue`        | `string`                | no       | `""`                      |
-| `storageKey`          | `string`                | no       | `""`                      |
-| `detectFromNavigator` | `boolean`               | no       | `false`                   |
-| `name`                | `string`                | no       | `"locale"`                |
-| `applyDir`            | `boolean`               | no       | `true`                    |
-| `localeLabels`        | `Record<string,string>` | no       | `{}`                      |
+| Key                   | Type                    | Required | Default                  |
+| --------------------- | ----------------------- | -------- | ------------------------ |
+| `label`               | `string`                | yes      | —                        |
+| `locales`             | `string[]`              | yes      | —                        |
+| `value`               | `string`                | no       | `""`                     |
+| `defaultValue`        | `string`                | no       | `""`                     |
+| `storageKey`          | `string`                | no       | `""`                     |
+| `detectFromNavigator` | `boolean`               | no       | `false`                  |
+| `name`                | `string`                | no       | `"locale"`               |
+| `applyDir`            | `boolean`               | no       | `true`                   |
+| `localeLabels`        | `Record<string,string>` | no       | `{}`                     |
 | `id`                  | `string`                | no       | `"locale-picker-{name}"` |
-| `classes`             | `string`                | no       | `""`                      |
-| `attributes`          | `Record<string,string>` | no       | `{}`                      |
+| `classes`             | `string`                | no       | `""`                     |
+| `attributes`          | `Record<string,string>` | no       | `{}`                     |
 
 `label` becomes the `aria-label` on both the trigger button and the
 listbox; the button is icon-only, so it is the only accessible name
@@ -193,7 +193,28 @@ Its three children, in source order:
   aria-controls="{id}-list"
   data-lily-locale-picker-button
 >
-  <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="1.05rem" height="1.05rem"><circle cx="8" cy="8" r="6"/><path stroke-width="1.1" d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7"/></svg>
+  <svg
+    class="locale-picker-icon"
+    viewBox="0 0 16 16"
+    aria-hidden="true"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.6"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    width="1.05rem"
+    height="1.05rem"
+  >
+    <circle
+      cx="8"
+      cy="8"
+      r="6"
+    />
+    <path
+      stroke-width="1.1"
+      d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7"
+    />
+  </svg>
 </button>
 
 <ul
@@ -219,7 +240,7 @@ Its three children, in source order:
 ```
 
 - The button icon is a bundled globe-outline SVG (`viewBox="0 0 16
-  16"`), wrapped in `aria-hidden="true"` (reversed 2026-09-16). A
+16"`), wrapped in `aria-hidden="true"` (reversed 2026-09-16). A
   `{% call %}` block replaces the whole `<svg class="locale-picker-icon">`
   with the block body.
 - Each option carries `lang` (BCP 47 hyphen form) for WCAG 3.1.2.
@@ -252,7 +273,10 @@ subsequent events):
 
 ```html
 <!-- on the resolved target (default <html>) -->
-<html lang="{tagFor(code)}" dir="rtl|ltr"></html>
+<html
+  lang="{tagFor(code)}"
+  dir="rtl|ltr"
+></html>
 ```
 
 `dir` is only written when `applyDir` is `true` (the default).

@@ -66,14 +66,11 @@ None -- this component is a passive container. Keyboard navigation is handled by
 
 This component provides a semantic `<tfoot>` element with implicit `rowgroup` role and zero visual styling. The consumer is responsible for all CSS including row spacing, cell layout, background color, and any visual distinction from the body rows.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.calendar-table-foot` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<tfoot>` element with class `calendar-table-foot`
 - Verify pass-through attributes are applied
@@ -98,7 +95,9 @@ CalendarTableFoot is part of the CalendarTable composition pattern:
   <CalendarTableHead>...</CalendarTableHead>
   <CalendarTableBody>...</CalendarTableBody>
   <CalendarTableFoot>
-    <tr><td colspan="7">5 events this month</td></tr>
+    <tr>
+      <td colspan="7">5 events this month</td>
+    </tr>
   </CalendarTableFoot>
 </CalendarTable>
 ```

@@ -71,19 +71,19 @@ Give a Svelte 5 application a drop-in, headless site-search control that:
 
 ### 4.1 Props
 
-| Prop          | Type                              | Required | Default                | Purpose                                                        |
-| ------------- | --------------------------------- | -------- | ---------------------- | -------------------------------------------------------------- |
-| `label`       | `string`                          | yes      | —                      | Accessible name for the icon button and the search landmark.   |
-| `inputLabel`  | `string`                          | yes      | —                      | Accessible name for the search field.                          |
-| `submitLabel` | `string`                          | yes      | —                      | Accessible name for the `⏎` submit button.                     |
-| `placeholder` | `string`                          | no       | `undefined`            | Placeholder for the field. No default (it would be English).   |
-| `value`       | `string` (bindable)               | no       | `""`                   | The search text.                                               |
-| `action`      | `string`                          | no       | `"/"`                  | Path the query is appended to: `${action}?${query}`.           |
-| `navigate`    | `(href: string) => void`          | no       | `location.assign`      | Performs the navigation.                                       |
-| `onSearch`    | `(query: string, href: string) => void` | no | —                      | Fires with the trimmed query and destination, before navigating. |
-| `children`    | `Snippet<[ChildArgs]>`            | no       | the default SVG icon   | Replaces the button icon.                                      |
-| `class`       | `string`                          | no       | `""`                   | Extra class on the root.                                       |
-| `...restProps`| any HTML attributes               | no       | —                      | Spread onto the root `<div>`.                                  |
+| Prop           | Type                                    | Required | Default              | Purpose                                                          |
+| -------------- | --------------------------------------- | -------- | -------------------- | ---------------------------------------------------------------- |
+| `label`        | `string`                                | yes      | —                    | Accessible name for the icon button and the search landmark.     |
+| `inputLabel`   | `string`                                | yes      | —                    | Accessible name for the search field.                            |
+| `submitLabel`  | `string`                                | yes      | —                    | Accessible name for the `⏎` submit button.                       |
+| `placeholder`  | `string`                                | no       | `undefined`          | Placeholder for the field. No default (it would be English).     |
+| `value`        | `string` (bindable)                     | no       | `""`                 | The search text.                                                 |
+| `action`       | `string`                                | no       | `"/"`                | Path the query is appended to: `${action}?${query}`.             |
+| `navigate`     | `(href: string) => void`                | no       | `location.assign`    | Performs the navigation.                                         |
+| `onSearch`     | `(query: string, href: string) => void` | no       | —                    | Fires with the trimmed query and destination, before navigating. |
+| `children`     | `Snippet<[ChildArgs]>`                  | no       | the default SVG icon | Replaces the button icon.                                        |
+| `class`        | `string`                                | no       | `""`                 | Extra class on the root.                                         |
+| `...restProps` | any HTML attributes                     | no       | —                    | Spread onto the root `<div>`.                                    |
 
 ```ts
 type ChildArgs = { open: boolean; query: string };
@@ -100,14 +100,63 @@ type ChildArgs = { open: boolean; query: string };
     aria-expanded
     aria-controls="{panelId}"
   >
-    <svg class="search-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="1.05rem" height="1.05rem"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14"/></svg>
+    <svg
+      class="search-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      width="1.05rem"
+      height="1.05rem"
+    >
+      <circle
+        cx="7"
+        cy="7"
+        r="4.5"
+      />
+      <path d="M10.5 10.5 14 14" />
+    </svg>
   </button>
-  <div class="search-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
-  <div class="search-picker-panel" id="{panelId}" hidden>
-    <form class="search-picker-form" role="search" aria-label="{label}" action="{action}" method="get">
-      <input class="search-picker-input" type="search" aria-label="{inputLabel}" placeholder="{placeholder}" enterkeyhint="search" />
-      <button type="submit" class="search-picker-submit" aria-label="{submitLabel}">
-        <span class="search-picker-submit-symbol" aria-hidden="true">⏎</span>
+  <div
+    class="search-picker-tooltip"
+    role="tooltip"
+    id="{tooltipId}"
+    hidden
+  >
+    {label}
+  </div>
+  <div
+    class="search-picker-panel"
+    id="{panelId}"
+    hidden
+  >
+    <form
+      class="search-picker-form"
+      role="search"
+      aria-label="{label}"
+      action="{action}"
+      method="get"
+    >
+      <input
+        class="search-picker-input"
+        type="search"
+        aria-label="{inputLabel}"
+        placeholder="{placeholder}"
+        enterkeyhint="search"
+      />
+      <button
+        type="submit"
+        class="search-picker-submit"
+        aria-label="{submitLabel}"
+      >
+        <span
+          class="search-picker-submit-symbol"
+          aria-hidden="true"
+          >⏎</span
+        >
       </button>
     </form>
   </div>
@@ -150,11 +199,11 @@ does nothing and leaves the panel open.
 
 ### 5.2 Keyboard
 
-| Key               | On the icon button                      | In the panel                                   |
-| ----------------- | --------------------------------------- | ---------------------------------------------- |
-| `Enter` / `Space` | Opens (or closes) the panel             | In the field: `Enter` searches. On ⏎: searches. |
-| `Escape`          | —                                       | Closes and returns focus to the icon button    |
-| `Tab`             | Moves on                                | Native order: field → ⏎ → out, which closes    |
+| Key               | On the icon button          | In the panel                                    |
+| ----------------- | --------------------------- | ----------------------------------------------- |
+| `Enter` / `Space` | Opens (or closes) the panel | In the field: `Enter` searches. On ⏎: searches. |
+| `Escape`          | —                           | Closes and returns focus to the icon button     |
+| `Tab`             | Moves on                    | Native order: field → ⏎ → out, which closes     |
 
 Opening moves focus into the search field. Clicking outside, or focus
 moving to an element outside the root, closes the panel without moving
@@ -190,7 +239,7 @@ the accessible name never relies on it.
 7. Opening focuses the search field with `{ preventScroll: true }`.
 8. Pressing Return in the field (submitting the form) navigates to `/?<query>`: `foo` → `/?foo`, and the native form submission is cancelled.
 9. Clicking the submit button navigates the same way.
-10. The query is trimmed and URI-encoded: `  foo bar ` → `/?foo%20bar`, `a&b` → `/?a%26b`.
+10. The query is trimmed and URI-encoded: ` foo bar` → `/?foo%20bar`, `a&b` → `/?a%26b`.
 11. An empty or whitespace-only query does not navigate and leaves the panel open.
 12. `action` changes the path: `action="/search"` sends `foo` to `/search?foo`.
 13. `onSearch` fires with the trimmed query and the href, before `navigate`.

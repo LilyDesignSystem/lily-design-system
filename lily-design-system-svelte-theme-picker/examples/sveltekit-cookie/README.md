@@ -7,13 +7,13 @@ hydration mismatch.
 Files in this folder match SvelteKit's filesystem-routing convention.
 Drop them under `src/routes/` in a SvelteKit project.
 
-| File                 | Role                                                |
-| -------------------- | --------------------------------------------------- |
-| `hooks.server.ts`    | Reads the `theme` cookie into `event.locals.theme`. |
-| `+layout.server.ts`  | Exposes the resolved theme to all routes.           |
-| `+layout.svelte`     | Renders the select, reflects `data-theme` on `<html>` before paint via `app.html`. |
-| `+page.svelte`       | A trivial page that demonstrates the result.        |
-| `app.html.snippet`   | Snippet to inline `data-theme="…"` on `<html>` before first paint. |
+| File                | Role                                                                               |
+| ------------------- | ---------------------------------------------------------------------------------- |
+| `hooks.server.ts`   | Reads the `theme` cookie into `event.locals.theme`.                                |
+| `+layout.server.ts` | Exposes the resolved theme to all routes.                                          |
+| `+layout.svelte`    | Renders the select, reflects `data-theme` on `<html>` before paint via `app.html`. |
+| `+page.svelte`      | A trivial page that demonstrates the result.                                       |
+| `app.html.snippet`  | Snippet to inline `data-theme="…"` on `<html>` before first paint.                 |
 
 Required setup in your project:
 

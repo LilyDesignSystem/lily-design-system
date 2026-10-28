@@ -18,7 +18,10 @@ Use ThemeSelect when you need a dropdown for switching visual themes. Common sce
 ## Syntax
 
 ```html
-<ThemeSelect label="..." value={value}>
+<ThemeSelect
+  label="..."
+  value="{value}"
+>
   <option value="...">...</option>
 </ThemeSelect>
 ```
@@ -28,7 +31,10 @@ Use ThemeSelect when you need a dropdown for switching visual themes. Common sce
 Basic light/dark theme dropdown:
 
 ```html
-<ThemeSelect label="Theme" value={theme}>
+<ThemeSelect
+  label="Theme"
+  value="{theme}"
+>
   <ThemeSelectOption value="light">Light</ThemeSelectOption>
   <ThemeSelectOption value="dark">Dark</ThemeSelectOption>
 </ThemeSelect>
@@ -37,7 +43,10 @@ Basic light/dark theme dropdown:
 Extended theme options with system default:
 
 ```html
-<ThemeSelect label="Color scheme" value={theme}>
+<ThemeSelect
+  label="Color scheme"
+  value="{theme}"
+>
   <ThemeSelectOption value="system">System Default</ThemeSelectOption>
   <ThemeSelectOption value="light">Light</ThemeSelectOption>
   <ThemeSelectOption value="dark">Dark</ThemeSelectOption>
@@ -48,17 +57,27 @@ Extended theme options with system default:
 In a settings form:
 
 ```html
-<Form label="Preferences" onSubmit={handleSubmit}>
+<form
+  label="Preferences"
+  onSubmit="{handleSubmit}"
+>
   <Field label="Theme">
-    <ThemeSelect label="Theme" value={theme}>
-      <ThemeSelectOption value="" disabled>Choose a theme...</ThemeSelectOption>
+    <ThemeSelect
+      label="Theme"
+      value="{theme}"
+    >
+      <ThemeSelectOption
+        value=""
+        disabled
+        >Choose a theme...</ThemeSelectOption
+      >
       <ThemeSelectOption value="light">Light</ThemeSelectOption>
       <ThemeSelectOption value="dark">Dark</ThemeSelectOption>
       <ThemeSelectOption value="high-contrast">High Contrast</ThemeSelectOption>
     </ThemeSelect>
   </Field>
-  <Button type="submit">Save</Button>
-</Form>
+  <button type="submit">Save</button>
+</form>
 ```
 
 ## Props
@@ -67,7 +86,7 @@ In a settings form:
 | -------------- | --------------- | ---------- | --------------------------------------------------------- |
 | `label`        | `string`        | (required) | Accessible name applied via `aria-label`                  |
 | `value`        | `string`        | `""`       | Bindable string representing the currently selected theme |
-| `children`     | `slot`       | (required) | `<option>` elements representing available themes         |
+| `children`     | `slot`          | (required) | `<option>` elements representing available themes         |
 | `...restProps` | HTML attributes |            | Additional attributes spread onto the `<select>` element  |
 
 ## Examples
@@ -75,7 +94,10 @@ In a settings form:
 With theme application:
 
 ```html
-<ThemeSelect label="Choose theme" value={theme}>
+<ThemeSelect
+  label="Choose theme"
+  value="{theme}"
+>
   <option value="light">Light</option>
   <option value="dark">Dark</option>
 </ThemeSelect>
@@ -91,6 +113,7 @@ With theme application:
 ## ARIA
 
 - `aria-label={label}` -- provides an accessible name for the theme select since there is no visible `<label>` element
+
 ## When to Use
 
 - Use for selecting a visual theme from a dropdown when space is limited.
@@ -108,17 +131,14 @@ With theme application:
 
 This headless component provides a native `<select>` element with an `aria-label` for accessible theme switching. Keyboard navigation and dropdown behavior come from the browser's native select. The consumer provides `<option>` children (or ThemeSelectOption components) and all visual styling.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.theme-select` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
 
-
 - Verify the component renders a `<select>` element with class `theme-select`
-- Verify aria-label={label}` -- provides an accessible name for the theme select since there is no visible `<label>` element
+- Verify aria-label={label}`-- provides an accessible name for the theme select since there is no visible`<label>` element
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied
 

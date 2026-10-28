@@ -7,11 +7,11 @@ stack, and what it deliberately leaves to you.
 
 A web app changes language across three independent axes:
 
-| Axis                       | What changes                                               | Owner                                  |
-| -------------------------- | ---------------------------------------------------------- | -------------------------------------- |
-| **Document language**      | The `lang` attribute on `<html>`. Screen readers, search engines, hyphenation, font selection. | `LocalePicker` (this helper).        |
-| **Writing direction**      | The `dir` attribute on `<html>`. Bidi text, scrollbar position, flexbox/grid mirror. | `LocalePicker` (auto-detected from the locale; opt out with `:apply-dir="false"`). |
-| **Translated strings**     | The actual visible words on the page.                      | Your i18n library (`vue-i18n`, `@intlify`, Tolgee, Paraglide, raw `Intl`). |
+| Axis                   | What changes                                                                                   | Owner                                                                              |
+| ---------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| **Document language**  | The `lang` attribute on `<html>`. Screen readers, search engines, hyphenation, font selection. | `LocalePicker` (this helper).                                                      |
+| **Writing direction**  | The `dir` attribute on `<html>`. Bidi text, scrollbar position, flexbox/grid mirror.           | `LocalePicker` (auto-detected from the locale; opt out with `:apply-dir="false"`). |
+| **Translated strings** | The actual visible words on the page.                                                          | Your i18n library (`vue-i18n`, `@intlify`, Tolgee, Paraglide, raw `Intl`).         |
 
 The helper owns the first two and signals the third via a bindable
 `value` (via `v-model:value`), a `change` event, and the `lang`
@@ -175,7 +175,7 @@ change, which is fine for most components but breaks the
 
 The default slot receives `{ value, open, labelFor }` — the button
 glyph's view of the state, not the option list's. The `SlotArgs`
-TypeScript type uses camelCase for autocomplete; component *props* in
+TypeScript type uses camelCase for autocomplete; component _props_ in
 templates use kebab-case (`storage-key`, `detect-from-navigator`).
 Both are correct. `ChildArgs` is exported as an alias of `SlotArgs`
 so the type name matches the Svelte canonical.

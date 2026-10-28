@@ -21,7 +21,7 @@ Compound component: use with NetPromoterScorePicker.
     value={score}
     label={String(score)}
     selected={nps === score}
-    onclick={() => nps = score}
+    onclick={() => (nps = score)}
   />
 {/each}
 ```

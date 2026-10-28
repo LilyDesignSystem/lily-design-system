@@ -83,7 +83,7 @@ reproduced here verbatim rather than reworded:
 - **Autonomous custom elements over customized built-in elements.**
   Autonomous (`class X extends HTMLElement`, tag `<lily-button>`) works in
   every evergreen browser. Customized built-in (`class X extends
-  HTMLButtonElement`, `<button is="lily-button">`) would avoid an extra DOM
+HTMLButtonElement`, `<button is="lily-button">`) would avoid an extra DOM
   host node, but WebKit has never implemented that half of the spec and has
   stated it will not (WebKit bug 182671), so it silently fails to upgrade
   in Safari. Lily targets every evergreen browser without a caveat, so

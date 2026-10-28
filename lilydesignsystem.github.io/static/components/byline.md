@@ -25,24 +25,52 @@ This headless component uses a `<div>` element containing author attribution and
 
 ```html
 <Byline>
-  <a href="/author/jane-smith" rel="author">Jane Smith</a>
-  <time slot="published" datetime="2026-04-15">April 15, 2026</time>
-  <time slot="updated" datetime="2026-04-15">Updated April 15, 2026</time>
+  <a
+    href="/author/jane-smith"
+    rel="author"
+    >Jane Smith</a
+  >
+  <time
+    slot="published"
+    datetime="2026-04-15"
+    >April 15, 2026</time
+  >
+  <time
+    slot="updated"
+    datetime="2026-04-15"
+    >Updated April 15, 2026</time
+  >
 </Byline>
 ```
 
 ```html
 <Byline>
-  <a href="/author/jane-smith" rel="author">Jane Smith</a>,
-  <a href="/author/john-doe" rel="author">John Doe</a>
-  <time slot="published" datetime="2026-04-15T10:30:00Z">April 15, 2026, 10:30 AM</time>
+  <a
+    href="/author/jane-smith"
+    rel="author"
+    >Jane Smith</a
+  >,
+  <a
+    href="/author/john-doe"
+    rel="author"
+    >John Doe</a
+  >
+  <time
+    slot="published"
+    datetime="2026-04-15T10:30:00Z"
+    >April 15, 2026, 10:30 AM</time
+  >
 </Byline>
 ```
 
 ```html
 <Byline>
   Reuters Staff
-  <time slot="published" datetime="2026-04-15">April 15, 2026</time>
+  <time
+    slot="published"
+    datetime="2026-04-15"
+    >April 15, 2026</time
+  >
 </Byline>
 ```
 

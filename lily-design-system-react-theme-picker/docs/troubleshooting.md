@@ -160,7 +160,11 @@ uncontrolled at first render and assumes the mode is stable.
 undefined initially, coalesce to empty string:
 
 ```tsx
-<ThemePicker value={theme ?? ""} onChange={setTheme} {...required} />
+<ThemePicker
+  value={theme ?? ""}
+  onChange={setTheme}
+  {...required}
+/>
 ```
 
 ## "Storybook story renders no selected option"
@@ -193,9 +197,7 @@ export const Default: Story = {
 
 ```ts
 beforeEach(() => {
-  document.head
-    .querySelectorAll("link[data-lily-theme-picker]")
-    .forEach((el) => el.remove());
+  document.head.querySelectorAll("link[data-lily-theme-picker]").forEach((el) => el.remove());
   document.documentElement.removeAttribute("data-theme");
   localStorage.clear();
 });

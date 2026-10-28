@@ -28,7 +28,10 @@ buttons.
 ## Usage
 
 ```html
-<ActionBarButton label="Delete" onClick={handleDelete}>
+<ActionBarButton
+  label="Delete"
+  onClick="{handleDelete}"
+>
   Delete
 </ActionBarButton>
 ```
@@ -36,7 +39,10 @@ buttons.
 Disabled action:
 
 ```html
-<ActionBarButton label="Move to folder" disabled>
+<ActionBarButton
+  label="Move to folder"
+  disabled
+>
   Move
 </ActionBarButton>
 ```
@@ -70,7 +76,11 @@ Disabled action:
 The action bar button is a child of `action-bar`:
 
 ```html
-<ActionBar label="Bulk actions" selectedCount={2} selectedCountLabel="2 selected">
+<ActionBar
+  label="Bulk actions"
+  selectedCount="{2}"
+  selectedCountLabel="2 selected"
+>
   <ActionBarButton label="Delete">Delete</ActionBarButton>
   <ActionBarButton label="Archive">Archive</ActionBarButton>
 </ActionBar>

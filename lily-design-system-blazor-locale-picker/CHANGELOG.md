@@ -100,11 +100,11 @@ part of 0.1.0 rather than a later version.
   restarts from the top of the document. Blazor cannot reproduce that
   bug — the default Tab always runs before the async handler, so it
   proceeds from the still-visible list — and mirroring the refocus
-  would run *after* the default Tab and yank the user back to the
+  would run _after_ the default Tab and yank the user back to the
   trigger they just left. Both implementations end with focus on the
   tab stop after the picker; the divergence is recorded in spec §6.2.1.
 - **Typeahead follows the APG single-character rule** (canonical
-  §7.30). A single character advances to the *next* matching option,
+  §7.30). A single character advances to the _next_ matching option,
   and repeating that character cycles through the matches; only a
   buffer of differing characters refines the match anchored on the
   active option. Previously a character that matched the active option
@@ -115,7 +115,7 @@ part of 0.1.0 rather than a later version.
 - **Default option labels are endonyms** — each language named in
   itself, "Cymraeg" not "Welsh" — via the new public
   `Locales.LocaleEndonym()`. The canonical Svelte helper asks
-  `Intl.DisplayNames` *in that language*; .NET has no `Intl`, so this
+  `Intl.DisplayNames` _in that language_; .NET has no `Intl`, so this
   port reads `CultureInfo.NativeName` (with
   `GetCultureInfo(tag, predefinedOnly: true)` so a fabricated culture
   cannot echo its own tag back as a "name", and a memoising cache so
@@ -249,7 +249,11 @@ selectors. Nothing else moves.
 
   ```html
   <div class="locale-picker {CssClass}">
-    <input type="hidden" name="{Name}" value="{Value}" />
+    <input
+      type="hidden"
+      name="{Name}"
+      value="{Value}"
+    />
     <button
       type="button"
       class="locale-picker-button"
@@ -258,7 +262,11 @@ selectors. Nothing else moves.
       aria-expanded="false"
       aria-controls="{listId}"
     >
-      <span class="locale-picker-icon" aria-hidden="true">&#127760;</span>
+      <span
+        class="locale-picker-icon"
+        aria-hidden="true"
+        >&#127760;</span
+      >
     </button>
     <ul
       class="locale-picker-list"

@@ -21,14 +21,14 @@ Use this component within a Table to define the footer section, typically for to
 ## Usage
 
 ```html
-<Table label="Budget">
+<table label="Budget">
   <TableFoot>
     <TableRow>
       <TableTD>Total</TableTD>
       <TableTD>$1,000</TableTD>
     </TableRow>
   </TableFoot>
-</Table>
+</table>
 ```
 
 ## Keyboard Interactions

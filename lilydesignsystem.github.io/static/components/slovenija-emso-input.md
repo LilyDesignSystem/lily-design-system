@@ -23,9 +23,19 @@ SlovenijaEmsoInput is a headless input for entering Slovenia's Enotna Matiƒçna ≈
 ## Usage
 
 ```html
-<Field label="Unique Master Citizen Number" required>
-  <SlovenijaEmsoInput label="Unique Master Citizen Number" value={value} required />
-  <Hint>13 digits: the first 7 are the date of birth (DDMMYYY), digits 8-9 the register, 10-12 a sex-and-serial component (000-499 male, 500-999 female), 13 a check digit</Hint>
+<Field
+  label="Unique Master Citizen Number"
+  required
+>
+  <SlovenijaEmsoInput
+    label="Unique Master Citizen Number"
+    value="{value}"
+    required
+  />
+  <Hint
+    >13 digits: the first 7 are the date of birth (DDMMYYY), digits 8-9 the register, 10-12 a
+    sex-and-serial component (000-499 male, 500-999 female), 13 a check digit</Hint
+  >
   <ErrorMessage>Please enter a valid Unique Master Citizen Number</ErrorMessage>
 </Field>
 ```

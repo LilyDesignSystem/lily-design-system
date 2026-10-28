@@ -13,7 +13,9 @@ Time` in January and `UTC-04:00 – Eastern Daylight Time` in July, and `Central
 
 ```js
 // What the app does with the choice:
-new Intl.DateTimeFormat(locale, { timeZone: document.documentElement.dataset.timeZone }).format(date);
+new Intl.DateTimeFormat(locale, { timeZone: document.documentElement.dataset.timeZone }).format(
+  date,
+);
 ```
 
 ## Usage

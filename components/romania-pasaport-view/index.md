@@ -22,7 +22,7 @@ RomaniaPasaportView is a headless read-only display of Romania's Paşaport, Roma
 ```html
 <SummaryList>
   <SummaryListItem term="Romanian Passport">
-    <RomaniaPasaportView value={value} />
+    <RomaniaPasaportView value="{value}" />
   </SummaryListItem>
 </SummaryList>
 ```

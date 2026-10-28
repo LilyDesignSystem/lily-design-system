@@ -8,7 +8,7 @@ review of [ShardsUI](https://shardsui.com/): an unstyled, accessible set of
 API change, and bugs"). It is the base that
 [coss ui-svelte](https://cossui-svelte.com/docs) builds on, so this topic is
 the companion to [coss-ui-lessons](../coss-ui-lessons/index.md); the items
-here are about the *component contracts* (state vocabulary, menu parts,
+here are about the _component contracts_ (state vocabulary, menu parts,
 documented defaults), where that topic's are about the surface around them.
 Nothing here is built yet: each item is an open acceptance criterion below.
 

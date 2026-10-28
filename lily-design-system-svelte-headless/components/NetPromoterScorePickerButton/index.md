@@ -57,7 +57,7 @@ Required props: `value`, `label`.
 
 ```svelte
 <script lang="ts">
-  import NetPromoterScorePickerButton from './NetPromoterScorePickerButton.svelte';
+  import NetPromoterScorePickerButton from "./NetPromoterScorePickerButton.svelte";
 
   let nps = $state<number | undefined>(undefined);
 </script>
@@ -74,7 +74,7 @@ Required props: `value`, `label`.
 
 ```svelte
 <script lang="ts">
-  import NetPromoterScorePickerButton from './NetPromoterScorePickerButton.svelte';
+  import NetPromoterScorePickerButton from "./NetPromoterScorePickerButton.svelte";
 
   let nps = $state<number | undefined>(undefined);
 </script>
@@ -93,8 +93,8 @@ Required props: `value`, `label`.
 
 ```svelte
 <script lang="ts">
-  import NetPromoterScorePicker from '../NetPromoterScorePicker/NetPromoterScorePicker.svelte';
-  import NetPromoterScorePickerButton from './NetPromoterScorePickerButton.svelte';
+  import NetPromoterScorePicker from "../NetPromoterScorePicker/NetPromoterScorePicker.svelte";
+  import NetPromoterScorePickerButton from "./NetPromoterScorePickerButton.svelte";
 
   let nps = $state<number | undefined>(undefined);
 </script>
@@ -114,7 +114,11 @@ Required props: `value`, `label`.
 ### Disabled button
 
 ```svelte
-<NetPromoterScorePickerButton value={0} label="0" disabled />
+<NetPromoterScorePickerButton
+  value={0}
+  label="0"
+  disabled
+/>
 ```
 
 ### CSS targeting by score
@@ -123,9 +127,13 @@ Consumers can style Detractors, Passives, and Promoters via the `data-value` att
 
 ```css
 .net-promoter-score-picker-button[data-value="0"],
-.net-promoter-score-picker-button[data-value="6"] { /* detractor */ }
+.net-promoter-score-picker-button[data-value="6"] {
+  /* detractor */
+}
 .net-promoter-score-picker-button[data-value="9"],
-.net-promoter-score-picker-button[data-value="10"] { /* promoter */ }
+.net-promoter-score-picker-button[data-value="10"] {
+  /* promoter */
+}
 ```
 
 ## Accessibility

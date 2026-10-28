@@ -30,26 +30,56 @@ and no words: every link, and every accessible name, comes from the consumer.
 
 ### 4.1 Props
 
-| Prop | Type | Required | Notes |
-| --- | --- | --- | --- |
-| `label` | `string` | yes | Accessible name of the button **and** the list; also the tooltip text. |
-| `links` | `LinkItem[]` | yes | `{ id?, label, href, current?, newTab? }`. `id` defaults to `href`. |
-| `navigate` | `(href: string) => void` | no | Client-side navigation hook. |
-| `onNavigate` | `(id: string, href: string) => void` | no | Fires after a link is chosen. |
-| `children` | `Snippet<[{ open }]>` | no | Replaces the **icon**, not the links. |
-| `class` | `string` | no | Appended to the root class. |
-| `...rest` | | | Spread on the root. |
+| Prop         | Type                                 | Required | Notes                                                                  |
+| ------------ | ------------------------------------ | -------- | ---------------------------------------------------------------------- |
+| `label`      | `string`                             | yes      | Accessible name of the button **and** the list; also the tooltip text. |
+| `links`      | `LinkItem[]`                         | yes      | `{ id?, label, href, current?, newTab? }`. `id` defaults to `href`.    |
+| `navigate`   | `(href: string) => void`             | no       | Client-side navigation hook.                                           |
+| `onNavigate` | `(id: string, href: string) => void` | no       | Fires after a link is chosen.                                          |
+| `children`   | `Snippet<[{ open }]>`                | no       | Replaces the **icon**, not the links.                                  |
+| `class`      | `string`                             | no       | Appended to the root class.                                            |
+| `...rest`    |                                      |          | Spread on the root.                                                    |
 
 ### 4.2 DOM contract
 
 ```html
 <div class="link-picker {class}">
-  <button class="link-picker-button" type="button" aria-label="{label}" aria-expanded="false" aria-controls="{id}-list">
-    <svg class="link-picker-icon" aria-hidden="true" viewBox="0 0 16 16" …home…/>
+  <button
+    class="link-picker-button"
+    type="button"
+    aria-label="{label}"
+    aria-expanded="false"
+    aria-controls="{id}-list"
+  >
+    <svg
+      class="link-picker-icon"
+      aria-hidden="true"
+      viewBox="0 0 16 16"
+      …home…
+    />
   </button>
-  <div class="link-picker-tooltip" role="tooltip" id="{id}-tooltip" hidden>{label}</div>
-  <ul class="link-picker-list" id="{id}-list" aria-label="{label}" hidden>
-    <li class="link-picker-list-item"><a class="link-picker-link" href="/" data-link-id="/">Home</a></li>
+  <div
+    class="link-picker-tooltip"
+    role="tooltip"
+    id="{id}-tooltip"
+    hidden
+  >
+    {label}
+  </div>
+  <ul
+    class="link-picker-list"
+    id="{id}-list"
+    aria-label="{label}"
+    hidden
+  >
+    <li class="link-picker-list-item">
+      <a
+        class="link-picker-link"
+        href="/"
+        data-link-id="/"
+        >Home</a
+      >
+    </li>
     …
   </ul>
 </div>

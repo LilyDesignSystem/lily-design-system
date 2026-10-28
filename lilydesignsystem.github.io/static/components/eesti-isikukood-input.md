@@ -23,8 +23,15 @@ EestiIsikukoodInput is a headless input for entering Estonia's Isikukood (IK), E
 ## Usage
 
 ```html
-<Field label="Personal Identification Code" required>
-  <EestiIsikukoodInput label="Personal Identification Code" value={value} required />
+<Field
+  label="Personal Identification Code"
+  required
+>
+  <EestiIsikukoodInput
+    label="Personal Identification Code"
+    value="{value}"
+    required
+  />
   <Hint>11 digits in the form GYYMMDDSSSC: G is sex and century (odd male, even female</Hint>
   <ErrorMessage>Please enter a valid Personal Identification Code</ErrorMessage>
 </Field>

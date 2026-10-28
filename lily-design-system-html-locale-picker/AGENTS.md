@@ -16,21 +16,21 @@ The control is an **icon button that opens a dropdown listbox**
 
 ## Files
 
-| File                       | Purpose                                          |
-| -------------------------- | ------------------------------------------------ |
-| `spec/index.md`            | Specification-driven contract (canonical).       |
-| `locale-picker.ts`         | Implementation (TypeScript class).               |
-| `locale-picker.test.ts`    | Vitest + jsdom spec, one test per §7 clause.     |
-| `locales.ts`               | Built-in code → English-name map and RTL sets.   |
-| `locales.tsv`              | Canonical 436-row source for `locales.ts`.       |
-| `index.ts`                 | Barrel re-export + side-effectful registration.  |
-| `index.md`                 | Human-readable guide.                            |
-| `docs/custom-rendering.md` | The two subclassing tiers; the only customisation surface. |
-| `docs/attributes-reference.md` | Field-by-field attribute / property reference.   |
-| `docs/styling.md`          | Class hooks, state hooks, positioning, RTL-safe CSS. |
-| `docs/recipes.md`          | Task-shaped snippets.                            |
-| `docs/troubleshooting.md`  | Symptom-first fixes.                             |
-| `docs/{accessibility,bcp47,concepts,i18n-integration,rtl,ssr}.md` | Topic deep-dives. |
+| File                                                              | Purpose                                                    |
+| ----------------------------------------------------------------- | ---------------------------------------------------------- |
+| `spec/index.md`                                                   | Specification-driven contract (canonical).                 |
+| `locale-picker.ts`                                                | Implementation (TypeScript class).                         |
+| `locale-picker.test.ts`                                           | Vitest + jsdom spec, one test per §7 clause.               |
+| `locales.ts`                                                      | Built-in code → English-name map and RTL sets.             |
+| `locales.tsv`                                                     | Canonical 436-row source for `locales.ts`.                 |
+| `index.ts`                                                        | Barrel re-export + side-effectful registration.            |
+| `index.md`                                                        | Human-readable guide.                                      |
+| `docs/custom-rendering.md`                                        | The two subclassing tiers; the only customisation surface. |
+| `docs/attributes-reference.md`                                    | Field-by-field attribute / property reference.             |
+| `docs/styling.md`                                                 | Class hooks, state hooks, positioning, RTL-safe CSS.       |
+| `docs/recipes.md`                                                 | Task-shaped snippets.                                      |
+| `docs/troubleshooting.md`                                         | Symptom-first fixes.                                       |
+| `docs/{accessibility,bcp47,concepts,i18n-integration,rtl,ssr}.md` | Topic deep-dives.                                          |
 
 ## Public surface
 
@@ -49,7 +49,7 @@ The control is an **icon button that opens a dropdown listbox**
   `renderButtonContent(): Node`.
 
 Default labels are **endonyms** ("Cymraeg", not "Welsh") via
-`localeEndonym()` — `Intl.DisplayNames` asked *in that language*,
+`localeEndonym()` — `Intl.DisplayNames` asked _in that language_,
 deterministic, no `navigator` dependency. Resolution:
 `localeLabels` → endonym → built-in English table → environment
 `Intl.DisplayNames` → raw code. An option carries `lang` only when

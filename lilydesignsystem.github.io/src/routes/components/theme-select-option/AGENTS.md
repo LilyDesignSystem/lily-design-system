@@ -37,7 +37,7 @@
 | -------------- | --------------- | ---------- | -------------------------------------------------------- |
 | `value`        | `string`        | `""`       | The value submitted when this option is selected         |
 | `disabled`     | `boolean`       | `false`    | Whether this option is disabled                          |
-| `children`     | `slot`       | (required) | Display text for the option                              |
+| `children`     | `slot`          | (required) | Display text for the option                              |
 | `...restProps` | HTML attributes |            | Additional attributes spread onto the `<option>` element |
 
 ## Acceptance Criteria

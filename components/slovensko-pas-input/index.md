@@ -23,8 +23,15 @@ SlovenskoPasInput is a headless input for entering Slovakia's Pas, Slovakia's pa
 ## Usage
 
 ```html
-<Field label="Slovak Passport" required>
-  <SlovenskoPasInput label="Slovak Passport" value={value} required />
+<Field
+  label="Slovak Passport"
+  required
+>
+  <SlovenskoPasInput
+    label="Slovak Passport"
+    value="{value}"
+    required
+  />
   <Hint>9 characters in the format XXNNNNNNN: 2 block letters and 7 digits</Hint>
   <ErrorMessage>Please enter a valid Slovak Passport</ErrorMessage>
 </Field>

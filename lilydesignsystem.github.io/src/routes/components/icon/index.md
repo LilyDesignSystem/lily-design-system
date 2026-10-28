@@ -30,7 +30,11 @@ This component is useful in buttons, menus, toolbars, and navigation where visua
 <Icon decorative>*</Icon>
 
 <!-- Icon with custom attributes -->
-<Icon label="Search" data-testid="search-icon">Q</Icon>
+<Icon
+  label="Search"
+  data-testid="search-icon"
+  >Q</Icon
+>
 ```
 
 ## Keyboard Interactions
@@ -60,14 +64,11 @@ None -- this component is a passive container. Keyboard behavior depends on the 
 
 This headless component provides a `<span>` with `role="img"` and `aria-label` for meaningful icons, or `aria-hidden="true"` for decorative icons. The consumer provides all visual content (SVG, text characters, icon fonts) and styling.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.icon` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<span>` element with class `icon`
 - Verify role="img"` -- applied to meaningful icons so assistive technology treats the span as an image

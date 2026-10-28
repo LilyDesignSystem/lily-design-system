@@ -22,7 +22,12 @@ import MenuPicker from "@lilydesignsystem/svelte-menu-picker";
   <ul>
     <li><a href="/">Home</a></li>
     <li><a href="/about/">About Us</a></li>
-    <li><button type="button" onclick={signOut}>Sign out</button></li>
+    <li>
+      <button
+        type="button"
+        onclick={signOut}>Sign out</button
+      >
+    </li>
   </ul>
 </MenuPicker>
 ```
@@ -37,8 +42,17 @@ The content receives `{ open, close }`:
 ```svelte
 <MenuPicker label="Menu">
   {#snippet children({ close })}
-    <form onsubmit={(e) => { e.preventDefault(); search(); close(); }}>
-      <input type="search" aria-label="Search" />
+    <form
+      onsubmit={(e) => {
+        e.preventDefault();
+        search();
+        close();
+      }}
+    >
+      <input
+        type="search"
+        aria-label="Search"
+      />
     </form>
   {/snippet}
 </MenuPicker>

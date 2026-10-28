@@ -22,17 +22,26 @@ The consumer is responsible for providing the slide content as children and impl
 
 ```svelte
 <Carousel label="Photo gallery">
-    <div role="group" aria-label="Slide 1">...</div>
+  <div
+    role="group"
+    aria-label="Slide 1"
+  >
+    ...
+  </div>
 </Carousel>
 ```
 
 ```svelte
 <Carousel label="Featured products">
-    {#each slides as slide, i}
-        <div role="group" aria-roledescription="slide" aria-label="Slide {i + 1} of {slides.length}">
-            {slide.content}
-        </div>
-    {/each}
+  {#each slides as slide, i}
+    <div
+      role="group"
+      aria-roledescription="slide"
+      aria-label="Slide {i + 1} of {slides.length}"
+    >
+      {slide.content}
+    </div>
+  {/each}
 </Carousel>
 ```
 

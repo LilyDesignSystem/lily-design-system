@@ -20,7 +20,10 @@ The component serves as a semantic container that consumers populate with their 
 
 ```tsx
 <ImageCropper label="Crop your avatar">
-  <canvas width="400" height="400"></canvas>
+  <canvas
+    width="400"
+    height="400"
+  ></canvas>
 </ImageCropper>
 ```
 

@@ -145,7 +145,7 @@ a "fifth helper" alongside the four preference/action helpers in
 `AGENTS/helpers.md` — following this catalog's macro + `client.js`
 split. It is the hardest port so far: a server-rendered macro cannot
 run the interactive dialog logic itself, and — unlike the other four
-helpers — cannot even render the calendar's *static* interior, because
+helpers — cannot even render the calendar's _static_ interior, because
 producing it needs `Intl.DateTimeFormat` and civil-date arithmetic that
 Nunjucks has no access to.
 

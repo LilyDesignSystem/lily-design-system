@@ -3,7 +3,7 @@
 > Lily Design System™ specification — topic doc. All topics: [spec index](../index.md).
 
 **Summary.** Lily ships no English defaults, so every app that uses a grid-like helper used to write and translate the same
-hundred-odd `labels` strings. A *label pack* is that work done once: one JSON file per locale in
+hundred-odd `labels` strings. A _label pack_ is that work done once: one JSON file per locale in
 [`shared/label-packs/`](../../shared/label-packs/) holding the strings for the data grid, kanban board, calendar, Gantt chart
 and filter, plus a small loader per catalog that turns a pack into the `labels` the helper takes. Added 2026-10-18.
 **Sixty-three of the sixty-four packs are unreviewed machine drafts.**
@@ -44,11 +44,11 @@ the packs as a package (not done yet).
 
 ## Loaders
 
-| Catalog | Use |
-| ------- | --- |
-| Svelte, React, Vue, Angular, HTML, Web Components | `labelsFor(helper, pack)` — a drop-in `labels`. `bin/check-label-packs` fails when a pack key is missing from a helper's `labels` type or takes a different number of arguments. |
-| Nunjucks | `nunjucksLabelsFor(helper, pack, { view })` returns `{ macro, client }`: `macro` is the JSON-safe `labels` for the macro in the helper's own names and tokens (two-state labels split in two); `client` is the same pack as functions for `initX(root, { labels })`. An export announcement shows `csv` / `tsv` / `xlsx` in lower case (the helper's contract). |
-| Blazor | `LabelPack.FromJson(json)` then `ToDataGridLabels()`, `ToKanbanLabels()`, `ToCalendarLabels()`, `ToGanttLabels()`, `ToFilterLabels()`. Loading the JSON is the app's job. A missing key leaves the label `null`; the filter's required labels throw. |
+| Catalog                                           | Use                                                                                                                                                                                                                                                                                                                                                             |
+| ------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Svelte, React, Vue, Angular, HTML, Web Components | `labelsFor(helper, pack)` — a drop-in `labels`. `bin/check-label-packs` fails when a pack key is missing from a helper's `labels` type or takes a different number of arguments.                                                                                                                                                                                |
+| Nunjucks                                          | `nunjucksLabelsFor(helper, pack, { view })` returns `{ macro, client }`: `macro` is the JSON-safe `labels` for the macro in the helper's own names and tokens (two-state labels split in two); `client` is the same pack as functions for `initX(root, { labels })`. An export announcement shows `csv` / `tsv` / `xlsx` in lower case (the helper's contract). |
+| Blazor                                            | `LabelPack.FromJson(json)` then `ToDataGridLabels()`, `ToKanbanLabels()`, `ToCalendarLabels()`, `ToGanttLabels()`, `ToFilterLabels()`. Loading the JSON is the app's job. A missing key leaves the label `null`; the filter's required labels throw.                                                                                                            |
 
 ## Text size names
 

@@ -28,12 +28,18 @@ Unlike a single-line text input, a text-area-input provides a larger, scrollable
 ```html
 <Field label="Can you describe how you move about?">
   <Hint>For example, if you use crutches, sticks, or a walking frame</Hint>
-  <TextAreaInput label="Mobility description" rows={5} />
+  <TextAreaInput
+    label="Mobility description"
+    rows="{5}"
+  />
 </Field>
 
 <Field label="Additional notes for the referral">
   <Hint>Include any relevant medical history or current medications</Hint>
-  <TextAreaInput label="Referral notes" rows={8} />
+  <TextAreaInput
+    label="Referral notes"
+    rows="{8}"
+  />
 </Field>
 ```
 
@@ -65,17 +71,14 @@ Unlike a single-line text input, a text-area-input provides a larger, scrollable
 
 This headless component renders a native `<textarea>` element with `aria-label`, two-way value binding, and configurable `rows`. It provides multi-line text input semantics with required/disabled states. The consumer provides all visual styling including borders, padding, resize behavior, and responsive sizing.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.text-area-input` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
 
-
 - Verify the component renders a `<textarea>` element with class `text-area-input`
-- Verify aria-label={label}` -- provides an accessible name for the text-area-input since there is no visible `<label>` element
+- Verify aria-label={label}`-- provides an accessible name for the text-area-input since there is no visible`<label>` element
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied
 

@@ -27,18 +27,34 @@ The component is commonly used in dashboards, compliance tracking, audit logs, a
 <!-- Display last reviewed and next review dates at the bottom of a content page -->
 <p>
   Page last reviewed:
-  <ReviewDate label="Last reviewed" datetime="2025-03-15">15 March 2025</ReviewDate>
+  <ReviewDate
+    label="Last reviewed"
+    datetime="2025-03-15"
+    >15 March 2025</ReviewDate
+  >
 </p>
 <p>
   Next review due:
-  <ReviewDate label="Next review due" datetime="2028-03-15">15 March 2028</ReviewDate>
+  <ReviewDate
+    label="Next review due"
+    datetime="2028-03-15"
+    >15 March 2028</ReviewDate
+  >
 </p>
 
 <!-- Single review date in a compliance dashboard -->
-<ReviewDate label="Last audit" datetime="2025-01-08">8 January 2025</ReviewDate>
+<ReviewDate
+  label="Last audit"
+  datetime="2025-01-08"
+  >8 January 2025</ReviewDate
+>
 
 <!-- Dynamic date with locale-formatted display text -->
-<ReviewDate label="Next review" datetime={isoDate}>{formattedDate}</ReviewDate>
+<ReviewDate
+  label="Next review"
+  datetime="{isoDate}"
+  >{formattedDate}</ReviewDate
+>
 ```
 
 ## Keyboard Interactions
@@ -67,17 +83,14 @@ None -- this is an informational display, not interactive.
 
 The ReviewDate headless component provides a `<time>` element with `aria-label` for accessible naming and a `datetime` attribute in ISO 8601 format for machine readability. The children slot renders human-readable text. The consumer provides all visual styling and date formatting.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.review-date` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
 
-
 - Verify the component renders a `<span>` element with class `review-date`
-- Verify aria-label` -- provides screen reader context from the `label` prop
+- Verify aria-label`-- provides screen reader context from the`label` prop
 - Verify pass-through attributes are applied
 
 ## Advice

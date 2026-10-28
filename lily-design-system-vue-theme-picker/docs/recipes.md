@@ -11,18 +11,17 @@ more error handling.
 import ThemePicker from "../ThemePicker.vue";
 
 const prefersDark =
-    typeof window !== "undefined" &&
-    window.matchMedia?.("(prefers-color-scheme: dark)").matches;
+  typeof window !== "undefined" && window.matchMedia?.("(prefers-color-scheme: dark)").matches;
 </script>
 
 <template>
-    <ThemePicker
-        label="Theme"
-        themes-url="/assets/themes/"
-        :themes="['light', 'dark']"
-        :default-value="prefersDark ? 'dark' : 'light'"
-        storage-key="my-app:theme"
-    />
+  <ThemePicker
+    label="Theme"
+    themes-url="/assets/themes/"
+    :themes="['light', 'dark']"
+    :default-value="prefersDark ? 'dark' : 'light'"
+    storage-key="my-app:theme"
+  />
 </template>
 ```
 
@@ -39,26 +38,26 @@ const theme = ref("");
 
 let mql: MediaQueryList | undefined;
 function handler(e: MediaQueryListEvent) {
-    theme.value = e.matches ? "dark" : "light";
+  theme.value = e.matches ? "dark" : "light";
 }
 
 onMounted(() => {
-    mql = window.matchMedia("(prefers-color-scheme: dark)");
-    mql.addEventListener("change", handler);
+  mql = window.matchMedia("(prefers-color-scheme: dark)");
+  mql.addEventListener("change", handler);
 });
 
 onBeforeUnmount(() => {
-    mql?.removeEventListener("change", handler);
+  mql?.removeEventListener("change", handler);
 });
 </script>
 
 <template>
-    <ThemePicker
-        label="Theme"
-        themes-url="/assets/themes/"
-        :themes="['light', 'dark']"
-        v-model:value="theme"
-    />
+  <ThemePicker
+    label="Theme"
+    themes-url="/assets/themes/"
+    :themes="['light', 'dark']"
+    v-model:value="theme"
+  />
 </template>
 ```
 
@@ -85,10 +84,10 @@ and only it; the listbox stays component-owned:
 
 ```vue
 <ThemePicker
-    label="Theme"
-    themes-url="/assets/themes/"
-    :themes="['light', 'dark']"
-    v-model:value="theme"
+  label="Theme"
+  themes-url="/assets/themes/"
+  :themes="['light', 'dark']"
+  v-model:value="theme"
 >
     <template #default="{ value, labelFor }">
         <span
@@ -122,42 +121,45 @@ const themes = ["light", "dark", "abyss"];
 </script>
 
 <template>
-    <!--
+  <!--
         Hidden from sight and from assistive technology: your own group
         below is the real control. The picker keeps owning the apply
         lifecycle (link swap, data-theme, persistence), which is
         script-only and unaffected by being hidden.
     -->
-    <ThemePicker
-        class="theme-picker-headless"
-        label="Theme"
-        themes-url="/assets/themes/"
-        :themes="themes"
-        v-model:value="theme"
-        aria-hidden="true"
-        inert
-    />
+  <ThemePicker
+    class="theme-picker-headless"
+    label="Theme"
+    themes-url="/assets/themes/"
+    :themes="themes"
+    v-model:value="theme"
+    aria-hidden="true"
+    inert
+  />
 
-    <div role="group" aria-label="Theme">
-        <button
-            v-for="t in themes"
-            :key="t"
-            type="button"
-            class="theme-swatch"
-            :data-theme="t"
-            :aria-pressed="theme === t"
-            @click="theme = t"
-        >
-            {{ t }}
-        </button>
-    </div>
+  <div
+    role="group"
+    aria-label="Theme"
+  >
+    <button
+      v-for="t in themes"
+      :key="t"
+      type="button"
+      class="theme-swatch"
+      :data-theme="t"
+      :aria-pressed="theme === t"
+      @click="theme = t"
+    >
+      {{ t }}
+    </button>
+  </div>
 </template>
 ```
 
 `aria-hidden` and `inert` both fall through to the root `<div>`, which
 is what makes this safe: without them you ship two controls that both
 announce as "Theme" and both change the theme. `.theme-picker-headless`
-is your own hook — `display: none` is fine here precisely *because* the
+is your own hook — `display: none` is fine here precisely _because_ the
 control is no longer meant to be reachable.
 
 This is the only supported way to fully replace the UI. Do not try to
@@ -168,9 +170,9 @@ the trigger button, not inside the listbox.
 
 ```vue
 <ThemePicker
-    themes-url="https://cdn.example.com/lily-themes/"
-    :themes="['light', 'dark', 'abyss']"
-    label="Theme"
+  themes-url="https://cdn.example.com/lily-themes/"
+  :themes="['light', 'dark', 'abyss']"
+  label="Theme"
 />
 ```
 
@@ -183,10 +185,10 @@ crossorigin="…">` attribute is needed if you also need
 
 ```vue
 <ThemePicker
-    themes-url="/assets/themes/"
-    :themes="['light', 'dark']"
-    extension=".css?v=2025-06-05"
-    label="Theme"
+  themes-url="/assets/themes/"
+  :themes="['light', 'dark']"
+  extension=".css?v=2025-06-05"
+  label="Theme"
 />
 ```
 
@@ -212,7 +214,9 @@ anywhere:
 // in a sibling
 import { inject } from "vue";
 const themeRef = inject<Ref<string>>("theme");
-function goNight() { themeRef!.value = "dark"; }
+function goNight() {
+  themeRef!.value = "dark";
+}
 ```
 
 The picker reacts via its `watch` on `props.value`.
@@ -229,20 +233,20 @@ import ThemePicker from "../ThemePicker.vue";
 const theme = ref("");
 
 onMounted(() => {
-    window.addEventListener("storage", (e) => {
-        if (e.key === "my-app:theme" && e.newValue) theme.value = e.newValue;
-    });
+  window.addEventListener("storage", (e) => {
+    if (e.key === "my-app:theme" && e.newValue) theme.value = e.newValue;
+  });
 });
 </script>
 
 <template>
-    <ThemePicker
-        label="Theme"
-        themes-url="/assets/themes/"
-        :themes="['light', 'dark']"
-        v-model:value="theme"
-        storage-key="my-app:theme"
-    />
+  <ThemePicker
+    label="Theme"
+    themes-url="/assets/themes/"
+    :themes="['light', 'dark']"
+    v-model:value="theme"
+    storage-key="my-app:theme"
+  />
 </template>
 ```
 

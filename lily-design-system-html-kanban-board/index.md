@@ -83,21 +83,21 @@ data attributes.
 
 ## Attributes
 
-| Attribute | Type   | Required | Purpose |
-| --------- | ------ | -------- | ------- |
-| `label`   | string | yes      | Accessible name for the grid. |
-| `caption` | string | no       | Visible `<caption>` for the table. |
+| Attribute | Type   | Required | Purpose                                   |
+| --------- | ------ | -------- | ----------------------------------------- |
+| `label`   | string | yes      | Accessible name for the grid.             |
+| `caption` | string | no       | Visible `<caption>` for the table.        |
 | `class`   | string | no       | Extra class on the rendered root `<div>`. |
 
 ## JS properties
 
-| Property    | Type                                            | Required | Default |
-| ----------- | ------------------------------------------------ | -------- | ------- |
-| `columns`   | `KanbanColumn[]`                                  | yes      | `[]`    |
-| `cards`     | `KanbanCard[]`                                    | yes      | `[]`    |
-| `cardLabel` | `(card: KanbanCard) => string`                     | no       | `card.title` |
-| `onMove`    | `(cardId: string, toColumnId: string) => void`     | no       | —       |
-| `labels`    | `KanbanLabels`                                     | no       | `{}`    |
+| Property    | Type                                           | Required | Default      |
+| ----------- | ---------------------------------------------- | -------- | ------------ |
+| `columns`   | `KanbanColumn[]`                               | yes      | `[]`         |
+| `cards`     | `KanbanCard[]`                                 | yes      | `[]`         |
+| `cardLabel` | `(card: KanbanCard) => string`                 | no       | `card.title` |
+| `onMove`    | `(cardId: string, toColumnId: string) => void` | no       | —            |
+| `labels`    | `KanbanLabels`                                 | no       | `{}`         |
 
 `KanbanColumn`: `{ id, title, wipLimit? }`. `KanbanCard`: `{ id,
 columnId, title }`.
@@ -109,9 +109,9 @@ columnTitle)`.
 
 ## Events
 
-| Event      | Detail                                    | Fires when |
-| ---------- | ------------------------------------------ | ---------- |
-| `movecard` | `{ cardId: string; toColumnId: string }`   | A card moves, by pointer drag or the move menu. |
+| Event      | Detail                                   | Fires when                                      |
+| ---------- | ---------------------------------------- | ----------------------------------------------- |
+| `movecard` | `{ cardId: string; toColumnId: string }` | A card moves, by pointer drag or the move menu. |
 
 ## Keyboard
 
@@ -138,6 +138,7 @@ movement is never keyboard-drag-only, per WCAG 2.5.7.
 ```sh
 npx vitest run lily-design-system-html-kanban-board/kanban-board.test.ts
 ```
+
 - **Typed fields and editing** (0.6.0): `fields` + `card.values` show typed values under the title; `onFieldEdit` makes editable types edit in place (click, or F2). See [spec §12](./spec/index.md#12-typed-fields-inline-editing-export-hot-path-caching-060-2026-10-16).
 - **Export** (0.6.0): `labels.exportCsv` / `exportTsv` / `exportExcel` plus `labels.exportHeaders` add CSV, TSV and Excel buttons for the shown (or selected) cards.
 

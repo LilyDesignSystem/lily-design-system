@@ -26,7 +26,11 @@ Use Sheet when you need a temporary panel that slides in from the top, right, bo
 ## Usage
 
 ```svelte
-<Sheet label="Settings" bind:open side="right">
+<Sheet
+  label="Settings"
+  bind:open
+  side="right"
+>
   <p>Sheet content</p>
 </Sheet>
 ```

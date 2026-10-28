@@ -16,7 +16,11 @@ Use Avatar as the outer container for user avatars. It renders either an AvatarI
 ## Syntax
 
 ```html
-<Avatar alt="..." src="..." initials="..." />
+<Avatar
+  alt="..."
+  src="..."
+  initials="..."
+/>
 ```
 
 ## Usage
@@ -24,22 +28,39 @@ Use Avatar as the outer container for user avatars. It renders either an AvatarI
 Avatar with image and initials fallback:
 
 ```html
-<Avatar src="/photos/sarah-mitchell.jpg" alt="Dr Sarah Mitchell" initials="SM" />
+<Avatar
+  src="/photos/sarah-mitchell.jpg"
+  alt="Dr Sarah Mitchell"
+  initials="SM"
+/>
 ```
 
 Avatar with initials only (no photo available):
 
 ```html
-<Avatar alt="Nurse James Lee" initials="JL" />
+<Avatar
+  alt="Nurse James Lee"
+  initials="JL"
+/>
 ```
 
 Avatar group showing a care team:
 
 ```html
 <AvatarGroup label="Care team">
-  <Avatar src="/photos/sarah-mitchell.jpg" alt="Dr Sarah Mitchell" initials="SM" />
-  <Avatar alt="Nurse James Lee" initials="JL" />
-  <Avatar alt="Dr Priya Sharma" initials="PS" />
+  <Avatar
+    src="/photos/sarah-mitchell.jpg"
+    alt="Dr Sarah Mitchell"
+    initials="SM"
+  />
+  <Avatar
+    alt="Nurse James Lee"
+    initials="JL"
+  />
+  <Avatar
+    alt="Dr Priya Sharma"
+    initials="PS"
+  />
 </AvatarGroup>
 ```
 
@@ -57,9 +78,20 @@ Avatar group showing a care team:
 Team member list:
 
 ```html
-<Avatar src="/team/alice.jpg" alt="Alice Smith" initials="AS" />
-<Avatar src="/team/bob.jpg" alt="Bob Jones" initials="BJ" />
-<Avatar alt="Charlie Brown" initials="CB" />
+<Avatar
+  src="/team/alice.jpg"
+  alt="Alice Smith"
+  initials="AS"
+/>
+<Avatar
+  src="/team/bob.jpg"
+  alt="Bob Jones"
+  initials="BJ"
+/>
+<Avatar
+  alt="Charlie Brown"
+  initials="CB"
+/>
 ```
 
 ## Keyboard Interactions
@@ -71,6 +103,7 @@ Team member list:
 - `role="img"` -- on the outer container, conveying that the entire avatar is an image representation
 - `aria-label` -- set from the `alt` prop, providing the accessible name for the avatar
 - `aria-hidden="true"` -- on the inner initials `<span>`, preventing duplicate announcements since the outer element already has `aria-label`
+
 ## When to Use
 
 - Use to display a user's visual identity, such as a profile photo or initials fallback, in headers, comment threads, chat messages, or contact lists.
@@ -89,19 +122,16 @@ Team member list:
 
 This component provides `role="img"`, `aria-label`, and image-to-initials fallback logic with zero visual styling. The consumer is responsible for all CSS including circular framing, sizing, background color for initials, font styling, border, and shadow effects.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.avatar` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `avatar`
 - Verify role="img"` -- on the outer container, conveying that the entire avatar is an image representation
-- Verify aria-label` -- set from the `alt` prop, providing the accessible name for the avatar
-- Verify aria-hidden="true"` -- on the inner initials `<span>`, preventing duplicate announcements since the outer element already has `aria-label
+- Verify aria-label`-- set from the`alt` prop, providing the accessible name for the avatar
+- Verify aria-hidden="true"`-- on the inner initials`<span>`, preventing duplicate announcements since the outer element already has `aria-label
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied
 
@@ -119,7 +149,11 @@ Avatar follows a parent/child composition pattern:
 - **AvatarText** -- `<span>` element displayed as a fallback with initials or short text.
 
 ```html
-<Avatar src="/photo.jpg" alt="Jane Doe" initials="JD" />
+<Avatar
+  src="/photo.jpg"
+  alt="Jane Doe"
+  initials="JD"
+/>
 ```
 
 ## Related components

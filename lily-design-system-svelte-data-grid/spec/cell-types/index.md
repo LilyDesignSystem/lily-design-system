@@ -12,13 +12,13 @@ Today a column is described by hooks — `accessor`, `format`, `compare`, `filte
 
 - In: the twelve types above, the common contract every type follows, and a per-type table of value shape, display, sort, filter, edit, export and accessibility.
 - Out: data fetching, uploads, people search, formula evaluation engines, locale data and styling. Those belong to the consumer (see "What Lily does not do").
-- Status (0.9.0): **all twelve types are shipped** as `column.type` (tests §8.79–§8.114; `cell-types.ts`). Each section's *Status* line lists where the shipped behaviour differs from the design above.
+- Status (0.9.0): **all twelve types are shipped** as `column.type` (tests §8.79–§8.114; `cell-types.ts`). Each section's _Status_ line lists where the shipped behaviour differs from the design above.
 
 ## 1. Principles and rules
 
 These bind every type; they come from [AGENTS/headless.md](../../../AGENTS/headless.md), [AGENTS/internationalization.md](../../../AGENTS/internationalization.md) and [AGENTS/accessibility.md](../../../AGENTS/accessibility.md).
 
-1. **Data is plain, display is derived.** A cell's *value* is JSON-able (string, number, boolean, `null`, plain object or array) so rows survive serialisation, `localStorage` and the server. Everything a person reads is *derived* from the value by `format`, never stored.
+1. **Data is plain, display is derived.** A cell's _value_ is JSON-able (string, number, boolean, `null`, plain object or array) so rows survive serialisation, `localStorage` and the server. Everything a person reads is _derived_ from the value by `format`, never stored.
 2. **No hardcoded strings, no default locale.** A type never writes English ("Yes", "No file", "Today"). Labels come from `labels.*`; formatting comes from a consumer-supplied `format` or from `Intl.*` configured by a `locale` prop. With no `locale` and no `format` a type shows its raw value (ISO date, plain number): it never guesses the locale.
 3. **Headless.** No icons, avatars, fonts, colours or inline styles. A type emits semantic elements, class hooks (`data-grid-{type}`), `data-cell-type`, and `data-*` state. Images (an avatar, a file icon) are the consumer's, supplied through snippets.
 4. **Semantics before ARIA.** A link is an `<a>`, a select is a `<select>`, radios are `<input type="radio">` in a `<fieldset>`, a date is a `<time datetime>`. ARIA only where a native element does not exist.
@@ -45,36 +45,36 @@ column: {
 
 What a type supplies (each one overridable by the column's own prop of the same name):
 
-| Facet | Meaning |
-| --- | --- |
-| `align` | `"start"` for text, link, select, radio group, person, file and text-valued rollups or formulas; `"end"` for number and number-valued rollups or formulas. Dates and times default to `"start"`. Emitted as `data-align` (logical `start` / `end`, never `left` / `right`). |
-| `format(value, row)` | The displayed text. |
-| `compare(a, b)` | Ordering of two raw values; empties are handled before it is called. |
-| `filterText(value, row)` | Lower-cased text the grid's filter matches against (default: the formatted text). |
-| `editor` | `"text" \| "number" \| "date" \| "time" \| "select" \| "radio" \| "file" \| …` or none (read-only). |
-| `parse(draft, row)` / `validate(value, row)` | Draft → value, and refusal. |
-| `exportValue(row)` | The cell in a CSV/TSV/Excel file. |
-| `cell` | The default read markup (a snippet may replace it). |
-| `data-cell-type` | `data-cell-type="{type}"` on the header and every body cell. |
+| Facet                                        | Meaning                                                                                                                                                                                                                                                                     |
+| -------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `align`                                      | `"start"` for text, link, select, radio group, person, file and text-valued rollups or formulas; `"end"` for number and number-valued rollups or formulas. Dates and times default to `"start"`. Emitted as `data-align` (logical `start` / `end`, never `left` / `right`). |
+| `format(value, row)`                         | The displayed text.                                                                                                                                                                                                                                                         |
+| `compare(a, b)`                              | Ordering of two raw values; empties are handled before it is called.                                                                                                                                                                                                        |
+| `filterText(value, row)`                     | Lower-cased text the grid's filter matches against (default: the formatted text).                                                                                                                                                                                           |
+| `editor`                                     | `"text" \| "number" \| "date" \| "time" \| "select" \| "radio" \| "file" \| …` or none (read-only).                                                                                                                                                                         |
+| `parse(draft, row)` / `validate(value, row)` | Draft → value, and refusal.                                                                                                                                                                                                                                                 |
+| `exportValue(row)`                           | The cell in a CSV/TSV/Excel file.                                                                                                                                                                                                                                           |
+| `cell`                                       | The default read markup (a snippet may replace it).                                                                                                                                                                                                                         |
+| `data-cell-type`                             | `data-cell-type="{type}"` on the header and every body cell.                                                                                                                                                                                                                |
 
 ## 3. The types
 
 ### Overview
 
-| Type | Value | Displays as | Sorts by | Filters on | Edits with | Exports as |
-| --- | --- | --- | --- | --- | --- | --- |
-| text | `string` | the string | collator (`compare`) | the string | text input | string (formula-defused) |
-| number | `number \| null` | `format` (e.g. `Intl.NumberFormat`) | numeric | formatted text | number input | typed number |
-| link | `string` (href) or `{ href, label? }` | `<a>` | label text | label and href | text inputs | label text (href in the next column when `exportHref`) |
-| date | `"YYYY-MM-DD"` | `<time datetime>` formatted | ISO string | formatted text | date field + calendar | typed date |
-| time | `"HH:mm"` / `"HH:mm:ss"` | `<time>` formatted | ISO string | formatted text | time field | text `HH:mm[:ss]` |
-| time with time zone | `{ time, timeZone }` | time + zone name | minutes at a reference date | formatted text | time field + zone select | text `HH:mm ZONE` |
-| select option | option `id` (`string`) | the option's label | option label or option order | label | native `<select>` | option label |
-| radio group | option `id` (`string`) | all options, one checked | option order | label | the radios themselves | option label |
-| person | `{ id, name, email? }` or an array | name (and optional avatar) | name (collator) | name and email | consumer-supplied lookup | name, `; `-joined |
-| file | `{ id, name, size?, type?, href? }[]` | file names | first name, then count | names | `<input type="file">` | names, `; `-joined |
-| rollup | computed (number, date, text) | as the result's own type | the result | formatted text | read-only | typed result |
-| formulas | expression `string` + computed result | the result | the result | the result | formula text field | typed result (or formula + cached result) |
+| Type                | Value                                 | Displays as                         | Sorts by                     | Filters on     | Edits with               | Exports as                                             |
+| ------------------- | ------------------------------------- | ----------------------------------- | ---------------------------- | -------------- | ------------------------ | ------------------------------------------------------ |
+| text                | `string`                              | the string                          | collator (`compare`)         | the string     | text input               | string (formula-defused)                               |
+| number              | `number \| null`                      | `format` (e.g. `Intl.NumberFormat`) | numeric                      | formatted text | number input             | typed number                                           |
+| link                | `string` (href) or `{ href, label? }` | `<a>`                               | label text                   | label and href | text inputs              | label text (href in the next column when `exportHref`) |
+| date                | `"YYYY-MM-DD"`                        | `<time datetime>` formatted         | ISO string                   | formatted text | date field + calendar    | typed date                                             |
+| time                | `"HH:mm"` / `"HH:mm:ss"`              | `<time>` formatted                  | ISO string                   | formatted text | time field               | text `HH:mm[:ss]`                                      |
+| time with time zone | `{ time, timeZone }`                  | time + zone name                    | minutes at a reference date  | formatted text | time field + zone select | text `HH:mm ZONE`                                      |
+| select option       | option `id` (`string`)                | the option's label                  | option label or option order | label          | native `<select>`        | option label                                           |
+| radio group         | option `id` (`string`)                | all options, one checked            | option order                 | label          | the radios themselves    | option label                                           |
+| person              | `{ id, name, email? }` or an array    | name (and optional avatar)          | name (collator)              | name and email | consumer-supplied lookup | name, `; `-joined                                      |
+| file                | `{ id, name, size?, type?, href? }[]` | file names                          | first name, then count       | names          | `<input type="file">`    | names, `; `-joined                                     |
+| rollup              | computed (number, date, text)         | as the result's own type            | the result                   | formatted text | read-only                | typed result                                           |
+| formulas            | expression `string` + computed result | the result                          | the result                   | the result     | formula text field       | typed result (or formula + cached result)              |
 
 ### 3.1 Text
 
@@ -93,14 +93,14 @@ What a type supplies (each one overridable by the column's own prop of the same 
 - **Sort**: numeric, empties last. **Filter**: the formatted text (so a person typing "1,200" finds it in a locale that shows "1,200").
 - **Edit**: `editor: "number"` (`<input type="number">`, `inputmode="decimal"` for the keypad); empty draft → `null`; a draft that is not a number is refused with `validate`. Decimal and grouping separators follow the browser's number input; if the app wants locale-aware typing, it supplies `parse`.
 - **Export**: the typed number — never the formatted text, so Excel can sum it and no locale separator is baked in.
-- **Accessibility**: units and currency belong in the *header* or in `format` output ("12.50 £"), not in a colour or icon; `aria-valuetext` is not needed on a cell.
+- **Accessibility**: units and currency belong in the _header_ or in `format` output ("12.50 £"), not in a colour or icon; `aria-valuetext` is not needed on a cell.
 - **Status**: shipped (0.8.0 as `type: "number"`: end-aligned, `Intl.NumberFormat` with `locale` / `numberFormat`).
 
 ### 3.3 Link
 
 - **Value**: a URL `string`, or `{ href: string, label?: string, external?: boolean }`.
 - **Display**: `<a class="data-grid-link" href>` with the label (the href when no label). Only `http:`, `https:`, `mailto:` and `tel:` hrefs (and same-origin relative ones) become links; anything else — notably `javascript:` and `data:` — renders as plain text. `external` adds `target="_blank"` with `rel="noopener noreferrer"`; opening in a new tab is stated to assistive technology through `labels.opensInNewTab(label)` appended as visually-hidden text, since a screen reader cannot see the target.
-- **Keyboard**: the link is a widget in the cell: Enter on the cell enters it, Enter on the link follows it (`onRowActivate` is *not* fired). Middle-click and "copy link address" work because it is a real anchor.
+- **Keyboard**: the link is a widget in the cell: Enter on the cell enters it, Enter on the link follows it (`onRowActivate` is _not_ fired). Middle-click and "copy link address" work because it is a real anchor.
 - **Sort**: by label text (collator). **Filter**: label and href.
 - **Edit**: two text inputs in one editor (label, address), or a single address input when the value is a string; `validate` refuses a disallowed scheme.
 - **Export**: the label text. `exportHref: true` adds a second column "`{header}` URL" holding the address; native `.xlsx` hyperlinks (`<hyperlink>` + relationship) are proposed as a writer extension.
@@ -129,7 +129,7 @@ What a type supplies (each one overridable by the column's own prop of the same 
 
 ### 3.6 Time with time zone
 
-- **Value**: `{ time: "HH:mm[:ss]", timeZone: "Europe/London" }` — a time of day *and* the zone it is stated in (an IANA zone id). A bare offset (`"+01:00"`) is accepted as `timeZone` for values that carry only an offset.
+- **Value**: `{ time: "HH:mm[:ss]", timeZone: "Europe/London" }` — a time of day _and_ the zone it is stated in (an IANA zone id). A bare offset (`"+01:00"`) is accepted as `timeZone` for values that carry only an offset.
 - **Display**: the time followed by the zone's short name from `Intl.DateTimeFormat(locale, { timeZone, timeZoneName: "short" })` — `14:30 BST`. The time is shown **in the zone it was stated in**; the grid never converts it to the viewer's zone silently, because that changes what was meant. A consumer who wants conversion supplies `format`.
 - **Sort**: a time of day with a zone has no absolute order without a date. Sort by the UTC minutes at a **reference date** the consumer supplies (`referenceDate`, never computed internally — the same SSR-safe rule as `today`); without one, sort by the stated local time and ignore the zone. Equal instants compare equal.
 - **Filter**: the formatted text (time and zone name).
@@ -141,10 +141,10 @@ What a type supplies (each one overridable by the column's own prop of the same 
 ### 3.7 Select option
 
 - **Value**: the option's `id` (`string`) — or `string[]` with `multiple: true`.
-- **Options**: `column.options: { id: string, label: string, disabled?: boolean, group?: string, …your data }[]`. The *label* is what displays; the id is what is stored; changing a label never invalidates stored data.
+- **Options**: `column.options: { id: string, label: string, disabled?: boolean, group?: string, …your data }[]`. The _label_ is what displays; the id is what is stored; changing a label never invalidates stored data.
 - **Display**: the label as text, optionally wrapped by a consumer snippet (a coloured badge). An id with no matching option displays the id and carries `data-unknown`, so stale data is visible instead of blank.
 - **Sort**: by label with `compare`/collator, or by option order (`sortBy: "order"`) when the options have a meaning (a pipeline's stages). **Filter**: the label.
-- **Edit**: `editor: "select"` is a native `<select>` named by the header, with `<optgroup>` from `group` — chosen over a custom listbox because it is the most accessible control on every platform, including touch. `multiple` uses a checkbox list in a `<fieldset>`. A *searchable* select (a combobox) is a different control, proposed separately, and follows the APG combobox pattern.
+- **Edit**: `editor: "select"` is a native `<select>` named by the header, with `<optgroup>` from `group` — chosen over a custom listbox because it is the most accessible control on every platform, including touch. `multiple` uses a checkbox list in a `<fieldset>`. A _searchable_ select (a combobox) is a different control, proposed separately, and follows the APG combobox pattern.
 - **Export**: the label (`exportAs: "id"` for the id); multiple values are joined with `; `.
 - **Accessibility**: the selected state is the label; a colour badge is decoration. A disabled option is `disabled`, not hidden.
 - **Status**: shipped (0.8.0): single selection only. `multiple` and a searchable combobox are not implemented.
@@ -154,7 +154,7 @@ What a type supplies (each one overridable by the column's own prop of the same 
 - **Value**: the chosen option's `id` (`string`) or empty.
 - **Options**: as for select; a handful (two to five) — more is a select.
 - **Display**: a `<fieldset class="data-grid-radio-group">` with the column header as its `<legend>` (visually hidden) and one `<label><input type="radio" name="{gridId}-{rowId}-{columnId}"> label</label>` per option. In a dense grid the consumer may show only the checked label until the cell is entered (`display: "selected"`); the radios exist in the DOM either way.
-- **Keyboard**: the radios are widgets in a grid cell, so the cell is *entered* with Enter; inside, Arrow keys move the choice *within the group* (native radio behaviour) and **do not** move the grid cursor; Tab leaves the group; Escape returns focus to the cell. In `mode="table"` they are ordinary tab stops.
+- **Keyboard**: the radios are widgets in a grid cell, so the cell is _entered_ with Enter; inside, Arrow keys move the choice _within the group_ (native radio behaviour) and **do not** move the grid cursor; Tab leaves the group; Escape returns focus to the cell. In `mode="table"` they are ordinary tab stops.
 - **Edit**: choosing commits at once (`change`); there is no draft and no separate editor mode. `validate` may refuse (the radio snaps back and the message is announced).
 - **Sort**: option order. **Filter**: the checked label.
 - **Export**: the checked label.
@@ -166,7 +166,7 @@ What a type supplies (each one overridable by the column's own prop of the same 
 - **Value**: `{ id: string, name: string, email?: string, avatarUrl?: string }`, or an array of them for a multi-person cell.
 - **Display**: the **name as text**, always. An avatar, when `avatarUrl` and a consumer `avatar` snippet exist, is decorative (`alt=""`) because the name is adjacent — an avatar is never the only identifier. Several people are an `<ul>` of names; a cap (`maxPeople`) shows "+N" through `labels.morePeople(n)`.
 - **Sort**: by name (collator); an array by its first name, then count. **Filter**: name and email.
-- **Edit**: choosing a person means a *lookup*, which Lily cannot do (it does no data fetching). The editor is a consumer snippet (`personEditor`) given `{ value, commit, cancel }`; Lily provides the surrounding edit model (focus, Enter/Escape, validate, announcement). The consumer builds the search as an APG combobox.
+- **Edit**: choosing a person means a _lookup_, which Lily cannot do (it does no data fetching). The editor is a consumer snippet (`personEditor`) given `{ value, commit, cancel }`; Lily provides the surrounding edit model (focus, Enter/Escape, validate, announcement). The consumer builds the search as an APG combobox.
 - **Export**: the name (`; `-joined); `exportAs: "email"` or an extra email column when needed.
 - **Accessibility / privacy**: names are personal data — they are exported only because the person pressed Export; Lily stores nothing and sends nothing. Emails appear only if the column asks. A person with no name falls back to their id as text, not to a blank.
 - **Status**: shipped (0.9.0). `personEditor` is a snippet given `{ value, commit, cancel }`; a person column with no `personEditor` is read-only even with `editable`. `exportAs: "email"` exports the emails; the extra email column is not built (use `exportAs`).
@@ -204,18 +204,18 @@ What a type supplies (each one overridable by the column's own prop of the same 
 
 ## 4. Behaviour across the grid's features
 
-| Feature | Rule for all types |
-| --- | --- |
-| Empty values | Sort last both ways; filter as `""`; export empty. |
-| `filter` | Matches `filterText`, default the formatted text; types with several parts (link, person, select) match all their text parts. |
-| `sort` | Uses the type's `compare` on raw values, after empties; single-column, tri-state as today. |
-| Selection | Unaffected; row ids are unchanged by cell types. |
-| Editing | Only editable types: text, number, link, date, time, time with time zone, select option, radio group, person (via snippet), file, formulas. Rollups never. |
-| Export | Typed values (number, boolean, date) stay typed; everything else is text; see each type. |
+| Feature        | Rule for all types                                                                                                                                                                                  |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Empty values   | Sort last both ways; filter as `""`; export empty.                                                                                                                                                  |
+| `filter`       | Matches `filterText`, default the formatted text; types with several parts (link, person, select) match all their text parts.                                                                       |
+| `sort`         | Uses the type's `compare` on raw values, after empties; single-column, tri-state as today.                                                                                                          |
+| Selection      | Unaffected; row ids are unchanged by cell types.                                                                                                                                                    |
+| Editing        | Only editable types: text, number, link, date, time, time with time zone, select option, radio group, person (via snippet), file, formulas. Rollups never.                                          |
+| Export         | Typed values (number, boolean, date) stay typed; everything else is text; see each type.                                                                                                            |
 | Virtualization | Types render per row on demand; a type's per-row derived data (rollup, formula results, sort keys) is computed for **all** rows once, not for the rendered window, so sort and export stay correct. |
-| `mode="table"` | Widgets are ordinary tab stops; the cell-entering model is not used. |
-| IME | Text-entry editors (text, number, link, formulas, time fields) ignore composition keys; selects and radios take none. |
-| RTL | Cells are written in logical order; `data-align` uses `start` / `end`, never `left` / `right`. |
+| `mode="table"` | Widgets are ordinary tab stops; the cell-entering model is not used.                                                                                                                                |
+| IME            | Text-entry editors (text, number, link, formulas, time fields) ignore composition keys; selects and radios take none.                                                                               |
+| RTL            | Cells are written in logical order; `data-align` uses `start` / `end`, never `left` / `right`.                                                                                                      |
 
 ## 5. What Lily does not do
 

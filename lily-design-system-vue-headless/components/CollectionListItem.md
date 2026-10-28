@@ -25,10 +25,10 @@ One item in a `CollectionList` with optional image, heading, meta, and descripti
 
 ```vue
 <CollectionListItem
-    heading="Hello"
-    href="/hello"
-    meta="Jan 1, 2026"
-    description="A short summary"
+  heading="Hello"
+  href="/hello"
+  meta="Jan 1, 2026"
+  description="A short summary"
 />
 ```
 

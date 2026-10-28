@@ -21,18 +21,28 @@ This component is commonly used in to-do lists, onboarding checklists, task trac
 
 ```html
 <CheckList label="Onboarding tasks">
-    <CheckListItem>
-        <input type="checkbox" id="task-1" />
-        <label for="task-1">Create account</label>
-    </CheckListItem>
-    <CheckListItem>
-        <input type="checkbox" id="task-2" />
-        <label for="task-2">Set up profile</label>
-    </CheckListItem>
-    <CheckListItem>
-        <input type="checkbox" id="task-3" checked />
-        <label for="task-3">Invite team members</label>
-    </CheckListItem>
+  <CheckListItem>
+    <input
+      type="checkbox"
+      id="task-1"
+    />
+    <label for="task-1">Create account</label>
+  </CheckListItem>
+  <CheckListItem>
+    <input
+      type="checkbox"
+      id="task-2"
+    />
+    <label for="task-2">Set up profile</label>
+  </CheckListItem>
+  <CheckListItem>
+    <input
+      type="checkbox"
+      id="task-3"
+      checked
+    />
+    <label for="task-3">Invite team members</label>
+  </CheckListItem>
 </CheckList>
 ```
 

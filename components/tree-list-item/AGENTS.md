@@ -43,11 +43,11 @@ ArrowRight and ArrowLeft act only when the item itself has focus, never on a key
 
 ## Props
 
-| Prop           | Type            | Default    | Description                                                                                          |
-| -------------- | --------------- | ---------- | ---------------------------------------------------------------------------------------------------- |
-| `expanded`     | `boolean`    | `undefined` | Expanded state: `true` / `false` sets `aria-expanded`; leave undefined for a leaf (no attribute). Svelte `bind:expanded`, Vue `v-model:expanded`, Angular `[(expanded)]`; React is controlled — pass `expanded` and `onExpandedChange(next)` |
-| `children`     | `slot`       | (required) | Content for the tree item                                                                            |
-| `...restProps` | HTML attributes |            | Additional attributes spread onto the `<li>` element (including `role`, `tabindex`, `aria-expanded`) |
+| Prop           | Type            | Default     | Description                                                                                                                                                                                                                                  |
+| -------------- | --------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `expanded`     | `boolean`       | `undefined` | Expanded state: `true` / `false` sets `aria-expanded`; leave undefined for a leaf (no attribute). Svelte `bind:expanded`, Vue `v-model:expanded`, Angular `[(expanded)]`; React is controlled — pass `expanded` and `onExpandedChange(next)` |
+| `children`     | `slot`          | (required)  | Content for the tree item                                                                                                                                                                                                                    |
+| `...restProps` | HTML attributes |             | Additional attributes spread onto the `<li>` element (including `role`, `tabindex`, `aria-expanded`)                                                                                                                                         |
 
 ## Acceptance Criteria
 

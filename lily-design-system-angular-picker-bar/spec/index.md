@@ -50,43 +50,43 @@ markup of its own beyond the root wrapper.
 
 ## 4. Inputs
 
-| Input                       | Type                     | Required | Default              |
-| ---------------------------- | ------------------------ | -------- | --------------------- |
-| `labels`                     | `PickerBarLabels`        | yes      | —                      |
-| `searchPlaceholder`          | `string \| undefined`    | no       | `undefined`            |
-| `searchValue`                | `string` (model, 2-way)  | no       | `""`                   |
-| `searchAction`               | `string`                 | no       | `"/"`                  |
-| `searchNavigate`             | `((href: string) => void) \| undefined` | no | `undefined` (`location.assign`) |
-| `themesUrl`                  | `string`                 | yes      | —                      |
-| `themes`                     | `string[]`               | no       | `DEFAULT_THEMES` (§5.1) |
-| `themeValue`                 | `string` (model, 2-way)  | no       | `""`                   |
-| `themeDefaultValue`          | `string`                 | no       | `""`                   |
-| `themeStorageKey`            | `string`                 | no       | `""`                   |
-| `themeDetectFromSystem`      | `boolean`                | no       | `false`                |
-| `themeName`                  | `string`                 | no       | `"theme"`              |
-| `themeTarget`                | `HTMLElement \| null`    | no       | `null`                 |
-| `themeLabels`                | `Record<string,string>`  | no       | `{}`                   |
-| `locales`                    | `string[]`               | yes      | —                      |
-| `localeValue`                | `string` (model, 2-way)  | no       | `""`                   |
-| `localeDefaultValue`         | `string`                 | no       | `""`                   |
-| `localeStorageKey`           | `string`                 | no       | `""`                   |
-| `localeDetectFromNavigator`  | `boolean`                | no       | `false`                |
-| `localeName`                 | `string`                 | no       | `"locale"`             |
-| `localeTarget`                | `HTMLElement \| null`    | no       | `null`                 |
-| `localeApplyDir`              | `boolean`                | no       | `true`                 |
-| `localeLabels`                | `Record<string,string>`  | no       | `{}`                   |
-| `sizes`                       | `string[]`               | no       | `DEFAULT_SIZES` (§5.2)  |
-| `textSizeValue`                | `string` (model, 2-way)  | no       | `""`                   |
-| `textSizeDefaultValue`         | `string`                 | no       | `"normal"`              |
-| `textSizeStorageKey`           | `string`                 | no       | `""`                   |
-| `textSizeName`                 | `string`                 | no       | `"text-size"`          |
-| `textSizeTarget`                | `HTMLElement \| null`    | no       | `null`                 |
-| `textSizeLabels`                | `Record<string,string>`  | no       | `{}`                   |
-| `shareTargets`                  | `ShareTarget[]`          | no       | `[]`                    |
-| `shareUrl` / `shareTitle` / `shareText` | `string`      | no       | `""`                    |
-| `copyLabel` / `copiedLabel` / `copyFailedLabel` | `string` | no    | `""`                    |
-| `shareStrategy`                  | `ShareStrategy`         | no       | `"auto"`                |
-| `className`                      | `string`                | no       | `""`                    |
+| Input                                           | Type                                    | Required | Default                         |
+| ----------------------------------------------- | --------------------------------------- | -------- | ------------------------------- |
+| `labels`                                        | `PickerBarLabels`                       | yes      | —                               |
+| `searchPlaceholder`                             | `string \| undefined`                   | no       | `undefined`                     |
+| `searchValue`                                   | `string` (model, 2-way)                 | no       | `""`                            |
+| `searchAction`                                  | `string`                                | no       | `"/"`                           |
+| `searchNavigate`                                | `((href: string) => void) \| undefined` | no       | `undefined` (`location.assign`) |
+| `themesUrl`                                     | `string`                                | yes      | —                               |
+| `themes`                                        | `string[]`                              | no       | `DEFAULT_THEMES` (§5.1)         |
+| `themeValue`                                    | `string` (model, 2-way)                 | no       | `""`                            |
+| `themeDefaultValue`                             | `string`                                | no       | `""`                            |
+| `themeStorageKey`                               | `string`                                | no       | `""`                            |
+| `themeDetectFromSystem`                         | `boolean`                               | no       | `false`                         |
+| `themeName`                                     | `string`                                | no       | `"theme"`                       |
+| `themeTarget`                                   | `HTMLElement \| null`                   | no       | `null`                          |
+| `themeLabels`                                   | `Record<string,string>`                 | no       | `{}`                            |
+| `locales`                                       | `string[]`                              | yes      | —                               |
+| `localeValue`                                   | `string` (model, 2-way)                 | no       | `""`                            |
+| `localeDefaultValue`                            | `string`                                | no       | `""`                            |
+| `localeStorageKey`                              | `string`                                | no       | `""`                            |
+| `localeDetectFromNavigator`                     | `boolean`                               | no       | `false`                         |
+| `localeName`                                    | `string`                                | no       | `"locale"`                      |
+| `localeTarget`                                  | `HTMLElement \| null`                   | no       | `null`                          |
+| `localeApplyDir`                                | `boolean`                               | no       | `true`                          |
+| `localeLabels`                                  | `Record<string,string>`                 | no       | `{}`                            |
+| `sizes`                                         | `string[]`                              | no       | `DEFAULT_SIZES` (§5.2)          |
+| `textSizeValue`                                 | `string` (model, 2-way)                 | no       | `""`                            |
+| `textSizeDefaultValue`                          | `string`                                | no       | `"normal"`                      |
+| `textSizeStorageKey`                            | `string`                                | no       | `""`                            |
+| `textSizeName`                                  | `string`                                | no       | `"text-size"`                   |
+| `textSizeTarget`                                | `HTMLElement \| null`                   | no       | `null`                          |
+| `textSizeLabels`                                | `Record<string,string>`                 | no       | `{}`                            |
+| `shareTargets`                                  | `ShareTarget[]`                         | no       | `[]`                            |
+| `shareUrl` / `shareTitle` / `shareText`         | `string`                                | no       | `""`                            |
+| `copyLabel` / `copiedLabel` / `copyFailedLabel` | `string`                                | no       | `""`                            |
+| `shareStrategy`                                 | `ShareStrategy`                         | no       | `"auto"`                        |
+| `className`                                     | `string`                                | no       | `""`                            |
 
 `labels` is a `PickerBarLabels` object with seven required names, no
 English default: `search` (the search picker's icon button and search
@@ -191,7 +191,6 @@ app supplies them:
 - §L2 With `links` omitted or empty, or `labels.link` missing, no link picker renders and search is first (§7.2 and the search clause unchanged).
 - §L3 `linkNavigate` reaches the nested `LinkPicker` and `linkNavigated` re-emits its `navigated` output.
 - §L4 The links are real `<a href>` elements (not a menu).
-
 
 ## 8. Relationship to the seven `*-picker` helpers
 

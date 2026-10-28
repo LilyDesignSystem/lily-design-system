@@ -32,14 +32,30 @@ This component is useful for quantity selectors, age inputs, price fields, confi
 Basic quantity input with range constraints:
 
 ```html
-<NumberInput label="Quantity" value={quantity} min={0} max={100} step={1} />
+<NumberInput
+  label="Quantity"
+  value="{quantity}"
+  min="{0}"
+  max="{100}"
+  step="{1}"
+/>
 ```
 
 Age input in a registration form:
 
 ```html
-<Field label="Age" required>
-  <NumberInput label="Age" value={age} min={0} max={150} step={1} required />
+<Field
+  label="Age"
+  required
+>
+  <NumberInput
+    label="Age"
+    value="{age}"
+    min="{0}"
+    max="{150}"
+    step="{1}"
+    required
+  />
 </Field>
 ```
 
@@ -47,19 +63,34 @@ Number input for a configuration setting:
 
 ```html
 <Field label="Session timeout (minutes)">
-  <NumberInput label="Session timeout in minutes" value={timeout} min={1} max={120} step={5} />
+  <NumberInput
+    label="Session timeout in minutes"
+    value="{timeout}"
+    min="{1}"
+    max="{120}"
+    step="{5}"
+  />
 </Field>
 ```
 
 Number input in a product order form:
 
 ```html
-<Form label="Add to basket" onsubmit={addToBasket}>
+<form
+  label="Add to basket"
+  onsubmit="{addToBasket}"
+>
   <Field label="Quantity">
-    <NumberInput label="Quantity" value={qty} min={1} max={10} step={1} />
+    <NumberInput
+      label="Quantity"
+      value="{qty}"
+      min="{1}"
+      max="{10}"
+      step="{1}"
+    />
   </Field>
-  <Button type="submit">Add to basket</Button>
-</Form>
+  <button type="submit">Add to basket</button>
+</form>
 ```
 
 ## Keyboard Interactions
@@ -87,14 +118,11 @@ None at the component level. Keyboard behavior is handled natively by the browse
 
 This headless component wraps a native `<input type="number">` with `aria-label` for accessible naming, two-way bindable value, and optional `min`, `max`, and `step` constraints. The consumer provides all visual styling, including input dimensions, borders, spinner button appearance, and validation error display.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.number-input` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<input>` element with class `number-input`
 - Verify aria-label={label}` -- provides an accessible name describing the purpose of the number input

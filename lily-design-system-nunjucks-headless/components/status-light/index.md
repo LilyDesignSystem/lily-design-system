@@ -22,7 +22,7 @@ consumer's CSS can choose the dot color.
 - `label` — string. **Required.** Status text (e.g. `"Active"`,
   `"Offline"`). Forms the accessible content of the indicator.
 - `variant` — `"neutral" | "informative" | "positive" | "notice" |
-  "negative" | "active" | "inactive"`. Default `"neutral"`.
+"negative" | "active" | "inactive"`. Default `"neutral"`.
   Rendered as `data-variant`.
 - `id` — string.
 - `classes` — string. Consumer-provided extra CSS classes.

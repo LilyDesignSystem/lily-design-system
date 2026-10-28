@@ -132,7 +132,7 @@ part of 0.1.0 rather than a later version.
   cancelling the key — so the default Tab proceeds from the picker's
   own position.
 - **Typeahead follows the APG single-character rule.** A single
-  character advances to the *next* matching option, and repeating that
+  character advances to the _next_ matching option, and repeating that
   character cycles through the matches; only a buffer of differing
   characters refines the match anchored on the active option.
   Previously a character that matched the active option went nowhere.

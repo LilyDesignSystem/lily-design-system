@@ -20,7 +20,7 @@ This headless component renders a `<div>` with `role="application"` and an acces
 
 ```tsx
 <CalendarRangePicker label="Select travel dates">
-    {/* calendar grid with date cells */}
+  {/* calendar grid with date cells */}
 </CalendarRangePicker>
 ```
 

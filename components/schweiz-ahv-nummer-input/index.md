@@ -23,9 +23,21 @@ SchweizAhvNummerInput is a headless input for entering Switzerland's AHV-Nummer 
 ## Usage
 
 ```html
-<Field label="AHV-Nummer / Numéro AVS" required>
-  <SchweizAhvNummerInput label="AHV-Nummer / Numéro AVS" value={value} required />
-  <Hint>Thirteen digits, displayed as 756.NNNN.NNNN.NN, always beginning with the country prefix 756. It is a valid EAN-13 barcode number: the final digit is an EAN-13 check digit computed over the twelve preceding digits (alternating-position weights of 1 and 3). Replaced the old 11-digit AHV card number on 1 July 2008.</Hint>
+<Field
+  label="AHV-Nummer / Numéro AVS"
+  required
+>
+  <SchweizAhvNummerInput
+    label="AHV-Nummer / Numéro AVS"
+    value="{value}"
+    required
+  />
+  <Hint
+    >Thirteen digits, displayed as 756.NNNN.NNNN.NN, always beginning with the country prefix 756.
+    It is a valid EAN-13 barcode number: the final digit is an EAN-13 check digit computed over the
+    twelve preceding digits (alternating-position weights of 1 and 3). Replaced the old 11-digit AHV
+    card number on 1 July 2008.</Hint
+  >
   <ErrorMessage>Please enter a valid AHV-Nummer / Numéro AVS</ErrorMessage>
 </Field>
 ```

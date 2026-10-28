@@ -30,9 +30,7 @@ Breadcrumb trails help users understand where they are in the site structure and
     <BreadcrumbListItem>
       <BreadcrumbLink href="/health-a-z">Health A to Z</BreadcrumbLink>
     </BreadcrumbListItem>
-    <BreadcrumbListItem aria-current="page">
-      Diabetes
-    </BreadcrumbListItem>
+    <BreadcrumbListItem aria-current="page"> Diabetes </BreadcrumbListItem>
   </BreadcrumbList>
 </BreadcrumbNav>
 ```
@@ -62,14 +60,11 @@ Breadcrumb trails help users understand where they are in the site structure and
 
 This component provides a semantic `<ol>` element for ordered list semantics with zero visual styling. The consumer is responsible for all CSS including list reset styles, horizontal layout (flexbox or inline), separator decorations between items, and spacing.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.breadcrumb-list` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<ol>` element with class `breadcrumb-list`
 - Verify The parent BreadcrumbNav provides the `<nav>` landmark with `aria-label
@@ -98,9 +93,7 @@ BreadcrumbList follows the Nav / List / ListItem composition pattern:
     <BreadcrumbListItem>
       <BreadcrumbLink href="/health-a-z">Health A to Z</BreadcrumbLink>
     </BreadcrumbListItem>
-    <BreadcrumbListItem aria-current="page">
-      Diabetes
-    </BreadcrumbListItem>
+    <BreadcrumbListItem aria-current="page"> Diabetes </BreadcrumbListItem>
   </BreadcrumbList>
 </BreadcrumbNav>
 ```

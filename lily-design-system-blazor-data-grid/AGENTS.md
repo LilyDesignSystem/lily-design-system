@@ -16,14 +16,14 @@ Run `dotnet test` in `tests/` here; it builds `lily-design-system-blazor-headles
 
 ## Files
 
-| File | Purpose |
-| --- | --- |
-| `spec/index.md` | Specification-driven contract (canonical). |
-| `DataGrid.razor`, `DataGrid.razor.cs` | The component: markup and code-behind. |
-| `DataGridModels.cs` | Columns, labels, enums, row and value types. |
-| `CellTypes.cs`, `ExportData.cs` | The C# ports of the Svelte `cell-types.ts` and `export-data.ts`. |
-| `DataGridTests.cs`, `ExportDataTests.cs` | bUnit and xUnit specs (compiled by `tests/`). |
-| `index.md` | User guide. |
+| File                                     | Purpose                                                          |
+| ---------------------------------------- | ---------------------------------------------------------------- |
+| `spec/index.md`                          | Specification-driven contract (canonical).                       |
+| `DataGrid.razor`, `DataGrid.razor.cs`    | The component: markup and code-behind.                           |
+| `DataGridModels.cs`                      | Columns, labels, enums, row and value types.                     |
+| `CellTypes.cs`, `ExportData.cs`          | The C# ports of the Svelte `cell-types.ts` and `export-data.ts`. |
+| `DataGridTests.cs`, `ExportDataTests.cs` | bUnit and xUnit specs (compiled by `tests/`).                    |
+| `index.md`                               | User guide.                                                      |
 
 ## Public surface
 

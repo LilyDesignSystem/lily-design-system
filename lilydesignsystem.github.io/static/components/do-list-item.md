@@ -24,7 +24,10 @@ The consumer provides the content through the children slot. The component is in
 <DoList heading="Do">
   <DoListItem>cover blisters that are likely to burst with a soft plaster or dressing</DoListItem>
   <DoListItem>wash your hands before touching a burst blister</DoListItem>
-  <DoListItem>allow the fluid in a burst blister to drain before covering it with a plaster or dressing</DoListItem>
+  <DoListItem
+    >allow the fluid in a burst blister to drain before covering it with a plaster or
+    dressing</DoListItem
+  >
 </DoList>
 ```
 
@@ -52,14 +55,11 @@ The consumer provides the content through the children slot. The component is in
 
 This headless component provides a semantic `<li>` element that inherits list context from its parent DoList. It handles proper list item semantics. The consumer provides all visual styling, icons, and content for the individual item.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.do-list-item` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<li>` element with class `do-list-item`
 - Verify keyboard interactions work correctly

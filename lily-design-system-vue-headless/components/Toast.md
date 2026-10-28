@@ -28,7 +28,10 @@ Toasts are similar to notifications but are generally more ephemeral and less in
 ```
 
 ```svelte
-<Toast label="Error" urgent>Something went wrong.</Toast>
+<Toast
+  label="Error"
+  urgent>Something went wrong.</Toast
+>
 ```
 
 ```svelte

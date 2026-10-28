@@ -28,7 +28,10 @@ This headless component uses a `<button>` element with an internal slider track,
 Slide to confirm account deletion:
 
 ```html
-<SliderButton label="Slide to delete account" onconfirm={handleDeleteAccount}>
+<SliderButton
+  label="Slide to delete account"
+  onconfirm="{handleDeleteAccount}"
+>
   Slide to delete account
 </SliderButton>
 ```
@@ -36,7 +39,10 @@ Slide to confirm account deletion:
 Slide to confirm payment:
 
 ```html
-<SliderButton label="Slide to send payment" onconfirm={handleSendPayment}>
+<SliderButton
+  label="Slide to send payment"
+  onconfirm="{handleSendPayment}"
+>
   Slide to send $500.00
 </SliderButton>
 ```
@@ -44,7 +50,11 @@ Slide to confirm payment:
 Disabled slider button while processing:
 
 ```html
-<SliderButton label="Slide to confirm" onconfirm={handleConfirm} disabled={isProcessing}>
+<SliderButton
+  label="Slide to confirm"
+  onconfirm="{handleConfirm}"
+  disabled="{isProcessing}"
+>
   Slide to confirm
 </SliderButton>
 ```

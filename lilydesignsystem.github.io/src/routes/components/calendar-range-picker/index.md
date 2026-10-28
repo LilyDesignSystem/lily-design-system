@@ -23,7 +23,13 @@ This headless component renders a `<div>` with `role="application"` and an acces
   <CalendarTable label="April 2026">
     <CalendarTableHead>
       <CalendarTableRow>
-        <th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th>
+        <th>Mon</th>
+        <th>Tue</th>
+        <th>Wed</th>
+        <th>Thu</th>
+        <th>Fri</th>
+        <th>Sat</th>
+        <th>Sun</th>
       </CalendarTableRow>
     </CalendarTableHead>
     <CalendarTableBody>
@@ -73,14 +79,11 @@ None built-in -- the consumer should implement date cell navigation (arrow keys)
 
 This component provides a `<div>` with `role="application"` and `aria-label` as a container for calendar-based range selection, with zero visual styling. The consumer is responsible for all rendering of the calendar grid, date cells, range highlighting, navigation controls, and all CSS including layout, colors, selected state, and hover effects.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.calendar-range-picker` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `calendar-range-picker`
 - Verify role="application"` -- indicates that the widget manages its own keyboard interactions, overriding standard screen reader navigation

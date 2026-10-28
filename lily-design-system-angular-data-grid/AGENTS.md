@@ -16,14 +16,14 @@ Run `pnpm install`, `pnpm test`, `pnpm build` here; tests resolve `@lilydesignsy
 
 ## Files
 
-| File | Purpose |
-| --- | --- |
-| `spec/index.md` | Specification-driven contract (canonical). |
-| `data-grid.component.ts` | The component (standalone, OnPush, signals), the types, and `DataGridAttrs`. |
-| `cell-types.ts`, `export-data.ts` | Pure TypeScript, byte-for-byte copies of the Svelte modules. |
+| File                                                 | Purpose                                                                                    |
+| ---------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| `spec/index.md`                                      | Specification-driven contract (canonical).                                                 |
+| `data-grid.component.ts`                             | The component (standalone, OnPush, signals), the types, and `DataGridAttrs`.               |
+| `cell-types.ts`, `export-data.ts`                    | Pure TypeScript, byte-for-byte copies of the Svelte modules.                               |
 | `data-grid.component.spec.ts`, `export-data.spec.ts` | Vitest specs (TestBed + `@testing-library/dom`), one or more assertions per §8 acceptance. |
-| `index.ts` | Barrel re-export. |
-| `index.md` | User guide. |
+| `index.ts`                                           | Barrel re-export.                                                                          |
+| `index.md`                                           | User guide.                                                                                |
 
 ## Public surface
 

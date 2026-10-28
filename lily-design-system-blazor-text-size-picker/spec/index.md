@@ -86,20 +86,20 @@ Give a Blazor application a drop-in, headless text-size picker that:
 
 ### 4.1 Parameters
 
-| Parameter              | Type                                      | Required | Default                                | Purpose                                                               |
-| ---------------------- | ----------------------------------------- | -------- | -------------------------------------- | --------------------------------------------------------------------- |
-| `Label`                | `string`                                  | yes      | —                                      | Accessible name for the button **and** the listbox.                   |
-| `Sizes`                | `IReadOnlyList<string>`                   | yes      | —                                      | Available size slugs.                                                 |
-| `Value`                | `string`                                  | no       | `""`                                   | Currently selected size slug. Two-way bindable via `@bind-Value`.     |
-| `ValueChanged`         | `EventCallback<string>`                   | no       | —                                      | Two-way binding callback.                                             |
-| `DefaultValue`         | `string?`                                 | no       | `"medium"` if present, else `Sizes[0]` | Initial size when nothing else is supplied.                           |
-| `StorageKey`           | `string?`                                 | no       | `null`                                 | If set, persist selection to `localStorage`.                          |
-| `Name`                 | `string`                                  | no       | `"text-size"`                          | `name` set on the hidden `<input>`.                                   |
-| `SizeLabels`           | `IReadOnlyDictionary<string,string>`      | no       | empty                                  | Optional pretty labels per size slug.                                 |
-| `ChildContent`         | `RenderFragment<TextSizePickerContext>?` | no       | the default SVG icon                   | **Replaces the icon inside the button.** It does not render options.  |
-| `OnChange`             | `EventCallback<string>`                   | no       | —                                      | Fires after the control applies a new size.                           |
-| `CssClass`             | `string`                                  | no       | `""`                                   | Extra CSS class merged into the root `<div>`.                         |
-| `AdditionalAttributes` | `Dictionary<string,object>?`              | no       | —                                      | Captures unmatched attributes; spread onto the root `<div>`.          |
+| Parameter              | Type                                     | Required | Default                                | Purpose                                                              |
+| ---------------------- | ---------------------------------------- | -------- | -------------------------------------- | -------------------------------------------------------------------- |
+| `Label`                | `string`                                 | yes      | —                                      | Accessible name for the button **and** the listbox.                  |
+| `Sizes`                | `IReadOnlyList<string>`                  | yes      | —                                      | Available size slugs.                                                |
+| `Value`                | `string`                                 | no       | `""`                                   | Currently selected size slug. Two-way bindable via `@bind-Value`.    |
+| `ValueChanged`         | `EventCallback<string>`                  | no       | —                                      | Two-way binding callback.                                            |
+| `DefaultValue`         | `string?`                                | no       | `"medium"` if present, else `Sizes[0]` | Initial size when nothing else is supplied.                          |
+| `StorageKey`           | `string?`                                | no       | `null`                                 | If set, persist selection to `localStorage`.                         |
+| `Name`                 | `string`                                 | no       | `"text-size"`                          | `name` set on the hidden `<input>`.                                  |
+| `SizeLabels`           | `IReadOnlyDictionary<string,string>`     | no       | empty                                  | Optional pretty labels per size slug.                                |
+| `ChildContent`         | `RenderFragment<TextSizePickerContext>?` | no       | the default SVG icon                   | **Replaces the icon inside the button.** It does not render options. |
+| `OnChange`             | `EventCallback<string>`                  | no       | —                                      | Fires after the control applies a new size.                          |
+| `CssClass`             | `string`                                 | no       | `""`                                   | Extra CSS class merged into the root `<div>`.                        |
+| `AdditionalAttributes` | `Dictionary<string,object>?`             | no       | —                                      | Captures unmatched attributes; spread onto the root `<div>`.         |
 
 ### 4.2 `TextSizePickerContext`
 
@@ -122,6 +122,7 @@ No public glyph constant — the default icon is inline SVG markup
 in the component, not a separately-exported swappable character
 value (reversed 2026-09-16 from `TextSizePicker.LatinCapitalLetterA`,
 `"A"`, U+0041 — removed, not renamed).
+
 - `TextSizePicker.SizeName(string slug)` — the ONE title-casing rule
   (`"x-large"` → `"X Large"`). The private instance `LabelFor`
   delegates to it, so consumers rendering their own UI never duplicate
@@ -132,8 +133,15 @@ value (reversed 2026-09-16 from `TextSizePicker.LatinCapitalLetterA`,
 ### 4.4 DOM contract
 
 ```html
-<div class="text-size-picker {CssClass}" ...AdditionalAttributes>
-  <input type="hidden" name="{Name}" value="{Value}" />
+<div
+  class="text-size-picker {CssClass}"
+  ...AdditionalAttributes
+>
+  <input
+    type="hidden"
+    name="{Name}"
+    value="{Value}"
+  />
   <button
     type="button"
     class="text-size-picker-button"
@@ -142,9 +150,20 @@ value (reversed 2026-09-16 from `TextSizePicker.LatinCapitalLetterA`,
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <span class="text-size-picker-icon" aria-hidden="true">A</span>
+    <span
+      class="text-size-picker-icon"
+      aria-hidden="true"
+      >A</span
+    >
   </button>
-  <div class="text-size-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{Label}</div>
+  <div
+    class="text-size-picker-tooltip"
+    role="tooltip"
+    id="{tooltipId}"
+    hidden
+  >
+    {Label}
+  </div>
   <ul
     class="text-size-picker-list"
     id="{listId}"
@@ -229,17 +248,17 @@ Opening moves focus to the `<ul>`; the cursor is carried by
 
 On the **listbox**:
 
-| Key               | Action                                                                 |
-| ----------------- | ---------------------------------------------------------------------- |
-| `Arrow Down`      | Move the active option down one; **clamps** at the last (no wrap).     |
-| `Arrow Up`        | Move the active option up one; **clamps** at the first (no wrap).      |
-| `Home`            | Jump to the first option.                                              |
-| `End`             | Jump to the last option.                                               |
-| `Enter` / `Space` | Select the active option, apply it, close, return focus to the button. |
-| `Escape`          | Close and return focus **without** changing the value.                 |
-| `PageUp`          | Move the active option up ten; clamps at the first.                    |
-| `PageDown`        | Move the active option down ten; clamps at the last.                   |
-| `Tab`             | Close and move on: the browser's default Tab proceeds from the picker's position (see §5.6 for why this port must not refocus the button). |
+| Key               | Action                                                                                                                                                                                                                                                                        |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Arrow Down`      | Move the active option down one; **clamps** at the last (no wrap).                                                                                                                                                                                                            |
+| `Arrow Up`        | Move the active option up one; **clamps** at the first (no wrap).                                                                                                                                                                                                             |
+| `Home`            | Jump to the first option.                                                                                                                                                                                                                                                     |
+| `End`             | Jump to the last option.                                                                                                                                                                                                                                                      |
+| `Enter` / `Space` | Select the active option, apply it, close, return focus to the button.                                                                                                                                                                                                        |
+| `Escape`          | Close and return focus **without** changing the value.                                                                                                                                                                                                                        |
+| `PageUp`          | Move the active option up ten; clamps at the first.                                                                                                                                                                                                                           |
+| `PageDown`        | Move the active option down ten; clamps at the last.                                                                                                                                                                                                                          |
+| `Tab`             | Close and move on: the browser's default Tab proceeds from the picker's position (see §5.6 for why this port must not refocus the button).                                                                                                                                    |
 | Printable chars   | Typeahead over the option _labels_, 500 ms buffer reset. A single character advances to the **next** match and repeating it cycles onward; a buffer of differing characters refines the match anchored on the active option. Search wraps once, even though the arrows clamp. |
 
 Clicking an option selects it; focus leaving the root closes the
@@ -269,19 +288,20 @@ identically. Both are shared with `ThemePicker` and `LocalePicker`.
   `relatedTarget`, so the component flags focus moves it makes itself
   and ignores the matching `focusout`.
 - **`Tab` from the open list does not refocus the button.** The
-  canonical Svelte fix moves focus to the button *before* hiding the
+  canonical Svelte fix moves focus to the button _before_ hiding the
   list, because there the hide is synchronous and would otherwise
   precede the browser's default Tab — dropping focus to `<body>` and
   restarting Tab from the top of the document. Blazor cannot reproduce
   that bug: the default Tab always runs before the async handler, so it
   proceeds from the still-visible list (the picker's own position), and
   focus has already landed on the next tab stop by the time the list
-  hides. Issuing a button-focus request here would run *after* the
+  hides. Issuing a button-focus request here would run _after_ the
   default Tab and yank the user back to the trigger they just left.
   Both implementations end with focus on the tab stop after the picker.
 
 `@onmousedown:preventDefault` **is** applied to the `<ul>`, so clicking
 an option does not blur the listbox before the click handler runs.
+
 - **Tooltip keyboard focus has no `:focus-visible`.** The canonical Svelte
   `text-size-picker` asks the browser `button.matches(":focus-visible")`; Blazor
   cannot without JS interop, and this package ships none for the tooltip.

@@ -10,10 +10,15 @@ See [components/middle-truncation/index.md](../../../../../components/middle-tru
 
 ```svelte
 <script lang="ts">
-    import MiddleTruncation from "./MiddleTruncation.svelte";
+  import MiddleTruncation from "./MiddleTruncation.svelte";
 </script>
 
-<MiddleTruncation text="quarterly-report-final-version-3.pdf" ellipsis="…" strategy="min-end" end={6} />
+<MiddleTruncation
+  text="quarterly-report-final-version-3.pdf"
+  ellipsis="…"
+  strategy="min-end"
+  end={6}
+/>
 ```
 
 ## Files

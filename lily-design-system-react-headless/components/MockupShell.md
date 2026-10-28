@@ -12,7 +12,10 @@ A box area that looks like a terminal shell. Renders a decorative `<div>` contai
 
 ```tsx
 <MockupShell>
-  <img src="screenshot.png" alt="App screen" />
+  <img
+    src="screenshot.png"
+    alt="App screen"
+  />
 </MockupShell>
 ```
 

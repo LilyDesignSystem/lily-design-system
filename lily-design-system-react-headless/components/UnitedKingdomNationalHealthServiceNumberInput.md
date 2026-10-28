@@ -36,25 +36,35 @@ import UnitedKingdomNationalHealthServiceNumberInput from "./UnitedKingdomNation
 
 const [nhsNumber, setNhsNumber] = useState("");
 
-<UnitedKingdomNationalHealthServiceNumberInput label="NHS Number" />
+<UnitedKingdomNationalHealthServiceNumberInput label="NHS Number" />;
 ```
 
 With two-way binding:
 
 ```tsx
-<UnitedKingdomNationalHealthServiceNumberInput label="NHS Number" value={nhsNumber} onChange={setNhsNumber} />
+<UnitedKingdomNationalHealthServiceNumberInput
+  label="NHS Number"
+  value={nhsNumber}
+  onChange={setNhsNumber}
+/>
 ```
 
 Required field in a form:
 
 ```tsx
-<UnitedKingdomNationalHealthServiceNumberInput label="NHS Number" required />
+<UnitedKingdomNationalHealthServiceNumberInput
+  label="NHS Number"
+  required
+/>
 ```
 
 Disabled state:
 
 ```tsx
-<UnitedKingdomNationalHealthServiceNumberInput label="NHS Number" disabled />
+<UnitedKingdomNationalHealthServiceNumberInput
+  label="NHS Number"
+  disabled
+/>
 ```
 
 ## Keyboard Interactions

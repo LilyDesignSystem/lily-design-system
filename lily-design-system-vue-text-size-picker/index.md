@@ -83,7 +83,10 @@ const sizeLabels = {
     storage-key="lily-text-size"
   />
 
-  <p class="text-size-picker-status" aria-live="polite">
+  <p
+    class="text-size-picker-status"
+    aria-live="polite"
+  >
     Text size: {{ sizeLabels[size] ?? size }}
   </p>
 </template>
@@ -109,11 +112,7 @@ unless you render it. See
 ### Default rendering
 
 ```vue
-<TextSizePicker
-  label="Text size"
-  :sizes="['small', 'medium', 'large']"
-  v-model:value="size"
-/>
+<TextSizePicker label="Text size" :sizes="['small', 'medium', 'large']" v-model:value="size" />
 
 <!-- Renders:
 <div class="text-size-picker">
@@ -161,11 +160,7 @@ component-owned. Keep the content decorative and `aria-hidden`, so it
 never competes with `aria-label`:
 
 ```vue
-<TextSizePicker
-  label="Text size"
-  :sizes="['small', 'medium', 'large']"
-  v-model:value="size"
->
+<TextSizePicker label="Text size" :sizes="['small', 'medium', 'large']" v-model:value="size">
     <template #default="{ open }">
         <svg
             class="text-size-picker-icon"
@@ -221,9 +216,9 @@ There is no `placeholder` prop and no detection prop — there is no OS
 
 ## Events
 
-| Event          | Payload  | When                                             |
-| -------------- | -------- | ------------------------------------------------ |
-| `update:value` | `string` | After selection, drives `v-model:value`.         |
+| Event          | Payload  | When                                            |
+| -------------- | -------- | ----------------------------------------------- |
+| `update:value` | `string` | After selection, drives `v-model:value`.        |
 | `change`       | `string` | After the picker applies a new size (the slug). |
 
 ## Keyboard
@@ -260,17 +255,17 @@ The picker is SSR-safe — all DOM writes happen inside `onMounted` /
 
 ## Files in this directory
 
-| File                      | Purpose                                         |
-| ------------------------- | ----------------------------------------------- |
-| `spec/index.md`           | Single source of truth — API, behaviour, tests. |
-| `AGENTS.md`               | Fast-index pointer for AI agents.               |
-| `CLAUDE.md`               | `@AGENTS.md`.                                   |
+| File                     | Purpose                                         |
+| ------------------------ | ----------------------------------------------- |
+| `spec/index.md`          | Single source of truth — API, behaviour, tests. |
+| `AGENTS.md`              | Fast-index pointer for AI agents.               |
+| `CLAUDE.md`              | `@AGENTS.md`.                                   |
 | `TextSizePicker.vue`     | The component implementation.                   |
 | `TextSizePicker.test.ts` | vitest suite covering every spec §7 item.       |
-| `index.ts`                | Re-export barrel.                               |
-| `index.md`                | This file.                                      |
-| `docs/accessibility.md`   | Accessibility rationale and tradeoffs.          |
-| `CHANGELOG.md`            | Release record.                                 |
+| `index.ts`               | Re-export barrel.                               |
+| `index.md`               | This file.                                      |
+| `docs/accessibility.md`  | Accessibility rationale and tradeoffs.          |
+| `CHANGELOG.md`           | Release record.                                 |
 
 ---
 

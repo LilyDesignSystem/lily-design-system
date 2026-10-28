@@ -48,13 +48,13 @@ Import the component, pass a descriptive `label`, and bind the `value`. The valu
 
 ```svelte
 <script lang="ts">
-    import NetPromoterScorePicker from "./NetPromoterScorePicker.svelte";
-    let score = $state("");
+  import NetPromoterScorePicker from "./NetPromoterScorePicker.svelte";
+  let score = $state("");
 </script>
 
 <NetPromoterScorePicker
-    label="How likely are you to recommend us?"
-    bind:value={score}
+  label="How likely are you to recommend us?"
+  bind:value={score}
 />
 <p>Selected: {score || "none"}</p>
 ```
@@ -65,14 +65,14 @@ The rendered markup is a `<fieldset role="radiogroup">` containing 11 `<label>` 
 
 ```svelte
 <script lang="ts">
-    import NetPromoterScorePicker from "./NetPromoterScorePicker.svelte";
-    let score = $state("");
+  import NetPromoterScorePicker from "./NetPromoterScorePicker.svelte";
+  let score = $state("");
 </script>
 
 <NetPromoterScorePicker
-    label="Rate our service"
-    bind:value={score}
-    name="service-nps"
+  label="Rate our service"
+  bind:value={score}
+  name="service-nps"
 />
 ```
 
@@ -80,34 +80,37 @@ The rendered markup is a `<fieldset role="radiogroup">` containing 11 `<label>` 
 
 ```svelte
 <script lang="ts">
-    import NetPromoterScorePicker from "./NetPromoterScorePicker.svelte";
-    let score = $state("9");
+  import NetPromoterScorePicker from "./NetPromoterScorePicker.svelte";
+  let score = $state("9");
 </script>
 
-<NetPromoterScorePicker label="Likelihood to recommend" bind:value={score} />
+<NetPromoterScorePicker
+  label="Likelihood to recommend"
+  bind:value={score}
+/>
 ```
 
 ### Classifying Detractors / Passives / Promoters
 
 ```svelte
 <script lang="ts">
-    import NetPromoterScorePicker from "./NetPromoterScorePicker.svelte";
-    let score = $state("");
-    const category = $derived(() => {
-        const n = Number(score);
-        if (!score) return "";
-        if (n <= 6) return "Detractor";
-        if (n <= 8) return "Passive";
-        return "Promoter";
-    });
+  import NetPromoterScorePicker from "./NetPromoterScorePicker.svelte";
+  let score = $state("");
+  const category = $derived(() => {
+    const n = Number(score);
+    if (!score) return "";
+    if (n <= 6) return "Detractor";
+    if (n <= 8) return "Passive";
+    return "Promoter";
+  });
 </script>
 
 <NetPromoterScorePicker
-    label="How likely are you to recommend us?"
-    bind:value={score}
+  label="How likely are you to recommend us?"
+  bind:value={score}
 />
 {#if score}
-    <p>Category: {category()}</p>
+  <p>Category: {category()}</p>
 {/if}
 ```
 
@@ -115,24 +118,27 @@ The rendered markup is a `<fieldset role="radiogroup">` containing 11 `<label>` 
 
 ```svelte
 <script lang="ts">
-    import NetPromoterScorePicker from "./NetPromoterScorePicker.svelte";
-    import TextAreaInput from "../TextAreaInput/TextAreaInput.svelte";
-    let score = $state("");
-    let feedback = $state("");
+  import NetPromoterScorePicker from "./NetPromoterScorePicker.svelte";
+  import TextAreaInput from "../TextAreaInput/TextAreaInput.svelte";
+  let score = $state("");
+  let feedback = $state("");
 
-    function submit(e: SubmitEvent) {
-        e.preventDefault();
-        console.log({ score, feedback });
-    }
+  function submit(e: SubmitEvent) {
+    e.preventDefault();
+    console.log({ score, feedback });
+  }
 </script>
 
 <form onsubmit={submit}>
-    <NetPromoterScorePicker
-        label="How likely are you to recommend us?"
-        bind:value={score}
-    />
-    <TextAreaInput label="Why?" bind:value={feedback} />
-    <button type="submit">Submit</button>
+  <NetPromoterScorePicker
+    label="How likely are you to recommend us?"
+    bind:value={score}
+  />
+  <TextAreaInput
+    label="Why?"
+    bind:value={feedback}
+  />
+  <button type="submit">Submit</button>
 </form>
 ```
 

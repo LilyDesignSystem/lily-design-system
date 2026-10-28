@@ -19,7 +19,10 @@ An avatar circle image is the profile photo element within an Avatar. It renders
 
 ```svelte
 <Avatar alt="Jane Doe">
-  <AvatarImage src="/photos/jane.jpg" alt="Jane Doe" />
+  <AvatarImage
+    src="/photos/jane.jpg"
+    alt="Jane Doe"
+  />
 </Avatar>
 ```
 

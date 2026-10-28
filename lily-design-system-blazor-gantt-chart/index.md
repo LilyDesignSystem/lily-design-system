@@ -121,7 +121,7 @@ unsolved industry-wide, not something uniquely skipped here.
   `Labels` — a label's absence disables the control it names.
 - One `aria-live="polite"` region announces every successful edit.
 - bUnit has no live browser focus model; this package's own test suite
-  verifies focus *intent* rather than that the browser actually moved
+  verifies focus _intent_ rather than that the browser actually moved
   focus — see `AGENTS.md`.
 
 ## Full contract

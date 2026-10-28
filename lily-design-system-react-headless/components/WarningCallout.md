@@ -20,13 +20,13 @@ This headless component renders an `<aside>` element with `role="alert"`, which 
 
 ```tsx
 <WarningCallout label="Warning">
-    <p>Your session is about to expire.</p>
+  <p>Your session is about to expire.</p>
 </WarningCallout>
 ```
 
 ```tsx
 <WarningCallout>
-    <p>Unsaved changes will be lost.</p>
+  <p>Unsaved changes will be lost.</p>
 </WarningCallout>
 ```
 

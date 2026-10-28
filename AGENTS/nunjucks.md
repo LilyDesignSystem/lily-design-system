@@ -31,10 +31,7 @@ Configure Nunjucks with paths to the Lily components directory and any
 view folder you use:
 
 ```js
-nunjucks.configure([
-  'components',
-  '<YOUR-VIEWS-FOLDER>'
-])
+nunjucks.configure(["components", "<YOUR-VIEWS-FOLDER>"]);
 ```
 
 ### Import and call a macro

@@ -63,7 +63,7 @@ the **sibling** `LilyDesignSystem.Blazor.DateTimePicker` package — used
 twice per edit session, for a task's start and end date — as the
 keyboard-accessible editing surface, following the same
 `ProjectReference`-to-a-sibling-package pattern `PickerBar` established
-for composing other *helpers* (not just headless components). Per WCAG
+for composing other _helpers_ (not just headless components). Per WCAG
 2.5.7, editing is never arrow-key-drag-only: pointer drag-to-resize/
 reschedule is supplementary to the composed `DateTimePicker` edit path.
 Also ships row hierarchy with derived parent date ranges and

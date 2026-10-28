@@ -22,7 +22,7 @@ BulgariaEdinenGrazhdanskiNomerView is a headless read-only display of Bulgaria's
 ```html
 <SummaryList>
   <SummaryListItem term="Uniform Civil Number">
-    <BulgariaEdinenGrazhdanskiNomerView value={value} />
+    <BulgariaEdinenGrazhdanskiNomerView value="{value}" />
   </SummaryListItem>
 </SummaryList>
 ```

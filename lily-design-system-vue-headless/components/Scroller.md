@@ -32,7 +32,10 @@ const step = ref(0);
 </script>
 
 <template>
-  <Scroller label="A scrolling story" @indexChange="step = $event">
+  <Scroller
+    label="A scrolling story"
+    @indexChange="step = $event"
+  >
     <template #background>
       <Map :zoom="step + 1" />
     </template>

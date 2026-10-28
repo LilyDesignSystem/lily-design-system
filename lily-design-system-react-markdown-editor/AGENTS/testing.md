@@ -56,9 +56,7 @@ Both helpers mutate global state (`document.head`,
 ```ts
 beforeEach(() => {
   // Reset document.head — remove managed <link> from previous tests.
-  document.head
-    .querySelectorAll("link[data-lily-theme-picker]")
-    .forEach((el) => el.remove());
+  document.head.querySelectorAll("link[data-lily-theme-picker]").forEach((el) => el.remove());
 
   // Reset document.documentElement.
   document.documentElement.removeAttribute("data-theme");
@@ -171,9 +169,7 @@ The component writes to three places. Each assertion type:
 expect(document.documentElement.dataset.theme).toBe("dark");
 
 // 2. Managed <link> in head.
-const link = document.head.querySelector<HTMLLinkElement>(
-  'link[data-lily-theme-picker="theme"]',
-);
+const link = document.head.querySelector<HTMLLinkElement>('link[data-lily-theme-picker="theme"]');
 expect(link?.href).toContain("/t/dark.css");
 
 // 3. Callback.

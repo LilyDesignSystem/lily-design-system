@@ -26,20 +26,37 @@ This component is useful in custom-designed radio groups, card selection interfa
 ## Usage
 
 ```html
-<Fieldset legend="Are you 18 or over?">
+<fieldset legend="Are you 18 or over?">
   <RadioGroup name="age-check">
-    <RadioInput label="Yes" value="yes" />
-    <RadioInput label="No" value="no" />
+    <RadioInput
+      label="Yes"
+      value="yes"
+    />
+    <RadioInput
+      label="No"
+      value="no"
+    />
   </RadioGroup>
-</Fieldset>
+</fieldset>
 
-<Fieldset legend="How would you like to receive your results?">
+<fieldset legend="How would you like to receive your results?">
   <RadioGroup name="results-preference">
-    <RadioInput label="Email" value="email" hint="We will send results within 24 hours" />
-    <RadioInput label="Post" value="post" hint="Results will arrive within 7 working days" />
-    <RadioInput label="I do not want my results" value="none" />
+    <RadioInput
+      label="Email"
+      value="email"
+      hint="We will send results within 24 hours"
+    />
+    <RadioInput
+      label="Post"
+      value="post"
+      hint="Results will arrive within 7 working days"
+    />
+    <RadioInput
+      label="I do not want my results"
+      value="none"
+    />
   </RadioGroup>
-</Fieldset>
+</fieldset>
 ```
 
 ## Keyboard Interactions
@@ -73,17 +90,14 @@ Native radio input keyboard behavior is handled by the browser:
 
 The RadioInput headless component provides a native `<input type="radio">` with `aria-label` for accessible naming, and supports `name`, `value`, `checked`, and `disabled` attributes. The browser handles all radio group keyboard navigation natively. The consumer provides all visual styling.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.radio-input` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
 
-
 - Verify the component renders a `<input>` element with class `radio-input`
-- Verify aria-label={label}` -- provides an accessible name for the radio button since no visible `<label>` element is included
+- Verify aria-label={label}`-- provides an accessible name for the radio button since no visible`<label>` element is included
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied
 

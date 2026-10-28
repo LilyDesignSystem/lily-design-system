@@ -72,14 +72,11 @@ None -- this component is a passive container. Screen reader users can navigate 
 
 The Panel headless component provides a semantic `<section>` element with `aria-label` for region landmark navigation. It handles accessible naming and landmark semantics. The consumer provides all visual styling, including borders, backgrounds, padding, and spacing.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.panel` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `panel`
 - Verify <section aria-label="...">` -- creates a named region landmark, allowing assistive technology to list and navigate to this section

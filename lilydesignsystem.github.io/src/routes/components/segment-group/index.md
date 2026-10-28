@@ -24,8 +24,30 @@ View mode toggle between Grid and List:
 
 ```html
 <SegmentGroup label="View mode">
-  <SegmentGroupItem checked={mode === 'grid'} value="grid" onclick={() => mode = 'grid'}>Grid</SegmentGroupItem>
-  <SegmentGroupItem checked={mode === 'list'} value="list" onclick={() => mode = 'list'}>List</SegmentGroupItem>
+  <SegmentGroupItem
+    checked="{mode"
+    =""
+    =""
+    ="grid"
+    }
+    value="grid"
+    onclick="{()"
+    =""
+  >
+    mode = 'grid'}>Grid</SegmentGroupItem
+  >
+  <SegmentGroupItem
+    checked="{mode"
+    =""
+    =""
+    ="list"
+    }
+    value="list"
+    onclick="{()"
+    =""
+  >
+    mode = 'list'}>List</SegmentGroupItem
+  >
 </SegmentGroup>
 ```
 
@@ -33,9 +55,42 @@ Task status filter:
 
 ```html
 <SegmentGroup label="Task filter">
-  <SegmentGroupItem checked={filter === 'all'} value="all" onclick={() => filter = 'all'}>All</SegmentGroupItem>
-  <SegmentGroupItem checked={filter === 'active'} value="active" onclick={() => filter = 'active'}>Active</SegmentGroupItem>
-  <SegmentGroupItem checked={filter === 'completed'} value="completed" onclick={() => filter = 'completed'}>Completed</SegmentGroupItem>
+  <SegmentGroupItem
+    checked="{filter"
+    =""
+    =""
+    ="all"
+    }
+    value="all"
+    onclick="{()"
+    =""
+  >
+    filter = 'all'}>All</SegmentGroupItem
+  >
+  <SegmentGroupItem
+    checked="{filter"
+    =""
+    =""
+    ="active"
+    }
+    value="active"
+    onclick="{()"
+    =""
+  >
+    filter = 'active'}>Active</SegmentGroupItem
+  >
+  <SegmentGroupItem
+    checked="{filter"
+    =""
+    =""
+    ="completed"
+    }
+    value="completed"
+    onclick="{()"
+    =""
+  >
+    filter = 'completed'}>Completed</SegmentGroupItem
+  >
 </SegmentGroup>
 ```
 
@@ -67,14 +122,11 @@ Task status filter:
 
 The SegmentGroup headless component provides a `<div>` with `role="radiogroup"` and `aria-label` for accessible group naming. It expects children with `role="radio"` and `aria-checked` attributes. The consumer provides all visual styling, selection state management, and keyboard navigation between segments.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.segment-group` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `segment-group`
 - Verify role="radiogroup"` -- identifies the container as a group of mutually exclusive radio-like options

@@ -80,23 +80,23 @@ Give a Blazor application a drop-in, headless theme select that:
 
 ### 4.1 Parameters
 
-| Parameter              | Type                                   | Required | Default                                | Purpose                                                                                                             |
-| ---------------------- | -------------------------------------- | -------- | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| `Label`                | `string`                               | yes      | —                                      | Accessible name for the button AND the listbox. The button is icon-only, so this is its entire accessible name.     |
-| `ThemesUrl`            | `string`                               | yes      | —                                      | Base URL of the themes directory. Trailing `/` is auto-normalised.                                                  |
-| `Themes`               | `IReadOnlyList<string>`                | yes      | —                                      | Available theme slugs.                                                                                              |
-| `Value`                | `string`                               | no       | `""`                                   | Currently selected theme slug. Two-way bindable via `@bind-Value`.                                                  |
-| `ValueChanged`         | `EventCallback<string>`                | no       | —                                      | Fires when the selected slug changes.                                                                               |
-| `DefaultValue`         | `string?`                              | no       | `"light"` if present, else `Themes[0]` | Initial theme when nothing else is supplied.                                                                        |
-| `StorageKey`           | `string?`                              | no       | `null`                                 | If set, persist selection to `localStorage` under this key.                                                         |
-| `DetectFromSystem`     | `bool`                                 | no       | `false`                                | Resolve `prefers-color-scheme` to a supported theme on first visit. Mirrors `DetectFromNavigator` on LocalePicker. |
-| `Name`                 | `string`                               | no       | `"theme"`                              | `name` on the hidden input AND the `data-lily-theme-picker` discriminator on the managed `<link>`.                  |
-| `Extension`            | `string`                               | no       | `".css"`                               | File extension appended to each slug when constructing the URL.                                                     |
-| `ThemeLabels`          | `IReadOnlyDictionary<string,string>`   | no       | empty                                  | Optional pretty labels per slug.                                                                                    |
-| `ChildContent`         | `RenderFragment<ThemePickerContext>?` | no       | the default SVG icon                   | **Replaces the icon inside the button.** It does not render options.                                                |
-| `OnChange`             | `EventCallback<string>`                | no       | —                                      | Fires after the control applies a new theme. Mirrors `ValueChanged`.                                                |
-| `CssClass`             | `string`                               | no       | `""`                                   | Extra CSS class merged into the root `<div>`.                                                                       |
-| `AdditionalAttributes` | `Dictionary<string,object>?`           | no       | —                                      | Captures all unmatched attributes; spread onto the root `<div>`.                                                    |
+| Parameter              | Type                                  | Required | Default                                | Purpose                                                                                                            |
+| ---------------------- | ------------------------------------- | -------- | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `Label`                | `string`                              | yes      | —                                      | Accessible name for the button AND the listbox. The button is icon-only, so this is its entire accessible name.    |
+| `ThemesUrl`            | `string`                              | yes      | —                                      | Base URL of the themes directory. Trailing `/` is auto-normalised.                                                 |
+| `Themes`               | `IReadOnlyList<string>`               | yes      | —                                      | Available theme slugs.                                                                                             |
+| `Value`                | `string`                              | no       | `""`                                   | Currently selected theme slug. Two-way bindable via `@bind-Value`.                                                 |
+| `ValueChanged`         | `EventCallback<string>`               | no       | —                                      | Fires when the selected slug changes.                                                                              |
+| `DefaultValue`         | `string?`                             | no       | `"light"` if present, else `Themes[0]` | Initial theme when nothing else is supplied.                                                                       |
+| `StorageKey`           | `string?`                             | no       | `null`                                 | If set, persist selection to `localStorage` under this key.                                                        |
+| `DetectFromSystem`     | `bool`                                | no       | `false`                                | Resolve `prefers-color-scheme` to a supported theme on first visit. Mirrors `DetectFromNavigator` on LocalePicker. |
+| `Name`                 | `string`                              | no       | `"theme"`                              | `name` on the hidden input AND the `data-lily-theme-picker` discriminator on the managed `<link>`.                 |
+| `Extension`            | `string`                              | no       | `".css"`                               | File extension appended to each slug when constructing the URL.                                                    |
+| `ThemeLabels`          | `IReadOnlyDictionary<string,string>`  | no       | empty                                  | Optional pretty labels per slug.                                                                                   |
+| `ChildContent`         | `RenderFragment<ThemePickerContext>?` | no       | the default SVG icon                   | **Replaces the icon inside the button.** It does not render options.                                               |
+| `OnChange`             | `EventCallback<string>`               | no       | —                                      | Fires after the control applies a new theme. Mirrors `ValueChanged`.                                               |
+| `CssClass`             | `string`                              | no       | `""`                                   | Extra CSS class merged into the root `<div>`.                                                                      |
+| `AdditionalAttributes` | `Dictionary<string,object>?`          | no       | —                                      | Captures all unmatched attributes; spread onto the root `<div>`.                                                   |
 
 There is **no `Placeholder` parameter**. It existed only to pin a native
 `<select>`'s closed display; there is no `<select>` any more.
@@ -128,8 +128,15 @@ imperatively, for consumers driving the control from their own UI.
 The control is an icon button plus a dropdown listbox:
 
 ```html
-<div class="theme-picker {CssClass}" ...AdditionalAttributes>
-  <input type="hidden" name="{Name}" value="{Value}" />
+<div
+  class="theme-picker {CssClass}"
+  ...AdditionalAttributes
+>
+  <input
+    type="hidden"
+    name="{Name}"
+    value="{Value}"
+  />
   <button
     type="button"
     class="theme-picker-button"
@@ -138,9 +145,22 @@ The control is an icon button plus a dropdown listbox:
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true">…</svg>
+    <svg
+      class="theme-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+    >
+      …
+    </svg>
   </button>
-  <div class="theme-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{Label}</div>
+  <div
+    class="theme-picker-tooltip"
+    role="tooltip"
+    id="{tooltipId}"
+    hidden
+  >
+    {Label}
+  </div>
   <ul
     class="theme-picker-list"
     id="{listId}"
@@ -178,7 +198,7 @@ see the deviations section.
 - The root is a `<div>` carrying the `theme-picker` class hook plus
   `CssClass`; `AdditionalAttributes` spread onto it.
 - The icon is a bundled SVG (contrast/half-circle, `viewBox="0 0 16
-  16"`), not a Unicode character (reversed 2026-09-16), wrapped in
+16"`), not a Unicode character (reversed 2026-09-16), wrapped in
   `aria-hidden="true"`. The accessible name comes from the button's
   `aria-label` — never from the icon.
 - `ChildContent` **replaces the icon inside the button** and receives
@@ -301,17 +321,17 @@ Opening moves focus to the `<ul>`.
 
 On the **listbox**:
 
-| Key               | Action                                                                 |
-| ----------------- | ---------------------------------------------------------------------- |
-| `Arrow Down`      | Move the active option down one; **clamps** at the last (no wrap).     |
-| `Arrow Up`        | Move the active option up one; **clamps** at the first (no wrap).      |
-| `Home`            | Jump to the first option.                                              |
-| `End`             | Jump to the last option.                                               |
-| `Enter` / `Space` | Select the active option, apply it, close, return focus to the button. |
-| `Escape`          | Close and return focus **without** changing the value.                 |
-| `PageUp`          | Move the active option up ten; clamps at the first.                    |
-| `PageDown`        | Move the active option down ten; clamps at the last.                   |
-| `Tab`             | Close and move on: the browser's default Tab proceeds from the picker's position (see §6.4 for why this port must not refocus the button). |
+| Key               | Action                                                                                                                                                                                                                                                                        |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Arrow Down`      | Move the active option down one; **clamps** at the last (no wrap).                                                                                                                                                                                                            |
+| `Arrow Up`        | Move the active option up one; **clamps** at the first (no wrap).                                                                                                                                                                                                             |
+| `Home`            | Jump to the first option.                                                                                                                                                                                                                                                     |
+| `End`             | Jump to the last option.                                                                                                                                                                                                                                                      |
+| `Enter` / `Space` | Select the active option, apply it, close, return focus to the button.                                                                                                                                                                                                        |
+| `Escape`          | Close and return focus **without** changing the value.                                                                                                                                                                                                                        |
+| `PageUp`          | Move the active option up ten; clamps at the first.                                                                                                                                                                                                                           |
+| `PageDown`        | Move the active option down ten; clamps at the last.                                                                                                                                                                                                                          |
+| `Tab`             | Close and move on: the browser's default Tab proceeds from the picker's position (see §6.4 for why this port must not refocus the button).                                                                                                                                    |
 | Printable chars   | Typeahead over the option _labels_, 500 ms buffer reset. A single character advances to the **next** match and repeating it cycles onward; a buffer of differing characters refines the match anchored on the active option. Search wraps once, even though the arrows clamp. |
 
 Pointer and focus:
@@ -339,14 +359,14 @@ bindings; both are behavioural refinements, not contract breaks.
   `relatedTarget`, the component flags focus moves it makes itself and
   ignores the matching `focusout`.
 - **`Tab` from the open list does not refocus the button.** The
-  canonical Svelte fix moves focus to the button *before* hiding the
+  canonical Svelte fix moves focus to the button _before_ hiding the
   list, because there the hide is synchronous and would otherwise
   precede the browser's default Tab — dropping focus to `<body>` and
   restarting Tab from the top of the document. Blazor cannot reproduce
   that bug: the default Tab always runs before the async handler, so it
   proceeds from the still-visible list (the picker's own position), and
   focus has already landed on the next tab stop by the time the list
-  hides. Issuing a button-focus request here would run *after* the
+  hides. Issuing a button-focus request here would run _after_ the
   default Tab and yank the user back to the trigger they just left.
   Both implementations end with focus on the tab stop after the picker.
 
@@ -392,7 +412,7 @@ run under bUnit + xUnit.
    `aria-controls` pointing at a `<ul role="listbox" tabindex="-1">`.
    No `<select>` is rendered.
 2. The button renders `<svg class="theme-picker-icon"
-   viewBox="0 0 16 16" aria-hidden="true">` (a bundled contrast/
+viewBox="0 0 16 16" aria-hidden="true">` (a bundled contrast/
    half-circle icon, not a Unicode character).
 3. `aria-label` is the supplied `Label` on BOTH the button and the
    listbox.

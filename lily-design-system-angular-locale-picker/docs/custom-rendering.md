@@ -20,7 +20,11 @@ default `<span class="locale-picker-icon" aria-hidden="true">🌎︎</span>`
 inside the button.
 
 ```html
-<lily-locale-picker label="Language" [locales]="locales" [(value)]="locale">
+<lily-locale-picker
+  label="Language"
+  [locales]="locales"
+  [(value)]="locale"
+>
   <ng-template let-args>{{ args.labelFor(args.value) }}</ng-template>
 </lily-locale-picker>
 ```
@@ -53,7 +57,11 @@ binding styles work:
 <ng-template let-args>{{ args.labelFor(args.value) }}</ng-template>
 
 <!-- Individual named properties -->
-<ng-template let-value="value" let-open="open" let-labelFor="labelFor">
+<ng-template
+  let-value="value"
+  let-open="open"
+  let-labelFor="labelFor"
+>
   {{ labelFor(value) }}{{ open ? " ▴" : " ▾" }}
 </ng-template>
 ```
@@ -76,10 +84,7 @@ By default `let-args` is implicitly `any`. Add the exported
 `strictTemplates`:
 
 ```ts
-import {
-  LocalePicker,
-  LocalePickerIcon,
-} from "./lily-design-system-angular-locale-picker";
+import { LocalePicker, LocalePickerIcon } from "./lily-design-system-angular-locale-picker";
 
 @Component({
   selector: "app-language",
@@ -87,8 +92,15 @@ import {
   imports: [LocalePicker, LocalePickerIcon],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <lily-locale-picker label="Language" [locales]="locales" [(value)]="locale">
-      <ng-template lilyLocalePickerIcon let-args>
+    <lily-locale-picker
+      label="Language"
+      [locales]="locales"
+      [(value)]="locale"
+    >
+      <ng-template
+        lilyLocalePickerIcon
+        let-args
+      >
         {{ args.labelFor(args.value) }}
       </ng-template>
     </lily-locale-picker>
@@ -114,7 +126,11 @@ _which_ language is active — see
 One way to address that is to put the label in the button itself:
 
 ```html
-<lily-locale-picker label="Language" [locales]="locales" [(value)]="locale">
+<lily-locale-picker
+  label="Language"
+  [locales]="locales"
+  [(value)]="locale"
+>
   <ng-template let-args>{{ args.labelFor(args.value) }}</ng-template>
 </lily-locale-picker>
 ```
@@ -141,11 +157,13 @@ A two-letter code is the common compromise — narrower than a label,
 more informative than a globe:
 
 ```html
-<lily-locale-picker label="Language" [locales]="locales" [(value)]="locale">
+<lily-locale-picker
+  label="Language"
+  [locales]="locales"
+  [(value)]="locale"
+>
   <ng-template let-value="value">
-    <span class="locale-picker-code"
-      >{{ value.slice(0, 2).toUpperCase() }}</span
-    >
+    <span class="locale-picker-code">{{ value.slice(0, 2).toUpperCase() }}</span>
   </ng-template>
 </lily-locale-picker>
 ```
@@ -167,7 +185,11 @@ on the button — projected content is yours to annotate.
 `open` lets the glyph respond to the listbox:
 
 ```html
-<lily-locale-picker label="Language" [locales]="locales" [(value)]="locale">
+<lily-locale-picker
+  label="Language"
+  [locales]="locales"
+  [(value)]="locale"
+>
   <ng-template let-args>
     <span
       class="locale-picker-caret"

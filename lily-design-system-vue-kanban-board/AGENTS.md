@@ -19,14 +19,14 @@ When the two disagree, the Svelte side wins.
 
 ## Files
 
-| File                 | Purpose                                                |
-| --------------------- | ------------------------------------------------------- |
-| `spec/index.md`       | Specification-driven contract (canonical).             |
-| `KanbanBoard.vue`     | Implementation. `<script setup lang="ts">`.             |
-| `KanbanBoard.test.ts` | Vitest + `@vue/test-utils` spec, one or more assertions per §8 acceptance clause. |
+| File                  | Purpose                                                                                                                                                                                                            |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `spec/index.md`       | Specification-driven contract (canonical).                                                                                                                                                                         |
+| `KanbanBoard.vue`     | Implementation. `<script setup lang="ts">`.                                                                                                                                                                        |
+| `KanbanBoard.test.ts` | Vitest + `@vue/test-utils` spec, one or more assertions per §8 acceptance clause.                                                                                                                                  |
 | `shims.d.ts`          | Local-only ambient module declaration for `@lilydesignsystem/vue-headless` — works around a real `vue-tsc` limitation (see `spec/index.md` §10 and `lily-design-system-vue-picker-bar/shims.d.ts`). Not published. |
-| `index.ts`            | Barrel re-export.                                       |
-| `index.md`            | User guide.                                              |
+| `index.ts`            | Barrel re-export.                                                                                                                                                                                                  |
+| `index.md`            | User guide.                                                                                                                                                                                                        |
 
 ## Public surface
 

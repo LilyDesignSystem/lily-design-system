@@ -10,7 +10,12 @@ Full documentation: [components/middle-truncation/index.md](../../../../componen
 ## Usage
 
 ```html
-<lily-middle-truncation text="quarterly-report-final-version-3.pdf" ellipsis="…" strategy="min-end" [end]="6" />
+<lily-middle-truncation
+  text="quarterly-report-final-version-3.pdf"
+  ellipsis="…"
+  strategy="min-end"
+  [end]="6"
+/>
 ```
 
 The algorithm is `middle-truncation.ts`, a copy of `shared/middle-truncation.ts`.

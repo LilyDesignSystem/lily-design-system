@@ -25,8 +25,22 @@ Use CheckboxGroup when you need multiple checkboxes that share a logical relatio
 
 ```tsx
 <CheckboxGroup label="Features">
-  <label><input type="checkbox" name="features" value="wifi" /> Wi-Fi</label>
-  <label><input type="checkbox" name="features" value="bluetooth" /> Bluetooth</label>
+  <label>
+    <input
+      type="checkbox"
+      name="features"
+      value="wifi"
+    />{" "}
+    Wi-Fi
+  </label>
+  <label>
+    <input
+      type="checkbox"
+      name="features"
+      value="bluetooth"
+    />{" "}
+    Bluetooth
+  </label>
 </CheckboxGroup>
 ```
 

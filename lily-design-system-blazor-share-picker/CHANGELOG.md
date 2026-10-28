@@ -112,9 +112,17 @@ NuGet package is `LilyDesignSystem.Blazor.SharePicker`.
       aria-expanded="false"
       aria-controls="{listId}"
     >
-      <span class="share-picker-icon" aria-hidden="true">&#10148;</span>
+      <span
+        class="share-picker-icon"
+        aria-hidden="true"
+        >&#10148;</span
+      >
     </button>
-    <ul class="share-picker-list" id="{listId}" hidden>
+    <ul
+      class="share-picker-list"
+      id="{listId}"
+      hidden
+    >
       <li class="share-picker-list-item">
         <a
           class="share-picker-target"
@@ -126,10 +134,18 @@ NuGet package is `LilyDesignSystem.Blazor.SharePicker`.
         >
       </li>
       <li class="share-picker-list-item">
-        <button type="button" class="share-picker-copy">{CopyLabel}</button>
+        <button
+          type="button"
+          class="share-picker-copy"
+        >
+          {CopyLabel}
+        </button>
       </li>
     </ul>
-    <p class="share-picker-status" aria-live="polite"></p>
+    <p
+      class="share-picker-status"
+      aria-live="polite"
+    ></p>
   </div>
   ```
 

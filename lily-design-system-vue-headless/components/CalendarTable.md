@@ -16,7 +16,10 @@ Compound component: use with CalendarTableHead, CalendarTableBody, CalendarTable
 ```svelte
 <CalendarTable label="January 2025">
   <CalendarTableHead>
-    <CalendarTableRow><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></CalendarTableRow>
+    <CalendarTableRow
+      ><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th
+      ></CalendarTableRow
+    >
   </CalendarTableHead>
   <CalendarTableBody>
     <CalendarTableRow>

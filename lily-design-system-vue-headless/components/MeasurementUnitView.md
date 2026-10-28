@@ -22,7 +22,10 @@ The component supports an optional `aria-label` for additional accessible contex
 
 ```svelte
 <MeasurementUnitView value="kg" />
-<MeasurementUnitView value="lb" label="Pounds" />
+<MeasurementUnitView
+  value="lb"
+  label="Pounds"
+/>
 ```
 
 ## Keyboard Interactions

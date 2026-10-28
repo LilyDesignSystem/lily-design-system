@@ -22,27 +22,27 @@ Docs and searchable catalog: <https://lilydesignsystem.com/>.
   framework (HTML/Web Components, Svelte, React, Vue, Angular, Blazor,
   Nunjucks). Every component picks the most specific HTML element for the
   job, wires up ARIA and keyboard behaviour, and puts a stable kebab-case
-  class on its root element — that class is the *only* styling contract.
+  class on its root element — that class is the _only_ styling contract.
   Nothing else about visual appearance is decided for you.
 - **Example** — a full reference app per framework, styled end to end, that
   demonstrates every component and several composed pages (a contact form, a
   dashboard, a settings page, and more). Read the example's CSS as a working
   answer to "how would I style this component," not as something you import.
 
-If a request is about *how a component looks*, point at the example app and
-its CSS. If it's about *what markup and behaviour a component ships*, that's
+If a request is about _how a component looks_, point at the example app and
+its CSS. If it's about _what markup and behaviour a component ships_, that's
 the headless layer.
 
 ## Core terms
 
-| Term | Meaning |
-| --- | --- |
-| **Component** | One entry in the catalog — a slug, a PascalCase name, an HTML tag, an ARIA/keyboard contract. E.g. `breadcrumb-nav` / `BreadcrumbNav` / `<nav>`. |
-| **Slug** | The kebab-case identifier for a component, also its CSS class hook (`.breadcrumb-nav`). |
-| **Class hook** | The one stable CSS class every component's root element carries. Consumer CSS targets it; nothing else is a contract to rely on unless the component's docs name a sub-class. |
-| **Helper** | A small opinionated package (`theme-picker`, `locale-picker`, `text-size-picker`, `share-picker`, `date-time-picker`) that owns one whole interaction — not just markup, but the popup, the keyboard behaviour, and (for the first three) applying + persisting a preference. Helpers are a layer above plain catalog components. |
-| **Theme** | A ready-to-use stylesheet (45 of them, under `themes/`) targeting the class hooks — NHS England/Scotland/Wales, GOV.UK, USWDS, Adobe Spectrum, Mozilla Protocol, and general-purpose light/dark. The `theme-picker` helper swaps between them at runtime. |
-| **Subproject** | One implementation of the whole catalog for one framework and one layer, e.g. `@lilydesignsystem/react-headless`. Published as its own git subtree/repo. |
+| Term           | Meaning                                                                                                                                                                                                                                                                                                                           |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Component**  | One entry in the catalog — a slug, a PascalCase name, an HTML tag, an ARIA/keyboard contract. E.g. `breadcrumb-nav` / `BreadcrumbNav` / `<nav>`.                                                                                                                                                                                  |
+| **Slug**       | The kebab-case identifier for a component, also its CSS class hook (`.breadcrumb-nav`).                                                                                                                                                                                                                                           |
+| **Class hook** | The one stable CSS class every component's root element carries. Consumer CSS targets it; nothing else is a contract to rely on unless the component's docs name a sub-class.                                                                                                                                                     |
+| **Helper**     | A small opinionated package (`theme-picker`, `locale-picker`, `text-size-picker`, `share-picker`, `date-time-picker`) that owns one whole interaction — not just markup, but the popup, the keyboard behaviour, and (for the first three) applying + persisting a preference. Helpers are a layer above plain catalog components. |
+| **Theme**      | A ready-to-use stylesheet (45 of them, under `themes/`) targeting the class hooks — NHS England/Scotland/Wales, GOV.UK, USWDS, Adobe Spectrum, Mozilla Protocol, and general-purpose light/dark. The `theme-picker` helper swaps between them at runtime.                                                                         |
+| **Subproject** | One implementation of the whole catalog for one framework and one layer, e.g. `@lilydesignsystem/react-headless`. Published as its own git subtree/repo.                                                                                                                                                                          |
 
 ## Naming conventions
 

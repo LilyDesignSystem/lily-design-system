@@ -21,7 +21,10 @@ The component prevents default form submission behavior, allowing the consumer's
 ## Usage
 
 ```svelte
-<DataFilterForm label="Filter results" onsubmit={applyFilters}>
+<DataFilterForm
+  label="Filter results"
+  onsubmit={applyFilters}
+>
   <label>Category <select>...</select></label>
   <button type="submit">Apply</button>
 </DataFilterForm>

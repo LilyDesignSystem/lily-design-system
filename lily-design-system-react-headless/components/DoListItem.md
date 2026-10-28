@@ -5,28 +5,26 @@ A single recommended-practice item within a "Do" list. Renders a semantic `<li>`
 ## Usage
 
 ```tsx
-
-    import DoListItem from './DoListItem';
-
+import DoListItem from "./DoListItem";
 
 <ul aria-label="Recommended practices">
-    <DoListItem>Use descriptive alt text for images</DoListItem>
-    <DoListItem>Provide visible focus indicators</DoListItem>
-    <DoListItem>Use sufficient color contrast</DoListItem>
-</ul>
+  <DoListItem>Use descriptive alt text for images</DoListItem>
+  <DoListItem>Provide visible focus indicators</DoListItem>
+  <DoListItem>Use sufficient color contrast</DoListItem>
+</ul>;
 ```
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | required | The recommendation content |
-| `...restProps` | HTML attributes | — | Spread onto the `<li>` element |
+| Prop           | Type            | Default  | Description                    |
+| -------------- | --------------- | -------- | ------------------------------ |
+| `children`     | `ReactNode`     | required | The recommendation content     |
+| `...restProps` | HTML attributes | —        | Spread onto the `<li>` element |
 
 ## Data attributes
 
-| Attribute | Value | Description |
-|-----------|-------|-------------|
+| Attribute             | Value  | Description                          |
+| --------------------- | ------ | ------------------------------------ |
 | `data-recommendation` | `"do"` | Always set; use for consumer styling |
 
 ## Accessibility

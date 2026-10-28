@@ -16,18 +16,21 @@ This is heavier than `Alert` (which is for inline status inside a longer page) a
 
 ## Props
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `title` | string (required) | — | Confirmation headline |
-| `headingLevel` | 1 | 2 | 3 | 4 | 5 | 6 | 1 | Heading level used for `title` |
-| `reference` | string | — | Optional reference number shown beneath the title |
-| `children` | slot | — | Body content (next steps, links, etc.) |
-| `...restProps` | HTML attributes | — | Spread onto the root `<div>` |
+| Prop           | Type              | Default | Description                                       |
+| -------------- | ----------------- | ------- | ------------------------------------------------- |
+| `title`        | string (required) | —       | Confirmation headline                             |
+| `headingLevel` | 1                 | 2       | 3                                                 | 4   | 5   | 6   | 1   | Heading level used for `title` |
+| `reference`    | string            | —       | Optional reference number shown beneath the title |
+| `children`     | slot              | —       | Body content (next steps, links, etc.)            |
+| `...restProps` | HTML attributes   | —       | Spread onto the root `<div>`                      |
 
 ## Usage
 
 ```html
-<SuccessPanel title="Application complete" reference="HDJ2123F">
+<SuccessPanel
+  title="Application complete"
+  reference="HDJ2123F"
+>
   <p>We have sent you a confirmation email.</p>
 </SuccessPanel>
 ```

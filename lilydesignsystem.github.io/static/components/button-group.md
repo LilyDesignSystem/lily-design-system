@@ -30,8 +30,8 @@ Basic group with a primary and secondary action:
 
 ```html
 <ButtonGroup label="Form actions">
-  <Button type="submit">Save</Button>
-  <Button type="button">Cancel</Button>
+  <button type="submit">Save</button>
+  <button type="button">Cancel</button>
 </ButtonGroup>
 ```
 
@@ -39,8 +39,8 @@ Pagination-style group:
 
 ```html
 <ButtonGroup label="Pagination controls">
-  <Button>Previous</Button>
-  <Button>Next</Button>
+  <button>Previous</button>
+  <button>Next</button>
 </ButtonGroup>
 ```
 

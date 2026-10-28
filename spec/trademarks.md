@@ -21,10 +21,10 @@ independent of the open-source code licence and of registered-mark status (®).
 
 ## Marks
 
-| Mark | Applies to |
-| ---- | ---------- |
-| Lily™ | The design system's short name, the `lily` package, and the project as a whole. |
-| Lily Design System™ | The full name of the project. |
+| Mark                | Applies to                                                                      |
+| ------------------- | ------------------------------------------------------------------------------- |
+| Lily™               | The design system's short name, the `lily` package, and the project as a whole. |
+| Lily Design System™ | The full name of the project.                                                   |
 
 ## Principles and rules
 
@@ -66,22 +66,22 @@ The first-occurrence convention and footer are applied across the repository.
 **Human-facing markdown** — the ™ marks (where the words occur in prose) and the
 footer are applied to:
 
-| Scope | Which files |
-| ----- | ----------- |
-| Top-level docs | [AGENTS.md](../AGENTS.md), [CHANGELOG.md](../CHANGELOG.md), [index.md](../index.md) (`README.md` symlinks to it), [spec/index.md](index.md) |
-| Spec topic docs | every `spec/**/*.md` (this file included) |
-| Subproject + component docs | every `index.md` across all 23 implementation subprojects, the 27 skills, the 581 component directories, and `lilydesignsystem.github.io` |
-| Reference docs | every `docs/**/*.md` (e.g. the helper packages' guides) |
+| Scope                       | Which files                                                                                                                                 |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| Top-level docs              | [AGENTS.md](../AGENTS.md), [CHANGELOG.md](../CHANGELOG.md), [index.md](../index.md) (`README.md` symlinks to it), [spec/index.md](index.md) |
+| Spec topic docs             | every `spec/**/*.md` (this file included)                                                                                                   |
+| Subproject + component docs | every `index.md` across all 23 implementation subprojects, the 27 skills, the 581 component directories, and `lilydesignsystem.github.io`   |
+| Reference docs              | every `docs/**/*.md` (e.g. the helper packages' guides)                                                                                     |
 
 **Rendered pages** — the footer is placed once in each app's shared layout so it
 renders site-wide:
 
-| Surface | Where the footer lives |
-| ------- | ---------------------- |
+| Surface                                                 | Where the footer lives                                                                        |
+| ------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
 | SvelteKit / React / Vue / Blazor / Angular example apps | the root layout (`+layout.svelte`, `app/layout.tsx`, `app.vue`, `MainLayout.razor`, `app.ts`) |
-| Nunjucks Eleventy example app | the `footer.njk` partial |
-| HTML+CSS+JS example app | each static page's site `<footer>` |
-| `lilydesignsystem.github.io` | the site layout footer; plus the header `<span>` mark and the intro's first `Lily™` |
+| Nunjucks Eleventy example app                           | the `footer.njk` partial                                                                      |
+| HTML+CSS+JS example app                                 | each static page's site `<footer>`                                                            |
+| `lilydesignsystem.github.io`                            | the site layout footer; plus the header `<span>` mark and the intro's first `Lily™`           |
 
 **LICENSE** — [LICENSE.md](../LICENSE.md) ends with the footer, noting the mark
 is independent of the content license.

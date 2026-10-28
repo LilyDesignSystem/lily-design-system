@@ -20,7 +20,7 @@ The component uses the native `<footer>` element, which is automatically recogni
 ## Usage
 
 ```html
-<Footer>
+<footer>
   <nav aria-label="Support links">
     <ul>
       <li><a href="/accessibility">Accessibility statement</a></li>
@@ -31,7 +31,7 @@ The component uses the native `<footer>` element, which is automatically recogni
     </ul>
   </nav>
   <p>&copy; NHS England</p>
-</Footer>
+</footer>
 ```
 
 ## Keyboard Interactions
@@ -60,14 +60,11 @@ None -- this component is a passive container. Keyboard interactions are determi
 
 This headless component provides a semantic `<footer>` element that automatically exposes the `contentinfo` landmark role to assistive technologies. The consumer provides all visual styling including layout, colors, typography, and spacing.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.footer` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<footer>` element with class `footer`
 - Verify aria-label` -- optional accessible name to distinguish this footer from others on the page

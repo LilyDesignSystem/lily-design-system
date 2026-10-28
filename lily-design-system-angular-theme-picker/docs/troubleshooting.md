@@ -96,7 +96,7 @@ and the `aria-selected` flags follow the resolved theme, so they
 differ if the server rendered from an empty `value` while the client
 resolved one from `localStorage` or `defaultValue`.
 
-**Likely cause.** Something *else* in your template keys off the
+**Likely cause.** Something _else_ in your template keys off the
 resolved theme — a visible "active theme" label, a conditional class,
 or a `data-*` attribute — with the same empty-vs-resolved split.
 
@@ -183,7 +183,11 @@ Add the exported `ThemePickerIcon` marker directive to the
 `<ng-template>` and to your component's `imports`:
 
 ```html
-<ng-template lilyThemePickerIcon let-args>{{ args.labelFor(args.value) }}</ng-template>
+<ng-template
+  lilyThemePickerIcon
+  let-args
+  >{{ args.labelFor(args.value) }}</ng-template
+>
 ```
 
 Its `ngTemplateContextGuard` types the context as `ChildArgs` under
@@ -196,7 +200,7 @@ Almost always a caching issue. Either:
 
 - Add a cache-busting suffix via `extension` (e.g. `.css?v=1`), or
 - Configure the static asset server to send `Cache-Control:
-  must-revalidate` for theme CSS files.
+must-revalidate` for theme CSS files.
 
 ## "Inside `@defer` the select shows the default for a frame"
 
@@ -230,7 +234,7 @@ re-apply on their own. If you need this, write to `value`:
 ```ts
 this.themesUrl.set(newUrl);
 const current = this.theme();
-this.theme.set("");      // forces the effect to fire
+this.theme.set(""); // forces the effect to fire
 this.theme.set(current); // re-applies with the new url
 ```
 
@@ -241,7 +245,7 @@ it after `setInput()`:
 
 ```ts
 fixture.componentRef.setInput("value", "dark");
-fixture.detectChanges();  // required
+fixture.detectChanges(); // required
 ```
 
 ## "Storybook doesn't show the select"
@@ -255,17 +259,17 @@ import { Meta, StoryObj } from "@storybook/angular";
 import { ThemePicker } from "./theme-picker.component";
 
 const meta: Meta<ThemePicker> = {
-    title: "Helpers/ThemePicker",
-    component: ThemePicker,
+  title: "Helpers/ThemePicker",
+  component: ThemePicker,
 };
 export default meta;
 
 export const Default: StoryObj<ThemePicker> = {
-    args: {
-        label: "Theme",
-        themesUrl: "/assets/themes/",
-        themes: ["light", "dark"],
-    },
+  args: {
+    label: "Theme",
+    themesUrl: "/assets/themes/",
+    themes: ["light", "dark"],
+  },
 };
 ```
 

@@ -20,11 +20,11 @@ door. It lists the questions this project is genuinely unsure about.
 
 ## Three ways to contribute
 
-| | | |
-| --- | --- | --- |
-| **Time** | Testing, reports, review, triage, writing | No code required, and currently the scarcest input |
-| **Code** | Fixes, parity work, components, docs | The specification is the bar |
-| **Money** | [GitHub Sponsors](https://github.com/sponsors/joelparkerhenderson) | Buys time and an audit; buys no influence |
+|           |                                                                    |                                                    |
+| --------- | ------------------------------------------------------------------ | -------------------------------------------------- |
+| **Time**  | Testing, reports, review, triage, writing                          | No code required, and currently the scarcest input |
+| **Code**  | Fixes, parity work, components, docs                               | The specification is the bar                       |
+| **Money** | [GitHub Sponsors](https://github.com/sponsors/joelparkerhenderson) | Buys time and an audit; buys no influence          |
 
 ---
 
@@ -39,7 +39,7 @@ writing code, and the first three are worth more than most patches.
    rather than fix them quietly — read [CHANGELOG.md](CHANGELOG.md) for what that
    looks like.
 2. **Screen-reader testing.** Automated tooling covers a minority of WCAG success
-   criteria. VoiceOver, NVDA, or JAWS results on *any* component are genuinely
+   criteria. VoiceOver, NVDA, or JAWS results on _any_ component are genuinely
    scarce here, and a report of the form "component X announces Y, which is wrong
    because Z" is directly actionable. You do not need to be an expert; you need a
    screen reader and patience. There is a structured
@@ -171,7 +171,7 @@ copyright assignment.
 
 Do not contribute code, CSS, or documentation copied from another design system.
 Lily learns from the systems in [AGENTS/citations.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/citations.md) by taking
-*patterns and research* — what a component is for, which ARIA pattern applies —
+_patterns and research_ — what a component is for, which ARIA pattern applies —
 never their source.
 
 ---
@@ -191,7 +191,7 @@ email <joel@joelparkerhenderson.com>.
 Stated concretely, because "support the project" means nothing:
 
 1. **An independent accessibility audit.** This is the single highest-value thing
-   money could buy here. Lily *targets* WCAG 2.2 AAA and has never been audited by
+   money could buy here. Lily _targets_ WCAG 2.2 AAA and has never been audited by
    anyone; the automated baselines run AA rule sets and cover a minority of success
    criteria ([AI_STATEMENT.md](AI_STATEMENT.md) §12; the precise verified/unverified
    split is the [accessibility statement](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/accessibility-statement.md)). The

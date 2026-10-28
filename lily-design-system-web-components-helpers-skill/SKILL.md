@@ -39,14 +39,14 @@ sibling headless-library skill:
 
 ## The first six helpers
 
-| Helper | Custom element | Owns |
-| --- | --- | --- |
-| `theme-picker` | `<lily-theme-picker>` | A visual-theme preference: dynamic theme CSS load + `data-theme` swap. |
-| `locale-picker` | `<lily-locale-picker>` | A BCP 47 locale preference: sets `lang` + `dir` on the document root. No translation. |
-| `text-size-picker` | `<lily-text-size-picker>` | A text-size preference: sets `data-text-size` on the document root. |
-| `motion-picker` | `<lily-motion-picker>` | A reduced-motion preference: sets `data-motion` on the document root, defaulting to the OS's own `(prefers-reduced-motion: reduce)` signal — the one helper whose default is not a fixed slug. |
-| `share-picker` | `<lily-share-picker>` | An **action**, not a preference: opens the native share sheet where available, else a disclosure of consumer-supplied destinations plus copy-to-clipboard. Applies nothing, persists nothing, ships no bundled endpoints. |
-| `date-time-picker` | `<lily-date-time-picker>` | A **form value**: a typeable text field plus a trigger opening a WAI-ARIA APG date-picker dialog. Applies nothing, persists nothing. |
+| Helper             | Custom element            | Owns                                                                                                                                                                                                                      |
+| ------------------ | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `theme-picker`     | `<lily-theme-picker>`     | A visual-theme preference: dynamic theme CSS load + `data-theme` swap.                                                                                                                                                    |
+| `locale-picker`    | `<lily-locale-picker>`    | A BCP 47 locale preference: sets `lang` + `dir` on the document root. No translation.                                                                                                                                     |
+| `text-size-picker` | `<lily-text-size-picker>` | A text-size preference: sets `data-text-size` on the document root.                                                                                                                                                       |
+| `motion-picker`    | `<lily-motion-picker>`    | A reduced-motion preference: sets `data-motion` on the document root, defaulting to the OS's own `(prefers-reduced-motion: reduce)` signal — the one helper whose default is not a fixed slug.                            |
+| `share-picker`     | `<lily-share-picker>`     | An **action**, not a preference: opens the native share sheet where available, else a disclosure of consumer-supplied destinations plus copy-to-clipboard. Applies nothing, persists nothing, ships no bundled endpoints. |
+| `date-time-picker` | `<lily-date-time-picker>` | A **form value**: a typeable text field plus a trigger opening a WAI-ARIA APG date-picker dialog. Applies nothing, persists nothing.                                                                                      |
 
 All six are custom elements registered via `customElements.define(...)` as
 a side effect of importing each helper's module (the class itself is also
@@ -63,9 +63,9 @@ though the custom-element tag carries the `lily-` prefix).
   `text-size-picker`, `motion-picker`) share one rendering shape: a root
   `<div class="{helper} {class}">` containing a hidden `<input>` for form
   participation, a `<button type="button" class="{helper}-button"
-  aria-label aria-haspopup="listbox" aria-expanded aria-controls>` whose
+aria-label aria-haspopup="listbox" aria-expanded aria-controls>` whose
   only content is an `aria-hidden` glyph span, and a `<ul role="listbox"
-  tabindex="-1" hidden>` of `<li role="option" aria-selected>`. Keyboard
+tabindex="-1" hidden>` of `<li role="option" aria-selected>`. Keyboard
   follows the WAI-ARIA APG listbox pattern (Arrow keys to move, Home/End to
   jump, typeahead, Enter/Space/pointer-click select **and close**, Escape
   reverts, Tab closes and moves on) — implemented in JavaScript, not

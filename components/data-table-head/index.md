@@ -24,7 +24,11 @@ The component renders a `<thead>` element and passes through its children, which
 ```html
 <DataTable caption="User accounts">
   <DataTableHead>
-    <tr><th scope="col">Name</th><th scope="col">Email</th><th scope="col">Role</th></tr>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Role</th>
+    </tr>
   </DataTableHead>
   <DataTableBody>...</DataTableBody>
 </DataTable>
@@ -53,14 +57,11 @@ None -- this component is a passive container. Navigation within the table follo
 
 This headless DataTableHead component provides a semantic `<thead>` element with implicit `rowgroup` role for assistive technology. The consumer provides all visual styling including header background color, font weight, border separation from body rows, and sticky positioning.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.data-table-head` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<thead>` element with class `data-table-head`
 - Verify pass-through attributes are applied

@@ -26,7 +26,11 @@ The summary text is always visible and acts as the toggle trigger. The content b
 ```
 
 ```tsx
-<Collapsible summary="Advanced settings" open={showAdvanced} onChange={setShowAdvanced}>
+<Collapsible
+  summary="Advanced settings"
+  open={showAdvanced}
+  onChange={setShowAdvanced}
+>
   <p>Advanced configuration options here.</p>
 </Collapsible>
 ```

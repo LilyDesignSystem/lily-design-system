@@ -27,6 +27,7 @@ Every example assumes:
   ```
 
   Without that mapping the control works but nothing visibly resizes.
+
 - The consumer's file carries `"use client"` if it manages controlled
   state (every file in this directory does).
 - Some CSS positions the dropdown. The control is an icon button that
@@ -34,15 +35,15 @@ Every example assumes:
   list sits in normal flow until you give the root `position: relative`
   and the list `position: absolute`.
 
-| #   | File                                                | Demonstrates                                              |
-| --- | ---------------------------------------------------- | ----------------------------------------------------------- |
-| 1   | [`basic.tsx`](./basic.tsx)                           | Minimal four-size picker + the default status line.       |
-| 2   | [`two-way-binding.tsx`](./two-way-binding.tsx)       | Controlled `value` + `onChange`.                           |
-| 3   | [`persistence.tsx`](./persistence.tsx)               | `localStorage` survival across reloads.                   |
-| 4   | [`custom-labels.tsx`](./custom-labels.tsx)           | `sizeLabels` for i18n / display names.                     |
-| 5   | [`custom-rendering.tsx`](./custom-rendering.tsx)     | `children` render prop — custom button glyph.              |
-| 6   | [`multiple-pickers.tsx`](./multiple-pickers.tsx)     | Two pickers in one page via distinct `name` + `target`.   |
-| 7   | [`external-buttons.tsx`](./external-buttons.tsx)     | Driving the control from your own preset buttons via the controlled `value`. |
+| #   | File                                             | Demonstrates                                                                 |
+| --- | ------------------------------------------------ | ---------------------------------------------------------------------------- |
+| 1   | [`basic.tsx`](./basic.tsx)                       | Minimal four-size picker + the default status line.                          |
+| 2   | [`two-way-binding.tsx`](./two-way-binding.tsx)   | Controlled `value` + `onChange`.                                             |
+| 3   | [`persistence.tsx`](./persistence.tsx)           | `localStorage` survival across reloads.                                      |
+| 4   | [`custom-labels.tsx`](./custom-labels.tsx)       | `sizeLabels` for i18n / display names.                                       |
+| 5   | [`custom-rendering.tsx`](./custom-rendering.tsx) | `children` render prop — custom button glyph.                                |
+| 6   | [`multiple-pickers.tsx`](./multiple-pickers.tsx) | Two pickers in one page via distinct `name` + `target`.                      |
+| 7   | [`external-buttons.tsx`](./external-buttons.tsx) | Driving the control from your own preset buttons via the controlled `value`. |
 
 ## Running the examples
 

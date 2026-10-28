@@ -25,8 +25,16 @@ The component renders a `<tbody>` element and passes through its children, which
 <DataTable caption="User accounts">
   <DataTableHead>...</DataTableHead>
   <DataTableBody>
-    <tr><td>Alice</td><td>alice@example.com</td><td>Admin</td></tr>
-    <tr><td>Bob</td><td>bob@example.com</td><td>Editor</td></tr>
+    <tr>
+      <td>Alice</td>
+      <td>alice@example.com</td>
+      <td>Admin</td>
+    </tr>
+    <tr>
+      <td>Bob</td>
+      <td>bob@example.com</td>
+      <td>Editor</td>
+    </tr>
   </DataTableBody>
 </DataTable>
 ```
@@ -54,14 +62,11 @@ None -- this component is a passive container. Navigation within the table follo
 
 This headless DataTableBody component provides a semantic `<tbody>` element with implicit `rowgroup` role for assistive technology. The consumer provides all visual styling including row backgrounds, hover states, striping patterns, and spacing.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.data-table-body` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<tbody>` element with class `data-table-body`
 - Verify pass-through attributes are applied

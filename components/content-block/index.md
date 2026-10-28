@@ -27,7 +27,10 @@ This headless component uses a `<div>` element as a presentational container wit
   <p>Narrow column text content.</p>
 </ContentBlock>
 <ContentBlock width="wide">
-  <img src="chart.png" alt="Data visualization" />
+  <img
+    src="chart.png"
+    alt="Data visualization"
+  />
 </ContentBlock>
 ```
 
@@ -41,7 +44,10 @@ This headless component uses a `<div>` element as a presentational container wit
   </ContentBlock>
   <ContentBlock width="wider">
     <figure>
-      <img src="panorama.jpg" alt="Landscape panorama" />
+      <img
+        src="panorama.jpg"
+        alt="Landscape panorama"
+      />
       <figcaption>A wide landscape image.</figcaption>
     </figure>
   </ContentBlock>

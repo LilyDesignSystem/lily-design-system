@@ -13,11 +13,11 @@ The tool's name inside the summary, for example `search_web`. A plain `<span>`; 
 
 ## Props
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `class` | string | `""` | Appended to the base class |
-| `children` | slot | — | The tool name |
-| `...restProps` | HTML attributes | — | Spread onto the root `<span>` |
+| Prop           | Type            | Default | Description                   |
+| -------------- | --------------- | ------- | ----------------------------- |
+| `class`        | string          | `""`    | Appended to the base class    |
+| `children`     | slot            | —       | The tool name                 |
+| `...restProps` | HTML attributes | —       | Spread onto the root `<span>` |
 
 ## Usage
 

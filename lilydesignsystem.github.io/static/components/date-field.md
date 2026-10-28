@@ -29,19 +29,33 @@ This component is ideal for forms that require date input with validation feedba
 Basic date field for a registration form:
 
 ```html
-<DateField label="Date of birth" value={dateOfBirth} description="Enter as day, month, year" required />
+<DateField
+  label="Date of birth"
+  value="{dateOfBirth}"
+  description="Enter as day, month, year"
+  required
+/>
 ```
 
 Date field with validation error:
 
 ```html
-<DateField label="Appointment date" value={appointmentDate} error="Date must be in the future" required />
+<DateField
+  label="Appointment date"
+  value="{appointmentDate}"
+  error="Date must be in the future"
+  required
+/>
 ```
 
 Optional date field with helper text:
 
 ```html
-<DateField label="Preferred start date" value={startDate} description="Leave blank if flexible" />
+<DateField
+  label="Preferred start date"
+  value="{startDate}"
+  description="Leave blank if flexible"
+/>
 ```
 
 ## Keyboard Interactions
@@ -74,14 +88,11 @@ None beyond native `<input type="date">` keyboard behavior, which varies by brow
 
 This headless DateField component provides a `<div>` wrapper with a `<label>`, `<input type="date">`, optional description `<p>`, and optional error `<p>` with `role="alert"`, all linked by auto-generated IDs for `aria-describedby` and `aria-errormessage`. The consumer provides all visual styling including label typography, input appearance, description and error text colors, and layout.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.date-field` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `date-field`
 - Verify role="alert"` -- on the error paragraph, announces the error message to screen readers

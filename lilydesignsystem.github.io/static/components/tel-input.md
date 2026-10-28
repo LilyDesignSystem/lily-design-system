@@ -28,19 +28,32 @@ The component supports two-way data binding through a bindable `value` prop, all
 Contact form phone number:
 
 ```html
-<TelInput label="Phone number" value={phone} required placeholder="+1-555-0100" />
+<TelInput
+  label="Phone number"
+  value="{phone}"
+  required
+  placeholder="+1-555-0100"
+/>
 ```
 
 Emergency contact with pattern validation:
 
 ```html
-<TelInput label="Emergency contact number" value={emergencyPhone} required pattern="[+][0-9\-]+" />
+<TelInput
+  label="Emergency contact number"
+  value="{emergencyPhone}"
+  required
+  pattern="[+][0-9\-]+"
+/>
 ```
 
 Optional mobile number:
 
 ```html
-<TelInput label="Mobile number" value={mobile} />
+<TelInput
+  label="Mobile number"
+  value="{mobile}"
+/>
 ```
 
 ## Keyboard Interactions
@@ -69,17 +82,14 @@ Optional mobile number:
 
 This headless component renders a native `<input type="tel">` with `aria-label`, `autocomplete="tel"`, and two-way value binding. It provides telephone input semantics with browser autofill support. The consumer provides all visual styling including borders, padding, placeholder text, and validation feedback.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.tel-input` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
 
-
 - Verify the component renders a `<input>` element with class `tel-input`
-- Verify aria-label` -- provides the accessible name for the input, set from the `label` prop
+- Verify aria-label`-- provides the accessible name for the input, set from the`label` prop
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied
 

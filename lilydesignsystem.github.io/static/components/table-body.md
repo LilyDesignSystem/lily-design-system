@@ -21,14 +21,14 @@ Use this component within a Table to define the body section containing data row
 ## Usage
 
 ```html
-<Table label="Users">
+<table label="Users">
   <TableBody>
     <TableRow>
       <TableTD>Alice</TableTD>
       <TableTD>alice@example.com</TableTD>
     </TableRow>
   </TableBody>
-</Table>
+</table>
 ```
 
 ## Keyboard Interactions

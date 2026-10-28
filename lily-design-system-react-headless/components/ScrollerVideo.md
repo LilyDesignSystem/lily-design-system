@@ -31,9 +31,18 @@ The video is muted because scroll-driven scrubbing produces erratic timing that 
   label="A scrolling flight over the coastline"
   alt="Aerial footage following a coastline from north to south"
 >
-  <section><h2>Northern bay</h2><p>...</p></section>
-  <section><h2>Mid-coast cliffs</h2><p>...</p></section>
-  <section><h2>Southern harbour</h2><p>...</p></section>
+  <section>
+    <h2>Northern bay</h2>
+    <p>...</p>
+  </section>
+  <section>
+    <h2>Mid-coast cliffs</h2>
+    <p>...</p>
+  </section>
+  <section>
+    <h2>Southern harbour</h2>
+    <p>...</p>
+  </section>
 </ScrollerVideo>
 ```
 

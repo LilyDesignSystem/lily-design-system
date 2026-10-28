@@ -24,19 +24,41 @@ This component renders as a div with `role="menuitem"` and `tabindex="-1"`, foll
 Context menu items inside a ContextMenu with click handlers:
 
 ```html
-<ContextMenu label="Text actions" open={open}>
-    <ContextMenuItem onclick={() => handleCut()}>Cut</ContextMenuItem>
-    <ContextMenuItem onclick={() => handleCopy()}>Copy</ContextMenuItem>
-    <ContextMenuItem onclick={() => handlePaste()}>Paste</ContextMenuItem>
-    <ContextMenuItem aria-disabled="true">Delete</ContextMenuItem>
+<ContextMenu
+  label="Text actions"
+  open="{open}"
+>
+  <ContextMenuItem
+    onclick="{()"
+    =""
+  >
+    handleCut()}>Cut</ContextMenuItem
+  >
+  <ContextMenuItem
+    onclick="{()"
+    =""
+  >
+    handleCopy()}>Copy</ContextMenuItem
+  >
+  <ContextMenuItem
+    onclick="{()"
+    =""
+  >
+    handlePaste()}>Paste</ContextMenuItem
+  >
+  <ContextMenuItem aria-disabled="true">Delete</ContextMenuItem>
 </ContextMenu>
 ```
 
 Context menu item with keyboard shortcut hint:
 
 ```html
-<ContextMenuItem aria-keyshortcuts="Control+C" onclick={() => handleCopy()}>
-    Copy
+<ContextMenuItem
+  aria-keyshortcuts="Control+C"
+  onclick="{()"
+  =""
+>
+  handleCopy()}> Copy
 </ContextMenuItem>
 ```
 
@@ -67,14 +89,11 @@ Context menu item with keyboard shortcut hint:
 
 This headless ContextMenuItem component provides a `<div>` with `role="menuitem"` and `tabindex="-1"` for roving focus managed by the parent ContextMenu. The consumer provides all visual styling including text layout, icon placement, keyboard shortcut hints, hover/focus states, and disabled appearance.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.context-menu-item` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `context-menu-item`
 - Verify role="menuitem"` -- identifies this element as an item within a menu

@@ -22,7 +22,10 @@ SchweizAhvNummerView is a headless read-only display of Switzerland's AHV-Nummer
 ```html
 <SummaryList>
   <SummaryListItem term="AHV-Nummer / Numéro AVS">
-    <SchweizAhvNummerView label="AHV-Nummer / Numéro AVS" value={value} />
+    <SchweizAhvNummerView
+      label="AHV-Nummer / Numéro AVS"
+      value="{value}"
+    />
   </SummaryListItem>
 </SummaryList>
 ```

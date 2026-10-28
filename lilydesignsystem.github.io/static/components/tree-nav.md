@@ -26,7 +26,10 @@ The `<nav>` element provides the navigation landmark, while the nested TreeList 
 ```html
 <TreeNav label="Documentation sidebar">
   <TreeList label="Docs sections">
-    <TreeListItem tabindex="0" aria-expanded="true">
+    <TreeListItem
+      tabindex="0"
+      aria-expanded="true"
+    >
       <TreeLink href="/docs/getting-started">Getting Started</TreeLink>
       <ul role="group">
         <TreeListItem tabindex="-1">
@@ -37,7 +40,10 @@ The `<nav>` element provides the navigation landmark, while the nested TreeList 
         </TreeListItem>
       </ul>
     </TreeListItem>
-    <TreeListItem tabindex="-1" aria-expanded="false">
+    <TreeListItem
+      tabindex="-1"
+      aria-expanded="false"
+    >
       <TreeLink href="/docs/components">Components</TreeLink>
     </TreeListItem>
     <TreeListItem tabindex="-1">
@@ -50,7 +56,10 @@ The `<nav>` element provides the navigation landmark, while the nested TreeList 
 ```html
 <TreeNav label="Clinical menu">
   <TreeList label="Clinical areas">
-    <TreeListItem tabindex="0" aria-expanded="true">
+    <TreeListItem
+      tabindex="0"
+      aria-expanded="true"
+    >
       Cardiology
       <ul role="group">
         <TreeListItem tabindex="-1">
@@ -61,7 +70,10 @@ The `<nav>` element provides the navigation landmark, while the nested TreeList 
         </TreeListItem>
       </ul>
     </TreeListItem>
-    <TreeListItem tabindex="-1" aria-expanded="false">
+    <TreeListItem
+      tabindex="-1"
+      aria-expanded="false"
+    >
       Oncology
     </TreeListItem>
   </TreeList>
@@ -101,14 +113,11 @@ The `<nav>` element provides the navigation landmark, while the nested TreeList 
 
 This headless component provides a `<nav>` element with `aria-label` for a navigation landmark. Tree semantics and keyboard navigation are provided by the child TreeList component. The consumer provides all visual styling including indentation, expansion indicators, and link styles.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.tree-nav` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<nav>` element with class `tree-nav`
 - Verify <nav aria-label="...">` -- creates a navigation landmark with a descriptive label for the tree navigation region

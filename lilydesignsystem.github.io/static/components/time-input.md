@@ -29,20 +29,37 @@ This component is useful for scheduling interfaces, appointment forms, event pla
 Appointment scheduling with business hours constraint:
 
 ```html
-<TimeInput label="Appointment time" value={appointmentTime} min="09:00" max="17:00" required />
+<TimeInput
+  label="Appointment time"
+  value="{appointmentTime}"
+  min="09:00"
+  max="17:00"
+  required
+/>
 ```
 
 Shift start and end times:
 
 ```html
-<TimeInput label="Shift start" value={shiftStart} required />
-<TimeInput label="Shift end" value={shiftEnd} required />
+<TimeInput
+  label="Shift start"
+  value="{shiftStart}"
+  required
+/>
+<TimeInput
+  label="Shift end"
+  value="{shiftEnd}"
+  required
+/>
 ```
 
 Medication schedule entry:
 
 ```html
-<TimeInput label="Take medication at" value={medTime} />
+<TimeInput
+  label="Take medication at"
+  value="{medTime}"
+/>
 ```
 
 ## Keyboard Interactions
@@ -70,17 +87,14 @@ None beyond native input behavior -- the browser's built-in time picker handles 
 
 This headless component provides a native `<input type="time">` element with `aria-label`, two-way value binding, and support for `required` and `disabled` states. The browser provides the time picker UI. The consumer provides all visual styling and any surrounding label or hint text.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.time-input` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
 
-
 - Verify the component renders a `<input>` element with class `time-input`
-- Verify aria-label={label}` -- provides an accessible name for the input since no visible `<label>` element is included
+- Verify aria-label={label}`-- provides an accessible name for the input since no visible`<label>` element is included
 - Verify pass-through attributes are applied
 
 ## Advice

@@ -24,12 +24,7 @@ An input displaying a format mask placeholder for the user to fill in (e.g., `(_
 ## Usage
 
 ```vue
-<InputWithMask
-    label="Phone number"
-    mask="(___) ___-____"
-    :value="phone"
-    @input="onInput"
-/>
+<InputWithMask label="Phone number" mask="(___) ___-____" :value="phone" @input="onInput" />
 ```
 
 ## ARIA

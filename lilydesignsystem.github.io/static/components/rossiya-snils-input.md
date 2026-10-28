@@ -23,9 +23,21 @@ RossiyaSnilsInput is a headless input for entering Russia's СНИЛС (Strakhov
 ## Usage
 
 ```html
-<Field label="СНИЛС (Strakhovoy Nomer Individualnogo Litsevogo Scheta)" required>
-  <RossiyaSnilsInput label="СНИЛС (Strakhovoy Nomer Individualnogo Litsevogo Scheta)" value={value} required />
-  <Hint>Eleven digits, displayed as NNN-NNN-NNN CC. The first nine digits are an account number; the last two form a Modulus-101 check value computed as a weighted sum of the first nine digits (each multiplied by its position from 9 down to 1), with sums of 100 or 101 both mapping to a check value of 00.</Hint>
+<Field
+  label="СНИЛС (Strakhovoy Nomer Individualnogo Litsevogo Scheta)"
+  required
+>
+  <RossiyaSnilsInput
+    label="СНИЛС (Strakhovoy Nomer Individualnogo Litsevogo Scheta)"
+    value="{value}"
+    required
+  />
+  <Hint
+    >Eleven digits, displayed as NNN-NNN-NNN CC. The first nine digits are an account number; the
+    last two form a Modulus-101 check value computed as a weighted sum of the first nine digits
+    (each multiplied by its position from 9 down to 1), with sums of 100 or 101 both mapping to a
+    check value of 00.</Hint
+  >
   <ErrorMessage>Please enter a valid СНИЛС</ErrorMessage>
 </Field>
 ```
@@ -69,7 +81,7 @@ Eleven digits, displayed as NNN-NNN-NNN CC. The first nine digits are an account
 
 ## References
 
-- Wikipedia: [SNILS (Russia)](https://en.wikipedia.org/wiki/SNILS_(Russia))
+- Wikipedia: [SNILS (Russia)](<https://en.wikipedia.org/wiki/SNILS_(Russia)>)
 
 ---
 

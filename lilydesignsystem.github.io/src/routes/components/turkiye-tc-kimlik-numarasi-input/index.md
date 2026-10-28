@@ -23,9 +23,20 @@ TurkiyeTcKimlikNumarasiInput is a headless input for entering Turkey's T.C. Kiml
 ## Usage
 
 ```html
-<Field label="T.C. Kimlik Numarası" required>
-  <TurkiyeTcKimlikNumarasiInput label="T.C. Kimlik Numarası" value={value} required />
-  <Hint>Eleven digits, the first never zero. The tenth digit is the units digit of ((sum of digits 1,3,5,7,9) × 7) plus ((sum of digits 2,4,6,8) × 9); the eleventh digit is the units digit of the sum of the first ten digits. The eleventh digit is always even.</Hint>
+<Field
+  label="T.C. Kimlik Numarası"
+  required
+>
+  <TurkiyeTcKimlikNumarasiInput
+    label="T.C. Kimlik Numarası"
+    value="{value}"
+    required
+  />
+  <Hint
+    >Eleven digits, the first never zero. The tenth digit is the units digit of ((sum of digits
+    1,3,5,7,9) × 7) plus ((sum of digits 2,4,6,8) × 9); the eleventh digit is the units digit of the
+    sum of the first ten digits. The eleventh digit is always even.</Hint
+  >
   <ErrorMessage>Please enter a valid T.C. Kimlik Numarası</ErrorMessage>
 </Field>
 ```

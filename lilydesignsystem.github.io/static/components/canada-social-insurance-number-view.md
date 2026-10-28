@@ -22,7 +22,10 @@ CanadaSocialInsuranceNumberView is a headless read-only display of Canada's Soci
 ```html
 <SummaryList>
   <SummaryListItem term="Social Insurance Number (SIN)">
-    <CanadaSocialInsuranceNumberView label="Social Insurance Number (SIN)" value={value} />
+    <CanadaSocialInsuranceNumberView
+      label="Social Insurance Number (SIN)"
+      value="{value}"
+    />
   </SummaryListItem>
 </SummaryList>
 ```

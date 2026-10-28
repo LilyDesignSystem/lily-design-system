@@ -50,14 +50,11 @@ None -- this component is a passive display container.
 
 The QrCodeImage headless component provides a `<div>` with `role="img"` and `aria-label` so screen readers can describe what the QR code encodes. The consumer provides the actual QR code rendering (SVG, canvas, or a third-party library) as children, along with all visual styling.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.qr-code-image` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `qr-code-image`
 - Verify role="img"` -- identifies the container as an image for assistive technologies

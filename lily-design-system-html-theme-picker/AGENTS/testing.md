@@ -18,9 +18,7 @@ import { themeHref, normalizeThemesUrl } from "./theme-picker";
 beforeEach(() => {
   // Reset shared state between tests.
   document.documentElement.removeAttribute("data-theme");
-  document.head
-    .querySelectorAll("link[data-lily-theme-picker]")
-    .forEach((n) => n.remove());
+  document.head.querySelectorAll("link[data-lily-theme-picker]").forEach((n) => n.remove());
   document.body.replaceChildren();
   try {
     localStorage.clear();
@@ -66,23 +64,15 @@ selectors, plus `press` / `click` event helpers and a `flush` that
 awaits a macrotask:
 
 ```ts
-const button = () =>
-  document.body.querySelector<HTMLButtonElement>(".theme-picker-button")!;
-const list = () =>
-  document.body.querySelector<HTMLUListElement>(".theme-picker-list")!;
-const options = () => [
-  ...document.body.querySelectorAll<HTMLLIElement>(".theme-picker-option"),
-];
+const button = () => document.body.querySelector<HTMLButtonElement>(".theme-picker-button")!;
+const list = () => document.body.querySelector<HTMLUListElement>(".theme-picker-list")!;
+const options = () => [...document.body.querySelectorAll<HTMLLIElement>(".theme-picker-option")];
 
 function press(el: Element, key: string): void {
-  el.dispatchEvent(
-    new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true }),
-  );
+  el.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true }));
 }
 function click(el: Element): void {
-  el.dispatchEvent(
-    new MouseEvent("click", { bubbles: true, cancelable: true }),
-  );
+  el.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
 }
 function flush(): Promise<void> {
   return new Promise((r) => setTimeout(r, 0));
@@ -158,9 +148,7 @@ expect(list().hasAttribute("aria-activedescendant")).toBe(false);
 ## Asserting the managed `<link>`
 
 ```ts
-const link = document.head.querySelector<HTMLLinkElement>(
-  'link[data-lily-theme-picker="theme"]',
-);
+const link = document.head.querySelector<HTMLLinkElement>('link[data-lily-theme-picker="theme"]');
 expect(link).not.toBeNull();
 expect(link!.href).toMatch(/\/themes\/light\.css$/);
 ```

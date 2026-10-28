@@ -23,9 +23,20 @@ YisraelTeudatZehutInput is a headless input for entering Israel's Teudat Zehut (
 ## Usage
 
 ```html
-<Field label="Teudat Zehut (תעודת זהות)" required>
-  <YisraelTeudatZehutInput label="Teudat Zehut (תעודת זהות)" value={value} required />
-  <Hint>Nine digits (left-padded with zeros when shorter), with the ninth a Luhn (Modulus-10) check digit: digits alternate between weights of 1 and 2 from the left, any doubled product over 9 has its own two digits summed, and the total must be a multiple of 10.</Hint>
+<Field
+  label="Teudat Zehut (תעודת זהות)"
+  required
+>
+  <YisraelTeudatZehutInput
+    label="Teudat Zehut (תעודת זהות)"
+    value="{value}"
+    required
+  />
+  <Hint
+    >Nine digits (left-padded with zeros when shorter), with the ninth a Luhn (Modulus-10) check
+    digit: digits alternate between weights of 1 and 2 from the left, any doubled product over 9 has
+    its own two digits summed, and the total must be a multiple of 10.</Hint
+  >
   <ErrorMessage>Please enter a valid Teudat Zehut</ErrorMessage>
 </Field>
 ```

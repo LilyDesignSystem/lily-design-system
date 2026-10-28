@@ -118,12 +118,12 @@ data-lily-theme-picker="{name}">`. Multiple pickers can coexist by
 | `value`            | `model<string>()`                 | no       | `""`                                  | Currently selected theme slug. Two-way bindable.                                                                        |
 | `defaultValue`     | `input<string>()`                 | no       | `""`                                  | Initial theme when nothing else is supplied.                                                                            |
 | `storageKey`       | `input<string>()`                 | no       | `""`                                  | If non-empty, persist the selection to `localStorage` under this key.                                                   |
-| `detectFromSystem` | `input<boolean>()`                | no       | `false`                               | Resolve `prefers-color-scheme` to a supported theme on first visit. Mirrors `detectFromNavigator` on locale-picker.    |
+| `detectFromSystem` | `input<boolean>()`                | no       | `false`                               | Resolve `prefers-color-scheme` to a supported theme on first visit. Mirrors `detectFromNavigator` on locale-picker.     |
 | `name`             | `input<string>()`                 | no       | `"theme"`                             | `name` attribute on the hidden input **and** the discriminator on the managed `<link data-lily-theme-picker="{name}">`. |
 | `extension`        | `input<string>()`                 | no       | `".css"`                              | File extension appended to each slug when constructing the URL.                                                         |
 | `target`           | `input<HTMLElement \| null>()`    | no       | `null` (→ `document.documentElement`) | Element that receives `data-theme`.                                                                                     |
 | `themeLabels`      | `input<Record<string, string>>()` | no       | `{}`                                  | Optional pretty labels per slug.                                                                                        |
-| `className`        | `input<string>()`                 | no       | `""`                                  | Extra CSS class on the root `<div>`, appended after `theme-picker`.                                                    |
+| `className`        | `input<string>()`                 | no       | `""`                                  | Extra CSS class on the root `<div>`, appended after `theme-picker`.                                                     |
 | `themeChange`      | `output<string>()`                | no       | —                                     | Emits after the select applies a new theme.                                                                             |
 
 Content projection: an optional `<ng-template>` projected into
@@ -136,7 +136,11 @@ The rendered markup is:
 
 ```html
 <div class="theme-picker {className}">
-  <input type="hidden" name="{name}" value="{value}" />
+  <input
+    type="hidden"
+    name="{name}"
+    value="{value}"
+  />
 
   <button
     type="button"
@@ -146,9 +150,38 @@ The rendered markup is:
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <svg class="theme-picker-icon" viewBox="0 0 16 16" width="1.05rem" height="1.05rem" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>
+    <svg
+      class="theme-picker-icon"
+      viewBox="0 0 16 16"
+      width="1.05rem"
+      height="1.05rem"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle
+        cx="8"
+        cy="8"
+        r="6"
+      />
+      <path
+        d="M8 2a6 6 0 0 1 0 12z"
+        fill="currentColor"
+        stroke="none"
+      />
+    </svg>
   </button>
-  <div class="theme-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
+  <div
+    class="theme-picker-tooltip"
+    role="tooltip"
+    id="{tooltipId}"
+    hidden
+  >
+    {label}
+  </div>
 
   <ul
     class="theme-picker-list"
@@ -167,12 +200,18 @@ The rendered markup is:
     >
       Light
     </li>
-    <li class="theme-picker-option" id="…" role="option" aria-selected="false">
+    <li
+      class="theme-picker-option"
+      id="…"
+      role="option"
+      aria-selected="false"
+    >
       Dark
     </li>
   </ul>
 </div>
 ```
+
 **Tooltip.** `.theme-picker-tooltip` is a sibling of the button, always in
 the DOM, `hidden` at rest, holding the button's `label` text. It is shown
 while the pointer is over the button or over the tooltip itself
@@ -189,7 +228,6 @@ attribute. Angular idiom: four signals (`hoverButton`, `hoverTooltip`,
 pointer and focus listeners sit on the `lily-icon-button` host
 (`mouseenter`/`mouseleave`/`focusin`/`focusout`), and the tooltip text is
 the existing `label` input, so there is no new input and no new English text.
-
 
 - **Root**: a `<div>` carrying the `theme-picker` class hook plus the
   consumer's `className`. It is not a form control; it is a container.
@@ -340,7 +378,7 @@ owns every role, state, and focus move itself.
 | `<button>`              | implicit `role="button"`                                    | Browser   |
 | `<button>`              | `aria-label` — the **only** accessible name it has          | Consumer  |
 | `<button>`              | `aria-haspopup="listbox"`, `aria-expanded`, `aria-controls` | Component |
-| `.theme-picker-icon`   | `aria-hidden="true"`                                        | Component |
+| `.theme-picker-icon`    | `aria-hidden="true"`                                        | Component |
 | `<ul>`                  | `role="listbox"`, `aria-label`, `tabindex="-1"`             | Component |
 | `<ul>` while open       | `aria-activedescendant="{active option id}"`                | Component |
 | `<li>`                  | `role="option"`, `aria-selected`                            | Component |
@@ -370,18 +408,18 @@ conveyed by `aria-activedescendant`, not by focus.
 
 On the **listbox**:
 
-| Key               | Action                                                                     |
-| ----------------- | -------------------------------------------------------------------------- |
-| `Arrow Down`      | Move the active option down one. **Clamps** at the last option — no wrap.  |
-| `Arrow Up`        | Move the active option up one. **Clamps** at the first option — no wrap.   |
-| `Home`            | Make the first option active.                                              |
-| `End`             | Make the last option active.                                               |
-| `Enter` / `Space` | Select the active option, apply it, close, and return focus to the button. |
-| `Escape`          | Close and return focus to the button **without** changing the value.       |
-| `PageUp`          | Move the active option up ten. Clamps at the first.                        |
-| `PageDown`        | Move the active option down ten. Clamps at the last.                       |
+| Key               | Action                                                                                                                                                                                                                                                     |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Arrow Down`      | Move the active option down one. **Clamps** at the last option — no wrap.                                                                                                                                                                                  |
+| `Arrow Up`        | Move the active option up one. **Clamps** at the first option — no wrap.                                                                                                                                                                                   |
+| `Home`            | Make the first option active.                                                                                                                                                                                                                              |
+| `End`             | Make the last option active.                                                                                                                                                                                                                               |
+| `Enter` / `Space` | Select the active option, apply it, close, and return focus to the button.                                                                                                                                                                                 |
+| `Escape`          | Close and return focus to the button **without** changing the value.                                                                                                                                                                                       |
+| `PageUp`          | Move the active option up ten. Clamps at the first.                                                                                                                                                                                                        |
+| `PageDown`        | Move the active option down ten. Clamps at the last.                                                                                                                                                                                                       |
 | `Tab`             | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position. Hiding the focused list first would drop focus to `<body>` and restart Tab from the top of the document. |
-| Printable chars   | Typeahead over the display **labels**; the buffer resets after 500 ms. A single character advances to the **next** match and repeating it cycles onward; a buffer of differing characters refines the match from the active option. Search wraps once. |
+| Printable chars   | Typeahead over the display **labels**; the buffer resets after 500 ms. A single character advances to the **next** match and repeating it cycles onward; a buffer of differing characters refines the match from the active option. Search wraps once.     |
 
 Pointer and focus behaviour alongside the keyboard:
 
@@ -533,7 +571,6 @@ clamped at the ends.
 **7.24 — Empty list.** Opening with zero options activates no option,
 so `aria-activedescendant` is absent rather than pointing at an id
 that does not exist.
-
 
 **7.25 — Tooltip.** Renders `.theme-picker-tooltip` with `role="tooltip"`, holding `label`, `hidden` at rest, and the button carries no `aria-describedby`.
 

@@ -4,21 +4,21 @@ Pattern:
 
 ```tsx
 <KanbanTable>
-    <KanbanTableHead>
-        <KanbanTableRow>
-            <KanbanTableTH>…</KanbanTableTH>
-        </KanbanTableRow>
-    </KanbanTableHead>
-    <KanbanTableBody>
-        <KanbanTableRow>
-            <KanbanTableTD>…</KanbanTableTD>
-        </KanbanTableRow>
-    </KanbanTableBody>
-    <KanbanTableFoot>
-        <KanbanTableRow>
-            <KanbanTableTH>…</KanbanTableTH>
-        </KanbanTableRow>
-    </KanbanTableFoot>
+  <KanbanTableHead>
+    <KanbanTableRow>
+      <KanbanTableTH>…</KanbanTableTH>
+    </KanbanTableRow>
+  </KanbanTableHead>
+  <KanbanTableBody>
+    <KanbanTableRow>
+      <KanbanTableTD>…</KanbanTableTD>
+    </KanbanTableRow>
+  </KanbanTableBody>
+  <KanbanTableFoot>
+    <KanbanTableRow>
+      <KanbanTableTH>…</KanbanTableTH>
+    </KanbanTableRow>
+  </KanbanTableFoot>
 </KanbanTable>
 ```
 

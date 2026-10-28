@@ -38,9 +38,12 @@ US phone number mask:
 <InputWithMask
   label="Phone number"
   mask="(___) ___-____"
-  value={phone}
-  oninput={(e) => phone = e.target.value}
-/>
+  value="{phone}"
+  oninput="{(e)"
+  =""
+>
+  phone = e.target.value} /></InputWithMask
+>
 ```
 
 Date mask:
@@ -49,7 +52,7 @@ Date mask:
 <InputWithMask
   label="Date of birth"
   mask="MM/DD/YYYY"
-  value={dob}
+  value="{dob}"
 />
 ```
 

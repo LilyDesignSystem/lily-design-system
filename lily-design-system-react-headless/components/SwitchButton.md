@@ -23,11 +23,20 @@ Switch inputs are commonly used for settings, preferences, and feature toggles w
 ## Usage
 
 ```tsx
-<SwitchButton label="Enable notifications" checked={isChecked} onChange={setIsChecked} />
+<SwitchButton
+  label="Enable notifications"
+  checked={isChecked}
+  onChange={setIsChecked}
+/>
 ```
 
 ```tsx
-<SwitchButton label="Dark mode" checked={darkMode} onChange={setDarkMode} disabled={locked} />
+<SwitchButton
+  label="Dark mode"
+  checked={darkMode}
+  onChange={setDarkMode}
+  disabled={locked}
+/>
 ```
 
 ## Keyboard Interactions

@@ -31,14 +31,14 @@ optional persistence. `share-picker` owns an **action** instead, and
 `date-time-picker` owns a **form value**; neither applies anything to the
 document nor persists anything.
 
-| Helper | Applies | Persists |
-| --- | --- | --- |
-| `theme-picker` | Swaps a managed `<link>` stylesheet href and sets `data-theme` on the document root. | Optional `localStorage`. |
-| `locale-picker` | Sets `lang` (BCP 47) and `dir` on the document root. No translation. | Optional `localStorage`; optional `navigator.language` first-visit fallback. |
-| `text-size-picker` | Sets `data-text-size` on the document root; consumer CSS maps values to sizing. | Optional `localStorage`. |
-| `motion-picker` | Sets `data-motion` on the document root. Initial value defers to `(prefers-reduced-motion: reduce)` **unconditionally**, not behind an opt-in flag. | Optional `localStorage`. |
-| `share-picker` | Nothing — opens the native share sheet where available, else a disclosure of consumer-supplied destinations plus copy-to-clipboard. | None. |
-| `date-time-picker` | Nothing — it holds a form value: a typeable text field plus an APG date-picker dialog trigger. | None. |
+| Helper             | Applies                                                                                                                                             | Persists                                                                     |
+| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| `theme-picker`     | Swaps a managed `<link>` stylesheet href and sets `data-theme` on the document root.                                                                | Optional `localStorage`.                                                     |
+| `locale-picker`    | Sets `lang` (BCP 47) and `dir` on the document root. No translation.                                                                                | Optional `localStorage`; optional `navigator.language` first-visit fallback. |
+| `text-size-picker` | Sets `data-text-size` on the document root; consumer CSS maps values to sizing.                                                                     | Optional `localStorage`.                                                     |
+| `motion-picker`    | Sets `data-motion` on the document root. Initial value defers to `(prefers-reduced-motion: reduce)` **unconditionally**, not behind an opt-in flag. | Optional `localStorage`.                                                     |
+| `share-picker`     | Nothing — opens the native share sheet where available, else a disclosure of consumer-supplied destinations plus copy-to-clipboard.                 | None.                                                                        |
+| `date-time-picker` | Nothing — it holds a form value: a typeable text field plus an APG date-picker dialog trigger.                                                      | None.                                                                        |
 
 ## Two markup shapes
 
@@ -47,7 +47,7 @@ document nor persists anything.
   opens a WAI-ARIA APG listbox. Root `<div class="{helper} {class}">`
   containing a hidden input for form participation, a
   `<button class="{helper}-button" aria-haspopup="listbox" aria-expanded
-  aria-controls>` whose only content is an `aria-hidden` glyph span, and a
+aria-controls>` whose only content is an `aria-hidden` glyph span, and a
   `<ul class="{helper}-list" role="listbox" hidden>` of
   `<li role="option" aria-selected>` options.
 - **`share-picker`** is a disclosure of real `<a>` links plus a copy
@@ -82,7 +82,10 @@ method calls.
 @Component({
   standalone: true,
   imports: [ThemePicker],
-  template: `<lily-theme-picker [themes]="themes" [(value)]="theme" />`,
+  template: `<lily-theme-picker
+    [themes]="themes"
+    [(value)]="theme"
+  />`,
 })
 export class Header {
   themes = ["light", "dark"];

@@ -18,11 +18,11 @@ from Svelte to Blazor.
 The helpers no longer share one root element. Read the shape first;
 most of the notes below branch on it.
 
-| Helper             | Root                | Shape                                              |
-| ------------------ | ------------------- | -------------------------------------------------- |
-| `ThemePicker`      | `<div>`             | Icon button (bundled SVG) + dropdown `<ul role="listbox">`. |
-| `LocalePicker`     | `<div>`             | Icon button (bundled SVG) + dropdown `<ul role="listbox">`. |
-| `TextSizePicker`   | `<div>`             | Icon button (bundled SVG) + dropdown `<ul role="listbox">`. |
+| Helper           | Root    | Shape                                                       |
+| ---------------- | ------- | ----------------------------------------------------------- |
+| `ThemePicker`    | `<div>` | Icon button (bundled SVG) + dropdown `<ul role="listbox">`. |
+| `LocalePicker`   | `<div>` | Icon button (bundled SVG) + dropdown `<ul role="listbox">`. |
+| `TextSizePicker` | `<div>` | Icon button (bundled SVG) + dropdown `<ul role="listbox">`. |
 
 "The **listbox helpers**" below means all three: they share one shape.
 They follow the WAI-ARIA APG listbox pattern: an icon-only
@@ -83,7 +83,7 @@ See the per-helper `docs/accessibility.md` for patterns.
 
 For every helper, `Label` is load-bearing in the strongest sense:
 the trigger is icon-only and the glyph is `aria-hidden="true"`, so
-`aria-label="@Label"` is the button's *entire* accessible name. The
+`aria-label="@Label"` is the button's _entire_ accessible name. The
 same `Label` is also applied to the `<ul role="listbox">`. Without it
 the control is unnameable.
 
@@ -106,12 +106,12 @@ Nothing is free here — the component implements the whole contract.
 
 On the **button**:
 
-| Key                 | Action                                                  |
-| ------------------- | ------------------------------------------------------- |
-| `Tab` / `Shift+Tab` | Move focus to / away from the button (one stop).        |
-| `Arrow Down`        | Open, active option = the selected one (else index 0).  |
-| `Enter` / `Space`   | Open, active option = the selected one (else index 0).  |
-| `Arrow Up`          | Open with the **last** option active.                   |
+| Key                 | Action                                                 |
+| ------------------- | ------------------------------------------------------ |
+| `Tab` / `Shift+Tab` | Move focus to / away from the button (one stop).       |
+| `Arrow Down`        | Open, active option = the selected one (else index 0). |
+| `Enter` / `Space`   | Open, active option = the selected one (else index 0). |
+| `Arrow Up`          | Open with the **last** option active.                  |
 
 Opening moves focus to the `<ul>`.
 
@@ -125,7 +125,7 @@ On the **listbox**:
 | `Enter` / `Space` | Select the active option, apply it, close, refocus the button.     |
 | `Escape`          | Close and return focus **without** changing the value.             |
 | `Tab`             | Close **without** stealing focus back.                             |
-| Printable chars   | Typeahead over the option *labels*, 500 ms buffer reset.           |
+| Printable chars   | Typeahead over the option _labels_, 500 ms buffer reset.           |
 
 Clicking an option selects, applies, and closes. Focus leaving the
 root closes the listbox without changing the value.
@@ -181,7 +181,7 @@ Each locale option carries `lang="{TagFor(code)}"` (BCP 47 hyphen form)
 so screen readers switch pronunciation per option — WCAG 3.1.2,
 Language of Parts. The button and the list carry no `lang`.
 
-The listbox rewrite made this *more* reliable, not less: platform
+The listbox rewrite made this _more_ reliable, not less: platform
 `<select>` popups are rendered by the OS and frequently ignore
 per-`<option>` `lang`, whereas these options are ordinary DOM nodes
 that assistive technology reads with the page's own rules.

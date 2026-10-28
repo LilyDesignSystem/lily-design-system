@@ -10,7 +10,7 @@ See [components/section-nav/index.md](../../../../../components/section-nav/inde
 
 ```svelte
 <script lang="ts">
-    import SectionNav from "./SectionNav.svelte";
+  import SectionNav from "./SectionNav.svelte";
 </script>
 
 <SectionNav />

@@ -222,12 +222,12 @@ write the result to the bound `Value`.
 
 ## State machine summary
 
-| State           | Trigger                                       | Effect                                              |
-| --------------- | --------------------------------------------- | --------------------------------------------------- |
-| `_initialised = false` | construction                            | Select is ready to render its markup.               |
-| `OnAfterRenderAsync(true)` | first interactive render             | Resolve initial value, apply, fire callbacks.       |
-| `_initialised = true` | after first render                       | Future renders skip the initial-value path.         |
-| `_open = true`  | button click / `ArrowDown` / `ArrowUp` / `Enter` / `Space` | Show the list, seed `_activeIndex`, queue focus onto the `<ul>`. |
-| `_open = false` | selection, `Escape`, `Tab`, or root `focusout` | Hide the list, clear `_activeIndex` and the typeahead buffer; queue focus back onto the button unless `refocus: false`. |
-| `SetLocaleAsync(code)` | option chosen, or a consumer `@ref` call  | Mutate state, fire callbacks, apply, re-render.     |
-| dispose / unmount | parent removed from render tree              | No-op; locale persists.                              |
+| State                      | Trigger                                                    | Effect                                                                                                                  |
+| -------------------------- | ---------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `_initialised = false`     | construction                                               | Select is ready to render its markup.                                                                                   |
+| `OnAfterRenderAsync(true)` | first interactive render                                   | Resolve initial value, apply, fire callbacks.                                                                           |
+| `_initialised = true`      | after first render                                         | Future renders skip the initial-value path.                                                                             |
+| `_open = true`             | button click / `ArrowDown` / `ArrowUp` / `Enter` / `Space` | Show the list, seed `_activeIndex`, queue focus onto the `<ul>`.                                                        |
+| `_open = false`            | selection, `Escape`, `Tab`, or root `focusout`             | Hide the list, clear `_activeIndex` and the typeahead buffer; queue focus back onto the button unless `refocus: false`. |
+| `SetLocaleAsync(code)`     | option chosen, or a consumer `@ref` call                   | Mutate state, fire callbacks, apply, re-render.                                                                         |
+| dispose / unmount          | parent removed from render tree                            | No-op; locale persists.                                                                                                 |

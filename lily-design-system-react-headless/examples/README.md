@@ -6,7 +6,7 @@ Comprehensive standalone examples showing how to compose components from the Lil
 
 | Example                                      | Description                                    | Key Components                                                                                         |
 | -------------------------------------------- | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| [ContactForm](ContactForm.tsx)               | Form with validation and error summary         | Form, Field, TextInput, EmailInput, TextAreaInput, Select, ErrorSummary                                     |
+| [ContactForm](ContactForm.tsx)               | Form with validation and error summary         | Form, Field, TextInput, EmailInput, TextAreaInput, Select, ErrorSummary                                |
 | [SettingsPage](SettingsPage.tsx)             | Settings with toggles, radios, and selects     | SwitchButton, RadioGroup, RadioInput, Select, Fieldset, Banner                                         |
 | [Dashboard](Dashboard.tsx)                   | Dashboard with cards, progress, and data table | Card, Progress, ProgressCircle, Badge, Banner, DataTable                                               |
 | [PageLayout](PageLayout.tsx)                 | Accessible page layout with skip link and nav  | SkipLink, Header, Footer, NavigationMenu, BreadcrumbNav, Sidebar                                       |

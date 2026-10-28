@@ -22,7 +22,7 @@ NederlandBurgerserviceNummerView is a headless read-only display of Netherlands'
 ```html
 <SummaryList>
   <SummaryListItem term="Citizen Service Number">
-    <NederlandBurgerserviceNummerView value={value} />
+    <NederlandBurgerserviceNummerView value="{value}" />
   </SummaryListItem>
 </SummaryList>
 ```

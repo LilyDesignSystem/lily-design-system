@@ -22,7 +22,7 @@ EspanaCodigoDeIdentificacionFiscalView is a headless read-only display of Spain'
 ```html
 <SummaryList>
   <SummaryListItem term="Tax Identification Code">
-    <EspanaCodigoDeIdentificacionFiscalView value={value} />
+    <EspanaCodigoDeIdentificacionFiscalView value="{value}" />
   </SummaryListItem>
 </SummaryList>
 ```

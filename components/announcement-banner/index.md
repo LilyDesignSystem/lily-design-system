@@ -21,20 +21,23 @@ Reach for `AnnouncementBanner` when the message is broad and persistent. Use `Al
 
 ## Props
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `label` | string (required) | — | Accessible region label |
-| `live` | boolean | false | Whether the region announces dynamic changes via `aria-live="polite"` |
-| `dismissible` | boolean | false | Whether to render a dismiss button |
-| `dismissLabel` | string | "Dismiss" | Accessible label for the dismiss button |
-| `onDismiss` | callback | — | Fired when the user dismisses the banner |
-| `children` | slot (required) | — | Banner content |
-| `...restProps` | HTML attributes | — | Spread onto the root `<div>` |
+| Prop           | Type              | Default   | Description                                                           |
+| -------------- | ----------------- | --------- | --------------------------------------------------------------------- |
+| `label`        | string (required) | —         | Accessible region label                                               |
+| `live`         | boolean           | false     | Whether the region announces dynamic changes via `aria-live="polite"` |
+| `dismissible`  | boolean           | false     | Whether to render a dismiss button                                    |
+| `dismissLabel` | string            | "Dismiss" | Accessible label for the dismiss button                               |
+| `onDismiss`    | callback          | —         | Fired when the user dismisses the banner                              |
+| `children`     | slot (required)   | —         | Banner content                                                        |
+| `...restProps` | HTML attributes   | —         | Spread onto the root `<div>`                                          |
 
 ## Usage
 
 ```html
-<AnnouncementBanner label="Service announcement" dismissible>
+<AnnouncementBanner
+  label="Service announcement"
+  dismissible
+>
   <p>Maintenance is scheduled for Sunday between 2am and 4am.</p>
 </AnnouncementBanner>
 ```

@@ -3,7 +3,7 @@
 The `children` snippet **replaces the glyph inside the trigger
 button**. That is its whole job.
 
-It does *not* render the options. The popup `<ul role="listbox">` and
+It does _not_ render the options. The popup `<ul role="listbox">` and
 its `<li role="option">` children are component-owned: they carry the
 ids that `aria-activedescendant` points at, the `aria-selected` state,
 the per-option `lang` attributes, and the click handlers, so the
@@ -19,8 +19,8 @@ That contract is gone.
 
 ```ts
 type ChildArgs = {
-  value: string;                        // the active code, consumer form
-  open: boolean;                        // is the listbox open?
+  value: string; // the active code, consumer form
+  open: boolean; // is the listbox open?
   labelFor: (locale: string) => string; // resolved display label
 };
 ```
@@ -69,8 +69,14 @@ exactly the person who needs it:
   bind:value={locale}
 >
   {#snippet children({ value, labelFor })}
-    <svg viewBox="0 0 16 16" aria-hidden="true">…</svg>
-    <span class="locale-picker-text" lang={bcp47LocaleTag(value)}>
+    <svg
+      viewBox="0 0 16 16"
+      aria-hidden="true">…</svg
+    >
+    <span
+      class="locale-picker-text"
+      lang={bcp47LocaleTag(value)}
+    >
       {labelFor(value)}
     </span>
   {/snippet}
@@ -95,7 +101,10 @@ When space is tight but you still want text rather than a bare glyph:
 
 ```svelte
 {#snippet children({ value })}
-  <svg viewBox="0 0 16 16" aria-hidden="true">…</svg>
+  <svg
+    viewBox="0 0 16 16"
+    aria-hidden="true">…</svg
+  >
   <span class="locale-picker-text">{value.split(/[-_]/)[0].toUpperCase()}</span>
 {/snippet}
 ```
@@ -113,10 +122,33 @@ This package ships no assets, but nothing stops you supplying one.
 
 ```svelte
 {#snippet children()}
-  <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false">
-    <circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" />
-    <ellipse cx="8" cy="8" rx="3" ry="7" fill="none" stroke="currentColor" />
-    <path d="M1 8h14M2.5 4.5h11M2.5 11.5h11" fill="none" stroke="currentColor" />
+  <svg
+    viewBox="0 0 16 16"
+    width="16"
+    height="16"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <circle
+      cx="8"
+      cy="8"
+      r="7"
+      fill="none"
+      stroke="currentColor"
+    />
+    <ellipse
+      cx="8"
+      cy="8"
+      rx="3"
+      ry="7"
+      fill="none"
+      stroke="currentColor"
+    />
+    <path
+      d="M1 8h14M2.5 4.5h11M2.5 11.5h11"
+      fill="none"
+      stroke="currentColor"
+    />
   </svg>
 {/snippet}
 ```
@@ -132,7 +164,10 @@ without a CSS-only workaround. (`[aria-expanded="true"]` on
 
 ```svelte
 {#snippet children({ open })}
-  <svg viewBox="0 0 16 16" aria-hidden="true">…</svg>
+  <svg
+    viewBox="0 0 16 16"
+    aria-hidden="true">…</svg
+  >
   <span aria-hidden="true">{open ? "▴" : "▾"}</span>
 {/snippet}
 ```
@@ -151,8 +186,14 @@ locale will do to the page:
 </script>
 
 {#snippet children({ value, labelFor })}
-  <svg viewBox="0 0 16 16" aria-hidden="true">…</svg>
-  <span class="locale-picker-text" dir={isRtlLocale(value) ? "rtl" : "ltr"}>
+  <svg
+    viewBox="0 0 16 16"
+    aria-hidden="true">…</svg
+  >
+  <span
+    class="locale-picker-text"
+    dir={isRtlLocale(value) ? "rtl" : "ltr"}
+  >
     {labelFor(value)}
   </span>
 {/snippet}
@@ -161,7 +202,7 @@ locale will do to the page:
 The `dir` here scopes bidi handling to the name itself, which matters
 when an RTL endonym sits inside an otherwise-LTR button.
 
-## What the snippet should *not* do
+## What the snippet should _not_ do
 
 - **Don't render `<option>` elements.** There is no `<select>` to put
   them in. They will render as stray inline content inside the button.

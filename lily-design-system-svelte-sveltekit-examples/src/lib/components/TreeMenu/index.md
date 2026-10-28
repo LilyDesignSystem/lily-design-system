@@ -10,7 +10,7 @@ See [components/tree-menu/index.md](../../../../../components/tree-menu/index.md
 
 ```svelte
 <script lang="ts">
-    import TreeMenu from "./TreeMenu.svelte";
+  import TreeMenu from "./TreeMenu.svelte";
 </script>
 
 <TreeMenu />

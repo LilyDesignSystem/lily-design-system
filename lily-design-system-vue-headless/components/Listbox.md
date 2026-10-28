@@ -23,23 +23,33 @@ The component manages focus movement between options via arrow keys, with Home a
 
 ```svelte
 <Listbox label="Fruits">
-    <div role="option" tabindex="-1">Apple</div>
-    <div role="option" tabindex="-1">Banana</div>
+  <div
+    role="option"
+    tabindex="-1"
+  >
+    Apple
+  </div>
+  <div
+    role="option"
+    tabindex="-1"
+  >
+    Banana
+  </div>
 </Listbox>
 ```
 
 ```svelte
 <Listbox label="Select a color">
-    {#each colors as color}
-        <div
-            role="option"
-            tabindex="-1"
-            aria-selected={selected === color}
-            onclick={() => selected = color}
-        >
-            {color}
-        </div>
-    {/each}
+  {#each colors as color}
+    <div
+      role="option"
+      tabindex="-1"
+      aria-selected={selected === color}
+      onclick={() => (selected = color)}
+    >
+      {color}
+    </div>
+  {/each}
 </Listbox>
 ```
 

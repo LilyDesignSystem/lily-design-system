@@ -10,12 +10,12 @@ MongoDB, OData or a predicate. Ships no CSS and no English text. A macro plus a 
 
 ## Files
 
-| File | Purpose |
-| ---- | ------- |
-| `filter-builder.njk` | The macro. |
-| `filter-builder.client.js` | The client runtime. |
-| `filter-builder.test.ts` | Vitest spec, one test per Svelte §8 clause plus the macro. |
-| `filter-model.ts`, `search-text.ts` (+ tests) | Pure model, copied from `shared/`. |
+| File                                          | Purpose                                                    |
+| --------------------------------------------- | ---------------------------------------------------------- |
+| `filter-builder.njk`                          | The macro.                                                 |
+| `filter-builder.client.js`                    | The client runtime.                                        |
+| `filter-builder.test.ts`                      | Vitest spec, one test per Svelte §8 clause plus the macro. |
+| `filter-model.ts`, `search-text.ts` (+ tests) | Pure model, copied from `shared/`.                         |
 
 ## Rules
 

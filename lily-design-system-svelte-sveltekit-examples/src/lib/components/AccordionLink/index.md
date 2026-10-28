@@ -10,7 +10,7 @@ See [components/accordion-link/index.md](../../../../../components/accordion-lin
 
 ```svelte
 <script lang="ts">
-    import AccordionLink from "./AccordionLink.svelte";
+  import AccordionLink from "./AccordionLink.svelte";
 </script>
 
 <AccordionLink />

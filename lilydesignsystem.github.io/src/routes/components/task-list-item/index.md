@@ -22,7 +22,7 @@ This component is designed to be placed inside a TaskList `<ul>`. The consumer p
 
 ```html
 <TaskList label="Today's tasks">
-  <TaskListItem completed={true}>Review pull requests</TaskListItem>
+  <TaskListItem completed="{true}">Review pull requests</TaskListItem>
   <TaskListItem>Update documentation</TaskListItem>
   <TaskListItem>Deploy to staging</TaskListItem>
 </TaskList>
@@ -32,11 +32,23 @@ With checkboxes for interactive tasks:
 
 ```html
 <TaskList label="Onboarding checklist">
-  <TaskListItem completed={done1}>
-    <label><input type="checkbox" checked={done1} /> Create account</label>
+  <TaskListItem completed="{done1}">
+    <label
+      ><input
+        type="checkbox"
+        checked="{done1}"
+      />
+      Create account</label
+    >
   </TaskListItem>
-  <TaskListItem completed={done2}>
-    <label><input type="checkbox" checked={done2} /> Set up profile</label>
+  <TaskListItem completed="{done2}">
+    <label
+      ><input
+        type="checkbox"
+        checked="{done2}"
+      />
+      Set up profile</label
+    >
   </TaskListItem>
 </TaskList>
 ```
@@ -78,14 +90,11 @@ Consumer CSS example using `data-completed`:
 
 This headless component renders a semantic `<li>` element with a `data-completed` attribute for CSS hooks. It provides list item semantics and completion state signaling. The consumer provides all visual styling including completion indicators (strikethrough, opacity), checkboxes, and task content.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.task-list-item` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<li>` element with class `task-list-item`
 - Verify keyboard interactions work correctly

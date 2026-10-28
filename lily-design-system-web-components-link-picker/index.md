@@ -30,8 +30,8 @@ the tooltip. There is **no default list**: the package ships no routes and no En
 
 ```js
 picker.addEventListener("navigate", (event) => {
-  event.preventDefault();               // only possible for a plain left click
-  router.go(event.detail.href);         // detail: { id, href }
+  event.preventDefault(); // only possible for a plain left click
+  router.go(event.detail.href); // detail: { id, href }
 });
 ```
 
@@ -39,13 +39,13 @@ Modified clicks (Ctrl/Cmd/Shift/Alt, middle button) and `newTab` links are never
 
 ## `LinkItem`
 
-| Field | Notes |
-| --- | --- |
-| `label` | Visible text. Yours, so it localises. |
-| `href` | A route (`"/about/"`) or a full URL. |
-| `id` | Reported by `navigate` / `onNavigate`; defaults to `href`. |
-| `current` | Marks the current page with `aria-current="page"`. |
-| `newTab` | `target="_blank"` with `rel="noopener noreferrer"`. |
+| Field     | Notes                                                      |
+| --------- | ---------------------------------------------------------- |
+| `label`   | Visible text. Yours, so it localises.                      |
+| `href`    | A route (`"/about/"`) or a full URL.                       |
+| `id`      | Reported by `navigate` / `onNavigate`; defaults to `href`. |
+| `current` | Marks the current page with `aria-current="page"`.         |
+| `newTab`  | `target="_blank"` with `rel="noopener noreferrer"`.        |
 
 ## Styling
 

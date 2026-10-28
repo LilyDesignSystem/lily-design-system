@@ -10,10 +10,10 @@ the navigator only decides the very first visit.
 
 ```tsx
 <LocalePicker
-    label="Language"
-    locales={["en", "fr", "de", "es"]}
-    storageKey="my-app:locale"
-    detectFromNavigator
+  label="Language"
+  locales={["en", "fr", "de", "es"]}
+  storageKey="my-app:locale"
+  detectFromNavigator
 />
 ```
 
@@ -27,18 +27,18 @@ reads German. Override the labels with each language's own name:
 
 ```tsx
 const endonyms = {
-    en: "English",
-    fr: "Français",
-    de: "Deutsch",
-    ja: "日本語",
-    ar: "العربية",
+  en: "English",
+  fr: "Français",
+  de: "Deutsch",
+  ja: "日本語",
+  ar: "العربية",
 };
 
 <LocalePicker
-    label="Language"
-    locales={Object.keys(endonyms)}
-    localeLabels={endonyms}
-/>
+  label="Language"
+  locales={Object.keys(endonyms)}
+  localeLabels={endonyms}
+/>;
 ```
 
 The options already carry `lang`, so each name is pronounced in the
@@ -50,15 +50,15 @@ right voice without extra work.
 const [locale, setLocale] = useState("en");
 
 <LocalePicker
-    label={t("language")}
-    locales={["en", "fr", "de"]}
-    value={locale}
-    onChange={(code) => {
-        setLocale(code);
-        i18n.changeLanguage(bcp47LocaleTag(code));
-    }}
-    storageKey="my-app:locale"
-/>
+  label={t("language")}
+  locales={["en", "fr", "de"]}
+  value={locale}
+  onChange={(code) => {
+    setLocale(code);
+    i18n.changeLanguage(bcp47LocaleTag(code));
+  }}
+  storageKey="my-app:locale"
+/>;
 ```
 
 `onChange` fires on the initial resolution as well as on user
@@ -76,9 +76,14 @@ hydration:
 // app/layout.tsx (server component)
 const locale = (await cookies()).get("locale")?.value ?? "en";
 return (
-    <html lang={locale} dir={isRtlLocale(locale) ? "rtl" : "ltr"}>
-        <body><LocaleClient initial={locale} /></body>
-    </html>
+  <html
+    lang={locale}
+    dir={isRtlLocale(locale) ? "rtl" : "ltr"}
+  >
+    <body>
+      <LocaleClient initial={locale} />
+    </body>
+  </html>
 );
 ```
 
@@ -86,18 +91,18 @@ return (
 // LocaleClient.tsx
 "use client";
 export function LocaleClient({ initial }: { initial: string }) {
-    const [locale, setLocale] = useState(initial);
-    return (
-        <LocalePicker
-            label="Language"
-            locales={["en", "fr", "ar"]}
-            value={locale}
-            onChange={(code) => {
-                setLocale(code);
-                document.cookie = `locale=${code};path=/;max-age=31536000;samesite=lax`;
-            }}
-        />
-    );
+  const [locale, setLocale] = useState(initial);
+  return (
+    <LocalePicker
+      label="Language"
+      locales={["en", "fr", "ar"]}
+      value={locale}
+      onChange={(code) => {
+        setLocale(code);
+        document.cookie = `locale=${code};path=/;max-age=31536000;samesite=lax`;
+      }}
+    />
+  );
 }
 ```
 
@@ -116,15 +121,15 @@ const [ready, setReady] = useState(false);
 useEffect(() => setReady(true), []);
 
 <div ref={panelRef}>
-    {ready && (
-        <LocalePicker
-            label="Panel language"
-            locales={["en", "fr"]}
-            name="panel-locale"
-            target={panelRef.current}
-        />
-    )}
-</div>
+  {ready && (
+    <LocalePicker
+      label="Panel language"
+      locales={["en", "fr"]}
+      name="panel-locale"
+      target={panelRef.current}
+    />
+  )}
+</div>;
 ```
 
 This satisfies WCAG 3.1.2 (Language of Parts). It does not satisfy
@@ -152,9 +157,16 @@ one own direction.
 The hidden input is always rendered, so no extra wiring is needed:
 
 ```tsx
-<form action="/preferences" method="post">
-    <LocalePicker label="Language" locales={["en", "fr"]} name="locale" />
-    <button type="submit">Save</button>
+<form
+  action="/preferences"
+  method="post"
+>
+  <LocalePicker
+    label="Language"
+    locales={["en", "fr"]}
+    name="locale"
+  />
+  <button type="submit">Save</button>
 </form>
 ```
 
@@ -166,20 +178,17 @@ There is no navigator equivalent of `prefers-color-scheme`'s change
 event — `navigator.languages` does fire a `languagechange` event on
 `window`, but only when the user changes their browser setting, and
 overriding an explicit choice would be hostile. Re-resolve only when
-the user has *not* chosen:
+the user has _not_ chosen:
 
 ```tsx
 useEffect(() => {
-    function onLanguageChange() {
-        if (localStorage.getItem("my-app:locale")) return; // user chose; leave it
-        const match = matchNavigatorLanguage(
-            Array.from(navigator.languages),
-            locales,
-        );
-        if (match) setLocale(match);
-    }
-    window.addEventListener("languagechange", onLanguageChange);
-    return () => window.removeEventListener("languagechange", onLanguageChange);
+  function onLanguageChange() {
+    if (localStorage.getItem("my-app:locale")) return; // user chose; leave it
+    const match = matchNavigatorLanguage(Array.from(navigator.languages), locales);
+    if (match) setLocale(match);
+  }
+  window.addEventListener("languagechange", onLanguageChange);
+  return () => window.removeEventListener("languagechange", onLanguageChange);
 }, [locales]);
 ```
 
@@ -187,10 +196,14 @@ useEffect(() => {
 
 ```tsx
 const sorted = [...locales].sort((a, b) =>
-    localeName(a).localeCompare(localeName(b), bcp47LocaleTag(a)),
+  localeName(a).localeCompare(localeName(b), bcp47LocaleTag(a)),
 );
 
-<LocalePicker label="Language" locales={sorted} localeLabels={endonyms} />
+<LocalePicker
+  label="Language"
+  locales={sorted}
+  localeLabels={endonyms}
+/>;
 ```
 
 Sorting by code (`de`, `el`, `en`) is meaningless to a reader scanning
@@ -201,8 +214,13 @@ does the heavy lifting — see
 ## Style the trigger from open state without a render prop
 
 ```css
-.locale-picker-button::after { content: "▾"; display: inline-block; }
-.locale-picker-button[aria-expanded="true"]::after { transform: rotate(180deg); }
+.locale-picker-button::after {
+  content: "▾";
+  display: inline-block;
+}
+.locale-picker-button[aria-expanded="true"]::after {
+  transform: rotate(180deg);
+}
 ```
 
 No `children` needed — `aria-expanded` is already on the button.

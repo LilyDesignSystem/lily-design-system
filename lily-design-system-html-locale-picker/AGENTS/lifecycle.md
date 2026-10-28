@@ -77,15 +77,15 @@ disconnectedCallback:
 This is the most important thing to know about the element's
 reactivity, and it changed with the icon-button + listbox rendering.
 
-| Trigger                                              | Path         | Effect |
-| ---------------------------------------------------- | ------------ | ------ |
-| `locales`, `locale-labels`, `label`, `name`, `class`  | `#render()`  | Recreates the whole rendered subtree. Closes the list first (`#open = false`, `#activeIndex = -1`), because a rebuild cannot preserve focus inside it. |
+| Trigger                                               | Path           | Effect                                                                                                                                                          |
+| ----------------------------------------------------- | -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `locales`, `locale-labels`, `label`, `name`, `class`  | `#render()`    | Recreates the whole rendered subtree. Closes the list first (`#open = false`, `#activeIndex = -1`), because a rebuild cannot preserve focus inside it.          |
 | `value`                                               | `#syncState()` | Mutates attributes in place: the hidden input's `value`, `aria-expanded`, `hidden`, `aria-activedescendant`, and each option's `aria-selected` / `data-active`. |
-| `openList()` / `closeList()` / arrow keys / typeahead | `#syncState()` | Same in-place mutation. |
+| `openList()` / `closeList()` / arrow keys / typeahead | `#syncState()` | Same in-place mutation.                                                                                                                                         |
 
 ### Why `value` never rebuilds
 
-The user selects a locale *while the listbox is open and focused*.
+The user selects a locale _while the listbox is open and focused_.
 If assigning `this.value` rebuilt the DOM, `replaceChildren()` would
 destroy the focused `<ul>` and the element that
 `aria-activedescendant` points at, dropping focus to `<body>` and

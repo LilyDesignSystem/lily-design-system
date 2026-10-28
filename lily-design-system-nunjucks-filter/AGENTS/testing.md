@@ -52,17 +52,13 @@ const env = nunjucks.configure(__dirname, {
 });
 
 function renderMacro(opts: Record<string, unknown>): string {
-  const src =
-    `{% from "./theme-picker.njk" import themePicker %}` +
-    `{{ themePicker(opts) }}`;
+  const src = `{% from "./theme-picker.njk" import themePicker %}` + `{{ themePicker(opts) }}`;
   return env.renderString(src, { opts });
 }
 
 function mountIntoBody(html: string): HTMLElement {
   document.body.innerHTML = html;
-  return document.body.querySelector(
-    "[data-lily-theme-picker-root]",
-  ) as HTMLElement;
+  return document.body.querySelector("[data-lily-theme-picker-root]") as HTMLElement;
 }
 
 beforeEach(() => {

@@ -24,18 +24,18 @@ This component uses `role="alert"` to ensure screen readers announce the error s
 
 ```svelte
 <ErrorSummary title="There is a problem">
-    <ul>
-        <li><a href="#name">Enter your name</a></li>
-        <li><a href="#email">Enter a valid email address</a></li>
-    </ul>
+  <ul>
+    <li><a href="#name">Enter your name</a></li>
+    <li><a href="#email">Enter a valid email address</a></li>
+  </ul>
 </ErrorSummary>
 ```
 
 ```svelte
 <ErrorSummary title="Please fix the following errors">
-    <ul>
-        <li><a href="#password">Password must be at least 8 characters</a></li>
-    </ul>
+  <ul>
+    <li><a href="#password">Password must be at least 8 characters</a></li>
+  </ul>
 </ErrorSummary>
 ```
 

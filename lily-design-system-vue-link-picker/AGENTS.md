@@ -9,14 +9,14 @@ A headless Vue 3 page-links control: a single-icon button (a bundled home SVG) o
 
 ## Files
 
-| File | Purpose |
-| ---- | ------- |
-| `LinkPicker.vue` | Implementation. |
-| `LinkPicker.test.ts` | 24 tests mapped to the spec §7 clauses. |
-| `spec/index.md` | Contract and this port's differences. |
-| `index.md` | Guide. |
-| `docs/accessibility.md` | Trade-offs, stated plainly. |
-| `examples/` | Home / About Us / Contact Us / Privacy Policy, router integration, custom icon. |
+| File                    | Purpose                                                                         |
+| ----------------------- | ------------------------------------------------------------------------------- |
+| `LinkPicker.vue`        | Implementation.                                                                 |
+| `LinkPicker.test.ts`    | 24 tests mapped to the spec §7 clauses.                                         |
+| `spec/index.md`         | Contract and this port's differences.                                           |
+| `index.md`              | Guide.                                                                          |
+| `docs/accessibility.md` | Trade-offs, stated plainly.                                                     |
+| `examples/`             | Home / About Us / Contact Us / Privacy Policy, router integration, custom icon. |
 
 ## Surface
 

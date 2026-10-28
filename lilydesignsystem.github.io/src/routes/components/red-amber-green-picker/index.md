@@ -37,9 +37,22 @@ Risk assessment in a project dashboard:
   <fieldset>
     <legend>Sprint 14 Status</legend>
     <RedAmberGreenPicker label="Overall sprint health">
-      <RedAmberGreenPickerButton value="red" label="Red - Critical" onclick={handleSelect} />
-      <RedAmberGreenPickerButton value="amber" label="Amber - At risk" selected onclick={handleSelect} />
-      <RedAmberGreenPickerButton value="green" label="Green - On track" onclick={handleSelect} />
+      <RedAmberGreenPickerButton
+        value="red"
+        label="Red - Critical"
+        onclick="{handleSelect}"
+      />
+      <RedAmberGreenPickerButton
+        value="amber"
+        label="Amber - At risk"
+        selected
+        onclick="{handleSelect}"
+      />
+      <RedAmberGreenPickerButton
+        value="green"
+        label="Green - On track"
+        onclick="{handleSelect}"
+      />
     </RedAmberGreenPicker>
   </fieldset>
 </form>
@@ -49,19 +62,48 @@ Compliance tracking with pre-selected status:
 
 ```html
 <RedAmberGreenPicker label="GDPR compliance status">
-  <RedAmberGreenPickerButton value="red" label="Red - Non-compliant" onclick={handleSelect} />
-  <RedAmberGreenPickerButton value="amber" label="Amber - Partial" onclick={handleSelect} />
-  <RedAmberGreenPickerButton value="green" label="Green - Compliant" selected onclick={handleSelect} />
+  <RedAmberGreenPickerButton
+    value="red"
+    label="Red - Non-compliant"
+    onclick="{handleSelect}"
+  />
+  <RedAmberGreenPickerButton
+    value="amber"
+    label="Amber - Partial"
+    onclick="{handleSelect}"
+  />
+  <RedAmberGreenPickerButton
+    value="green"
+    label="Green - Compliant"
+    selected
+    onclick="{handleSelect}"
+  />
 </RedAmberGreenPicker>
 ```
 
 Health dashboard with data attributes:
 
 ```html
-<RedAmberGreenPicker label="Patient alert level" data-patient-id="P-1042">
-  <RedAmberGreenPickerButton value="red" label="Red - Immediate attention" onclick={handleSelect} />
-  <RedAmberGreenPickerButton value="amber" label="Amber - Monitor closely" selected onclick={handleSelect} />
-  <RedAmberGreenPickerButton value="green" label="Green - Stable" onclick={handleSelect} />
+<RedAmberGreenPicker
+  label="Patient alert level"
+  data-patient-id="P-1042"
+>
+  <RedAmberGreenPickerButton
+    value="red"
+    label="Red - Immediate attention"
+    onclick="{handleSelect}"
+  />
+  <RedAmberGreenPickerButton
+    value="amber"
+    label="Amber - Monitor closely"
+    selected
+    onclick="{handleSelect}"
+  />
+  <RedAmberGreenPickerButton
+    value="green"
+    label="Green - Stable"
+    onclick="{handleSelect}"
+  />
 </RedAmberGreenPicker>
 ```
 
@@ -94,14 +136,11 @@ Health dashboard with data attributes:
 
 The RedAmberGreenPicker headless component provides a `<select>` with `aria-label` and three predefined options (red, amber, green) with two-way value binding. Native select keyboard navigation is fully supported. The consumer provides all visual styling, including color coding.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.red-amber-green-picker` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `red-amber-green-picker`
 - Verify aria-label` on the select from the label prop

@@ -62,41 +62,38 @@ that closes the listbox:
 
 ```ts
 onMounted(() => {
-    document.addEventListener("click", onDocumentClick);
+  document.addEventListener("click", onDocumentClick);
 
-    let initial = current.value;
+  let initial = current.value;
 
-    if (!initial && props.storageKey) {
-        try {
-            initial = localStorage.getItem(props.storageKey) ?? "";
-        } catch {
-            // ignore private-mode / quota errors
-        }
+  if (!initial && props.storageKey) {
+    try {
+      initial = localStorage.getItem(props.storageKey) ?? "";
+    } catch {
+      // ignore private-mode / quota errors
     }
+  }
 
-    if (!initial && props.detectFromNavigator && typeof navigator !== "undefined") {
-        const navLangs =
-            navigator.languages && navigator.languages.length > 0
-                ? Array.from(navigator.languages)
-                : navigator.language
-                  ? [navigator.language]
-                  : [];
-        initial = matchNavigatorLanguage(navLangs, props.locales);
-    }
+  if (!initial && props.detectFromNavigator && typeof navigator !== "undefined") {
+    const navLangs =
+      navigator.languages && navigator.languages.length > 0
+        ? Array.from(navigator.languages)
+        : navigator.language
+          ? [navigator.language]
+          : [];
+    initial = matchNavigatorLanguage(navLangs, props.locales);
+  }
 
-    if (!initial) {
-        initial =
-            props.defaultValue ??
-            (props.locales.includes("en") ? "en" : props.locales[0]) ??
-            "";
-    }
+  if (!initial) {
+    initial = props.defaultValue ?? (props.locales.includes("en") ? "en" : props.locales[0]) ?? "";
+  }
 
-    if (initial && initial !== current.value) {
-        current.value = initial;
-        emit("update:value", initial);
-        return;
-    }
-    if (initial) applyLocale(initial);
+  if (initial && initial !== current.value) {
+    current.value = initial;
+    emit("update:value", initial);
+    return;
+  }
+  if (initial) applyLocale(initial);
 });
 ```
 
@@ -108,16 +105,20 @@ not a non-empty `value` was supplied.
 
 ```ts
 function applyLocale(code: string): void {
-    if (typeof document === "undefined" || !code) return;
-    const root = props.target ?? document.documentElement;
-    root.setAttribute("lang", bcp47LocaleTag(code));
-    if (props.applyDir) {
-        root.setAttribute("dir", isRtlLocale(code) ? "rtl" : "ltr");
+  if (typeof document === "undefined" || !code) return;
+  const root = props.target ?? document.documentElement;
+  root.setAttribute("lang", bcp47LocaleTag(code));
+  if (props.applyDir) {
+    root.setAttribute("dir", isRtlLocale(code) ? "rtl" : "ltr");
+  }
+  if (props.storageKey) {
+    try {
+      localStorage.setItem(props.storageKey, code);
+    } catch {
+      /* ignore */
     }
-    if (props.storageKey) {
-        try { localStorage.setItem(props.storageKey, code); } catch { /* ignore */ }
-    }
-    emit("change", code);
+  }
+  emit("change", code);
 }
 ```
 
@@ -157,9 +158,9 @@ const locale = ref("en");
 const target = ref<HTMLElement | null>(null);
 
 watch(target, () => {
-    const current = locale.value;
-    locale.value = "";
-    locale.value = current;
+  const current = locale.value;
+  locale.value = "";
+  locale.value = current;
 });
 </script>
 ```

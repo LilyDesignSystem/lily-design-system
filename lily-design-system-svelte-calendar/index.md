@@ -8,7 +8,7 @@ arithmetic and calendar-dialog keyboard model. Ships no CSS: every
 visual detail is the consumer's, via kebab-case class hooks and
 `data-*` attributes.
 
-This is a *viewing* helper, not a date-selection input
+This is a _viewing_ helper, not a date-selection input
 (`date-time-picker` already owns that) and not a date-range picker
 (`CalendarRangePicker` already owns that) — see
 [spec/index.md](./spec/index.md) for the full contract and the
@@ -19,7 +19,10 @@ research behind the three view periods and the keyboard model.
 ```svelte
 <script lang="ts">
   import CalendarView from "@lilydesignsystem/svelte-calendar";
-  import type { CalendarEvent, CalendarView as CalendarViewMode } from "@lilydesignsystem/svelte-calendar";
+  import type {
+    CalendarEvent,
+    CalendarView as CalendarViewMode,
+  } from "@lilydesignsystem/svelte-calendar";
 
   let view = $state<CalendarViewMode>("month");
   let anchorDate = $state("2026-01-15");
@@ -44,9 +47,11 @@ research behind the three view periods and the keyboard model.
     next: (v) => `Next ${v}`,
     today: "Today",
     periodAnnouncement: (v, start, end) => `Showing ${v} from ${start} to ${end}`,
-    weekday: (wd) => ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][wd],
-    weekdayAbbr: (wd) => ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][wd],
-    day: (isoDate, wd, outside) => `${Number(isoDate.slice(8))}${outside ? " (outside month)" : ""}`,
+    weekday: (wd) =>
+      ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][wd],
+    weekdayAbbr: (wd) => ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][wd],
+    day: (isoDate, wd, outside) =>
+      `${Number(isoDate.slice(8))}${outside ? " (outside month)" : ""}`,
   }}
   onDayClick={(isoDate) => console.log("clicked", isoDate)}
 >

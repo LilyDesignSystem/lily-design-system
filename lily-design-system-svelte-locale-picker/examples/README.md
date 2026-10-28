@@ -19,18 +19,18 @@ Every example assumes:
   RTL. None of these examples include it; see
   [`../docs/styling.md`](../docs/styling.md#positioning-the-listbox).
 
-| File                                                   | Demonstrates                                                                                     |
-| ------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
+| File                                                   | Demonstrates                                                                                    |
+| ------------------------------------------------------ | ----------------------------------------------------------------------------------------------- |
 | [`basic.svelte`](./basic.svelte)                       | The default rendering, plus the `.locale-picker-status` live region every consumer should ship. |
-| [`custom-rendering.svelte`](./custom-rendering.svelte) | `children` snippet — globe + the active locale's endonym + caret, inside the button.             |
-| [`many-locales.svelte`](./many-locales.svelte)         | A 23-locale list in a one-glyph control; typeahead, `Home` / `End`, scroll container.            |
-| [`persistence.svelte`](./persistence.svelte)           | `storageKey` survival across reloads plus `detectFromNavigator` on first visit.                  |
-| [`rtl-demo.svelte`](./rtl-demo.svelte)                 | Live RTL preview — Arabic, Hebrew, Persian, Urdu, Pashto — with endonym `localeLabels`.          |
-| [`nhs-style.svelte`](./nhs-style.svelte)               | NHS UK-style utility banner with endonyms, a `class` hook, and the native-`<select>` caveat.     |
-| [`with-svelte-i18n.svelte`](./with-svelte-i18n.svelte) | Binding to `svelte-i18n`'s `locale` store.                                                       |
-| [`with-paraglide.svelte`](./with-paraglide.svelte)     | Driving Paraglide JS's `setLocale()` from `onChange`.                                            |
-| [`ssr-cookie.svelte`](./ssr-cookie.svelte)             | SvelteKit `cookies` + `transformPageChunk` for flicker-free SSR.                                 |
-| [`scoped-target.svelte`](./scoped-target.svelte)       | Multiple per-region selects, each scoped to its own panel.                                       |
+| [`custom-rendering.svelte`](./custom-rendering.svelte) | `children` snippet — globe + the active locale's endonym + caret, inside the button.            |
+| [`many-locales.svelte`](./many-locales.svelte)         | A 23-locale list in a one-glyph control; typeahead, `Home` / `End`, scroll container.           |
+| [`persistence.svelte`](./persistence.svelte)           | `storageKey` survival across reloads plus `detectFromNavigator` on first visit.                 |
+| [`rtl-demo.svelte`](./rtl-demo.svelte)                 | Live RTL preview — Arabic, Hebrew, Persian, Urdu, Pashto — with endonym `localeLabels`.         |
+| [`nhs-style.svelte`](./nhs-style.svelte)               | NHS UK-style utility banner with endonyms, a `class` hook, and the native-`<select>` caveat.    |
+| [`with-svelte-i18n.svelte`](./with-svelte-i18n.svelte) | Binding to `svelte-i18n`'s `locale` store.                                                      |
+| [`with-paraglide.svelte`](./with-paraglide.svelte)     | Driving Paraglide JS's `setLocale()` from `onChange`.                                           |
+| [`ssr-cookie.svelte`](./ssr-cookie.svelte)             | SvelteKit `cookies` + `transformPageChunk` for flicker-free SSR.                                |
+| [`scoped-target.svelte`](./scoped-target.svelte)       | Multiple per-region selects, each scoped to its own panel.                                      |
 
 ### Renamed from the radio-group era
 

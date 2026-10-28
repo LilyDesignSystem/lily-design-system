@@ -13,7 +13,10 @@ A Kanban table data cell is a single cell within a KanbanTableRow, rendered as a
 
 ```svelte
 <KanbanTableRow>
-  <KanbanTableTD active label="Fix login bug">Fix login bug</KanbanTableTD>
+  <KanbanTableTD
+    active
+    label="Fix login bug">Fix login bug</KanbanTableTD
+  >
   <KanbanTableTD />
   <KanbanTableTD />
 </KanbanTableRow>

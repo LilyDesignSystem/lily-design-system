@@ -21,7 +21,9 @@ OsterreichSozialversicherungsnummerInput is a headless placeholder component, ge
 ## Usage
 
 ```html
-<OsterreichSozialversicherungsnummerInput label="OsterreichSozialversicherungsnummerInput example">Content</OsterreichSozialversicherungsnummerInput>
+<OsterreichSozialversicherungsnummerInput label="OsterreichSozialversicherungsnummerInput example"
+  >Content</OsterreichSozialversicherungsnummerInput
+>
 ```
 
 ## Keyboard Interactions

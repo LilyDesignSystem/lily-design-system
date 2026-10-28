@@ -10,11 +10,11 @@ See [components/radar-chart/index.md](../../../../../components/radar-chart/inde
 
 ```svelte
 <script lang="ts">
-    import RadarChart from "./RadarChart.svelte";
+  import RadarChart from "./RadarChart.svelte";
 </script>
 
 <RadarChart label="Describe the chart">
-    <svg viewBox="0 0 10 10">…</svg>
+  <svg viewBox="0 0 10 10">…</svg>
 </RadarChart>
 ```
 

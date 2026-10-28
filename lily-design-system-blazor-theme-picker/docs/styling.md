@@ -6,8 +6,8 @@ exposes.
 
 ## Class hooks
 
-| Selector                    | Element                                                                                                 |
-| --------------------------- | ------------------------------------------------------------------------------------------------------- |
+| Selector                   | Element                                                                                                 |
+| -------------------------- | ------------------------------------------------------------------------------------------------------- |
 | `.theme-picker`            | The root `<div>`.                                                                                       |
 | `.theme-picker.{CssClass}` | Both classes when `CssClass` is passed.                                                                 |
 | `.theme-picker-button`     | The icon `<button>` that opens the listbox.                                                             |
@@ -25,8 +25,8 @@ stays.
 
 ## State hooks
 
-| Selector                                      | Meaning                                                          |
-| --------------------------------------------- | ---------------------------------------------------------------- |
+| Selector                                     | Meaning                                                          |
+| -------------------------------------------- | ---------------------------------------------------------------- |
 | `.theme-picker-list[hidden]`                 | The listbox is closed.                                           |
 | `.theme-picker-button[aria-expanded="true"]` | The listbox is open.                                             |
 | `.theme-picker-option[aria-selected="true"]` | The active theme — the current selection.                        |

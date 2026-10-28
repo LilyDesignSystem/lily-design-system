@@ -21,7 +21,12 @@ in the canonical repo root for the cross-framework documentation.
 Set `spy` to mark the table-of-contents link for the section in view. The links are your own `<a href="#id">` elements.
 
 ```html
-<lily-contents-nav label="On this page" [spy]="true" [offset]="64" [(active)]="section">
+<lily-contents-nav
+  label="On this page"
+  [spy]="true"
+  [offset]="64"
+  [(active)]="section"
+>
   <ol>
     <li><a href="#introduction">Introduction</a></li>
     <li><a href="#usage">Usage</a></li>
@@ -38,4 +43,3 @@ Inputs: `spy`, `offset` (px, default 0), `root` (element, default the viewport),
 - **Clicks:** the clicked link becomes current at once and stays so until the scroll settles (`scrollend`, or 1 s).
 - **Not done for you:** smooth scrolling (CSS `scroll-behavior` inside `prefers-reduced-motion: no-preference`), a fixed
   header's offset (`scroll-margin-top` on the targets plus the same `offset`), moving focus, and updating the URL.
-

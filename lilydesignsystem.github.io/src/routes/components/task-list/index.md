@@ -33,19 +33,26 @@ task items as `<li>` children through the children slot.
 
 ```html
 <TaskList label="Your health assessment">
-  <TaskListItem href="/your-health/exercise" status="completed">
+  <TaskListItem
+    href="/your-health/exercise"
+    status="completed"
+  >
     Exercise
   </TaskListItem>
-  <TaskListItem href="/your-health/diet" status="incomplete">
+  <TaskListItem
+    href="/your-health/diet"
+    status="incomplete"
+  >
     Diet and nutrition
   </TaskListItem>
-  <TaskListItem href="/your-health/family-history" status="incomplete"
-    hint="Details of your parents, brothers and sisters">
+  <TaskListItem
+    href="/your-health/family-history"
+    status="incomplete"
+    hint="Details of your parents, brothers and sisters"
+  >
     Family health history
   </TaskListItem>
-  <TaskListItem status="cannot-start-yet">
-    Blood test
-  </TaskListItem>
+  <TaskListItem status="cannot-start-yet"> Blood test </TaskListItem>
 </TaskList>
 ```
 
@@ -78,14 +85,11 @@ task items as `<li>` children through the children slot.
 
 This headless component renders a `<ul>` with explicit `role="list"` and `aria-label` to ensure list semantics are preserved even when CSS removes default styling. The consumer provides all visual styling including layout, spacing, completion indicators, and any interactive elements within list items.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.task-list` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<ol>` element with class `task-list`
 - Verify role="list"` explicitly marks as a list

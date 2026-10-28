@@ -10,21 +10,21 @@ the consumer-facing tradeoff discussion is in
 
 ## Roles and properties
 
-| Element                  | Role / Property                               | Source        |
-| ------------------------ | --------------------------------------------- | ------------- |
-| root `<div>`             | none — plain wrapper, receives `$attrs`       | Component     |
-| `<input type="hidden">`  | `name` — form participation only              | Component     |
-| `<button>`               | implicit `role="button"`                      | Browser       |
-| `<button>`               | `aria-label={label}`                          | Consumer prop |
-| `<button>`               | `aria-haspopup="listbox"`                     | Component     |
-| `<button>`               | `aria-expanded` — `"true"` / `"false"`        | Component     |
-| `<button>`               | `aria-controls={listId}`                      | Component     |
-| `.theme-picker-icon`     | `aria-hidden="true"`                          | Component     |
-| `<ul>`                   | `role="listbox"`, `aria-label={label}`        | Component     |
-| `<ul>`                   | `tabindex="-1"`, `hidden` while closed        | Component     |
-| `<ul>`                   | `aria-activedescendant` — only while open     | Component     |
-| `<li>`                   | `role="option"`, `aria-selected`              | Component     |
-| `<li>`                   | `data-active` on the keyboard-active option   | Component     |
+| Element                 | Role / Property                             | Source        |
+| ----------------------- | ------------------------------------------- | ------------- |
+| root `<div>`            | none — plain wrapper, receives `$attrs`     | Component     |
+| `<input type="hidden">` | `name` — form participation only            | Component     |
+| `<button>`              | implicit `role="button"`                    | Browser       |
+| `<button>`              | `aria-label={label}`                        | Consumer prop |
+| `<button>`              | `aria-haspopup="listbox"`                   | Component     |
+| `<button>`              | `aria-expanded` — `"true"` / `"false"`      | Component     |
+| `<button>`              | `aria-controls={listId}`                    | Component     |
+| `.theme-picker-icon`    | `aria-hidden="true"`                        | Component     |
+| `<ul>`                  | `role="listbox"`, `aria-label={label}`      | Component     |
+| `<ul>`                  | `tabindex="-1"`, `hidden` while closed      | Component     |
+| `<ul>`                  | `aria-activedescendant` — only while open   | Component     |
+| `<li>`                  | `role="option"`, `aria-selected`            | Component     |
+| `<li>`                  | `data-active` on the keyboard-active option | Component     |
 
 Focus stays on the `<ul>` for as long as the listbox is open; the
 active option is conveyed with `aria-activedescendant`. The `<li>`
@@ -41,28 +41,28 @@ the button on commit or cancel.
 
 On the **button**:
 
-| Key                  | Action                                                         |
-| -------------------- | -------------------------------------------------------------- |
-| `Tab` / `Shift+Tab`  | Move focus to / away from the button (native, one stop).       |
-| `ArrowDown`          | Open, active option = the selected one (or index 0).           |
-| `Enter` / `Space`    | Open, active option = the selected one (or index 0).           |
-| `ArrowUp`            | Open, active option = the **last** option.                     |
+| Key                 | Action                                                   |
+| ------------------- | -------------------------------------------------------- |
+| `Tab` / `Shift+Tab` | Move focus to / away from the button (native, one stop). |
+| `ArrowDown`         | Open, active option = the selected one (or index 0).     |
+| `Enter` / `Space`   | Open, active option = the selected one (or index 0).     |
+| `ArrowUp`           | Open, active option = the **last** option.               |
 
 On the **listbox**:
 
-| Key                  | Action                                                         |
-| -------------------- | -------------------------------------------------------------- |
-| `ArrowDown`          | Move the active option down one. **Clamps** — no wrapping.     |
-| `ArrowUp`            | Move the active option up one. **Clamps** — no wrapping.       |
-| `Home` / `End`       | Jump to the first / last option.                               |
-| `Enter` / `Space`    | Select the active option, apply it, close, refocus the button. |
-| `Escape`             | Close and refocus the button **without** changing the value.   |
+| Key                  | Action                                                                                   |
+| -------------------- | ---------------------------------------------------------------------------------------- |
+| `ArrowDown`          | Move the active option down one. **Clamps** — no wrapping.                               |
+| `ArrowUp`            | Move the active option up one. **Clamps** — no wrapping.                                 |
+| `Home` / `End`       | Jump to the first / last option.                                                         |
+| `Enter` / `Space`    | Select the active option, apply it, close, refocus the button.                           |
+| `Escape`             | Close and refocus the button **without** changing the value.                             |
 | `Tab`                | Close; focus lands on the button so the default Tab proceeds from the picker's position. |
-| Printable characters | Typeahead over the option **labels**, 500 ms buffer reset.     |
+| Printable characters | Typeahead over the option **labels**, 500 ms buffer reset.                               |
 
 Pointer and focus: clicking an option selects it; clicking outside the
 root closes the listbox; focus leaving the root closes it. Both of
-those close *without* refocusing the button, so the user's own focus
+those close _without_ refocusing the button, so the user's own focus
 movement is never fought.
 
 ## State signals
@@ -166,7 +166,7 @@ Required, not optional — this is a scripted widget:
 
 ```ts
 const wrapper = mount(ThemePicker, {
-    props: { label: "Theme", themesUrl: "/t/", themes: ["light", "dark"] },
+  props: { label: "Theme", themesUrl: "/t/", themes: ["light", "dark"] },
 });
 const button = wrapper.find("button.theme-picker-button");
 expect(button.attributes("aria-label")).toBe("Theme");

@@ -10,11 +10,11 @@ See [components/ring-chart/index.md](../../../../../components/ring-chart/index.
 
 ```svelte
 <script lang="ts">
-    import RingChart from "./RingChart.svelte";
+  import RingChart from "./RingChart.svelte";
 </script>
 
 <RingChart label="Describe the chart">
-    <svg viewBox="0 0 10 10">…</svg>
+  <svg viewBox="0 0 10 10">…</svg>
 </RingChart>
 ```
 

@@ -23,16 +23,35 @@ Menu bar buttons inside a MenuBar:
 
 ```html
 <MenuBar label="Application menu">
-    <MenuBarButton onclick={() => openFileMenu()}>File</MenuBarButton>
-    <MenuBarButton onclick={() => openEditMenu()}>Edit</MenuBarButton>
-    <MenuBarButton onclick={() => openViewMenu()}>View</MenuBarButton>
+  <MenuBarButton
+    onclick="{()"
+    =""
+  >
+    openFileMenu()}>File</MenuBarButton
+  >
+  <MenuBarButton
+    onclick="{()"
+    =""
+  >
+    openEditMenu()}>Edit</MenuBarButton
+  >
+  <MenuBarButton
+    onclick="{()"
+    =""
+  >
+    openViewMenu()}>View</MenuBarButton
+  >
 </MenuBar>
 ```
 
 Menu bar button with submenu expansion:
 
 ```html
-<MenuBarButton aria-haspopup="true" aria-expanded={isFileMenuOpen}>File</MenuBarButton>
+<MenuBarButton
+  aria-haspopup="true"
+  aria-expanded="{isFileMenuOpen}"
+  >File</MenuBarButton
+>
 ```
 
 ## Keyboard Interactions
@@ -62,14 +81,11 @@ Menu bar button with submenu expansion:
 
 This headless component provides a `<div>` with `role="menuitem"` and `tabindex="-1"` for roving focus managed by the parent MenuBar. The consumer provides all visual styling, including item appearance, hover states, active indicators, and submenu expansion affordances.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.menu-bar-button` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<button>` element with class `menu-bar-button`
 - Verify role="menuitem"` -- identifies this as an item within a menubar

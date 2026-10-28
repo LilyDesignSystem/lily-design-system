@@ -22,7 +22,10 @@ The component supports an optional `aria-label` for additional accessible contex
 
 ```svelte
 <MeasurementSystemView value="metric" />
-<MeasurementSystemView value="SI" label="International System" />
+<MeasurementSystemView
+  value="SI"
+  label="International System"
+/>
 ```
 
 ## Keyboard Interactions

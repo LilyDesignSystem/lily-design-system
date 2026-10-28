@@ -23,9 +23,20 @@ PilipinasPhilhealthIdentificationNumberInput is a headless input for entering th
 ## Usage
 
 ```html
-<Field label="PhilHealth Identification Number (PIN)" required>
-  <PilipinasPhilhealthIdentificationNumberInput label="PhilHealth Identification Number (PIN)" value={value} required />
-  <Hint>Twelve-digit number assigned by the Philippine Health Insurance Corporation (PhilHealth) to every enrolled member, commonly displayed grouped as NN-NNNNNNNNN-N. No published check-digit algorithm; correctness is confirmed against PhilHealth's own membership records.</Hint>
+<Field
+  label="PhilHealth Identification Number (PIN)"
+  required
+>
+  <PilipinasPhilhealthIdentificationNumberInput
+    label="PhilHealth Identification Number (PIN)"
+    value="{value}"
+    required
+  />
+  <Hint
+    >Twelve-digit number assigned by the Philippine Health Insurance Corporation (PhilHealth) to
+    every enrolled member, commonly displayed grouped as NN-NNNNNNNNN-N. No published check-digit
+    algorithm; correctness is confirmed against PhilHealth's own membership records.</Hint
+  >
   <ErrorMessage>Please enter a valid PhilHealth Identification Number</ErrorMessage>
 </Field>
 ```

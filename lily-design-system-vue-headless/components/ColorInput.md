@@ -22,7 +22,10 @@ A color input wraps the native HTML `<input type="color">` element, providing a 
 ## Usage
 
 ```svelte
-<ColorInput label="Background color" bind:value={color} />
+<ColorInput
+  label="Background color"
+  bind:value={color}
+/>
 ```
 
 ## Keyboard Interactions

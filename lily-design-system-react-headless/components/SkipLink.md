@@ -27,7 +27,10 @@ Use SkipLink as the very first focusable element on a page. When a keyboard user
 ```
 
 ```tsx
-<SkipLink href="#main" label="Skip to main content" />
+<SkipLink
+  href="#main"
+  label="Skip to main content"
+/>
 ```
 
 ## Keyboard Interactions

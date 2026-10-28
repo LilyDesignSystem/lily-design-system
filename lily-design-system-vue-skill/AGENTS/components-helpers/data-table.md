@@ -4,21 +4,21 @@ Pattern:
 
 ```tsx
 <DataTable>
-    <DataTableHead>
-        <DataTableRow>
-            <DataTableTH>…</DataTableTH>
-        </DataTableRow>
-    </DataTableHead>
-    <DataTableBody>
-        <DataTableRow>
-            <DataTableTD>…</DataTableTD>
-        </DataTableRow>
-    </DataTableBody>
-    <DataTableFoot>
-        <DataTableRow>
-            <DataTableTH>…</DataTableTH>
-        </DataTableRow>
-    </DataTableFoot>
+  <DataTableHead>
+    <DataTableRow>
+      <DataTableTH>…</DataTableTH>
+    </DataTableRow>
+  </DataTableHead>
+  <DataTableBody>
+    <DataTableRow>
+      <DataTableTD>…</DataTableTD>
+    </DataTableRow>
+  </DataTableBody>
+  <DataTableFoot>
+    <DataTableRow>
+      <DataTableTH>…</DataTableTH>
+    </DataTableRow>
+  </DataTableFoot>
 </DataTable>
 ```
 

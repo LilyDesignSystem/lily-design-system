@@ -19,14 +19,20 @@ A Gantt table data cell is a single cell within a GanttTableTr representing a ti
 ## Usage
 
 ```tsx
-{/* Active time period with bar content */}
-<GanttTableTD active>---</GanttTableTD>
+{
+  /* Active time period with bar content */
+}
+<GanttTableTD active>---</GanttTableTD>;
 
-{/* Inactive empty time period */}
-<GanttTableTD />
+{
+  /* Inactive empty time period */
+}
+<GanttTableTD />;
 
-{/* Active with milestone marker */}
-<GanttTableTD active>◆</GanttTableTD>
+{
+  /* Active with milestone marker */
+}
+<GanttTableTD active>◆</GanttTableTD>;
 ```
 
 ## ARIA

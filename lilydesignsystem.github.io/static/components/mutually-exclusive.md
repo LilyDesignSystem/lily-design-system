@@ -10,27 +10,40 @@ This sits in the gap between `RadioGroup` (always exactly one) and `CheckboxGrou
 
 - Wraps a group of selectable controls (typically checkboxes) and enforces that only one can be checked at a time
 - When the user checks one option, the previously-checked option is unchecked
-- Behaves like a radio group but allows the user to *uncheck* the current selection (to leave the group with no selection)
+- Behaves like a radio group but allows the user to _uncheck_ the current selection (to leave the group with no selection)
 - Renders `role="group"` with an `aria-label` so the constraint is communicated to assistive technology
 - Children are passed via the `children` slot; the consumer composes the individual `CheckboxInput` controls
 
 ## Props
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `label` | string (required) | — | Accessible label for the group |
-| `value` | string | null | null | Currently selected option's value, or null when none is selected; bindable |
-| `onChange` | (value: string | null) => void | — | Fired when the selected value changes |
-| `children` | slot (required) | — | The CheckboxInput controls that make up the group |
-| `...restProps` | HTML attributes | — | Spread onto the root `<div>` |
+| Prop           | Type              | Default       | Description                                       |
+| -------------- | ----------------- | ------------- | ------------------------------------------------- |
+| `label`        | string (required) | —             | Accessible label for the group                    |
+| `value`        | string            | null          | null                                              | Currently selected option's value, or null when none is selected; bindable |
+| `onChange`     | (value: string    | null) => void | —                                                 | Fired when the selected value changes                                      |
+| `children`     | slot (required)   | —             | The CheckboxInput controls that make up the group |
+| `...restProps` | HTML attributes   | —             | Spread onto the root `<div>`                      |
 
 ## Usage
 
 ```html
-<MutuallyExclusive label="Preferred contact method" value={contact} onChange={setContact}>
-  <CheckboxInput value="email" label="Email" />
-  <CheckboxInput value="sms" label="SMS" />
-  <CheckboxInput value="post" label="Post" />
+<MutuallyExclusive
+  label="Preferred contact method"
+  value="{contact}"
+  onChange="{setContact}"
+>
+  <CheckboxInput
+    value="email"
+    label="Email"
+  />
+  <CheckboxInput
+    value="sms"
+    label="SMS"
+  />
+  <CheckboxInput
+    value="post"
+    label="Post"
+  />
 </MutuallyExclusive>
 ```
 

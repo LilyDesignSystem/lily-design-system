@@ -11,5 +11,7 @@ GrailLayoutTopHeader is a headless container for the top header section of a Gra
 ## Usage
 
 ```tsx
-<GrailLayoutTopHeader><header>Site Header</header></GrailLayoutTopHeader>
+<GrailLayoutTopHeader>
+  <header>Site Header</header>
+</GrailLayoutTopHeader>
 ```

@@ -21,24 +21,58 @@ A five-star rating input allows users to select a rating from 1 to 5 stars using
 ## Usage
 
 ```html
-<FiveStarRatingPicker label="Rate this product" value={rating}>
-    <FiveStarRatingPickerButton value="1" label="1 star" onclick={handleClick} />
-    <FiveStarRatingPickerButton value="2" label="2 stars" onclick={handleClick} />
-    <FiveStarRatingPickerButton value="3" label="3 stars" selected onclick={handleClick} />
-    <FiveStarRatingPickerButton value="4" label="4 stars" onclick={handleClick} />
-    <FiveStarRatingPickerButton value="5" label="5 stars" onclick={handleClick} />
+<FiveStarRatingPicker
+  label="Rate this product"
+  value="{rating}"
+>
+  <FiveStarRatingPickerButton
+    value="1"
+    label="1 star"
+    onclick="{handleClick}"
+  />
+  <FiveStarRatingPickerButton
+    value="2"
+    label="2 stars"
+    onclick="{handleClick}"
+  />
+  <FiveStarRatingPickerButton
+    value="3"
+    label="3 stars"
+    selected
+    onclick="{handleClick}"
+  />
+  <FiveStarRatingPickerButton
+    value="4"
+    label="4 stars"
+    onclick="{handleClick}"
+  />
+  <FiveStarRatingPickerButton
+    value="5"
+    label="5 stars"
+    onclick="{handleClick}"
+  />
 </FiveStarRatingPicker>
 ```
 
 In a review form:
 
 ```html
-<Form label="Write a review" onSubmit={handleSubmit}>
-    <Field label="Your rating" required>
-        <FiveStarRatingPicker label="Your rating" value={rating} name="rating" />
-    </Field>
-    <Button type="submit">Submit Review</Button>
-</Form>
+<form
+  label="Write a review"
+  onSubmit="{handleSubmit}"
+>
+  <Field
+    label="Your rating"
+    required
+  >
+    <FiveStarRatingPicker
+      label="Your rating"
+      value="{rating}"
+      name="rating"
+    />
+  </Field>
+  <button type="submit">Submit Review</button>
+</form>
 ```
 
 ## Keyboard Interactions
@@ -73,17 +107,14 @@ Standard radio group keyboard behavior provided by the browser:
 
 This headless component provides a `<fieldset>` with `role="radiogroup"`, individual radio buttons with proper labels, and keyboard navigation. The consumer provides all visual styling including star shapes, colors, hover effects, and sizing.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.five-star-rating-picker` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
 
-
 - Verify the component renders a `<div>` element with class `five-star-rating-picker`
-- Verify role="radiogroup"` -- on the `<fieldset>`, identifies the group as a set of radio buttons
+- Verify role="radiogroup"`-- on the`<fieldset>`, identifies the group as a set of radio buttons
 - Verify aria-label="..."` -- provides an accessible name for the entire rating group
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied

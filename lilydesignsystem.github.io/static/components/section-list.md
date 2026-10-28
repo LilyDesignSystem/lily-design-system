@@ -12,17 +12,23 @@ A list of section navigation items.
 
 ## Props
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `children` | slot (required) | — | `SectionListItem` elements |
-| `...restProps` | HTML attributes | — | Spread onto the root `<ol>` |
+| Prop           | Type            | Default | Description                 |
+| -------------- | --------------- | ------- | --------------------------- |
+| `children`     | slot (required) | —       | `SectionListItem` elements  |
+| `...restProps` | HTML attributes | —       | Spread onto the root `<ol>` |
 
 ## Usage
 
 ```html
 <SectionList>
   <SectionListItem><SectionLink href="/a">A</SectionLink></SectionListItem>
-  <SectionListItem><SectionLink href="/b" current>B</SectionLink></SectionListItem>
+  <SectionListItem
+    ><SectionLink
+      href="/b"
+      current
+      >B</SectionLink
+    ></SectionListItem
+  >
 </SectionList>
 ```
 

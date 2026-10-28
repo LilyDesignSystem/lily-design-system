@@ -23,8 +23,15 @@ NederlandIdentiteitskaartNummerInput is a headless input for entering Netherland
 ## Usage
 
 ```html
-<Field label="Dutch National Identity Card Number" required>
-  <NederlandIdentiteitskaartNummerInput label="Dutch National Identity Card Number" value={value} required />
+<Field
+  label="Dutch National Identity Card Number"
+  required
+>
+  <NederlandIdentiteitskaartNummerInput
+    label="Dutch National Identity Card Number"
+    value="{value}"
+    required
+  />
   <Hint>9 characters following the same format as the passport number</Hint>
   <ErrorMessage>Please enter a valid Dutch National Identity Card Number</ErrorMessage>
 </Field>

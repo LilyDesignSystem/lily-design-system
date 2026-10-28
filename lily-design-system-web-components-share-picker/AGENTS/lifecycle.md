@@ -16,17 +16,17 @@ an action, not a preference, so there is no state to restore.
 The routing table is the load-bearing part of this element. Three
 buckets:
 
-| Bucket | Attributes | Reaction |
-| ------ | ---------- | -------- |
-| Structural | `label`, `copy-label`, `class` | `#render()` |
-| State-carrying | `url`, `share-title`, `text` | `#syncState()` |
-| Action-time only | `copied-label`, `copy-failed-label`, `strategy` | none |
+| Bucket           | Attributes                                      | Reaction       |
+| ---------------- | ----------------------------------------------- | -------------- |
+| Structural       | `label`, `copy-label`, `class`                  | `#render()`    |
+| State-carrying   | `url`, `share-title`, `text`                    | `#syncState()` |
+| Action-time only | `copied-label`, `copy-failed-label`, `strategy` | none           |
 
-- **Structural** attributes change *which elements exist*. `copy-label`
+- **Structural** attributes change _which elements exist_. `copy-label`
   gates whether the copy `<li>` is created at all; `label` and `class`
   are simple enough to sync but are grouped here because they are rare
   and a rebuild is harmless.
-- **State-carrying** attributes only change attribute *values* on
+- **State-carrying** attributes only change attribute _values_ on
   elements that already exist. They must not rebuild: a rebuild while
   the list is open destroys focus.
 - **Action-time** attributes are read when the user acts. Nothing
@@ -107,7 +107,7 @@ back to the trigger would be hostile.
 Two guards, and both are needed:
 
 1. The fast path: a `relatedTarget` inside the root means focus is
-   moving *within* the control — do nothing.
+   moving _within_ the control — do nothing.
 2. The deferred path: some engines (and jsdom) dispatch `focusout` with
    a **null** `relatedTarget` before the new focus target is committed.
    Closing eagerly there would close the list while focus was still

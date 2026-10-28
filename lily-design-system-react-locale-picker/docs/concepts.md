@@ -7,11 +7,11 @@ and what it deliberately leaves to you.
 
 A web app changes language across three independent axes:
 
-| Axis                       | What changes                                               | Owner                                  |
-| -------------------------- | ---------------------------------------------------------- | -------------------------------------- |
-| **Document language**      | The `lang` attribute on `<html>`. Screen readers, search engines, hyphenation, font selection. | `LocalePicker` (this helper).        |
-| **Writing direction**      | The `dir` attribute on `<html>`. Bidi text, scrollbar position, flexbox/grid mirror. | `LocalePicker` (auto-detected from the locale; opt out with `applyDir={false}`). |
-| **Translated strings**     | The actual visible words on the page.                      | Your i18n library (react-intl, react-i18next, lingui, FormatJS, raw `Intl`). |
+| Axis                   | What changes                                                                                   | Owner                                                                            |
+| ---------------------- | ---------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| **Document language**  | The `lang` attribute on `<html>`. Screen readers, search engines, hyphenation, font selection. | `LocalePicker` (this helper).                                                    |
+| **Writing direction**  | The `dir` attribute on `<html>`. Bidi text, scrollbar position, flexbox/grid mirror.           | `LocalePicker` (auto-detected from the locale; opt out with `applyDir={false}`). |
+| **Translated strings** | The actual visible words on the page.                                                          | Your i18n library (react-intl, react-i18next, lingui, FormatJS, raw `Intl`).     |
 
 The helper owns the first two and signals the third via the controlled
 `value` + `onChange` pair and the `lang` attribute (which most i18n
@@ -148,10 +148,10 @@ need stronger negotiation, run your own resolver and pass the result as
 
 The select matches the React convention:
 
-| Mode         | Trigger                          | Who owns the value       |
-| ------------ | -------------------------------- | ------------------------ |
-| Uncontrolled | `value` prop omitted             | The select (internal state) |
-| Controlled   | `value` prop supplied            | The consumer's state     |
+| Mode         | Trigger               | Who owns the value          |
+| ------------ | --------------------- | --------------------------- |
+| Uncontrolled | `value` prop omitted  | The select (internal state) |
+| Controlled   | `value` prop supplied | The consumer's state        |
 
 Uncontrolled is the easiest path; the select resolves from storage,
 navigator, or `defaultValue` on mount and manages re-renders.

@@ -4,19 +4,25 @@ An ordered list for a table of contents. Renders a semantic `<ol>` element conta
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| children | ReactNode | required | ContentsListItem components or `<li>` elements |
-| ...restProps | HTML attributes | — | Spread onto the `<ol>` |
+| Prop         | Type            | Default  | Description                                    |
+| ------------ | --------------- | -------- | ---------------------------------------------- |
+| children     | ReactNode       | required | ContentsListItem components or `<li>` elements |
+| ...restProps | HTML attributes | —        | Spread onto the `<ol>`                         |
 
 ## Usage
 
 ```tsx
 <ContentsNav label="On this page">
   <ContentsList>
-    <ContentsListItem><a href="#introduction">Introduction</a></ContentsListItem>
-    <ContentsListItem><a href="#usage">Usage</a></ContentsListItem>
-    <ContentsListItem><a href="#examples">Examples</a></ContentsListItem>
+    <ContentsListItem>
+      <a href="#introduction">Introduction</a>
+    </ContentsListItem>
+    <ContentsListItem>
+      <a href="#usage">Usage</a>
+    </ContentsListItem>
+    <ContentsListItem>
+      <a href="#examples">Examples</a>
+    </ContentsListItem>
   </ContentsList>
 </ContentsNav>
 ```

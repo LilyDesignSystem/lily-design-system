@@ -30,22 +30,46 @@ The component manages its own focus lifecycle: when the menu opens, focus moves 
 "More actions" dropdown on a card component:
 
 ```html
-<DropdownMenu label="More actions" open={menuOpen}>
-    <MenuItem onclick={() => handleEdit()}>Edit</MenuItem>
-    <MenuItem onclick={() => handleDuplicate()}>Duplicate</MenuItem>
-    <MenuItem onclick={() => handleDelete()}>Delete</MenuItem>
+<DropdownMenu
+  label="More actions"
+  open="{menuOpen}"
+>
+  <menuitem
+    onclick="{()"
+    =""
+  >
+    handleEdit()}>Edit</menuitem
+  >
+  <menuitem
+    onclick="{()"
+    =""
+  >
+    handleDuplicate()}>Duplicate</menuitem
+  >
+  <menuitem
+    onclick="{()"
+    =""
+  >
+    handleDelete()}>Delete</menuitem
+  >
 </DropdownMenu>
 ```
 
 Settings dropdown with dynamic items:
 
 ```html
-<DropdownMenu label="Settings" open={settingsOpen}>
-    {#each settingsOptions as option}
-        <MenuItem onclick={() => handleOption(option)}>
-            {option.label}
-        </MenuItem>
-    {/each}
+<DropdownMenu
+  label="Settings"
+  open="{settingsOpen}"
+>
+  {#each settingsOptions as option}
+  <menuitem
+    onclick="{()"
+    =""
+  >
+    handleOption(option)}> {option.label}
+  </menuitem>
+  {/each}
 </DropdownMenu>
 ```
 
@@ -83,14 +107,11 @@ Settings dropdown with dynamic items:
 
 This headless component provides a trigger `<button>` with `aria-haspopup` and `aria-expanded`, a `<div>` menu container with `role="menu"`, automatic focus management (first item on open), full arrow key navigation with wrapping, Home/End support, and Escape dismissal. The consumer provides all visual styling, positioning, animation, and menu item content.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.dropdown-menu` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `dropdown-menu`
 - Verify aria-label="{label}"` -- on both the trigger button and the menu, provides an accessible name

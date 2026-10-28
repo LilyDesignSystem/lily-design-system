@@ -34,7 +34,7 @@ UK postcode display:
 Postal code inline in an address summary:
 
 ```html
-<p>Your postal code: <PostalCodeView text={postalCode} /></p>
+<p>Your postal code: <PostalCodeView text="{postalCode}" /></p>
 ```
 
 Address confirmation with postal code view:
@@ -79,14 +79,11 @@ No ARIA attributes are needed. The `<span>` renders inline text content that is 
 
 The PostalCodeView headless component provides a `<span>` element that renders postal code text content. It requires no ARIA attributes since inline text is natively accessible. The consumer provides all visual styling, formatting, and layout.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.postal-code-view` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `postal-code-view`
 - Verify pass-through attributes are applied

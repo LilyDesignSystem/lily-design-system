@@ -78,7 +78,10 @@ Errors (private mode, quota, disabled storage) are silently swallowed
 — the select continues to work in-memory.
 
 ```tsx
-<ThemePicker storageKey="lily-theme" {...required} />
+<ThemePicker
+  storageKey="lily-theme"
+  {...required}
+/>
 ```
 
 ## `detectFromSystem` — optional, boolean — defaults to `false`
@@ -88,7 +91,11 @@ colour-scheme preference and use it if the resulting slug is one you
 offer.
 
 ```tsx
-<ThemePicker detectFromSystem storageKey="lily-theme" {...required} />
+<ThemePicker
+  detectFromSystem
+  storageKey="lily-theme"
+  {...required}
+/>
 ```
 
 The resolution reads `matchMedia("(prefers-color-scheme: dark)")` and
@@ -133,7 +140,10 @@ whole document.
 ```tsx
 const ref = useRef<HTMLDivElement>(null);
 <div ref={ref}>
-  <ThemePicker target={ref.current} {...required} />
+  <ThemePicker
+    target={ref.current}
+    {...required}
+  />
 </div>;
 ```
 
@@ -190,7 +200,10 @@ Extra CSS class hook on the root `<div>`. Always emitted after
 `"theme-picker"`, so consumer styles can use either selector.
 
 ```tsx
-<ThemePicker className="my-custom-class" {...required} />
+<ThemePicker
+  className="my-custom-class"
+  {...required}
+/>
 // Renders:
 // <div class="theme-picker my-custom-class" ...>
 ```
@@ -204,7 +217,11 @@ Spread onto the root `<div>`. Use to attach `data-*`, `id`, event
 handlers, and ARIA overrides.
 
 ```tsx
-<ThemePicker id="theme-picker-1" data-testid="theme-picker" {...required} />
+<ThemePicker
+  id="theme-picker-1"
+  data-testid="theme-picker"
+  {...required}
+/>
 ```
 
 The TypeScript surface accepts any

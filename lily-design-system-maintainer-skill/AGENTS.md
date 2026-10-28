@@ -30,8 +30,8 @@ held to.
 
 ## What this subproject is, and isn't
 
-- **Is**: a distributable skill, scoped to *this repository's own tooling
-  and conventions* — the required-files layout, `bin/`, the spec-driven
+- **Is**: a distributable skill, scoped to _this repository's own tooling
+  and conventions_ — the required-files layout, `bin/`, the spec-driven
   workflow, the add-a-component procedure.
 - **Isn't**: end-user-facing documentation of Lily Design System concepts
   (that's [`lily-design-system-skill`](../lily-design-system-skill/)), and

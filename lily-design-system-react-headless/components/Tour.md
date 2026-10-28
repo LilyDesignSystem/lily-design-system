@@ -22,18 +22,37 @@ A tour guide is an outer container for a guided walkthrough experience, such as 
 ## Usage
 
 ```tsx
-<Tour label="Onboarding tour" active={isActive} onChange={setIsActive}>
+<Tour
+  label="Onboarding tour"
+  active={isActive}
+  onChange={setIsActive}
+>
   <TourList label="Tour steps">
-    <TourListItem label="Welcome" current={step === 0} stepNumber={1} totalSteps={3}>
+    <TourListItem
+      label="Welcome"
+      current={step === 0}
+      stepNumber={1}
+      totalSteps={3}
+    >
       <p>Welcome to the app!</p>
       <button onClick={() => setStep(step + 1)}>Next</button>
     </TourListItem>
-    <TourListItem label="Features" current={step === 1} stepNumber={2} totalSteps={3}>
+    <TourListItem
+      label="Features"
+      current={step === 1}
+      stepNumber={2}
+      totalSteps={3}
+    >
       <p>Here are the features.</p>
       <button onClick={() => setStep(step - 1)}>Back</button>
       <button onClick={() => setStep(step + 1)}>Next</button>
     </TourListItem>
-    <TourListItem label="Finish" current={step === 2} stepNumber={3} totalSteps={3}>
+    <TourListItem
+      label="Finish"
+      current={step === 2}
+      stepNumber={3}
+      totalSteps={3}
+    >
       <p>You're all set!</p>
       <button onClick={() => setIsActive(false)}>Done</button>
     </TourListItem>

@@ -23,8 +23,15 @@ TuaisceartEireannHealthAndCareNumberInput is a headless input for entering a Tua
 ## Usage
 
 ```html
-<Field label="Health and Care Number" required>
-  <TuaisceartEireannHealthAndCareNumberInput label="H&C Number" value={hcNumber} required />
+<Field
+  label="Health and Care Number"
+  required
+>
+  <TuaisceartEireannHealthAndCareNumberInput
+    label="H&C Number"
+    value="{hcNumber}"
+    required
+  />
   <Hint>Format: XXX XXX XXXX (10 digits from your H&C card)</Hint>
   <ErrorMessage>Please enter a valid H&C Number</ErrorMessage>
 </Field>

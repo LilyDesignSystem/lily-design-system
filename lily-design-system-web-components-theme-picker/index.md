@@ -98,7 +98,10 @@ don't throw.
    optional — see [Styling is required](#styling-is-required).
 
 ```html
-<script type="module" src="/dist/theme-picker.js"></script>
+<script
+  type="module"
+  src="/dist/theme-picker.js"
+></script>
 
 <style>
   /* The minimum: make the dropdown float over the page. */
@@ -126,7 +129,12 @@ don't throw.
   storage-key="lily-theme"
 ></lily-theme-picker>
 
-<p class="theme-picker-status" aria-live="polite">Active theme: Light</p>
+<p
+  class="theme-picker-status"
+  aria-live="polite"
+>
+  Active theme: Light
+</p>
 
 <script type="module">
   await customElements.whenDefined("theme-picker");
@@ -172,7 +180,11 @@ The element renders this into its light DOM:
   themes="light,dark,abyss"
 >
   <div class="theme-picker">
-    <input type="hidden" name="theme" value="light" />
+    <input
+      type="hidden"
+      name="theme"
+      value="light"
+    />
     <button
       type="button"
       class="theme-picker-button"
@@ -181,7 +193,15 @@ The element renders this into its light DOM:
       aria-expanded="false"
       aria-controls="theme-picker-1-list"
     >
-      <svg class="theme-picker-icon" viewBox="0 0 16 16" width="1.05rem" height="1.05rem" aria-hidden="true">…</svg>
+      <svg
+        class="theme-picker-icon"
+        viewBox="0 0 16 16"
+        width="1.05rem"
+        height="1.05rem"
+        aria-hidden="true"
+      >
+        …
+      </svg>
     </button>
     <ul
       class="theme-picker-list"
@@ -311,14 +331,14 @@ On the button:
 
 Opening moves focus to the `<ul>`. On the list:
 
-| Key                     | Action                                                        |
-| ----------------------- | ------------------------------------------------------------- |
-| `ArrowDown` / `ArrowUp` | Move the active option; clamps at both ends (no wrapping).    |
-| `Home` / `End`          | Jump to the first / last option.                              |
-| `Enter` / `Space`       | Select the active option, apply, close, refocus the button.   |
-| `Escape`                | Close and refocus the button without changing the theme.      |
-| `PageUp` / `PageDown`   | Move the active option by ten; clamps at both ends.           |
-| `Tab`                   | Move focus to the button, then close — so the default Tab proceeds from the picker's position. |
+| Key                     | Action                                                                                                                                                             |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `ArrowDown` / `ArrowUp` | Move the active option; clamps at both ends (no wrapping).                                                                                                         |
+| `Home` / `End`          | Jump to the first / last option.                                                                                                                                   |
+| `Enter` / `Space`       | Select the active option, apply, close, refocus the button.                                                                                                        |
+| `Escape`                | Close and refocus the button without changing the theme.                                                                                                           |
+| `PageUp` / `PageDown`   | Move the active option by ten; clamps at both ends.                                                                                                                |
+| `Tab`                   | Move focus to the button, then close — so the default Tab proceeds from the picker's position.                                                                     |
 | printable character     | Typeahead over the option labels; buffer resets after 500 ms. A repeated character cycles through its matches; differing characters refine from the active option. |
 
 Focus sits on the `<ul>` while open, never on an `<li>` — the
@@ -363,7 +383,7 @@ Highlights:
 | `value`              | string        | no       | Currently selected slug.                                                                                     |
 | `default-value`      | string        | no       | Initial when nothing else applies.                                                                           |
 | `storage-key`        | string        | no       | `localStorage` persistence.                                                                                  |
-| `detect-from-system` | boolean attr  | no       | Resolve `prefers-color-scheme` on first visit. Mirrors locale-picker's `detect-from-navigator`.             |
+| `detect-from-system` | boolean attr  | no       | Resolve `prefers-color-scheme` on first visit. Mirrors locale-picker's `detect-from-navigator`.              |
 | `name`               | string        | no       | Hidden `<input>` `name` and managed-`<link>` discriminator; defaults to `"theme"`.                           |
 | `extension`          | string        | no       | Defaults to `".css"`.                                                                                        |
 | `theme-labels`       | string (JSON) | no       | `{ "light": "Bright" }` overrides.                                                                           |
@@ -566,9 +586,18 @@ is fetched on demand. To switch instantly between themes, preload
 them all yourself:
 
 ```html
-<link rel="stylesheet" href="/assets/themes/light.css" />
-<link rel="stylesheet" href="/assets/themes/dark.css" />
-<link rel="stylesheet" href="/assets/themes/abyss.css" />
+<link
+  rel="stylesheet"
+  href="/assets/themes/light.css"
+/>
+<link
+  rel="stylesheet"
+  href="/assets/themes/dark.css"
+/>
+<link
+  rel="stylesheet"
+  href="/assets/themes/abyss.css"
+/>
 ```
 
 The select still mutates `data-theme`, and since every theme's CSS
@@ -630,19 +659,19 @@ acceptance criterion in
 
 ## Files in this directory
 
-| File                    | Purpose                                          |
-| ----------------------- | ------------------------------------------------ |
-| `spec/index.md`         | Single source of truth — API, behaviour, tests.  |
-| `AGENTS.md`             | Fast-index pointer; loads the AGENTS bundle.     |
-| `AGENTS/`               | Topic-by-topic agent files.                      |
-| `CLAUDE.md`             | `@AGENTS.md`.                                    |
+| File                   | Purpose                                          |
+| ---------------------- | ------------------------------------------------ |
+| `spec/index.md`        | Single source of truth — API, behaviour, tests.  |
+| `AGENTS.md`            | Fast-index pointer; loads the AGENTS bundle.     |
+| `AGENTS/`              | Topic-by-topic agent files.                      |
+| `CLAUDE.md`            | `@AGENTS.md`.                                    |
 | `theme-picker.ts`      | The custom-element class.                        |
 | `theme-picker.test.ts` | vitest suite covering every spec §7 item.        |
-| `index.ts`              | Barrel + side-effectful `customElements.define`. |
-| `index.md`              | This file.                                       |
-| `docs/`                 | Deep-dive topic guides.                          |
-| `examples/`             | Runnable `.html` files.                          |
-| `CHANGELOG.md`          | Version history.                                 |
+| `index.ts`             | Barrel + side-effectful `customElements.define`. |
+| `index.md`             | This file.                                       |
+| `docs/`                | Deep-dive topic guides.                          |
+| `examples/`            | Runnable `.html` files.                          |
+| `CHANGELOG.md`         | Version history.                                 |
 
 ## License
 

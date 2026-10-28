@@ -10,15 +10,15 @@ default button icon.
 
 ## Files
 
-| File | Purpose |
-| ---- | ------- |
-| `spec/index.md` | Specification-driven contract (canonical). |
-| `settings-picker.component.ts` | Implementation. Angular signals + TypeScript. |
-| `settings-picker.component.spec.ts` | Vitest spec, mapped to the §7 clauses. |
-| `index.ts` | Barrel re-export. |
-| `index.md` | User guide. |
-| `docs/accessibility.md` | Tradeoffs, stated plainly. |
-| `examples/` | A links panel, a form panel using `close`, and a custom icon. |
+| File                                | Purpose                                                       |
+| ----------------------------------- | ------------------------------------------------------------- |
+| `spec/index.md`                     | Specification-driven contract (canonical).                    |
+| `settings-picker.component.ts`      | Implementation. Angular signals + TypeScript.                 |
+| `settings-picker.component.spec.ts` | Vitest spec, mapped to the §7 clauses.                        |
+| `index.ts`                          | Barrel re-export.                                             |
+| `index.md`                          | User guide.                                                   |
+| `docs/accessibility.md`             | Tradeoffs, stated plainly.                                    |
+| `examples/`                         | A links panel, a form panel using `close`, and a custom icon. |
 
 ## Public surface
 

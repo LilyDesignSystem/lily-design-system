@@ -53,7 +53,7 @@ modify the headless components (out of scope for this port), this
 package overrides `role` to `grid`/`rowgroup`/`gridcell` per element via
 `AdditionalAttributes` splatting, relying on Blazor's documented
 last-attribute-wins merge order (each headless component's own explicit
-`role` appears *before* its own `@attributes="AdditionalAttributes"` in
+`role` appears _before_ its own `@attributes="AdditionalAttributes"` in
 its markup, so a caller-supplied `role` always wins) — and implements
 the entire roving-tabindex model itself (`tabindex`, `data-row`,
 `data-col` — never `aria-selected`, since focus is not selection) the same way, via the same mechanism. Verified
@@ -93,17 +93,17 @@ it compiles. See CHANGELOG.md.
 
 ## 5. Parameters
 
-| Parameter               | Type                                            | Required | Default |
-| ------------------------ | ------------------------------------------------- | -------- | ------- |
-| `Label`                  | `string`                                            | yes      | —       |
-| `Columns`                | `IReadOnlyList<KanbanColumn>`                       | yes      | —       |
-| `Cards`                  | `IReadOnlyList<KanbanCard>`                         | yes      | —       |
-| `Caption`                | `string?`                                            | no       | —       |
-| `CardLabel`              | `Func<KanbanCard, string>?`                          | no       | `card.Title` |
-| `OnMove`                 | `EventCallback<(string CardId, string ToColumnId)>` | no       | —       |
-| `Labels`                 | `KanbanLabels`                                       | no       | `new()` |
-| `CssClass`               | `string`                                             | no       | `""`    |
-| `AdditionalAttributes`   | `Dictionary<string, object>?`                        | no       | `null` (spread on root) |
+| Parameter              | Type                                                | Required | Default                 |
+| ---------------------- | --------------------------------------------------- | -------- | ----------------------- |
+| `Label`                | `string`                                            | yes      | —                       |
+| `Columns`              | `IReadOnlyList<KanbanColumn>`                       | yes      | —                       |
+| `Cards`                | `IReadOnlyList<KanbanCard>`                         | yes      | —                       |
+| `Caption`              | `string?`                                           | no       | —                       |
+| `CardLabel`            | `Func<KanbanCard, string>?`                         | no       | `card.Title`            |
+| `OnMove`               | `EventCallback<(string CardId, string ToColumnId)>` | no       | —                       |
+| `Labels`               | `KanbanLabels`                                      | no       | `new()`                 |
+| `CssClass`             | `string`                                            | no       | `""`                    |
+| `AdditionalAttributes` | `Dictionary<string, object>?`                       | no       | `null` (spread on root) |
 
 `KanbanColumn`: `Id` (required), `Title` (required), `WipLimit?: int`.
 
@@ -249,7 +249,7 @@ out entirely while the move menu is open, rather than relying on
 `event.target.closest(...)` target introspection Blazor's
 `KeyboardEventArgs` does not provide (§6); (3) `@ondragover` cannot
 carry both a plain handler and an `:preventDefault` modifier on the
-same *component* tag in Blazor (`RZ10010` — both lower to one
+same _component_ tag in Blazor (`RZ10010` — both lower to one
 "ondragover" parameter and collide), so `data-over-limit`'s pointer
 counterpart, dragover-accepts-drop, is unconditional rather than gated
 on "a card drag is in progress" the way the Svelte reference gates it;

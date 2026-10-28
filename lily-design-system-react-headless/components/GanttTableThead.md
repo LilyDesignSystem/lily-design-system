@@ -11,7 +11,11 @@ The header section of a GanttTable, rendered as a `<thead>` element. Contains Ga
 
 ```tsx
 <GanttTableHead>
-  <GanttTableTr><th>Task</th><th>Start</th><th>End</th></GanttTableTr>
+  <GanttTableTr>
+    <th>Task</th>
+    <th>Start</th>
+    <th>End</th>
+  </GanttTableTr>
 </GanttTableHead>
 ```
 

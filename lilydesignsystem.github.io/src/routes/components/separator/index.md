@@ -38,14 +38,14 @@ Labelled separator for screen reader context:
 Separator between menu item groups:
 
 ```html
-<Menu label="File actions">
-  <MenuItem>New</MenuItem>
-  <MenuItem>Open</MenuItem>
-  <MenuItem>Save</MenuItem>
+<menu label="File actions">
+  <menuitem>New</menuitem>
+  <menuitem>Open</menuitem>
+  <menuitem>Save</menuitem>
   <Separator label="Destructive actions" />
-  <MenuItem>Delete</MenuItem>
-  <MenuItem>Archive</MenuItem>
-</Menu>
+  <menuitem>Delete</menuitem>
+  <menuitem>Archive</menuitem>
+</menu>
 ```
 
 Separator dividing sidebar sections:
@@ -90,14 +90,11 @@ None -- this component is a passive container. The `<hr>` element is not focusab
 
 This headless component renders a semantic `<hr>` element with an explicit `role="separator"` and optional `aria-label`. It provides the accessible separator semantics and leaves all visual styling -- thickness, color, margin, and orientation -- entirely to the consumer.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.separator` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<hr>` element with class `separator`
 - Verify role="separator"` -- explicitly identifies the element as a separator between sections of content

@@ -6,18 +6,27 @@ A single task item within a task list, rendering a semantic `<li>` element conta
 
 ```svelte
 <script lang="ts">
-    import TaskListItem from './TaskListItem.svelte';
-    let termsAccepted = $state(false);
+  import TaskListItem from "./TaskListItem.svelte";
+  let termsAccepted = $state(false);
 </script>
 
-<ul aria-label="Today's tasks" role="list">
-    <TaskListItem label="Review pull request" />
-    <TaskListItem label="Update documentation" checked />
-    <TaskListItem label="Deploy to staging" />
+<ul
+  aria-label="Today's tasks"
+  role="list"
+>
+  <TaskListItem label="Review pull request" />
+  <TaskListItem
+    label="Update documentation"
+    checked
+  />
+  <TaskListItem label="Deploy to staging" />
 </ul>
 
 <!-- Bindable checked state -->
-<TaskListItem label="Accept terms" bind:checked={termsAccepted} />
+<TaskListItem
+  label="Accept terms"
+  bind:checked={termsAccepted}
+/>
 ```
 
 ## Props

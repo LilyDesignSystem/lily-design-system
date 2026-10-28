@@ -25,15 +25,27 @@ Image inputs are commonly used when a visual submit button is preferred over a t
 ## Usage
 
 ```tsx
-<ImageInput src="/submit.png" alt="Submit" />
+<ImageInput
+  src="/submit.png"
+  alt="Submit"
+/>
 ```
 
 ```tsx
-<ImageInput src="/send.png" alt="Send form" width={100} height={40} />
+<ImageInput
+  src="/send.png"
+  alt="Send form"
+  width={100}
+  height={40}
+/>
 ```
 
 ```tsx
-<ImageInput src="/save.png" alt="Save changes" disabled={!formValid} />
+<ImageInput
+  src="/save.png"
+  alt="Save changes"
+  disabled={!formValid}
+/>
 ```
 
 ## Keyboard Interactions

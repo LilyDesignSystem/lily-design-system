@@ -34,7 +34,11 @@ Currency input with leading symbol:
 ```html
 <InputGroup label="Amount">
   <span slot="prefix">$</span>
-  <TextInput label="Amount" value={amount} onChange={setAmount} />
+  <TextInput
+    label="Amount"
+    value="{amount}"
+    onChange="{setAmount}"
+  />
 </InputGroup>
 ```
 
@@ -42,8 +46,16 @@ Search input with trailing icon button:
 
 ```html
 <InputGroup label="Search">
-  <SearchInput label="Search" value={query} onChange={setQuery} />
-  <IconButton slot="suffix" label="Submit search" onclick={submit}>
+  <SearchInput
+    label="Search"
+    value="{query}"
+    onChange="{setQuery}"
+  />
+  <IconButton
+    slot="suffix"
+    label="Submit search"
+    onclick="{submit}"
+  >
     🔍
   </IconButton>
 </InputGroup>
@@ -53,7 +65,11 @@ Percentage input with trailing unit:
 
 ```html
 <InputGroup label="Discount">
-  <NumberInput label="Discount" value={discount} onChange={setDiscount} />
+  <NumberInput
+    label="Discount"
+    value="{discount}"
+    onChange="{setDiscount}"
+  />
   <span slot="suffix">%</span>
 </InputGroup>
 ```

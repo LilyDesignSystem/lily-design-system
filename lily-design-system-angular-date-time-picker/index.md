@@ -62,11 +62,11 @@ export class BookingComponent {
 
 ## The value is always ISO
 
-| `mode` | `value` |
-| ------ | ------- |
-| `"date"` (default) | `"2026-03-15"` |
-| `"time"` | `"09:30"` |
-| `"datetime"` | `"2026-03-15T09:30"` |
+| `mode`             | `value`              |
+| ------------------ | -------------------- |
+| `"date"` (default) | `"2026-03-15"`       |
+| `"time"`           | `"09:30"`            |
+| `"datetime"`       | `"2026-03-15T09:30"` |
 
 Sortable as a string, unambiguous in every locale, and identical to what
 `<input type="date">` posts — so you can swap the native control in or out
@@ -193,8 +193,14 @@ once on open — hide it visually with your own CSS if you prefer.
 ### Replace the glyph
 
 ```html
-<lily-date-time-picker [label]="label" [labels]="labels">
-  <ng-template lilyDateTimePickerIcon let-args>
+<lily-date-time-picker
+  [label]="label"
+  [labels]="labels"
+>
+  <ng-template
+    lilyDateTimePickerIcon
+    let-args
+  >
     <my-calendar-icon [expanded]="args.open" />
     <span class="visually-hidden">{{ args.display }}</span>
   </ng-template>

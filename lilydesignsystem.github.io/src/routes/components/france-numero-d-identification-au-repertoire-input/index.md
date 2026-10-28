@@ -24,8 +24,15 @@ The NIR is a 15-digit number printed on the Carte Vitale. The display format is 
 ## Usage
 
 ```html
-<Field label="Numéro de Sécurité Sociale" required>
-  <FranceNumeroDIdentificationAuRepertoireInput label="NIR" value={nir} required />
+<Field
+  label="Numéro de Sécurité Sociale"
+  required
+>
+  <FranceNumeroDIdentificationAuRepertoireInput
+    label="NIR"
+    value="{nir}"
+    required
+  />
   <Hint>Format: X XX XX XX XXX XXX XX (15 digits from your Carte Vitale)</Hint>
   <ErrorMessage>Please enter a valid NIR</ErrorMessage>
 </Field>

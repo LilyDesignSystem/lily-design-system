@@ -31,7 +31,10 @@ This component is useful for login forms, registration forms, account settings, 
 
 ```html
 <Field label="Password">
-  <PasswordInputOrTextInputDiv label="Password" value={value} />
+  <PasswordInputOrTextInputDiv
+    label="Password"
+    value="{value}"
+  />
 </Field>
 
 <Field label="Create a password">
@@ -39,7 +42,7 @@ This component is useful for login forms, registration forms, account settings, 
   <PasswordInputOrTextInputDiv
     label="Create a password"
     toggleLabel="Show password"
-    value={value}
+    value="{value}"
   />
 </Field>
 
@@ -47,7 +50,7 @@ This component is useful for login forms, registration forms, account settings, 
   <PasswordInputOrTextInputDiv
     label="Confirm password"
     toggleLabel="Show password"
-    value={confirmValue}
+    value="{confirmValue}"
   />
 </Field>
 ```

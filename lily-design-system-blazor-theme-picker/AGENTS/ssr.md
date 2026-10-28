@@ -11,7 +11,11 @@ and the select does not touch the DOM. The rendered HTML looks like:
 
 ```html
 <div class="theme-picker">
-  <input type="hidden" name="theme" value="light" />
+  <input
+    type="hidden"
+    name="theme"
+    value="light"
+  />
   <button
     type="button"
     class="theme-picker-button"
@@ -20,7 +24,13 @@ and the select does not touch the DOM. The rendered HTML looks like:
     aria-expanded="false"
     aria-controls="theme-picker-1-list"
   >
-    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true">…</svg>
+    <svg
+      class="theme-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+    >
+      …
+    </svg>
   </button>
   <ul
     class="theme-picker-list"

@@ -22,7 +22,7 @@ AlbaCommunityHealthIndexView is a headless read-only display of Scotland's Commu
 ```html
 <SummaryList>
   <SummaryListItem term="Community Health Index">
-    <AlbaCommunityHealthIndexView value={value} />
+    <AlbaCommunityHealthIndexView value="{value}" />
   </SummaryListItem>
 </SummaryList>
 ```

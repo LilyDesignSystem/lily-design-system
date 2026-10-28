@@ -22,10 +22,14 @@ The component renders a `<tr>` element and passes through its children, which ar
 ```html
 <DataTableBody>
   <DataTableRow>
-    <td>Alice</td><td>alice@example.com</td><td>Admin</td>
+    <td>Alice</td>
+    <td>alice@example.com</td>
+    <td>Admin</td>
   </DataTableRow>
   <DataTableRow>
-    <td>Bob</td><td>bob@example.com</td><td>Editor</td>
+    <td>Bob</td>
+    <td>bob@example.com</td>
+    <td>Editor</td>
   </DataTableRow>
 </DataTableBody>
 ```
@@ -53,14 +57,11 @@ None -- this component is a passive container. Navigation within the table follo
 
 This headless DataTableRow component provides a semantic `<tr>` element with implicit `row` role for assistive technology. The consumer provides all visual styling including hover highlights, selected-row states, striped row backgrounds, and click interaction styles.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.data-table-row` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<tr>` element with class `data-table-row`
 - Verify pass-through attributes are applied

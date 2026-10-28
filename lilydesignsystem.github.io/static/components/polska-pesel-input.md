@@ -23,8 +23,15 @@ PolskaPeselInput is a headless input for entering Poland's PESEL, Poland's natio
 ## Usage
 
 ```html
-<Field label="PESEL" required>
-  <PolskaPeselInput label="PESEL" value={value} required />
+<Field
+  label="PESEL"
+  required
+>
+  <PolskaPeselInput
+    label="PESEL"
+    value="{value}"
+    required
+  />
   <Hint>11 numeric digits</Hint>
   <ErrorMessage>Please enter a valid PESEL</ErrorMessage>
 </Field>

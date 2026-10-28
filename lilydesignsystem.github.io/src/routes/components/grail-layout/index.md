@@ -21,7 +21,7 @@ Use GrailLayout as the outermost wrapper for pages that need a header, two sideb
 ```html
 <GrailLayout>
   <GrailLayoutTopHeader>
-    <Header label="Clinical Portal" />
+    <header label="Clinical Portal" />
   </GrailLayoutTopHeader>
   <GrailLayoutLeftAside>
     <TreeNav label="Sections">...</TreeNav>
@@ -32,10 +32,12 @@ Use GrailLayout as the outermost wrapper for pages that need a header, two sideb
   </GrailLayoutCenterMain>
   <GrailLayoutRightAside>
     <h2>Quick links</h2>
-    <ul><li><a href="/help">Help</a></li></ul>
+    <ul>
+      <li><a href="/help">Help</a></li>
+    </ul>
   </GrailLayoutRightAside>
   <GrailLayoutBottomFooter>
-    <Footer />
+    <footer />
   </GrailLayoutBottomFooter>
 </GrailLayout>
 ```

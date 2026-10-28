@@ -22,11 +22,17 @@ This component renders the NHS number as an inline `<span>` element with an acce
 ## Usage
 
 ```tsx
-<UnitedKingdomNationalHealthServiceNumberView label="NHS Number" value="123 456 7890" />
+<UnitedKingdomNationalHealthServiceNumberView
+  label="NHS Number"
+  value="123 456 7890"
+/>
 ```
 
 ```tsx
-<UnitedKingdomNationalHealthServiceNumberView label="Patient NHS Number" value={nhsNumber} />
+<UnitedKingdomNationalHealthServiceNumberView
+  label="Patient NHS Number"
+  value={nhsNumber}
+/>
 ```
 
 ## Keyboard Interactions

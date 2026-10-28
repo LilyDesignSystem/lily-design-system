@@ -14,17 +14,17 @@ import { describe, it, expect, beforeEach, vi } from "vitest";
 import { render } from "@testing-library/svelte";
 import { tick } from "svelte";
 import LocalePicker, {
-    bcp47LocaleTag,
-    isRtlLocale,
-    localeName,
-    matchNavigatorLanguage,
+  bcp47LocaleTag,
+  isRtlLocale,
+  localeName,
+  matchNavigatorLanguage,
 } from "./LocalePicker.svelte";
 
 beforeEach(() => {
-    // Reset shared state between tests.
-    document.documentElement.removeAttribute("lang");
-    document.documentElement.removeAttribute("dir");
-    localStorage.clear();
+  // Reset shared state between tests.
+  document.documentElement.removeAttribute("lang");
+  document.documentElement.removeAttribute("dir");
+  localStorage.clear();
 });
 ```
 
@@ -35,15 +35,15 @@ beforeEach(() => {
 
 ```ts
 it("§7.7 bcp47LocaleTag(en_US) === en-US", () => {
-    expect(bcp47LocaleTag("en_US")).toBe("en-US");
+  expect(bcp47LocaleTag("en_US")).toBe("en-US");
 });
 
 it("§7.10 isRtlLocale handles script subtags", () => {
-    expect(isRtlLocale("uz_Arab_AF")).toBe(true);
+  expect(isRtlLocale("uz_Arab_AF")).toBe(true);
 });
 
 it("§7.12 localeName looks up the English name", () => {
-    expect(localeName("en_US")).toBe("English (United States)");
+  expect(localeName("en_US")).toBe("English (United States)");
 });
 ```
 
@@ -51,18 +51,18 @@ it("§7.12 localeName looks up the English name", () => {
 
 ```ts
 it("§7.1 renders a button that controls a listbox", async () => {
-    render(LocalePicker, {
-        props: { label: "Language", locales: ["en", "fr"] },
-    });
-    await tick();
-    const button = screen.getByRole("button");
-    expect(button.getAttribute("aria-label")).toBe("Language");
-    expect(button.getAttribute("aria-haspopup")).toBe("listbox");
-    expect(button.getAttribute("aria-expanded")).toBe("false");
+  render(LocalePicker, {
+    props: { label: "Language", locales: ["en", "fr"] },
+  });
+  await tick();
+  const button = screen.getByRole("button");
+  expect(button.getAttribute("aria-label")).toBe("Language");
+  expect(button.getAttribute("aria-haspopup")).toBe("listbox");
+  expect(button.getAttribute("aria-expanded")).toBe("false");
 
-    const list = document.getElementById(button.getAttribute("aria-controls")!);
-    expect(list!.getAttribute("role")).toBe("listbox");
-    expect(list!.getAttribute("aria-label")).toBe("Language");
+  const list = document.getElementById(button.getAttribute("aria-controls")!);
+  expect(list!.getAttribute("role")).toBe("listbox");
+  expect(list!.getAttribute("aria-label")).toBe("Language");
 });
 ```
 
@@ -92,9 +92,9 @@ click the option:
 import { fireEvent, screen } from "@testing-library/svelte";
 
 async function pick(code: string, locales: string[]): Promise<void> {
-    await fireEvent.click(screen.getByRole("button"));
-    const opts = document.querySelectorAll(".locale-picker-option");
-    await fireEvent.click(opts[locales.indexOf(code)]);
+  await fireEvent.click(screen.getByRole("button"));
+  const opts = document.querySelectorAll(".locale-picker-option");
+  await fireEvent.click(opts[locales.indexOf(code)]);
 }
 ```
 
@@ -108,12 +108,12 @@ the button — focus moves to the `<ul>` on open:
 
 ```ts
 async function openWith(key: string) {
-    render(LocalePicker, { props: { label: "Language", locales: LOCALES } });
-    await flush();
-    const button = screen.getByRole("button");
-    await fireEvent.keyDown(button, { key });
-    await flush();
-    return { button, list: document.querySelector(".locale-picker-list") as HTMLElement };
+  render(LocalePicker, { props: { label: "Language", locales: LOCALES } });
+  await flush();
+  const button = screen.getByRole("button");
+  await fireEvent.keyDown(button, { key });
+  await flush();
+  return { button, list: document.querySelector(".locale-picker-list") as HTMLElement };
 }
 ```
 
@@ -147,19 +147,19 @@ expect(icon.getAttribute("aria-hidden")).toBe("true");
 
 ```ts
 it("§7.20 detectFromNavigator picks an exact match", async () => {
-    Object.defineProperty(navigator, "languages", {
-        configurable: true,
-        get: () => ["fr-FR", "en"],
-    });
-    render(LocalePicker, {
-        props: {
-            label: "L",
-            locales: ["en", "fr_FR", "ar"],
-            detectFromNavigator: true,
-        },
-    });
-    await tick();
-    expect(document.documentElement.lang).toBe("fr-FR");
+  Object.defineProperty(navigator, "languages", {
+    configurable: true,
+    get: () => ["fr-FR", "en"],
+  });
+  render(LocalePicker, {
+    props: {
+      label: "L",
+      locales: ["en", "fr_FR", "ar"],
+      detectFromNavigator: true,
+    },
+  });
+  await tick();
+  expect(document.documentElement.lang).toBe("fr-FR");
 });
 ```
 
@@ -174,7 +174,9 @@ tests. To simulate a thrown read:
 
 ```ts
 const original = Storage.prototype.getItem;
-Storage.prototype.getItem = () => { throw new Error("private mode"); };
+Storage.prototype.getItem = () => {
+  throw new Error("private mode");
+};
 // … run test …
 Storage.prototype.getItem = original;
 ```
@@ -190,11 +192,11 @@ or spy on `onChange`:
 ```ts
 const onChange = vi.fn();
 render(LocalePicker, {
-    props: {
-        label: "L",
-        locales: ["en", "fr", "ar"],
-        onChange,
-    },
+  props: {
+    label: "L",
+    locales: ["en", "fr", "ar"],
+    onChange,
+  },
 });
 await tick();
 expect(onChange).toHaveBeenCalledWith("en");
@@ -213,22 +215,23 @@ Use `createRawSnippet` to construct a snippet on the fly:
 import { createRawSnippet } from "svelte";
 
 it("§7.23 children snippet replaces the glyph and receives ChildArgs", async () => {
-    let captured: any = null;
-    const children = createRawSnippet((args) => {
-        captured = args();
-        return { render: () => "<span data-testid='custom'></span>" };
-    });
-    render(LocalePicker, {
-        props: { label: "L", locales: ["en", "fr"], value: "fr", children },
-    });
-    await tick();
-    // The snippet replaces the glyph *inside the button*.
-    expect(screen.getByTestId("custom").closest("button")?.className)
-        .toContain("locale-picker-button");
-    expect(document.querySelector(".locale-picker-icon")).toBeNull();
-    expect(captured.value).toBe("fr");
-    expect(captured.open).toBe(false);
-    expect(typeof captured.labelFor).toBe("function");
+  let captured: any = null;
+  const children = createRawSnippet((args) => {
+    captured = args();
+    return { render: () => "<span data-testid='custom'></span>" };
+  });
+  render(LocalePicker, {
+    props: { label: "L", locales: ["en", "fr"], value: "fr", children },
+  });
+  await tick();
+  // The snippet replaces the glyph *inside the button*.
+  expect(screen.getByTestId("custom").closest("button")?.className).toContain(
+    "locale-picker-button",
+  );
+  expect(document.querySelector(".locale-picker-icon")).toBeNull();
+  expect(captured.value).toBe("fr");
+  expect(captured.open).toBe(false);
+  expect(typeof captured.labelFor).toBe("function");
 });
 ```
 
@@ -238,18 +241,18 @@ it("§7.23 children snippet replaces the glyph and receives ChildArgs", async ()
 import { render as ssrRender } from "svelte/server";
 
 it("renders cleanly under SSR", () => {
-    const { html } = ssrRender(LocalePicker, {
-        props: {
-            label: "Language",
-            locales: ["en", "fr"],
-            value: "fr",
-        },
-    });
-    expect(html).toContain('class="locale-picker"');
-    expect(html).toContain('aria-label="Language"');
-    expect(html).toContain('aria-haspopup="listbox"');
-    expect(html).toContain('role="listbox"');
-    expect(html).toContain('value="fr"');   // the hidden input
+  const { html } = ssrRender(LocalePicker, {
+    props: {
+      label: "Language",
+      locales: ["en", "fr"],
+      value: "fr",
+    },
+  });
+  expect(html).toContain('class="locale-picker"');
+  expect(html).toContain('aria-label="Language"');
+  expect(html).toContain('aria-haspopup="listbox"');
+  expect(html).toContain('role="listbox"');
+  expect(html).toContain('value="fr"'); // the hidden input
 });
 ```
 
@@ -263,14 +266,14 @@ the naming convention so a reviewer can spot a missing clause.
 
 Section map:
 
-| Clauses      | Test focus                                                        |
-| ------------ | ----------------------------------------------------------------- |
-| §7.1–§7.6    | Markup: button + listbox wiring, glyph, hidden input, per-option `lang`, labels |
-| §7.7–§7.12   | Pure helpers: `bcp47LocaleTag`, `isRtlLocale`, `localeName`       |
-| §7.13–§7.17  | Application: `target.lang`, `target.dir`, `applyDir`, `onChange`  |
-| §7.18–§7.21  | Init value: value / storage / navigator / defaultValue ordering   |
-| §7.22–§7.23  | `restProps` fall-through and the `ChildArgs` contract             |
-| §7.24–§7.27  | Keyboard: open keys, arrow clamping, Home/End, Enter, Escape, typeahead, click |
+| Clauses     | Test focus                                                                      |
+| ----------- | ------------------------------------------------------------------------------- |
+| §7.1–§7.6   | Markup: button + listbox wiring, glyph, hidden input, per-option `lang`, labels |
+| §7.7–§7.12  | Pure helpers: `bcp47LocaleTag`, `isRtlLocale`, `localeName`                     |
+| §7.13–§7.17 | Application: `target.lang`, `target.dir`, `applyDir`, `onChange`                |
+| §7.18–§7.21 | Init value: value / storage / navigator / defaultValue ordering                 |
+| §7.22–§7.23 | `restProps` fall-through and the `ChildArgs` contract                           |
+| §7.24–§7.27 | Keyboard: open keys, arrow clamping, Home/End, Enter, Escape, typeahead, click  |
 
 Note the clause numbers are not in file order: the keyboard suite
 (§7.24–§7.27) was appended after the earlier groups, and the

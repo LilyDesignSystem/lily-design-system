@@ -11,7 +11,10 @@ The header section of a DataTable, rendered as a `<thead>` element. Contains Dat
 
 ```tsx
 <DataTableHead>
-  <DataTableRow><th scope="col">Name</th><th scope="col">Email</th></DataTableRow>
+  <DataTableRow>
+    <th scope="col">Name</th>
+    <th scope="col">Email</th>
+  </DataTableRow>
 </DataTableHead>
 ```
 

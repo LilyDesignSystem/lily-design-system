@@ -23,16 +23,22 @@ This headless component renders as a `<span>` element with an accessible label, 
 ## Usage
 
 ```html
-<NetPromoterScoreView label="NPS Score" value="8" />
+<NetPromoterScoreView
+  label="NPS Score"
+  value="8"
+/>
 ```
 
 In an analytics dashboard:
 
 ```html
 <Card>
-    <h3>Customer Loyalty</h3>
-    <NetPromoterScoreView label="Latest NPS score" value="9" />
-    <Badge>Promoter</Badge>
+  <h3>Customer Loyalty</h3>
+  <NetPromoterScoreView
+    label="Latest NPS score"
+    value="9"
+  />
+  <Badge>Promoter</Badge>
 </Card>
 ```
 
@@ -59,17 +65,14 @@ In an analytics dashboard:
 
 This headless component renders a `<span>` with the NPS score as text content and `aria-label` for accessible context. The consumer provides all visual styling, including typography, color coding by score range (Detractor, Passive, Promoter), and layout.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.net-promoter-score-view` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
 
-
 - Verify the component renders a `<div>` element with class `net-promoter-score-view`
-- Verify aria-label` -- provides the accessible name from the `label` prop so screen readers can announce the context of the displayed score
+- Verify aria-label`-- provides the accessible name from the`label` prop so screen readers can announce the context of the displayed score
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied
 

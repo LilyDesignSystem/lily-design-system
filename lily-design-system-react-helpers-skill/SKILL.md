@@ -15,14 +15,14 @@ component is a pure markup primitive, a helper owns one whole
 interaction end to end — selection, DOM application, and (for most of
 them) optional persistence. Each is its own npm package:
 
-| Package                                          | Owns                                                                      |
-| ------------------------------------------------- | -------------------------------------------------------------------------- |
-| `@lilydesignsystem/react-theme-picker`          | A visual theme: swaps a managed `<link>` stylesheet and sets `data-theme` on the document root; pairs with the root `themes/` stylesheets. |
-| `@lilydesignsystem/react-locale-picker`         | A BCP 47 locale: sets `lang` and `dir` (auto-detected per script) on the document root. No translation. |
-| `@lilydesignsystem/react-text-size-picker`      | A text-size preference: sets `data-text-size` on the document root.       |
-| `@lilydesignsystem/react-motion-picker`         | A reduced-motion preference: sets `data-motion` on the document root. Its initial value defers to the OS's own `(prefers-reduced-motion: reduce)` media query **unconditionally**, not behind an opt-in flag — the one behavioural difference from the three preference siblings above. |
-| `@lilydesignsystem/react-share-picker`          | An *action*, not a preference: opens the native share sheet where available, else a disclosure list of consumer-supplied destinations plus copy-to-clipboard. Applies nothing, persists nothing. |
-| `@lilydesignsystem/react-date-time-picker`      | A *form value*, not a preference: a typeable text field paired with a trigger that opens an APG date-picker dialog. Applies nothing, persists nothing. |
+| Package                                    | Owns                                                                                                                                                                                                                                                                                    |
+| ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@lilydesignsystem/react-theme-picker`     | A visual theme: swaps a managed `<link>` stylesheet and sets `data-theme` on the document root; pairs with the root `themes/` stylesheets.                                                                                                                                              |
+| `@lilydesignsystem/react-locale-picker`    | A BCP 47 locale: sets `lang` and `dir` (auto-detected per script) on the document root. No translation.                                                                                                                                                                                 |
+| `@lilydesignsystem/react-text-size-picker` | A text-size preference: sets `data-text-size` on the document root.                                                                                                                                                                                                                     |
+| `@lilydesignsystem/react-motion-picker`    | A reduced-motion preference: sets `data-motion` on the document root. Its initial value defers to the OS's own `(prefers-reduced-motion: reduce)` media query **unconditionally**, not behind an opt-in flag — the one behavioural difference from the three preference siblings above. |
+| `@lilydesignsystem/react-share-picker`     | An _action_, not a preference: opens the native share sheet where available, else a disclosure list of consumer-supplied destinations plus copy-to-clipboard. Applies nothing, persists nothing.                                                                                        |
+| `@lilydesignsystem/react-date-time-picker` | A _form value_, not a preference: a typeable text field paired with a trigger that opens an APG date-picker dialog. Applies nothing, persists nothing.                                                                                                                                  |
 
 ```bash
 pnpm install @lilydesignsystem/react-theme-picker
@@ -34,11 +34,11 @@ pnpm install @lilydesignsystem/react-theme-picker
 
 - **Icon button + APG listbox (`theme-picker`, `locale-picker`,
   `text-size-picker`, `motion-picker`).** Root `<div class="{helper}
-  {className}">` wrapping a hidden input (form participation), a
+{className}">` wrapping a hidden input (form participation), a
   `<button class="{helper}-button" aria-haspopup="listbox"
-  aria-expanded aria-controls>` whose only content is an
+aria-expanded aria-controls>` whose only content is an
   `aria-hidden` glyph span, and a `<ul class="{helper}-list"
-  role="listbox" hidden>` of `<li role="option">`. Keyboard follows
+role="listbox" hidden>` of `<li role="option">`. Keyboard follows
   the WAI-ARIA APG listbox pattern. A single glyph keeps a
   page-header control's footprint small: ◑ for theme, 🌐 for locale,
   "A" for text-size, ⏸ for motion — each wrapped `aria-hidden`, with

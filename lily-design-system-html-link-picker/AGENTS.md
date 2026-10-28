@@ -9,14 +9,14 @@ A vanilla custom element, `<link-picker>`: a single-icon button (bundled home SV
 
 ## Files
 
-| File | Purpose |
-| ---- | ------- |
-| `link-picker.ts` | The element class (does not register). |
-| `index.ts` | Barrel; registers `<link-picker>` idempotently. |
-| `link-picker.test.ts` | Vitest + jsdom, mapped to the spec §7 clauses. |
-| `spec/index.md` | Contract. |
-| `docs/` | Accessibility and styling. |
-| `examples/` | Runnable pages: Home / About Us / Contact Us / Privacy Policy. |
+| File                  | Purpose                                                        |
+| --------------------- | -------------------------------------------------------------- |
+| `link-picker.ts`      | The element class (does not register).                         |
+| `index.ts`            | Barrel; registers `<link-picker>` idempotently.                |
+| `link-picker.test.ts` | Vitest + jsdom, mapped to the spec §7 clauses.                 |
+| `spec/index.md`       | Contract.                                                      |
+| `docs/`               | Accessibility and styling.                                     |
+| `examples/`           | Runnable pages: Home / About Us / Contact Us / Privacy Policy. |
 
 ## Surface
 

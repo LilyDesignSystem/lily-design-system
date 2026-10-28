@@ -25,19 +25,28 @@ The component supports an optional `aria-label` for additional accessible contex
 Display a patient weight reading:
 
 ```html
-<MeasurementInstanceView value="72 kg" label="Patient weight" />
+<MeasurementInstanceView
+  value="72 kg"
+  label="Patient weight"
+/>
 ```
 
 Display a body temperature in a clinical summary:
 
 ```html
-<MeasurementInstanceView value="98.6 F" label="Body temperature" />
+<MeasurementInstanceView
+  value="98.6 F"
+  label="Body temperature"
+/>
 ```
 
 Display a blood pressure reading:
 
 ```html
-<MeasurementInstanceView value="120/80 mmHg" label="Blood pressure" />
+<MeasurementInstanceView
+  value="120/80 mmHg"
+  label="Blood pressure"
+/>
 ```
 
 ## Keyboard Interactions
@@ -62,17 +71,14 @@ None -- this is a display-only component.
 
 This headless component renders a `<span>` with the measurement value as text content and optional `aria-label` for additional accessible context. The consumer provides all visual styling, including typography, color coding based on value ranges, and spacing.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.measurement-instance-view` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
 
-
 - Verify the component renders a `<div>` element with class `measurement-instance-view`
-- Verify aria-label` -- optionally set from the `label` prop to provide additional context beyond the displayed value
+- Verify aria-label`-- optionally set from the`label` prop to provide additional context beyond the displayed value
 - Verify pass-through attributes are applied
 
 ## Advice

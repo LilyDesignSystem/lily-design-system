@@ -24,11 +24,18 @@ Toggles are commonly used for settings like dark mode, notifications, or feature
 ## Usage
 
 ```svelte
-<ToggleButton label="Dark mode" bind:pressed />
+<ToggleButton
+  label="Dark mode"
+  bind:pressed
+/>
 ```
 
 ```svelte
-<ToggleButton label="Mute audio" bind:pressed={muted} disabled={locked} />
+<ToggleButton
+  label="Mute audio"
+  bind:pressed={muted}
+  disabled={locked}
+/>
 ```
 
 ## Keyboard Interactions

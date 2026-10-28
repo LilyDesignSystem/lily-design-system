@@ -33,8 +33,8 @@ This headless component uses a `<figure>` element with `<img>` and optional `<fi
 <FeaturePhoto
   src="/images/city-skyline.jpg"
   alt="Downtown skyline at sunset with construction cranes visible"
-  width={1200}
-  height={800}
+  width="{1200}"
+  height="{800}"
 >
   <span slot="caption">The changing skyline of downtown</span>
   <span slot="credit">Photo: Jane Smith / Reuters</span>
@@ -45,8 +45,8 @@ This headless component uses a `<figure>` element with `<img>` and optional `<fi
 <FeaturePhoto
   src="/images/nurse-ward.jpg"
   alt="Nurse checking patient vitals on a hospital ward"
-  width={1600}
-  height={1067}
+  width="{1600}"
+  height="{1067}"
 >
   <span slot="caption">Frontline care during winter pressures</span>
   <span slot="credit">Photo: NHS England</span>

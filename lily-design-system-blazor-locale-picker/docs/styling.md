@@ -5,8 +5,8 @@ to the consumer. This guide lists the hooks the select exposes.
 
 ## Class hooks
 
-| Selector                     | Element                                                                                                  |
-| ---------------------------- | -------------------------------------------------------------------------------------------------------- |
+| Selector                    | Element                                                                                                  |
+| --------------------------- | -------------------------------------------------------------------------------------------------------- |
 | `.locale-picker`            | The root `<div>`.                                                                                        |
 | `.locale-picker.{CssClass}` | Both classes when `CssClass` is passed.                                                                  |
 | `.locale-picker-button`     | The icon `<button>` that opens the listbox.                                                              |
@@ -24,8 +24,8 @@ stays.
 
 ## State hooks
 
-| Selector                                       | Meaning                                                          |
-| ---------------------------------------------- | ---------------------------------------------------------------- |
+| Selector                                      | Meaning                                                          |
+| --------------------------------------------- | ---------------------------------------------------------------- |
 | `.locale-picker-list[hidden]`                 | The listbox is closed.                                           |
 | `.locale-picker-button[aria-expanded="true"]` | The listbox is open.                                             |
 | `.locale-picker-option[aria-selected="true"]` | The active locale — the current selection.                       |

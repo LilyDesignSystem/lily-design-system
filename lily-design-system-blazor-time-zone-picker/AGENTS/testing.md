@@ -108,22 +108,22 @@ public void Section_7_1_Renders_Button_And_Listbox()
 
 ## Common assertions
 
-| Goal                                     | Pattern                                                              |
-| ---------------------------------------- | -------------------------------------------------------------------- |
-| Wait for `OnAfterRenderAsync`            | `await Task.Yield();` (bUnit pumps the render queue synchronously).  |
-| Read the committed value                 | `cut.Find("input[type='hidden']").GetAttribute("value")`             |
-| Open a listbox                           | `cut.Find("button").Click()`                                         |
-| Find all listbox options                 | `cut.FindAll("li[role='option']")`                                   |
-| Press a key on the listbox               | `cut.Find("ul").KeyDown(new KeyboardEventArgs { Key = "ArrowDown" })` |
-| Press a key on the trigger               | `cut.Find("button").KeyDown(new KeyboardEventArgs { Key = "ArrowUp" })` |
-| Assert which option is active            | `cut.Find("ul").GetAttribute("aria-activedescendant")` equals `cut.FindAll("li")[i].Id` |
-| Assert open / closed                     | `cut.Find("ul").GetAttribute("hidden")` — non-null closed, null open |
-| Select an option by pointer              | `cut.FindAll("li")[2].Click()`                                       |
-| Close by focus leaving                   | Doubled `FocusOut()` — see below.                                    |
-| Assert `ValueChanged` fired              | Capture into a closure variable via `EventCallback.Factory.Create`   |
-| Inspect a captured JS interop call       | `JSInterop.Invocations` (a list of `JSRuntimeInvocation`)            |
-| Spread an unmatched attribute            | `p.AddUnmatched("data-testid", "x")`                                 |
-| Custom `ChildContent` render fragment    | Pass `RenderFragment<TContext>` directly via `p.Add(x => x.ChildContent, …)` |
+| Goal                                  | Pattern                                                                                 |
+| ------------------------------------- | --------------------------------------------------------------------------------------- |
+| Wait for `OnAfterRenderAsync`         | `await Task.Yield();` (bUnit pumps the render queue synchronously).                     |
+| Read the committed value              | `cut.Find("input[type='hidden']").GetAttribute("value")`                                |
+| Open a listbox                        | `cut.Find("button").Click()`                                                            |
+| Find all listbox options              | `cut.FindAll("li[role='option']")`                                                      |
+| Press a key on the listbox            | `cut.Find("ul").KeyDown(new KeyboardEventArgs { Key = "ArrowDown" })`                   |
+| Press a key on the trigger            | `cut.Find("button").KeyDown(new KeyboardEventArgs { Key = "ArrowUp" })`                 |
+| Assert which option is active         | `cut.Find("ul").GetAttribute("aria-activedescendant")` equals `cut.FindAll("li")[i].Id` |
+| Assert open / closed                  | `cut.Find("ul").GetAttribute("hidden")` — non-null closed, null open                    |
+| Select an option by pointer           | `cut.FindAll("li")[2].Click()`                                                          |
+| Close by focus leaving                | Doubled `FocusOut()` — see below.                                                       |
+| Assert `ValueChanged` fired           | Capture into a closure variable via `EventCallback.Factory.Create`                      |
+| Inspect a captured JS interop call    | `JSInterop.Invocations` (a list of `JSRuntimeInvocation`)                               |
+| Spread an unmatched attribute         | `p.AddUnmatched("data-testid", "x")`                                                    |
+| Custom `ChildContent` render fragment | Pass `RenderFragment<TContext>` directly via `p.Add(x => x.ChildContent, …)`            |
 
 ## Listbox idioms
 
@@ -168,7 +168,7 @@ Assert.Equal(cut.FindAll("li")[2].Id,
 
 Closing on outside interaction is driven by the root's `focusout`,
 because the packages ship no JavaScript and so have no document-level
-click listener. In a real browser, opening the listbox *itself* emits a
+click listener. In a real browser, opening the listbox _itself_ emits a
 `focusout` as focus moves button → listbox; the component flags that
 move and swallows the matching event. Tests have to reproduce both:
 

@@ -35,36 +35,46 @@ accessibility and keyboard support. It supports toggle button semantics via the
 Submit button for saving progress:
 
 ```html
-<Button type="submit">Save and continue</Button>
+<button type="submit">Save and continue</button>
 ```
 
 Action button that stays unavailable until a form is valid (use `disabled` for this, not for work in progress; see "Pending (async) actions"):
 
 ```html
-<Button onclick={handleSave} disabled={!formIsValid}>
+<button
+  onclick="{handleSave}"
+  disabled="{!formIsValid}"
+>
   Save your progress
-</Button>
+</button>
 ```
 
 Toggle button with pressed state:
 
 ```html
-<Button pressed={isBold} onclick={() => isBold = !isBold}>
-  Bold
-</Button>
+<button
+  pressed="{isBold}"
+  onclick="{()"
+  =""
+>
+  isBold = !isBold}> Bold
+</button>
 ```
 
 With accessible label override:
 
 ```html
-<Button label="Close notification" onclick={handleDismiss}>
+<button
+  label="Close notification"
+  onclick="{handleDismiss}"
+>
   ✕
-</Button>
+</button>
 ```
 
 ## Pending (async) actions
 
-A button that starts work (save, send, pay) is *pending* until the work ends. Do **not** mark it `disabled` while pending: a disabled button leaves the tab order, so keyboard focus is lost when the press happens and when the action finishes, and a screen reader says nothing about what happened. Keep it focusable and say it is busy:
+A button that starts work (save, send, pay) is _pending_ until the work ends. Do **not** mark it `disabled` while pending: a disabled button leaves the tab order, so keyboard focus is lost when the press happens and when the action finishes, and a screen reader says nothing about what happened. Keep it focusable and say it is busy:
 
 - `aria-busy="true"` while pending, and `aria-disabled="true"` so assistive technology reports it as unavailable. Both reach the `<button>` through the rest props. The button stays enabled and focused.
 - Ignore repeat activation in the handler (`if (pending) return;`). `aria-disabled` does not stop the click event; the guard does.
@@ -78,11 +88,19 @@ A button that starts work (save, send, pay) is *pending* until the work ends. Do
   async function save() {
     if (pending) return;
     pending = true;
-    try { await saveProgress(); } finally { pending = false; }
+    try {
+      await saveProgress();
+    } finally {
+      pending = false;
+    }
   }
 </script>
 
-<Button onclick={save} aria-busy={pending} aria-disabled={pending}>
+<Button
+  onclick={save}
+  aria-busy={pending}
+  aria-disabled={pending}
+>
   {pending ? savingLabel : saveLabel}
 </Button>
 ```
@@ -122,14 +140,11 @@ The component holds no promise, no timer and no network state; the pending flag 
 
 This component provides a native `<button>` element with optional `aria-pressed` for toggle state, `aria-label` override, and standard button types, all with zero visual styling. The consumer is responsible for all CSS including colors, padding, border, border-radius, hover states, focus indicators, disabled appearance, and icon layout.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.button` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<button>` element with class `button`
 - Verify aria-label` for screen reader text override

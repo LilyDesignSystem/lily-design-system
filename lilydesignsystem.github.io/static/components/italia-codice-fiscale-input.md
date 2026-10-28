@@ -23,9 +23,19 @@ ItaliaCodiceFiscaleInput is a headless input for entering Italy's Codice fiscale
 ## Usage
 
 ```html
-<Field label="Italian Fiscal Code" required>
-  <ItaliaCodiceFiscaleInput label="Italian Fiscal Code" value={value} required />
-  <Hint>16 alphanumeric characters: 3 from the surname, 3 from the given name, 5 encoding date of birth and sex, 4 encoding place of birth, and 1 check character</Hint>
+<Field
+  label="Italian Fiscal Code"
+  required
+>
+  <ItaliaCodiceFiscaleInput
+    label="Italian Fiscal Code"
+    value="{value}"
+    required
+  />
+  <Hint
+    >16 alphanumeric characters: 3 from the surname, 3 from the given name, 5 encoding date of birth
+    and sex, 4 encoding place of birth, and 1 check character</Hint
+  >
   <ErrorMessage>Please enter a valid Italian Fiscal Code</ErrorMessage>
 </Field>
 ```

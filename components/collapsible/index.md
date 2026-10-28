@@ -32,11 +32,26 @@ Basic collapsible section:
 Programmatically controlled collapsible for advanced settings:
 
 ```html
-<Collapsible summary="Advanced settings" open={showAdvanced}>
+<Collapsible
+  summary="Advanced settings"
+  open="{showAdvanced}"
+>
   <label for="timeout">Timeout (seconds)</label>
-  <NumberInput label="Timeout" id="timeout" value={timeout} min={1} max={300} />
+  <NumberInput
+    label="Timeout"
+    id="timeout"
+    value="{timeout}"
+    min="{1}"
+    max="{300}"
+  />
   <label for="retries">Max retries</label>
-  <NumberInput label="Max retries" id="retries" value={retries} min={0} max={10} />
+  <NumberInput
+    label="Max retries"
+    id="retries"
+    value="{retries}"
+    min="{0}"
+    max="{10}"
+  />
 </Collapsible>
 ```
 
@@ -45,7 +60,10 @@ FAQ page with multiple collapsible sections:
 ```html
 <h2>Frequently Asked Questions</h2>
 <Collapsible summary="How do I reset my password?">
-  <p>Go to the login page and click "Forgot password". Enter your email address and follow the instructions sent to your inbox.</p>
+  <p>
+    Go to the login page and click "Forgot password". Enter your email address and follow the
+    instructions sent to your inbox.
+  </p>
 </Collapsible>
 <Collapsible summary="Can I change my username?">
   <p>Yes. Navigate to Settings > Profile and update your display name.</p>
@@ -80,14 +98,11 @@ FAQ page with multiple collapsible sections:
 
 This headless Collapsible component provides native `<details>` and `<summary>` elements with built-in keyboard support and screen reader announcements, plus a bindable `open` prop for programmatic control. The consumer provides all visual styling including summary appearance, expand/collapse icons, transition animations, and content padding.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.collapsible` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `collapsible`
 - Verify keyboard interactions work correctly

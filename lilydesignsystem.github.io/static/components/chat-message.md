@@ -30,7 +30,10 @@ A patient messaging conversation in a healthcare portal:
     <ChatListItem>
       <ChatMessage label="Message from Dr Sarah Mitchell at 10:30 AM">
         <Avatar>
-          <AvatarImage src="/photos/sm.jpg" alt="Dr Sarah Mitchell" />
+          <AvatarImage
+            src="/photos/sm.jpg"
+            alt="Dr Sarah Mitchell"
+          />
         </Avatar>
         <span>Dr Sarah Mitchell</span>
         <time datetime="2025-03-15T10:30:00">10:30 AM</time>
@@ -40,7 +43,10 @@ A patient messaging conversation in a healthcare portal:
     <ChatListItem current>
       <ChatMessage label="Message from Karen Francis at 10:45 AM">
         <Avatar>
-          <AvatarImage src="/photos/kf.jpg" alt="Karen Francis" />
+          <AvatarImage
+            src="/photos/kf.jpg"
+            alt="Karen Francis"
+          />
         </Avatar>
         <span>Karen Francis</span>
         <time datetime="2025-03-15T10:45:00">10:45 AM</time>

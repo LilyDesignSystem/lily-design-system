@@ -22,9 +22,9 @@ The component renders a `<p>` element with `role="alert"`, making it an assertiv
 ```
 
 ```tsx
-{error && (
-  <ErrorMessage>{error}</ErrorMessage>
-)}
+{
+  error && <ErrorMessage>{error}</ErrorMessage>;
+}
 ```
 
 ## Keyboard Interactions

@@ -35,13 +35,13 @@ const [open, setOpen] = useState(false);
   menuLabel="More save options"
   menuOpen={open}
   onPrimaryClick={handleSave}
-  onMenuToggle={() => setOpen(o => !o)}
+  onMenuToggle={() => setOpen((o) => !o)}
 >
   <Menu>
     <MenuItem onClick={saveAs}>Save as...</MenuItem>
     <MenuItem onClick={saveCopy}>Save a copy</MenuItem>
   </Menu>
-</SplitButton>
+</SplitButton>;
 ```
 
 ## Keyboard Interactions

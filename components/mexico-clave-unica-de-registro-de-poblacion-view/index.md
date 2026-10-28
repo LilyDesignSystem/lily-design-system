@@ -22,7 +22,10 @@ MexicoClaveUnicaDeRegistroDePoblacionView is a headless read-only display of Mex
 ```html
 <SummaryList>
   <SummaryListItem term="Clave Única de Registro de Población (CURP)">
-    <MexicoClaveUnicaDeRegistroDePoblacionView label="Clave Única de Registro de Población (CURP)" value={value} />
+    <MexicoClaveUnicaDeRegistroDePoblacionView
+      label="Clave Única de Registro de Población (CURP)"
+      value="{value}"
+    />
   </SummaryListItem>
 </SummaryList>
 ```

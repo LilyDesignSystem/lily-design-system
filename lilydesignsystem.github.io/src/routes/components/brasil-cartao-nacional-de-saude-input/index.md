@@ -23,9 +23,21 @@ BrasilCartaoNacionalDeSaudeInput is a headless input for entering Brazil's Cart�
 ## Usage
 
 ```html
-<Field label="Cartão Nacional de Saúde (CNS)" required>
-  <BrasilCartaoNacionalDeSaudeInput label="Cartão Nacional de Saúde (CNS)" value={value} required />
-  <Hint>Fifteen-digit number issued by Brazil's Sistema Único de Saúde (SUS), grouped as NNN NNNN NNNN NNNN. Numbers starting 1 or 2 are definitive (linked to the national civil registry); numbers starting 7, 8, or 9 are provisional. Both forms are validated with a weighted-sum Modulus-11 check across all 15 digits.</Hint>
+<Field
+  label="Cartão Nacional de Saúde (CNS)"
+  required
+>
+  <BrasilCartaoNacionalDeSaudeInput
+    label="Cartão Nacional de Saúde (CNS)"
+    value="{value}"
+    required
+  />
+  <Hint
+    >Fifteen-digit number issued by Brazil's Sistema Único de Saúde (SUS), grouped as NNN NNNN NNNN
+    NNNN. Numbers starting 1 or 2 are definitive (linked to the national civil registry); numbers
+    starting 7, 8, or 9 are provisional. Both forms are validated with a weighted-sum Modulus-11
+    check across all 15 digits.</Hint
+  >
   <ErrorMessage>Please enter a valid Cartão Nacional de Saúde</ErrorMessage>
 </Field>
 ```

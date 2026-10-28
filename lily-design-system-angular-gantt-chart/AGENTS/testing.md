@@ -24,12 +24,12 @@ import angular from "@analogjs/vite-plugin-angular";
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
-    plugins: [angular()],
-    test: {
-        environment: "jsdom",
-        globals: true,
-        setupFiles: ["./test-setup.ts"],
-    },
+  plugins: [angular()],
+  test: {
+    environment: "jsdom",
+    globals: true,
+    setupFiles: ["./test-setup.ts"],
+  },
 });
 ```
 
@@ -38,15 +38,12 @@ export default defineConfig({
 import "@analogjs/vitest-angular/setup-zone";
 
 import {
-    BrowserDynamicTestingModule,
-    platformBrowserDynamicTesting,
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting,
 } from "@angular/platform-browser-dynamic/testing";
 import { getTestBed } from "@angular/core/testing";
 
-getTestBed().initTestEnvironment(
-    BrowserDynamicTestingModule,
-    platformBrowserDynamicTesting(),
-);
+getTestBed().initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
 ```
 
 ## Standard mount
@@ -57,33 +54,33 @@ import { TestBed, type ComponentFixture } from "@angular/core/testing";
 import { ThemePicker } from "./theme-picker.component";
 
 beforeEach(() => {
-    document.head.innerHTML = "";
-    document.documentElement.removeAttribute("data-theme");
-    document.documentElement.removeAttribute("lang");
-    document.documentElement.removeAttribute("dir");
-    localStorage.clear();
+  document.head.innerHTML = "";
+  document.documentElement.removeAttribute("data-theme");
+  document.documentElement.removeAttribute("lang");
+  document.documentElement.removeAttribute("dir");
+  localStorage.clear();
 });
 
 function mount(inputs: Partial<ThemePicker>): ComponentFixture<ThemePicker> {
-    const fixture = TestBed.createComponent(ThemePicker);
-    Object.assign(fixture.componentRef.instance as any, {});
-    for (const [key, value] of Object.entries(inputs)) {
-        fixture.componentRef.setInput(key, value);
-    }
-    fixture.detectChanges();
-    return fixture;
+  const fixture = TestBed.createComponent(ThemePicker);
+  Object.assign(fixture.componentRef.instance as any, {});
+  for (const [key, value] of Object.entries(inputs)) {
+    fixture.componentRef.setInput(key, value);
+  }
+  fixture.detectChanges();
+  return fixture;
 }
 
 it("§7.1 renders a select with the accessible name and options", () => {
-    const fixture = mount({
-        label: "Theme",
-        themesUrl: "/themes/",
-        themes: ["light", "dark"],
-    });
-    const root = fixture.nativeElement.querySelector("select");
-    expect(root).not.toBeNull();
-    expect(root.getAttribute("aria-label")).toBe("Theme");
-    expect(fixture.nativeElement.querySelectorAll("option")).toHaveLength(2);
+  const fixture = mount({
+    label: "Theme",
+    themesUrl: "/themes/",
+    themes: ["light", "dark"],
+  });
+  const root = fixture.nativeElement.querySelector("select");
+  expect(root).not.toBeNull();
+  expect(root.getAttribute("aria-label")).toBe("Theme");
+  expect(fixture.nativeElement.querySelectorAll("option")).toHaveLength(2);
 });
 ```
 
@@ -94,15 +91,15 @@ signal inputs are read-only references.
 
 ## Common assertions
 
-| Goal                                    | Pattern                                                              |
-| --------------------------------------- | -------------------------------------------------------------------- |
-| Trigger initial `effect()` ticks        | `fixture.detectChanges();` — sometimes twice in a row for two-step resolution. |
-| Find an option by value                 | `fixture.nativeElement.querySelector('option[value="dark"]')`        |
-| Change the selection                    | `select.value = "dark"; select.dispatchEvent(new Event("change", { bubbles: true })); fixture.detectChanges();` |
-| Read the `value` model signal           | `fixture.componentRef.instance.value()`                              |
-| Inspect document mutations              | `document.documentElement.dataset.theme`                              |
-| Re-mount fresh                          | `fixture.destroy(); /* TestBed.createComponent again */`            |
-| `localStorage` round-trip               | `localStorage.setItem(...); /* re-mount */`                          |
+| Goal                             | Pattern                                                                                                         |
+| -------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| Trigger initial `effect()` ticks | `fixture.detectChanges();` — sometimes twice in a row for two-step resolution.                                  |
+| Find an option by value          | `fixture.nativeElement.querySelector('option[value="dark"]')`                                                   |
+| Change the selection             | `select.value = "dark"; select.dispatchEvent(new Event("change", { bubbles: true })); fixture.detectChanges();` |
+| Read the `value` model signal    | `fixture.componentRef.instance.value()`                                                                         |
+| Inspect document mutations       | `document.documentElement.dataset.theme`                                                                        |
+| Re-mount fresh                   | `fixture.destroy(); /* TestBed.createComponent again */`                                                        |
+| `localStorage` round-trip        | `localStorage.setItem(...); /* re-mount */`                                                                     |
 
 ## Driving a `[(value)]` test
 
@@ -113,7 +110,7 @@ emission via `subscribe`:
 ```ts
 const fixture = mount({ label: "T", themesUrl: "/t/", themes: ["a", "b"] });
 const emissions: string[] = [];
-fixture.componentRef.instance.value.subscribe(v => emissions.push(v));
+fixture.componentRef.instance.value.subscribe((v) => emissions.push(v));
 
 // trigger change
 const select = fixture.nativeElement.querySelector("select") as HTMLSelectElement;
@@ -132,7 +129,7 @@ round-trip.
 
 ```ts
 const events: string[] = [];
-fixture.componentRef.instance.themeChange.subscribe(v => events.push(v));
+fixture.componentRef.instance.themeChange.subscribe((v) => events.push(v));
 // drive change …
 expect(events).toEqual(["dark"]);
 ```
@@ -147,12 +144,12 @@ needed:
 import { normaliseThemesUrl, themeHref } from "./theme-picker.component";
 
 it("§7.13 normaliseThemesUrl appends a slash", () => {
-    expect(normaliseThemesUrl("/x")).toBe("/x/");
-    expect(normaliseThemesUrl("/x/")).toBe("/x/");
+  expect(normaliseThemesUrl("/x")).toBe("/x/");
+  expect(normaliseThemesUrl("/x/")).toBe("/x/");
 });
 
 it("§7.13 themeHref builds the full URL", () => {
-    expect(themeHref("/x/", "dark", ".css")).toBe("/x/dark.css");
+  expect(themeHref("/x/", "dark", ".css")).toBe("/x/dark.css");
 });
 ```
 
@@ -167,8 +164,8 @@ is enough:
 
 ```ts
 it("imports cleanly without DOM access", async () => {
-    const mod = await import("./theme-picker.component");
-    expect(mod.ThemePicker).toBeDefined();
+  const mod = await import("./theme-picker.component");
+  expect(mod.ThemePicker).toBeDefined();
 });
 ```
 

@@ -12,10 +12,7 @@ sheet …`) so a reviewer can spot a gap. Catalog-wide rules:
 ## Harness
 
 ```ts
-if (
-  typeof customElements !== "undefined" &&
-  !customElements.get("lily-share-picker")
-) {
+if (typeof customElements !== "undefined" && !customElements.get("lily-share-picker")) {
   customElements.define("lily-share-picker", SharePicker);
 }
 
@@ -47,8 +44,7 @@ console:
 
 ```ts
 function swallowNavigation(event: MouseEvent): void {
-  if ((event.target as HTMLElement | null)?.closest?.("a[href]"))
-    event.preventDefault();
+  if ((event.target as HTMLElement | null)?.closest?.("a[href]")) event.preventDefault();
 }
 beforeEach(() => document.addEventListener("click", swallowNavigation));
 afterEach(() => document.removeEventListener("click", swallowNavigation));
@@ -110,9 +106,7 @@ Focus has to **actually move**, because the handler defers and re-reads
 
 ```ts
 outside.focus(); // required
-from.dispatchEvent(
-  new FocusEvent("focusout", { bubbles: true, relatedTarget: outside }),
-);
+from.dispatchEvent(new FocusEvent("focusout", { bubbles: true, relatedTarget: outside }));
 ```
 
 The suite asserts both directions — leaving closes, moving within does

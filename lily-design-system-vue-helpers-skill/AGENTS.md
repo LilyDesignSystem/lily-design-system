@@ -38,7 +38,7 @@ same rules the packages themselves are held to.
 
 ## What this subproject is, and isn't
 
-- **Is**: a distributable skill scoped to *consuming* the Vue
+- **Is**: a distributable skill scoped to _consuming_ the Vue
   `*-picker` helper packages from a Vue 3 application — install, import,
   `v-model` binding, attribute fallthrough, the three shape families.
 - **Isn't**: the Vue helpers catalog itself (that's

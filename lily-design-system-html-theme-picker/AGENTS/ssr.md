@@ -135,10 +135,19 @@ Just drop the script tag and host element into any HTML file:
 
 ```html
 <!doctype html>
-<html lang="en" data-theme="light">
+<html
+  lang="en"
+  data-theme="light"
+>
   <head>
-    <link rel="stylesheet" href="/assets/themes/light.css" />
-    <script type="module" src="/dist/theme-picker.js"></script>
+    <link
+      rel="stylesheet"
+      href="/assets/themes/light.css"
+    />
+    <script
+      type="module"
+      src="/dist/theme-picker.js"
+    ></script>
   </head>
   <body>
     <theme-picker

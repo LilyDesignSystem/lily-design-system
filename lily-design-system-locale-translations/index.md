@@ -15,13 +15,13 @@ Most developers should install the package named for their framework — `@lilyd
 
 ## What is in it
 
-| Export | What it is |
-| ------ | ---------- |
-| `@lilydesignsystem/locale-translations/<locale>` | One pack, e.g. `en-001`, `cy-001`, `ta-001`. 64 locales, all at the same level. |
-| `labelsFor(helper, pack)` | A ready `labels` for the Svelte, React, Vue, Angular, HTML and Web Components helpers. |
-| `nunjucksLabelsFor(helper, pack)` | `{ macro, client }` for the Nunjucks macros and clients. |
-| `pack.endonym`, `pack.exonyms`, `pack.direction` | The language's name in itself (`Cymraeg`), its name in each other pack's language (`exonyms["en-001"]` is `Welsh`), and `ltr` / `rtl`. Enough to list every language in its own and the reader's language, as a locale picker does. Bhojpuri has no exonyms yet. From `locales.tsv`. |
-| `LabelPack`, `LabelHelper`, `SPEC`, `fillTemplate` | Types and the template contract. |
+| Export                                             | What it is                                                                                                                                                                                                                                                                           |
+| -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `@lilydesignsystem/locale-translations/<locale>`   | One pack, e.g. `en-001`, `cy-001`, `ta-001`. 64 locales, all at the same level.                                                                                                                                                                                                      |
+| `labelsFor(helper, pack)`                          | A ready `labels` for the Svelte, React, Vue, Angular, HTML and Web Components helpers.                                                                                                                                                                                               |
+| `nunjucksLabelsFor(helper, pack)`                  | `{ macro, client }` for the Nunjucks macros and clients.                                                                                                                                                                                                                             |
+| `pack.endonym`, `pack.exonyms`, `pack.direction`   | The language's name in itself (`Cymraeg`), its name in each other pack's language (`exonyms["en-001"]` is `Welsh`), and `ltr` / `rtl`. Enough to list every language in its own and the reader's language, as a locale picker does. Bhojpuri has no exonyms yet. From `locales.tsv`. |
+| `LabelPack`, `LabelHelper`, `SPEC`, `fillTemplate` | Types and the template contract.                                                                                                                                                                                                                                                     |
 
 ## Reviewed or not
 

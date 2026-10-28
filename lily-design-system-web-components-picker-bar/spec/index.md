@@ -70,13 +70,13 @@ do — `<lily-picker-bar>` owns no lifecycle of its own.
 
 ### 4.1 Observed attributes
 
-| Attribute    | Type   | Required | Default             | Purpose                                                              |
-| ------------ | ------ | -------- | -------------------- | ---------------------------------------------------------------------- |
-| `themes-url` | string | yes      | —                     | Forwarded to `<lily-theme-picker>`'s `themes-url`.                    |
-| `themes`     | CSV    | no       | `DEFAULT_THEMES` (§5.1) | Forwarded to `<lily-theme-picker>`'s `themes`.                        |
-| `locales`    | CSV    | yes      | —                     | Forwarded to `<lily-locale-picker>`'s `locales`. No catalog default. |
-| `sizes`      | CSV    | no       | `DEFAULT_SIZES` (§5.2)  | Forwarded to `<lily-text-size-picker>`'s `sizes`.                     |
-| `class`      | string | no       | `""`                  | Extra class on the rendered root `<div>`.                            |
+| Attribute    | Type   | Required | Default                 | Purpose                                                              |
+| ------------ | ------ | -------- | ----------------------- | -------------------------------------------------------------------- |
+| `themes-url` | string | yes      | —                       | Forwarded to `<lily-theme-picker>`'s `themes-url`.                   |
+| `themes`     | CSV    | no       | `DEFAULT_THEMES` (§5.1) | Forwarded to `<lily-theme-picker>`'s `themes`.                       |
+| `locales`    | CSV    | yes      | —                       | Forwarded to `<lily-locale-picker>`'s `locales`. No catalog default. |
+| `sizes`      | CSV    | no       | `DEFAULT_SIZES` (§5.2)  | Forwarded to `<lily-text-size-picker>`'s `sizes`.                    |
+| `class`      | string | no       | `""`                    | Extra class on the rendered root `<div>`.                            |
 
 Array attributes are comma-separated strings, matching every other
 picker in this catalog; the matching JS property accepts a real
@@ -96,15 +96,15 @@ functions — and so are JS-property-only, matching this catalog's
 existing convention for `<lily-share-picker>`'s `targets` and
 `<lily-date-time-picker>`'s `labels`:
 
-| Property        | Type                                     | Required | Default                         |
-| ---------------- | ----------------------------------------- | -------- | --------------------------------- |
-| `labels`         | `{ search, searchInput, searchSubmit, theme, locale, textSize, share }` | yes | all seven `""` |
-| `searchProps`    | `Partial<SearchPickerProps>`              | no       | `{}`                               |
-| `shareTargets`   | `ShareTarget[]` (re-exported from `share-picker`) | no | `[]`                              |
-| `themeProps`     | `Partial<ThemePickerProps>`               | no       | `{}`                               |
-| `localeProps`    | `Partial<LocalePickerProps>`              | no       | `{}`                               |
-| `textSizeProps`  | `Partial<TextSizePickerProps>`            | no       | `{}`                               |
-| `shareProps`     | `Partial<SharePickerProps>`               | no       | `{}`                               |
+| Property        | Type                                                                    | Required | Default        |
+| --------------- | ----------------------------------------------------------------------- | -------- | -------------- |
+| `labels`        | `{ search, searchInput, searchSubmit, theme, locale, textSize, share }` | yes      | all seven `""` |
+| `searchProps`   | `Partial<SearchPickerProps>`                                            | no       | `{}`           |
+| `shareTargets`  | `ShareTarget[]` (re-exported from `share-picker`)                       | no       | `[]`           |
+| `themeProps`    | `Partial<ThemePickerProps>`                                             | no       | `{}`           |
+| `localeProps`   | `Partial<LocalePickerProps>`                                            | no       | `{}`           |
+| `textSizeProps` | `Partial<TextSizePickerProps>`                                          | no       | `{}`           |
+| `shareProps`    | `Partial<SharePickerProps>`                                             | no       | `{}`           |
 
 `labels`' default is seven empty strings, not English text — mirroring
 `<lily-date-time-picker>`'s own `DEFAULT_LABELS` exactly (see its
@@ -222,7 +222,6 @@ app supplies them:
 - §L2 With `links` omitted or empty, or `labels.link` missing, no link picker renders and search is first (§7.2 and the search clause unchanged).
 - §L3 `linkProps` reaches the nested `<lily-link-picker>` (`onNavigate`).
 - §L4 The links are real `<a href>` elements (not a menu).
-
 
 ## 8. Relationship to the `*-picker` helpers
 

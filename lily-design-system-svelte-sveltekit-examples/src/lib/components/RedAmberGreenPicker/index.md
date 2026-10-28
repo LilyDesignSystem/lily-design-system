@@ -49,22 +49,28 @@ import RedAmberGreenPicker from './RedAmberGreenPicker.svelte';
 
 ```svelte
 <script lang="ts">
-  import RedAmberGreenPicker from './RedAmberGreenPicker.svelte';
+  import RedAmberGreenPicker from "./RedAmberGreenPicker.svelte";
 </script>
 
-<RedAmberGreenPicker label="Health check" value="green" />
+<RedAmberGreenPicker
+  label="Health check"
+  value="green"
+/>
 ```
 
 ### Two-way binding
 
 ```svelte
 <script lang="ts">
-  import RedAmberGreenPicker from './RedAmberGreenPicker.svelte';
+  import RedAmberGreenPicker from "./RedAmberGreenPicker.svelte";
 
   let status = $state("amber");
 </script>
 
-<RedAmberGreenPicker label="Sprint status" bind:value={status} />
+<RedAmberGreenPicker
+  label="Sprint status"
+  bind:value={status}
+/>
 <p>Current: {status}</p>
 ```
 
@@ -72,13 +78,16 @@ import RedAmberGreenPicker from './RedAmberGreenPicker.svelte';
 
 ```svelte
 <script lang="ts">
-  import RedAmberGreenPickerButton from '../RedAmberGreenPickerButton/RedAmberGreenPickerButton.svelte';
+  import RedAmberGreenPickerButton from "../RedAmberGreenPickerButton/RedAmberGreenPickerButton.svelte";
 
   let status = $state("green");
   const levels = ["red", "amber", "green"] as const;
 </script>
 
-<div role="group" aria-label="Project status">
+<div
+  role="group"
+  aria-label="Project status"
+>
   {#each levels as level}
     <RedAmberGreenPickerButton
       value={level}
@@ -94,25 +103,38 @@ import RedAmberGreenPicker from './RedAmberGreenPicker.svelte';
 
 ```svelte
 <script lang="ts">
-  import RedAmberGreenPicker from './RedAmberGreenPicker.svelte';
-  import RedAmberGreenView from '../RedAmberGreenView/RedAmberGreenView.svelte';
+  import RedAmberGreenPicker from "./RedAmberGreenPicker.svelte";
+  import RedAmberGreenView from "../RedAmberGreenView/RedAmberGreenView.svelte";
 
   let status = $state("");
   let submitted = $state(false);
 </script>
 
 {#if submitted}
-  <RedAmberGreenView label="Status" value={status} />
+  <RedAmberGreenView
+    label="Status"
+    value={status}
+  />
 {:else}
-  <RedAmberGreenPicker label="Status" bind:value={status} />
-  <button type="button" onclick={() => (submitted = true)}>Confirm</button>
+  <RedAmberGreenPicker
+    label="Status"
+    bind:value={status}
+  />
+  <button
+    type="button"
+    onclick={() => (submitted = true)}>Confirm</button
+  >
 {/if}
 ```
 
 ### With a test hook
 
 ```svelte
-<RedAmberGreenPicker label="Risk" bind:value={status} data-testid="rag" />
+<RedAmberGreenPicker
+  label="Risk"
+  bind:value={status}
+  data-testid="rag"
+/>
 ```
 
 ## Accessibility

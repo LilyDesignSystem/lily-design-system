@@ -20,15 +20,15 @@ The helper is a **macro + client.js pair**:
 
 ## Files
 
-| File                       | Purpose                                               |
-| -------------------------- | ----------------------------------------------------- |
-| `spec/index.md`            | Specification-driven contract (canonical).            |
+| File                      | Purpose                                              |
+| ------------------------- | ---------------------------------------------------- |
+| `spec/index.md`           | Specification-driven contract (canonical).           |
 | `locale-picker.njk`       | Nunjucks macro (`localePicker(opts)`).               |
 | `locale-picker.client.js` | ES module — `initLocalePicker`, `autoInit`, helpers. |
-| `locale-picker.test.ts`   | Vitest spec, one assertion per §7 acceptance.         |
-| `locales.ts`               | Built-in code → English-name map + RTL sets.          |
-| `locales.tsv`              | Canonical 436-row source for `locales.ts`.            |
-| `index.md`                 | Concise user guide.                                   |
+| `locale-picker.test.ts`   | Vitest spec, one assertion per §7 acceptance.        |
+| `locales.ts`              | Built-in code → English-name map + RTL sets.         |
+| `locales.tsv`             | Canonical 436-row source for `locales.ts`.           |
+| `index.md`                | Concise user guide.                                  |
 
 ## Public surface
 
@@ -71,7 +71,11 @@ really is the endonym.
 ## HTML
 
 ```html
-<div class="locale-picker {classes}" data-lily-locale-picker-root …>
+<div
+  class="locale-picker {classes}"
+  data-lily-locale-picker-root
+  …
+>
   <input
     type="hidden"
     name="{name}"
@@ -87,7 +91,15 @@ really is the endonym.
     aria-controls="{id}-list"
     data-lily-locale-picker-button
   >
-    <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true" width="1.05rem" height="1.05rem">…</svg>
+    <svg
+      class="locale-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      width="1.05rem"
+      height="1.05rem"
+    >
+      …
+    </svg>
   </button>
   <ul
     class="locale-picker-list"

@@ -28,7 +28,9 @@ This component uses `role="alert"` to ensure screen readers announce the error s
 <ErrorSummary heading="There is a problem">
   <ul>
     <li><a href="#date-of-birth">Enter your date of birth</a></li>
-    <li><a href="#email">Enter an email address in the correct format, like name@example.com</a></li>
+    <li>
+      <a href="#email">Enter an email address in the correct format, like name@example.com</a>
+    </li>
   </ul>
 </ErrorSummary>
 ```
@@ -72,14 +74,11 @@ This component uses `role="alert"` to ensure screen readers announce the error s
 
 This headless component provides a `<div>` with `role="alert"`, an `<h2>` heading linked via `aria-labelledby`, and `tabindex="-1"` for programmatic focus. It announces the error summary immediately when rendered. The consumer provides all visual styling, error list content, and anchor links to error fields.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.error-summary` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `error-summary`
 - Verify role="alert"` -- creates a live region that announces content to screen readers when the summary appears

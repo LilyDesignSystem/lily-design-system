@@ -29,16 +29,16 @@ without configuration.
 
 ```svelte
 <DoList>
-    <li>Write clear labels</li>
-    <li>Use semantic HTML</li>
+  <li>Write clear labels</li>
+  <li>Use semantic HTML</li>
 </DoList>
 ```
 
 ```svelte
 <DoList label="Recommended">
-    <li>Provide alt text for images</li>
-    <li>Use sufficient color contrast</li>
-    <li>Test with keyboard navigation</li>
+  <li>Provide alt text for images</li>
+  <li>Use sufficient color contrast</li>
+  <li>Test with keyboard navigation</li>
 </DoList>
 ```
 

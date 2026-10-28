@@ -10,12 +10,12 @@ MongoDB, OData or a predicate. Ships no CSS and no English text. Registers `<fil
 
 ## Files
 
-| File | Purpose |
-| ---- | ------- |
-| `filter-builder.ts` | The custom element class (not registered). |
-| `filter-builder.test.ts` | Vitest spec, one test per Svelte §8 clause. |
-| `filter-model.ts`, `search-text.ts` (+ tests) | Pure model, copied from `shared/`. |
-| `index.ts` | Barrel re-export; registers the element. |
+| File                                          | Purpose                                     |
+| --------------------------------------------- | ------------------------------------------- |
+| `filter-builder.ts`                           | The custom element class (not registered).  |
+| `filter-builder.test.ts`                      | Vitest spec, one test per Svelte §8 clause. |
+| `filter-model.ts`, `search-text.ts` (+ tests) | Pure model, copied from `shared/`.          |
+| `index.ts`                                    | Barrel re-export; registers the element.    |
 
 ## Rules
 

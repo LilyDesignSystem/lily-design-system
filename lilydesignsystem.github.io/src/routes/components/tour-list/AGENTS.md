@@ -35,12 +35,12 @@
 
 ## Props
 
-| Prop           | Type            | Default    | Description                                                        |
-| -------------- | --------------- | ---------- | ------------------------------------------------------------------ |
-| `label`        | `string`        | (required) | Accessible name for the tour dialog via `aria-label`               |
+| Prop           | Type            | Default    | Description                                                                   |
+| -------------- | --------------- | ---------- | ----------------------------------------------------------------------------- |
+| `label`        | `string`        | (required) | Accessible name for the tour dialog via `aria-label`                          |
 | `active`       | `boolean`       | `false`    | Whether the tour is currently visible; bindable with two-way `active` binding |
-| `children`     | `slot`       | (required) | Tour step content, navigation controls, and any additional UI      |
-| `...restProps` | HTML attributes |            | Additional attributes spread onto the dialog `<div>`               |
+| `children`     | `slot`          | (required) | Tour step content, navigation controls, and any additional UI                 |
+| `...restProps` | HTML attributes |            | Additional attributes spread onto the dialog `<div>`                          |
 
 ## Acceptance Criteria
 

@@ -274,12 +274,12 @@ renders.
 The select doesn't depend on any third-party library. If you use
 one of these, wire its locale setter in `OnChange`:
 
-| Library                  | Setter                                              |
-| ------------------------ | --------------------------------------------------- |
+| Library                             | Setter                                                   |
+| ----------------------------------- | -------------------------------------------------------- |
 | `Microsoft.Extensions.Localization` | `CultureInfo.DefaultThreadCurrentCulture` + `…UICulture` |
-| Karambolo.PO             | `POLocalizer.SetCulture(ci)`                        |
-| OrchardCore.Localization | `ICultureManager.SetCurrentCulture`                 |
-| BlazorIntl               | binding to its `LocaleService.Current` ref          |
+| Karambolo.PO                        | `POLocalizer.SetCulture(ci)`                             |
+| OrchardCore.Localization            | `ICultureManager.SetCurrentCulture`                      |
+| BlazorIntl                          | binding to its `LocaleService.Current` ref               |
 
 The select's `OnChange` callback fires after the apply lands, so
 synchronous library calls are safe.
@@ -288,13 +288,13 @@ synchronous library calls are safe.
 
 ## Picking the right strategy
 
-| Need                                       | Strategy                  |
-| ------------------------------------------ | ------------------------- |
-| One small SPA, English + French only       | Custom `CultureInfo`      |
-| Resource-file-based, per-component         | ResX                      |
-| Shared resources across the app            | `IStringLocalizer<T>` + `SharedResources` |
-| SEO-friendly URLs per locale               | URL prefix + Blazor Web App routing       |
-| No FOUC, cookie-backed, server-rendered    | Cookie + `App.razor`      |
+| Need                                    | Strategy                                  |
+| --------------------------------------- | ----------------------------------------- |
+| One small SPA, English + French only    | Custom `CultureInfo`                      |
+| Resource-file-based, per-component      | ResX                                      |
+| Shared resources across the app         | `IStringLocalizer<T>` + `SharedResources` |
+| SEO-friendly URLs per locale            | URL prefix + Blazor Web App routing       |
+| No FOUC, cookie-backed, server-rendered | Cookie + `App.razor`                      |
 
 The select is the same in every case. Only the `@bind-Value`
 target and the `OnChange` body change.

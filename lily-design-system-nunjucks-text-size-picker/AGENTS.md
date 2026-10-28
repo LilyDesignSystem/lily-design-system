@@ -26,15 +26,15 @@ and `locale-picker`.
 
 ## Files
 
-| File                          | Purpose                                                           |
-| ----------------------------- | ----------------------------------------------------------------- |
-| `spec/index.md`               | Specification-driven contract (canonical).                        |
+| File                         | Purpose                                                          |
+| ---------------------------- | ---------------------------------------------------------------- |
+| `spec/index.md`              | Specification-driven contract (canonical).                       |
 | `text-size-picker.njk`       | Nunjucks macro (`textSizePicker(opts)`).                         |
 | `text-size-picker.client.js` | ES module — `initTextSizePicker`, `autoInit`, `sizeName`, glyph. |
-| `text-size-picker.test.ts`   | Vitest spec, one assertion per §7 acceptance.                     |
-| `index.md`                    | Concise user guide.                                               |
-| `docs/accessibility.md`       | Roles, keyboard contract, and the honest tradeoffs.               |
-| `docs/ssr.md`                 | Server rendering, first paint, and the no-JS regression.          |
+| `text-size-picker.test.ts`   | Vitest spec, one assertion per §7 acceptance.                    |
+| `index.md`                   | Concise user guide.                                              |
+| `docs/accessibility.md`      | Roles, keyboard contract, and the honest tradeoffs.              |
+| `docs/ssr.md`                | Server rendering, first paint, and the no-JS regression.         |
 
 ## Public surface
 
@@ -81,7 +81,11 @@ APG keyboard contract, and typeahead. There is NO managed `<link>`, NO
 ## HTML
 
 ```html
-<div class="text-size-picker {classes}" data-lily-text-size-picker-root …>
+<div
+  class="text-size-picker {classes}"
+  data-lily-text-size-picker-root
+  …
+>
   <input
     type="hidden"
     name="{name}"
@@ -97,7 +101,15 @@ APG keyboard contract, and typeahead. There is NO managed `<link>`, NO
     aria-controls="{id}-list"
     data-lily-text-size-picker-button
   >
-    <svg class="text-size-picker-icon" viewBox="0 0 16 16" aria-hidden="true" width="1.05rem" height="1.05rem">…</svg>
+    <svg
+      class="text-size-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      width="1.05rem"
+      height="1.05rem"
+    >
+      …
+    </svg>
   </button>
   <ul
     class="text-size-picker-list"

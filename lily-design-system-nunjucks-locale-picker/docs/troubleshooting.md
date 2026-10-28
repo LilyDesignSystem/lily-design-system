@@ -96,7 +96,7 @@ Nunjucks render time, so the macro resolves its `aria-selected` from the
 narrower `value or defaultValue or ("en" if present else locales[0])`,
 and the client corrects it on init.
 
-The user never sees an inconsistent *control* — the listbox is closed
+The user never sees an inconsistent _control_ — the listbox is closed
 and the button inert until the client runs — but they may see a
 flash of the wrong `lang`/`dir` layout.
 

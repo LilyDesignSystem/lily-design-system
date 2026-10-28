@@ -22,7 +22,11 @@ A floating action button anchored to a viewport corner. Inline `style` is `posit
 ## Usage
 
 ```tsx
-<FloatButton label="Scroll to top" position="bottom-right" onClick={onTop}>
+<FloatButton
+  label="Scroll to top"
+  position="bottom-right"
+  onClick={onTop}
+>
   <ArrowUpIcon />
 </FloatButton>
 ```

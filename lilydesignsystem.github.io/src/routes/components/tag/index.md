@@ -63,18 +63,15 @@ Tags help users quickly scan and identify relevant information, and are presente
 
 This headless component renders a `<span>` with `role="status"` and `aria-label`, creating an implicit live region for screen reader announcements. The consumer provides all visual styling including background color, border radius, padding, and typography.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.tag` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<span>` element with class `tag`
 - Verify role="status"` -- identifies this as a live region for screen reader announcements of content changes
-- Verify aria-label` -- provides an accessible name from the `label` prop, giving expanded context beyond the visible tag text
+- Verify aria-label`-- provides an accessible name from the`label` prop, giving expanded context beyond the visible tag text
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied
 

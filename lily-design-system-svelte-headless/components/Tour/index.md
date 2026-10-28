@@ -53,15 +53,37 @@ Import `Tour`, `TourList`, and `TourListItem`. Bind `active`, track a `step` ind
   let step = $state(0);
 </script>
 
-<Tour label="Getting started" bind:active>
-  <TourList label="Steps" active>
-    <TourListItem label="Welcome" current={step === 0} stepNumber={1} totalSteps={2}>
+<Tour
+  label="Getting started"
+  bind:active
+>
+  <TourList
+    label="Steps"
+    active
+  >
+    <TourListItem
+      label="Welcome"
+      current={step === 0}
+      stepNumber={1}
+      totalSteps={2}
+    >
       <p>Welcome!</p>
-      <button type="button" onclick={() => step++}>Next</button>
+      <button
+        type="button"
+        onclick={() => step++}>Next</button
+      >
     </TourListItem>
-    <TourListItem label="Finish" current={step === 1} stepNumber={2} totalSteps={2}>
+    <TourListItem
+      label="Finish"
+      current={step === 1}
+      stepNumber={2}
+      totalSteps={2}
+    >
       <p>You're all set.</p>
-      <button type="button" onclick={() => (active = false)}>Done</button>
+      <button
+        type="button"
+        onclick={() => (active = false)}>Done</button
+      >
     </TourListItem>
   </TourList>
 </Tour>
@@ -77,19 +99,46 @@ Import `Tour`, `TourList`, and `TourListItem`. Bind `active`, track a `step` ind
   let step = $state(0);
 </script>
 
-<button type="button" onclick={() => { step = 0; active = true; }}>
+<button
+  type="button"
+  onclick={() => {
+    step = 0;
+    active = true;
+  }}
+>
   Replay tour
 </button>
 
-<Tour label="Onboarding tour" bind:active>
-  <TourList label="Tour steps" active>
-    <TourListItem label="Intro" current={step === 0} stepNumber={1} totalSteps={3}>
+<Tour
+  label="Onboarding tour"
+  bind:active
+>
+  <TourList
+    label="Tour steps"
+    active
+  >
+    <TourListItem
+      label="Intro"
+      current={step === 0}
+      stepNumber={1}
+      totalSteps={3}
+    >
       Step 1 <button onclick={() => step++}>Next</button>
     </TourListItem>
-    <TourListItem label="Features" current={step === 1} stepNumber={2} totalSteps={3}>
+    <TourListItem
+      label="Features"
+      current={step === 1}
+      stepNumber={2}
+      totalSteps={3}
+    >
       Step 2 <button onclick={() => step++}>Next</button>
     </TourListItem>
-    <TourListItem label="Wrap up" current={step === 2} stepNumber={3} totalSteps={3}>
+    <TourListItem
+      label="Wrap up"
+      current={step === 2}
+      stepNumber={3}
+      totalSteps={3}
+    >
       Step 3 <button onclick={() => (active = false)}>Finish</button>
     </TourListItem>
   </TourList>
@@ -110,10 +159,21 @@ Import `Tour`, `TourList`, and `TourListItem`. Bind `active`, track a `step` ind
   ];
 </script>
 
-<Tour label="Visite guidée" bind:active>
-  <TourList label="Étapes" active>
+<Tour
+  label="Visite guidée"
+  bind:active
+>
+  <TourList
+    label="Étapes"
+    active
+  >
     {#each steps as s, i}
-      <TourListItem label={s.label} current={step === i} stepNumber={i + 1} totalSteps={steps.length}>
+      <TourListItem
+        label={s.label}
+        current={step === i}
+        stepNumber={i + 1}
+        totalSteps={steps.length}
+      >
         <p>{s.body}</p>
         {#if i < steps.length - 1}
           <button onclick={() => step++}>Suivant</button>
@@ -136,9 +196,21 @@ Import `Tour`, `TourList`, and `TourListItem`. Bind `active`, track a `step` ind
   let step = $state(0);
 </script>
 
-<Tour label="Tour" bind:active data-testid="tour">
-  <TourList label="Steps" active>
-    <TourListItem label="Step A" current={step === 0} stepNumber={1} totalSteps={1}>
+<Tour
+  label="Tour"
+  bind:active
+  data-testid="tour"
+>
+  <TourList
+    label="Steps"
+    active
+  >
+    <TourListItem
+      label="Step A"
+      current={step === 0}
+      stepNumber={1}
+      totalSteps={1}
+    >
       Press Escape to dismiss
     </TourListItem>
   </TourList>

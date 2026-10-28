@@ -19,7 +19,7 @@ Every example assumes:
 
 | #   | File                                                       | Demonstrates                                                 |
 | --- | ---------------------------------------------------------- | ------------------------------------------------------------ |
-| 1   | [`01-basic.html`](./01-basic.html)                         | Minimal three-theme picker.                                 |
+| 1   | [`01-basic.html`](./01-basic.html)                         | Minimal three-theme picker.                                  |
 | 2   | [`02-custom-labels.html`](./02-custom-labels.html)         | `theme-labels` for i18n / display.                           |
 | 3   | [`03-multiple-selects.html`](./03-multiple-selects.html)   | Two selects in one page via `name`.                          |
 | 4   | [`04-persistence.html`](./04-persistence.html)             | `localStorage` survival across reloads.                      |

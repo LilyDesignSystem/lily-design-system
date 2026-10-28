@@ -25,11 +25,11 @@ A contextual action bar that appears when items are selected, showing the select
 
 ```vue
 <ActionBar
-    label="Selection"
-    :selected-count="3"
-    selected-count-label="3 selected"
-    clear-selection-label="Clear selection"
-    @clear-selection="onClear"
+  label="Selection"
+  :selected-count="3"
+  selected-count-label="3 selected"
+  clear-selection-label="Clear selection"
+  @clear-selection="onClear"
 >
     <ActionBarButton label="Delete" @click="onDelete">Delete</ActionBarButton>
     <ActionBarButton label="Archive" @click="onArchive">Archive</ActionBarButton>

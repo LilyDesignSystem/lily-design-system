@@ -66,14 +66,17 @@ function handleCancel() {
 Simple acknowledgment dialog without description:
 
 ```tsx
-
-import AlertDialog from './AlertDialog';
+import AlertDialog from "./AlertDialog";
 
 const [showAlert, setShowAlert] = useState(false);
 
-<AlertDialog open={showAlert} onChange={setShowAlert} title="Session Expired">
+<AlertDialog
+  open={showAlert}
+  onChange={setShowAlert}
+  title="Session Expired"
+>
   <button onClick={() => setShowAlert(false)}>OK</button>
-</AlertDialog>
+</AlertDialog>;
 ```
 
 ## Keyboard Interactions

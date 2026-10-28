@@ -36,14 +36,14 @@ subject matter implements.
 Its subject matter is narrower than
 [`lily-design-system-skill`](../lily-design-system-skill/)'s: where that
 skill covers Lily's concepts across all seven catalogs, this one is scoped
-to what is actually different about consuming the picker helpers *in
-Angular* — standalone components, signal `model()` two-way binding, and the
+to what is actually different about consuming the picker helpers _in
+Angular_ — standalone components, signal `model()` two-way binding, and the
 `$any($event.target).value` template-cast idiom Angular's template parser
 requires in place of a parenthesised TypeScript cast.
 
 ## What this subproject is, and isn't
 
-- **Is**: a distributable skill scoped to *consuming*
+- **Is**: a distributable skill scoped to _consuming_
   `lily-design-system-angular-helpers` — installing each of the six
   packages, their shared and individual contracts, the Angular
   standalone-component/signal idiom, and SSR/idempotent-apply behaviour —

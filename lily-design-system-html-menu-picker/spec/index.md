@@ -34,26 +34,51 @@ keyboard, tooltip. It owns no content and no words: the panel's content and ever
 
 ### 4.1 Props
 
-| Prop | Type | Required | Notes |
-| --- | --- | --- | --- |
-| `label` | `string` | yes | Accessible name of the button **and** the panel; also the tooltip text. |
-| `open` | boolean attribute / property | no | Is the panel open? Reflected; `openchange` fires on every change. |
-| `close-on-select` | attribute `"false"` | no | Set `close-on-select="false"` to keep the panel open when its content is activated. Default on. |
-| `openchange` | `CustomEvent<{ open: boolean }>` | no | Dispatched (bubbling, composed) whenever the open state changes. |
-| light-DOM children | nodes | no | The panel's content. Moved into the panel on first connect (light DOM has no `<slot>`). |
-| `renderButtonContent()` | overridable method | no | Subclass it to replace the hamburger **icon** inside the button. |
-| `class` | attribute | no | Appended to the root class. |
-| `...rest` | | | Spread on the root. |
+| Prop                    | Type                             | Required | Notes                                                                                           |
+| ----------------------- | -------------------------------- | -------- | ----------------------------------------------------------------------------------------------- |
+| `label`                 | `string`                         | yes      | Accessible name of the button **and** the panel; also the tooltip text.                         |
+| `open`                  | boolean attribute / property     | no       | Is the panel open? Reflected; `openchange` fires on every change.                               |
+| `close-on-select`       | attribute `"false"`              | no       | Set `close-on-select="false"` to keep the panel open when its content is activated. Default on. |
+| `openchange`            | `CustomEvent<{ open: boolean }>` | no       | Dispatched (bubbling, composed) whenever the open state changes.                                |
+| light-DOM children      | nodes                            | no       | The panel's content. Moved into the panel on first connect (light DOM has no `<slot>`).         |
+| `renderButtonContent()` | overridable method               | no       | Subclass it to replace the hamburger **icon** inside the button.                                |
+| `class`                 | attribute                        | no       | Appended to the root class.                                                                     |
+| `...rest`               |                                  |          | Spread on the root.                                                                             |
 
 ### 4.2 DOM contract
 
 ```html
 <div class="menu-picker {class}">
-  <button class="menu-picker-button" type="button" aria-label="{label}" aria-expanded="false" aria-controls="{id}-panel">
-    <svg class="menu-picker-icon" aria-hidden="true" viewBox="0 0 16 16" …three lines…/>
+  <button
+    class="menu-picker-button"
+    type="button"
+    aria-label="{label}"
+    aria-expanded="false"
+    aria-controls="{id}-panel"
+  >
+    <svg
+      class="menu-picker-icon"
+      aria-hidden="true"
+      viewBox="0 0 16 16"
+      …three
+      lines…
+    />
   </button>
-  <div class="menu-picker-tooltip" role="tooltip" id="{id}-tooltip" hidden>{label}</div>
-  <div class="menu-picker-panel" id="{id}-panel" role="group" aria-label="{label}" hidden>
+  <div
+    class="menu-picker-tooltip"
+    role="tooltip"
+    id="{id}-tooltip"
+    hidden
+  >
+    {label}
+  </div>
+  <div
+    class="menu-picker-panel"
+    id="{id}-panel"
+    role="group"
+    aria-label="{label}"
+    hidden
+  >
     …whatever the app provides…
   </div>
 </div>

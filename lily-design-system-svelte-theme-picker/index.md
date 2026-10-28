@@ -55,10 +55,7 @@ only runtime dependency is `svelte` ≥ 5.
 import ThemePicker from "./lily-design-system-svelte-theme-picker/ThemePicker.svelte";
 // or via the barrel:
 import { ThemePicker } from "./lily-design-system-svelte-theme-picker";
-import type {
-  Props,
-  ChildArgs,
-} from "./lily-design-system-svelte-theme-picker";
+import type { Props, ChildArgs } from "./lily-design-system-svelte-theme-picker";
 ```
 
 ## Quick start
@@ -72,7 +69,9 @@ import type {
 
 ```svelte
 <script lang="ts">
-  import ThemePicker, { themeName } from "./lily-design-system-svelte-theme-picker/ThemePicker.svelte";
+  import ThemePicker, {
+    themeName,
+  } from "./lily-design-system-svelte-theme-picker/ThemePicker.svelte";
 
   let theme = $state("");
 </script>
@@ -85,7 +84,10 @@ import type {
   storageKey="lily-theme"
 />
 
-<p class="theme-picker-status" aria-live="polite">
+<p
+  class="theme-picker-status"
+  aria-live="polite"
+>
   Active theme: {themeName(theme)}
 </p>
 ```
@@ -139,7 +141,11 @@ inside a `$effect`, which never runs on the server.
 
 ```html
 <div class="theme-picker">
-  <input type="hidden" name="theme" value="dark" />
+  <input
+    type="hidden"
+    name="theme"
+    value="dark"
+  />
   <button
     type="button"
     class="theme-picker-button"
@@ -148,9 +154,36 @@ inside a `$effect`, which never runs on the server.
     aria-expanded="false"
     aria-controls="theme-picker-1-list"
   >
-    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>
+    <svg
+      class="theme-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle
+        cx="8"
+        cy="8"
+        r="6"
+      />
+      <path
+        d="M8 2a6 6 0 0 1 0 12z"
+        fill="currentColor"
+        stroke="none"
+      />
+    </svg>
   </button>
-  <div class="theme-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
+  <div
+    class="theme-picker-tooltip"
+    role="tooltip"
+    id="{tooltipId}"
+    hidden
+  >
+    {label}
+  </div>
   <ul
     class="theme-picker-list"
     id="theme-picker-1-list"
@@ -227,14 +260,14 @@ On the **button**:
 
 On the **listbox** (focus moves there on open):
 
-| Key                       | Action                                             |
-| ------------------------- | -------------------------------------------------- |
-| `Arrow Down` / `Arrow Up` | Move the active option; **clamps**, does not wrap. |
-| `Home` / `End`            | Jump to the first / last option.                   |
-| `Enter` / `Space`         | Select, apply, close, refocus the button.          |
-| `Escape`                  | Close and refocus **without** changing the theme.  |
-| `PageUp` / `PageDown`     | Move the active option by ten; clamps.             |
-| `Tab`                     | Close; focus lands on the button so the default Tab proceeds from the picker's position. |
+| Key                       | Action                                                                                                                                  |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `Arrow Down` / `Arrow Up` | Move the active option; **clamps**, does not wrap.                                                                                      |
+| `Home` / `End`            | Jump to the first / last option.                                                                                                        |
+| `Enter` / `Space`         | Select, apply, close, refocus the button.                                                                                               |
+| `Escape`                  | Close and refocus **without** changing the theme.                                                                                       |
+| `PageUp` / `PageDown`     | Move the active option by ten; clamps.                                                                                                  |
+| `Tab`                     | Close; focus lands on the button so the default Tab proceeds from the picker's position.                                                |
 | Printable character       | Typeahead over the labels; 500 ms buffer. A single character advances to the next match and repeats cycle; differing characters refine. |
 
 Clicking an option selects it; clicking outside or moving focus out of
@@ -319,7 +352,10 @@ render the options; the listbox is component-owned.
   bind:value={theme}
 >
   {#snippet children({ value, open, labelFor })}
-    <svg viewBox="0 0 16 16" aria-hidden="true">…</svg>
+    <svg
+      viewBox="0 0 16 16"
+      aria-hidden="true">…</svg
+    >
     <span class="theme-picker-text">{labelFor(value)}</span>
     <span aria-hidden="true">{open ? "▴" : "▾"}</span>
   {/snippet}
@@ -400,9 +436,18 @@ fetched on demand. To switch instantly between themes, preload them
 all yourself:
 
 ```html
-<link rel="stylesheet" href="/assets/themes/light.css" />
-<link rel="stylesheet" href="/assets/themes/dark.css" />
-<link rel="stylesheet" href="/assets/themes/abyss.css" />
+<link
+  rel="stylesheet"
+  href="/assets/themes/light.css"
+/>
+<link
+  rel="stylesheet"
+  href="/assets/themes/dark.css"
+/>
+<link
+  rel="stylesheet"
+  href="/assets/themes/abyss.css"
+/>
 ```
 
 The select still mutates `data-theme`, and since every theme's CSS is

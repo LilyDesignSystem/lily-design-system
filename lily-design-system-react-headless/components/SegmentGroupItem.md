@@ -26,10 +26,18 @@ Use SegmentGroupItem inside a SegmentGroup to build custom segmented controls su
 
 ```tsx
 <SegmentGroup label="View">
-  <SegmentGroupItem checked={mode === 'grid'} value="grid" onClick={() => mode = 'grid'}>
+  <SegmentGroupItem
+    checked={mode === "grid"}
+    value="grid"
+    onClick={() => (mode = "grid")}
+  >
     Grid
   </SegmentGroupItem>
-  <SegmentGroupItem checked={mode === 'list'} value="list" onClick={() => mode = 'list'}>
+  <SegmentGroupItem
+    checked={mode === "list"}
+    value="list"
+    onClick={() => (mode = "list")}
+  >
     List
   </SegmentGroupItem>
 </SegmentGroup>

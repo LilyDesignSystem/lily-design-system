@@ -21,16 +21,16 @@ Ported from the Svelte canonical
 
 ## Files
 
-| File | Purpose |
-| --- | --- |
-| `spec/index.md` | Specification-driven contract (canonical). |
-| `kanban-board.njk` | The macro. |
-| `kanban-board.client.js` | The ES-module runtime. |
-| `kanban-board.test.ts` | Vitest spec, one or more assertions per §9 acceptance clause. |
-| `index.md` | User guide. |
-| `docs/` | Deep-dive topic guides. |
-| `examples/` | Runnable Nunjucks templates. |
-| `CHANGELOG.md` | Version history. |
+| File                     | Purpose                                                       |
+| ------------------------ | ------------------------------------------------------------- |
+| `spec/index.md`          | Specification-driven contract (canonical).                    |
+| `kanban-board.njk`       | The macro.                                                    |
+| `kanban-board.client.js` | The ES-module runtime.                                        |
+| `kanban-board.test.ts`   | Vitest spec, one or more assertions per §9 acceptance clause. |
+| `index.md`               | User guide.                                                   |
+| `docs/`                  | Deep-dive topic guides.                                       |
+| `examples/`              | Runnable Nunjucks templates.                                  |
+| `CHANGELOG.md`           | Version history.                                              |
 
 ## Public surface
 

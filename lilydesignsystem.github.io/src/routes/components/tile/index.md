@@ -35,7 +35,11 @@ Static informational tile:
 Interactive tile for selecting a pricing plan:
 
 ```html
-<Tile interactive onclick={handleSelect} label="Select Pro plan">
+<Tile
+  interactive
+  onclick="{handleSelect}"
+  label="Select Pro plan"
+>
   <h3>Pro Plan</h3>
   <p>$29/month</p>
   <ul>
@@ -50,17 +54,32 @@ Dashboard grid with multiple tiles:
 
 ```html
 <div class="dashboard-grid">
-  <Tile interactive onclick={() => navigateTo('/patients')} label="View patients">
+  <Tile
+    interactive
+    onclick="{()"
+    =""
+  >
+    navigateTo('/patients')} label="View patients">
     <Icon name="people" />
     <h3>Patients</h3>
     <p>1,247 registered</p>
   </Tile>
-  <Tile interactive onclick={() => navigateTo('/appointments')} label="View appointments">
+  <Tile
+    interactive
+    onclick="{()"
+    =""
+  >
+    navigateTo('/appointments')} label="View appointments">
     <Icon name="calendar" />
     <h3>Appointments</h3>
     <p>23 today</p>
   </Tile>
-  <Tile interactive onclick={() => navigateTo('/reports')} label="View reports">
+  <Tile
+    interactive
+    onclick="{()"
+    =""
+  >
+    navigateTo('/reports')} label="View reports">
     <Icon name="document" />
     <h3>Reports</h3>
     <p>5 pending review</p>

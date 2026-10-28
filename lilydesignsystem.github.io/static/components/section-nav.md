@@ -13,11 +13,11 @@ A navigation container for section navigation links.
 
 ## Props
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `label` | string (required) | — | Accessible label for the navigation landmark |
-| `children` | slot (required) | — | The `SectionList` and its children |
-| `...restProps` | HTML attributes | — | Spread onto the root `<nav>` |
+| Prop           | Type              | Default | Description                                  |
+| -------------- | ----------------- | ------- | -------------------------------------------- |
+| `label`        | string (required) | —       | Accessible label for the navigation landmark |
+| `children`     | slot (required)   | —       | The `SectionList` and its children           |
+| `...restProps` | HTML attributes   | —       | Spread onto the root `<nav>`                 |
 
 ## Usage
 
@@ -25,7 +25,13 @@ A navigation container for section navigation links.
 <SectionNav label="In this section">
   <SectionList>
     <SectionListItem><SectionLink href="/section-a">Section A</SectionLink></SectionListItem>
-    <SectionListItem><SectionLink href="/section-b" current>Section B</SectionLink></SectionListItem>
+    <SectionListItem
+      ><SectionLink
+        href="/section-b"
+        current
+        >Section B</SectionLink
+      ></SectionListItem
+    >
   </SectionList>
 </SectionNav>
 ```

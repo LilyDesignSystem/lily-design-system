@@ -16,13 +16,13 @@ The canonical implementation is the Svelte package
 
 ## Files
 
-| File | Purpose |
-| ---- | ------- |
-| `spec/index.md` | Specification-driven contract (canonical). |
-| `MarkdownEditor.razor` | Markup. |
-| `MarkdownEditor.razor.cs` | Code-behind: parameters, `IJSRuntime` access, toolbar keys. |
-| `MarkdownFormat.cs` | Pure Markdown transforms — a **hand port** of `shared/markdown-format.ts`; keep it in step. |
-| `MarkdownEditorTests.cs / MarkdownFormatTests.cs` | bUnit + xUnit specs. |
+| File                                              | Purpose                                                                                     |
+| ------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| `spec/index.md`                                   | Specification-driven contract (canonical).                                                  |
+| `MarkdownEditor.razor`                            | Markup.                                                                                     |
+| `MarkdownEditor.razor.cs`                         | Code-behind: parameters, `IJSRuntime` access, toolbar keys.                                 |
+| `MarkdownFormat.cs`                               | Pure Markdown transforms — a **hand port** of `shared/markdown-format.ts`; keep it in step. |
+| `MarkdownEditorTests.cs / MarkdownFormatTests.cs` | bUnit + xUnit specs.                                                                        |
 
 | `index.md` | User guide. |
 | `docs/accessibility.md` | Tradeoffs, stated plainly. |

@@ -23,7 +23,7 @@ none of them are hypothetical.
   announcing, and any `url` / `share-title` / `text` change all update
   attributes in place rather than rebuilding the DOM.
 - **The glyph is hidden.** `<span class="share-picker-icon"
-  aria-hidden="true">` keeps the arrow out of the accessible name.
+aria-hidden="true">` keeps the arrow out of the accessible name.
 - **The status region is polite and silent on load.** It is empty until
   a copy succeeds or fails, so it announces the outcome and nothing
   else.
@@ -38,7 +38,7 @@ attribute. Three consequences:
   plausibly be a share button.
 - **WCAG 2.5.3 Label in Name** applies to anyone using voice control. If
   you later render visible text next to the glyph, the `aria-label` must
-  *contain* that visible text, or "click Share" will fail to match.
+  _contain_ that visible text, or "click Share" will fail to match.
 - **Sighted users get no name at all.** ➤ is not a widely-understood
   share symbol the way a magnifier means search. Consider a visible
   label, or a tooltip, if the surrounding context does not make it
@@ -66,7 +66,7 @@ So:
   Copy link" is true for only some of your users.
 - **The OS sheet is outside your accessibility control.** Its
   keyboard behaviour, contrast, and screen-reader support are the
-  platform's, not yours. This is usually a *win* — platform sheets are
+  platform's, not yours. This is usually a _win_ — platform sheets are
   well-tested — but it is not something you can audit or fix.
 
 Choosing `strategy="list"` gives you one predictable experience at the
@@ -99,7 +99,7 @@ and did not cause:
 
 The control never throws and always announces, but **the announcement is
 the entire recovery path**. So `copy-failed-label` should be
-*actionable*, not merely truthful:
+_actionable_, not merely truthful:
 
 - Poor: "Copy failed."
 - Better: "Could not copy. Select the address bar and press Ctrl+C."

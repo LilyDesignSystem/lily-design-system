@@ -32,7 +32,10 @@ The native `<details>` element provides built-in accessibility support without r
   let showAdvanced = $state(false);
 </script>
 
-<Details summary="Advanced options" bind:open={showAdvanced}>
+<Details
+  summary="Advanced options"
+  bind:open={showAdvanced}
+>
   <p>Configure advanced settings here.</p>
 </Details>
 

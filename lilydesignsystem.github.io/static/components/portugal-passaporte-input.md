@@ -23,8 +23,15 @@ PortugalPassaporteInput is a headless input for entering Portugal's Passaporte, 
 ## Usage
 
 ```html
-<Field label="Portuguese Passport" required>
-  <PortugalPassaporteInput label="Portuguese Passport" value={value} required />
+<Field
+  label="Portuguese Passport"
+  required
+>
+  <PortugalPassaporteInput
+    label="Portuguese Passport"
+    value="{value}"
+    required
+  />
   <Hint>1 letter [A-Z] and 6 digits [0-9]</Hint>
   <ErrorMessage>Please enter a valid Portuguese Passport</ErrorMessage>
 </Field>

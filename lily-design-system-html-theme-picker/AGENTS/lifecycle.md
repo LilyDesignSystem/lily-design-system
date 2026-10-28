@@ -99,14 +99,14 @@ did, changing the theme while the list is open would destroy the
 Three paths close the list, and they differ in whether focus
 returns to the button:
 
-| Trigger                               | Call               | Refocus button      |
-| ------------------------------------- | ------------------ | ------------------- |
-| Option chosen (click / Enter / Space) | `closeList()`      | yes                 |
-| `Escape`                              | `closeList()`      | yes                 |
+| Trigger                               | Call                                          | Refocus button                                                                                           |
+| ------------------------------------- | --------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| Option chosen (click / Enter / Space) | `closeList()`                                 | yes                                                                                                      |
+| `Escape`                              | `closeList()`                                 | yes                                                                                                      |
 | `Tab`                                 | `buttonEl?.focus?.()` then `closeList(false)` | yes — focus goes to the button first, so the uncancelled default Tab proceeds from the picker's position |
-| Click outside the root                | `closeList(false)` | no                  |
-| Focus leaves the root                 | `closeList(false)` | no                  |
-| Structural re-render                  | (state reset)      | no                  |
+| Click outside the root                | `closeList(false)`                            | no                                                                                                       |
+| Focus leaves the root                 | `closeList(false)`                            | no                                                                                                       |
+| Structural re-render                  | (state reset)                                 | no                                                                                                       |
 
 The focus-out handler defers its check to a microtask: some engines
 (and jsdom) dispatch `focusout` with a null `relatedTarget` before

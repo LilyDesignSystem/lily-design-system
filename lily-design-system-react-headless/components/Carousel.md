@@ -22,17 +22,27 @@ The consumer is responsible for providing the slide content as children and impl
 
 ```tsx
 <Carousel label="Photo gallery">
-    <div role="group" aria-label="Slide 1">...</div>
+  <div
+    role="group"
+    aria-label="Slide 1"
+  >
+    ...
+  </div>
 </Carousel>
 ```
 
 ```tsx
 <Carousel label="Featured products">
-    {slides.map((slide, i) => (
-        <div role="group" aria-roledescription="slide" aria-label={`Slide ${i + 1} of ${slides.length}`} key={i}>
-            {slide.content}
-        </div>
-    ))}
+  {slides.map((slide, i) => (
+    <div
+      role="group"
+      aria-roledescription="slide"
+      aria-label={`Slide ${i + 1} of ${slides.length}`}
+      key={i}
+    >
+      {slide.content}
+    </div>
+  ))}
 </Carousel>
 ```
 

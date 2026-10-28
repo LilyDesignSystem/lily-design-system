@@ -36,25 +36,35 @@ import UnitedStatesSocialSecurityNumberInput from "./UnitedStatesSocialSecurityN
 
 const [ssn, setSsn] = useState("");
 
-<UnitedStatesSocialSecurityNumberInput label="Social Security Number" />
+<UnitedStatesSocialSecurityNumberInput label="Social Security Number" />;
 ```
 
 With two-way binding:
 
 ```tsx
-<UnitedStatesSocialSecurityNumberInput label="SSN" value={ssn} onChange={setSsn} />
+<UnitedStatesSocialSecurityNumberInput
+  label="SSN"
+  value={ssn}
+  onChange={setSsn}
+/>
 ```
 
 Required field in a form:
 
 ```tsx
-<UnitedStatesSocialSecurityNumberInput label="Social Security Number" required />
+<UnitedStatesSocialSecurityNumberInput
+  label="Social Security Number"
+  required
+/>
 ```
 
 Disabled state:
 
 ```tsx
-<UnitedStatesSocialSecurityNumberInput label="Social Security Number" disabled />
+<UnitedStatesSocialSecurityNumberInput
+  label="Social Security Number"
+  disabled
+/>
 ```
 
 ## Keyboard Interactions

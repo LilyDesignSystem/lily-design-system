@@ -12,10 +12,10 @@ One section navigation item.
 
 ## Props
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `children` | slot (required) | — | Typically a single `SectionLink` |
-| `...restProps` | HTML attributes | — | Spread onto the root `<li>` |
+| Prop           | Type            | Default | Description                      |
+| -------------- | --------------- | ------- | -------------------------------- |
+| `children`     | slot (required) | —       | Typically a single `SectionLink` |
+| `...restProps` | HTML attributes | —       | Spread onto the root `<li>`      |
 
 ## Usage
 

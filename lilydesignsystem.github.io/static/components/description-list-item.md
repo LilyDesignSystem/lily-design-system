@@ -13,17 +13,20 @@ One key-value pair in a description list using dt and dd elements.
 
 ## Props
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `term` | string (required) | — | Term shown in the `<dt>` |
-| `description` | string | — | Description shown in the `<dd>` (when no children slot) |
-| `children` | slot | — | Custom description content (overrides `description`) |
-| `...restProps` | HTML attributes | — | Spread onto the root `<div>` |
+| Prop           | Type              | Default | Description                                             |
+| -------------- | ----------------- | ------- | ------------------------------------------------------- |
+| `term`         | string (required) | —       | Term shown in the `<dt>`                                |
+| `description`  | string            | —       | Description shown in the `<dd>` (when no children slot) |
+| `children`     | slot              | —       | Custom description content (overrides `description`)    |
+| `...restProps` | HTML attributes   | —       | Spread onto the root `<div>`                            |
 
 ## Usage
 
 ```html
-<DescriptionListItem term="Email" description="user@example.com" />
+<DescriptionListItem
+  term="Email"
+  description="user@example.com"
+/>
 ```
 
 ## Keyboard Interactions

@@ -13,7 +13,9 @@ Time` in January and `UTC-04:00 – Eastern Daylight Time` in July, and `Central
 
 ```js
 // What the app does with the choice:
-new Intl.DateTimeFormat(locale, { timeZone: document.documentElement.dataset.timeZone }).format(date);
+new Intl.DateTimeFormat(locale, { timeZone: document.documentElement.dataset.timeZone }).format(
+  date,
+);
 ```
 
 ## Usage
@@ -23,7 +25,11 @@ new Intl.DateTimeFormat(locale, { timeZone: document.documentElement.dataset.tim
   import "@lilydesignsystem/html-time-zone-picker";
 </script>
 
-<time-zone-picker label="Time zone" locale="en-GB" storage-key="lily-time-zone"></time-zone-picker>
+<time-zone-picker
+  label="Time zone"
+  locale="en-GB"
+  storage-key="lily-time-zone"
+></time-zone-picker>
 ```
 
 HTML idioms: `<time-zone-picker>` is a custom element registered by importing the package. Attributes: `label`, `locale`, `zones` (comma-separated IANA ids), `date` (ISO), `value`, `default-value`, `storage-key`, `name`, `class`, `open`, `disabled`. Properties: `zones`, `date`, `labelFor`, `names`, `target`, `open`, `disabled`, and the `infoFor(zone)` method. Events: `timezonechange` (`detail.zone`, once per applied change) and `openchange`. Subclass and override `renderButtonContent()` to replace the icon.

@@ -22,7 +22,7 @@ NorgeFodselsnummerView is a headless read-only display of Norway's Fødselsnumme
 ```html
 <SummaryList>
   <SummaryListItem term="Norwegian Birth Number">
-    <NorgeFodselsnummerView value={value} />
+    <NorgeFodselsnummerView value="{value}" />
   </SummaryListItem>
 </SummaryList>
 ```

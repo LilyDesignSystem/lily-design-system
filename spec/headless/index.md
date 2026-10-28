@@ -29,39 +29,43 @@ The root element of every component carries exactly the base class plus the cons
 
 ```html
 <!-- byline component: base class "byline" + consumer hook, then rest props -->
-<p class="byline {consumer class}" id="article-byline" data-variant="compact">
+<p
+  class="byline {consumer class}"
+  id="article-byline"
+  data-variant="compact"
+>
   <span class="byline-authors">…</span>
   <span class="byline-date">…</span>
 </p>
 ```
 
-| Layer            | Owner    | Rule                                                                 |
-| ---------------- | -------- | ------------------------------------------------------------------- |
-| Element choice   | Lily     | Most specific semantic element; canonical in `components/{slug}/AGENTS.md`. |
-| Base class       | Lily     | Kebab-case, equals the slug; the single selector contract.          |
-| Class hook       | Consumer | `className` / `class` / `CssClass`, merged onto the root.           |
-| Inner sub-classes| Lily     | `{base}-{part}` kebab-case; stable across versions.                 |
-| Rest props       | Consumer | Spread onto root: `id`, `data-*`, handlers, ARIA overrides.         |
+| Layer             | Owner    | Rule                                                                        |
+| ----------------- | -------- | --------------------------------------------------------------------------- |
+| Element choice    | Lily     | Most specific semantic element; canonical in `components/{slug}/AGENTS.md`. |
+| Base class        | Lily     | Kebab-case, equals the slug; the single selector contract.                  |
+| Class hook        | Consumer | `className` / `class` / `CssClass`, merged onto the root.                   |
+| Inner sub-classes | Lily     | `{base}-{part}` kebab-case; stable across versions.                         |
+| Rest props        | Consumer | Spread onto root: `id`, `data-*`, handlers, ARIA overrides.                 |
 
 The framework-specific rest-props mechanism:
 
-| Framework | Mechanism                |
-| --------- | ------------------------ |
-| React     | `{...restProps}`         |
+| Framework | Mechanism                          |
+| --------- | ---------------------------------- |
+| React     | `{...restProps}`                   |
 | Svelte    | `{...$$restProps}` / `@attributes` |
-| Vue       | `v-bind="$attrs"`        |
-| Angular   | `additional-attributes`  |
-| Blazor    | `@attributes`            |
+| Vue       | `v-bind="$attrs"`                  |
+| Angular   | `additional-attributes`            |
+| Blazor    | `@attributes`                      |
 
 ## Behaviour boundaries
 
-| Component owns                                              | Consumer owns                                  |
-| ---------------------------------------------------------- | ---------------------------------------------- |
-| Focus management inside the component                      | Data fetching, network state                   |
-| Keyboard navigation between own children                   | Locale-specific formatting                     |
-| Open/close internal state via bindable props               | Persistence                                    |
-| `IntersectionObserver` / scroll listeners that belong to the component (`Visible`, `Scroller*`, `VideoPlayer.autoplay`) | Animation choreography |
-| ARIA, roles, states, properties on its own elements        | Page-level routing                             |
+| Component owns                                                                                                          | Consumer owns                |
+| ----------------------------------------------------------------------------------------------------------------------- | ---------------------------- |
+| Focus management inside the component                                                                                   | Data fetching, network state |
+| Keyboard navigation between own children                                                                                | Locale-specific formatting   |
+| Open/close internal state via bindable props                                                                            | Persistence                  |
+| `IntersectionObserver` / scroll listeners that belong to the component (`Visible`, `Scroller*`, `VideoPlayer.autoplay`) | Animation choreography       |
+| ARIA, roles, states, properties on its own elements                                                                     | Page-level routing           |
 
 ## Visual decisions and the one allowed inline style
 
@@ -70,7 +74,11 @@ The framework-specific rest-props mechanism:
 
 ```html
 <!-- ThemeProvider: the only structurally-required inline style -->
-<div class="theme-provider" style="display: contents" data-theme="dark">
+<div
+  class="theme-provider"
+  style="display: contents"
+  data-theme="dark"
+>
   …
 </div>
 ```

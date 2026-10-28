@@ -22,7 +22,7 @@ UnitedKingdomNationalInsuranceNumberView is a headless read-only display of Unit
 ```html
 <SummaryList>
   <SummaryListItem term="National Insurance Number">
-    <UnitedKingdomNationalInsuranceNumberView value={value} />
+    <UnitedKingdomNationalInsuranceNumberView value="{value}" />
   </SummaryListItem>
 </SummaryList>
 ```

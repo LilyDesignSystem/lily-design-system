@@ -23,19 +23,34 @@ This headless component wraps a native `<input type="time">` element with an acc
 Appointment booking with 15-minute intervals:
 
 ```html
-<TimePickerInput label="Appointment time" value={appointmentTime} step="900" required />
+<TimePickerInput
+  label="Appointment time"
+  value="{appointmentTime}"
+  step="900"
+  required
+/>
 ```
 
 Reservation time selection:
 
 ```html
-<TimePickerInput label="Reservation time" value={reservationTime} />
+<TimePickerInput
+  label="Reservation time"
+  value="{reservationTime}"
+/>
 ```
 
 Shift scheduling with constrained hours:
 
 ```html
-<TimePickerInput label="Shift start" value={shiftStart} min="06:00" max="22:00" step="1800" required />
+<TimePickerInput
+  label="Shift start"
+  value="{shiftStart}"
+  min="06:00"
+  max="22:00"
+  step="1800"
+  required
+/>
 ```
 
 ## Keyboard Interactions
@@ -66,14 +81,11 @@ Shift scheduling with constrained hours:
 
 This headless component provides a native `<input type="time">` element with `aria-label`, two-way value binding, and `required`/`disabled` states. The browser handles 12-hour/24-hour format based on locale. The consumer provides all visual styling and layout.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.time-picker-input` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `time-picker-input`
 - Verify aria-label={label}` -- provides an accessible name for the time input

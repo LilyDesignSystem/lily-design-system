@@ -23,8 +23,15 @@ MaltaPassportNumberInput is a headless input for entering Malta's Malta Passport
 ## Usage
 
 ```html
-<Field label="Malta Passport Number" required>
-  <MaltaPassportNumberInput label="Malta Passport Number" value={value} required />
+<Field
+  label="Malta Passport Number"
+  required
+>
+  <MaltaPassportNumberInput
+    label="Malta Passport Number"
+    value="{value}"
+    required
+  />
   <Hint>7 numerical digits issued by the Civil Registration Directorate</Hint>
   <ErrorMessage>Please enter a valid Malta Passport Number</ErrorMessage>
 </Field>

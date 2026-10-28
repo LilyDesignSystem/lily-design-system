@@ -22,7 +22,7 @@ ElladaDematerialisedSecuritiesSystemView is a headless read-only display of Gree
 ```html
 <SummaryList>
   <SummaryListItem term="Dematerialised Securities System">
-    <ElladaDematerialisedSecuritiesSystemView value={value} />
+    <ElladaDematerialisedSecuritiesSystemView value="{value}" />
   </SummaryListItem>
 </SummaryList>
 ```

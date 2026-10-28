@@ -45,7 +45,10 @@ Passed rule:
 Failed rule with screen-reader override:
 
 ```html
-<ValidationListItem status="failed" label="Symbol requirement not met">
+<ValidationListItem
+  status="failed"
+  label="Symbol requirement not met"
+>
   At least one symbol
 </ValidationListItem>
 ```
@@ -85,9 +88,15 @@ Consumer CSS targets the `validation-list-item` class with
 `[data-status]` attribute selectors:
 
 ```css
-.validation-list-item[data-status="pending"] { /* pending styles */ }
-.validation-list-item[data-status="passed"] { /* passed styles */ }
-.validation-list-item[data-status="failed"] { /* failed styles */ }
+.validation-list-item[data-status="pending"] {
+  /* pending styles */
+}
+.validation-list-item[data-status="passed"] {
+  /* passed styles */
+}
+.validation-list-item[data-status="failed"] {
+  /* failed styles */
+}
 ```
 
 ## Testing

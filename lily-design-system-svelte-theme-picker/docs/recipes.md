@@ -34,8 +34,8 @@ to decide something else — import it:
 ```ts
 import { matchSystemTheme } from "../ThemePicker.svelte";
 
-matchSystemTheme(["light", "dark"]);  // "dark" | "light"
-matchSystemTheme(["solarized"]);      // "" — neither slug on offer
+matchSystemTheme(["light", "dark"]); // "dark" | "light"
+matchSystemTheme(["solarized"]); // "" — neither slug on offer
 ```
 
 It returns `""` rather than throwing when `matchMedia` is unavailable,
@@ -93,7 +93,7 @@ The control **is** a button-triggered flyout now — no custom rendering
 needed. What it does not ship is the CSS that positions the popup; see
 [styling.md § Positioning the listbox](./styling.md#positioning-the-listbox).
 
-To change what the *trigger* looks like, use
+To change what the _trigger_ looks like, use
 [custom-rendering](./custom-rendering.md): the `children` snippet
 replaces the glyph inside the button.
 
@@ -108,9 +108,17 @@ active theme unless you state it:
   let theme = $state("");
 </script>
 
-<ThemePicker label="Theme" themesUrl="/assets/themes/" themes={["light", "dark"]} bind:value={theme} />
+<ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark"]}
+  bind:value={theme}
+/>
 
-<p class="theme-picker-status" aria-live="polite">
+<p
+  class="theme-picker-status"
+  aria-live="polite"
+>
   Active theme: {themeName(theme)}
 </p>
 ```

@@ -25,13 +25,19 @@ The component is useful for contact pages, business listings, user profiles, cus
 Phone number on a contact page:
 
 ```html
-<TelLink phone="+1-555-0100" label="Call our main office" />
+<TelLink
+  phone="+1-555-0100"
+  label="Call our main office"
+/>
 ```
 
 Customer support hotline in a footer:
 
 ```html
-<TelLink phone="+44-20-7946-0958" label="Call customer support" />
+<TelLink
+  phone="+44-20-7946-0958"
+  label="Call customer support"
+/>
 ```
 
 Simple phone link in a user profile:
@@ -64,14 +70,11 @@ None -- this component uses a native `<a>` element, which provides built-in keyb
 
 This headless component renders an `<a>` element with `href="tel:{phone}"` and optional `aria-label` for accessibility. It provides native phone dialing link semantics. The consumer provides all visual styling including typography, color, underline treatment, and icon placement.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.tel-link` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<a>` element with class `tel-link`
 - Verify aria-label` -- when provided, gives an accessible name that provides more context than the phone number alone (e.g., describing who the number belongs to or its purpose).

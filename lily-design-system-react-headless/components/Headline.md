@@ -14,7 +14,10 @@ A page or article headline composition: a heading at a configurable level (defau
 ## Usage
 
 ```tsx
-<Headline subtitle="A short dek" byline={<Byline>Jane Smith</Byline>}>
+<Headline
+  subtitle="A short dek"
+  byline={<Byline>Jane Smith</Byline>}
+>
   Local council approves new funding
 </Headline>
 ```

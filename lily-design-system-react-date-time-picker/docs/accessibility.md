@@ -61,7 +61,7 @@ question is "tell us a date you already know".
   in the handler. This is the APG guidance for items inside composite
   widgets.
 - **Closing returns focus to the opener.** The trigger button after a
-  click; the *text field* after `Alt`+`↓`. The APG rule is "the element
+  click; the _text field_ after `Alt`+`↓`. The APG rule is "the element
   that invoked the dialog", not "the button".
 - **Refused input can be announced.** Supply `labels.invalid` and a
   `role="status"` live region fills when typed text is refused, wired to
@@ -165,7 +165,7 @@ on small screens. That is a CSS decision, and it is yours.
       `labels.invalid` set — the message is announced.
 - [ ] `Escape` in the field restores the committed value.
 - [ ] `Alt` + `↓` opens the dialog; focus lands on a day; `Escape` returns
-      focus to the *field*.
+      focus to the _field_.
 - [ ] Arrow around the grid, including across disabled days. Focus is
       always visible, and never skips silently.
 - [ ] `Page Down` past the end of the month. Focus follows.

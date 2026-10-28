@@ -48,10 +48,10 @@ manages its own state and still applies to the DOM.
 
 ## Props
 
-| Prop           | Type                       | Required | Description                                              |
-| -------------- | -------------------------- | -------- | --------------------------------------------------------- |
-| `label`        | `string`                   | yes      | Accessible name (`aria-label`) for the button + listbox.   |
-| `motions`      | `string[]`                 | yes      | Available motion slugs.                                    |
+| Prop           | Type                       | Required | Description                                                 |
+| -------------- | -------------------------- | -------- | ----------------------------------------------------------- |
+| `label`        | `string`                   | yes      | Accessible name (`aria-label`) for the button + listbox.    |
+| `motions`      | `string[]`                 | yes      | Available motion slugs.                                     |
 | `value`        | `string`                   | no       | Selected slug. Supplying it makes the component controlled. |
 | `defaultValue` | `string`                   | no       | Initial slug when nothing else is supplied.                 |
 | `storageKey`   | `string`                   | no       | If set, persist the slug to `localStorage`.                 |

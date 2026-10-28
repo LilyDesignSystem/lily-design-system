@@ -20,7 +20,7 @@ This prop carries the whole accessible name: the button holds only an
 as an unnamed button. See [accessibility.md](./accessibility.md).
 
 A note specific to this control: `label` should be written in the
-language the user is *currently* reading, not in the language they
+language the user is _currently_ reading, not in the language they
 might switch to. A common pattern is to translate it alongside the rest
 of your UI copy — see [i18n-integration.md](./i18n-integration.md).
 
@@ -48,7 +48,7 @@ that both test well:
   reads. Combine with the built-in typeahead (see
   [`../examples/all-locales.tsx`](../examples/all-locales.tsx)).
 
-Do not sort by the *code*: `de` before `el` before `en` is meaningless
+Do not sort by the _code_: `de` before `el` before `en` is meaningless
 to a reader scanning "Deutsch / Ελληνικά / English".
 
 ## `value` — optional, string
@@ -91,7 +91,11 @@ When set, the selection is written to `localStorage[storageKey]` on
 every change and read back on first mount.
 
 ```tsx
-<LocalePicker storageKey="my-app:locale" label="Language" locales={locales} />
+<LocalePicker
+  storageKey="my-app:locale"
+  label="Language"
+  locales={locales}
+/>
 ```
 
 Namespace the key (`app:locale`) so two apps on the same origin do not
@@ -109,10 +113,10 @@ On first visit only — no `value`, nothing in storage — resolve
 
 ```tsx
 <LocalePicker
-    detectFromNavigator
-    storageKey="my-app:locale"
-    label="Language"
-    locales={["en", "fr", "de"]}
+  detectFromNavigator
+  storageKey="my-app:locale"
+  label="Language"
+  locales={["en", "fr", "de"]}
 />
 ```
 
@@ -132,7 +136,11 @@ The `name` of the hidden input that carries the active code, so the
 locale submits with a surrounding `<form>`.
 
 ```html
-<input type="hidden" name="locale" value="fr_CA" />
+<input
+  type="hidden"
+  name="locale"
+  value="fr_CA"
+/>
 ```
 
 Give each instance a distinct `name` when a page has more than one
@@ -149,8 +157,12 @@ multilingual card, a preview pane, a comment thread:
 ```tsx
 const panelRef = useRef<HTMLDivElement>(null);
 <div ref={panelRef}>
-    <LocalePicker target={panelRef.current} label="Language" locales={locales} />
-</div>
+  <LocalePicker
+    target={panelRef.current}
+    label="Language"
+    locales={locales}
+  />
+</div>;
 ```
 
 Scoping to a region satisfies WCAG 3.1.2 (Language of Parts) rather
@@ -166,7 +178,11 @@ when a framework router already writes `dir`, or when you deliberately
 keep an LTR chrome around RTL content:
 
 ```tsx
-<LocalePicker applyDir={false} label="Language" locales={locales} />
+<LocalePicker
+  applyDir={false}
+  label="Language"
+  locales={locales}
+/>
 ```
 
 `lang` is still written. See [rtl.md](./rtl.md) for what flips and what
@@ -180,9 +196,9 @@ this order: `localeLabels` → the built-in 436-row table from
 
 ```tsx
 <LocalePicker
-    localeLabels={{ en: "English", fr: "Français", "pt_BR": "Português (Brasil)" }}
-    label="Language"
-    locales={["en", "fr", "pt_BR"]}
+  localeLabels={{ en: "English", fr: "Français", pt_BR: "Português (Brasil)" }}
+  label="Language"
+  locales={["en", "fr", "pt_BR"]}
 />
 ```
 
@@ -197,10 +213,15 @@ not render the options — the component owns those, along with the whole
 keyboard contract.
 
 ```tsx
-<LocalePicker label="Language" locales={locales}>
-    {({ value, open, labelFor }) => (
-        <span aria-hidden="true">{labelFor(value)} {open ? "▲" : "▼"}</span>
-    )}
+<LocalePicker
+  label="Language"
+  locales={locales}
+>
+  {({ value, open, labelFor }) => (
+    <span aria-hidden="true">
+      {labelFor(value)} {open ? "▲" : "▼"}
+    </span>
+  )}
 </LocalePicker>
 ```
 
@@ -215,9 +236,9 @@ exported `bcp47LocaleTag` when you need the hyphen form.
 
 ```tsx
 <LocalePicker
-    onChange={(code) => i18n.changeLanguage(bcp47LocaleTag(code))}
-    label="Language"
-    locales={locales}
+  onChange={(code) => i18n.changeLanguage(bcp47LocaleTag(code))}
+  label="Language"
+  locales={locales}
 />
 ```
 
@@ -238,10 +259,10 @@ Every other prop spreads onto the root `<div>` — `id`, `data-*`,
 
 ```tsx
 <LocalePicker
-    id="site-locale"
-    data-testid="locale"
-    label="Language"
-    locales={locales}
+  id="site-locale"
+  data-testid="locale"
+  label="Language"
+  locales={locales}
 />
 ```
 

@@ -23,7 +23,10 @@ Properly associated labels are essential for form usability. When a user clicks 
 ```svelte
 <!-- Label linked to a form control by ID -->
 <Label for="email">Email address</Label>
-<input id="email" type="email" />
+<input
+  id="email"
+  type="email"
+/>
 
 <!-- Label wrapping a form control (no for attribute needed) -->
 <Label>

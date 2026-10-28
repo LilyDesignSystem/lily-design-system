@@ -8,13 +8,13 @@ specific pattern.
 
 ## Standards baseline
 
-| Standard / pattern             | Where it applies                                       |
-| ------------------------------ | ------------------------------------------------------ |
-| WCAG 2.2 AAA                   | Every helper, every demo, every example.               |
-| HTML Living Standard — `<select>` | `ThemePicker`, `LocalePicker` default rendering.    |
-| WAI-ARIA APG 1.2 — Combobox    | Optional rendering via `children` render prop.         |
-| HTML Living Standard           | `lang`, `dir`, `select`, `option`.                     |
-| RFC 5646 (BCP 47)              | `LocalePicker` `lang` attribute output.                |
+| Standard / pattern                | Where it applies                                 |
+| --------------------------------- | ------------------------------------------------ |
+| WCAG 2.2 AAA                      | Every helper, every demo, every example.         |
+| HTML Living Standard — `<select>` | `ThemePicker`, `LocalePicker` default rendering. |
+| WAI-ARIA APG 1.2 — Combobox       | Optional rendering via `children` render prop.   |
+| HTML Living Standard              | `lang`, `dir`, `select`, `option`.               |
+| RFC 5646 (BCP 47)                 | `LocalePicker` `lang` attribute output.          |
 
 ## Required commitments
 
@@ -43,13 +43,13 @@ specific pattern.
 
 ## ARIA contract
 
-| Element                        | Attribute                  | Source            |
-| ------------------------------ | -------------------------- | ----------------- |
-| `<select>`                     | Implicit `role="combobox"` | Browser           |
-| `<select>`                     | `aria-label={label}`       | Consumer prop     |
-| `<select>`                     | `name`                     | Component         |
-| `<option>`                     | Implicit `role="option"`   | Browser           |
-| `<option>` (LocalePicker only) | `lang="{tagFor(locale)}"`  | Component         |
+| Element                        | Attribute                  | Source        |
+| ------------------------------ | -------------------------- | ------------- |
+| `<select>`                     | Implicit `role="combobox"` | Browser       |
+| `<select>`                     | `aria-label={label}`       | Consumer prop |
+| `<select>`                     | `name`                     | Component     |
+| `<option>`                     | Implicit `role="option"`   | Browser       |
+| `<option>` (LocalePicker only) | `lang="{tagFor(locale)}"`  | Component     |
 
 The components do not add any manual focus management or
 `aria-activedescendant`. The native `<select>` element already
@@ -62,11 +62,11 @@ provides.
 readers pronounce the option text in the correct language. This is
 WCAG 3.1.2 (Language of Parts).
 
-| Option text     | Without `lang`                       | With `lang`                            |
-| --------------- | ------------------------------------ | -------------------------------------- |
-| "Français"      | "Franc-ess" (English voice)          | "Fran-SAY" (French voice)              |
-| "العربية"        | "Al-arab-eye-ya" (mangled)          | Native Arabic pronunciation             |
-| "繁體中文"       | character-by-character (garbled)     | Native Mandarin pronunciation           |
+| Option text | Without `lang`                   | With `lang`                   |
+| ----------- | -------------------------------- | ----------------------------- |
+| "Français"  | "Franc-ess" (English voice)      | "Fran-SAY" (French voice)     |
+| "العربية"   | "Al-arab-eye-ya" (mangled)       | Native Arabic pronunciation   |
+| "繁體中文"  | character-by-character (garbled) | Native Mandarin pronunciation |
 
 The same logic applies when a consumer renders custom `<option>`
 elements via the `children` render prop. Always carry the BCP 47 tag
@@ -76,16 +76,16 @@ onto each `<option>` via `tagFor(locale)`.
 
 Provided by the platform's native `<select>`:
 
-| Key                | Action                                                         |
-| ------------------ | -------------------------------------------------------------- |
-| `Tab`              | Move focus onto the select (one tab stop).                     |
-| `Shift+Tab`        | Move focus backwards off the select.                           |
-| `Arrow Down`       | Select the next option.                                        |
-| `Arrow Up`         | Select the previous option.                                    |
-| `Home` / `End`     | Select the first / last option.                                |
-| typeahead          | Type characters to jump to a matching option.                  |
-| `Enter` / `Space`  | Open the option list (platform-dependent).                     |
-| `Escape`           | Close the option list.                                         |
+| Key               | Action                                        |
+| ----------------- | --------------------------------------------- |
+| `Tab`             | Move focus onto the select (one tab stop).    |
+| `Shift+Tab`       | Move focus backwards off the select.          |
+| `Arrow Down`      | Select the next option.                       |
+| `Arrow Up`        | Select the previous option.                   |
+| `Home` / `End`    | Select the first / last option.               |
+| typeahead         | Type characters to jump to a matching option. |
+| `Enter` / `Space` | Open the option list (platform-dependent).    |
+| `Escape`          | Close the option list.                        |
 
 When the consumer overrides the default markup via `children`, they
 take responsibility for the keyboard contract of whichever pattern
@@ -113,9 +113,9 @@ respect `prefers-reduced-motion` themselves:
 
 ```css
 @media (prefers-reduced-motion: no-preference) {
-    body {
-        transition: background-color 200ms ease;
-    }
+  body {
+    transition: background-color 200ms ease;
+  }
 }
 ```
 
@@ -123,12 +123,12 @@ respect `prefers-reduced-motion` themselves:
 
 Tested against the major combinations:
 
-| Reader     | OS       | Browser   | What's announced                                |
-| ---------- | -------- | --------- | ----------------------------------------------- |
-| VoiceOver  | macOS 14 | Safari 17 | "{label}, pop-up button" → "{option}, selected, 1 of N". |
-| NVDA       | Windows  | Firefox   | "{label} combo box" → "{option} 1 of N". |
-| JAWS       | Windows  | Chrome    | "{label} combo box, {option}, 1 of N". |
-| TalkBack   | Android  | Chrome    | "{label}, {option}, drop-down list, 1 of N, double-tap to activate". |
+| Reader    | OS       | Browser   | What's announced                                                     |
+| --------- | -------- | --------- | -------------------------------------------------------------------- |
+| VoiceOver | macOS 14 | Safari 17 | "{label}, pop-up button" → "{option}, selected, 1 of N".             |
+| NVDA      | Windows  | Firefox   | "{label} combo box" → "{option} 1 of N".                             |
+| JAWS      | Windows  | Chrome    | "{label} combo box, {option}, 1 of N".                               |
+| TalkBack  | Android  | Chrome    | "{label}, {option}, drop-down list, 1 of N, double-tap to activate". |
 
 For `LocalePicker`, "lang-correct pronunciation" depends on the
 reader having a matching voice package installed. NVDA's default
@@ -144,8 +144,8 @@ for the selected option:
 ```css
 .theme-picker option:checked,
 .locale-picker option:checked {
-    color: var(--theme-color-primary, #003087);
-    font-weight: 600;
+  color: var(--theme-color-primary, #003087);
+  font-weight: 600;
 }
 ```
 
@@ -156,8 +156,8 @@ the background.
 ## Common mistakes to avoid
 
 - **Wrapping the select in a redundant container.** The
-  `children` render prop renders *inside* the `<select>`; do not
-  wrap a container *around* the select expecting it to add the
+  `children` render prop renders _inside_ the `<select>`; do not
+  wrap a container _around_ the select expecting it to add the
   accessible name — that comes from `aria-label` on the `<select>`.
 - **Hiding the native `<select>` with `display: none`.** That
   removes it from the accessibility tree. Style the `<select>`

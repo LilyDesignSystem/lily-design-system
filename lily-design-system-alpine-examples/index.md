@@ -21,7 +21,7 @@ Every page has the skip link first, the header / nav / main / footer landmarks, 
 A component page's demo is the snippet with each empty `aria-label` given the component's name (where the element can be named),
 each "Consumer provides …" comment turned into visible sample text (where the parent may hold text), and — only where a component is
 invalid alone — a parent around it (a `<ul>` for a list item, a `<select>` for an option, a menu for a menu item). It is a demo, not
-a design: a real app supplies its own text. The *markup* shown under the demo is the shipped snippet, unchanged.
+a design: a real app supplies its own text. The _markup_ shown under the demo is the shipped snippet, unchanged.
 
 ## Develop
 

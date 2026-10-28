@@ -36,12 +36,14 @@ one or many leaves or branches.
 ```html
 <TreeSelect
   label="Select category"
-  expanded={isOpen}
-  value={selectedLabel}
+  expanded="{isOpen}"
+  value="{selectedLabel}"
   placeholder="Choose…"
-  onclick={togglePanel}
+  onclick="{togglePanel}"
 >
-  <ul role="tree">...</ul>
+  <ul role="tree">
+    ...
+  </ul>
 </TreeSelect>
 ```
 
@@ -49,11 +51,16 @@ one or many leaves or branches.
 <TreeSelect
   label="Select multiple departments"
   multiple
-  expanded={isOpen}
-  value={selectedNames}
-  onclick={togglePanel}
+  expanded="{isOpen}"
+  value="{selectedNames}"
+  onclick="{togglePanel}"
 >
-  <ul role="tree" aria-multiselectable="true">...</ul>
+  <ul
+    role="tree"
+    aria-multiselectable="true"
+  >
+    ...
+  </ul>
 </TreeSelect>
 ```
 

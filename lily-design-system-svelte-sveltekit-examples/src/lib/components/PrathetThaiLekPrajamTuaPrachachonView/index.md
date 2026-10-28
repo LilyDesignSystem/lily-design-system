@@ -21,7 +21,9 @@ PrathetThaiLekPrajamTuaPrachachonView is a headless placeholder component, gener
 ## Usage
 
 ```html
-<PrathetThaiLekPrajamTuaPrachachonView label="PrathetThaiLekPrajamTuaPrachachonView example">Content</PrathetThaiLekPrajamTuaPrachachonView>
+<PrathetThaiLekPrajamTuaPrachachonView label="PrathetThaiLekPrajamTuaPrachachonView example"
+  >Content</PrathetThaiLekPrajamTuaPrachachonView
+>
 ```
 
 ## Keyboard Interactions

@@ -43,7 +43,12 @@ This component is useful for patient alerts, clinical notifications, medical rec
 ```
 
 ```html
-<MedicalBanner label="Clinical notice" type="warning" dismissible closeLabel="Dismiss">
+<MedicalBanner
+  label="Clinical notice"
+  type="warning"
+  dismissible
+  closeLabel="Dismiss"
+>
   Patient has pending lab results requiring urgent review.
 </MedicalBanner>
 ```

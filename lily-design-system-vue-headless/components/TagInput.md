@@ -24,7 +24,11 @@ This component is commonly used alongside TagGroup to build tag management inter
 ## Usage
 
 ```svelte
-<TagInput label="Add tag" bind:value onadd={(tag) => tags.push(tag)} />
+<TagInput
+  label="Add tag"
+  bind:value
+  onadd={(tag) => tags.push(tag)}
+/>
 ```
 
 ## Keyboard Interactions

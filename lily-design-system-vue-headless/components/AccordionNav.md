@@ -6,11 +6,11 @@ Compound component: use with AccordionList and AccordionListItem.
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| label | string | required | Accessible name via aria-label |
-| children | Snippet | required | AccordionList element |
-| ...restProps | HTML attributes | — | Spread onto the `<nav>` |
+| Prop         | Type            | Default  | Description                    |
+| ------------ | --------------- | -------- | ------------------------------ |
+| label        | string          | required | Accessible name via aria-label |
+| children     | Snippet         | required | AccordionList element          |
+| ...restProps | HTML attributes | —        | Spread onto the `<nav>`        |
 
 ## Usage
 

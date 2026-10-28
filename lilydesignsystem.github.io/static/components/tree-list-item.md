@@ -24,7 +24,10 @@ Use TreeListItem for individual entries within a TreeList. Common scenarios incl
 ```html
 <TreeNav label="Clinical navigation">
   <TreeList label="Departments">
-    <TreeListItem tabindex="0" aria-expanded="true">
+    <TreeListItem
+      tabindex="0"
+      aria-expanded="true"
+    >
       Cardiology
       <ul role="group">
         <TreeListItem tabindex="-1">
@@ -35,7 +38,10 @@ Use TreeListItem for individual entries within a TreeList. Common scenarios incl
         </TreeListItem>
       </ul>
     </TreeListItem>
-    <TreeListItem tabindex="-1" aria-expanded="false">
+    <TreeListItem
+      tabindex="-1"
+      aria-expanded="false"
+    >
       Oncology
     </TreeListItem>
     <TreeListItem tabindex="-1">
@@ -49,7 +55,7 @@ Use TreeListItem for individual entries within a TreeList. Common scenarios incl
 
 | Prop           | Type            | Default    | Description                                                                                          |
 | -------------- | --------------- | ---------- | ---------------------------------------------------------------------------------------------------- |
-| `children`     | `slot`       | (required) | Content for the tree item                                                                            |
+| `children`     | `slot`          | (required) | Content for the tree item                                                                            |
 | `...restProps` | HTML attributes |            | Additional attributes spread onto the `<li>` element (including `role`, `tabindex`, `aria-expanded`) |
 
 ## Examples
@@ -58,10 +64,16 @@ Navigation tree:
 
 ```html
 <TreeList label="Site navigation">
-  <TreeListItem tabindex="0" aria-expanded="false">
+  <TreeListItem
+    tabindex="0"
+    aria-expanded="false"
+  >
     Products
   </TreeListItem>
-  <TreeListItem tabindex="-1" aria-expanded="false">
+  <TreeListItem
+    tabindex="-1"
+    aria-expanded="false"
+  >
     Services
   </TreeListItem>
   <TreeListItem tabindex="-1">About</TreeListItem>
@@ -83,6 +95,7 @@ Navigation tree:
 - `tabindex` -- manages focus: `0` for the active item, `-1` for others (roving tabindex)
 - `aria-expanded` -- indicates whether an expandable item is open (`true`) or closed (`false`); omit for leaf nodes
 - `aria-selected` -- indicates whether the item is selected (optional)
+
 ## When to Use
 
 - Use inside TreeList to represent one item that may contain nested TreeList children.
@@ -99,14 +112,11 @@ Navigation tree:
 
 This headless component provides an `<li>` element with `role="treeitem"` support. The consumer manages `tabindex`, `aria-expanded`, and `aria-selected` attributes via restProps, and provides all content and visual styling including indentation, icons, and expansion indicators.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.tree-list-item` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<li>` element with class `tree-list-item`
 - Verify role="treeitem"` -- identifies the element as an item in a tree widget

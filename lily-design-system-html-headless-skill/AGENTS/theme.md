@@ -35,7 +35,7 @@ Consumer CSS reads `var(--theme-color-primary)`, `var(--theme-space-md)`, etc.
 
 ### Error text
 
-`--color-error` is a fill colour, not a text colour. Error *text* uses `--lily-error-text` (error mixed 22% into
+`--color-error` is a fill colour, not a text colour. Error _text_ uses `--lily-error-text` (error mixed 22% into
 `--color-base-content`), defined by every reference theme; reuse that pattern for any status-coloured text.
 
 ### Forbidden in the headless layer

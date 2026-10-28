@@ -37,7 +37,8 @@ With a custom radio group name:
 ```tsx
 <NetPromoterScorePicker
   label="Rate our service"
-  value={score} onChange={setScore}
+  value={score}
+  onChange={setScore}
   name="service-nps"
 />
 ```
@@ -47,7 +48,8 @@ With additional HTML attributes:
 ```tsx
 <NetPromoterScorePicker
   label="Customer satisfaction"
-  value={score} onChange={setScore}
+  value={score}
+  onChange={setScore}
   data-section="feedback"
 />
 ```

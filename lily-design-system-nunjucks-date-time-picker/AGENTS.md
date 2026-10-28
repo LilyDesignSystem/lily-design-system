@@ -33,15 +33,15 @@ for what this costs without JavaScript.
 
 ## Files
 
-| File                          | Purpose                                              |
-| ----------------------------- | ----------------------------------------------------- |
-| `spec/index.md`               | Specification-driven contract (canonical).            |
-| `date-time-picker.njk`        | Nunjucks macro (`dateTimePicker(opts)`).             |
-| `date-time-picker.client.js`  | ES module — civil-date arithmetic, Intl formatting, `initDateTimePicker`, `autoInit`. |
-| `date-time-picker.test.ts`    | Vitest spec, mapped to the §7 clauses (76 tests).    |
-| `index.md`                    | User guide.                                           |
-| `docs/accessibility.md`       | Tradeoffs, stated plainly.                            |
-| `examples/`                   | Runnable `.njk` template fragments.                   |
+| File                         | Purpose                                                                               |
+| ---------------------------- | ------------------------------------------------------------------------------------- |
+| `spec/index.md`              | Specification-driven contract (canonical).                                            |
+| `date-time-picker.njk`       | Nunjucks macro (`dateTimePicker(opts)`).                                              |
+| `date-time-picker.client.js` | ES module — civil-date arithmetic, Intl formatting, `initDateTimePicker`, `autoInit`. |
+| `date-time-picker.test.ts`   | Vitest spec, mapped to the §7 clauses (76 tests).                                     |
+| `index.md`                   | User guide.                                                                           |
+| `docs/accessibility.md`      | Tradeoffs, stated plainly.                                                            |
+| `examples/`                  | Runnable `.njk` template fragments.                                                   |
 
 ## Public surface
 

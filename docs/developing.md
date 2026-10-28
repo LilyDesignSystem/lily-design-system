@@ -35,7 +35,7 @@ standalone subtrees, not a workspace.
   local dev/test (a Turbopack upgrade once exposed an alias
   that did — see CHANGELOG 2026-08-26).
 - **The copy-pattern.** Example apps consume headless components as
-  *copies* in their own tree, not as imports of the sibling subproject.
+  _copies_ in their own tree, not as imports of the sibling subproject.
 - **Generated, not hand-mirrored.** Registries, demo maps, theme token
   blocks, and the site's status badges are emitted by `bin/`
   generators from canonical sources; `bin/test` fails on drift. Edit
@@ -43,15 +43,15 @@ standalone subtrees, not a workspace.
 
 ## The `bin/` tools, in the order you meet them
 
-| Tool | When |
-| --- | --- |
-| `bin/test` | Before and after everything; the gate |
-| `bin/check-links` | With every docs change |
-| `bin/create-component-directory` | Scaffolds a component's doc directory (files are created empty — filling them is step 2 below) |
-| `bin/generate-registries` | After any catalog or demo-map change |
-| `bin/check-theme`, `bin/generate-theme-tokens` | With any theme change (`--check` runs inside bin/test) |
-| `bin/sync`, `bin/sync-special-files` | After editing canonical AGENTS/, themes/, or root special files |
-| `bin/smoke-packages`, `bin/publish-*` | Release engineering ([docs/releasing.md](releasing.md)) |
+| Tool                                           | When                                                                                           |
+| ---------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `bin/test`                                     | Before and after everything; the gate                                                          |
+| `bin/check-links`                              | With every docs change                                                                         |
+| `bin/create-component-directory`               | Scaffolds a component's doc directory (files are created empty — filling them is step 2 below) |
+| `bin/generate-registries`                      | After any catalog or demo-map change                                                           |
+| `bin/check-theme`, `bin/generate-theme-tokens` | With any theme change (`--check` runs inside bin/test)                                         |
+| `bin/sync`, `bin/sync-special-files`           | After editing canonical AGENTS/, themes/, or root special files                                |
+| `bin/smoke-packages`, `bin/publish-*`          | Release engineering ([docs/releasing.md](releasing.md))                                        |
 
 ## Add a component, start to finish
 

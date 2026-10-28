@@ -23,7 +23,14 @@ import MenuPicker from "@lilydesignsystem/vue-menu-picker";
     <ul>
       <li><a href="/">Home</a></li>
       <li><a href="/about/">About Us</a></li>
-      <li><button type="button" @click="signOut">Sign out</button></li>
+      <li>
+        <button
+          type="button"
+          @click="signOut"
+        >
+          Sign out
+        </button>
+      </li>
     </ul>
   </MenuPicker>
 </template>

@@ -22,7 +22,7 @@ LiechtensteinNationalIdentityCardNumberView is a headless read-only display of L
 ```html
 <SummaryList>
   <SummaryListItem term="Liechtenstein National Identity Card Number">
-    <LiechtensteinNationalIdentityCardNumberView value={value} />
+    <LiechtensteinNationalIdentityCardNumberView value="{value}" />
   </SummaryListItem>
 </SummaryList>
 ```

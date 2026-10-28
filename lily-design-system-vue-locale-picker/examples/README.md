@@ -14,18 +14,18 @@ Every example assumes:
   `<ul role="listbox">`), and `locale-picker-option` (each
   `<li role="option">`) class hooks.
 
-| File                                                 | Demonstrates                                                                                     |
-| ---------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| File                                                 | Demonstrates                                                                                    |
+| ---------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
 | [`basic.vue`](./basic.vue)                           | The default rendering, plus the `.locale-picker-status` live region every consumer should ship. |
-| [`custom-rendering.vue`](./custom-rendering.vue)     | Custom button glyph via the default scoped slot — the active locale's short code plus a caret.   |
-| [`script-aware-glyph.vue`](./script-aware-glyph.vue) | Script-aware button glyph: the active locale rendered in its own script and direction.           |
-| [`rtl-demo.vue`](./rtl-demo.vue)                     | Live RTL preview — Arabic, Hebrew, Persian, Urdu, Pashto.                                        |
-| [`nhs-style.vue`](./nhs-style.vue)                   | NHS UK-style utility banner with endonyms, a `class` hook, and a status line.                    |
-| [`with-vue-i18n.vue`](./with-vue-i18n.vue)           | Binding to vue-i18n's `locale` ref.                                                              |
-| [`with-paraglide.vue`](./with-paraglide.vue)         | Driving Paraglide JS's `setLocale()` from `@change`.                                             |
-| [`ssr-cookie.vue`](./ssr-cookie.vue)                 | Nuxt 3 `useCookie()` + `useHead()` for flicker-free SSR.                                         |
+| [`custom-rendering.vue`](./custom-rendering.vue)     | Custom button glyph via the default scoped slot — the active locale's short code plus a caret.  |
+| [`script-aware-glyph.vue`](./script-aware-glyph.vue) | Script-aware button glyph: the active locale rendered in its own script and direction.          |
+| [`rtl-demo.vue`](./rtl-demo.vue)                     | Live RTL preview — Arabic, Hebrew, Persian, Urdu, Pashto.                                       |
+| [`nhs-style.vue`](./nhs-style.vue)                   | NHS UK-style utility banner with endonyms, a `class` hook, and a status line.                   |
+| [`with-vue-i18n.vue`](./with-vue-i18n.vue)           | Binding to vue-i18n's `locale` ref.                                                             |
+| [`with-paraglide.vue`](./with-paraglide.vue)         | Driving Paraglide JS's `setLocale()` from `@change`.                                            |
+| [`ssr-cookie.vue`](./ssr-cookie.vue)                 | Nuxt 3 `useCookie()` + `useHead()` for flicker-free SSR.                                        |
 | [`scoped-target.vue`](./scoped-target.vue)           | Multiple per-region pickers, each scoped to its own panel.                                      |
-| [`combobox.vue`](./combobox.vue)                     | Built-in typeahead over all 436 built-in locales, plus a side-by-side `<datalist>` combobox.     |
+| [`combobox.vue`](./combobox.vue)                     | Built-in typeahead over all 436 built-in locales, plus a side-by-side `<datalist>` combobox.    |
 
 ## Running the examples
 

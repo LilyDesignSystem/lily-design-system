@@ -32,7 +32,10 @@ that the consumer has formatted in the user's locale.
 ISO value with consumer-formatted display:
 
 ```html
-<DateTimeView value="2026-04-27T14:30:00Z" format="April 27, 2026 at 2:30 PM" />
+<DateTimeView
+  value="2026-04-27T14:30:00Z"
+  format="April 27, 2026 at 2:30 PM"
+/>
 ```
 
 Children slot for richer rendering:

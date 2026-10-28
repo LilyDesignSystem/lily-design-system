@@ -49,16 +49,16 @@ The app ships:
 
 ### Framework + tooling
 
-| Concern             | Choice                                      |
-| ------------------- | ------------------------------------------- |
-| App framework       | Nuxt 3                                      |
-| UI                  | Vue 3 Composition API                       |
-| Language            | TypeScript (`<script setup lang="ts">`)     |
-| Package manager     | pnpm                                        |
-| Unit test           | vitest + @testing-library/vue + jsdom       |
-| E2E test            | Playwright                                  |
-| Storybook           | yes                                         |
-| Styling             | Plain CSS with custom properties (NHS)      |
+| Concern         | Choice                                  |
+| --------------- | --------------------------------------- |
+| App framework   | Nuxt 3                                  |
+| UI              | Vue 3 Composition API                   |
+| Language        | TypeScript (`<script setup lang="ts">`) |
+| Package manager | pnpm                                    |
+| Unit test       | vitest + @testing-library/vue + jsdom   |
+| E2E test        | Playwright                              |
+| Storybook       | yes                                     |
+| Styling         | Plain CSS with custom properties (NHS)  |
 
 ### Headless dependency
 
@@ -93,11 +93,11 @@ lily-design-system-vue-nuxt-examples/
 
 ## 4. Required routes
 
-| Route                  | Purpose                                                |
-| ---------------------- | ------------------------------------------------------ |
-| `/`                    | Home — welcome, project description, links to demos    |
-| `/components`          | Catalog index — every component in `components.tsv`    |
-| `/components/[slug]`   | Per-component detail — live demo + metadata            |
+| Route                | Purpose                                             |
+| -------------------- | --------------------------------------------------- |
+| `/`                  | Home — welcome, project description, links to demos |
+| `/components`        | Catalog index — every component in `components.tsv` |
+| `/components/[slug]` | Per-component detail — live demo + metadata         |
 
 `/components/[slug]` renders the demo HTML from `data/component-demos.ts`
 using `v-html`. Demo data contains **490 entries** (one per canonical slug).
@@ -205,13 +205,13 @@ pnpm run storybook                   # run Storybook
 
 ## 11. Prohibited
 
-| Prohibition                       | Reason                              |
-| --------------------------------- | ----------------------------------- |
-| `nhsuk-` prefixes in markup       | CSS targets Lily classes directly   |
-| Tailwind, DaisyUI, Bootstrap      | no CSS framework dependency         |
-| `@testing-library/jest-dom`       | vitest matchers only                |
-| Re-implementing headless comps    | import from sibling library         |
-| `<style scoped>` in shared CSS    | use plain CSS in `assets/css/`      |
+| Prohibition                    | Reason                            |
+| ------------------------------ | --------------------------------- |
+| `nhsuk-` prefixes in markup    | CSS targets Lily classes directly |
+| Tailwind, DaisyUI, Bootstrap   | no CSS framework dependency       |
+| `@testing-library/jest-dom`    | vitest matchers only              |
+| Re-implementing headless comps | import from sibling library       |
+| `<style scoped>` in shared CSS | use plain CSS in `assets/css/`    |
 
 ## 12. Tracking
 

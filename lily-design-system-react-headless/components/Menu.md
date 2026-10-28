@@ -24,18 +24,33 @@ The component manages vertical focus movement between menu items via arrow keys,
 
 ```tsx
 <Menu label="Actions">
-    <div role="menuitem" tabindex="-1">Cut</div>
-    <div role="menuitem" tabindex="-1">Copy</div>
+  <div
+    role="menuitem"
+    tabindex="-1"
+  >
+    Cut
+  </div>
+  <div
+    role="menuitem"
+    tabindex="-1"
+  >
+    Copy
+  </div>
 </Menu>
 ```
 
 ```tsx
 <Menu label="File actions">
-    {actions.map(action => (
-        <div role="menuitem" tabindex="-1" onClick={() => handleAction(action)} key={action.label}>
-            {action.label}
-        </div>
-    ))}
+  {actions.map((action) => (
+    <div
+      role="menuitem"
+      tabindex="-1"
+      onClick={() => handleAction(action)}
+      key={action.label}
+    >
+      {action.label}
+    </div>
+  ))}
 </Menu>
 ```
 

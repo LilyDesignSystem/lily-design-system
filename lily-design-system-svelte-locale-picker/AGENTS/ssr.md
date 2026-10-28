@@ -16,7 +16,11 @@ Under SSR, `$effect` is a no-op. The select renders:
 
 ```html
 <div class="locale-picker">
-  <input type="hidden" name="locale" value="" />
+  <input
+    type="hidden"
+    name="locale"
+    value=""
+  />
   <button
     type="button"
     class="locale-picker-button"
@@ -25,7 +29,9 @@ Under SSR, `$effect` is a no-op. The select renders:
     aria-expanded="false"
     aria-controls="locale-picker-1-list"
   >
-    <span class="locale-picker-icon" aria-hidden="true"
+    <span
+      class="locale-picker-icon"
+      aria-hidden="true"
       >🌐︎</span
     >
   </button>
@@ -95,9 +101,7 @@ export const handle: Handle = async ({ event, resolve }) => {
   event.locals.locale = locale;
   return resolve(event, {
     transformPageChunk: ({ html }) =>
-      html
-        .replace("%lily.lang%", locale)
-        .replace("%lily.dir%", RTL.test(locale) ? "rtl" : "ltr"),
+      html.replace("%lily.lang%", locale).replace("%lily.dir%", RTL.test(locale) ? "rtl" : "ltr"),
   });
 };
 ```
@@ -106,7 +110,10 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 ```html
 <!doctype html>
-<html lang="%lily.lang%" dir="%lily.dir%">
+<html
+  lang="%lily.lang%"
+  dir="%lily.dir%"
+>
   <head>
     <meta charset="utf-8" />
     %sveltekit.head%
@@ -131,25 +138,25 @@ export const load: LayoutServerLoad = ({ locals }) => ({
 
 ```svelte
 <script lang="ts">
-    import { LocalePicker } from "@lilydesignsystem/svelte-locale-picker";
+  import { LocalePicker } from "@lilydesignsystem/svelte-locale-picker";
 
-    let { data, children } = $props();
-    let locale = $state(data.locale);
+  let { data, children } = $props();
+  let locale = $state(data.locale);
 
-    async function persistCookie(code: string) {
-        await fetch("/api/locale", {
-            method: "POST",
-            headers: { "content-type": "application/json" },
-            body: JSON.stringify({ locale: code }),
-        });
-    }
+  async function persistCookie(code: string) {
+    await fetch("/api/locale", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ locale: code }),
+    });
+  }
 </script>
 
 <LocalePicker
-    label="Language"
-    locales={["en", "fr", "ar"]}
-    bind:value={locale}
-    onChange={persistCookie}
+  label="Language"
+  locales={["en", "fr", "ar"]}
+  bind:value={locale}
+  onChange={persistCookie}
 />
 
 {@render children?.()}
@@ -191,22 +198,22 @@ validate in middleware, and drive the select from
 
 ```svelte
 <script lang="ts">
-    import { page, goto } from "$app/stores";
-    import { LocalePicker } from "@lilydesignsystem/svelte-locale-picker";
+  import { page, goto } from "$app/stores";
+  import { LocalePicker } from "@lilydesignsystem/svelte-locale-picker";
 
-    let current = $derived(String($page.params.locale ?? "en"));
+  let current = $derived(String($page.params.locale ?? "en"));
 
-    function navigate(next: string) {
-        const newPath = $page.url.pathname.replace(/^\/(en|fr|ar)/, `/${next}`);
-        goto(newPath);
-    }
+  function navigate(next: string) {
+    const newPath = $page.url.pathname.replace(/^\/(en|fr|ar)/, `/${next}`);
+    goto(newPath);
+  }
 </script>
 
 <LocalePicker
-    label="Language"
-    locales={["en", "fr", "ar"]}
-    value={current}
-    onChange={navigate}
+  label="Language"
+  locales={["en", "fr", "ar"]}
+  value={current}
+  onChange={navigate}
 />
 ```
 
@@ -235,8 +242,7 @@ function pickFromAcceptLanguage(header: string | null): string {
 export const handle: Handle = async ({ event, resolve }) => {
   const cookie = event.cookies.get("locale");
   event.locals.locale =
-    cookie ??
-    pickFromAcceptLanguage(event.request.headers.get("accept-language"));
+    cookie ?? pickFromAcceptLanguage(event.request.headers.get("accept-language"));
   return resolve(event);
 };
 ```

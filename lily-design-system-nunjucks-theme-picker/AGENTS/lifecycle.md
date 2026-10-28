@@ -183,9 +183,7 @@ function applyTheme(slug) {
   target.setAttribute("data-theme", slug);
   if (storageKey) safeStorageSet(storageKey, slug);
   if (input) input.value = slug;
-  options.forEach((o, i) =>
-    o.setAttribute("aria-selected", values[i] === slug ? "true" : "false"),
-  );
+  options.forEach((o, i) => o.setAttribute("aria-selected", values[i] === slug ? "true" : "false"));
   if (typeof opts.onChange === "function") opts.onChange(slug);
 }
 ```

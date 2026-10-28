@@ -22,31 +22,53 @@ Basic image cropper with an image and overlay:
 
 ```html
 <ImageCropper label="Crop your profile photo">
-  <img src="/uploads/photo.jpg" alt="Photo to crop" />
+  <img
+    src="/uploads/photo.jpg"
+    alt="Photo to crop"
+  />
 </ImageCropper>
 ```
 
 Image cropper in an avatar upload flow:
 
 ```html
-<Form label="Update profile photo" onsubmit={handleUpload}>
-  <Field label="Profile photo" required>
+<form
+  label="Update profile photo"
+  onsubmit="{handleUpload}"
+>
+  <Field
+    label="Profile photo"
+    required
+  >
     <ImageCropper label="Crop your profile photo to a square">
-      <img src={previewUrl} alt="Selected photo to crop" id="avatar-crop" />
+      <img
+        src="{previewUrl}"
+        alt="Selected photo to crop"
+        id="avatar-crop"
+      />
     </ImageCropper>
   </Field>
   <div class="actions">
-    <Button type="button" onclick={resetCrop}>Reset</Button>
-    <Button type="submit">Save photo</Button>
+    <button
+      type="button"
+      onclick="{resetCrop}"
+    >
+      Reset
+    </button>
+    <button type="submit">Save photo</button>
   </div>
-</Form>
+</form>
 ```
 
 Image cropper for a document scan:
 
 ```html
 <ImageCropper label="Adjust the crop region around the document">
-  <canvas width="600" height="800" id="scan-crop"></canvas>
+  <canvas
+    width="600"
+    height="800"
+    id="scan-crop"
+  ></canvas>
 </ImageCropper>
 <p>Drag the corners to frame the document before saving.</p>
 ```

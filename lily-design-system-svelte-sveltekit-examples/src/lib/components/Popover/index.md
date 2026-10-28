@@ -51,15 +51,24 @@ import Popover from './Popover.svelte';
 
 ```svelte
 <script lang="ts">
-  import Popover from './Popover.svelte';
+  import Popover from "./Popover.svelte";
 
   let open = $state(false);
 </script>
 
-<button type="button" onclick={() => (open = !open)}>Toggle info</button>
-<Popover label="Additional information" bind:open>
+<button
+  type="button"
+  onclick={() => (open = !open)}>Toggle info</button
+>
+<Popover
+  label="Additional information"
+  bind:open
+>
   <p>Here is some contextual information.</p>
-  <button type="button" onclick={() => (open = false)}>Close</button>
+  <button
+    type="button"
+    onclick={() => (open = false)}>Close</button
+  >
 </Popover>
 ```
 
@@ -67,10 +76,12 @@ import Popover from './Popover.svelte';
 
 ```svelte
 <script lang="ts">
-  import Popover from './Popover.svelte';
+  import Popover from "./Popover.svelte";
 
   let open = $state(false);
-  function onKey(e: KeyboardEvent) { if (e.key === "Escape") open = false; }
+  function onKey(e: KeyboardEvent) {
+    if (e.key === "Escape") open = false;
+  }
 </script>
 
 <svelte:window onkeydown={onKey} />
@@ -82,7 +93,10 @@ import Popover from './Popover.svelte';
 >
   Details
 </button>
-<Popover label="Details" bind:open>
+<Popover
+  label="Details"
+  bind:open
+>
   <p>Quick preview content.</p>
 </Popover>
 ```
@@ -91,18 +105,37 @@ import Popover from './Popover.svelte';
 
 ```svelte
 <script lang="ts">
-  import Popover from './Popover.svelte';
+  import Popover from "./Popover.svelte";
 
   let open = $state(false);
   let email = $state("");
 </script>
 
-<button type="button" onclick={() => (open = true)}>Invite</button>
-<Popover label="Send invitation" bind:open>
-  <form onsubmit={(e) => { e.preventDefault(); open = false; }}>
-    <label>Email <input type="email" bind:value={email} /></label>
+<button
+  type="button"
+  onclick={() => (open = true)}>Invite</button
+>
+<Popover
+  label="Send invitation"
+  bind:open
+>
+  <form
+    onsubmit={(e) => {
+      e.preventDefault();
+      open = false;
+    }}
+  >
+    <label
+      >Email <input
+        type="email"
+        bind:value={email}
+      /></label
+    >
     <button type="submit">Send</button>
-    <button type="button" onclick={() => (open = false)}>Cancel</button>
+    <button
+      type="button"
+      onclick={() => (open = false)}>Cancel</button
+    >
   </form>
 </Popover>
 ```
@@ -111,12 +144,15 @@ import Popover from './Popover.svelte';
 
 ```svelte
 <script lang="ts">
-  import Popover from './Popover.svelte';
+  import Popover from "./Popover.svelte";
 
   let open = $state(true);
 </script>
 
-<Popover label="Welcome" {open}>
+<Popover
+  label="Welcome"
+  {open}
+>
   <p>Welcome aboard!</p>
 </Popover>
 ```
@@ -124,7 +160,11 @@ import Popover from './Popover.svelte';
 ### Extra attributes for positioning hooks
 
 ```svelte
-<Popover label="Menu" bind:open data-anchor="top-right" />
+<Popover
+  label="Menu"
+  bind:open
+  data-anchor="top-right"
+/>
 ```
 
 ## Accessibility

@@ -16,15 +16,17 @@ Compound component: use with NetPromoterScorePicker.
 ## Usage
 
 ```tsx
-{Array.from({ length: 11 }, (_, i) => i).map(score => (
-  <NetPromoterScorePickerButton
-    key={score}
-    value={score}
-    label={String(score)}
-    selected={nps === score}
-    onClick={() => setNps(score)}
-  />
-))}
+{
+  Array.from({ length: 11 }, (_, i) => i).map((score) => (
+    <NetPromoterScorePickerButton
+      key={score}
+      value={score}
+      label={String(score)}
+      selected={nps === score}
+      onClick={() => setNps(score)}
+    />
+  ));
+}
 ```
 
 ## ARIA

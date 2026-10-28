@@ -20,7 +20,10 @@ The component serves as a semantic container that consumers populate with their 
 
 ```svelte
 <SignaturePad label="Sign to accept terms">
-  <canvas width="400" height="200"></canvas>
+  <canvas
+    width="400"
+    height="200"
+  ></canvas>
 </SignaturePad>
 ```
 

@@ -25,7 +25,10 @@ The component is useful for contact pages, business listings, user profiles, cus
 ```
 
 ```svelte
-<TelLink phone="+1-555-0100" label="Call customer support" />
+<TelLink
+  phone="+1-555-0100"
+  label="Call customer support"
+/>
 ```
 
 ## Keyboard Interactions

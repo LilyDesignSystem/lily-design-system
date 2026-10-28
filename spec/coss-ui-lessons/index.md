@@ -8,8 +8,8 @@ port of [coss ui](https://coss.com/ui), "Built for developers and AI").
 Nothing here is built yet: this topic is the plan, and each item is an
 open acceptance criterion below. Lily is already ahead of coss on catalog
 size (581 against 72), the WCAG 2.2 AAA target, the i18n rule and framework
-count (eight against one); the items are about the *surface around the
-components*, which is where coss is ahead.
+count (eight against one); the items are about the _surface around the
+components_, which is where coss is ahead.
 
 ## Scope
 
@@ -41,7 +41,7 @@ them. Re-check before citing coss for anything beyond what is listed.
 
 ### 1. A recipes ("particles") layer
 
-coss ships 691 *particles*: small pre-assembled patterns, tagged by
+coss ships 691 _particles_: small pre-assembled patterns, tagged by
 component, copy-paste ready, each with a JSON manifest. Lily has
 components and 12 composed pages but nothing between the two.
 
@@ -109,7 +109,7 @@ coss's `FieldValidity` exposes `validity`, `error`, `errors`, `value` to a
 render snippet and its Field page has 15 examples (Required, Disabled, With
 Error, With Validity, Input Group, Autocomplete, Combobox, Textarea, Select,
 Checkbox, Checkbox Group, Radio Group, Switch, Slider, Number Field,
-Complete Form). Its page leaves *when* an error appears undefined.
+Complete Form). Its page leaves _when_ an error appears undefined.
 
 - **Deliverable:** in `field` and `error-message`, document the native
   `ValidityState` flow Lily relies on, and **define the timing**: validate
@@ -158,7 +158,7 @@ behaves this way (class-first rule, suffix to element table, per-component
 `AGENTS.md`) but never says so.
 
 - **Deliverable:** one principle in [headless](../headless/index.md) and
-  `AGENTS/headless.md`: *predictability is a feature*. Names, tags and
+  `AGENTS/headless.md`: _predictability is a feature_. Names, tags and
   sub-classes follow the suffix table; a component's behaviour must be
   derivable from its slug and its `AGENTS.md`; exceptions are documented in
   that component's `AGENTS.md`, not left implicit.

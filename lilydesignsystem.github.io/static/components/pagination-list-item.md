@@ -23,7 +23,11 @@ A pagination list item containing a PaginationLink for a numbered page:
 
 ```html
 <PaginationListItem>
-  <PaginationLink href="/results?page=3" label="Page 3">3</PaginationLink>
+  <PaginationLink
+    href="/results?page=3"
+    label="Page 3"
+    >3</PaginationLink
+  >
 </PaginationListItem>
 ```
 
@@ -31,7 +35,10 @@ A pagination list item for a previous/next navigation link:
 
 ```html
 <PaginationListItem>
-  <PaginationLink href="/conditions/diabetes/symptoms" rel="prev">
+  <PaginationLink
+    href="/conditions/diabetes/symptoms"
+    rel="prev"
+  >
     Previous: Symptoms
   </PaginationLink>
 </PaginationListItem>
@@ -61,14 +68,11 @@ None directly -- keyboard interaction is handled by the contained links or butto
 
 This headless component renders a semantic `<li>` element with a children slot for page links or buttons. The consumer provides all visual styling, including link appearance, active-page highlighting, and spacing between items.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.pagination-list-item` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<li>` element with class `pagination-list-item`
 - Verify pass-through attributes are applied

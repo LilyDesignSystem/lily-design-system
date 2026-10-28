@@ -24,9 +24,9 @@ Onboarding checklist with CheckListItem children:
 
 ```html
 <CheckList label="Onboarding tasks">
-    <CheckListItem checked={accountCreated}>Create account</CheckListItem>
-    <CheckListItem checked={profileSetUp}>Set up profile</CheckListItem>
-    <CheckListItem>Invite team members</CheckListItem>
+  <CheckListItem checked="{accountCreated}">Create account</CheckListItem>
+  <CheckListItem checked="{profileSetUp}">Set up profile</CheckListItem>
+  <CheckListItem>Invite team members</CheckListItem>
 </CheckList>
 ```
 
@@ -34,10 +34,10 @@ Packing list with completed and pending items:
 
 ```html
 <CheckList label="Packing list">
-    <CheckListItem checked={true}>Passport</CheckListItem>
-    <CheckListItem checked={true}>Boarding pass</CheckListItem>
-    <CheckListItem>Charger</CheckListItem>
-    <CheckListItem>Headphones</CheckListItem>
+  <CheckListItem checked="{true}">Passport</CheckListItem>
+  <CheckListItem checked="{true}">Boarding pass</CheckListItem>
+  <CheckListItem>Charger</CheckListItem>
+  <CheckListItem>Headphones</CheckListItem>
 </CheckList>
 ```
 
@@ -67,17 +67,14 @@ None -- this component is a passive container. Keyboard interactions are determi
 
 This headless CheckList component provides a semantic `<ul>` with explicit `role="list"` and optional `aria-label` for accessible identification. The consumer provides all visual styling including checkmark indicators, strikethrough effects, progress visualization, spacing, and color changes for completed items.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.check-list` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
 
-
 - Verify the component renders a `<ol>` element with class `check-list`
-- Verify role="list"` -- explicit list role on the `<ul>` ensures assistive technologies treat it as a list
+- Verify role="list"`-- explicit list role on the`<ul>` ensures assistive technologies treat it as a list
 - Verify aria-label` -- optional accessible name describing the purpose of the checklist
 - Verify pass-through attributes are applied
 

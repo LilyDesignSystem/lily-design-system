@@ -34,7 +34,10 @@ PDF reports, datasets, exported files, and signed asset bundles.
 Basic download link:
 
 ```html
-<DownloadButton href="/files/report.pdf" label="Download annual report (PDF, 2.4 MB)">
+<DownloadButton
+  href="/files/report.pdf"
+  label="Download annual report (PDF, 2.4 MB)"
+>
   Download report
 </DownloadButton>
 ```

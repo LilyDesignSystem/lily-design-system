@@ -136,7 +136,7 @@ Accessibility hardening, ported from the canonical Svelte helper.
   cancelling the key — so the default Tab proceeds from the picker's
   own position.
 - **Typeahead follows the APG single-character rule.** A single
-  character advances to the *next* matching option, and repeating that
+  character advances to the _next_ matching option, and repeating that
   character cycles through the matches; only a buffer of differing
   characters refines the match anchored on the active option.
   Previously a character that matched the active option went nowhere.
@@ -155,7 +155,7 @@ Accessibility hardening, ported from the canonical Svelte helper.
 
 - **Default option labels are endonyms** — each language named in
   itself, "Cymraeg" not "Welsh" — via the new exported
-  `localeEndonym()` (`Intl.DisplayNames` asked *in that language*,
+  `localeEndonym()` (`Intl.DisplayNames` asked _in that language_,
   deterministic, no `navigator` dependency) and `derivedLocaleLabel()`
   (endonym → built-in English table → raw code). In this catalog the
   derivation is a **client-side upgrade**: a Nunjucks template cannot

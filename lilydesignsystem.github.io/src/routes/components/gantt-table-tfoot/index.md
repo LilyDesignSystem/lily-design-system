@@ -58,14 +58,11 @@ None -- this component is a passive container. Keyboard navigation is handled by
 
 This headless component provides a `<tfoot>` element with implicit `rowgroup` role for grouping footer rows within a Gantt chart grid. The consumer provides all visual styling including borders, background colors, and summary formatting.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.gantt-table-tfoot` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<tfoot>` element with class `gantt-table-tfoot`
 - Verify pass-through attributes are applied

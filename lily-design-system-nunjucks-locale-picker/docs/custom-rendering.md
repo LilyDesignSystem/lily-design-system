@@ -79,11 +79,11 @@ class hooks cover them without forking anything:
 
 | Hook                     | Element                           |
 | ------------------------ | --------------------------------- |
-| `.locale-picker`        | Root `<div>`                      |
-| `.locale-picker-button` | The trigger                       |
-| `.locale-picker-icon`   | The default glyph `<span>`        |
-| `.locale-picker-list`   | The `<ul role="listbox">`         |
-| `.locale-picker-option` | Each `<li role="option">`         |
+| `.locale-picker`         | Root `<div>`                      |
+| `.locale-picker-button`  | The trigger                       |
+| `.locale-picker-icon`    | The default glyph `<span>`        |
+| `.locale-picker-list`    | The `<ul role="listbox">`         |
+| `.locale-picker-option`  | Each `<li role="option">`         |
 | `[aria-expanded="true"]` | Open state, on the button         |
 | `[data-active]`          | The keyboard cursor, on an option |
 | `[aria-selected="true"]` | The applied locale, on an option  |

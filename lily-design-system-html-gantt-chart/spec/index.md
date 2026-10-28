@@ -57,14 +57,14 @@ reference templates plus `AGENTS/components-helpers/gantt-table.md`) —
 there is no `GanttTable` JS class to import. `<gantt-chart>` builds the
 documented class names by hand:
 
-| Contract slug        | Rendered as                          |
-| --------------------- | ------------------------------------- |
-| `gantt-table`          | `<table class="gantt-table" role="grid">` |
-| `gantt-table-thead`    | `<thead class="gantt-table-thead">`  |
-| `gantt-table-tbody`    | `<tbody class="gantt-table-tbody">`  |
-| `gantt-table-tr`       | `<tr class="gantt-table-tr">`        |
-| `gantt-table-th`       | `<th class="gantt-table-th">`        |
-| `gantt-table-td`       | `<td class="gantt-table-td">`        |
+| Contract slug       | Rendered as                               |
+| ------------------- | ----------------------------------------- |
+| `gantt-table`       | `<table class="gantt-table" role="grid">` |
+| `gantt-table-thead` | `<thead class="gantt-table-thead">`       |
+| `gantt-table-tbody` | `<tbody class="gantt-table-tbody">`       |
+| `gantt-table-tr`    | `<tr class="gantt-table-tr">`             |
+| `gantt-table-th`    | `<th class="gantt-table-th">`             |
+| `gantt-table-td`    | `<td class="gantt-table-td">`             |
 
 Note the naming asymmetry with `kanban-table` (which uses `-row`, not
 `-tr`) — confirmed against both `.md` naming tables rather than assumed;
@@ -100,13 +100,13 @@ matching `date-time-picker`'s own unrecognised-attribute-value rule),
 
 **Property-only members:**
 
-| Property        | Type                                                   | Required | Default |
-| ---------------- | -------------------------------------------------------- | -------- | ------- |
-| `range`          | `{ start: string; end: string }` (ISO dates)               | yes      | —       |
-| `tasks`          | `GanttTask[]`                                              | yes      | `[]`    |
-| `taskLabel`      | `(task: GanttTask) => string`                               | no       | `task.label` |
-| `onTaskChange`   | `(taskId: string, start: string, end: string) => void`      | no       | —       |
-| `labels`         | `GanttLabels`                                               | no       | `{}`    |
+| Property       | Type                                                   | Required | Default      |
+| -------------- | ------------------------------------------------------ | -------- | ------------ |
+| `range`        | `{ start: string; end: string }` (ISO dates)           | yes      | —            |
+| `tasks`        | `GanttTask[]`                                          | yes      | `[]`         |
+| `taskLabel`    | `(task: GanttTask) => string`                          | no       | `task.label` |
+| `onTaskChange` | `(taskId: string, start: string, end: string) => void` | no       | —            |
+| `labels`       | `GanttLabels`                                          | no       | `{}`         |
 
 `GanttTask`: `id` (required), `label` (required), `start`/`end` (ISO
 dates, required, inclusive; equal values mean a milestone),
@@ -138,37 +138,93 @@ see §6), `compareISO`, `endOfMonth`, `generateColumns`, `flattenTasks`,
 ```html
 <gantt-chart label="Q4 plan">
   <div class="gantt-chart {class}">
-    <table class="gantt-table" role="grid" aria-label="{label}">
-      <caption>{caption}</caption> <!-- only when caption is set -->
+    <table
+      class="gantt-table"
+      role="grid"
+      aria-label="{label}"
+    >
+      <caption>
+        {caption}
+      </caption>
+      <!-- only when caption is set -->
       <thead class="gantt-table-thead">
         <tr class="gantt-table-tr">
-          <th class="gantt-table-th" scope="col"></th>                 <!-- leading task-label column -->
-          <th class="gantt-table-th" scope="col" data-today>{columnLabel(period)}</th>
+          <th
+            class="gantt-table-th"
+            scope="col"
+          ></th>
+          <!-- leading task-label column -->
+          <th
+            class="gantt-table-th"
+            scope="col"
+            data-today
+          >
+            {columnLabel(period)}
+          </th>
         </tr>
       </thead>
       <tbody class="gantt-table-tbody">
         <tr class="gantt-table-tr">
-          <th class="gantt-table-th" scope="row" data-depth="{depth}">
-            <button class="gantt-chart-collapse-button" aria-expanded="true|false">…</button>  <!-- only on parent rows -->
+          <th
+            class="gantt-table-th"
+            scope="row"
+            data-depth="{depth}"
+          >
+            <button
+              class="gantt-chart-collapse-button"
+              aria-expanded="true|false"
+            >
+              …
+            </button>
+            <!-- only on parent rows -->
             {taskLabel(task)}
-            <span class="gantt-chart-dependency-summary" hidden>{dependencySummary}</span>     <!-- only when deps + label -->
+            <span
+              class="gantt-chart-dependency-summary"
+              hidden
+              >{dependencySummary}</span
+            >
+            <!-- only when deps + label -->
           </th>
-          <td class="gantt-table-td" data-row="{r}" data-col="{c}" tabindex="0|-1"
-              data-in-range data-milestone data-today aria-describedby="{dependencySummaryId}">
-            <span class="gantt-chart-bar" data-percent-complete="{n}"></span>     <!-- only in the task's own leading in-range cell -->
+          <td
+            class="gantt-table-td"
+            data-row="{r}"
+            data-col="{c}"
+            tabindex="0|-1"
+            data-in-range
+            data-milestone
+            data-today
+            aria-describedby="{dependencySummaryId}"
+          >
+            <span
+              class="gantt-chart-bar"
+              data-percent-complete="{n}"
+            ></span>
+            <!-- only in the task's own leading in-range cell -->
           </td>
         </tr>
-        <tr class="gantt-chart-edit-row">                            <!-- only while this task is being edited -->
+        <tr class="gantt-chart-edit-row">
+          <!-- only while this task is being edited -->
           <td colspan="{columns.length + 1}">
-            <date-time-picker class="gantt-chart-start-picker" label="{labels.startLabel}" mode="date"></date-time-picker>
-            <date-time-picker class="gantt-chart-end-picker" label="{labels.endLabel}" mode="date"></date-time-picker>
+            <date-time-picker
+              class="gantt-chart-start-picker"
+              label="{labels.startLabel}"
+              mode="date"
+            ></date-time-picker>
+            <date-time-picker
+              class="gantt-chart-end-picker"
+              label="{labels.endLabel}"
+              mode="date"
+            ></date-time-picker>
             <button class="gantt-chart-save-button">{labels.saveLabel}</button>
             <button class="gantt-chart-cancel-button">{labels.cancelLabel}</button>
           </td>
         </tr>
       </tbody>
     </table>
-    <p class="gantt-chart-status" aria-live="polite"></p>
+    <p
+      class="gantt-chart-status"
+      aria-live="polite"
+    ></p>
   </div>
 </gantt-chart>
 ```
@@ -417,7 +473,6 @@ Tests §14.25–§14.40. The data grid's cell types, export and windowing, appli
   roving tab stop's row, between `.gantt-chart-spacer` rows. Rows carry `aria-rowindex`, the table `aria-rowcount`; keyboard focus scrolls the target row in. Rows are assumed `rowHeight` px tall.
 - **Hot path**: a task lookup map, per-column marker and today flags built once per `markers` / `columns` / `today` change, so a render does no per-cell `filter` or `find`.
 
-
 ## 17. Weekend shading and dependency arrows (0.6.0, 2026-10-17)
 
 Tests §17.1–§17.10.
@@ -465,7 +520,7 @@ The matching is the pure `typeahead.ts` (`isTypeaheadKey`, `nextTypeaheadState`,
 ## Weekend, holiday and time-off indicators (0.7.0, 2026-10-17)
 
 - **`unavailable`** is a list of dated ranges `{ start, end?, kind?, label? }` for holidays, time off and closures (`end` defaults to `start`; Lily ships no calendar, no kinds and no English). A column **every day of which is covered** gets `data-unavailable="<kinds>"` (the entries' `kind`s, `unavailable` when none, repeats removed) on its header and every cell; a column only **partly** covered gets `data-partly-unavailable` instead, so a holiday inside a week column is still marked. A `label` is rendered as text in the header (`.gantt-chart-unavailable-label`), so a day is never told apart by colour alone (WCAG 1.4.1). The weekend is `weekends`; `markers` flag one date; `isNonWorking` is a callback. Matching is the pure `unavailable.ts` (`unavailableOn`, `unavailableIn`, `unavailableKinds`), time-zone free.
-- **Shading** is CSS and ships in the 57 reference themes: weekends are tinted, unavailable days are tinted *and striped*, a partly unavailable column gets a bar under its header.
+- **Shading** is CSS and ships in the 57 reference themes: weekends are tinted, unavailable days are tinted _and striped_, a partly unavailable column gets a bar under its header.
 
 ## Direction and labels (0.7.0, 2026-10-17)
 

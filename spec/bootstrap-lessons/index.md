@@ -85,7 +85,7 @@ to avoid a flash.
   `data-theme` on the root before the body renders). Check whether the
   existing detect-from-system option already makes this unnecessary in each
   catalog; the Nunjucks and HTML catalogs are the likely gaps.
-- **Deliverable (b):** scoped modes and a light/dark *mode* axis separate from
+- **Deliverable (b):** scoped modes and a light/dark _mode_ axis separate from
   the theme slug. Today every theme selects `:root[data-theme="x"]`, so a
   theme can only apply to the whole document, and each of the 57 files carries
   the same ~3,700 lines of component rules (verified 2026-10-21: the component
@@ -118,7 +118,7 @@ event when it finishes (`shown.bs.modal`). Lily's events are ad hoc:
 
 Bootstrap offers `getInstance` / `getOrCreateInstance` and
 `.show()` / `.hide()` / `.toggle()` beside the data attributes, and
-documents that methods return when the transition *starts*.
+documents that methods return when the transition _starts_.
 
 - **Deliverable:** in the HTML, Alpine and Web Components catalogs, every
   openable element exposes `open()`, `close()`, `toggle()` and an `open`
@@ -131,7 +131,7 @@ documents that methods return when the transition *starts*.
 - **Check:** one test per catalog calls each method and asserts ARIA and the
   event pair from item 3.
 
-### 5. Say what is *not* accessible, per component
+### 5. Say what is _not_ accessible, per component
 
 Bootstrap's accessibility page states plainly that its client-side custom
 validation styles and tooltips "are not currently accessible", recommends
@@ -155,11 +155,11 @@ about where that target is not met.
 
 ### 6. Task-shaped agent skills, and a `skills add` install line
 
-Bootstrap v6 ships skills by *task*, installed with
+Bootstrap v6 ships skills by _task_, installed with
 `npx skills add twbs/bootstrap`: `bootstrap-v6-install`, `-npm`, `-webpack`,
 `-parcel`, `-vite`, `-component`, `-component-js`, `-color-system`,
 `-utility-api`, and migration skills (4 to 6, 5 to 6). Lily's 27 skills are
-organised by *framework* and layer.
+organised by _framework_ and layer.
 
 - **Deliverable:** add task skills that cut across frameworks, in the
   Bootstrap style: `lily-design-system-install` (per framework),
@@ -176,7 +176,7 @@ organised by *framework* and layer.
 
 ### 7. A Bootstrap-to-Lily migration guide
 
-Bootstrap publishes migration guides and now migration *skills*; Lily has
+Bootstrap publishes migration guides and now migration _skills_; Lily has
 `COMPARISONS.md` but nothing aimed at the large number of teams starting on
 Bootstrap.
 
@@ -248,13 +248,13 @@ version switcher (v6 alpha, 5.3, 4.6, …), and an "Optimize" page.
 
 ## Not adopted
 
-| Bootstrap idea | Why not |
-| -------------- | ------- |
-| Utilities API and generated utility classes | A CSS framework; ruled out by the root spec |
-| `llms-full.txt` (Bootstrap publishes it) | [llms-json-and-llms-txt](../llms-json-and-llms-txt/index.md) records a decision against it; revisit only if that spec's reason (a curated map beats a content dump) stops holding; its absence of a generator is not by itself a reason |
-| Sass sources and `$enable-dark-mode`-style options | Lily themes are plain CSS |
-| Tooltip-style validation feedback | Bootstrap documents it as inaccessible (item 5) |
-| HTML sanitizer for option strings | No such options exist |
+| Bootstrap idea                                     | Why not                                                                                                                                                                                                                                 |
+| -------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Utilities API and generated utility classes        | A CSS framework; ruled out by the root spec                                                                                                                                                                                             |
+| `llms-full.txt` (Bootstrap publishes it)           | [llms-json-and-llms-txt](../llms-json-and-llms-txt/index.md) records a decision against it; revisit only if that spec's reason (a curated map beats a content dump) stops holding; its absence of a generator is not by itself a reason |
+| Sass sources and `$enable-dark-mode`-style options | Lily themes are plain CSS                                                                                                                                                                                                               |
+| Tooltip-style validation feedback                  | Bootstrap documents it as inaccessible (item 5)                                                                                                                                                                                         |
+| HTML sanitizer for option strings                  | No such options exist                                                                                                                                                                                                                   |
 
 ## Acceptance criteria
 

@@ -25,7 +25,10 @@ Each care card has a heading that describes the action and a body containing the
 ## Usage
 
 ```svelte
-<CareCard type="non-urgent" heading="Speak to a GP if:">
+<CareCard
+  type="non-urgent"
+  heading="Speak to a GP if:"
+>
   <ul><li>you have symptoms</li></ul>
 </CareCard>
 ```

@@ -25,7 +25,11 @@ This headless component uses a `<div>` element with an `aria-label` to create a 
 
 ```html
 <HeroHeadline label="Feature story">
-  <img slot="media" src="hero.jpg" alt="Aerial view of city" />
+  <img
+    slot="media"
+    src="hero.jpg"
+    alt="Aerial view of city"
+  />
   <h1>The Changing Skyline</h1>
   <p>How urban development is reshaping cities</p>
 </HeroHeadline>
@@ -33,8 +37,16 @@ This headless component uses a `<div>` element with an `aria-label` to create a 
 
 ```html
 <HeroHeadline label="Investigation">
-  <video slot="media" autoplay muted loop>
-    <source src="ocean.mp4" type="video/mp4" />
+  <video
+    slot="media"
+    autoplay
+    muted
+    loop
+  >
+    <source
+      src="ocean.mp4"
+      type="video/mp4"
+    />
   </video>
   <h1>Rising Waters</h1>
   <p>Climate change and coastal communities</p>
@@ -43,7 +55,11 @@ This headless component uses a `<div>` element with an `aria-label` to create a 
 
 ```html
 <HeroHeadline label="Photo essay">
-  <img slot="media" src="landscape.jpg" alt="Mountain landscape at dawn" />
+  <img
+    slot="media"
+    src="landscape.jpg"
+    alt="Mountain landscape at dawn"
+  />
   <h1>Into the Wild</h1>
   <p>A photographic journey through national parks</p>
   <Byline>By Jane Smith</Byline>

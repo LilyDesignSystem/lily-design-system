@@ -23,9 +23,21 @@ OsterreichSozialversicherungsnummerInput is a headless input for entering Austri
 ## Usage
 
 ```html
-<Field label="Sozialversicherungsnummer (SVNR)" required>
-  <OsterreichSozialversicherungsnummerInput label="Sozialversicherungsnummer (SVNR)" value={value} required />
-  <Hint>Ten digits, displayed as NNNN DDMMYY. The first three digits are a serial number (the first not zero) followed by a Modulus-11 check digit as the fourth digit; the remaining six digits encode date of birth (DDMMYY). If the Modulus-11 remainder is 10, the serial number is incremented by one and the check digit recalculated.</Hint>
+<Field
+  label="Sozialversicherungsnummer (SVNR)"
+  required
+>
+  <OsterreichSozialversicherungsnummerInput
+    label="Sozialversicherungsnummer (SVNR)"
+    value="{value}"
+    required
+  />
+  <Hint
+    >Ten digits, displayed as NNNN DDMMYY. The first three digits are a serial number (the first not
+    zero) followed by a Modulus-11 check digit as the fourth digit; the remaining six digits encode
+    date of birth (DDMMYY). If the Modulus-11 remainder is 10, the serial number is incremented by
+    one and the check digit recalculated.</Hint
+  >
   <ErrorMessage>Please enter a valid Sozialversicherungsnummer</ErrorMessage>
 </Field>
 ```

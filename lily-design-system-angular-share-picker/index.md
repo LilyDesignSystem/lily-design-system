@@ -26,10 +26,7 @@ import {
 
 ```ts
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import {
-  SharePicker,
-  type ShareTarget,
-} from "../lily-design-system-angular-share-picker";
+import { SharePicker, type ShareTarget } from "../lily-design-system-angular-share-picker";
 
 @Component({
   selector: "app-article",
@@ -128,8 +125,14 @@ trigger. The optional `SharePickerIcon` marker directive gives the
 `let-` variable a type:
 
 ```html
-<lily-share-picker label="Share" [targets]="targets">
-  <ng-template lilySharePickerIcon let-args>
+<lily-share-picker
+  label="Share"
+  [targets]="targets"
+>
+  <ng-template
+    lilySharePickerIcon
+    let-args
+  >
     {{ args.open ? "Close" : "Share" }}
   </ng-template>
 </lily-share-picker>

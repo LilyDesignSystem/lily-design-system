@@ -25,15 +25,26 @@ This component is useful in upload forms, profile editors, document management i
 ## Usage
 
 ```svelte
-<FileInput label="Upload photo" accept="image/*" />
+<FileInput
+  label="Upload photo"
+  accept="image/*"
+/>
 ```
 
 ```svelte
-<FileInput label="Attach documents" accept=".pdf,.doc,.docx" multiple={true} />
+<FileInput
+  label="Attach documents"
+  accept=".pdf,.doc,.docx"
+  multiple={true}
+/>
 ```
 
 ```svelte
-<FileInput label="Profile picture" accept="image/png,image/jpeg" required={true} />
+<FileInput
+  label="Profile picture"
+  accept="image/png,image/jpeg"
+  required={true}
+/>
 ```
 
 ## Keyboard Interactions

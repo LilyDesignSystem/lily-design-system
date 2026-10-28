@@ -37,7 +37,7 @@
 | Prop           | Type            | Default    | Description                                  |
 | -------------- | --------------- | ---------- | -------------------------------------------- |
 | `label`        | `string`        | (required) | Accessible label via `aria-label`            |
-| `children`     | `slot`       | (required) | Timeline items (should be `<li>` elements)   |
+| `children`     | `slot`          | (required) | Timeline items (should be `<li>` elements)   |
 | `...restProps` | HTML attributes |            | Additional attributes spread onto the `<ol>` |
 
 ## Acceptance Criteria

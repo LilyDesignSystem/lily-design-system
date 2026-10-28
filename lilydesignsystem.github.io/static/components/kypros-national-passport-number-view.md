@@ -22,7 +22,7 @@ KyprosNationalPassportNumberView is a headless read-only display of Kypros's Nat
 ```html
 <SummaryList>
   <SummaryListItem term="National Passport Number">
-    <KyprosNationalPassportNumberView value={value} />
+    <KyprosNationalPassportNumberView value="{value}" />
   </SummaryListItem>
 </SummaryList>
 ```

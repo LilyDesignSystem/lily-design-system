@@ -23,10 +23,10 @@ It does not cover the monorepo directory layout or git-subtree model (see [archi
 
 Lily is organised as two complementary layers — each component exists once in the canonical catalog and is realised in both.
 
-| Layer | Ships | Owns | Does not own |
-| --- | --- | --- | --- |
-| **Headless** | Semantic markup, ARIA, focus management, keyboard behaviour, class hooks, `data-*` state | Accessibility and structure | Colour, spacing, typography, breakpoints, fonts, icons, stylesheets |
-| **Example** | Complete styled reference apps with a full stylesheet, real text, working app shells | Every visual decision and every string | Nothing imposed on consumers — examples are demonstrations |
+| Layer        | Ships                                                                                    | Owns                                   | Does not own                                                        |
+| ------------ | ---------------------------------------------------------------------------------------- | -------------------------------------- | ------------------------------------------------------------------- |
+| **Headless** | Semantic markup, ARIA, focus management, keyboard behaviour, class hooks, `data-*` state | Accessibility and structure            | Colour, spacing, typography, breakpoints, fonts, icons, stylesheets |
+| **Example**  | Complete styled reference apps with a full stylesheet, real text, working app shells     | Every visual decision and every string | Nothing imposed on consumers — examples are demonstrations          |
 
 The headless layer is the contract; the example layer is the proof. Adopters can see the system working end-to-end before committing.
 
@@ -54,25 +54,25 @@ The headless layer is the contract; the example layer is the proof. Adopters can
 
 ## Key facts
 
-| Fact | Value |
-| --- | --- |
-| Canonical components | 581 |
-| Headless libraries | 7 (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks) |
-| Example applications | 7 (HTML+CSS+JS, SvelteKit, Next.js, Nuxt.js, Angular Analog, Blazor Web, Nunjucks Eleventy) |
-| Accessibility target | WCAG 2.2 AAA; WAI-ARIA APG 1.2 |
-| Default visual reference (examples) | NHS UK design system applied to Lily class names |
-| Canonical catalog file | `components.tsv` (tab-separated: slug, PascalCase name, description) |
+| Fact                                | Value                                                                                       |
+| ----------------------------------- | ------------------------------------------------------------------------------------------- |
+| Canonical components                | 581                                                                                         |
+| Headless libraries                  | 7 (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks)                                     |
+| Example applications                | 7 (HTML+CSS+JS, SvelteKit, Next.js, Nuxt.js, Angular Analog, Blazor Web, Nunjucks Eleventy) |
+| Accessibility target                | WCAG 2.2 AAA; WAI-ARIA APG 1.2                                                              |
+| Default visual reference (examples) | NHS UK design system applied to Lily class names                                            |
+| Canonical catalog file              | `components.tsv` (tab-separated: slug, PascalCase name, description)                        |
 
 ## Tracking
 
-| Field | Value |
-| --- | --- |
-| Package | lily |
-| Version | 0.4.0 |
-| Created | 2025-08-09 |
-| Updated | 2026-05-30 |
+| Field   | Value                                                                                |
+| ------- | ------------------------------------------------------------------------------------ |
+| Package | lily                                                                                 |
+| Version | 0.4.0                                                                                |
+| Created | 2025-08-09                                                                           |
+| Updated | 2026-05-30                                                                           |
 | License | MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause (or contact for other terms) |
-| Contact | Joel Parker Henderson <joel@joelparkerhenderson.com> |
+| Contact | Joel Parker Henderson <joel@joelparkerhenderson.com>                                 |
 
 ## Acceptance criteria
 

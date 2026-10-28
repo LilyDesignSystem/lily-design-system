@@ -37,7 +37,7 @@ is held to.
   `@lilydesignsystem/react-headless` in a React application — install,
   import, JSX conventions (`className`, rest-props spreading,
   controlled `value`/`onChange` and `open`/`onChange` patterns) — for
-  people building *with* it.
+  people building _with_ it.
 - **Isn't**: the React headless library itself (that's
   [`@lilydesignsystem/react-headless`](../lily-design-system-react-headless/),
   which ships the actual components), isn't the general

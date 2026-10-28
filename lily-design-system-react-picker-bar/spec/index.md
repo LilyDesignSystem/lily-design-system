@@ -32,7 +32,10 @@ DOM application beyond what the five wrapped pickers already do —
 ## 3. HTML
 
 ```html
-<div class="picker-bar {className}" ...restProps>
+<div
+  class="picker-bar {className}"
+  ...restProps
+>
   <div class="search-picker">…</div>
   <div class="theme-picker">…</div>
   <div class="locale-picker">…</div>
@@ -48,20 +51,20 @@ markup of its own beyond the root wrapper.
 
 ## 4. Props
 
-| Prop            | Type                                | Required | Default              |
-| --------------- | ------------------------------------ | -------- | --------------------- |
-| `labels`         | `{ search, searchInput, searchSubmit, theme, locale, textSize, share }` | yes | — |
-| `searchProps`    | `Partial<SearchPicker Props>`        | no       | `{}`                   |
-| `themesUrl`      | `string`                             | yes      | —                      |
-| `themes`         | `string[]`                           | no       | `DEFAULT_THEMES` (§5.1) |
-| `themeProps`     | `Partial<ThemePicker Props>`         | no       | `{}`                   |
-| `locales`        | `string[]`                           | yes      | —                      |
-| `localeProps`    | `Partial<LocalePicker Props>`        | no       | `{}`                   |
-| `sizes`          | `string[]`                           | no       | `DEFAULT_SIZES` (§5.2)  |
-| `textSizeProps`  | `Partial<TextSizePicker Props>`      | no       | `{}`                   |
-| `shareTargets`   | `ShareTarget[]`                      | no       | `[]`                   |
-| `shareProps`     | `Partial<SharePicker Props>`         | no       | `{}`                   |
-| `className`      | `string`                             | no       | `""`                   |
+| Prop            | Type                                                                    | Required | Default                 |
+| --------------- | ----------------------------------------------------------------------- | -------- | ----------------------- |
+| `labels`        | `{ search, searchInput, searchSubmit, theme, locale, textSize, share }` | yes      | —                       |
+| `searchProps`   | `Partial<SearchPicker Props>`                                           | no       | `{}`                    |
+| `themesUrl`     | `string`                                                                | yes      | —                       |
+| `themes`        | `string[]`                                                              | no       | `DEFAULT_THEMES` (§5.1) |
+| `themeProps`    | `Partial<ThemePicker Props>`                                            | no       | `{}`                    |
+| `locales`       | `string[]`                                                              | yes      | —                       |
+| `localeProps`   | `Partial<LocalePicker Props>`                                           | no       | `{}`                    |
+| `sizes`         | `string[]`                                                              | no       | `DEFAULT_SIZES` (§5.2)  |
+| `textSizeProps` | `Partial<TextSizePicker Props>`                                         | no       | `{}`                    |
+| `shareTargets`  | `ShareTarget[]`                                                         | no       | `[]`                    |
+| `shareProps`    | `Partial<SharePicker Props>`                                            | no       | `{}`                    |
+| `className`     | `string`                                                                | no       | `""`                    |
 
 `labels` carries the seven accessible names as one object, following
 `date-time-picker`'s precedent (AGENTS/helpers.md): structural labels
@@ -171,7 +174,6 @@ app supplies them:
 - §L2 With `links` omitted or empty, or `labels.link` missing, no link picker renders and search is first (§7.2 and the search clause unchanged).
 - §L3 `linkProps` reaches the nested `LinkPicker` (`navigate`).
 - §L4 The links are real `<a href>` elements (not a menu).
-
 
 ## 8. Relationship to the six `*-picker` helpers
 

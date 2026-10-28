@@ -22,7 +22,10 @@ TurkiyeTcKimlikNumarasiView is a headless read-only display of Turkey's T.C. Kim
 ```html
 <SummaryList>
   <SummaryListItem term="T.C. Kimlik Numarası">
-    <TurkiyeTcKimlikNumarasiView label="T.C. Kimlik Numarası" value={value} />
+    <TurkiyeTcKimlikNumarasiView
+      label="T.C. Kimlik Numarası"
+      value="{value}"
+    />
   </SummaryListItem>
 </SummaryList>
 ```

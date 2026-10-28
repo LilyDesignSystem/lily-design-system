@@ -10,12 +10,19 @@ See [components/wheel-picker/index.md](../../../../../components/wheel-picker/in
 
 ```svelte
 <script lang="ts">
-    import WheelPicker from "./WheelPicker.svelte";
-    let month = $state("2");
-    const months = [{ value: "1", label: "January" }, { value: "2", label: "February" }];
+  import WheelPicker from "./WheelPicker.svelte";
+  let month = $state("2");
+  const months = [
+    { value: "1", label: "January" },
+    { value: "2", label: "February" },
+  ];
 </script>
 
-<WheelPicker label="Month" options={months} bind:value={month} />
+<WheelPicker
+  label="Month"
+  options={months}
+  bind:value={month}
+/>
 ```
 
 ## Files

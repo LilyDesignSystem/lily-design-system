@@ -95,7 +95,7 @@
     <p>| Prop           | Type            | Default    | Description                                  |</p>
     <p>| -------------- | --------------- | ---------- | -------------------------------------------- |</p>
     <p>| <code>label</code>        | <code>string</code>        | (required) | Accessible label via <code>aria-label</code>            |</p>
-    <p>| <code>children</code>     | <code>slot</code>       | (required) | Timeline items (should be <code>&lt;li&gt;</code> elements)   |</p>
+    <p>| <code>children</code>     | <code>slot</code>          | (required) | Timeline items (should be <code>&lt;li&gt;</code> elements)   |</p>
     <p>| <code>...restProps</code> | HTML attributes |            | Additional attributes spread onto the <code>&lt;ol&gt;</code> |</p>
 </section>
 <!-- END generated: canonical contract -->

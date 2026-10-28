@@ -12,7 +12,10 @@ A box area that looks like a tablet computer in portrait mode. Renders a decorat
 
 ```tsx
 <MockupTabletPortrait>
-  <img src="screenshot.png" alt="App screen" />
+  <img
+    src="screenshot.png"
+    alt="App screen"
+  />
 </MockupTabletPortrait>
 ```
 

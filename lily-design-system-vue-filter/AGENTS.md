@@ -10,14 +10,14 @@ MongoDB, OData or a predicate. Ships no CSS and no English text. Use `v-model` f
 
 ## Files
 
-| File | Purpose |
-| ---- | ------- |
-| `Filter.vue` | The component. |
-| `FilterGroupView.vue` | One group, recursively; reads the context from `filter-context.ts`. |
-| `filter-context.ts` | Labels type, the shared context and small helpers. |
-| `Filter.test.ts` | Vitest spec, one test per Svelte §8 clause. |
-| `filter-model.ts`, `search-text.ts` (+ tests) | Pure model, copied from `shared/`. |
-| `index.ts` | Barrel re-export. |
+| File                                          | Purpose                                                             |
+| --------------------------------------------- | ------------------------------------------------------------------- |
+| `Filter.vue`                                  | The component.                                                      |
+| `FilterGroupView.vue`                         | One group, recursively; reads the context from `filter-context.ts`. |
+| `filter-context.ts`                           | Labels type, the shared context and small helpers.                  |
+| `Filter.test.ts`                              | Vitest spec, one test per Svelte §8 clause.                         |
+| `filter-model.ts`, `search-text.ts` (+ tests) | Pure model, copied from `shared/`.                                  |
+| `index.ts`                                    | Barrel re-export.                                                   |
 
 ## Rules
 

@@ -21,7 +21,9 @@ ZhongguoJuminShenfenzhengHaomaInput is a headless placeholder component, generat
 ## Usage
 
 ```html
-<ZhongguoJuminShenfenzhengHaomaInput label="ZhongguoJuminShenfenzhengHaomaInput example">Content</ZhongguoJuminShenfenzhengHaomaInput>
+<ZhongguoJuminShenfenzhengHaomaInput label="ZhongguoJuminShenfenzhengHaomaInput example"
+  >Content</ZhongguoJuminShenfenzhengHaomaInput
+>
 ```
 
 ## Keyboard Interactions

@@ -33,7 +33,7 @@ to.
 Its subject matter is narrower than
 [`lily-design-system-skill`](../lily-design-system-skill/)'s: where that
 skill covers Lily's concepts across all seven frameworks, this one is
-scoped to what is actually different about consuming Lily *in Angular* —
+scoped to what is actually different about consuming Lily _in Angular_ —
 standalone components, signal inputs, `OnPush`, and above all the
 tag+attribute-selector convention the 51 list-item and table sub-element
 components use so a required parent-child content-model relationship
@@ -42,7 +42,7 @@ components use so a required parent-child content-model relationship
 
 ## What this subproject is, and isn't
 
-- **Is**: a distributable skill scoped to *consuming*
+- **Is**: a distributable skill scoped to _consuming_
   `@lilydesignsystem/angular-headless` — installation, the Angular
   standalone-component idiom, the element-selector and
   tag+attribute-selector conventions, and theming/class hooks — portable to

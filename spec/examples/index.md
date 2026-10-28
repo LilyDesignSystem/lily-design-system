@@ -18,35 +18,35 @@ Covers the seven example apps (HTML+CSS+JS, SvelteKit, Next.js, Nuxt.js, Angular
 
 ## Styling and tokens
 
-| Concern             | Rule                                                                     |
-| ------------------- | ------------------------------------------------------------------------ |
-| Stylesheet          | Complete; ships with the app                                             |
-| Visual reference    | NHS UK design system (default), applied to Lily class names              |
-| Selectors           | Kebab-case Lily base classes; no framework prefixes in markup            |
-| Design tokens       | CSS custom properties (colour, spacing, typography, breakpoints, focus)  |
-| Alternative themes  | Parallel `theme-*` layers (GOV.UK, USWDS, Protocol, Spectrum)            |
-| CSS framework       | None — no Tailwind / DaisyUI / Bootstrap                                  |
+| Concern            | Rule                                                                    |
+| ------------------ | ----------------------------------------------------------------------- |
+| Stylesheet         | Complete; ships with the app                                            |
+| Visual reference   | NHS UK design system (default), applied to Lily class names             |
+| Selectors          | Kebab-case Lily base classes; no framework prefixes in markup           |
+| Design tokens      | CSS custom properties (colour, spacing, typography, breakpoints, focus) |
+| Alternative themes | Parallel `theme-*` layers (GOV.UK, USWDS, Protocol, Spectrum)           |
+| CSS framework      | None — no Tailwind / DaisyUI / Bootstrap                                |
 
 ## Required routes
 
 Every example subproject ships these three routes.
 
-| Route                | Purpose                                                                                  |
-| -------------------- | ---------------------------------------------------------------------------------------- |
-| `/`                  | Home page welcoming the visitor, explaining the project, linking to the index and demos. |
-| `/components`        | Components index listing all 581 catalog entries; searchable / filterable; links to each detail page. |
+| Route                | Purpose                                                                                                                                                                        |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `/`                  | Home page welcoming the visitor, explaining the project, linking to the index and demos.                                                                                       |
+| `/components`        | Components index listing all 581 catalog entries; searchable / filterable; links to each detail page.                                                                          |
 | `/components/{slug}` | One detail page per component: renders a single component (not a grid), shows a usable demo, and surfaces canonical metadata (description, props, ARIA, keyboard, references). |
 
 ## Composed-page demos
 
 Composed pages exercise multiple components together to validate the system as a whole. They are encouraged on top of the required routes, not required.
 
-| Composed route             | Composed route             | Composed route             |
-| -------------------------- | -------------------------- | -------------------------- |
-| `/dashboard`               | `/contact-form`            | `/page-layout`             |
-| `/timeline-and-cards`      | `/dialog-flow`             | `/file-upload-form`        |
-| `/navigation-and-menus`    | `/rating-and-feedback`     | `/search-and-filter`       |
-| `/settings-page`           | `/tabbed-interface`        | `/task-management`         |
+| Composed route          | Composed route         | Composed route       |
+| ----------------------- | ---------------------- | -------------------- |
+| `/dashboard`            | `/contact-form`        | `/page-layout`       |
+| `/timeline-and-cards`   | `/dialog-flow`         | `/file-upload-form`  |
+| `/navigation-and-menus` | `/rating-and-feedback` | `/search-and-filter` |
+| `/settings-page`        | `/tabbed-interface`    | `/task-management`   |
 
 ### Composed-page parity matrix
 
@@ -54,20 +54,20 @@ All 7 example apps ship all 12 composed routes as of 2026-08-29 (plan
 P6-T1). `nunjucks-eleventy-examples` had none until then; the other six
 already had full coverage.
 
-| Route                    | html-css-js | svelte-sveltekit | react-next | vue-nuxt | angular | blazor-web | nunjucks-eleventy |
-| ------------------------ | :---------: | :---------------: | :--------: | :------: | :-----: | :--------: | :---------------: |
-| `/contact-form`          | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| `/dashboard`             | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| `/dialog-flow`           | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| `/file-upload-form`      | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| `/navigation-and-menus`  | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| `/page-layout`           | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| `/rating-and-feedback`   | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| `/search-and-filter`     | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| `/settings-page`         | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| `/tabbed-interface`      | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| `/task-management`       | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| `/timeline-and-cards`    | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Route                   | html-css-js | svelte-sveltekit | react-next | vue-nuxt | angular | blazor-web | nunjucks-eleventy |
+| ----------------------- | :---------: | :--------------: | :--------: | :------: | :-----: | :--------: | :---------------: |
+| `/contact-form`         |     ✅      |        ✅        |     ✅     |    ✅    |   ✅    |     ✅     |        ✅         |
+| `/dashboard`            |     ✅      |        ✅        |     ✅     |    ✅    |   ✅    |     ✅     |        ✅         |
+| `/dialog-flow`          |     ✅      |        ✅        |     ✅     |    ✅    |   ✅    |     ✅     |        ✅         |
+| `/file-upload-form`     |     ✅      |        ✅        |     ✅     |    ✅    |   ✅    |     ✅     |        ✅         |
+| `/navigation-and-menus` |     ✅      |        ✅        |     ✅     |    ✅    |   ✅    |     ✅     |        ✅         |
+| `/page-layout`          |     ✅      |        ✅        |     ✅     |    ✅    |   ✅    |     ✅     |        ✅         |
+| `/rating-and-feedback`  |     ✅      |        ✅        |     ✅     |    ✅    |   ✅    |     ✅     |        ✅         |
+| `/search-and-filter`    |     ✅      |        ✅        |     ✅     |    ✅    |   ✅    |     ✅     |        ✅         |
+| `/settings-page`        |     ✅      |        ✅        |     ✅     |    ✅    |   ✅    |     ✅     |        ✅         |
+| `/tabbed-interface`     |     ✅      |        ✅        |     ✅     |    ✅    |   ✅    |     ✅     |        ✅         |
+| `/task-management`      |     ✅      |        ✅        |     ✅     |    ✅    |   ✅    |     ✅     |        ✅         |
+| `/timeline-and-cards`   |     ✅      |        ✅        |     ✅     |    ✅    |   ✅    |     ✅     |        ✅         |
 
 nunjucks-eleventy's 12 pages were ported from html-css-js's markup
 (the closest architectural match — static markup + inline vanilla
@@ -105,12 +105,12 @@ stub `<Name />` usage):
 
 ### Data sources
 
-| Source | Role |
-| ------ | ---- |
-| `components.tsv` | slug, name, description. |
-| `lily-design-system-svelte-sveltekit-examples/src/lib/data/component-demos.ts` | Canonical demo HTML per slug; `bin/generate-registries` copies it to the other apps. |
-| `component-variants.json` (repo root) | Hand-curated extra states: `{ slug: [{ title, html }] }`. Avoid element ids (they would collide with the main demo's). |
-| `component-examples.ts` / `ComponentExamples.cs` / the HTML app's `componentExamples` region / the Eleventy pages' generated region | **Generated** by `bin/generate-examples`: `usage` plus `variants` per slug. Never edit by hand. |
+| Source                                                                                                                              | Role                                                                                                                   |
+| ----------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `components.tsv`                                                                                                                    | slug, name, description.                                                                                               |
+| `lily-design-system-svelte-sveltekit-examples/src/lib/data/component-demos.ts`                                                      | Canonical demo HTML per slug; `bin/generate-registries` copies it to the other apps.                                   |
+| `component-variants.json` (repo root)                                                                                               | Hand-curated extra states: `{ slug: [{ title, html }] }`. Avoid element ids (they would collide with the main demo's). |
+| `component-examples.ts` / `ComponentExamples.cs` / the HTML app's `componentExamples` region / the Eleventy pages' generated region | **Generated** by `bin/generate-examples`: `usage` plus `variants` per slug. Never edit by hand.                        |
 
 ### Where usage comes from
 
@@ -124,14 +124,14 @@ Variants are the curated ones plus, for every chart whose demo has a data table,
 
 ### Render mechanism per framework
 
-| Framework | Mechanism                  |
-| --------- | -------------------------- |
-| HTML/JS   | `element.innerHTML = demo` |
-| Svelte    | `{@html demo}`             |
-| React     | `dangerouslySetInnerHTML`  |
-| Vue       | `v-html` directive         |
-| Angular   | `[innerHTML]` with `bypassSecurityTrustHtml` |
-| Blazor    | `MarkupString`             |
+| Framework | Mechanism                                                                       |
+| --------- | ------------------------------------------------------------------------------- |
+| HTML/JS   | `element.innerHTML = demo`                                                      |
+| Svelte    | `{@html demo}`                                                                  |
+| React     | `dangerouslySetInnerHTML`                                                       |
+| Vue       | `v-html` directive                                                              |
+| Angular   | `[innerHTML]` with `bypassSecurityTrustHtml`                                    |
+| Blazor    | `MarkupString`                                                                  |
 | Nunjucks  | `{{ demo \| safe }}` (the Eleventy pages append a generated `{% raw %}` region) |
 
 ### Docs-site pages
@@ -155,6 +155,7 @@ ships a placeholder page.
 - WCAG 2.2 AAA is the target. See [accessibility](../accessibility/index.md) and [testing](../testing/index.md) for the axe-core baseline.
 
 ## Acceptance criteria
+
 - [x] All 7 example subprojects ship a complete stylesheet with no CSS-framework dependency. Verified 2026-09-06: no `tailwind`/`bootstrap`/`daisyui`/`bulma`/`foundation-sites` dependency in any of the 6 JS/npm example apps' `package.json`, and no such reference in the Blazor app's `.csproj`.
 - [x] CSS targets kebab-case Lily class names directly; no `nhsuk-` or other prefixes appear in markup. Verified 2026-09-06: no `class="nhsuk-..."` (or framework equivalent) found anywhere across the 6 markup-bearing example apps. Note: `nunjucks-eleventy-examples` does use `--nhsuk-*` CSS **custom-property** names (not classes) as inline-style values in a couple of demo pages (`grid.njk`, `skip-link.njk`, others) that borrow NHS UK frontend's own token names for illustration — this doesn't violate the class-name contract as worded, but is worth a maintainer glance since it's a different kind of "nhsuk-" leakage than the rule was written against.
 - [x] Design tokens are expressed as CSS custom properties. Confirmed by the `--theme-*` / `--nhsuk-*` custom-property usage found above and the established `themes/` architecture (`AGENTS/theme.md`, spec/theme).
@@ -173,6 +174,7 @@ ships a placeholder page.
   theme's light text lands on it (found 2026-10-06 when a usage block was first shown open).
 
 ## Related topics
+
 - [headless](../headless/index.md) — the unstyled layer examples consume and style.
 - [theme](../theme/index.md) — token shape and `data-theme` light/dark variants.
 - [testing](../testing/index.md) — Playwright e2e, axe-core, and responsive sweep across example apps.
@@ -180,6 +182,7 @@ ships a placeholder page.
 - [accessibility](../accessibility/index.md) — the WCAG 2.2 AAA contract examples must meet.
 
 ## Sources
+
 - [AGENTS/examples.md](../../AGENTS/examples.md)
 - [spec/index.md](../index.md) — §4.5 (Examples), §8.2 (demo strategy), §11.5 (axe), §11.6 (responsive sweep)
 

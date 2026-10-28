@@ -27,22 +27,25 @@ This headless component uses a `<pre>` element to preserve whitespace and format
 Inline code within a paragraph, paired with a code block for a full example:
 
 ```html
-<p>Add the <Code>.button</Code> class to your element.</p>
+<p>Add the <code>.button</code> class to your element.</p>
 
-<CodeBlock label="Button markup example" lineNumbers>
-  <code>&lt;button class="button" type="submit"&gt;
-  Save and continue
-&lt;/button&gt;</code>
+<CodeBlock
+  label="Button markup example"
+  lineNumbers
+>
+  <code>&lt;button class="button" type="submit"&gt; Save and continue &lt;/button&gt;</code>
 </CodeBlock>
 ```
 
 Highlighting a specific line in a code block:
 
 ```html
-<CodeBlock label="JavaScript greeting function" lineNumbers highlightLines="2">
-  <code>function greet(name) {
-  return `Hello, ${name}!`;
-}</code>
+<CodeBlock
+  label="JavaScript greeting function"
+  lineNumbers
+  highlightLines="2"
+>
+  <code>function greet(name) { return `Hello, ${name}!`; }</code>
 </CodeBlock>
 ```
 

@@ -24,11 +24,13 @@ This headless component renders a `<fieldset>` containing two native `<input typ
 
 ```tsx
 <DateRange
-    label="Trip dates"
-    startLabel="Departure"
-    endLabel="Return"
-    start={startDate} onStartChange={setStartDate}
-    end={endDate} onEndChange={setEndDate}
+  label="Trip dates"
+  startLabel="Departure"
+  endLabel="Return"
+  start={startDate}
+  onStartChange={setStartDate}
+  end={endDate}
+  onEndChange={setEndDate}
 />
 ```
 

@@ -22,27 +22,39 @@ The component supports a `disabled` prop that disables all child form controls a
 ## Usage
 
 ```html
-<Fieldset legend="What is your address?">
+<fieldset legend="What is your address?">
   <Field label="Address line 1">
-    <TextInput label="Address line 1" autocomplete="address-line1" />
+    <TextInput
+      label="Address line 1"
+      autocomplete="address-line1"
+    />
   </Field>
   <Field label="Address line 2 (optional)">
-    <TextInput label="Address line 2" autocomplete="address-line2" />
+    <TextInput
+      label="Address line 2"
+      autocomplete="address-line2"
+    />
   </Field>
   <Field label="Town or city">
-    <TextInput label="Town or city" autocomplete="address-level2" />
+    <TextInput
+      label="Town or city"
+      autocomplete="address-level2"
+    />
   </Field>
   <Field label="Postcode">
-    <TextInput label="Postcode" autocomplete="postal-code" />
+    <TextInput
+      label="Postcode"
+      autocomplete="postal-code"
+    />
   </Field>
-</Fieldset>
+</fieldset>
 ```
 
 ```html
-<Fieldset legend="What is your date of birth?">
+<fieldset legend="What is your date of birth?">
   <Hint>For example, 15 3 1984</Hint>
   <DateInput label="Date of birth" />
-</Fieldset>
+</fieldset>
 ```
 
 ## Keyboard Interactions
@@ -71,14 +83,11 @@ None -- this component is a passive container. Keyboard interactions are determi
 
 This headless component provides native `<fieldset>` and `<legend>` elements with built-in group semantics for screen readers. The `disabled` attribute natively disables all descendant form controls. The consumer provides all visual styling for the fieldset border, legend appearance, and internal layout.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.fieldset` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<fieldset>` element with class `fieldset`
 - Verify pass-through attributes are applied

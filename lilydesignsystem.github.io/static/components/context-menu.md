@@ -26,22 +26,56 @@ This component manages menu visibility, keyboard navigation, and focus. When ope
 Context menu with ContextMenuItem children:
 
 ```html
-<ContextMenu label="Text actions" open={isContextMenuOpen}>
-    <ContextMenuItem onclick={() => handleCut()}>Cut</ContextMenuItem>
-    <ContextMenuItem onclick={() => handleCopy()}>Copy</ContextMenuItem>
-    <ContextMenuItem onclick={() => handlePaste()}>Paste</ContextMenuItem>
+<ContextMenu
+  label="Text actions"
+  open="{isContextMenuOpen}"
+>
+  <ContextMenuItem
+    onclick="{()"
+    =""
+  >
+    handleCut()}>Cut</ContextMenuItem
+  >
+  <ContextMenuItem
+    onclick="{()"
+    =""
+  >
+    handleCopy()}>Copy</ContextMenuItem
+  >
+  <ContextMenuItem
+    onclick="{()"
+    =""
+  >
+    handlePaste()}>Paste</ContextMenuItem
+  >
 </ContextMenu>
 ```
 
 Triggered on right-click of a target element:
 
 ```html
-<div oncontextmenu={(e) => { e.preventDefault(); isContextMenuOpen = true; }}>
-    Right-click this area for options
+<div
+  oncontextmenu="{(e)"
+  =""
+>
+  { e.preventDefault(); isContextMenuOpen = true; }}> Right-click this area for options
 </div>
-<ContextMenu label="Item actions" open={isContextMenuOpen}>
-    <ContextMenuItem onclick={() => handleEdit()}>Edit</ContextMenuItem>
-    <ContextMenuItem onclick={() => handleDelete()}>Delete</ContextMenuItem>
+<ContextMenu
+  label="Item actions"
+  open="{isContextMenuOpen}"
+>
+  <ContextMenuItem
+    onclick="{()"
+    =""
+  >
+    handleEdit()}>Edit</ContextMenuItem
+  >
+  <ContextMenuItem
+    onclick="{()"
+    =""
+  >
+    handleDelete()}>Delete</ContextMenuItem
+  >
 </ContextMenu>
 ```
 
@@ -75,14 +109,11 @@ Triggered on right-click of a target element:
 
 This headless ContextMenu component provides a `<div>` with `role="menu"` and `aria-label`, automatic focus management (first item receives focus on open), keyboard navigation with ArrowUp/ArrowDown wrapping, Home/End, and Escape to close. The consumer provides all visual styling including positioning near the pointer, background, borders, shadows, and item appearance.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.context-menu` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `context-menu`
 - Verify role="menu"` -- identifies the container as a menu widget

@@ -61,7 +61,10 @@ Disabled menu item:
 Submenu trigger:
 
 ```svelte
-<MenuItem aria-haspopup="true" aria-expanded={submenuOpen}>Recent Files</MenuItem>
+<MenuItem
+  aria-haspopup="true"
+  aria-expanded={submenuOpen}>Recent Files</MenuItem
+>
 ```
 
 ## Keyboard Interactions

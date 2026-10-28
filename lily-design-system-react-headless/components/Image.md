@@ -23,14 +23,31 @@ When a caption is provided, the component renders a `<figure>` containing the `<
 ## Usage
 
 ```tsx
-{/* Basic image with alt text */}
-<Image src="/photo.jpg" alt="A sunset over the ocean" />
+{
+  /* Basic image with alt text */
+}
+<Image
+  src="/photo.jpg"
+  alt="A sunset over the ocean"
+/>;
 
-{/* Image with caption wrapped in figure/figcaption */}
-<Image src="/photo.jpg" alt="A sunset over the ocean" caption="Photo by Jane Doe" />
+{
+  /* Image with caption wrapped in figure/figcaption */
+}
+<Image
+  src="/photo.jpg"
+  alt="A sunset over the ocean"
+  caption="Photo by Jane Doe"
+/>;
 
-{/* Lazy-loaded image */}
-<Image src="/large-photo.jpg" alt="Landscape" loading="lazy" />
+{
+  /* Lazy-loaded image */
+}
+<Image
+  src="/large-photo.jpg"
+  alt="Landscape"
+  loading="lazy"
+/>;
 ```
 
 ## Keyboard Interactions

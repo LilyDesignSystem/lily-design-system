@@ -28,13 +28,20 @@ The component tracks a `copied` state that automatically resets after 2 seconds.
 Copy a URL to the clipboard:
 
 ```html
-<ClipboardCopyButton text="https://example.com" label="Copy link" />
+<ClipboardCopyButton
+  text="https://example.com"
+  label="Copy link"
+/>
 ```
 
 Copy button with custom content and success callback:
 
 ```html
-<ClipboardCopyButton text={code} label="Copy code" onsuccess={handleCopied}>
+<ClipboardCopyButton
+  text="{code}"
+  label="Copy code"
+  onsuccess="{handleCopied}"
+>
   Copy to clipboard
 </ClipboardCopyButton>
 ```
@@ -44,7 +51,10 @@ Copy button next to a reference number:
 ```html
 <div class="reference-row">
   <span>Booking ref: <strong>ABC-12345</strong></span>
-  <ClipboardCopyButton text="ABC-12345" label="Copy booking reference" />
+  <ClipboardCopyButton
+    text="ABC-12345"
+    label="Copy booking reference"
+  />
 </div>
 ```
 
@@ -71,18 +81,49 @@ the visible command. Each panel has its own button so the accessible name can sa
 
 ```html
 <TabBar label="Install with">
-  <TabBarButton id="pm-pnpm" selected controls="pm-pnpm-panel">pnpm</TabBarButton>
-  <TabBarButton id="pm-npm" controls="pm-npm-panel">npm</TabBarButton>
-  <TabBarButton id="pm-yarn" controls="pm-yarn-panel">yarn</TabBarButton>
-  <TabBarButton id="pm-bun" controls="pm-bun-panel">bun</TabBarButton>
+  <TabBarButton
+    id="pm-pnpm"
+    selected
+    controls="pm-pnpm-panel"
+    >pnpm</TabBarButton
+  >
+  <TabBarButton
+    id="pm-npm"
+    controls="pm-npm-panel"
+    >npm</TabBarButton
+  >
+  <TabBarButton
+    id="pm-yarn"
+    controls="pm-yarn-panel"
+    >yarn</TabBarButton
+  >
+  <TabBarButton
+    id="pm-bun"
+    controls="pm-bun-panel"
+    >bun</TabBarButton
+  >
 </TabBar>
-<TabPanel id="pm-pnpm-panel" labelledBy="pm-pnpm" selected>
-  <Code>pnpm add @lilydesignsystem/svelte-headless</Code>
-  <ClipboardCopyButton text="pnpm add @lilydesignsystem/svelte-headless" label="Copy the pnpm command" />
+<TabPanel
+  id="pm-pnpm-panel"
+  labelledBy="pm-pnpm"
+  selected
+>
+  <code>pnpm add @lilydesignsystem/svelte-headless</code>
+  <ClipboardCopyButton
+    text="pnpm add @lilydesignsystem/svelte-headless"
+    label="Copy the pnpm command"
+  />
 </TabPanel>
-<TabPanel id="pm-npm-panel" labelledBy="pm-npm" selected={false}>
-  <Code>npm install @lilydesignsystem/svelte-headless</Code>
-  <ClipboardCopyButton text="npm install @lilydesignsystem/svelte-headless" label="Copy the npm command" />
+<TabPanel
+  id="pm-npm-panel"
+  labelledBy="pm-npm"
+  selected="{false}"
+>
+  <code>npm install @lilydesignsystem/svelte-headless</code>
+  <ClipboardCopyButton
+    text="npm install @lilydesignsystem/svelte-headless"
+    label="Copy the npm command"
+  />
 </TabPanel>
 ```
 
@@ -116,14 +157,11 @@ your own state; a selection may be remembered in `localStorage` so every install
 
 This headless ClipboardCopyButton component provides a `<button>` with `aria-label`, Clipboard API integration (`navigator.clipboard.writeText`), automatic `copied` state tracking with 2-second reset, and `data-copied` attribute for styling hooks. The consumer provides all visual styling including button appearance, copy/success icons, tooltip feedback, and animations.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.clipboard-copy-button` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<button>` element with class `clipboard-copy-button`
 - Verify aria-label` -- describes the copy action for screen readers

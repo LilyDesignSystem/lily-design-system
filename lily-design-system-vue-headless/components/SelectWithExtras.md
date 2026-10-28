@@ -27,7 +27,10 @@ Use SelectWithExtras when you need a native select dropdown with additional visu
 ## Usage
 
 ```svelte
-<SelectWithExtras label="Country" bind:value>
+<SelectWithExtras
+  label="Country"
+  bind:value
+>
   {#snippet before()}<span>Flag:</span>{/snippet}
   <option value="us">USA</option>
   <option value="uk">United Kingdom</option>

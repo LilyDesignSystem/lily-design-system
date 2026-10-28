@@ -24,21 +24,36 @@ When activated, the button toggles the visibility of a navigation region contain
 ## Usage
 
 ```tsx
-<HamburgerMenu label="Main menu" open={isOpen} onChange={setIsOpen}>
+<HamburgerMenu
+  label="Main menu"
+  open={isOpen}
+  onChange={setIsOpen}
+>
   <nav>
     <ul>
-      <li><a href="/">Home</a></li>
-      <li><a href="/about">About</a></li>
+      <li>
+        <a href="/">Home</a>
+      </li>
+      <li>
+        <a href="/about">About</a>
+      </li>
     </ul>
   </nav>
 </HamburgerMenu>
 ```
 
 ```tsx
-<HamburgerMenu open={menuOpen} onChange={setMenuOpen}>
+<HamburgerMenu
+  open={menuOpen}
+  onChange={setMenuOpen}
+>
   <ul>
-    <li><a href="/dashboard">Dashboard</a></li>
-    <li><a href="/settings">Settings</a></li>
+    <li>
+      <a href="/dashboard">Dashboard</a>
+    </li>
+    <li>
+      <a href="/settings">Settings</a>
+    </li>
   </ul>
 </HamburgerMenu>
 ```

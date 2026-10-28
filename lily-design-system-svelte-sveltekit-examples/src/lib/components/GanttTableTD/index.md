@@ -40,83 +40,83 @@ Inside a `GanttTableTr`, place one `GanttTableTD` per time-period column. Set `a
 
 ```svelte
 <script lang="ts">
-    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
-    import GanttTableTD from "./GanttTableTD.svelte";
+  import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
+  import GanttTableTD from "./GanttTableTD.svelte";
 </script>
 
 <GanttTableTr>
-    <th>Task A</th>
-    <GanttTableTD active>---</GanttTableTD>
-    <GanttTableTD />
-    <GanttTableTD />
+  <th>Task A</th>
+  <GanttTableTD active>---</GanttTableTD>
+  <GanttTableTD />
+  <GanttTableTD />
 </GanttTableTr>
 ```
 
 ```svelte
 <script lang="ts">
-    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
-    import GanttTableTD from "./GanttTableTD.svelte";
+  import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
+  import GanttTableTD from "./GanttTableTD.svelte";
 </script>
 
 <GanttTableTr>
-    <th>Launch</th>
-    <GanttTableTD />
-    <GanttTableTD active>◆</GanttTableTD>
-    <GanttTableTD />
+  <th>Launch</th>
+  <GanttTableTD />
+  <GanttTableTD active>◆</GanttTableTD>
+  <GanttTableTD />
 </GanttTableTr>
 ```
 
 ```svelte
 <script lang="ts">
-    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
-    import GanttTableTD from "./GanttTableTD.svelte";
-    const period = [false, true, true, false];
+  import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
+  import GanttTableTD from "./GanttTableTD.svelte";
+  const period = [false, true, true, false];
 </script>
 
 <GanttTableTr>
-    <th>Build</th>
-    {#each period as a}
-        <GanttTableTD active={a}>{a ? "---" : ""}</GanttTableTD>
-    {/each}
+  <th>Build</th>
+  {#each period as a}
+    <GanttTableTD active={a}>{a ? "---" : ""}</GanttTableTD>
+  {/each}
 </GanttTableTr>
 ```
 
 ```svelte
 <script lang="ts">
-    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
-    import GanttTableTD from "./GanttTableTD.svelte";
+  import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
+  import GanttTableTD from "./GanttTableTD.svelte";
 </script>
 
 <GanttTableTr>
-    <th>QA</th>
+  <th>QA</th>
+  <GanttTableTD
+    active
+    class="critical"
+    data-testid="cell-qa-w1"
+    onclick={() => console.log("clicked")}
+  >
+    ●
+  </GanttTableTD>
+</GanttTableTr>
+```
+
+```svelte
+<script lang="ts">
+  import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
+  import GanttTableTD from "./GanttTableTD.svelte";
+  let focused = $state<number | null>(null);
+</script>
+
+<GanttTableTr>
+  <th>Review</th>
+  {#each [0, 1, 2] as i}
     <GanttTableTD
-        active
-        class="critical"
-        data-testid="cell-qa-w1"
-        onclick={() => console.log("clicked")}
+      active={focused === i}
+      onfocus={() => (focused = i)}
     >
-        ●
+      {focused === i ? "▮" : ""}
     </GanttTableTD>
-</GanttTableTr>
-```
-
-```svelte
-<script lang="ts">
-    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
-    import GanttTableTD from "./GanttTableTD.svelte";
-    let focused = $state<number | null>(null);
-</script>
-
-<GanttTableTr>
-    <th>Review</th>
-    {#each [0, 1, 2] as i}
-        <GanttTableTD
-            active={focused === i}
-            onfocus={() => (focused = i)}
-        >
-            {focused === i ? "▮" : ""}
-        </GanttTableTD>
-    {/each}
+  {/each}
 </GanttTableTr>
 ```
 

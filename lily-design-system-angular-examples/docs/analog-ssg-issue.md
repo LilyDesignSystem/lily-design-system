@@ -21,7 +21,7 @@ Analog's `analog-glob-routes` plugin injects the discovered page files
 into `@analogjs/router` with a brittle string replacement:
 
 ```js
-code.replace('ANALOG_ROUTE_FILES = {};', /* …glob results… */)
+code.replace("ANALOG_ROUTE_FILES = {};" /* …glob results… */);
 ```
 
 The transform runs in every build pass, but whenever an earlier

@@ -17,12 +17,12 @@ Use it for "you might also be interested in…" patterns. For in-page section na
 
 ## Props
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `title` | string (required) | — | Heading text |
-| `headingLevel` | 1 | 2 | 3 | 4 | 5 | 6 | 2 | Heading level |
-| `children` | slot (required) | — | Related links |
-| `...restProps` | HTML attributes | — | Spread onto the root `<aside>` |
+| Prop           | Type              | Default | Description                    |
+| -------------- | ----------------- | ------- | ------------------------------ |
+| `title`        | string (required) | —       | Heading text                   |
+| `headingLevel` | 1                 | 2       | 3                              | 4   | 5   | 6   | 2   | Heading level |
+| `children`     | slot (required)   | —       | Related links                  |
+| `...restProps` | HTML attributes   | —       | Spread onto the root `<aside>` |
 
 ## Usage
 

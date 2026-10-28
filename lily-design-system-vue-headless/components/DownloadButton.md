@@ -22,11 +22,11 @@ A download link styled as a button, with optional file size and format metadata.
 
 ```vue
 <DownloadButton
-    href="/files/report.pdf"
-    label="Download annual report PDF, 2.4 megabytes"
-    file-size="2.4 MB"
-    file-format="PDF"
-    download
+  href="/files/report.pdf"
+  label="Download annual report PDF, 2.4 megabytes"
+  file-size="2.4 MB"
+  file-format="PDF"
+  download
 >
     Download annual report
 </DownloadButton>

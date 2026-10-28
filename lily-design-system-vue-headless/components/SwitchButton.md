@@ -23,11 +23,18 @@ Switch inputs are commonly used for settings, preferences, and feature toggles w
 ## Usage
 
 ```svelte
-<SwitchButton label="Enable notifications" bind:checked />
+<SwitchButton
+  label="Enable notifications"
+  bind:checked
+/>
 ```
 
 ```svelte
-<SwitchButton label="Dark mode" bind:checked={darkMode} disabled={locked} />
+<SwitchButton
+  label="Dark mode"
+  bind:checked={darkMode}
+  disabled={locked}
+/>
 ```
 
 ## Keyboard Interactions

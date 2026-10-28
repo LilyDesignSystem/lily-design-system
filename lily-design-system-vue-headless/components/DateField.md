@@ -25,15 +25,27 @@ This component is ideal for forms that require date input with validation feedba
 ## Usage
 
 ```svelte
-<DateField label="Start date" bind:value />
+<DateField
+  label="Start date"
+  bind:value
+/>
 ```
 
 ```svelte
-<DateField label="End date" bind:value error="Required" required />
+<DateField
+  label="End date"
+  bind:value
+  error="Required"
+  required
+/>
 ```
 
 ```svelte
-<DateField label="Birthday" bind:value description="Format: YYYY-MM-DD" />
+<DateField
+  label="Birthday"
+  bind:value
+  description="Format: YYYY-MM-DD"
+/>
 ```
 
 ## Keyboard Interactions

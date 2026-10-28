@@ -18,14 +18,14 @@ Svelte wins on behaviour; this package supplies the custom-element idiom.
 
 ## Files
 
-| File                     | Purpose                                           |
-| ------------------------ | ------------------------------------------------- |
-| `spec/index.md`          | Specification-driven contract (canonical).        |
-| `search-picker.ts`       | Implementation (TypeScript custom-element class). |
-| `search-picker.test.ts`  | Vitest + jsdom spec, mapped to the §7 clauses.    |
-| `index.ts`               | Barrel re-export + side-effectful registration.   |
-| `index.md`               | Human-readable guide.                             |
-| `docs/accessibility.md`  | Tradeoffs, stated plainly.                        |
+| File                    | Purpose                                           |
+| ----------------------- | ------------------------------------------------- |
+| `spec/index.md`         | Specification-driven contract (canonical).        |
+| `search-picker.ts`      | Implementation (TypeScript custom-element class). |
+| `search-picker.test.ts` | Vitest + jsdom spec, mapped to the §7 clauses.    |
+| `index.ts`              | Barrel re-export + side-effectful registration.   |
+| `index.md`              | Human-readable guide.                             |
+| `docs/accessibility.md` | Tradeoffs, stated plainly.                        |
 
 ## Public surface
 
@@ -47,12 +47,12 @@ Required attributes: `label`, `input-label`, `submit-label`.
    the override reads `this.open` / `this.value` (Svelte's `ChildArgs`).
 2. **`navigate` and `onSearch` are property-only** (functions). `onSearch`
    is paired with a bubbling `search` CustomEvent (`detail: { query,
-   href }`), matching `<share-picker>`'s `share` / `copy` events.
+href }`), matching `<share-picker>`'s `share` / `copy` events.
    Callback first, then the event, then `navigate`.
 3. **`value` follows native `<input>` semantics.** The attribute seeds;
    typing updates only the property. Svelte's `bind:value` has no direct
    custom-element equivalent.
-4. **No rest-props spread.** The host element *is* the consumer's
+4. **No rest-props spread.** The host element _is_ the consumer's
    attribute surface; `class` is forwarded onto the rendered root.
 
 ## Behaviour contract (one paragraph)

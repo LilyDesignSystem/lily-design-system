@@ -13,12 +13,12 @@ tabindex), a picked day, disabled days, and consumer-rendered events per day. It
 
 ## Files
 
-| File                  | Purpose                                         |
-| --------------------- | ----------------------------------------------- |
-| `spec/index.md`       | Port notes; the canonical contract is Svelte's. |
-| `CalendarView.tsx`    | Implementation.                                 |
-| `CalendarView.test.tsx` | Vitest spec, one test per §8 clause.          |
-| `index.ts`            | Barrel re-export.                               |
+| File                    | Purpose                                         |
+| ----------------------- | ----------------------------------------------- |
+| `spec/index.md`         | Port notes; the canonical contract is Svelte's. |
+| `CalendarView.tsx`      | Implementation.                                 |
+| `CalendarView.test.tsx` | Vitest spec, one test per §8 clause.            |
+| `index.ts`              | Barrel re-export.                               |
 
 ## Contract in one screen
 

@@ -22,7 +22,7 @@ PortugalPassaporteView is a headless read-only display of Portugal's Passaporte,
 ```html
 <SummaryList>
   <SummaryListItem term="Portuguese Passport">
-    <PortugalPassaporteView value={value} />
+    <PortugalPassaporteView value="{value}" />
   </SummaryListItem>
 </SummaryList>
 ```

@@ -30,7 +30,10 @@ This component is useful in buttons, menus, toolbars, and navigation where visua
 <Icon decorative>*</Icon>
 
 <!-- Icon with custom attributes -->
-<Icon label="Search" data-testid="search-icon">Q</Icon>
+<Icon
+  label="Search"
+  data-testid="search-icon">Q</Icon
+>
 ```
 
 ## Keyboard Interactions

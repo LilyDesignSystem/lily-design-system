@@ -9,12 +9,12 @@ reader scrolls, and updated again when they scroll back. It needs matching `href
 
 ## What the catalog already has
 
-| Existing | Covers | Gap |
-| -------- | ------ | --- |
-| `contents-nav` / `-list` / `-list-item` / `-link` | The static table of contents: `<nav>`, `<ol>`, `<li>`, `<a>` | No notion of the current section |
-| `visible` | One element's `IntersectionObserver` | One element, not a set mapped to links |
-| `scroller*` | Scrollytelling steps | Different job: steps drive a graphic |
-| `breadcrumb-*`, `pagination-*` | `aria-current="page"` for a *page* | Not a position within one page |
+| Existing                                          | Covers                                                       | Gap                                    |
+| ------------------------------------------------- | ------------------------------------------------------------ | -------------------------------------- |
+| `contents-nav` / `-list` / `-list-item` / `-link` | The static table of contents: `<nav>`, `<ol>`, `<li>`, `<a>` | No notion of the current section       |
+| `visible`                                         | One element's `IntersectionObserver`                         | One element, not a set mapped to links |
+| `scroller*`                                       | Scrollytelling steps                                         | Different job: steps drive a graphic   |
+| `breadcrumb-*`, `pagination-*`                    | `aria-current="page"` for a _page_                           | Not a position within one page         |
 
 [AGENTS/headless.md](../../AGENTS/headless.md) already lists "IntersectionObserver / scroll listeners that belong to the
 component (`Visible`, `Scroller*`)" as something a component may own, so a scroll-observing component is within the
@@ -24,7 +24,7 @@ headless rules.
 
 - **Bootstrap 5 ScrollSpy** uses an `IntersectionObserver` with `rootMargin` (default `0px 0px -25%`), `threshold`
   (default `[0.1, 0.5, 1]`), a `target` nav, and an optional `smoothScroll` for link clicks. Its issue tracker shows the
-  known failure modes: it activates the *most visible* section rather than the one reaching the top, and a heading too
+  known failure modes: it activates the _most visible_ section rather than the one reaching the top, and a heading too
   long to be visible leaves no link active ([Bootstrap options](https://docs.w3cub.com/bootstrap~5/components/scrollspy/index),
   [issue 36431](https://github.com/twbs/bootstrap/issues/36431)).
 - **Forum reports** of the same pattern: clicking "Sixth section" highlights "Fifth" (the smooth scroll passes through
@@ -52,7 +52,7 @@ headless rules.
    style it without relying on colour alone (WCAG 1.4.1). The token is a prop; default `"true"`, since `"page"` would
    announce "current page" for something that is not a page. No `aria-live` region: announcing every change while the
    user scrolls would be noise, and the position is not new information they asked for.
-4. **Which section is current.** One rule, stated plainly: the last section whose top has passed an *activation line*
+4. **Which section is current.** One rule, stated plainly: the last section whose top has passed an _activation line_
    (default near the top of the viewport, a prop in px or %). That avoids Bootstrap's "most visible wins" regression.
    Two required special cases: at the bottom of the scroll range the last section is current (a short last section never
    reaches the line); and before the first section, the first link is current.

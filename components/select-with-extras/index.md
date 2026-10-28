@@ -31,7 +31,10 @@ Use SelectWithExtras when you need a native select dropdown with additional visu
 Country selector with a flag icon before the select:
 
 ```html
-<SelectWithExtras label="Country" value={country}>
+<SelectWithExtras
+  label="Country"
+  value="{country}"
+>
   {#snippet before()}<span class="flag-icon">🏳</span>{/snippet}
   <option value="us">United States</option>
   <option value="uk">United Kingdom</option>
@@ -42,7 +45,10 @@ Country selector with a flag icon before the select:
 Currency selector with symbol after the select:
 
 ```html
-<SelectWithExtras label="Currency" value={currency}>
+<SelectWithExtras
+  label="Currency"
+  value="{currency}"
+>
   <option value="GBP">British Pound</option>
   <option value="USD">US Dollar</option>
   <option value="EUR">Euro</option>
@@ -53,7 +59,10 @@ Currency selector with symbol after the select:
 Unit selector with a label before:
 
 ```html
-<SelectWithExtras label="Measurement unit" value={unit}>
+<SelectWithExtras
+  label="Measurement unit"
+  value="{unit}"
+>
   {#snippet before()}<span>Unit:</span>{/snippet}
   <option value="kg">Kilograms</option>
   <option value="lb">Pounds</option>
@@ -88,14 +97,11 @@ Unit selector with a label before:
 
 This headless component provides the semantic structure of a native `<select>` element wrapped in a container with optional before/after slots, along with proper `aria-label` for accessibility. The consumer provides all visual styling for the wrapper, the select element, and any supplementary content placed in the before/after slots.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.select-with-extras` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `select-with-extras`
 - Verify aria-label={label}` -- provides an accessible name for the select element so screen readers announce its purpose

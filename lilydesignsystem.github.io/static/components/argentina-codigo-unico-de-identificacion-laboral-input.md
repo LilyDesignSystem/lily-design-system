@@ -23,9 +23,21 @@ ArgentinaCodigoUnicoDeIdentificacionLaboralInput is a headless input for enterin
 ## Usage
 
 ```html
-<Field label="Código Único de Identificación Laboral (CUIL)" required>
-  <ArgentinaCodigoUnicoDeIdentificacionLaboralInput label="Código Único de Identificación Laboral (CUIL)" value={value} required />
-  <Hint>Displayed as XX-NNNNNNNN-X: a two-digit prefix denoting registration type/sex (historically 20 male, 27 female, though this classification was discontinued in 2012), the eight-digit DNI (national identity document) number, and a Modulus-11 check digit computed over the ten preceding digits.</Hint>
+<Field
+  label="Código Único de Identificación Laboral (CUIL)"
+  required
+>
+  <ArgentinaCodigoUnicoDeIdentificacionLaboralInput
+    label="Código Único de Identificación Laboral (CUIL)"
+    value="{value}"
+    required
+  />
+  <Hint
+    >Displayed as XX-NNNNNNNN-X: a two-digit prefix denoting registration type/sex (historically 20
+    male, 27 female, though this classification was discontinued in 2012), the eight-digit DNI
+    (national identity document) number, and a Modulus-11 check digit computed over the ten
+    preceding digits.</Hint
+  >
   <ErrorMessage>Please enter a valid Código Único de Identificación Laboral</ErrorMessage>
 </Field>
 ```

@@ -98,7 +98,10 @@ import { ThemePicker } from "./lily-design-system-angular-theme-picker";
       storageKey="lily-theme"
     />
 
-    <p class="theme-picker-status" aria-live="polite">
+    <p
+      class="theme-picker-status"
+      aria-live="polite"
+    >
       Active theme: {{ themePicker.labelFor(theme()) }}
     </p>
   `,
@@ -185,7 +188,11 @@ re-deriving it when you build a sibling affordance.
 
 ```html
 <div class="theme-picker">
-  <input type="hidden" name="theme" value="light" />
+  <input
+    type="hidden"
+    name="theme"
+    value="light"
+  />
 
   <button
     type="button"
@@ -195,9 +202,22 @@ re-deriving it when you build a sibling affordance.
     aria-expanded="false"
     aria-controls="theme-picker-1-list"
   >
-    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true">…</svg>
+    <svg
+      class="theme-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+    >
+      …
+    </svg>
   </button>
-  <div class="theme-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
+  <div
+    class="theme-picker-tooltip"
+    role="tooltip"
+    id="{tooltipId}"
+    hidden
+  >
+    {label}
+  </div>
 
   <ul
     class="theme-picker-list"
@@ -290,7 +310,11 @@ There is one rendering escape hatch: a projected `<ng-template>` that
 **replaces the icon inside the trigger button**.
 
 ```html
-<lily-theme-picker label="Theme" [themesUrl]="url" [themes]="themes">
+<lily-theme-picker
+  label="Theme"
+  [themesUrl]="url"
+  [themes]="themes"
+>
   <ng-template let-args>{{ args.labelFor(args.value) }}</ng-template>
 </lily-theme-picker>
 ```
@@ -381,16 +405,16 @@ Opening moves focus to the `<ul>`; the active option is conveyed by
 
 On the **listbox**:
 
-| Key               | Action                                                                 |
-| ----------------- | ---------------------------------------------------------------------- |
-| `Arrow Down`      | Active option down one. **Clamps** at the last — no wrap.              |
-| `Arrow Up`        | Active option up one. **Clamps** at the first — no wrap.               |
-| `Home` / `End`    | First / last option becomes active.                                    |
-| `Enter` / `Space` | Select the active option, apply it, close, return focus to the button. |
-| `Escape`          | Close and return focus to the button; the value is **not** changed.    |
-| `PageUp` / `PageDown` | Move the active option by ten; clamps.                             |
-| `Tab`             | Close; focus lands on the button so the default Tab proceeds from the picker's position. |
-| Printable chars   | Typeahead over the display **labels**; 500 ms buffer. A single character advances to the next match and repeats cycle; differing characters refine. |
+| Key                   | Action                                                                                                                                              |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Arrow Down`          | Active option down one. **Clamps** at the last — no wrap.                                                                                           |
+| `Arrow Up`            | Active option up one. **Clamps** at the first — no wrap.                                                                                            |
+| `Home` / `End`        | First / last option becomes active.                                                                                                                 |
+| `Enter` / `Space`     | Select the active option, apply it, close, return focus to the button.                                                                              |
+| `Escape`              | Close and return focus to the button; the value is **not** changed.                                                                                 |
+| `PageUp` / `PageDown` | Move the active option by ten; clamps.                                                                                                              |
+| `Tab`                 | Close; focus lands on the button so the default Tab proceeds from the picker's position.                                                            |
+| Printable chars       | Typeahead over the display **labels**; 500 ms buffer. A single character advances to the next match and repeats cycle; differing characters refine. |
 
 Pointer and focus: clicking an option selects and applies it; clicking
 outside the root closes the listbox; focus leaving the root closes it.
@@ -414,9 +438,18 @@ is fetched on demand. To switch instantly between themes, preload
 them all yourself in `index.html`:
 
 ```html
-<link rel="stylesheet" href="/assets/themes/light.css" />
-<link rel="stylesheet" href="/assets/themes/dark.css" />
-<link rel="stylesheet" href="/assets/themes/abyss.css" />
+<link
+  rel="stylesheet"
+  href="/assets/themes/light.css"
+/>
+<link
+  rel="stylesheet"
+  href="/assets/themes/dark.css"
+/>
+<link
+  rel="stylesheet"
+  href="/assets/themes/abyss.css"
+/>
 ```
 
 The select still mutates `data-theme`, and since every theme's CSS
@@ -484,19 +517,19 @@ name starts with the clause it covers.
 
 ## Files in this directory
 
-| File                              | Purpose                                         |
-| --------------------------------- | ----------------------------------------------- |
-| `spec/index.md`                   | Single source of truth — API, behaviour, tests. |
-| `AGENTS.md`                       | Fast-index pointer; loads the AGENTS bundle.    |
-| `AGENTS/`                         | Topic-by-topic agent files.                     |
-| `CLAUDE.md`                       | `@AGENTS.md`.                                   |
+| File                             | Purpose                                         |
+| -------------------------------- | ----------------------------------------------- |
+| `spec/index.md`                  | Single source of truth — API, behaviour, tests. |
+| `AGENTS.md`                      | Fast-index pointer; loads the AGENTS bundle.    |
+| `AGENTS/`                        | Topic-by-topic agent files.                     |
+| `CLAUDE.md`                      | `@AGENTS.md`.                                   |
 | `theme-picker.component.ts`      | The component implementation.                   |
 | `theme-picker.component.spec.ts` | vitest suite covering every spec §7 item.       |
-| `index.ts`                        | Re-export barrel.                               |
-| `index.md`                        | This file.                                      |
-| `docs/`                           | Deep-dive topic guides.                         |
-| `examples/`                       | Runnable Angular component files.               |
-| `CHANGELOG.md`                    | Version history.                                |
+| `index.ts`                       | Re-export barrel.                               |
+| `index.md`                       | This file.                                      |
+| `docs/`                          | Deep-dive topic guides.                         |
+| `examples/`                      | Runnable Angular component files.               |
+| `CHANGELOG.md`                   | Version history.                                |
 
 ## License
 

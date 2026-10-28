@@ -29,10 +29,14 @@ MultiSelectWithExtras wraps a native `<select multiple>` in a `<div>` with optio
 ## Usage
 
 ```html
-<MultiSelectWithExtras label="Departments" bind:value={departments} size={5}>
+<MultiSelectWithExtras
+  label="Departments"
+  bind:value="{departments}"
+  size="{5}"
+>
   {#snippet before()}<span>Filter by</span>{/snippet}
-  <Option value="a">Cardiology</Option>
-  <Option value="b">Neurology</Option>
+  <option value="a">Cardiology</option>
+  <option value="b">Neurology</option>
   {#snippet after()}<button type="button">Clear</button>{/snippet}
 </MultiSelectWithExtras>
 ```

@@ -8,21 +8,21 @@ nothing from the platform. The canonical contract is in
 
 ## Roles and properties
 
-| Element                       | Role / Property                                  | Source        |
-| ----------------------------- | ------------------------------------------------ | ------------- |
-| `<lily-locale-picker>` (host)      | none (transparent)                               | —             |
-| Rendered `<div>` root         | none (styling container)                         | —             |
-| `<input type="hidden">`       | `name` + current value (form participation)      | Select        |
-| `<button>`                    | `aria-label={label}`                             | Consumer attr |
-| `<button>`                    | `aria-haspopup="listbox"`                        | Select        |
-| `<button>`                    | `aria-expanded` (kept in sync)                   | Select        |
-| `<button>`                    | `aria-controls={listId}`                         | Select        |
-| `<span class="…-icon">`       | `aria-hidden="true"`                             | Select        |
-| `<ul>`                        | `role="listbox"`, `aria-label={label}`, `tabindex="-1"` | Select |
-| `<ul>` (open only)            | `aria-activedescendant={optionId(active)}`       | Select        |
-| `<li>`                        | `role="option"`, unique `id`, `aria-selected`    | Select        |
-| `<li>`                        | `lang={tagFor(locale)}`                          | Select        |
-| `<li>` (active only)          | `data-active`                                    | Select        |
+| Element                       | Role / Property                                         | Source        |
+| ----------------------------- | ------------------------------------------------------- | ------------- |
+| `<lily-locale-picker>` (host) | none (transparent)                                      | —             |
+| Rendered `<div>` root         | none (styling container)                                | —             |
+| `<input type="hidden">`       | `name` + current value (form participation)             | Select        |
+| `<button>`                    | `aria-label={label}`                                    | Consumer attr |
+| `<button>`                    | `aria-haspopup="listbox"`                               | Select        |
+| `<button>`                    | `aria-expanded` (kept in sync)                          | Select        |
+| `<button>`                    | `aria-controls={listId}`                                | Select        |
+| `<span class="…-icon">`       | `aria-hidden="true"`                                    | Select        |
+| `<ul>`                        | `role="listbox"`, `aria-label={label}`, `tabindex="-1"` | Select        |
+| `<ul>` (open only)            | `aria-activedescendant={optionId(active)}`              | Select        |
+| `<li>`                        | `role="option"`, unique `id`, `aria-selected`           | Select        |
+| `<li>`                        | `lang={tagFor(locale)}`                                 | Select        |
+| `<li>` (active only)          | `data-active`                                           | Select        |
 
 The `lang` attribute on each `<li>` satisfies WCAG 3.1.2 (Language of
 Parts) — screen readers switch pronunciation per option. **The button
@@ -50,25 +50,25 @@ Implemented in JS. Nothing is inherited from the platform.
 
 On the **button**:
 
-| Key                             | Action                                                        |
-| ------------------------------- | ------------------------------------------------------------- |
-| Tab / Shift+Tab                 | Move focus into / out of the control; it is one tab stop.     |
-| ArrowDown / Enter / Space       | Open with the selected option active (or index 0 when none).  |
-| ArrowUp                         | Open with the **last** option active.                         |
+| Key                       | Action                                                       |
+| ------------------------- | ------------------------------------------------------------ |
+| Tab / Shift+Tab           | Move focus into / out of the control; it is one tab stop.    |
+| ArrowDown / Enter / Space | Open with the selected option active (or index 0 when none). |
+| ArrowUp                   | Open with the **last** option active.                        |
 
 Opening moves focus to the `<ul>`.
 
 On the **listbox**:
 
-| Key                   | Action                                                                  |
-| --------------------- | ----------------------------------------------------------------------- |
-| ArrowDown / ArrowUp   | Move the active option; **clamps** at both ends, no wrapping.            |
-| Home / End            | Jump to the first / last option.                                         |
-| Enter / Space         | Select the active option, apply, close, return focus to the button.      |
-| Escape                | Close and refocus the button **without** changing the value.             |
-| PageUp / PageDown     | Move the active option by ten; clamps at both ends.                      |
-| Tab                   | Move focus to the button, then close — the default Tab proceeds from the picker's position. |
-| printable character   | Typeahead over the option labels; 500 ms buffer reset; wraps once. A repeated character cycles through its matches; differing characters refine from the active option. |
+| Key                 | Action                                                                                                                                                                  |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ArrowDown / ArrowUp | Move the active option; **clamps** at both ends, no wrapping.                                                                                                           |
+| Home / End          | Jump to the first / last option.                                                                                                                                        |
+| Enter / Space       | Select the active option, apply, close, return focus to the button.                                                                                                     |
+| Escape              | Close and refocus the button **without** changing the value.                                                                                                            |
+| PageUp / PageDown   | Move the active option by ten; clamps at both ends.                                                                                                                     |
+| Tab                 | Move focus to the button, then close — the default Tab proceeds from the picker's position.                                                                             |
+| printable character | Typeahead over the option labels; 500 ms buffer reset; wraps once. A repeated character cycles through its matches; differing characters refine from the active option. |
 
 Pointer: clicking an option selects it; clicking the button toggles;
 clicking outside the root closes; focus leaving the root closes.
@@ -94,17 +94,39 @@ French voice for the duration of that item. Without it, "Français"
 gets pronounced "Franc-ess" in an English voice.
 
 ```html
-<ul role="listbox" aria-label="Language" tabindex="-1">
-    <li role="option" aria-selected="true"  lang="en">English</li>
-    <li role="option" aria-selected="false" lang="fr">Français</li>
-    <li role="option" aria-selected="false" lang="ar">العربية</li>
+<ul
+  role="listbox"
+  aria-label="Language"
+  tabindex="-1"
+>
+  <li
+    role="option"
+    aria-selected="true"
+    lang="en"
+  >
+    English
+  </li>
+  <li
+    role="option"
+    aria-selected="false"
+    lang="fr"
+  >
+    Français
+  </li>
+  <li
+    role="option"
+    aria-selected="false"
+    lang="ar"
+  >
+    العربية
+  </li>
 </ul>
 ```
 
 ## Focus management on locale change
 
 Changing the locale never moves focus elsewhere on the page (WCAG
-3.2.2, On Input). The element does move focus *within* the control,
+3.2.2, On Input). The element does move focus _within_ the control,
 as the APG listbox pattern requires: opening moves focus to the
 `<ul>`; selecting or cancelling returns it to the button; `Tab` also
 puts focus on the button before closing, without cancelling the key,
@@ -115,13 +137,13 @@ page; if you must navigate, preserve scroll position and focus.
 
 ## Screen-reader behaviour matrix
 
-| Reader     | OS       | Browser   | What's announced on the closed button |
-| ---------- | -------- | --------- | -------------------------------------- |
-| VoiceOver  | macOS 14 | Safari 17 | "Language, pop-up button, collapsed". Opening announces the listbox; arrowing announces each option with `lang`-correct pronunciation. |
-| NVDA       | Windows  | Firefox   | "Language button collapsed", then "Language list box" on open. |
-| JAWS       | Windows  | Chrome    | "Language button collapsed"; arrow keys announce each option and its selected state. |
-| VoiceOver  | iOS      | Safari    | "Language, button". Touch swipe navigation reaches options individually; `aria-activedescendant` is not used by touch navigation, so the highlighted option and the swiped-to element can diverge. |
-| TalkBack   | Android  | Chrome    | "Language, button, collapsed". Same divergence caveat. |
+| Reader    | OS       | Browser   | What's announced on the closed button                                                                                                                                                              |
+| --------- | -------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| VoiceOver | macOS 14 | Safari 17 | "Language, pop-up button, collapsed". Opening announces the listbox; arrowing announces each option with `lang`-correct pronunciation.                                                             |
+| NVDA      | Windows  | Firefox   | "Language button collapsed", then "Language list box" on open.                                                                                                                                     |
+| JAWS      | Windows  | Chrome    | "Language button collapsed"; arrow keys announce each option and its selected state.                                                                                                               |
+| VoiceOver | iOS      | Safari    | "Language, button". Touch swipe navigation reaches options individually; `aria-activedescendant` is not used by touch navigation, so the highlighted option and the swiped-to element can diverge. |
+| TalkBack  | Android  | Chrome    | "Language, button, collapsed". Same divergence caveat.                                                                                                                                             |
 
 "lang-correct pronunciation" depends on the reader having a matching
 voice package installed. NVDA's default ships with English only;
@@ -162,12 +184,12 @@ attribute says French. Drop it by subclassing:
 
 ```ts
 class ViewerLanguageLocalePicker extends LocalePicker {
-    connectedCallback() {
-        super.connectedCallback();
-        for (const option of this.querySelectorAll(".locale-picker-option")) {
-            option.removeAttribute("lang");
-        }
+  connectedCallback() {
+    super.connectedCallback();
+    for (const option of this.querySelectorAll(".locale-picker-option")) {
+      option.removeAttribute("lang");
     }
+  }
 }
 ```
 
@@ -186,7 +208,7 @@ Two tiers, with very different risk — see
   listbox. Keep the returned node `aria-hidden="true"` if it is
   decorative.
 - **Tier 2**, replacing the rendering, takes over the entire
-  accessibility contract *and* the keyboard contract — the base
+  accessibility contract _and_ the keyboard contract — the base
   class's handlers are bound to the DOM it built.
 
 ## Consumer CSS responsibilities

@@ -23,9 +23,21 @@ BharatAadhaarInput is a headless input for entering India's Aadhaar (आधा�
 ## Usage
 
 ```html
-<Field label="Aadhaar (आधार)" required>
-  <BharatAadhaarInput label="Aadhaar (आधार)" value={value} required />
-  <Hint>Twelve digits, the first of which is never 0 or 1. The twelfth digit is a check digit computed with the Verhoeff algorithm, a checksum that detects every single-digit error and every adjacent-digit transposition. Issued by the Unique Identification Authority of India (UIDAI).</Hint>
+<Field
+  label="Aadhaar (आधार)"
+  required
+>
+  <BharatAadhaarInput
+    label="Aadhaar (आधार)"
+    value="{value}"
+    required
+  />
+  <Hint
+    >Twelve digits, the first of which is never 0 or 1. The twelfth digit is a check digit computed
+    with the Verhoeff algorithm, a checksum that detects every single-digit error and every
+    adjacent-digit transposition. Issued by the Unique Identification Authority of India
+    (UIDAI).</Hint
+  >
   <ErrorMessage>Please enter a valid Aadhaar</ErrorMessage>
 </Field>
 ```

@@ -26,19 +26,28 @@ Display a unit alongside a measurement value:
 
 ```html
 <MeasurementInstanceView value="72" />
-<MeasurementUnitView value="kg" label="Kilograms" />
+<MeasurementUnitView
+  value="kg"
+  label="Kilograms"
+/>
 ```
 
 Display an abbreviated unit with accessible label:
 
 ```html
-<MeasurementUnitView value="lb" label="Pounds" />
+<MeasurementUnitView
+  value="lb"
+  label="Pounds"
+/>
 ```
 
 Display a unit in a clinical summary:
 
 ```html
-<MeasurementUnitView value="mmHg" label="Millimetres of mercury" />
+<MeasurementUnitView
+  value="mmHg"
+  label="Millimetres of mercury"
+/>
 ```
 
 ## Keyboard Interactions
@@ -64,17 +73,14 @@ None -- this is a display-only component.
 
 This headless component renders a `<span>` with the measurement unit as text content and optional `aria-label` for additional accessible context. The consumer provides all visual styling, including typography, positioning relative to the value, and any abbreviation expansion.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.measurement-unit-view` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
 
-
 - Verify the component renders a `<div>` element with class `measurement-unit-view`
-- Verify aria-label` -- optionally set from the `label` prop to provide additional context beyond the displayed unit abbreviation
+- Verify aria-label`-- optionally set from the`label` prop to provide additional context beyond the displayed unit abbreviation
 - Verify pass-through attributes are applied
 
 ## Advice

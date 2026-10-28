@@ -18,13 +18,13 @@ The helper is a **macro + client.js pair**:
 
 ## Files
 
-| File                      | Purpose                                              |
-| ------------------------- | ---------------------------------------------------- |
-| `spec/index.md`           | Specification-driven contract (canonical).           |
+| File                     | Purpose                                             |
+| ------------------------ | --------------------------------------------------- |
+| `spec/index.md`          | Specification-driven contract (canonical).          |
 | `theme-picker.njk`       | Nunjucks macro (`themePicker(opts)`).               |
 | `theme-picker.client.js` | ES module — `initThemePicker`, `autoInit`, helpers. |
-| `theme-picker.test.ts`   | Vitest spec, one assertion per §7 acceptance.        |
-| `index.md`                | Concise user guide.                                  |
+| `theme-picker.test.ts`   | Vitest spec, one assertion per §7 acceptance.       |
+| `index.md`               | Concise user guide.                                 |
 
 ## Public surface
 
@@ -73,7 +73,11 @@ colour-scheme detection (when `detectFromSystem` is on) > default-value
 ## HTML
 
 ```html
-<div class="theme-picker {classes}" data-lily-theme-picker-root …>
+<div
+  class="theme-picker {classes}"
+  data-lily-theme-picker-root
+  …
+>
   <input
     type="hidden"
     name="{name}"
@@ -89,7 +93,15 @@ colour-scheme detection (when `detectFromSystem` is on) > default-value
     aria-controls="{id}-list"
     data-lily-theme-picker-button
   >
-    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" width="1.05rem" height="1.05rem">…</svg>
+    <svg
+      class="theme-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      width="1.05rem"
+      height="1.05rem"
+    >
+      …
+    </svg>
   </button>
   <ul
     class="theme-picker-list"

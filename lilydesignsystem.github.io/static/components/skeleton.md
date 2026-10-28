@@ -22,9 +22,18 @@ Card placeholder with text lines and avatar circle:
 
 ```html
 <Skeleton>
-  <div class="skeleton-circle" style="width: 48px; height: 48px;"></div>
-  <div class="skeleton-line" style="width: 60%; height: 16px;"></div>
-  <div class="skeleton-line" style="width: 80%; height: 16px;"></div>
+  <div
+    class="skeleton-circle"
+    style="width: 48px; height: 48px;"
+  ></div>
+  <div
+    class="skeleton-line"
+    style="width: 60%; height: 16px;"
+  ></div>
+  <div
+    class="skeleton-line"
+    style="width: 80%; height: 16px;"
+  ></div>
 </Skeleton>
 ```
 
@@ -32,7 +41,10 @@ Single-line text placeholder:
 
 ```html
 <Skeleton>
-  <div class="skeleton-line" style="width: 100%; height: 14px;"></div>
+  <div
+    class="skeleton-line"
+    style="width: 100%; height: 14px;"
+  ></div>
 </Skeleton>
 ```
 
@@ -40,8 +52,14 @@ Image placeholder for a content card:
 
 ```html
 <Skeleton>
-  <div class="skeleton-rect" style="width: 100%; height: 200px;"></div>
-  <div class="skeleton-line" style="width: 70%; height: 16px;"></div>
+  <div
+    class="skeleton-rect"
+    style="width: 100%; height: 200px;"
+  ></div>
+  <div
+    class="skeleton-line"
+    style="width: 70%; height: 16px;"
+  ></div>
 </Skeleton>
 ```
 
@@ -73,7 +91,6 @@ None -- this component is a passive placeholder hidden from interaction.
 
 This headless component provides a `<div>` with `aria-hidden="true"` and `aria-busy="true"` to hide the placeholder from screen readers while signaling a loading state. The consumer provides all visual styling including placeholder shapes, shimmer animations, dimensions, and colors.
 
-
 ## Reduced motion
 
 Reduced motion changes how content appears, never whether it does. Apply it in consumer CSS under `@media (prefers-reduced-motion: reduce)` and under the `motion-picker`'s `[data-motion="reduce"]` on the document root (the 57 reference themes already honour both for the preference hooks they style). For a skeleton:
@@ -85,9 +102,7 @@ Reduced motion changes how content appears, never whether it does. Apply it in c
 
 The consumer provides all CSS styling. The component renders with a `.skeleton` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `skeleton`
 - Verify pass-through attributes are applied

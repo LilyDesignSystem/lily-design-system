@@ -117,22 +117,22 @@ Give a React 19 application a drop-in, headless locale picker that:
 
 ### 4.1 Props
 
-| Prop                  | Type                                   | Required | Default                                         | Purpose                                                                                                           |
-| --------------------- | -------------------------------------- | -------- | ----------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| `label`               | `string`                               | yes      | —                                               | Accessible name (`aria-label`) for both the button and the listbox.                                               |
-| `locales`             | `string[]`                             | yes      | —                                               | Available locale codes (e.g. `["en", "en_US", "fr", "ar"]`).                                                      |
-| `value`               | `string`                               | no       | `undefined` (uncontrolled)                      | Currently selected locale code. When supplied, the component is controlled.                                       |
-| `defaultValue`        | `string`                               | no       | `"en"` if present in `locales`, else first item | Initial locale when nothing else is supplied.                                                                     |
-| `storageKey`          | `string`                               | no       | `undefined`                                     | If set, persist the selection to `localStorage` under this key.                                                   |
-| `detectFromNavigator` | `boolean`                              | no       | `false`                                         | If true and no value/storage entry exists, resolve `navigator.language` to a supported locale.                    |
-| `name`                | `string`                               | no       | `"locale"`                                      | `name` attribute on the hidden input that carries the value in a form.                                            |
-| `target`              | `HTMLElement \| null`                  | no       | `document.documentElement`                      | Element that receives `lang` and `dir`.                                                                           |
-| `applyDir`            | `boolean`                              | no       | `true`                                          | If false, the select only writes `lang` and never touches `dir`.                                                  |
-| `localeLabels`        | `Record<string, string>`               | no       | `{}`                                            | Optional pretty labels per locale code.                                                                           |
-| `children`            | `(args: ChildArgs) => React.ReactNode` | no       | `<svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path stroke-width="1.1" d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7"/></svg>`   | Render prop that **replaces the icon inside the button**. It does not render options — the component owns those. |
-| `onChange`            | `(locale: string) => void`             | no       | `undefined`                                     | Fires after the select applies a new locale.                                                                      |
-| `className`           | `string`                               | no       | `""`                                            | Extra CSS class on the root `<div>`.                                                                              |
-| `...restProps`        | any HTML `<div>` attributes            | no       | —                                               | Spread onto the root `<div>`.                                                                                     |
+| Prop                  | Type                                   | Required | Default                                                                                                                                                                                                                                                                                                                                                                          | Purpose                                                                                                          |
+| --------------------- | -------------------------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `label`               | `string`                               | yes      | —                                                                                                                                                                                                                                                                                                                                                                                | Accessible name (`aria-label`) for both the button and the listbox.                                              |
+| `locales`             | `string[]`                             | yes      | —                                                                                                                                                                                                                                                                                                                                                                                | Available locale codes (e.g. `["en", "en_US", "fr", "ar"]`).                                                     |
+| `value`               | `string`                               | no       | `undefined` (uncontrolled)                                                                                                                                                                                                                                                                                                                                                       | Currently selected locale code. When supplied, the component is controlled.                                      |
+| `defaultValue`        | `string`                               | no       | `"en"` if present in `locales`, else first item                                                                                                                                                                                                                                                                                                                                  | Initial locale when nothing else is supplied.                                                                    |
+| `storageKey`          | `string`                               | no       | `undefined`                                                                                                                                                                                                                                                                                                                                                                      | If set, persist the selection to `localStorage` under this key.                                                  |
+| `detectFromNavigator` | `boolean`                              | no       | `false`                                                                                                                                                                                                                                                                                                                                                                          | If true and no value/storage entry exists, resolve `navigator.language` to a supported locale.                   |
+| `name`                | `string`                               | no       | `"locale"`                                                                                                                                                                                                                                                                                                                                                                       | `name` attribute on the hidden input that carries the value in a form.                                           |
+| `target`              | `HTMLElement \| null`                  | no       | `document.documentElement`                                                                                                                                                                                                                                                                                                                                                       | Element that receives `lang` and `dir`.                                                                          |
+| `applyDir`            | `boolean`                              | no       | `true`                                                                                                                                                                                                                                                                                                                                                                           | If false, the select only writes `lang` and never touches `dir`.                                                 |
+| `localeLabels`        | `Record<string, string>`               | no       | `{}`                                                                                                                                                                                                                                                                                                                                                                             | Optional pretty labels per locale code.                                                                          |
+| `children`            | `(args: ChildArgs) => React.ReactNode` | no       | `<svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path stroke-width="1.1" d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7"/></svg>` | Render prop that **replaces the icon inside the button**. It does not render options — the component owns those. |
+| `onChange`            | `(locale: string) => void`             | no       | `undefined`                                                                                                                                                                                                                                                                                                                                                                      | Fires after the select applies a new locale.                                                                     |
+| `className`           | `string`                               | no       | `""`                                                                                                                                                                                                                                                                                                                                                                             | Extra CSS class on the root `<div>`.                                                                             |
+| `...restProps`        | any HTML `<div>` attributes            | no       | —                                                                                                                                                                                                                                                                                                                                                                                | Spread onto the root `<div>`.                                                                                    |
 
 ### 4.2 `ChildArgs`
 
@@ -161,8 +161,15 @@ The component renders a root `<div>` containing a hidden input, an icon
 button, and a listbox:
 
 ```html
-<div class="locale-picker {className}" ...restProps>
-  <input type="hidden" name="{name}" value="{value}" />
+<div
+  class="locale-picker {className}"
+  ...restProps
+>
+  <input
+    type="hidden"
+    name="{name}"
+    value="{value}"
+  />
   <button
     type="button"
     class="locale-picker-button"
@@ -171,9 +178,35 @@ button, and a listbox:
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path stroke-width="1.1" d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7"/></svg>
+    <svg
+      class="locale-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle
+        cx="8"
+        cy="8"
+        r="6"
+      />
+      <path
+        stroke-width="1.1"
+        d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7"
+      />
+    </svg>
   </button>
-  <div class="locale-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
+  <div
+    class="locale-picker-tooltip"
+    role="tooltip"
+    id="{tooltipId}"
+    hidden
+  >
+    {label}
+  </div>
   <ul
     class="locale-picker-list"
     id="{listId}"
@@ -309,7 +342,7 @@ of §5.2.
 
 Default option labels are endonyms — each language named in itself,
 "Cymraeg" not "Welsh" — resolved by `localeEndonym()` via
-`Intl.DisplayNames` asked *in that language*. The user who needs a
+`Intl.DisplayNames` asked _in that language_. The user who needs a
 language menu is the one who cannot read the page's language, and the
 exonym means nothing to them. The endonym lookup is deterministic (no
 `navigator` dependency), so server and client render the same label.
@@ -464,15 +497,15 @@ On the **button**:
 
 On the **listbox** (while open):
 
-| Key                     | Action                                                                            |
-| ----------------------- | --------------------------------------------------------------------------------- |
-| `ArrowDown` / `ArrowUp` | Move the active option down / up. **Clamps** at the ends — it does not wrap.      |
-| `Home` / `End`          | Jump to the first / last option.                                                  |
-| `Enter` / `Space`       | Select the active option, apply it (§5.5), close, and return focus to the button. |
-| `Escape`                | Close and return focus to the button **without** changing the value.              |
-| `PageUp` / `PageDown`   | Move the active option up / down by ten. Clamps at the ends.                      |
+| Key                     | Action                                                                                                                                                                                                                                                     |
+| ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ArrowDown` / `ArrowUp` | Move the active option down / up. **Clamps** at the ends — it does not wrap.                                                                                                                                                                               |
+| `Home` / `End`          | Jump to the first / last option.                                                                                                                                                                                                                           |
+| `Enter` / `Space`       | Select the active option, apply it (§5.5), close, and return focus to the button.                                                                                                                                                                          |
+| `Escape`                | Close and return focus to the button **without** changing the value.                                                                                                                                                                                       |
+| `PageUp` / `PageDown`   | Move the active option up / down by ten. Clamps at the ends.                                                                                                                                                                                               |
 | `Tab`                   | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position. Hiding the focused list first would drop focus to `<body>` and restart Tab from the top of the document. |
-| Printable character     | Typeahead over the option labels (§5.10).                                         |
+| Printable character     | Typeahead over the option labels (§5.10).                                                                                                                                                                                                                  |
 
 Pointer equivalents: clicking an option selects it, applies it, and closes the listbox — the same
 close `Enter` performs — clicking the button
@@ -615,38 +648,38 @@ run under vitest + jsdom + `@testing-library/react`.
 
 ### 7.7 Accessibility hardening
 
-| Clause | Test asserts |
-| ------ | ------------ |
+| Clause | Test asserts                                                                                                              |
+| ------ | ------------------------------------------------------------------------------------------------------------------------- |
 | §7.28  | `Tab` from the open list puts focus on the button before closing, so the default Tab proceeds from the picker's position. |
-| §7.29  | `lang` is claimed only when the label is the endonym; consumer-labelled options carry no `lang` (§5.4). |
-| §7.30  | A repeated typeahead character cycles through its matches. |
-| §7.31  | `PageUp` / `PageDown` move the cursor by ten, clamped. |
-| §7.32  | An empty list opens without `aria-activedescendant`. |
+| §7.29  | `lang` is claimed only when the label is the endonym; consumer-labelled options carry no `lang` (§5.4).                   |
+| §7.30  | A repeated typeahead character cycles through its matches.                                                                |
+| §7.31  | `PageUp` / `PageDown` move the cursor by ten, clamped.                                                                    |
+| §7.32  | An empty list opens without `aria-activedescendant`.                                                                      |
 
 ### Idempotent apply (mirrors §5.5)
 
-| Clause | Test asserts |
-| ------ | ------------ |
+| Clause | Test asserts                                                                                                      |
+| ------ | ----------------------------------------------------------------------------------------------------------------- |
 | §7.33  | Controlled mode fires `onChange` once per changed value: the consumer writing the value back does not re-fire it. |
 
 ### Focus never scrolls the page
 
-| Clause | Test asserts |
-| ------ | ------------ |
+| Clause | Test asserts                                                                                                                                                                                                                                                                                       |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | §7.34  | Every focus move the component makes on its own (opening the listbox, returning focus to the button on close/Tab) passes `{ preventScroll: true }`, so a listbox rendered partly off-screen by unstyled/un-overridden positioning CSS never forces the browser to scroll the whole page into view. |
 
 ### Tooltip
 
-| Clause | Test asserts |
-| ------ | ------------ |
-| §7.35 | Renders `.locale-picker-tooltip` with `role="tooltip"` right after the button, holding `label`, `hidden` at rest, and the button carries no `aria-describedby`. |
-| §7.36 | Pointer over the button shows it; leaving hides it. |
-| §7.37 | It stays visible while the pointer is over the tooltip itself. |
-| §7.38 | Keyboard focus on the button (`:focus-visible`) shows it; blur hides it; mouse-induced focus does not. |
-| §7.39 | `Escape` on the button dismisses it without moving focus; re-entering shows it again. |
-| §7.40 | It is never shown while the listbox is open. |
-| §7.41 | Pointer hover shows it with focus elsewhere; `Escape` pressed on `document.body` or another element dismisses it without moving focus. |
-| §7.42 | The `document` `keydown` listener exists only while the tooltip is visible: added once, removed on hide and on unmount. |
+| Clause | Test asserts                                                                                                                                                    |
+| ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| §7.35  | Renders `.locale-picker-tooltip` with `role="tooltip"` right after the button, holding `label`, `hidden` at rest, and the button carries no `aria-describedby`. |
+| §7.36  | Pointer over the button shows it; leaving hides it.                                                                                                             |
+| §7.37  | It stays visible while the pointer is over the tooltip itself.                                                                                                  |
+| §7.38  | Keyboard focus on the button (`:focus-visible`) shows it; blur hides it; mouse-induced focus does not.                                                          |
+| §7.39  | `Escape` on the button dismisses it without moving focus; re-entering shows it again.                                                                           |
+| §7.40  | It is never shown while the listbox is open.                                                                                                                    |
+| §7.41  | Pointer hover shows it with focus elsewhere; `Escape` pressed on `document.body` or another element dismisses it without moving focus.                          |
+| §7.42  | The `document` `keydown` listener exists only while the tooltip is visible: added once, removed on hide and on unmount.                                         |
 
 ## 8. Out-of-scope (future, not implemented here)
 

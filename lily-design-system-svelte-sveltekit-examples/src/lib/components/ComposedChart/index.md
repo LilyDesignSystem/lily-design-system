@@ -10,11 +10,11 @@ See [components/composed-chart/index.md](../../../../../components/composed-char
 
 ```svelte
 <script lang="ts">
-    import ComposedChart from "./ComposedChart.svelte";
+  import ComposedChart from "./ComposedChart.svelte";
 </script>
 
 <ComposedChart label="Describe the chart">
-    <svg viewBox="0 0 10 10">…</svg>
+  <svg viewBox="0 0 10 10">…</svg>
 </ComposedChart>
 ```
 

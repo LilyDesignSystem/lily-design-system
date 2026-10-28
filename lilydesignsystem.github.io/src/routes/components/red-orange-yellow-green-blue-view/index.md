@@ -25,7 +25,10 @@ The component renders as a `<span>` element with an accessible label, making the
 Display a five-level status in a report:
 
 ```html
-<RedOrangeYellowGreenBlueView label="Risk level" value="yellow" />
+<RedOrangeYellowGreenBlueView
+  label="Risk level"
+  value="yellow"
+/>
 ```
 
 Display dynamic status in a summary list:
@@ -34,7 +37,12 @@ Display dynamic status in a summary list:
 <SummaryList>
   <SummaryListItem>
     <dt>Alert status</dt>
-    <dd><RedOrangeYellowGreenBlueView label="Alert status" value={level} /></dd>
+    <dd>
+      <RedOrangeYellowGreenBlueView
+        label="Alert status"
+        value="{level}"
+      />
+    </dd>
   </SummaryListItem>
 </SummaryList>
 ```
@@ -42,7 +50,11 @@ Display dynamic status in a summary list:
 With data attribute for CSS colour coding:
 
 ```html
-<RedOrangeYellowGreenBlueView label="Patient triage" value="orange" data-value="orange" />
+<RedOrangeYellowGreenBlueView
+  label="Patient triage"
+  value="orange"
+  data-value="orange"
+/>
 ```
 
 ## Keyboard Interactions
@@ -70,14 +82,11 @@ None -- this is a passive informational display, not an interactive element.
 
 The RedOrangeYellowGreenBlueView headless component provides a `<span>` with `aria-label` for accessible naming and displays the ROYGB status value as text content. The consumer provides all visual styling, including color-coded backgrounds, text colors, or icons.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.red-orange-yellow-green-blue-view` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `red-orange-yellow-green-blue-view`
 - Verify aria-label={label}` -- provides the accessible name for the status display, allowing screen readers to announce the context of the value

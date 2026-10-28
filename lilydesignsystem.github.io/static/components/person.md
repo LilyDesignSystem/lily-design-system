@@ -22,7 +22,10 @@ This headless component uses an `<article>` element for self-contained person co
 
 ```html
 <Person label="Dr Sarah Chen, Consultant Cardiologist">
-  <AvatarImage src="/photos/sarah-chen.jpg" label="Dr Sarah Chen" />
+  <AvatarImage
+    src="/photos/sarah-chen.jpg"
+    label="Dr Sarah Chen"
+  />
   <h3>Dr Sarah Chen</h3>
   <p>Consultant Cardiologist</p>
   <p>Cardiology Department, St James's Hospital</p>

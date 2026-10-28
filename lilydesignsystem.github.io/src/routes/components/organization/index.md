@@ -20,7 +20,10 @@ This headless component uses an `<article>` element for self-contained organizat
 
 ```html
 <Organization label="St James's Hospital, Cardiology Department">
-  <Image src="/logos/stjames.png" label="St James's Hospital logo" />
+  <image
+    src="/logos/stjames.png"
+    label="St James's Hospital logo"
+  />
   <h3>St James's Hospital</h3>
   <p>Cardiology Department</p>
   <address>Beckett Way, Leeds LS9 7TF</address>

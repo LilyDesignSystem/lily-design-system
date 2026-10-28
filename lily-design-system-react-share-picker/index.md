@@ -22,9 +22,7 @@ import {
 ## Quick start
 
 ```tsx
-import SharePicker, {
-  type ShareTarget,
-} from "./lily-design-system-react-share-picker/SharePicker";
+import SharePicker, { type ShareTarget } from "./lily-design-system-react-share-picker/SharePicker";
 
 const targets: ShareTarget[] = [
   {
@@ -112,7 +110,10 @@ it is a `<button>`.
 button and receives `{ open, url }`:
 
 ```tsx
-<SharePicker label="Share" targets={targets}>
+<SharePicker
+  label="Share"
+  targets={targets}
+>
   {({ open }) => <MyIcon rotated={open} />}
 </SharePicker>
 ```

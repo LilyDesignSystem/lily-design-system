@@ -30,24 +30,46 @@ The component auto-generates IDs for linking the label to its input and for asso
 Text input with description hint:
 
 ```html
-<Field label="Full name" description="Enter your first and last name" required>
-  <TextInput label="Full name" value={fullName} required />
+<Field
+  label="Full name"
+  description="Enter your first and last name"
+  required
+>
+  <TextInput
+    label="Full name"
+    value="{fullName}"
+    required
+  />
 </Field>
 ```
 
 Email field with validation error:
 
 ```html
-<Field label="Email address" required error={emailError}>
-  <EmailInput label="Email address" value={email} required />
+<Field
+  label="Email address"
+  required
+  error="{emailError}"
+>
+  <EmailInput
+    label="Email address"
+    value="{email}"
+    required
+  />
 </Field>
 ```
 
 Optional field with helper text:
 
 ```html
-<Field label="Notes" description="Any additional information (optional)">
-  <TextAreaInput label="Notes" value={notes} />
+<Field
+  label="Notes"
+  description="Any additional information (optional)"
+>
+  <TextAreaInput
+    label="Notes"
+    value="{notes}"
+  />
 </Field>
 ```
 
@@ -79,14 +101,11 @@ None -- this component is a passive container. Clicking the label focuses the as
 
 This headless component provides a `<div>` wrapper with a `<label>` linked via `for` attribute, optional description and error `<p>` elements with ARIA linking, a required indicator with `aria-hidden`, and `role="alert"` on the error. The consumer provides all visual styling for the label, input, description, error display, and required indicator.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.field` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `field`
 - Verify role="alert"` -- on the error paragraph, announces the error message to screen readers

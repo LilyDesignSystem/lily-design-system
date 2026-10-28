@@ -44,7 +44,7 @@ shading, resource/assignee columns.
 them unmodified — the same "depend on, don't vendor" rule
 `react-kanban-board` follows for its own headless table family. It
 also depends on `@lilydesignsystem/react-date-time-picker` — this
-catalog's first helper to compose a sibling *helper* twice in the same
+catalog's first helper to compose a sibling _helper_ twice in the same
 component (once for a task's start date, once for its end), mirroring
 `react-picker-bar`'s cross-package dependency/build-alias pattern (see
 §13).
@@ -106,18 +106,18 @@ not modified.
 
 ## 5. Props
 
-| Prop           | Type                                                   | Required | Default |
-| --------------- | -------------------------------------------------------- | -------- | ------- |
-| `label`         | `string`                                                   | yes      | —       |
-| `range`         | `{ start: string; end: string }` (ISO dates)               | yes      | —       |
-| `tasks`         | `GanttTask[]`                                              | yes      | —       |
-| `caption`       | `string`                                                    | no       | —       |
-| `timeUnit`      | `"day" \| "week" \| "month"`                                | no       | `"day"` |
-| `today`         | `string` (ISO date)                                         | no       | — (no marker unless supplied; never computed internally, to stay SSR-safe) |
-| `taskLabel`     | `(task: GanttTask) => string`                               | no       | `task.label` |
-| `onTaskChange`  | `(taskId: string, start: string, end: string) => void`      | no       | —       |
-| `labels`        | `GanttLabels`                                               | no       | `{}`    |
-| `className`     | `string`                                                    | no       | `""`    |
+| Prop           | Type                                                   | Required | Default                                                                    |
+| -------------- | ------------------------------------------------------ | -------- | -------------------------------------------------------------------------- |
+| `label`        | `string`                                               | yes      | —                                                                          |
+| `range`        | `{ start: string; end: string }` (ISO dates)           | yes      | —                                                                          |
+| `tasks`        | `GanttTask[]`                                          | yes      | —                                                                          |
+| `caption`      | `string`                                               | no       | —                                                                          |
+| `timeUnit`     | `"day" \| "week" \| "month"`                           | no       | `"day"`                                                                    |
+| `today`        | `string` (ISO date)                                    | no       | — (no marker unless supplied; never computed internally, to stay SSR-safe) |
+| `taskLabel`    | `(task: GanttTask) => string`                          | no       | `task.label`                                                               |
+| `onTaskChange` | `(taskId: string, start: string, end: string) => void` | no       | —                                                                          |
+| `labels`       | `GanttLabels`                                          | no       | `{}`                                                                       |
+| `className`    | `string`                                               | no       | `""`                                                                       |
 
 Plus every other native `<div>` attribute (`Props` extends
 `React.HTMLAttributes<HTMLDivElement>` minus `onChange`/`children`),
@@ -370,7 +370,6 @@ Tests §14.25–§14.40. The data grid's cell types, export and windowing, appli
   roving tab stop's row, between `.gantt-chart-spacer` rows. Rows carry `aria-rowindex`, the table `aria-rowcount`; keyboard focus scrolls the target row in. Rows are assumed `rowHeight` px tall.
 - **Hot path**: a task lookup map, per-column marker and today flags built once per `markers` / `columns` / `today` change, so a render does no per-cell `filter` or `find`.
 
-
 ## 17. Weekend shading and dependency arrows (0.6.0, 2026-10-17)
 
 Tests §17.1–§17.10.
@@ -418,7 +417,7 @@ The matching is the pure `typeahead.ts` (`isTypeaheadKey`, `nextTypeaheadState`,
 ## Weekend, holiday and time-off indicators (0.7.0, 2026-10-17)
 
 - **`unavailable`** is a list of dated ranges `{ start, end?, kind?, label? }` for holidays, time off and closures (`end` defaults to `start`; Lily ships no calendar, no kinds and no English). A column **every day of which is covered** gets `data-unavailable="<kinds>"` (the entries' `kind`s, `unavailable` when none, repeats removed) on its header and every cell; a column only **partly** covered gets `data-partly-unavailable` instead, so a holiday inside a week column is still marked. A `label` is rendered as text in the header (`.gantt-chart-unavailable-label`), so a day is never told apart by colour alone (WCAG 1.4.1). The weekend is `weekends`; `markers` flag one date; `isNonWorking` is a callback. Matching is the pure `unavailable.ts` (`unavailableOn`, `unavailableIn`, `unavailableKinds`), time-zone free.
-- **Shading** is CSS and ships in the 57 reference themes: weekends are tinted, unavailable days are tinted *and striped*, a partly unavailable column gets a bar under its header.
+- **Shading** is CSS and ships in the 57 reference themes: weekends are tinted, unavailable days are tinted _and striped_, a partly unavailable column gets a bar under its header.
 
 ## Direction and labels (0.7.0, 2026-10-17)
 

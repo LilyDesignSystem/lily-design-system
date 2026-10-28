@@ -8,12 +8,12 @@ resolution strategies, ordered by quality.
 
 ## TL;DR
 
-| Strategy                | Flash of default locale?  | Survives reload?      | SEO-friendly? |
-| ----------------------- | ------------------------- | --------------------- | ------------- |
-| `detectFromNavigator`   | yes (until client mounts) | only if `storageKey`  | no            |
-| `localStorage`          | yes (until client mounts) | yes                   | no            |
-| Cookie (`useCookie`)    | **no**                    | yes                   | no            |
-| URL prefix (`/fr/about`)| **no**                    | yes                   | **yes**       |
+| Strategy                 | Flash of default locale?  | Survives reload?     | SEO-friendly? |
+| ------------------------ | ------------------------- | -------------------- | ------------- |
+| `detectFromNavigator`    | yes (until client mounts) | only if `storageKey` | no            |
+| `localStorage`           | yes (until client mounts) | yes                  | no            |
+| Cookie (`useCookie`)     | **no**                    | yes                  | no            |
+| URL prefix (`/fr/about`) | **no**                    | yes                  | **yes**       |
 
 Use the **cookie** strategy unless you need SEO-distinct pages per
 locale; then use **URL prefix**.
@@ -51,38 +51,33 @@ SSR and writes to `document.cookie` on the client. Combined with
 ```vue
 <script setup lang="ts">
 import { computed } from "vue";
-import LocalePicker, {
-    isRtlLocale,
-    bcp47LocaleTag,
-} from "@/lib/LocalePicker.vue";
+import LocalePicker, { isRtlLocale, bcp47LocaleTag } from "@/lib/LocalePicker.vue";
 
 // useCookie() is auto-imported in Nuxt 3. Reads the server-side
 // cookie on the first request; survives reloads.
 const locale = useCookie<string>("locale", {
-    default: () => "en",
-    sameSite: "lax",
-    maxAge: 60 * 60 * 24 * 365,
+  default: () => "en",
+  sameSite: "lax",
+  maxAge: 60 * 60 * 24 * 365,
 });
 
 const langTag = computed(() => bcp47LocaleTag(locale.value));
-const direction = computed(() =>
-    isRtlLocale(locale.value) ? "rtl" : "ltr",
-);
+const direction = computed(() => (isRtlLocale(locale.value) ? "rtl" : "ltr"));
 
 // useHead lets Nuxt render <html lang="…" dir="…"> in the SSR
 // response, before any JS runs.
 useHead({
-    htmlAttrs: { lang: langTag, dir: direction },
+  htmlAttrs: { lang: langTag, dir: direction },
 });
 </script>
 
 <template>
-    <LocalePicker
-        label="Language"
-        :locales="['en', 'fr', 'ar']"
-        v-model:value="locale"
-    />
-    <NuxtPage />
+  <LocalePicker
+    label="Language"
+    :locales="['en', 'fr', 'ar']"
+    v-model:value="locale"
+  />
+  <NuxtPage />
 </template>
 ```
 
@@ -120,21 +115,20 @@ import { defineEventHandler, getCookie, getRequestHeader } from "h3";
 const SUPPORTED = ["en", "fr", "ar"];
 
 function pickFromAcceptLanguage(header: string | undefined): string {
-    if (!header) return "en";
-    for (const item of header.split(",")) {
-        const tag = item.split(";")[0].trim().toLowerCase();
-        if (SUPPORTED.includes(tag)) return tag;
-        const base = tag.split("-")[0];
-        if (SUPPORTED.includes(base)) return base;
-    }
-    return "en";
+  if (!header) return "en";
+  for (const item of header.split(",")) {
+    const tag = item.split(";")[0].trim().toLowerCase();
+    if (SUPPORTED.includes(tag)) return tag;
+    const base = tag.split("-")[0];
+    if (SUPPORTED.includes(base)) return base;
+  }
+  return "en";
 }
 
 export default defineEventHandler((event) => {
-    const cookie = getCookie(event, "locale");
-    event.context.locale =
-        cookie ??
-        pickFromAcceptLanguage(getRequestHeader(event, "accept-language"));
+  const cookie = getCookie(event, "locale");
+  event.context.locale =
+    cookie ?? pickFromAcceptLanguage(getRequestHeader(event, "accept-language"));
 });
 ```
 
@@ -143,10 +137,9 @@ export default defineEventHandler((event) => {
 ```ts
 // plugins/locale.ts
 export default defineNuxtPlugin(() => {
-    const event = useRequestEvent();
-    const initial =
-        (event?.context as { locale?: string } | undefined)?.locale ?? "en";
-    return { provide: { initialLocale: initial } };
+  const event = useRequestEvent();
+  const initial = (event?.context as { locale?: string } | undefined)?.locale ?? "en";
+  return { provide: { initialLocale: initial } };
 });
 ```
 
@@ -155,41 +148,37 @@ export default defineNuxtPlugin(() => {
 ```vue
 <script setup lang="ts">
 import { computed } from "vue";
-import LocalePicker, {
-    isRtlLocale,
-    bcp47LocaleTag,
-} from "@/lib/LocalePicker.vue";
+import LocalePicker, { isRtlLocale, bcp47LocaleTag } from "@/lib/LocalePicker.vue";
 
 const { $initialLocale } = useNuxtApp() as unknown as {
-    $initialLocale: string;
+  $initialLocale: string;
 };
 
 // useState() hoists the ref above the tree and is hydration-safe.
 const locale = useState<string>("locale", () => $initialLocale);
 
 useHead({
-    htmlAttrs: {
-        lang: computed(() => bcp47LocaleTag(locale.value)),
-        dir: computed(() => (isRtlLocale(locale.value) ? "rtl" : "ltr")),
-    },
+  htmlAttrs: {
+    lang: computed(() => bcp47LocaleTag(locale.value)),
+    dir: computed(() => (isRtlLocale(locale.value) ? "rtl" : "ltr")),
+  },
 });
 
 async function persistLocaleCookie(code: string) {
-    if (import.meta.client) {
-        document.cookie =
-            `locale=${code}; path=/; max-age=31536000; SameSite=Lax`;
-    }
+  if (import.meta.client) {
+    document.cookie = `locale=${code}; path=/; max-age=31536000; SameSite=Lax`;
+  }
 }
 </script>
 
 <template>
-    <LocalePicker
-        label="Language"
-        :locales="['en', 'fr', 'ar']"
-        v-model:value="locale"
-        @change="persistLocaleCookie"
-    />
-    <NuxtPage />
+  <LocalePicker
+    label="Language"
+    :locales="['en', 'fr', 'ar']"
+    v-model:value="locale"
+    @change="persistLocaleCookie"
+  />
+  <NuxtPage />
 </template>
 ```
 
@@ -224,22 +213,19 @@ const router = useRouter();
 const current = computed(() => String(route.params.locale ?? "en"));
 
 function navigate(next: string) {
-    const newPath = String(route.path).replace(
-        /^\/(en|fr|ar)/,
-        `/${next}`,
-    );
-    router.push(newPath);
+  const newPath = String(route.path).replace(/^\/(en|fr|ar)/, `/${next}`);
+  router.push(newPath);
 }
 </script>
 
 <template>
-    <LocalePicker
-        label="Language"
-        :locales="['en', 'fr', 'ar']"
-        :value="current"
-        @change="navigate"
-    />
-    <slot />
+  <LocalePicker
+    label="Language"
+    :locales="['en', 'fr', 'ar']"
+    :value="current"
+    @change="navigate"
+  />
+  <slot />
 </template>
 ```
 
@@ -257,11 +243,11 @@ else works.
 
 ```vue
 <LocalePicker
-    label="Language"
-    :locales="['en', 'fr', 'ar']"
-    v-model:value="locale"
-    storage-key="app-locale"
-    detect-from-navigator
+  label="Language"
+  :locales="['en', 'fr', 'ar']"
+  v-model:value="locale"
+  storage-key="app-locale"
+  detect-from-navigator
 />
 ```
 
@@ -312,9 +298,9 @@ import { renderToString } from "vue/server-renderer";
 import LocalePicker from "./LocalePicker.vue";
 
 const app = createSSRApp(LocalePicker, {
-    label: "Language",
-    locales: ["en", "fr", "ar"],
-    value: "fr",
+  label: "Language",
+  locales: ["en", "fr", "ar"],
+  value: "fr",
 });
 const html = await renderToString(app);
 // html contains the globe button plus a hidden listbox whose "fr"

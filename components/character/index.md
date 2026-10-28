@@ -25,8 +25,7 @@ This component is useful for initials, status indicators, rating symbols, decora
 Meaningful characters with accessible labels:
 
 ```html
-<Character label="Check mark">✓</Character>
-<Character label="Warning symbol">⚠</Character>
+<Character label="Check mark">✓</Character> <Character label="Warning symbol">⚠</Character>
 ```
 
 Decorative character hidden from assistive technology:
@@ -49,7 +48,11 @@ Decorative drop cap at the start of a paragraph:
 
 ```html
 <p>
-  <Character decorative class="drop-cap">O</Character>nce upon a time, in a design system far, far away...
+  <Character
+    decorative
+    class="drop-cap"
+    >O</Character
+  >nce upon a time, in a design system far, far away...
 </p>
 ```
 
@@ -81,18 +84,15 @@ None -- this component is a passive display element.
 
 This headless Character component provides the semantic `<span>` with conditional `role="img"` and `aria-label` for meaningful characters, or `role="presentation"` with `aria-hidden` for decorative ones. The consumer provides all visual styling including font size, color, spacing, and any decorative effects.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.character` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<span>` element with class `character`
 - Verify role="img"` -- applied when the character is meaningful (decorative is false), indicating the span represents an image-like glyph
-- Verify role="presentation"` -- applied when `decorative` is true, removing semantic meaning
+- Verify role="presentation"`-- applied when`decorative` is true, removing semantic meaning
 - Verify aria-label` -- provides the accessible name for meaningful characters; omitted when decorative
 - Verify pass-through attributes are applied
 

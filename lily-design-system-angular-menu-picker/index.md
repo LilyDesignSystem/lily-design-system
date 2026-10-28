@@ -22,7 +22,14 @@ import { MenuPicker, MenuPickerIcon } from "@lilydesignsystem/angular-menu-picke
       <ul>
         <li><a href="/">Home</a></li>
         <li><a href="/about/">About Us</a></li>
-        <li><button type="button" (click)="signOut()">Sign out</button></li>
+        <li>
+          <button
+            type="button"
+            (click)="signOut()"
+          >
+            Sign out
+          </button>
+        </li>
       </ul>
     </lily-menu-picker>
   `,
@@ -38,9 +45,15 @@ ships no links and no English, so the panel's content, and every word on it, is 
 Give the element a template reference to its `exportAs`:
 
 ```html
-<lily-menu-picker #menu="lilyMenuPicker" label="Menu">
+<lily-menu-picker
+  #menu="lilyMenuPicker"
+  label="Menu"
+>
   <form (submit)="$event.preventDefault(); search(); menu.close()">
-    <input type="search" aria-label="Search" />
+    <input
+      type="search"
+      aria-label="Search"
+    />
   </form>
 </lily-menu-picker>
 ```

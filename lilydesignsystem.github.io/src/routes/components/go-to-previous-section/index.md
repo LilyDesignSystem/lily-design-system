@@ -18,7 +18,10 @@ A link that takes users to the previous section of the current page.
 ## Usage
 
 ```html
-<GoToPreviousSection href="#section-1" label="Previous section: Introduction" />
+<GoToPreviousSection
+  href="#section-1"
+  label="Previous section: Introduction"
+/>
 ```
 
 ## Keyboard Interactions

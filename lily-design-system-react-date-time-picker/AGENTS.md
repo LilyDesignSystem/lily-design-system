@@ -20,15 +20,15 @@ rather than a page-header preference control — see
 
 ## Files
 
-| File                      | Purpose                                            |
-| ------------------------- | --------------------------------------------------- |
-| `spec/index.md`           | Specification-driven contract (canonical).         |
-| `DateTimePicker.tsx`      | Implementation. React 19 hooks + TypeScript.        |
-| `DateTimePicker.test.tsx` | Vitest spec, mapped to the §7 clauses (65 tests).   |
-| `index.ts`                | Barrel re-export.                                   |
-| `index.md`                | User guide.                                         |
-| `docs/accessibility.md`   | Tradeoffs, stated plainly.                          |
-| `examples/`               | Runnable React 19 examples.                         |
+| File                      | Purpose                                           |
+| ------------------------- | ------------------------------------------------- |
+| `spec/index.md`           | Specification-driven contract (canonical).        |
+| `DateTimePicker.tsx`      | Implementation. React 19 hooks + TypeScript.      |
+| `DateTimePicker.test.tsx` | Vitest spec, mapped to the §7 clauses (65 tests). |
+| `index.ts`                | Barrel re-export.                                 |
+| `index.md`                | User guide.                                       |
+| `docs/accessibility.md`   | Tradeoffs, stated plainly.                        |
+| `examples/`               | Runnable React 19 examples.                       |
 
 ## Public surface
 
@@ -46,7 +46,7 @@ Required props: `label`, `labels`.
 ## Behaviour contract (one paragraph)
 
 The value is an ISO string shaped by `mode`: `YYYY-MM-DD`, `HH:MM`, or
-`YYYY-MM-DDTHH:MM`. Selection inside the dialog writes to *pending* React
+`YYYY-MM-DDTHH:MM`. Selection inside the dialog writes to _pending_ React
 state; only Confirm — or a day click when `confirmOnSelect` (default:
 date-only mode) — commits it and fires `onChange`. Cancel, Escape and
 click-outside close without committing. Typed text resolves on blur or
@@ -85,7 +85,7 @@ original and carried over here.
   or "next month" cannot be activated twice in a row.
 - **The six required label keys stay required.** Inventing an English
   accessible name for a nav button is the defect this package exists to
-  avoid. `labels.invalid` and `labels.instructions` stay *optional* for
+  avoid. `labels.invalid` and `labels.instructions` stay _optional_ for
   the same reason: without them the component announces nothing rather
   than announcing in a language it invented.
 - **Fixed six-row grid.** Variable height moves the confirm button as
@@ -98,8 +98,8 @@ original and carried over here.
   rather than reading `pendingDate` / `pendingTime` state. This is a
   React-specific correction the Svelte port did not need: `setState` does
   not take effect until the next render, so a day click or a shortcut
-  that both updates the pending selection *and* commits in the same
-  handler must pass the fresh value in, or it commits the *previous*
+  that both updates the pending selection _and_ commits in the same
+  handler must pass the fresh value in, or it commits the _previous_
   render's selection. See the comment on `commit` in
   `DateTimePicker.tsx`.
 

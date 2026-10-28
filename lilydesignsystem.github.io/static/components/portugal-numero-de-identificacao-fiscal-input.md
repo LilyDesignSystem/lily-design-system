@@ -23,8 +23,15 @@ PortugalNumeroDeIdentificacaoFiscalInput is a headless input for entering Portug
 ## Usage
 
 ```html
-<Field label="Tax Identification Number" required>
-  <PortugalNumeroDeIdentificacaoFiscalInput label="Tax Identification Number" value={value} required />
+<Field
+  label="Tax Identification Number"
+  required
+>
+  <PortugalNumeroDeIdentificacaoFiscalInput
+    label="Tax Identification Number"
+    value="{value}"
+    required
+  />
   <Hint>9 digits</Hint>
   <ErrorMessage>Please enter a valid Tax Identification Number</ErrorMessage>
 </Field>

@@ -11,10 +11,10 @@ either adjust the `<script type="module" src=…>` in each example or
 serve that file at the nominal path. The path is a convention, not a
 requirement.
 
-| # | File | Demonstrates |
-| - | ---- | ------------ |
-| 1 | [`01-basic.html`](./01-basic.html) | The smallest useful call site: a labelled field, a locale, and the six required strings. |
-| 2 | [`02-nhs-booking.html`](./02-nhs-booking.html) | The shape this component was built for: a bilingual `datetime` booking with a closed-weekends predicate, a twelve-week window, `minuteStep`, and shortcuts. |
+| #   | File                                           | Demonstrates                                                                                                                                                |
+| --- | ---------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | [`01-basic.html`](./01-basic.html)             | The smallest useful call site: a labelled field, a locale, and the six required strings.                                                                    |
+| 2   | [`02-nhs-booking.html`](./02-nhs-booking.html) | The shape this component was built for: a bilingual `datetime` booking with a closed-weekends predicate, a twelve-week window, `minuteStep`, and shortcuts. |
 
 ## The package ships its own CSS in these examples only
 

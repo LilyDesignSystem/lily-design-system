@@ -9,7 +9,11 @@ See [components/streaming-text/index.md](../../../../components/streaming-text/i
 ## Usage
 
 ```html
-<lily-streaming-text label="Assistant answer" [streaming]="isStreaming">{{ answerSoFar }}</lily-streaming-text>
+<lily-streaming-text
+  label="Assistant answer"
+  [streaming]="isStreaming"
+  >{{ answerSoFar }}</lily-streaming-text
+>
 ```
 
 ## Contract

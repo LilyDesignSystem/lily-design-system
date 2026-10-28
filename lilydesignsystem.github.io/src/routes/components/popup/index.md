@@ -25,22 +25,63 @@ The component is similar to Popover but is designed as a general-purpose overlay
 Quick action overlay:
 
 ```html
-<button onclick={() => showPopup = !showPopup}>Sort results</button>
-<Popup label="Sort options" open={showPopup}>
-  <button onclick={() => { sortBy('date'); showPopup = false; }}>Date</button>
-  <button onclick={() => { sortBy('name'); showPopup = false; }}>Name</button>
-  <button onclick={() => { sortBy('relevance'); showPopup = false; }}>Relevance</button>
+<button
+  onclick="{()"
+  =""
+>
+  showPopup = !showPopup}>Sort results
+</button>
+<Popup
+  label="Sort options"
+  open="{showPopup}"
+>
+  <button
+    onclick="{()"
+    =""
+  >
+    { sortBy('date'); showPopup = false; }}>Date
+  </button>
+  <button
+    onclick="{()"
+    =""
+  >
+    { sortBy('name'); showPopup = false; }}>Name
+  </button>
+  <button
+    onclick="{()"
+    =""
+  >
+    { sortBy('relevance'); showPopup = false; }}>Relevance
+  </button>
 </Popup>
 ```
 
 Inline editing overlay:
 
 ```html
-<button onclick={() => showEdit = true}>Edit note</button>
-<Popup label="Edit note" open={showEdit}>
+<button
+  onclick="{()"
+  =""
+>
+  showEdit = true}>Edit note
+</button>
+<Popup
+  label="Edit note"
+  open="{showEdit}"
+>
   <textarea>{noteText}</textarea>
-  <button onclick={() => { saveNote(); showEdit = false; }}>Save</button>
-  <button onclick={() => showEdit = false}>Cancel</button>
+  <button
+    onclick="{()"
+    =""
+  >
+    { saveNote(); showEdit = false; }}>Save
+  </button>
+  <button
+    onclick="{()"
+    =""
+  >
+    showEdit = false}>Cancel
+  </button>
 </Popup>
 ```
 
@@ -71,14 +112,11 @@ Inline editing overlay:
 
 The Popup headless component provides a conditionally rendered `<div>` with `role="dialog"` and `aria-label` for accessible naming. It manages open/close visibility via two-way binding. The consumer provides all visual styling, positioning, trigger elements, and focus trap logic.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.popup` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `popup`
 - Verify role="dialog"` -- identifies the popup as a dialog overlay for assistive technology

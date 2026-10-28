@@ -28,7 +28,11 @@ This component is useful for displaying disk usage, battery level, password stre
 ## Usage
 
 ```svelte
-<Meter label="Disk space" value={45} max={100} />
+<Meter
+  label="Disk space"
+  value={45}
+  max={100}
+/>
 ```
 
 ## Keyboard Interactions

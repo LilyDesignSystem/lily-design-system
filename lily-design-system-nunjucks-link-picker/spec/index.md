@@ -30,14 +30,14 @@ and no words: every link, and every accessible name, comes from the consumer.
 
 ### 4.1 Props
 
-| Prop | Type | Required | Notes |
-| --- | --- | --- | --- |
-| `label` | `string` | yes | Accessible name of the button **and** the list; also the tooltip text. |
-| `links` | `array` | yes | `{ label, href, id?, current?, newTab? }`, already resolved (hrefs are strings). |
-| `name` / `id` | `string` | no | Id discriminator / explicit id prefix (default `link-picker-link`). |
-| `classes` / `attributes` | | no | Extra root classes / attributes. |
-| `{% call %}` body | | no | Replaces the **icon**, not the links. |
-| client `navigate`, `onNavigate` | functions | no | Passed to `initLinkPicker(root, opts)` / `autoInit(opts)`: a macro cannot carry a function. |
+| Prop                            | Type      | Required | Notes                                                                                       |
+| ------------------------------- | --------- | -------- | ------------------------------------------------------------------------------------------- |
+| `label`                         | `string`  | yes      | Accessible name of the button **and** the list; also the tooltip text.                      |
+| `links`                         | `array`   | yes      | `{ label, href, id?, current?, newTab? }`, already resolved (hrefs are strings).            |
+| `name` / `id`                   | `string`  | no       | Id discriminator / explicit id prefix (default `link-picker-link`).                         |
+| `classes` / `attributes`        |           | no       | Extra root classes / attributes.                                                            |
+| `{% call %}` body               |           | no       | Replaces the **icon**, not the links.                                                       |
+| client `navigate`, `onNavigate` | functions | no       | Passed to `initLinkPicker(root, opts)` / `autoInit(opts)`: a macro cannot carry a function. |
 
 **Differences from the Svelte contract (idiom, not behaviour).** The macro renders the full DOM server-side (real links, hidden list) and works without JavaScript except opening the list; `link-picker.client.js` adds the interaction, tooltip and the function hooks (`navigate`, `onNavigate`). Outside-click, focus-out and keyboard behaviour are the same.
 
@@ -45,12 +45,42 @@ and no words: every link, and every accessible name, comes from the consumer.
 
 ```html
 <div class="link-picker {class}">
-  <button class="link-picker-button" type="button" aria-label="{label}" aria-expanded="false" aria-controls="{id}-list">
-    <svg class="link-picker-icon" aria-hidden="true" viewBox="0 0 16 16" …home…/>
+  <button
+    class="link-picker-button"
+    type="button"
+    aria-label="{label}"
+    aria-expanded="false"
+    aria-controls="{id}-list"
+  >
+    <svg
+      class="link-picker-icon"
+      aria-hidden="true"
+      viewBox="0 0 16 16"
+      …home…
+    />
   </button>
-  <div class="link-picker-tooltip" role="tooltip" id="{id}-tooltip" hidden>{label}</div>
-  <ul class="link-picker-list" id="{id}-list" aria-label="{label}" hidden>
-    <li class="link-picker-list-item"><a class="link-picker-link" href="/" data-link-id="/">Home</a></li>
+  <div
+    class="link-picker-tooltip"
+    role="tooltip"
+    id="{id}-tooltip"
+    hidden
+  >
+    {label}
+  </div>
+  <ul
+    class="link-picker-list"
+    id="{id}-list"
+    aria-label="{label}"
+    hidden
+  >
+    <li class="link-picker-list-item">
+      <a
+        class="link-picker-link"
+        href="/"
+        data-link-id="/"
+        >Home</a
+      >
+    </li>
     …
   </ul>
 </div>

@@ -31,7 +31,10 @@ This headless component renders a `<div>` with class `draft`. The consumer suppl
 With editorial state:
 
 ```html
-<Draft label="Quarterly report" status="review">
+<Draft
+  label="Quarterly report"
+  status="review"
+>
   <p>Q1 figures pending finance sign-off.</p>
 </Draft>
 ```

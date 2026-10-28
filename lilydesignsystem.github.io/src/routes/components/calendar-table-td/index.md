@@ -25,7 +25,11 @@ The component uses a roving tabindex pattern where the selected cell has `tabind
 ```html
 <CalendarTableRow>
   <CalendarTableTD>7</CalendarTableTD>
-  <CalendarTableTD today selected>8</CalendarTableTD>
+  <CalendarTableTD
+    today
+    selected
+    >8</CalendarTableTD
+  >
   <CalendarTableTD>9</CalendarTableTD>
 </CalendarTableRow>
 ```
@@ -61,14 +65,11 @@ The component uses a roving tabindex pattern where the selected cell has `tabind
 
 This component provides a `<td>` with `role="gridcell"`, conditional `aria-selected`, conditional `aria-current="date"`, and roving tabindex pattern, all with zero visual styling. The consumer is responsible for all CSS including cell sizing, selected state highlight, today indicator, hover effects, focus ring, and disabled day styling.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.calendar-table-td` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<td>` element with class `calendar-table-td`
 - Verify role="gridcell"` -- identifies the cell as part of a grid
@@ -92,7 +93,11 @@ CalendarTableTD is part of the CalendarTable composition pattern:
 ```html
 <CalendarTableRow>
   <CalendarTableTD>14</CalendarTableTD>
-  <CalendarTableTD today selected>15</CalendarTableTD>
+  <CalendarTableTD
+    today
+    selected
+    >15</CalendarTableTD
+  >
   <CalendarTableTD>16</CalendarTableTD>
 </CalendarTableRow>
 ```

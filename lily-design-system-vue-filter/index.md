@@ -1,6 +1,6 @@
 # Filter (Vue 3 helper)
 
-A headless filter builder for Vue 3: the user composes **conditions** (a field, an operator, a value) into **groups** joined by *and* / *or*, and the result comes out as **JSON, SQL, MongoDB, OData** or an in-memory **predicate**. It ships semantic HTML, ARIA and focus management, **no CSS**, and **no English**: every string is a prop.
+A headless filter builder for Vue 3: the user composes **conditions** (a field, an operator, a value) into **groups** joined by _and_ / _or_, and the result comes out as **JSON, SQL, MongoDB, OData** or an in-memory **predicate**. It ships semantic HTML, ARIA and focus management, **no CSS**, and **no English**: every string is a prop.
 
 Source: [lily-design-system](https://github.com/LilyDesignSystem/lily-design-system), package `@lilydesignsystem/vue-filter`. Contract: [spec/index.md](spec/index.md).
 
@@ -15,23 +15,44 @@ npm install @lilydesignsystem/vue-filter
 ```vue
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { Filter, EMPTY_FILTER, toSql, toPredicate, type FilterField } from "@lilydesignsystem/vue-filter";
+import {
+  Filter,
+  EMPTY_FILTER,
+  toSql,
+  toPredicate,
+  type FilterField,
+} from "@lilydesignsystem/vue-filter";
 
 const fields: FilterField[] = [
-    { id: "name", label: "Name" },
-    { id: "age", label: "Age", type: "number" },
-    { id: "joined", label: "Joined", type: "date", column: "joined_on" },
-    { id: "team", label: "Team", type: "select", options: [{ id: "red", label: "Red" }, { id: "blue", label: "Blue" }] },
-    { id: "active", label: "Active", type: "boolean" },
+  { id: "name", label: "Name" },
+  { id: "age", label: "Age", type: "number" },
+  { id: "joined", label: "Joined", type: "date", column: "joined_on" },
+  {
+    id: "team",
+    label: "Team",
+    type: "select",
+    options: [
+      { id: "red", label: "Red" },
+      { id: "blue", label: "Blue" },
+    ],
+  },
+  { id: "active", label: "Active", type: "boolean" },
 ];
 
 const filter = ref(EMPTY_FILTER());
 const where = computed(() => toSql(filter.value, fields, { dialect: "postgres" })); // { sql, params }
-const passes = computed(() => toPredicate(filter.value, fields));                    // (row) => boolean
+const passes = computed(() => toPredicate(filter.value, fields)); // (row) => boolean
 </script>
 
 <template>
-    <Filter label="Filter people" :fields="fields" v-model="filter" :labels="labels" format="sql" dialect="postgres" />
+  <Filter
+    label="Filter people"
+    :fields="fields"
+    v-model="filter"
+    :labels="labels"
+    format="sql"
+    dialect="postgres"
+  />
 </template>
 ```
 
@@ -39,13 +60,13 @@ const passes = computed(() => toPredicate(filter.value, fields));               
 
 ## Fields and operators
 
-| Type | Value | Operators |
-| ---- | ----- | --------- |
-| `text` (default) | text | contains, does not contain, equals, not equals, starts with, ends with, is empty, is not empty |
-| `number` | number | equals, not equals, **greater than**, **at least** (lower limit), **less than**, **at most** (upper limit), **between**, not between, is empty, is not empty |
-| `date` | ISO `YYYY-MM-DD` | the same as `number` — a date range is `between` |
-| `select` | an option id | equals, not equals, **is one of**, **is none of**, is empty, is not empty |
-| `boolean` | — | is true, is false, is empty, is not empty |
+| Type             | Value            | Operators                                                                                                                                                    |
+| ---------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `text` (default) | text             | contains, does not contain, equals, not equals, starts with, ends with, is empty, is not empty                                                               |
+| `number`         | number           | equals, not equals, **greater than**, **at least** (lower limit), **less than**, **at most** (upper limit), **between**, not between, is empty, is not empty |
+| `date`           | ISO `YYYY-MM-DD` | the same as `number` — a date range is `between`                                                                                                             |
+| `select`         | an option id     | equals, not equals, **is one of**, **is none of**, is empty, is not empty                                                                                    |
+| `boolean`        | —                | is true, is false, is empty, is not empty                                                                                                                    |
 
 A field's `operators` can restrict the list (`operators: ["gte", "lte"]` for a limit-only field), `column` names it in SQL / MongoDB / OData, and `options` supplies a `select`'s choices.
 
@@ -53,14 +74,14 @@ A field's `operators` can restrict the list (`operators: ["gte", "lte"]` for a l
 
 All pure functions over the filter value — use them with or without the component:
 
-| Function | Result |
-| -------- | ------ |
-| `toJson(filter, fields)` | plain, id-free `{ combinator, not?, rules: [...] }`, or `null` when empty; `fromJson` reads it back (reporting what it cannot) |
-| `toSql(filter, fields, { dialect, inline })` | `{ sql, params }` — the `WHERE` condition without the word; values are **parameters** (`?`, `$1`, `@p1` by dialect) |
-| `toMongo(filter, fields)` | a MongoDB query document |
-| `toOData(filter, fields)` | an OData `$filter` expression |
-| `toPredicate(filter, fields)` | `(row) => boolean` over rows keyed by field id; an empty filter passes every row |
-| `formatFilter(filter, fields, format, dialect)` | any of them as display text (SQL with values inline) |
+| Function                                        | Result                                                                                                                         |
+| ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `toJson(filter, fields)`                        | plain, id-free `{ combinator, not?, rules: [...] }`, or `null` when empty; `fromJson` reads it back (reporting what it cannot) |
+| `toSql(filter, fields, { dialect, inline })`    | `{ sql, params }` — the `WHERE` condition without the word; values are **parameters** (`?`, `$1`, `@p1` by dialect)            |
+| `toMongo(filter, fields)`                       | a MongoDB query document                                                                                                       |
+| `toOData(filter, fields)`                       | an OData `$filter` expression                                                                                                  |
+| `toPredicate(filter, fields)`                   | `(row) => boolean` over rows keyed by field id; an empty filter passes every row                                               |
+| `formatFilter(filter, fields, format, dialect)` | any of them as display text (SQL with values inline)                                                                           |
 
 An **incomplete** condition (no value yet, a bad date, a range the wrong way round) is a normal state while the user types: it is shown, flagged by nothing, and **left out of every output** until it is finished. Dialects: `ansi`, `postgres`, `mysql`, `sqlite`, `mssql`.
 
@@ -72,20 +93,30 @@ Values are always parameters. Column names come only from the declared `fields`,
 
 ```ts
 const labels: FilterLabels = {
-    rule: (n) => `Condition ${n}`,          group: (depth) => `Group, level ${depth}`,
-    field: "Field",                          operator: "Operator",
-    operatorName: (op) => names[op],         value: "Value", valueFrom: "From", valueTo: "To",
-    combinator: "Match", and: "all", or: "any", not: "Not",
-    addRule: "Add condition", addGroup: "Add group",
-    removeRule: (n) => `Remove condition ${n}`, removeGroup: (depth) => `Remove group, level ${depth}`,
-    // optional: choose, empty, output (names the text output), ruleAdded / ruleRemoved / groupAdded / groupRemoved (announcements)
+  rule: (n) => `Condition ${n}`,
+  group: (depth) => `Group, level ${depth}`,
+  field: "Field",
+  operator: "Operator",
+  operatorName: (op) => names[op],
+  value: "Value",
+  valueFrom: "From",
+  valueTo: "To",
+  combinator: "Match",
+  and: "all",
+  or: "any",
+  not: "Not",
+  addRule: "Add condition",
+  addGroup: "Add group",
+  removeRule: (n) => `Remove condition ${n}`,
+  removeGroup: (depth) => `Remove group, level ${depth}`,
+  // optional: choose, empty, output (names the text output), ruleAdded / ruleRemoved / groupAdded / groupRemoved (announcements)
 };
 ```
 
 ## Behaviour
 
-- Markup: a labelled `group` per level; each condition a `group` named by `labels.rule(n)` holding named `<select>`s and an input of the type's kind (`text`, `number`, `date`, a `<select>`, or a checkbox list for *is one of*); add and remove are real buttons.
-- Focus: adding a condition focuses its field select; removing one returns focus to the group's *Add condition*.
+- Markup: a labelled `group` per level; each condition a `group` named by `labels.rule(n)` holding named `<select>`s and an input of the type's kind (`text`, `number`, `date`, a `<select>`, or a checkbox list for _is one of_); add and remove are real buttons.
+- Focus: adding a condition focuses its field select; removing one returns focus to the group's _Add condition_.
 - Announcements through a polite status region, only when the label is given.
 - `readonly` shows the filter without controls to change it; `maxDepth` (default 3) bounds nesting.
 - The value is immutable data: every change is a new object, and what did not change is shared, so the `v-model` value works with `ref`, a store or a URL.

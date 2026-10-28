@@ -10,11 +10,11 @@ See [components/pie-chart/index.md](../../../../../components/pie-chart/index.md
 
 ```svelte
 <script lang="ts">
-    import PieChart from "./PieChart.svelte";
+  import PieChart from "./PieChart.svelte";
 </script>
 
 <PieChart label="Describe the chart">
-    <svg viewBox="0 0 10 10">…</svg>
+  <svg viewBox="0 0 10 10">…</svg>
 </PieChart>
 ```
 

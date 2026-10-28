@@ -22,7 +22,10 @@ An email link displays an email as a clickable mailto link. When clicked, it ope
 Email link on a contact page:
 
 ```html
-<EmailLink email="support@example.com" label="Email our support team" />
+<EmailLink
+  email="support@example.com"
+  label="Email our support team"
+/>
 ```
 
 Email link in a user profile card:
@@ -55,14 +58,11 @@ None -- this is a standard `<a>` link; keyboard behavior (Tab to focus, Enter to
 
 This headless component provides an `<a>` element with `href="mailto:{email}"`, the email address as visible link text, and optional `aria-label` override for additional context. The consumer provides all visual styling for the link appearance.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.email-link` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<a>` element with class `email-link`
 - Verify aria-label="..."` -- optional override for the accessible name when the visible email text alone is insufficient context

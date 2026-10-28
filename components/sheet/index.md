@@ -30,20 +30,33 @@ Use Sheet when you need a temporary panel that slides in from the top, right, bo
 Settings panel sliding in from the right:
 
 ```html
-<Sheet label="Settings" open={settingsOpen} side="right">
+<Sheet
+  label="Settings"
+  open="{settingsOpen}"
+  side="right"
+>
   <h2>Preferences</h2>
   <form>
     <label><input type="checkbox" /> Enable notifications</label>
     <label><input type="checkbox" /> Dark mode</label>
   </form>
-  <button onclick={() => (settingsOpen = false)}>Close</button>
+  <button
+    onclick="{()"
+    =""
+  >
+    (settingsOpen = false)}>Close
+  </button>
 </Sheet>
 ```
 
 Mobile action sheet sliding up from the bottom:
 
 ```html
-<Sheet label="Share options" open={shareOpen} side="bottom">
+<Sheet
+  label="Share options"
+  open="{shareOpen}"
+  side="bottom"
+>
   <ul>
     <li><button>Copy link</button></li>
     <li><button>Email</button></li>
@@ -80,14 +93,11 @@ Mobile action sheet sliding up from the bottom:
 
 This headless component provides a modal dialog container with `role="dialog"`, `aria-modal="true"`, `aria-label`, Escape key dismissal, and a `data-side` attribute for CSS targeting. The consumer provides all visual styling including slide-in animations, backdrop, positioning, and focus management.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.sheet` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `sheet`
 - Verify role="dialog"` -- identifies the sheet as a dialog window

@@ -36,10 +36,7 @@ Configure Nunjucks with the components path:
 ```js
 import nunjucks from "nunjucks";
 
-nunjucks.configure([
-  "node_modules/@lilydesignsystem/nunjucks-headless",
-  "views",
-], {
+nunjucks.configure(["node_modules/@lilydesignsystem/nunjucks-headless", "views"], {
   autoescape: true,
 });
 ```
@@ -67,7 +64,13 @@ Import and call macros:
 Renders:
 
 ```html
-<button class="button" type="button" aria-label="">Click me</button>
+<button
+  class="button"
+  type="button"
+  aria-label=""
+>
+  Click me
+</button>
 ```
 
 ### Breadcrumb navigation

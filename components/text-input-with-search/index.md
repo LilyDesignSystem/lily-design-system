@@ -37,8 +37,8 @@ Patient lookup with custom labels:
   label="Patient lookup"
   inputLabel="Patient name"
   searchLabel="Find"
-  value={query}
-  onsearch={handlePatientSearch}
+  value="{query}"
+  onsearch="{handlePatientSearch}"
   placeholder="Enter patient name or ID"
 />
 ```
@@ -50,8 +50,8 @@ Address lookup triggering an external API:
   label="Address search"
   inputLabel="Postcode or street"
   searchLabel="Look up"
-  value={address}
-  onsearch={handleAddressLookup}
+  value="{address}"
+  onsearch="{handleAddressLookup}"
   placeholder="e.g. SW1A 1AA"
 />
 ```
@@ -59,7 +59,11 @@ Address lookup triggering an external API:
 Site-wide search bar with button:
 
 ```html
-<TextInputWithSearch label="Site search" onsearch={handleSiteSearch} placeholder="Search..." />
+<TextInputWithSearch
+  label="Site search"
+  onsearch="{handleSiteSearch}"
+  placeholder="Search..."
+/>
 ```
 
 ## Keyboard Interactions

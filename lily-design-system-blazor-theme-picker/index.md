@@ -144,7 +144,11 @@ so static-SSR / prerender renders the markup with no DOM mutation.
 
 ```html
 <div class="theme-picker">
-  <input type="hidden" name="theme" value="light" />
+  <input
+    type="hidden"
+    name="theme"
+    value="light"
+  />
   <button
     type="button"
     class="theme-picker-button"
@@ -153,7 +157,13 @@ so static-SSR / prerender renders the markup with no DOM mutation.
     aria-expanded="false"
     aria-controls="theme-picker-1-list"
   >
-    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true">…</svg>
+    <svg
+      class="theme-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+    >
+      …
+    </svg>
   </button>
   <ul
     class="theme-picker-list"
@@ -189,7 +199,7 @@ so static-SSR / prerender renders the markup with no DOM mutation.
 - **The hidden input** carries `Name` and `Value` so the control still
   participates in a form. The listbox itself is not a form control.
 - **The icon** is a bundled contrast/half-circle SVG (`viewBox="0 0 16
-  16"`), not a Unicode character (reversed 2026-09-16), wrapped in
+16"`), not a Unicode character (reversed 2026-09-16), wrapped in
   `aria-hidden="true"`. The accessible name therefore comes wholly from
   `Label` via the button's `aria-label` — never from the icon. An empty
   `Label` leaves the control unnameable.
@@ -245,17 +255,17 @@ Opening moves focus to the `<ul>`.
 
 On the **listbox**:
 
-| Key               | Action                                                                 |
-| ----------------- | ---------------------------------------------------------------------- |
-| `Arrow Down`      | Move the active option down one; **clamps** at the last (no wrap).     |
-| `Arrow Up`        | Move the active option up one; **clamps** at the first (no wrap).      |
-| `Home`            | Jump to the first option.                                              |
-| `End`             | Jump to the last option.                                               |
-| `Enter` / `Space` | Select the active option, apply it, close, return focus to the button. |
-| `Escape`          | Close and return focus **without** changing the value.                 |
-| `PageUp` / `PageDown` | Move the active option by ten; clamps at the ends.                 |
-| `Tab`             | Close and move on; the browser's default Tab proceeds from the picker's position. |
-| Printable chars   | Typeahead over the option _labels_, 500 ms buffer reset. A single character advances to the **next** match and repeating it cycles onward; differing characters refine the match from the active option. |
+| Key                   | Action                                                                                                                                                                                                   |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Arrow Down`          | Move the active option down one; **clamps** at the last (no wrap).                                                                                                                                       |
+| `Arrow Up`            | Move the active option up one; **clamps** at the first (no wrap).                                                                                                                                        |
+| `Home`                | Jump to the first option.                                                                                                                                                                                |
+| `End`                 | Jump to the last option.                                                                                                                                                                                 |
+| `Enter` / `Space`     | Select the active option, apply it, close, return focus to the button.                                                                                                                                   |
+| `Escape`              | Close and return focus **without** changing the value.                                                                                                                                                   |
+| `PageUp` / `PageDown` | Move the active option by ten; clamps at the ends.                                                                                                                                                       |
+| `Tab`                 | Close and move on; the browser's default Tab proceeds from the picker's position.                                                                                                                        |
+| Printable chars       | Typeahead over the option _labels_, 500 ms buffer reset. A single character advances to the **next** match and repeating it cycles onward; differing characters refine the match from the active option. |
 
 Pointer and focus:
 
@@ -290,22 +300,22 @@ to each hyphen-separated word of the slug, title-cased
 
 The complete table is in [spec/index.md §4.1](./spec/index.md#41-parameters). Highlights:
 
-| Parameter              | Type                                   | Required | Notes                                                                                                                     |
-| ---------------------- | -------------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------- |
-| `Label`                | `string`                               | yes      | `aria-label` on the button AND the listbox. The button is icon-only, so this is its entire accessible name.               |
-| `ThemesUrl`            | `string`                               | yes      | Trailing `/` is auto-added.                                                                                               |
-| `Themes`               | `IReadOnlyList<string>`                | yes      | Available slugs.                                                                                                          |
-| `Value`                | `string` (`@bind-Value`)               | no       | Two-way bind for the current slug.                                                                                        |
-| `DefaultValue`         | `string?`                              | no       | Initial when nothing else applies.                                                                                        |
-| `StorageKey`           | `string?`                              | no       | `localStorage` persistence.                                                                                               |
-| `DetectFromSystem`     | `bool`                                 | no       | Follow OS `prefers-color-scheme` on first visit; off by default.                                                          |
-| `Name`                 | `string`                               | no       | `name` on the hidden input AND the `data-lily-theme-picker` discriminator on the managed `<link>`; defaults to `"theme"`. |
-| `Extension`            | `string`                               | no       | Defaults to `".css"`.                                                                                                     |
-| `ThemeLabels`          | `IReadOnlyDictionary<string,string>`   | no       | Per-slug display label override.                                                                                          |
-| `OnChange`             | `EventCallback<string>`                | no       | Callback fired after apply.                                                                                               |
+| Parameter              | Type                                  | Required | Notes                                                                                                                     |
+| ---------------------- | ------------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `Label`                | `string`                              | yes      | `aria-label` on the button AND the listbox. The button is icon-only, so this is its entire accessible name.               |
+| `ThemesUrl`            | `string`                              | yes      | Trailing `/` is auto-added.                                                                                               |
+| `Themes`               | `IReadOnlyList<string>`               | yes      | Available slugs.                                                                                                          |
+| `Value`                | `string` (`@bind-Value`)              | no       | Two-way bind for the current slug.                                                                                        |
+| `DefaultValue`         | `string?`                             | no       | Initial when nothing else applies.                                                                                        |
+| `StorageKey`           | `string?`                             | no       | `localStorage` persistence.                                                                                               |
+| `DetectFromSystem`     | `bool`                                | no       | Follow OS `prefers-color-scheme` on first visit; off by default.                                                          |
+| `Name`                 | `string`                              | no       | `name` on the hidden input AND the `data-lily-theme-picker` discriminator on the managed `<link>`; defaults to `"theme"`. |
+| `Extension`            | `string`                              | no       | Defaults to `".css"`.                                                                                                     |
+| `ThemeLabels`          | `IReadOnlyDictionary<string,string>`  | no       | Per-slug display label override.                                                                                          |
+| `OnChange`             | `EventCallback<string>`               | no       | Callback fired after apply.                                                                                               |
 | `ChildContent`         | `RenderFragment<ThemePickerContext>?` | no       | Replaces the default SVG icon inside the button. It does not render options.                                              |
-| `CssClass`             | `string`                               | no       | Extra CSS class merged into the root `<div>`.                                                                             |
-| `AdditionalAttributes` | `Dictionary<string,object>?`           | no       | Unmatched attributes; spread onto the root `<div>`.                                                                       |
+| `CssClass`             | `string`                              | no       | Extra CSS class merged into the root `<div>`.                                                                             |
+| `AdditionalAttributes` | `Dictionary<string,object>?`          | no       | Unmatched attributes; spread onto the root `<div>`.                                                                       |
 
 There is **no `Placeholder` parameter**. It existed only to pin a native
 `<select>`'s closed display, and there is no `<select>` any more.
@@ -419,6 +429,7 @@ recipe.
 (A former Tradeoff 3 — the glyph is a font character, not a shipped
 asset, so it may render at an unexpected weight or be missing — no
 longer applies: reversed 2026-09-16, the icon is now a bundled SVG.)
+
 - WCAG 2.2 AAA is the target; visible focus styling is the
   consumer's CSS responsibility — including a `[data-active]` cue on
   the active option, which is never focused.
@@ -444,9 +455,18 @@ is fetched on demand. To switch instantly between themes, preload
 them all yourself:
 
 ```html
-<link rel="stylesheet" href="/assets/themes/light.css" />
-<link rel="stylesheet" href="/assets/themes/dark.css" />
-<link rel="stylesheet" href="/assets/themes/abyss.css" />
+<link
+  rel="stylesheet"
+  href="/assets/themes/light.css"
+/>
+<link
+  rel="stylesheet"
+  href="/assets/themes/dark.css"
+/>
+<link
+  rel="stylesheet"
+  href="/assets/themes/abyss.css"
+/>
 ```
 
 The select still mutates `data-theme`, and since every theme's CSS
@@ -503,19 +523,19 @@ acceptance criterion in
 
 ## Files in this directory
 
-| File                    | Purpose                                         |
-| ----------------------- | ----------------------------------------------- |
-| `spec/index.md`         | Single source of truth — API, behaviour, tests. |
-| `AGENTS.md`             | Fast-index pointer; loads the AGENTS bundle.    |
-| `AGENTS/`               | Topic-by-topic agent files.                     |
-| `CLAUDE.md`             | `@AGENTS.md`.                                   |
+| File                   | Purpose                                         |
+| ---------------------- | ----------------------------------------------- |
+| `spec/index.md`        | Single source of truth — API, behaviour, tests. |
+| `AGENTS.md`            | Fast-index pointer; loads the AGENTS bundle.    |
+| `AGENTS/`              | Topic-by-topic agent files.                     |
+| `CLAUDE.md`            | `@AGENTS.md`.                                   |
 | `ThemePicker.razor`    | Razor markup.                                   |
 | `ThemePicker.razor.cs` | C# code-behind (partial class).                 |
 | `ThemePickerTests.cs`  | bUnit + xUnit spec covering every spec §7 item. |
-| `index.md`              | This file.                                      |
-| `docs/`                 | Deep-dive topic guides.                         |
-| `examples/`             | Runnable `.razor` files.                        |
-| `CHANGELOG.md`          | Version history.                                |
+| `index.md`             | This file.                                      |
+| `docs/`                | Deep-dive topic guides.                         |
+| `examples/`            | Runnable `.razor` files.                        |
+| `CHANGELOG.md`         | Version history.                                |
 
 ## License
 

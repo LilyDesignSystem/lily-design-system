@@ -18,15 +18,15 @@ Unlike `Details`, which uses a `<summary>` toggle, this component uses a real fo
 
 ## Parameters
 
-| Parameter              | Type                  | Default | Description                                                              |
-| ---------------------- | --------------------- | ------- | ------------------------------------------------------------------------ |
-| `Label`                | `string`              | —       | The checkbox label text. Required.                                       |
-| `Checked`              | `bool`                | `false` | Whether the checkbox is checked. Bindable via `@bind-Checked`.           |
-| `CheckedChanged`       | `EventCallback<bool>` | —       | Fired when the checked state changes.                                    |
-| `Id`                   | `string?`             | auto    | Base id for the checkbox (`<Id>-checkbox`) and panel (`<Id>-panel`).     |
-| `ChildContent`         | `RenderFragment`      | —       | Content shown when checked. Required.                                    |
-| `CssClass`             | `string`              | `""`    | Extra CSS classes appended to `accordion-checkbox`.                      |
-| `AdditionalAttributes` | `Dictionary<...>`     | —       | Captured and rendered on the root `<div>`.                               |
+| Parameter              | Type                  | Default | Description                                                          |
+| ---------------------- | --------------------- | ------- | -------------------------------------------------------------------- |
+| `Label`                | `string`              | —       | The checkbox label text. Required.                                   |
+| `Checked`              | `bool`                | `false` | Whether the checkbox is checked. Bindable via `@bind-Checked`.       |
+| `CheckedChanged`       | `EventCallback<bool>` | —       | Fired when the checked state changes.                                |
+| `Id`                   | `string?`             | auto    | Base id for the checkbox (`<Id>-checkbox`) and panel (`<Id>-panel`). |
+| `ChildContent`         | `RenderFragment`      | —       | Content shown when checked. Required.                                |
+| `CssClass`             | `string`              | `""`    | Extra CSS classes appended to `accordion-checkbox`.                  |
+| `AdditionalAttributes` | `Dictionary<...>`     | —       | Captured and rendered on the root `<div>`.                           |
 
 ## Usage
 

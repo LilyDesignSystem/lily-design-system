@@ -25,16 +25,31 @@ A five-face rating picker allows users to select a satisfaction level from 1 to 
 
 ```svelte
 <!-- Basic face rating with two-way binding -->
-<FiveFaceRatingPicker label="How was your experience?" bind:value />
+<FiveFaceRatingPicker
+  label="How was your experience?"
+  bind:value
+/>
 
 <!-- Custom face labels for localization or different scales -->
-<FiveFaceRatingPicker label="Rate service" bind:value labels={["Terrible", "Poor", "Fair", "Great", "Excellent"]} />
+<FiveFaceRatingPicker
+  label="Rate service"
+  bind:value
+  labels={["Terrible", "Poor", "Fair", "Great", "Excellent"]}
+/>
 
 <!-- Disabled face rating -->
-<FiveFaceRatingPicker label="Previous rating" value={4} disabled />
+<FiveFaceRatingPicker
+  label="Previous rating"
+  value={4}
+  disabled
+/>
 
 <!-- Custom name for form submission -->
-<FiveFaceRatingPicker label="Satisfaction" bind:value name="satisfaction" />
+<FiveFaceRatingPicker
+  label="Satisfaction"
+  bind:value
+  name="satisfaction"
+/>
 ```
 
 ## Keyboard Interactions

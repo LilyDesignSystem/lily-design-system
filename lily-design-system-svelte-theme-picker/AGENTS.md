@@ -13,15 +13,15 @@ listbox's positioning CSS).
 
 ## Files
 
-| File                   | Purpose                                              |
-| ---------------------- | ---------------------------------------------------- |
-| `spec/index.md`        | Specification-driven contract (canonical).           |
+| File                  | Purpose                                              |
+| --------------------- | ---------------------------------------------------- |
+| `spec/index.md`       | Specification-driven contract (canonical).           |
 | `ThemePicker.svelte`  | Implementation. TypeScript + Svelte 5 runes.         |
 | `ThemePicker.test.ts` | Vitest spec, one assertion per §7 acceptance.        |
-| `index.ts`             | Barrel re-export.                                    |
-| `index.md`             | Comprehensive user guide.                            |
-| `docs/`                | Topic guides: props, a11y, SSR, preloading, recipes. |
-| `examples/`            | Self-contained Svelte 5 examples.                    |
+| `index.ts`            | Barrel re-export.                                    |
+| `index.md`            | Comprehensive user guide.                            |
+| `docs/`               | Topic guides: props, a11y, SSR, preloading, recipes. |
+| `examples/`           | Self-contained Svelte 5 examples.                    |
 
 ## Public surface
 
@@ -56,8 +56,15 @@ calls `onChange(slug)`. SSR-safe — all DOM writes happen inside
 ## HTML
 
 ```html
-<div class="theme-picker {class}" ...restProps>
-  <input type="hidden" name="{name}" value="{value}" />
+<div
+  class="theme-picker {class}"
+  ...restProps
+>
+  <input
+    type="hidden"
+    name="{name}"
+    value="{value}"
+  />
   <button
     type="button"
     class="theme-picker-button"
@@ -66,9 +73,36 @@ calls `onChange(slug)`. SSR-safe — all DOM writes happen inside
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>
+    <svg
+      class="theme-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle
+        cx="8"
+        cy="8"
+        r="6"
+      />
+      <path
+        d="M8 2a6 6 0 0 1 0 12z"
+        fill="currentColor"
+        stroke="none"
+      />
+    </svg>
   </button>
-  <div class="theme-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
+  <div
+    class="theme-picker-tooltip"
+    role="tooltip"
+    id="{tooltipId}"
+    hidden
+  >
+    {label}
+  </div>
   <ul
     class="theme-picker-list"
     id="{listId}"

@@ -45,7 +45,10 @@ With explicit summary and details children:
 With bindable open state:
 
 ```html
-<AccordionListItem summary="Advanced options" open={showAdvanced}>
+<AccordionListItem
+  summary="Advanced options"
+  open="{showAdvanced}"
+>
   <p>Configure advanced notification preferences, API access, and data export settings.</p>
 </AccordionListItem>
 ```

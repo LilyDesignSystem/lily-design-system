@@ -16,13 +16,13 @@ CalendarYearTable is one of five calendar views alongside `CalendarTable` (the g
 
 ## Props
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `class` | string | `""` | Appended to the base class |
-| `label` | string (required) | — | Accessible name describing the period shown, e.g. a year (e.g. "2025") |
-| `caption` | string | — | Visible `<caption>` text |
-| `children` | slot (required) | — | Head, body and foot sections |
-| `...restProps` | HTML attributes | — | Spread onto the root `<table>` |
+| Prop           | Type              | Default | Description                                                            |
+| -------------- | ----------------- | ------- | ---------------------------------------------------------------------- |
+| `class`        | string            | `""`    | Appended to the base class                                             |
+| `label`        | string (required) | —       | Accessible name describing the period shown, e.g. a year (e.g. "2025") |
+| `caption`      | string            | —       | Visible `<caption>` text                                               |
+| `children`     | slot (required)   | —       | Head, body and foot sections                                           |
+| `...restProps` | HTML attributes   | —       | Spread onto the root `<table>`                                         |
 
 ## Usage
 
@@ -39,9 +39,9 @@ CalendarYearTable is one of five calendar views alongside `CalendarTable` (the g
 
 ## Keyboard Interactions
 
-| Key | Action |
-| --- | ------ |
-| — | None built-in. The consumer implements APG grid navigation: arrow keys move between cells, Home/End jump within a row, Enter/Space select |
+| Key | Action                                                                                                                                    |
+| --- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| —   | None built-in. The consumer implements APG grid navigation: arrow keys move between cells, Home/End jump within a row, Enter/Space select |
 
 ## ARIA
 

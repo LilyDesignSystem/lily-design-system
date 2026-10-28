@@ -8,7 +8,6 @@ A keyboard shortcut: an outer kbd with one inner kbd per key and decorative sepa
 - `params.attributes` is spread onto the root element
 - Port of the Svelte canonical (`lily-design-system-svelte-headless`)
 
-
 ## Props
 
 - `keys` (required): array of key names

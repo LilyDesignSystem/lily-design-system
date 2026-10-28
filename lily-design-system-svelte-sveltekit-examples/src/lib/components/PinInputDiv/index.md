@@ -55,31 +55,38 @@ import PinInputDiv from './PinInputDiv.svelte';
 
 ```svelte
 <script lang="ts">
-  import PinInputDiv from './PinInputDiv.svelte';
+  import PinInputDiv from "./PinInputDiv.svelte";
 
   let pin = $state("");
 </script>
 
-<PinInputDiv label="Enter PIN" bind:value={pin} />
+<PinInputDiv
+  label="Enter PIN"
+  bind:value={pin}
+/>
 ```
 
 ### 6-digit verification code
 
 ```svelte
 <script lang="ts">
-  import PinInputDiv from './PinInputDiv.svelte';
+  import PinInputDiv from "./PinInputDiv.svelte";
 
   let code = $state("");
 </script>
 
-<PinInputDiv label="Verification Code" length={6} bind:value={code} />
+<PinInputDiv
+  label="Verification Code"
+  length={6}
+  bind:value={code}
+/>
 ```
 
 ### Submit when complete
 
 ```svelte
 <script lang="ts">
-  import PinInputDiv from './PinInputDiv.svelte';
+  import PinInputDiv from "./PinInputDiv.svelte";
 
   let code = $state("");
   $effect(() => {
@@ -89,26 +96,38 @@ import PinInputDiv from './PinInputDiv.svelte';
   });
 </script>
 
-<PinInputDiv label="One-time code" length={6} bind:value={code} />
+<PinInputDiv
+  label="One-time code"
+  length={6}
+  bind:value={code}
+/>
 ```
 
 ### Disabled after submission
 
 ```svelte
 <script lang="ts">
-  import PinInputDiv from './PinInputDiv.svelte';
+  import PinInputDiv from "./PinInputDiv.svelte";
 
   let code = $state("123456");
   let submitting = $state(true);
 </script>
 
-<PinInputDiv label="One-time code" length={6} bind:value={code} disabled={submitting} />
+<PinInputDiv
+  label="One-time code"
+  length={6}
+  bind:value={code}
+  disabled={submitting}
+/>
 ```
 
 ### Localized group label
 
 ```svelte
-<PinInputDiv label="Código de verificación" length={6} />
+<PinInputDiv
+  label="Código de verificación"
+  length={6}
+/>
 ```
 
 ## Accessibility

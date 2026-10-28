@@ -15,13 +15,13 @@ The component renders a `<figure>` holding a `<div class="funnel-chart-graphic" 
 
 ## Props
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `class` | string | `""` | Appended to the base class |
-| `label` | string (optional) | — | Accessible name of the image wrapper |
-| `children` | slot (required) | — | The consumer-drawn inline `<svg>` |
-| `dataTable` | slot (optional) | — | The accessible table alternative, rendered outside `role="img"` |
-| `...restProps` | HTML attributes | — | Spread onto the root `<figure>` |
+| Prop           | Type              | Default | Description                                                     |
+| -------------- | ----------------- | ------- | --------------------------------------------------------------- |
+| `class`        | string            | `""`    | Appended to the base class                                      |
+| `label`        | string (optional) | —       | Accessible name of the image wrapper                            |
+| `children`     | slot (required)   | —       | The consumer-drawn inline `<svg>`                               |
+| `dataTable`    | slot (optional)   | —       | The accessible table alternative, rendered outside `role="img"` |
+| `...restProps` | HTML attributes   | —       | Spread onto the root `<figure>`                                 |
 
 ## Usage
 

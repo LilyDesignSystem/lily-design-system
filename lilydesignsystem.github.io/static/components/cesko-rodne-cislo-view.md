@@ -22,7 +22,7 @@ CeskoRodneCisloView is a headless read-only display of Czech Republic's RodnÃ© Ä
 ```html
 <SummaryList>
   <SummaryListItem term="Czech Personal Number">
-    <CeskoRodneCisloView value={value} />
+    <CeskoRodneCisloView value="{value}" />
   </SummaryListItem>
 </SummaryList>
 ```

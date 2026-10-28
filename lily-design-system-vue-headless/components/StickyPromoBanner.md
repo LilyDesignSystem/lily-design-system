@@ -26,11 +26,11 @@ A fixed-position promotional banner with a dismiss button. Inspired by the [Mozi
 
 ```vue
 <StickyPromoBanner
-    label="Holiday promotion"
-    dismiss-label="Dismiss promotion"
-    :open="open"
-    position="bottom"
-    @dismiss="onDismiss"
+  label="Holiday promotion"
+  dismiss-label="Dismiss promotion"
+  :open="open"
+  position="bottom"
+  @dismiss="onDismiss"
 >
     Save 20% today only — <a href="/promo">claim your code</a>.
 </StickyPromoBanner>

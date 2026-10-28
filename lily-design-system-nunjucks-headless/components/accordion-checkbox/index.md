@@ -19,15 +19,15 @@ Unlike `details`, which uses a `<summary>` toggle, this component uses a real fo
 
 ## Params
 
-| Param        | Type      | Required | Description                                                              |
-| ------------ | --------- | -------- | ------------------------------------------------------------------------ |
-| `id`         | `string`  | yes      | Base id; the checkbox uses `<id>-checkbox`, the panel `<id>-panel`.      |
-| `label`      | `string`  | yes      | Checkbox label text.                                                     |
-| `checked`    | `boolean` | no       | Initial checked state. Default: `false`.                                 |
-| `text`       | `string`  | no       | Plain-text panel content (rendered as `<p>`).                            |
-| `html`       | `string`  | no       | Raw HTML panel content (rendered via `| safe`).                          |
-| `classes`    | `string`  | no       | Extra CSS classes appended to the root `<div>`.                          |
-| `attributes` | `object`  | no       | Extra HTML attributes rendered on the root `<div>`.                      |
+| Param        | Type      | Required | Description                                                         |
+| ------------ | --------- | -------- | ------------------------------------------------------------------- |
+| `id`         | `string`  | yes      | Base id; the checkbox uses `<id>-checkbox`, the panel `<id>-panel`. |
+| `label`      | `string`  | yes      | Checkbox label text.                                                |
+| `checked`    | `boolean` | no       | Initial checked state. Default: `false`.                            |
+| `text`       | `string`  | no       | Plain-text panel content (rendered as `<p>`).                       |
+| `html`       | `string`  | no       | Raw HTML panel content (rendered via `                              | safe`). |
+| `classes`    | `string`  | no       | Extra CSS classes appended to the root `<div>`.                     |
+| `attributes` | `object`  | no       | Extra HTML attributes rendered on the root `<div>`.                 |
 
 The macro can also be invoked with `{% call accordionCheckbox(...) %}…{% endcall %}` to provide rich panel content.
 

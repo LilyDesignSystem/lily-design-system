@@ -52,11 +52,7 @@ export default defineEventHandler((event) => {
 
 ```ts
 // src/app/tokens/initial-locale.ts
-import {
-  InjectionToken,
-  inject,
-  makeEnvironmentProviders,
-} from "@angular/core";
+import { InjectionToken, inject, makeEnvironmentProviders } from "@angular/core";
 import { REQUEST } from "@analogjs/router/tokens";
 
 export const INITIAL_LOCALE = new InjectionToken<string>("INITIAL_LOCALE", {

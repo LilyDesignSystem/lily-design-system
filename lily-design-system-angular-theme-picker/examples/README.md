@@ -24,13 +24,13 @@ Every example assumes:
 
 | #   | File                                                                 | Demonstrates                              |
 | --- | -------------------------------------------------------------------- | ----------------------------------------- |
-| 1   | [`basic.component.ts`](./basic.component.ts)                         | Minimal three-theme picker.              |
+| 1   | [`basic.component.ts`](./basic.component.ts)                         | Minimal three-theme picker.               |
 | 2   | [`two-way-binding.component.ts`](./two-way-binding.component.ts)     | `[(value)]` and `(themeChange)`.          |
 | 3   | [`persistence.component.ts`](./persistence.component.ts)             | `localStorage` survival across reloads.   |
 | 4   | [`custom-labels.component.ts`](./custom-labels.component.ts)         | `themeLabels` for i18n / display names.   |
 | 5   | [`custom-rendering.component.ts`](./custom-rendering.component.ts)   | `<ng-template>` button-glyph override.    |
 | 6   | [`preloaded.component.ts`](./preloaded.component.ts)                 | Zero-flicker switching via preloading.    |
-| 7   | [`multiple-pickers.component.ts`](./multiple-pickers.component.ts) | Two pickers in one page via `name`.      |
+| 7   | [`multiple-pickers.component.ts`](./multiple-pickers.component.ts)   | Two pickers in one page via `name`.       |
 | 8   | [`system-preference.component.ts`](./system-preference.component.ts) | Follow `prefers-color-scheme`.            |
 | 9   | [`lily-themes.component.ts`](./lily-themes.component.ts)             | All 41 Lily / DaisyUI themes at once.     |
 | 10  | [`analog-cookie/`](./analog-cookie/)                                 | SSR-resolved theme via a cookie (Analog). |

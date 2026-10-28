@@ -33,44 +33,56 @@ accessibility and keyboard support. It supports toggle button semantics via the
 Basic action button:
 
 ```tsx
+import Button from "./Button";
 
-  import Button from './Button';
+function handleClick() {
+  console.log("clicked");
+}
 
-  function handleClick() {
-    console.log("clicked");
-  }
-
-
-<Button onClick={handleClick}>Click me</Button>
+<Button onClick={handleClick}>Click me</Button>;
 ```
 
 Submit button in a form:
 
 ```tsx
-
-  import Button from './Button';
+import Button from "./Button";
 
 const [isSubmitting, setIsSubmitting] = useState(false);
 
 <form>
-  <Button type="submit" disabled={isSubmitting}>Submit</Button>
-</form>
+  <Button
+    type="submit"
+    disabled={isSubmitting}
+  >
+    Submit
+  </Button>
+</form>;
 ```
 
 Toggle button with pressed state:
 
 ```tsx
-import Button from './Button';
+import Button from "./Button";
 
 const [isBold, setIsBold] = useState(false);
 
-<Button pressed={isBold} onClick={() => setIsBold(!isBold)}>Bold</Button>
+<Button
+  pressed={isBold}
+  onClick={() => setIsBold(!isBold)}
+>
+  Bold
+</Button>;
 ```
 
 With accessible label override:
 
 ```tsx
-<Button label="Close dialog" onClick={handleClose}>X</Button>
+<Button
+  label="Close dialog"
+  onClick={handleClose}
+>
+  X
+</Button>
 ```
 
 ## Keyboard Interactions

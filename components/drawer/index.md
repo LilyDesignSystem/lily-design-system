@@ -27,8 +27,17 @@ The `side` prop indicates which edge the drawer enters from via a `data-side` at
 Mobile navigation drawer sliding in from the left:
 
 ```html
-<button onclick={() => (navOpen = true)}>Menu</button>
-<Drawer label="Main navigation" open={navOpen} side="left">
+<button
+  onclick="{()"
+  =""
+>
+  (navOpen = true)}>Menu
+</button>
+<Drawer
+  label="Main navigation"
+  open="{navOpen}"
+  side="left"
+>
   <nav>
     <ul>
       <li><a href="/">Home</a></li>
@@ -36,19 +45,34 @@ Mobile navigation drawer sliding in from the left:
       <li><a href="/contact">Contact</a></li>
     </ul>
   </nav>
-  <button onclick={() => (navOpen = false)}>Close</button>
+  <button
+    onclick="{()"
+    =""
+  >
+    (navOpen = false)}>Close
+  </button>
 </Drawer>
 ```
 
 Filter panel sliding in from the right:
 
 ```html
-<Drawer label="Search filters" open={showFilters} side="right">
+<Drawer
+  label="Search filters"
+  open="{showFilters}"
+  side="right"
+>
   <form>
     <fieldset>
       <legend>Date range</legend>
-      <input type="date" name="from" />
-      <input type="date" name="to" />
+      <input
+        type="date"
+        name="from"
+      />
+      <input
+        type="date"
+        name="to"
+      />
     </fieldset>
     <button type="submit">Apply filters</button>
   </form>
@@ -84,14 +108,11 @@ Filter panel sliding in from the right:
 
 This headless component provides a `<div>` with `role="dialog"`, `aria-modal="true"`, accessible labeling via `aria-label`, a `data-side` attribute for positioning, keyboard dismissal via Escape, and two-way binding on `open`. The consumer provides all visual styling, animations, backdrop, and positioning CSS.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.drawer` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `drawer`
 - Verify role="dialog"` -- identifies the drawer as a dialog for assistive technology

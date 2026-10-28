@@ -21,7 +21,10 @@ A five-star rating input allows users to select a rating from 1 to 5 stars using
 ## Usage
 
 ```svelte
-<FiveStarRatingPicker label="Rate this" bind:value />
+<FiveStarRatingPicker
+  label="Rate this"
+  bind:value
+/>
 ```
 
 ## Keyboard Interactions

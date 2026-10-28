@@ -11,13 +11,13 @@ Ships no CSS; consumer styles the `theme-picker` class hook.
 
 ## Files
 
-| File                   | Purpose                                       |
-| ---------------------- | --------------------------------------------- |
-| `spec/index.md`        | Specification-driven contract (canonical).    |
+| File                  | Purpose                                       |
+| --------------------- | --------------------------------------------- |
+| `spec/index.md`       | Specification-driven contract (canonical).    |
 | `ThemePicker.vue`     | Implementation. `<script setup lang="ts">`.   |
 | `ThemePicker.test.ts` | Vitest spec, one assertion per §7 acceptance. |
-| `index.ts`             | Barrel re-export.                             |
-| `index.md`             | Human-readable guide.                         |
+| `index.ts`            | Barrel re-export.                             |
+| `index.md`            | Human-readable guide.                         |
 
 ## Public surface
 

@@ -22,7 +22,7 @@ This headless table component renders a semantic `<table>` element with an acces
 ## Usage
 
 ```html
-<Table label="Prescription charges">
+<table label="Prescription charges">
   <TableHead>
     <TableRow>
       <TableTD scope="col">Item</TableTD>
@@ -42,7 +42,7 @@ This headless table component renders a semantic `<table>` element with an acces
       <TableTD>£114.50</TableTD>
     </TableRow>
   </TableBody>
-</Table>
+</table>
 ```
 
 ## Keyboard Interactions
@@ -73,14 +73,11 @@ This headless table component renders a semantic `<table>` element with an acces
 
 This headless component renders a semantic `<table>` element with `aria-label` for accessible naming. It provides the table structure and leaves all content (thead, tbody, tfoot, caption, colgroup) and visual styling to the consumer, including borders, striping, spacing, and responsive behavior.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.table` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<table>` element with class `table`
 - Verify aria-label` -- provides the accessible name for the table so screen readers can announce its purpose

@@ -46,13 +46,17 @@ language" but not "you are reading French" — pairing it with the
 endonym says both:
 
 ```tsx
-<LocalePicker label="Language" locales={locales} localeLabels={endonyms}>
-    {({ value, labelFor }) => (
-        <>
-            <span aria-hidden="true">{GLOBE_WITH_MERIDIANS}</span>
-            <span aria-hidden="true">{labelFor(value)}</span>
-        </>
-    )}
+<LocalePicker
+  label="Language"
+  locales={locales}
+  localeLabels={endonyms}
+>
+  {({ value, labelFor }) => (
+    <>
+      <span aria-hidden="true">{GLOBE_WITH_MERIDIANS}</span>
+      <span aria-hidden="true">{labelFor(value)}</span>
+    </>
+  )}
 </LocalePicker>
 ```
 
@@ -64,10 +68,11 @@ emoji.
 ## Recipe: short code for narrow layouts
 
 ```tsx
-<LocalePicker label="Language" locales={["en", "fr", "de", "ja"]}>
-    {({ value }) => (
-        <span aria-hidden="true">{value.split(/[-_]/)[0].toUpperCase()}</span>
-    )}
+<LocalePicker
+  label="Language"
+  locales={["en", "fr", "de", "ja"]}
+>
+  {({ value }) => <span aria-hidden="true">{value.split(/[-_]/)[0].toUpperCase()}</span>}
 </LocalePicker>
 ```
 
@@ -82,13 +87,16 @@ readers already get it from `aria-expanded` on the button, so the
 caret must stay hidden:
 
 ```tsx
-<LocalePicker label="Language" locales={locales}>
-    {({ value, open, labelFor }) => (
-        <>
-            <span aria-hidden="true">{labelFor(value)}</span>
-            <span aria-hidden="true">{open ? "▲" : "▼"}</span>
-        </>
-    )}
+<LocalePicker
+  label="Language"
+  locales={locales}
+>
+  {({ value, open, labelFor }) => (
+    <>
+      <span aria-hidden="true">{labelFor(value)}</span>
+      <span aria-hidden="true">{open ? "▲" : "▼"}</span>
+    </>
+  )}
 </LocalePicker>
 ```
 
@@ -99,8 +107,8 @@ entirely — see [styling.md](./styling.md#attribute-hooks).
 ## Rules for custom glyph content
 
 **Mark it `aria-hidden="true"`.** The button is already named by
-`aria-label={label}`. Content that is not hidden is announced *in
-addition* to the label, giving "Language English button" — or worse,
+`aria-label={label}`. Content that is not hidden is announced _in
+addition_ to the label, giving "Language English button" — or worse,
 "Language 🌐 English button". This is the single most common mistake.
 
 **Do not put interactive elements inside.** The glyph lives inside a
@@ -113,9 +121,9 @@ the mount effect resolves the initial locale, `value` is `""`.
 broken:
 
 ```tsx
-{({ value, labelFor }) => (
-    <span aria-hidden="true">{value ? labelFor(value) : "🌐"}</span>
-)}
+{
+  ({ value, labelFor }) => <span aria-hidden="true">{value ? labelFor(value) : "🌐"}</span>;
+}
 ```
 
 **Do not assume `value` is BCP 47.** It is the code in the form you
@@ -136,10 +144,15 @@ active locale:
 
 ```tsx
 <>
-    <LocalePicker value={locale} onChange={setLocale} label="Language" locales={locales} />
-    <p className="locale-picker-status">
-        Language: <span lang={bcp47LocaleTag(locale)}>{localeName(locale)}</span>
-    </p>
+  <LocalePicker
+    value={locale}
+    onChange={setLocale}
+    label="Language"
+    locales={locales}
+  />
+  <p className="locale-picker-status">
+    Language: <span lang={bcp47LocaleTag(locale)}>{localeName(locale)}</span>
+  </p>
 </>
 ```
 

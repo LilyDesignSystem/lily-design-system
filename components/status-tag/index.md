@@ -17,17 +17,23 @@ The component is intentionally a static label, not a live region: it renders a `
 
 ## Props
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `label` | string (required) | — | Status text shown to users |
-| `tone` | "neutral" | "success" | "warning" | "danger" | "info" | "neutral" | Tone hint used by consumers to drive styling |
-| `...restProps` | HTML attributes | — | Spread onto the root `<span>` |
+| Prop           | Type              | Default   | Description                   |
+| -------------- | ----------------- | --------- | ----------------------------- |
+| `label`        | string (required) | —         | Status text shown to users    |
+| `tone`         | "neutral"         | "success" | "warning"                     | "danger" | "info" | "neutral" | Tone hint used by consumers to drive styling |
+| `...restProps` | HTML attributes   | —         | Spread onto the root `<span>` |
 
 ## Usage
 
 ```html
-<StatusTag label="Completed" tone="success" />
-<StatusTag label="Awaiting review" tone="warning" />
+<StatusTag
+  label="Completed"
+  tone="success"
+/>
+<StatusTag
+  label="Awaiting review"
+  tone="warning"
+/>
 ```
 
 ## Keyboard Interactions

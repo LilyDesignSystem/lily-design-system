@@ -274,36 +274,36 @@ public async Task Section_7_18_Initial_Value_Resolves_To_Light_Or_First() { … 
 
 Section map:
 
-| §7 clause        | Test focus                                                        |
-| ---------------- | ----------------------------------------------------------------- |
-| **Markup contract** |                                                                |
-| 7.1 structure    | Root `<div>`, button with `aria-haspopup`/`aria-expanded`/`aria-controls`, `<ul role="listbox" tabindex="-1">`, no `<select>` |
-| 7.2 icon         | `svg.theme-picker-icon` renders, `aria-hidden="true"`, contains a `<circle>` |
-| 7.3 naming       | `aria-label` on BOTH the button and the listbox                   |
-| 7.4 options      | One `li.theme-picker-option` per theme; hidden input carries `Name` + resolved `Value` |
-| 7.5 open state   | `hidden` until activated; activating toggles `hidden` + `aria-expanded` |
-| 7.6 selection    | Exactly one `aria-selected="true"`; no `aria-activedescendant` while closed; opening points it at the active option, which also carries `data-active` |
-| 7.7 labels       | Title-cased slugs, `ThemeLabels` override, "default" never emitted |
-| 7.8 ids          | List / option ids stable across re-render, unique across instances, `theme-picker-` prefixed |
-| **Keyboard contract (WAI-ARIA APG listbox)** |                                       |
-| 7.9 open         | `ArrowDown` / `Enter` / `Space` on the button open on the selected option |
-| 7.10 open-last   | `ArrowUp` on the button opens with the last option active         |
-| 7.11 arrows      | Arrows move the active option and **clamp** at both ends          |
-| 7.12 home/end    | `Home` / `End` jump to first / last                               |
-| 7.13 commit      | `Enter` and `Space` in the listbox select, apply, and close       |
-| 7.14 escape      | `Escape` closes without changing the value or applying anything   |
-| 7.15 typeahead   | Printable characters run a label typeahead; a non-matching buffer leaves the active option unmoved |
-| 7.16 click       | Clicking an option selects, applies, and closes                   |
-| 7.17 focusout    | Focus leaving the root closes without changing the value          |
-| **Dynamic loading and lifecycle** |                                                  |
-| 7.18 init        | Initial value resolves to `"light"` or `Themes[0]`; `ValueChanged` fires |
-| 7.19 apply       | Interop call carries the constructed href                         |
-| 7.20 storage     | `StorageKey` embedded in the apply script (absent when unset); managed `<link>` discriminated by `Name` |
-| 7.21 explicit    | Explicit `Value` wins over storage / defaults                     |
-| 7.22 normalise   | URL normalisation                                                 |
-| **Spread and custom rendering** |                                                    |
-| 7.23 spread      | `AdditionalAttributes` fall through onto the root `<div>`         |
-| 7.24 children    | `ChildContent` replaces the glyph and receives `Value` / `Open` / `LabelFor` |
+| §7 clause                                    | Test focus                                                                                                                                            |
+| -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Markup contract**                          |                                                                                                                                                       |
+| 7.1 structure                                | Root `<div>`, button with `aria-haspopup`/`aria-expanded`/`aria-controls`, `<ul role="listbox" tabindex="-1">`, no `<select>`                         |
+| 7.2 icon                                     | `svg.theme-picker-icon` renders, `aria-hidden="true"`, contains a `<circle>`                                                                          |
+| 7.3 naming                                   | `aria-label` on BOTH the button and the listbox                                                                                                       |
+| 7.4 options                                  | One `li.theme-picker-option` per theme; hidden input carries `Name` + resolved `Value`                                                                |
+| 7.5 open state                               | `hidden` until activated; activating toggles `hidden` + `aria-expanded`                                                                               |
+| 7.6 selection                                | Exactly one `aria-selected="true"`; no `aria-activedescendant` while closed; opening points it at the active option, which also carries `data-active` |
+| 7.7 labels                                   | Title-cased slugs, `ThemeLabels` override, "default" never emitted                                                                                    |
+| 7.8 ids                                      | List / option ids stable across re-render, unique across instances, `theme-picker-` prefixed                                                          |
+| **Keyboard contract (WAI-ARIA APG listbox)** |                                                                                                                                                       |
+| 7.9 open                                     | `ArrowDown` / `Enter` / `Space` on the button open on the selected option                                                                             |
+| 7.10 open-last                               | `ArrowUp` on the button opens with the last option active                                                                                             |
+| 7.11 arrows                                  | Arrows move the active option and **clamp** at both ends                                                                                              |
+| 7.12 home/end                                | `Home` / `End` jump to first / last                                                                                                                   |
+| 7.13 commit                                  | `Enter` and `Space` in the listbox select, apply, and close                                                                                           |
+| 7.14 escape                                  | `Escape` closes without changing the value or applying anything                                                                                       |
+| 7.15 typeahead                               | Printable characters run a label typeahead; a non-matching buffer leaves the active option unmoved                                                    |
+| 7.16 click                                   | Clicking an option selects, applies, and closes                                                                                                       |
+| 7.17 focusout                                | Focus leaving the root closes without changing the value                                                                                              |
+| **Dynamic loading and lifecycle**            |                                                                                                                                                       |
+| 7.18 init                                    | Initial value resolves to `"light"` or `Themes[0]`; `ValueChanged` fires                                                                              |
+| 7.19 apply                                   | Interop call carries the constructed href                                                                                                             |
+| 7.20 storage                                 | `StorageKey` embedded in the apply script (absent when unset); managed `<link>` discriminated by `Name`                                               |
+| 7.21 explicit                                | Explicit `Value` wins over storage / defaults                                                                                                         |
+| 7.22 normalise                               | URL normalisation                                                                                                                                     |
+| **Spread and custom rendering**              |                                                                                                                                                       |
+| 7.23 spread                                  | `AdditionalAttributes` fall through onto the root `<div>`                                                                                             |
+| 7.24 children                                | `ChildContent` replaces the glyph and receives `Value` / `Open` / `LabelFor`                                                                          |
 
 ## Testing the Blazor deviations
 

@@ -53,7 +53,7 @@ change:**
   Angular's attribute-selector idiom lets a consuming template bind
   extra attributes (`[attr.data-row]`, `[attr.tabindex]` — the cursor; never
   `aria-selected`) directly onto the same native `<td
-  lily-kanban-table-td>` element, so the roving-tabindex cursor is set
+lily-kanban-table-td>` element, so the roving-tabindex cursor is set
   that way instead — no headless-component change needed.
 - Angular's headless `KanbanTable` sets **no `role="grid"`** on its
   rendered `<table>` (confirmed: no `role` anywhere in
@@ -83,47 +83,76 @@ change:**
 
 ```html
 <div class="kanban-board {className}">
-  <lily-kanban-table [label]="label"> <!-- role="grid" applied by KanbanBoard, see §3 -->
-    <caption class="kanban-board-caption">…</caption> <!-- only when caption is set -->
+  <lily-kanban-table [label]="label">
+    <!-- role="grid" applied by KanbanBoard, see §3 -->
+    <caption class="kanban-board-caption">
+      …
+    </caption>
+    <!-- only when caption is set -->
     <thead lily-kanban-table-head>
       <tr lily-kanban-table-row>
-        <th lily-kanban-table-th data-over-limit>            <!-- only when column.wipLimit is exceeded -->
+        <th
+          lily-kanban-table-th
+          data-over-limit
+        >
+          <!-- only when column.wipLimit is exceeded -->
           {column.title}
           <span class="kanban-board-count">{labels.cardCount(count)}</span>
-          <span class="kanban-board-wip-warning">{labels.overLimit(count, limit)}</span>  <!-- only when over limit -->
+          <span class="kanban-board-wip-warning">{labels.overLimit(count, limit)}</span>
+          <!-- only when over limit -->
         </th>
       </tr>
     </thead>
     <tbody lily-kanban-table-body>
       <tr lily-kanban-table-row>
-        <td lily-kanban-table-td data-row data-col tabindex> <!-- roving-tabindex cursor; no aria-selected: focus is not selection -->
+        <td
+          lily-kanban-table-td
+          data-row
+          data-col
+          tabindex
+        >
+          <!-- roving-tabindex cursor; no aria-selected: focus is not selection -->
           <span class="kanban-board-card-title">{cardLabel(card)}</span>
-          <lily-icon-button baseClass="kanban-board-move-button" ariaHaspopup="listbox" [ariaExpanded] [tabIndex]="-1">…</lily-icon-button>
-          <lily-listbox baseClass="kanban-board-move-list" navigation="active-descendant" [hidden]="…"> <!-- only while open -->
+          <lily-icon-button
+            baseClass="kanban-board-move-button"
+            ariaHaspopup="listbox"
+            [ariaExpanded]
+            [tabIndex]="-1"
+            >…</lily-icon-button
+          >
+          <lily-listbox
+            baseClass="kanban-board-move-list"
+            navigation="active-descendant"
+            [hidden]="…"
+          >
+            <!-- only while open -->
             <li role="option">{destinationColumn.title}</li>
           </lily-listbox>
         </td>
       </tr>
     </tbody>
   </lily-kanban-table>
-  <p class="kanban-board-status" aria-live="polite"></p>
+  <p
+    class="kanban-board-status"
+    aria-live="polite"
+  ></p>
 </div>
 ```
 
 ## 5. Inputs / outputs
 
-| Input        | Type                                                        | Required | Default |
-| ------------ | ------------------------------------------------------------ | -------- | ------- |
-| `label`      | `string`                                                      | yes      | —       |
-| `columns`    | `KanbanColumn[]`                                              | yes      | —       |
-| `cards`      | `KanbanCard[]`                                                | yes      | —       |
-| `caption`    | `string`                                                       | no       | `""`    |
-| `cardLabel`  | `(card: KanbanCard) => string`                                 | no       | `card.title` |
-| `labels`     | `KanbanLabels`                                                 | no       | `{}`    |
-| `className`  | `string`                                                       | no       | `""`    |
+| Input       | Type                           | Required | Default      |
+| ----------- | ------------------------------ | -------- | ------------ |
+| `label`     | `string`                       | yes      | —            |
+| `columns`   | `KanbanColumn[]`               | yes      | —            |
+| `cards`     | `KanbanCard[]`                 | yes      | —            |
+| `caption`   | `string`                       | no       | `""`         |
+| `cardLabel` | `(card: KanbanCard) => string` | no       | `card.title` |
+| `labels`    | `KanbanLabels`                 | no       | `{}`         |
+| `className` | `string`                       | no       | `""`         |
 
-| Output | Type                | Fires |
-| ------ | ------------------- | ----- |
+| Output | Type                                       | Fires                                                                                                                                                                                                                                                  |
+| ------ | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `move` | `KanbanMoveEvent` (`{cardId, toColumnId}`) | After a card moves to a new column, by pointer or by the move menu. Angular's `output()` replaces the Svelte contract's `onMove` callback prop — this catalog's established idiom (see `theme-picker`'s `themeChange`, `picker-bar`'s `share`/`copy`). |
 
 `KanbanColumn`: `id` (required), `title` (required), `wipLimit?: number`.

@@ -37,19 +37,29 @@ emphasis without assuming a heading level.
 ```tsx
 import Alert from "./Alert";
 
-<Alert>Something happened.</Alert>
+<Alert>Something happened.</Alert>;
 ```
 
 With heading and error type:
 
 ```tsx
-<Alert type="error" heading="Error">Something went wrong. Please try again.</Alert>
+<Alert
+  type="error"
+  heading="Error"
+>
+  Something went wrong. Please try again.
+</Alert>
 ```
 
 Success notification:
 
 ```tsx
-<Alert type="success" heading="Saved">Your changes have been saved successfully.</Alert>
+<Alert
+  type="success"
+  heading="Saved"
+>
+  Your changes have been saved successfully.
+</Alert>
 ```
 
 Polite status message using role="status":

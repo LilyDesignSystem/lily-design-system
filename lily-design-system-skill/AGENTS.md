@@ -22,7 +22,7 @@
 ## Overview
 
 A Claude Skill explaining Lily Design System™ concepts, terminology, and
-usage patterns to people building *with* it. The skill itself is
+usage patterns to people building _with_ it. The skill itself is
 [`SKILL.md`](SKILL.md); the `@AGENTS/*.md` files loaded above are the same
 binding design-principle rules every other subproject in this repository
 loads, so an agent explaining Lily's concepts is grounded in the same rules
@@ -34,7 +34,7 @@ a component implementation is held to.
   terminology, naming conventions, and composition patterns for consumers
   of the system, portable to any project that depends on Lily even outside
   this monorepo.
-- **Isn't**: maintainer-facing documentation of *this repository's own*
+- **Isn't**: maintainer-facing documentation of _this repository's own_
   tooling and conventions (that's
   [`lily-design-system-maintainer-skill`](../lily-design-system-maintainer-skill/)),
   and isn't itself a framework headless/example/helpers implementation —

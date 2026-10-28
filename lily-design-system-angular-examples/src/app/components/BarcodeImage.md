@@ -8,7 +8,10 @@ in the canonical repo root for the cross-framework documentation.
 ## Selector
 
 ```html
-<lily-barcode-image [src]="..." [alt]="..."></lily-barcode-image>
+<lily-barcode-image
+  [src]="..."
+  [alt]="..."
+></lily-barcode-image>
 ```
 
 ## Files

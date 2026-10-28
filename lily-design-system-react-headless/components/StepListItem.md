@@ -19,7 +19,10 @@ One step in a step list. Status is exposed as `data-status`. When `current=true`
 ## Usage
 
 ```tsx
-<StepListItem status="in-progress" current>
+<StepListItem
+  status="in-progress"
+  current
+>
   <strong>Profile</strong>
   <span>Add your photo and bio</span>
 </StepListItem>

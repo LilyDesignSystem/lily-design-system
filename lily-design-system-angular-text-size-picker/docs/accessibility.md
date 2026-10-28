@@ -51,20 +51,20 @@ real 200% rather than a token bump.
 
 ## Roles and properties
 
-| Element                   | Role / Property                                         | Source         |
-| ------------------------- | ------------------------------------------------------- | -------------- |
-| root `<div>`              | none — a container, not a control                       | —              |
-| `<input type="hidden">`   | `name`, `value` (form participation)                    | Component      |
-| `<button>`                | implicit `role="button"`                                | Browser        |
-| `<button>`                | `aria-label={label}` — its **entire** accessible name   | Consumer input |
-| `<button>`                | `aria-haspopup="listbox"`                               | Component      |
-| `<button>`                | `aria-expanded="true                                    | false"`        | Component |
-| `<button>`                | `aria-controls={listId}`                                | Component      |
+| Element                  | Role / Property                                         | Source         |
+| ------------------------ | ------------------------------------------------------- | -------------- |
+| root `<div>`             | none — a container, not a control                       | —              |
+| `<input type="hidden">`  | `name`, `value` (form participation)                    | Component      |
+| `<button>`               | implicit `role="button"`                                | Browser        |
+| `<button>`               | `aria-label={label}` — its **entire** accessible name   | Consumer input |
+| `<button>`               | `aria-haspopup="listbox"`                               | Component      |
+| `<button>`               | `aria-expanded="true                                    | false"`        | Component |
+| `<button>`               | `aria-controls={listId}`                                | Component      |
 | `.text-size-picker-icon` | `aria-hidden="true"`                                    | Component      |
-| `<ul>`                    | `role="listbox"`, `aria-label={label}`, `tabindex="-1"` | Component      |
-| `<ul>` (open only)        | `aria-activedescendant={active option id}`              | Component      |
-| `<li>`                    | `role="option"`, `aria-selected="true                   | false"`        | Component |
-| `<li>`                    | `data-active` — styling hook, **not** ARIA              | Component      |
+| `<ul>`                   | `role="listbox"`, `aria-label={label}`, `tabindex="-1"` | Component      |
+| `<ul>` (open only)       | `aria-activedescendant={active option id}`              | Component      |
+| `<li>`                   | `role="option"`, `aria-selected="true                   | false"`        | Component |
+| `<li>`                   | `data-active` — styling hook, **not** ARIA              | Component      |
 
 `data-active` and `aria-selected` mean different things and are
 usually on different options. `data-active` marks where the keyboard
@@ -95,17 +95,17 @@ conveyed by `aria-activedescendant`; focus never lands on an `<li>`.
 
 On the **listbox**:
 
-| Key               | Action                                                                 |
-| ----------------- | ---------------------------------------------------------------------- |
-| `Arrow Down`      | Active option down one. **Clamps** at the last option — no wrap.       |
-| `Arrow Up`        | Active option up one. **Clamps** at the first option — no wrap.        |
-| `Home`            | First option becomes active.                                           |
-| `End`             | Last option becomes active.                                            |
-| `Enter` / `Space` | Select the active option, apply it, close, return focus to the button. |
-| `Escape`          | Close and return focus to the button; the value is **not** changed.    |
-| `PageUp` / `PageDown` | Move the active option by ten; clamps.                             |
-| `Tab`             | Close; focus lands on the button so the default Tab proceeds from the picker's position. |
-| Printable chars   | Typeahead over the display **labels**; 500 ms buffer. A single character advances to the next match and repeats cycle; differing characters refine. |
+| Key                   | Action                                                                                                                                              |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Arrow Down`          | Active option down one. **Clamps** at the last option — no wrap.                                                                                    |
+| `Arrow Up`            | Active option up one. **Clamps** at the first option — no wrap.                                                                                     |
+| `Home`                | First option becomes active.                                                                                                                        |
+| `End`                 | Last option becomes active.                                                                                                                         |
+| `Enter` / `Space`     | Select the active option, apply it, close, return focus to the button.                                                                              |
+| `Escape`              | Close and return focus to the button; the value is **not** changed.                                                                                 |
+| `PageUp` / `PageDown` | Move the active option by ten; clamps.                                                                                                              |
+| `Tab`                 | Close; focus lands on the button so the default Tab proceeds from the picker's position.                                                            |
+| Printable chars       | Typeahead over the display **labels**; 500 ms buffer. A single character advances to the next match and repeats cycle; differing characters refine. |
 
 Pointer and focus behaviour:
 
@@ -236,9 +236,19 @@ projected `<ng-template>` — your own inline SVG, a paired
 small-A/large-A treatment, or a text label.
 
 ```html
-<lily-text-size-picker label="Text size" [sizes]="sizes">
+<lily-text-size-picker
+  label="Text size"
+  [sizes]="sizes"
+>
   <ng-template lilyTextSizePickerIcon>
-    <svg width="16" height="16" aria-hidden="true" focusable="false">…</svg>
+    <svg
+      width="16"
+      height="16"
+      aria-hidden="true"
+      focusable="false"
+    >
+      …
+    </svg>
   </ng-template>
 </lily-text-size-picker>
 ```
@@ -266,7 +276,10 @@ the control.
   [(value)]="size"
 />
 
-<p class="text-size-picker-status" aria-live="polite">
+<p
+  class="text-size-picker-status"
+  aria-live="polite"
+>
   Text size: {{ sizeSelect.labelFor(size()) }}
 </p>
 ```
@@ -408,9 +421,7 @@ expect(button.getAttribute("aria-expanded")).toBe("false");
 expect(button.getAttribute("aria-controls")).toBe(list.id);
 expect(list.getAttribute("role")).toBe("listbox");
 expect(list.hasAttribute("hidden")).toBe(true);
-expect(fixture.nativeElement.querySelectorAll('[role="option"]').length).toBe(
-  2,
-);
+expect(fixture.nativeElement.querySelectorAll('[role="option"]').length).toBe(2);
 ```
 
 For broader a11y testing run axe-core in a real Angular host. The

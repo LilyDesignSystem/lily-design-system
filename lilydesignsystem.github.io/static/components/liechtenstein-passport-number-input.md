@@ -23,8 +23,15 @@ LiechtensteinPassportNumberInput is a headless input for entering Liechtenstein'
 ## Usage
 
 ```html
-<Field label="Liechtenstein Passport Number" required>
-  <LiechtensteinPassportNumberInput label="Liechtenstein Passport Number" value={value} required />
+<Field
+  label="Liechtenstein Passport Number"
+  required
+>
+  <LiechtensteinPassportNumberInput
+    label="Liechtenstein Passport Number"
+    value="{value}"
+    required
+  />
   <Hint>1 letter followed by 5 digits (e.g. R00536)</Hint>
   <ErrorMessage>Please enter a valid Liechtenstein Passport Number</ErrorMessage>
 </Field>

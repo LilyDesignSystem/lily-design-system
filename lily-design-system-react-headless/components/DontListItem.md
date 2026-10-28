@@ -5,28 +5,26 @@ A single discouraged-practice item within a "Don't" list. Renders a semantic `<l
 ## Usage
 
 ```tsx
-
-    import DontListItem from './DontListItem';
-
+import DontListItem from "./DontListItem";
 
 <ul aria-label="Practices to avoid">
-    <DontListItem>Use color alone to convey meaning</DontListItem>
-    <DontListItem>Remove focus outlines without replacement</DontListItem>
-    <DontListItem>Rely solely on placeholder text as labels</DontListItem>
-</ul>
+  <DontListItem>Use color alone to convey meaning</DontListItem>
+  <DontListItem>Remove focus outlines without replacement</DontListItem>
+  <DontListItem>Rely solely on placeholder text as labels</DontListItem>
+</ul>;
 ```
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | required | The discouraged-practice content |
-| `...restProps` | HTML attributes | — | Spread onto the `<li>` element |
+| Prop           | Type            | Default  | Description                      |
+| -------------- | --------------- | -------- | -------------------------------- |
+| `children`     | `ReactNode`     | required | The discouraged-practice content |
+| `...restProps` | HTML attributes | —        | Spread onto the `<li>` element   |
 
 ## Data attributes
 
-| Attribute | Value | Description |
-|-----------|-------|-------------|
+| Attribute             | Value    | Description                          |
+| --------------------- | -------- | ------------------------------------ |
 | `data-recommendation` | `"dont"` | Always set; use for consumer styling |
 
 ## Accessibility

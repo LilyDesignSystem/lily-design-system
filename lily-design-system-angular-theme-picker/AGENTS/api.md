@@ -72,7 +72,11 @@ An optional `<ng-template>` projected into `<lily-theme-picker>`
 replaces the default icon inside the button:
 
 ```html
-<lily-theme-picker label="Theme" [themesUrl]="url" [themes]="themes">
+<lily-theme-picker
+  label="Theme"
+  [themesUrl]="url"
+  [themes]="themes"
+>
   <ng-template let-args>{{ args.labelFor(args.value) }}</ng-template>
 </lily-theme-picker>
 ```
@@ -83,7 +87,11 @@ marker directive (`ng-template[lilyThemePickerIcon]`) is optional;
 adding it gives typed `let-` variables via `ngTemplateContextGuard`:
 
 ```html
-<ng-template lilyThemePickerIcon let-args>…</ng-template>
+<ng-template
+  lilyThemePickerIcon
+  let-args
+  >…</ng-template
+>
 ```
 
 The context type is:
@@ -128,11 +136,7 @@ Two pure helpers are exported alongside the component:
 
 ```ts
 export function normaliseThemesUrl(themesUrl: string): string;
-export function themeHref(
-  themesUrl: string,
-  slug: string,
-  extension: string,
-): string;
+export function themeHref(themesUrl: string, slug: string, extension: string): string;
 export function themeName(theme: string): string;
 export function matchSystemTheme(themes: readonly string[]): string;
 ```
@@ -185,7 +189,11 @@ character value.
   class="theme-picker {{ className() }}"
   (focusout)="onRootFocusOut($event)"
 >
-  <input type="hidden" [name]="name()" [value]="value()" />
+  <input
+    type="hidden"
+    [name]="name()"
+    [value]="value()"
+  />
 
   <button
     type="button"
@@ -197,7 +205,29 @@ character value.
     (click)="toggle()"
     (keydown)="onButtonKeydown($event)"
   >
-    <svg class="theme-picker-icon" viewBox="0 0 16 16" width="1.05rem" height="1.05rem" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>
+    <svg
+      class="theme-picker-icon"
+      viewBox="0 0 16 16"
+      width="1.05rem"
+      height="1.05rem"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle
+        cx="8"
+        cy="8"
+        r="6"
+      />
+      <path
+        d="M8 2a6 6 0 0 1 0 12z"
+        fill="currentColor"
+        stroke="none"
+      />
+    </svg>
   </button>
 
   <ul

@@ -12,7 +12,10 @@ A box area that looks like a mobile phone. Renders a decorative `<div>` containe
 
 ```tsx
 <MockupPhonePortrait>
-  <img src="screenshot.png" alt="App screen" />
+  <img
+    src="screenshot.png"
+    alt="App screen"
+  />
 </MockupPhonePortrait>
 ```
 

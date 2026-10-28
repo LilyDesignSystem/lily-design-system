@@ -23,9 +23,19 @@ SuomiHenkilotunnusInput is a headless input for entering Finland's Henkilötunnu
 ## Usage
 
 ```html
-<Field label="Personal Identity Code" required>
-  <SuomiHenkilotunnusInput label="Personal Identity Code" value={value} required />
-  <Hint>11 characters in the format DDMMYYCZZZQ: DDMMYY is the date of birth, C is the century sign (+, -, or A), ZZZ is an individual number (odd male, even female), Q is the checksum</Hint>
+<Field
+  label="Personal Identity Code"
+  required
+>
+  <SuomiHenkilotunnusInput
+    label="Personal Identity Code"
+    value="{value}"
+    required
+  />
+  <Hint
+    >11 characters in the format DDMMYYCZZZQ: DDMMYY is the date of birth, C is the century sign (+,
+    -, or A), ZZZ is an individual number (odd male, even female), Q is the checksum</Hint
+  >
   <ErrorMessage>Please enter a valid Personal Identity Code</ErrorMessage>
 </Field>
 ```

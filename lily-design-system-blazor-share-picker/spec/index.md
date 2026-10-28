@@ -88,23 +88,23 @@ Give a Blazor 10 application a drop-in, headless share control that:
 
 ### 4.1 Parameters
 
-| Parameter              | Type                                   | Required | Default          | Purpose                                                                                   |
-| ---------------------- | -------------------------------------- | -------- | ---------------- | ----------------------------------------------------------------------------------------- |
-| `Label`                | `string`                               | yes      | —                | Accessible name for the button.                                                           |
-| `Targets`              | `IReadOnlyList<ShareTarget>`           | no       | empty            | Destinations to offer. Empty is valid when `CopyLabel` is set.                            |
-| `Url`                  | `string?`                              | no       | current page URL | URL to share. Resolved lazily from `NavigationManager`, so the default is prerender-safe. |
-| `Title`                | `string`                               | no       | `""`             | Passed to `Href(...)` and the native sheet.                                               |
-| `Text`                 | `string`                               | no       | `""`             | Passed to `Href(...)` and the native sheet.                                               |
-| `CopyLabel`            | `string?`                              | no       | `null`           | Label for the copy item. Omit it and no copy item renders.                                |
-| `CopiedLabel`          | `string?`                              | no       | `null`           | Announced in the status region after a successful copy.                                   |
-| `CopyFailedLabel`      | `string?`                              | no       | `null`           | Announced when the clipboard write fails.                                                 |
-| `Strategy`             | `ShareStrategy`                        | no       | `Auto`           | Whether to prefer the native sheet.                                                       |
-| `ChildContent`         | `RenderFragment<SharePickerContext>?` | no       | the arrow icon    | Replaces the button icon.                                                                |
-| `OnShare`              | `EventCallback<ShareEventArgs>`        | no       | —                | Fires when a destination is chosen.                                                       |
-| `OnCopy`               | `EventCallback<string>`                | no       | —                | Fires after a successful copy, with the URL.                                              |
-| `OnNativeShare`        | `EventCallback<string>`                | no       | —                | Fires when the native sheet was used instead of the list.                                 |
-| `CssClass`             | `string`                               | no       | `""`             | Extra class on the root.                                                                  |
-| `AdditionalAttributes` | unmatched attributes                   | no       | —                | Spread onto the root `<div>`.                                                             |
+| Parameter              | Type                                  | Required | Default          | Purpose                                                                                   |
+| ---------------------- | ------------------------------------- | -------- | ---------------- | ----------------------------------------------------------------------------------------- |
+| `Label`                | `string`                              | yes      | —                | Accessible name for the button.                                                           |
+| `Targets`              | `IReadOnlyList<ShareTarget>`          | no       | empty            | Destinations to offer. Empty is valid when `CopyLabel` is set.                            |
+| `Url`                  | `string?`                             | no       | current page URL | URL to share. Resolved lazily from `NavigationManager`, so the default is prerender-safe. |
+| `Title`                | `string`                              | no       | `""`             | Passed to `Href(...)` and the native sheet.                                               |
+| `Text`                 | `string`                              | no       | `""`             | Passed to `Href(...)` and the native sheet.                                               |
+| `CopyLabel`            | `string?`                             | no       | `null`           | Label for the copy item. Omit it and no copy item renders.                                |
+| `CopiedLabel`          | `string?`                             | no       | `null`           | Announced in the status region after a successful copy.                                   |
+| `CopyFailedLabel`      | `string?`                             | no       | `null`           | Announced when the clipboard write fails.                                                 |
+| `Strategy`             | `ShareStrategy`                       | no       | `Auto`           | Whether to prefer the native sheet.                                                       |
+| `ChildContent`         | `RenderFragment<SharePickerContext>?` | no       | the arrow icon   | Replaces the button icon.                                                                 |
+| `OnShare`              | `EventCallback<ShareEventArgs>`       | no       | —                | Fires when a destination is chosen.                                                       |
+| `OnCopy`               | `EventCallback<string>`               | no       | —                | Fires after a successful copy, with the URL.                                              |
+| `OnNativeShare`        | `EventCallback<string>`               | no       | —                | Fires when the native sheet was used instead of the list.                                 |
+| `CssClass`             | `string`                              | no       | `""`             | Extra class on the root.                                                                  |
+| `AdditionalAttributes` | unmatched attributes                  | no       | —                | Spread onto the root `<div>`.                                                             |
 
 ```csharp
 public sealed class ShareTarget
@@ -133,7 +133,10 @@ public sealed class ShareEventArgs
 ### 4.2 DOM contract
 
 ```html
-<div class="share-picker {CssClass}" ...AdditionalAttributes>
+<div
+  class="share-picker {CssClass}"
+  ...AdditionalAttributes
+>
   <button
     type="button"
     class="share-picker-button"
@@ -141,10 +144,30 @@ public sealed class ShareEventArgs
     aria-expanded
     aria-controls="{listId}"
   >
-    <svg class="share-picker-icon" viewBox="0 0 16 16" aria-hidden="true" width="1.05rem" height="1.05rem">…</svg>
+    <svg
+      class="share-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      width="1.05rem"
+      height="1.05rem"
+    >
+      …
+    </svg>
   </button>
-  <div class="share-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{Label}</div>
-  <ul class="share-picker-list" id="{listId}" aria-label="{Label}" hidden>
+  <div
+    class="share-picker-tooltip"
+    role="tooltip"
+    id="{tooltipId}"
+    hidden
+  >
+    {Label}
+  </div>
+  <ul
+    class="share-picker-list"
+    id="{listId}"
+    aria-label="{Label}"
+    hidden
+  >
     <li class="share-picker-list-item">
       <a
         class="share-picker-target"
@@ -156,10 +179,18 @@ public sealed class ShareEventArgs
       >
     </li>
     <li class="share-picker-list-item">
-      <button type="button" class="share-picker-copy">{CopyLabel}</button>
+      <button
+        type="button"
+        class="share-picker-copy"
+      >
+        {CopyLabel}
+      </button>
     </li>
   </ul>
-  <p class="share-picker-status" aria-live="polite"></p>
+  <p
+    class="share-picker-status"
+    aria-live="polite"
+  ></p>
 </div>
 ```
 
@@ -195,11 +226,11 @@ plus the types `ShareTarget`, `ShareStrategy`, `SharePickerContext`,
 Blazor has no module barrel, so the Svelte package's re-exports become
 `public static` members — the C# equivalent named in the port contract:
 
-| Svelte export                | Blazor equivalent                                |
-| ---------------------------- | ------------------------------------------------ |
-| `nextSharePickerId()`       | `SharePicker.NextSharePickerId()`              |
-| `canShareNatively()`         | `SharePicker.CanShareNativelyAsync(IJSRuntime)` |
-| `canCopy()`                  | `SharePicker.CanCopyAsync(IJSRuntime)`          |
+| Svelte export         | Blazor equivalent                               |
+| --------------------- | ----------------------------------------------- |
+| `nextSharePickerId()` | `SharePicker.NextSharePickerId()`               |
+| `canShareNatively()`  | `SharePicker.CanShareNativelyAsync(IJSRuntime)` |
+| `canCopy()`           | `SharePicker.CanCopyAsync(IJSRuntime)`          |
 
 The two capability probes are **async** because the browser is only
 reachable over JS interop; both return `false` during prerender rather
@@ -242,13 +273,13 @@ Either way the list closes.
 
 ### 5.3 Keyboard
 
-| Key               | On the button                        | In the list                                   |
-| ----------------- | ------------------------------------ | --------------------------------------------- |
-| `Enter` / `Space` | Activates (native browser behaviour) | Activates the focused item                    |
-| `ArrowDown`       | Opens, focuses the first item        | Moves focus down, clamping                    |
-| `ArrowUp`         | Opens, focuses the last item         | Moves focus up, clamping                      |
-| `Home` / `End`    | —                                    | First / last item                             |
-| `Escape`          | —                                    | Closes and returns focus to the button        |
+| Key               | On the button                        | In the list                                                                                                 |
+| ----------------- | ------------------------------------ | ----------------------------------------------------------------------------------------------------------- |
+| `Enter` / `Space` | Activates (native browser behaviour) | Activates the focused item                                                                                  |
+| `ArrowDown`       | Opens, focuses the first item        | Moves focus down, clamping                                                                                  |
+| `ArrowUp`         | Opens, focuses the last item         | Moves focus up, clamping                                                                                    |
+| `Home` / `End`    | —                                    | First / last item                                                                                           |
+| `Escape`          | —                                    | Closes and returns focus to the button                                                                      |
 | `Tab`             | Moves on                             | Closes — focus is parked on the button, so the user's next Tab proceeds from the picker's position (see §9) |
 
 Items are real focusable elements, so focus moves for real rather than
@@ -259,7 +290,7 @@ has been painted.
 
 The `Tab` refocus matters because the focused element is a list item:
 the browser's default Tab — which Blazor can neither cancel nor
-precede — lands on the *next* item just as the list hides, dropping
+precede — lands on the _next_ item just as the list hides, dropping
 focus to `<body>`, so the user's following Tab would restart from the
 top of the document. Parking focus on the trigger instead means Tab
 proceeds from the picker's own position. (The sibling listbox pickers

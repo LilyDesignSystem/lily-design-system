@@ -13,17 +13,17 @@ helper. For the catalog-wide test rules see
 import { describe, it, expect, beforeEach } from "vitest";
 import { mount } from "@vue/test-utils";
 import LocalePicker, {
-    bcp47LocaleTag,
-    isRtlLocale,
-    localeName,
-    matchNavigatorLanguage,
+  bcp47LocaleTag,
+  isRtlLocale,
+  localeName,
+  matchNavigatorLanguage,
 } from "./LocalePicker.vue";
 
 beforeEach(() => {
-    // Reset shared state between tests.
-    document.documentElement.removeAttribute("lang");
-    document.documentElement.removeAttribute("dir");
-    localStorage.clear();
+  // Reset shared state between tests.
+  document.documentElement.removeAttribute("lang");
+  document.documentElement.removeAttribute("dir");
+  localStorage.clear();
 });
 ```
 
@@ -34,11 +34,11 @@ beforeEach(() => {
 
 ```ts
 it("§7.7 bcp47LocaleTag(en_US) === en-US", () => {
-    expect(bcp47LocaleTag("en_US")).toBe("en-US");
+  expect(bcp47LocaleTag("en_US")).toBe("en-US");
 });
 
 it("§7.10 isRtlLocale handles script subtags", () => {
-    expect(isRtlLocale("uz_Arab_AF")).toBe(true);
+  expect(isRtlLocale("uz_Arab_AF")).toBe(true);
 });
 ```
 
@@ -50,16 +50,16 @@ keyboard behaviour.
 
 ```ts
 it("§7.1 renders a button that controls a listbox", async () => {
-    const wrapper = mount(LocalePicker, {
-        props: { label: "Language", locales: ["en", "fr"] },
-        attachTo: document.body,
-    });
-    await wrapper.vm.$nextTick();
-    const button = wrapper.find("button.locale-picker-button");
-    expect(button.attributes("aria-label")).toBe("Language");
-    expect(button.attributes("aria-haspopup")).toBe("listbox");
-    expect(button.attributes("aria-expanded")).toBe("false");
-    expect(wrapper.findAll("li.locale-picker-option")).toHaveLength(2);
+  const wrapper = mount(LocalePicker, {
+    props: { label: "Language", locales: ["en", "fr"] },
+    attachTo: document.body,
+  });
+  await wrapper.vm.$nextTick();
+  const button = wrapper.find("button.locale-picker-button");
+  expect(button.attributes("aria-label")).toBe("Language");
+  expect(button.attributes("aria-haspopup")).toBe("listbox");
+  expect(button.attributes("aria-expanded")).toBe("false");
+  expect(wrapper.findAll("li.locale-picker-option")).toHaveLength(2);
 });
 ```
 
@@ -104,9 +104,7 @@ const list = wrapper.find("ul.locale-picker-list");
 expect(document.activeElement).toBe(list.element);
 
 await list.trigger("keydown", { key: "ArrowDown" });
-expect(list.attributes("aria-activedescendant")).toBe(
-    list.element.children[1].id,
-);
+expect(list.attributes("aria-activedescendant")).toBe(list.element.children[1].id);
 
 await list.trigger("keydown", { key: "Enter" });
 await flush();
@@ -132,19 +130,19 @@ expect(list.element.hasAttribute("hidden")).toBe(true);
 
 ```ts
 it("§7.20 detectFromNavigator picks an exact match", async () => {
-    Object.defineProperty(navigator, "languages", {
-        configurable: true,
-        get: () => ["fr-FR", "en"],
-    });
-    const wrapper = mount(LocalePicker, {
-        props: {
-            label: "L",
-            locales: ["en", "fr_FR", "ar"],
-            detectFromNavigator: true,
-        },
-    });
-    await wrapper.vm.$nextTick();
-    expect(document.documentElement.lang).toBe("fr-FR");
+  Object.defineProperty(navigator, "languages", {
+    configurable: true,
+    get: () => ["fr-FR", "en"],
+  });
+  const wrapper = mount(LocalePicker, {
+    props: {
+      label: "L",
+      locales: ["en", "fr_FR", "ar"],
+      detectFromNavigator: true,
+    },
+  });
+  await wrapper.vm.$nextTick();
+  expect(document.documentElement.lang).toBe("fr-FR");
 });
 ```
 
@@ -159,7 +157,9 @@ tests. To simulate a thrown read:
 
 ```ts
 const original = Storage.prototype.getItem;
-Storage.prototype.getItem = () => { throw new Error("private mode"); };
+Storage.prototype.getItem = () => {
+  throw new Error("private mode");
+};
 // … run test …
 Storage.prototype.getItem = original;
 ```
@@ -174,15 +174,15 @@ it manually:
 ```ts
 let currentValue = "en";
 const wrapper = mount(LocalePicker, {
-    props: {
-        label: "L",
-        locales: ["en", "fr", "ar"],
-        value: currentValue,
-        "onUpdate:value": (next: string) => {
-            currentValue = next;
-            wrapper.setProps({ value: next });
-        },
+  props: {
+    label: "L",
+    locales: ["en", "fr", "ar"],
+    value: currentValue,
+    "onUpdate:value": (next: string) => {
+      currentValue = next;
+      wrapper.setProps({ value: next });
     },
+  },
 });
 ```
 
@@ -195,18 +195,16 @@ custom content rendered inside the button and that the built-in
 ```ts
 let captured: any = null;
 const wrapper = mount(LocalePicker, {
-    props: { label: "L", locales: ["en", "fr"], value: "fr" },
-    slots: {
-        default: (args: any) => {
-            captured = args;
-            return "custom glyph";
-        },
+  props: { label: "L", locales: ["en", "fr"], value: "fr" },
+  slots: {
+    default: (args: any) => {
+      captured = args;
+      return "custom glyph";
     },
+  },
 });
 await wrapper.vm.$nextTick();
-expect(wrapper.find("button.locale-picker-button").text()).toContain(
-    "custom glyph",
-);
+expect(wrapper.find("button.locale-picker-button").text()).toContain("custom glyph");
 expect(wrapper.find(".locale-picker-icon").exists()).toBe(false);
 expect(captured.value).toBe("fr");
 expect(captured.open).toBe(false);
@@ -224,16 +222,16 @@ import { renderToString } from "vue/server-renderer";
 import { createSSRApp } from "vue";
 
 it("renders cleanly under SSR", async () => {
-    const html = await renderToString(
-        createSSRApp(LocalePicker, {
-            label: "Language",
-            locales: ["en", "fr"],
-            value: "fr",
-        }),
-    );
-    expect(html).toContain('aria-label="Language"');
-    expect(html).toContain('aria-haspopup="listbox"');
-    expect(html).toContain('value="fr"');
+  const html = await renderToString(
+    createSSRApp(LocalePicker, {
+      label: "Language",
+      locales: ["en", "fr"],
+      value: "fr",
+    }),
+  );
+  expect(html).toContain('aria-label="Language"');
+  expect(html).toContain('aria-haspopup="listbox"');
+  expect(html).toContain('value="fr"');
 });
 ```
 
@@ -248,11 +246,11 @@ the naming convention so a reviewer can spot a missing clause.
 
 Section map:
 
-| §7 group        | Clauses | Test focus                                       |
-| --------------- | ------- | ------------------------------------------------ |
-| 7.1 markup      | 1–6     | Root div, button + listbox wiring, glyph, hidden input, per-option `lang`, labels |
-| 7.2 pure helpers| 7–12    | bcp47LocaleTag, isRtlLocale, localeName, matchNavigatorLanguage |
-| 7.3 application | 13–17   | target.lang, target.dir, applyDir, emit("change"), custom target |
-| 7.4 init value  | 18–21   | storage / value / navigator / defaultValue ordering |
-| 7.5 spread/slot | 22–23   | `$attrs` fall-through and the `SlotArgs` contract |
-| 7.6 keyboard    | 24–27   | Open keys, arrow clamping, Home/End, commit / cancel / Tab, typeahead, outside click |
+| §7 group         | Clauses | Test focus                                                                           |
+| ---------------- | ------- | ------------------------------------------------------------------------------------ |
+| 7.1 markup       | 1–6     | Root div, button + listbox wiring, glyph, hidden input, per-option `lang`, labels    |
+| 7.2 pure helpers | 7–12    | bcp47LocaleTag, isRtlLocale, localeName, matchNavigatorLanguage                      |
+| 7.3 application  | 13–17   | target.lang, target.dir, applyDir, emit("change"), custom target                     |
+| 7.4 init value   | 18–21   | storage / value / navigator / defaultValue ordering                                  |
+| 7.5 spread/slot  | 22–23   | `$attrs` fall-through and the `SlotArgs` contract                                    |
+| 7.6 keyboard     | 24–27   | Open keys, arrow clamping, Home/End, commit / cancel / Tab, typeahead, outside click |

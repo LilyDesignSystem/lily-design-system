@@ -32,8 +32,9 @@ This headless component uses a `<div>` element to wrap body text content such as
 
 ```html
 <BodyText>
-  <p>The research findings indicate a significant shift in consumer behavior
-  over the past decade.</p>
+  <p>
+    The research findings indicate a significant shift in consumer behavior over the past decade.
+  </p>
   <ul>
     <li>Online purchases increased by 45%</li>
     <li>In-store visits declined by 20%</li>
@@ -44,8 +45,10 @@ This headless component uses a `<div>` element to wrap body text content such as
 
 ```html
 <BodyText>
-  <p>Healthcare providers across the region reported improved patient outcomes
-  following the implementation of the new protocol.</p>
+  <p>
+    Healthcare providers across the region reported improved patient outcomes following the
+    implementation of the new protocol.
+  </p>
   <blockquote>
     <p>"The results exceeded our expectations," said Dr. Smith.</p>
   </blockquote>

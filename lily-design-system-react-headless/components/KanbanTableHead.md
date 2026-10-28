@@ -11,7 +11,11 @@ The header section of a KanbanTable, rendered as a `<thead>` element. Contains K
 
 ```tsx
 <KanbanTableHead>
-  <KanbanTableRow><th>To Do</th><th>In Progress</th><th>Done</th></KanbanTableRow>
+  <KanbanTableRow>
+    <th>To Do</th>
+    <th>In Progress</th>
+    <th>Done</th>
+  </KanbanTableRow>
 </KanbanTableHead>
 ```
 

@@ -21,7 +21,10 @@ This component is useful whenever a form needs to carry data that the user shoul
 ## Usage
 
 ```tsx
-<HiddenInput name="csrf" value={token} />
+<HiddenInput
+  name="csrf"
+  value={token}
+/>
 ```
 
 ## Keyboard Interactions

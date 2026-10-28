@@ -26,16 +26,14 @@ Three workflow stage column headers:
 
 ```html
 <KanbanTable label="Sprint board">
-    <KanbanTableHead>
-        <KanbanTableRow>
-            <KanbanTableTD>To do</KanbanTableTD>
-            <KanbanTableTD>In progress</KanbanTableTD>
-            <KanbanTableTD>Done</KanbanTableTD>
-        </KanbanTableRow>
-    </KanbanTableHead>
-    <KanbanTableBody>
-        ...
-    </KanbanTableBody>
+  <KanbanTableHead>
+    <KanbanTableRow>
+      <KanbanTableTD>To do</KanbanTableTD>
+      <KanbanTableTD>In progress</KanbanTableTD>
+      <KanbanTableTD>Done</KanbanTableTD>
+    </KanbanTableRow>
+  </KanbanTableHead>
+  <KanbanTableBody> ... </KanbanTableBody>
 </KanbanTable>
 ```
 

@@ -22,7 +22,7 @@ DanmarkPersonnummerView is a headless read-only display of Denmark's Personnumme
 ```html
 <SummaryList>
   <SummaryListItem term="Personal Identity Code">
-    <DanmarkPersonnummerView value={value} />
+    <DanmarkPersonnummerView value="{value}" />
   </SummaryListItem>
 </SummaryList>
 ```

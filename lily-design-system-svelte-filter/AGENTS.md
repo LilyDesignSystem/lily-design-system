@@ -8,15 +8,15 @@ A headless Svelte 5 filter builder (`Filter.svelte`) and the pure functions behi
 
 ## Files
 
-| File | Purpose |
-| ---- | ------- |
-| `spec/index.md` | The contract (canonical). |
-| `filter-model.ts` | Model, editing, validation, predicate, JSON, SQL, MongoDB, OData. Pure. |
-| `filter-model.test.ts` | Its tests, including SQL quoting, escaping and injection cases. |
-| `Filter.svelte` | The component (TypeScript + Svelte 5 runes). |
-| `Filter.test.ts` | Component tests, §8.1–§8.25. |
-| `search-text.ts` | The shared case- and diacritic-blind text folding (`foldText`). |
-| `index.ts` | Barrel. |
+| File                   | Purpose                                                                 |
+| ---------------------- | ----------------------------------------------------------------------- |
+| `spec/index.md`        | The contract (canonical).                                               |
+| `filter-model.ts`      | Model, editing, validation, predicate, JSON, SQL, MongoDB, OData. Pure. |
+| `filter-model.test.ts` | Its tests, including SQL quoting, escaping and injection cases.         |
+| `Filter.svelte`        | The component (TypeScript + Svelte 5 runes).                            |
+| `Filter.test.ts`       | Component tests, §8.1–§8.25.                                            |
+| `search-text.ts`       | The shared case- and diacritic-blind text folding (`foldText`).         |
+| `index.ts`             | Barrel.                                                                 |
 
 ## Rules to keep
 

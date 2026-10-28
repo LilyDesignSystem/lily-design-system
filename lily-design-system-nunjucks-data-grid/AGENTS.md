@@ -16,14 +16,14 @@ Run `pnpm install`, `pnpm test`, `pnpm build` here; there are no Lily dependenci
 
 ## Files
 
-| File | Purpose |
-| --- | --- |
-| `spec/index.md` | Specification-driven contract (canonical). |
-| `data-grid.njk` | The macro: skeleton table plus embedded JSON config. |
-| `data-grid.client.ts` | `initDataGrid`, `autoInit`, `resolveLabels`; bundles the grid. |
+| File                                              | Purpose                                                               |
+| ------------------------------------------------- | --------------------------------------------------------------------- |
+| `spec/index.md`                                   | Specification-driven contract (canonical).                            |
+| `data-grid.njk`                                   | The macro: skeleton table plus embedded JSON config.                  |
+| `data-grid.client.ts`                             | `initDataGrid`, `autoInit`, `resolveLabels`; bundles the grid.        |
 | `data-grid.ts`, `cell-types.ts`, `export-data.ts` | The grid element and pure modules (copies of the HTML / Svelte ones). |
-| `data-grid.test.ts`, `export-data.test.ts` | Vitest tests (Nunjucks render + jsdom). |
-| `index.md` | User guide. |
+| `data-grid.test.ts`, `export-data.test.ts`        | Vitest tests (Nunjucks render + jsdom).                               |
+| `index.md`                                        | User guide.                                                           |
 
 ## Public surface
 

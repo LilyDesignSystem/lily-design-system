@@ -27,21 +27,30 @@ This component is useful in forms where users need to enter a calendar date. The
 ## Usage
 
 ```html
-<Fieldset legend="What is your date of birth?">
+<fieldset legend="What is your date of birth?">
   <Hint>For example, 15 3 1984</Hint>
-  <DateInput label="Date of birth" autocomplete="bday" />
-</Fieldset>
+  <DateInput
+    label="Date of birth"
+    autocomplete="bday"
+  />
+</fieldset>
 ```
 
 ```html
-<Fieldset legend="When did your symptoms start?">
+<fieldset legend="When did your symptoms start?">
   <Hint>For example, 27 11 2024</Hint>
   <DateInput label="Symptom start date" />
-</Fieldset>
+</fieldset>
 ```
 
 ```html
-<DateInput label="Deadline" value={value} min="2024-01-01" max="2024-12-31" required />
+<DateInput
+  label="Deadline"
+  value="{value}"
+  min="2024-01-01"
+  max="2024-12-31"
+  required
+/>
 ```
 
 ## Keyboard Interactions
@@ -72,17 +81,14 @@ This component is useful in forms where users need to enter a calendar date. The
 
 This headless DateInput component provides a native `<input type="date">` with `aria-label` for accessible naming, two-way binding on the `value` prop, and `min`/`max` constraints for date range validation. The consumer provides all visual styling including input appearance, calendar icon, and any surrounding label or helper text.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.date-input` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
 
-
 - Verify the component renders a `<input>` element with class `date-input`
-- Verify aria-label={label}` -- provides an accessible name for the date input since there is no visible `<label>` element
+- Verify aria-label={label}`-- provides an accessible name for the date input since there is no visible`<label>` element
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied
 

@@ -57,21 +57,21 @@ needs no extra wiring.
 
 ```svelte
 <script lang="ts">
-    import { locale } from "svelte-i18n";
-    import { LocalePicker } from "@lilydesignsystem/svelte-locale-picker";
+  import { locale } from "svelte-i18n";
+  import { LocalePicker } from "@lilydesignsystem/svelte-locale-picker";
 
-    let code = $state($locale ?? "en");
+  let code = $state($locale ?? "en");
 
-    function syncSvelteI18n(next: string) {
-        locale.set(next);
-    }
+  function syncSvelteI18n(next: string) {
+    locale.set(next);
+  }
 </script>
 
 <LocalePicker
-    label="Language"
-    locales={["en", "fr", "ar"]}
-    bind:value={code}
-    onChange={syncSvelteI18n}
+  label="Language"
+  locales={["en", "fr", "ar"]}
+  bind:value={code}
+  onChange={syncSvelteI18n}
 />
 ```
 
@@ -79,17 +79,17 @@ Paraglide example:
 
 ```svelte
 <script lang="ts">
-    import { setLocale } from "$lib/paraglide/runtime";
-    import { LocalePicker } from "@lilydesignsystem/svelte-locale-picker";
+  import { setLocale } from "$lib/paraglide/runtime";
+  import { LocalePicker } from "@lilydesignsystem/svelte-locale-picker";
 
-    let code = $state("en");
+  let code = $state("en");
 </script>
 
 <LocalePicker
-    label="Language"
-    locales={["en", "fr"]}
-    bind:value={code}
-    onChange={(next) => setLocale(next as "en" | "fr")}
+  label="Language"
+  locales={["en", "fr"]}
+  bind:value={code}
+  onChange={(next) => setLocale(next as "en" | "fr")}
 />
 ```
 

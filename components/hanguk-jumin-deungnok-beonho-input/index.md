@@ -23,9 +23,21 @@ HangukJuminDeungnokBeonhoInput is a headless input for entering South Korea's Re
 ## Usage
 
 ```html
-<Field label="Resident Registration Number (주민등록번호)" required>
-  <HangukJuminDeungnokBeonhoInput label="Resident Registration Number (주민등록번호)" value={value} required />
-  <Hint>Thirteen digits, displayed as NNNNNN-NNNNNNN. The first six digits encode date of birth (YYMMDD); the seventh digit encodes sex and birth century; digits eight through eleven encode place of registration; the twelfth is a sequence number; the thirteenth is a Modulus-11 check digit over the preceding twelve.</Hint>
+<Field
+  label="Resident Registration Number (주민등록번호)"
+  required
+>
+  <HangukJuminDeungnokBeonhoInput
+    label="Resident Registration Number (주민등록번호)"
+    value="{value}"
+    required
+  />
+  <Hint
+    >Thirteen digits, displayed as NNNNNN-NNNNNNN. The first six digits encode date of birth
+    (YYMMDD); the seventh digit encodes sex and birth century; digits eight through eleven encode
+    place of registration; the twelfth is a sequence number; the thirteenth is a Modulus-11 check
+    digit over the preceding twelve.</Hint
+  >
   <ErrorMessage>Please enter a valid Resident Registration Number</ErrorMessage>
 </Field>
 ```

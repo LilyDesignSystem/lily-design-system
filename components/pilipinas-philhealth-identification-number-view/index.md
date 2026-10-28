@@ -22,7 +22,10 @@ PilipinasPhilhealthIdentificationNumberView is a headless read-only display of t
 ```html
 <SummaryList>
   <SummaryListItem term="PhilHealth Identification Number (PIN)">
-    <PilipinasPhilhealthIdentificationNumberView label="PhilHealth Identification Number (PIN)" value={value} />
+    <PilipinasPhilhealthIdentificationNumberView
+      label="PhilHealth Identification Number (PIN)"
+      value="{value}"
+    />
   </SummaryListItem>
 </SummaryList>
 ```

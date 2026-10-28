@@ -109,7 +109,7 @@ own instructions required):
 - **`GanttTableTD`'s `active` prop.** The task instructions flagged
   this as the single riskiest area to check: Svelte's `GanttTableTD`
   documents `active` for "this cell is within the task's span" but
-  actually *implements* it as the roving-tabindex cursor/`aria-selected`
+  actually _implements_ it as the roving-tabindex cursor/`aria-selected`
   — a real contract overload the Svelte package's own spec §3 and
   CHANGELOG work around by keeping `active` scoped to the cursor only
   and marking span-membership with a separate `data-in-range`
@@ -122,7 +122,7 @@ own instructions required):
   (`data-row`/`data-col`/`tabindex`/`aria-selected`) and span
   membership (`data-in-range`) as two independent attribute bindings
   on the native `<td lily-gantt-table-td>` cell, matching the Svelte
-  contract's *chosen resolution* even though nothing forced it here —
+  contract's _chosen resolution_ even though nothing forced it here —
   keeping the two concepts separate is good practice regardless of
   whether `GanttTableTD` happens to have a prop to overload.
 - **`role="grid"`.** Angular's headless `GanttTable` sets no `role` at

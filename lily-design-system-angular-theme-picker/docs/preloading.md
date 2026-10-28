@@ -22,9 +22,18 @@ In an Angular CLI app, write the `<link>` tags directly in
 ```html
 <!-- src/index.html -->
 <head>
-  <link rel="stylesheet" href="/assets/themes/light.css" />
-  <link rel="stylesheet" href="/assets/themes/dark.css" />
-  <link rel="stylesheet" href="/assets/themes/abyss.css" />
+  <link
+    rel="stylesheet"
+    href="/assets/themes/light.css"
+  />
+  <link
+    rel="stylesheet"
+    href="/assets/themes/dark.css"
+  />
+  <link
+    rel="stylesheet"
+    href="/assets/themes/abyss.css"
+  />
 </head>
 ```
 
@@ -53,9 +62,20 @@ When you want the _first_ switch to be instant but don't want to
 pay the cost up front for every other theme:
 
 ```html
-<link rel="stylesheet" href="/assets/themes/light.css" />
-<link rel="preload" as="style" href="/assets/themes/dark.css" />
-<link rel="preload" as="style" href="/assets/themes/abyss.css" />
+<link
+  rel="stylesheet"
+  href="/assets/themes/light.css"
+/>
+<link
+  rel="preload"
+  as="style"
+  href="/assets/themes/dark.css"
+/>
+<link
+  rel="preload"
+  as="style"
+  href="/assets/themes/abyss.css"
+/>
 ```
 
 The browser fetches the preloaded files but doesn't parse / apply
@@ -81,7 +101,10 @@ select then doesn't need to swap stylesheets at all — only
 `data-theme` changes.
 
 ```html
-<link rel="stylesheet" href="/assets/themes/all.css" />
+<link
+  rel="stylesheet"
+  href="/assets/themes/all.css"
+/>
 ```
 
 ```html
@@ -115,7 +138,10 @@ block with a stylesheet `<link>`:
 
 ```html
 @defer (on viewport) {
-<link rel="stylesheet" href="/assets/themes/dark.css" />
+<link
+  rel="stylesheet"
+  href="/assets/themes/dark.css"
+/>
 <app-dashboard />
 }
 ```

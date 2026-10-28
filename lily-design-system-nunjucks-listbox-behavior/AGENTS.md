@@ -15,13 +15,13 @@ its own since 2026-10-10 (until then inside `lily-design-system-nunjucks-helpers
 
 ## Files
 
-| File                          | Purpose                                         |
-| ----------------------------- | ----------------------------------------------- |
-| `spec/index.md`               | Contract and acceptance criteria (canonical).   |
-| `listbox-behavior.client.js`  | Implementation (`createListboxKeyboard`).       |
-| `listbox-behavior.test.ts`    | Vitest spec, one test per acceptance clause.    |
-| `build.sh`                    | tsup build to `dist/index.js` + `index.d.ts`.   |
-| `index.md`                    | User guide.                                     |
+| File                         | Purpose                                       |
+| ---------------------------- | --------------------------------------------- |
+| `spec/index.md`              | Contract and acceptance criteria (canonical). |
+| `listbox-behavior.client.js` | Implementation (`createListboxKeyboard`).     |
+| `listbox-behavior.test.ts`   | Vitest spec, one test per acceptance clause.  |
+| `build.sh`                   | tsup build to `dist/index.js` + `index.d.ts`. |
+| `index.md`                   | User guide.                                   |
 
 ## Rules
 

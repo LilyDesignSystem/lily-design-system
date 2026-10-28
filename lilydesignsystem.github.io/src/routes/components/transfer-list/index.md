@@ -37,14 +37,28 @@ list.
   targetLabel="Selected roles"
 >
   <template #source>
-    <ul role="listbox">...</ul>
+    <ul role="listbox">
+      ...
+    </ul>
   </template>
   <template #actions>
-    <button type="button" aria-label="Move to selected">→</button>
-    <button type="button" aria-label="Move to available">←</button>
+    <button
+      type="button"
+      aria-label="Move to selected"
+    >
+      →
+    </button>
+    <button
+      type="button"
+      aria-label="Move to available"
+    >
+      ←
+    </button>
   </template>
   <template #target>
-    <ul role="listbox">...</ul>
+    <ul role="listbox">
+      ...
+    </ul>
   </template>
 </TransferList>
 ```

@@ -91,11 +91,11 @@ part of 0.1.0 rather than a later version.
   restarts from the top of the document. Blazor cannot reproduce that
   bug — the default Tab always runs before the async handler, so it
   proceeds from the still-visible list — and mirroring the refocus
-  would run *after* the default Tab and yank the user back to the
+  would run _after_ the default Tab and yank the user back to the
   trigger they just left. Both implementations end with focus on the
   tab stop after the picker; the divergence is recorded in spec §6.4.
 - **Typeahead follows the APG single-character rule** (canonical
-  §7.22). A single character advances to the *next* matching option,
+  §7.22). A single character advances to the _next_ matching option,
   and repeating that character cycles through the matches; only a
   buffer of differing characters refines the match anchored on the
   active option. Previously a character that matched the active option
@@ -210,7 +210,11 @@ selectors. Nothing else moves.
 
   ```html
   <div class="theme-picker {CssClass}">
-    <input type="hidden" name="{Name}" value="{Value}" />
+    <input
+      type="hidden"
+      name="{Name}"
+      value="{Value}"
+    />
     <button
       type="button"
       class="theme-picker-button"
@@ -219,7 +223,11 @@ selectors. Nothing else moves.
       aria-expanded="false"
       aria-controls="{listId}"
     >
-      <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
+      <span
+        class="theme-picker-icon"
+        aria-hidden="true"
+        >&#9681;</span
+      >
     </button>
     <ul
       class="theme-picker-list"

@@ -44,7 +44,9 @@ stylesheet's `[hidden] { display: none }`.
 **Fix.** Restore it explicitly:
 
 ```css
-.theme-picker-list[hidden] { display: none; }
+.theme-picker-list[hidden] {
+  display: none;
+}
 ```
 
 ## "Arrowing through the list does nothing visible"
@@ -160,7 +162,7 @@ component, which it is. If your wrapping component re-exposes
 
 ```ts
 defineEmits<{
-    (event: "update:value", value: string): void;
+  (event: "update:value", value: string): void;
 }>();
 ```
 
@@ -172,7 +174,7 @@ Almost always a caching issue. Either:
 
 - Add a cache-busting suffix via `extension` (e.g. `.css?v=1`), or
 - Configure the static asset server to send `Cache-Control:
-  must-revalidate` for theme CSS files.
+must-revalidate` for theme CSS files.
 
 ## "Nuxt's useHead clobbers my data-theme"
 

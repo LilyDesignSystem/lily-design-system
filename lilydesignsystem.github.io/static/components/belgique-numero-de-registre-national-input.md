@@ -23,9 +23,19 @@ BelgiqueNumeroDeRegistreNationalInput is a headless input for entering Belgium's
 ## Usage
 
 ```html
-<Field label="National Register Number" required>
-  <BelgiqueNumeroDeRegistreNationalInput label="National Register Number" value={value} required />
-  <Hint>11 digits where the first 6 are the date of birth (YYMMDD), the next 3 are an ordering number (uneven for men, even for women) and the last 2 a check digit</Hint>
+<Field
+  label="National Register Number"
+  required
+>
+  <BelgiqueNumeroDeRegistreNationalInput
+    label="National Register Number"
+    value="{value}"
+    required
+  />
+  <Hint
+    >11 digits where the first 6 are the date of birth (YYMMDD), the next 3 are an ordering number
+    (uneven for men, even for women) and the last 2 a check digit</Hint
+  >
   <ErrorMessage>Please enter a valid National Register Number</ErrorMessage>
 </Field>
 ```

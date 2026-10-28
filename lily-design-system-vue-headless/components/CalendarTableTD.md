@@ -12,7 +12,10 @@ A single day cell within a CalendarTable grid. Renders as a `<td>` with `role="g
 ## Usage
 
 ```svelte
-<CalendarTableTD selected today>15</CalendarTableTD>
+<CalendarTableTD
+  selected
+  today>15</CalendarTableTD
+>
 <CalendarTableTD>22</CalendarTableTD>
 ```
 

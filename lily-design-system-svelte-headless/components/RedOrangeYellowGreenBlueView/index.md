@@ -49,53 +49,75 @@ import RedOrangeYellowGreenBlueView from './RedOrangeYellowGreenBlueView.svelte'
 
 ```svelte
 <script lang="ts">
-  import RedOrangeYellowGreenBlueView from './RedOrangeYellowGreenBlueView.svelte';
+  import RedOrangeYellowGreenBlueView from "./RedOrangeYellowGreenBlueView.svelte";
 </script>
 
-<RedOrangeYellowGreenBlueView label="Risk level" value="yellow" />
+<RedOrangeYellowGreenBlueView
+  label="Risk level"
+  value="yellow"
+/>
 ```
 
 ### Dynamic value
 
 ```svelte
 <script lang="ts">
-  import RedOrangeYellowGreenBlueView from './RedOrangeYellowGreenBlueView.svelte';
+  import RedOrangeYellowGreenBlueView from "./RedOrangeYellowGreenBlueView.svelte";
 
   let level = $state("blue");
 </script>
 
-<RedOrangeYellowGreenBlueView label="Alert status" value={level} />
+<RedOrangeYellowGreenBlueView
+  label="Alert status"
+  value={level}
+/>
 ```
 
 ### Paired with the picker counterpart
 
 ```svelte
 <script lang="ts">
-  import RedOrangeYellowGreenBluePicker from '../RedOrangeYellowGreenBluePicker/RedOrangeYellowGreenBluePicker.svelte';
-  import RedOrangeYellowGreenBlueView from './RedOrangeYellowGreenBlueView.svelte';
+  import RedOrangeYellowGreenBluePicker from "../RedOrangeYellowGreenBluePicker/RedOrangeYellowGreenBluePicker.svelte";
+  import RedOrangeYellowGreenBlueView from "./RedOrangeYellowGreenBlueView.svelte";
 
   let level = $state("");
   let submitted = $state(false);
 </script>
 
 {#if submitted}
-  <RedOrangeYellowGreenBlueView label="Level" value={level} />
+  <RedOrangeYellowGreenBlueView
+    label="Level"
+    value={level}
+  />
 {:else}
-  <RedOrangeYellowGreenBluePicker label="Level" bind:value={level} />
-  <button type="button" onclick={() => (submitted = true)}>Confirm</button>
+  <RedOrangeYellowGreenBluePicker
+    label="Level"
+    bind:value={level}
+  />
+  <button
+    type="button"
+    onclick={() => (submitted = true)}>Confirm</button
+  >
 {/if}
 ```
 
 ### With a data attribute
 
 ```svelte
-<RedOrangeYellowGreenBlueView label="System health" value="blue" data-testid="health" />
+<RedOrangeYellowGreenBlueView
+  label="System health"
+  value="blue"
+  data-testid="health"
+/>
 ```
 
 ### Localized value
 
 ```svelte
-<RedOrangeYellowGreenBlueView label="Nivel" value="rojo" />
+<RedOrangeYellowGreenBlueView
+  label="Nivel"
+  value="rojo"
+/>
 ```
 
 ## Accessibility

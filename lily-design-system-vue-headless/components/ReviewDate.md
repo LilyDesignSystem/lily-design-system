@@ -22,11 +22,17 @@ The component is commonly used in dashboards, compliance tracking, audit logs, a
 ## Usage
 
 ```svelte
-<ReviewDate label="Next review" datetime="2025-06-15">June 15, 2025</ReviewDate>
+<ReviewDate
+  label="Next review"
+  datetime="2025-06-15">June 15, 2025</ReviewDate
+>
 ```
 
 ```svelte
-<ReviewDate label="Last audit" datetime={isoDate}>{formattedDate}</ReviewDate>
+<ReviewDate
+  label="Last audit"
+  datetime={isoDate}>{formattedDate}</ReviewDate
+>
 ```
 
 ## Keyboard Interactions

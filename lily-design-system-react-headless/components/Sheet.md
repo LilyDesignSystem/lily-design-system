@@ -26,7 +26,12 @@ Use Sheet when you need a temporary panel that slides in from the top, right, bo
 ## Usage
 
 ```tsx
-<Sheet label="Settings" open={isOpen} onChange={setIsOpen} side="right">
+<Sheet
+  label="Settings"
+  open={isOpen}
+  onChange={setIsOpen}
+  side="right"
+>
   <p>Sheet content</p>
 </Sheet>
 ```

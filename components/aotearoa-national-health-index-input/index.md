@@ -23,9 +23,20 @@ AotearoaNationalHealthIndexInput is a headless input for entering New Zealand's 
 ## Usage
 
 ```html
-<Field label="National Health Index (NHI) Number" required>
-  <AotearoaNationalHealthIndexInput label="National Health Index (NHI) Number" value={value} required />
-  <Hint>Seven-character identifier (three letters, four digits). The legacy AAANNNC format uses a Modulus-11 check digit over the six preceding characters; an expanded AAANNAX format (issued from July 2026) uses a Modulus-23 check digit instead, to extend the identifier space.</Hint>
+<Field
+  label="National Health Index (NHI) Number"
+  required
+>
+  <AotearoaNationalHealthIndexInput
+    label="National Health Index (NHI) Number"
+    value="{value}"
+    required
+  />
+  <Hint
+    >Seven-character identifier (three letters, four digits). The legacy AAANNNC format uses a
+    Modulus-11 check digit over the six preceding characters; an expanded AAANNAX format (issued
+    from July 2026) uses a Modulus-23 check digit instead, to extend the identifier space.</Hint
+  >
   <ErrorMessage>Please enter a valid National Health Index</ErrorMessage>
 </Field>
 ```

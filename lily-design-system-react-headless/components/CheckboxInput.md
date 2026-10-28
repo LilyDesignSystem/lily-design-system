@@ -25,15 +25,31 @@ This component is ideal when you need a bare checkbox that you will wrap in your
 ## Usage
 
 ```tsx
-<CheckboxInput label="Accept terms" checked={isChecked} onChange={setIsChecked} />
+<CheckboxInput
+  label="Accept terms"
+  checked={isChecked}
+  onChange={setIsChecked}
+/>
 ```
 
 ```tsx
-<CheckboxInput label="Subscribe to newsletter" checked={subscribed} onChange={setSubscribed} disabled={!hasEmail} />
+<CheckboxInput
+  label="Subscribe to newsletter"
+  checked={subscribed}
+  onChange={setSubscribed}
+  disabled={!hasEmail}
+/>
 ```
 
 ```tsx
-<CheckboxInput label="Required field" checked={isChecked} onChange={setIsChecked} required name="agree" value="yes" />
+<CheckboxInput
+  label="Required field"
+  checked={isChecked}
+  onChange={setIsChecked}
+  required
+  name="agree"
+  value="yes"
+/>
 ```
 
 ## Keyboard Interactions

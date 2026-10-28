@@ -32,9 +32,17 @@ closes the drawer.
 ## Usage
 
 ```html
-<button onclick={() => (isOpen = true)}>Open menu</button>
+<button
+  onclick="{()"
+  =""
+>
+  (isOpen = true)}>Open menu
+</button>
 
-<SlideOutDrawer label="Navigation menu" open={isOpen}>
+<SlideOutDrawer
+  label="Navigation menu"
+  open="{isOpen}"
+>
   <nav>
     <ul>
       <li><a href="/">Home</a></li>
@@ -42,21 +50,32 @@ closes the drawer.
       <li><a href="/contact">Contact</a></li>
     </ul>
   </nav>
-  <button onclick={() => (isOpen = false)}>Close</button>
+  <button
+    onclick="{()"
+    =""
+  >
+    (isOpen = false)}>Close
+  </button>
 </SlideOutDrawer>
 ```
 
 Settings panel:
 
 ```html
-<button onclick={() => (settingsOpen = true)}>Settings</button>
+<button
+  onclick="{()"
+  =""
+>
+  (settingsOpen = true)}>Settings
+</button>
 
-<SlideOutDrawer label="Settings panel" open={settingsOpen}>
+<SlideOutDrawer
+  label="Settings panel"
+  open="{settingsOpen}"
+>
   <h2>Settings</h2>
   <form>
-    <label>
-      <input type="checkbox" /> Enable notifications
-    </label>
+    <label> <input type="checkbox" /> Enable notifications </label>
   </form>
 </SlideOutDrawer>
 ```
@@ -88,14 +107,11 @@ Settings panel:
 
 This headless component provides a modal dialog container with `role="dialog"`, `aria-modal="true"`, `aria-label`, Escape key dismissal, and `tabindex="-1"` for programmatic focus. The consumer provides all visual styling including slide-in animations, backdrop overlay, width, and positioning.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.slide-out-drawer` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `slide-out-drawer`
 - Verify role="dialog"` for modal dialog semantics

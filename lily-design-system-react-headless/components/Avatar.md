@@ -21,7 +21,10 @@ This is a compound component: use with AvatarImage for photo avatars and AvatarT
 
 ```tsx
 <Avatar alt="Jane Doe">
-  <AvatarImage src="/photo.jpg" alt="Jane Doe" />
+  <AvatarImage
+    src="/photo.jpg"
+    alt="Jane Doe"
+  />
 </Avatar>
 ```
 
@@ -33,7 +36,10 @@ This is a compound component: use with AvatarImage for photo avatars and AvatarT
 
 ```tsx
 <Avatar alt="Jane Doe">
-  <AvatarImage src="/photo.jpg" alt="Jane Doe" />
+  <AvatarImage
+    src="/photo.jpg"
+    alt="Jane Doe"
+  />
   <AvatarText>JD</AvatarText>
 </Avatar>
 ```

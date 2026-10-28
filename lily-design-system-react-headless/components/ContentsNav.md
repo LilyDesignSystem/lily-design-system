@@ -24,10 +24,19 @@ This component is commonly used at the top of documentation pages, articles, or 
 Set `spy` to mark the table-of-contents link for the section in view. The links are your own `<a href="#id">` elements.
 
 ```tsx
-<ContentsNav label="On this page" spy offset={64} onActiveChange={(id) => console.log(id)}>
+<ContentsNav
+  label="On this page"
+  spy
+  offset={64}
+  onActiveChange={(id) => console.log(id)}
+>
   <ContentsList>
-    <ContentsListItem><a href="#introduction">Introduction</a></ContentsListItem>
-    <ContentsListItem><a href="#usage">Usage</a></ContentsListItem>
+    <ContentsListItem>
+      <a href="#introduction">Introduction</a>
+    </ContentsListItem>
+    <ContentsListItem>
+      <a href="#usage">Usage</a>
+    </ContentsListItem>
   </ContentsList>
 </ContentsNav>
 ```
@@ -46,9 +55,15 @@ Props: `spy`, `offset` (px, default 0), `root` (element, default the viewport), 
 
 ```tsx
 <ContentsNav label="Contents">
-    <li><a href="#introduction">Introduction</a></li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#examples">Examples</a></li>
+  <li>
+    <a href="#introduction">Introduction</a>
+  </li>
+  <li>
+    <a href="#usage">Usage</a>
+  </li>
+  <li>
+    <a href="#examples">Examples</a>
+  </li>
 </ContentsNav>
 ```
 

@@ -23,24 +23,22 @@ Kanban board body with task cards across workflow stages:
 
 ```html
 <KanbanTable label="Sprint board">
-    <KanbanTableHead>
-        ...
-    </KanbanTableHead>
-    <KanbanTableBody>
-        <KanbanTableRow>
-            <KanbanTableTD label="Fix login bug">
-                <h4>Fix login bug</h4>
-                <p>Assigned to Alice</p>
-            </KanbanTableTD>
-            <KanbanTableTD label="Add dashboard">
-                <h4>Add dashboard</h4>
-                <p>Assigned to Bob</p>
-            </KanbanTableTD>
-            <KanbanTableTD label="Setup CI/CD">
-                <h4>Setup CI/CD</h4>
-            </KanbanTableTD>
-        </KanbanTableRow>
-    </KanbanTableBody>
+  <KanbanTableHead> ... </KanbanTableHead>
+  <KanbanTableBody>
+    <KanbanTableRow>
+      <KanbanTableTD label="Fix login bug">
+        <h4>Fix login bug</h4>
+        <p>Assigned to Alice</p>
+      </KanbanTableTD>
+      <KanbanTableTD label="Add dashboard">
+        <h4>Add dashboard</h4>
+        <p>Assigned to Bob</p>
+      </KanbanTableTD>
+      <KanbanTableTD label="Setup CI/CD">
+        <h4>Setup CI/CD</h4>
+      </KanbanTableTD>
+    </KanbanTableRow>
+  </KanbanTableBody>
 </KanbanTable>
 ```
 
@@ -69,14 +67,11 @@ None -- passive container. Keyboard interaction depends on interactive elements 
 
 This headless component provides the semantic structure for a Kanban board content area, including proper list container roles for columns. The consumer provides all visual styling, including column layout, card appearance, spacing, and drag-and-drop affordances.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.kanban-table-body` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<tbody>` element with class `kanban-table-body`
 - Verify Column containers within should use `role="list"` with `aria-label` to identify each workflow stage

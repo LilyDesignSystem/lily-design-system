@@ -23,14 +23,14 @@ Contents list items are used as children of ordered or unordered lists within a 
 
 ```html
 <ContentsList>
-  <ContentsListItem aria-current="page">
-    What is type 2 diabetes?
-  </ContentsListItem>
+  <ContentsListItem aria-current="page"> What is type 2 diabetes? </ContentsListItem>
   <ContentsListItem>
     <ContentsLink href="/conditions/type-2-diabetes/symptoms">Symptoms</ContentsLink>
   </ContentsListItem>
   <ContentsListItem>
-    <ContentsLink href="/conditions/type-2-diabetes/getting-diagnosed">Getting diagnosed</ContentsLink>
+    <ContentsLink href="/conditions/type-2-diabetes/getting-diagnosed"
+      >Getting diagnosed</ContentsLink
+    >
   </ContentsListItem>
 </ContentsList>
 ```
@@ -58,14 +58,11 @@ Contents list items are used as children of ordered or unordered lists within a 
 
 This headless ContentsListItem component provides a semantic `<li>` element with support for `aria-current` and nesting. The consumer provides all visual styling including link appearance, active-section highlighting, indentation for nested items, and hover/focus states.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.contents-list-item` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<li>` element with class `contents-list-item`
 - Verify keyboard interactions work correctly

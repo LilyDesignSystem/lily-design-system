@@ -28,7 +28,12 @@ Toasts are similar to notifications but are generally more ephemeral and less in
 ```
 
 ```tsx
-<Toast label="Error" urgent>Something went wrong.</Toast>
+<Toast
+  label="Error"
+  urgent
+>
+  Something went wrong.
+</Toast>
 ```
 
 ```tsx

@@ -42,14 +42,16 @@ Save with related actions:
   label="Save options"
   primaryLabel="Save"
   menuLabel="More save options"
-  menuOpen={isMenuOpen}
-  onPrimaryClick={handleSave}
-  onMenuToggle={() => setIsMenuOpen(!isMenuOpen)}
+  menuOpen="{isMenuOpen}"
+  onPrimaryClick="{handleSave}"
+  onMenuToggle="{()"
+  =""
 >
-  <Menu label="More save options">
-    <MenuItem onclick={handleSaveAs}>Save as…</MenuItem>
-    <MenuItem onclick={handleSaveAndClose}>Save and close</MenuItem>
-  </Menu>
+  setIsMenuOpen(!isMenuOpen)} >
+  <menu label="More save options">
+    <menuitem onclick="{handleSaveAs}">Save as…</menuitem>
+    <menuitem onclick="{handleSaveAndClose}">Save and close</menuitem>
+  </menu>
 </SplitButton>
 ```
 
@@ -62,9 +64,9 @@ Disabled split button:
   menuLabel="More send options"
   disabled
 >
-  <Menu label="More send options">
-    <MenuItem>Schedule send</MenuItem>
-  </Menu>
+  <menu label="More send options">
+    <menuitem>Schedule send</menuitem>
+  </menu>
 </SplitButton>
 ```
 

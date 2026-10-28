@@ -67,14 +67,11 @@ None -- this component is a passive, read-only status indicator.
 
 The ProgressSpinner headless component provides a `<div>` with `role="status"`, `aria-live="polite"`, and `aria-label` for accessible naming. It announces loading state changes to screen readers without interrupting. The consumer provides all visual styling, including the spinning animation via CSS.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.progress-spinner` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `progress-spinner`
 - Verify role="status"` -- identifies the element as a status region that receives non-urgent updates

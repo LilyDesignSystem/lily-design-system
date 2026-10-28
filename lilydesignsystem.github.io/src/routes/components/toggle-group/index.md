@@ -24,9 +24,18 @@ Text formatting toolbar with independent toggles:
 
 ```html
 <ToggleGroup label="Text formatting">
-  <ToggleButton label="Bold" pressed={isBold} />
-  <ToggleButton label="Italic" pressed={isItalic} />
-  <ToggleButton label="Underline" pressed={isUnderline} />
+  <ToggleButton
+    label="Bold"
+    pressed="{isBold}"
+  />
+  <ToggleButton
+    label="Italic"
+    pressed="{isItalic}"
+  />
+  <ToggleButton
+    label="Underline"
+    pressed="{isUnderline}"
+  />
 </ToggleGroup>
 ```
 
@@ -34,8 +43,14 @@ View mode selector:
 
 ```html
 <ToggleGroup label="View mode">
-  <ToggleButton label="Grid view" pressed={isGrid} />
-  <ToggleButton label="List view" pressed={isList} />
+  <ToggleButton
+    label="Grid view"
+    pressed="{isGrid}"
+  />
+  <ToggleButton
+    label="List view"
+    pressed="{isList}"
+  />
 </ToggleGroup>
 ```
 
@@ -65,14 +80,11 @@ None at the container level. Keyboard behavior depends on the child toggle butto
 
 This headless component provides a `<div>` with `role="group"` and `aria-label` for accessible grouping of related toggle buttons. The consumer provides individual toggle button elements as children and all visual styling including layout, spacing, and button appearance.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.toggle-group` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `toggle-group`
 - Verify role="group"` -- identifies the container as a semantic grouping of related toggle buttons

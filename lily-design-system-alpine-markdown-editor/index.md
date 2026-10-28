@@ -31,13 +31,25 @@ The markup is `snippet.html` (exported as `@lilydesignsystem/alpine-markdown-edi
     rows: 8,
     value: "Hello **world**",
     labels: {
-      heading: "Heading", bold: "Bold", italic: "Italic", strikethrough: "Strikethrough", code: "Code",
-      link: "Link", quote: "Quote", bulletList: "Bulleted list", numberedList: "Numbered list",
+      heading: "Heading",
+      bold: "Bold",
+      italic: "Italic",
+      strikethrough: "Strikethrough",
+      code: "Code",
+      link: "Link",
+      quote: "Quote",
+      bulletList: "Bulleted list",
+      numberedList: "Numbered list",
     },
   };
 </script>
 <!-- then the contents of snippet.html -->
-<div class="markdown-editor" x-data="lilyMarkdownEditor(markdownEditorOptions)"> … </div>
+<div
+  class="markdown-editor"
+  x-data="lilyMarkdownEditor(markdownEditorOptions)"
+>
+  …
+</div>
 ```
 
 Every name is a prop, because the component ships no English. A tool with no
@@ -45,16 +57,16 @@ entry in `labels` is not rendered: an unnamed button is worse than no button.
 
 ## Props
 
-| Prop | Type | Required | Default | Purpose |
-| ---- | ---- | -------- | ------- | ------- |
-| `value` | `string` | no | `""` | The text, as Markdown. |
-| `label` | `string` | yes | — | Accessible name of the textarea. |
-| `toolbarLabel` | `string` | yes | — | Accessible name of the toolbar. |
-| `labels` | `Partial<Record<ToolId,string>>` | yes | — | Accessible name per tool; a tool without one is not shown. |
-| `tools` | `ToolId[]` | no | all nine | Which tools to show, and in what order. |
-| `headingLevel` | `1`–`6` | no | `2` | How many `#` the heading tool writes. |
-| `name`, `rows`, `placeholder`, `disabled`, `readonly`, `required` | | no | | Passed to the `<textarea>`. |
-| `lily:valuechange` (event) | `CustomEvent<{ value: string }>` | | | After every change, typed or from a tool; bubbles from the root. |
+| Prop                                                              | Type                             | Required | Default  | Purpose                                                          |
+| ----------------------------------------------------------------- | -------------------------------- | -------- | -------- | ---------------------------------------------------------------- |
+| `value`                                                           | `string`                         | no       | `""`     | The text, as Markdown.                                           |
+| `label`                                                           | `string`                         | yes      | —        | Accessible name of the textarea.                                 |
+| `toolbarLabel`                                                    | `string`                         | yes      | —        | Accessible name of the toolbar.                                  |
+| `labels`                                                          | `Partial<Record<ToolId,string>>` | yes      | —        | Accessible name per tool; a tool without one is not shown.       |
+| `tools`                                                           | `ToolId[]`                       | no       | all nine | Which tools to show, and in what order.                          |
+| `headingLevel`                                                    | `1`–`6`                          | no       | `2`      | How many `#` the heading tool writes.                            |
+| `name`, `rows`, `placeholder`, `disabled`, `readonly`, `required` |                                  | no       |          | Passed to the `<textarea>`.                                      |
+| `lily:valuechange` (event)                                        | `CustomEvent<{ value: string }>` |          |          | After every change, typed or from a tool; bubbles from the root. |
 
 `ToolId` is `heading | bold | italic | strikethrough | code | link | quote | bulletList | numberedList`.
 
@@ -78,25 +90,47 @@ Alpine helpers are a subset of the Svelte reference: there is no `icon` snippet 
 
 ```html
 <div class="markdown-editor {class}">
-  <div class="markdown-editor-toolbar" role="toolbar" aria-label aria-controls aria-orientation="horizontal">
-    <button class="markdown-editor-button" type="button" data-tool="bold" aria-label tabindex="0">
-      <svg class="markdown-editor-icon" aria-hidden="true">…</svg>
+  <div
+    class="markdown-editor-toolbar"
+    role="toolbar"
+    aria-label
+    aria-controls
+    aria-orientation="horizontal"
+  >
+    <button
+      class="markdown-editor-button"
+      type="button"
+      data-tool="bold"
+      aria-label
+      tabindex="0"
+    >
+      <svg
+        class="markdown-editor-icon"
+        aria-hidden="true"
+      >
+        …
+      </svg>
     </button>
     …
   </div>
-  <textarea class="markdown-editor-textarea" aria-label name …></textarea>
+  <textarea
+    class="markdown-editor-textarea"
+    aria-label
+    name
+    …
+  ></textarea>
 </div>
 ```
 
 ## Keyboard
 
-| Where    | Key                            | Action                                       |
-| -------- | ------------------------------ | -------------------------------------------- |
-| Toolbar  | `←` `→`                        | Move to the previous / next button (clamps). |
-| Toolbar  | `Home` `End`                   | First / last button.                         |
-| Toolbar  | `Tab`                          | Into the toolbar (one tab stop), then out.   |
-| Toolbar  | `Enter` `Space`                | Apply the tool; focus returns to the text.   |
-| Textarea | `Ctrl`/`Cmd` + `B` `I` `K`     | Bold, italic, link.                          |
+| Where    | Key                        | Action                                       |
+| -------- | -------------------------- | -------------------------------------------- |
+| Toolbar  | `←` `→`                    | Move to the previous / next button (clamps). |
+| Toolbar  | `Home` `End`               | First / last button.                         |
+| Toolbar  | `Tab`                      | Into the toolbar (one tab stop), then out.   |
+| Toolbar  | `Enter` `Space`            | Apply the tool; focus returns to the text.   |
+| Textarea | `Ctrl`/`Cmd` + `B` `I` `K` | Bold, italic, link.                          |
 
 ## What it is not
 

@@ -8,20 +8,20 @@ contract is in [`../spec/index.md`](../spec/index.md) §6.
 
 ## Roles and properties
 
-| Element                       | Role / Property                        | Source        |
-| ----------------------------- | -------------------------------------- | ------------- |
-| root `<div>`                  | none (plain container)                 | Macro         |
-| `<button>`                    | implicit `role="button"`, `type="button"` | Macro      |
-| `<button>`                    | `aria-label="{label}"`                 | `opts.label`  |
-| `<button>`                    | `aria-haspopup="listbox"`              | Macro         |
-| `<button>`                    | `aria-expanded="true|false"`            | Macro + client |
-| `<button>`                    | `aria-controls="{id}-list"`            | Macro         |
-| `<span class="locale-picker-icon">` | `aria-hidden="true"`             | Macro         |
-| `<ul>`                        | `role="listbox"`, `tabindex="-1"`      | Macro         |
-| `<ul>`                        | `aria-label="{label}"`                 | `opts.label`  |
-| `<ul>`                        | `aria-activedescendant="{option id}"`  | Client (open only) |
-| `<li>`                        | `role="option"`, `aria-selected`       | Macro + client |
-| `<li>`                        | `lang="{tagFor(locale)}"`              | Macro         |
+| Element                             | Role / Property                           | Source             |
+| ----------------------------------- | ----------------------------------------- | ------------------ |
+| root `<div>`                        | none (plain container)                    | Macro              |
+| `<button>`                          | implicit `role="button"`, `type="button"` | Macro              |
+| `<button>`                          | `aria-label="{label}"`                    | `opts.label`       |
+| `<button>`                          | `aria-haspopup="listbox"`                 | Macro              |
+| `<button>`                          | `aria-expanded="true                      | false"`            | Macro + client |
+| `<button>`                          | `aria-controls="{id}-list"`               | Macro              |
+| `<span class="locale-picker-icon">` | `aria-hidden="true"`                      | Macro              |
+| `<ul>`                              | `role="listbox"`, `tabindex="-1"`         | Macro              |
+| `<ul>`                              | `aria-label="{label}"`                    | `opts.label`       |
+| `<ul>`                              | `aria-activedescendant="{option id}"`     | Client (open only) |
+| `<li>`                              | `role="option"`, `aria-selected`          | Macro + client     |
+| `<li>`                              | `lang="{tagFor(locale)}"`                 | Macro              |
 
 The button is icon-only, so `aria-label` is its **only** accessible
 name — the glyph is `aria-hidden` and contributes nothing. Never ship
@@ -37,17 +37,17 @@ not content.
 Implemented in `locale-picker.client.js`. None of it exists before
 that module runs.
 
-| Key                       | Focus       | Action                                                          |
-| ------------------------- | ----------- | --------------------------------------------------------------- |
-| Tab / Shift+Tab           | Button      | Move focus to / from the control.                               |
-| Enter / Space / ArrowDown | Button      | Open, with the selected option active (or the first).           |
-| ArrowUp                   | Button      | Open, with the **last** option active.                          |
-| ArrowDown / ArrowUp       | Listbox     | Move the active option; clamps at the ends, does not wrap.      |
-| Home / End                | Listbox     | Jump to the first / last option.                                |
-| Enter / Space             | Listbox     | Select the active option, apply it, close, refocus the button.  |
-| Escape                    | Listbox     | Close and refocus the button; the locale is unchanged.          |
-| Tab                       | Listbox     | Close without stealing focus back.                              |
-| Printable characters      | Listbox     | Typeahead over the option labels; buffer resets after 500 ms.   |
+| Key                       | Focus   | Action                                                         |
+| ------------------------- | ------- | -------------------------------------------------------------- |
+| Tab / Shift+Tab           | Button  | Move focus to / from the control.                              |
+| Enter / Space / ArrowDown | Button  | Open, with the selected option active (or the first).          |
+| ArrowUp                   | Button  | Open, with the **last** option active.                         |
+| ArrowDown / ArrowUp       | Listbox | Move the active option; clamps at the ends, does not wrap.     |
+| Home / End                | Listbox | Jump to the first / last option.                               |
+| Enter / Space             | Listbox | Select the active option, apply it, close, refocus the button. |
+| Escape                    | Listbox | Close and refocus the button; the locale is unchanged.         |
+| Tab                       | Listbox | Close without stealing focus back.                             |
+| Printable characters      | Listbox | Typeahead over the option labels; buffer resets after 500 ms.  |
 
 Opening moves focus onto the `<ul>` and the active option travels via
 `aria-activedescendant`, so the DOM focus ring stays on one element
@@ -105,12 +105,12 @@ scroll-restore to the control's position.
 
 ## Screen-reader behaviour matrix
 
-| Reader     | OS       | Browser   | What's announced on the button, then on open |
-| ---------- | -------- | --------- | ---------------------------------------------- |
-| VoiceOver  | macOS 14 | Safari 17 | "Language, pop-up button, collapsed" → on open, "Language, list box, English, selected, 1 of 5". |
-| NVDA       | Windows  | Firefox   | "Language button, collapsed" → on open, "Language list, English, 1 of 5". |
-| JAWS       | Windows  | Chrome    | "Language button, collapsed" → on open, "Language list box, English, 1 of 5". |
-| TalkBack   | Android  | Chrome    | "Language, button, double-tap to activate" → on open, the option list. |
+| Reader    | OS       | Browser   | What's announced on the button, then on open                                                     |
+| --------- | -------- | --------- | ------------------------------------------------------------------------------------------------ |
+| VoiceOver | macOS 14 | Safari 17 | "Language, pop-up button, collapsed" → on open, "Language, list box, English, selected, 1 of 5". |
+| NVDA      | Windows  | Firefox   | "Language button, collapsed" → on open, "Language list, English, 1 of 5".                        |
+| JAWS      | Windows  | Chrome    | "Language button, collapsed" → on open, "Language list box, English, 1 of 5".                    |
+| TalkBack  | Android  | Chrome    | "Language, button, double-tap to activate" → on open, the option list.                           |
 
 Announcements vary by reader version; the load-bearing facts are that
 `aria-label` names the button, `aria-expanded` conveys the state, and

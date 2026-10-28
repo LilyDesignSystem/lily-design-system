@@ -25,8 +25,19 @@ The component manages the input value and dropdown open state as controlled prop
 ## Usage
 
 ```tsx
-<Combobox label="Search" value={value} onChange={setValue} open={open} onOpenChange={setOpen}>
-    <div role="option" tabindex="-1">Option 1</div>
+<Combobox
+  label="Search"
+  value={value}
+  onChange={setValue}
+  open={open}
+  onOpenChange={setOpen}
+>
+  <div
+    role="option"
+    tabindex="-1"
+  >
+    Option 1
+  </div>
 </Combobox>
 ```
 
@@ -34,15 +45,32 @@ The component manages the input value and dropdown open state as controlled prop
 const [value, setValue] = useState("");
 const [open, setOpen] = useState(false);
 const options = ["Apple", "Banana", "Cherry"];
-const filtered = useMemo(() => options.filter(o => o.toLowerCase().includes(value.toLowerCase())), [value]);
+const filtered = useMemo(
+  () => options.filter((o) => o.toLowerCase().includes(value.toLowerCase())),
+  [value],
+);
 
-<Combobox label="Select a fruit" value={value} onChange={setValue} open={open} onOpenChange={setOpen}>
-    {filtered.map(option => (
-        <div role="option" tabindex="-1" onClick={() => { setValue(option); setOpen(false); }} key={option}>
-            {option}
-        </div>
-    ))}
-</Combobox>
+<Combobox
+  label="Select a fruit"
+  value={value}
+  onChange={setValue}
+  open={open}
+  onOpenChange={setOpen}
+>
+  {filtered.map((option) => (
+    <div
+      role="option"
+      tabindex="-1"
+      onClick={() => {
+        setValue(option);
+        setOpen(false);
+      }}
+      key={option}
+    >
+      {option}
+    </div>
+  ))}
+</Combobox>;
 ```
 
 ## Keyboard Interactions

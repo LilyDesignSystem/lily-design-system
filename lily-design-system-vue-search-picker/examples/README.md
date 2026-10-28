@@ -1,7 +1,7 @@
 # Examples — SearchPicker
 
-| File | Shows |
-| ---- | ----- |
+| File                     | Shows                                                                                                            |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------------- |
 | [basic.vue](./basic.vue) | The three required labels, an optional placeholder, and the `@search` event; a search for `foo` goes to `/?foo`. |
 
 Every user-facing string is a prop. `⏎` is the submit button's visible

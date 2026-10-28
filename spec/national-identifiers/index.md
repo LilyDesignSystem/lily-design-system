@@ -24,60 +24,60 @@ It does **not** cover: the general suffix-to-element mapping and naming patterns
 
 **Reversed 2026-09-06 (maintainer-directed).** The canonical rule (`AGENTS/national-personal-identifier-normalization.md`) is: rename each identifier from "country code + identifier abbreviation" to "country **endonym** + identifier name", in snake/kebab case, for consistency and clarity. The country half is always the country's own native-language name (romanized), never the English exonym — `cymru_`, not `wales_`; `cesko_`, not `czech_republic_`. The identifier half stays in its native/official form where one exists (e.g. `numero_de_registre_national`), rather than being translated into English. The same rename applies to slugs, PascalCase names, and any `parse_*` helper functions.
 
-| Wrong (code + abbreviation, or English exonym) | Right (endonym + native identifier name) |
-| ----------------------------------------------- | ----------------------------------------- |
-| `uk_nhs_number`                                  | `united_kingdom_national_health_service_number` (UK has no distinct native-language form) |
-| `fr_nir`                                         | `france_numero_d_identification_au_repertoire`  |
-| `us_ssn`                                         | `united_states_social_security_number` (no distinct native form) |
-| `it_cf`                                          | `italia_codice_fiscale`                   |
-| `nl_bsn`                                         | `nederland_burgerservice_nummer`          |
-| `se_personnummer`                                | `sverige_personnummer`                    |
-| `gb_cym_nhs_number`                              | `cymru_rhif_y_gwasanaeth_iechyd_gwladol`  |
-| `gb_eng_nhs_number`                              | `england_national_health_service_number` (England has no distinct native-language form) |
+| Wrong (code + abbreviation, or English exonym) | Right (endonym + native identifier name)                                                  |
+| ---------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| `uk_nhs_number`                                | `united_kingdom_national_health_service_number` (UK has no distinct native-language form) |
+| `fr_nir`                                       | `france_numero_d_identification_au_repertoire`                                            |
+| `us_ssn`                                       | `united_states_social_security_number` (no distinct native form)                          |
+| `it_cf`                                        | `italia_codice_fiscale`                                                                   |
+| `nl_bsn`                                       | `nederland_burgerservice_nummer`                                                          |
+| `se_personnummer`                              | `sverige_personnummer`                                                                    |
+| `gb_cym_nhs_number`                            | `cymru_rhif_y_gwasanaeth_iechyd_gwladol`                                                  |
+| `gb_eng_nhs_number`                            | `england_national_health_service_number` (England has no distinct native-language form)   |
 
 For countries with more than one official native language, pick one and be consistent (e.g. Belgium's catalog entry uses the French form, `belgique_`, out of Belgique/België/Belgien). For countries whose everyday English name has no distinct native-language equivalent (England, Northern Ireland's English name, the UK, the US), the "endonym" and the English name coincide, so no separate transliteration exists to prefer — those keep the English form. Helper-function names follow the same transform: `parse_us_ssn` → `parse_united_states_social_security_number`.
 
-**A history of churn on this rule, for whoever reads this next**: the catalog's 46 identifier types were authored with endonym slugs for most of Europe from the start; a 2026-09-06 audit flagged that as a defect against an *exonym*-first reading of this same rule and renamed 28 identifier types (56 components) to English exonyms; that rename was reverted the same day once corrected — endonym is, and was always meant to be, the actual policy — and three further identifiers (`cyprus-national-passport-number` → `kypros-national-passport-number`, `ireland-individual-health-identifier` → `eire-individual-health-identifier`, `northern-ireland-health-and-care-number` → `tuaisceart-eireann-health-and-care-number`) were renamed *to* endonym for the first time, since their original slugs had used the English name. If a future reader finds this rule ambiguous enough to flip again, that itself is a sign this section needs a clearer worked example, not another silent reversal.
+**A history of churn on this rule, for whoever reads this next**: the catalog's 46 identifier types were authored with endonym slugs for most of Europe from the start; a 2026-09-06 audit flagged that as a defect against an _exonym_-first reading of this same rule and renamed 28 identifier types (56 components) to English exonyms; that rename was reverted the same day once corrected — endonym is, and was always meant to be, the actual policy — and three further identifiers (`cyprus-national-passport-number` → `kypros-national-passport-number`, `ireland-individual-health-identifier` → `eire-individual-health-identifier`, `northern-ireland-health-and-care-number` → `tuaisceart-eireann-health-and-care-number`) were renamed _to_ endonym for the first time, since their original slugs had used the English name. If a future reader finds this rule ambiguous enough to flip again, that itself is a sign this section needs a clearer worked example, not another silent reversal.
 
 ## Rendering pattern
 
-| Variant   | Element                                  | Purpose                                                        |
-| --------- | ---------------------------------------- | ------------------------------------------------------------- |
-| `-input`  | `<input type="text" autocomplete="off">` | Data entry; preserves formatting, suppresses autofill.        |
-| `-view`   | `<span aria-label="…">`                  | Read-only display with an accessible label for screen readers.|
+| Variant  | Element                                  | Purpose                                                        |
+| -------- | ---------------------------------------- | -------------------------------------------------------------- |
+| `-input` | `<input type="text" autocomplete="off">` | Data entry; preserves formatting, suppresses autofill.         |
+| `-view`  | `<span aria-label="…">`                  | Read-only display with an accessible label for screen readers. |
 
 Example slug pairs (slug → the two components):
 
-| Identifier type slug                                  | Components                                                                                              |
-| ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| `united-kingdom-national-health-service-number`       | `…-input`, `…-view`                                                                                     |
-| `france-numero-d-identification-au-repertoire`        | `…-input`, `…-view`                                                                                     |
-| `eire-individual-health-identifier`                   | `…-input`, `…-view`                                                                                     |
-| `tuaisceart-eireann-health-and-care-number`           | `…-input`, `…-view`                                                                                     |
-| `united-states-social-security-number`                | `…-input`, `…-view`                                                                                     |
-| `espana-tarjeta-sanitaria-individual`                 | `…-input`, `…-view`                                                                                     |
+| Identifier type slug                            | Components          |
+| ----------------------------------------------- | ------------------- |
+| `united-kingdom-national-health-service-number` | `…-input`, `…-view` |
+| `france-numero-d-identification-au-repertoire`  | `…-input`, `…-view` |
+| `eire-individual-health-identifier`             | `…-input`, `…-view` |
+| `tuaisceart-eireann-health-and-care-number`     | `…-input`, `…-view` |
+| `united-states-social-security-number`          | `…-input`, `…-view` |
+| `espana-tarjeta-sanitaria-individual`           | `…-input`, `…-view` |
 
 ## Validation algorithms
 
 Each identifier documents its check-digit / format-validation algorithm. The headless components do not enforce it; they expose the value so the consumer can validate. Algorithms seen across the catalog:
 
-| Algorithm     | Example identifiers                                                            |
-| ------------- | ----------------------------------------------------------------------------- |
-| Modulus-11    | Scotland Community Health Index Number; many NHS-family numbers               |
-| Modulus-97    | Belgium National Register Number (NRN)                                         |
-| Modulus-10    | Bulgaria Uniform Civil Number (EGN, weighted)                                  |
-| Luhn          | identifiers using the Luhn checksum                                            |
-| Date-encoded  | identifiers embedding date-of-birth (DDMMYY / YYMMDD) plus serial + sex digit |
+| Algorithm    | Example identifiers                                                           |
+| ------------ | ----------------------------------------------------------------------------- |
+| Modulus-11   | Scotland Community Health Index Number; many NHS-family numbers               |
+| Modulus-97   | Belgium National Register Number (NRN)                                        |
+| Modulus-10   | Bulgaria Uniform Civil Number (EGN, weighted)                                 |
+| Luhn         | identifiers using the Luhn checksum                                           |
+| Date-encoded | identifiers embedding date-of-birth (DDMMYY / YYMMDD) plus serial + sex digit |
 
 Many identifiers combine an encoded date of birth, a serial/region segment, a sex digit (parity convention varies by country), and a trailing check digit.
 
 ## Canonical reference files
 
-| File                                                       | Role                                                                                                    |
-| ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| `AGENTS/national-person-identifiers.tsv`                   | One row per identifier type: kebab slug, country endonym/exonym, ISO 3166-1 code, identifier endonym/exonym, Wikipedia link, description, where to find it. |
-| `AGENTS/countries.tsv`                                     | 253 country rows: ISO alpha-2/alpha-3/numeric, continent, endonym, English exonym, centroid lat/long, area, population. Backs the country half of each name. |
-| `AGENTS/national-personal-identifier-normalization.md`     | The naming normalization rule and worked rename tables for slugs, names, and parse functions.           |
+| File                                                   | Role                                                                                                                                                         |
+| ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `AGENTS/national-person-identifiers.tsv`               | One row per identifier type: kebab slug, country endonym/exonym, ISO 3166-1 code, identifier endonym/exonym, Wikipedia link, description, where to find it.  |
+| `AGENTS/countries.tsv`                                 | 253 country rows: ISO alpha-2/alpha-3/numeric, continent, endonym, English exonym, centroid lat/long, area, population. Backs the country half of each name. |
+| `AGENTS/national-personal-identifier-normalization.md` | The naming normalization rule and worked rename tables for slugs, names, and parse functions.                                                                |
 
 These files are committed at the repo root and propagated to all subprojects by `bin/sync` (spec §14.1).
 

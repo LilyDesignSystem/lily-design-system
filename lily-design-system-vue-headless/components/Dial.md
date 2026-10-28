@@ -26,7 +26,12 @@ The component renders as a `div` with `role="slider"` and full keyboard navigati
 ## Usage
 
 ```svelte
-<Dial label="Volume" bind:value min={0} max={100} />
+<Dial
+  label="Volume"
+  bind:value
+  min={0}
+  max={100}
+/>
 ```
 
 ```svelte
@@ -34,12 +39,22 @@ The component renders as a `div` with `role="slider"` and full keyboard navigati
   let brightness = $state(50);
 </script>
 
-<Dial label="Brightness" bind:value={brightness} min={0} max={100} step={5} />
+<Dial
+  label="Brightness"
+  bind:value={brightness}
+  min={0}
+  max={100}
+  step={5}
+/>
 <p>Brightness: {brightness}%</p>
 ```
 
 ```svelte
-<Dial label="Disabled control" value={30} disabled />
+<Dial
+  label="Disabled control"
+  value={30}
+  disabled
+/>
 ```
 
 ## Keyboard Interactions

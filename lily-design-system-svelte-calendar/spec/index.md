@@ -10,7 +10,7 @@ for the cross-catalog contract this package implements.
 A read/browse calendar surface: shows a grid of days for one of three
 fixed periods — a week, a rolling four weeks, or a calendar month —
 with period navigation, a view switcher, and consumer-owned event
-rendering per day. It is a *viewing* helper, not a date-selection
+rendering per day. It is a _viewing_ helper, not a date-selection
 input (`date-time-picker` already owns that) and not a date-range
 picker (`CalendarRangePicker` already owns that).
 
@@ -64,24 +64,42 @@ Composes, rather than duplicates:
     <!-- view switcher: week / four-week / month toggle buttons, aria-pressed -->
     <!-- previous / next / today buttons -->
   </div>
-  <table class="calendar-table" role="grid" aria-label="…">
+  <table
+    class="calendar-table"
+    role="grid"
+    aria-label="…"
+  >
     <thead class="calendar-table-thead">
       <tr class="calendar-table-tr">
-        <th class="calendar-table-th" scope="col">…weekday…</th>
+        <th
+          class="calendar-table-th"
+          scope="col"
+        >
+          …weekday…
+        </th>
         <!-- × 7 -->
       </tr>
     </thead>
     <tbody class="calendar-table-tbody">
       <tr class="calendar-table-tr">
-        <td class="calendar-table-td" role="gridcell" data-date="2026-01-06"
-            data-outside-period aria-current="date" tabindex="0">
+        <td
+          class="calendar-table-td"
+          role="gridcell"
+          data-date="2026-01-06"
+          data-outside-period
+          aria-current="date"
+          tabindex="0"
+        >
           <!-- day content: day number + consumer's day snippet -->
         </td>
         <!-- × 7, × 1/4/6 rows depending on view -->
       </tr>
     </tbody>
   </table>
-  <div class="calendar-view-status" aria-live="polite"></div>
+  <div
+    class="calendar-view-status"
+    aria-live="polite"
+  ></div>
 </div>
 ```
 
@@ -133,7 +151,9 @@ type Props = {
   onDayClick?: (isoDate: string) => void; // enabled days only
   onEventClick?: (event: CalendarEvent) => void;
   class?: string;
-  day?: Snippet<[{ date: string; events: CalendarEvent[]; isToday: boolean; outsidePeriod: boolean }]>;
+  day?: Snippet<
+    [{ date: string; events: CalendarEvent[]; isToday: boolean; outsidePeriod: boolean }]
+  >;
   [key: string]: unknown;
 };
 ```
@@ -150,9 +170,9 @@ region only announces when `periodAnnouncement` is supplied.
 
 - **Week**: exactly 7 days, `[weekStart(anchorDate), weekStart + 6]`,
   where `weekStart(date, fdow) = addDays(date, -((weekdayOf(date) -
-  fdow + 7) % 7))`.
+fdow + 7) % 7))`.
 - **Four-week**: exactly 28 days, `[weekStart(anchorDate), weekStart +
-  27]` — the same week-start anchor as the week view, just four rows
+27]` — the same week-start anchor as the week view, just four rows
   instead of one. A rolling near-term window, not aligned to a
   calendar-month or fixed 4-week-from-epoch grid.
 - **Month**: `monthMatrix(year, month, firstDayOfWeek)` verbatim — a
@@ -175,14 +195,14 @@ region only announces when `periodAnnouncement` is supplied.
 Mirrors `date-time-picker`'s own `onGridKeydown` exactly, generalised
 from one month to all three views:
 
-| Key | Effect |
-| --- | --- |
-| `ArrowLeft` / `ArrowRight` | Move cursor ±1 day |
-| `ArrowUp` / `ArrowDown` | Move cursor ±1 week (±7 days) |
-| `Home` / `End` | Jump to the first/last day of the cursor's own row |
-| `PageUp` / `PageDown` | Step the cursor by the current view's own length (mirrors §6.2) |
-| `Enter` / `Space` | Pick the cursor day: set `selectedDate`, fire `onDayClick(cursor)` (not on a disabled day) |
-| `t` | Go to `today` (navigate and move the cursor); a no-op without `today` |
+| Key                        | Effect                                                                                     |
+| -------------------------- | ------------------------------------------------------------------------------------------ |
+| `ArrowLeft` / `ArrowRight` | Move cursor ±1 day                                                                         |
+| `ArrowUp` / `ArrowDown`    | Move cursor ±1 week (±7 days)                                                              |
+| `Home` / `End`             | Jump to the first/last day of the cursor's own row                                         |
+| `PageUp` / `PageDown`      | Step the cursor by the current view's own length (mirrors §6.2)                            |
+| `Enter` / `Space`          | Pick the cursor day: set `selectedDate`, fire `onDayClick(cursor)` (not on a disabled day) |
+| `t`                        | Go to `today` (navigate and move the cursor); a no-op without `today`                      |
 
 When the moved-to cursor date falls outside the currently visible
 days, the view re-pages to make it visible again — for week/four-week,
@@ -314,7 +334,7 @@ Ideas 1, 8 and 9 of §11. Each has tests in `CalendarView.test.ts` (§8.22–§8
 - **Range selection**: Shift+arrows/Home/End/PageUp/PageDown extend from an anchor (the picked day, else the cursor) into `selectedRange`
   (bindable); Enter confirms with `onRangeSelect(start, end)` instead of picking a day; a plain move stops extending but keeps the range;
   Shift+click picks and confirms one; Escape clears. Hooks: `data-in-range`, `data-range-start`, `data-range-end`.
-Not built: keyboard and pointer event move, "+N more", day view, resize, create-by-selecting (§11 ideas 2–7).
+  Not built: keyboard and pointer event move, "+N more", day view, resize, create-by-selecting (§11 ideas 2–7).
 
 ## 14. Shipped later in 0.3.0 (2026-10-14)
 

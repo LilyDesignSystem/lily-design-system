@@ -23,8 +23,15 @@ KyprosNationalPassportNumberInput is a headless input for entering Kypros's Nati
 ## Usage
 
 ```html
-<Field label="National Passport Number" required>
-  <KyprosNationalPassportNumberInput label="National Passport Number" value={value} required />
+<Field
+  label="National Passport Number"
+  required
+>
+  <KyprosNationalPassportNumberInput
+    label="National Passport Number"
+    value="{value}"
+    required
+  />
   <Hint>passports before 13/12/2010 begin with 'E' followed by 6 digits (e.g. E123456)</Hint>
   <ErrorMessage>Please enter a valid National Passport Number</ErrorMessage>
 </Field>

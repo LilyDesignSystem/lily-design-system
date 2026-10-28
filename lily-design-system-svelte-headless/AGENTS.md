@@ -160,12 +160,12 @@ pnpm install --save-dev jsdom
 
 <!-- ComponentPascalTitle.svelte -->
 <div
-    class={`component-kebab-title ${className}`}
-    role="region"
-    aria-label={label}
-    {...restProps}
+  class={`component-kebab-title ${className}`}
+  role="region"
+  aria-label={label}
+  {...restProps}
 >
-    …
+  …
 </div>
 ```
 

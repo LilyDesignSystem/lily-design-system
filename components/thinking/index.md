@@ -23,7 +23,11 @@ Thinking is a headless disclosure for showing an AI assistant's reasoning or pro
 ## Usage
 
 ```html
-<Thinking label="Thinking" streaming={isStreaming} bind:open>
+<Thinking
+  label="Thinking"
+  streaming="{isStreaming}"
+  bind:open
+>
   <p>Considering the options...</p>
 </Thinking>
 ```

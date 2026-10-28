@@ -21,7 +21,9 @@ AotearoaNationalHealthIndexInput is a headless placeholder component, generated 
 ## Usage
 
 ```html
-<AotearoaNationalHealthIndexInput label="AotearoaNationalHealthIndexInput example">Content</AotearoaNationalHealthIndexInput>
+<AotearoaNationalHealthIndexInput label="AotearoaNationalHealthIndexInput example"
+  >Content</AotearoaNationalHealthIndexInput
+>
 ```
 
 ## Keyboard Interactions

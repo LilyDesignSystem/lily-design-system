@@ -10,7 +10,7 @@ See [components/autosuggest/index.md](../../../../../components/autosuggest/inde
 
 ```svelte
 <script lang="ts">
-    import Autosuggest from "./Autosuggest.svelte";
+  import Autosuggest from "./Autosuggest.svelte";
 </script>
 
 <Autosuggest />

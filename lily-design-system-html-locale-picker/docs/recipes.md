@@ -48,10 +48,8 @@ function parseAcceptLanguage(header: string): string[] {
 }
 
 const locale =
-  matchNavigatorLanguage(
-    parseAcceptLanguage(req.headers["accept-language"] ?? ""),
-    SUPPORTED,
-  ) || "en";
+  matchNavigatorLanguage(parseAcceptLanguage(req.headers["accept-language"] ?? ""), SUPPORTED) ||
+  "en";
 ```
 
 Then render `value="${locale}"` on the element and leave

@@ -21,15 +21,18 @@ The component renders its content within a semantic container that screen reader
 
 ```html
 <InsetText>
-  <p>You can report any suspected side effect using the
-  <a href="https://yellowcard.mhra.gov.uk/">Yellow Card safety scheme</a>.</p>
+  <p>
+    You can report any suspected side effect using the
+    <a href="https://yellowcard.mhra.gov.uk/">Yellow Card safety scheme</a>.
+  </p>
 </InsetText>
 ```
 
 ```html
 <InsetText>
-  <p>If you are registered with a GP surgery, you can get an
-  NHS number by calling or visiting them.</p>
+  <p>
+    If you are registered with a GP surgery, you can get an NHS number by calling or visiting them.
+  </p>
 </InsetText>
 ```
 
@@ -65,14 +68,11 @@ None -- this component is a passive container with no interactive behavior.
 
 This headless component provides a `<div>` with `role="note"` for semantic supplementary content. The consumer provides all visual styling including the characteristic left border, indentation, padding, and font treatment.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.inset-text` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `inset-text`
 - Verify role="note"` -- identifies the content as a note or supplementary information, so screen readers announce it with appropriate context.

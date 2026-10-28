@@ -20,9 +20,20 @@ export function Header() {
   return (
     <SettingsPicker label="Settings">
       <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/about/">About Us</a></li>
-        <li><button type="button" onClick={signOut}>Sign out</button></li>
+        <li>
+          <a href="/">Home</a>
+        </li>
+        <li>
+          <a href="/about/">About Us</a>
+        </li>
+        <li>
+          <button
+            type="button"
+            onClick={signOut}
+          >
+            Sign out
+          </button>
+        </li>
       </ul>
     </SettingsPicker>
   );
@@ -39,8 +50,17 @@ ships no links and no English, so the panel's content, and every word on it, is 
 ```tsx
 <SettingsPicker label="Settings">
   {({ close }) => (
-    <form onSubmit={(e) => { e.preventDefault(); search(); close(); }}>
-      <input type="search" aria-label="Search" />
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        search();
+        close();
+      }}
+    >
+      <input
+        type="search"
+        aria-label="Search"
+      />
     </form>
   )}
 </SettingsPicker>

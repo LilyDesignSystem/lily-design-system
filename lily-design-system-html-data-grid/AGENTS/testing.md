@@ -103,7 +103,7 @@ expect(b.querySelectorAll(".theme-picker-option").length).toBe(2);
 | Goal                         | Pattern                                                                                 |
 | ---------------------------- | --------------------------------------------------------------------------------------- |
 | Wait for `connectedCallback` | Append; the callback is synchronous in jsdom.                                           |
-| Find the nth option          | `el.querySelectorAll(".theme-picker-option")[1]`                                       |
+| Find the nth option          | `el.querySelectorAll(".theme-picker-option")[1]`                                        |
 | Open the listbox             | `button.dispatchEvent(new MouseEvent("click", { bubbles: true }))`                      |
 | Change the selection         | Open, then click an option — or set `el.value = "dark"` directly                        |
 | Press a key                  | `list.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true }))` |
@@ -140,9 +140,7 @@ an option:
 
 ```ts
 const click = (el: Element) =>
-  el.dispatchEvent(
-    new MouseEvent("click", { bubbles: true, cancelable: true }),
-  );
+  el.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
 
 click(el.querySelector(".theme-picker-button")!);
 click(el.querySelectorAll(".theme-picker-option")[1]);
@@ -162,9 +160,7 @@ the `<ul>` handles the rest:
 
 ```ts
 const press = (el: Element, key: string) =>
-  el.dispatchEvent(
-    new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true }),
-  );
+  el.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true }));
 
 press(button, "ArrowDown"); // opens, focuses the <ul>
 press(list, "End"); // active option → last
@@ -184,9 +180,7 @@ Two jsdom notes:
 ## Asserting the managed `<link>` (theme picker)
 
 ```ts
-const link = document.head.querySelector<HTMLLinkElement>(
-  'link[data-lily-theme-picker="theme"]',
-);
+const link = document.head.querySelector<HTMLLinkElement>('link[data-lily-theme-picker="theme"]');
 expect(link).not.toBeNull();
 expect(link!.href).toMatch(/\/themes\/light\.css$/);
 ```

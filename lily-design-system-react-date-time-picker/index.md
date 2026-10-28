@@ -79,11 +79,11 @@ use elsewhere in this catalog.
 
 ## The value is always ISO
 
-| `mode` | `value` |
-| ------ | ------- |
-| `"date"` (default) | `"2026-03-15"` |
-| `"time"` | `"09:30"` |
-| `"datetime"` | `"2026-03-15T09:30"` |
+| `mode`             | `value`              |
+| ------------------ | -------------------- |
+| `"date"` (default) | `"2026-03-15"`       |
+| `"time"`           | `"09:30"`            |
+| `"datetime"`       | `"2026-03-15T09:30"` |
 
 Sortable as a string, unambiguous in every locale, and identical to what
 `<input type="date">` posts — so you can swap the native control in or out
@@ -151,7 +151,11 @@ incomplete datetime is never committed.
 ### Week numbers
 
 ```tsx
-<DateTimePicker label={label} labels={{ ...labels, week: "Wk" }} showWeekNumbers />
+<DateTimePicker
+  label={label}
+  labels={{ ...labels, week: "Wk" }}
+  showWeekNumbers
+/>
 ```
 
 Real ISO-8601 week numbers, with the Thursday rule — so the week
@@ -197,7 +201,10 @@ once on open — hide it visually with your own CSS if you prefer.
 ### Replace the glyph
 
 ```tsx
-<DateTimePicker label={label} labels={labels}>
+<DateTimePicker
+  label={label}
+  labels={labels}
+>
   {({ open, display }) => (
     <>
       <MyCalendarIcon expanded={open} />
@@ -231,13 +238,17 @@ The package is headless. Nothing positions the dialog for you — without
 your CSS it renders in normal flow rather than as an overlay:
 
 ```css
-.date-time-picker { position: relative; }
+.date-time-picker {
+  position: relative;
+}
 .date-time-picker-dialog {
   position: absolute;
   z-index: 10;
   inset-inline-start: 0;
 }
-.date-time-picker-dialog[hidden] { display: none; }
+.date-time-picker-dialog[hidden] {
+  display: none;
+}
 ```
 
 Class hooks: `date-time-picker`, `-field`, `-input`, `-button`, `-icon`,

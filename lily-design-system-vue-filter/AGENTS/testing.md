@@ -20,11 +20,11 @@ import { defineConfig } from "vitest/config";
 import vue from "@vitejs/plugin-vue";
 
 export default defineConfig({
-    plugins: [vue()],
-    test: {
-        environment: "jsdom",
-        globals: true,
-    },
+  plugins: [vue()],
+  test: {
+    environment: "jsdom",
+    globals: true,
+  },
 });
 ```
 
@@ -36,41 +36,41 @@ import { mount } from "@vue/test-utils";
 import ThemePicker from "./ThemePicker.vue";
 
 beforeEach(() => {
-    document.head.innerHTML = "";
-    document.documentElement.removeAttribute("data-theme");
-    document.documentElement.removeAttribute("lang");
-    document.documentElement.removeAttribute("dir");
-    localStorage.clear();
+  document.head.innerHTML = "";
+  document.documentElement.removeAttribute("data-theme");
+  document.documentElement.removeAttribute("lang");
+  document.documentElement.removeAttribute("dir");
+  localStorage.clear();
 });
 
 it("renders a select with the consumer's aria-label", async () => {
-    const wrapper = mount(ThemePicker, {
-        props: {
-            label: "Theme",
-            themesUrl: "/themes/",
-            themes: ["light", "dark"],
-        },
-    });
-    await wrapper.vm.$nextTick();
-    const root = wrapper.find("select");
-    expect(root.exists()).toBe(true);
-    expect(root.attributes("aria-label")).toBe("Theme");
-    expect(wrapper.findAll("option")).toHaveLength(2);
+  const wrapper = mount(ThemePicker, {
+    props: {
+      label: "Theme",
+      themesUrl: "/themes/",
+      themes: ["light", "dark"],
+    },
+  });
+  await wrapper.vm.$nextTick();
+  const root = wrapper.find("select");
+  expect(root.exists()).toBe(true);
+  expect(root.attributes("aria-label")).toBe("Theme");
+  expect(wrapper.findAll("option")).toHaveLength(2);
 });
 ```
 
 ## Common assertions
 
-| Goal                                | Pattern                                                              |
-| ----------------------------------- | -------------------------------------------------------------------- |
-| Wait for `onMounted` + `watch`      | `await wrapper.vm.$nextTick(); await flushPromises();`               |
-| Find an option by value             | `wrapper.find('option[value="dark"]')`                              |
-| Change the selection                | `await wrapper.find("select").setValue("dark")` *or* `.trigger("change")` |
-| Assert `update:value` was emitted   | `expect(wrapper.emitted("update:value")?.[0]).toEqual(["dark"])`     |
-| Assert `change` was emitted         | `expect(wrapper.emitted("change")?.[0]).toEqual(["dark"])`           |
-| Inspect document mutations          | `document.documentElement.dataset.theme`                              |
-| Re-mount fresh                      | `wrapper.unmount(); /* mount again */`                               |
-| `localStorage` round-trip           | `localStorage.setItem(...); /* re-mount */`                          |
+| Goal                              | Pattern                                                                   |
+| --------------------------------- | ------------------------------------------------------------------------- |
+| Wait for `onMounted` + `watch`    | `await wrapper.vm.$nextTick(); await flushPromises();`                    |
+| Find an option by value           | `wrapper.find('option[value="dark"]')`                                    |
+| Change the selection              | `await wrapper.find("select").setValue("dark")` _or_ `.trigger("change")` |
+| Assert `update:value` was emitted | `expect(wrapper.emitted("update:value")?.[0]).toEqual(["dark"])`          |
+| Assert `change` was emitted       | `expect(wrapper.emitted("change")?.[0]).toEqual(["dark"])`                |
+| Inspect document mutations        | `document.documentElement.dataset.theme`                                  |
+| Re-mount fresh                    | `wrapper.unmount(); /* mount again */`                                    |
+| `localStorage` round-trip         | `localStorage.setItem(...); /* re-mount */`                               |
 
 ## Driving a `v-model:value` test
 
@@ -79,13 +79,13 @@ sides like so:
 
 ```ts
 const wrapper = mount(ThemePicker, {
-    props: {
-        label: "Theme",
-        themesUrl: "/themes/",
-        themes: ["light", "dark"],
-        value: "light",
-        "onUpdate:value": (next: string) => wrapper.setProps({ value: next }),
-    },
+  props: {
+    label: "Theme",
+    themesUrl: "/themes/",
+    themes: ["light", "dark"],
+    value: "light",
+    "onUpdate:value": (next: string) => wrapper.setProps({ value: next }),
+  },
 });
 ```
 
@@ -100,13 +100,13 @@ args:
 ```ts
 let captured: any = null;
 const wrapper = mount(ThemePicker, {
-    props: { label: "T", themesUrl: "/t/", themes: ["a", "b"] },
-    slots: {
-        default: (args: any) => {
-            captured = args;
-            return [];
-        },
+  props: { label: "T", themesUrl: "/t/", themes: ["a", "b"] },
+  slots: {
+    default: (args: any) => {
+      captured = args;
+      return [];
     },
+  },
 });
 await wrapper.vm.$nextTick();
 expect(captured.themes).toEqual(["a", "b"]);
@@ -124,12 +124,12 @@ import { renderToString } from "vue/server-renderer";
 import { createSSRApp } from "vue";
 
 const html = await renderToString(
-    createSSRApp(ThemePicker, {
-        label: "Theme",
-        themesUrl: "/t/",
-        themes: ["light", "dark"],
-        value: "light",
-    }),
+  createSSRApp(ThemePicker, {
+    label: "Theme",
+    themesUrl: "/t/",
+    themes: ["light", "dark"],
+    value: "light",
+  }),
 );
 expect(html).toContain('aria-label="Theme"');
 expect(html).toContain('value="light"');

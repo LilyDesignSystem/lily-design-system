@@ -41,33 +41,52 @@ position (e.g., "Digit 1 of 4", supplied through `digitLabel` in the page's lang
 Basic 4-digit PIN input:
 
 ```html
-<PinInput label="Enter PIN" value={pin} />
+<PinInput
+  label="Enter PIN"
+  value="{pin}"
+/>
 <p>Entered PIN: {pin}</p>
 ```
 
 6-digit verification code for two-factor authentication:
 
 ```html
-<PinInput label="Verification Code" length={6} value={code} />
+<PinInput
+  label="Verification Code"
+  length="{6}"
+  value="{code}"
+/>
 ```
 
 PIN input in a login verification form:
 
 ```html
-<Form label="Verify your identity" onsubmit={handleVerify}>
+<form
+  label="Verify your identity"
+  onsubmit="{handleVerify}"
+>
   <p>Enter the 6-digit code sent to your phone.</p>
   <Field label="Verification code">
-    <PinInput label="Verification code" length={6} value={verificationCode} />
+    <PinInput
+      label="Verification code"
+      length="{6}"
+      value="{verificationCode}"
+    />
   </Field>
-  <Button type="submit">Verify</Button>
+  <button type="submit">Verify</button>
   <ActionLink href="/resend">Resend code</ActionLink>
-</Form>
+</form>
 ```
 
 Disabled state while verifying:
 
 ```html
-<PinInput label="Verifying code" length={6} value={code} disabled />
+<PinInput
+  label="Verifying code"
+  length="{6}"
+  value="{code}"
+  disabled
+/>
 <Loading>Verifying...</Loading>
 ```
 
@@ -102,17 +121,14 @@ Disabled state while verifying:
 
 The PinInput headless component provides a `<div role="group">` containing individual `<input>` fields with `inputmode="numeric"`, `maxlength="1"`, per-digit `aria-label` attributes, and auto-focus navigation. The consumer provides all visual styling for the digit fields, spacing, and container layout.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.pin-input-div` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
 
-
 - Verify the component renders a `<div>` element with class `pin-input-div`
-- Verify role="group"` with `aria-label` on the container
+- Verify role="group"`with`aria-label` on the container
 - Verify each input's `aria-label` comes from `digitLabel`, or is `label` without it
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied

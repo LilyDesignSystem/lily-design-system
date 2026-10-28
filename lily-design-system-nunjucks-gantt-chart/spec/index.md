@@ -97,33 +97,33 @@ picker.njk` already accepts for its own calendar grid.
 
 ## 4. Macro parameters and Nunjucks deviations
 
-| Svelte prop | Nunjucks shape | Rule |
-| --- | --- | --- |
-| `taskLabel: (task) => string` | not a macro param | Always renders `task.label` — same rule as kanban-board's `cardLabel`. |
-| `labels.columnLabel(start, end, timeUnit)` | `initGanttChart(root, {labels: {columnLabel}})` — stays a real function | Columns are entirely client-built (§3), so there is no render-time value to substitute a template string into. The Svelte fallback (`?? column.start`) is preserved client-side. |
-| `labels.dateAnnouncement(taskLabel, start, end)` | `initGanttChart(root, {labels: {dateAnnouncement}})` — stays a real function | An edit only ever completes after hydration — same reasoning as kanban-board's `moveAnnouncement`. |
-| `labels.dependencySummary(predecessorLabels)` | `labels.dependencySummary` — template string, `{predecessors}` token | Unlike `columnLabel`, everything it needs (other tasks' own labels, resolved by id) is known at render time — no date math. The macro joins the resolved labels with `", "` itself before substituting. |
-| `labels.collapseButton(task, collapsed)` | `labels.collapseLabel` / `labels.expandLabel` — two template strings, `{task}` token each | One callback covering two states in Svelte; a single Nunjucks template string cannot branch on `collapsed`. The macro renders the INITIAL button (every row starts expanded) using `collapseLabel`; both raw templates also ride on the button as `data-lily-gantt-chart-collapse-label`/`-expand-label` so `gantt-chart.client.js` can recompute the OTHER state's label on toggle without the consumer passing the same strings twice. |
-| `labels.startLabel` / `labels.endLabel` | plain strings, macro params | Forwarded as each composed `dateTimePicker`'s own `label`. |
-| `labels.dateTimePickerLabels` | object, macro param | Forwarded as-is to both composed date pickers' own `labels`. Editing is gated on this being present — matches `date-time-picker`'s own "labels are required" contract. |
-| `labels.saveLabel` / `labels.cancelLabel` | plain strings, macro params | Button text. |
-| `onTaskChange: (taskId, start, end) => void` | `initGanttChart(root, {onTaskChange})` — client.js init option | Same reasoning as `dateAnnouncement`. |
+| Svelte prop                                      | Nunjucks shape                                                                            | Rule                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| ------------------------------------------------ | ----------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `taskLabel: (task) => string`                    | not a macro param                                                                         | Always renders `task.label` — same rule as kanban-board's `cardLabel`.                                                                                                                                                                                                                                                                                                                                                                   |
+| `labels.columnLabel(start, end, timeUnit)`       | `initGanttChart(root, {labels: {columnLabel}})` — stays a real function                   | Columns are entirely client-built (§3), so there is no render-time value to substitute a template string into. The Svelte fallback (`?? column.start`) is preserved client-side.                                                                                                                                                                                                                                                         |
+| `labels.dateAnnouncement(taskLabel, start, end)` | `initGanttChart(root, {labels: {dateAnnouncement}})` — stays a real function              | An edit only ever completes after hydration — same reasoning as kanban-board's `moveAnnouncement`.                                                                                                                                                                                                                                                                                                                                       |
+| `labels.dependencySummary(predecessorLabels)`    | `labels.dependencySummary` — template string, `{predecessors}` token                      | Unlike `columnLabel`, everything it needs (other tasks' own labels, resolved by id) is known at render time — no date math. The macro joins the resolved labels with `", "` itself before substituting.                                                                                                                                                                                                                                  |
+| `labels.collapseButton(task, collapsed)`         | `labels.collapseLabel` / `labels.expandLabel` — two template strings, `{task}` token each | One callback covering two states in Svelte; a single Nunjucks template string cannot branch on `collapsed`. The macro renders the INITIAL button (every row starts expanded) using `collapseLabel`; both raw templates also ride on the button as `data-lily-gantt-chart-collapse-label`/`-expand-label` so `gantt-chart.client.js` can recompute the OTHER state's label on toggle without the consumer passing the same strings twice. |
+| `labels.startLabel` / `labels.endLabel`          | plain strings, macro params                                                               | Forwarded as each composed `dateTimePicker`'s own `label`.                                                                                                                                                                                                                                                                                                                                                                               |
+| `labels.dateTimePickerLabels`                    | object, macro param                                                                       | Forwarded as-is to both composed date pickers' own `labels`. Editing is gated on this being present — matches `date-time-picker`'s own "labels are required" contract.                                                                                                                                                                                                                                                                   |
+| `labels.saveLabel` / `labels.cancelLabel`        | plain strings, macro params                                                               | Button text.                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| `onTaskChange: (taskId, start, end) => void`     | `initGanttChart(root, {onTaskChange})` — client.js init option                            | Same reasoning as `dateAnnouncement`.                                                                                                                                                                                                                                                                                                                                                                                                    |
 
 Params (single `opts` object):
 
-| Param | Type | Required | Default |
-| --- | --- | --- | --- |
-| `label` | `string` | yes | — |
-| `range` | `{start, end}` (ISO dates) | yes | — |
-| `tasks` | `array<{id, label, start, end, percentComplete?, parentId?, dependsOn?}>` | yes | — |
-| `caption` | `string` | no | — |
-| `timeUnit` | `"day" \| "week" \| "month"` | no | `"day"` |
-| `today` | `string` (ISO date) | no | — (no marker unless supplied) |
-| `labels` | `object` (see table above) | no | `{}` |
-| `name` | `string` | no | `"chart"` |
-| `id` | `string` | no | `"gantt-chart-{name}"` |
-| `classes` | `string` | no | — |
-| `attributes` | `object` | no | — |
+| Param        | Type                                                                      | Required | Default                       |
+| ------------ | ------------------------------------------------------------------------- | -------- | ----------------------------- |
+| `label`      | `string`                                                                  | yes      | —                             |
+| `range`      | `{start, end}` (ISO dates)                                                | yes      | —                             |
+| `tasks`      | `array<{id, label, start, end, percentComplete?, parentId?, dependsOn?}>` | yes      | —                             |
+| `caption`    | `string`                                                                  | no       | —                             |
+| `timeUnit`   | `"day" \| "week" \| "month"`                                              | no       | `"day"`                       |
+| `today`      | `string` (ISO date)                                                       | no       | — (no marker unless supplied) |
+| `labels`     | `object` (see table above)                                                | no       | `{}`                          |
+| `name`       | `string`                                                                  | no       | `"chart"`                     |
+| `id`         | `string`                                                                  | no       | `"gantt-chart-{name}"`        |
+| `classes`    | `string`                                                                  | no       | —                             |
+| `attributes` | `object`                                                                  | no       | —                             |
 
 `GanttTask`: `id`, `label`, `start`/`end` (ISO dates, inclusive; equal
 values mean a milestone) required; `percentComplete?: number`,
@@ -257,7 +257,7 @@ the roving-tabindex column index.
 ## 9. Acceptance criteria
 
 - §9.1 Renders `<div class="gantt-chart">` wrapping a `<table
-  role="grid">` whose `aria-label` comes from `label`.
+role="grid">` whose `aria-label` comes from `label`.
 - §9.2 Generates one column per day/week/month across `range`
   according to `timeUnit`, using UTC/epoch-day arithmetic.
 - §9.3 A task's `[start, end]` marks every overlapping column's cell

@@ -20,7 +20,10 @@ A read-only five-face rating display that shows a text label corresponding to a 
 ## Usage
 
 ```svelte
-<FiveFaceRatingView value={4} label="Good rating" />
+<FiveFaceRatingView
+  value={4}
+  label="Good rating"
+/>
 ```
 
 ## Keyboard Interactions

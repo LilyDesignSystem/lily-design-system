@@ -22,17 +22,25 @@ A read-only five-face rating display that shows a text label corresponding to a 
 ## Usage
 
 ```html
-<FiveFaceRatingView value={4} label="Patient satisfaction: Good" />
+<FiveFaceRatingView
+  value="{4}"
+  label="Patient satisfaction: Good"
+/>
 ```
 
 In a feedback summary:
 
 ```html
 <SummaryList label="Survey results">
-    <SummaryListItem>
-        <dt>Satisfaction</dt>
-        <dd><FiveFaceRatingView value={3} label="Satisfaction rating: Okay" /></dd>
-    </SummaryListItem>
+  <SummaryListItem>
+    <dt>Satisfaction</dt>
+    <dd>
+      <FiveFaceRatingView
+        value="{3}"
+        label="Satisfaction rating: Okay"
+      />
+    </dd>
+  </SummaryListItem>
 </SummaryList>
 ```
 
@@ -60,14 +68,11 @@ None -- this component is a passive, read-only display.
 
 This headless component provides semantic HTML with `role="img"` and `aria-label` for accessible read-only rating display. The consumer provides all visual styling, including typography, colors, and any face/emoji iconography.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.five-face-rating-view` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `five-face-rating-view`
 - Verify role="img"` -- indicates the span represents a visual/graphic element (the face rating)

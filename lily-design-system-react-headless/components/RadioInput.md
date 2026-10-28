@@ -26,7 +26,11 @@ This component is useful in custom-designed radio groups, card selection interfa
 ## Usage
 
 ```tsx
-<RadioInput label="Option A" name="choice" value="a" />
+<RadioInput
+  label="Option A"
+  name="choice"
+  value="a"
+/>
 ```
 
 ```tsx
@@ -36,7 +40,12 @@ This component is useful in custom-designed radio groups, card selection interfa
 ```
 
 ```tsx
-<RadioInput label="Unavailable option" name="plan" value="enterprise" disabled={true} />
+<RadioInput
+  label="Unavailable option"
+  name="plan"
+  value="enterprise"
+  disabled={true}
+/>
 ```
 
 ## Keyboard Interactions

@@ -4,16 +4,27 @@ Lily components snap together into a handful of recurring shapes. These are
 condensed from `AGENTS/components.md`; every example uses concrete demo
 strings, but they flow through the same prop names a real consumer would
 localise (see the internationalisation rule: no hardcoded user-facing
-strings inside a component — the *examples* below supply the strings, the
+strings inside a component — the _examples_ below supply the strings, the
 components themselves never do).
 
 ## Form: `Form` → `Field` → `{Label, Input, Hint, ErrorMessage}`
 
 ```tsx
 // React
-<Form label="Contact" onSubmit={handleSubmit}>
-  <Field label="Name" required error={errors.name}>
-    <TextInput label="Name" value={name} onChange={setName} />
+<Form
+  label="Contact"
+  onSubmit={handleSubmit}
+>
+  <Field
+    label="Name"
+    required
+    error={errors.name}
+  >
+    <TextInput
+      label="Name"
+      value={name}
+      onChange={setName}
+    />
   </Field>
   <ErrorSummary title="There is a problem">
     <ul>{errorList}</ul>
@@ -24,12 +35,24 @@ components themselves never do).
 
 ```svelte
 <!-- Svelte -->
-<Form label="Contact" onsubmit={handleSubmit}>
-  <Field label="Name" required error={errors.name}>
-    <TextInput label="Name" bind:value={name} />
+<Form
+  label="Contact"
+  onsubmit={handleSubmit}
+>
+  <Field
+    label="Name"
+    required
+    error={errors.name}
+  >
+    <TextInput
+      label="Name"
+      bind:value={name}
+    />
   </Field>
   <ErrorSummary title="There is a problem">
-    <ul>{#each errorList as e}<li>{e}</li>{/each}</ul>
+    <ul>
+      {#each errorList as e}<li>{e}</li>{/each}
+    </ul>
   </ErrorSummary>
   <Button type="submit">Submit</Button>
 </Form>
@@ -39,10 +62,18 @@ components themselves never do).
 
 ```html
 <!-- Plain HTML -->
-<nav class="breadcrumb-nav" aria-label="Breadcrumb">
+<nav
+  class="breadcrumb-nav"
+  aria-label="Breadcrumb"
+>
   <ol class="breadcrumb-list">
     <li class="breadcrumb-list-item"><a href="/">Home</a></li>
-    <li class="breadcrumb-list-item" aria-current="page">Page</li>
+    <li
+      class="breadcrumb-list-item"
+      aria-current="page"
+    >
+      Page
+    </li>
   </ol>
 </nav>
 ```

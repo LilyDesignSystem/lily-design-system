@@ -10,12 +10,12 @@ MongoDB, OData or a predicate. Ships no CSS and no English text. Depends on the 
 
 ## Files
 
-| File | Purpose |
-| ---- | ------- |
-| `FilterBuilder.razor`, `FilterBuilder.razor.cs` | The component and `FilterLabels`. |
-| `FilterModel.cs` | The model, validation and the five outputs (static, pure). |
-| `FilterBuilderTests.cs` | bUnit spec, one test per Svelte §8 clause. |
-| `FilterModelTests.cs` | The model's tests, vector for vector from the Svelte suite. |
+| File                                            | Purpose                                                     |
+| ----------------------------------------------- | ----------------------------------------------------------- |
+| `FilterBuilder.razor`, `FilterBuilder.razor.cs` | The component and `FilterLabels`.                           |
+| `FilterModel.cs`                                | The model, validation and the five outputs (static, pure).  |
+| `FilterBuilderTests.cs`                         | bUnit spec, one test per Svelte §8 clause.                  |
+| `FilterModelTests.cs`                           | The model's tests, vector for vector from the Svelte suite. |
 
 ## Rules
 

@@ -34,25 +34,50 @@ keyboard, tooltip. It owns no content and no words: the panel's content and ever
 
 ### 4.1 Props
 
-| Prop | Type | Required | Notes |
-| --- | --- | --- | --- |
-| `Label` | `string` | yes | Accessible name of the button **and** the panel; also the tooltip text. |
-| `Open` / `OpenChanged` | `bool` / `EventCallback<bool>` | no | Is the panel open? `@bind-Open`. Default `false`. |
-| `CloseOnSelect` | `bool` | no | Close on **any** click inside the panel. Default `false` (Blazor cannot see the click target). |
-| `ChildContent` | `RenderFragment<SettingsPickerContext>` | no | The panel's content; the context has `Open` and `Close()`. |
-| `Icon` | `RenderFragment<SettingsPickerContext>` | no | Replaces the cog **icon** inside the button. |
-| `CssClass` | `string` | no | Appended to the root class. |
-| `...rest` | | | Spread on the root. |
+| Prop                   | Type                                    | Required | Notes                                                                                          |
+| ---------------------- | --------------------------------------- | -------- | ---------------------------------------------------------------------------------------------- |
+| `Label`                | `string`                                | yes      | Accessible name of the button **and** the panel; also the tooltip text.                        |
+| `Open` / `OpenChanged` | `bool` / `EventCallback<bool>`          | no       | Is the panel open? `@bind-Open`. Default `false`.                                              |
+| `CloseOnSelect`        | `bool`                                  | no       | Close on **any** click inside the panel. Default `false` (Blazor cannot see the click target). |
+| `ChildContent`         | `RenderFragment<SettingsPickerContext>` | no       | The panel's content; the context has `Open` and `Close()`.                                     |
+| `Icon`                 | `RenderFragment<SettingsPickerContext>` | no       | Replaces the cog **icon** inside the button.                                                   |
+| `CssClass`             | `string`                                | no       | Appended to the root class.                                                                    |
+| `...rest`              |                                         |          | Spread on the root.                                                                            |
 
 ### 4.2 DOM contract
 
 ```html
 <div class="settings-picker {class}">
-  <button class="settings-picker-button" type="button" aria-label="{label}" aria-expanded="false" aria-controls="{id}-panel">
-    <svg class="settings-picker-icon" aria-hidden="true" viewBox="0 0 16 16" …a cog…/>
+  <button
+    class="settings-picker-button"
+    type="button"
+    aria-label="{label}"
+    aria-expanded="false"
+    aria-controls="{id}-panel"
+  >
+    <svg
+      class="settings-picker-icon"
+      aria-hidden="true"
+      viewBox="0 0 16 16"
+      …a
+      cog…
+    />
   </button>
-  <div class="settings-picker-tooltip" role="tooltip" id="{id}-tooltip" hidden>{label}</div>
-  <div class="settings-picker-panel" id="{id}-panel" role="group" aria-label="{label}" hidden>
+  <div
+    class="settings-picker-tooltip"
+    role="tooltip"
+    id="{id}-tooltip"
+    hidden
+  >
+    {label}
+  </div>
+  <div
+    class="settings-picker-panel"
+    id="{id}-panel"
+    role="group"
+    aria-label="{label}"
+    hidden
+  >
     …whatever the app provides…
   </div>
 </div>

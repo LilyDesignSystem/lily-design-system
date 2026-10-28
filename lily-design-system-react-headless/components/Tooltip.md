@@ -35,7 +35,11 @@ Tooltips are used to clarify the function or meaning of an element without clutt
 ```
 
 ```tsx
-<Tooltip id="help-tip" label="Click to submit your form" visible={true} />
+<Tooltip
+  id="help-tip"
+  label="Click to submit your form"
+  visible={true}
+/>
 ```
 
 ## Keyboard Interactions

@@ -23,13 +23,27 @@ import { OrgEditor, type Labels } from "./lily-design-system-svelte-org-editor";
 
   let notes = $state("* Ship the release");
   const labels = {
-    todo: "Task", priority: "Priority", scheduled: "Scheduled", deadline: "Deadline",
-    bold: "Bold", italic: "Italic", link: "Link",
-    property: "Property", drawer: "Drawer", contact: "Contact",
+    todo: "Task",
+    priority: "Priority",
+    scheduled: "Scheduled",
+    deadline: "Deadline",
+    bold: "Bold",
+    italic: "Italic",
+    link: "Link",
+    property: "Property",
+    drawer: "Drawer",
+    contact: "Contact",
   };
 </script>
 
-<OrgEditor bind:value={notes} label="Notes" toolbarLabel="Formatting" {labels} name="notes" rows={12} />
+<OrgEditor
+  bind:value={notes}
+  label="Notes"
+  toolbarLabel="Formatting"
+  {labels}
+  name="notes"
+  rows={12}
+/>
 ```
 
 Every name is a prop, because the component ships no English. A tool with no entry in `labels` is not
@@ -37,47 +51,47 @@ rendered: an unnamed button is worse than no button.
 
 ## The tools
 
-| Group     | Tool (`ToolId`)     | What it writes |
-| --------- | ------------------- | -------------- |
-| structure | `heading`           | `* ` on each selected line (`headingLevel` stars); again to remove. |
-| structure | `promote`, `demote` | One star fewer (never below one) or more on each selected heading. |
-| structure | `bulletList`, `numberedList` | `- ` or `1. ` on each selected line; again to remove. |
-| structure | `checkbox`          | Cycles the selected lines none → `- [ ]` → `- [X]` → none. |
-| structure | `quote`, `sourceBlock` | Wraps the selected lines in `#+BEGIN_QUOTE` / `#+END_QUOTE`, or `#+BEGIN_SRC` / `#+END_SRC`. |
-| task      | `todo`              | Cycles the heading under the caret none → `TODO` → `DONE` → none (a plain line becomes a heading). |
-| task      | `priority`          | Cycles `[#A]` → `[#B]` → `[#C]` → none. |
-| task      | `scheduled`, `deadline` | Adds, or removes, `SCHEDULED: <2026-10-24 Sat>` / `DEADLINE: …` on the planning line under the heading; the date is selected so you can change it. |
-| task      | `timestamp`         | Inserts an active timestamp `<2026-10-24 Sat>` at the caret. |
-| text      | `bold` `italic` `underline` `strikethrough` `code` `verbatim` | Wraps the selection in `*` `/` `_` `+` `~` `=`; again to remove. |
-| text      | `link`              | `[[https://][selection]]`, the address selected. |
-| data      | `property`          | Adds `:ID: ` to the `:PROPERTIES:` drawer under the heading, creating the drawer; a key already there is not added twice. |
-| data      | `drawer`            | Wraps the selected lines in `:LOGBOOK:` … `:END:`; again to remove. |
-| data      | `contact`           | An org-contacts entry: a heading one level under the heading above, with `:EMAIL:`, `:PHONE:`, `:ADDRESS:` and `:BIRTHDAY:` properties; the selection becomes the name. |
+| Group     | Tool (`ToolId`)                                               | What it writes                                                                                                                                                          |
+| --------- | ------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| structure | `heading`                                                     | `* ` on each selected line (`headingLevel` stars); again to remove.                                                                                                     |
+| structure | `promote`, `demote`                                           | One star fewer (never below one) or more on each selected heading.                                                                                                      |
+| structure | `bulletList`, `numberedList`                                  | `- ` or `1. ` on each selected line; again to remove.                                                                                                                   |
+| structure | `checkbox`                                                    | Cycles the selected lines none → `- [ ]` → `- [X]` → none.                                                                                                              |
+| structure | `quote`, `sourceBlock`                                        | Wraps the selected lines in `#+BEGIN_QUOTE` / `#+END_QUOTE`, or `#+BEGIN_SRC` / `#+END_SRC`.                                                                            |
+| task      | `todo`                                                        | Cycles the heading under the caret none → `TODO` → `DONE` → none (a plain line becomes a heading).                                                                      |
+| task      | `priority`                                                    | Cycles `[#A]` → `[#B]` → `[#C]` → none.                                                                                                                                 |
+| task      | `scheduled`, `deadline`                                       | Adds, or removes, `SCHEDULED: <2026-10-24 Sat>` / `DEADLINE: …` on the planning line under the heading; the date is selected so you can change it.                      |
+| task      | `timestamp`                                                   | Inserts an active timestamp `<2026-10-24 Sat>` at the caret.                                                                                                            |
+| text      | `bold` `italic` `underline` `strikethrough` `code` `verbatim` | Wraps the selection in `*` `/` `_` `+` `~` `=`; again to remove.                                                                                                        |
+| text      | `link`                                                        | `[[https://][selection]]`, the address selected.                                                                                                                        |
+| data      | `property`                                                    | Adds `:ID: ` to the `:PROPERTIES:` drawer under the heading, creating the drawer; a key already there is not added twice.                                               |
+| data      | `drawer`                                                      | Wraps the selected lines in `:LOGBOOK:` … `:END:`; again to remove.                                                                                                     |
+| data      | `contact`                                                     | An org-contacts entry: a heading one level under the heading above, with `:EMAIL:`, `:PHONE:`, `:ADDRESS:` and `:BIRTHDAY:` properties; the selection becomes the name. |
 
 Org's own words — `TODO`, `DONE`, `SCHEDULED:`, `:PROPERTIES:`, `#+BEGIN_QUOTE`, the weekday inside a timestamp —
-are syntax that Org reads and writes, not interface text, so they are not localisable props. The *button names*
+are syntax that Org reads and writes, not interface text, so they are not localisable props. The _button names_
 are.
 
 ## Props
 
-| Prop | Type | Required | Default | Purpose |
-| ---- | ---- | -------- | ------- | ------- |
-| `value` | `string` (bindable) | no | `""` | The text, as Org. |
-| `label` | `string` | yes | — | Accessible name of the textarea. |
-| `toolbarLabel` | `string` | yes | — | Accessible name of the toolbar. |
-| `labels` | `Partial<Record<ToolId,string>>` | yes | — | Accessible name per tool; a tool without one is not shown. |
-| `tools` | `ToolId[]` | no | all 23 | Which tools to show, and in what order. |
-| `headingLevel` | `1`–`6` | no | `1` | Stars the heading tool, and a `todo` on a plain line, write. |
-| `todoKeywords` | `string[]` | no | `["TODO","DONE"]` | The cycle `todo` walks, e.g. `["TODO","NEXT","WAIT","DONE"]`. |
-| `priorities` | `string[]` | no | `["A","B","C"]` | The cycle `priority` walks. |
-| `today` | `string` `YYYY-MM-DD` | no | local date | The date for `scheduled`, `deadline`, `timestamp`; pass it for tests and for servers in another time zone. |
-| `propertyKey` | `string` | no | `ID` | The property `property` adds. |
-| `drawerName` | `string` | no | `LOGBOOK` | The drawer `drawer` writes. |
-| `contactProperties` | `string[]` | no | `["EMAIL","PHONE","ADDRESS","BIRTHDAY"]` | What a contact entry gets. |
-| `name`, `id`, `rows`, `placeholder`, `disabled`, `readonly`, `required` | | no | | Passed to the `<textarea>`. |
-| `onchange` | `(value: string) => void` | no | — | After every change, typed or from a tool. |
-| `icon` | `Snippet<[ToolId]>` | no | bundled SVGs | Replaces a tool's icon. |
-| `class`, rest | | no | | Appended to the root class; rest props spread onto the root. |
+| Prop                                                                    | Type                             | Required | Default                                  | Purpose                                                                                                    |
+| ----------------------------------------------------------------------- | -------------------------------- | -------- | ---------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `value`                                                                 | `string` (bindable)              | no       | `""`                                     | The text, as Org.                                                                                          |
+| `label`                                                                 | `string`                         | yes      | —                                        | Accessible name of the textarea.                                                                           |
+| `toolbarLabel`                                                          | `string`                         | yes      | —                                        | Accessible name of the toolbar.                                                                            |
+| `labels`                                                                | `Partial<Record<ToolId,string>>` | yes      | —                                        | Accessible name per tool; a tool without one is not shown.                                                 |
+| `tools`                                                                 | `ToolId[]`                       | no       | all 23                                   | Which tools to show, and in what order.                                                                    |
+| `headingLevel`                                                          | `1`–`6`                          | no       | `1`                                      | Stars the heading tool, and a `todo` on a plain line, write.                                               |
+| `todoKeywords`                                                          | `string[]`                       | no       | `["TODO","DONE"]`                        | The cycle `todo` walks, e.g. `["TODO","NEXT","WAIT","DONE"]`.                                              |
+| `priorities`                                                            | `string[]`                       | no       | `["A","B","C"]`                          | The cycle `priority` walks.                                                                                |
+| `today`                                                                 | `string` `YYYY-MM-DD`            | no       | local date                               | The date for `scheduled`, `deadline`, `timestamp`; pass it for tests and for servers in another time zone. |
+| `propertyKey`                                                           | `string`                         | no       | `ID`                                     | The property `property` adds.                                                                              |
+| `drawerName`                                                            | `string`                         | no       | `LOGBOOK`                                | The drawer `drawer` writes.                                                                                |
+| `contactProperties`                                                     | `string[]`                       | no       | `["EMAIL","PHONE","ADDRESS","BIRTHDAY"]` | What a contact entry gets.                                                                                 |
+| `name`, `id`, `rows`, `placeholder`, `disabled`, `readonly`, `required` |                                  | no       |                                          | Passed to the `<textarea>`.                                                                                |
+| `onchange`                                                              | `(value: string) => void`        | no       | —                                        | After every change, typed or from a tool.                                                                  |
+| `icon`                                                                  | `Snippet<[ToolId]>`              | no       | bundled SVGs                             | Replaces a tool's icon.                                                                                    |
+| `class`, rest                                                           |                                  | no       |                                          | Appended to the root class; rest props spread onto the root.                                               |
 
 ## Behaviour
 
@@ -93,13 +107,36 @@ are.
 
 ```html
 <div class="org-editor {class}">
-  <div class="org-editor-toolbar" role="toolbar" aria-label aria-controls aria-orientation="horizontal">
-    <button class="org-editor-button" type="button" data-tool="todo" data-group="task" aria-label tabindex="0">
-      <svg class="org-editor-icon" aria-hidden="true">…</svg>
+  <div
+    class="org-editor-toolbar"
+    role="toolbar"
+    aria-label
+    aria-controls
+    aria-orientation="horizontal"
+  >
+    <button
+      class="org-editor-button"
+      type="button"
+      data-tool="todo"
+      data-group="task"
+      aria-label
+      tabindex="0"
+    >
+      <svg
+        class="org-editor-icon"
+        aria-hidden="true"
+      >
+        …
+      </svg>
     </button>
     …
   </div>
-  <textarea class="org-editor-textarea" aria-label name …></textarea>
+  <textarea
+    class="org-editor-textarea"
+    aria-label
+    name
+    …
+  ></textarea>
 </div>
 ```
 
@@ -107,13 +144,13 @@ are.
 
 ## Keyboard
 
-| Where    | Key                              | Action                                       |
-| -------- | -------------------------------- | -------------------------------------------- |
-| Toolbar  | `←` `→`                          | Move to the previous / next button (clamps). |
-| Toolbar  | `Home` `End`                     | First / last button.                         |
-| Toolbar  | `Tab`                            | Into the toolbar (one tab stop), then out.   |
-| Toolbar  | `Enter` `Space`                  | Apply the tool; focus returns to the text.   |
-| Textarea | `Ctrl`/`Cmd` + `B` `I` `U` `K`   | Bold, italic, underline, link.               |
+| Where    | Key                            | Action                                       |
+| -------- | ------------------------------ | -------------------------------------------- |
+| Toolbar  | `←` `→`                        | Move to the previous / next button (clamps). |
+| Toolbar  | `Home` `End`                   | First / last button.                         |
+| Toolbar  | `Tab`                          | Into the toolbar (one tab stop), then out.   |
+| Toolbar  | `Enter` `Space`                | Apply the tool; focus returns to the text.   |
+| Textarea | `Ctrl`/`Cmd` + `B` `I` `U` `K` | Bold, italic, underline, link.               |
 
 ## Undo and redo (checked in real browsers)
 

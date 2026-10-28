@@ -12,7 +12,10 @@ A box area that looks like a smart watch. Renders a decorative `<div>` container
 
 ```tsx
 <MockupWatch>
-  <img src="screenshot.png" alt="App screen" />
+  <img
+    src="screenshot.png"
+    alt="App screen"
+  />
 </MockupWatch>
 ```
 

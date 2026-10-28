@@ -25,15 +25,27 @@ This component is useful for scheduling interfaces, appointment forms, event pla
 ## Usage
 
 ```svelte
-<TimeInput label="Start time" bind:value />
+<TimeInput
+  label="Start time"
+  bind:value
+/>
 ```
 
 ```svelte
-<TimeInput label="Meeting time" bind:value={meetingTime} required={true} />
+<TimeInput
+  label="Meeting time"
+  bind:value={meetingTime}
+  required={true}
+/>
 ```
 
 ```svelte
-<TimeInput label="Deadline" bind:value={deadline} min="09:00" max="17:00" />
+<TimeInput
+  label="Deadline"
+  bind:value={deadline}
+  min="09:00"
+  max="17:00"
+/>
 ```
 
 ## Keyboard Interactions

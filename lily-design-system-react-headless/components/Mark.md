@@ -9,7 +9,9 @@ See [components/mark/index.md](../../components/mark/index.md) for the full comp
 ## Usage
 
 ```tsx
-<p>Found 3 results for <Mark>accessible</Mark> components.</p>
+<p>
+  Found 3 results for <Mark>accessible</Mark> components.
+</p>
 ```
 
 ## Contract

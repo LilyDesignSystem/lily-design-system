@@ -29,7 +29,7 @@ Default 1200px wrapper:
 
 ```html
 <ContainerWithFixedWidth>
-  <Article>...</Article>
+  <article>...</article>
 </ContainerWithFixedWidth>
 ```
 

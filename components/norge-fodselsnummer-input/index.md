@@ -23,8 +23,15 @@ NorgeFodselsnummerInput is a headless input for entering Norway's Fødselsnummer
 ## Usage
 
 ```html
-<Field label="Norwegian Birth Number" required>
-  <NorgeFodselsnummerInput label="Norwegian Birth Number" value={value} required />
+<Field
+  label="Norwegian Birth Number"
+  required
+>
+  <NorgeFodselsnummerInput
+    label="Norwegian Birth Number"
+    value="{value}"
+    required
+  />
   <Hint>11 digits where the first 6 represent the date of birth (DDMMYY)</Hint>
   <ErrorMessage>Please enter a valid Norwegian Birth Number</ErrorMessage>
 </Field>

@@ -36,72 +36,75 @@ Place inside `GanttTableHead`, `GanttTableBody`, or `GanttTableTfoot`. Add cells
 
 ```svelte
 <script lang="ts">
-    import GanttTableTr from "./GanttTableTr.svelte";
-    import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
+  import GanttTableTr from "./GanttTableTr.svelte";
+  import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
 </script>
 
 <GanttTableTr>
-    <th>Design</th>
-    <GanttTableTD active>---</GanttTableTD>
-    <GanttTableTD />
+  <th>Design</th>
+  <GanttTableTD active>---</GanttTableTD>
+  <GanttTableTD />
 </GanttTableTr>
 ```
 
 ```svelte
 <script lang="ts">
-    import GanttTableTr from "./GanttTableTr.svelte";
+  import GanttTableTr from "./GanttTableTr.svelte";
 </script>
 
 <GanttTableTr>
-    <th>Task</th><th>Week 1</th><th>Week 2</th><th>Week 3</th>
+  <th>Task</th><th>Week 1</th><th>Week 2</th><th>Week 3</th>
 </GanttTableTr>
 ```
 
 ```svelte
 <script lang="ts">
-    import GanttTableTr from "./GanttTableTr.svelte";
-    import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
-    const task = { name: "Build", periods: [false, true, true, false] };
+  import GanttTableTr from "./GanttTableTr.svelte";
+  import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
+  const task = { name: "Build", periods: [false, true, true, false] };
 </script>
 
 <GanttTableTr>
-    <th>{task.name}</th>
-    {#each task.periods as p}
-        <GanttTableTD active={p}>{p ? "---" : ""}</GanttTableTD>
-    {/each}
+  <th>{task.name}</th>
+  {#each task.periods as p}
+    <GanttTableTD active={p}>{p ? "---" : ""}</GanttTableTD>
+  {/each}
 </GanttTableTr>
 ```
 
 ```svelte
 <script lang="ts">
-    import GanttTableTr from "./GanttTableTr.svelte";
-    import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
+  import GanttTableTr from "./GanttTableTr.svelte";
+  import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
 </script>
 
-<GanttTableTr class="critical-path" data-testid="row-critical">
-    <th>Launch</th>
-    <GanttTableTD />
-    <GanttTableTD active>◆</GanttTableTD>
+<GanttTableTr
+  class="critical-path"
+  data-testid="row-critical"
+>
+  <th>Launch</th>
+  <GanttTableTD />
+  <GanttTableTD active>◆</GanttTableTD>
 </GanttTableTr>
 ```
 
 ```svelte
 <script lang="ts">
-    import GanttTableTr from "./GanttTableTr.svelte";
-    import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
-    const rows = [
-        { name: "Scope", active: [true] },
-        { name: "Build", active: [false] },
-    ];
+  import GanttTableTr from "./GanttTableTr.svelte";
+  import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
+  const rows = [
+    { name: "Scope", active: [true] },
+    { name: "Build", active: [false] },
+  ];
 </script>
 
 {#each rows as r}
-    <GanttTableTr>
-        <th>{r.name}</th>
-        {#each r.active as a}
-            <GanttTableTD active={a} />
-        {/each}
-    </GanttTableTr>
+  <GanttTableTr>
+    <th>{r.name}</th>
+    {#each r.active as a}
+      <GanttTableTD active={a} />
+    {/each}
+  </GanttTableTr>
 {/each}
 ```
 

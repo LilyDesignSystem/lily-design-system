@@ -16,18 +16,22 @@ For mobile-first contexts where the OS share sheet is preferable, prefer the nat
 
 ## Props
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `label` | string (required) | — | Accessible label for the share group (e.g. "Share this page") |
-| `url` | string (required) | — | URL to share |
-| `title` | string | — | Page title shared alongside the URL |
-| `services` | array of `{ id: string; label: string; href?: string; onClick?: () => void }` | [email, copy, x, facebook] | Services to render |
-| `...restProps` | HTML attributes | — | Spread onto the root `<div>` |
+| Prop           | Type                                                                          | Default                    | Description                                                   |
+| -------------- | ----------------------------------------------------------------------------- | -------------------------- | ------------------------------------------------------------- |
+| `label`        | string (required)                                                             | —                          | Accessible label for the share group (e.g. "Share this page") |
+| `url`          | string (required)                                                             | —                          | URL to share                                                  |
+| `title`        | string                                                                        | —                          | Page title shared alongside the URL                           |
+| `services`     | array of `{ id: string; label: string; href?: string; onClick?: () => void }` | [email, copy, x, facebook] | Services to render                                            |
+| `...restProps` | HTML attributes                                                               | —                          | Spread onto the root `<div>`                                  |
 
 ## Usage
 
 ```html
-<SharePage label="Share this page" url={pageUrl} title={pageTitle} />
+<SharePage
+  label="Share this page"
+  url="{pageUrl}"
+  title="{pageTitle}"
+/>
 ```
 
 ## Keyboard Interactions

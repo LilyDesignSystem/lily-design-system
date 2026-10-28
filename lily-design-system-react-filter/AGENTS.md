@@ -10,12 +10,12 @@ MongoDB, OData or a predicate. Ships no CSS and no English text. Controlled with
 
 ## Files
 
-| File | Purpose |
-| ---- | ------- |
-| `Filter.tsx` | The component. |
-| `Filter.test.tsx` | Vitest spec, one test per Svelte §8 clause. |
-| `filter-model.ts`, `search-text.ts` (+ tests) | Pure model, copied from `shared/`. |
-| `index.ts` | Barrel re-export. |
+| File                                          | Purpose                                     |
+| --------------------------------------------- | ------------------------------------------- |
+| `Filter.tsx`                                  | The component.                              |
+| `Filter.test.tsx`                             | Vitest spec, one test per Svelte §8 clause. |
+| `filter-model.ts`, `search-text.ts` (+ tests) | Pure model, copied from `shared/`.          |
+| `index.ts`                                    | Barrel re-export.                           |
 
 ## Rules
 

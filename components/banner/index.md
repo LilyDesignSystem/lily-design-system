@@ -32,8 +32,9 @@ Banners may be persistent or dismissible, depending on the message's importance.
 ```html
 <!-- Information banner for a service-wide delay -->
 <Banner type="info">
-  <p>You have 7 days left to send your application.
-  <a href="/applications">View application</a>.</p>
+  <p>
+    You have 7 days left to send your application. <a href="/applications">View application</a>.
+  </p>
 </Banner>
 
 <!-- Success banner confirming a completed action -->
@@ -42,7 +43,12 @@ Banners may be persistent or dismissible, depending on the message's importance.
 </Banner>
 
 <!-- Dismissible warning banner with callback -->
-<Banner type="warning" dismissible closeLabel="Dismiss warning" onclose={handleDismiss}>
+<Banner
+  type="warning"
+  dismissible
+  closeLabel="Dismiss warning"
+  onclose="{handleDismiss}"
+>
   <p>Planned maintenance is scheduled for Saturday 12 April from 09:00 to 13:00.</p>
 </Banner>
 ```
@@ -76,14 +82,11 @@ Banners may be persistent or dismissible, depending on the message's importance.
 
 This component provides `role="region"` with `aria-live="polite"`, a `data-type` attribute for semantic variants, optional dismiss button with `aria-label`, and visibility state management, all with zero visual styling. The consumer is responsible for all CSS including background colors, text styling, dismiss button appearance, full-width layout, and position (sticky, fixed, or static).
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.banner` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `banner`
 - Verify role="region"` -- establishes the banner as a landmark region for assistive technology navigation

@@ -101,10 +101,7 @@ export const config = mergeApplicationConfig(appConfig, {
       const doc = inject(DOCUMENT);
       const code = inject(INITIAL_LOCALE);
       doc.documentElement.setAttribute("lang", bcp47LocaleTag(code));
-      doc.documentElement.setAttribute(
-        "dir",
-        isRtlLocale(code) ? "rtl" : "ltr",
-      );
+      doc.documentElement.setAttribute("dir", isRtlLocale(code) ? "rtl" : "ltr");
     }),
   ],
 });
@@ -347,8 +344,7 @@ function pickFromAcceptLanguage(header: string | undefined): string {
 export default defineEventHandler((event) => {
   const cookie = getCookie(event, "locale");
   event.context.locale =
-    cookie ??
-    pickFromAcceptLanguage(getRequestHeader(event, "accept-language"));
+    cookie ?? pickFromAcceptLanguage(getRequestHeader(event, "accept-language"));
 });
 ```
 

@@ -91,33 +91,33 @@ cells are `<DataTableTH scope="row">`.
 
 ## 5. Props
 
-| Prop                | Type                                                                  | Required | Default    |
-| ------------------- | ---------------------------------------------------------------------- | -------- | ---------- |
-| `label`              | `string`                                                                | yes      | —          |
-| `columns`            | `DataGridColumn[]`                                                     | yes      | —          |
-| `rows`               | `Record<string, unknown>[]`                                            | yes      | —          |
-| `caption`            | `string`                                                                | no       | —          |
-| `rowId`              | `(row, index) => string` — `index` is the row's position in `rows`    | no       | `String(index)` |
-| `selectionMode`      | `"none" \| "single" \| "multiple"`                                      | no       | `"none"`   |
-| `selected`           | `string[]`, bindable                                                    | no       | `[]`       |
-| `onSelectionChange`  | `(ids: string[]) => void`                                               | no       | —          |
-| `filter`             | `string`, bindable                                                      | no       | `""`       |
-| `onFilterChange`     | `(filter: string) => void`                                              | no       | —          |
-| `sort`               | `{ columnId: string; direction: "ascending"\|"descending"\|"none" }`, bindable | no       | `{ columnId: "", direction: "none" }` |
-| `onSortChange`       | `(sort) => void`                                                        | no       | —          |
-| `pageSize`           | `number`                                                                | no       | —          |
-| `page`               | `number`, bindable                                                      | no       | `1`        |
-| `storageKey`         | `string`                                                                | no       | —          |
-| `labels`             | `DataGridLabels`                                                        | no       | `{}`       |
-| `mode`               | `"grid" \| "table"` — `"table"` is a plain sortable/filterable/pageable table with ordinary tab stops and no grid keyboard model (§6 "Table mode") | no       | `"grid"`   |
-| `rowClass`           | `(row) => string` — extra class on each body row                         | no       | —          |
-| `rowAttrs`           | `(row) => Record<string, unknown>` — extra attributes on each body row (e.g. `data-testid`) | no | —          |
-| `onRowActivate`      | `(row, id) => void` — Enter on a body cell with no widget in it, or a click outside any widget | no | —          |
-| `empty`              | `Snippet` — shown in one row spanning every column when no row matches   | no       | —          |
-| `footer`             | `Snippet<[{ columns, rows }]>` — rendered inside a `<tfoot>`; the consumer supplies its rows | no | —          |
-| `busy`               | `boolean` — sets `aria-busy` on the table                                | no       | `false`    |
-| `scroll`             | `boolean` — wrap the table in a scrollable `data-grid-scroll` region     | no       | `true`     |
-| `class`              | `string`                                                                | no       | `""`       |
+| Prop                | Type                                                                                                                                               | Required | Default                               |
+| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ------------------------------------- |
+| `label`             | `string`                                                                                                                                           | yes      | —                                     |
+| `columns`           | `DataGridColumn[]`                                                                                                                                 | yes      | —                                     |
+| `rows`              | `Record<string, unknown>[]`                                                                                                                        | yes      | —                                     |
+| `caption`           | `string`                                                                                                                                           | no       | —                                     |
+| `rowId`             | `(row, index) => string` — `index` is the row's position in `rows`                                                                                 | no       | `String(index)`                       |
+| `selectionMode`     | `"none" \| "single" \| "multiple"`                                                                                                                 | no       | `"none"`                              |
+| `selected`          | `string[]`, bindable                                                                                                                               | no       | `[]`                                  |
+| `onSelectionChange` | `(ids: string[]) => void`                                                                                                                          | no       | —                                     |
+| `filter`            | `string`, bindable                                                                                                                                 | no       | `""`                                  |
+| `onFilterChange`    | `(filter: string) => void`                                                                                                                         | no       | —                                     |
+| `sort`              | `{ columnId: string; direction: "ascending"\|"descending"\|"none" }`, bindable                                                                     | no       | `{ columnId: "", direction: "none" }` |
+| `onSortChange`      | `(sort) => void`                                                                                                                                   | no       | —                                     |
+| `pageSize`          | `number`                                                                                                                                           | no       | —                                     |
+| `page`              | `number`, bindable                                                                                                                                 | no       | `1`                                   |
+| `storageKey`        | `string`                                                                                                                                           | no       | —                                     |
+| `labels`            | `DataGridLabels`                                                                                                                                   | no       | `{}`                                  |
+| `mode`              | `"grid" \| "table"` — `"table"` is a plain sortable/filterable/pageable table with ordinary tab stops and no grid keyboard model (§6 "Table mode") | no       | `"grid"`                              |
+| `rowClass`          | `(row) => string` — extra class on each body row                                                                                                   | no       | —                                     |
+| `rowAttrs`          | `(row) => Record<string, unknown>` — extra attributes on each body row (e.g. `data-testid`)                                                        | no       | —                                     |
+| `onRowActivate`     | `(row, id) => void` — Enter on a body cell with no widget in it, or a click outside any widget                                                     | no       | —                                     |
+| `empty`             | `Snippet` — shown in one row spanning every column when no row matches                                                                             | no       | —                                     |
+| `footer`            | `Snippet<[{ columns, rows }]>` — rendered inside a `<tfoot>`; the consumer supplies its rows                                                       | no       | —                                     |
+| `busy`              | `boolean` — sets `aria-busy` on the table                                                                                                          | no       | `false`                               |
+| `scroll`            | `boolean` — wrap the table in a scrollable `data-grid-scroll` region                                                                               | no       | `true`                                |
+| `class`             | `string`                                                                                                                                           | no       | `""`                                  |
 
 `DataGridColumn`: `id` (required), `header` (required), `accessor?:
 (row) => unknown` (default `row[id]`), `format?: (value, row) =>
@@ -226,7 +226,7 @@ changing `page` re-renders only `DataTableBody`.
 
 **Keyboard** follows the WAI-ARIA APG Grid pattern's roving-tabindex
 model (never `aria-activedescendant` — the browser auto-scrolls a
-focused *element* into view, which an `aria-activedescendant` cursor
+focused _element_ into view, which an `aria-activedescendant` cursor
 does not get for free). Exactly one cell in the whole grid carries
 `tabindex="0"` at a time; every other cell carries `tabindex="-1"`.
 The selection column, when present, is grid column `0`; data columns
@@ -407,7 +407,7 @@ Keys pressed on a widget inside a cell are never swallowed (§6).
   cell with a `tabindex`, no grid key handling, and sort buttons and
   selection inputs without `tabindex="-1"`.
 - §8.28 A `rowHeader` column's body cells are `<th scope="row"
-  role="rowheader">`.
+role="rowheader">`.
 - §8.29 `rowClass`, `rowAttrs`, a column's `cellClass`, `cellAttrs` and
   `align` reach the DOM on every body row and cell.
 - §8.30 A column's `headerCell` snippet replaces the header text, inside
@@ -451,7 +451,7 @@ and is the deciding constraint, not performance.
 
 `DataGrid` is the first helper to depend on `@lilydesignsystem/svelte-headless`
 rather than being fully self-contained — a new composition shape,
-distinct from `picker-bar` (which composes sibling *helpers*, not a
+distinct from `picker-bar` (which composes sibling _helpers_, not a
 headless dependency). It reuses `DataTableTD`'s existing `active` prop
 for body-cell roving tabindex rather than re-deriving that logic, and
 follows every other helper's established rules: headless (no bundled
@@ -469,21 +469,21 @@ numbers are the author's own, on a dataset whose size and hardware
 were not stated — treat them as direction, not a benchmark. What Lily
 took from it:
 
-- *A data grid is a reactivity problem first.* The goal is to repaint
+- _A data grid is a reactivity problem first._ The goal is to repaint
   only the cells that changed. Lily's response: stable, position-in-`rows`
   row ids and a keyed body `{#each}` (§6 "Row identity", §8.17).
-- *Deep proxies are the dominant cost at scale.* Svelte's deep `$state`
+- _Deep proxies are the dominant cost at scale._ Svelte's deep `$state`
   proxy suits forms and costs heavily on tens of thousands of rows;
   moving the row backing to `$state.raw` (array reference reactive,
   contents not) took sort-and-filter from ~80ms to ~6ms. Lily's
   response: `$state.raw` for the grid's own wholesale-replaced view
   state, and consumer guidance to hold `rows` the same way (§6).
-- *Typed snippets beat slots for cell renderers.* Passing a snippet on
+- _Typed snippets beat slots for cell renderers._ Passing a snippet on
   the column definition keeps the cell's arguments typechecked all the
   way through. Lily's response: `DataGridColumn.cell` (§5, §8.19).
-- *Measure before paint with `$effect.pre`.* Only relevant to
+- _Measure before paint with `$effect.pre`._ Only relevant to
   virtualization, which stays a non-goal; recorded in §9 for v2.
-- *Separate headless core from render component.* Lily already does
+- _Separate headless core from render component._ Lily already does
   this at a higher level: `data-grid` owns state and behaviour and the
   headless `DataTable` family owns the markup (§3).
 
@@ -523,7 +523,7 @@ Tests §8.57–§8.74 (`export-data.test.ts` and `DataGrid.test.ts`). The format
 
 - **What is exported**: the visible columns, in display order, minus `exportable: false` ones; the rows the filter leaves, in the current sort, across **every page** (`exportScope="selected"`: only the selected rows). Hidden columns are never exported. A cell is its `column.exportValue(row)` when given; otherwise a number, boolean or `Date` as itself and anything else as the text the grid shows (so `format` applies to text, while numbers stay numbers in Excel and are never locale-formatted).
 - **Buttons**: `labels.exportCsv`, `exportTsv`, `exportExcel` each gate one `button.data-grid-export-button[data-grid-export-format]` in `div.data-grid-export[role=group]` named by `labels.export`, inside the toolbar. They are disabled with no rows. After the file is built `onExport({ format, filename, rowCount, blob })` runs; returning `false` stops the save (to upload the blob, say); otherwise the file is saved through a temporary link and `labels.exportAnnouncement(format, rowCount, filename)` is announced. File name: `exportFilename` (default `data-grid`) plus the extension, never doubled, with `\/:*?"<>|` replaced.
-- **CSV / TSV** (RFC 4180): CRLF lines; a field is quoted when it holds the delimiter, a quote or a line break; quotes double. The grid's files start with a UTF-8 byte-order mark so Excel reads accents correctly (`bom` is off in the pure functions). **Formula injection**: a *string* starting with `=`, `+`, `-`, `@`, tab or CR gets a leading `'` (`safe`, default on); numbers and booleans, being typed, are never touched.
+- **CSV / TSV** (RFC 4180): CRLF lines; a field is quoted when it holds the delimiter, a quote or a line break; quotes double. The grid's files start with a UTF-8 byte-order mark so Excel reads accents correctly (`bom` is off in the pure functions). **Formula injection**: a _string_ starting with `=`, `+`, `-`, `@`, tab or CR gets a leading `'` (`safe`, default on); numbers and booleans, being typed, are never touched.
 - **Excel**: a real .xlsx — a ZIP, stored without compression, of `[Content_Types].xml`, `_rels/.rels`, `xl/workbook.xml` (+ rels), `xl/styles.xml` and one worksheet; no dependency and a fixed ZIP timestamp, so the same table gives the same bytes. Text is an inline string (so `=1+1` stays text), numbers are numeric, booleans typed, a `Date` is a serial number with a date or date-time format, and empty cells are omitted. The header row is bold and frozen; the sheet name is `exportFilename` cleaned of `[]:*?/\` and cut to 31 characters. Verified against openpyxl.
 - **Not included**: multiple sheets, column widths, number formats beyond dates, CSV import, copy-to-clipboard.
 
@@ -570,7 +570,7 @@ The matching is the pure `typeahead.ts` (`isTypeaheadKey`, `nextTypeaheadState`,
 - **Field-specific search.** `filterField` (bindable, `onFilterFieldChange`) limits the text filter to one column; `labels.searchField` (the select's name) with `labels.searchAllFields` (its first option) shows the select, listing the filterable columns. Without a field the whole row is searched.
 - **`movableColumns`** makes every column movable (Alt+Arrow on the header, or drag), unless a column's `movable` is `false`.
 - **Right-to-left.** The horizontal arrows are visual, so in a right-to-left layout (the nearest `dir`, else the computed direction) ArrowLeft goes to the next cell and ArrowRight to the previous, and Alt+Arrow moves a column the way the arrow points. Vertical keys, Home, End and the page keys do not change. The pure `isRtl` / `logicalKey` are exported.
-- **Labels.** `DataGridLabels` is the one bundle of every string. What each feature needs is listed in `CONTROL_LABELS` (labels that *name a control*) and `ANNOUNCEMENT_LABELS` (live-region messages), and `requiredLabels(features)` / `missingLabels(features, labels)` compute it, so an app can assert in a test that its bundle for a locale is complete. In development the grid logs once, naming the labels its features call for that `labels` leaves out (`warnMissingLabels={false}` silences it; it never logs in production). Lily has no English fallback: a missing label is a control with no name or an announcement never made. `sortAnnouncement` receives the ARIA token (`ascending`, `descending`, `none`), which the bundle turns into its own words.
+- **Labels.** `DataGridLabels` is the one bundle of every string. What each feature needs is listed in `CONTROL_LABELS` (labels that _name a control_) and `ANNOUNCEMENT_LABELS` (live-region messages), and `requiredLabels(features)` / `missingLabels(features, labels)` compute it, so an app can assert in a test that its bundle for a locale is complete. In development the grid logs once, naming the labels its features call for that `labels` leaves out (`warnMissingLabels={false}` silences it; it never logs in production). Lily has no English fallback: a missing label is a control with no name or an announcement never made. `sortAnnouncement` receives the ARIA token (`ascending`, `descending`, `none`), which the bundle turns into its own words.
 - **Row attributes.** `rowAttrs(row)` returns attributes spread onto each body row — the way to put test ids (`data-testid`), data attributes and other hooks on rows (`rowAttrs={(row) => ({ "data-testid": `row-${row.id}` })}`); `rowClass` does the same for classes, and a column's `cellAttrs` / `cellClass` for cells.
 
 Tests §8.117–§8.148.

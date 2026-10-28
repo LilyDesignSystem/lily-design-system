@@ -32,10 +32,13 @@ components/{kebab-case}/macro.test.js    ← vitest render test
 ```js
 import nunjucks from "nunjucks";
 
-nunjucks.configure([
-  "node_modules/@lilydesignsystem/nunjucks-headless",
-  "views", // your own templates
-], { autoescape: true });
+nunjucks.configure(
+  [
+    "node_modules/@lilydesignsystem/nunjucks-headless",
+    "views", // your own templates
+  ],
+  { autoescape: true },
+);
 ```
 
 ## The macro-call idiom
@@ -58,12 +61,12 @@ Shared `params` keys every macro recognises (component-specific params add
 to this set — check the component's own `macro.njk` header comment or its
 `AGENTS.md`):
 
-| Key          | Meaning                                                                 |
-| ------------ | ------------------------------------------------------------------------ |
-| `text`       | Plain text content — auto-escaped.                                     |
-| `html`       | Raw HTML content — rendered via the `| safe` filter. Sanitise before passing untrusted input; Nunjucks does not do it for you. |
-| `label`      | Accessible name — becomes `aria-label`, or pairs with `labelledBy` where a visible heading already names the element. |
-| `classes`    | Consumer-supplied extra CSS classes, appended after the kebab-case base class. This is the class-hook contract every Lily catalog shares — see `AGENTS/headless.md`. |
+| Key          | Meaning                                                                                                                                                                                                                      |
+| ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `text`       | Plain text content — auto-escaped.                                                                                                                                                                                           |
+| `html`       | Raw HTML content — rendered via the `                                                                                                                                                                                        | safe` filter. Sanitise before passing untrusted input; Nunjucks does not do it for you. |
+| `label`      | Accessible name — becomes `aria-label`, or pairs with `labelledBy` where a visible heading already names the element.                                                                                                        |
+| `classes`    | Consumer-supplied extra CSS classes, appended after the kebab-case base class. This is the class-hook contract every Lily catalog shares — see `AGENTS/headless.md`.                                                         |
 | `attributes` | An object of arbitrary extra HTML attributes (`id`, `data-*`, ARIA overrides) rendered as `key="value"` pairs on the root element — the Nunjucks equivalent of the rest-props pattern other frameworks spread onto the root. |
 
 Because Nunjucks does not allow hyphens in identifiers, **macro names are

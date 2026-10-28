@@ -30,7 +30,9 @@ Footnote linked from main content via superscript:
 
 ```html
 <!-- In-page link from main content to footnote -->
-<p>This claim is supported by research.<a href="#fn1"><sup>1</sup></a></p>
+<p>
+  This claim is supported by research.<a href="#fn1"><sup>1</sup></a>
+</p>
 
 <!-- Footnote at the bottom of the page or section -->
 <Footnote id="fn1">
@@ -41,8 +43,10 @@ Footnote linked from main content via superscript:
 Multiple footnotes in a clinical guideline:
 
 ```html
-<p>Blood pressure should be measured at every visit.<a href="#fn1"><sup>1</sup></a>
-   Patients with readings above 140/90 mmHg require follow-up.<a href="#fn2"><sup>2</sup></a></p>
+<p>
+  Blood pressure should be measured at every visit.<a href="#fn1"><sup>1</sup></a> Patients with
+  readings above 140/90 mmHg require follow-up.<a href="#fn2"><sup>2</sup></a>
+</p>
 
 <Separator label="Footnotes" />
 
@@ -80,14 +84,11 @@ None -- this component is a passive container. Keyboard navigation is handled by
 
 This headless component provides an `<aside>` with `role="note"` and an `id` for in-page linking from superscript reference markers. The consumer provides all visual styling including indentation, font size, numbering, and separator lines.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.footnote` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<span>` element with class `footnote`
 - Verify role="note"` -- indicates supplementary content that is related to the main content

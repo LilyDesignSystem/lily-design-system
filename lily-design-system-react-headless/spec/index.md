@@ -42,14 +42,14 @@ host (Next.js, Vite + React, Remix, Storybook, plain SPA).
 
 ### Framework + tooling
 
-| Concern             | Choice                                      |
-| ------------------- | ------------------------------------------- |
-| UI framework        | React 19 (functional components, hooks)     |
-| Language            | TypeScript                                  |
-| Package manager     | pnpm                                        |
-| Test runner         | vitest + @testing-library/react + jsdom     |
-| Storybook           | yes — `*.stories.tsx` per component         |
-| i18n                | none — consumer-supplied via props          |
+| Concern         | Choice                                  |
+| --------------- | --------------------------------------- |
+| UI framework    | React 19 (functional components, hooks) |
+| Language        | TypeScript                              |
+| Package manager | pnpm                                    |
+| Test runner     | vitest + @testing-library/react + jsdom |
+| Storybook       | yes — `*.stories.tsx` per component     |
+| i18n            | none — consumer-supplied via props      |
 
 ### React 19 conventions
 
@@ -268,16 +268,16 @@ pnpm run storybook                   # run Storybook
 
 ## 10. Prohibited
 
-| Prohibition                       | Reason                              |
-| --------------------------------- | ----------------------------------- |
-| Next.js imports (`next/*`)        | this library is framework-only      |
-| `<style>`, `import "*.css"`       | headless: zero CSS                  |
-| `@testing-library/jest-dom`       | vitest matchers only                |
-| Class components                  | functional only                     |
-| Tailwind, DaisyUI, styled-comp    | no CSS framework dependency         |
-| Bundled fonts, images, icons      | consumer supplies all assets        |
-| Hardcoded user-facing strings     | i18n is the consumer's concern      |
-| Lowercase callback names          | use `onClick` not `onclick`         |
+| Prohibition                    | Reason                         |
+| ------------------------------ | ------------------------------ |
+| Next.js imports (`next/*`)     | this library is framework-only |
+| `<style>`, `import "*.css"`    | headless: zero CSS             |
+| `@testing-library/jest-dom`    | vitest matchers only           |
+| Class components               | functional only                |
+| Tailwind, DaisyUI, styled-comp | no CSS framework dependency    |
+| Bundled fonts, images, icons   | consumer supplies all assets   |
+| Hardcoded user-facing strings  | i18n is the consumer's concern |
+| Lowercase callback names       | use `onClick` not `onclick`    |
 
 ## 11. Tracking
 

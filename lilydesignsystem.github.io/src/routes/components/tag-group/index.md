@@ -53,14 +53,11 @@ None -- this component is a passive container. Keyboard behavior depends on the 
 
 This headless component renders a `<div>` with `role="group"` and `aria-label` to semantically associate child tag elements. It provides grouping semantics for assistive technologies. The consumer provides all visual styling including layout (flex, grid, wrap), spacing, and gap between tags.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.tag-group` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `tag-group`
 - Verify role="group"` -- identifies the container as a semantic grouping of related elements

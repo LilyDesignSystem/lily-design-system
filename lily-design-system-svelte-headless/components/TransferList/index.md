@@ -37,19 +37,39 @@ A headless Svelte 5 component inspired by [Ant Design Transfer](https://ant.desi
 
 ```svelte
 <script lang="ts">
-  import TransferList from './TransferList.svelte';
+  import TransferList from "./TransferList.svelte";
 </script>
 
-<TransferList label="Roles" sourceLabel="Available" targetLabel="Selected">
+<TransferList
+  label="Roles"
+  sourceLabel="Available"
+  targetLabel="Selected"
+>
   {#snippet source()}
-    <ul role="listbox" aria-label="Available">…</ul>
+    <ul
+      role="listbox"
+      aria-label="Available"
+    >
+      …
+    </ul>
   {/snippet}
   {#snippet actions()}
-    <button type="button" aria-label="Move right">→</button>
-    <button type="button" aria-label="Move left">←</button>
+    <button
+      type="button"
+      aria-label="Move right">→</button
+    >
+    <button
+      type="button"
+      aria-label="Move left">←</button
+    >
   {/snippet}
   {#snippet target()}
-    <ul role="listbox" aria-label="Selected">…</ul>
+    <ul
+      role="listbox"
+      aria-label="Selected"
+    >
+      …
+    </ul>
   {/snippet}
 </TransferList>
 ```

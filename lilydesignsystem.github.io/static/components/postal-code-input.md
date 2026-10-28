@@ -29,36 +29,73 @@ This component is useful in address forms, checkout flows, shipping calculators,
 Basic postal code input:
 
 ```html
-<PostalCodeInput label="Postal code" value={postalCode} />
+<PostalCodeInput
+  label="Postal code"
+  value="{postalCode}"
+/>
 ```
 
 Required ZIP code input for a US address form:
 
 ```html
-<PostalCodeInput label="ZIP code" value={zipCode} required placeholder="90210" />
+<PostalCodeInput
+  label="ZIP code"
+  value="{zipCode}"
+  required
+  placeholder="90210"
+/>
 ```
 
 UK postcode input with placeholder format hint:
 
 ```html
-<PostalCodeInput label="Postcode" value={postcode} placeholder="SW1A 1AA" />
+<PostalCodeInput
+  label="Postcode"
+  value="{postcode}"
+  placeholder="SW1A 1AA"
+/>
 ```
 
 Postal code input within an address form:
 
 ```html
-<Form label="Shipping address" onsubmit={handleSubmit}>
-  <Field label="Street address" required>
-    <TextInput label="Street address" value={street} required />
+<form
+  label="Shipping address"
+  onsubmit="{handleSubmit}"
+>
+  <Field
+    label="Street address"
+    required
+  >
+    <TextInput
+      label="Street address"
+      value="{street}"
+      required
+    />
   </Field>
-  <Field label="City" required>
-    <TextInput label="City" value={city} required />
+  <Field
+    label="City"
+    required
+  >
+    <TextInput
+      label="City"
+      value="{city}"
+      required
+    />
   </Field>
-  <Field label="Postcode" required>
-    <PostalCodeInput label="Postcode" value={postcode} required placeholder="SW1A 1AA" />
+  <Field
+    label="Postcode"
+    required
+  >
+    <PostalCodeInput
+      label="Postcode"
+      value="{postcode}"
+      required
+      placeholder="SW1A 1AA"
+    />
   </Field>
-  <Button type="submit">Save address</Button>
-</Form>
+  <button type="submit">Save address</button>
+</form>
 ```
 
 ## Keyboard Interactions
@@ -86,17 +123,14 @@ None beyond native input behavior -- standard text editing keys (typing, backspa
 
 The PostalCodeInput headless component provides a native `<input type="text">` with `autocomplete="postal-code"`, `aria-label` for accessible naming, and two-way value binding. The consumer provides all visual styling, validation patterns, placeholder text, and layout.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.postal-code-input` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
 
-
 - Verify the component renders a `<input>` element with class `postal-code-input`
-- Verify aria-label={label}` -- provides an accessible name for the input since no visible `<label>` element is included
+- Verify aria-label={label}`-- provides an accessible name for the input since no visible`<label>` element is included
 - Verify pass-through attributes are applied
 
 ## Advice

@@ -10,7 +10,7 @@ See [components/contents-link/index.md](../../../components/contents-link/index.
 
 ```svelte
 <script lang="ts">
-    import ContentsLink from "./ContentsLink.svelte";
+  import ContentsLink from "./ContentsLink.svelte";
 </script>
 
 <ContentsLink />

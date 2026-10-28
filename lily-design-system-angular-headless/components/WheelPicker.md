@@ -10,7 +10,11 @@ Full documentation: [components/wheel-picker/index.md](../../components/wheel-pi
 ## Usage
 
 ```html
-<lily-wheel-picker label="Month" [options]="months" [(value)]="month" />
+<lily-wheel-picker
+  label="Month"
+  [options]="months"
+  [(value)]="month"
+/>
 ```
 
 The keyboard model is `wheel-picker.ts`, a copy of `shared/wheel-picker.ts`.

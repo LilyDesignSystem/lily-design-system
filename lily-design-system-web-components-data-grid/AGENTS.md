@@ -16,14 +16,14 @@ Run `pnpm install`, `pnpm test`, `pnpm build` here; there are no Lily dependenci
 
 ## Files
 
-| File | Purpose |
-| --- | --- |
-| `spec/index.md` | Specification-driven contract (canonical). |
-| `data-grid.ts` | The custom element and its types. |
-| `cell-types.ts`, `export-data.ts` | Pure TypeScript, byte-for-byte copies of the Svelte modules. |
-| `data-grid.test.ts`, `export-data.test.ts` | Vitest + jsdom tests. |
-| `index.ts` | Barrel; registers `<lily-data-grid>`. |
-| `index.md` | User guide. |
+| File                                       | Purpose                                                      |
+| ------------------------------------------ | ------------------------------------------------------------ |
+| `spec/index.md`                            | Specification-driven contract (canonical).                   |
+| `data-grid.ts`                             | The custom element and its types.                            |
+| `cell-types.ts`, `export-data.ts`          | Pure TypeScript, byte-for-byte copies of the Svelte modules. |
+| `data-grid.test.ts`, `export-data.test.ts` | Vitest + jsdom tests.                                        |
+| `index.ts`                                 | Barrel; registers `<lily-data-grid>`.                        |
+| `index.md`                                 | User guide.                                                  |
 
 ## Public surface
 

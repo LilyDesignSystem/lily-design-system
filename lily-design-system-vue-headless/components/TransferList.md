@@ -22,11 +22,7 @@ A dual list box for moving items between two lists. Renders a `role="group"` con
 ## Usage
 
 ```vue
-<TransferList
-    label="Move items"
-    source-label="Available"
-    target-label="Selected"
->
+<TransferList label="Move items" source-label="Available" target-label="Selected">
     <template #source>
         <ul role="listbox">
             <li role="option">Apples</li>

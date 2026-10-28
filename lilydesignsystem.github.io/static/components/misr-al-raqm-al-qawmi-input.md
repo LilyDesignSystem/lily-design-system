@@ -23,9 +23,21 @@ MisrAlRaqmAlQawmiInput is a headless input for entering Egypt's الرقم ال�
 ## Usage
 
 ```html
-<Field label="الرقم القومي (Al-Raqm Al-Qawmi)" required>
-  <MisrAlRaqmAlQawmiInput label="الرقم القومي (Al-Raqm Al-Qawmi)" value={value} required />
-  <Hint>Fourteen digits. The first digit encodes century of birth (2 for 1900-1999, 3 for 2000-2099); the next six encode date of birth (YYMMDD); the next two encode governorate of birth/registration; the next four are a serial number whose own parity encodes sex (odd male, even female); the fourteenth digit is a check digit.</Hint>
+<Field
+  label="الرقم القومي (Al-Raqm Al-Qawmi)"
+  required
+>
+  <MisrAlRaqmAlQawmiInput
+    label="الرقم القومي (Al-Raqm Al-Qawmi)"
+    value="{value}"
+    required
+  />
+  <Hint
+    >Fourteen digits. The first digit encodes century of birth (2 for 1900-1999, 3 for 2000-2099);
+    the next six encode date of birth (YYMMDD); the next two encode governorate of
+    birth/registration; the next four are a serial number whose own parity encodes sex (odd male,
+    even female); the fourteenth digit is a check digit.</Hint
+  >
   <ErrorMessage>Please enter a valid الرقم القومي</ErrorMessage>
 </Field>
 ```

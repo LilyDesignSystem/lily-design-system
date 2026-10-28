@@ -25,9 +25,24 @@ Audio mixer with volume, bass, and treble controls:
 
 ```html
 <DialGroup label="Audio controls">
-  <Dial label="Volume" value={volume} min={0} max={100} />
-  <Dial label="Bass" value={bass} min={0} max={100} />
-  <Dial label="Treble" value={treble} min={0} max={100} />
+  <Dial
+    label="Volume"
+    value="{volume}"
+    min="{0}"
+    max="{100}"
+  />
+  <Dial
+    label="Bass"
+    value="{bass}"
+    min="{0}"
+    max="{100}"
+  />
+  <Dial
+    label="Treble"
+    value="{treble}"
+    min="{0}"
+    max="{100}"
+  />
 </DialGroup>
 ```
 
@@ -35,8 +50,19 @@ HVAC control panel:
 
 ```html
 <DialGroup label="Climate controls">
-  <Dial label="Temperature" value={temperature} min={16} max={30} step={0.5} />
-  <Dial label="Fan speed" value={fanSpeed} min={1} max={5} />
+  <Dial
+    label="Temperature"
+    value="{temperature}"
+    min="{16}"
+    max="{30}"
+    step="{0.5}"
+  />
+  <Dial
+    label="Fan speed"
+    value="{fanSpeed}"
+    min="{1}"
+    max="{5}"
+  />
 </DialGroup>
 ```
 

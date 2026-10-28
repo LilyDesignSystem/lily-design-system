@@ -77,11 +77,11 @@ runs. See [SSR and the first paint](#ssr-and-the-first-paint).
 
 ## Install
 
-| File | Purpose |
-| --- | --- |
-| `kanban-board.njk` | The Nunjucks macro. |
-| `kanban-board.client.js` | The ES-module runtime. |
-| `spec/index.md` / `index.md` | Documentation. |
+| File                         | Purpose                |
+| ---------------------------- | ---------------------- |
+| `kanban-board.njk`           | The Nunjucks macro.    |
+| `kanban-board.client.js`     | The ES-module runtime. |
+| `spec/index.md` / `index.md` | Documentation.         |
 
 Runtime dependencies: `nunjucks` ≥ 3 server-side; standard DOM APIs
 client-side. `@lilydesignsystem/nunjucks-headless` (kanban-table
@@ -200,15 +200,15 @@ would exceed a limit.
 
 ### Keyboard
 
-| Key | Where | Action |
-| --- | --- | --- |
-| `Arrow` keys | Grid cell | Move the roving-tabindex cursor; clamp at the grid's edges. |
-| `Home` / `End` | Grid cell | Jump to the first/last row of the current column. |
-| `Ctrl+Home` / `Ctrl+End` | Grid cell | Jump to the grid's first/last cell. |
-| `Enter` / `Space` | Grid cell | Open the focused card's move menu. |
-| `Arrow Up` / `Down` | Move menu | Move the active destination option; clamps. |
-| `Enter` / `Space` | Move menu | Choose the active option: move the card, close, refocus the button. |
-| `Escape` | Move menu | Close without moving. |
+| Key                      | Where     | Action                                                              |
+| ------------------------ | --------- | ------------------------------------------------------------------- |
+| `Arrow` keys             | Grid cell | Move the roving-tabindex cursor; clamp at the grid's edges.         |
+| `Home` / `End`           | Grid cell | Jump to the first/last row of the current column.                   |
+| `Ctrl+Home` / `Ctrl+End` | Grid cell | Jump to the grid's first/last cell.                                 |
+| `Enter` / `Space`        | Grid cell | Open the focused card's move menu.                                  |
+| `Arrow Up` / `Down`      | Move menu | Move the active destination option; clamps.                         |
+| `Enter` / `Space`        | Move menu | Choose the active option: move the card, close, refocus the button. |
+| `Escape`                 | Move menu | Close without moving.                                               |
 
 ## Styling
 
@@ -236,17 +236,17 @@ plus a dedicated regression suite for the shared-ref bug described in
 
 ## Files in this directory
 
-| File | Purpose |
-| --- | --- |
-| `spec/index.md` | Single source of truth — API, behaviour, tests. |
-| `AGENTS.md` | Fast-index pointer. |
-| `kanban-board.njk` | The macro. |
-| `kanban-board.client.js` | The ES-module runtime. |
-| `kanban-board.test.ts` | vitest suite covering every spec §9 item. |
-| `index.md` | This file. |
-| `docs/` | Deep-dive topic guides. |
-| `examples/` | Runnable Nunjucks templates. |
-| `CHANGELOG.md` | Version history. |
+| File                     | Purpose                                         |
+| ------------------------ | ----------------------------------------------- |
+| `spec/index.md`          | Single source of truth — API, behaviour, tests. |
+| `AGENTS.md`              | Fast-index pointer.                             |
+| `kanban-board.njk`       | The macro.                                      |
+| `kanban-board.client.js` | The ES-module runtime.                          |
+| `kanban-board.test.ts`   | vitest suite covering every spec §9 item.       |
+| `index.md`               | This file.                                      |
+| `docs/`                  | Deep-dive topic guides.                         |
+| `examples/`              | Runnable Nunjucks templates.                    |
+| `CHANGELOG.md`           | Version history.                                |
 
 ## License
 

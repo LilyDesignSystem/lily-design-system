@@ -23,17 +23,62 @@ A Net Promoter Score picker button is an individual button within a NetPromoterS
 
 ```html
 <NetPromoterScorePicker label="How likely are you to recommend us?">
-    <NetPromoterScorePickerButton value="0" label="0 - Not at all likely" onclick={handleClick} />
-    <NetPromoterScorePickerButton value="1" label="1" onclick={handleClick} />
-    <NetPromoterScorePickerButton value="2" label="2" onclick={handleClick} />
-    <NetPromoterScorePickerButton value="3" label="3" onclick={handleClick} />
-    <NetPromoterScorePickerButton value="4" label="4" onclick={handleClick} />
-    <NetPromoterScorePickerButton value="5" label="5" onclick={handleClick} />
-    <NetPromoterScorePickerButton value="6" label="6" onclick={handleClick} />
-    <NetPromoterScorePickerButton value="7" label="7" onclick={handleClick} />
-    <NetPromoterScorePickerButton value="8" label="8" selected onclick={handleClick} />
-    <NetPromoterScorePickerButton value="9" label="9" onclick={handleClick} />
-    <NetPromoterScorePickerButton value="10" label="10 - Extremely likely" onclick={handleClick} />
+  <NetPromoterScorePickerButton
+    value="0"
+    label="0 - Not at all likely"
+    onclick="{handleClick}"
+  />
+  <NetPromoterScorePickerButton
+    value="1"
+    label="1"
+    onclick="{handleClick}"
+  />
+  <NetPromoterScorePickerButton
+    value="2"
+    label="2"
+    onclick="{handleClick}"
+  />
+  <NetPromoterScorePickerButton
+    value="3"
+    label="3"
+    onclick="{handleClick}"
+  />
+  <NetPromoterScorePickerButton
+    value="4"
+    label="4"
+    onclick="{handleClick}"
+  />
+  <NetPromoterScorePickerButton
+    value="5"
+    label="5"
+    onclick="{handleClick}"
+  />
+  <NetPromoterScorePickerButton
+    value="6"
+    label="6"
+    onclick="{handleClick}"
+  />
+  <NetPromoterScorePickerButton
+    value="7"
+    label="7"
+    onclick="{handleClick}"
+  />
+  <NetPromoterScorePickerButton
+    value="8"
+    label="8"
+    selected
+    onclick="{handleClick}"
+  />
+  <NetPromoterScorePickerButton
+    value="9"
+    label="9"
+    onclick="{handleClick}"
+  />
+  <NetPromoterScorePickerButton
+    value="10"
+    label="10 - Extremely likely"
+    onclick="{handleClick}"
+  />
 </NetPromoterScorePicker>
 ```
 
@@ -62,14 +107,11 @@ A Net Promoter Score picker button is an individual button within a NetPromoterS
 
 This headless component renders a `<button>` with `aria-pressed` for toggle state and `aria-label` for accessible naming. The consumer provides all visual styling, including button size, color coding for Detractor/Passive/Promoter ranges, selected-state appearance, and hover effects.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.net-promoter-score-picker-button` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<button>` element with class `net-promoter-score-picker-button`
 - Verify aria-label` -- provides the accessible name for the button (e.g., "8")

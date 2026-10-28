@@ -23,24 +23,24 @@ writable `locale` store. The select writes to it via `bind:value`.
 
 ```svelte
 <script lang="ts">
-    import LocalePicker from "$lib/LocalePicker.svelte";
-    import { locale as i18nLocale, addMessages, init } from "svelte-i18n";
-    import en from "$lib/messages/en.json";
-    import fr from "$lib/messages/fr.json";
-    import ar from "$lib/messages/ar.json";
+  import LocalePicker from "$lib/LocalePicker.svelte";
+  import { locale as i18nLocale, addMessages, init } from "svelte-i18n";
+  import en from "$lib/messages/en.json";
+  import fr from "$lib/messages/fr.json";
+  import ar from "$lib/messages/ar.json";
 
-    addMessages("en", en);
-    addMessages("fr", fr);
-    addMessages("ar", ar);
-    init({ fallbackLocale: "en", initialLocale: "en" });
+  addMessages("en", en);
+  addMessages("fr", fr);
+  addMessages("ar", ar);
+  init({ fallbackLocale: "en", initialLocale: "en" });
 </script>
 
 <LocalePicker
-    label="Language"
-    locales={["en", "fr", "ar"]}
-    bind:value={$i18nLocale}
-    storageKey="app-locale"
-    detectFromNavigator
+  label="Language"
+  locales={["en", "fr", "ar"]}
+  bind:value={$i18nLocale}
+  storageKey="app-locale"
+  detectFromNavigator
 />
 ```
 
@@ -53,10 +53,10 @@ locale-dependent API response), add `onChange`:
 
 ```svelte
 <LocalePicker
-    label="Language"
-    locales={["en", "fr", "ar"]}
-    bind:value={$i18nLocale}
-    onChange={(code) => refetchCalendarEvents({ locale: code })}
+  label="Language"
+  locales={["en", "fr", "ar"]}
+  bind:value={$i18nLocale}
+  onChange={(code) => refetchCalendarEvents({ locale: code })}
 />
 ```
 
@@ -70,18 +70,18 @@ language via `setLocale()` / `getLocale()`.
 
 ```svelte
 <script lang="ts">
-    import LocalePicker from "$lib/LocalePicker.svelte";
-    import { setLocale, getLocale, type Locale } from "$lib/paraglide/runtime.js";
+  import LocalePicker from "$lib/LocalePicker.svelte";
+  import { setLocale, getLocale, type Locale } from "$lib/paraglide/runtime.js";
 
-    let current = $state<string>(getLocale());
+  let current = $state<string>(getLocale());
 </script>
 
 <LocalePicker
-    label="Language"
-    locales={["en", "fr", "ar"]}
-    bind:value={current}
-    onChange={(code) => setLocale(code as Locale)}
-    storageKey="paraglide-locale"
+  label="Language"
+  locales={["en", "fr", "ar"]}
+  bind:value={current}
+  onChange={(code) => setLocale(code as Locale)}
+  storageKey="paraglide-locale"
 />
 ```
 
@@ -91,15 +91,14 @@ need Svelte to re-render every node when the locale changes:
 
 ```svelte
 {#key current}
-    <h1>{m.greeting()}</h1>
-    <p>{m.body()}</p>
+  <h1>{m.greeting()}</h1>
+  <p>{m.body()}</p>
 {/key}
 ```
 
 For SvelteKit + Paraglide's URL-based locale strategy, drive the
 select from `$page.params.locale` and `onChange` calls
-`goto(\`/${code}\${$page.url.pathname.replace(/^\/[a-z-]+/, "")}\`)`
-instead of `setLocale`.
+`goto(\`/${code}\${$page.url.pathname.replace(/^\/[a-z-]+/, "")}\`)`instead of`setLocale`.
 
 ---
 
@@ -110,19 +109,19 @@ instead of `setLocale`.
 
 ```svelte
 <script lang="ts">
-    import LocalePicker from "$lib/LocalePicker.svelte";
-    import { getTolgeeContext } from "@tolgee/svelte";
+  import LocalePicker from "$lib/LocalePicker.svelte";
+  import { getTolgeeContext } from "@tolgee/svelte";
 
-    const { tolgee } = getTolgeeContext();
-    let current = $state(tolgee.getLanguage() ?? "en");
+  const { tolgee } = getTolgeeContext();
+  let current = $state(tolgee.getLanguage() ?? "en");
 </script>
 
 <LocalePicker
-    label="Language"
-    locales={["en", "fr", "ar"]}
-    bind:value={current}
-    onChange={(code) => tolgee.changeLanguage(code)}
-    storageKey="tolgee-locale"
+  label="Language"
+  locales={["en", "fr", "ar"]}
+  bind:value={current}
+  onChange={(code) => tolgee.changeLanguage(code)}
+  storageKey="tolgee-locale"
 />
 ```
 
@@ -139,25 +138,25 @@ directly. The select still owns the `lang` / `dir` lifecycle:
 
 ```svelte
 <script lang="ts">
-    import LocalePicker from "$lib/LocalePicker.svelte";
+  import LocalePicker from "$lib/LocalePicker.svelte";
 
-    let locale = $state("en");
+  let locale = $state("en");
 
-    const dateFmt = $derived(new Intl.DateTimeFormat(locale, { dateStyle: "long" }));
-    const numFmt = $derived(new Intl.NumberFormat(locale));
-    const currencyFmt = $derived(
-        new Intl.NumberFormat(locale, { style: "currency", currency: "GBP" }),
-    );
+  const dateFmt = $derived(new Intl.DateTimeFormat(locale, { dateStyle: "long" }));
+  const numFmt = $derived(new Intl.NumberFormat(locale));
+  const currencyFmt = $derived(
+    new Intl.NumberFormat(locale, { style: "currency", currency: "GBP" }),
+  );
 
-    const today = new Date();
-    const balance = 1234.56;
+  const today = new Date();
+  const balance = 1234.56;
 </script>
 
 <LocalePicker
-    label="Language"
-    locales={["en", "en-US", "fr", "fr-CA", "ar"]}
-    bind:value={locale}
-    storageKey="app-locale"
+  label="Language"
+  locales={["en", "en-US", "fr", "fr-CA", "ar"]}
+  bind:value={locale}
+  storageKey="app-locale"
 />
 
 <p>Today: {dateFmt.format(today)}</p>
@@ -216,23 +215,25 @@ cookie when you have a SvelteKit server:
 import type { Handle } from "@sveltejs/kit";
 
 export const handle: Handle = async ({ event, resolve }) => {
-    const locale = event.cookies.get("locale") ?? "en";
-    event.locals.locale = locale;
-    return resolve(event, {
-        transformPageChunk: ({ html }) =>
-            html.replace("%lang%", locale).replace(
-                "%dir%",
-                /^(ar|he|fa|ur|ps|sd)/.test(locale) ? "rtl" : "ltr",
-            ),
-    });
+  const locale = event.cookies.get("locale") ?? "en";
+  event.locals.locale = locale;
+  return resolve(event, {
+    transformPageChunk: ({ html }) =>
+      html
+        .replace("%lang%", locale)
+        .replace("%dir%", /^(ar|he|fa|ur|ps|sd)/.test(locale) ? "rtl" : "ltr"),
+  });
 };
 ```
 
 ```html
 <!-- src/app.html -->
 <!doctype html>
-<html lang="%lang%" dir="%dir%">
-    …
+<html
+  lang="%lang%"
+  dir="%dir%"
+>
+  …
 </html>
 ```
 
@@ -263,14 +264,14 @@ The page arrives with the correct `lang` and `dir` already on
 
 ## Picking the right strategy
 
-| Need                                       | Strategy                  |
-| ------------------------------------------ | ------------------------- |
-| One small SPA, English + French only       | Raw `Intl.*`              |
-| ICU MessageFormat, plurals, gender         | svelte-i18n               |
-| Tree-shaken type-safe messages, edge SSR   | Paraglide JS              |
-| Translator CMS, live editing, screenshots  | Tolgee                    |
-| SEO-friendly URLs per locale               | SvelteKit URL prefix      |
-| No FOUC, cookie-backed, server-rendered    | Cookie + `hooks.server.ts`|
+| Need                                      | Strategy                   |
+| ----------------------------------------- | -------------------------- |
+| One small SPA, English + French only      | Raw `Intl.*`               |
+| ICU MessageFormat, plurals, gender        | svelte-i18n                |
+| Tree-shaken type-safe messages, edge SSR  | Paraglide JS               |
+| Translator CMS, live editing, screenshots | Tolgee                     |
+| SEO-friendly URLs per locale              | SvelteKit URL prefix       |
+| No FOUC, cookie-backed, server-rendered   | Cookie + `hooks.server.ts` |
 
 The select is the same in every case. Only the `bind:value` target and
 the `onChange` body change.

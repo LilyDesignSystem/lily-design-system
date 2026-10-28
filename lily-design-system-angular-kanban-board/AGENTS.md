@@ -17,13 +17,13 @@ catalog package composes `KanbanTable` yet.
 
 ## Files
 
-| File                          | Purpose                                                |
-| ------------------------------ | ------------------------------------------------------- |
-| `spec/index.md`                | Specification-driven contract (canonical).             |
-| `kanban-board.component.ts`    | Implementation. Standalone component, signal inputs/outputs. |
+| File                             | Purpose                                                                 |
+| -------------------------------- | ----------------------------------------------------------------------- |
+| `spec/index.md`                  | Specification-driven contract (canonical).                              |
+| `kanban-board.component.ts`      | Implementation. Standalone component, signal inputs/outputs.            |
 | `kanban-board.component.spec.ts` | Vitest + TestBed spec, one or more assertions per §8 acceptance clause. |
-| `index.ts`                     | Barrel re-export.                                       |
-| `index.md`                     | User guide.                                             |
+| `index.ts`                       | Barrel re-export.                                                       |
+| `index.md`                       | User guide.                                                             |
 
 ## Public surface
 
@@ -81,7 +81,7 @@ consumer writes on `<lily-kanban-board>` land there, one level outside
   button, queried by a `data-card-id` attribute rather than a single
   shared `ViewChild` — a move button renders once per card inside a
   `@for` loop, so a naive shared reference resolves to whichever
-  card's button mounted *last*, not the one whose menu just closed.
+  card's button mounted _last_, not the one whose menu just closed.
   This was caught by strengthening the §8.8 test to assert the
   focused button's `aria-label` (not just its shared CSS class) — see
   the test's own comment and this catalog's rigor requirements.

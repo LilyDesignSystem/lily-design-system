@@ -10,17 +10,23 @@ A definition list displaying information in key-value format <dl>.
 
 ## Props
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `children` | slot (required) | — | `DescriptionListItem` children |
-| `...restProps` | HTML attributes | — | Spread onto the root `<dl>` |
+| Prop           | Type            | Default | Description                    |
+| -------------- | --------------- | ------- | ------------------------------ |
+| `children`     | slot (required) | —       | `DescriptionListItem` children |
+| `...restProps` | HTML attributes | —       | Spread onto the root `<dl>`    |
 
 ## Usage
 
 ```html
 <DescriptionList>
-  <DescriptionListItem term="Date of birth" description="14 January 1990" />
-  <DescriptionListItem term="Address" description="1 Example Road, London" />
+  <DescriptionListItem
+    term="Date of birth"
+    description="14 January 1990"
+  />
+  <DescriptionListItem
+    term="Address"
+    description="1 Example Road, London"
+  />
 </DescriptionList>
 ```
 

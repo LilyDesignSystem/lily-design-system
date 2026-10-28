@@ -25,7 +25,7 @@ Every example assumes:
 
 | #   | File                                                     | Demonstrates                                                                                  |
 | --- | -------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| 1   | [`01-basic.njk`](./01-basic.njk)                         | Minimal three-theme picker.                                                                  |
+| 1   | [`01-basic.njk`](./01-basic.njk)                         | Minimal three-theme picker.                                                                   |
 | 2   | [`02-custom-labels.njk`](./02-custom-labels.njk)         | `themeLabels` for i18n / display names.                                                       |
 | 3   | [`03-multiple-selects.njk`](./03-multiple-selects.njk)   | Two independent controls in one page via `name` + `target`.                                   |
 | 4   | [`04-persistence.njk`](./04-persistence.njk)             | `storageKey` survival across reloads.                                                         |

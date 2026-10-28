@@ -9,14 +9,14 @@ A headless Nunjucks macro page-links control: a single-icon button (a bundled ho
 
 ## Files
 
-| File | Purpose |
-| ---- | ------- |
-| `link-picker.njk` | Implementation. |
-| `link-picker.test.ts` | 25 tests mapped to the spec §7 clauses. |
-| `spec/index.md` | Contract and this port's differences. |
-| `index.md` | Guide. |
-| `docs/accessibility.md` | Trade-offs, stated plainly. |
-| `examples/` | Home / About Us / Contact Us / Privacy Policy, router integration, custom icon. |
+| File                    | Purpose                                                                         |
+| ----------------------- | ------------------------------------------------------------------------------- |
+| `link-picker.njk`       | Implementation.                                                                 |
+| `link-picker.test.ts`   | 25 tests mapped to the spec §7 clauses.                                         |
+| `spec/index.md`         | Contract and this port's differences.                                           |
+| `index.md`              | Guide.                                                                          |
+| `docs/accessibility.md` | Trade-offs, stated plainly.                                                     |
+| `examples/`             | Home / About Us / Contact Us / Privacy Policy, router integration, custom icon. |
 
 ## Surface
 

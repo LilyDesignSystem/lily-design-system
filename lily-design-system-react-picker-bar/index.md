@@ -88,8 +88,13 @@ detection, a `*Labels` override map, a custom glyph render prop:
 ```tsx
 <PickerBar
   labels={{
-    search: "Search this site", searchInput: "Search terms", searchSubmit: "Search",
-    theme: "Theme", locale: "Language", textSize: "Text size", share: "Share",
+    search: "Search this site",
+    searchInput: "Search terms",
+    searchSubmit: "Search",
+    theme: "Theme",
+    locale: "Language",
+    textSize: "Text size",
+    share: "Share",
   }}
   searchProps={{ action: "/search", placeholder: "Search…" }}
   themesUrl="/assets/themes/"

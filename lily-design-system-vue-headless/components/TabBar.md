@@ -14,10 +14,16 @@ Compound component: use with TabBarButton.
 
 ```svelte
 <TabBar label="Settings">
-  <TabBarButton selected={activeTab === "general"} controls="panel-general"
-    onclick={() => activeTab = "general"}>General</TabBarButton>
-  <TabBarButton selected={activeTab === "advanced"} controls="panel-advanced"
-    onclick={() => activeTab = "advanced"}>Advanced</TabBarButton>
+  <TabBarButton
+    selected={activeTab === "general"}
+    controls="panel-general"
+    onclick={() => (activeTab = "general")}>General</TabBarButton
+  >
+  <TabBarButton
+    selected={activeTab === "advanced"}
+    controls="panel-advanced"
+    onclick={() => (activeTab = "advanced")}>Advanced</TabBarButton
+  >
 </TabBar>
 ```
 

@@ -20,9 +20,9 @@ import { autoInit, localeName } from "./locale-picker.client.js";
 
 const status = document.querySelector(".locale-picker-status");
 autoInit({
-    onChange(code) {
-        status.textContent = `Active language: ${localeName(code)}`;
-    },
+  onChange(code) {
+    status.textContent = `Active language: ${localeName(code)}`;
+  },
 });
 ```
 
@@ -30,7 +30,7 @@ autoInit({
 on first paint and speaks on each subsequent change. That is intended:
 a page that announces its own language on load is noise.
 
-`localeName` resolves *English* names from the built-in table, which
+`localeName` resolves _English_ names from the built-in table, which
 suits an English-language page. For endonyms, look up your own
 `localeLabels` map instead.
 
@@ -63,16 +63,16 @@ server-side. Read the cookie in your request handler, pass it as
 ```js
 // Express-ish
 app.get("/*", (req, res) => {
-    const locale = req.cookies.locale || "en";
-    res.send(nunjucks.render("page.njk", { locale }));
+  const locale = req.cookies.locale || "en";
+  res.send(nunjucks.render("page.njk", { locale }));
 });
 ```
 
 ```js
 autoInit({
-    onChange(code) {
-        document.cookie = `locale=${encodeURIComponent(code)};path=/;max-age=31536000;samesite=lax`;
-    },
+  onChange(code) {
+    document.cookie = `locale=${encodeURIComponent(code)};path=/;max-age=31536000;samesite=lax`;
+  },
 });
 ```
 
@@ -91,12 +91,12 @@ anything. Wire `Intl` yourself in `onChange`.
 import { autoInit, bcp47LocaleTag } from "./locale-picker.client.js";
 
 function reformat(code) {
-    const tag = bcp47LocaleTag(code); // "en_US" -> "en-US"
-    for (const el of document.querySelectorAll("[data-date]")) {
-        el.textContent = new Intl.DateTimeFormat(tag, {
-            dateStyle: "long",
-        }).format(new Date(el.dataset.date));
-    }
+  const tag = bcp47LocaleTag(code); // "en_US" -> "en-US"
+  for (const el of document.querySelectorAll("[data-date]")) {
+    el.textContent = new Intl.DateTimeFormat(tag, {
+      dateStyle: "long",
+    }).format(new Date(el.dataset.date));
+  }
 }
 
 autoInit({ onChange: reformat });
@@ -114,15 +114,15 @@ DOM mutation.
 
 ```js
 autoInit({
-    onChange(code) {
-        const segments = location.pathname.split("/");
-        segments[1] = code;               // swap the locale segment
-        location.assign(segments.join("/"));
-    },
+  onChange(code) {
+    const segments = location.pathname.split("/");
+    segments[1] = code; // swap the locale segment
+    location.assign(segments.join("/"));
+  },
 });
 ```
 
-Persistence is usually unnecessary here: the URL *is* the state. Pass
+Persistence is usually unnecessary here: the URL _is_ the state. Pass
 the current locale as `value` from your template data so the control
 renders in agreement with the page it is on.
 
@@ -141,7 +141,7 @@ relayout its host.
 import { initLocalePicker } from "./locale-picker.client.js";
 
 initLocalePicker(document.querySelector("#preview-switcher"), {
-    target: document.querySelector("#preview"),
+  target: document.querySelector("#preview"),
 });
 ```
 
@@ -166,9 +166,9 @@ answer where you want it:
 import { autoInit, isRtlLocale } from "./locale-picker.client.js";
 
 autoInit({
-    onChange(code) {
-        myLayoutStore.setDirection(isRtlLocale(code) ? "rtl" : "ltr");
-    },
+  onChange(code) {
+    myLayoutStore.setDirection(isRtlLocale(code) ? "rtl" : "ltr");
+  },
 });
 ```
 
@@ -186,15 +186,12 @@ enable the opt — surface a dismissible offer instead:
 import { autoInit, matchNavigatorLanguage, localeName } from "./locale-picker.client.js";
 
 const controllers = autoInit();
-const guess = matchNavigatorLanguage(
-    Array.from(navigator.languages || []),
-    LOCALES,
-);
+const guess = matchNavigatorLanguage(Array.from(navigator.languages || []), LOCALES);
 
 if (guess && guess !== document.documentElement.lang) {
-    showBanner(`View this page in ${localeName(guess)}?`, () => {
-        controllers.forEach((c) => c.setLocale(guess));
-    });
+  showBanner(`View this page in ${localeName(guess)}?`, () => {
+    controllers.forEach((c) => c.setLocale(guess));
+  });
 }
 ```
 
@@ -215,7 +212,7 @@ names, or distinct explicit ids:
 ```
 
 Both will apply to the same target and stay consistent, because each
-runs `applyLocale` against the document root. What they will *not* do is
+runs `applyLocale` against the document root. What they will _not_ do is
 update each other's `aria-selected` — each client instance snapshots its
 own options. If both are visible at once, drive them together from a
 single `onChange` calling `setLocale` on the other controller, or

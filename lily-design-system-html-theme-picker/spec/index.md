@@ -123,11 +123,11 @@ re-renders / re-applies as needed.
 | `value`              | `string`        | no       | `""`                                            | Currently selected theme slug.                                                                                                                             |
 | `default-value`      | `string`        | no       | `"light"` if present in themes, else first item | Initial theme when nothing else is supplied.                                                                                                               |
 | `storage-key`        | `string`        | no       | `undefined`                                     | If set, persist the selection to `localStorage` under this key.                                                                                            |
-| `detect-from-system` | `boolean` attr  | no       | absent / `false`                                | If present (and not `="false"`), resolve `prefers-color-scheme` to a supported theme on first visit. Mirrors locale-picker's `detect-from-navigator`.     |
+| `detect-from-system` | `boolean` attr  | no       | absent / `false`                                | If present (and not `="false"`), resolve `prefers-color-scheme` to a supported theme on first visit. Mirrors locale-picker's `detect-from-navigator`.      |
 | `name`               | `string`        | no       | `"theme"`                                       | `name` on the rendered hidden `<input>`, and the discriminator on the managed `<link data-lily-theme-picker="{name}">`.                                    |
 | `extension`          | `string`        | no       | `".css"`                                        | File extension appended to each slug when constructing the URL.                                                                                            |
 | `theme-labels`       | `string` (JSON) | no       | `"{}"`                                          | Pretty labels per slug, JSON-encoded object. The JS property `el.themeLabels` accepts `Record<string, string>`.                                            |
-| `class`              | `string`        | no       | `""`                                            | Extra CSS class on the rendered root `<div>` (in addition to `theme-picker`).                                                                             |
+| `class`              | `string`        | no       | `""`                                            | Extra CSS class on the rendered root `<div>` (in addition to `theme-picker`).                                                                              |
 
 ### 4.2 JS properties
 
@@ -162,8 +162,8 @@ Read-only state and id accessors:
 
 - `static get observedAttributes()` returns
   `["label", "themes-url", "themes", "value", "default-value",
-  "storage-key", "detect-from-system", "name", "extension",
-  "theme-labels", "class"]`.
+"storage-key", "detect-from-system", "name", "extension",
+"theme-labels", "class"]`.
 - `connectedCallback()` resolves the initial value (per §5.2) and
   renders the children.
 - `attributeChangedCallback(name, _old, _new)` updates the
@@ -189,9 +189,17 @@ After render, the element contains exactly one child `<div>` root
 holding a hidden `<input>`, the icon button, and the listbox:
 
 ```html
-<theme-picker label="Theme" themes-url="/assets/themes/" themes="light,dark">
+<theme-picker
+  label="Theme"
+  themes-url="/assets/themes/"
+  themes="light,dark"
+>
   <div class="theme-picker {consumer class}">
-    <input type="hidden" name="theme" value="light" />
+    <input
+      type="hidden"
+      name="theme"
+      value="light"
+    />
     <button
       type="button"
       class="theme-picker-button"
@@ -200,12 +208,38 @@ holding a hidden `<input>`, the icon button, and the listbox:
       aria-expanded="false"
       aria-controls="theme-picker-1-list"
     >
-      <svg class="theme-picker-icon" viewBox="0 0 16 16" width="1.05rem" height="1.05rem" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="8" cy="8" r="6"></circle>
-        <path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"></path>
+      <svg
+        class="theme-picker-icon"
+        viewBox="0 0 16 16"
+        width="1.05rem"
+        height="1.05rem"
+        aria-hidden="true"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.6"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <circle
+          cx="8"
+          cy="8"
+          r="6"
+        ></circle>
+        <path
+          d="M8 2a6 6 0 0 1 0 12z"
+          fill="currentColor"
+          stroke="none"
+        ></path>
       </svg>
     </button>
-    <div class="theme-picker-tooltip" role="tooltip" id="{baseId}-tooltip" hidden>{label}</div>
+    <div
+      class="theme-picker-tooltip"
+      role="tooltip"
+      id="{baseId}-tooltip"
+      hidden
+    >
+      {label}
+    </div>
     <ul
       class="theme-picker-list"
       id="theme-picker-1-list"
@@ -464,15 +498,15 @@ nothing in the rendered markup varies between runs.
 The control implements the WAI-ARIA APG listbox pattern with a
 collapsed trigger:
 
-| Element                             | Role / property                                                                                                     |
-| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| `<theme-picker>` (host)            | none — a transparent lifecycle container.                                                                           |
-| `<div class="theme-picker">`       | none — a styling root.                                                                                              |
-| `<button>`                          | implicit `button` role; `aria-label={label}`, `aria-haspopup="listbox"`, `aria-expanded`, `aria-controls={listId}`. |
-| `<svg class="theme-picker-icon">` | `aria-hidden="true"` so the icon never becomes the name.                                                           |
-| `<ul>`                              | `role="listbox"`, `aria-label={label}`, `tabindex="-1"`, `hidden` while closed, `aria-activedescendant` while open. |
-| `<li>`                              | `role="option"`, unique `id`, `aria-selected`; `data-active` when keyboard-highlighted.                             |
-| `<input type="hidden">`             | form participation only; not in the accessibility tree.                                                             |
+| Element                           | Role / property                                                                                                     |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `<theme-picker>` (host)           | none — a transparent lifecycle container.                                                                           |
+| `<div class="theme-picker">`      | none — a styling root.                                                                                              |
+| `<button>`                        | implicit `button` role; `aria-label={label}`, `aria-haspopup="listbox"`, `aria-expanded`, `aria-controls={listId}`. |
+| `<svg class="theme-picker-icon">` | `aria-hidden="true"` so the icon never becomes the name.                                                            |
+| `<ul>`                            | `role="listbox"`, `aria-label={label}`, `tabindex="-1"`, `hidden` while closed, `aria-activedescendant` while open. |
+| `<li>`                            | `role="option"`, unique `id`, `aria-selected`; `data-active` when keyboard-highlighted.                             |
+| `<input type="hidden">`           | form participation only; not in the accessibility tree.                                                             |
 
 **Focus model.** Focus moves to the `<ul>` when the list opens and
 never to an individual `<li>`. The highlighted option is conveyed
@@ -495,18 +529,18 @@ On the **button**:
 
 On the **listbox** (`<ul>`, which holds focus while open):
 
-| Key                 | Action                                                                                                                                  |
-| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| `ArrowDown`         | Move the active option down one. Clamps at the last option — no wrapping.                                                               |
-| `ArrowUp`           | Move the active option up one. Clamps at the first option.                                                                              |
-| `Home`              | Make the first option active.                                                                                                           |
-| `End`               | Make the last option active.                                                                                                            |
-| `Enter`             | Select the active option, apply it, close, return focus to the button.                                                                  |
-| `Space`             | Same as `Enter`.                                                                                                                        |
-| `Escape`            | Close and return focus to the button **without** changing the value.                                                                    |
-| `PageUp`            | Move the active option up ten. Clamps at the first.                                                                                     |
-| `PageDown`          | Move the active option down ten. Clamps at the last.                                                                                    |
-| `Tab`               | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position. Hiding the focused list first would drop focus to `<body>` and restart Tab from the top of the document. |
+| Key                 | Action                                                                                                                                                                                                                                                           |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ArrowDown`         | Move the active option down one. Clamps at the last option — no wrapping.                                                                                                                                                                                        |
+| `ArrowUp`           | Move the active option up one. Clamps at the first option.                                                                                                                                                                                                       |
+| `Home`              | Make the first option active.                                                                                                                                                                                                                                    |
+| `End`               | Make the last option active.                                                                                                                                                                                                                                     |
+| `Enter`             | Select the active option, apply it, close, return focus to the button.                                                                                                                                                                                           |
+| `Space`             | Same as `Enter`.                                                                                                                                                                                                                                                 |
+| `Escape`            | Close and return focus to the button **without** changing the value.                                                                                                                                                                                             |
+| `PageUp`            | Move the active option up ten. Clamps at the first.                                                                                                                                                                                                              |
+| `PageDown`          | Move the active option down ten. Clamps at the last.                                                                                                                                                                                                             |
+| `Tab`               | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position. Hiding the focused list first would drop focus to `<body>` and restart Tab from the top of the document.       |
 | printable character | Typeahead over the option _labels_; the buffer resets after 500 ms of no typing. A single character advances to the **next** match and repeating it cycles onward; a buffer of differing characters refines the match from the active option. Search wraps once. |
 
 Pointer equivalents: clicking the button toggles the list, clicking

@@ -56,14 +56,11 @@ None -- this is a passive informational display, not an interactive element.
 
 This headless component renders a `<div>` wrapper containing a `<dt>` and `<dd>` element for a single key-value pair. It provides semantic description list item structure that is transparent to assistive technology. The consumer provides all visual styling for the wrapper, term, and description elements.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.summary-list-item` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<li>` element with class `summary-list-item`
 - Verify pass-through attributes are applied

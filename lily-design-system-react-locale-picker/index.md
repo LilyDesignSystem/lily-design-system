@@ -40,10 +40,7 @@ change.
 "use client";
 
 import { useState } from "react";
-import {
-  LocalePicker,
-  localeName,
-} from "./lily-design-system-react-locale-picker";
+import { LocalePicker, localeName } from "./lily-design-system-react-locale-picker";
 
 export function LanguagePicker() {
   const [locale, setLocale] = useState("");
@@ -58,7 +55,10 @@ export function LanguagePicker() {
         detectFromNavigator
       />
 
-      <p className="locale-picker-status" aria-live="polite">
+      <p
+        className="locale-picker-status"
+        aria-live="polite"
+      >
         Active language: {localeName(locale)}
       </p>
     </>
@@ -196,14 +196,14 @@ On the button:
 
 On the open listbox:
 
-| Key                     | Action                                                   |
-| ----------------------- | -------------------------------------------------------- |
-| `ArrowDown` / `ArrowUp` | Move the active option; clamps at the ends, no wrapping. |
-| `Home` / `End`          | Jump to the first / last option.                         |
-| `Enter` / `Space`       | Select, apply, close, and return focus to the button.    |
-| `Escape`                | Close and return focus, leaving the locale unchanged.    |
-| `PageUp` / `PageDown`   | Move the active option by ten; clamps.                   |
-| `Tab`                   | Close; focus lands on the button so the default Tab proceeds from the picker's position. |
+| Key                     | Action                                                                                                                                         |
+| ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ArrowDown` / `ArrowUp` | Move the active option; clamps at the ends, no wrapping.                                                                                       |
+| `Home` / `End`          | Jump to the first / last option.                                                                                                               |
+| `Enter` / `Space`       | Select, apply, close, and return focus to the button.                                                                                          |
+| `Escape`                | Close and return focus, leaving the locale unchanged.                                                                                          |
+| `PageUp` / `PageDown`   | Move the active option by ten; clamps.                                                                                                         |
+| `Tab`                   | Close; focus lands on the button so the default Tab proceeds from the picker's position.                                                       |
 | Any printable character | Typeahead over the option labels; 500 ms buffer. A single character advances to the next match and repeats cycle; differing characters refine. |
 
 Clicking an option selects it; clicking outside, or moving focus out of
@@ -214,8 +214,8 @@ the control, closes the list without changing the locale.
 This package ships no CSS. Full guide in
 [docs/styling.md](./docs/styling.md); the class hooks are:
 
-| Hook                     | Element                                                                        |
-| ------------------------ | ------------------------------------------------------------------------------ |
+| Hook                    | Element                                                                        |
+| ----------------------- | ------------------------------------------------------------------------------ |
 | `.locale-picker`        | Root `<div>`.                                                                  |
 | `.locale-picker-button` | The trigger `<button>`.                                                        |
 | `.locale-picker-icon`   | The default glyph `<span>` (absent when you pass `children`).                  |
@@ -332,7 +332,10 @@ options, and the whole keyboard contract. It receives
   storageKey="lily-locale"
 >
   {({ value, open, labelFor }) => (
-    <span aria-hidden="true" title={labelFor(value)}>
+    <span
+      aria-hidden="true"
+      title={labelFor(value)}
+    >
       {value.split("_")[0].toUpperCase()} {open ? "▴" : "▾"}
     </span>
   )}
@@ -348,10 +351,7 @@ control, which is that the active locale is otherwise invisible while
 the list is closed:
 
 ```tsx
-import {
-  LocalePicker,
-  GLOBE_WITH_MERIDIANS,
-} from "./lily-design-system-react-locale-picker";
+import { LocalePicker, GLOBE_WITH_MERIDIANS } from "./lily-design-system-react-locale-picker";
 
 <LocalePicker
   label="Language"
@@ -376,11 +376,7 @@ import { useState } from "react";
 import { useIntl } from "react-intl";
 import { LocalePicker } from "./lily-design-system-react-locale-picker";
 
-export function LanguagePicker({
-  onLocaleChange,
-}: {
-  onLocaleChange: (code: string) => void;
-}) {
+export function LanguagePicker({ onLocaleChange }: { onLocaleChange: (code: string) => void }) {
   const [current, setCurrent] = useState("");
   return (
     <LocalePicker
@@ -526,21 +522,21 @@ navigator-matcher helper.
 
 ## Files in this directory
 
-| File                     | Purpose                                                           |
-| ------------------------ | ----------------------------------------------------------------- |
-| `spec/index.md`          | Single source of truth — API, behaviour, tests.                   |
+| File                    | Purpose                                                           |
+| ----------------------- | ----------------------------------------------------------------- |
+| `spec/index.md`         | Single source of truth — API, behaviour, tests.                   |
 | `LocalePicker.tsx`      | The component implementation.                                     |
 | `LocalePicker.test.tsx` | vitest suite covering every spec §7 item.                         |
-| `locales.ts`             | Built-in code → English-name map and RTL sets.                    |
-| `locales.tsv`            | Canonical 436-row source for `locales.ts`.                        |
-| `index.ts`               | Re-export barrel.                                                 |
-| `index.md`               | This file — quick start + worked examples.                        |
-| `CHANGELOG.md`           | Per-version history.                                              |
-| `AGENTS.md`              | AI-agent metadata pointer.                                        |
-| `AGENTS/`                | Per-topic AI-agent guides.                                        |
-| `CLAUDE.md`              | Loads `AGENTS.md`.                                                |
-| `docs/`                  | Deep-dive guides — see [Documentation](#documentation).           |
-| `examples/`              | Runnable React 19 example components — see [Examples](#examples). |
+| `locales.ts`            | Built-in code → English-name map and RTL sets.                    |
+| `locales.tsv`           | Canonical 436-row source for `locales.ts`.                        |
+| `index.ts`              | Re-export barrel.                                                 |
+| `index.md`              | This file — quick start + worked examples.                        |
+| `CHANGELOG.md`          | Per-version history.                                              |
+| `AGENTS.md`             | AI-agent metadata pointer.                                        |
+| `AGENTS/`               | Per-topic AI-agent guides.                                        |
+| `CLAUDE.md`             | Loads `AGENTS.md`.                                                |
+| `docs/`                 | Deep-dive guides — see [Documentation](#documentation).           |
+| `examples/`             | Runnable React 19 example components — see [Examples](#examples). |
 
 ## Documentation
 

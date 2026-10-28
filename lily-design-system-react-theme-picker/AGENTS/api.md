@@ -55,14 +55,21 @@ authoritative; consumer is responsible for updating it from `onChange`.
 
 ```tsx
 const [theme, setTheme] = useState("");
-<ThemePicker value={theme} onChange={setTheme} {...required} />;
+<ThemePicker
+  value={theme}
+  onChange={setTheme}
+  {...required}
+/>;
 ```
 
 **Uncontrolled.** Consumer omits `value`. The select manages internal
 state. Use `defaultValue` to seed.
 
 ```tsx
-<ThemePicker defaultValue="dark" {...required} />
+<ThemePicker
+  defaultValue="dark"
+  {...required}
+/>
 ```
 
 The select decides at first render based on whether `value !==
@@ -113,8 +120,15 @@ Rendered tree (full contract in
 [`../spec/index.md §4.2`](../spec/index.md#42-dom-contract)):
 
 ```html
-<div class="theme-picker {className}" ...restProps>
-  <input type="hidden" name="{name}" value="{value}" />
+<div
+  class="theme-picker {className}"
+  ...restProps
+>
+  <input
+    type="hidden"
+    name="{name}"
+    value="{value}"
+  />
   <button
     type="button"
     class="theme-picker-button"
@@ -123,7 +137,27 @@ Rendered tree (full contract in
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>
+    <svg
+      class="theme-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle
+        cx="8"
+        cy="8"
+        r="6"
+      />
+      <path
+        d="M8 2a6 6 0 0 1 0 12z"
+        fill="currentColor"
+        stroke="none"
+      />
+    </svg>
   </button>
   <ul
     class="theme-picker-list"

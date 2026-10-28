@@ -63,7 +63,10 @@ don't throw.
 ## Quick start
 
 ```html
-<script type="module" src="/dist/text-size-picker.js"></script>
+<script
+  type="module"
+  src="/dist/text-size-picker.js"
+></script>
 
 <lily-text-size-picker
   label="Text size"
@@ -71,7 +74,12 @@ don't throw.
   storage-key="lily-text-size"
 ></lily-text-size-picker>
 
-<p class="text-size-picker-status" aria-live="polite">Text size: Medium</p>
+<p
+  class="text-size-picker-status"
+  aria-live="polite"
+>
+  Text size: Medium
+</p>
 ```
 
 When the user picks `large`, the element:
@@ -143,13 +151,13 @@ the platform exposes no preferred-text-size signal to detect.
 
 ## Class hooks
 
-| Class                      | Element                            |
-| -------------------------- | ---------------------------------- |
-| `text-size-picker`        | root `<div>`                       |
-| `text-size-picker-button` | the icon `<button>`                |
-| `text-size-picker-icon`   | the `<svg>` holding the "A" icon   |
-| `text-size-picker-list`   | the `<ul role="listbox">`          |
-| `text-size-picker-option` | each `<li role="option">`          |
+| Class                     | Element                          |
+| ------------------------- | -------------------------------- |
+| `text-size-picker`        | root `<div>`                     |
+| `text-size-picker-button` | the icon `<button>`              |
+| `text-size-picker-icon`   | the `<svg>` holding the "A" icon |
+| `text-size-picker-list`   | the `<ul role="listbox">`        |
+| `text-size-picker-option` | each `<li role="option">`        |
 
 Style `[data-active]` (keyboard-highlighted) differently from
 `[aria-selected="true"]` (chosen) — they mean different things.
@@ -253,16 +261,16 @@ Exercises every numbered acceptance criterion in
 
 ## Files in this directory
 
-| File                        | Purpose                                          |
-| --------------------------- | ------------------------------------------------ |
-| `spec/index.md`             | Single source of truth.                          |
-| `AGENTS.md`                 | Fast-index pointer; loads the AGENTS bundle.     |
-| `CLAUDE.md`                 | `@AGENTS.md`.                                    |
+| File                       | Purpose                                          |
+| -------------------------- | ------------------------------------------------ |
+| `spec/index.md`            | Single source of truth.                          |
+| `AGENTS.md`                | Fast-index pointer; loads the AGENTS bundle.     |
+| `CLAUDE.md`                | `@AGENTS.md`.                                    |
 | `text-size-picker.ts`      | The custom-element class.                        |
 | `text-size-picker.test.ts` | vitest suite.                                    |
-| `index.ts`                  | Barrel + side-effectful `customElements.define`. |
-| `index.md`                  | This file.                                       |
-| `docs/accessibility.md`     | Roles, keyboard contract, known tradeoffs.       |
+| `index.ts`                 | Barrel + side-effectful `customElements.define`. |
+| `index.md`                 | This file.                                       |
+| `docs/accessibility.md`    | Roles, keyboard contract, known tradeoffs.       |
 
 ## License
 

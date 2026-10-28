@@ -5,12 +5,12 @@ Self-contained Angular 20 examples for
 standalone component that can be dropped into any Angular 20 host
 (Analog page, Angular CLI route, Storybook story).
 
-| #   | File                                                             | Demonstrates                                                          |
-| --- | ----------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| 1   | [`basic.component.ts`](./basic.component.ts)                     | Minimal four-size picker plus the status region.                     |
-| 2   | [`two-way-binding.component.ts`](./two-way-binding.component.ts) | `[(value)]` and `(sizeChange)`.                                       |
-| 3   | [`persistence.component.ts`](./persistence.component.ts)         | `localStorage` survival across reloads.                              |
-| 4   | [`custom-labels.component.ts`](./custom-labels.component.ts)     | `sizeLabels` for i18n / display names.                                |
+| #   | File                                                               | Demonstrates                                                        |
+| --- | ------------------------------------------------------------------ | ------------------------------------------------------------------- |
+| 1   | [`basic.component.ts`](./basic.component.ts)                       | Minimal four-size picker plus the status region.                    |
+| 2   | [`two-way-binding.component.ts`](./two-way-binding.component.ts)   | `[(value)]` and `(sizeChange)`.                                     |
+| 3   | [`persistence.component.ts`](./persistence.component.ts)           | `localStorage` survival across reloads.                             |
+| 4   | [`custom-labels.component.ts`](./custom-labels.component.ts)       | `sizeLabels` for i18n / display names.                              |
 | 5   | [`custom-rendering.component.ts`](./custom-rendering.component.ts) | `<ng-template>` button-glyph override.                              |
 | 6   | [`external-buttons.component.ts`](./external-buttons.component.ts) | Driving the picker from your own UI via `[(value)]` and `sizeName`. |
 | 7   | [`multiple-pickers.component.ts`](./multiple-pickers.component.ts) | Two pickers in one page via `name` and `target`.                    |

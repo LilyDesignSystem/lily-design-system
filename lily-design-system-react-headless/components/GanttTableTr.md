@@ -10,18 +10,25 @@ A single row within a GanttTable grid. Renders as a `<tr>` containing GanttTable
 ## Usage
 
 ```tsx
-{/* Task row with active time periods */}
+{
+  /* Task row with active time periods */
+}
 <GanttTableTr>
   <th>Development</th>
   <GanttTableTD />
   <GanttTableTD active>---</GanttTableTD>
   <GanttTableTD active>---</GanttTableTD>
-</GanttTableTr>
+</GanttTableTr>;
 
-{/* Header row */}
+{
+  /* Header row */
+}
 <GanttTableTr>
-  <th>Task</th><th>Week 1</th><th>Week 2</th><th>Week 3</th>
-</GanttTableTr>
+  <th>Task</th>
+  <th>Week 1</th>
+  <th>Week 2</th>
+  <th>Week 3</th>
+</GanttTableTr>;
 ```
 
 ## Accessibility

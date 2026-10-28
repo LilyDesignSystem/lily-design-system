@@ -21,11 +21,11 @@ This headless component renders a `<div>` with `role="grid"` and an accessible l
 
 ```tsx
 <EmojiCharacterPicker label="Choose an emoji">
-    <div role="row">
-        <button role="gridcell">😀</button>
-        <button role="gridcell">😂</button>
-        <button role="gridcell">😍</button>
-    </div>
+  <div role="row">
+    <button role="gridcell">😀</button>
+    <button role="gridcell">😂</button>
+    <button role="gridcell">😍</button>
+  </div>
 </EmojiCharacterPicker>
 ```
 

@@ -10,21 +10,21 @@ not free.
 
 ## Roles and properties
 
-| Element             | Role / Property                     | Source           |
-| ------------------- | ----------------------------------- | ---------------- |
-| `<div>` root        | none (a plain container)            | Macro            |
-| `<button>`          | implicit `role="button"`            | Browser          |
-| `<button>`          | `aria-label="{label}"`              | `opts.label`     |
-| `<button>`          | `aria-haspopup="listbox"`           | Macro            |
-| `<button>`          | `aria-expanded="true|false"`        | Macro + client   |
-| `<button>`          | `aria-controls="{id}-list"`         | Macro            |
-| `<span>` glyph      | `aria-hidden="true"`                | Macro            |
-| `<ul>`              | `role="listbox"`                    | Macro            |
-| `<ul>`              | `aria-label="{label}"`              | `opts.label`     |
-| `<ul>`              | `aria-activedescendant="{optionId}"`| Client, while open |
-| `<li>`              | `role="option"`                     | Macro            |
-| `<li>`              | `aria-selected="true|false"`        | Macro + client   |
-| `<input type=hidden>` | `name`                            | Macro            |
+| Element               | Role / Property                      | Source             |
+| --------------------- | ------------------------------------ | ------------------ |
+| `<div>` root          | none (a plain container)             | Macro              |
+| `<button>`            | implicit `role="button"`             | Browser            |
+| `<button>`            | `aria-label="{label}"`               | `opts.label`       |
+| `<button>`            | `aria-haspopup="listbox"`            | Macro              |
+| `<button>`            | `aria-expanded="true                 | false"`            | Macro + client |
+| `<button>`            | `aria-controls="{id}-list"`          | Macro              |
+| `<span>` glyph        | `aria-hidden="true"`                 | Macro              |
+| `<ul>`                | `role="listbox"`                     | Macro              |
+| `<ul>`                | `aria-label="{label}"`               | `opts.label`       |
+| `<ul>`                | `aria-activedescendant="{optionId}"` | Client, while open |
+| `<li>`                | `role="option"`                      | Macro              |
+| `<li>`                | `aria-selected="true                 | false"`            | Macro + client |
+| `<input type=hidden>` | `name`                               | Macro              |
 
 The active option is conveyed with `aria-activedescendant` on the
 focused `<ul>`; DOM focus stays on the `<ul>` and never moves to an
@@ -42,23 +42,23 @@ that module runs — see [`./ssr.md`](./ssr.md).
 
 On the **button**:
 
-| Key                          | Action                                                   |
-| ---------------------------- | -------------------------------------------------------- |
-| `Tab` / `Shift+Tab`          | Move focus to / away from the button (one stop).          |
-| `ArrowDown`, `Enter`, `Space`| Open, with the selected theme active. Focus moves to the list. |
-| `ArrowUp`                    | Open, with the LAST option active.                        |
+| Key                           | Action                                                         |
+| ----------------------------- | -------------------------------------------------------------- |
+| `Tab` / `Shift+Tab`           | Move focus to / away from the button (one stop).               |
+| `ArrowDown`, `Enter`, `Space` | Open, with the selected theme active. Focus moves to the list. |
+| `ArrowUp`                     | Open, with the LAST option active.                             |
 
 On the **listbox**:
 
-| Key                | Action                                                        |
-| ------------------ | ------------------------------------------------------------- |
-| `ArrowDown` / `ArrowUp` | Move the active option. Clamps at the ends; no wrapping. |
-| `Home` / `End`     | Jump to the first / last option.                              |
-| `Enter` / `Space`  | Select the active option, apply it, close, return focus.      |
-| `Escape`           | Close and return focus, leaving the theme unchanged.          |
-| `PageUp` / `PageDown` | Move the active option by ten, clamped. |
-| `Tab`              | Close and move on — focus goes to the button first, so the default Tab proceeds from the picker's position. |
-| Printable character| APG typeahead: one character advances to the next match, a repeated character cycles; differing characters refine. 500 ms buffer reset. |
+| Key                     | Action                                                                                                                                  |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `ArrowDown` / `ArrowUp` | Move the active option. Clamps at the ends; no wrapping.                                                                                |
+| `Home` / `End`          | Jump to the first / last option.                                                                                                        |
+| `Enter` / `Space`       | Select the active option, apply it, close, return focus.                                                                                |
+| `Escape`                | Close and return focus, leaving the theme unchanged.                                                                                    |
+| `PageUp` / `PageDown`   | Move the active option by ten, clamped.                                                                                                 |
+| `Tab`                   | Close and move on — focus goes to the button first, so the default Tab proceeds from the picker's position.                             |
+| Printable character     | APG typeahead: one character advances to the next match, a repeated character cycles; differing characters refine. 500 ms buffer reset. |
 
 Clicking an option selects it. Clicking outside the root, or moving
 focus out of it, closes the listbox without changing the theme.
@@ -79,7 +79,7 @@ straight WCAG 4.1.2 failure with no partial credit.
 
 Voice control deserves specific mention: users of Voice Control and
 Voice Access say the visible name of a control. An icon-only button has
-none, so `aria-label` is also the *spoken* target. Keep it short,
+none, so `aria-label` is also the _spoken_ target. Keep it short,
 literal, and matched to what a user would plausibly call it ("Theme",
 not "Appearance preference selector").
 
@@ -153,10 +153,9 @@ opting in.**
 const status = document.querySelector(".theme-picker-status");
 
 autoInit({
-    onChange(slug) {
-        status.textContent =
-            translate("Active theme: {name}", { name: labels[slug] });
-    },
+  onChange(slug) {
+    status.textContent = translate("Active theme: {name}", { name: labels[slug] });
+  },
 });
 ```
 
@@ -176,7 +175,7 @@ Why this shape:
 - **`.theme-picker-status`** is the class hook, kebab-case like the
   rest of the system. See [`./styling.md`](./styling.md).
 
-What this does *not* fix: focusing the closed button still announces
+What this does _not_ fix: focusing the closed button still announces
 only the label. The status region tells the user what is active; it
 does not make the control self-describing. Opening the listbox does
 surface the state — the applied theme is the `aria-selected` option —
@@ -232,7 +231,7 @@ CSS files that transition on the `data-theme` swap.
   (`clip-path: inset(50%)` or the `.sr-only` recipe) instead.
 - **Styling the list open by default.** The `hidden` attribute is the
   open-state contract; a CSS rule like `.theme-picker-list { display:
-  block }` overrides `hidden` and leaves the list permanently visible
+block }` overrides `hidden` and leaves the list permanently visible
   and out of sync with `aria-expanded`. Use
   `.theme-picker-list:not([hidden])` for open-state styling.
 - **Forgetting to translate `opts.themeLabels`.** The macro only

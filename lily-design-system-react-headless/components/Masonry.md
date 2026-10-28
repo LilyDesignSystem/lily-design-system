@@ -21,7 +21,13 @@ The component does not break individual items across columns by default. Consume
 
 ```tsx
 <Masonry columns={4}>
-  {photos.map(p => <img key={p.id} src={p.url} alt={p.alt} />)}
+  {photos.map((p) => (
+    <img
+      key={p.id}
+      src={p.url}
+      alt={p.alt}
+    />
+  ))}
 </Masonry>
 ```
 

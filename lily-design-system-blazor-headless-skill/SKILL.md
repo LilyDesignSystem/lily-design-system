@@ -81,7 +81,7 @@ framework's prop names:
 ## Theming
 
 Same contract as every other headless catalog: the root's kebab-case base
-class plus the consumer's `CssClass` is the *only* styling hook. No
+class plus the consumer's `CssClass` is the _only_ styling hook. No
 `.razor.css`, no scoped/isolated CSS, no inline `style="..."` beyond what a
 canonical spec requires. The root `themes/` reference stylesheets (NHS,
 GOV.UK, USWDS, and the rest) target these same class names — a Blazor
@@ -102,7 +102,7 @@ components in `LilyBlazorHeadless.Components`.
 
 - For the six `*-picker` helper packages (theme-picker, locale-picker,
   text-size-picker, motion-picker, share-picker, date-time-picker) — the
-  opinionated, whole-interaction packages that sit *alongside* this headless
+  opinionated, whole-interaction packages that sit _alongside_ this headless
   library — use
   [`lily-design-system-blazor-helpers-skill`](../lily-design-system-blazor-helpers-skill/)
   instead.

@@ -32,14 +32,7 @@ lily-design-system-angular-<name>/
 Every helper component follows this template:
 
 ```ts
-import {
-  ChangeDetectionStrategy,
-  Component,
-  effect,
-  input,
-  model,
-  output,
-} from "@angular/core";
+import { ChangeDetectionStrategy, Component, effect, input, model, output } from "@angular/core";
 
 /** Pure helpers exported for consumer reuse. */
 export function helperName() {
@@ -119,7 +112,10 @@ selection. The custom-named model (`value` rather than the default
 `bind:value`:
 
 ```html
-<lily-theme-picker [(value)]="theme" ... />
+<lily-theme-picker
+  [(value)]="theme"
+  ...
+/>
 ```
 
 The component reads via `this.value()` and writes via

@@ -5,10 +5,10 @@ Self-contained Angular 20 examples for
 standalone component that can be dropped into any Angular 20 host
 (Analog page, Angular CLI route, Storybook story).
 
-| #   | File                                                       | Demonstrates                                                                            |
-| --- | ---------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| 1   | [`basic.component.ts`](./basic.component.ts)               | Consumer-supplied destinations, the built-in copy item, and the announced copy outcome. |
-| 2   | [`strategy.component.ts`](./strategy.component.ts)         | `auto` / `native` / `list`, and what a dismissed native sheet does.                     |
+| #   | File                                                       | Demonstrates                                                                             |
+| --- | ---------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| 1   | [`basic.component.ts`](./basic.component.ts)               | Consumer-supplied destinations, the built-in copy item, and the announced copy outcome.  |
+| 2   | [`strategy.component.ts`](./strategy.component.ts)         | `auto` / `native` / `list`, and what a dismissed native sheet does.                      |
 | 3   | [`custom-glyph.component.ts`](./custom-glyph.component.ts) | Projecting an `<ng-template>` to replace the default icon — including with visible text. |
 
 Every example assumes:

@@ -13,13 +13,25 @@ whose [spec](../lily-design-system-svelte-data-grid/spec/index.md) is the contra
 ## Usage
 
 ```html
-<lily-data-grid id="users" label="Users" selection-mode="multiple" page-size="25"></lily-data-grid>
+<lily-data-grid
+  id="users"
+  label="Users"
+  selection-mode="multiple"
+  page-size="25"
+></lily-data-grid>
 <script type="module">
   import "@lilydesignsystem/web-components-data-grid";
   const grid = document.getElementById("users");
-  grid.columns = [{ id: "name", header: "Name", sortable: true }, { id: "email", header: "Email" }];
+  grid.columns = [
+    { id: "name", header: "Name", sortable: true },
+    { id: "email", header: "Email" },
+  ];
   grid.rows = [{ name: "Alice", email: "alice@example.com" }];
-  grid.labels = { search: "Search users", selectAll: "Select all rows", selectRow: (name) => `Select ${name}` };
+  grid.labels = {
+    search: "Search users",
+    selectAll: "Select all rows",
+    selectRow: (name) => `Select ${name}`,
+  };
   grid.addEventListener("selectionchange", (e) => console.log(e.detail));
 </script>
 ```
@@ -66,7 +78,7 @@ Requires `@lilydesignsystem/web-components-headless`.
 - **Field-specific search.** `filterField` (a property, `onFilterFieldChange`) limits the text filter to one column; `labels.searchField` (the select's name) with `labels.searchAllFields` (its first option) shows the select, listing the filterable columns. Without a field the whole row is searched.
 - **`movableColumns`** makes every column movable (Alt+Arrow on the header, or drag), unless a column's `movable` is `false`.
 - **Right-to-left.** The horizontal arrows are visual, so in a right-to-left layout (the nearest `dir`, else the computed direction) ArrowLeft goes to the next cell and ArrowRight to the previous, and Alt+Arrow moves a column the way the arrow points. Vertical keys, Home, End and the page keys do not change. The pure `isRtl` / `logicalKey` are exported.
-- **Labels.** `DataGridLabels` is the one bundle of every string. What each feature needs is listed in `CONTROL_LABELS` (labels that *name a control*) and `ANNOUNCEMENT_LABELS` (live-region messages), and `requiredLabels(features)` / `missingLabels(features, labels)` compute it, so an app can assert in a test that its bundle for a locale is complete. In development the grid logs once, naming the labels its features call for that `labels` leaves out (`warnMissingLabels={false}` silences it; it never logs in production). Lily has no English fallback: a missing label is a control with no name or an announcement never made. `sortAnnouncement` receives the ARIA token (`ascending`, `descending`, `none`), which the bundle turns into its own words.
+- **Labels.** `DataGridLabels` is the one bundle of every string. What each feature needs is listed in `CONTROL_LABELS` (labels that _name a control_) and `ANNOUNCEMENT_LABELS` (live-region messages), and `requiredLabels(features)` / `missingLabels(features, labels)` compute it, so an app can assert in a test that its bundle for a locale is complete. In development the grid logs once, naming the labels its features call for that `labels` leaves out (`warnMissingLabels={false}` silences it; it never logs in production). Lily has no English fallback: a missing label is a control with no name or an announcement never made. `sortAnnouncement` receives the ARIA token (`ascending`, `descending`, `none`), which the bundle turns into its own words.
 - **Row attributes.** `rowAttrs(row)` returns attributes spread onto each body row — the way to put test ids (`data-testid`), data attributes and other hooks on rows (`rowAttrs={(row) => ({ "data-testid": `row-${row.id}` })}`); `rowClass` does the same for classes, and a column's `cellAttrs` / `cellClass` for cells.
 
 ## Pager landmark (0.10.0)

@@ -32,8 +32,15 @@ import "@lilydesignsystem/web-components-markdown-editor"; // registers <lily-ma
   import "@lilydesignsystem/web-components-markdown-editor";
   const editor = document.querySelector("lily-markdown-editor");
   editor.labels = {
-    heading: "Heading", bold: "Bold", italic: "Italic", strikethrough: "Strikethrough", code: "Code",
-    link: "Link", quote: "Quote", bulletList: "Bulleted list", numberedList: "Numbered list",
+    heading: "Heading",
+    bold: "Bold",
+    italic: "Italic",
+    strikethrough: "Strikethrough",
+    code: "Code",
+    link: "Link",
+    quote: "Quote",
+    bulletList: "Bulleted list",
+    numberedList: "Numbered list",
   };
   editor.addEventListener("valuechange", (e) => console.log(e.detail.value));
 </script>
@@ -46,18 +53,18 @@ entry in `labels` is not rendered: an unnamed button is worse than no button.
 
 ## Props
 
-| Prop | Type | Required | Default | Purpose |
-| ---- | ---- | -------- | ------- | ------- |
-| `label` (attr) | `string` | yes | — | Accessible name of the textarea. |
-| `toolbar-label` (attr) | `string` | yes | — | Accessible name of the toolbar. |
-| `labels` (property, or a JSON attribute) | `Partial<Record<ToolId,string>>` | yes | — | Accessible name per tool; a tool without one is not shown. |
-| `tools` (attr, space-separated) | `ToolId[]` | no | all nine | Which tools to show, and in what order. |
-| `heading-level` (attr) | `1`–`6` | no | `2` | How many `#` the heading tool writes. |
-| `value` (attr or property) | `string` | no | `""` | The text, as Markdown. |
-| `name`, `rows`, `placeholder`, `disabled`, `readonly`, `required` (attrs) | | no | | Passed to the `<textarea>`. |
-| `valuechange` (event) | `CustomEvent<{ value: string }>` | | | After every change, typed or from a tool. The textarea's own `input` event also bubbles. |
-| `renderIcon(tool)` (overridable method) | `Node` | | bundled SVG | Replaces a tool's icon. |
-| `class` (attr) | | no | | Appended to the root `markdown-editor` class. |
+| Prop                                                                      | Type                             | Required | Default     | Purpose                                                                                  |
+| ------------------------------------------------------------------------- | -------------------------------- | -------- | ----------- | ---------------------------------------------------------------------------------------- |
+| `label` (attr)                                                            | `string`                         | yes      | —           | Accessible name of the textarea.                                                         |
+| `toolbar-label` (attr)                                                    | `string`                         | yes      | —           | Accessible name of the toolbar.                                                          |
+| `labels` (property, or a JSON attribute)                                  | `Partial<Record<ToolId,string>>` | yes      | —           | Accessible name per tool; a tool without one is not shown.                               |
+| `tools` (attr, space-separated)                                           | `ToolId[]`                       | no       | all nine    | Which tools to show, and in what order.                                                  |
+| `heading-level` (attr)                                                    | `1`–`6`                          | no       | `2`         | How many `#` the heading tool writes.                                                    |
+| `value` (attr or property)                                                | `string`                         | no       | `""`        | The text, as Markdown.                                                                   |
+| `name`, `rows`, `placeholder`, `disabled`, `readonly`, `required` (attrs) |                                  | no       |             | Passed to the `<textarea>`.                                                              |
+| `valuechange` (event)                                                     | `CustomEvent<{ value: string }>` |          |             | After every change, typed or from a tool. The textarea's own `input` event also bubbles. |
+| `renderIcon(tool)` (overridable method)                                   | `Node`                           |          | bundled SVG | Replaces a tool's icon.                                                                  |
+| `class` (attr)                                                            |                                  | no       |             | Appended to the root `markdown-editor` class.                                            |
 
 `ToolId` is `heading | bold | italic | strikethrough | code | link | quote | bulletList | numberedList`.
 
@@ -81,25 +88,47 @@ The tag is `<lily-markdown-editor>`, matching the Web Components headless catalo
 
 ```html
 <div class="markdown-editor {class}">
-  <div class="markdown-editor-toolbar" role="toolbar" aria-label aria-controls aria-orientation="horizontal">
-    <button class="markdown-editor-button" type="button" data-tool="bold" aria-label tabindex="0">
-      <svg class="markdown-editor-icon" aria-hidden="true">…</svg>
+  <div
+    class="markdown-editor-toolbar"
+    role="toolbar"
+    aria-label
+    aria-controls
+    aria-orientation="horizontal"
+  >
+    <button
+      class="markdown-editor-button"
+      type="button"
+      data-tool="bold"
+      aria-label
+      tabindex="0"
+    >
+      <svg
+        class="markdown-editor-icon"
+        aria-hidden="true"
+      >
+        …
+      </svg>
     </button>
     …
   </div>
-  <textarea class="markdown-editor-textarea" aria-label name …></textarea>
+  <textarea
+    class="markdown-editor-textarea"
+    aria-label
+    name
+    …
+  ></textarea>
 </div>
 ```
 
 ## Keyboard
 
-| Where    | Key                            | Action                                       |
-| -------- | ------------------------------ | -------------------------------------------- |
-| Toolbar  | `←` `→`                        | Move to the previous / next button (clamps). |
-| Toolbar  | `Home` `End`                   | First / last button.                         |
-| Toolbar  | `Tab`                          | Into the toolbar (one tab stop), then out.   |
-| Toolbar  | `Enter` `Space`                | Apply the tool; focus returns to the text.   |
-| Textarea | `Ctrl`/`Cmd` + `B` `I` `K`     | Bold, italic, link.                          |
+| Where    | Key                        | Action                                       |
+| -------- | -------------------------- | -------------------------------------------- |
+| Toolbar  | `←` `→`                    | Move to the previous / next button (clamps). |
+| Toolbar  | `Home` `End`               | First / last button.                         |
+| Toolbar  | `Tab`                      | Into the toolbar (one tab stop), then out.   |
+| Toolbar  | `Enter` `Space`            | Apply the tool; focus returns to the text.   |
+| Textarea | `Ctrl`/`Cmd` + `B` `I` `K` | Bold, italic, link.                          |
 
 ## What it is not
 

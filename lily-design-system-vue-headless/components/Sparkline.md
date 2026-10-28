@@ -20,7 +20,7 @@ This headless component provides a semantic container with `role="img"` and an a
 
 ```svelte
 <Sparkline label="Sales trend over past 7 days">
-    <svg><!-- your sparkline SVG here --></svg>
+  <svg><!-- your sparkline SVG here --></svg>
 </Sparkline>
 ```
 

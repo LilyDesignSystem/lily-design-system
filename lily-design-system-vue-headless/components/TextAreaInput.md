@@ -24,15 +24,27 @@ Unlike a single-line text input, a text-area-input provides a larger, scrollable
 ## Usage
 
 ```svelte
-<TextAreaInput label="Comments" bind:value rows={5} />
+<TextAreaInput
+  label="Comments"
+  bind:value
+  rows={5}
+/>
 ```
 
 ```svelte
-<TextAreaInput label="Description" bind:value={description} required />
+<TextAreaInput
+  label="Description"
+  bind:value={description}
+  required
+/>
 ```
 
 ```svelte
-<TextAreaInput label="Notes" bind:value disabled={isReadOnly} />
+<TextAreaInput
+  label="Notes"
+  bind:value
+  disabled={isReadOnly}
+/>
 ```
 
 ## Keyboard Interactions

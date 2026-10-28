@@ -26,7 +26,10 @@ This component renders a semantically labeled unordered list with `role="list"` 
 <DoList heading="Do">
   <DoListItem>cover blisters that are likely to burst with a soft plaster or dressing</DoListItem>
   <DoListItem>wash your hands before touching a burst blister</DoListItem>
-  <DoListItem>allow the fluid in a burst blister to drain before covering it with a plaster or dressing</DoListItem>
+  <DoListItem
+    >allow the fluid in a burst blister to drain before covering it with a plaster or
+    dressing</DoListItem
+  >
 </DoList>
 ```
 
@@ -74,17 +77,14 @@ None -- this component is a passive container for list items.
 
 This headless component provides a `<ul>` with explicit `role="list"` to preserve list semantics even when CSS removes default markers, and `aria-label` for accessible naming. The consumer provides all visual styling, icons, and layout for the list and its items.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.do-list` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
 
-
 - Verify the component renders a `<ol>` element with class `do-list`
-- Verify role="list"` -- explicitly declares list semantics on the `<ul>`, ensuring assistive technology announces it as a list
+- Verify role="list"`-- explicitly declares list semantics on the`<ul>`, ensuring assistive technology announces it as a list
 - Verify aria-label={label}` -- provides an accessible name for the list (defaults to "Do")
 - Verify pass-through attributes are applied
 

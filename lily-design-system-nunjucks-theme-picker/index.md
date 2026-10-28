@@ -102,8 +102,8 @@ dependency:
 
 | File                         | Purpose                                     |
 | ---------------------------- | ------------------------------------------- |
-| `theme-picker.njk`          | The Nunjucks macro.                         |
-| `theme-picker.client.js`    | The ES-module runtime.                      |
+| `theme-picker.njk`           | The Nunjucks macro.                         |
+| `theme-picker.client.js`     | The ES-module runtime.                      |
 | `index.ts` (optional)        | Re-export of the client.js for ESM imports. |
 | `spec/index.md` / `index.md` | Documentation.                              |
 
@@ -199,7 +199,11 @@ for form participation, an icon-only button, and a listbox that starts
 `hidden`:
 
 ```html
-<div class="theme-picker" data-lily-theme-picker-root …>
+<div
+  class="theme-picker"
+  data-lily-theme-picker-root
+  …
+>
   <input
     type="hidden"
     name="theme"
@@ -215,7 +219,15 @@ for form participation, an icon-only button, and a listbox that starts
     aria-controls="theme-picker-theme-list"
     data-lily-theme-picker-button
   >
-    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" width="1.05rem" height="1.05rem">…</svg>
+    <svg
+      class="theme-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      width="1.05rem"
+      height="1.05rem"
+    >
+      …
+    </svg>
   </button>
   <ul
     class="theme-picker-list"
@@ -318,12 +330,7 @@ for a field-by-field reference.
 Imports:
 
 ```js
-import {
-  initThemePicker,
-  autoInit,
-  normaliseThemesUrl,
-  themeHref,
-} from "./theme-picker.client.js";
+import { initThemePicker, autoInit, normaliseThemesUrl, themeHref } from "./theme-picker.client.js";
 ```
 
 - `autoInit(opts?)` — find every `[data-lily-theme-picker-root]`
@@ -427,18 +434,18 @@ recipe.
 Implemented entirely by the client.js — none of it works before the
 script runs.
 
-| Key                  | Where   | Action                                                            |
-| -------------------- | ------- | ----------------------------------------------------------------- |
-| `Arrow Down`         | Button  | Open, active option = the selected one (or the first).            |
-| `Enter` / `Space`    | Button  | Same as `Arrow Down`.                                             |
-| `Arrow Up`           | Button  | Open with the **last** option active.                             |
-| `Arrow Down` / `Up`  | Listbox | Move the active option. Clamps at the ends — no wrapping.         |
-| `Home` / `End`       | Listbox | Jump to the first / last option.                                  |
-| `Enter` / `Space`    | Listbox | Select the active option, apply it, close, refocus the button.    |
-| `Escape`             | Listbox | Close and refocus the button without changing the theme.          |
-| `PageUp` / `PageDown` | Listbox | Move the active option by ten, clamped.                          |
-| `Tab`                | Listbox | Close and move on — focus goes to the button first, so the default Tab proceeds from the picker's position. |
-| Printable characters | Listbox | APG typeahead: one character advances to the next match and repeats cycle; differing characters refine. Buffer resets after 500 ms. |
+| Key                   | Where   | Action                                                                                                                              |
+| --------------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `Arrow Down`          | Button  | Open, active option = the selected one (or the first).                                                                              |
+| `Enter` / `Space`     | Button  | Same as `Arrow Down`.                                                                                                               |
+| `Arrow Up`            | Button  | Open with the **last** option active.                                                                                               |
+| `Arrow Down` / `Up`   | Listbox | Move the active option. Clamps at the ends — no wrapping.                                                                           |
+| `Home` / `End`        | Listbox | Jump to the first / last option.                                                                                                    |
+| `Enter` / `Space`     | Listbox | Select the active option, apply it, close, refocus the button.                                                                      |
+| `Escape`              | Listbox | Close and refocus the button without changing the theme.                                                                            |
+| `PageUp` / `PageDown` | Listbox | Move the active option by ten, clamped.                                                                                             |
+| `Tab`                 | Listbox | Close and move on — focus goes to the button first, so the default Tab proceeds from the picker's position.                         |
+| Printable characters  | Listbox | APG typeahead: one character advances to the next match and repeats cycle; differing characters refine. Buffer resets after 500 ms. |
 
 Opening moves focus to the `<ul>`. Clicking an option selects it;
 clicking outside, or focus leaving the root, closes the listbox.
@@ -478,9 +485,18 @@ is fetched on demand. To switch instantly between themes, preload
 them all in your layout `<head>`:
 
 ```html
-<link rel="stylesheet" href="/assets/themes/light.css" />
-<link rel="stylesheet" href="/assets/themes/dark.css" />
-<link rel="stylesheet" href="/assets/themes/abyss.css" />
+<link
+  rel="stylesheet"
+  href="/assets/themes/light.css"
+/>
+<link
+  rel="stylesheet"
+  href="/assets/themes/dark.css"
+/>
+<link
+  rel="stylesheet"
+  href="/assets/themes/abyss.css"
+/>
 ```
 
 The select still mutates `data-theme`, and since every theme's CSS
@@ -567,19 +583,19 @@ acceptance criterion in
 
 ## Files in this directory
 
-| File                      | Purpose                                         |
-| ------------------------- | ----------------------------------------------- |
-| `spec/index.md`           | Single source of truth — API, behaviour, tests. |
-| `AGENTS.md`               | Fast-index pointer; loads the AGENTS bundle.    |
-| `AGENTS/`                 | Topic-by-topic agent files.                     |
-| `CLAUDE.md`               | `@AGENTS.md`.                                   |
+| File                     | Purpose                                         |
+| ------------------------ | ----------------------------------------------- |
+| `spec/index.md`          | Single source of truth — API, behaviour, tests. |
+| `AGENTS.md`              | Fast-index pointer; loads the AGENTS bundle.    |
+| `AGENTS/`                | Topic-by-topic agent files.                     |
+| `CLAUDE.md`              | `@AGENTS.md`.                                   |
 | `theme-picker.njk`       | The macro.                                      |
 | `theme-picker.client.js` | The ES-module runtime.                          |
 | `theme-picker.test.ts`   | vitest suite covering every spec §7 item.       |
-| `index.md`                | This file.                                      |
-| `docs/`                   | Deep-dive topic guides.                         |
-| `examples/`               | Runnable Nunjucks templates.                    |
-| `CHANGELOG.md`            | Version history.                                |
+| `index.md`               | This file.                                      |
+| `docs/`                  | Deep-dive topic guides.                         |
+| `examples/`              | Runnable Nunjucks templates.                    |
+| `CHANGELOG.md`           | Version history.                                |
 
 ## License
 

@@ -14,11 +14,11 @@ The target side of a converter: a plain wrapper for a `ConvertIntoValueDiv` and 
 
 ## Props
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `class` | string | `""` | Appended to the base class |
-| `children` | slot | — | The content |
-| `...restProps` | HTML attributes | — | Spread onto the root `<div>` |
+| Prop           | Type            | Default | Description                  |
+| -------------- | --------------- | ------- | ---------------------------- |
+| `class`        | string          | `""`    | Appended to the base class   |
+| `children`     | slot            | —       | The content                  |
+| `...restProps` | HTML attributes | —       | Spread onto the root `<div>` |
 
 ## Usage
 
@@ -27,21 +27,38 @@ The target side of a converter: a plain wrapper for a `ConvertIntoValueDiv` and 
   <ConvertFromDiv>
     <ConvertFromValueDiv>
       <label for="from-value">Amount</label>
-      <input id="from-value" type="text" inputmode="decimal" value="100" />
+      <input
+        id="from-value"
+        type="text"
+        inputmode="decimal"
+        value="100"
+      />
     </ConvertFromValueDiv>
     <ConvertFromUnitDiv>
       <label for="from-unit">From</label>
-      <select id="from-unit"><option value="USD">US dollars</option><option value="EUR">Euros</option></select>
+      <select id="from-unit">
+        <option value="USD">US dollars</option>
+        <option value="EUR">Euros</option>
+      </select>
     </ConvertFromUnitDiv>
   </ConvertFromDiv>
   <ConvertIntoDiv>
     <ConvertIntoValueDiv>
       <label for="into-value">Converted</label>
-      <input id="into-value" type="text" inputmode="decimal" value="92.10" readonly />
+      <input
+        id="into-value"
+        type="text"
+        inputmode="decimal"
+        value="92.10"
+        readonly
+      />
     </ConvertIntoValueDiv>
     <ConvertIntoUnitDiv>
       <label for="into-unit">Into</label>
-      <select id="into-unit"><option value="EUR">Euros</option><option value="USD">US dollars</option></select>
+      <select id="into-unit">
+        <option value="EUR">Euros</option>
+        <option value="USD">US dollars</option>
+      </select>
     </ConvertIntoUnitDiv>
   </ConvertIntoDiv>
 </ConvertDiv>

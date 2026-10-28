@@ -23,9 +23,9 @@ for the deviations that could not be avoided.
 | File                    | Purpose                                       |
 | ----------------------- | --------------------------------------------- |
 | `spec/index.md`         | Specification-driven contract (canonical).    |
-| `SharePicker.razor`    | Razor markup.                                 |
-| `SharePicker.razor.cs` | C# code-behind (partial class).               |
-| `SharePickerTests.cs`  | bUnit + xUnit spec, mapped to the §7 clauses. |
+| `SharePicker.razor`     | Razor markup.                                 |
+| `SharePicker.razor.cs`  | C# code-behind (partial class).               |
+| `SharePickerTests.cs`   | bUnit + xUnit spec, mapped to the §7 clauses. |
 | `index.md`              | User guide.                                   |
 | `docs/accessibility.md` | Tradeoffs, stated plainly.                    |
 | `examples/`             | Copy-pasteable Razor snippets.                |

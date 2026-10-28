@@ -9,7 +9,15 @@ See [components/chat-composer/index.md](../../../../../components/chat-composer/
 ## Usage
 
 ```svelte
-<ChatComposer label="Message" sendLabel="Send" stopLabel="Stop" bind:value={draft} busy={replying} onSend={send} onStop={cancel} />
+<ChatComposer
+  label="Message"
+  sendLabel="Send"
+  stopLabel="Stop"
+  bind:value={draft}
+  busy={replying}
+  onSend={send}
+  onStop={cancel}
+/>
 ```
 
 ## Contract

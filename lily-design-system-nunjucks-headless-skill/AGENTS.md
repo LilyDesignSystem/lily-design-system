@@ -37,7 +37,7 @@ framework rather than all seven.
 
 ## What this subproject is, and isn't
 
-- **Is**: a distributable skill scoped to *consuming*
+- **Is**: a distributable skill scoped to _consuming_
   `@lilydesignsystem/nunjucks-headless` — the macro-call conventions,
   `params` shape, and server-rendering behaviour a Nunjucks consumer needs.
 - **Isn't**: the Nunjucks headless library itself (that's

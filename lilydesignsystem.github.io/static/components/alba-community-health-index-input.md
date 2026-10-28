@@ -23,9 +23,19 @@ AlbaCommunityHealthIndexInput is a headless input for entering Scotland's Commun
 ## Usage
 
 ```html
-<Field label="Community Health Index" required>
-  <AlbaCommunityHealthIndexInput label="Community Health Index" value={value} required />
-  <Hint>10 digits encoding date of birth (DDMMYY) + two random digits + a sex digit (odd male, even female) + a Modulus-11 check digit</Hint>
+<Field
+  label="Community Health Index"
+  required
+>
+  <AlbaCommunityHealthIndexInput
+    label="Community Health Index"
+    value="{value}"
+    required
+  />
+  <Hint
+    >10 digits encoding date of birth (DDMMYY) + two random digits + a sex digit (odd male, even
+    female) + a Modulus-11 check digit</Hint
+  >
   <ErrorMessage>Please enter a valid Community Health Index</ErrorMessage>
 </Field>
 ```

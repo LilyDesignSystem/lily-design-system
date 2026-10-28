@@ -30,7 +30,11 @@ Use TabBar when building a tabbed interface where users switch between different
 
 ```html
 <TabBar label="Medication information">
-  <TabBarButton selected controls="panel-about">About this medicine</TabBarButton>
+  <TabBarButton
+    selected
+    controls="panel-about"
+    >About this medicine</TabBarButton
+  >
   <TabBarButton controls="panel-dosage">Dosage</TabBarButton>
   <TabBarButton controls="panel-side-effects">Side effects</TabBarButton>
   <TabBarButton controls="panel-interactions">Interactions</TabBarButton>
@@ -70,14 +74,11 @@ Use TabBar when building a tabbed interface where users switch between different
 
 This headless component renders a `<div>` with `role="tablist"`, `aria-label`, and built-in arrow key navigation (Left/Right to cycle tabs, Home/End to jump to first/last). The consumer provides tab button children, manages selection state, associates tab panels, and applies all visual styling.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.tab-bar` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `tab-bar`
 - Verify role="tablist"` -- identifies the container as a list of tabs

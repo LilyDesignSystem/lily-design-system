@@ -23,7 +23,10 @@ Use Resizable when you need a panel, pane, or content area that users can resize
 ## Usage
 
 ```tsx
-<Resizable label="Resizable panel" direction="both">
+<Resizable
+  label="Resizable panel"
+  direction="both"
+>
   <p>Content</p>
 </Resizable>
 ```

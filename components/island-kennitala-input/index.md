@@ -23,8 +23,15 @@ IslandKennitalaInput is a headless input for entering Iceland's Kennitala, Icela
 ## Usage
 
 ```html
-<Field label="Personal Identity Code" required>
-  <IslandKennitalaInput label="Personal Identity Code" value={value} required />
+<Field
+  label="Personal Identity Code"
+  required
+>
+  <IslandKennitalaInput
+    label="Personal Identity Code"
+    value="{value}"
+    required
+  />
   <Hint>10 digits where the first 6 are the date of birth (DDMMYY)</Hint>
   <ErrorMessage>Please enter a valid Personal Identity Code</ErrorMessage>
 </Field>

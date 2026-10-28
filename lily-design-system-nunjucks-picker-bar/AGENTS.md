@@ -25,13 +25,13 @@ convenience wrapper. See spec §3.3.
 
 ## Files
 
-| File                  | Purpose                                          |
-| ---------------------- | ------------------------------------------------ |
-| `spec/index.md`        | Specification-driven contract (canonical).        |
-| `picker-bar.njk`      | Nunjucks macro (`pickerBar(opts)`).              |
-| `picker-bar.client.js`| Convenience `initPickerBar`/`autoInit` wrapper.  |
-| `picker-bar.test.ts`  | Vitest spec, one assertion per §7 acceptance.     |
-| `index.md`             | Comprehensive user guide.                         |
+| File                   | Purpose                                         |
+| ---------------------- | ----------------------------------------------- |
+| `spec/index.md`        | Specification-driven contract (canonical).      |
+| `picker-bar.njk`       | Nunjucks macro (`pickerBar(opts)`).             |
+| `picker-bar.client.js` | Convenience `initPickerBar`/`autoInit` wrapper. |
+| `picker-bar.test.ts`   | Vitest spec, one assertion per §7 acceptance.   |
+| `index.md`             | Comprehensive user guide.                       |
 
 ## Public surface
 
@@ -72,12 +72,41 @@ wire all five at once (§4.3), not a requirement.
 ## HTML
 
 ```html
-<div class="picker-bar {classes}" data-lily-picker-bar-root ...attributes>
-  <div class="search-picker" data-lily-search-picker-root>…</div>
-  <div class="theme-picker" data-lily-theme-picker-root>…</div>
-  <div class="locale-picker" data-lily-locale-picker-root>…</div>
-  <div class="text-size-picker" data-lily-text-size-picker-root>…</div>
-  <div class="share-picker" data-lily-share-picker-root>…</div>
+<div
+  class="picker-bar {classes}"
+  data-lily-picker-bar-root
+  ...attributes
+>
+  <div
+    class="search-picker"
+    data-lily-search-picker-root
+  >
+    …
+  </div>
+  <div
+    class="theme-picker"
+    data-lily-theme-picker-root
+  >
+    …
+  </div>
+  <div
+    class="locale-picker"
+    data-lily-locale-picker-root
+  >
+    …
+  </div>
+  <div
+    class="text-size-picker"
+    data-lily-text-size-picker-root
+  >
+    …
+  </div>
+  <div
+    class="share-picker"
+    data-lily-share-picker-root
+  >
+    …
+  </div>
 </div>
 ```
 

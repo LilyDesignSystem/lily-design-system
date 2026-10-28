@@ -10,11 +10,11 @@ See [components/candlestick-chart/index.md](../../../components/candlestick-char
 
 ```svelte
 <script lang="ts">
-    import CandlestickChart from "./CandlestickChart.svelte";
+  import CandlestickChart from "./CandlestickChart.svelte";
 </script>
 
 <CandlestickChart label="Describe the chart">
-    <svg viewBox="0 0 10 10">…</svg>
+  <svg viewBox="0 0 10 10">…</svg>
 </CandlestickChart>
 ```
 

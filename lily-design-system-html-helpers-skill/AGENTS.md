@@ -44,7 +44,7 @@ rather than a page-header preference widget.
 
 ## What this subproject is, and isn't
 
-- **Is**: a distributable skill scoped to *consuming* the HTML `*-picker`
+- **Is**: a distributable skill scoped to _consuming_ the HTML `*-picker`
   helpers catalog — what each helper owns, its markup and keyboard
   contract, its attribute/property/event surface, and how it relates to
   the independent Web Components helpers copy.

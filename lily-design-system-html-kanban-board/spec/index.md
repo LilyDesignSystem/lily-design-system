@@ -57,14 +57,14 @@ real component dependencies), **this catalog's `kanban-table` family in
 JS class to import or instantiate. `<kanban-board>` therefore builds the
 documented class names and structure by hand:
 
-| Contract slug        | Rendered as                         |
-| --------------------- | ------------------------------------ |
-| `kanban-table`         | `<table class="kanban-table" role="grid">` |
-| `kanban-table-head`    | `<thead class="kanban-table-head">`  |
-| `kanban-table-body`    | `<tbody class="kanban-table-body">`  |
-| `kanban-table-row`     | `<tr class="kanban-table-row">`      |
-| `kanban-table-th`      | `<th class="kanban-table-th">`       |
-| `kanban-table-td`      | `<td class="kanban-table-td">`       |
+| Contract slug       | Rendered as                                |
+| ------------------- | ------------------------------------------ |
+| `kanban-table`      | `<table class="kanban-table" role="grid">` |
+| `kanban-table-head` | `<thead class="kanban-table-head">`        |
+| `kanban-table-body` | `<tbody class="kanban-table-body">`        |
+| `kanban-table-row`  | `<tr class="kanban-table-row">`            |
+| `kanban-table-th`   | `<th class="kanban-table-th">`             |
+| `kanban-table-td`   | `<td class="kanban-table-td">`             |
 
 The contract's own accessibility note is "Implicit table role" (i.e.
 none) — `<kanban-board>` sets `role="grid"` itself with no override to
@@ -99,13 +99,13 @@ rendered as a `<caption>`), `class` (extra class on the rendered root).
 
 **Property-only members** (set via JS, not HTML attributes):
 
-| Property     | Type                                                     | Required | Default |
-| ------------ | --------------------------------------------------------- | -------- | ------- |
-| `columns`    | `KanbanColumn[]`                                           | yes      | `[]`    |
-| `cards`      | `KanbanCard[]`                                             | yes      | `[]`    |
-| `cardLabel`  | `(card: KanbanCard) => string`                              | no       | `card.title` |
-| `onMove`     | `(cardId: string, toColumnId: string) => void`              | no       | —       |
-| `labels`     | `KanbanLabels`                                              | no       | `{}`    |
+| Property    | Type                                           | Required | Default      |
+| ----------- | ---------------------------------------------- | -------- | ------------ |
+| `columns`   | `KanbanColumn[]`                               | yes      | `[]`         |
+| `cards`     | `KanbanCard[]`                                 | yes      | `[]`         |
+| `cardLabel` | `(card: KanbanCard) => string`                 | no       | `card.title` |
+| `onMove`    | `(cardId: string, toColumnId: string) => void` | no       | —            |
+| `labels`    | `KanbanLabels`                                 | no       | `{}`         |
 
 `KanbanColumn`: `id` (required), `title` (required), `wipLimit?: number`.
 
@@ -132,30 +132,75 @@ dispatches.
 ```html
 <kanban-board label="Sprint board">
   <div class="kanban-board {class}">
-    <table class="kanban-table" role="grid" aria-label="{label}">
-      <caption>{caption}</caption> <!-- only when caption is set -->
+    <table
+      class="kanban-table"
+      role="grid"
+      aria-label="{label}"
+    >
+      <caption>
+        {caption}
+      </caption>
+      <!-- only when caption is set -->
       <thead class="kanban-table-head">
         <tr class="kanban-table-row">
-          <th class="kanban-table-th" data-over-limit>            <!-- only when column.wipLimit is exceeded -->
+          <th
+            class="kanban-table-th"
+            data-over-limit
+          >
+            <!-- only when column.wipLimit is exceeded -->
             {column.title}
-            <span class="kanban-board-count">{labels.cardCount(count)}</span>            <!-- only when labels.cardCount -->
-            <span class="kanban-board-wip-warning">{labels.overLimit(count, limit)}</span>  <!-- only when over limit -->
+            <span class="kanban-board-count">{labels.cardCount(count)}</span>
+            <!-- only when labels.cardCount -->
+            <span class="kanban-board-wip-warning">{labels.overLimit(count, limit)}</span>
+            <!-- only when over limit -->
           </th>
         </tr>
       </thead>
       <tbody class="kanban-table-body">
         <tr class="kanban-table-row">
-          <td class="kanban-table-td" data-row="{r}" data-col="{c}" tabindex="0|-1">  <!-- named by its content, no aria-label (WCAG 2.5.3); no aria-selected: focus is not selection -->
-            <span class="kanban-board-card-title" draggable="true">{cardLabel(card)}</span>
-            <button class="kanban-board-move-button" aria-haspopup="listbox" aria-expanded="false|true" tabindex="-1">…</button>
-            <ul class="kanban-board-move-list" role="listbox" aria-label="{moveMenuLabel}" tabindex="-1">  <!-- only while open -->
-              <li class="kanban-board-move-option" role="option" aria-selected="true|false">{destinationColumn.title}</li>
+          <td
+            class="kanban-table-td"
+            data-row="{r}"
+            data-col="{c}"
+            tabindex="0|-1"
+          >
+            <!-- named by its content, no aria-label (WCAG 2.5.3); no aria-selected: focus is not selection -->
+            <span
+              class="kanban-board-card-title"
+              draggable="true"
+              >{cardLabel(card)}</span
+            >
+            <button
+              class="kanban-board-move-button"
+              aria-haspopup="listbox"
+              aria-expanded="false|true"
+              tabindex="-1"
+            >
+              …
+            </button>
+            <ul
+              class="kanban-board-move-list"
+              role="listbox"
+              aria-label="{moveMenuLabel}"
+              tabindex="-1"
+            >
+              <!-- only while open -->
+              <li
+                class="kanban-board-move-option"
+                role="option"
+                aria-selected="true|false"
+              >
+                {destinationColumn.title}
+              </li>
             </ul>
           </td>
         </tr>
       </tbody>
     </table>
-    <p class="kanban-board-status" aria-live="polite"></p>
+    <p
+      class="kanban-board-status"
+      aria-live="polite"
+    ></p>
   </div>
 </kanban-board>
 ```
@@ -291,7 +336,7 @@ for the reasoning behind each.
 3. **The move-menu button-identity fix.** Every other framework
    catalog's kanban-board port (React, Vue, Angular, Blazor, Web
    Components) independently found the same latent bug in the Svelte
-   canonical: its move-menu binds a *single shared* button reference
+   canonical: its move-menu binds a _single shared_ button reference
    across every card, so closing a menu refocuses whichever card's
    button happened to render last — not the card whose menu actually
    closed. It is invisible to the Svelte test suite because that suite
@@ -308,7 +353,7 @@ for the reasoning behind each.
 4. **§8.12 "extra attributes spread onto the root" is re-scoped.** The
    Svelte version spreads unrecognised props onto a `<div>` it
    synthesizes at render time — necessary because Svelte creates that
-   element. A custom element's own tag *is* the element the consumer
+   element. A custom element's own tag _is_ the element the consumer
    authored; any attribute they set on `<kanban-board>` is already
    present in the DOM with no forwarding step required, so this port's
    §8.12 test asserts that directly rather than adding a generic

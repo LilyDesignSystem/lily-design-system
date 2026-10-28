@@ -76,16 +76,16 @@ catalog's `KanbanTableTD` has no span-membership overload (unlike
 
 ## 5. Props
 
-| Prop        | Type                                            | Required | Default      |
-| ----------- | ------------------------------------------------ | -------- | ------------ |
-| `label`     | `string`                                          | yes      | —            |
-| `columns`   | `KanbanColumn[]`                                  | yes      | —            |
-| `cards`     | `KanbanCard[]`                                    | yes      | —            |
-| `caption`   | `string`                                           | no       | —            |
-| `cardLabel` | `(card: KanbanCard) => string`                     | no       | `card.title` |
-| `onMove`    | `(cardId: string, toColumnId: string) => void`     | no       | —            |
-| `labels`    | `KanbanLabels`                                     | no       | `{}`         |
-| `className` | `string`                                           | no       | `""`         |
+| Prop        | Type                                           | Required | Default      |
+| ----------- | ---------------------------------------------- | -------- | ------------ |
+| `label`     | `string`                                       | yes      | —            |
+| `columns`   | `KanbanColumn[]`                               | yes      | —            |
+| `cards`     | `KanbanCard[]`                                 | yes      | —            |
+| `caption`   | `string`                                       | no       | —            |
+| `cardLabel` | `(card: KanbanCard) => string`                 | no       | `card.title` |
+| `onMove`    | `(cardId: string, toColumnId: string) => void` | no       | —            |
+| `labels`    | `KanbanLabels`                                 | no       | `{}`         |
+| `className` | `string`                                       | no       | `""`         |
 
 Plus every other native `<div>` attribute (`Props` extends
 `React.HTMLAttributes<HTMLDivElement>` minus `onChange`/`children`),
@@ -248,7 +248,7 @@ fires once per card, at initial mount — so `moveButtonEl` ends up
 permanently pointing at whichever card's button mounted **last** in
 document order, not the card whose menu is actually being closed. This
 is invisible to the Svelte test suite because its own assertion only
-checks that focus lands on *an* element carrying the shared
+checks that focus lands on _an_ element carrying the shared
 `kanban-board-move-button` class, not on the specific card's own
 button.
 

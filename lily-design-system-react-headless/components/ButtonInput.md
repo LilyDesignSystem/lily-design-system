@@ -26,15 +26,25 @@ This component is useful in form contexts where the native input semantics are p
 ## Usage
 
 ```tsx
-<ButtonInput value="Click me" onClick={handleClick} />
+<ButtonInput
+  value="Click me"
+  onClick={handleClick}
+/>
 ```
 
 ```tsx
-<ButtonInput value="Submit" disabled />
+<ButtonInput
+  value="Submit"
+  disabled
+/>
 ```
 
 ```tsx
-<ButtonInput value="Save" name="action" label="Save changes" />
+<ButtonInput
+  value="Save"
+  name="action"
+  label="Save changes"
+/>
 ```
 
 ## Keyboard Interactions

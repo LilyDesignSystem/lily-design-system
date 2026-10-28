@@ -19,15 +19,15 @@ for the deviations that could not be avoided.
 
 ## Files
 
-| File                     | Purpose                                       |
-| ------------------------ | --------------------------------------------- |
-| `spec/index.md`          | Specification-driven contract (canonical).    |
-| `SearchPicker.razor`     | Razor markup.                                 |
-| `SearchPicker.razor.cs`  | C# code-behind (partial class).               |
-| `SearchPickerTests.cs`   | bUnit + xUnit spec, mapped to the §7 clauses. |
-| `index.md`               | User guide.                                   |
-| `docs/accessibility.md`  | Tradeoffs, stated plainly.                    |
-| `examples/`              | Copy-pasteable Razor snippets.                |
+| File                    | Purpose                                       |
+| ----------------------- | --------------------------------------------- |
+| `spec/index.md`         | Specification-driven contract (canonical).    |
+| `SearchPicker.razor`    | Razor markup.                                 |
+| `SearchPicker.razor.cs` | C# code-behind (partial class).               |
+| `SearchPickerTests.cs`  | bUnit + xUnit spec, mapped to the §7 clauses. |
+| `index.md`              | User guide.                                   |
+| `docs/accessibility.md` | Tradeoffs, stated plainly.                    |
+| `examples/`             | Copy-pasteable Razor snippets.                |
 
 ## Public surface
 

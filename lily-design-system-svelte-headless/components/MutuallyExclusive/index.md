@@ -10,7 +10,7 @@ See [components/mutually-exclusive/index.md](../../../components/mutually-exclus
 
 ```svelte
 <script lang="ts">
-    import MutuallyExclusive from "./MutuallyExclusive.svelte";
+  import MutuallyExclusive from "./MutuallyExclusive.svelte";
 </script>
 
 <MutuallyExclusive />

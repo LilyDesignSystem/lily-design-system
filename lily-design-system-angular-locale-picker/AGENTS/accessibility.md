@@ -9,21 +9,21 @@ in [`../docs/accessibility.md`](../docs/accessibility.md).
 
 ## Roles and properties
 
-| Element                       | Role / Property                          | Source         |
-| ----------------------------- | ---------------------------------------- | -------------- |
-| `<div>` root                  | none (click / focus boundary)            | Select         |
-| `<input type="hidden">`       | `name`, `value` (form participation)     | Select         |
-| `<button>`                    | `aria-label={label}`                     | Consumer input |
-| `<button>`                    | `aria-haspopup="listbox"`                | Select         |
-| `<button>`                    | `aria-expanded="true\|false"`             | Select         |
-| `<button>`                    | `aria-controls={listId}`                 | Select         |
-| `<span>` glyph                | `aria-hidden="true"`                     | Select         |
-| `<ul>`                        | `role="listbox"`, `aria-label={label}`   | Select         |
-| `<ul>`                        | `tabindex="-1"`, `hidden` while closed   | Select         |
-| `<ul>`                        | `aria-activedescendant` (open only)      | Select         |
-| `<li>`                        | `role="option"`, `aria-selected`         | Select         |
-| `<li>`                        | `data-active` (keyboard-active, open only) | Select       |
-| `<li>`                        | `lang={tag}` (endonym-labelled options only) | Select     |
+| Element                 | Role / Property                              | Source         |
+| ----------------------- | -------------------------------------------- | -------------- |
+| `<div>` root            | none (click / focus boundary)                | Select         |
+| `<input type="hidden">` | `name`, `value` (form participation)         | Select         |
+| `<button>`              | `aria-label={label}`                         | Consumer input |
+| `<button>`              | `aria-haspopup="listbox"`                    | Select         |
+| `<button>`              | `aria-expanded="true\|false"`                | Select         |
+| `<button>`              | `aria-controls={listId}`                     | Select         |
+| `<span>` glyph          | `aria-hidden="true"`                         | Select         |
+| `<ul>`                  | `role="listbox"`, `aria-label={label}`       | Select         |
+| `<ul>`                  | `tabindex="-1"`, `hidden` while closed       | Select         |
+| `<ul>`                  | `aria-activedescendant` (open only)          | Select         |
+| `<li>`                  | `role="option"`, `aria-selected`             | Select         |
+| `<li>`                  | `data-active` (keyboard-active, open only)   | Select         |
+| `<li>`                  | `lang={tag}` (endonym-labelled options only) | Select         |
 
 Two things to hold onto:
 
@@ -42,23 +42,23 @@ Two things to hold onto:
 
 Implemented in the component. On the **button**:
 
-| Key                    | Action                                                        |
-| ---------------------- | ------------------------------------------------------------- |
-| Tab / Shift+Tab        | Move focus to / from the button.                              |
-| Enter / Space          | Open the list, active option = the selected one (else index 0). |
-| Arrow Down             | Open the list, active option = the selected one (else index 0). |
-| Arrow Up               | Open the list, active option = the **last** one.              |
+| Key             | Action                                                          |
+| --------------- | --------------------------------------------------------------- |
+| Tab / Shift+Tab | Move focus to / from the button.                                |
+| Enter / Space   | Open the list, active option = the selected one (else index 0). |
+| Arrow Down      | Open the list, active option = the selected one (else index 0). |
+| Arrow Up        | Open the list, active option = the **last** one.                |
 
 Opening always moves focus to the `<ul>`. On the **listbox**:
 
-| Key                    | Action                                                        |
-| ---------------------- | ------------------------------------------------------------- |
-| Arrow Down / Arrow Up  | Move the active option; **clamps** at both ends, never wraps. |
-| Home / End             | Jump to the first / last option.                              |
-| Enter / Space          | Select the active option, apply it, close, refocus the button. |
-| Escape                 | Close and refocus the button; the value is unchanged.         |
-| Tab                    | Close via the button so the default Tab moves on from here.   |
-| Printable characters   | Typeahead over the option **labels**; buffer clears 500 ms after the last keystroke. |
+| Key                   | Action                                                                               |
+| --------------------- | ------------------------------------------------------------------------------------ |
+| Arrow Down / Arrow Up | Move the active option; **clamps** at both ends, never wraps.                        |
+| Home / End            | Jump to the first / last option.                                                     |
+| Enter / Space         | Select the active option, apply it, close, refocus the button.                       |
+| Escape                | Close and refocus the button; the value is unchanged.                                |
+| Tab                   | Close via the button so the default Tab moves on from here.                          |
+| Printable characters  | Typeahead over the option **labels**; buffer clears 500 ms after the last keystroke. |
 
 Pointer and focus equivalents: clicking the button toggles; clicking
 an option selects it; clicking outside the root closes; focus leaving
@@ -80,7 +80,7 @@ colour-only meaning is required:
 4. The `[(value)]` two-way binding in user code, mirrored into the
    hidden input's `value`.
 
-Note what is *not* in that list: the closed button. It shows a globe
+Note what is _not_ in that list: the closed button. It shows a globe
 glyph and nothing else, so the active locale is invisible until the
 list is opened. See
 [`../docs/accessibility.md`](../docs/accessibility.md) for the
@@ -104,11 +104,14 @@ widget. Always carry the locale's BCP 47 tag onto each
 
 ```html
 <select>
-    @for (l of locales; track l) {
-        <option [value]="l" [attr.lang]="tagFor(l)">
-            {{ labelFor(l) }}
-        </option>
-    }
+  @for (l of locales; track l) {
+  <option
+    [value]="l"
+    [attr.lang]="tagFor(l)"
+  >
+    {{ labelFor(l) }}
+  </option>
+  }
 </select>
 ```
 
@@ -120,7 +123,7 @@ behaviour and satisfies WCAG 3.2.2 (On Input): focus lands back on
 the trigger, not somewhere unrelated, and no context change occurs.
 `Escape` does the same without changing the value.
 
-Focus is deliberately *not* pulled back when the list closes because
+Focus is deliberately _not_ pulled back when the list closes because
 of an outside click or focus leaving the root — in those cases the
 user has already said where focus should go. `Tab` is its own case:
 focus goes to the button first, then the list closes, so the
@@ -137,12 +140,12 @@ choosing.
 The control is an icon button, so what a reader announces on focus is
 the `label` plus the collapsed state — never the active locale.
 
-| Reader     | OS       | Browser   | What's announced when the user lands on the button          |
-| ---------- | -------- | --------- | ---------------------------------------------------------- |
-| VoiceOver  | macOS 14 | Safari 17 | "Language, pop-up button, collapsed". Opening announces the list; arrowing announces each option's `lang`-correct pronunciation and its selected state. |
-| NVDA       | Windows  | Firefox   | "Language button, collapsed". After opening: "list box, English (United States), selected, 1 of 5". |
-| JAWS       | Windows  | Chrome    | "Language button, collapsed".                              |
-| TalkBack   | Android  | Chrome    | "Language, button, double-tap to activate".                |
+| Reader    | OS       | Browser   | What's announced when the user lands on the button                                                                                                      |
+| --------- | -------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| VoiceOver | macOS 14 | Safari 17 | "Language, pop-up button, collapsed". Opening announces the list; arrowing announces each option's `lang`-correct pronunciation and its selected state. |
+| NVDA      | Windows  | Firefox   | "Language button, collapsed". After opening: "list box, English (United States), selected, 1 of 5".                                                     |
+| JAWS      | Windows  | Chrome    | "Language button, collapsed".                                                                                                                           |
+| TalkBack  | Android  | Chrome    | "Language, button, double-tap to activate".                                                                                                             |
 
 Two caveats worth stating rather than burying. The
 "lang-correct pronunciation" depends on the reader having a matching

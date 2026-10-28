@@ -23,9 +23,21 @@ ChileRolUnicoNacionalInput is a headless input for entering Chile's Rol Único N
 ## Usage
 
 ```html
-<Field label="Rol Único Nacional (RUN)" required>
-  <ChileRolUnicoNacionalInput label="Rol Único Nacional (RUN)" value={value} required />
-  <Hint>Seven or eight digits plus a trailing check character. The check character is computed with a Modulus-11 algorithm: each body digit, read right to left, is multiplied by a repeating weight sequence 2,3,4,5,6,7; the products are summed; the check value is 11 minus the sum's Modulus-11 remainder, where a result of 11 maps to 0 and a result of 10 maps to the letter K.</Hint>
+<Field
+  label="Rol Único Nacional (RUN)"
+  required
+>
+  <ChileRolUnicoNacionalInput
+    label="Rol Único Nacional (RUN)"
+    value="{value}"
+    required
+  />
+  <Hint
+    >Seven or eight digits plus a trailing check character. The check character is computed with a
+    Modulus-11 algorithm: each body digit, read right to left, is multiplied by a repeating weight
+    sequence 2,3,4,5,6,7; the products are summed; the check value is 11 minus the sum's Modulus-11
+    remainder, where a result of 11 maps to 0 and a result of 10 maps to the letter K.</Hint
+  >
   <ErrorMessage>Please enter a valid Rol Único Nacional</ErrorMessage>
 </Field>
 ```

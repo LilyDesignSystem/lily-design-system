@@ -28,19 +28,32 @@ Week inputs are useful for scheduling applications, time tracking systems, repor
 Sprint planning week selection:
 
 ```html
-<WeekInput label="Sprint week" value={sprintWeek} required />
+<WeekInput
+  label="Sprint week"
+  value="{sprintWeek}"
+  required
+/>
 ```
 
 Payroll period with constrained range:
 
 ```html
-<WeekInput label="Payroll week" value={payrollWeek} min="2026-W01" max="2026-W52" required />
+<WeekInput
+  label="Payroll week"
+  value="{payrollWeek}"
+  min="2026-W01"
+  max="2026-W52"
+  required
+/>
 ```
 
 Weekly report filter:
 
 ```html
-<WeekInput label="Report week" value={reportWeek} />
+<WeekInput
+  label="Report week"
+  value="{reportWeek}"
+/>
 ```
 
 ## Keyboard Interactions
@@ -73,14 +86,11 @@ Note: keyboard interactions depend on the browser's native week picker implement
 
 This headless component provides a native `<input type="week">` element with `aria-label`, two-way value binding in ISO 8601 YYYY-Www format, and support for `required` and `disabled` states. The consumer provides all visual styling and any surrounding labels or hints.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.week-input` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<input>` element with class `week-input`
 - Verify aria-label={label}` -- provides the accessible name for the week input since no visible label element is associated

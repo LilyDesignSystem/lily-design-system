@@ -29,11 +29,29 @@ View mode toggle showing Grid and List options:
 
 ```html
 <SegmentGroup label="View mode">
-  <SegmentGroupItem checked={mode === 'grid'} value="grid" onclick={() => mode = 'grid'}>
-    Grid
+  <SegmentGroupItem
+    checked="{mode"
+    =""
+    =""
+    ="grid"
+    }
+    value="grid"
+    onclick="{()"
+    =""
+  >
+    mode = 'grid'}> Grid
   </SegmentGroupItem>
-  <SegmentGroupItem checked={mode === 'list'} value="list" onclick={() => mode = 'list'}>
-    List
+  <SegmentGroupItem
+    checked="{mode"
+    =""
+    =""
+    ="list"
+    }
+    value="list"
+    onclick="{()"
+    =""
+  >
+    mode = 'list'}> List
   </SegmentGroupItem>
 </SegmentGroup>
 ```
@@ -42,13 +60,35 @@ Display density selector with a disabled option:
 
 ```html
 <SegmentGroup label="Display density">
-  <SegmentGroupItem checked={density === 'compact'} value="compact" onclick={() => density = 'compact'}>
-    Compact
+  <SegmentGroupItem
+    checked="{density"
+    =""
+    =""
+    ="compact"
+    }
+    value="compact"
+    onclick="{()"
+    =""
+  >
+    density = 'compact'}> Compact
   </SegmentGroupItem>
-  <SegmentGroupItem checked={density === 'normal'} value="normal" onclick={() => density = 'normal'}>
-    Normal
+  <SegmentGroupItem
+    checked="{density"
+    =""
+    =""
+    ="normal"
+    }
+    value="normal"
+    onclick="{()"
+    =""
+  >
+    density = 'normal'}> Normal
   </SegmentGroupItem>
-  <SegmentGroupItem checked={false} value="spacious" disabled>
+  <SegmentGroupItem
+    checked="{false}"
+    value="spacious"
+    disabled
+  >
     Spacious
   </SegmentGroupItem>
 </SegmentGroup>
@@ -82,14 +122,11 @@ Display density selector with a disabled option:
 
 The SegmentGroupItem headless component provides a `<button>` with `role="radio"`, `aria-checked`, roving `tabindex`, and `data-value` for CSS targeting. The consumer provides all visual styling for the segment button, including selected and disabled states.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.segment-group-item` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `segment-group-item`
 - Verify role="radio"` -- identifies this button as a radio-like option within a radiogroup

@@ -24,7 +24,6 @@ there); this picker's clauses are §7.35–§7.40.
 
 **Fix: the tooltip's `Escape` dismissal now works wherever focus is (WCAG 1.4.13).** It was bound to the button's keydown only, so a tooltip shown by pointer hover alone could not be dismissed. While the tooltip is visible a document `keydown` listener (added once, removed on hide/unmount; no `preventDefault`, no focus move) sets it dismissed. New clauses §7.41–§7.42.
 
-
 ## 0.1.3 — 2026-10-01
 
 **Icon: the default globe now follows
@@ -167,7 +166,7 @@ part of 0.1.0 rather than a later version.
   cancelling the key — so the default Tab proceeds from the picker's
   own position.
 - **Typeahead follows the APG single-character rule.** A single
-  character advances to the *next* matching option, and repeating that
+  character advances to the _next_ matching option, and repeating that
   character cycles through the matches; only a buffer of differing
   characters refines the match anchored on the active option.
   Previously a character that matched the active option went nowhere.
@@ -186,7 +185,7 @@ part of 0.1.0 rather than a later version.
 
 - **Default option labels are endonyms** — each language named in
   itself, "Cymraeg" not "Welsh" — via the new exported
-  `localeEndonym()` (`Intl.DisplayNames` asked *in that language*,
+  `localeEndonym()` (`Intl.DisplayNames` asked _in that language_,
   deterministic, no `navigator` dependency). The English table in
   `locales.ts` becomes a fallback for runtimes without the data. The
   user who needs a language menu is the one who cannot read the page's

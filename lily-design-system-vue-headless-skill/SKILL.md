@@ -31,7 +31,11 @@ const name = ref("");
 </script>
 
 <template>
-  <TextInput label="Your name" v-model="name" placeholder="Enter your name" />
+  <TextInput
+    label="Your name"
+    v-model="name"
+    placeholder="Enter your name"
+  />
   <Button @click="alert(`Hello, ${name}!`)">Greet</Button>
 </template>
 ```

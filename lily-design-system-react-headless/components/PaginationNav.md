@@ -17,11 +17,26 @@ Compound component: use with PaginationList and PaginationListItem.
 ```tsx
 <PaginationNav label="Pagination">
   <PaginationList>
-    <PaginationListItem><a href="/page/1">Previous</a></PaginationListItem>
-    <PaginationListItem><a href="/page/1">1</a></PaginationListItem>
-    <PaginationListItem><a href="/page/2" aria-current="page">2</a></PaginationListItem>
-    <PaginationListItem><a href="/page/3">3</a></PaginationListItem>
-    <PaginationListItem><a href="/page/3">Next</a></PaginationListItem>
+    <PaginationListItem>
+      <a href="/page/1">Previous</a>
+    </PaginationListItem>
+    <PaginationListItem>
+      <a href="/page/1">1</a>
+    </PaginationListItem>
+    <PaginationListItem>
+      <a
+        href="/page/2"
+        aria-current="page"
+      >
+        2
+      </a>
+    </PaginationListItem>
+    <PaginationListItem>
+      <a href="/page/3">3</a>
+    </PaginationListItem>
+    <PaginationListItem>
+      <a href="/page/3">Next</a>
+    </PaginationListItem>
   </PaginationList>
 </PaginationNav>
 ```

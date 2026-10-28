@@ -9,7 +9,7 @@ license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 `@lilydesignsystem/html-headless` is the plain-HTML implementation of Lily's
 canonical component catalog: annotated semantic-HTML snippet files with ARIA
 and class hooks, plus an embedded vanilla-JS behavior layer where a component
-needs interactivity. Zero CSS, zero framework, zero build step to *use* a
+needs interactivity. Zero CSS, zero framework, zero build step to _use_ a
 component. It is one of the seven canonical, full-catalog (581/581) headless
 libraries — HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks — each
 implementing the same slugs, props/attributes, and ARIA/keyboard contracts.
@@ -41,7 +41,10 @@ component needs interactivity, an embedded `<script>` block:
     </button>
 -->
 
-<button class="button" aria-label="">
+<button
+  class="button"
+  aria-label=""
+>
   <!-- Consumer provides button content -->
 </button>
 ```
@@ -58,14 +61,14 @@ import step to render a component and no bundler required to use one: no
 TypeScript, no JSX, no framework runtime. The package itself (dev-only
 tooling: WebDriverIO tests, Storybook, a small node helper) is published to
 npm for teams that want to read the source or script the copy step, but
-nothing about *rendering* a component requires installing it.
+nothing about _rendering_ a component requires installing it.
 
 ## Theming and class hooks
 
 Same contract as every other Lily catalog: the first attribute on a
 component's root element is its kebab-case base class plus the consumer's
 own class hook (`class="{slug} {your-class}"`), and that base class is the
-*only* styling contract — no bundled CSS, fonts, icons, or images. Consumer
+_only_ styling contract — no bundled CSS, fonts, icons, or images. Consumer
 CSS targets the class directly; there is no `nhsuk-`-style prefix and no CSS
 framework dependency. See [../AGENTS/theme.md](../AGENTS/theme.md) and
 [../AGENTS/headless.md](../AGENTS/headless.md) for the full rules this

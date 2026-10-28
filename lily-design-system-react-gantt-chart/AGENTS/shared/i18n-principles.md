@@ -85,10 +85,18 @@ plus the underlying state. They wrap or replace the default
 markup with their own i18n strings.
 
 ```tsx
-<ThemePicker label="主题" themesUrl="/t/" themes={["light", "dark"]}>
+<ThemePicker
+  label="主题"
+  themesUrl="/t/"
+  themes={["light", "dark"]}
+>
   {({ themes, value, setTheme, labelFor }) =>
     themes.map((t) => (
-      <button key={t} aria-pressed={value === t} onClick={() => setTheme(t)}>
+      <button
+        key={t}
+        aria-pressed={value === t}
+        onClick={() => setTheme(t)}
+      >
         {labelFor(t)}
       </button>
     ))

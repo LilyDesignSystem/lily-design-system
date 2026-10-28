@@ -16,14 +16,14 @@ class hooks, supplies the listbox positioning, and maps each
 
 ## Files
 
-| File                                  | Purpose                                           |
-| ------------------------------------- | ------------------------------------------------- |
-| `spec/index.md`                       | Specification-driven contract (canonical).        |
+| File                                 | Purpose                                           |
+| ------------------------------------ | ------------------------------------------------- |
+| `spec/index.md`                      | Specification-driven contract (canonical).        |
 | `text-size-picker.component.ts`      | Implementation. Standalone, signal-based, OnPush. |
 | `text-size-picker.component.spec.ts` | Vitest spec, one assertion per §7 acceptance.     |
-| `docs/accessibility.md`               | Roles, keyboard contract, and the tradeoffs.      |
-| `index.ts`                            | Barrel re-export.                                 |
-| `index.md`                            | User guide.                                       |
+| `docs/accessibility.md`              | Roles, keyboard contract, and the tradeoffs.      |
+| `index.ts`                           | Barrel re-export.                                 |
+| `index.md`                           | User guide.                                       |
 
 ## Public surface
 
@@ -56,7 +56,11 @@ text size" media query exists.
 
 ```html
 <div class="text-size-picker {className}">
-  <input type="hidden" name="{name}" value="{value}" />
+  <input
+    type="hidden"
+    name="{name}"
+    value="{value}"
+  />
   <button
     type="button"
     class="text-size-picker-button"
@@ -65,9 +69,27 @@ text size" media query exists.
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <svg class="text-size-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13 7.2 3h1.6L12 13M5.4 9.5h5.2"/></svg>
+    <svg
+      class="text-size-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M4 13 7.2 3h1.6L12 13M5.4 9.5h5.2" />
+    </svg>
   </button>
-  <div class="text-size-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
+  <div
+    class="text-size-picker-tooltip"
+    role="tooltip"
+    id="{tooltipId}"
+    hidden
+  >
+    {label}
+  </div>
   <ul
     class="text-size-picker-list"
     id="{listId}"

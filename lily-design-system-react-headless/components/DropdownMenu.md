@@ -26,15 +26,33 @@ The component manages its own focus lifecycle: when the menu opens, focus moves 
 ## Usage
 
 ```tsx
-<DropdownMenu label="Options" open={isOpen} onChange={setIsOpen}>
-  <li role="menuitem" tabindex="-1">Edit</li>
-  <li role="menuitem" tabindex="-1">Duplicate</li>
-  <li role="menuitem" tabindex="-1">Delete</li>
+<DropdownMenu
+  label="Options"
+  open={isOpen}
+  onChange={setIsOpen}
+>
+  <li
+    role="menuitem"
+    tabindex="-1"
+  >
+    Edit
+  </li>
+  <li
+    role="menuitem"
+    tabindex="-1"
+  >
+    Duplicate
+  </li>
+  <li
+    role="menuitem"
+    tabindex="-1"
+  >
+    Delete
+  </li>
 </DropdownMenu>
 ```
 
 ```tsx
-
 const [menuOpen, setMenuOpen] = useState(false);
 
 function handleAction(action: string) {
@@ -42,10 +60,26 @@ function handleAction(action: string) {
   setMenuOpen(false);
 }
 
-<DropdownMenu label="Actions" open={menuOpen} onChange={setMenuOpen}>
-  <li role="menuitem" tabindex="-1" onClick={() => handleAction('edit')}>Edit</li>
-  <li role="menuitem" tabindex="-1" onClick={() => handleAction('delete')}>Delete</li>
-</DropdownMenu>
+<DropdownMenu
+  label="Actions"
+  open={menuOpen}
+  onChange={setMenuOpen}
+>
+  <li
+    role="menuitem"
+    tabindex="-1"
+    onClick={() => handleAction("edit")}
+  >
+    Edit
+  </li>
+  <li
+    role="menuitem"
+    tabindex="-1"
+    onClick={() => handleAction("delete")}
+  >
+    Delete
+  </li>
+</DropdownMenu>;
 ```
 
 ## Keyboard Interactions

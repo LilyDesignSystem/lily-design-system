@@ -20,7 +20,10 @@ A floating panel is a container that overlays page content, typically used for t
 ## Usage
 
 ```tsx
-<FloatingPanel open={showPanel} label="Options">
+<FloatingPanel
+  open={showPanel}
+  label="Options"
+>
   <p>Panel content</p>
 </FloatingPanel>
 ```

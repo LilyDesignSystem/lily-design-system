@@ -18,7 +18,12 @@ const links: LinkItem[] = [
 ];
 
 export function Header() {
-  return <LinkPicker label="Pages" links={links} />;
+  return (
+    <LinkPicker
+      label="Pages"
+      links={links}
+    />
+  );
 }
 ```
 
@@ -41,7 +46,13 @@ export function Header() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const links = pages.map((p) => ({ ...p, current: pathname === p.href }));
-  return <LinkPicker label="Pages" links={links} navigate={(href) => navigate(href)} />;
+  return (
+    <LinkPicker
+      label="Pages"
+      links={links}
+      navigate={(href) => navigate(href)}
+    />
+  );
 }
 ```
 
@@ -49,13 +60,13 @@ Ctrl/Cmd/Shift/Alt-click, middle-click and `newTab` links always stay native bro
 
 ## `LinkItem`
 
-| Field | Notes |
-| --- | --- |
-| label | Visible text. Yours, so it localises. |
-| href | A route (`"/about/"`) or a full URL. |
-| id | Reported when a link is chosen; defaults to the href. |
-| current | Marks the current page with `aria-current="page"`. |
-| newTab | `target="_blank"` with `rel="noopener noreferrer"`. |
+| Field   | Notes                                                 |
+| ------- | ----------------------------------------------------- |
+| label   | Visible text. Yours, so it localises.                 |
+| href    | A route (`"/about/"`) or a full URL.                  |
+| id      | Reported when a link is chosen; defaults to the href. |
+| current | Marks the current page with `aria-current="page"`.    |
+| newTab  | `target="_blank"` with `rel="noopener noreferrer"`.   |
 
 ## Props
 

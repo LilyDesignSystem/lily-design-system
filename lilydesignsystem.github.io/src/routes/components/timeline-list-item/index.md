@@ -25,14 +25,14 @@ Timeline entry with semantic time element:
 
 ```html
 <TimelineList label="Order history">
-    <TimelineListItem>
-        <time datetime="2024-01-15">January 15, 2024</time>
-        <p>Order placed</p>
-    </TimelineListItem>
-    <TimelineListItem>
-        <time datetime="2024-01-16">January 16, 2024</time>
-        <p>Order shipped</p>
-    </TimelineListItem>
+  <TimelineListItem>
+    <time datetime="2024-01-15">January 15, 2024</time>
+    <p>Order placed</p>
+  </TimelineListItem>
+  <TimelineListItem>
+    <time datetime="2024-01-16">January 16, 2024</time>
+    <p>Order shipped</p>
+  </TimelineListItem>
 </TimelineList>
 ```
 
@@ -40,8 +40,8 @@ Timeline entry with status data attribute for conditional styling:
 
 ```html
 <TimelineListItem data-status="completed">
-    <time datetime="2024-03-01T10:30">10:30 AM</time>
-    <p>User completed onboarding</p>
+  <time datetime="2024-03-01T10:30">10:30 AM</time>
+  <p>User completed onboarding</p>
 </TimelineListItem>
 ```
 
@@ -49,7 +49,7 @@ Timeline entry with status data attribute for conditional styling:
 
 | Prop           | Type            | Default    | Description                                          |
 | -------------- | --------------- | ---------- | ---------------------------------------------------- |
-| `children`     | `slot`       | (required) | Content for the timeline entry                       |
+| `children`     | `slot`          | (required) | Content for the timeline entry                       |
 | `...restProps` | HTML attributes |            | Additional attributes spread onto the `<li>` element |
 
 ## Examples
@@ -72,6 +72,7 @@ Activity feed item:
 
 - Semantic `<li>` element within an `<ol>` conveys ordered list item semantics
 - Consumers should use `<time>` elements with `datetime` attributes for machine-readable dates
+
 ## When to Use
 
 - Use inside TimelineList to represent one event or milestone with a date and description.
@@ -88,14 +89,11 @@ Activity feed item:
 
 This headless component provides a semantic `<li>` element for a single chronological entry within an ordered list. The consumer provides all content (timestamps, descriptions, icons) and all visual styling including markers, connectors, and layout.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.timeline-list-item` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<li>` element with class `timeline-list-item`
 - Verify keyboard interactions work correctly

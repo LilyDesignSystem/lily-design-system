@@ -21,13 +21,13 @@ This headless component renders a `<figure>` element with `role="img"` and an ac
 
 ```svelte
 <Figure label="Monthly revenue for 2024">
-    <svg><!-- bar figure SVG here --></svg>
+  <svg><!-- bar figure SVG here --></svg>
 </Figure>
 ```
 
 ```svelte
 <Figure label="User growth trend">
-    <canvas><!-- canvas figure here --></canvas>
+  <canvas><!-- canvas figure here --></canvas>
 </Figure>
 ```
 

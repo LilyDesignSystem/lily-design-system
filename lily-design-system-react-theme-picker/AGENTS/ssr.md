@@ -31,7 +31,11 @@ The select outputs deterministic HTML based purely on the resolved
 
 ```html
 <div class="theme-picker">
-  <input type="hidden" name="theme" value="light" />
+  <input
+    type="hidden"
+    name="theme"
+    value="light"
+  />
   <button
     type="button"
     class="theme-picker-button"
@@ -40,7 +44,27 @@ The select outputs deterministic HTML based purely on the resolved
     aria-expanded="false"
     aria-controls="theme-picker-«r0»-list"
   >
-    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>
+    <svg
+      class="theme-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle
+        cx="8"
+        cy="8"
+        r="6"
+      />
+      <path
+        d="M8 2a6 6 0 0 1 0 12z"
+        fill="currentColor"
+        stroke="none"
+      />
+    </svg>
   </button>
   <ul
     class="theme-picker-list"
@@ -107,16 +131,18 @@ Full working example in
 import { cookies } from "next/headers";
 import { ThemeClient } from "./theme-client";
 
-export default async function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const theme = (await cookies()).get("theme")?.value ?? "light";
   return (
-    <html lang="en" data-theme={theme}>
+    <html
+      lang="en"
+      data-theme={theme}
+    >
       <head>
-        <link rel="stylesheet" href={`/assets/themes/${theme}.css`} />
+        <link
+          rel="stylesheet"
+          href={`/assets/themes/${theme}.css`}
+        />
       </head>
       <body>
         <ThemeClient initialTheme={theme}>{children}</ThemeClient>
@@ -190,9 +216,15 @@ export async function loader({ request }: LoaderFunctionArgs) {
 export default function App() {
   const { theme } = useLoaderData<typeof loader>();
   return (
-    <html lang="en" data-theme={theme}>
+    <html
+      lang="en"
+      data-theme={theme}
+    >
       <head>
-        <link rel="stylesheet" href={`/assets/themes/${theme}.css`} />
+        <link
+          rel="stylesheet"
+          href={`/assets/themes/${theme}.css`}
+        />
       </head>
       <body>
         <ThemeClient initialTheme={theme} />

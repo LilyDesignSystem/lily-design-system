@@ -23,9 +23,19 @@ ElladaDematerialisedSecuritiesSystemInput is a headless input for entering Greec
 ## Usage
 
 ```html
-<Field label="Dematerialised Securities System" required>
-  <ElladaDematerialisedSecuritiesSystemInput label="Dematerialised Securities System" value={value} required />
-  <Hint>10 digits linked to the investor's personal details (name, ID number, passport number, tax registration number) and managed by the Central Securities Depository of Greece</Hint>
+<Field
+  label="Dematerialised Securities System"
+  required
+>
+  <ElladaDematerialisedSecuritiesSystemInput
+    label="Dematerialised Securities System"
+    value="{value}"
+    required
+  />
+  <Hint
+    >10 digits linked to the investor's personal details (name, ID number, passport number, tax
+    registration number) and managed by the Central Securities Depository of Greece</Hint
+  >
   <ErrorMessage>Please enter a valid Dematerialised Securities System</ErrorMessage>
 </Field>
 ```

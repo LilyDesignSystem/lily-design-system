@@ -10,20 +10,20 @@ accounting is in [`../docs/accessibility.md`](../docs/accessibility.md).
 
 ## Roles and properties
 
-| Element                 | Role / Property                                       | Source         |
-| ----------------------- | ----------------------------------------------------- | -------------- |
-| root `<div>`            | none — a container, not a control                     | —              |
-| `<input type="hidden">` | `name`, `value` (form participation)                  | Component      |
-| `<button>`              | implicit `role="button"`                              | Browser        |
-| `<button>`              | `aria-label={label}` — its **entire** accessible name | Consumer input |
-| `<button>`              | `aria-haspopup="listbox"`                             | Component      |
-| `<button>`              | `aria-expanded="true|false"`                          | Component      |
-| `<button>`              | `aria-controls={listId}`                              | Component      |
-| `.theme-picker-icon`    | `aria-hidden="true"`                                  | Component      |
-| `<ul>`                  | `role="listbox"`, `aria-label={label}`, `tabindex="-1"` | Component    |
-| `<ul>` (open only)      | `aria-activedescendant={active option id}`            | Component      |
-| `<li>`                  | `role="option"`, `aria-selected="true|false"`         | Component      |
-| `<li>`                  | `data-active` — styling hook, **not** ARIA            | Component      |
+| Element                 | Role / Property                                         | Source         |
+| ----------------------- | ------------------------------------------------------- | -------------- |
+| root `<div>`            | none — a container, not a control                       | —              |
+| `<input type="hidden">` | `name`, `value` (form participation)                    | Component      |
+| `<button>`              | implicit `role="button"`                                | Browser        |
+| `<button>`              | `aria-label={label}` — its **entire** accessible name   | Consumer input |
+| `<button>`              | `aria-haspopup="listbox"`                               | Component      |
+| `<button>`              | `aria-expanded="true                                    | false"`        | Component |
+| `<button>`              | `aria-controls={listId}`                                | Component      |
+| `.theme-picker-icon`    | `aria-hidden="true"`                                    | Component      |
+| `<ul>`                  | `role="listbox"`, `aria-label={label}`, `tabindex="-1"` | Component      |
+| `<ul>` (open only)      | `aria-activedescendant={active option id}`              | Component      |
+| `<li>`                  | `role="option"`, `aria-selected="true                   | false"`        | Component |
+| `<li>`                  | `data-active` — styling hook, **not** ARIA              | Component      |
 
 Because the icon is `aria-hidden`, the button has no text content at
 all. `aria-label` is the only thing a screen reader or a voice-control
@@ -33,28 +33,28 @@ user has to work with, which is why `label` is `input.required`.
 
 Implemented by the component. On the **button**:
 
-| Key                 | Action                                                                |
-| ------------------- | --------------------------------------------------------------------- |
-| `Enter` / `Space`   | Open the listbox with the selected option active (index 0 if none).   |
-| `Arrow Down`        | Same as `Enter` / `Space`.                                            |
-| `Arrow Up`          | Open the listbox with the **last** option active.                     |
-| `Tab` / `Shift+Tab` | Move focus to / away from the button.                                 |
+| Key                 | Action                                                              |
+| ------------------- | ------------------------------------------------------------------- |
+| `Enter` / `Space`   | Open the listbox with the selected option active (index 0 if none). |
+| `Arrow Down`        | Same as `Enter` / `Space`.                                          |
+| `Arrow Up`          | Open the listbox with the **last** option active.                   |
+| `Tab` / `Shift+Tab` | Move focus to / away from the button.                               |
 
 Opening moves focus to the `<ul>`; the active option is conveyed by
 `aria-activedescendant`, never by moving focus onto an `<li>`.
 
 On the **listbox**:
 
-| Key                | Action                                                                     |
-| ------------------ | -------------------------------------------------------------------------- |
-| `Arrow Down`       | Active option down one; **clamps** at the last — no wrap.                   |
-| `Arrow Up`         | Active option up one; **clamps** at the first — no wrap.                    |
-| `Home` / `End`     | First / last option becomes active.                                         |
-| `Enter` / `Space`  | Select the active option, apply it, close, return focus to the button.      |
-| `Escape`           | Close and return focus to the button; the value is **not** changed.         |
-| `PageUp` / `PageDown` | Move the active option by ten; clamps.                                   |
-| `Tab`              | Close; focus lands on the button so the default Tab proceeds from the picker's position. |
-| Printable chars    | Typeahead over the display labels; 500 ms buffer. A single character advances to the next match and repeats cycle; differing characters refine. |
+| Key                   | Action                                                                                                                                          |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Arrow Down`          | Active option down one; **clamps** at the last — no wrap.                                                                                       |
+| `Arrow Up`            | Active option up one; **clamps** at the first — no wrap.                                                                                        |
+| `Home` / `End`        | First / last option becomes active.                                                                                                             |
+| `Enter` / `Space`     | Select the active option, apply it, close, return focus to the button.                                                                          |
+| `Escape`              | Close and return focus to the button; the value is **not** changed.                                                                             |
+| `PageUp` / `PageDown` | Move the active option by ten; clamps.                                                                                                          |
+| `Tab`                 | Close; focus lands on the button so the default Tab proceeds from the picker's position.                                                        |
+| Printable chars       | Typeahead over the display labels; 500 ms buffer. A single character advances to the next match and repeats cycle; differing characters refine. |
 
 Pointer and focus:
 
@@ -76,7 +76,7 @@ colour-only meaning is required:
 3. `data-theme="<slug>"` on the target element (default `<html>`).
 4. The `value` model signal (bound via `[(value)]`).
 
-Note that the *closed* button conveys none of these — it shows only an
+Note that the _closed_ button conveys none of these — it shows only an
 icon. Surfacing the active theme name is the consumer's job; see
 [`../docs/accessibility.md`](../docs/accessibility.md).
 
@@ -118,7 +118,7 @@ transitions on the `data-theme` swap.
 ## Common mistakes to avoid
 
 - **Passing a vague `label`.** "Select" or "Options" leaves an
-  icon-only button with no usable name. Name the *setting*: "Theme",
+  icon-only button with no usable name. Name the _setting_: "Theme",
   "Colour theme".
 - **Hiding the root with `display: none`.** That removes the whole
   control from the accessibility tree. Use a visually-hidden pattern

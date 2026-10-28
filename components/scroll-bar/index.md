@@ -28,9 +28,15 @@ This component renders the structural markup and ARIA attributes for a custom sc
 Vertical scrollbar inside a chat message area:
 
 ```html
-<ScrollArea label="Chat messages" style="max-height: 400px; overflow: auto;">
+<ScrollArea
+  label="Chat messages"
+  style="max-height: 400px; overflow: auto;"
+>
   <div class="messages"><!-- chat messages --></div>
-  <ScrollBar orientation="vertical" label="Chat scroll">
+  <ScrollBar
+    orientation="vertical"
+    label="Chat scroll"
+  >
     <div class="scroll-thumb"></div>
   </ScrollBar>
 </ScrollArea>
@@ -39,9 +45,15 @@ Vertical scrollbar inside a chat message area:
 Horizontal scrollbar for a timeline strip:
 
 ```html
-<ScrollArea label="Project timeline" style="overflow-x: auto;">
+<ScrollArea
+  label="Project timeline"
+  style="overflow-x: auto;"
+>
   <div class="timeline"><!-- timeline content --></div>
-  <ScrollBar orientation="horizontal" label="Timeline scroll">
+  <ScrollBar
+    orientation="horizontal"
+    label="Timeline scroll"
+  >
     <div class="scroll-thumb"></div>
   </ScrollBar>
 </ScrollArea>
@@ -82,14 +94,11 @@ Note: The consumer is responsible for implementing keyboard event handlers that 
 
 The ScrollBar headless component provides a `<div>` with `role="scrollbar"`, `aria-orientation`, `aria-valuenow`, `aria-valuemin`, `aria-valuemax`, and `aria-label` for full ARIA scrollbar semantics. The consumer provides the visual thumb element, drag interaction logic, and position synchronization with scrollable content.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.scroll-bar` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `scroll-bar`
 - Verify role="scrollbar"` -- identifies the element as a scrollbar control

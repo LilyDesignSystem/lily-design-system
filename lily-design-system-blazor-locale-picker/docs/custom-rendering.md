@@ -9,7 +9,7 @@ per-option `lang` — and all of it is component-owned so a consumer
 override cannot break the semantics. What is left for you to decide is
 the button's face, which is a purely visual choice.
 
-If you need a different *affordance* rather than a different icon, skip
+If you need a different _affordance_ rather than a different icon, skip
 `ChildContent` and drive the component from your own UI — see
 [Building a fully custom control](#building-a-fully-custom-control-instead).
 
@@ -35,7 +35,7 @@ Three members, mirroring the canonical Svelte `ChildArgs`:
   attribute.
 - `Open` lets the face react to the listbox state (a caret that flips,
   a pressed appearance).
-- `LabelFor` is the *instance* resolver — it honours your
+- `LabelFor` is the _instance_ resolver — it honours your
   `LocaleLabels` overrides, then the built-in table. Use it rather than
   reimplementing lookup.
 
@@ -98,7 +98,7 @@ convenience for sighted users; the accessible name is still `Label`.
 Duplicating it into the accessible name would make a screen reader
 announce "Language F R button", which is worse, not better.
 
-If you want the *full* language name visible, prefer the status-region
+If you want the _full_ language name visible, prefer the status-region
 pattern in [`styling.md`](styling.md#the-status-region) — it is
 announceable via `aria-live` and does not stretch the button.
 
@@ -135,7 +135,7 @@ the button, and a second one inside would be both redundant and wrong.
 </LocalePicker>
 ```
 
-The `lang` here is for the *renderer*, not for assistive technology —
+The `lang` here is for the _renderer_, not for assistive technology —
 the span is `aria-hidden`, so no screen reader reads it, but `lang` still
 drives font selection and shaping so an Arabic or Devanagari endonym
 renders with the right glyphs.
@@ -210,7 +210,7 @@ You then own applying `lang` / `dir` and any persistence. That is the
 part the component exists to do, so prefer Route 1 unless you have a
 specific reason.
 
-## What the fragment should *not* do
+## What the fragment should _not_ do
 
 - **Don't render options.** They are component-owned; a duplicate set
   would produce two competing sources of selection.
@@ -218,7 +218,7 @@ specific reason.
   that duplicates `Label`. The button's name is `Label`, full stop.
 - **Don't add `aria-expanded`, `aria-haspopup`, or `aria-controls`.**
   Already on the button.
-- **Don't put a focusable element inside.** The button *is* the
+- **Don't put a focusable element inside.** The button _is_ the
   interactive element; a nested `<button>` or `<a>` is invalid HTML and
   creates a second tab stop that does nothing.
 - **Don't attach a click handler that swallows the event.** The

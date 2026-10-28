@@ -23,12 +23,12 @@ An identifier section with a parent agency logo, agency name, and required gover
 
 ```vue
 <GovernmentIdentifier
-    label="Agency identifier"
-    agencyName="General Services Administration"
-    agencyHref="https://gsa.gov"
-    logoUrl="/gsa.svg"
-    logoAlt="GSA logo"
-    description="An official website of the GSA"
+  label="Agency identifier"
+  agencyName="General Services Administration"
+  agencyHref="https://gsa.gov"
+  logoUrl="/gsa.svg"
+  logoAlt="GSA logo"
+  description="An official website of the GSA"
 >
     <ul>
         <li><a href="/about">About</a></li>

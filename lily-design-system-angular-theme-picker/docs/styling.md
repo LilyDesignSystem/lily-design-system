@@ -12,8 +12,8 @@ before shipping.
 
 ## Class hooks
 
-| Selector                         | Element                                                                                                                                                                                                              |
-| -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Selector                        | Element                                                                                                                                                                                                              |
+| ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `.theme-picker`                 | The root `<div>`.                                                                                                                                                                                                    |
 | `.theme-picker.{consumerClass}` | Both classes when `className` is passed.                                                                                                                                                                             |
 | `.theme-picker-button`          | The trigger `<button>`.                                                                                                                                                                                              |
@@ -24,8 +24,8 @@ before shipping.
 
 ## State selectors
 
-| Selector                                      | Meaning                                                       |
-| --------------------------------------------- | ------------------------------------------------------------- |
+| Selector                                     | Meaning                                                       |
+| -------------------------------------------- | ------------------------------------------------------------- |
 | `.theme-picker-option[data-active]`          | The option the **keyboard** is currently pointing at.         |
 | `.theme-picker-option[aria-selected="true"]` | The theme currently **in effect**.                            |
 | `.theme-picker-button[aria-expanded="true"]` | The listbox is open.                                          |
@@ -166,7 +166,10 @@ The default pattern renders the active theme as **visible** text (see
 [accessibility.md](./accessibility.md#the-status-region-is-part-of-the-pattern)):
 
 ```html
-<p class="theme-picker-status" aria-live="polite">
+<p
+  class="theme-picker-status"
+  aria-live="polite"
+>
   Active theme: {{ themePicker.labelFor(theme()) }}
 </p>
 ```
@@ -235,7 +238,11 @@ import { Component, ViewEncapsulation } from "@angular/core";
   imports: [ThemePicker],
   encapsulation: ViewEncapsulation.None, // styles reach .theme-picker
   template: `
-    <lily-theme-picker label="Theme" themesUrl="/t/" [themes]="themes" />
+    <lily-theme-picker
+      label="Theme"
+      themesUrl="/t/"
+      [themes]="themes"
+    />
   `,
   styles: `
     .theme-picker {

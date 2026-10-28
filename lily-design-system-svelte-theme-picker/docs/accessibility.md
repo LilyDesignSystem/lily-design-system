@@ -13,19 +13,19 @@ gives the mitigations.
 
 ## Roles and properties
 
-| Element          | Role / property                                | Source        |
-| ---------------- | ---------------------------------------------- | ------------- |
-| `<button>`       | implicit `role="button"`                       | Browser       |
-| `<button>`       | `aria-label={label}`                           | Consumer prop |
-| `<button>`       | `aria-haspopup="listbox"`                      | Component     |
-| `<button>`       | `aria-expanded="true\|false"`                  | Component     |
-| `<button>`       | `aria-controls="{listId}"`                     | Component     |
-| `<span>` (glyph) | `aria-hidden="true"`                           | Component     |
-| `<ul>`           | `role="listbox"`                               | Component     |
-| `<ul>`           | `aria-label={label}`                           | Consumer prop |
-| `<ul>`           | `aria-activedescendant="{optionId}"` while open | Component    |
-| `<li>`           | `role="option"`                                | Component     |
-| `<li>`           | `aria-selected="true\|false"`                  | Component     |
+| Element          | Role / property                                 | Source        |
+| ---------------- | ----------------------------------------------- | ------------- |
+| `<button>`       | implicit `role="button"`                        | Browser       |
+| `<button>`       | `aria-label={label}`                            | Consumer prop |
+| `<button>`       | `aria-haspopup="listbox"`                       | Component     |
+| `<button>`       | `aria-expanded="true\|false"`                   | Component     |
+| `<button>`       | `aria-controls="{listId}"`                      | Component     |
+| `<span>` (glyph) | `aria-hidden="true"`                            | Component     |
+| `<ul>`           | `role="listbox"`                                | Component     |
+| `<ul>`           | `aria-label={label}`                            | Consumer prop |
+| `<ul>`           | `aria-activedescendant="{optionId}"` while open | Component     |
+| `<li>`           | `role="option"`                                 | Component     |
+| `<li>`           | `aria-selected="true\|false"`                   | Component     |
 
 Focus sits on the `<ul>` while the listbox is open; the active option is
 conveyed by `aria-activedescendant` rather than by moving DOM focus onto
@@ -40,25 +40,25 @@ On the **button**:
 
 | Key                 | Action                                                    |
 | ------------------- | --------------------------------------------------------- |
-| `Tab` / `Shift+Tab` | Move focus to / from the button. It is a single tab stop.  |
-| `Enter`             | Open the listbox with the selected option active.          |
-| `Space`             | Same as `Enter`.                                           |
-| `Arrow Down`        | Same as `Enter`.                                           |
-| `Arrow Up`          | Open the listbox with the **last** option active.          |
+| `Tab` / `Shift+Tab` | Move focus to / from the button. It is a single tab stop. |
+| `Enter`             | Open the listbox with the selected option active.         |
+| `Space`             | Same as `Enter`.                                          |
+| `Arrow Down`        | Same as `Enter`.                                          |
+| `Arrow Up`          | Open the listbox with the **last** option active.         |
 
 On the **listbox**:
 
-| Key                 | Action                                                          |
-| ------------------- | ---------------------------------------------------------------- |
-| `Arrow Down`        | Move the active option down one; **clamps** at the last.         |
-| `Arrow Up`          | Move the active option up one; clamps at the first.              |
-| `Home`              | Make the first option active.                                    |
-| `End`               | Make the last option active.                                     |
-| `Enter`             | Select the active option, apply it, close, refocus the button.   |
-| `Space`             | Same as `Enter`.                                                 |
-| `Escape`            | Close and refocus the button **without** changing the theme.     |
+| Key                 | Action                                                                                                                                                            |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Arrow Down`        | Move the active option down one; **clamps** at the last.                                                                                                          |
+| `Arrow Up`          | Move the active option up one; clamps at the first.                                                                                                               |
+| `Home`              | Make the first option active.                                                                                                                                     |
+| `End`               | Make the last option active.                                                                                                                                      |
+| `Enter`             | Select the active option, apply it, close, refocus the button.                                                                                                    |
+| `Space`             | Same as `Enter`.                                                                                                                                                  |
+| `Escape`            | Close and refocus the button **without** changing the theme.                                                                                                      |
 | `Tab`               | Close — focus lands on the button first (without cancelling the key), so the default Tab proceeds from the picker's position instead of restarting from `<body>`. |
-| Printable character | Typeahead over the option labels, 500 ms buffer, wraps once.     |
+| Printable character | Typeahead over the option labels, 500 ms buffer, wraps once.                                                                                                      |
 
 Clicking an option selects it. Clicking outside the root, or moving
 focus out of it, closes the listbox without changing the theme.
@@ -95,7 +95,7 @@ The consequences:
   does. A tooltip is not a substitute — it is unavailable on touch and
   to keyboard-only users in most browsers.
 - WCAG 2.5.3 (Label in Name) does not bite here, because there is no
-  visible label text to match against. But the *spirit* of it — that a
+  visible label text to match against. But the _spirit_ of it — that a
   user can refer to the control by what they see — is not served by a
   glyph.
 
@@ -107,14 +107,22 @@ What to do:
   allows it. Point the button at it with `aria-labelledby` through
   rest-props rather than leaving a visible label and an `aria-label` to
   disagree.
-- **Consider the `children` snippet** to render the glyph *plus* a short
+- **Consider the `children` snippet** to render the glyph _plus_ a short
   visible word. The snippet replaces the glyph, so you control the whole
   button interior:
 
   ```svelte
-  <ThemePicker label="Theme" {themesUrl} {themes} bind:value={theme}>
+  <ThemePicker
+    label="Theme"
+    {themesUrl}
+    {themes}
+    bind:value={theme}
+  >
     {#snippet children({ labelFor, value })}
-      <svg viewBox="0 0 16 16" aria-hidden="true">…</svg>
+      <svg
+        viewBox="0 0 16 16"
+        aria-hidden="true">…</svg
+      >
       <span class="theme-picker-text">{labelFor(value)}</span>
     {/snippet}
   </ThemePicker>
@@ -190,7 +198,7 @@ user's device:
 
 Because the glyph is `aria-hidden`, none of this affects screen-reader
 users — it affects sighted users, who may face an unlabelled or empty
-button. That interacts badly with tradeoff 1: if the glyph fails *and*
+button. That interacts badly with tradeoff 1: if the glyph fails _and_
 there is no visible text label, the control is a mystery box for
 exactly the users who cannot hear the `aria-label`.
 
@@ -213,14 +221,22 @@ theme is current. **The status region is no longer compensating for
 missing semantics.**
 
 It is still worth shipping, for a different and narrower reason: the
-*closed* control shows only a glyph. A user who has not opened the
+_closed_ control shows only a glyph. A user who has not opened the
 listbox — sighted or not — has no statement of the current theme
 anywhere on the page. The region supplies one without requiring
 interaction.
 
 ```svelte
-<ThemePicker label="Theme" {themesUrl} {themes} bind:value={theme} />
-<p class="theme-picker-status" aria-live="polite">
+<ThemePicker
+  label="Theme"
+  {themesUrl}
+  {themes}
+  bind:value={theme}
+/>
+<p
+  class="theme-picker-status"
+  aria-live="polite"
+>
   Active theme: {labelFor(theme)}
 </p>
 ```
@@ -230,7 +246,7 @@ Why it is shaped this way:
 - **`aria-live="polite"` announces mutations only.** It is silent on
   first paint and speaks once on each subsequent change — no
   announcement on page load, one clear announcement per user action.
-- **Visible by default, not `sr-only`.** This is now the *main* reason
+- **Visible by default, not `sr-only`.** This is now the _main_ reason
   to ship it: it is the only place the active theme is written while the
   control is closed. Hiding it visually keeps the announcement but
   throws away the benefit for sighted users. See the recipe in

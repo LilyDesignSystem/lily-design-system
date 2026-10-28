@@ -22,7 +22,7 @@ export, search, task selection, virtualization.
 ## 2. Rules
 
 - No CSS, no text, no icons; every string is a `labels.*` value. The clock is never read.
-- An Alpine expression that evaluates to a function is *called* by Alpine, so snippets test `!!labels.x`, never `labels.x`, in `x-if`.
+- An Alpine expression that evaluates to a function is _called_ by Alpine, so snippets test `!!labels.x`, never `labels.x`, in `x-if`.
 - Shared pure modules are copies of `shared/`; edit `shared/`.
 
 ## 3. Acceptance criteria

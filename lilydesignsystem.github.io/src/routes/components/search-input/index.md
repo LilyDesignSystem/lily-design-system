@@ -25,19 +25,31 @@ Search inputs are commonly used for site-wide search bars, filtering lists, and 
 Site-wide search bar:
 
 ```html
-<SearchInput label="Search the site" value={query} placeholder="Search..." />
+<SearchInput
+  label="Search the site"
+  value="{query}"
+  placeholder="Search..."
+/>
 ```
 
 Filtering a product list:
 
 ```html
-<SearchInput label="Filter products" value={productFilter} required />
+<SearchInput
+  label="Filter products"
+  value="{productFilter}"
+  required
+/>
 ```
 
 Table search within an admin panel:
 
 ```html
-<SearchInput label="Search patients" value={patientSearch} placeholder="Name or ID..." />
+<SearchInput
+  label="Search patients"
+  value="{patientSearch}"
+  placeholder="Name or ID..."
+/>
 ```
 
 ## Keyboard Interactions
@@ -68,14 +80,11 @@ Note: keyboard interactions are provided natively by the `<input type="search">`
 
 The SearchInput headless component provides a native `<input type="search">` with `aria-label` for accessible naming and two-way value binding. The browser provides semantic search behavior and may show a native clear button. The consumer provides all visual styling, search icons, and result handling.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.search-input` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<input>` element with class `search-input`
 - Verify aria-label={label}` -- provides the accessible name for the search field since no visible label element is associated

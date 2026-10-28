@@ -39,7 +39,10 @@ Twelve-column default grid:
 Three-column card grid:
 
 ```html
-<Grid columns={3} gap="1.5rem">
+<Grid
+  columns="{3}"
+  gap="1.5rem"
+>
   <Card>One</Card>
   <Card>Two</Card>
   <Card>Three</Card>
@@ -49,7 +52,10 @@ Three-column card grid:
 Custom track sizes:
 
 ```html
-<Grid columns="200px 1fr 200px" gap="1rem">
+<Grid
+  columns="200px 1fr 200px"
+  gap="1rem"
+>
   <aside>Left</aside>
   <main>Center</main>
   <aside>Right</aside>
@@ -89,7 +95,9 @@ Consumers may target `.grid` for responsive column overrides:
 
 ```css
 @media (max-width: 600px) {
-  .grid { grid-template-columns: 1fr; }
+  .grid {
+    grid-template-columns: 1fr;
+  }
 }
 ```
 

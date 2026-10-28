@@ -36,98 +36,101 @@ Place inside a `GanttTable` before `GanttTableBody`. Populate with a `GanttTable
 
 ```svelte
 <script lang="ts">
-    import GanttTable from "../GanttTable/GanttTable.svelte";
-    import GanttTableHead from "./GanttTableHead.svelte";
-    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
+  import GanttTable from "../GanttTable/GanttTable.svelte";
+  import GanttTableHead from "./GanttTableHead.svelte";
+  import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
 </script>
 
 <GanttTable label="Plan">
-    <GanttTableHead>
-        <GanttTableTr>
-            <th>Task</th><th>Start</th><th>End</th>
-        </GanttTableTr>
-    </GanttTableHead>
+  <GanttTableHead>
+    <GanttTableTr>
+      <th>Task</th><th>Start</th><th>End</th>
+    </GanttTableTr>
+  </GanttTableHead>
 </GanttTable>
 ```
 
 ```svelte
 <script lang="ts">
-    import GanttTable from "../GanttTable/GanttTable.svelte";
-    import GanttTableHead from "./GanttTableHead.svelte";
-    import GanttTableBody from "../GanttTableBody/GanttTableBody.svelte";
-    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
-    import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
+  import GanttTable from "../GanttTable/GanttTable.svelte";
+  import GanttTableHead from "./GanttTableHead.svelte";
+  import GanttTableBody from "../GanttTableBody/GanttTableBody.svelte";
+  import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
+  import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
 </script>
 
 <GanttTable label="Weekly">
-    <GanttTableHead>
-        <GanttTableTr>
-            <th>Task</th><th>Week 1</th><th>Week 2</th><th>Week 3</th>
-        </GanttTableTr>
-    </GanttTableHead>
-    <GanttTableBody>
-        <GanttTableTr>
-            <th>Plan</th>
-            <GanttTableTD active />
-            <GanttTableTD />
-            <GanttTableTD />
-        </GanttTableTr>
-    </GanttTableBody>
+  <GanttTableHead>
+    <GanttTableTr>
+      <th>Task</th><th>Week 1</th><th>Week 2</th><th>Week 3</th>
+    </GanttTableTr>
+  </GanttTableHead>
+  <GanttTableBody>
+    <GanttTableTr>
+      <th>Plan</th>
+      <GanttTableTD active />
+      <GanttTableTD />
+      <GanttTableTD />
+    </GanttTableTr>
+  </GanttTableBody>
 </GanttTable>
 ```
 
 ```svelte
 <script lang="ts">
-    import GanttTable from "../GanttTable/GanttTable.svelte";
-    import GanttTableHead from "./GanttTableHead.svelte";
-    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
+  import GanttTable from "../GanttTable/GanttTable.svelte";
+  import GanttTableHead from "./GanttTableHead.svelte";
+  import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
 </script>
 
 <GanttTable label="Custom head">
-    <GanttTableHead class="sticky-head" data-testid="gantt-head">
-        <GanttTableTr>
-            <th scope="col">Task</th><th scope="col">Q1</th><th scope="col">Q2</th>
-        </GanttTableTr>
-    </GanttTableHead>
+  <GanttTableHead
+    class="sticky-head"
+    data-testid="gantt-head"
+  >
+    <GanttTableTr>
+      <th scope="col">Task</th><th scope="col">Q1</th><th scope="col">Q2</th>
+    </GanttTableTr>
+  </GanttTableHead>
 </GanttTable>
 ```
 
 ```svelte
 <script lang="ts">
-    import GanttTable from "../GanttTable/GanttTable.svelte";
-    import GanttTableHead from "./GanttTableHead.svelte";
-    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
-    const weeks = ["W1", "W2", "W3", "W4", "W5"];
+  import GanttTable from "../GanttTable/GanttTable.svelte";
+  import GanttTableHead from "./GanttTableHead.svelte";
+  import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
+  const weeks = ["W1", "W2", "W3", "W4", "W5"];
 </script>
 
 <GanttTable label="Dynamic head">
-    <GanttTableHead>
-        <GanttTableTr>
-            <th>Task</th>
-            {#each weeks as w}<th>{w}</th>{/each}
-        </GanttTableTr>
-    </GanttTableHead>
+  <GanttTableHead>
+    <GanttTableTr>
+      <th>Task</th>
+      {#each weeks as w}<th>{w}</th>{/each}
+    </GanttTableTr>
+  </GanttTableHead>
 </GanttTable>
 ```
 
 ```svelte
 <script lang="ts">
-    import GanttTable from "../GanttTable/GanttTable.svelte";
-    import GanttTableHead from "./GanttTableHead.svelte";
-    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
+  import GanttTable from "../GanttTable/GanttTable.svelte";
+  import GanttTableHead from "./GanttTableHead.svelte";
+  import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
 </script>
 
 <GanttTable label="Two-level head">
-    <GanttTableHead>
-        <GanttTableTr>
-            <th rowspan="2">Task</th>
-            <th colspan="2">January</th>
-            <th colspan="2">February</th>
-        </GanttTableTr>
-        <GanttTableTr>
-            <th>W1</th><th>W2</th><th>W1</th><th>W2</th>
-        </GanttTableTr>
-    </GanttTableHead>
+  <GanttTableHead>
+    <GanttTableTr>
+      <th rowspan="2">Task</th>
+      <th colspan="2">January</th>
+      <th colspan="2">February</th>
+    </GanttTableTr>
+    <GanttTableTr>
+      <th>W1</th><th>W2</th><th>W1</th><th>W2</th>
+    </GanttTableTr>
+  </GanttTableHead>
 </GanttTable>
 ```
 

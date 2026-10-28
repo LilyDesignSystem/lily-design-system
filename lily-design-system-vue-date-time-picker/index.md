@@ -58,11 +58,11 @@ const labels = {
 
 ## The value is always ISO
 
-| `mode` | `value` |
-| ------ | ------- |
-| `"date"` (default) | `"2026-03-15"` |
-| `"time"` | `"09:30"` |
-| `"datetime"` | `"2026-03-15T09:30"` |
+| `mode`             | `value`              |
+| ------------------ | -------------------- |
+| `"date"` (default) | `"2026-03-15"`       |
+| `"time"`           | `"09:30"`            |
+| `"datetime"`       | `"2026-03-15T09:30"` |
 
 Sortable as a string, unambiguous in every locale, and identical to what
 `<input type="date">` posts — so you can swap the native control in or out
@@ -192,12 +192,12 @@ dialog.
 The Svelte canonical's `onChange` / `onShortcut` / `onInvalidInput`
 callback props are emitted events here:
 
-| Event | Payload | Fires when |
-| ----- | ------- | ---------- |
-| `update:value` | `(value: string)` | The `v-model:value` half — fires alongside `change`. |
-| `change` | `(value: string)` | After a value is committed. |
-| `shortcut` | `(id, isoDate)` | A shortcut is used. |
-| `invalid-input` | `(text: string)` | Typed text will not parse (or is out of range). |
+| Event           | Payload           | Fires when                                           |
+| --------------- | ----------------- | ---------------------------------------------------- |
+| `update:value`  | `(value: string)` | The `v-model:value` half — fires alongside `change`. |
+| `change`        | `(value: string)` | After a value is committed.                          |
+| `shortcut`      | `(id, isoDate)`   | A shortcut is used.                                  |
+| `invalid-input` | `(text: string)`  | Typed text will not parse (or is out of range).      |
 
 ## Keyboard
 
@@ -220,13 +220,17 @@ The package is headless. Nothing positions the dialog for you — without
 your CSS it renders in normal flow rather than as an overlay:
 
 ```css
-.date-time-picker { position: relative; }
+.date-time-picker {
+  position: relative;
+}
 .date-time-picker-dialog {
   position: absolute;
   z-index: 10;
   inset-inline-start: 0;
 }
-.date-time-picker-dialog[hidden] { display: none; }
+.date-time-picker-dialog[hidden] {
+  display: none;
+}
 ```
 
 Class hooks: `date-time-picker`, `-field`, `-input`, `-button`, `-icon`,

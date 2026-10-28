@@ -120,7 +120,11 @@ out-of-band rather than baking it into control state the browser would
 paint before the client could correct it.
 
 ```html
-<div class="text-size-picker" … data-lily-text-size-picker-value="large">
+<div
+  class="text-size-picker"
+  …
+  data-lily-text-size-picker-value="large"
+>
   <input
     type="hidden"
     name="text-size"
@@ -135,7 +139,11 @@ paint before the client could correct it.
     aria-expanded="false"
     aria-controls="text-size-picker-text-size-list"
   >
-    <span class="text-size-picker-icon" aria-hidden="true">A</span>
+    <span
+      class="text-size-picker-icon"
+      aria-hidden="true"
+      >A</span
+    >
   </button>
   <ul
     class="text-size-picker-list"
@@ -249,10 +257,7 @@ export async function onRequest(context) {
     return response;
   }
   const html = await response.text();
-  const out = html.replace(
-    'data-text-size="PLACEHOLDER"',
-    `data-text-size="${size}"`,
-  );
+  const out = html.replace('data-text-size="PLACEHOLDER"', `data-text-size="${size}"`);
   return new Response(out, response);
 }
 ```

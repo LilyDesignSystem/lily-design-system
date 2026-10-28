@@ -24,19 +24,37 @@ This component is useful for onboarding flows, feature tutorials, or contextual 
 ## Usage
 
 ```svelte
-<TourList label="Getting started" bind:active>
-  <TourListItem label="Welcome" current={step === 0} stepNumber={1} totalSteps={3}>
+<TourList
+  label="Getting started"
+  bind:active
+>
+  <TourListItem
+    label="Welcome"
+    current={step === 0}
+    stepNumber={1}
+    totalSteps={3}
+  >
     <p>Welcome to the app!</p>
     <button onclick={() => step++}>Next</button>
   </TourListItem>
-  <TourListItem label="Features" current={step === 1} stepNumber={2} totalSteps={3}>
+  <TourListItem
+    label="Features"
+    current={step === 1}
+    stepNumber={2}
+    totalSteps={3}
+  >
     <p>Here are the features.</p>
     <button onclick={() => step--}>Back</button>
     <button onclick={() => step++}>Next</button>
   </TourListItem>
-  <TourListItem label="Finish" current={step === 2} stepNumber={3} totalSteps={3}>
+  <TourListItem
+    label="Finish"
+    current={step === 2}
+    stepNumber={3}
+    totalSteps={3}
+  >
     <p>You're all set!</p>
-    <button onclick={() => active = false}>Done</button>
+    <button onclick={() => (active = false)}>Done</button>
   </TourListItem>
 </TourList>
 ```

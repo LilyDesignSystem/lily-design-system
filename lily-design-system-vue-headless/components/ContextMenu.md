@@ -22,10 +22,28 @@ This component manages menu visibility, keyboard navigation, and focus. When ope
 ## Usage
 
 ```svelte
-<ContextMenu label="Actions" bind:open>
-  <li role="menuitem" tabindex="-1">Cut</li>
-  <li role="menuitem" tabindex="-1">Copy</li>
-  <li role="menuitem" tabindex="-1">Paste</li>
+<ContextMenu
+  label="Actions"
+  bind:open
+>
+  <li
+    role="menuitem"
+    tabindex="-1"
+  >
+    Cut
+  </li>
+  <li
+    role="menuitem"
+    tabindex="-1"
+  >
+    Copy
+  </li>
+  <li
+    role="menuitem"
+    tabindex="-1"
+  >
+    Paste
+  </li>
 </ContextMenu>
 ```
 

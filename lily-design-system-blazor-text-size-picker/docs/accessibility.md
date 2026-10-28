@@ -8,22 +8,22 @@ are stated plainly below rather than buried.
 
 ## Roles and properties
 
-| Element                         | Role / Property                                   | Source             |
-| ------------------------------- | ------------------------------------------------- | ------------------ |
-| `div.text-size-picker`          | none (plain container)                            | Component          |
-| `input[type=hidden]`            | `name` — form participation only                  | Component          |
-| `button.text-size-picker-button`| implicit `role="button"`                          | Browser            |
-| `button.text-size-picker-button`| `aria-label="@Label"`                             | Consumer parameter |
-| `button.text-size-picker-button`| `aria-haspopup="listbox"`                         | Component          |
-| `button.text-size-picker-button`| `aria-expanded="true\|false"`                     | Component          |
-| `button.text-size-picker-button`| `aria-controls="{list id}"`                       | Component          |
-| `span.text-size-picker-icon`    | `aria-hidden="true"`                              | Component          |
-| `ul.text-size-picker-list`      | `role="listbox"`, `tabindex="-1"`                 | Component          |
-| `ul.text-size-picker-list`      | `aria-label="@Label"`                             | Consumer parameter |
-| `ul.text-size-picker-list`      | `aria-activedescendant` (only while open)         | Component          |
-| `ul.text-size-picker-list`      | `hidden` while closed                             | Component          |
-| `li.text-size-picker-option`    | `role="option"`, `aria-selected="true\|false"`    | Component          |
-| `li.text-size-picker-option`    | `data-active` on the active option (styling hook) | Component          |
+| Element                          | Role / Property                                   | Source             |
+| -------------------------------- | ------------------------------------------------- | ------------------ |
+| `div.text-size-picker`           | none (plain container)                            | Component          |
+| `input[type=hidden]`             | `name` — form participation only                  | Component          |
+| `button.text-size-picker-button` | implicit `role="button"`                          | Browser            |
+| `button.text-size-picker-button` | `aria-label="@Label"`                             | Consumer parameter |
+| `button.text-size-picker-button` | `aria-haspopup="listbox"`                         | Component          |
+| `button.text-size-picker-button` | `aria-expanded="true\|false"`                     | Component          |
+| `button.text-size-picker-button` | `aria-controls="{list id}"`                       | Component          |
+| `span.text-size-picker-icon`     | `aria-hidden="true"`                              | Component          |
+| `ul.text-size-picker-list`       | `role="listbox"`, `tabindex="-1"`                 | Component          |
+| `ul.text-size-picker-list`       | `aria-label="@Label"`                             | Consumer parameter |
+| `ul.text-size-picker-list`       | `aria-activedescendant` (only while open)         | Component          |
+| `ul.text-size-picker-list`       | `hidden` while closed                             | Component          |
+| `li.text-size-picker-option`     | `role="option"`, `aria-selected="true\|false"`    | Component          |
+| `li.text-size-picker-option`     | `data-active` on the active option (styling hook) | Component          |
 
 Focus stays on the `<ul>` while the listbox is open; the active option
 is conveyed by `aria-activedescendant`, never by moving DOM focus onto
@@ -46,18 +46,18 @@ Opening moves focus to the `<ul>`.
 
 On the **listbox**:
 
-| Key               | Action                                                                 |
-| ----------------- | ---------------------------------------------------------------------- |
-| `Arrow Down`      | Move the active option down one; **clamps** at the last (no wrap).     |
-| `Arrow Up`        | Move the active option up one; **clamps** at the first (no wrap).      |
-| `Home`            | Jump to the first option.                                              |
-| `End`             | Jump to the last option.                                               |
-| `Enter` / `Space` | Select the active option, apply it, close, return focus to the button. |
-| `Escape`          | Close and return focus **without** changing the value.                 |
-| `PageUp`          | Move the active option up ten; clamps at the first.                    |
-| `PageDown`        | Move the active option down ten; clamps at the last.                   |
-| `Tab`             | Close and move on: the browser's default Tab proceeds from the picker's position. |
-| Printable chars   | Typeahead over the option *labels*, 500 ms buffer reset. A single character advances to the **next** match and repeating it cycles onward; differing characters refine the match from the active option. |
+| Key               | Action                                                                                                                                                                                                   |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Arrow Down`      | Move the active option down one; **clamps** at the last (no wrap).                                                                                                                                       |
+| `Arrow Up`        | Move the active option up one; **clamps** at the first (no wrap).                                                                                                                                        |
+| `Home`            | Jump to the first option.                                                                                                                                                                                |
+| `End`             | Jump to the last option.                                                                                                                                                                                 |
+| `Enter` / `Space` | Select the active option, apply it, close, return focus to the button.                                                                                                                                   |
+| `Escape`          | Close and return focus **without** changing the value.                                                                                                                                                   |
+| `PageUp`          | Move the active option up ten; clamps at the first.                                                                                                                                                      |
+| `PageDown`        | Move the active option down ten; clamps at the last.                                                                                                                                                     |
+| `Tab`             | Close and move on: the browser's default Tab proceeds from the picker's position.                                                                                                                        |
+| Printable chars   | Typeahead over the option _labels_, 500 ms buffer reset. A single character advances to the **next** match and repeating it cycles onward; differing characters refine the match from the active option. |
 
 Clicking an option selects it; focus leaving the root closes the
 listbox without changing the value.
@@ -71,7 +71,7 @@ colour-only meaning is required:
 2. The `@bind-Value` binding in user code, mirrored onto the hidden
    input's `value` for form participation.
 3. `aria-selected="true"` on exactly one `<li role="option">`, so the
-   selection *is* readable off the open listbox.
+   selection _is_ readable off the open listbox.
 
 ## WCAG 1.4.4 Resize Text — this helper's specific concern
 
@@ -82,10 +82,18 @@ checkbox.
   is a percentage or `rem` on `:root`, which every descendant inherits:
 
   ```css
-  :root[data-text-size="small"]   { font-size: 87.5%; }
-  :root[data-text-size="medium"]  { font-size: 100%; }
-  :root[data-text-size="large"]   { font-size: 112.5%; }
-  :root[data-text-size="x-large"] { font-size: 125%; }
+  :root[data-text-size="small"] {
+    font-size: 87.5%;
+  }
+  :root[data-text-size="medium"] {
+    font-size: 100%;
+  }
+  :root[data-text-size="large"] {
+    font-size: 112.5%;
+  }
+  :root[data-text-size="x-large"] {
+    font-size: 125%;
+  }
   ```
 
   If your layout uses `px` font sizes anywhere downstream, that subtree
@@ -93,7 +101,7 @@ checkbox.
 
 - **This helper does not replace browser zoom or the user's own
   minimum font size.** SC 1.4.4 requires text to survive 200 % resize
-  *by the user agent* — an in-page control is a convenience on top, not
+  _by the user agent_ — an in-page control is a convenience on top, not
   a substitute. Test your layout at 200 % browser zoom independently of
   this component, and make sure the two compose rather than fight:
   a `medium` slug must not pin `font-size` to a fixed value that
@@ -158,7 +166,7 @@ platform, rendered in the page's own typeface, always monochrome, never
 substituted from an emoji font, and never a `□` tofu box. It was chosen
 over U+1F5DB DECREASE FONT SIZE SYMBOL precisely for this reason: that
 codepoint has no real glyph in common font stacks, falls back to a
-crude bitmap shape, and means *decrease* rather than *size*.
+crude bitmap shape, and means _decrease_ rather than _size_.
 
 The residual risk is smaller but not zero: `A` inherits the page's
 font, so it changes weight and shape with your type choices — and,
@@ -167,7 +175,7 @@ adjusts. Give `.text-size-picker-button` a fixed `min-width` /
 `min-height` (or size the glyph in `px`) if you need the target to stay
 stable across slugs.
 
-Because the glyph is `aria-hidden`, any glyph failure is a *visual*
+Because the glyph is `aria-hidden`, any glyph failure is a _visual_
 failure, not a naming failure — the control stays operable and named.
 
 ## The status region is still the recommended pattern
@@ -189,12 +197,12 @@ region echoing the active size, and that is what
 Why this shape:
 
 - **Visible, not `sr-only`, by default.** The closed control does not
-  show the selection to *anyone*, so sighted users need the echo as
+  show the selection to _anyone_, so sighted users need the echo as
   much as screen-reader users do; visible text also helps cognitive
   accessibility, which AAA weighs heavily.
 - **`aria-live="polite"`, not `assertive`.** A size change is not an
   interruption, and the change is already visible everywhere on the
-  page. `polite` also means the region announces only on *mutation*, so
+  page. `polite` also means the region announces only on _mutation_, so
   it stays quiet on first paint and speaks once per change.
 - **`role="status"` is an equivalent spelling.** `role="status"` implies
   `aria-live="polite"`; use either, not both plus a redundant one.
@@ -202,7 +210,7 @@ Why this shape:
   `TextSizePicker.SizeName(slug)` so the echo matches the listbox
   exactly, or localise it alongside your `SizeLabels`.
 
-The selection *is* also readable off the control itself: reopening the
+The selection _is_ also readable off the control itself: reopening the
 listbox announces the active option as `aria-selected`. The status
 region compensates for the closed button being a bare glyph, not for
 missing semantics.
@@ -246,14 +254,14 @@ A safe default:
 ```css
 .text-size-picker-button:focus-visible,
 .text-size-picker-list:focus-visible {
-    outline: 2px solid var(--color-primary, currentColor);
-    outline-offset: 2px;
+  outline: 2px solid var(--color-primary, currentColor);
+  outline-offset: 2px;
 }
 
 /* The active option is not focused; give it its own visible cue. */
 .text-size-picker-option[data-active] {
-    outline: 2px solid var(--color-primary, currentColor);
-    outline-offset: -2px;
+  outline: 2px solid var(--color-primary, currentColor);
+  outline-offset: -2px;
 }
 ```
 
@@ -269,9 +277,9 @@ either in consumer CSS, gate it:
 
 ```css
 @media (prefers-reduced-motion: reduce) {
-    .text-size-picker-list {
-        transition: none;
-    }
+  .text-size-picker-list {
+    transition: none;
+  }
 }
 ```
 
@@ -285,13 +293,13 @@ Announcements for a custom listbox vary more than for a native
 `<select>`; verify against your own targets rather than treating this
 as a guarantee.
 
-| Reader     | OS       | Browser   | Closed button                          | Open listbox                          |
-| ---------- | -------- | --------- | -------------------------------------- | ------------------------------------- |
-| VoiceOver  | macOS 14 | Safari 17 | "Choose a text size, pop-up button".   | "Medium, selected, 2 of 4".           |
-| NVDA       | Windows  | Firefox   | "Choose a text size button collapsed". | "list box, Medium 2 of 4 selected".   |
-| Narrator   | Windows  | Edge      | "Choose a text size button collapsed". | "Medium selected, 2 of 4".            |
-| JAWS       | Windows  | Chrome    | "Choose a text size button collapsed". | "list box, Medium, 2 of 4".           |
-| TalkBack   | Android  | Chrome    | "Choose a text size, button".          | Varies; verify on your target device. |
+| Reader    | OS       | Browser   | Closed button                          | Open listbox                          |
+| --------- | -------- | --------- | -------------------------------------- | ------------------------------------- |
+| VoiceOver | macOS 14 | Safari 17 | "Choose a text size, pop-up button".   | "Medium, selected, 2 of 4".           |
+| NVDA      | Windows  | Firefox   | "Choose a text size button collapsed". | "list box, Medium 2 of 4 selected".   |
+| Narrator  | Windows  | Edge      | "Choose a text size button collapsed". | "Medium selected, 2 of 4".            |
+| JAWS      | Windows  | Chrome    | "Choose a text size button collapsed". | "list box, Medium, 2 of 4".           |
+| TalkBack  | Android  | Chrome    | "Choose a text size, button".          | Varies; verify on your target device. |
 
 ## Common mistakes to avoid
 

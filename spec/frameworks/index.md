@@ -20,29 +20,29 @@ It does **not** cover: the binding markup/ARIA rules every framework obeys (see 
 
 ## The seven framework pairs
 
-| Framework | Headless dir | Example dir | Stack | Component file shape |
-| --------- | ------------ | ----------- | ----- | -------------------- |
-| HTML | `@lilydesignsystem/html-headless` | `lily-design-system-html-css-js-examples` | Plain HTML + CSS + JS; web components | One web component per slug (`{slug}.js` custom element) + class hooks |
-| Svelte | `@lilydesignsystem/svelte-headless` | `lily-design-system-svelte-sveltekit-examples` | Svelte 5 (runes) + SvelteKit 2, Vite, pnpm, TypeScript | `{Pascal}.svelte` |
-| React | `@lilydesignsystem/react-headless` | `lily-design-system-react-next-examples` | React 19 + Next.js, TypeScript | `{Pascal}.tsx` |
-| Vue | `@lilydesignsystem/vue-headless` | `lily-design-system-vue-nuxt-examples` | Vue 3 + Nuxt.js, TypeScript | `{Pascal}.vue` |
-| Angular | `@lilydesignsystem/angular-headless` | `lily-design-system-angular-examples` | Angular 22 (signals, OnPush, standalone) + Analog.js v2, Vite 7 | `{slug}.component.ts` |
-| Blazor | `lily-design-system-blazor-headless` | `lily-design-system-blazor-web-examples` | Blazor 10 / .NET, bUnit | `{Pascal}.razor` (+ `.razor.cs`) |
-| Nunjucks | `@lilydesignsystem/nunjucks-headless` | `lily-design-system-nunjucks-eleventy-examples` | Nunjucks 3 + Eleventy | `components/{slug}/macro.njk` |
+| Framework | Headless dir                          | Example dir                                     | Stack                                                           | Component file shape                                                  |
+| --------- | ------------------------------------- | ----------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------------- |
+| HTML      | `@lilydesignsystem/html-headless`     | `lily-design-system-html-css-js-examples`       | Plain HTML + CSS + JS; web components                           | One web component per slug (`{slug}.js` custom element) + class hooks |
+| Svelte    | `@lilydesignsystem/svelte-headless`   | `lily-design-system-svelte-sveltekit-examples`  | Svelte 5 (runes) + SvelteKit 2, Vite, pnpm, TypeScript          | `{Pascal}.svelte`                                                     |
+| React     | `@lilydesignsystem/react-headless`    | `lily-design-system-react-next-examples`        | React 19 + Next.js, TypeScript                                  | `{Pascal}.tsx`                                                        |
+| Vue       | `@lilydesignsystem/vue-headless`      | `lily-design-system-vue-nuxt-examples`          | Vue 3 + Nuxt.js, TypeScript                                     | `{Pascal}.vue`                                                        |
+| Angular   | `@lilydesignsystem/angular-headless`  | `lily-design-system-angular-examples`           | Angular 22 (signals, OnPush, standalone) + Analog.js v2, Vite 7 | `{slug}.component.ts`                                                 |
+| Blazor    | `lily-design-system-blazor-headless`  | `lily-design-system-blazor-web-examples`        | Blazor 10 / .NET, bUnit                                         | `{Pascal}.razor` (+ `.razor.cs`)                                      |
+| Nunjucks  | `@lilydesignsystem/nunjucks-headless` | `lily-design-system-nunjucks-eleventy-examples` | Nunjucks 3 + Eleventy                                           | `components/{slug}/macro.njk`                                         |
 
 ## How each headless library expresses a component
 
 Every library renders the same semantic element with the same kebab-case base class; the difference is the surface syntax and the rest-props mechanism.
 
-| Framework | Rest props | Two-way binding | Children / slots |
-| --------- | ---------- | --------------- | ---------------- |
-| HTML | attributes pass through on the custom element | attribute + property reflection | light-DOM slotting |
-| Svelte | `{...restProps}` | `$bindable()` | `Snippet` + `{@render children?.()}` |
-| React | `{...restProps}` | controlled value + `onChange` | `children` |
-| Vue | `v-bind="$attrs"` | `v-model` / `defineModel` | `<slot>` |
-| Angular | `additional-attributes` host binding | signal input + output | `<ng-content>` |
-| Blazor | `@attributes` | bindable parameter + `EventCallback` | `ChildContent` (`RenderFragment`) |
-| Nunjucks | `params.attributes` key/value loop | n/a (stateless macro) | `params.html | safe` / `params.text` |
+| Framework | Rest props                                    | Two-way binding                      | Children / slots                     |
+| --------- | --------------------------------------------- | ------------------------------------ | ------------------------------------ |
+| HTML      | attributes pass through on the custom element | attribute + property reflection      | light-DOM slotting                   |
+| Svelte    | `{...restProps}`                              | `$bindable()`                        | `Snippet` + `{@render children?.()}` |
+| React     | `{...restProps}`                              | controlled value + `onChange`        | `children`                           |
+| Vue       | `v-bind="$attrs"`                             | `v-model` / `defineModel`            | `<slot>`                             |
+| Angular   | `additional-attributes` host binding          | signal input + output                | `<ng-content>`                       |
+| Blazor    | `@attributes`                                 | bindable parameter + `EventCallback` | `ChildContent` (`RenderFragment`)    |
+| Nunjucks  | `params.attributes` key/value loop            | n/a (stateless macro)                | `params.html                         | safe`/`params.text` |
 
 ## Per-framework conventions
 
@@ -63,12 +63,12 @@ Every library renders the same semantic element with the same kebab-case base cl
 
 ## Example-app copy-pattern
 
-| Step | Behaviour |
-| ---- | --------- |
-| Source | The headless components are the single source of truth in `lily-design-system-{framework}-headless`. |
-| Copy | Each example app copies those components into its own tree (e.g. Angular copies `.component.ts` files into `src/app/components/`). |
-| Demo | `/components/{slug}` renders the real copied component via the framework's raw-HTML mechanism (`{@html}`, `dangerouslySetInnerHTML`, `v-html`, `MarkupString`, `{{ demo | safe }}`, `innerHTML`). |
-| Styling | The example app supplies the stylesheet targeting the kebab-case class hooks (see [examples](../examples/index.md)). |
+| Step    | Behaviour                                                                                                                                                               |
+| ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Source  | The headless components are the single source of truth in `lily-design-system-{framework}-headless`.                                                                    |
+| Copy    | Each example app copies those components into its own tree (e.g. Angular copies `.component.ts` files into `src/app/components/`).                                      |
+| Demo    | `/components/{slug}` renders the real copied component via the framework's raw-HTML mechanism (`{@html}`, `dangerouslySetInnerHTML`, `v-html`, `MarkupString`, `{{ demo | safe }}`, `innerHTML`). |
+| Styling | The example app supplies the stylesheet targeting the kebab-case class hooks (see [examples](../examples/index.md)).                                                    |
 
 ## Angular + Analog.js status (spec §11.2, §11.8)
 

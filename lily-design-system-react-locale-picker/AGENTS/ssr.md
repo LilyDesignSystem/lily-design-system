@@ -31,7 +31,11 @@ The select outputs deterministic HTML based purely on the resolved
 
 ```html
 <div class="locale-picker">
-  <input type="hidden" name="locale" value="en" />
+  <input
+    type="hidden"
+    name="locale"
+    value="en"
+  />
   <button
     type="button"
     class="locale-picker-button"
@@ -40,7 +44,26 @@ The select outputs deterministic HTML based purely on the resolved
     aria-expanded="false"
     aria-controls="locale-picker-«r0»-list"
   >
-    <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path stroke-width="1.1" d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7"/></svg>
+    <svg
+      class="locale-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle
+        cx="8"
+        cy="8"
+        r="6"
+      />
+      <path
+        stroke-width="1.1"
+        d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7"
+      />
+    </svg>
   </button>
   <ul
     class="locale-picker-list"
@@ -117,18 +140,11 @@ shape is:
 // app/layout.tsx — SERVER component
 import { cookies } from "next/headers";
 import { LocaleClient } from "./locale-client";
-import {
-  isRtlLocale,
-  bcp47LocaleTag,
-} from "./lily-design-system-react-locale-picker";
+import { isRtlLocale, bcp47LocaleTag } from "./lily-design-system-react-locale-picker";
 
 const KNOWN = new Set(["en", "fr", "ar", "he"]);
 
-export default async function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const cookieStore = await cookies();
   const cookieLocale = cookieStore.get("locale")?.value;
   const locale = cookieLocale && KNOWN.has(cookieLocale) ? cookieLocale : "en";
@@ -136,7 +152,10 @@ export default async function RootLayout({
   const dir = isRtlLocale(locale) ? "rtl" : "ltr";
 
   return (
-    <html lang={lang} dir={dir}>
+    <html
+      lang={lang}
+      dir={dir}
+    >
       <body>
         <LocaleClient initialLocale={locale}>{children}</LocaleClient>
       </body>
@@ -196,10 +215,7 @@ Result:
 // app/root.tsx
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json, useLoaderData } from "@remix-run/react";
-import {
-  isRtlLocale,
-  bcp47LocaleTag,
-} from "./lily-design-system-react-locale-picker";
+import { isRtlLocale, bcp47LocaleTag } from "./lily-design-system-react-locale-picker";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const cookie = request.headers.get("cookie") ?? "";
@@ -303,11 +319,11 @@ The select itself MUST be a client component. But the cookie-read +
 `<html lang dir>` writing happens in a server component (the layout).
 The handoff is:
 
-| Server component               | Client component                  |
-| ------------------------------ | --------------------------------- |
-| Reads cookie / Accept-Language | Receives `initialLocale` prop     |
+| Server component               | Client component                 |
+| ------------------------------ | -------------------------------- |
+| Reads cookie / Accept-Language | Receives `initialLocale` prop    |
 | Computes `lang` and `dir`      | Renders `<LocalePicker>`         |
-| Writes `<html lang dir>`       | Wires `onChange` cookie writer    |
+| Writes `<html lang dir>`       | Wires `onChange` cookie writer   |
 | Imports pure helpers only      | Imports `LocalePicker` + helpers |
 
 Importing `LocalePicker` (the React component) from a server component

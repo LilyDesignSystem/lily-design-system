@@ -10,11 +10,15 @@ See [components/heatmap-chart-with-year-of-days/index.md](../../../components/he
 
 ```svelte
 <script lang="ts">
-    import HeatmapChartWithYearOfDays from "./HeatmapChartWithYearOfDays.svelte";
+  import HeatmapChartWithYearOfDays from "./HeatmapChartWithYearOfDays.svelte";
 </script>
 
-<HeatmapChartWithYearOfDays label="Activity per day in 2026" year={2026} weekStart={1}>
-    <svg viewBox="0 0 10 10">…</svg>
+<HeatmapChartWithYearOfDays
+  label="Activity per day in 2026"
+  year={2026}
+  weekStart={1}
+>
+  <svg viewBox="0 0 10 10">…</svg>
 </HeatmapChartWithYearOfDays>
 ```
 

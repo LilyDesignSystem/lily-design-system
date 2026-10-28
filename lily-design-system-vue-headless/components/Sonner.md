@@ -22,7 +22,7 @@ Unlike modal dialogs that interrupt workflow, toast notifications communicate fe
 
 ```svelte
 <Sonner label="Notifications">
-    <div role="status">File saved successfully.</div>
+  <div role="status">File saved successfully.</div>
 </Sonner>
 ```
 

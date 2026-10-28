@@ -8,7 +8,7 @@ Lily ships no English defaults, so every app used to write and translate about 1
 import { labelsFor } from "@lilydesignsystem/angular-locale-translations";
 import cy from "@lilydesignsystem/angular-locale-translations/cy-001";
 
-labels = labelsFor("data-grid", cy);   // <lily-data-grid [labels]="labels" …>
+labels = labelsFor("data-grid", cy); // <lily-data-grid [labels]="labels" …>
 ```
 
 `labelsFor(helper, pack)` returns a ready `labels` for the Angular helpers (`data-grid`, `kanban-board`, `calendar`, `gantt-chart`, `filter`).

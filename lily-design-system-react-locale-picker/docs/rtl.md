@@ -172,7 +172,11 @@ Pass `applyDir={false}` when:
 The select still writes `lang` — only `dir` is suppressed.
 
 ```tsx
-<LocalePicker label="Language" locales={["en", "ar"]} applyDir={false} />
+<LocalePicker
+  label="Language"
+  locales={["en", "ar"]}
+  applyDir={false}
+/>
 ```
 
 ## Using `isRtlLocale` directly
@@ -182,10 +186,7 @@ use. Useful for server components that need to write `<html dir>`
 during SSR:
 
 ```tsx
-import {
-  isRtlLocale,
-  bcp47LocaleTag,
-} from "@lilydesignsystem/react-locale-picker";
+import { isRtlLocale, bcp47LocaleTag } from "@lilydesignsystem/react-locale-picker";
 
 const locale = "ar";
 const lang = bcp47LocaleTag(locale); // "ar"

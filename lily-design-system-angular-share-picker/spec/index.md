@@ -138,10 +138,33 @@ type ShareEvent = { targetId: string; url: string };
     aria-expanded
     aria-controls="{listId}"
   >
-    <svg class="share-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5"/></svg>
+    <svg
+      class="share-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" />
+    </svg>
   </button>
-  <div class="share-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
-  <ul class="share-picker-list" id="{listId}" aria-label="{label}" hidden>
+  <div
+    class="share-picker-tooltip"
+    role="tooltip"
+    id="{tooltipId}"
+    hidden
+  >
+    {label}
+  </div>
+  <ul
+    class="share-picker-list"
+    id="{listId}"
+    aria-label="{label}"
+    hidden
+  >
     <li class="share-picker-list-item">
       <a
         class="share-picker-target"
@@ -153,12 +176,21 @@ type ShareEvent = { targetId: string; url: string };
       >
     </li>
     <li class="share-picker-list-item">
-      <button type="button" class="share-picker-copy">{copyLabel}</button>
+      <button
+        type="button"
+        class="share-picker-copy"
+      >
+        {copyLabel}
+      </button>
     </li>
   </ul>
-  <p class="share-picker-status" aria-live="polite"></p>
+  <p
+    class="share-picker-status"
+    aria-live="polite"
+  ></p>
 </div>
 ```
+
 **Tooltip.** `.share-picker-tooltip` is a sibling of the button, always in
 the DOM, `hidden` at rest, holding the button's `label` text. It is shown
 while the pointer is over the button or over the tooltip itself
@@ -175,7 +207,6 @@ attribute. Angular idiom: four signals (`hoverButton`, `hoverTooltip`,
 pointer and focus listeners sit on the `lily-icon-button` host
 (`mouseenter`/`mouseleave`/`focusin`/`focusout`), and the tooltip text is
 the existing `label` input, so there is no new input and no new English text.
-
 
 The trigger's class is `share-picker-button`, following the sibling
 helpers' `{helper}-button` convention exactly. (Under the package's
@@ -253,13 +284,13 @@ link semantics.
 
 ### 6.1 Keyboard contract
 
-| Key               | On the button                        | In the list                                   |
-| ----------------- | ------------------------------------ | --------------------------------------------- |
-| `Enter` / `Space` | Activates (native browser behaviour) | Activates the focused item                    |
-| `ArrowDown`       | Opens, focuses the first item        | Moves focus down, clamping                    |
-| `ArrowUp`         | Opens, focuses the last item         | Moves focus up, clamping                      |
-| `Home` / `End`    | —                                    | First / last item                             |
-| `Escape`          | —                                    | Closes and returns focus to the button        |
+| Key               | On the button                        | In the list                                                                                                                 |
+| ----------------- | ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
+| `Enter` / `Space` | Activates (native browser behaviour) | Activates the focused item                                                                                                  |
+| `ArrowDown`       | Opens, focuses the first item        | Moves focus down, clamping                                                                                                  |
+| `ArrowUp`         | Opens, focuses the last item         | Moves focus up, clamping                                                                                                    |
+| `Home` / `End`    | —                                    | First / last item                                                                                                           |
+| `Escape`          | —                                    | Closes and returns focus to the button                                                                                      |
 | `Tab`             | Moves on                             | Closes — focus goes to the button first, without cancelling the key, so the default Tab proceeds from the picker's position |
 
 Items are real focusable elements, so focus moves for real rather than

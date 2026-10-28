@@ -22,11 +22,11 @@ Row of kanban items across status columns:
 
 ```html
 <KanbanTableBody>
-    <KanbanTableRow>
-        <KanbanTableTD label="Fix login bug">Fix login bug</KanbanTableTD>
-        <KanbanTableTD label="Add dashboard">Add dashboard</KanbanTableTD>
-        <KanbanTableTD label="Setup CI/CD">Setup CI/CD</KanbanTableTD>
-    </KanbanTableRow>
+  <KanbanTableRow>
+    <KanbanTableTD label="Fix login bug">Fix login bug</KanbanTableTD>
+    <KanbanTableTD label="Add dashboard">Add dashboard</KanbanTableTD>
+    <KanbanTableTD label="Setup CI/CD">Setup CI/CD</KanbanTableTD>
+  </KanbanTableRow>
 </KanbanTableBody>
 ```
 

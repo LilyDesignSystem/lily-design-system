@@ -21,7 +21,9 @@ PrathetThaiLekPrajamTuaPrachachonInput is a headless placeholder component, gene
 ## Usage
 
 ```html
-<PrathetThaiLekPrajamTuaPrachachonInput label="PrathetThaiLekPrajamTuaPrachachonInput example">Content</PrathetThaiLekPrajamTuaPrachachonInput>
+<PrathetThaiLekPrajamTuaPrachachonInput label="PrathetThaiLekPrajamTuaPrachachonInput example"
+  >Content</PrathetThaiLekPrajamTuaPrachachonInput
+>
 ```
 
 ## Keyboard Interactions

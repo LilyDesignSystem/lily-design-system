@@ -155,14 +155,34 @@ to the document and persists nothing.
 
   ```html
   <div class="date-time-picker {CssClass}">
-    <input type="hidden" name="{Name}" value="{Value}" />
+    <input
+      type="hidden"
+      name="{Name}"
+      value="{Value}"
+    />
     <div class="date-time-picker-field">
-      <input class="date-time-picker-input" type="text" value="{display}" />
-      <button class="date-time-picker-button" aria-haspopup="dialog">
-        <span class="date-time-picker-icon" aria-hidden="true">&#128197;&#65038;</span>
+      <input
+        class="date-time-picker-input"
+        type="text"
+        value="{display}"
+      />
+      <button
+        class="date-time-picker-button"
+        aria-haspopup="dialog"
+      >
+        <span
+          class="date-time-picker-icon"
+          aria-hidden="true"
+          >&#128197;&#65038;</span
+        >
       </button>
     </div>
-    <div class="date-time-picker-dialog" role="dialog" aria-modal="true" hidden>
+    <div
+      class="date-time-picker-dialog"
+      role="dialog"
+      aria-modal="true"
+      hidden
+    >
       <!-- header nav, role="grid" calendar, time selects, shortcuts, footer -->
     </div>
   </div>

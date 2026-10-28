@@ -4,7 +4,7 @@
 
 ## 1. Goal
 
-Let a user build a filter from typed conditions — a text field, a number range, a date range, an upper or lower limit, a choice — grouped with *and* / *or* / *not*, and hand the result to whatever applies it: a SQL `WHERE`, a MongoDB query, an OData `$filter`, JSON for an API, or a predicate for rows already in memory (the data grid's `rowFilter`, the kanban board's `filter`, the Gantt chart's and calendar's `filter`).
+Let a user build a filter from typed conditions — a text field, a number range, a date range, an upper or lower limit, a choice — grouped with _and_ / _or_ / _not_, and hand the result to whatever applies it: a SQL `WHERE`, a MongoDB query, an OData `$filter`, JSON for an API, or a predicate for rows already in memory (the data grid's `rowFilter`, the kanban board's `filter`, the Gantt chart's and calendar's `filter`).
 
 ## 2. Scope
 
@@ -36,7 +36,7 @@ Pure and immutable: `createRule(fields, fieldId?)`, `createGroup(combinator, chi
 - **Values are parameters**: `?` (ansi, mysql, sqlite), `$1` (postgres), `@p1` (mssql). Booleans are `1` / `0` for mssql and sqlite.
 - **Identifiers** are quoted per dialect (`"x"`, `` `x` ``, `[x]`), come only from the declared fields' `column ?? id`, and must match `^[A-Za-z_][A-Za-z0-9_]*(\.[A-Za-z_][A-Za-z0-9_]*)*$` or `toSql` throws `FilterError` — a column name is never quoted around.
 - **Text** matches case-insensitively: `ILIKE` (postgres) or `LOWER(col) LIKE LOWER(?)`, with `%`, `_` and `\` in the value escaped and `ESCAPE '\'` (written `'\\'` for MySQL, whose string literals escape the backslash). `equals` on text compares `LOWER` both sides.
-- Ranges are `BETWEEN` / `NOT BETWEEN`; lists `IN (?, ?)`; *is empty* is `IS NULL` (text: `IS NULL OR = ''`).
+- Ranges are `BETWEEN` / `NOT BETWEEN`; lists `IN (?, ?)`; _is empty_ is `IS NULL` (text: `IS NULL OR = ''`).
 - Nesting is parenthesised; a negated group is `NOT (…)`.
 - `inline: true` writes values into the text with single quotes doubled, for display and logging only — documented, tested, never for execution.
 
@@ -53,12 +53,12 @@ Pure and immutable: `createRule(fields, fieldId?)`, `createGroup(combinator, chi
 `<Filter label fields bind:value labels onChange? format? dialect? maxDepth? readonly? />`.
 
 - **Markup**: root `div.filter[role=group][aria-label]`; each level `div.filter-group[role=group]` named `labels.group(depth)` with a header (`select.filter-combinator`, `label.filter-not`, a remove button for nested groups), `ul.filter-rules` of `li.filter-item`, and `div.filter-group-actions` (add condition, add group). A condition is `div.filter-rule[role=group]` named `labels.rule(n)` — the number is its place in reading order across the whole filter — holding `select.filter-field`, `select.filter-operator`, the value editor, and `button.filter-remove-rule-button`.
-- **Value editors** follow the field: `input[type=text|number|date].filter-value`, `select.filter-value` for one choice, `div.filter-choices[role=group]` of checkboxes for *is one of*, two inputs (`.filter-value`, `.filter-value-to`; named `labels.valueFrom` / `valueTo`) for a range, none for operators without a value.
+- **Value editors** follow the field: `input[type=text|number|date].filter-value`, `select.filter-value` for one choice, `div.filter-choices[role=group]` of checkboxes for _is one of_, two inputs (`.filter-value`, `.filter-value-to`; named `labels.valueFrom` / `valueTo`) for a range, none for operators without a value.
 - **State** is the immutable `value` (bindable) and `onChange(group)`; every edit is a new object. Changing the field or operator follows §4.
-- **Focus**: adding a condition focuses its field select; adding a group focuses its first condition; removing returns focus to the group's *Add condition*.
+- **Focus**: adding a condition focuses its field select; adding a group focuses its first condition; removing returns focus to the group's _Add condition_.
 - **Announcements** (polite status region, only for labels that are given): `ruleAdded(n)`, `ruleRemoved(n)`, `groupAdded(depth)`, `groupRemoved(depth)`.
 - **`format`** (with `labels.output`) shows the filter as text in a named group (`pre.filter-output-text`, `data-format`), recomputed from the normalised tree; `dialect` applies to SQL.
-- **`readonly`**: controls are disabled / read-only and add and remove buttons are not rendered. **`maxDepth`** (default 3) removes *Add group* at the deepest level.
+- **`readonly`**: controls are disabled / read-only and add and remove buttons are not rendered. **`maxDepth`** (default 3) removes _Add group_ at the deepest level.
 - **i18n**: every string is in `labels`; operator names come from `labels.operatorName(op, field)`; there is no default English and no default locale.
 - **SSR-safe**, no browser APIs outside event handlers and focus.
 
@@ -76,4 +76,3 @@ Tests §8.1–§8.29 in `Filter.test.ts`; the model's tests in `filter-model.tes
 ## 13. Language and direction
 
 `ALL_OPERATORS` lists every operator id so an app can assert that its `labels.operatorName` names them all in each language (an unnamed operator would show its id). The component is tested with a complete Chinese bundle (no English word in anything a user reads or hears, other than the code in the output) and right to left (the same controls in the same order; no physical `left` / `right` in an inline style; the builder is native `<select>`s, inputs and buttons, so the browser handles their direction and there is no arrow-key model to flip).
-

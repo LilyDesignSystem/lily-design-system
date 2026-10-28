@@ -32,23 +32,26 @@ Bind `value` and provide an accessible `label`.
 
 ```svelte
 <script lang="ts">
-    import Editable from "./Editable.svelte";
-    let name = $state("Alice");
+  import Editable from "./Editable.svelte";
+  let name = $state("Alice");
 </script>
 
-<Editable label="Name" bind:value={name} />
+<Editable
+  label="Name"
+  bind:value={name}
+/>
 ```
 
 ## Props
 
-| Prop       | Type      | Default | Description                                  |
-| ---------- | --------- | ------- | -------------------------------------------- |
-| `class`    | `string`  | `""`    | CSS class appended to the base class.       |
-| `value`    | `string`  | `""`    | Current committed value. Bindable.           |
-| `label`    | `string`  | required| Accessible name via `aria-label`.            |
-| `editing`  | `boolean` | `false` | Whether in edit mode. Bindable.              |
-| `disabled` | `boolean` | `false` | Whether editing is disabled.                 |
-| `...rest`  | `unknown` | —       | Additional HTML attributes on span or input. |
+| Prop       | Type      | Default  | Description                                  |
+| ---------- | --------- | -------- | -------------------------------------------- |
+| `class`    | `string`  | `""`     | CSS class appended to the base class.        |
+| `value`    | `string`  | `""`     | Current committed value. Bindable.           |
+| `label`    | `string`  | required | Accessible name via `aria-label`.            |
+| `editing`  | `boolean` | `false`  | Whether in edit mode. Bindable.              |
+| `disabled` | `boolean` | `false`  | Whether editing is disabled.                 |
+| `...rest`  | `unknown` | —        | Additional HTML attributes on span or input. |
 
 ## Usage
 
@@ -56,37 +59,54 @@ Bind `value` and provide an accessible `label`.
 
 ```svelte
 <script lang="ts">
-    import Editable from "./Editable.svelte";
-    let title = $state("Untitled");
+  import Editable from "./Editable.svelte";
+  let title = $state("Untitled");
 </script>
 
-<Editable label="Title" bind:value={title} />
+<Editable
+  label="Title"
+  bind:value={title}
+/>
 ```
 
 ### 2. External editing control
 
 ```svelte
 <script lang="ts">
-    import Editable from "./Editable.svelte";
-    let value = $state("Alice");
-    let editing = $state(false);
+  import Editable from "./Editable.svelte";
+  let value = $state("Alice");
+  let editing = $state(false);
 </script>
 
-<Editable label="Name" bind:value bind:editing />
-<button type="button" onclick={() => editing = true}>Edit</button>
+<Editable
+  label="Name"
+  bind:value
+  bind:editing
+/>
+<button
+  type="button"
+  onclick={() => (editing = true)}>Edit</button
+>
 ```
 
 ### 3. Disabled
 
 ```svelte
-<Editable label="Read-only name" value="System" disabled />
+<Editable
+  label="Read-only name"
+  value="System"
+  disabled
+/>
 ```
 
 ### 4. Multiple editables in a list
 
 ```svelte
 {#each items as item}
-    <Editable label={`Name for ${item.id}`} bind:value={item.name} />
+  <Editable
+    label={`Name for ${item.id}`}
+    bind:value={item.name}
+  />
 {/each}
 ```
 
@@ -94,12 +114,17 @@ Bind `value` and provide an accessible `label`.
 
 ```svelte
 <script lang="ts">
-    import Editable from "./Editable.svelte";
-    let value = $state("Alice");
-    $effect(() => { saveToServer(value); });
+  import Editable from "./Editable.svelte";
+  let value = $state("Alice");
+  $effect(() => {
+    saveToServer(value);
+  });
 </script>
 
-<Editable label="Name" bind:value />
+<Editable
+  label="Name"
+  bind:value
+/>
 ```
 
 ## Accessibility

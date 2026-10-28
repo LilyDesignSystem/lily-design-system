@@ -55,8 +55,14 @@ document.querySelector("header").appendChild(bar);
 Or in markup, for the parts that fit plain attributes:
 
 ```html
-<script type="module" src="/node_modules/lily-design-system-html-picker-bar/dist/index.js"></script>
-<picker-bar themes-url="/assets/themes/" locales="en,cy,gd,ga"></picker-bar>
+<script
+  type="module"
+  src="/node_modules/lily-design-system-html-picker-bar/dist/index.js"
+></script>
+<picker-bar
+  themes-url="/assets/themes/"
+  locales="en,cy,gd,ga"
+></picker-bar>
 <script type="module">
   document.querySelector("picker-bar").labels = {
     search: "Search this site",
@@ -106,7 +112,11 @@ attribute — for anything beyond what `<picker-bar>` lifts to the top
 level: persistence, initial value, detection, a `*Labels` override map.
 
 ```js
-bar.searchProps = { action: "/search", placeholder: "Search…", navigate: (href) => router.push(href) };
+bar.searchProps = {
+  action: "/search",
+  placeholder: "Search…",
+  navigate: (href) => router.push(href),
+};
 bar.themeProps = { storageKey: "lily-theme", detectFromSystem: true };
 bar.localeProps = { storageKey: "lily-locale", detectFromNavigator: true };
 bar.textSizeProps = { storageKey: "lily-text-size" };

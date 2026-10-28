@@ -27,7 +27,10 @@ import { Button, TextInput } from "@lilydesignsystem/angular-headless";
   standalone: true,
   imports: [Button, TextInput],
   template: `
-    <lily-text-input label="Email" [(value)]="email" />
+    <lily-text-input
+      label="Email"
+      [(value)]="email"
+    />
     <lily-button>Submit</lily-button>
   `,
 })
@@ -45,7 +48,7 @@ export class MyForm {
   two-way binding (`[(value)]="x"`).
 - **`ChangeDetectionStrategy.OnPush`** on every component.
 - **Element selectors** — most components declare `selector:
-  "lily-{kebab-slug}"` and are used as their own dashed tag,
+"lily-{kebab-slug}"` and are used as their own dashed tag,
   e.g. `<lily-button>`, `<lily-breadcrumb-nav>`.
 
 ### The tag+attribute-selector exception (51 components)
@@ -70,7 +73,12 @@ attached as an attribute:
 ```html
 <ol lily-breadcrumb-list>
   <li lily-breadcrumb-list-item><a href="/">Home</a></li>
-  <li lily-breadcrumb-list-item [current]="true">Page</li>
+  <li
+    lily-breadcrumb-list-item
+    [current]="true"
+  >
+    Page
+  </li>
 </ol>
 ```
 
@@ -78,7 +86,12 @@ attached as an attribute:
 <table lily-table>
   <thead lily-table-head>
     <tr lily-table-row>
-      <th lily-table-th [scope]="'col'">Name</th>
+      <th
+        lily-table-th
+        [scope]="'col'"
+      >
+        Name
+      </th>
     </tr>
   </thead>
 </table>
@@ -90,8 +103,8 @@ Two consequences worth remembering when writing this markup:
   be passed through the component's input, never as a competing static HTML
   attribute — the host binding re-evaluates every change-detection cycle and
   overwrites a static attribute of the same name. `<th lily-table-th
-  scope="col">` silently loses its scope; `<th lily-table-th
-  [scope]="'col'">` is correct.
+scope="col">` silently loses its scope; `<th lily-table-th
+[scope]="'col'">` is correct.
 - Only the child needed this treatment — the parent container (`*List`,
   `*Table`, `*TableHead`/`Body`/`Foot`, `Select`) keeps the plain element
   selector.
@@ -101,7 +114,7 @@ Two consequences worth remembering when writing this markup:
 Angular headless components follow the same theming contract as every other
 Lily catalog: each root element carries a fixed kebab-case base class (e.g.
 `.breadcrumb-nav`) plus the consumer's optional `className` input, and that
-class is the *only* styling contract — no bundled CSS, fonts, icons, or
+class is the _only_ styling contract — no bundled CSS, fonts, icons, or
 Angular Material dependency. Pair the class hooks with one of the 45
 reference stylesheets under `themes/`, or write your own CSS against them.
 

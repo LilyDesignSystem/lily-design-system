@@ -34,32 +34,32 @@ Bind both `dateValue` and `timeValue` and pass localised labels for the group, i
 
 ```svelte
 <script lang="ts">
-    import DateTimeNowInput from "./DateTimeNowInput.svelte";
-    let dateValue = $state("");
-    let timeValue = $state("");
+  import DateTimeNowInput from "./DateTimeNowInput.svelte";
+  let dateValue = $state("");
+  let timeValue = $state("");
 </script>
 
 <DateTimeNowInput
-    label="Event time"
-    bind:dateValue
-    bind:timeValue
+  label="Event time"
+  bind:dateValue
+  bind:timeValue
 />
 ```
 
 ## Props
 
-| Prop         | Type      | Default  | Description                                      |
-| ------------ | --------- | -------- | ------------------------------------------------ |
-| `class`      | `string`  | `""`     | CSS class appended to the base class.           |
-| `label`      | `string`  | required | Accessible name for the group via `aria-label`.  |
-| `dateLabel`  | `string`  | `"Date"` | Accessible name for the date input.              |
-| `timeLabel`  | `string`  | `"Time"` | Accessible name for the time input.              |
-| `nowLabel`   | `string`  | `"Now"`  | Accessible label and visible text for the button.|
-| `dateValue`  | `string`  | `""`     | Bindable date (`YYYY-MM-DD`).                    |
-| `timeValue`  | `string`  | `""`     | Bindable time (`HH:mm`).                         |
-| `required`   | `boolean` | `false`  | Whether the inputs are required.                 |
-| `disabled`   | `boolean` | `false`  | Whether the inputs and button are disabled.      |
-| `...rest`    | `unknown` | —        | Additional HTML attributes spread onto the `<div>`. |
+| Prop        | Type      | Default  | Description                                         |
+| ----------- | --------- | -------- | --------------------------------------------------- |
+| `class`     | `string`  | `""`     | CSS class appended to the base class.               |
+| `label`     | `string`  | required | Accessible name for the group via `aria-label`.     |
+| `dateLabel` | `string`  | `"Date"` | Accessible name for the date input.                 |
+| `timeLabel` | `string`  | `"Time"` | Accessible name for the time input.                 |
+| `nowLabel`  | `string`  | `"Now"`  | Accessible label and visible text for the button.   |
+| `dateValue` | `string`  | `""`     | Bindable date (`YYYY-MM-DD`).                       |
+| `timeValue` | `string`  | `""`     | Bindable time (`HH:mm`).                            |
+| `required`  | `boolean` | `false`  | Whether the inputs are required.                    |
+| `disabled`  | `boolean` | `false`  | Whether the inputs and button are disabled.         |
+| `...rest`   | `unknown` | —        | Additional HTML attributes spread onto the `<div>`. |
 
 ## Usage
 
@@ -67,24 +67,28 @@ Bind both `dateValue` and `timeValue` and pass localised labels for the group, i
 
 ```svelte
 <script lang="ts">
-    import DateTimeNowInput from "./DateTimeNowInput.svelte";
-    let dateValue = $state("");
-    let timeValue = $state("");
+  import DateTimeNowInput from "./DateTimeNowInput.svelte";
+  let dateValue = $state("");
+  let timeValue = $state("");
 </script>
 
-<DateTimeNowInput label="Event time" bind:dateValue bind:timeValue />
+<DateTimeNowInput
+  label="Event time"
+  bind:dateValue
+  bind:timeValue
+/>
 ```
 
 ### 2. Localised labels (French)
 
 ```svelte
 <DateTimeNowInput
-    label="Heure de l'événement"
-    dateLabel="Date"
-    timeLabel="Heure"
-    nowLabel="Maintenant"
-    bind:dateValue
-    bind:timeValue
+  label="Heure de l'événement"
+  dateLabel="Date"
+  timeLabel="Heure"
+  nowLabel="Maintenant"
+  bind:dateValue
+  bind:timeValue
 />
 ```
 
@@ -92,11 +96,11 @@ Bind both `dateValue` and `timeValue` and pass localised labels for the group, i
 
 ```svelte
 <DateTimeNowInput
-    label="Appointment"
-    bind:dateValue
-    bind:timeValue
-    required
-    disabled={isLocked}
+  label="Appointment"
+  bind:dateValue
+  bind:timeValue
+  required
+  disabled={isLocked}
 />
 ```
 
@@ -104,27 +108,37 @@ Bind both `dateValue` and `timeValue` and pass localised labels for the group, i
 
 ```svelte
 <script lang="ts">
-    import DateTimeNowInput from "./DateTimeNowInput.svelte";
-    let dateValue = $state("");
-    let timeValue = $state("");
-    function clear() { dateValue = ""; timeValue = ""; }
+  import DateTimeNowInput from "./DateTimeNowInput.svelte";
+  let dateValue = $state("");
+  let timeValue = $state("");
+  function clear() {
+    dateValue = "";
+    timeValue = "";
+  }
 </script>
 
-<DateTimeNowInput label="Observed at" bind:dateValue bind:timeValue />
-<button type="button" onclick={clear}>Clear</button>
+<DateTimeNowInput
+  label="Observed at"
+  bind:dateValue
+  bind:timeValue
+/>
+<button
+  type="button"
+  onclick={clear}>Clear</button
+>
 ```
 
 ### 5. Inside a form with submission
 
 ```svelte
 <form onsubmit={handleSubmit}>
-    <DateTimeNowInput
-        label="Incident time"
-        bind:dateValue
-        bind:timeValue
-        required
-    />
-    <button type="submit">Log incident</button>
+  <DateTimeNowInput
+    label="Incident time"
+    bind:dateValue
+    bind:timeValue
+    required
+  />
+  <button type="submit">Log incident</button>
 </form>
 ```
 

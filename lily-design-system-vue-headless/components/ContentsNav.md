@@ -46,9 +46,9 @@ Props: `spy`, `offset` (px, default 0), `root` (element, default the viewport), 
 
 ```svelte
 <ContentsNav label="Contents">
-    <li><a href="#introduction">Introduction</a></li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#examples">Examples</a></li>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#usage">Usage</a></li>
+  <li><a href="#examples">Examples</a></li>
 </ContentsNav>
 ```
 

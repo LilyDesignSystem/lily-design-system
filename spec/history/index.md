@@ -32,7 +32,7 @@ that owns the area.
   correcting the 6 exports to match every sibling catalog. Verified:
   `ng-packagr` build clean, 491/491 tests (1011/1011, unchanged),
   `bin/check-coverage` 0/491 drift, `@lilydesignsystem/angular-
-  headless@0.1.0` published. Full record: CHANGELOG.md.
+headless@0.1.0` published. Full record: CHANGELOG.md.
 - **All npm packages move to the `@lilydesignsystem` scope (2026-09-16)** —
   maintainer-directed rename of all 63 npm packages (56 helpers minus
   Blazor's 7, plus the 7 headless libraries) from unscoped
@@ -241,7 +241,7 @@ that owns the area.
   match. Verified per-catalog (316 new tests total across 7
   catalogs) and via a real end-to-end `bin/smoke-packages` run. Found
   a real, unrelated pre-existing defect in `bin/publish-helpers
-  --dry-run` along the way — see `tasks.md` P7-T19. Full record:
+--dry-run` along the way — see `tasks.md` P7-T19. Full record:
   [CHANGELOG.md](../../CHANGELOG.md).
 - **P7-T5 visual regression baseline landed (2026-09-03)** — new
   `e2e/visual-regression.spec.ts` in svelte-sveltekit-examples: 30
@@ -285,7 +285,7 @@ that owns the area.
   publish authority authorizes an agentic session to decide a specific,
   already-prepared release meets a written readiness checklist and
   execute the real publish, without asking each time — what a release
-  *contains* stays the maintainer's alone. Full record: CHANGELOG.md.
+  _contains_ stays the maintainer's alone. Full record: CHANGELOG.md.
 - **P7-T11 angular-examples' 491 component specs fixed (2026-09-02)** —
   two prior investigations blamed a triplicated `@angular/core`
   dependency tree for every `setInput()` assertion silently failing;
@@ -411,13 +411,12 @@ per version):
   `answer`, reworked `comment`, `addressograph-box`, `barcode-image`,
   `draft`; `qr-code` renamed `qr-code-image`.
 - **0.3.0 (2026-05-30)** — 7th headless + 7th example pair (Angular 20
-  + Analog.js) land, fully verified. Canonical national-identifier
-  reference files committed at root.
+  - Analog.js) land, fully verified. Canonical national-identifier
+    reference files committed at root.
 - **0.2.0 (2026-05-24)** — Initial 80 national personal identifier
   components added (since grown to 92 — see the 2026-08-30 entry
   above), bumping the canonical count from 407 to 492. axe-core and
   the responsive sweep land on every example app.
-
 
 ## Full-catalog axe sweeps (moved from spec/index.md §11.5a–b)
 
@@ -467,7 +466,6 @@ was applied to those six as a precaution; only svelte-sveltekit's fix
 is backed by an exhaustive re-run, but each app's own
 `accessibility.spec.ts` sample stayed green after the change. Full
 record: CHANGELOG.md.
-
 
 ## Completed backlog items (moved from spec/index.md §11.8)
 

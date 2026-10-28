@@ -30,18 +30,13 @@ It must be a child of `IconList`.
 Item with check-mark icon:
 
 ```html
-<IconListItem>
-  {#snippet icon()}<CheckIcon />{/snippet}
-  Free shipping on every order
-</IconListItem>
+<IconListItem> {#snippet icon()}<CheckIcon />{/snippet} Free shipping on every order </IconListItem>
 ```
 
 Plain item with no icon:
 
 ```html
-<IconListItem>
-  Cancel anytime
-</IconListItem>
+<IconListItem> Cancel anytime </IconListItem>
 ```
 
 ## Keyboard Interactions

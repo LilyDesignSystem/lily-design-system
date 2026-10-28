@@ -29,7 +29,7 @@ GrailLayoutTopHeader is a headless container for the top header section of a Gra
 ```html
 <GrailLayout>
   <GrailLayoutTopHeader>
-    <Header label="Clinical Portal" />
+    <header label="Clinical Portal" />
   </GrailLayoutTopHeader>
   <GrailLayoutLeftAside>...</GrailLayoutLeftAside>
   <GrailLayoutCenterMain>...</GrailLayoutCenterMain>
@@ -37,7 +37,6 @@ GrailLayoutTopHeader is a headless container for the top header section of a Gra
   <GrailLayoutBottomFooter>...</GrailLayoutBottomFooter>
 </GrailLayout>
 ```
-
 
 ## Keyboard Interactions
 
@@ -57,9 +56,7 @@ This headless component renders semantic HTML. The consumer provides all visual 
 
 The consumer provides all CSS styling. The component renders with a `.grail-layout-top-header` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<header>` element with class `grail-layout-top-header`
 - Verify pass-through attributes are applied

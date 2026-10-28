@@ -19,13 +19,13 @@ styles the `motion-picker` class hooks and decides what
 
 ## Files
 
-| File                     | Purpose                                          |
-| ------------------------ | ------------------------------------------------ |
-| `spec/index.md`          | Specification-driven contract (canonical, Svelte-sourced). |
-| `motion-picker.ts`       | Implementation (TypeScript class).               |
-| `motion-picker.test.ts`  | Vitest + jsdom spec, one assertion per §7 item.  |
-| `index.ts`               | Barrel re-export + side-effectful registration.  |
-| `index.md`               | Human-readable guide.                            |
+| File                    | Purpose                                                    |
+| ----------------------- | ---------------------------------------------------------- |
+| `spec/index.md`         | Specification-driven contract (canonical, Svelte-sourced). |
+| `motion-picker.ts`      | Implementation (TypeScript class).                         |
+| `motion-picker.test.ts` | Vitest + jsdom spec, one assertion per §7 item.            |
+| `index.ts`              | Barrel re-export + side-effectful registration.            |
+| `index.md`              | Human-readable guide.                                      |
 
 ## Public surface
 

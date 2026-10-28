@@ -19,13 +19,13 @@ styles the `motion-picker` class hooks and decides what
 
 ## Files
 
-| File                                | Purpose                                           |
-| ------------------------------------ | ------------------------------------------------- |
-| `spec/index.md`                      | Specification-driven contract (canonical, Svelte-sourced). |
-| `motion-picker.component.ts`         | Implementation. Standalone, signal-based, OnPush. |
-| `motion-picker.component.spec.ts`    | Vitest spec, one assertion per §7 acceptance.     |
-| `index.ts`                           | Barrel re-export.                                 |
-| `index.md`                           | User guide.                                       |
+| File                              | Purpose                                                    |
+| --------------------------------- | ---------------------------------------------------------- |
+| `spec/index.md`                   | Specification-driven contract (canonical, Svelte-sourced). |
+| `motion-picker.component.ts`      | Implementation. Standalone, signal-based, OnPush.          |
+| `motion-picker.component.spec.ts` | Vitest spec, one assertion per §7 acceptance.              |
+| `index.ts`                        | Barrel re-export.                                          |
+| `index.md`                        | User guide.                                                |
 
 ## Public surface
 
@@ -57,7 +57,11 @@ participation.
 
 ```html
 <div class="motion-picker {className}">
-  <input type="hidden" name="{name}" value="{value}" />
+  <input
+    type="hidden"
+    name="{name}"
+    value="{value}"
+  />
   <button
     type="button"
     class="motion-picker-button"
@@ -66,9 +70,27 @@ participation.
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <svg class="motion-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3v10M11 3v10"/></svg>
+    <svg
+      class="motion-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M5 3v10M11 3v10" />
+    </svg>
   </button>
-  <div class="motion-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
+  <div
+    class="motion-picker-tooltip"
+    role="tooltip"
+    id="{tooltipId}"
+    hidden
+  >
+    {label}
+  </div>
   <ul
     class="motion-picker-list"
     id="{listId}"

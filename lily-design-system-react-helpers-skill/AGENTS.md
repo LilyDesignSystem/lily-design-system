@@ -40,7 +40,7 @@ contract — the helper's own implementation is held to.
   icon-button-plus-listbox / disclosure-of-links / field-plus-dialog
   shapes, controlled `value`/`onChange`, render-prop `children`, the
   `"use client"` SSR boundary, and the idempotent-apply guard — for
-  people building *with* them.
+  people building _with_ them.
 - **Isn't**: the React helpers catalog itself (that's
   [the React helper packages](../spec/helpers/index.md#react-helper-packages),
   which ships the actual packages), isn't the general

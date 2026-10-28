@@ -15,17 +15,17 @@ class hooks.
 
 ## Files
 
-| File                       | Purpose                                          |
-| -------------------------- | ------------------------------------------------ |
-| `spec/index.md`                  | Specification-driven contract (canonical).       |
-| `LocalePicker.razor`       | Razor markup.                                    |
-| `LocalePicker.razor.cs`    | C# code-behind (partial class).                  |
-| `LocalePickerTests.cs`     | bUnit + xUnit spec, one `[Fact]` per §7 item.    |
-| `Locales.cs`               | Static helpers + label / RTL data tables.        |
-| `locales.tsv`              | Canonical 436-row code → English-name list.      |
-| `index.md`                 | User guide.                                      |
-| `docs/`                    | Topic guides: parameters, styling, custom rendering, recipes, troubleshooting, plus the locale-specific bcp47 / rtl / i18n-integration / concepts / ssr / accessibility. |
-| `examples/`                | Self-contained `.razor` examples, descriptively named. |
+| File                    | Purpose                                                                                                                                                                  |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `spec/index.md`         | Specification-driven contract (canonical).                                                                                                                               |
+| `LocalePicker.razor`    | Razor markup.                                                                                                                                                            |
+| `LocalePicker.razor.cs` | C# code-behind (partial class).                                                                                                                                          |
+| `LocalePickerTests.cs`  | bUnit + xUnit spec, one `[Fact]` per §7 item.                                                                                                                            |
+| `Locales.cs`            | Static helpers + label / RTL data tables.                                                                                                                                |
+| `locales.tsv`           | Canonical 436-row code → English-name list.                                                                                                                              |
+| `index.md`              | User guide.                                                                                                                                                              |
+| `docs/`                 | Topic guides: parameters, styling, custom rendering, recipes, troubleshooting, plus the locale-specific bcp47 / rtl / i18n-integration / concepts / ssr / accessibility. |
+| `examples/`             | Self-contained `.razor` examples, descriptively named.                                                                                                                   |
 
 ## Public surface
 
@@ -61,8 +61,9 @@ writes the slug to `localStorage[StorageKey]`, and (4) invokes
 `OnChange` and `ValueChanged` with the original consumer-form code.
 All DOM writes happen through `IJSRuntime` inside
 `OnAfterRenderAsync`. Initial value resolves from `Value` > storage
+
 > navigator (if `DetectFromNavigator`) > `DefaultValue` > `"en"` (if
-present) > `Locales[0]`.
+> present) > `Locales[0]`.
 
 The control is an **icon button plus a dropdown listbox**, not a native
 `<select>`. The button shows only an icon; the listbox is the WAI-ARIA
@@ -72,17 +73,50 @@ lives in `Value` and rides a hidden input for form participation.
 ## HTML
 
 ```html
-<div class="locale-picker @CssClass" ...AdditionalAttributes>
-  <input type="hidden" name="@Name" value="@Value" />
-  <button type="button" class="locale-picker-button" aria-label="@Label"
-          aria-haspopup="listbox" aria-expanded="false" aria-controls="{listId}">
-    <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true">…</svg>
+<div
+  class="locale-picker @CssClass"
+  ...AdditionalAttributes
+>
+  <input
+    type="hidden"
+    name="@Name"
+    value="@Value"
+  />
+  <button
+    type="button"
+    class="locale-picker-button"
+    aria-label="@Label"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="{listId}"
+  >
+    <svg
+      class="locale-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+    >
+      …
+    </svg>
   </button>
-  <ul class="locale-picker-list" id="{listId}" role="listbox" aria-label="@Label"
-      tabindex="-1" hidden aria-activedescendant="{active option id, open only}">
-    <li class="locale-picker-option" id="{optionId}" role="option"
-        aria-selected="true|false" data-active
-        lang="@OptionLang(code)">{LabelFor(code)}</li>
+  <ul
+    class="locale-picker-list"
+    id="{listId}"
+    role="listbox"
+    aria-label="@Label"
+    tabindex="-1"
+    hidden
+    aria-activedescendant="{active option id, open only}"
+  >
+    <li
+      class="locale-picker-option"
+      id="{optionId}"
+      role="option"
+      aria-selected="true|false"
+      data-active
+      lang="@OptionLang(code)"
+    >
+      {LabelFor(code)}
+    </li>
   </ul>
 </div>
 ```

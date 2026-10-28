@@ -102,21 +102,21 @@ the renderable options (`placeholder`, `value`, `action`, `name`, `id`,
 Single `opts` object (see `picker-bar.njk`'s own header comment for the
 authoritative, most detailed list):
 
-| Param           | Type                                  | Required | Default              |
-| --------------- | -------------------------------------- | -------- | --------------------- |
-| `labels`        | `{ search, searchInput, searchSubmit, theme, locale, textSize, share }` | yes | — |
-| `themesUrl`     | `string`                                | yes      | —                      |
-| `locales`       | `array<string>`                        | yes      | —                      |
-| `themes`        | `array<string>`                        | no       | `DEFAULT_THEMES` (§5.1) |
-| `sizes`         | `array<string>`                        | no       | `DEFAULT_SIZES` (§5.2)  |
-| `shareTargets`  | `array<object>`                        | no       | `[]`                   |
-| `searchProps`   | `object`                                | no       | `{}`                   |
-| `themeProps`    | `object`                                | no       | `{}`                   |
-| `localeProps`   | `object`                                | no       | `{}`                   |
-| `textSizeProps` | `object`                                | no       | `{}`                   |
-| `shareProps`    | `object`                                | no       | `{}`                   |
-| `classes`       | `string`                                | no       | `""`                   |
-| `attributes`    | `object`                                | no       | `{}`                   |
+| Param           | Type                                                                    | Required | Default                 |
+| --------------- | ----------------------------------------------------------------------- | -------- | ----------------------- |
+| `labels`        | `{ search, searchInput, searchSubmit, theme, locale, textSize, share }` | yes      | —                       |
+| `themesUrl`     | `string`                                                                | yes      | —                       |
+| `locales`       | `array<string>`                                                         | yes      | —                       |
+| `themes`        | `array<string>`                                                         | no       | `DEFAULT_THEMES` (§5.1) |
+| `sizes`         | `array<string>`                                                         | no       | `DEFAULT_SIZES` (§5.2)  |
+| `shareTargets`  | `array<object>`                                                         | no       | `[]`                    |
+| `searchProps`   | `object`                                                                | no       | `{}`                    |
+| `themeProps`    | `object`                                                                | no       | `{}`                    |
+| `localeProps`   | `object`                                                                | no       | `{}`                    |
+| `textSizeProps` | `object`                                                                | no       | `{}`                    |
+| `shareProps`    | `object`                                                                | no       | `{}`                    |
+| `classes`       | `string`                                                                | no       | `""`                    |
+| `attributes`    | `object`                                                                | no       | `{}`                    |
 
 `labels` carries seven required accessible names, with no English
 default: `search` names the search picker's icon button and search
@@ -176,7 +176,7 @@ sibling's own `docs/ssr.md`; `picker-bar` adds nothing here.
 ## 7. Acceptance criteria
 
 - §7.1 Renders a `<div class="picker-bar {classes}"
-  data-lily-picker-bar-root>` root, extra attributes spread onto it.
+data-lily-picker-bar-root>` root, extra attributes spread onto it.
 - §7.2 Renders exactly the five pickers — search, theme, locale,
   text-size, share — in that order, each accessibly named from
   `labels`.
@@ -217,7 +217,6 @@ app supplies them:
 - §L2 With `links` omitted or empty, or `labels.link` missing, no link picker renders and search is first (§7.2 and the search clause unchanged).
 - §L3 `initPickerBar(root, {{ linkProps }})` wires the link picker and passes `linkProps` (`navigate`).
 - §L4 The links are real `<a href>` elements (not a menu).
-
 
 ## 8. Relationship to the `*-picker` helpers
 

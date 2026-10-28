@@ -10,7 +10,7 @@ See [components/currency-input/index.md](../../../../../components/currency-inpu
 
 ```svelte
 <script lang="ts">
-    import CurrencyInput from "./CurrencyInput.svelte";
+  import CurrencyInput from "./CurrencyInput.svelte";
 </script>
 
 <CurrencyInput />

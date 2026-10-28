@@ -16,13 +16,13 @@ The canonical implementation is the Svelte package
 
 ## Files
 
-| File | Purpose |
-| ---- | ------- |
-| `spec/index.md` | Specification-driven contract (canonical). |
-| `markdown-editor.njk` | The macro: the whole control, rendered on the server. |
-| `markdown-editor.client.js` | The browser runtime: tools, roving tabindex, shortcuts. |
-| `markdown-format.js` | Pure Markdown transforms. **Generated from `shared/markdown-format.ts` (types stripped) by `bin/sync-shared-modules`; never edit this copy.** |
-| `markdown-editor.test.ts` | Vitest + jsdom spec, rendering the macro. |
+| File                        | Purpose                                                                                                                                       |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `spec/index.md`             | Specification-driven contract (canonical).                                                                                                    |
+| `markdown-editor.njk`       | The macro: the whole control, rendered on the server.                                                                                         |
+| `markdown-editor.client.js` | The browser runtime: tools, roving tabindex, shortcuts.                                                                                       |
+| `markdown-format.js`        | Pure Markdown transforms. **Generated from `shared/markdown-format.ts` (types stripped) by `bin/sync-shared-modules`; never edit this copy.** |
+| `markdown-editor.test.ts`   | Vitest + jsdom spec, rendering the macro.                                                                                                     |
 
 | `index.md` | User guide. |
 | `docs/accessibility.md` | Tradeoffs, stated plainly. |

@@ -6,38 +6,38 @@ consumer-facing guide; this file is the AI-coding contract.
 
 ## Implemented
 
-| WCAG / APG item                | How the select satisfies it                              |
-| ------------------------------ | -------------------------------------------------------- |
-| WCAG 3.1.1 Language of Page    | Writes `lang` to the document root on every locale apply. |
-| WCAG 3.1.2 Language of Parts   | Each `<li role="option">` carries its own `lang`.        |
-| WCAG 1.4.10 Reflow (RTL bidi)  | Writes `dir="rtl"` for RTL locales (skipped when `applyDir={false}`). |
-| WCAG 4.1.2 Name, Role, Value   | `<button aria-label aria-haspopup="listbox" aria-expanded aria-controls>` + `<ul role="listbox">` with `aria-selected` options. |
-| WCAG 2.1.1 Keyboard            | Full APG Listbox keyboard contract, implemented by the component. |
-| WCAG 2.4.7 Focus Visible       | Browser default focus ring preserved on the button and the list; helper never sets `outline: none`. |
-| WCAG 1.4.1 Use of Color        | State conveyed via `aria-selected`, `data-active`, `lang`/`dir` attrs, controlled value. |
-| WCAG 3.2.2 On Input            | Selecting a locale returns focus to the button the user was already on; no context change. |
-| WAI-ARIA APG — Listbox         | The pattern this control implements.                     |
+| WCAG / APG item               | How the select satisfies it                                                                                                     |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| WCAG 3.1.1 Language of Page   | Writes `lang` to the document root on every locale apply.                                                                       |
+| WCAG 3.1.2 Language of Parts  | Each `<li role="option">` carries its own `lang`.                                                                               |
+| WCAG 1.4.10 Reflow (RTL bidi) | Writes `dir="rtl"` for RTL locales (skipped when `applyDir={false}`).                                                           |
+| WCAG 4.1.2 Name, Role, Value  | `<button aria-label aria-haspopup="listbox" aria-expanded aria-controls>` + `<ul role="listbox">` with `aria-selected` options. |
+| WCAG 2.1.1 Keyboard           | Full APG Listbox keyboard contract, implemented by the component.                                                               |
+| WCAG 2.4.7 Focus Visible      | Browser default focus ring preserved on the button and the list; helper never sets `outline: none`.                             |
+| WCAG 1.4.1 Use of Color       | State conveyed via `aria-selected`, `data-active`, `lang`/`dir` attrs, controlled value.                                        |
+| WCAG 3.2.2 On Input           | Selecting a locale returns focus to the button the user was already on; no context change.                                      |
+| WAI-ARIA APG — Listbox        | The pattern this control implements.                                                                                            |
 
 ## Roles and properties
 
-| Element                      | Attribute                                  | Source            |
-| ---------------------------- | ------------------------------------------ | ----------------- |
-| root `<div class="locale-picker">` | rest props                           | Consumer          |
-| `<input type="hidden">`      | `name`, `value`                            | Component         |
-| `<button class="locale-picker-button">` | `type="button"`                 | Component         |
-| same                         | `aria-label={label}`                       | Consumer prop     |
-| same                         | `aria-haspopup="listbox"`                  | Component         |
-| same                         | `aria-expanded`                            | Component state   |
-| same                         | `aria-controls={listId}`                   | Component (`useId`) |
-| `<span class="locale-picker-icon">` | `aria-hidden="true"`                | Component         |
-| `<ul class="locale-picker-list">` | `role="listbox"`, `aria-label={label}`, `tabindex="-1"`, `hidden` | Component |
-| same                         | `aria-activedescendant` (only while open)  | Component state   |
-| `<li class="locale-picker-option">` | `role="option"`, `id`               | Component         |
-| same                         | `aria-selected`                            | Component state   |
-| same                         | `data-active` (consumer CSS hook)          | Component state   |
-| same                         | `lang` (only when the label is the endonym) | Component        |
-| `<html>` (target)            | `lang` (BCP 47)                            | Component effect  |
-| `<html>` (target)            | `dir="rtl"\|"ltr"`                         | Component effect  |
+| Element                                 | Attribute                                                         | Source              |
+| --------------------------------------- | ----------------------------------------------------------------- | ------------------- |
+| root `<div class="locale-picker">`      | rest props                                                        | Consumer            |
+| `<input type="hidden">`                 | `name`, `value`                                                   | Component           |
+| `<button class="locale-picker-button">` | `type="button"`                                                   | Component           |
+| same                                    | `aria-label={label}`                                              | Consumer prop       |
+| same                                    | `aria-haspopup="listbox"`                                         | Component           |
+| same                                    | `aria-expanded`                                                   | Component state     |
+| same                                    | `aria-controls={listId}`                                          | Component (`useId`) |
+| `<span class="locale-picker-icon">`     | `aria-hidden="true"`                                              | Component           |
+| `<ul class="locale-picker-list">`       | `role="listbox"`, `aria-label={label}`, `tabindex="-1"`, `hidden` | Component           |
+| same                                    | `aria-activedescendant` (only while open)                         | Component state     |
+| `<li class="locale-picker-option">`     | `role="option"`, `id`                                             | Component           |
+| same                                    | `aria-selected`                                                   | Component state     |
+| same                                    | `data-active` (consumer CSS hook)                                 | Component state     |
+| same                                    | `lang` (only when the label is the endonym)                       | Component           |
+| `<html>` (target)                       | `lang` (BCP 47)                                                   | Component effect    |
+| `<html>` (target)                       | `dir="rtl"\|"ltr"`                                                | Component effect    |
 
 The component never adds:
 
@@ -53,22 +53,22 @@ Implemented by the component; nothing here comes from the platform.
 
 On the **button**:
 
-| Key                             | Action                                                 |
-| ------------------------------- | ------------------------------------------------------ |
-| `Tab` / `Shift+Tab`             | Move focus to / from the button (the only tab stop when closed). |
+| Key                             | Action                                                                           |
+| ------------------------------- | -------------------------------------------------------------------------------- |
+| `Tab` / `Shift+Tab`             | Move focus to / from the button (the only tab stop when closed).                 |
 | `ArrowDown` / `Enter` / `Space` | Open with the selected option active (index 0 if none); focus moves to the list. |
-| `ArrowUp`                       | Open with the **last** option active; focus moves to the list. |
+| `ArrowUp`                       | Open with the **last** option active; focus moves to the list.                   |
 
 On the **listbox** (while open):
 
-| Key                       | Action                                                       |
-| ------------------------- | ------------------------------------------------------------ |
-| `ArrowDown` / `ArrowUp`   | Move the active option; **clamps** at the ends, no wrapping.  |
-| `Home` / `End`            | Jump to the first / last option.                             |
-| `Enter` / `Space`         | Select the active option, apply, close, return focus to the button. |
-| `Escape`                  | Close and return focus to the button; value unchanged.       |
-| `Tab`                     | Close; focus lands on the button so the default Tab proceeds from the picker's position. |
-| Printable character       | Typeahead over the option **labels**; 500 ms buffer reset.   |
+| Key                     | Action                                                                                   |
+| ----------------------- | ---------------------------------------------------------------------------------------- |
+| `ArrowDown` / `ArrowUp` | Move the active option; **clamps** at the ends, no wrapping.                             |
+| `Home` / `End`          | Jump to the first / last option.                                                         |
+| `Enter` / `Space`       | Select the active option, apply, close, return focus to the button.                      |
+| `Escape`                | Close and return focus to the button; value unchanged.                                   |
+| `Tab`                   | Close; focus lands on the button so the default Tab proceeds from the picker's position. |
+| Printable character     | Typeahead over the option **labels**; 500 ms buffer reset.                               |
 
 Pointer: clicking an option selects it; clicking the button toggles;
 clicking outside, or focus leaving the root, closes without changing
@@ -103,7 +103,7 @@ Their only accessibility responsibility is the glyph itself:
 - Do not put interactive elements inside it — it lives inside a
   `<button>`, so nested controls are invalid HTML.
 - If the glyph shows the active language (a short code, an endonym),
-  that is a genuine accessibility *win*: it partially offsets the
+  that is a genuine accessibility _win_: it partially offsets the
   icon-only tradeoff described in
   [`../docs/accessibility.md`](../docs/accessibility.md).
 
@@ -129,13 +129,18 @@ control is the recommended pairing — see
 ```tsx
 const [announce, setAnnounce] = useState("");
 return (
-    <>
-        <LocalePicker
-            onChange={(code) => setAnnounce(`Language changed to ${labelFor(code)}`)}
-            {...rest}
-        />
-        <div role="status" aria-live="polite">{announce}</div>
-    </>
+  <>
+    <LocalePicker
+      onChange={(code) => setAnnounce(`Language changed to ${labelFor(code)}`)}
+      {...rest}
+    />
+    <div
+      role="status"
+      aria-live="polite"
+    >
+      {announce}
+    </div>
+  </>
 );
 ```
 
@@ -147,8 +152,8 @@ supplies the focus ring. A safe AAA-grade default:
 ```css
 .locale-picker-button:focus-visible,
 .locale-picker-list:focus-visible {
-    outline: 2px solid var(--theme-color-primary, currentColor);
-    outline-offset: 2px;
+  outline: 2px solid var(--theme-color-primary, currentColor);
+  outline-offset: 2px;
 }
 ```
 
@@ -158,8 +163,8 @@ the cursor:
 
 ```css
 .locale-picker-option[data-active] {
-    outline: 2px solid currentColor;
-    outline-offset: -2px;
+  outline: 2px solid currentColor;
+  outline-offset: -2px;
 }
 ```
 
@@ -170,12 +175,12 @@ The select performs no animation. Consumer CSS respects
 
 ## Screen-reader behaviour
 
-| Reader     | OS       | Browser   | What's announced when user lands on the button |
-| ---------- | -------- | --------- | ---------------------------------------------- |
-| VoiceOver  | macOS    | Safari    | "{label}, pop up button, collapsed" → on open, "{label}, list box" then the active option. The active locale is **not** announced while collapsed. |
-| NVDA       | Windows  | Firefox   | "{label} button, collapsed" → on open, "{label} list box, {option}, N of M". |
-| JAWS       | Windows  | Chrome    | "{label} button, collapsed" → on open, "{label} list box, {option}". |
-| TalkBack   | Android  | Chrome    | "{label}, button, double-tap to activate" → on open, the list and active option. |
+| Reader    | OS      | Browser | What's announced when user lands on the button                                                                                                     |
+| --------- | ------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| VoiceOver | macOS   | Safari  | "{label}, pop up button, collapsed" → on open, "{label}, list box" then the active option. The active locale is **not** announced while collapsed. |
+| NVDA      | Windows | Firefox | "{label} button, collapsed" → on open, "{label} list box, {option}, N of M".                                                                       |
+| JAWS      | Windows | Chrome  | "{label} button, collapsed" → on open, "{label} list box, {option}".                                                                               |
+| TalkBack  | Android | Chrome  | "{label}, button, double-tap to activate" → on open, the list and active option.                                                                   |
 
 Two caveats versus a native `<select>`:
 

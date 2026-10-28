@@ -23,15 +23,15 @@ data, not a preference.
 
 ## Files
 
-| File | Purpose |
-| ---- | ------- |
-| `spec/index.md` | Specification-driven contract (canonical). |
-| `date-time-picker.ts` | Implementation (TypeScript custom-element class). |
+| File                       | Purpose                                                   |
+| -------------------------- | --------------------------------------------------------- |
+| `spec/index.md`            | Specification-driven contract (canonical).                |
+| `date-time-picker.ts`      | Implementation (TypeScript custom-element class).         |
 | `date-time-picker.test.ts` | Vitest + jsdom spec, mapped to the §7 clauses (81 tests). |
-| `index.ts` | Barrel re-export + side-effectful registration. |
-| `index.md` | Human-readable guide. |
-| `docs/accessibility.md` | Tradeoffs, stated plainly. |
-| `examples/` | Runnable HTML pages. |
+| `index.ts`                 | Barrel re-export + side-effectful registration.           |
+| `index.md`                 | Human-readable guide.                                     |
+| `docs/accessibility.md`    | Tradeoffs, stated plainly.                                |
+| `examples/`                | Runnable HTML pages.                                      |
 
 ## Public surface
 
@@ -63,7 +63,7 @@ set via JS (`el.labels = {...}`), never as attributes. Four of them
 carry functions, so there is no honest string encoding at all — the
 same reason `share-picker`'s `targets`/`onShare`/`onCopy`/`onNativeShare`
 are property-only. `labels` and `shortcuts` carry plain data (strings,
-numbers) and *could* be JSON-attribute-encoded per this catalog's usual
+numbers) and _could_ be JSON-attribute-encoded per this catalog's usual
 object-attribute convention, but are grouped with the function-valued
 members instead: see `spec/index.md` §4.3 for the reasoning (a JSON
 round-trip risks silently dropping an optional label key, and `labels`
@@ -91,7 +91,7 @@ table) both rely on.
 ## Behaviour contract (one paragraph)
 
 The value is an ISO string shaped by `mode`: `YYYY-MM-DD`, `HH:MM`, or
-`YYYY-MM-DDTHH:MM`. Selection inside the dialog writes to *pending*
+`YYYY-MM-DDTHH:MM`. Selection inside the dialog writes to _pending_
 private state; only Confirm — or a day click when `confirmOnSelect`
 (default: date-only mode) — commits to `value` and fires `onChange` +
 `datetimechange`. Cancel, Escape, and click-outside (which includes the

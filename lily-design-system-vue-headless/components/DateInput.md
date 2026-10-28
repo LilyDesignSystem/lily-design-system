@@ -25,15 +25,28 @@ This component is useful in forms where users need to enter a calendar date. The
 ## Usage
 
 ```svelte
-<DateInput label="Birth date" bind:value />
+<DateInput
+  label="Birth date"
+  bind:value
+/>
 ```
 
 ```svelte
-<DateInput label="Deadline" bind:value min="2024-01-01" max="2024-12-31" />
+<DateInput
+  label="Deadline"
+  bind:value
+  min="2024-01-01"
+  max="2024-12-31"
+/>
 ```
 
 ```svelte
-<DateInput label="Start date" bind:value required disabled={isLocked} />
+<DateInput
+  label="Start date"
+  bind:value
+  required
+  disabled={isLocked}
+/>
 ```
 
 ## Keyboard Interactions

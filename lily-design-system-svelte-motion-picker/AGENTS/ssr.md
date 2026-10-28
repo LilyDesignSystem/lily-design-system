@@ -51,10 +51,17 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 ```html
 <!doctype html>
-<html lang="%lily.lang%" dir="%lily.dir%" data-theme="%lily.theme%">
+<html
+  lang="%lily.lang%"
+  dir="%lily.dir%"
+  data-theme="%lily.theme%"
+>
   <head>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="/assets/themes/%lily.theme%.css" />
+    <link
+      rel="stylesheet"
+      href="/assets/themes/%lily.theme%.css"
+    />
     %sveltekit.head%
   </head>
   <body data-sveltekit-preload-data="hover">
@@ -83,35 +90,35 @@ export const load: LayoutServerLoad = ({ locals }) => ({
 
 ```svelte
 <script lang="ts">
-    import { ThemePicker } from "@lilydesignsystem/svelte-theme-picker";
-    import { LocalePicker } from "@lilydesignsystem/svelte-locale-picker";
+  import { ThemePicker } from "@lilydesignsystem/svelte-theme-picker";
+  import { LocalePicker } from "@lilydesignsystem/svelte-locale-picker";
 
-    let { data, children } = $props();
-    let theme = $state(data.theme);
-    let locale = $state(data.locale);
+  let { data, children } = $props();
+  let theme = $state(data.theme);
+  let locale = $state(data.locale);
 
-    function persistTheme(slug: string) {
-        document.cookie = `theme=${slug}; path=/; max-age=31536000; SameSite=Lax`;
-    }
+  function persistTheme(slug: string) {
+    document.cookie = `theme=${slug}; path=/; max-age=31536000; SameSite=Lax`;
+  }
 
-    function persistLocale(code: string) {
-        document.cookie = `locale=${code}; path=/; max-age=31536000; SameSite=Lax`;
-    }
+  function persistLocale(code: string) {
+    document.cookie = `locale=${code}; path=/; max-age=31536000; SameSite=Lax`;
+  }
 </script>
 
 <ThemePicker
-    label="Theme"
-    themesUrl="/assets/themes/"
-    themes={["light", "dark", "abyss"]}
-    bind:value={theme}
-    onChange={persistTheme}
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "abyss"]}
+  bind:value={theme}
+  onChange={persistTheme}
 />
 
 <LocalePicker
-    label="Language"
-    locales={["en", "fr", "ar"]}
-    bind:value={locale}
-    onChange={persistLocale}
+  label="Language"
+  locales={["en", "fr", "ar"]}
+  bind:value={locale}
+  onChange={persistLocale}
 />
 
 {@render children?.()}

@@ -68,14 +68,11 @@ None -- this component is a passive container with no interactive behavior.
 
 This headless component provides an `<aside>` with `role="note"` and `aria-label` for semantic supplementary content identification. The consumer provides all visual styling including background color, border, icon, and padding.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.information-callout` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `information-callout`
 - Verify role="note"` -- identifies the content as a note or supplementary information

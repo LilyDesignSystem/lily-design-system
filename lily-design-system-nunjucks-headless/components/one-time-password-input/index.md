@@ -8,7 +8,6 @@ A single-line input for a one-time code (SMS, authenticator, email). One real in
 - `params.attributes` is spread onto the root element
 - Port of the Svelte canonical (`lily-design-system-svelte-headless`)
 
-
 ## Props
 
 - `label` (required): aria-label

@@ -105,7 +105,7 @@ system flags it.
   English fallback).
 - One `aria-live="polite"` region announces every successful move.
 - bUnit has no live browser focus model; this package's own test suite
-  verifies focus *intent* (which `ElementReference`/element id the
+  verifies focus _intent_ (which `ElementReference`/element id the
   component asked to focus) rather than that the browser actually
   moved focus — see `AGENTS.md`.
 

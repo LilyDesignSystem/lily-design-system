@@ -25,25 +25,45 @@ The component manages the input value and dropdown open state as bindable props,
 ## Usage
 
 ```svelte
-<Combobox label="Search" bind:value bind:open>
-    <div role="option" tabindex="-1">Option 1</div>
+<Combobox
+  label="Search"
+  bind:value
+  bind:open
+>
+  <div
+    role="option"
+    tabindex="-1"
+  >
+    Option 1
+  </div>
 </Combobox>
 ```
 
 ```svelte
 <script lang="ts">
-    let value = $state("");
-    let open = $state(false);
-    let options = ["Apple", "Banana", "Cherry"];
-    let filtered = $derived(options.filter(o => o.toLowerCase().includes(value.toLowerCase())));
+  let value = $state("");
+  let open = $state(false);
+  let options = ["Apple", "Banana", "Cherry"];
+  let filtered = $derived(options.filter((o) => o.toLowerCase().includes(value.toLowerCase())));
 </script>
 
-<Combobox label="Select a fruit" bind:value bind:open>
-    {#each filtered as option}
-        <div role="option" tabindex="-1" onclick={() => { value = option; open = false; }}>
-            {option}
-        </div>
-    {/each}
+<Combobox
+  label="Select a fruit"
+  bind:value
+  bind:open
+>
+  {#each filtered as option}
+    <div
+      role="option"
+      tabindex="-1"
+      onclick={() => {
+        value = option;
+        open = false;
+      }}
+    >
+      {option}
+    </div>
+  {/each}
 </Combobox>
 ```
 

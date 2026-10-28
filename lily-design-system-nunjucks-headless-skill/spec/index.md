@@ -33,7 +33,7 @@ first stop for anything not specific to Nunjucks.
 ### In scope
 
 - `SKILL.md` — the skill: the macro-call idiom, the naming split, `{%
-  call %}`/`caller()` composition, theming via class hooks, and
+call %}`/`caller()` composition, theming via class hooks, and
   server-rendering notes for this specific catalog.
 - The standard subproject file set (`index.md`, `README.md` symlink,
   `AGENTS.md`, `CLAUDE.md`, `spec/index.md`, the special files), since it follows the `lily-design-system-*`

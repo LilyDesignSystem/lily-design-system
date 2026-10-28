@@ -96,7 +96,7 @@
     <p>| Prop           | Type            | Default    | Description                                            |</p>
     <p>| -------------- | --------------- | ---------- | ------------------------------------------------------ |</p>
     <p>| <code>disabled</code>     | <code>boolean</code>       | <code>false</code>    | Whether the button is disabled                         |</p>
-    <p>| <code>children</code>     | <code>slot</code>       | (required) | Button content                                         |</p>
+    <p>| <code>children</code>     | <code>slot</code>          | (required) | Button content                                         |</p>
     <p>| <code>...restProps</code> | HTML attributes |            | Additional attributes passed to the <code>&lt;button&gt;</code> element |</p>
 </section>
 <!-- END generated: canonical contract -->

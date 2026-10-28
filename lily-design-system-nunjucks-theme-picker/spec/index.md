@@ -105,21 +105,21 @@ that:
 `{% from "./theme-picker.njk" import themePicker %}` then
 `{{ themePicker(opts) }}`.
 
-| Key                | Type                    | Required | Default                  | Purpose                                                                                                                                                           |
-| ------------------ | ----------------------- | -------- | ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `label`            | `string`                | yes      | —                        | Accessible name for BOTH the button and the listbox. The button is icon-only, so this is the only accessible name it has.                                         |
-| `themesUrl`        | `string`                | yes      | —                        | Base URL of the themes directory. Trailing `/` is auto-normalised at runtime.                                                                                     |
-| `themes`           | `array<string>`         | yes      | —                        | Available theme slugs (e.g. `["light", "dark", "abyss"]`).                                                                                                        |
-| `value`            | `string`                | no       | `""`                     | Initial theme slug. Emitted as `data-lily-theme-picker-value` for the client to read (see §4.2).                                                                  |
-| `defaultValue`     | `string`                | no       | —                        | Initial theme when nothing else is supplied at runtime.                                                                                                           |
-| `storageKey`       | `string`                | no       | `""`                     | If non-empty, the client.js persists the selection to `localStorage`.                                                                                             |
-| `detectFromSystem` | `boolean`               | no       | `false`                  | When true, the client.js resolves `prefers-color-scheme` to `"dark"` / `"light"` if neither `value` nor storage supplied a slug. Client-only — see §5.2 and §5.8. |
-| `name`             | `string`                | no       | `"theme"`                | Hidden-input `name`, AND the discriminator on the managed `<link data-lily-theme-picker="{name}">`, AND the default id prefix.                                    |
-| `extension`        | `string`                | no       | `".css"`                 | File extension appended to each slug to build the URL.                                                                                                            |
-| `themeLabels`      | `object<string,string>` | no       | `{}`                     | Optional pretty labels per slug.                                                                                                                                  |
+| Key                | Type                    | Required | Default                 | Purpose                                                                                                                                                           |
+| ------------------ | ----------------------- | -------- | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `label`            | `string`                | yes      | —                       | Accessible name for BOTH the button and the listbox. The button is icon-only, so this is the only accessible name it has.                                         |
+| `themesUrl`        | `string`                | yes      | —                       | Base URL of the themes directory. Trailing `/` is auto-normalised at runtime.                                                                                     |
+| `themes`           | `array<string>`         | yes      | —                       | Available theme slugs (e.g. `["light", "dark", "abyss"]`).                                                                                                        |
+| `value`            | `string`                | no       | `""`                    | Initial theme slug. Emitted as `data-lily-theme-picker-value` for the client to read (see §4.2).                                                                  |
+| `defaultValue`     | `string`                | no       | —                       | Initial theme when nothing else is supplied at runtime.                                                                                                           |
+| `storageKey`       | `string`                | no       | `""`                    | If non-empty, the client.js persists the selection to `localStorage`.                                                                                             |
+| `detectFromSystem` | `boolean`               | no       | `false`                 | When true, the client.js resolves `prefers-color-scheme` to `"dark"` / `"light"` if neither `value` nor storage supplied a slug. Client-only — see §5.2 and §5.8. |
+| `name`             | `string`                | no       | `"theme"`               | Hidden-input `name`, AND the discriminator on the managed `<link data-lily-theme-picker="{name}">`, AND the default id prefix.                                    |
+| `extension`        | `string`                | no       | `".css"`                | File extension appended to each slug to build the URL.                                                                                                            |
+| `themeLabels`      | `object<string,string>` | no       | `{}`                    | Optional pretty labels per slug.                                                                                                                                  |
 | `id`               | `string`                | no       | `"theme-picker-{name}"` | Id prefix for the listbox (`{id}-list`) and its options (`{id}-option-{i}`). Pass an explicit value when two instances share a `name`.                            |
-| `classes`          | `string`                | no       | `""`                     | Extra CSS classes on the root `<div>`.                                                                                                                            |
-| `attributes`       | `object<string,string>` | no       | `{}`                     | Extra HTML attributes spread onto the root `<div>`.                                                                                                               |
+| `classes`          | `string`                | no       | `""`                    | Extra CSS classes on the root `<div>`.                                                                                                                            |
+| `attributes`       | `object<string,string>` | no       | `{}`                    | Extra HTML attributes spread onto the root `<div>`.                                                                                                               |
 
 The `placeholder` parameter was **removed** in the icon-button release.
 There is no `<select>` left to pin a placeholder onto, and the closed
@@ -171,9 +171,38 @@ and otherwise from the slug with its first character upper-cased
     aria-controls="{id}-list"
     data-lily-theme-picker-button
   >
-    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="1.05rem" height="1.05rem"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>
+    <svg
+      class="theme-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      width="1.05rem"
+      height="1.05rem"
+    >
+      <circle
+        cx="8"
+        cy="8"
+        r="6"
+      />
+      <path
+        d="M8 2a6 6 0 0 1 0 12z"
+        fill="currentColor"
+        stroke="none"
+      />
+    </svg>
   </button>
-  <div class="theme-picker-tooltip" role="tooltip" id="{id}-tooltip" hidden>{label}</div>
+  <div
+    class="theme-picker-tooltip"
+    role="tooltip"
+    id="{id}-tooltip"
+    hidden
+  >
+    {label}
+  </div>
   <ul
     class="theme-picker-list"
     id="{id}-list"
@@ -201,7 +230,7 @@ and otherwise from the slug with its first character upper-cased
 - The root is a `<div>` carrying the `theme-picker` class hook plus the
   consumer's `classes`; `attributes` spread onto it.
 - The button icon is a bundled contrast/half-circle SVG (`viewBox="0
-  0 16 16"`), not a Unicode character (reversed 2026-09-16 — see §9),
+0 16 16"`), not a Unicode character (reversed 2026-09-16 — see §9),
   wrapped in `aria-hidden="true"`. The accessible name comes from
   `aria-label` alone — the icon is never the name.
 - `data-lily-theme-picker-value` is emitted **only when `opts.value` is
@@ -233,14 +262,14 @@ and otherwise from the slug with its first character upper-cased
 
 `theme-picker.client.js` is an ES module exporting:
 
-| Export                            | Type                                            | Purpose                                                                                                                                                                                    |
-| --------------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `normaliseThemesUrl(url)`         | `(string) => string`                            | Ensure exactly one trailing `/`.                                                                                                                                                           |
-| `themeHref(url, slug, extension)` | `(string, string, string) => string`            | Build the theme href.                                                                                                                                                                      |
+| Export                            | Type                                            | Purpose                                                                                                                                                                                   |
+| --------------------------------- | ----------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `normaliseThemesUrl(url)`         | `(string) => string`                            | Ensure exactly one trailing `/`.                                                                                                                                                          |
+| `themeHref(url, slug, extension)` | `(string, string, string) => string`            | Build the theme href.                                                                                                                                                                     |
 | `themeName(theme)`                | `(string) => string`                            | Resolve a slug to its display label: each hyphen-separated word title-cased (`"high-contrast"` → `"High Contrast"`). Mirrors `localeName` in locale-picker.                               |
 | `matchSystemTheme(themes)`        | `(string[]) => string`                          | Resolve `prefers-color-scheme` to `"dark"` / `"light"`, or `""` when that slug is absent from `themes` or `matchMedia` is unavailable. Mirrors `matchNavigatorLanguage` in locale-picker. |
-| `initThemePicker(root, opts?)`   | `(HTMLElement, object?) => {setTheme, destroy}` | Wire one rendered root.                                                                                                                                                                    |
-| `autoInit(opts?)`                 | `(object?) => Array<{setTheme, destroy}>`       | Find every `[data-lily-theme-picker-root]` and init it.                                                                                                                                    |
+| `initThemePicker(root, opts?)`    | `(HTMLElement, object?) => {setTheme, destroy}` | Wire one rendered root.                                                                                                                                                                   |
+| `autoInit(opts?)`                 | `(object?) => Array<{setTheme, destroy}>`       | Find every `[data-lily-theme-picker-root]` and init it.                                                                                                                                   |
 
 `initThemePicker` returns a controller with:
 
@@ -326,7 +355,7 @@ rel="stylesheet" data-lily-theme-picker="{name}">` in
 
 Applying is **idempotent**: a theme already applied is a no-op, so none
 of the steps above repeat and `onChange` does not re-fire. `setTheme` on
-the returned controller *is* this function, so without the guard a
+the returned controller _is_ this function, so without the guard a
 consumer that mirrors the value back from `onChange` re-enters it
 forever.
 
@@ -368,14 +397,14 @@ On the **button**:
 
 On the **listbox**:
 
-| Key                     | Action                                                                                                                                          |
-| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| `ArrowDown` / `ArrowUp` | Move the active option. Clamps at the ends; does NOT wrap.                                                                                      |
-| `Home` / `End`          | Jump to the first / last option.                                                                                                                |
-| `Enter` / `Space`       | Select the active option, apply it, close, return focus to the button.                                                                          |
-| `Escape`                | Close and return focus, leaving the value unchanged.                                                                                            |
-| `PageUp` / `PageDown`   | Move the active option by ten, clamped — an APG-optional key that earns its place in a 45-theme list.                                           |
-| `Tab`                   | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position rather than from `<body>`. |
+| Key                     | Action                                                                                                                                                                                                                                                                                                                                                       |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `ArrowDown` / `ArrowUp` | Move the active option. Clamps at the ends; does NOT wrap.                                                                                                                                                                                                                                                                                                   |
+| `Home` / `End`          | Jump to the first / last option.                                                                                                                                                                                                                                                                                                                             |
+| `Enter` / `Space`       | Select the active option, apply it, close, return focus to the button.                                                                                                                                                                                                                                                                                       |
+| `Escape`                | Close and return focus, leaving the value unchanged.                                                                                                                                                                                                                                                                                                         |
+| `PageUp` / `PageDown`   | Move the active option by ten, clamped — an APG-optional key that earns its place in a 45-theme list.                                                                                                                                                                                                                                                        |
+| `Tab`                   | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position rather than from `<body>`.                                                                                                                                                                                  |
 | Printable character     | APG typeahead over the option labels: a single character advances to the NEXT option starting with it, and repeating that character keeps cycling through its matches; only a buffer of differing characters refines the match, anchored at the active option. The buffer resets 500 ms after the last keystroke. Chords with Ctrl / Meta / Alt are ignored. |
 
 Pointer behaviour: clicking an option selects it, applies it, and closes the listbox — the same close

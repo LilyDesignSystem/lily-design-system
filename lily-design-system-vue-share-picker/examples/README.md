@@ -1,7 +1,7 @@
 # Examples — SharePicker
 
-| File | Shows |
-| ---- | ----- |
+| File                     | Shows                                                                                                       |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------- |
 | [basic.vue](./basic.vue) | Consumer-supplied destinations, the built-in copy item, the announced copy outcome, and the `@share` event. |
 
 Every user-facing string is a prop, including `copyLabel` — the copy item

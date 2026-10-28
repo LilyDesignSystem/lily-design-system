@@ -40,21 +40,26 @@ A headless Svelte 5 component inspired by [Ant Design TreeSelect](https://ant.de
 
 ```svelte
 <script lang="ts">
-  import TreeSelect from './TreeSelect.svelte';
+  import TreeSelect from "./TreeSelect.svelte";
 
   let open = $state(false);
-  let value = $state('');
+  let value = $state("");
 </script>
 
 <TreeSelect
   label="Category"
   placeholder="Choose a category"
   expanded={open}
-  value={value}
+  {value}
   multiple
   onclick={() => (open = !open)}
 >
-  <ul role="tree" aria-label="Categories">…</ul>
+  <ul
+    role="tree"
+    aria-label="Categories"
+  >
+    …
+  </ul>
 </TreeSelect>
 ```
 

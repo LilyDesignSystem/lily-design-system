@@ -21,7 +21,10 @@ ArgentinaCodigoUnicoDeIdentificacionLaboralInput is a headless placeholder compo
 ## Usage
 
 ```html
-<ArgentinaCodigoUnicoDeIdentificacionLaboralInput label="ArgentinaCodigoUnicoDeIdentificacionLaboralInput example">Content</ArgentinaCodigoUnicoDeIdentificacionLaboralInput>
+<ArgentinaCodigoUnicoDeIdentificacionLaboralInput
+  label="ArgentinaCodigoUnicoDeIdentificacionLaboralInput example"
+  >Content</ArgentinaCodigoUnicoDeIdentificacionLaboralInput
+>
 ```
 
 ## Keyboard Interactions

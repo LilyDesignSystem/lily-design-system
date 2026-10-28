@@ -28,7 +28,13 @@ This component is useful for quantity selectors, age inputs, price fields, confi
 ## Usage
 
 ```svelte
-<NumberInput label="Quantity" bind:value min={0} max={100} step={1} />
+<NumberInput
+  label="Quantity"
+  bind:value
+  min={0}
+  max={100}
+  step={1}
+/>
 ```
 
 ## Keyboard Interactions

@@ -29,13 +29,13 @@ and no words: every link, and every accessible name, comes from the consumer.
 
 ### 4.1 Props
 
-| Prop | Type | Required | Notes |
-| --- | --- | --- | --- |
-| `label` | `string` | yes | Accessible name of the button **and** the list; also the tooltip text. |
-| `links` | `LinkItem[]` | yes | `{ id?, label, href, current?, newTab? }`. A property, or a JSON array in the `links` attribute. `id` defaults to `href`. |
-| `onNavigate` | `(id, href) => void` | no | Property-only callback; mirrored by the `navigate` event. |
-| `renderButtonContent()` | `() => Node` | no | Override in a subclass to replace the **icon**, not the links. |
-| `class` | attribute | no | Appended to the root class. |
+| Prop                    | Type                 | Required | Notes                                                                                                                     |
+| ----------------------- | -------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `label`                 | `string`             | yes      | Accessible name of the button **and** the list; also the tooltip text.                                                    |
+| `links`                 | `LinkItem[]`         | yes      | `{ id?, label, href, current?, newTab? }`. A property, or a JSON array in the `links` attribute. `id` defaults to `href`. |
+| `onNavigate`            | `(id, href) => void` | no       | Property-only callback; mirrored by the `navigate` event.                                                                 |
+| `renderButtonContent()` | `() => Node`         | no       | Override in a subclass to replace the **icon**, not the links.                                                            |
+| `class`                 | attribute            | no       | Appended to the root class.                                                                                               |
 
 **Differences from the Svelte contract (idiom, not behaviour).** There is no `navigate(href)` hook: the element dispatches a
 bubbling, composed `navigate` CustomEvent `{ id, href }` that is **cancelable for a plain left click**; a client-side router
@@ -44,17 +44,48 @@ calls `preventDefault()` and navigates itself. Modified clicks and `newTab` link
 ### 4.2 DOM contract
 
 ```html
-<lily-link-picker label="…"><!-- light DOM, rendered by the element -->
-<div class="link-picker {class}">
-  <button class="link-picker-button" type="button" aria-label="{label}" aria-expanded="false" aria-controls="{id}-list">
-    <svg class="link-picker-icon" aria-hidden="true" viewBox="0 0 16 16" …home…/>
-  </button>
-  <div class="link-picker-tooltip" role="tooltip" id="{id}-tooltip" hidden>{label}</div>
-  <ul class="link-picker-list" id="{id}-list" aria-label="{label}" hidden>
-    <li class="link-picker-list-item"><a class="link-picker-link" href="/" data-link-id="/">Home</a></li>
-    …
-  </ul>
-</div>
+<lily-link-picker label="…"
+  ><!-- light DOM, rendered by the element -->
+  <div class="link-picker {class}">
+    <button
+      class="link-picker-button"
+      type="button"
+      aria-label="{label}"
+      aria-expanded="false"
+      aria-controls="{id}-list"
+    >
+      <svg
+        class="link-picker-icon"
+        aria-hidden="true"
+        viewBox="0 0 16 16"
+        …home…
+      />
+    </button>
+    <div
+      class="link-picker-tooltip"
+      role="tooltip"
+      id="{id}-tooltip"
+      hidden
+    >
+      {label}
+    </div>
+    <ul
+      class="link-picker-list"
+      id="{id}-list"
+      aria-label="{label}"
+      hidden
+    >
+      <li class="link-picker-list-item">
+        <a
+          class="link-picker-link"
+          href="/"
+          data-link-id="/"
+          >Home</a
+        >
+      </li>
+      …
+    </ul>
+  </div>
 </lily-link-picker>
 ```
 

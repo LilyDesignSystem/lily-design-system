@@ -32,13 +32,21 @@ to dismiss the selection.
 ```html
 <ActionBar
   label="Bulk actions"
-  selectedCount={3}
+  selectedCount="{3}"
   selectedCountLabel="3 selected"
   clearSelectionLabel="Clear selection"
-  onClearSelection={handleClear}
+  onClearSelection="{handleClear}"
 >
-  <ActionBarButton label="Delete" onClick={handleDelete}>Delete</ActionBarButton>
-  <ActionBarButton label="Archive" onClick={handleArchive}>Archive</ActionBarButton>
+  <ActionBarButton
+    label="Delete"
+    onClick="{handleDelete}"
+    >Delete</ActionBarButton
+  >
+  <ActionBarButton
+    label="Archive"
+    onClick="{handleArchive}"
+    >Archive</ActionBarButton
+  >
 </ActionBar>
 ```
 
@@ -73,7 +81,11 @@ to dismiss the selection.
 The action bar pairs with `action-bar-button`:
 
 ```html
-<ActionBar label="Bulk actions" selectedCount={2} selectedCountLabel="2 selected">
+<ActionBar
+  label="Bulk actions"
+  selectedCount="{2}"
+  selectedCountLabel="2 selected"
+>
   <ActionBarButton label="Delete">Delete</ActionBarButton>
   <ActionBarButton label="Move">Move</ActionBarButton>
 </ActionBar>

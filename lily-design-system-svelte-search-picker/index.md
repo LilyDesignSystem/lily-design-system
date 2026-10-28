@@ -35,12 +35,12 @@ That is the whole wiring: a search for `foo` performs a GET to `/?foo`.
 
 The destination is `searchHref(query, action)`:
 
-| You type     | `action` | Destination      |
-| ------------ | -------- | ---------------- |
-| `foo`        | `"/"`    | `/?foo`          |
-| `  foo bar ` | `"/"`    | `/?foo%20bar`    |
-| `a&b`        | `"/"`    | `/?a%26b`        |
-| `foo`        | `"/search"` | `/search?foo` |
+| You type   | `action`    | Destination   |
+| ---------- | ----------- | ------------- |
+| `foo`      | `"/"`       | `/?foo`       |
+| ` foo bar` | `"/"`       | `/?foo%20bar` |
+| `a&b`      | `"/"`       | `/?a%26b`     |
+| `foo`      | `"/search"` | `/search?foo` |
 
 The query is trimmed and URI-encoded, so spaces and `&` cannot split or
 corrupt it. An empty query goes nowhere.
@@ -61,7 +61,12 @@ the search stays in-app:
   import SearchPicker from "@lilydesignsystem/svelte-search-picker";
 </script>
 
-<SearchPicker label="Search this site" inputLabel="Search terms" submitLabel="Search" navigate={goto} />
+<SearchPicker
+  label="Search this site"
+  inputLabel="Search terms"
+  submitLabel="Search"
+  navigate={goto}
+/>
 ```
 
 `onSearch(query, href)` fires before navigating, for analytics or to

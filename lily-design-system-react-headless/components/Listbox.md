@@ -23,24 +23,34 @@ The component manages focus movement between options via arrow keys, with Home a
 
 ```tsx
 <Listbox label="Fruits">
-    <div role="option" tabindex="-1">Apple</div>
-    <div role="option" tabindex="-1">Banana</div>
+  <div
+    role="option"
+    tabindex="-1"
+  >
+    Apple
+  </div>
+  <div
+    role="option"
+    tabindex="-1"
+  >
+    Banana
+  </div>
 </Listbox>
 ```
 
 ```tsx
 <Listbox label="Select a color">
-    {colors.map(color => (
-        <div
-            role="option"
-            tabindex="-1"
-            aria-selected={selected === color}
-            onClick={() => setSelected(color)}
-            key={color}
-        >
-            {color}
-        </div>
-    ))}
+  {colors.map((color) => (
+    <div
+      role="option"
+      tabindex="-1"
+      aria-selected={selected === color}
+      onClick={() => setSelected(color)}
+      key={color}
+    >
+      {color}
+    </div>
+  ))}
 </Listbox>
 ```
 

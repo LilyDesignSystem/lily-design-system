@@ -18,18 +18,22 @@ For trends without magnitude emphasis use `LineChart`; for categorical compariso
 
 ## Props
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `label` | string (required) | — | Accessible name for the chart |
-| `description` | string | — | Extended description (becomes a `<figcaption>` and is referenced via `aria-describedby`) |
-| `series` | array of series | [] | Each series is `{ name: string; points: { x: number; y: number }[] }` |
-| `dataTable` | slot | — | Optional fallback `<table>` summarising the data |
-| `...restProps` | HTML attributes | — | Spread onto the root `<figure>` |
+| Prop           | Type              | Default | Description                                                                              |
+| -------------- | ----------------- | ------- | ---------------------------------------------------------------------------------------- |
+| `label`        | string (required) | —       | Accessible name for the chart                                                            |
+| `description`  | string            | —       | Extended description (becomes a `<figcaption>` and is referenced via `aria-describedby`) |
+| `series`       | array of series   | []      | Each series is `{ name: string; points: { x: number; y: number }[] }`                    |
+| `dataTable`    | slot              | —       | Optional fallback `<table>` summarising the data                                         |
+| `...restProps` | HTML attributes   | —       | Spread onto the root `<figure>`                                                          |
 
 ## Usage
 
 ```html
-<AreaChart label="Daily visits, last 30 days" series={visitSeries} description="Daily visit count for the past 30 days" />
+<AreaChart
+  label="Daily visits, last 30 days"
+  series="{visitSeries}"
+  description="Daily visit count for the past 30 days"
+/>
 ```
 
 ## Keyboard Interactions

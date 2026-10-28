@@ -27,19 +27,29 @@ Switch inputs are commonly used for settings, preferences, and feature toggles w
 Notification toggle in a settings panel:
 
 ```html
-<SwitchButton label="Enable notifications" checked={notificationsEnabled} />
+<SwitchButton
+  label="Enable notifications"
+  checked="{notificationsEnabled}"
+/>
 ```
 
 Dark mode toggle with disabled state when locked by admin:
 
 ```html
-<SwitchButton label="Dark mode" checked={darkMode} disabled={locked} />
+<SwitchButton
+  label="Dark mode"
+  checked="{darkMode}"
+  disabled="{locked}"
+/>
 ```
 
 Feature flag toggle in a dashboard:
 
 ```html
-<SwitchButton label="Enable beta features" checked={betaEnabled} />
+<SwitchButton
+  label="Enable beta features"
+  checked="{betaEnabled}"
+/>
 ```
 
 ## Keyboard Interactions
@@ -72,14 +82,11 @@ Feature flag toggle in a dashboard:
 
 This headless component renders a `<button>` with `role="switch"` and `aria-checked`, providing proper switch semantics and keyboard activation (Space and Enter keys). The consumer provides all visual styling including the track, thumb, on/off indicators, and transition animations.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.switch-button` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<button>` element with class `switch-button`
 - Verify role="switch"` -- identifies the element as a two-state toggle switch

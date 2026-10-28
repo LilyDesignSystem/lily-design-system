@@ -35,7 +35,7 @@ const [open, setOpen] = useState(true);
 >
   <p>Subscribe and save 20% on your first order.</p>
   <a href="/subscribe">Subscribe</a>
-</StickyPromoBanner>
+</StickyPromoBanner>;
 ```
 
 ## ARIA

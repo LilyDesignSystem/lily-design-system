@@ -24,7 +24,11 @@ Supports `selected` for pre-selecting a theme and `disabled` for preventing sele
 ## Usage
 
 ```tsx
-<ThemeSelect label="Theme" value={theme} onChange={setTheme}>
+<ThemeSelect
+  label="Theme"
+  value={theme}
+  onChange={setTheme}
+>
   <ThemeSelectOption value="light">Light</ThemeSelectOption>
   <ThemeSelectOption value="dark">Dark</ThemeSelectOption>
   <ThemeSelectOption value="high-contrast">High Contrast</ThemeSelectOption>

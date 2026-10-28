@@ -24,25 +24,68 @@ This headless component uses a `<div>` element with `role="img"` and `aria-label
 ## Usage
 
 ```html
-<TileMap label="US election results by state" data={stateData}>
-  <div class="tile" style="grid-column: 11; grid-row: 1">ME</div>
-  <div class="tile" style="grid-column: 1; grid-row: 2">AK</div>
+<TileMap
+  label="US election results by state"
+  data="{stateData}"
+>
+  <div
+    class="tile"
+    style="grid-column: 11; grid-row: 1"
+  >
+    ME
+  </div>
+  <div
+    class="tile"
+    style="grid-column: 1; grid-row: 2"
+  >
+    AK
+  </div>
   <!-- ... more tiles -->
 </TileMap>
 ```
 
 ```html
 <TileMap label="European countries by population density">
-  <div class="tile" style="grid-column: 3; grid-row: 1" aria-label="United Kingdom: 281 per km2">UK</div>
-  <div class="tile" style="grid-column: 4; grid-row: 2" aria-label="France: 119 per km2">FR</div>
-  <div class="tile" style="grid-column: 5; grid-row: 2" aria-label="Germany: 240 per km2">DE</div>
+  <div
+    class="tile"
+    style="grid-column: 3; grid-row: 1"
+    aria-label="United Kingdom: 281 per km2"
+  >
+    UK
+  </div>
+  <div
+    class="tile"
+    style="grid-column: 4; grid-row: 2"
+    aria-label="France: 119 per km2"
+  >
+    FR
+  </div>
+  <div
+    class="tile"
+    style="grid-column: 5; grid-row: 2"
+    aria-label="Germany: 240 per km2"
+  >
+    DE
+  </div>
 </TileMap>
 ```
 
 ```html
 <TileMap label="US COVID-19 vaccination rates by state">
-  <div class="tile tile--high" style="grid-column: 10; grid-row: 1" aria-label="Vermont: 82%">VT</div>
-  <div class="tile tile--low" style="grid-column: 7; grid-row: 7" aria-label="Alabama: 51%">AL</div>
+  <div
+    class="tile tile--high"
+    style="grid-column: 10; grid-row: 1"
+    aria-label="Vermont: 82%"
+  >
+    VT
+  </div>
+  <div
+    class="tile tile--low"
+    style="grid-column: 7; grid-row: 7"
+    aria-label="Alabama: 51%"
+  >
+    AL
+  </div>
 </TileMap>
 ```
 

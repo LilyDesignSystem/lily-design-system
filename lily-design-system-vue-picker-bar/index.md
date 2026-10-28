@@ -89,8 +89,13 @@ map:
 ```vue
 <PickerBar
   :labels="{
-    search: 'Search this site', searchInput: 'Search terms', searchSubmit: 'Search',
-    theme: 'Theme', locale: 'Language', textSize: 'Text size', share: 'Share',
+    search: 'Search this site',
+    searchInput: 'Search terms',
+    searchSubmit: 'Search',
+    theme: 'Theme',
+    locale: 'Language',
+    textSize: 'Text size',
+    share: 'Share',
   }"
   themesUrl="/assets/themes/"
   :locales="['en', 'cy']"

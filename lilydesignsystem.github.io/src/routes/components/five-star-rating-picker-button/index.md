@@ -23,11 +23,32 @@ A five-star rating picker button is an individual button within a FiveStarRating
 
 ```html
 <FiveStarRatingPicker label="Rate this product">
-    <FiveStarRatingPickerButton value="1" label="1 star" onclick={handleClick} />
-    <FiveStarRatingPickerButton value="2" label="2 stars" onclick={handleClick} />
-    <FiveStarRatingPickerButton value="3" label="3 stars" selected onclick={handleClick} />
-    <FiveStarRatingPickerButton value="4" label="4 stars" onclick={handleClick} />
-    <FiveStarRatingPickerButton value="5" label="5 stars" onclick={handleClick} />
+  <FiveStarRatingPickerButton
+    value="1"
+    label="1 star"
+    onclick="{handleClick}"
+  />
+  <FiveStarRatingPickerButton
+    value="2"
+    label="2 stars"
+    onclick="{handleClick}"
+  />
+  <FiveStarRatingPickerButton
+    value="3"
+    label="3 stars"
+    selected
+    onclick="{handleClick}"
+  />
+  <FiveStarRatingPickerButton
+    value="4"
+    label="4 stars"
+    onclick="{handleClick}"
+  />
+  <FiveStarRatingPickerButton
+    value="5"
+    label="5 stars"
+    onclick="{handleClick}"
+  />
 </FiveStarRatingPicker>
 ```
 
@@ -56,14 +77,11 @@ A five-star rating picker button is an individual button within a FiveStarRating
 
 This headless component provides a `<button>` with `aria-pressed` and `aria-label` for accessible toggle state. The consumer provides all visual styling including star icons, colors, sizing, and pressed/unpressed visual states.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.five-star-rating-picker-button` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<button>` element with class `five-star-rating-picker-button`
 - Verify aria-label` -- provides the accessible name for the button (e.g., "3 stars")

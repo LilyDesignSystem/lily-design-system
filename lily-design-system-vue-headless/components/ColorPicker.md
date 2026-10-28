@@ -25,7 +25,11 @@ This component is useful for advanced color pickers where the user needs fine-gr
 ## Usage
 
 ```svelte
-<ColorPicker label="Color saturation and brightness" bind:x bind:y />
+<ColorPicker
+  label="Color saturation and brightness"
+  bind:x
+  bind:y
+/>
 ```
 
 ## Keyboard Interactions

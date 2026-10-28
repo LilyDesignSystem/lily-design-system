@@ -23,9 +23,21 @@ CanadaSocialInsuranceNumberInput is a headless input for entering Canada's Socia
 ## Usage
 
 ```html
-<Field label="Social Insurance Number (SIN)" required>
-  <CanadaSocialInsuranceNumberInput label="Social Insurance Number (SIN)" value={value} required />
-  <Hint>Nine digits, usually displayed in three groups of three (NNN NNN NNN). The leading digit denotes the region of registration (1 Atlantic, 2-3 Quebec, 4-5 Ontario, 6 Prairies, 7 Pacific, 9 temporary residents), the following seven digits are a serial number, and the final digit is a Luhn (Modulus-10) check digit over the first eight.</Hint>
+<Field
+  label="Social Insurance Number (SIN)"
+  required
+>
+  <CanadaSocialInsuranceNumberInput
+    label="Social Insurance Number (SIN)"
+    value="{value}"
+    required
+  />
+  <Hint
+    >Nine digits, usually displayed in three groups of three (NNN NNN NNN). The leading digit
+    denotes the region of registration (1 Atlantic, 2-3 Quebec, 4-5 Ontario, 6 Prairies, 7 Pacific,
+    9 temporary residents), the following seven digits are a serial number, and the final digit is a
+    Luhn (Modulus-10) check digit over the first eight.</Hint
+  >
   <ErrorMessage>Please enter a valid Social Insurance Number</ErrorMessage>
 </Field>
 ```

@@ -53,7 +53,7 @@ skill points at rather than restates.
 
 ## What this subproject is, and isn't
 
-- **Is**: a distributable skill scoped to *consuming* the Web Components
+- **Is**: a distributable skill scoped to _consuming_ the Web Components
   helpers catalog — the six helpers and what each owns, the three markup
   shapes, the attribute/property/event contract, and the precise
   provenance relationship to the HTML helpers catalog this one was copied

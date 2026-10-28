@@ -31,7 +31,12 @@ The consumer provides `<option>` elements as children, giving full control over 
 ```
 
 ```tsx
-<Select label="Priority" value={priority} onChange={setPriority} required>
+<Select
+  label="Priority"
+  value={priority}
+  onChange={setPriority}
+  required
+>
   <option value="">Select priority...</option>
   <option value="low">Low</option>
   <option value="medium">Medium</option>

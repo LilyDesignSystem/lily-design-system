@@ -8,9 +8,15 @@
   "subClasses": [],
   "interactive": false,
   "status": "stable",
-  "aria": ["Implicit role"],
-  "keyboard": ["Tab: Focus it"],
-  "props": ["`label`: string (required)"],
+  "aria": [
+    "Implicit role"
+  ],
+  "keyboard": [
+    "Tab: Focus it"
+  ],
+  "props": [
+    "`label`: string (required)"
+  ],
   "related": [],
   "files": {
     "html": "lily-design-system-html-headless/components/check-list.html"

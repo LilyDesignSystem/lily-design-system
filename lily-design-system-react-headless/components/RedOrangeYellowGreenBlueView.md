@@ -23,11 +23,17 @@ The component renders as a `<span>` element with an accessible label, making the
 ## Usage
 
 ```tsx
-<RedOrangeYellowGreenBlueView label="Risk level" value="yellow" />
+<RedOrangeYellowGreenBlueView
+  label="Risk level"
+  value="yellow"
+/>
 ```
 
 ```tsx
-<RedOrangeYellowGreenBlueView label="Alert status" value={level} />
+<RedOrangeYellowGreenBlueView
+  label="Alert status"
+  value={level}
+/>
 ```
 
 ## Keyboard Interactions

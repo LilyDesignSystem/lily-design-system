@@ -26,8 +26,8 @@ The component supports `selected` for pre-selecting an option and `disabled` for
 
 ```html
 <select>
-  <Option value="us">United States</Option>
-  <Option value="uk">United Kingdom</Option>
+  <option value="us">United States</option>
+  <option value="uk">United Kingdom</option>
 </select>
 ```
 
@@ -57,14 +57,11 @@ The component supports `selected` for pre-selecting an option and `disabled` for
 
 This headless component wraps the native `<option>` element with props for `value`, `selected`, and `disabled` states. Accessibility is provided automatically by the browser through the parent `<select>`. The consumer provides all visual styling via the parent Select component, as native `<option>` elements have limited styling capabilities.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.option` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<option>` element with class `option`
 - Verify keyboard interactions work correctly

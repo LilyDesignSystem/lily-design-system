@@ -25,9 +25,18 @@ This headless component uses a `<div>` element with `role="region"` and `aria-la
 
 ```html
 <HorizontalScroller label="Photo gallery">
-  <img src="photo1.jpg" alt="Photo 1" />
-  <img src="photo2.jpg" alt="Photo 2" />
-  <img src="photo3.jpg" alt="Photo 3" />
+  <img
+    src="photo1.jpg"
+    alt="Photo 1"
+  />
+  <img
+    src="photo2.jpg"
+    alt="Photo 2"
+  />
+  <img
+    src="photo3.jpg"
+    alt="Photo 3"
+  />
 </HorizontalScroller>
 ```
 

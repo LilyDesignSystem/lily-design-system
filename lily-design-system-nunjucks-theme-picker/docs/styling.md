@@ -13,8 +13,8 @@ drop down, drop up, anchor right, or render in a popover.
 
 ## Class hooks
 
-| Selector                   | Element                                                                                                                                                        |
-| -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Selector                  | Element                                                                                                                                                        |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `.theme-picker`           | The root `<div>`.                                                                                                                                              |
 | `.theme-picker.{classes}` | Both classes when `opts.classes` is set.                                                                                                                       |
 | `.theme-picker-button`    | The icon `<button>` that opens the listbox.                                                                                                                    |
@@ -28,8 +28,8 @@ placeholder option any more.
 
 ### State hooks
 
-| Selector                                      | Meaning                                                                |
-| --------------------------------------------- | ---------------------------------------------------------------------- |
+| Selector                                     | Meaning                                                                |
+| -------------------------------------------- | ---------------------------------------------------------------------- |
 | `.theme-picker-list:not([hidden])`           | The listbox is open.                                                   |
 | `.theme-picker-button[aria-expanded="true"]` | The button while its listbox is open.                                  |
 | `.theme-picker-option[aria-selected="true"]` | The applied theme.                                                     |

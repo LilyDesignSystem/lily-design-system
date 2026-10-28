@@ -40,7 +40,10 @@ DOI link with custom display text:
 DOI link opening in a new tab:
 
 ```html
-<DigitalObjectIdentifierLink doi="10.1000/xyz123" target="_blank">
+<DigitalObjectIdentifierLink
+  doi="10.1000/xyz123"
+  target="_blank"
+>
   10.1000/xyz123
 </DigitalObjectIdentifierLink>
 ```

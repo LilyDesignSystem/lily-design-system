@@ -14,10 +14,7 @@ Applies a theme object to the consumer's content by flattening the object's keys
 ## Usage
 
 ```vue
-<ThemeProvider
-  :theme="{ color: { primary: '#2563eb', danger: '#dc2626' } }"
-  base="light"
->
+<ThemeProvider :theme="{ color: { primary: '#2563eb', danger: '#dc2626' } }" base="light">
   <App />
 </ThemeProvider>
 ```

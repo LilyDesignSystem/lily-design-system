@@ -10,7 +10,7 @@ See [components/kbd-shortcut/index.md](../../../components/kbd-shortcut/index.md
 
 ```svelte
 <script lang="ts">
-    import KbdShortcut from "./KbdShortcut.svelte";
+  import KbdShortcut from "./KbdShortcut.svelte";
 </script>
 
 <KbdShortcut />

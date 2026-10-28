@@ -28,12 +28,12 @@ No other framework catalog ports it yet.
 ## Files
 
 | File               | Purpose                                                |
-| ------------------ | ------------------------------------------------------- |
+| ------------------ | ------------------------------------------------------ |
 | `spec/index.md`    | Specification-driven contract (canonical).             |
-| `DataGrid.svelte`  | Implementation. TypeScript + Svelte 5 runes.            |
+| `DataGrid.svelte`  | Implementation. TypeScript + Svelte 5 runes.           |
 | `DataGrid.test.ts` | Vitest spec, one or more assertions per §8 acceptance. |
-| `index.ts`         | Barrel re-export.                                       |
-| `index.md`         | User guide.                                             |
+| `index.ts`         | Barrel re-export.                                      |
+| `index.md`         | User guide.                                            |
 
 ## Public surface
 

@@ -15,14 +15,14 @@ Every example assumes:
   typography itself. Without that mapping the control applies the
   attribute but nothing visibly resizes.
 
-| #   | File                                                     | Demonstrates                                                    |
-| --- | --------------------------------------------------------- | ----------------------------------------------------------------- |
-| 1   | [`01-basic.html`](./01-basic.html)                       | Minimal four-size picker plus the status region.                |
-| 2   | [`02-custom-labels.html`](./02-custom-labels.html)       | `size-labels` for i18n / display names.                         |
-| 3   | [`03-multiple-pickers.html`](./03-multiple-pickers.html) | Two pickers in one page via `name` and per-instance `target`.   |
-| 4   | [`04-persistence.html`](./04-persistence.html)           | `localStorage` survival across reloads via `storage-key`.       |
-| 5   | [`05-external-buttons.html`](./05-external-buttons.html) | Driving the control from your own A-/A+ preset buttons.         |
-| 6   | [`06-custom-rendering.html`](./06-custom-rendering.html) | `renderButtonContent()`: inline SVG, and glyph + size name.      |
+| #   | File                                                     | Demonstrates                                                  |
+| --- | -------------------------------------------------------- | ------------------------------------------------------------- |
+| 1   | [`01-basic.html`](./01-basic.html)                       | Minimal four-size picker plus the status region.              |
+| 2   | [`02-custom-labels.html`](./02-custom-labels.html)       | `size-labels` for i18n / display names.                       |
+| 3   | [`03-multiple-pickers.html`](./03-multiple-pickers.html) | Two pickers in one page via `name` and per-instance `target`. |
+| 4   | [`04-persistence.html`](./04-persistence.html)           | `localStorage` survival across reloads via `storage-key`.     |
+| 5   | [`05-external-buttons.html`](./05-external-buttons.html) | Driving the control from your own A-/A+ preset buttons.       |
+| 6   | [`06-custom-rendering.html`](./06-custom-rendering.html) | `renderButtonContent()`: inline SVG, and glyph + size name.   |
 
 ## The examples ship their own CSS — deliberately
 

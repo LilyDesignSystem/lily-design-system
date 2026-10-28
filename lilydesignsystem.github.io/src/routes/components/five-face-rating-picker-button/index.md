@@ -23,11 +23,32 @@ A five-face rating picker button is an individual button within a FiveFaceRating
 
 ```html
 <FiveFaceRatingPicker label="How was your experience?">
-    <FiveFaceRatingPickerButton value="1" label="Very bad" onclick={handleClick} />
-    <FiveFaceRatingPickerButton value="2" label="Bad" onclick={handleClick} />
-    <FiveFaceRatingPickerButton value="3" label="Okay" onclick={handleClick} />
-    <FiveFaceRatingPickerButton value="4" label="Good" selected onclick={handleClick} />
-    <FiveFaceRatingPickerButton value="5" label="Very good" onclick={handleClick} />
+  <FiveFaceRatingPickerButton
+    value="1"
+    label="Very bad"
+    onclick="{handleClick}"
+  />
+  <FiveFaceRatingPickerButton
+    value="2"
+    label="Bad"
+    onclick="{handleClick}"
+  />
+  <FiveFaceRatingPickerButton
+    value="3"
+    label="Okay"
+    onclick="{handleClick}"
+  />
+  <FiveFaceRatingPickerButton
+    value="4"
+    label="Good"
+    selected
+    onclick="{handleClick}"
+  />
+  <FiveFaceRatingPickerButton
+    value="5"
+    label="Very good"
+    onclick="{handleClick}"
+  />
 </FiveFaceRatingPicker>
 ```
 
@@ -56,14 +77,11 @@ A five-face rating picker button is an individual button within a FiveFaceRating
 
 This headless component provides a `<button>` with `aria-pressed` to indicate the selected state, `aria-label` for the face description, and click handling for selection. The consumer provides all visual styling, face icons or emoji, and hover/focus effects.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.five-face-rating-picker-button` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<button>` element with class `five-face-rating-picker-button`
 - Verify aria-label` -- provides the accessible name for the button (e.g., "Very good")

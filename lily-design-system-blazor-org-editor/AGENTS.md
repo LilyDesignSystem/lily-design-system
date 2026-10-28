@@ -13,16 +13,16 @@ The canonical implementation is the Svelte package (`../lily-design-system-svelt
 
 ## Files
 
-| File | Purpose |
-| ---- | ------- |
-| `spec/index.md` | Specification-driven contract (canonical). |
-| `OrgEditor.razor` | Markup. |
-| `OrgEditor.razor.cs` | Code-behind: parameters, `IJSRuntime` access, toolbar keys. |
-| `OrgFormat.cs` | Pure Org transforms — a **hand port** of `shared/org-format.ts`; keep it in step. |
-| `OrgEditorTests.cs / OrgFormatTests.cs` | bUnit + xUnit specs. |
-| `index.md` | User guide. |
-| `docs/accessibility.md` | Tradeoffs, stated plainly. |
-| `examples/` | Runnable examples. |
+| File                                    | Purpose                                                                           |
+| --------------------------------------- | --------------------------------------------------------------------------------- |
+| `spec/index.md`                         | Specification-driven contract (canonical).                                        |
+| `OrgEditor.razor`                       | Markup.                                                                           |
+| `OrgEditor.razor.cs`                    | Code-behind: parameters, `IJSRuntime` access, toolbar keys.                       |
+| `OrgFormat.cs`                          | Pure Org transforms — a **hand port** of `shared/org-format.ts`; keep it in step. |
+| `OrgEditorTests.cs / OrgFormatTests.cs` | bUnit + xUnit specs.                                                              |
+| `index.md`                              | User guide.                                                                       |
+| `docs/accessibility.md`                 | Tradeoffs, stated plainly.                                                        |
+| `examples/`                             | Runnable examples.                                                                |
 
 ## Rules that matter
 

@@ -13,7 +13,9 @@ Time` in January and `UTC-04:00 – Eastern Daylight Time` in July, and `Central
 
 ```js
 // What the app does with the choice:
-new Intl.DateTimeFormat(locale, { timeZone: document.documentElement.dataset.timeZone }).format(date);
+new Intl.DateTimeFormat(locale, { timeZone: document.documentElement.dataset.timeZone }).format(
+  date,
+);
 ```
 
 ## Usage
@@ -34,23 +36,23 @@ Blazor idioms: install `LilyDesignSystem.Blazor.TimeZonePicker`; `@bind-Value` a
 
 ## Props
 
-| Parameter       | Type                                      | Required | Description |
-| --------------- | ----------------------------------------- | -------- | ----------- |
-| `Label`         | `string`                                  | yes      | Accessible name for the button and the listbox; also the tooltip text. |
-| `Locale`        | `string`                                  | yes      | BCP 47 tag the names are sorted and matched in. No default: the picker never picks a language for you. |
-| `Zones`         | `IReadOnlyList<string>`                   | no       | IANA ids to offer. Default `TimeZones.DefaultZones` (55 zones). Shown by offset, not in the order given. |
-| `Date`          | `DateTimeOffset?`                         | no       | The moment offsets and names are worked out for. Default: now, read once. |
-| `Names`         | `IReadOnlyDictionary<string, (string Standard, string? Daylight)>` | no | Full zone names by IANA id, in the reader's language: the CLDR names below. |
-| `LabelFor`      | `Func<ZoneEntry, string>`                 | no       | Builds an option's text. Default `UTC+01:00 – Central European Standard Time`. |
-| `Value`         | `string`                                  | no       | Selected IANA id. Bindable (`@bind-Value`). |
-| `DefaultValue`  | `string`                                  | no       | Initial zone when nothing else is supplied. |
-| `StorageKey`    | `string`                                  | no       | If set, persist the zone to `localStorage`. |
-| `Name`          | `string`                                  | no       | `name` of the hidden input (default `"time-zone"`). |
-| `ChildContent`  | `RenderFragment<TimeZonePickerContext>`   | no       | Replaces the clock icon; the context has `Value`, `Open` and `InfoFor`. |
-| `OnChange`      | `EventCallback<string>`                   | no       | Called once after a new zone is applied. |
-| `Open`          | `bool`                                    | no       | Is the popup open? Bindable (`@bind-Open`). |
-| `Disabled`      | `bool`                                    | no       | Disables the button. |
-| `CssClass`      | `string`                                  | no       | Extra CSS class on the root. |
+| Parameter      | Type                                                               | Required | Description                                                                                              |
+| -------------- | ------------------------------------------------------------------ | -------- | -------------------------------------------------------------------------------------------------------- |
+| `Label`        | `string`                                                           | yes      | Accessible name for the button and the listbox; also the tooltip text.                                   |
+| `Locale`       | `string`                                                           | yes      | BCP 47 tag the names are sorted and matched in. No default: the picker never picks a language for you.   |
+| `Zones`        | `IReadOnlyList<string>`                                            | no       | IANA ids to offer. Default `TimeZones.DefaultZones` (55 zones). Shown by offset, not in the order given. |
+| `Date`         | `DateTimeOffset?`                                                  | no       | The moment offsets and names are worked out for. Default: now, read once.                                |
+| `Names`        | `IReadOnlyDictionary<string, (string Standard, string? Daylight)>` | no       | Full zone names by IANA id, in the reader's language: the CLDR names below.                              |
+| `LabelFor`     | `Func<ZoneEntry, string>`                                          | no       | Builds an option's text. Default `UTC+01:00 – Central European Standard Time`.                           |
+| `Value`        | `string`                                                           | no       | Selected IANA id. Bindable (`@bind-Value`).                                                              |
+| `DefaultValue` | `string`                                                           | no       | Initial zone when nothing else is supplied.                                                              |
+| `StorageKey`   | `string`                                                           | no       | If set, persist the zone to `localStorage`.                                                              |
+| `Name`         | `string`                                                           | no       | `name` of the hidden input (default `"time-zone"`).                                                      |
+| `ChildContent` | `RenderFragment<TimeZonePickerContext>`                            | no       | Replaces the clock icon; the context has `Value`, `Open` and `InfoFor`.                                  |
+| `OnChange`     | `EventCallback<string>`                                            | no       | Called once after a new zone is applied.                                                                 |
+| `Open`         | `bool`                                                             | no       | Is the popup open? Bindable (`@bind-Open`).                                                              |
+| `Disabled`     | `bool`                                                             | no       | Disables the button.                                                                                     |
+| `CssClass`     | `string`                                                           | no       | Extra CSS class on the root.                                                                             |
 
 The pure rules are public in the static class `TimeZones`: `Ordered`, `Info`, `OffsetMinutes`, `FormatOffset`, `ZoneName`, `MatchZone`, `DefaultLabel`, `DefaultZones`.
 

@@ -92,7 +92,11 @@ that:
 
 ```html
 <div class="text-size-picker {className}">
-  <input type="hidden" name="{name}" value="{value}" />
+  <input
+    type="hidden"
+    name="{name}"
+    value="{value}"
+  />
   <button
     type="button"
     class="text-size-picker-button"
@@ -101,9 +105,29 @@ that:
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <svg class="text-size-picker-icon" viewBox="0 0 16 16" width="1.05rem" height="1.05rem" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13 7.2 3h1.6L12 13M5.4 9.5h5.2"/></svg>
+    <svg
+      class="text-size-picker-icon"
+      viewBox="0 0 16 16"
+      width="1.05rem"
+      height="1.05rem"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M4 13 7.2 3h1.6L12 13M5.4 9.5h5.2" />
+    </svg>
   </button>
-  <div class="text-size-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
+  <div
+    class="text-size-picker-tooltip"
+    role="tooltip"
+    id="{tooltipId}"
+    hidden
+  >
+    {label}
+  </div>
   <ul
     class="text-size-picker-list"
     id="{listId}"
@@ -125,6 +149,7 @@ that:
   </ul>
 </div>
 ```
+
 **Tooltip.** `.text-size-picker-tooltip` is a sibling of the button, always in
 the DOM, `hidden` at rest, holding the button's `label` text. It is shown
 while the pointer is over the button or over the tooltip itself
@@ -141,7 +166,6 @@ attribute. Angular idiom: four signals (`hoverButton`, `hoverTooltip`,
 pointer and focus listeners sit on the `lily-icon-button` host
 (`mouseenter`/`mouseleave`/`focusin`/`focusout`), and the tooltip text is
 the existing `label` input, so there is no new input and no new English text.
-
 
 - The default button icon is a bundled "A"-shaped outline SVG, not a
   Unicode character (reversed 2026-09-16; see §9).
@@ -251,17 +275,17 @@ with the **last** option active. Opening moves focus to the `<ul>`.
 
 On the **listbox**:
 
-| Key               | Action                                                             |
-| ----------------- | ------------------------------------------------------------------ |
-| `Arrow Down`      | Active option down one. **Clamps** at the last option — no wrap.   |
-| `Arrow Up`        | Active option up one. **Clamps** at the first option — no wrap.    |
-| `Home` / `End`    | First / last option becomes active.                                |
-| `Enter` / `Space` | Select the active option, apply it, close, refocus the button.     |
-| `Escape`          | Close and refocus the button; the value is **not** changed.        |
-| `PageUp`          | Move the active option up ten. Clamps at the first.                |
-| `PageDown`        | Move the active option down ten. Clamps at the last.               |
+| Key               | Action                                                                                                                                                                                                                                                     |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Arrow Down`      | Active option down one. **Clamps** at the last option — no wrap.                                                                                                                                                                                           |
+| `Arrow Up`        | Active option up one. **Clamps** at the first option — no wrap.                                                                                                                                                                                            |
+| `Home` / `End`    | First / last option becomes active.                                                                                                                                                                                                                        |
+| `Enter` / `Space` | Select the active option, apply it, close, refocus the button.                                                                                                                                                                                             |
+| `Escape`          | Close and refocus the button; the value is **not** changed.                                                                                                                                                                                                |
+| `PageUp`          | Move the active option up ten. Clamps at the first.                                                                                                                                                                                                        |
+| `PageDown`        | Move the active option down ten. Clamps at the last.                                                                                                                                                                                                       |
 | `Tab`             | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position. Hiding the focused list first would drop focus to `<body>` and restart Tab from the top of the document. |
-| Printable chars   | Typeahead over the display **labels**; buffer resets after 500 ms. A single character advances to the **next** match and repeating it cycles onward; a buffer of differing characters refines the match from the active option. Search wraps once. |
+| Printable chars   | Typeahead over the display **labels**; buffer resets after 500 ms. A single character advances to the **next** match and repeating it cycles onward; a buffer of differing characters refines the match from the active option. Search wraps once.         |
 
 The typeahead matches the rendered label, not the slug — with
 `sizeLabels` in play, typing `h` finds "Huge", not `x-large`.

@@ -14,8 +14,8 @@ popover.
 
 ## Class hooks
 
-| Selector                    | Element                                                                                                                                                         |
-| --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Selector                   | Element                                                                                                                                                         |
+| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `.locale-picker`           | The root `<div>`.                                                                                                                                               |
 | `.locale-picker.{classes}` | Both classes when `opts.classes` is set.                                                                                                                        |
 | `.locale-picker-button`    | The icon `<button>` that opens the listbox.                                                                                                                     |
@@ -29,8 +29,8 @@ placeholder option any more.
 
 ### State hooks
 
-| Selector                                       | Meaning                                                                |
-| ---------------------------------------------- | ---------------------------------------------------------------------- |
+| Selector                                      | Meaning                                                                |
+| --------------------------------------------- | ---------------------------------------------------------------------- |
 | `.locale-picker-list:not([hidden])`           | The listbox is open.                                                   |
 | `.locale-picker-button[aria-expanded="true"]` | The button while its listbox is open.                                  |
 | `.locale-picker-option[aria-selected="true"]` | The applied locale.                                                    |

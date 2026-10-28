@@ -39,10 +39,17 @@ const [showDialog, setShowDialog] = useState(false);
 ```
 
 ```tsx
-{/* Non-modal dialog */}
-<Dialog label="Notification" open={showNotice} onChange={setShowNotice} modal={false}>
+{
+  /* Non-modal dialog */
+}
+<Dialog
+  label="Notification"
+  open={showNotice}
+  onChange={setShowNotice}
+  modal={false}
+>
   <p>Your file has been saved.</p>
-</Dialog>
+</Dialog>;
 ```
 
 ## Keyboard Interactions

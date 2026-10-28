@@ -21,11 +21,11 @@ This headless component renders a `<div>` with `role="region"` and an accessible
 
 ```tsx
 <FileManager label="Project files">
-    <ul>
-        <li>document.pdf</li>
-        <li>image.png</li>
-        <li>data.csv</li>
-    </ul>
+  <ul>
+    <li>document.pdf</li>
+    <li>image.png</li>
+    <li>data.csv</li>
+  </ul>
 </FileManager>
 ```
 

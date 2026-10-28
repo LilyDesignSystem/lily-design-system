@@ -39,10 +39,16 @@ Default skip link as the first element in the page, targeting a `<main id="conte
 Custom skip link targeting a specific main content area with a custom label:
 
 ```html
-<SkipLink href="#maincontent" label="Skip to main content" />
+<SkipLink
+  href="#maincontent"
+  label="Skip to main content"
+/>
 
 <!-- Later in the page -->
-<main id="maincontent" tabindex="-1">
+<main
+  id="maincontent"
+  tabindex="-1"
+>
   <h1>Search results</h1>
   ...
 </main>
@@ -74,14 +80,11 @@ Custom skip link targeting a specific main content area with a custom label:
 
 This headless component renders a simple `<a>` element with a configurable `href` target and visible link text. It provides the semantic skip navigation link with no visual styling. The consumer is responsible for styling the link to be visually hidden until focused, then positioning it prominently on screen.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.skip-link` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<a>` element with class `skip-link`
 - Verify keyboard interactions work correctly

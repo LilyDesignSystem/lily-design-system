@@ -15,7 +15,11 @@ A high-priority page-level banner that interrupts the user with a system-wide me
 ## Usage
 
 ```tsx
-<SuperBanner dismissable dismissLabel="Close" onDismiss={hide}>
+<SuperBanner
+  dismissable
+  dismissLabel="Close"
+  onDismiss={hide}
+>
   Service is currently degraded. We are investigating.
 </SuperBanner>
 ```

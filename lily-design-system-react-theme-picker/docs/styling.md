@@ -5,8 +5,8 @@ to the consumer. This guide lists the hooks the select exposes.
 
 ## Class hooks
 
-| Selector                         | Element                                                                                                                                  |
-| -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Selector                        | Element                                                                                                                                  |
+| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
 | `.theme-picker`                 | The root `<div>`.                                                                                                                        |
 | `.theme-picker.{consumerClass}` | Both classes when `className` is passed.                                                                                                 |
 | `.theme-picker-button`          | The trigger `<button>`.                                                                                                                  |
@@ -37,10 +37,10 @@ active theme is stated. See
 
 | Attribute                         | On                          | Purpose                                                               |
 | --------------------------------- | --------------------------- | --------------------------------------------------------------------- |
-| `aria-expanded="true\|false"`     | `.theme-picker-button`     | Open state — style the trigger, e.g. rotate a caret.                  |
-| `hidden`                          | `.theme-picker-list`       | Present while closed. This is what opens and closes the dropdown.     |
-| `aria-selected="true\|false"`     | `.theme-picker-option`     | The active theme.                                                     |
-| `data-active`                     | `.theme-picker-option`     | The keyboard-active option (present on exactly one, only while open). |
+| `aria-expanded="true\|false"`     | `.theme-picker-button`      | Open state — style the trigger, e.g. rotate a caret.                  |
+| `hidden`                          | `.theme-picker-list`        | Present while closed. This is what opens and closes the dropdown.     |
+| `aria-selected="true\|false"`     | `.theme-picker-option`      | The active theme.                                                     |
+| `data-active`                     | `.theme-picker-option`      | The keyboard-active option (present on exactly one, only while open). |
 | `data-theme="<slug>"`             | `target` (default `<html>`) | Active theme indicator for theme CSS files.                           |
 | `data-lily-theme-picker="<name>"` | the managed `<link>`        | Discriminator for multiple selects.                                   |
 

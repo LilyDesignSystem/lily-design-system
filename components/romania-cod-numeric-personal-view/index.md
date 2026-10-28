@@ -22,7 +22,7 @@ RomaniaCodNumericPersonalView is a headless read-only display of Romania's Cod N
 ```html
 <SummaryList>
   <SummaryListItem term="Personal Numerical Code">
-    <RomaniaCodNumericPersonalView value={value} />
+    <RomaniaCodNumericPersonalView value="{value}" />
   </SummaryListItem>
 </SummaryList>
 ```

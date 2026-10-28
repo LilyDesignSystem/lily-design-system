@@ -41,9 +41,7 @@ it as a `lang` attribute, run it through the exported
 
 ```vue
 <script setup lang="ts">
-import LocalePicker, {
-  bcp47LocaleTag,
-} from "@lilydesignsystem/vue-locale-picker";
+import LocalePicker, { bcp47LocaleTag } from "@lilydesignsystem/vue-locale-picker";
 </script>
 ```
 
@@ -92,14 +90,15 @@ the slot args at all.
 
 ```vue
 <script setup lang="ts">
-import LocalePicker, {
-  bcp47LocaleTag,
-  isRtlLocale,
-} from "@lilydesignsystem/vue-locale-picker";
+import LocalePicker, { bcp47LocaleTag, isRtlLocale } from "@lilydesignsystem/vue-locale-picker";
 </script>
 
 <template>
-  <LocalePicker label="Language" :locales="locales" :locale-labels="endonyms">
+  <LocalePicker
+    label="Language"
+    :locales="locales"
+    :locale-labels="endonyms"
+  >
     <template #default="{ value, labelFor }">
       <span
         aria-hidden="true"
@@ -136,7 +135,11 @@ with a fixed icon set.
     stroke="currentColor"
     stroke-width="2"
   >
-    <circle cx="12" cy="12" r="10" />
+    <circle
+      cx="12"
+      cy="12"
+      r="10"
+    />
     <path d="M2 12h20M12 2a15 15 0 0 1 0 20a15 15 0 0 1 0-20" />
   </svg>
 </template>
@@ -194,7 +197,11 @@ const locale = ref("en");
 </script>
 
 <template>
-  <LocalePicker label="Language" :locales="locales" v-model:value="locale" />
+  <LocalePicker
+    label="Language"
+    :locales="locales"
+    v-model:value="locale"
+  />
   <MyOwnPicker v-model="locale" />
 </template>
 ```

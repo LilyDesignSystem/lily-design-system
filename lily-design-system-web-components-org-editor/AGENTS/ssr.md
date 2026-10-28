@@ -28,15 +28,10 @@ building hrefs — never at import. Both capability probes guard:
 
 ```ts
 export function canShareNatively(): boolean {
-  return (
-    typeof navigator !== "undefined" && typeof navigator.share === "function"
-  );
+  return typeof navigator !== "undefined" && typeof navigator.share === "function";
 }
 export function canCopy(): boolean {
-  return (
-    typeof navigator !== "undefined" &&
-    typeof navigator.clipboard?.writeText === "function"
-  );
+  return typeof navigator !== "undefined" && typeof navigator.clipboard?.writeText === "function";
 }
 ```
 

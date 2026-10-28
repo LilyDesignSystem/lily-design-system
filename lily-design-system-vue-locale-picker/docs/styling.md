@@ -4,7 +4,7 @@ The picker ships **no CSS**. Everything below is yours to write. This
 file documents the hooks the component guarantees, plus a baseline
 stylesheet you can paste and edit.
 
-The one thing you *must* supply is positioning for the listbox — see
+The one thing you _must_ supply is positioning for the listbox — see
 [Positioning the listbox](#positioning-the-listbox). Without it the
 open list participates in normal flow and shoves the rest of the page
 down.
@@ -14,21 +14,21 @@ down.
 Every hook below is a stable contract. They do not change without a
 major version.
 
-| Hook                    | Element                          | Notes                                        |
-| ----------------------- | -------------------------------- | -------------------------------------------- |
-| `.locale-picker`        | root `<div>`                     | Your `class` prop is appended after this.    |
-| `.locale-picker-button` | the trigger `<button>`           | Icon-only; `aria-label` is its whole name.   |
-| `.locale-picker-icon`   | `<span>` inside the button       | Holds the 🌐 glyph. Absent when you supply a slot. |
-| `.locale-picker-list`   | `<ul role="listbox">`            | `hidden` while closed.                       |
-| `.locale-picker-option` | each `<li role="option">`        | Carries its own `lang`.                      |
+| Hook                    | Element                    | Notes                                              |
+| ----------------------- | -------------------------- | -------------------------------------------------- |
+| `.locale-picker`        | root `<div>`               | Your `class` prop is appended after this.          |
+| `.locale-picker-button` | the trigger `<button>`     | Icon-only; `aria-label` is its whole name.         |
+| `.locale-picker-icon`   | `<span>` inside the button | Holds the 🌐 glyph. Absent when you supply a slot. |
+| `.locale-picker-list`   | `<ul role="listbox">`      | `hidden` while closed.                             |
+| `.locale-picker-option` | each `<li role="option">`  | Carries its own `lang`.                            |
 
-Two more hooks are *conventions*, not component output — you render
+Two more hooks are _conventions_, not component output — you render
 them yourself:
 
-| Hook                      | What it is                                             |
-| ------------------------- | ------------------------------------------------------ |
-| `.locale-picker-status`   | The live region naming the active locale. See [accessibility.md](./accessibility.md). |
-| `.locale-picker-placeholder` | **Gone.** Removed with the native `<select>`.       |
+| Hook                         | What it is                                                                            |
+| ---------------------------- | ------------------------------------------------------------------------------------- |
+| `.locale-picker-status`      | The live region naming the active locale. See [accessibility.md](./accessibility.md). |
+| `.locale-picker-placeholder` | **Gone.** Removed with the native `<select>`.                                         |
 
 ## Attribute hooks
 
@@ -36,12 +36,12 @@ Prefer these over class toggling — the component already maintains
 them, and styling the ARIA state keeps the visual and the announced
 state from drifting apart.
 
-| Selector                                            | Means                                   |
-| --------------------------------------------------- | --------------------------------------- |
-| `.locale-picker-button[aria-expanded="true"]`        | The listbox is open.                    |
-| `.locale-picker-list[hidden]`                        | Closed. Browsers apply `display: none`. |
-| `.locale-picker-option[aria-selected="true"]`        | The active locale — persistent state.   |
-| `.locale-picker-option[data-active]`                 | The keyboard-focused option — transient. |
+| Selector                                      | Means                                    |
+| --------------------------------------------- | ---------------------------------------- |
+| `.locale-picker-button[aria-expanded="true"]` | The listbox is open.                     |
+| `.locale-picker-list[hidden]`                 | Closed. Browsers apply `display: none`.  |
+| `.locale-picker-option[aria-selected="true"]` | The active locale — persistent state.    |
+| `.locale-picker-option[data-active]`          | The keyboard-focused option — transient. |
 
 `aria-selected` and `data-active` are different things and should look
 different. `aria-selected` is "this is your language"; `data-active` is
@@ -59,8 +59,8 @@ That makes direction available to CSS for free:
 
 ```css
 [dir="rtl"] .locale-picker-list {
-    right: auto;
-    left: 0;
+  right: auto;
+  left: 0;
 }
 ```
 
@@ -76,18 +76,18 @@ root:
 
 ```css
 .locale-picker {
-    position: relative;
-    display: inline-block;
+  position: relative;
+  display: inline-block;
 }
 
 .locale-picker-list {
-    position: absolute;
-    inset-block-start: 100%;
-    inset-inline-start: 0;
-    z-index: 50;
-    min-inline-size: 100%;
-    max-block-size: 20rem;
-    overflow-y: auto;
+  position: absolute;
+  inset-block-start: 100%;
+  inset-inline-start: 0;
+  z-index: 50;
+  min-inline-size: 100%;
+  max-block-size: 20rem;
+  overflow-y: auto;
 }
 ```
 
@@ -107,94 +107,94 @@ Accessible, unopinionated, and direction-agnostic. Tokens are the Lily
 
 ```css
 .locale-picker {
-    position: relative;
-    display: inline-block;
+  position: relative;
+  display: inline-block;
 }
 
 /* ---- Trigger ---- */
 
 .locale-picker-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    inline-size: 2.75rem;   /* >= 44px: WCAG 2.5.8 target size */
-    block-size: 2.75rem;
-    padding: 0;
-    border: 1px solid var(--theme-color-border, #6b7280);
-    border-radius: var(--theme-radius-md, 0.5rem);
-    background: var(--theme-color-surface, #fff);
-    color: inherit;
-    cursor: pointer;
-    line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 2.75rem; /* >= 44px: WCAG 2.5.8 target size */
+  block-size: 2.75rem;
+  padding: 0;
+  border: 1px solid var(--theme-color-border, #6b7280);
+  border-radius: var(--theme-radius-md, 0.5rem);
+  background: var(--theme-color-surface, #fff);
+  color: inherit;
+  cursor: pointer;
+  line-height: 1;
 }
 
 .locale-picker-button:hover {
-    background: var(--theme-color-surface-hover, #f3f4f6);
+  background: var(--theme-color-surface-hover, #f3f4f6);
 }
 
 .locale-picker-button:focus-visible {
-    outline: 3px solid var(--theme-color-focus, #ffeb3b);
-    outline-offset: 2px;
+  outline: 3px solid var(--theme-color-focus, #ffeb3b);
+  outline-offset: 2px;
 }
 
 .locale-picker-icon {
-    font-size: 1.25rem;
-    /* Keep the globe monochrome even where a colour-emoji font wins. */
-    font-family: system-ui, "Segoe UI Symbol", sans-serif;
+  font-size: 1.25rem;
+  /* Keep the globe monochrome even where a colour-emoji font wins. */
+  font-family: system-ui, "Segoe UI Symbol", sans-serif;
 }
 
 /* ---- Listbox ---- */
 
 .locale-picker-list {
-    position: absolute;
-    inset-block-start: calc(100% + 0.25rem);
-    inset-inline-start: 0;
-    z-index: 50;
-    min-inline-size: 12rem;
-    max-block-size: 20rem;
-    overflow-y: auto;
-    margin: 0;
-    padding: 0.25rem;
-    list-style: none;
-    border: 1px solid var(--theme-color-border, #6b7280);
-    border-radius: var(--theme-radius-md, 0.5rem);
-    background: var(--theme-color-surface, #fff);
-    box-shadow: 0 8px 24px rgb(0 0 0 / 0.12);
+  position: absolute;
+  inset-block-start: calc(100% + 0.25rem);
+  inset-inline-start: 0;
+  z-index: 50;
+  min-inline-size: 12rem;
+  max-block-size: 20rem;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0.25rem;
+  list-style: none;
+  border: 1px solid var(--theme-color-border, #6b7280);
+  border-radius: var(--theme-radius-md, 0.5rem);
+  background: var(--theme-color-surface, #fff);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.12);
 }
 
 .locale-picker-list:focus-visible {
-    outline: 3px solid var(--theme-color-focus, #ffeb3b);
-    outline-offset: -3px;
+  outline: 3px solid var(--theme-color-focus, #ffeb3b);
+  outline-offset: -3px;
 }
 
 /* ---- Options ---- */
 
 .locale-picker-option {
-    padding: 0.5rem 0.75rem;
-    border-radius: var(--theme-radius-sm, 0.25rem);
-    cursor: pointer;
-    /* Endonyms mix scripts; keep the line box tall enough for all. */
-    line-height: 1.5;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--theme-radius-sm, 0.25rem);
+  cursor: pointer;
+  /* Endonyms mix scripts; keep the line box tall enough for all. */
+  line-height: 1.5;
 }
 
 /* Keyboard position. */
 .locale-picker-option[data-active] {
-    background: var(--theme-color-surface-hover, #e5e7eb);
+  background: var(--theme-color-surface-hover, #e5e7eb);
 }
 
 /* Current language — must not rely on colour alone (WCAG 1.4.1). */
 .locale-picker-option[aria-selected="true"] {
-    font-weight: 700;
+  font-weight: 700;
 }
 
 .locale-picker-option[aria-selected="true"]::after {
-    content: " ✓";
+  content: " ✓";
 }
 
 @media (prefers-reduced-motion: no-preference) {
-    .locale-picker-option {
-        transition: background-color 120ms ease;
-    }
+  .locale-picker-option {
+    transition: background-color 120ms ease;
+  }
 }
 ```
 
@@ -216,9 +216,9 @@ region, because an icon-only button never announces the current value:
 
 ```css
 .locale-picker-status {
-    margin-inline-start: 0.5rem;
-    font-size: 0.875rem;
-    color: var(--theme-color-text-muted, #4b5563);
+  margin-inline-start: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--theme-color-text-muted, #4b5563);
 }
 ```
 
@@ -229,15 +229,15 @@ assistive technology only — never delete it:
 
 ```css
 .locale-picker-status {
-    position: absolute;
-    inline-size: 1px;
-    block-size: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-    border: 0;
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }
 ```
 
@@ -257,7 +257,7 @@ once. Two practical consequences:
 
 ```css
 .locale-picker-option {
-    letter-spacing: normal; /* never override this here */
+  letter-spacing: normal; /* never override this here */
 }
 ```
 
@@ -276,17 +276,21 @@ once. Two practical consequences:
 
 ## Vue scoped styles in consumer wrappers
 
-`<style scoped>` adds a data attribute to elements rendered by *that*
+`<style scoped>` adds a data attribute to elements rendered by _that_
 component's template. The picker's internals are rendered by the
 picker, so scoped rules will not reach them. Three options:
 
 ```vue
 <style scoped>
 /* Reaches the root only — the component is the child element. */
-.locale-picker { /* … */ }
+.locale-picker {
+  /* … */
+}
 
 /* Reaches internals: :deep() drops the scoping attribute. */
-.wrapper :deep(.locale-picker-option) { /* … */ }
+.wrapper :deep(.locale-picker-option) {
+  /* … */
+}
 </style>
 ```
 

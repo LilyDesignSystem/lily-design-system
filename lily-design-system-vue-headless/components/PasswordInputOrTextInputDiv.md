@@ -28,7 +28,10 @@ This component is useful for login forms, registration forms, account settings, 
 ## Usage
 
 ```svelte
-<PasswordInputOrTextInputDiv label="Password" bind:value />
+<PasswordInputOrTextInputDiv
+  label="Password"
+  bind:value
+/>
 ```
 
 ## Keyboard Interactions

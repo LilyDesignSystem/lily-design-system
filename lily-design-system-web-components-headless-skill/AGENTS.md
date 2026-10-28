@@ -49,7 +49,7 @@ self-is-the-wrapper) live in the library's own `AGENTS.md` and
 
 ## What this subproject is, and isn't
 
-- **Is**: a distributable skill scoped to *consuming* the Web Components
+- **Is**: a distributable skill scoped to _consuming_ the Web Components
   headless catalog — its current scope (check `spec/index.md` for the
   live count), its custom-element usage idiom, its two architecture
   decisions, and how its class-hook theming and naming conventions map

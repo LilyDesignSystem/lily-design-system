@@ -23,13 +23,22 @@ Use RadioGroup when you need a set of mutually exclusive options, such as select
 ## Usage
 
 ```html
-<Fieldset legend="Do you know your NHS number?">
+<fieldset legend="Do you know your NHS number?">
   <RadioGroup name="nhs-number-known">
-    <RadioInput label="Yes, I know my NHS number" value="yes" />
-    <RadioInput label="No, I do not know my NHS number" value="no" />
-    <RadioInput label="I am not sure" value="unsure" />
+    <RadioInput
+      label="Yes, I know my NHS number"
+      value="yes"
+    />
+    <RadioInput
+      label="No, I do not know my NHS number"
+      value="no"
+    />
+    <RadioInput
+      label="I am not sure"
+      value="unsure"
+    />
   </RadioGroup>
-</Fieldset>
+</fieldset>
 ```
 
 ## Keyboard Interactions
@@ -60,14 +69,11 @@ Use RadioGroup when you need a set of mutually exclusive options, such as select
 
 The RadioGroup headless component provides a `<fieldset>` with `role="radiogroup"` and `aria-label` for accessible group naming. It relies on native radio input behavior for selection and keyboard navigation. The consumer provides all visual styling for the fieldset, labels, and radio buttons.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.radio-group` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `radio-group`
 - Verify role="radiogroup"` -- identifies the fieldset as a group of radio buttons

@@ -21,7 +21,9 @@ CanadaSocialInsuranceNumberView is a headless placeholder component, generated b
 ## Usage
 
 ```html
-<CanadaSocialInsuranceNumberView label="CanadaSocialInsuranceNumberView example">Content</CanadaSocialInsuranceNumberView>
+<CanadaSocialInsuranceNumberView label="CanadaSocialInsuranceNumberView example"
+  >Content</CanadaSocialInsuranceNumberView
+>
 ```
 
 ## Keyboard Interactions

@@ -92,23 +92,23 @@ role="listbox">`. The component therefore owns the keyboard contract
 
 ### 4.1 Props
 
-| Prop               | Type                                   | Required | Default                                           | Purpose                                                                                              |
-| ------------------ | -------------------------------------- | -------- | ------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| `label`            | `string`                               | yes      | —                                                 | Accessible name for the button and the listbox.                                                      |
-| `themesUrl`        | `string`                               | yes      | —                                                 | Base URL of the themes directory. Trailing `/` is auto-normalised.                                   |
-| `themes`           | `string[]`                             | yes      | —                                                 | Available theme slugs (e.g. `["light", "dark", "abyss"]`).                                           |
-| `value`            | `string`                               | no       | `undefined` (uncontrolled)                        | Currently selected theme slug. When supplied, the component is controlled.                           |
-| `defaultValue`     | `string`                               | no       | `"light"` if present in `themes`, else first item | Initial theme when nothing else is supplied.                                                         |
-| `storageKey`       | `string`                               | no       | `undefined`                                       | If set, persist the selection to `localStorage` under this key.                                      |
-| `detectFromSystem` | `boolean`                              | no       | `false`                                           | If true and no value/storage entry exists, resolve `prefers-color-scheme` to a supported theme.      |
-| `name`             | `string`                               | no       | `"theme"`                                         | Discriminates the managed `<link>`; also the hidden input's `name`.                                  |
-| `extension`        | `string`                               | no       | `".css"`                                          | File extension appended to each slug when constructing the URL.                                      |
-| `target`           | `HTMLElement \| null`                  | no       | `document.documentElement`                        | Element that receives `data-theme`.                                                                  |
-| `themeLabels`      | `Record<string, string>`               | no       | `{}`                                              | Optional pretty labels per slug.                                                                     |
+| Prop               | Type                                   | Required | Default                                           | Purpose                                                                                             |
+| ------------------ | -------------------------------------- | -------- | ------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| `label`            | `string`                               | yes      | —                                                 | Accessible name for the button and the listbox.                                                     |
+| `themesUrl`        | `string`                               | yes      | —                                                 | Base URL of the themes directory. Trailing `/` is auto-normalised.                                  |
+| `themes`           | `string[]`                             | yes      | —                                                 | Available theme slugs (e.g. `["light", "dark", "abyss"]`).                                          |
+| `value`            | `string`                               | no       | `undefined` (uncontrolled)                        | Currently selected theme slug. When supplied, the component is controlled.                          |
+| `defaultValue`     | `string`                               | no       | `"light"` if present in `themes`, else first item | Initial theme when nothing else is supplied.                                                        |
+| `storageKey`       | `string`                               | no       | `undefined`                                       | If set, persist the selection to `localStorage` under this key.                                     |
+| `detectFromSystem` | `boolean`                              | no       | `false`                                           | If true and no value/storage entry exists, resolve `prefers-color-scheme` to a supported theme.     |
+| `name`             | `string`                               | no       | `"theme"`                                         | Discriminates the managed `<link>`; also the hidden input's `name`.                                 |
+| `extension`        | `string`                               | no       | `".css"`                                          | File extension appended to each slug when constructing the URL.                                     |
+| `target`           | `HTMLElement \| null`                  | no       | `document.documentElement`                        | Element that receives `data-theme`.                                                                 |
+| `themeLabels`      | `Record<string, string>`               | no       | `{}`                                              | Optional pretty labels per slug.                                                                    |
 | `children`         | `(args: ChildArgs) => React.ReactNode` | no       | the default icon                                  | Replaces the icon **inside the button**. It does not render the options — the component owns those. |
-| `onChange`         | `(theme: string) => void`              | no       | `undefined`                                       | Fires after the select applies a new theme.                                                          |
-| `className`        | `string`                               | no       | `""`                                              | Extra CSS class on the root `<div>`.                                                                 |
-| `...restProps`     | any HTML `<div>` attributes            | no       | —                                                 | Spread onto the root `<div>`.                                                                        |
+| `onChange`         | `(theme: string) => void`              | no       | `undefined`                                       | Fires after the select applies a new theme.                                                         |
+| `className`        | `string`                               | no       | `""`                                              | Extra CSS class on the root `<div>`.                                                                |
+| `...restProps`     | any HTML `<div>` attributes            | no       | —                                                 | Spread onto the root `<div>`.                                                                       |
 
 `ChildArgs` shape:
 
@@ -134,8 +134,15 @@ never be relied on for naming.
 The rendered tree is:
 
 ```html
-<div class="theme-picker {className}" ...restProps>
-  <input type="hidden" name="{name}" value="{value}" />
+<div
+  class="theme-picker {className}"
+  ...restProps
+>
+  <input
+    type="hidden"
+    name="{name}"
+    value="{value}"
+  />
   <button
     type="button"
     class="theme-picker-button"
@@ -144,9 +151,36 @@ The rendered tree is:
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>
+    <svg
+      class="theme-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle
+        cx="8"
+        cy="8"
+        r="6"
+      />
+      <path
+        d="M8 2a6 6 0 0 1 0 12z"
+        fill="currentColor"
+        stroke="none"
+      />
+    </svg>
   </button>
-  <div class="theme-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
+  <div
+    class="theme-picker-tooltip"
+    role="tooltip"
+    id="{tooltipId}"
+    hidden
+  >
+    {label}
+  </div>
   <ul
     class="theme-picker-list"
     id="{listId}"
@@ -323,12 +357,12 @@ Consumers wanting flicker-free first paint pass a server-resolved
 The control follows the WAI-ARIA APG **listbox** pattern with a button
 trigger.
 
-| Element        | Role / property                                                                                                    |
-| -------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `<button>`     | `aria-label={label}`, `aria-haspopup="listbox"`, `aria-expanded`, `aria-controls`                                  |
+| Element      | Role / property                                                                                                    |
+| ------------ | ------------------------------------------------------------------------------------------------------------------ |
+| `<button>`   | `aria-label={label}`, `aria-haspopup="listbox"`, `aria-expanded`, `aria-controls`                                  |
 | icon element | `aria-hidden="true"` — never part of the accessible name.                                                          |
-| `<ul>`         | `role="listbox"`, `aria-label={label}`, `tabindex="-1"`, `hidden` while closed, `aria-activedescendant` while open |
-| `<li>`         | `role="option"`, `aria-selected`, `data-active` on the keyboard-active option                                      |
+| `<ul>`       | `role="listbox"`, `aria-label={label}`, `tabindex="-1"`, `hidden` while closed, `aria-activedescendant` while open |
+| `<li>`       | `role="option"`, `aria-selected`, `data-active` on the keyboard-active option                                      |
 
 The icon carries no accessible name, so `label` is load-bearing: it is
 the only name the control has. See `docs/accessibility.md` for the
@@ -349,15 +383,15 @@ On the **button**:
 
 On the **listbox**:
 
-| Key                     | Action                                                                                              |
-| ----------------------- | --------------------------------------------------------------------------------------------------- |
-| `ArrowDown` / `ArrowUp` | Move the active option. Clamps at the ends — it does not wrap.                                      |
-| `Home` / `End`          | Jump to the first / last option.                                                                    |
-| `Enter` / `Space`       | Select the active option, apply it, close, and return focus to the button.                          |
-| `Escape`                | Close and return focus to the button **without** changing the value.                                |
-| `PageUp`                | Move the active option up ten. Clamps at the first.                                                 |
-| `PageDown`              | Move the active option down ten. Clamps at the last.                                                |
-| `Tab`                   | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position. Hiding the focused list first would drop focus to `<body>` and restart Tab from the top of the document. |
+| Key                     | Action                                                                                                                                                                                                                                                              |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ArrowDown` / `ArrowUp` | Move the active option. Clamps at the ends — it does not wrap.                                                                                                                                                                                                      |
+| `Home` / `End`          | Jump to the first / last option.                                                                                                                                                                                                                                    |
+| `Enter` / `Space`       | Select the active option, apply it, close, and return focus to the button.                                                                                                                                                                                          |
+| `Escape`                | Close and return focus to the button **without** changing the value.                                                                                                                                                                                                |
+| `PageUp`                | Move the active option up ten. Clamps at the first.                                                                                                                                                                                                                 |
+| `PageDown`              | Move the active option down ten. Clamps at the last.                                                                                                                                                                                                                |
+| `Tab`                   | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position. Hiding the focused list first would drop focus to `<body>` and restart Tab from the top of the document.          |
 | Printable character     | Typeahead over the option **labels**; the buffer resets after 500 ms of inactivity. A single character advances to the **next** match and repeating it cycles onward; a buffer of differing characters refines the match from the active option. Search wraps once. |
 
 Pointer behaviour: clicking an option selects it, applies it, and closes the listbox — the same close
@@ -474,31 +508,31 @@ returning `""` for an unsupported slug, and returning `""` when
 
 ### Accessibility hardening
 
-| Clause | Test asserts |
-| ------ | ------------ |
+| Clause | Test asserts                                                                                                              |
+| ------ | ------------------------------------------------------------------------------------------------------------------------- |
 | §7.21  | `Tab` from the open list puts focus on the button before closing, so the default Tab proceeds from the picker's position. |
-| §7.22  | A repeated typeahead character cycles through its matches; a multi-character buffer refines from the active option. |
-| §7.23  | `PageUp` / `PageDown` move the cursor by ten, clamped. |
-| §7.24  | An empty list opens without `aria-activedescendant`. |
+| §7.22  | A repeated typeahead character cycles through its matches; a multi-character buffer refines from the active option.       |
+| §7.23  | `PageUp` / `PageDown` move the cursor by ten, clamped.                                                                    |
+| §7.24  | An empty list opens without `aria-activedescendant`.                                                                      |
 
 ### Idempotent apply (mirrors §5.3)
 
-| Clause | Test asserts |
-| ------ | ------------ |
+| Clause | Test asserts                                                                                                      |
+| ------ | ----------------------------------------------------------------------------------------------------------------- |
 | §7.25  | Controlled mode fires `onChange` once per changed value: the consumer writing the value back does not re-fire it. |
 
 ### Tooltip
 
-| Clause | Test asserts |
-| ------ | ------------ |
-| §7.26 | Renders `.theme-picker-tooltip` with `role="tooltip"` right after the button, holding `label`, `hidden` at rest, and the button carries no `aria-describedby`. |
-| §7.27 | Pointer over the button shows it; leaving hides it. |
-| §7.28 | It stays visible while the pointer is over the tooltip itself. |
-| §7.29 | Keyboard focus on the button (`:focus-visible`) shows it; blur hides it; mouse-induced focus does not. |
-| §7.30 | `Escape` on the button dismisses it without moving focus; re-entering shows it again. |
-| §7.31 | It is never shown while the listbox is open. |
-| §7.32 | Pointer hover shows it with focus elsewhere; `Escape` pressed on `document.body` or another element dismisses it without moving focus. |
-| §7.33 | The `document` `keydown` listener exists only while the tooltip is visible: added once, removed on hide and on unmount. |
+| Clause | Test asserts                                                                                                                                                   |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| §7.26  | Renders `.theme-picker-tooltip` with `role="tooltip"` right after the button, holding `label`, `hidden` at rest, and the button carries no `aria-describedby`. |
+| §7.27  | Pointer over the button shows it; leaving hides it.                                                                                                            |
+| §7.28  | It stays visible while the pointer is over the tooltip itself.                                                                                                 |
+| §7.29  | Keyboard focus on the button (`:focus-visible`) shows it; blur hides it; mouse-induced focus does not.                                                         |
+| §7.30  | `Escape` on the button dismisses it without moving focus; re-entering shows it again.                                                                          |
+| §7.31  | It is never shown while the listbox is open.                                                                                                                   |
+| §7.32  | Pointer hover shows it with focus elsewhere; `Escape` pressed on `document.body` or another element dismisses it without moving focus.                         |
+| §7.33  | The `document` `keydown` listener exists only while the tooltip is visible: added once, removed on hide and on unmount.                                        |
 
 ## 8. Out-of-scope (future, not implemented here)
 

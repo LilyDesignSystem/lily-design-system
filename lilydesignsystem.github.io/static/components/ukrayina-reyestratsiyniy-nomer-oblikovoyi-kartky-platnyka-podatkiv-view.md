@@ -22,7 +22,10 @@ UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivView is a headless r
 ```html
 <SummaryList>
   <SummaryListItem term="Реєстраційний номер облікової картки платника податків (РНОКПП)">
-    <UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivView label="Реєстраційний номер облікової картки платника податків (РНОКПП)" value={value} />
+    <UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivView
+      label="Реєстраційний номер облікової картки платника податків (РНОКПП)"
+      value="{value}"
+    />
   </SummaryListItem>
 </SummaryList>
 ```

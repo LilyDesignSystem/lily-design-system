@@ -171,7 +171,7 @@ the record stays accurate. None of it was published to npm.
   where the browser provides one, and otherwise a disclosure list of
   consumer-supplied destinations plus a built-in copy-the-URL action.
 - `targets` are supplied by the consumer, each with its own `href(url,
-  title, text)` function. **No social-network endpoints ship with this
+title, text)` function. **No social-network endpoints ship with this
   package** — which networks belong in a product is an editorial and
   privacy decision, the URLs change, and networks die.
 - Destinations render as real `<a>` elements rather than
@@ -192,7 +192,7 @@ the record stays accurate. None of it was published to npm.
 
 ##### Notes
 
-- Unlike the `*-select` helpers, this owns an *action*, not a preference:
+- Unlike the `*-select` helpers, this owns an _action_, not a preference:
   it applies nothing to the document and persists nothing. There is
   therefore no `v-model:value`, no `storageKey`, and no hidden input.
 - The trigger's class hook is `share-picker-trigger`, not

@@ -27,13 +27,13 @@ A popover dialog with confirm and cancel buttons. Uses `role="alertdialog"` with
 
 ```vue
 <PopconfirmDialog
-    :open="open"
-    title="Delete this item?"
-    description="This action cannot be undone."
-    confirm-label="Delete"
-    cancel-label="Cancel"
-    @confirm="onConfirm"
-    @cancel="onCancel"
+  :open="open"
+  title="Delete this item?"
+  description="This action cannot be undone."
+  confirm-label="Delete"
+  cancel-label="Cancel"
+  @confirm="onConfirm"
+  @cancel="onCancel"
 />
 ```
 

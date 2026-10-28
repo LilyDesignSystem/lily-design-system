@@ -18,11 +18,11 @@ unpaid person; a maintenance line is a commitment that needs people behind it, a
 [GOVERNANCE.md](GOVERNANCE.md) and [MAINTAINERS.md](MAINTAINERS.md) record honestly
 how many there currently are.
 
-| Artifact | Version line | What is supported |
-| --- | --- | --- |
-| The headless packages (npm) | `0.x` | the newest published version, and nothing older |
-| The helper packages (npm, NuGet) | their own `0.x` line per package | the newest published version |
-| The monorepo and example applications | `0.x` | the newest tag |
+| Artifact                              | Version line                     | What is supported                               |
+| ------------------------------------- | -------------------------------- | ----------------------------------------------- |
+| The headless packages (npm)           | `0.x`                            | the newest published version, and nothing older |
+| The helper packages (npm, NuGet)      | their own `0.x` line per package | the newest published version                    |
+| The monorepo and example applications | `0.x`                            | the newest tag                                  |
 
 A fix lands on `main` and ships in the next published version. Nothing is
 retro-fitted: a published npm version is immutable, so the only remedy for any
@@ -102,12 +102,12 @@ Stated plainly so you do not waste effort:
   on a `<link>`. Those props are **developer-supplied configuration, not user input**,
   and the component trusts them by design. A consumer who wires untrusted input into
   `themesUrl` or `themes` has created a vector on their side of the boundary. That
-  boundary is the design; if you think it is the *wrong* design, that is a valid
+  boundary is the design; if you think it is the _wrong_ design, that is a valid
   [RFC.md](RFC.md) discussion rather than a vulnerability report.
 - **The example applications' demo rendering.** The `/components/{slug}` pages inject
   demo markup through `{@html}`, `dangerouslySetInnerHTML`, `v-html`,
   `MarkupString`, and `| safe`. The content is a static, in-repo map authored by the
-  project — not user input — so it is safe *there*. **It is not a pattern to copy
+  project — not user input — so it is safe _there_. **It is not a pattern to copy
   with untrusted content**, and that warning is the useful output of this scope note.
   A report that the demo map itself contains something harmful is in scope.
 - **Missing security headers on the docs site.** It is GitHub Pages; the headers are
@@ -128,7 +128,7 @@ they are why Lily's attack surface is small:
 - **No telemetry and no analytics anywhere.** Nothing about your use of Lily reaches
   the project.
 - **No personal data in the repository** — not in fixtures, not in demo content. The
-  140 national identifier components validate identifier *formats*; their test
+  140 national identifier components validate identifier _formats_; their test
   fixtures are synthetic values constructed to satisfy the algorithms, not real
   identifiers belonging to real people.
 - **No bundled fonts, images, or icon assets.** The picker glyphs are Unicode
@@ -143,16 +143,16 @@ be. Read it back with
 `gh api repos/LilyDesignSystem/lily-design-system --jq '.security_and_analysis'` and
 treat a divergence as a finding.
 
-| Setting | Expected | Why |
-| --- | --- | --- |
-| Secret scanning | enabled | the baseline detector |
-| Push protection | enabled | refuses the commit rather than filing an alert afterwards |
-| Private vulnerability reporting | enabled | the alternative reporting route named above |
-| Dependabot security updates | enabled | advisory-driven bumps across many package manifests |
-| Branch protection on `main` | active — no force-push, no deletion | |
-| npm publishing | two-factor authentication required; publishes carry `--provenance` | the publishing identity is one account; see [MAINTAINERS.md](MAINTAINERS.md) |
-| Registry tokens (`NPM_TOKEN`) | named CI secret only, real publishes gated on manual dispatch; slated for OIDC [Trusted Publishing](https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/trusted-publishing/index.md) once it covers all three forges (not met as of 2026-09 — Codeberg unsupported) | a leaked long-lived token is the classic supply-chain path; the interim mitigation and the adoption trigger are written down |
-| NuGet publishing | OIDC [Trusted Publishing](https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/trusted-publishing/index.md) (adopted 2026-09): a `NUGET_USER` secret names the nuget.org profile, not a credential; the actual push key is a 1-hour token minted per run by `NuGet/login@v1` and never stored | no long-lived NuGet key exists to leak |
+| Setting                         | Expected                                                                                                                                                                                                                                      | Why                                                                                                                          |
+| ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| Secret scanning                 | enabled                                                                                                                                                                                                                                       | the baseline detector                                                                                                        |
+| Push protection                 | enabled                                                                                                                                                                                                                                       | refuses the commit rather than filing an alert afterwards                                                                    |
+| Private vulnerability reporting | enabled                                                                                                                                                                                                                                       | the alternative reporting route named above                                                                                  |
+| Dependabot security updates     | enabled                                                                                                                                                                                                                                       | advisory-driven bumps across many package manifests                                                                          |
+| Branch protection on `main`     | active — no force-push, no deletion                                                                                                                                                                                                           |                                                                                                                              |
+| npm publishing                  | two-factor authentication required; publishes carry `--provenance`                                                                                                                                                                            | the publishing identity is one account; see [MAINTAINERS.md](MAINTAINERS.md)                                                 |
+| Registry tokens (`NPM_TOKEN`)   | named CI secret only, real publishes gated on manual dispatch; slated for OIDC [Trusted Publishing](https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/trusted-publishing/index.md) once it covers all three forges (not met as of 2026-09 — Codeberg unsupported)                          | a leaked long-lived token is the classic supply-chain path; the interim mitigation and the adoption trigger are written down |
+| NuGet publishing                | OIDC [Trusted Publishing](https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/trusted-publishing/index.md) (adopted 2026-09): a `NUGET_USER` secret names the nuget.org profile, not a credential; the actual push key is a 1-hour token minted per run by `NuGet/login@v1` and never stored | no long-lived NuGet key exists to leak                                                                                       |
 
 > [!NOTE]
 > Verified 2026-08-26 across all 23 repositories: secret scanning, push

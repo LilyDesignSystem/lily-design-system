@@ -58,10 +58,10 @@ Open [http://localhost:5173](http://localhost:5173).
 
 ### Scripts
 
-| Command             | Description                     |
-| ------------------- | ------------------------------- |
-| `pnpm run dev`      | Start development server        |
-| `pnpm run build`    | Build for production            |
-| `pnpm run preview`  | Preview production build        |
-| `pnpm test`         | Run all tests                   |
-| `pnpm audit --fix`  | Audit dependencies and fix them |
+| Command            | Description                     |
+| ------------------ | ------------------------------- |
+| `pnpm run dev`     | Start development server        |
+| `pnpm run build`   | Build for production            |
+| `pnpm run preview` | Preview production build        |
+| `pnpm test`        | Run all tests                   |
+| `pnpm audit --fix` | Audit dependencies and fix them |

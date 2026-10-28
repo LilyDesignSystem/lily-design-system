@@ -27,7 +27,11 @@ This component is useful for advanced color pickers where the user needs fine-gr
 ## Usage
 
 ```html
-<ColorPicker label="Color saturation and brightness" x={x} y={y} />
+<ColorPicker
+  label="Color saturation and brightness"
+  x="{x}"
+  y="{y}"
+/>
 ```
 
 ## Keyboard Interactions
@@ -63,14 +67,11 @@ This component is useful for advanced color pickers where the user needs fine-gr
 
 This headless ColorPicker component provides a `<div>` with `role="slider"`, `aria-valuenow`/`aria-valuemin`/`aria-valuemax` for ARIA compliance, keyboard navigation with arrow keys (and Shift for larger steps), and `data-x`/`data-y` attributes for cursor positioning. The consumer provides all visual styling including the color gradient background, cursor indicator, border, and dimensions.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.color-picker` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `color-picker`
 - Verify role="slider"` -- identifies the element as a slider control

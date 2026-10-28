@@ -23,9 +23,20 @@ PrathetThaiLekPrajamTuaPrachachonInput is a headless input for entering Thailand
 ## Usage
 
 ```html
-<Field label="เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)" required>
-  <PrathetThaiLekPrajamTuaPrachachonInput label="เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)" value={value} required />
-  <Hint>Thirteen digits. Digit 1 denotes registration category; digits 2-5 denote the district/province office of registration; digits 6-10 form a serial number; digit 11 is a Modulus-11 check digit computed over the first ten digits; digits 12-13 are further disambiguating digits.</Hint>
+<Field
+  label="เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)"
+  required
+>
+  <PrathetThaiLekPrajamTuaPrachachonInput
+    label="เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)"
+    value="{value}"
+    required
+  />
+  <Hint
+    >Thirteen digits. Digit 1 denotes registration category; digits 2-5 denote the district/province
+    office of registration; digits 6-10 form a serial number; digit 11 is a Modulus-11 check digit
+    computed over the first ten digits; digits 12-13 are further disambiguating digits.</Hint
+  >
   <ErrorMessage>Please enter a valid เลขประจำตัวประชาชน</ErrorMessage>
 </Field>
 ```

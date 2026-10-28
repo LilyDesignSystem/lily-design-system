@@ -120,10 +120,7 @@ export async function onRequest(context) {
   const lang = /(?:^|; )locale=([^;]+)/.exec(cookie)?.[1] ?? "en";
   const dir = RTL.test(lang) ? "rtl" : "ltr";
   const html = await response.text();
-  return new Response(
-    html.replaceAll("__LANG__", lang).replaceAll("__DIR__", dir),
-    response,
-  );
+  return new Response(html.replaceAll("__LANG__", lang).replaceAll("__DIR__", dir), response);
 }
 ```
 

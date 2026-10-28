@@ -28,11 +28,11 @@ A text input with at-mention autocomplete suggestions. Renders a wrapper `<div>`
 
 ```vue
 <MentionsInput
-    label="Reply"
-    :value="text"
-    :expanded="showSuggestions"
-    placeholder="Type @ to mention someone…"
-    @input="onInput"
+  label="Reply"
+  :value="text"
+  :expanded="showSuggestions"
+  placeholder="Type @ to mention someone…"
+  @input="onInput"
 >
     <ul role="listbox">
         <li role="option">alice</li>

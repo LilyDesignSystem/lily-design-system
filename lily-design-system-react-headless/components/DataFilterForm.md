@@ -21,8 +21,13 @@ The component prevents default form submission behavior, allowing the consumer's
 ## Usage
 
 ```tsx
-<DataFilterForm label="Filter results" onSubmit={applyFilters}>
-  <label>Category <select>...</select></label>
+<DataFilterForm
+  label="Filter results"
+  onSubmit={applyFilters}
+>
+  <label>
+    Category <select>...</select>
+  </label>
   <button type="submit">Apply</button>
 </DataFilterForm>
 ```

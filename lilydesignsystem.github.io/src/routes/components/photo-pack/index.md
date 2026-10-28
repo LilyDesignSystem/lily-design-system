@@ -23,9 +23,18 @@ This headless component uses a `<div>` element with `role="group"` and `aria-lab
 
 ```html
 <PhotoPack label="Construction progress photos, March 2026">
-  <FeaturePhoto src="/photo1.jpg" alt="Foundation work" />
-  <FeaturePhoto src="/photo2.jpg" alt="Steel framework" />
-  <FeaturePhoto src="/photo3.jpg" alt="Exterior cladding" />
+  <FeaturePhoto
+    src="/photo1.jpg"
+    alt="Foundation work"
+  />
+  <FeaturePhoto
+    src="/photo2.jpg"
+    alt="Steel framework"
+  />
+  <FeaturePhoto
+    src="/photo3.jpg"
+    alt="Exterior cladding"
+  />
 </PhotoPack>
 ```
 
@@ -48,10 +57,22 @@ This headless component uses a `<div>` element with `role="group"` and `aria-lab
 
 ```html
 <PhotoPack label="Staff award ceremony highlights">
-  <FeaturePhoto src="/award1.jpg" alt="Dr. Patel receiving the innovation award" />
-  <FeaturePhoto src="/award2.jpg" alt="Nursing team group photo on stage" />
-  <FeaturePhoto src="/award3.jpg" alt="Chief executive addressing the audience" />
-  <FeaturePhoto src="/award4.jpg" alt="Award recipients with certificates" />
+  <FeaturePhoto
+    src="/award1.jpg"
+    alt="Dr. Patel receiving the innovation award"
+  />
+  <FeaturePhoto
+    src="/award2.jpg"
+    alt="Nursing team group photo on stage"
+  />
+  <FeaturePhoto
+    src="/award3.jpg"
+    alt="Chief executive addressing the audience"
+  />
+  <FeaturePhoto
+    src="/award4.jpg"
+    alt="Award recipients with certificates"
+  />
 </PhotoPack>
 ```
 

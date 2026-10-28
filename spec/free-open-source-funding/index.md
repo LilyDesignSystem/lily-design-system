@@ -44,11 +44,11 @@ the promotion plan ([help/outreach](../../help/outreach/index.md)).
 
 ## Channels
 
-| Channel | State | Notes |
-| --- | --- | --- |
-| [GitHub Sponsors](https://github.com/sponsors/joelparkerhenderson) | **Live** | Recurring + one-time; surfaced by the Sponsor button via `.github/FUNDING.yml` on all 23 repos |
-| Open Collective | **Planned — maintainer action required** | See below; slug `lily-design-system` is free (checked 2026-08-28) |
-| Invoiced contract work | Ad hoc | Email <joel@joelparkerhenderson.com>; not sponsorship |
+| Channel                                                            | State                                    | Notes                                                                                          |
+| ------------------------------------------------------------------ | ---------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| [GitHub Sponsors](https://github.com/sponsors/joelparkerhenderson) | **Live**                                 | Recurring + one-time; surfaced by the Sponsor button via `.github/FUNDING.yml` on all 23 repos |
+| Open Collective                                                    | **Planned — maintainer action required** | See below; slug `lily-design-system` is free (checked 2026-08-28)                              |
+| Invoiced contract work                                             | Ad hoc                                   | Email <joel@joelparkerhenderson.com>; not sponsorship                                          |
 
 ### Setting up Open Collective (the blocked step)
 

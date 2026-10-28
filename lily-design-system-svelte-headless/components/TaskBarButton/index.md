@@ -64,7 +64,10 @@ Import the component and place one or more `TaskBarButton` elements inside a `Ta
 </script>
 
 <TaskBar label="Document actions">
-  <TaskBarButton onclick={() => (saving = true)} disabled={saving}>
+  <TaskBarButton
+    onclick={() => (saving = true)}
+    disabled={saving}
+  >
     {saving ? "Saving…" : "Save"}
   </TaskBarButton>
   <TaskBarButton>Print</TaskBarButton>
@@ -79,7 +82,10 @@ Import the component and place one or more `TaskBarButton` elements inside a `Ta
   let count = $state(0);
 </script>
 
-<TaskBarButton onclick={() => count++} aria-describedby="hint">
+<TaskBarButton
+  onclick={() => count++}
+  aria-describedby="hint"
+>
   Add item ({count})
 </TaskBarButton>
 <span id="hint">Adds one item to the list.</span>

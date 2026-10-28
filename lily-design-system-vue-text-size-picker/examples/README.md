@@ -15,15 +15,15 @@ Every example assumes:
   `position: absolute`), or an open dropdown shoves the page around.
   The package ships no CSS.
 
-| #   | File                                                | Demonstrates                                                                            |
-| --- | ---------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| 1   | [`basic.vue`](./basic.vue)                           | Minimal four-size picker, plus the `.text-size-picker-status` live region every consumer should ship. |
-| 2   | [`two-way-binding.vue`](./two-way-binding.vue)       | `v-model:value` and `@change`.                                                           |
-| 3   | [`persistence.vue`](./persistence.vue)               | `localStorage` survival across reloads.                                                  |
-| 4   | [`custom-labels.vue`](./custom-labels.vue)           | `sizeLabels` for i18n / display names.                                                   |
-| 5   | [`custom-rendering.vue`](./custom-rendering.vue)     | Custom button glyph via the default scoped slot (the conventional two-size "A A" affordance). |
-| 6   | [`multiple-pickers.vue`](./multiple-pickers.vue)     | Two pickers in one page via `name` and per-picker `target`.                              |
-| 7   | [`external-buttons.vue`](./external-buttons.vue)     | Driving the picker from your own preset buttons via `v-model:value` and `sizeName`.       |
+| #   | File                                             | Demonstrates                                                                                          |
+| --- | ------------------------------------------------ | ----------------------------------------------------------------------------------------------------- |
+| 1   | [`basic.vue`](./basic.vue)                       | Minimal four-size picker, plus the `.text-size-picker-status` live region every consumer should ship. |
+| 2   | [`two-way-binding.vue`](./two-way-binding.vue)   | `v-model:value` and `@change`.                                                                        |
+| 3   | [`persistence.vue`](./persistence.vue)           | `localStorage` survival across reloads.                                                               |
+| 4   | [`custom-labels.vue`](./custom-labels.vue)       | `sizeLabels` for i18n / display names.                                                                |
+| 5   | [`custom-rendering.vue`](./custom-rendering.vue) | Custom button glyph via the default scoped slot (the conventional two-size "A A" affordance).         |
+| 6   | [`multiple-pickers.vue`](./multiple-pickers.vue) | Two pickers in one page via `name` and per-picker `target`.                                           |
+| 7   | [`external-buttons.vue`](./external-buttons.vue) | Driving the picker from your own preset buttons via `v-model:value` and `sizeName`.                   |
 
 ## Running the examples
 
@@ -55,7 +55,11 @@ By default the component renders an icon button that opens a listbox:
 
 ```html
 <div class="text-size-picker">
-  <input type="hidden" name="text-size" value="medium" />
+  <input
+    type="hidden"
+    name="text-size"
+    value="medium"
+  />
   <button
     type="button"
     class="text-size-picker-button"
@@ -64,7 +68,11 @@ By default the component renders an icon button that opens a listbox:
     aria-expanded="false"
     aria-controls="text-size-picker-1-list"
   >
-    <span class="text-size-picker-icon" aria-hidden="true">A</span>
+    <span
+      class="text-size-picker-icon"
+      aria-hidden="true"
+      >A</span
+    >
   </button>
   <ul
     class="text-size-picker-list"

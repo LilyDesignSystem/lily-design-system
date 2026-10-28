@@ -24,15 +24,25 @@ This component renders the structural markup and ARIA attributes for a custom sc
 ## Usage
 
 ```tsx
-{/* Vertical scrollbar */}
-<ScrollBar orientation="vertical" label="Page scroll">
+{
+  /* Vertical scrollbar */
+}
+<ScrollBar
+  orientation="vertical"
+  label="Page scroll"
+>
   <div>{/* thumb element */}</div>
-</ScrollBar>
+</ScrollBar>;
 
-{/* Horizontal scrollbar */}
-<ScrollBar orientation="horizontal" label="Timeline scroll">
+{
+  /* Horizontal scrollbar */
+}
+<ScrollBar
+  orientation="horizontal"
+  label="Timeline scroll"
+>
   <div>{/* thumb element */}</div>
-</ScrollBar>
+</ScrollBar>;
 ```
 
 ## Keyboard Interactions

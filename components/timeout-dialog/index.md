@@ -19,20 +19,25 @@ Common in services that hold sensitive data (banking, government, healthcare) wh
 
 ## Props
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `title` | string (required) | — | Dialog heading |
-| `open` | boolean | false | Whether the dialog is open; bindable |
-| `remainingSeconds` | number (required) | — | Seconds remaining before timeout |
-| `onExtend` | callback | — | Fired when the user chooses to stay signed in |
-| `onSignOut` | callback | — | Fired when the user chooses to sign out now |
-| `...restProps` | HTML attributes | — | Spread onto the root `<dialog>` |
+| Prop               | Type              | Default | Description                                   |
+| ------------------ | ----------------- | ------- | --------------------------------------------- |
+| `title`            | string (required) | —       | Dialog heading                                |
+| `open`             | boolean           | false   | Whether the dialog is open; bindable          |
+| `remainingSeconds` | number (required) | —       | Seconds remaining before timeout              |
+| `onExtend`         | callback          | —       | Fired when the user chooses to stay signed in |
+| `onSignOut`        | callback          | —       | Fired when the user chooses to sign out now   |
+| `...restProps`     | HTML attributes   | —       | Spread onto the root `<dialog>`               |
 
 ## Usage
 
 ```html
-<TimeoutDialog title="You are about to be signed out" open={isOpen} remainingSeconds={120}
-  onExtend={extendSession} onSignOut={signOutNow} />
+<TimeoutDialog
+  title="You are about to be signed out"
+  open="{isOpen}"
+  remainingSeconds="{120}"
+  onExtend="{extendSession}"
+  onSignOut="{signOutNow}"
+/>
 ```
 
 ## Keyboard Interactions

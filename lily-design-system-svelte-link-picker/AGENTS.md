@@ -10,15 +10,15 @@ the one bundled asset is the default button icon.
 
 ## Files
 
-| File | Purpose |
-| ---- | ------- |
-| `spec/index.md` | Specification-driven contract (canonical). |
-| `LinkPicker.svelte` | Implementation. Svelte 5 runes + TypeScript. |
-| `LinkPicker.test.ts` | Vitest spec, mapped to the §7 clauses. |
-| `index.ts` | Barrel re-export. |
-| `index.md` | User guide. |
-| `docs/accessibility.md` | Tradeoffs, stated plainly. |
-| `examples/` | Home / About Us / Contact Us / Privacy Policy, plus a SvelteKit `navigate` example. |
+| File                    | Purpose                                                                             |
+| ----------------------- | ----------------------------------------------------------------------------------- |
+| `spec/index.md`         | Specification-driven contract (canonical).                                          |
+| `LinkPicker.svelte`     | Implementation. Svelte 5 runes + TypeScript.                                        |
+| `LinkPicker.test.ts`    | Vitest spec, mapped to the §7 clauses.                                              |
+| `index.ts`              | Barrel re-export.                                                                   |
+| `index.md`              | User guide.                                                                         |
+| `docs/accessibility.md` | Tradeoffs, stated plainly.                                                          |
+| `examples/`             | Home / About Us / Contact Us / Privacy Policy, plus a SvelteKit `navigate` example. |
 
 ## Public surface
 

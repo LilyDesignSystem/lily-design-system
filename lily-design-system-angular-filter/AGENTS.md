@@ -10,14 +10,14 @@ MongoDB, OData or a predicate. Ships no CSS and no English text. Bind with `[(va
 
 ## Files
 
-| File | Purpose |
-| ---- | ------- |
-| `filter.component.ts` | The component (selector `lily-filter`). |
-| `filter-group-view.component.ts` | One group, recursively. |
-| `filter-host.ts` | The labels type, the `FilterHost` token and small helpers. |
-| `filter.component.spec.ts` | Vitest spec, one test per Svelte §8 clause. |
-| `filter-model.ts`, `search-text.ts` (+ tests) | Pure model, copied from `shared/`. |
-| `index.ts` | Public API. |
+| File                                          | Purpose                                                    |
+| --------------------------------------------- | ---------------------------------------------------------- |
+| `filter.component.ts`                         | The component (selector `lily-filter`).                    |
+| `filter-group-view.component.ts`              | One group, recursively.                                    |
+| `filter-host.ts`                              | The labels type, the `FilterHost` token and small helpers. |
+| `filter.component.spec.ts`                    | Vitest spec, one test per Svelte §8 clause.                |
+| `filter-model.ts`, `search-text.ts` (+ tests) | Pure model, copied from `shared/`.                         |
+| `index.ts`                                    | Public API.                                                |
 
 ## Rules
 

@@ -8,7 +8,6 @@ A disclosure for an AI assistant reasoning trace, built on native details. Close
 - `params.attributes` is spread onto the root element
 - Port of the Svelte canonical (`lily-design-system-svelte-headless`)
 
-
 ## Props
 
 - `label` (required): summary text

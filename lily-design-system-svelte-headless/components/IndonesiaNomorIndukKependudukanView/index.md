@@ -21,7 +21,9 @@ IndonesiaNomorIndukKependudukanView is a headless placeholder component, generat
 ## Usage
 
 ```html
-<IndonesiaNomorIndukKependudukanView label="IndonesiaNomorIndukKependudukanView example">Content</IndonesiaNomorIndukKependudukanView>
+<IndonesiaNomorIndukKependudukanView label="IndonesiaNomorIndukKependudukanView example"
+  >Content</IndonesiaNomorIndukKependudukanView
+>
 ```
 
 ## Keyboard Interactions

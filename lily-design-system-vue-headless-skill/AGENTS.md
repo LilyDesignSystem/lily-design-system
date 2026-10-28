@@ -36,7 +36,7 @@ rules the library's own components are held to.
 
 ## What this subproject is, and isn't
 
-- **Is**: a distributable skill scoped to *consuming*
+- **Is**: a distributable skill scoped to _consuming_
   `@lilydesignsystem/vue-headless` from a Vue 3 application — install,
   import, class binding, attribute fallthrough, slots, `v-model`.
 - **Isn't**: the Vue headless library itself (that's

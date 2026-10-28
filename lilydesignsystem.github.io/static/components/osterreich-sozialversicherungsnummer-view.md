@@ -22,7 +22,10 @@ OsterreichSozialversicherungsnummerView is a headless read-only display of Austr
 ```html
 <SummaryList>
   <SummaryListItem term="Sozialversicherungsnummer (SVNR)">
-    <OsterreichSozialversicherungsnummerView label="Sozialversicherungsnummer (SVNR)" value={value} />
+    <OsterreichSozialversicherungsnummerView
+      label="Sozialversicherungsnummer (SVNR)"
+      value="{value}"
+    />
   </SummaryListItem>
 </SummaryList>
 ```

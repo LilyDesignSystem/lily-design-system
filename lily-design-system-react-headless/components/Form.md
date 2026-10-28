@@ -21,7 +21,10 @@ A form component wraps a native HTML `<form>` element with accessible labeling, 
 ## Usage
 
 ```tsx
-<Form label="Login" onSubmit={handleLogin}>
+<Form
+  label="Login"
+  onSubmit={handleLogin}
+>
   <input name="email" />
   <button type="submit">Sign in</button>
 </Form>

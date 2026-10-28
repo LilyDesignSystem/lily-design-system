@@ -27,22 +27,56 @@ The component manages the input value and dropdown open state as bindable props,
 Country selector with type-ahead filtering:
 
 ```html
-<Combobox label="Select country" value={country} open={countryOpen}>
-    <div role="option" tabindex="-1" onclick={() => { country = 'United Kingdom'; countryOpen = false; }}>United Kingdom</div>
-    <div role="option" tabindex="-1" onclick={() => { country = 'United States'; countryOpen = false; }}>United States</div>
-    <div role="option" tabindex="-1" onclick={() => { country = 'France'; countryOpen = false; }}>France</div>
+<Combobox
+  label="Select country"
+  value="{country}"
+  open="{countryOpen}"
+>
+  <div
+    role="option"
+    tabindex="-1"
+    onclick="{()"
+    =""
+  >
+    { country = 'United Kingdom'; countryOpen = false; }}>United Kingdom
+  </div>
+  <div
+    role="option"
+    tabindex="-1"
+    onclick="{()"
+    =""
+  >
+    { country = 'United States'; countryOpen = false; }}>United States
+  </div>
+  <div
+    role="option"
+    tabindex="-1"
+    onclick="{()"
+    =""
+  >
+    { country = 'France'; countryOpen = false; }}>France
+  </div>
 </Combobox>
 ```
 
 Medication picker with dynamic filtering:
 
 ```html
-<Combobox label="Search medications" value={medQuery} open={medOpen}>
-    {#each filteredMedications as med}
-        <div role="option" tabindex="-1" onclick={() => { medQuery = med.name; medOpen = false; }}>
-            {med.name} ({med.dosage})
-        </div>
-    {/each}
+<Combobox
+  label="Search medications"
+  value="{medQuery}"
+  open="{medOpen}"
+>
+  {#each filteredMedications as med}
+  <div
+    role="option"
+    tabindex="-1"
+    onclick="{()"
+    =""
+  >
+    { medQuery = med.name; medOpen = false; }}> {med.name} ({med.dosage})
+  </div>
+  {/each}
 </Combobox>
 ```
 
@@ -77,17 +111,14 @@ Medication picker with dynamic filtering:
 
 This headless Combobox component provides an `<input>` with `role="combobox"`, `aria-expanded`, `aria-controls`, and `aria-autocomplete="list"`, paired with a conditionally rendered `role="listbox"` dropdown. The consumer provides all visual styling including input appearance, dropdown positioning, option highlighting, loading indicators, and animations.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.combobox` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
 
-
 - Verify the component renders a `<div>` element with class `combobox`
-- Verify role="combobox"` -- on the `<input>`, identifies it as a combobox widget.
+- Verify role="combobox"`-- on the`<input>`, identifies it as a combobox widget.
 - Verify aria-label` -- provides an accessible name for both the input and the listbox.
 - Verify role="listbox"` -- on the dropdown container, identifies it as a list of selectable options.
 - Verify keyboard interactions work correctly

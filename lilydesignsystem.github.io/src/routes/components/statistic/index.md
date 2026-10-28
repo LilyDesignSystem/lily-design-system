@@ -29,11 +29,20 @@ prominent number must be paired with a short label.
 ## Usage
 
 ```html
-<Statistic title="Active users" value="12,345" suffix="users" />
+<Statistic
+  title="Active users"
+  value="12,345"
+  suffix="users"
+/>
 ```
 
 ```html
-<Statistic title="Revenue" value="2,400" prefix="$" suffix="K" />
+<Statistic
+  title="Revenue"
+  value="2,400"
+  prefix="$"
+  suffix="K"
+/>
 ```
 
 ```html

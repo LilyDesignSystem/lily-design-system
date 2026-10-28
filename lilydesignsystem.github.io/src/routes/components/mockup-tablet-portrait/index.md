@@ -23,7 +23,10 @@ Basic tablet portrait mockup:
 
 ```html
 <MockupTabletPortrait label="Reading app in portrait mode">
-  <Image src="reader-portrait.png" alt="Reading app screenshot in portrait" />
+  <image
+    src="reader-portrait.png"
+    alt="Reading app screenshot in portrait"
+  />
 </MockupTabletPortrait>
 ```
 
@@ -32,7 +35,10 @@ Tablet portrait mockup for an e-commerce product page:
 ```html
 <MockupTabletPortrait label="Online store product page on tablet">
   <div class="product-page">
-    <Image src="product-photo.jpg" alt="Running shoes product photo" />
+    <image
+      src="product-photo.jpg"
+      alt="Running shoes product photo"
+    />
     <h2>Trail Runner Pro</h2>
     <p>$129.99</p>
     <button>Add to Cart</button>
@@ -45,10 +51,16 @@ Tablet portrait mockup in a responsive design showcase:
 ```html
 <div class="responsive-showcase">
   <MockupPhonePortrait label="Mobile view of the news feed">
-    <Image src="news-phone.png" alt="News feed on phone" />
+    <image
+      src="news-phone.png"
+      alt="News feed on phone"
+    />
   </MockupPhonePortrait>
   <MockupTabletPortrait label="Tablet portrait view of the news feed">
-    <Image src="news-tablet.png" alt="News feed on tablet in portrait" />
+    <image
+      src="news-tablet.png"
+      alt="News feed on tablet in portrait"
+    />
   </MockupTabletPortrait>
 </div>
 ```

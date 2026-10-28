@@ -26,15 +26,15 @@ and persists nothing. No `localStorage`, no `data-*` on `<html>`.
 
 ## Files
 
-| File | Purpose |
-| ---- | ------- |
-| `spec/index.md` | Specification-driven contract (canonical). |
-| `date-time-picker.component.ts` | Implementation. Standalone, signal-based, OnPush. |
+| File                                 | Purpose                                           |
+| ------------------------------------ | ------------------------------------------------- |
+| `spec/index.md`                      | Specification-driven contract (canonical).        |
+| `date-time-picker.component.ts`      | Implementation. Standalone, signal-based, OnPush. |
 | `date-time-picker.component.spec.ts` | Vitest spec, mapped to the §7 clauses (67 tests). |
-| `docs/accessibility.md` | Tradeoffs, stated plainly. |
-| `examples/` | Runnable standalone example components. |
-| `index.ts` | Barrel re-export. |
-| `index.md` | User guide. |
+| `docs/accessibility.md`              | Tradeoffs, stated plainly.                        |
+| `examples/`                          | Runnable standalone example components.           |
+| `index.ts`                           | Barrel re-export.                                 |
+| `index.md`                           | User guide.                                       |
 
 ## Public surface
 
@@ -58,7 +58,7 @@ Required inputs: `label`, `labels`. Full table in
 
 The value is an ISO string shaped by `mode`: `YYYY-MM-DD`, `HH:MM`, or
 `YYYY-MM-DDTHH:MM`, held in the `value` `model()` (`[(value)]`). Selection
-inside the dialog writes to *pending* signals; only Confirm — or a day
+inside the dialog writes to _pending_ signals; only Confirm — or a day
 click when `confirmOnSelect` (default: date-only mode) — writes to
 `value` and fires `(change)`. Cancel, Escape and click-outside close
 without committing. Typed text resolves on blur or Enter through

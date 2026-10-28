@@ -9,7 +9,7 @@ A reusable React 19 headless interactive Gantt chart. It composes
 `@lilydesignsystem/react-headless`'s `GanttTable` family (a real npm
 dependency, unmodified — task bars are column-spanning grid cells,
 never pixel-positioned floating divs) and, for the first time among
-this catalog's React helpers, a sibling *helper* rather than only
+this catalog's React helpers, a sibling _helper_ rather than only
 headless components: `@lilydesignsystem/react-date-time-picker`, used
 twice per edit session (start date, end date) as the keyboard-
 accessible way to reschedule or resize a task. Ships no CSS.
@@ -21,13 +21,13 @@ see [spec/helpers/index.md § gantt-chart contract](../spec/helpers/index.md).
 
 ## Files
 
-| File                 | Purpose                                                |
-| -------------------- | ------------------------------------------------------- |
-| `spec/index.md`      | Specification-driven contract (canonical).             |
-| `GanttChart.tsx`     | Implementation. TypeScript + React 19 hooks.            |
-| `GanttChart.test.tsx`| Vitest spec, one or more assertions per §8 acceptance. |
-| `index.ts`           | Barrel re-export.                                       |
-| `index.md`           | User guide.                                             |
+| File                  | Purpose                                                |
+| --------------------- | ------------------------------------------------------ |
+| `spec/index.md`       | Specification-driven contract (canonical).             |
+| `GanttChart.tsx`      | Implementation. TypeScript + React 19 hooks.           |
+| `GanttChart.test.tsx` | Vitest spec, one or more assertions per §8 acceptance. |
+| `index.ts`            | Barrel re-export.                                      |
+| `index.md`            | User guide.                                            |
 
 ## Public surface
 

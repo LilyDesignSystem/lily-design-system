@@ -60,9 +60,17 @@ text-presentation face ahead of the emoji font.
 inline SVG via the `children` render prop:
 
 ```tsx
-<LocalePicker label="Language" locales={locales}>
+<LocalePicker
+  label="Language"
+  locales={locales}
+>
   {() => (
-    <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20">
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      width="20"
+      height="20"
+    >
       …
     </svg>
   )}

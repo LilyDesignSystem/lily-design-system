@@ -15,30 +15,42 @@ A vertical single-select listbox where the selection follows the cursor, in the 
 
 ## Props
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `class` | string | `""` | Appended to the base class |
-| `label` | string (required) | — | Accessible name |
-| `options` | `{ value, label, disabled? }[]` (required) | — | The choices |
-| `value` | string | `""` | The chosen option's value. Bindable; empty or unknown chooses nothing |
-| `loop` | boolean | `false` | Arrow keys wrap from the last enabled option to the first and back |
-| `pageSize` | number | `5` | Enabled options PageUp / PageDown move by |
-| `disabled` | boolean | `false` | Not focusable; ignores keys and clicks |
-| `name` | string | — | Adds a hidden input carrying the value |
-| `onChange` | `(value) => void` | — | Once per change |
-| `...restProps` | HTML attributes | — | Spread onto the root `<div>` |
+| Prop           | Type                                       | Default | Description                                                           |
+| -------------- | ------------------------------------------ | ------- | --------------------------------------------------------------------- |
+| `class`        | string                                     | `""`    | Appended to the base class                                            |
+| `label`        | string (required)                          | —       | Accessible name                                                       |
+| `options`      | `{ value, label, disabled? }[]` (required) | —       | The choices                                                           |
+| `value`        | string                                     | `""`    | The chosen option's value. Bindable; empty or unknown chooses nothing |
+| `loop`         | boolean                                    | `false` | Arrow keys wrap from the last enabled option to the first and back    |
+| `pageSize`     | number                                     | `5`     | Enabled options PageUp / PageDown move by                             |
+| `disabled`     | boolean                                    | `false` | Not focusable; ignores keys and clicks                                |
+| `name`         | string                                     | —       | Adds a hidden input carrying the value                                |
+| `onChange`     | `(value) => void`                          | —       | Once per change                                                       |
+| `...restProps` | HTML attributes                            | —       | Spread onto the root `<div>`                                          |
 
 ## Usage
 
 ```svelte
-<WheelPicker label="Month" options={months} bind:value={month} />
+<WheelPicker
+  label="Month"
+  options={months}
+  bind:value={month}
+/>
 ```
 
 ```css
 /* consumer CSS: the 57 themes already do this */
-.wheel-picker-list { max-block-size: 10em; overflow-y: auto; scroll-snap-type: y mandatory; }
-.wheel-picker-option { scroll-snap-align: center; }
-.wheel-picker-option[aria-selected="true"] { font-weight: 600; }
+.wheel-picker-list {
+  max-block-size: 10em;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+}
+.wheel-picker-option {
+  scroll-snap-align: center;
+}
+.wheel-picker-option[aria-selected="true"] {
+  font-weight: 600;
+}
 ```
 
 ## Per-library notes
@@ -50,13 +62,13 @@ A vertical single-select listbox where the selection follows the cursor, in the 
 
 ## Keyboard Interactions
 
-| Key | Action |
-| --- | ------ |
-| ArrowDown / ArrowUp | Choose the next / previous enabled option (wrap only with `loop`) |
-| Home / End | Choose the first / last enabled option |
-| PageDown / PageUp | Move by `pageSize` enabled options, clamped |
-| A printable character | Type-ahead over the labels |
-| Tab | Leave the control |
+| Key                   | Action                                                            |
+| --------------------- | ----------------------------------------------------------------- |
+| ArrowDown / ArrowUp   | Choose the next / previous enabled option (wrap only with `loop`) |
+| Home / End            | Choose the first / last enabled option                            |
+| PageDown / PageUp     | Move by `pageSize` enabled options, clamped                       |
+| A printable character | Type-ahead over the labels                                        |
+| Tab                   | Leave the control                                                 |
 
 ## ARIA
 

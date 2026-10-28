@@ -70,14 +70,11 @@ None -- this component is a passive container. Keyboard navigation is handled by
 
 This component provides a semantic `<tbody>` element with implicit `rowgroup` role and zero visual styling. The consumer is responsible for all CSS including row spacing, cell layout, and any visual distinction between the body and header/footer sections.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.calendar-table-body` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<tbody>` element with class `calendar-table-body`
 - Verify pass-through attributes are applied

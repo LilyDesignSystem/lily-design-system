@@ -29,13 +29,21 @@ identifiers that span a page or region.
 ## Usage
 
 ```html
-<Watermark text="DRAFT" rotate={-22} gap="120px">
+<Watermark
+  text="DRAFT"
+  rotate="{-22}"
+  gap="120px"
+>
   <article>...</article>
 </Watermark>
 ```
 
 ```html
-<Watermark imageUrl="/brand.svg" rotate={0} gap="200px">
+<Watermark
+  imageUrl="/brand.svg"
+  rotate="{0}"
+  gap="200px"
+>
   <main>...</main>
 </Watermark>
 ```

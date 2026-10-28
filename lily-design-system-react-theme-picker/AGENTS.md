@@ -11,13 +11,13 @@ no CSS; consumer styles the `theme-picker` class hook.
 
 ## Files
 
-| File                    | Purpose                                       |
-| ----------------------- | --------------------------------------------- |
-| `spec/index.md`         | Specification-driven contract (canonical).    |
+| File                   | Purpose                                       |
+| ---------------------- | --------------------------------------------- |
+| `spec/index.md`        | Specification-driven contract (canonical).    |
 | `ThemePicker.tsx`      | Implementation. TypeScript + React 19 hooks.  |
 | `ThemePicker.test.tsx` | Vitest spec, one assertion per §7 acceptance. |
-| `index.ts`              | Barrel re-export.                             |
-| `index.md`              | User guide.                                   |
+| `index.ts`             | Barrel re-export.                             |
+| `index.md`             | User guide.                                   |
 
 ## Public surface
 
@@ -34,8 +34,8 @@ no CSS; consumer styles the `theme-picker` class hook.
   `matchMedia` is unavailable (SSR, and jsdom). It mirrors
   `matchNavigatorLanguage` in locale-picker and backs the
   `detectFromSystem` prop.
-No glyph constant — the default icon is a bundled SVG, not a Unicode
-character (reversed 2026-09-16).
+  No glyph constant — the default icon is a bundled SVG, not a Unicode
+  character (reversed 2026-09-16).
 
 Required props: `label`, `themesUrl`, `themes`. Optional `children` is a
 render prop that replaces the icon inside the button and receives
@@ -60,8 +60,15 @@ returns focus to the button when a selection or `Escape` closes the list.
 ## HTML
 
 ```html
-<div class="theme-picker {className}" ...restProps>
-  <input type="hidden" name="{name}" value="{value}" />
+<div
+  class="theme-picker {className}"
+  ...restProps
+>
+  <input
+    type="hidden"
+    name="{name}"
+    value="{value}"
+  />
   <button
     type="button"
     class="theme-picker-button"
@@ -70,7 +77,27 @@ returns focus to the button when a selection or `Escape` closes the list.
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>
+    <svg
+      class="theme-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle
+        cx="8"
+        cy="8"
+        r="6"
+      />
+      <path
+        d="M8 2a6 6 0 0 1 0 12z"
+        fill="currentColor"
+        stroke="none"
+      />
+    </svg>
   </button>
   <ul
     class="theme-picker-list"

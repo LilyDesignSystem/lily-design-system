@@ -22,7 +22,10 @@ MagyarorszagTajSzamView is a headless read-only display of Hungary's Társadalom
 ```html
 <SummaryList>
   <SummaryListItem term="Társadalombiztosítási Azonosító Jel (TAJ)">
-    <MagyarorszagTajSzamView label="Társadalombiztosítási Azonosító Jel (TAJ)" value={value} />
+    <MagyarorszagTajSzamView
+      label="Társadalombiztosítási Azonosító Jel (TAJ)"
+      value="{value}"
+    />
   </SummaryListItem>
 </SummaryList>
 ```

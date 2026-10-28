@@ -24,7 +24,10 @@ Use ThemeSelectOption for individual theme choices within a ThemeSelect dropdown
 Basic theme options inside a ThemeSelect:
 
 ```html
-<ThemeSelect label="Theme" value={theme}>
+<ThemeSelect
+  label="Theme"
+  value="{theme}"
+>
   <ThemeSelectOption value="light">Light</ThemeSelectOption>
   <ThemeSelectOption value="dark">Dark</ThemeSelectOption>
 </ThemeSelect>
@@ -33,8 +36,15 @@ Basic theme options inside a ThemeSelect:
 With a disabled placeholder option:
 
 ```html
-<ThemeSelect label="Theme" value={theme}>
-  <ThemeSelectOption value="" disabled>Choose a theme...</ThemeSelectOption>
+<ThemeSelect
+  label="Theme"
+  value="{theme}"
+>
+  <ThemeSelectOption
+    value=""
+    disabled
+    >Choose a theme...</ThemeSelectOption
+  >
   <ThemeSelectOption value="light">Light</ThemeSelectOption>
   <ThemeSelectOption value="dark">Dark</ThemeSelectOption>
   <ThemeSelectOption value="high-contrast">High Contrast</ThemeSelectOption>
@@ -44,7 +54,10 @@ With a disabled placeholder option:
 With system default as the first selectable option:
 
 ```html
-<ThemeSelect label="Appearance" value={theme}>
+<ThemeSelect
+  label="Appearance"
+  value="{theme}"
+>
   <ThemeSelectOption value="system">System Default</ThemeSelectOption>
   <ThemeSelectOption value="light">Light</ThemeSelectOption>
   <ThemeSelectOption value="dark">Dark</ThemeSelectOption>
@@ -57,7 +70,7 @@ With system default as the first selectable option:
 | -------------- | --------------- | ---------- | -------------------------------------------------------- |
 | `value`        | `string`        | `""`       | The value submitted when this option is selected         |
 | `disabled`     | `boolean`       | `false`    | Whether this option is disabled                          |
-| `children`     | `slot`       | (required) | Display text for the option                              |
+| `children`     | `slot`          | (required) | Display text for the option                              |
 | `...restProps` | HTML attributes |            | Additional attributes spread onto the `<option>` element |
 
 ## Examples
@@ -65,8 +78,15 @@ With system default as the first selectable option:
 With disabled option:
 
 ```html
-<ThemeSelect label="Theme" value={value}>
-  <ThemeSelectOption value="" disabled>Choose a theme...</ThemeSelectOption>
+<ThemeSelect
+  label="Theme"
+  value="{value}"
+>
+  <ThemeSelectOption
+    value=""
+    disabled
+    >Choose a theme...</ThemeSelectOption
+  >
   <ThemeSelectOption value="light">Light</ThemeSelectOption>
   <ThemeSelectOption value="dark">Dark</ThemeSelectOption>
   <ThemeSelectOption value="high-contrast">High Contrast</ThemeSelectOption>
@@ -82,6 +102,7 @@ With disabled option:
 
 - Native `<option>` element provides built-in accessibility semantics
 - `disabled` attribute communicates disabled state to assistive technology
+
 ## When to Use
 
 - Use inside a ThemeSelect to represent one selectable theme option.
@@ -97,14 +118,11 @@ With disabled option:
 
 This headless component provides a native `<option>` element with `value` and `disabled` attributes. Full browser and assistive technology compatibility comes from the native element. The consumer provides the display text as children and all visual styling is handled by the parent select and browser defaults.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.theme-select-option` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<option>` element with class `theme-select-option`
 - Verify keyboard interactions work correctly

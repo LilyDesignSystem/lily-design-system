@@ -30,12 +30,12 @@
 
 ## Props
 
-| Prop           | Type            | Default    | Description                                              |
-| -------------- | --------------- | ---------- | -------------------------------------------------------- |
-| `label`        | `string`        | (required) | Accessible name applied via `aria-label`                 |
-| `pressed`      | `boolean`       | `false`    | Whether the toggle is on; bindable with two-way `pressed` binding   |
-| `disabled`     | `boolean`       | `false`    | Whether the toggle is disabled                           |
-| `...restProps` | HTML attributes |            | Additional attributes spread onto the `<button>` element |
+| Prop           | Type            | Default    | Description                                                       |
+| -------------- | --------------- | ---------- | ----------------------------------------------------------------- |
+| `label`        | `string`        | (required) | Accessible name applied via `aria-label`                          |
+| `pressed`      | `boolean`       | `false`    | Whether the toggle is on; bindable with two-way `pressed` binding |
+| `disabled`     | `boolean`       | `false`    | Whether the toggle is disabled                                    |
+| `...restProps` | HTML attributes |            | Additional attributes spread onto the `<button>` element          |
 
 ## Acceptance Criteria
 

@@ -22,7 +22,7 @@ ItaliaCodiceFiscaleView is a headless read-only display of Italy's Codice fiscal
 ```html
 <SummaryList>
   <SummaryListItem term="Italian Fiscal Code">
-    <ItaliaCodiceFiscaleView value={value} />
+    <ItaliaCodiceFiscaleView value="{value}" />
   </SummaryListItem>
 </SummaryList>
 ```

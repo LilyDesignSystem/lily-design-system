@@ -22,7 +22,10 @@ ZhongguoJuminShenfenzhengHaomaView is a headless read-only display of China's �
 ```html
 <SummaryList>
   <SummaryListItem term="居民身份证号码 (Jūmín Shēnfènzhèng Hàomǎ)">
-    <ZhongguoJuminShenfenzhengHaomaView label="居民身份证号码 (Jūmín Shēnfènzhèng Hàomǎ)" value={value} />
+    <ZhongguoJuminShenfenzhengHaomaView
+      label="居民身份证号码 (Jūmín Shēnfènzhèng Hàomǎ)"
+      value="{value}"
+    />
   </SummaryListItem>
 </SummaryList>
 ```

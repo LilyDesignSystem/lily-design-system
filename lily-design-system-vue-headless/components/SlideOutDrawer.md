@@ -40,7 +40,10 @@ closes the drawer.
 
 <button onclick={() => (isOpen = true)}>Open menu</button>
 
-<SlideOutDrawer label="Navigation menu" bind:open={isOpen}>
+<SlideOutDrawer
+  label="Navigation menu"
+  bind:open={isOpen}
+>
   <nav>
     <ul>
       <li><a href="/">Home</a></li>
@@ -63,7 +66,10 @@ Settings panel:
 
 <button onclick={() => (settingsOpen = true)}>Settings</button>
 
-<SlideOutDrawer label="Settings panel" bind:open={settingsOpen}>
+<SlideOutDrawer
+  label="Settings panel"
+  bind:open={settingsOpen}
+>
   <h2>Settings</h2>
   <form>
     <label>

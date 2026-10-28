@@ -30,7 +30,7 @@ these rules without exception.
   an explicit `label` attribute that drives `aria-label`.
 - Plural forms, gendered phrasing, and conditional copy are the
   consumer's concern. Helpers do not embed `count !== 1 ? "items"
-  : "item"` logic; they accept the rendered string.
+: "item"` logic; they accept the rendered string.
 - Right-to-left and bidirectional text are inherited from the
   consumer's `dir` attribute and CSS — helpers do not assume LTR
   layout in their structural HTML. The `locale-picker` helper goes

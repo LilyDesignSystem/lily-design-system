@@ -1,7 +1,7 @@
 # Lily Design System™ — Skill
 
 A Claude Skill ([`SKILL.md`](SKILL.md)) that explains Lily Design System™
-concepts, terminology, and usage patterns to people building *with* it: the
+concepts, terminology, and usage patterns to people building _with_ it: the
 headless-vs-example layers, the 581-component catalog, naming conventions,
 composition patterns, theming, and the seven supported frameworks.
 

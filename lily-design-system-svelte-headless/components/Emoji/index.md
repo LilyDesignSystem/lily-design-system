@@ -28,17 +28,20 @@ Pass the emoji and a descriptive label.
 
 ```svelte
 <script lang="ts">
-    import Emoji from "./Emoji.svelte";
+  import Emoji from "./Emoji.svelte";
 </script>
 
-<Emoji emoji="👍" label="Thumbs up" />
+<Emoji
+  emoji="👍"
+  label="Thumbs up"
+/>
 ```
 
 ## Props
 
 | Prop      | Type      | Default  | Description                              |
 | --------- | --------- | -------- | ---------------------------------------- |
-| `class`   | `string`  | `""`     | CSS class appended to the base class.   |
+| `class`   | `string`  | `""`     | CSS class appended to the base class.    |
 | `emoji`   | `string`  | required | The emoji character(s).                  |
 | `label`   | `string`  | required | Accessible description via `aria-label`. |
 | `...rest` | `unknown` | —        | Additional HTML attributes on the span.  |
@@ -48,20 +51,29 @@ Pass the emoji and a descriptive label.
 ### 1. Thumbs up
 
 ```svelte
-<Emoji emoji="👍" label="Thumbs up" />
+<Emoji
+  emoji="👍"
+  label="Thumbs up"
+/>
 ```
 
 ### 2. Warning symbol
 
 ```svelte
-<Emoji emoji="⚠️" label="Warning" />
+<Emoji
+  emoji="⚠️"
+  label="Warning"
+/>
 ```
 
 ### 3. Inside a button
 
 ```svelte
 <button type="button">
-    <Emoji emoji="🗑️" label="Delete" />
+  <Emoji
+    emoji="🗑️"
+    label="Delete"
+  />
 </button>
 ```
 
@@ -69,19 +81,31 @@ Pass the emoji and a descriptive label.
 
 ```svelte
 <p>
-    Give feedback by tapping
-    <Emoji emoji="😊" label="Happy face" />
-    or
-    <Emoji emoji="😞" label="Sad face" />
-    .
+  Give feedback by tapping
+  <Emoji
+    emoji="😊"
+    label="Happy face"
+  />
+  or
+  <Emoji
+    emoji="😞"
+    label="Sad face"
+  />
+  .
 </p>
 ```
 
 ### 5. Flags with locale-appropriate labels
 
 ```svelte
-<Emoji emoji="🇫🇷" label="France" />
-<Emoji emoji="🇪🇸" label="Spain" />
+<Emoji
+  emoji="🇫🇷"
+  label="France"
+/>
+<Emoji
+  emoji="🇪🇸"
+  label="Spain"
+/>
 ```
 
 ## Accessibility

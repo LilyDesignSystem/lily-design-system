@@ -31,16 +31,16 @@ An email subscription form composition with `idle`, `submitting`, `success`, and
 
 ```vue
 <NewsletterSignup
-    label="Subscribe to newsletter"
-    heading="Stay informed"
-    description="Monthly product updates."
-    email-label="Email address"
-    email-placeholder="you@example.com"
-    submit-label="Subscribe"
-    :state="state"
-    success-message="Thanks for subscribing!"
-    error-message="Something went wrong, please try again."
-    @submit="onSubmit"
+  label="Subscribe to newsletter"
+  heading="Stay informed"
+  description="Monthly product updates."
+  email-label="Email address"
+  email-placeholder="you@example.com"
+  submit-label="Subscribe"
+  :state="state"
+  success-message="Thanks for subscribing!"
+  error-message="Something went wrong, please try again."
+  @submit="onSubmit"
 />
 ```
 

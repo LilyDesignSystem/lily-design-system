@@ -35,12 +35,14 @@ selected value is a path through the hierarchy.
 ```html
 <Cascader
   label="Select location"
-  expanded={isOpen}
-  value={selectedPath}
+  expanded="{isOpen}"
+  value="{selectedPath}"
   placeholder="Choose a region"
-  onclick={togglePanel}
+  onclick="{togglePanel}"
 >
-  <ul role="tree">...</ul>
+  <ul role="tree">
+    ...
+  </ul>
 </Cascader>
 ```
 

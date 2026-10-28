@@ -29,11 +29,22 @@ This component is useful for scheduling interfaces, appointment forms, event pla
 ```
 
 ```tsx
-<TimeInput label="Meeting time" value={meetingTime} onChange={setMeetingTime} required={true} />
+<TimeInput
+  label="Meeting time"
+  value={meetingTime}
+  onChange={setMeetingTime}
+  required={true}
+/>
 ```
 
 ```tsx
-<TimeInput label="Deadline" value={deadline} onChange={setDeadline} min="09:00" max="17:00" />
+<TimeInput
+  label="Deadline"
+  value={deadline}
+  onChange={setDeadline}
+  min="09:00"
+  max="17:00"
+/>
 ```
 
 ## Keyboard Interactions

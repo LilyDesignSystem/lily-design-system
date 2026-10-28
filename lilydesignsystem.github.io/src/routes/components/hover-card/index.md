@@ -26,14 +26,16 @@ Basic hover card with a trigger button:
 
 ```html
 <button
-  onmouseenter={() => open = true}
-  onmouseleave={() => open = false}
-  onfocus={() => open = true}
-  onblur={() => open = false}
+  onmouseenter="{()"
+  =""
 >
-  Hover me
+  open = true} onmouseleave={() => open = false} onfocus={() => open = true} onblur={() => open =
+  false} > Hover me
 </button>
-<HoverCard label="User info" open={open}>
+<HoverCard
+  label="User info"
+  open="{open}"
+>
   <p>Profile details here</p>
 </HoverCard>
 ```
@@ -43,16 +45,21 @@ User profile preview on a username link:
 ```html
 <a
   href="/users/jdoe"
-  onmouseenter={() => profileOpen = true}
-  onmouseleave={() => profileOpen = false}
-  onfocus={() => profileOpen = true}
-  onblur={() => profileOpen = false}
+  onmouseenter="{()"
+  =""
 >
-  @jdoe
+  profileOpen = true} onmouseleave={() => profileOpen = false} onfocus={() => profileOpen = true}
+  onblur={() => profileOpen = false} > @jdoe
 </a>
-<HoverCard label="Profile preview for jdoe" open={profileOpen}>
+<HoverCard
+  label="Profile preview for jdoe"
+  open="{profileOpen}"
+>
   <Avatar label="Jane Doe">
-    <AvatarImage src="/avatars/jdoe.jpg" alt="Jane Doe" />
+    <AvatarImage
+      src="/avatars/jdoe.jpg"
+      alt="Jane Doe"
+    />
   </Avatar>
   <strong>Jane Doe</strong>
   <p>Software Engineer at Acme Corp</p>
@@ -65,15 +72,20 @@ Link preview hover card:
 ```html
 <a
   href="https://example.com/article"
-  onmouseenter={() => linkPreviewOpen = true}
-  onmouseleave={() => linkPreviewOpen = false}
-  onfocus={() => linkPreviewOpen = true}
-  onblur={() => linkPreviewOpen = false}
+  onmouseenter="{()"
+  =""
 >
-  Understanding Accessibility
+  linkPreviewOpen = true} onmouseleave={() => linkPreviewOpen = false} onfocus={() =>
+  linkPreviewOpen = true} onblur={() => linkPreviewOpen = false} > Understanding Accessibility
 </a>
-<HoverCard label="Article preview" open={linkPreviewOpen}>
-  <Image src="/thumbnails/a11y.jpg" alt="Accessibility article thumbnail" />
+<HoverCard
+  label="Article preview"
+  open="{linkPreviewOpen}"
+>
+  <image
+    src="/thumbnails/a11y.jpg"
+    alt="Accessibility article thumbnail"
+  />
   <strong>Understanding Accessibility</strong>
   <p>A practical guide to building inclusive web applications.</p>
 </HoverCard>
@@ -106,14 +118,11 @@ None at the component level. The consumer manages focus-based visibility on the 
 
 This headless component provides a `<div>` with `role="tooltip"` and `aria-label` that conditionally renders when `open` is true. The consumer provides all visual styling including positioning, shadows, borders, arrow indicators, and content layout.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.hover-card` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `hover-card`
 - Verify role="tooltip"` -- identifies the hover card as supplementary descriptive content

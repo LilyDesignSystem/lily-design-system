@@ -95,7 +95,7 @@
     <p>| -------------- | --------------- | ---------- | -------------------------------------------------------- |</p>
     <p>| <code>value</code>        | <code>string</code>        | <code>""</code>       | The value submitted when this option is selected         |</p>
     <p>| <code>disabled</code>     | <code>boolean</code>       | <code>false</code>    | Whether this option is disabled                          |</p>
-    <p>| <code>children</code>     | <code>slot</code>       | (required) | Display text for the option                              |</p>
+    <p>| <code>children</code>     | <code>slot</code>          | (required) | Display text for the option                              |</p>
     <p>| <code>...restProps</code> | HTML attributes |            | Additional attributes spread onto the <code>&lt;option&gt;</code> element |</p>
 </section>
 <!-- END generated: canonical contract -->

@@ -29,16 +29,25 @@ The component renders as an `<article>` element for standalone content grouping.
 Card with linked heading for a condition page:
 
 ```html
-<Card heading="Diabetes" headingLevel={2} href="/conditions/diabetes">
-  <p>Find out about type 1 and type 2 diabetes, including symptoms,
-  diagnosis, and how to manage the condition.</p>
+<Card
+  heading="Diabetes"
+  headingLevel="{2}"
+  href="/conditions/diabetes"
+>
+  <p>
+    Find out about type 1 and type 2 diabetes, including symptoms, diagnosis, and how to manage the
+    condition.
+  </p>
 </Card>
 ```
 
 Card with action link for a profile:
 
 ```html
-<Card heading="Dr Sarah Mitchell" label="GP profile">
+<Card
+  heading="Dr Sarah Mitchell"
+  label="GP profile"
+>
   <p>General Practitioner</p>
   <p>Special interests: cardiology, respiratory medicine</p>
   <ActionLink href="/book/dr-mitchell">Book an appointment</ActionLink>
@@ -73,14 +82,11 @@ Card with action link for a profile:
 
 This headless Card component provides the semantic `<article>` element, configurable heading level for document outline, optional heading link via `href`, and `aria-label` for landmark identification. The consumer provides all visual styling including card borders, shadows, spacing, background colors, and layout of header, body, and footer areas.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.card` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `card`
 - Verify Optional `aria-label` -- identifies the card as a named landmark for screen readers

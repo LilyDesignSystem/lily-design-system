@@ -13,14 +13,14 @@ Submitting navigates to `${action}?${encodeURIComponent(query.trim())}`
 
 ## Files
 
-| File | Purpose |
-| ---- | ------- |
-| `spec/index.md` | Specification-driven contract (canonical). |
-| `SearchPicker.svelte` | Implementation. Svelte 5 runes + TypeScript. |
-| `SearchPicker.test.ts` | Vitest spec, one test per §7 clause. |
-| `index.ts` | Barrel re-export. |
-| `index.md` | User guide. |
-| `docs/accessibility.md` | Tradeoffs, stated plainly. |
+| File                    | Purpose                                      |
+| ----------------------- | -------------------------------------------- |
+| `spec/index.md`         | Specification-driven contract (canonical).   |
+| `SearchPicker.svelte`   | Implementation. Svelte 5 runes + TypeScript. |
+| `SearchPicker.test.ts`  | Vitest spec, one test per §7 clause.         |
+| `index.ts`              | Barrel re-export.                            |
+| `index.md`              | User guide.                                  |
+| `docs/accessibility.md` | Tradeoffs, stated plainly.                   |
 
 ## Public surface
 

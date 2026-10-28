@@ -24,10 +24,20 @@ The component renders a search region containing a text input and a listbox for 
 ## Usage
 
 ```tsx
-<Command label="Command palette" placeholder="Search commands..." value={query} onChange={setQuery}>
-    {filteredCommands.map(cmd => (
-        <div role="option" key={cmd.name}>{cmd.name}</div>
-    ))}
+<Command
+  label="Command palette"
+  placeholder="Search commands..."
+  value={query}
+  onChange={setQuery}
+>
+  {filteredCommands.map((cmd) => (
+    <div
+      role="option"
+      key={cmd.name}
+    >
+      {cmd.name}
+    </div>
+  ))}
 </Command>
 ```
 

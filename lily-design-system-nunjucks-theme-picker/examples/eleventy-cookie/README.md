@@ -7,13 +7,13 @@ no JavaScript needed for the first frame.
 Files in this folder match Eleventy's filesystem-routing
 convention plus a Cloudflare Pages Functions middleware.
 
-| File                            | Role                                                      |
-| ------------------------------- | --------------------------------------------------------- |
-| `_includes/base.njk`            | Eleventy layout that emits `<html data-theme>` + select.  |
-| `index.njk`                     | A page that consumes the layout.                          |
-| `_data/site.js`                 | Default theme + supported set (Eleventy global data).     |
-| `functions/_middleware.js`      | Cloudflare Pages edge middleware that substitutes theme.  |
-| `functions/api/theme.js`        | POST endpoint that writes the cookie.                     |
+| File                       | Role                                                     |
+| -------------------------- | -------------------------------------------------------- |
+| `_includes/base.njk`       | Eleventy layout that emits `<html data-theme>` + select. |
+| `index.njk`                | A page that consumes the layout.                         |
+| `_data/site.js`            | Default theme + supported set (Eleventy global data).    |
+| `functions/_middleware.js` | Cloudflare Pages edge middleware that substitutes theme. |
+| `functions/api/theme.js`   | POST endpoint that writes the cookie.                    |
 
 Required setup in your project:
 
@@ -43,7 +43,7 @@ next SSR request sees the new cookie.
 ## SSR caveat
 
 Calling `document.cookie = …` from the browser is enough for the
-*current* tab but does not always survive a hard reload across
+_current_ tab but does not always survive a hard reload across
 domains and paths. The POST-endpoint version is more defensive;
 the direct `document.cookie` write is fine for SPA-only flows.
 

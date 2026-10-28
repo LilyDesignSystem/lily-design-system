@@ -175,7 +175,10 @@ an error (§5.3).
 ### 4.6 DOM contract
 
 ```html
-<share-picker label="Share" url="…">
+<share-picker
+  label="Share"
+  url="…"
+>
   <div class="share-picker {class}">
     <button
       type="button"
@@ -184,12 +187,35 @@ an error (§5.3).
       aria-expanded="false"
       aria-controls="{listId}"
     >
-      <svg class="share-picker-icon" viewBox="0 0 16 16" width="1.05rem" height="1.05rem" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <svg
+        class="share-picker-icon"
+        viewBox="0 0 16 16"
+        width="1.05rem"
+        height="1.05rem"
+        aria-hidden="true"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.6"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
         <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5"></path>
       </svg>
     </button>
-    <div class="share-picker-tooltip" role="tooltip" id="{baseId}-tooltip" hidden>{label}</div>
-    <ul class="share-picker-list" id="{listId}" aria-label="{label}" hidden>
+    <div
+      class="share-picker-tooltip"
+      role="tooltip"
+      id="{baseId}-tooltip"
+      hidden
+    >
+      {label}
+    </div>
+    <ul
+      class="share-picker-list"
+      id="{listId}"
+      aria-label="{label}"
+      hidden
+    >
       <li class="share-picker-list-item">
         <a
           class="share-picker-target"
@@ -201,10 +227,18 @@ an error (§5.3).
         >
       </li>
       <li class="share-picker-list-item">
-        <button type="button" class="share-picker-copy">{copyLabel}</button>
+        <button
+          type="button"
+          class="share-picker-copy"
+        >
+          {copyLabel}
+        </button>
       </li>
     </ul>
-    <p class="share-picker-status" aria-live="polite"></p>
+    <p
+      class="share-picker-status"
+      aria-live="polite"
+    ></p>
   </div>
 </share-picker>
 ```
@@ -292,13 +326,13 @@ This is the load-bearing part of the port.
 
 ### 5.6 Keyboard
 
-| Key               | On the trigger                      | In the list                                   |
-| ----------------- | ----------------------------------- | --------------------------------------------- |
-| `Enter` / `Space` | Activates (native button behaviour) | Activates the focused item (native)           |
-| `ArrowDown`       | Opens, focuses the first item       | Moves focus down, **clamping**                |
-| `ArrowUp`         | Opens, focuses the last item        | Moves focus up, **clamping**                  |
-| `Home` / `End`    | —                                   | First / last item                             |
-| `Escape`          | —                                   | Closes, returns focus to the trigger          |
+| Key               | On the trigger                      | In the list                                                                                                                                                                              |
+| ----------------- | ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Enter` / `Space` | Activates (native button behaviour) | Activates the focused item (native)                                                                                                                                                      |
+| `ArrowDown`       | Opens, focuses the first item       | Moves focus down, **clamping**                                                                                                                                                           |
+| `ArrowUp`         | Opens, focuses the last item        | Moves focus up, **clamping**                                                                                                                                                             |
+| `Home` / `End`    | —                                   | First / last item                                                                                                                                                                        |
+| `Escape`          | —                                   | Closes, returns focus to the trigger                                                                                                                                                     |
 | `Tab`             | Moves on                            | Closes and moves on — focus goes to the trigger first, without cancelling the key, so the browser's default Tab proceeds from the picker's position rather than restarting from `<body>` |
 
 Arrows clamp rather than wrap: the ends of a short disclosure list are a

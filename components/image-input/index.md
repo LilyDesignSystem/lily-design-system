@@ -30,15 +30,27 @@ Use this component when you need a graphical submit button in forms, such as cus
 ## Usage
 
 ```html
-<ImageInput src="/icons/submit.png" alt="Submit form" />
+<ImageInput
+  src="/icons/submit.png"
+  alt="Submit form"
+/>
 ```
 
 ```html
-<ImageInput src="/icons/search.svg" alt="Search" width={24} height={24} />
+<ImageInput
+  src="/icons/search.svg"
+  alt="Search"
+  width="{24}"
+  height="{24}"
+/>
 ```
 
 ```html
-<ImageInput src="/branding/go-button.png" alt="Go" disabled={!formValid} />
+<ImageInput
+  src="/branding/go-button.png"
+  alt="Go"
+  disabled="{!formValid}"
+/>
 ```
 
 ## Keyboard Interactions

@@ -23,9 +23,23 @@ MexicoClaveUnicaDeRegistroDePoblacionInput is a headless input for entering Mexi
 ## Usage
 
 ```html
-<Field label="Clave Única de Registro de Población (CURP)" required>
-  <MexicoClaveUnicaDeRegistroDePoblacionInput label="Clave Única de Registro de Población (CURP)" value={value} required />
-  <Hint>Eighteen-character alphanumeric code built from name, date of birth, sex, and state of birth: first letter of the first surname plus its first internal vowel; first letter of the second surname (or X if none); first letter of the given name; six-digit date of birth (YYMMDD); H or M for sex (X for non-binary); a two-letter state code (NE for those born abroad); a consonant from each surname and the given name; then two further disambiguating characters. No trailing check digit.</Hint>
+<Field
+  label="Clave Única de Registro de Población (CURP)"
+  required
+>
+  <MexicoClaveUnicaDeRegistroDePoblacionInput
+    label="Clave Única de Registro de Población (CURP)"
+    value="{value}"
+    required
+  />
+  <Hint
+    >Eighteen-character alphanumeric code built from name, date of birth, sex, and state of birth:
+    first letter of the first surname plus its first internal vowel; first letter of the second
+    surname (or X if none); first letter of the given name; six-digit date of birth (YYMMDD); H or M
+    for sex (X for non-binary); a two-letter state code (NE for those born abroad); a consonant from
+    each surname and the given name; then two further disambiguating characters. No trailing check
+    digit.</Hint
+  >
   <ErrorMessage>Please enter a valid Clave Única de Registro de Población</ErrorMessage>
 </Field>
 ```

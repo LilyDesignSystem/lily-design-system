@@ -83,7 +83,10 @@ it, anchored to a grid cell instead of a page header.
 ## 4. HTML
 
 ```html
-<lily-kanban-board label="…" caption="…">
+<lily-kanban-board
+  label="…"
+  caption="…"
+>
   <!-- rendered content, replaces any light-DOM children -->
 </lily-kanban-board>
 ```
@@ -92,32 +95,86 @@ renders:
 
 ```html
 <div class="kanban-board {class}">
-  <lily-kanban-table role="grid" label="{label}">
-    <table class="kanban-table" role="grid" aria-label="{label}">
-      <caption>{caption}</caption> <!-- only when caption is set -->
+  <lily-kanban-table
+    role="grid"
+    label="{label}"
+  >
+    <table
+      class="kanban-table"
+      role="grid"
+      aria-label="{label}"
+    >
+      <caption>
+        {caption}
+      </caption>
+      <!-- only when caption is set -->
       <thead>
         <tr>
-          <th class="kanban-board-th" scope="col" data-over-limit> <!-- only when column.wipLimit is exceeded -->
+          <th
+            class="kanban-board-th"
+            scope="col"
+            data-over-limit
+          >
+            <!-- only when column.wipLimit is exceeded -->
             {column.title}
-            <span class="kanban-board-count">{labels.cardCount(count)}</span> <!-- only when labels.cardCount is set -->
-            <span class="kanban-board-wip-warning">{labels.overLimit(count, limit)}</span> <!-- only when over limit AND labels.overLimit is set -->
+            <span class="kanban-board-count">{labels.cardCount(count)}</span>
+            <!-- only when labels.cardCount is set -->
+            <span class="kanban-board-wip-warning">{labels.overLimit(count, limit)}</span>
+            <!-- only when over limit AND labels.overLimit is set -->
           </th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td class="kanban-board-td" role="gridcell" data-row data-col tabindex> <!-- tabindex="0" on exactly one cell -->
-            <span class="kanban-board-card-title" draggable="true">{cardLabel(card)}</span>
-            <lily-icon-button base-class="kanban-board-move-button" label="{labels.moveButton(card)}" tabindex="-1" aria-haspopup="listbox" aria-expanded aria-controls="{listId}">⇄</lily-icon-button>
-            <ul class="kanban-board-move-list" id="{listId}" role="listbox" aria-label="{labels.moveMenuLabel}" tabindex="-1" hidden> <!-- hidden unless this card's menu is open -->
-              <li class="kanban-board-move-option" role="option" aria-selected data-active>{destinationColumn.title}</li>
+          <td
+            class="kanban-board-td"
+            role="gridcell"
+            data-row
+            data-col
+            tabindex
+          >
+            <!-- tabindex="0" on exactly one cell -->
+            <span
+              class="kanban-board-card-title"
+              draggable="true"
+              >{cardLabel(card)}</span
+            >
+            <lily-icon-button
+              base-class="kanban-board-move-button"
+              label="{labels.moveButton(card)}"
+              tabindex="-1"
+              aria-haspopup="listbox"
+              aria-expanded
+              aria-controls="{listId}"
+              >⇄</lily-icon-button
+            >
+            <ul
+              class="kanban-board-move-list"
+              id="{listId}"
+              role="listbox"
+              aria-label="{labels.moveMenuLabel}"
+              tabindex="-1"
+              hidden
+            >
+              <!-- hidden unless this card's menu is open -->
+              <li
+                class="kanban-board-move-option"
+                role="option"
+                aria-selected
+                data-active
+              >
+                {destinationColumn.title}
+              </li>
             </ul>
           </td>
         </tr>
       </tbody>
     </table>
   </lily-kanban-table>
-  <p class="kanban-board-status" aria-live="polite"></p>
+  <p
+    class="kanban-board-status"
+    aria-live="polite"
+  ></p>
 </div>
 ```
 
@@ -132,16 +189,16 @@ structural rebuild that would have to re-resolve focus. See §6.
 
 ## 5. Public surface
 
-| Member | Kind | Type | Required | Default |
-| --- | --- | --- | --- | --- |
-| `label` | attribute + property | `string` | yes | — |
-| `caption` | attribute + property | `string` | no | — |
-| `columns` | property-only | `KanbanColumn[]` | yes | `[]` |
-| `cards` | property-only | `KanbanCard[]` | yes | `[]` |
-| `cardLabel` | property-only | `(card: KanbanCard) => string` | no | `card.title` |
-| `onMove` | property-only | `(cardId: string, toColumnId: string) => void` | no | — |
-| `labels` | property-only | `KanbanLabels` | no | `{}` |
-| `class` | attribute | `string` | no | `""` |
+| Member      | Kind                 | Type                                           | Required | Default      |
+| ----------- | -------------------- | ---------------------------------------------- | -------- | ------------ |
+| `label`     | attribute + property | `string`                                       | yes      | —            |
+| `caption`   | attribute + property | `string`                                       | no       | —            |
+| `columns`   | property-only        | `KanbanColumn[]`                               | yes      | `[]`         |
+| `cards`     | property-only        | `KanbanCard[]`                                 | yes      | `[]`         |
+| `cardLabel` | property-only        | `(card: KanbanCard) => string`                 | no       | `card.title` |
+| `onMove`    | property-only        | `(cardId: string, toColumnId: string) => void` | no       | —            |
+| `labels`    | property-only        | `KanbanLabels`                                 | no       | `{}`         |
+| `class`     | attribute            | `string`                                       | no       | `""`         |
 
 `columns`/`cards`/`cardLabel`/`onMove`/`labels` are **property-only** —
 arrays of objects and functions have no clean attribute-string
@@ -165,7 +222,7 @@ convention: `cardCount(count)`, `overLimit(count, limit)`,
 The move button itself is **not** gated on `labels.moveButton` being
 present — it always renders (with an empty accessible name if
 unlabelled) because it is the sole keyboard-accessible path to move a
-card; only its *name* is gated. This matches the Svelte reference
+card; only its _name_ is gated. This matches the Svelte reference
 exactly (`label={labels.moveButton?.(card) ?? ""}`).
 
 ## 6. Behaviour
@@ -215,7 +272,7 @@ Every one of the move menu's own handled keys calls
 cell that owns `onGridKeydown`; without stopping propagation, every
 keystroke inside the open menu would ALSO reach the grid's own
 roving-tabindex handler (e.g. `ArrowDown` would move the listbox's
-active option *and* the grid cursor in the same keystroke). This is
+active option _and_ the grid cursor in the same keystroke). This is
 asserted by a dedicated test, not merely implemented.
 
 **SSR.** All DOM writes happen in `connectedCallback`/property
@@ -305,7 +362,7 @@ Every prior catalog's port of this component (React, Vue, Angular,
 Blazor) independently found and fixed the same latent bug in the
 Svelte reference: its move menu binds a single shared button reference
 across every card's icon button, so closing a menu refocuses whichever
-card mounted *last*, not the card whose menu just closed — invisible
+card mounted _last_, not the card whose menu just closed — invisible
 to the Svelte suite because it only asserts a CSS class, not button
 identity.
 

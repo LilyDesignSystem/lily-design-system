@@ -21,7 +21,9 @@ IndonesiaNomorIndukKependudukanInput is a headless placeholder component, genera
 ## Usage
 
 ```html
-<IndonesiaNomorIndukKependudukanInput label="IndonesiaNomorIndukKependudukanInput example">Content</IndonesiaNomorIndukKependudukanInput>
+<IndonesiaNomorIndukKependudukanInput label="IndonesiaNomorIndukKependudukanInput example"
+  >Content</IndonesiaNomorIndukKependudukanInput
+>
 ```
 
 ## Keyboard Interactions

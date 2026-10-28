@@ -11,18 +11,59 @@ Under SSR, `onMounted` and `watch` are no-ops. The picker renders:
 
 ```html
 <div class="locale-picker">
-    <input type="hidden" name="locale" value="en" />
-    <button type="button" class="locale-picker-button" aria-label="Language"
-            aria-haspopup="listbox" aria-expanded="false"
-            aria-controls="locale-picker-1-list">
-        <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path stroke-width="1.1" d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7"/></svg>
-    </button>
-    <ul class="locale-picker-list" id="locale-picker-1-list" role="listbox"
-        aria-label="Language" tabindex="-1" hidden>
-        <li class="locale-picker-option" id="locale-picker-1-option-0"
-            role="option" aria-selected="true" lang="en">English</li>
-        …
-    </ul>
+  <input
+    type="hidden"
+    name="locale"
+    value="en"
+  />
+  <button
+    type="button"
+    class="locale-picker-button"
+    aria-label="Language"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="locale-picker-1-list"
+  >
+    <svg
+      class="locale-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle
+        cx="8"
+        cy="8"
+        r="6"
+      />
+      <path
+        stroke-width="1.1"
+        d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7"
+      />
+    </svg>
+  </button>
+  <ul
+    class="locale-picker-list"
+    id="locale-picker-1-list"
+    role="listbox"
+    aria-label="Language"
+    tabindex="-1"
+    hidden
+  >
+    <li
+      class="locale-picker-option"
+      id="locale-picker-1-option-0"
+      role="option"
+      aria-selected="true"
+      lang="en"
+    >
+      English
+    </li>
+    …
+  </ul>
 </div>
 ```
 
@@ -66,8 +107,8 @@ The shape:
 import { defineEventHandler, getCookie } from "h3";
 
 export default defineEventHandler((event) => {
-    const cookie = getCookie(event, "locale") ?? "en";
-    event.context.locale = cookie;
+  const cookie = getCookie(event, "locale") ?? "en";
+  event.context.locale = cookie;
 });
 ```
 
@@ -76,9 +117,9 @@ export default defineEventHandler((event) => {
 ```ts
 // plugins/locale.ts
 export default defineNuxtPlugin(() => {
-    const event = useRequestEvent();
-    const initial = (event?.context as { locale?: string } | undefined)?.locale ?? "en";
-    return { provide: { initialLocale: initial } };
+  const event = useRequestEvent();
+  const initial = (event?.context as { locale?: string } | undefined)?.locale ?? "en";
+  return { provide: { initialLocale: initial } };
 });
 ```
 
@@ -96,26 +137,26 @@ const langTag = computed(() => bcp47LocaleTag(locale.value));
 const direction = computed(() => (isRtlLocale(locale.value) ? "rtl" : "ltr"));
 
 useHead({
-    htmlAttrs: { lang: langTag, dir: direction },
+  htmlAttrs: { lang: langTag, dir: direction },
 });
 
 async function persistLocaleCookie(code: string) {
-    await fetch("/api/locale", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ locale: code }),
-    });
+  await fetch("/api/locale", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ locale: code }),
+  });
 }
 </script>
 
 <template>
-    <LocalePicker
-        label="Language"
-        :locales="['en', 'fr', 'ar']"
-        v-model:value="locale"
-        @change="persistLocaleCookie"
-    />
-    <NuxtPage />
+  <LocalePicker
+    label="Language"
+    :locales="['en', 'fr', 'ar']"
+    v-model:value="locale"
+    @change="persistLocaleCookie"
+  />
+  <NuxtPage />
 </template>
 ```
 
@@ -128,20 +169,20 @@ import { defineEventHandler, readBody, setCookie } from "h3";
 const SUPPORTED = new Set(["en", "fr", "ar"]);
 
 export default defineEventHandler(async (event) => {
-    const body = (await readBody<{ locale?: string }>(event)) ?? {};
-    const code = String(body.locale ?? "");
-    if (!SUPPORTED.has(code)) {
-        event.node.res.statusCode = 400;
-        return { error: "Unknown locale" };
-    }
-    setCookie(event, "locale", code, {
-        path: "/",
-        httpOnly: false,
-        sameSite: "lax",
-        maxAge: 60 * 60 * 24 * 365,
-    });
-    event.node.res.statusCode = 204;
-    return null;
+  const body = (await readBody<{ locale?: string }>(event)) ?? {};
+  const code = String(body.locale ?? "");
+  if (!SUPPORTED.has(code)) {
+    event.node.res.statusCode = 400;
+    return { error: "Unknown locale" };
+  }
+  setCookie(event, "locale", code, {
+    path: "/",
+    httpOnly: false,
+    sameSite: "lax",
+    maxAge: 60 * 60 * 24 * 365,
+  });
+  event.node.res.statusCode = 204;
+  return null;
 });
 ```
 
@@ -165,18 +206,18 @@ const router = useRouter();
 const current = computed(() => String(route.params.locale ?? "en"));
 
 function navigate(next: string) {
-    const newPath = String(route.path).replace(/^\/(en|fr|ar)/, `/${next}`);
-    router.push(newPath);
+  const newPath = String(route.path).replace(/^\/(en|fr|ar)/, `/${next}`);
+  router.push(newPath);
 }
 </script>
 
 <template>
-    <LocalePicker
-        label="Language"
-        :locales="['en', 'fr', 'ar']"
-        :value="current"
-        @change="navigate"
-    />
+  <LocalePicker
+    label="Language"
+    :locales="['en', 'fr', 'ar']"
+    :value="current"
+    @change="navigate"
+  />
 </template>
 ```
 
@@ -192,21 +233,20 @@ import { defineEventHandler, getCookie, getRequestHeader } from "h3";
 const SUPPORTED = ["en", "fr", "ar"];
 
 function pickFromAcceptLanguage(header: string | undefined): string {
-    if (!header) return "en";
-    for (const item of header.split(",")) {
-        const tag = item.split(";")[0].trim().toLowerCase();
-        if (SUPPORTED.includes(tag)) return tag;
-        const base = tag.split("-")[0];
-        if (SUPPORTED.includes(base)) return base;
-    }
-    return "en";
+  if (!header) return "en";
+  for (const item of header.split(",")) {
+    const tag = item.split(";")[0].trim().toLowerCase();
+    if (SUPPORTED.includes(tag)) return tag;
+    const base = tag.split("-")[0];
+    if (SUPPORTED.includes(base)) return base;
+  }
+  return "en";
 }
 
 export default defineEventHandler((event) => {
-    const cookie = getCookie(event, "locale");
-    event.context.locale = cookie ?? pickFromAcceptLanguage(
-        getRequestHeader(event, "accept-language"),
-    );
+  const cookie = getCookie(event, "locale");
+  event.context.locale =
+    cookie ?? pickFromAcceptLanguage(getRequestHeader(event, "accept-language"));
 });
 ```
 
@@ -249,9 +289,9 @@ import { renderToString } from "vue/server-renderer";
 import LocalePicker from "./LocalePicker.vue";
 
 const app = createSSRApp(LocalePicker, {
-    label: "Language",
-    locales: ["en", "fr", "ar"],
-    value: "fr",
+  label: "Language",
+  locales: ["en", "fr", "ar"],
+  value: "fr",
 });
 const html = await renderToString(app);
 ```

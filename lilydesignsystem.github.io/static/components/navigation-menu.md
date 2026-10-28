@@ -26,12 +26,12 @@ Primary site navigation with main section links:
 
 ```html
 <NavigationMenu label="Main navigation">
-    <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/products">Products</a></li>
-        <li><a href="/about">About</a></li>
-        <li><a href="/contact">Contact</a></li>
-    </ul>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/products">Products</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/contact">Contact</a></li>
+  </ul>
 </NavigationMenu>
 ```
 
@@ -39,11 +39,11 @@ Footer navigation with legal and support links:
 
 ```html
 <NavigationMenu label="Footer navigation">
-    <ul>
-        <li><a href="/privacy">Privacy Policy</a></li>
-        <li><a href="/terms">Terms of Service</a></li>
-        <li><a href="/contact">Contact Us</a></li>
-    </ul>
+  <ul>
+    <li><a href="/privacy">Privacy Policy</a></li>
+    <li><a href="/terms">Terms of Service</a></li>
+    <li><a href="/contact">Contact Us</a></li>
+  </ul>
 </NavigationMenu>
 ```
 
@@ -51,11 +51,11 @@ Sidebar section navigation:
 
 ```html
 <NavigationMenu label="Documentation sections">
-    <ul>
-        <li><a href="/docs/getting-started">Getting Started</a></li>
-        <li><a href="/docs/components">Components</a></li>
-        <li><a href="/docs/api">API Reference</a></li>
-    </ul>
+  <ul>
+    <li><a href="/docs/getting-started">Getting Started</a></li>
+    <li><a href="/docs/components">Components</a></li>
+    <li><a href="/docs/api">API Reference</a></li>
+  </ul>
 </NavigationMenu>
 ```
 
@@ -86,18 +86,15 @@ None -- this component is a passive container. Navigation links inside use stand
 
 This headless component provides a native `<nav>` element with `aria-label` for landmark identification, automatically recognized by assistive technologies. The consumer provides all visual styling, including link layout, responsive behavior, hover states, and active indicators.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.navigation-menu` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<nav>` element with class `navigation-menu`
 - Verify The `<nav>` element implicitly has `role="navigation"`, making it a navigation landmark.
-- Verify aria-label` -- provides an accessible name to distinguish this navigation from other `<nav>` landmarks on the page.
+- Verify aria-label`-- provides an accessible name to distinguish this navigation from other`<nav>` landmarks on the page.
 - Verify pass-through attributes are applied
 
 ## Advice

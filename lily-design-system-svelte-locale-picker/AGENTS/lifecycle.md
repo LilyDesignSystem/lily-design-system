@@ -63,44 +63,41 @@ consumer mutated `localeLabels` for a no-user-visible reason.
 let initialised = false;
 
 $effect(() => {
-    const current = value;
+  const current = value;
 
-    if (!initialised) {
-        initialised = true;
-        let initial = current;
+  if (!initialised) {
+    initialised = true;
+    let initial = current;
 
-        if (!initial && storageKey) {
-            try {
-                initial = localStorage.getItem(storageKey) ?? "";
-            } catch {
-                // ignore private-mode / quota errors
-            }
-        }
-
-        if (!initial && detectFromNavigator && typeof navigator !== "undefined") {
-            const navLangs =
-                navigator.languages && navigator.languages.length > 0
-                    ? Array.from(navigator.languages)
-                    : navigator.language
-                      ? [navigator.language]
-                      : [];
-            initial = matchNavigatorLanguage(navLangs, locales);
-        }
-
-        if (!initial) {
-            initial =
-                defaultValue ??
-                (locales.includes("en") ? "en" : locales[0]) ??
-                "";
-        }
-
-        if (initial && initial !== current) {
-            value = initial;
-            return;  // re-runs after the bind-back
-        }
+    if (!initial && storageKey) {
+      try {
+        initial = localStorage.getItem(storageKey) ?? "";
+      } catch {
+        // ignore private-mode / quota errors
+      }
     }
 
-    if (current) applyLocale(current);
+    if (!initial && detectFromNavigator && typeof navigator !== "undefined") {
+      const navLangs =
+        navigator.languages && navigator.languages.length > 0
+          ? Array.from(navigator.languages)
+          : navigator.language
+            ? [navigator.language]
+            : [];
+      initial = matchNavigatorLanguage(navLangs, locales);
+    }
+
+    if (!initial) {
+      initial = defaultValue ?? (locales.includes("en") ? "en" : locales[0]) ?? "";
+    }
+
+    if (initial && initial !== current) {
+      value = initial;
+      return; // re-runs after the bind-back
+    }
+  }
+
+  if (current) applyLocale(current);
 });
 ```
 
@@ -112,16 +109,20 @@ instead of double-applying.
 
 ```ts
 function applyLocale(code: string): void {
-    if (typeof document === "undefined" || !code) return;
-    const root = target ?? document.documentElement;
-    root.setAttribute("lang", bcp47LocaleTag(code));
-    if (applyDir) {
-        root.setAttribute("dir", isRtlLocale(code) ? "rtl" : "ltr");
+  if (typeof document === "undefined" || !code) return;
+  const root = target ?? document.documentElement;
+  root.setAttribute("lang", bcp47LocaleTag(code));
+  if (applyDir) {
+    root.setAttribute("dir", isRtlLocale(code) ? "rtl" : "ltr");
+  }
+  if (storageKey) {
+    try {
+      localStorage.setItem(storageKey, code);
+    } catch {
+      /* ignore */
     }
-    if (storageKey) {
-        try { localStorage.setItem(storageKey, code); } catch { /* ignore */ }
-    }
-    onChange?.(code);
+  }
+  onChange?.(code);
 }
 ```
 
@@ -150,15 +151,15 @@ write back to `value`:
 
 ```svelte
 <script lang="ts">
-    let target = $state<HTMLElement | null>(null);
-    let locale = $state("en");
+  let target = $state<HTMLElement | null>(null);
+  let locale = $state("en");
 
-    $effect(() => {
-        target;  // track
-        const current = locale;
-        locale = "";
-        locale = current;
-    });
+  $effect(() => {
+    target; // track
+    const current = locale;
+    locale = "";
+    locale = current;
+  });
 </script>
 ```
 

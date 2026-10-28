@@ -25,8 +25,21 @@ It is a subset of the canonical [`@lilydesignsystem/svelte-gantt-chart`](../lily
     criticalPath: true,
     tasks: [
       { id: "design", label: "Design", start: "2026-10-01", end: "2026-10-05" },
-      { id: "build", label: "Build", start: "2026-10-06", end: "2026-10-20", dependsOn: ["design"], percentComplete: 30 },
-      { id: "launch", label: "Launch", start: "2026-10-21", end: "2026-10-21", dependsOn: ["build"] }, // a milestone
+      {
+        id: "build",
+        label: "Build",
+        start: "2026-10-06",
+        end: "2026-10-20",
+        dependsOn: ["design"],
+        percentComplete: 30,
+      },
+      {
+        id: "launch",
+        label: "Launch",
+        start: "2026-10-21",
+        end: "2026-10-21",
+        dependsOn: ["build"],
+      }, // a milestone
     ],
     labels: {
       grid: "Q4 plan",

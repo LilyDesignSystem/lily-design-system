@@ -21,12 +21,15 @@ This component sets the CSS `aspect-ratio-container` property on a wrapper `<div
 ## Usage
 
 ```svelte
-<AspectRatioContainer ratio={16/9}>
+<AspectRatioContainer ratio={16 / 9}>
   <video src="video.mp4"></video>
 </AspectRatioContainer>
 
 <AspectRatioContainer ratio={1}>
-  <img src="avatar.jpg" alt="User avatar" />
+  <img
+    src="avatar.jpg"
+    alt="User avatar"
+  />
 </AspectRatioContainer>
 ```
 

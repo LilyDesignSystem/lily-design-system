@@ -131,16 +131,18 @@ Next.js App Router recipe.
 // app/layout.tsx — server
 import { cookies } from "next/headers";
 
-export default async function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const theme = (await cookies()).get("theme")?.value ?? "light";
   return (
-    <html lang="en" data-theme={theme}>
+    <html
+      lang="en"
+      data-theme={theme}
+    >
       <head>
-        <link rel="stylesheet" href={`/assets/themes/${theme}.css`} />
+        <link
+          rel="stylesheet"
+          href={`/assets/themes/${theme}.css`}
+        />
       </head>
       <body>{children}</body>
     </html>
@@ -175,9 +177,7 @@ import { ThemePicker } from "./lily-design-system-react-theme-picker";
 export function ThemePicker() {
   const [defaultTheme] = useState(() => {
     if (typeof window === "undefined") return "light";
-    return window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? "dark"
-      : "light";
+    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
   });
   return (
     <ThemePicker

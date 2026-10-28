@@ -9,15 +9,15 @@ two-skill plan this subproject implements one half of.
 ## 1. Role in the ecosystem
 
 A Claude Skill that explains Lily Design System™ concepts, terminology, and
-usage patterns to people building *with* it: the headless-vs-example
+usage patterns to people building _with_ it: the headless-vs-example
 layers, the 581-component catalog, naming conventions, composition
 patterns, theming, and the seven supported frameworks. It is content and
 documentation, not a component implementation — it ships no headless
 components, no example app, no helper packages.
 
 Its sibling, [`lily-design-system-maintainer-skill`](../../lily-design-system-maintainer-skill/),
-covers the *maintainer* side: the required-files layout, the `bin/`
-tooling, and the spec-driven workflow for people working *on* this
+covers the _maintainer_ side: the required-files layout, the `bin/`
+tooling, and the spec-driven workflow for people working _on_ this
 repository's own codebase. Both skills follow the `lily-design-system-`
 naming convention as of 2026-08-31 (renamed from `lily-skill`, which
 deliberately sat outside it — see

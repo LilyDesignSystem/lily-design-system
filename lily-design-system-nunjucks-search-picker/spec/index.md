@@ -108,35 +108,99 @@ side of the split that can actually honour it.
 `{% from "./search-picker.njk" import searchPicker %}` →
 `{{ searchPicker(opts) }}`
 
-| Key               | Type   | Required | Default                 | Purpose                                                       |
-| ----------------- | ------ | -------- | ----------------------- | ------------------------------------------------------------- |
-| `label`           | string | yes      | —                       | Accessible name for the icon button and the search landmark.  |
-| `inputLabel`      | string | yes      | —                       | Accessible name for the search field.                         |
-| `submitLabel`     | string | yes      | —                       | Accessible name for the `⏎` submit button.                    |
-| `placeholder`     | string | no       | —                       | Placeholder for the field. No default (it would be English).  |
-| `value`           | string | no       | `""`                    | Initial text in the field.                                    |
-| `action`          | string | no       | `"/"`                   | Path the query is appended to: `${action}?${query}`.          |
-| `name`            | string | no       | `"search"`              | Discriminator used to derive ids.                             |
-| `id`              | string | no       | `search-picker-{name}`  | Id prefix for the panel and field.                            |
-| `classes`         | string | no       | —                       | Extra classes on the root.                                    |
-| `attributes`      | object | no       | —                       | Extra HTML attributes spread onto the root.                   |
-| `{% call %}` body | —      | no       | the default SVG icon    | Replaces the icon; receives `{open, query}` (see §3.3).       |
+| Key               | Type   | Required | Default                | Purpose                                                      |
+| ----------------- | ------ | -------- | ---------------------- | ------------------------------------------------------------ |
+| `label`           | string | yes      | —                      | Accessible name for the icon button and the search landmark. |
+| `inputLabel`      | string | yes      | —                      | Accessible name for the search field.                        |
+| `submitLabel`     | string | yes      | —                      | Accessible name for the `⏎` submit button.                   |
+| `placeholder`     | string | no       | —                      | Placeholder for the field. No default (it would be English). |
+| `value`           | string | no       | `""`                   | Initial text in the field.                                   |
+| `action`          | string | no       | `"/"`                  | Path the query is appended to: `${action}?${query}`.         |
+| `name`            | string | no       | `"search"`             | Discriminator used to derive ids.                            |
+| `id`              | string | no       | `search-picker-{name}` | Id prefix for the panel and field.                           |
+| `classes`         | string | no       | —                      | Extra classes on the root.                                   |
+| `attributes`      | object | no       | —                      | Extra HTML attributes spread onto the root.                  |
+| `{% call %}` body | —      | no       | the default SVG icon   | Replaces the icon; receives `{open, query}` (see §3.3).      |
 
 ### 4.2 DOM contract
 
 ```html
-<div class="search-picker {classes}" data-lily-search-picker-root data-lily-search-picker-name="{name}">
-  <button type="button" class="search-picker-button" aria-label="{label}"
-          aria-expanded="false" aria-controls="{id}-panel" data-lily-search-picker-button>
-    <svg class="search-picker-icon" viewBox="0 0 16 16" width="1.05rem" height="1.05rem" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14"/></svg>
+<div
+  class="search-picker {classes}"
+  data-lily-search-picker-root
+  data-lily-search-picker-name="{name}"
+>
+  <button
+    type="button"
+    class="search-picker-button"
+    aria-label="{label}"
+    aria-expanded="false"
+    aria-controls="{id}-panel"
+    data-lily-search-picker-button
+  >
+    <svg
+      class="search-picker-icon"
+      viewBox="0 0 16 16"
+      width="1.05rem"
+      height="1.05rem"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle
+        cx="7"
+        cy="7"
+        r="4.5"
+      />
+      <path d="M10.5 10.5 14 14" />
+    </svg>
   </button>
-  <div class="search-picker-tooltip" role="tooltip" id="{id}-tooltip" hidden>{label}</div>
-  <div class="search-picker-panel" id="{id}-panel" hidden data-lily-search-picker-panel>
-    <form class="search-picker-form" role="search" aria-label="{label}" action="{action}" method="get" data-lily-search-picker-form>
-      <input class="search-picker-input" id="{id}-input" type="search" aria-label="{inputLabel}"
-             placeholder="{placeholder}" value="{value}" enterkeyhint="search" data-lily-search-picker-input>
-      <button type="submit" class="search-picker-submit" aria-label="{submitLabel}" data-lily-search-picker-submit>
-        <span class="search-picker-submit-symbol" aria-hidden="true">⏎</span>
+  <div
+    class="search-picker-tooltip"
+    role="tooltip"
+    id="{id}-tooltip"
+    hidden
+  >
+    {label}
+  </div>
+  <div
+    class="search-picker-panel"
+    id="{id}-panel"
+    hidden
+    data-lily-search-picker-panel
+  >
+    <form
+      class="search-picker-form"
+      role="search"
+      aria-label="{label}"
+      action="{action}"
+      method="get"
+      data-lily-search-picker-form
+    >
+      <input
+        class="search-picker-input"
+        id="{id}-input"
+        type="search"
+        aria-label="{inputLabel}"
+        placeholder="{placeholder}"
+        value="{value}"
+        enterkeyhint="search"
+        data-lily-search-picker-input
+      />
+      <button
+        type="submit"
+        class="search-picker-submit"
+        aria-label="{submitLabel}"
+        data-lily-search-picker-submit
+      >
+        <span
+          class="search-picker-submit-symbol"
+          aria-hidden="true"
+          >⏎</span
+        >
       </button>
     </form>
   </div>
@@ -213,7 +277,7 @@ surface.
 7. Opening focuses the search field with `{ preventScroll: true }`.
 8. Pressing Return in the field (submitting the form) navigates to `/?<query>`: `foo` → `/?foo`, and the native form submission is cancelled.
 9. Clicking the submit button navigates the same way.
-10. The query is trimmed and URI-encoded: `  foo bar ` → `/?foo%20bar`, `a&b` → `/?a%26b`.
+10. The query is trimmed and URI-encoded: ` foo bar` → `/?foo%20bar`, `a&b` → `/?a%26b`.
 11. An empty or whitespace-only query does not navigate and leaves the panel open.
 12. `action` changes the path: `action: "/search"` sends `foo` to `/search?foo`; an init-time `action` wins.
 13. `onSearch` fires with the trimmed query and the href, before `navigate`.

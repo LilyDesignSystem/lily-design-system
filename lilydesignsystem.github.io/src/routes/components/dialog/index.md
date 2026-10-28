@@ -28,29 +28,56 @@ This component uses the native `<dialog>` HTML element with conditional renderin
 Modal dialog with a form:
 
 ```html
-<button onclick={() => showDialog = true}>Edit profile</button>
+<button
+  onclick="{()"
+  =""
+>
+  showDialog = true}>Edit profile
+</button>
 
-<Dialog label="Edit profile" open={showDialog}>
+<dialog
+  label="Edit profile"
+  open="{showDialog}"
+>
   <form>
     <label for="display-name">Display name</label>
-    <input id="display-name" type="text" value={displayName} />
+    <input
+      id="display-name"
+      type="text"
+      value="{displayName}"
+    />
 
     <label for="bio">Bio</label>
     <textarea id="bio">{bio}</textarea>
 
-    <button type="button" onclick={() => showDialog = false}>Cancel</button>
+    <button
+      type="button"
+      onclick="{()"
+      =""
+    >
+      showDialog = false}>Cancel
+    </button>
     <button type="submit">Save</button>
   </form>
-</Dialog>
+</dialog>
 ```
 
 Non-modal dialog for supplementary information:
 
 ```html
-<Dialog label="Release notes" open={showNotes} modal={false}>
+<dialog
+  label="Release notes"
+  open="{showNotes}"
+  modal="{false}"
+>
   <p>Version 2.4 includes performance improvements and accessibility fixes.</p>
-  <button onclick={() => showNotes = false}>Close</button>
-</Dialog>
+  <button
+    onclick="{()"
+    =""
+  >
+    showNotes = false}>Close
+  </button>
+</dialog>
 ```
 
 ## Keyboard Interactions
@@ -82,17 +109,14 @@ Non-modal dialog for supplementary information:
 
 This headless component provides a native `<dialog>` element with conditional rendering, accessible labeling via `aria-label`, modal/non-modal support via `aria-modal`, keyboard dismissal with Escape, and two-way binding on the `open` prop. The consumer provides all visual styling, backdrop appearance, positioning, and dialog content.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.dialog` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
 
-
 - Verify the component renders a `<dialog>` element with class `dialog`
-- Verify role="dialog"` -- provided natively by the `<dialog>` element
+- Verify role="dialog"`-- provided natively by the`<dialog>` element
 - Verify aria-label="{label}"` -- provides an accessible name for the dialog
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied

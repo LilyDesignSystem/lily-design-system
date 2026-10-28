@@ -21,7 +21,10 @@ This component is useful for structuring banner content into a horizontal row, a
 ## Usage
 
 ```html
-<Banner label="Site notice" type="info">
+<Banner
+  label="Site notice"
+  type="info"
+>
   <BannerBox>
     <span>We are upgrading our servers on Saturday 12 April from 02:00 to 06:00.</span>
     <a href="/status">Check status</a>
@@ -30,7 +33,12 @@ This component is useful for structuring banner content into a horizontal row, a
 ```
 
 ```html
-<Banner label="Session warning" type="warning" dismissible closeLabel="Dismiss">
+<Banner
+  label="Session warning"
+  type="warning"
+  dismissible
+  closeLabel="Dismiss"
+>
   <BannerBox>
     <span>Your session will expire in 5 minutes.</span>
     <button type="button">Extend session</button>
@@ -39,7 +47,10 @@ This component is useful for structuring banner content into a horizontal row, a
 ```
 
 ```html
-<Banner label="Cookie consent" type="info">
+<Banner
+  label="Cookie consent"
+  type="info"
+>
   <BannerBox>
     <p>We use cookies to improve your experience.</p>
     <button type="button">Accept</button>

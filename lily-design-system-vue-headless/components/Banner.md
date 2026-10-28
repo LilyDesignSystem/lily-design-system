@@ -32,8 +32,13 @@ Banners may be persistent or dismissible, depending on the message's importance.
 ```
 
 ```svelte
-<Banner type="warning" dismissible closeLabel="Dismiss" onclose={handleDismiss}>
-    Your session will expire soon.
+<Banner
+  type="warning"
+  dismissible
+  closeLabel="Dismiss"
+  onclose={handleDismiss}
+>
+  Your session will expire soon.
 </Banner>
 ```
 

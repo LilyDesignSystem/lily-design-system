@@ -36,13 +36,13 @@ or remove-permission where a full modal dialog would be too disruptive.
 
 ```html
 <PopconfirmDialog
-  open={isOpen}
+  open="{isOpen}"
   title="Delete this item?"
   description="This action cannot be undone."
   confirmLabel="Delete"
   cancelLabel="Cancel"
-  onconfirm={handleDelete}
-  oncancel={handleCancel}
+  onconfirm="{handleDelete}"
+  oncancel="{handleCancel}"
 />
 ```
 

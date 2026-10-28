@@ -29,17 +29,20 @@ passages from articles, interviews, books, speeches, or testimonials.
 Basic blockquote with quoted content:
 
 ```html
-<Blockquote>
+<blockquote>
   <p>The best way to predict the future is to invent it.</p>
-</Blockquote>
+</blockquote>
 ```
 
 Blockquote with citation and source URL:
 
 ```html
-<Blockquote cite="https://example.com/source" citationText="— Alan Kay, 1971">
+<blockquote
+  cite="https://example.com/source"
+  citationText="— Alan Kay, 1971"
+>
   <p>The best way to predict the future is to invent it.</p>
-</Blockquote>
+</blockquote>
 ```
 
 ## Keyboard Interactions

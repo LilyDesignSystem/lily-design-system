@@ -145,7 +145,7 @@ never silently snapped to a nearby legal date the user did not type.
 committed display and clearing the invalid state without committing
 anything; when nothing is pending the key is left alone.
 
-Supply `Labels.Invalid` to have the refusal *announced* as well as
+Supply `Labels.Invalid` to have the refusal _announced_ as well as
 marked: a `role="status"` live region (class hook
 `date-time-picker-status`, present-but-empty while the field is valid)
 fills with your message and is wired to the field via `aria-errormessage`
@@ -208,15 +208,15 @@ Required: `Label`, `Labels`.
 
 ## Static helpers
 
-| Member | Purpose |
-| --- | --- |
-| `DateTimePicker.Calendar` | The default glyph, `"📅︎"` (U+1F4C5 + U+FE0E). |
-| `DateTimePicker.NextDateTimePickerId()` | Mint a stable, prerender-safe id prefix. |
-| `DateTimePicker.ParseIsoDate` / `FormatIsoDate` | ISO date parsing/formatting. |
-| `DateTimePicker.AddDays` / `AddMonths` | Civil-date arithmetic (`AddMonths` clamps the day). |
-| `DateTimePicker.WeekdayOf` / `IsoWeek` | Day-of-week and ISO-8601 week number. |
-| `DateTimePicker.ParseDateInput` / `ParseTimeInput` | The typed-input parsers, directly callable. |
-| `DateTimePicker.FirstDayOfWeekFor(locale)` | The locale's first weekday. |
+| Member                                             | Purpose                                             |
+| -------------------------------------------------- | --------------------------------------------------- |
+| `DateTimePicker.Calendar`                          | The default glyph, `"📅︎"` (U+1F4C5 + U+FE0E).       |
+| `DateTimePicker.NextDateTimePickerId()`            | Mint a stable, prerender-safe id prefix.            |
+| `DateTimePicker.ParseIsoDate` / `FormatIsoDate`    | ISO date parsing/formatting.                        |
+| `DateTimePicker.AddDays` / `AddMonths`             | Civil-date arithmetic (`AddMonths` clamps the day). |
+| `DateTimePicker.WeekdayOf` / `IsoWeek`             | Day-of-week and ISO-8601 week number.               |
+| `DateTimePicker.ParseDateInput` / `ParseTimeInput` | The typed-input parsers, directly callable.         |
+| `DateTimePicker.FirstDayOfWeekFor(locale)`         | The locale's first weekday.                         |
 
 Full list in [spec/index.md §4.4](./spec/index.md#44-public-surface).
 

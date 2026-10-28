@@ -12,17 +12,17 @@ and every tool are props; a tool with no name is not rendered. A sibling of
 
 ## Files
 
-| File | Purpose |
-| ---- | ------- |
-| `spec/index.md` | Specification-driven contract (canonical). |
-| `OrgEditor.svelte` | Implementation. Svelte 5 runes + TypeScript. |
-| `OrgEditor.test.ts` | Vitest spec. |
-| `org-format.ts` | Pure Org transforms. **Copied from `shared/org-format.ts` by `bin/sync-shared-modules`; never edit this copy.** |
-| `org-format.test.ts` | The shared module's tests (copied the same way). |
-| `e2e/undo.spec.ts` | Real-browser undo / redo (Playwright). |
-| `index.md` | User guide. |
-| `docs/accessibility.md` | Tradeoffs, stated plainly. |
-| `examples/` | Runnable examples. |
+| File                    | Purpose                                                                                                         |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------- |
+| `spec/index.md`         | Specification-driven contract (canonical).                                                                      |
+| `OrgEditor.svelte`      | Implementation. Svelte 5 runes + TypeScript.                                                                    |
+| `OrgEditor.test.ts`     | Vitest spec.                                                                                                    |
+| `org-format.ts`         | Pure Org transforms. **Copied from `shared/org-format.ts` by `bin/sync-shared-modules`; never edit this copy.** |
+| `org-format.test.ts`    | The shared module's tests (copied the same way).                                                                |
+| `e2e/undo.spec.ts`      | Real-browser undo / redo (Playwright).                                                                          |
+| `index.md`              | User guide.                                                                                                     |
+| `docs/accessibility.md` | Tradeoffs, stated plainly.                                                                                      |
+| `examples/`             | Runnable examples.                                                                                              |
 
 ## Rules that matter
 

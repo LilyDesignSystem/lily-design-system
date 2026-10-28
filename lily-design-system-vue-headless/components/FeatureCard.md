@@ -23,11 +23,11 @@ A large content card with a prominent image positioned alongside or above the te
 
 ```vue
 <FeatureCard
-    heading="Privacy first"
-    description="Mozilla products put your privacy first."
-    image-url="/img/privacy.png"
-    image-alt=""
-    image-position="start"
+  heading="Privacy first"
+  description="Mozilla products put your privacy first."
+  image-url="/img/privacy.png"
+  image-alt=""
+  image-position="start"
 >
     <a href="/privacy">Read more</a>
 </FeatureCard>

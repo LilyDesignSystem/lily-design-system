@@ -20,13 +20,13 @@ text-size scale (§5.2). `<lily-motion-picker>` and
 
 ## Files
 
-| File                  | Purpose                                        |
-| --------------------- | ------------------------------------------------ |
-| `spec/index.md`       | Specification-driven contract (canonical).       |
+| File                 | Purpose                                           |
+| -------------------- | ------------------------------------------------- |
+| `spec/index.md`      | Specification-driven contract (canonical).        |
 | `picker-bar.ts`      | Implementation (TypeScript custom-element class). |
-| `picker-bar.test.ts` | Vitest + jsdom spec, one assertion per §7 item.  |
-| `index.ts`             | Barrel re-export + side-effectful registration.  |
-| `index.md`             | Comprehensive user guide.                        |
+| `picker-bar.test.ts` | Vitest + jsdom spec, one assertion per §7 item.   |
+| `index.ts`           | Barrel re-export + side-effectful registration.   |
+| `index.md`           | Comprehensive user guide.                         |
 
 ## Public surface
 

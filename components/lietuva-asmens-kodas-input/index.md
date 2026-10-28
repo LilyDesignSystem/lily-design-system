@@ -23,9 +23,19 @@ LietuvaAsmensKodasInput is a headless input for entering Lithuania's Asmens koda
 ## Usage
 
 ```html
-<Field label="Personal Code" required>
-  <LietuvaAsmensKodasInput label="Personal Code" value={value} required />
-  <Hint>11 digits in the format GYYMMDDNNNC: G encodes sex and century (4 or 6 women, 3 or 5 men), YYMMDD is the date of birth, NNN is a serial, C is the check digit</Hint>
+<Field
+  label="Personal Code"
+  required
+>
+  <LietuvaAsmensKodasInput
+    label="Personal Code"
+    value="{value}"
+    required
+  />
+  <Hint
+    >11 digits in the format GYYMMDDNNNC: G encodes sex and century (4 or 6 women, 3 or 5 men),
+    YYMMDD is the date of birth, NNN is a serial, C is the check digit</Hint
+  >
   <ErrorMessage>Please enter a valid Personal Code</ErrorMessage>
 </Field>
 ```

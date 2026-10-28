@@ -28,14 +28,25 @@ A file upload component provides a button-triggered file picker for uploading fi
 ```html
 <Field label="Upload a scan of your referral letter">
   <Hint>The file must be a JPG, PNG, or PDF and be smaller than 5MB</Hint>
-  <FileUpload label="Upload files" accept=".jpg,.png,.pdf" onchange={handleFiles} />
+  <FileUpload
+    label="Upload files"
+    accept=".jpg,.png,.pdf"
+    onchange="{handleFiles}"
+  />
 </Field>
 ```
 
 ```html
-<Field label="Upload your test results" error="true">
+<Field
+  label="Upload your test results"
+  error="true"
+>
   <ErrorMessage>The selected file must be smaller than 5MB</ErrorMessage>
-  <FileUpload label="Upload files" accept=".jpg,.png,.pdf" onchange={handleFiles} />
+  <FileUpload
+    label="Upload files"
+    accept=".jpg,.png,.pdf"
+    onchange="{handleFiles}"
+  />
 </Field>
 ```
 
@@ -67,14 +78,11 @@ None beyond native button behavior -- Tab to focus the button, Enter or Space to
 
 This headless component provides a `<button>` trigger, a hidden `<input type="file">`, and a status `<span>` with `aria-live="polite"` that announces file selection changes. It manages the input ref and file count internally. The consumer provides all visual styling for the button, status text, and overall layout.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.file-upload` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `file-upload`
 - Verify aria-label="..."` -- provides an accessible name for the upload button

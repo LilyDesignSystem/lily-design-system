@@ -13,14 +13,14 @@ The root of a tool-call record: a native `<details>` closed by default. Put `Too
 
 ## Props
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `class` | string | `""` | Appended to the base class |
-| `status` | string (optional) | — | `pending`, `running`, `done` or `error`; sets `data-status`, and `aria-busy="true"` only while running |
-| `open` | boolean | `false` | Whether expanded (bindable / `v-model` / `@bind-Open` / `open` attribute) |
-| `summary` | slot | — | Summary content: name and status words |
-| `children` | slot | — | The body |
-| `...restProps` | HTML attributes | — | Spread onto the root `<details>` |
+| Prop           | Type              | Default | Description                                                                                            |
+| -------------- | ----------------- | ------- | ------------------------------------------------------------------------------------------------------ |
+| `class`        | string            | `""`    | Appended to the base class                                                                             |
+| `status`       | string (optional) | —       | `pending`, `running`, `done` or `error`; sets `data-status`, and `aria-busy="true"` only while running |
+| `open`         | boolean           | `false` | Whether expanded (bindable / `v-model` / `@bind-Open` / `open` attribute)                              |
+| `summary`      | slot              | —       | Summary content: name and status words                                                                 |
+| `children`     | slot              | —       | The body                                                                                               |
+| `...restProps` | HTML attributes   | —       | Spread onto the root `<details>`                                                                       |
 
 ## Usage
 

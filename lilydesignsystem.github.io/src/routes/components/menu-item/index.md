@@ -32,23 +32,42 @@ Menu items should be placed within a container with `role="menu"` or
 Menu items inside a Menu component with click handlers:
 
 ```html
-<Menu label="File">
-    <MenuItem onclick={() => handleNew()}>New File</MenuItem>
-    <MenuItem onclick={() => handleOpen()}>Open File</MenuItem>
-    <MenuItem onclick={() => handleSave()}>Save</MenuItem>
-</Menu>
+<menu label="File">
+  <menuitem
+    onclick="{()"
+    =""
+  >
+    handleNew()}>New File</menuitem
+  >
+  <menuitem
+    onclick="{()"
+    =""
+  >
+    handleOpen()}>Open File</menuitem
+  >
+  <menuitem
+    onclick="{()"
+    =""
+  >
+    handleSave()}>Save</menuitem
+  >
+</menu>
 ```
 
 Disabled menu item for an unavailable action:
 
 ```html
-<MenuItem aria-disabled="true">Paste</MenuItem>
+<menuitem aria-disabled="true">Paste</menuitem>
 ```
 
 Submenu trigger with expansion state:
 
 ```html
-<MenuItem aria-haspopup="true" aria-expanded={submenuOpen}>Recent Files</MenuItem>
+<menuitem
+  aria-haspopup="true"
+  aria-expanded="{submenuOpen}"
+  >Recent Files</menuitem
+>
 ```
 
 ## Keyboard Interactions
@@ -81,14 +100,11 @@ Submenu trigger with expansion state:
 
 This headless component provides a `<div>` with `role="menuitem"` and `tabindex="-1"` for roving focus managed by the parent menu. The consumer provides all visual styling, including item appearance, hover states, disabled styling, keyboard shortcut hints, and icons.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.menu-item` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `menu-item`
 - Verify role="menuitem"` identifies this as a menu item

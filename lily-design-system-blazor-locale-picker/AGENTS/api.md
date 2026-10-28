@@ -46,22 +46,22 @@ A consumer adds the namespace import once:
 
 ## Parameters
 
-| Parameter             | Type                                  | Required | Default                                            |
-| --------------------- | ------------------------------------- | -------- | -------------------------------------------------- |
-| `Label`               | `string`                              | yes      | `""`                                               |
-| `Locales`             | `IReadOnlyList<string>`               | yes      | `Array.Empty<string>()`                            |
-| `Value`               | `string`                              | no       | `""`                                               |
-| `ValueChanged`        | `EventCallback<string>`               | no       | —                                                  |
-| `DefaultValue`        | `string?`                             | no       | `null` (resolves to `"en"` or `Locales[0]`)        |
-| `StorageKey`          | `string?`                             | no       | `null`                                             |
-| `DetectFromNavigator` | `bool`                                | no       | `false`                                            |
-| `Name`                | `string`                              | no       | `"locale"`                                         |
-| `ApplyDir`            | `bool`                                | no       | `true`                                             |
-| `LocaleLabels`        | `IReadOnlyDictionary<string,string>`  | no       | empty `Dictionary<string, string>()`               |
-| `OnChange`            | `EventCallback<string>`               | no       | —                                                  |
-| `ChildContent`        | `RenderFragment<LocalePickerContext>?`| no       | `null` (the default globe glyph)                   |
-| `CssClass`            | `string`                              | no       | `""`                                               |
-| `AdditionalAttributes`| `Dictionary<string, object>?`         | no       | `null`                                             |
+| Parameter              | Type                                   | Required | Default                                     |
+| ---------------------- | -------------------------------------- | -------- | ------------------------------------------- |
+| `Label`                | `string`                               | yes      | `""`                                        |
+| `Locales`              | `IReadOnlyList<string>`                | yes      | `Array.Empty<string>()`                     |
+| `Value`                | `string`                               | no       | `""`                                        |
+| `ValueChanged`         | `EventCallback<string>`                | no       | —                                           |
+| `DefaultValue`         | `string?`                              | no       | `null` (resolves to `"en"` or `Locales[0]`) |
+| `StorageKey`           | `string?`                              | no       | `null`                                      |
+| `DetectFromNavigator`  | `bool`                                 | no       | `false`                                     |
+| `Name`                 | `string`                               | no       | `"locale"`                                  |
+| `ApplyDir`             | `bool`                                 | no       | `true`                                      |
+| `LocaleLabels`         | `IReadOnlyDictionary<string,string>`   | no       | empty `Dictionary<string, string>()`        |
+| `OnChange`             | `EventCallback<string>`                | no       | —                                           |
+| `ChildContent`         | `RenderFragment<LocalePickerContext>?` | no       | `null` (the default globe glyph)            |
+| `CssClass`             | `string`                               | no       | `""`                                        |
+| `AdditionalAttributes` | `Dictionary<string, object>?`          | no       | `null`                                      |
 
 `Value` is two-way bindable via `@bind-Value`. Other attributes
 fall through via `[Parameter(CaptureUnmatchedValues = true)]`.
@@ -151,20 +151,52 @@ so the test suite can assert against its output.
 An icon button plus a dropdown listbox:
 
 ```html
-<div class="locale-picker {CssClass}" ...AdditionalAttributes>
-  <input type="hidden" name="{Name}" value="{Value}" />
-  <button type="button" class="locale-picker-button"
-          aria-label="{Label}" aria-haspopup="listbox"
-          aria-expanded="false" aria-controls="{listId}">
-    <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true"
-         width="1.05rem" height="1.05rem">…</svg>
+<div
+  class="locale-picker {CssClass}"
+  ...AdditionalAttributes
+>
+  <input
+    type="hidden"
+    name="{Name}"
+    value="{Value}"
+  />
+  <button
+    type="button"
+    class="locale-picker-button"
+    aria-label="{Label}"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="{listId}"
+  >
+    <svg
+      class="locale-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      width="1.05rem"
+      height="1.05rem"
+    >
+      …
+    </svg>
   </button>
-  <ul class="locale-picker-list" id="{listId}" role="listbox"
-      aria-label="{Label}" tabindex="-1" hidden
-      aria-activedescendant="{optionId of active, only while open}">
-    <li class="locale-picker-option" id="{optionId}" role="option"
-        aria-selected="true|false" data-active
-        lang="{TagFor(locale), only when the label is the derived endonym}">{LabelFor(locale)}</li>
+  <ul
+    class="locale-picker-list"
+    id="{listId}"
+    role="listbox"
+    aria-label="{Label}"
+    tabindex="-1"
+    hidden
+    aria-activedescendant="{optionId of active, only while open}"
+  >
+    <li
+      class="locale-picker-option"
+      id="{optionId}"
+      role="option"
+      aria-selected="true|false"
+      data-active
+      lang="{TagFor(locale), only when the label is the derived endonym}"
+    >
+      {LabelFor(locale)}
+    </li>
   </ul>
 </div>
 ```
@@ -184,7 +216,10 @@ Document mutations (only inside `OnAfterRenderAsync(true)` and
 subsequent `SetLocaleAsync` calls):
 
 ```html
-<html lang="{TagFor(locale)}" dir="rtl|ltr">
+<html
+  lang="{TagFor(locale)}"
+  dir="rtl|ltr"
+></html>
 ```
 
 `dir` is only written when `ApplyDir` is `true` (the default).

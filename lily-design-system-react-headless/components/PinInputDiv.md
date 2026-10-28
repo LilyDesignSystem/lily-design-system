@@ -51,25 +51,36 @@ Basic 4-digit PIN input:
 6-digit verification code:
 
 ```tsx
+import PinInputDiv from "./PinInputDiv";
 
-  import PinInputDiv from './PinInputDiv';
+const [code, setCode] = useState("");
 
-  const [code, setCode] = useState("");
-
-
-<PinInputDiv label="Verification Code" length={6} value={code} onChange={setCode} />
+<PinInputDiv
+  label="Verification Code"
+  length={6}
+  value={code}
+  onChange={setCode}
+/>;
 ```
 
 Disabled state:
 
 ```tsx
-<PinInputDiv label="Locked PIN" disabled />
+<PinInputDiv
+  label="Locked PIN"
+  disabled
+/>
 ```
 
 With additional HTML attributes:
 
 ```tsx
-<PinInputDiv label="OTP" value={otp} onChange={setOtp} data-form="login" />
+<PinInputDiv
+  label="OTP"
+  value={otp}
+  onChange={setOtp}
+  data-form="login"
+/>
 ```
 
 ## Keyboard Interactions

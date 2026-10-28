@@ -31,7 +31,11 @@ The consumer provides ThemeSelectOption elements as children to define the avail
 ```
 
 ```tsx
-<ThemeSelect label="Color scheme" value={theme} onChange={setTheme}>
+<ThemeSelect
+  label="Color scheme"
+  value={theme}
+  onChange={setTheme}
+>
   <ThemeSelectOption value="light">Light</ThemeSelectOption>
   <ThemeSelectOption value="dark">Dark</ThemeSelectOption>
   <ThemeSelectOption value="high-contrast">High Contrast</ThemeSelectOption>

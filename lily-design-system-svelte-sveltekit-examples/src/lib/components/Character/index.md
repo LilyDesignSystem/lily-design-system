@@ -30,19 +30,19 @@ Wrap the glyph in `<Character>`. Always provide `label` when the character conve
 
 ## Props
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `class` | `string` | `""` | CSS class name appended to the base class. |
-| `label` | `string` | `undefined` | Accessible name used when not decorative. |
-| `decorative` | `boolean` | `false` | Hide from assistive technology. |
-| `children` | `Snippet` | required | The character to display. |
-| `...restProps` | `unknown` | — | Additional attributes spread onto the `<span>`. |
+| Prop           | Type      | Default     | Description                                     |
+| -------------- | --------- | ----------- | ----------------------------------------------- |
+| `class`        | `string`  | `""`        | CSS class name appended to the base class.      |
+| `label`        | `string`  | `undefined` | Accessible name used when not decorative.       |
+| `decorative`   | `boolean` | `false`     | Hide from assistive technology.                 |
+| `children`     | `Snippet` | required    | The character to display.                       |
+| `...restProps` | `unknown` | —           | Additional attributes spread onto the `<span>`. |
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-    import Character from "./Character.svelte";
+  import Character from "./Character.svelte";
 </script>
 
 <Character label="Check mark">✓</Character>
@@ -50,7 +50,7 @@ Wrap the glyph in `<Character>`. Always provide `label` when the character conve
 
 ```svelte
 <script lang="ts">
-    import Character from "./Character.svelte";
+  import Character from "./Character.svelte";
 </script>
 
 <Character label="Warning">⚠</Character>
@@ -58,7 +58,7 @@ Wrap the glyph in `<Character>`. Always provide `label` when the character conve
 
 ```svelte
 <script lang="ts">
-    import Character from "./Character.svelte";
+  import Character from "./Character.svelte";
 </script>
 
 <Character decorative>★</Character>
@@ -66,7 +66,7 @@ Wrap the glyph in `<Character>`. Always provide `label` when the character conve
 
 ```svelte
 <script lang="ts">
-    import Character from "./Character.svelte";
+  import Character from "./Character.svelte";
 </script>
 
 <p>Press <Character label="Return key">⏎</Character> to submit.</p>

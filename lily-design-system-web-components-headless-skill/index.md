@@ -14,7 +14,7 @@ backlog; it is an 8th catalog, added 2026-09-03.
 It is the framework-specific counterpart, for this catalog, to the general
 [`lily-design-system-skill`](../lily-design-system-skill/) — the same
 relationship the maintainer skill has to this repository's own tooling, but
-scoped here to *using* one particular, headless library rather than
+scoped here to _using_ one particular, headless library rather than
 the whole system's concepts. It follows the `lily-design-system-` prefix
 that marks the monorepo's implementation subprojects, because it is fully
 bound to this repository's own catalog and conventions, not a portable

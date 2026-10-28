@@ -42,11 +42,11 @@ consumer.
 
 All three helpers share one markup model:
 
-| Helper             | Control                                       |
-| ------------------ | --------------------------------------------- |
-| `theme-picker`     | Icon button (◑) + `role="listbox"` popup.     |
-| `locale-picker`    | Icon button (🌐) + `role="listbox"` popup.    |
-| `text-size-picker` | Icon button (A) + `role="listbox"` popup.     |
+| Helper             | Control                                    |
+| ------------------ | ------------------------------------------ |
+| `theme-picker`     | Icon button (◑) + `role="listbox"` popup.  |
+| `locale-picker`    | Icon button (🌐) + `role="listbox"` popup. |
+| `text-size-picker` | Icon button (A) + `role="listbox"` popup.  |
 
 All three were converted from native `<select>` elements to
 icon-button-plus-listbox widgets — `theme-picker` and `locale-picker`
@@ -56,7 +56,7 @@ is a `<button aria-haspopup="listbox">`, and the popup is a
 
 `text-size-picker`'s glyph is the letter `A` (U+0041), not a
 pictograph: U+1F5DB DECREASE FONT SIZE SYMBOL has no real glyph in
-common font stacks and means *decrease* rather than *size*. A plain
+common font stacks and means _decrease_ rather than _size_. A plain
 letter renders in the page's own font everywhere and stays monochrome
 like ◑.
 

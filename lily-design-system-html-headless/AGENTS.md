@@ -115,7 +115,13 @@ Each component has these files:
     </div>
 -->
 
-<div class="component-kebab-case" role="region" aria-label="Example">...</div>
+<div
+  class="component-kebab-case"
+  role="region"
+  aria-label="Example"
+>
+  ...
+</div>
 
 <script>
   // ComponentPascalCase behavior

@@ -17,15 +17,15 @@ When the two disagree, the Svelte side wins.
 
 ## Files
 
-| File | Purpose |
-| ---- | ------- |
-| `spec/index.md` | Specification-driven contract (canonical). |
-| `SearchPicker.vue` | Implementation. `<script setup lang="ts">`. |
-| `SearchPicker.test.ts` | Vitest spec, one test per §7 clause. |
-| `index.ts` | Barrel re-export. |
-| `shims.d.ts` | Local ambient declaration for `@lilydesignsystem/vue-headless` (build-time typing only). |
-| `index.md` | User guide. |
-| `docs/accessibility.md` | Tradeoffs, stated plainly. |
+| File                    | Purpose                                                                                  |
+| ----------------------- | ---------------------------------------------------------------------------------------- |
+| `spec/index.md`         | Specification-driven contract (canonical).                                               |
+| `SearchPicker.vue`      | Implementation. `<script setup lang="ts">`.                                              |
+| `SearchPicker.test.ts`  | Vitest spec, one test per §7 clause.                                                     |
+| `index.ts`              | Barrel re-export.                                                                        |
+| `shims.d.ts`            | Local ambient declaration for `@lilydesignsystem/vue-headless` (build-time typing only). |
+| `index.md`              | User guide.                                                                              |
+| `docs/accessibility.md` | Tradeoffs, stated plainly.                                                               |
 
 ## Public surface
 

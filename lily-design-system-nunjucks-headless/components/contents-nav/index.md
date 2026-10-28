@@ -50,4 +50,3 @@ Params: `spy`, `spyOffset` (px, default 0), `spyCurrent` (default `"true"`), `sp
 - **Clicks:** the clicked link becomes current at once and stays so until the scroll settles (`scrollend`, or 1 s).
 - **Not done for you:** smooth scrolling (CSS `scroll-behavior` inside `prefers-reduced-motion: no-preference`), a fixed
   header's offset (`scroll-margin-top` on the targets plus the same `offset`), moving focus, and updating the URL.
-

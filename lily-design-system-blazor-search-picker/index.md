@@ -42,12 +42,12 @@ markup renders but the button cannot open the panel.
 
 The destination is `SearchPicker.SearchHref(query, action)`:
 
-| You type     | `Action`    | Destination   |
-| ------------ | ----------- | ------------- |
-| `foo`        | `"/"`       | `/?foo`       |
-| `  foo bar ` | `"/"`       | `/?foo%20bar` |
-| `a&b`        | `"/"`       | `/?a%26b`     |
-| `foo`        | `"/search"` | `/search?foo` |
+| You type   | `Action`    | Destination   |
+| ---------- | ----------- | ------------- |
+| `foo`      | `"/"`       | `/?foo`       |
+| ` foo bar` | `"/"`       | `/?foo%20bar` |
+| `a&b`      | `"/"`       | `/?a%26b`     |
+| `foo`      | `"/search"` | `/search?foo` |
 
 The query is trimmed and encoded exactly as JavaScript's
 `encodeURIComponent` would, so spaces and `&` cannot split or corrupt it,

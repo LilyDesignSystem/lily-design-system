@@ -104,7 +104,7 @@ Import, pass `label`, `maxLength`, and bind `value`. Optionally provide a transl
   label="Message"
   maxLength={1000}
   rows={8}
-  required={required}
+  {required}
   bind:value={body}
 />
 ```

@@ -24,11 +24,11 @@ An anchored popover that spotlights and explains a single feature.
 
 ```vue
 <Coachmark
-    :open="showCoach"
-    title="New feature"
-    description="Try out the new layout."
-    dismiss-label="Dismiss"
-    @dismiss="showCoach = false"
+  :open="showCoach"
+  title="New feature"
+  description="Try out the new layout."
+  dismiss-label="Dismiss"
+  @dismiss="showCoach = false"
 />
 ```
 

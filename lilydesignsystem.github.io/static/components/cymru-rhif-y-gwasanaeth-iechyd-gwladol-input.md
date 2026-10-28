@@ -23,9 +23,19 @@ CymruRhifYGwasanaethIechydGwladolInput is a headless input for entering Wales's 
 ## Usage
 
 ```html
-<Field label="National Health Service Number" required>
-  <CymruRhifYGwasanaethIechydGwladolInput label="National Health Service Number" value={value} required />
-  <Hint>10 digits in 3-3-4 format with a Modulus-11 check digit (shared with England and the Isle of Man)</Hint>
+<Field
+  label="National Health Service Number"
+  required
+>
+  <CymruRhifYGwasanaethIechydGwladolInput
+    label="National Health Service Number"
+    value="{value}"
+    required
+  />
+  <Hint
+    >10 digits in 3-3-4 format with a Modulus-11 check digit (shared with England and the Isle of
+    Man)</Hint
+  >
   <ErrorMessage>Please enter a valid National Health Service Number</ErrorMessage>
 </Field>
 ```

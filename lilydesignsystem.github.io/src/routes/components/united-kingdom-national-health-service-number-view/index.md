@@ -25,7 +25,12 @@ This component renders the NHS number as an inline `<span>` element with an acce
 <SummaryList>
   <SummaryListItem>
     <dt>NHS Number</dt>
-    <dd><UnitedKingdomNationalHealthServiceNumberView label="NHS Number" value="123 456 7890" /></dd>
+    <dd>
+      <UnitedKingdomNationalHealthServiceNumberView
+        label="NHS Number"
+        value="123 456 7890"
+      />
+    </dd>
   </SummaryListItem>
 </SummaryList>
 ```
@@ -56,17 +61,14 @@ This component renders the NHS number as an inline `<span>` element with an acce
 
 This headless component provides a `<span>` element with `aria-label` for accessible read-only display of an NHS number. The consumer provides the pre-formatted value and all visual styling.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.united-kingdom-national-health-service-number-view` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
 
-
 - Verify the component renders a `<div>` element with class `united-kingdom-national-health-service-number-view`
-- Verify aria-label` -- provides the accessible name from the `label` prop so screen readers can announce the purpose of the displayed number
+- Verify aria-label`-- provides the accessible name from the`label` prop so screen readers can announce the purpose of the displayed number
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied
 

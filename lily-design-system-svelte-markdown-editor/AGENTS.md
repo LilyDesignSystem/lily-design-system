@@ -16,16 +16,16 @@ The canonical implementation is the Svelte package
 
 ## Files
 
-| File | Purpose |
-| ---- | ------- |
-| `spec/index.md` | Specification-driven contract (canonical). |
-| `MarkdownEditor.svelte` | Implementation. Svelte 5 runes + TypeScript. |
-| `MarkdownEditor.test.ts` | Vitest spec. |
-| `e2e/undo.spec.ts` | Real-browser undo / redo (Playwright). |
-| `markdown-format.ts` | Pure Markdown transforms. **Copied from `shared/markdown-format.ts` by `bin/sync-shared-modules`; never edit this copy.** |
-| `index.md` | User guide. |
-| `docs/accessibility.md` | Tradeoffs, stated plainly. |
-| `examples/` | Runnable examples. |
+| File                     | Purpose                                                                                                                   |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------- |
+| `spec/index.md`          | Specification-driven contract (canonical).                                                                                |
+| `MarkdownEditor.svelte`  | Implementation. Svelte 5 runes + TypeScript.                                                                              |
+| `MarkdownEditor.test.ts` | Vitest spec.                                                                                                              |
+| `e2e/undo.spec.ts`       | Real-browser undo / redo (Playwright).                                                                                    |
+| `markdown-format.ts`     | Pure Markdown transforms. **Copied from `shared/markdown-format.ts` by `bin/sync-shared-modules`; never edit this copy.** |
+| `index.md`               | User guide.                                                                                                               |
+| `docs/accessibility.md`  | Tradeoffs, stated plainly.                                                                                                |
+| `examples/`              | Runnable examples.                                                                                                        |
 
 ## Rules that matter
 

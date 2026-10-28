@@ -56,14 +56,11 @@ None -- this component is a passive container. Keyboard navigation is handled by
 
 This headless component provides a `<thead>` element with implicit `rowgroup` role for grouping header rows within a Gantt chart grid. The consumer provides all visual styling including header background, typography, and column alignment.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.gantt-table-thead` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<thead>` element with class `gantt-table-thead`
 - Verify pass-through attributes are applied

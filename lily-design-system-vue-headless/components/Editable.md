@@ -26,20 +26,29 @@ This headless component toggles between a display state (`<span role="button">`)
 ## Usage
 
 ```svelte
-<Editable label="Name" bind:value />
+<Editable
+  label="Name"
+  bind:value
+/>
 ```
 
 ```svelte
-<Editable label="Title" bind:value bind:editing />
+<Editable
+  label="Title"
+  bind:value
+  bind:editing
+/>
 ```
 
 ## Keyboard Interactions
 
 In display mode:
+
 - Enter: Activate edit mode
 - Space: Activate edit mode
 
 In edit mode:
+
 - Enter: Confirm the edit and return to display mode
 - Escape: Cancel the edit and return to display mode
 

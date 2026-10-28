@@ -17,15 +17,15 @@ are icon button + listbox.
 
 ## Files
 
-| File                       | Purpose                                          |
-| -------------------------- | ------------------------------------------------ |
-| `spec/index.md`            | Specification-driven contract (canonical).       |
-| `TextSizePicker.vue`       | Implementation. `<script setup lang="ts">`.      |
-| `TextSizePicker.test.ts`   | Vitest spec, one assertion per §7 acceptance.    |
-| `index.ts`                 | Barrel re-export.                                |
-| `index.md`                 | Human-readable guide.                            |
-| `docs/accessibility.md`    | Accessibility rationale and the three tradeoffs. |
-| `CHANGELOG.md`             | Release record.                                  |
+| File                     | Purpose                                          |
+| ------------------------ | ------------------------------------------------ |
+| `spec/index.md`          | Specification-driven contract (canonical).       |
+| `TextSizePicker.vue`     | Implementation. `<script setup lang="ts">`.      |
+| `TextSizePicker.test.ts` | Vitest spec, one assertion per §7 acceptance.    |
+| `index.ts`               | Barrel re-export.                                |
+| `index.md`               | Human-readable guide.                            |
+| `docs/accessibility.md`  | Accessibility rationale and the three tradeoffs. |
+| `CHANGELOG.md`           | Release record.                                  |
 
 ## Public surface
 

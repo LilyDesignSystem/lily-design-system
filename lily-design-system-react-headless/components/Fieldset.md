@@ -21,15 +21,26 @@ The component supports a `disabled` prop that disables all child form controls a
 
 ```tsx
 <Fieldset legend="Contact info">
-  <label>Email <input type="email" /></label>
-  <label>Phone <input type="tel" /></label>
+  <label>
+    Email <input type="email" />
+  </label>
+  <label>
+    Phone <input type="tel" />
+  </label>
 </Fieldset>
 ```
 
 ```tsx
-<Fieldset legend="Shipping address" disabled={usesBillingAddress}>
-  <label>Street <input type="text" /></label>
-  <label>City <input type="text" /></label>
+<Fieldset
+  legend="Shipping address"
+  disabled={usesBillingAddress}
+>
+  <label>
+    Street <input type="text" />
+  </label>
+  <label>
+    City <input type="text" />
+  </label>
 </Fieldset>
 ```
 

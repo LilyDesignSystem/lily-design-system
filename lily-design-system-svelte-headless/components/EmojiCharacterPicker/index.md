@@ -30,26 +30,26 @@ Wrap rows of `role="gridcell"` buttons inside the picker.
 
 ```svelte
 <script lang="ts">
-    import EmojiCharacterPicker from "./EmojiCharacterPicker.svelte";
+  import EmojiCharacterPicker from "./EmojiCharacterPicker.svelte";
 </script>
 
 <EmojiCharacterPicker label="Choose an emoji">
-    <div role="row">
-        <button role="gridcell">😀</button>
-        <button role="gridcell">😂</button>
-        <button role="gridcell">😍</button>
-    </div>
+  <div role="row">
+    <button role="gridcell">😀</button>
+    <button role="gridcell">😂</button>
+    <button role="gridcell">😍</button>
+  </div>
 </EmojiCharacterPicker>
 ```
 
 ## Props
 
-| Prop       | Type       | Default  | Description                                |
-| ---------- | ---------- | -------- | ------------------------------------------ |
-| `class`    | `string`   | `""`     | CSS class appended to the base class.     |
-| `label`    | `string`   | required | Accessible name via `aria-label`.          |
-| `children` | `Snippet`  | required | Grid content (rows and gridcells).         |
-| `...rest`  | `unknown`  | —        | Additional HTML attributes on the `<div>`. |
+| Prop       | Type      | Default  | Description                                |
+| ---------- | --------- | -------- | ------------------------------------------ |
+| `class`    | `string`  | `""`     | CSS class appended to the base class.      |
+| `label`    | `string`  | required | Accessible name via `aria-label`.          |
+| `children` | `Snippet` | required | Grid content (rows and gridcells).         |
+| `...rest`  | `unknown` | —        | Additional HTML attributes on the `<div>`. |
 
 ## Usage
 
@@ -57,11 +57,11 @@ Wrap rows of `role="gridcell"` buttons inside the picker.
 
 ```svelte
 <EmojiCharacterPicker label="Quick reactions">
-    <div role="row">
-        <button role="gridcell">👍</button>
-        <button role="gridcell">❤️</button>
-        <button role="gridcell">😂</button>
-    </div>
+  <div role="row">
+    <button role="gridcell">👍</button>
+    <button role="gridcell">❤️</button>
+    <button role="gridcell">😂</button>
+  </div>
 </EmojiCharacterPicker>
 ```
 
@@ -69,14 +69,20 @@ Wrap rows of `role="gridcell"` buttons inside the picker.
 
 ```svelte
 <EmojiCharacterPicker label="Emoji picker">
-    <div role="row" aria-label="Smileys">
-        <button role="gridcell">😀</button>
-        <button role="gridcell">😂</button>
-    </div>
-    <div role="row" aria-label="Animals">
-        <button role="gridcell">🐶</button>
-        <button role="gridcell">🐱</button>
-    </div>
+  <div
+    role="row"
+    aria-label="Smileys"
+  >
+    <button role="gridcell">😀</button>
+    <button role="gridcell">😂</button>
+  </div>
+  <div
+    role="row"
+    aria-label="Animals"
+  >
+    <button role="gridcell">🐶</button>
+    <button role="gridcell">🐱</button>
+  </div>
 </EmojiCharacterPicker>
 ```
 
@@ -84,13 +90,16 @@ Wrap rows of `role="gridcell"` buttons inside the picker.
 
 ```svelte
 <EmojiCharacterPicker label="Emoji">
-    {#each rows as row}
-        <div role="row">
-            {#each row as e}
-                <button role="gridcell" onclick={() => pick(e)}>{e}</button>
-            {/each}
-        </div>
-    {/each}
+  {#each rows as row}
+    <div role="row">
+      {#each row as e}
+        <button
+          role="gridcell"
+          onclick={() => pick(e)}>{e}</button
+        >
+      {/each}
+    </div>
+  {/each}
 </EmojiCharacterPicker>
 ```
 
@@ -98,14 +107,26 @@ Wrap rows of `role="gridcell"` buttons inside the picker.
 
 ```svelte
 <EmojiCharacterPicker label="Reactions">
-    <div role="row">
-        <button role="gridcell" onclick={() => react("👍")}>
-            <Emoji emoji="👍" label="Thumbs up" />
-        </button>
-        <button role="gridcell" onclick={() => react("👎")}>
-            <Emoji emoji="👎" label="Thumbs down" />
-        </button>
-    </div>
+  <div role="row">
+    <button
+      role="gridcell"
+      onclick={() => react("👍")}
+    >
+      <Emoji
+        emoji="👍"
+        label="Thumbs up"
+      />
+    </button>
+    <button
+      role="gridcell"
+      onclick={() => react("👎")}
+    >
+      <Emoji
+        emoji="👎"
+        label="Thumbs down"
+      />
+    </button>
+  </div>
 </EmojiCharacterPicker>
 ```
 
@@ -113,9 +134,9 @@ Wrap rows of `role="gridcell"` buttons inside the picker.
 
 ```svelte
 <EmojiCharacterPicker label="Choisissez un emoji">
-    <div role="row">
-        <button role="gridcell">😀</button>
-    </div>
+  <div role="row">
+    <button role="gridcell">😀</button>
+  </div>
 </EmojiCharacterPicker>
 ```
 

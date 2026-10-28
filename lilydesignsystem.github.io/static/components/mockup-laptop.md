@@ -25,7 +25,10 @@ Basic laptop mockup with a screenshot:
 
 ```html
 <MockupLaptop label="Dashboard application">
-  <Image src="dashboard.png" alt="Dashboard screenshot" />
+  <image
+    src="dashboard.png"
+    alt="Dashboard screenshot"
+  />
 </MockupLaptop>
 ```
 
@@ -35,7 +38,10 @@ Laptop mockup for a product marketing section:
 <section class="hero">
   <h2>Built for productivity</h2>
   <MockupLaptop label="Project management application showing task board">
-    <Image src="taskboard.png" alt="Task board with columns for To Do, In Progress, and Done" />
+    <image
+      src="taskboard.png"
+      alt="Task board with columns for To Do, In Progress, and Done"
+    />
   </MockupLaptop>
 </section>
 ```
@@ -46,11 +52,17 @@ Laptop mockup with live embedded content:
 <MockupLaptop label="Spreadsheet editor preview">
   <DataTable label="Q4 Revenue">
     <DataTableHead>
-      <DataTableRow><DataTableTD>Month</DataTableTD><DataTableTD>Revenue</DataTableTD></DataTableRow>
+      <DataTableRow
+        ><DataTableTD>Month</DataTableTD><DataTableTD>Revenue</DataTableTD></DataTableRow
+      >
     </DataTableHead>
     <DataTableBody>
-      <DataTableRow><DataTableTD>October</DataTableTD><DataTableTD>$42,000</DataTableTD></DataTableRow>
-      <DataTableRow><DataTableTD>November</DataTableTD><DataTableTD>$48,500</DataTableTD></DataTableRow>
+      <DataTableRow
+        ><DataTableTD>October</DataTableTD><DataTableTD>$42,000</DataTableTD></DataTableRow
+      >
+      <DataTableRow
+        ><DataTableTD>November</DataTableTD><DataTableTD>$48,500</DataTableTD></DataTableRow
+      >
     </DataTableBody>
   </DataTable>
 </MockupLaptop>

@@ -30,8 +30,18 @@ A dual list box for moving items between two lists. The component is a `role="gr
   target={<Listbox>…</Listbox>}
   actions={
     <>
-      <button onClick={moveRight} aria-label="Move right">→</button>
-      <button onClick={moveLeft} aria-label="Move left">←</button>
+      <button
+        onClick={moveRight}
+        aria-label="Move right"
+      >
+        →
+      </button>
+      <button
+        onClick={moveLeft}
+        aria-label="Move left"
+      >
+        ←
+      </button>
     </>
   }
 />

@@ -103,7 +103,7 @@ data-lily-theme-picker="{name}">`. Only the active theme is
 | `value`            | `string` (`v-model:value`) | no       | `""`                                              | Currently selected theme slug.                                                                                                            |
 | `defaultValue`     | `string`                   | no       | `"light"` if present in `themes`, else first item | Initial theme.                                                                                                                            |
 | `storageKey`       | `string`                   | no       | `undefined`                                       | If set, persist the selection to `localStorage` under this key.                                                                           |
-| `detectFromSystem` | `boolean`                  | no       | `false`                                           | Resolve `prefers-color-scheme` to a supported theme on first visit. Mirrors `detectFromNavigator` on locale-picker.                      |
+| `detectFromSystem` | `boolean`                  | no       | `false`                                           | Resolve `prefers-color-scheme` to a supported theme on first visit. Mirrors `detectFromNavigator` on locale-picker.                       |
 | `name`             | `string`                   | no       | `"theme"`                                         | `name` of the hidden input that carries the value in a form. **Also** discriminates the managed `<link data-lily-theme-picker="{name}">`. |
 | `extension`        | `string`                   | no       | `".css"`                                          | File extension appended to each slug when constructing the URL.                                                                           |
 | `target`           | `HTMLElement \| null`      | no       | `document.documentElement`                        | Element that receives `data-theme`.                                                                                                       |
@@ -115,7 +115,7 @@ data-lily-theme-picker="{name}">`. Only the active theme is
 | Event          | Payload  | Purpose                                        |
 | -------------- | -------- | ---------------------------------------------- |
 | `update:value` | `string` | Emitted on selection (drives `v-model:value`). |
-| `change`       | `string` | Emitted after the picker applies a new theme. |
+| `change`       | `string` | Emitted after the picker applies a new theme.  |
 
 ### 4.3 Slots
 
@@ -146,8 +146,15 @@ name.
 ### 4.4 DOM contract
 
 ```html
-<div class="theme-picker {class}" ...$attrs>
-  <input type="hidden" name="{name}" value="{value}" />
+<div
+  class="theme-picker {class}"
+  ...$attrs
+>
+  <input
+    type="hidden"
+    name="{name}"
+    value="{value}"
+  />
   <button
     type="button"
     class="theme-picker-button"
@@ -156,9 +163,36 @@ name.
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>
+    <svg
+      class="theme-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle
+        cx="8"
+        cy="8"
+        r="6"
+      />
+      <path
+        d="M8 2a6 6 0 0 1 0 12z"
+        fill="currentColor"
+        stroke="none"
+      />
+    </svg>
   </button>
-  <div class="theme-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
+  <div
+    class="theme-picker-tooltip"
+    role="tooltip"
+    id="{tooltipId}"
+    hidden
+  >
+    {label}
+  </div>
   <ul
     class="theme-picker-list"
     id="{listId}"
@@ -326,17 +360,17 @@ On the **button**:
 
 On the **listbox**:
 
-| Key                  | Action                                                         |
-| -------------------- | -------------------------------------------------------------- |
-| `ArrowDown`          | Move the active option down one. **Clamps** — no wrapping.     |
-| `ArrowUp`            | Move the active option up one. **Clamps** — no wrapping.       |
-| `Home` / `End`       | Jump to the first / last option.                               |
-| `Enter` / `Space`    | Select the active option, apply it, close, refocus the button. |
-| `Escape`             | Close and refocus the button **without** changing the value.   |
-| `PageUp`             | Move the active option up ten. Clamps at the first.            |
-| `PageDown`           | Move the active option down ten. Clamps at the last.           |
+| Key                  | Action                                                                                                                                                                                                                                                     |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ArrowDown`          | Move the active option down one. **Clamps** — no wrapping.                                                                                                                                                                                                 |
+| `ArrowUp`            | Move the active option up one. **Clamps** — no wrapping.                                                                                                                                                                                                   |
+| `Home` / `End`       | Jump to the first / last option.                                                                                                                                                                                                                           |
+| `Enter` / `Space`    | Select the active option, apply it, close, refocus the button.                                                                                                                                                                                             |
+| `Escape`             | Close and refocus the button **without** changing the value.                                                                                                                                                                                               |
+| `PageUp`             | Move the active option up ten. Clamps at the first.                                                                                                                                                                                                        |
+| `PageDown`           | Move the active option down ten. Clamps at the last.                                                                                                                                                                                                       |
 | `Tab`                | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position. Hiding the focused list first would drop focus to `<body>` and restart Tab from the top of the document. |
-| Printable characters | Typeahead over the option **labels**, 500 ms buffer reset. A single character advances to the **next** match and repeating it cycles onward; a buffer of differing characters refines the match from the active option. Search wraps once. |
+| Printable characters | Typeahead over the option **labels**, 500 ms buffer reset. A single character advances to the **next** match and repeating it cycles onward; a buffer of differing characters refines the match from the active option. Search wraps once.                 |
 
 Pointer and focus behaviour: clicking an option selects it, applies it, and closes the listbox
 — the same close `Enter` performs; clicking

@@ -23,9 +23,22 @@ IndonesiaNomorIndukKependudukanInput is a headless input for entering Indonesia'
 ## Usage
 
 ```html
-<Field label="Nomor Induk Kependudukan (NIK)" required>
-  <IndonesiaNomorIndukKependudukanInput label="Nomor Induk Kependudukan (NIK)" value={value} required />
-  <Hint>Sixteen digits in the form PPKKCC-DDMMYY-NNNN: the first six digits encode province, regency/city, and sub-district of first registration; the next six encode date of birth (with 40 added to the day-of-month digits for a female holder, e.g. day 10 becomes 50); the final four digits are a sequence number disambiguating same-day-same-subdistrict registrations. No published check digit.</Hint>
+<Field
+  label="Nomor Induk Kependudukan (NIK)"
+  required
+>
+  <IndonesiaNomorIndukKependudukanInput
+    label="Nomor Induk Kependudukan (NIK)"
+    value="{value}"
+    required
+  />
+  <Hint
+    >Sixteen digits in the form PPKKCC-DDMMYY-NNNN: the first six digits encode province,
+    regency/city, and sub-district of first registration; the next six encode date of birth (with 40
+    added to the day-of-month digits for a female holder, e.g. day 10 becomes 50); the final four
+    digits are a sequence number disambiguating same-day-same-subdistrict registrations. No
+    published check digit.</Hint
+  >
   <ErrorMessage>Please enter a valid Nomor Induk Kependudukan</ErrorMessage>
 </Field>
 ```

@@ -34,7 +34,7 @@ longer aborts on the first already-published package.
 - New `lily-design-system-alpine-examples`: a static site (`node build.mjs`, 578 pages, no framework runtime) with `/`, `/components/` (searchable), `/components/{slug}/` for all 571 components (a live demo, the shipped markup, links) and a page per helper; the reference themes are copied in and chosen from a header selector. vitest mounts every demo under real Alpine in jsdom (no Alpine error, base class kept, no empty `aria-label`); Playwright + axe visits every page in Chromium at WCAG 2.2 AA (586 tests), with one named reference-theme finding (the filled-star colour of `five-star-rating-view`, 1.49:1). CI job `alpine-examples`.
 - New helpers, each an Alpine plugin plus a `snippet.html`, TypeScript built with tsup, a subset of its Svelte reference with a `spec/index.md` that lists what is built and what is not: `alpine-data-grid` (25 tests: multi-column sort, filter, selection, pagination, column visibility, APG grid keys, CSV / TSV / clipboard export), `alpine-kanban-board` (18: drag, keyboard move menu, Alt+Arrow, WIP limits), `alpine-calendar` (21: month and week, picked and disabled days, events, bounds, date-grid keys), `alpine-gantt-chart` (19: day timeline, hierarchy, milestones, dependencies, critical path). They reuse the shared pure modules and are in the CI `helper-packages` matrix and Dependabot (now 33 entries); none is published, and `bin/publish-helpers` does not list them.
 - The sweep found and fixed four defects in the Alpine catalog: six `role="radio"` picker buttons lacked `aria-checked`; the tab-panel sample had unnamed tabs; the tour's `<li role="group">` is invalid inside an `<ol>` (steps are now plain list items with `aria-roledescription="step"`); the hidden file input of `file-upload` was still reachable. Static snippets no longer keep a second leading header comment.
-- Lesson recorded in the skill and the helper specs: an Alpine expression that evaluates to a function is *called*, so snippets test `!!labels.x` in `x-if`, never `labels.x`.
+- Lesson recorded in the skill and the helper specs: an Alpine expression that evaluates to a function is _called_, so snippets test `!!labels.x` in `x-if`, never `labels.x`.
 - Counts: 150 implementation subprojects (9 headless, 8 example apps, 133 helper packages); `spec/architecture` corrected (its summary still said 129, 26 skills and git subtrees).
 
 ## Alpine.js headless catalog — 2026-10-21
@@ -179,7 +179,7 @@ From tasks.md P10-T13.
 From tasks.md P10-T8 and P10-T11.
 
 - **English defaults removed.** `PinInputDiv` named each box "Digit N of M"; it takes an optional `digitLabel(position,
-  length)` (Nunjucks: a `digitLabel` template with `{position}` and `{length}`) and otherwise names each box by the
+length)` (Nunjucks: a `digitLabel` template with `{position}` and `{length}`) and otherwise names each box by the
   group's `label`. `FiveStarRatingPicker` printed "star" / "stars"; it takes an optional `starLabel(star)` and otherwise
   shows the number. `FiveFaceRatingPicker` and `FiveFaceRatingView` defaulted to "Very bad" … "Very good"; they default
   to "1" … "5". Nunjucks had more: its star and face picker buttons, star and face views, Net Promoter Score button and
@@ -645,7 +645,7 @@ nunjucks 0.3.0, Blazor 0.3.0, themes 0.2.0, every helper package):
 - **Fixes**: `bin/sync` now keeps the site's copy of the 45 themes in step (it had drifted); raw HTML in component
   descriptions no longer renders as live form controls on the docs site; 166 missing site Playwright specs written.
 - **Verified**: `bin/test`, `bin/check-links`, `bin/check-coverage`, `bin/smoke-packages` (all packages OK), docs
-  site `npm run check` and build, docs-site Playwright — *corrected*: this figure was originally recorded as 1,873 passed, but that run hid 295 failures (166 newly generated specs with a broken title regex, 129 H1 checks); see "Docs-site Playwright suite repaired" below the 0.8.0 entry.
+  site `npm run check` and build, docs-site Playwright — _corrected_: this figure was originally recorded as 1,873 passed, but that run hid 295 failures (166 newly generated specs with a broken title regex, 129 H1 checks); see "Docs-site Playwright suite repaired" below the 0.8.0 entry.
 
 ## `chat-composer`, catalog 570 → 571 — 2026-10-05
 
@@ -1129,7 +1129,7 @@ itself:
   sibling's actual package name; `html-helpers` and the two other
   catalogs already keyed off `package.json#dependencies` correctly and
   needed no change. Without this fix, `@lilydesignsystem/react-picker-
-  bar`'s build would have failed outright (confirmed: it did, before
+bar`'s build would have failed outright (confirmed: it did, before
   the fix).
 - Found, not fixed (**out of scope, pre-existing, unrelated to the
   rescope**): `angular-headless/index.ts` exports 6 national-identifier
@@ -1312,7 +1312,7 @@ pair each cover exactly one real subproject in depth, the umbrella skill
 maps all of that framework's real subprojects — headless, helpers, and,
 uniquely, the example app, since neither sibling skill covers it — and
 points down into the pair for the deep contracts rather than restating
-them.  `lily-design-system-web-components-skill` is the one exception
+them. `lily-design-system-web-components-skill` is the one exception
 with only two subprojects to map, not three: it states plainly that no
 Web Components example application exists yet rather than implying one.
 Each was authored by a dedicated agent reading that framework's own
@@ -1466,7 +1466,7 @@ every failure was tolerated — P7-T19's "every other failure still
 aborts" had never been true) and no catalog devDependencies installed
 anywhere (`sh: 1: tsup: not found`). Both fixed and proven (injected
 `exit 7` aborts; a cold run installs from the frozen lockfile and
-reaches all six). The second run then failed *loudly* with
+reaches all six). The second run then failed _loudly_ with
 `ENEEDAUTH`: the repository has one Actions secret, `NUGET_USER`, and
 **`NPM_TOKEN` was never configured**. Blocked on the maintainer
 creating an npm automation token for the `lily-design-system-*` names
@@ -1828,7 +1828,7 @@ nuget.org — without asking again for that judgement or that action each
 time. This landed in two steps in the same session: the first pass
 authorized execution only and reserved the readiness call for the
 maintainer; the second lifted that reservation too. What a release
-*contains*, and every design-principle, licensing, and trademark
+_contains_, and every design-principle, licensing, and trademark
 decision, are unchanged — the maintainer's alone. `AI_STATEMENT.md` §12
 gained a residual-risk bullet naming the real consequence plainly: a
 wrongly-judged "ready" ships before anyone reviews the judgement, not
@@ -1905,10 +1905,10 @@ that had nothing to do with which version CI happened to be pinned to:
    silently treated as "don't allow", so every one of those packages'
    install-time scripts got skipped and `pnpm install` hard-failed with
    `[ERR_PNPM_IGNORED_BUILDS]`. Fixed by writing the intended `true` in
-   all four files. This also *fully* explains — and corrects — the
+   all four files. This also _fully_ explains — and corrects — the
    2026-09-01/02 spec notes blaming this sandbox's network egress for
    html-headless's WebdriverIO suite never completing: chromedriver's
-   own npm package downloads its binary via a *postinstall* script,
+   own npm package downloads its binary via a _postinstall_ script,
    which was being silently ignored, so the driver was never cached and
    `wdio` fell back to its own on-demand fetcher at test-run time
    instead — the thing that was actually failing. With the fix,
@@ -1922,7 +1922,7 @@ that had nothing to do with which version CI happened to be pinned to:
    inconsistency, not a deliberate split (every `.gitignore` involved
    was a bare, uncommented `pnpm-workspace.yaml` line with nothing
    explaining why). That meant the committed repo state — what CI and
-   a fresh clone actually see — had *no* build-script allowlist at all
+   a fresh clone actually see — had _no_ build-script allowlist at all
    for those ten (`html-headless`, `html-css-js-examples`,
    `svelte-headless`, `svelte-sveltekit-examples`, `react-headless`,
    `react-next-examples`, `vue-headless`, `vue-nuxt-examples`,
@@ -2254,11 +2254,11 @@ Fixing `SearchAndFilter.razor` surfaced two further real defects in
   `@onclick` handler, matching the canonical Svelte version's
   self-toggling behaviour.
 
-Root-caused *why* five pages made the same mistake independently: both
+Root-caused _why_ five pages made the same mistake independently: both
 `lily-design-system-blazor-headless/AGENTS.md`'s "State Management"
 section and `lily-design-system-blazor-web-examples/AGENTS.md`'s "Key
 Component APIs" section documented `Value`/`ValueChanged`/
-`Checked`/`CheckedChanged`/`OnSubmit` as the *general* pattern across
+`Checked`/`CheckedChanged`/`OnSubmit` as the _general_ pattern across
 components — exactly the doc an agent or a person would read before
 writing one of these pages. Rewrote both to state the real rule (most
 components are `Label`/`CssClass`/`ChildContent`/`AdditionalAttributes`
@@ -2398,7 +2398,7 @@ generated, up from 491) before reverting.
 ## `bin/check-coverage`: the coverage drift matrix — 2026-08-29
 
 [plan.md](plan.md) P7-T4. `bin/test` machine-gates required-file
-presence for every subproject and catalog-registry *counts*, but only
+presence for every subproject and catalog-registry _counts_, but only
 checks individual per-component files for three implementations
 (svelte-headless, its svelte-sveltekit-examples copy, nunjucks-headless)
 — documented as a known gap in `docs/developing.md`'s "honesty note".
@@ -2445,7 +2445,7 @@ structurally right (base class, rest-props spread, an accessible
 `label` prop) and leaves the semantics for a human to fill in.
 
 Rather than reimplementing registry logic, the one new demo-map entry
-and the new `AGENTS.md` are written by hand and then the *existing*
+and the new `AGENTS.md` are written by hand and then the _existing_
 generators do the rest: `bin/generate-component-categories`,
 `bin/generate-registries`, `bin/generate-api-docs`.
 `bin/new-component --revert <slug>` undoes exactly what a run created —
@@ -2476,7 +2476,7 @@ directory alongside `src/lib/components/`.
 
 [plan.md](plan.md) P7-T2. Profiled `bin/test` (instrumented per-function
 timers, not guesswork) instead of assuming the ~63s local runtime was
-about check *count*. It wasn't: macOS's `/bin/sh` is Apple's frozen
+about check _count_. It wasn't: macOS's `/bin/sh` is Apple's frozen
 bash 3.2, and under `set -e`, a shell function whose body chains
 `cmd || err ...` costs roughly 180x more per call than the identical
 logic as `if cmd; then :; else err ...; fi` — isolated and confirmed
@@ -2647,7 +2647,7 @@ Three real, previously-unknown defects surfaced and were fixed:
   dead code in 6 of the 7 apps (nunjucks-eleventy is the live
   exception), superseded by the runtime-swapped root `themes/*.css`
   without anyone removing them — and in html-css-js's case, the
-  *actually-live* `app-shell.css` itself depends on `--nhs-*` custom
+  _actually-live_ `app-shell.css` itself depends on `--nhs-*` custom
   properties that only ever existed in that now-dead file, so an
   unknown amount of its own chrome styling is silently a no-op.
   `.visually-hidden` was swapped for the catalog's real, already-styled
@@ -3189,17 +3189,17 @@ guard now catches .NET build output too.
 The whole matrix moves to today's releases, per stack, each verified
 before its commit:
 
-| Stack | Now on | Verified |
-| --- | --- | --- |
-| Svelte | svelte 5.56, Kit 2.70, vite-plugin-svelte 7, Vite 8, vitest 4, TS 6 | 4,906 + 211 cases; app 72/72 |
-| React | React 19.2, Next 16.3 (Turbopack), vitest 4 | 2,665 + 267 cases; app 71/71 |
-| Vue | Vue 3.5.41, Nuxt 4.5, Vite 7, vitest 4 | 2,655 + 261 cases; app 68/68 |
-| Angular | Angular 22.1, Analog 2.7, Vite 7, TS 6, ng-packagr 22, Storybook 10, vitest 4 | 1,010 + 290 cases; 491 stories; app 1,545/1,545; headless + 5 helpers published 0.2.0 |
-| Nunjucks | Eleventy 3.1, nunjucks 3.2, vitest 4 | 2,844 + 321 cases; app 60/60 |
-| Blazor | .NET 10 (already current); AspNetCore packages to 10.0.11 | 1,502 + 203 bUnit cases; app builds |
+| Stack    | Now on                                                                        | Verified                                                                              |
+| -------- | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| Svelte   | svelte 5.56, Kit 2.70, vite-plugin-svelte 7, Vite 8, vitest 4, TS 6           | 4,906 + 211 cases; app 72/72                                                          |
+| React    | React 19.2, Next 16.3 (Turbopack), vitest 4                                   | 2,665 + 267 cases; app 71/71                                                          |
+| Vue      | Vue 3.5.41, Nuxt 4.5, Vite 7, vitest 4                                        | 2,655 + 261 cases; app 68/68                                                          |
+| Angular  | Angular 22.1, Analog 2.7, Vite 7, TS 6, ng-packagr 22, Storybook 10, vitest 4 | 1,010 + 290 cases; 491 stories; app 1,545/1,545; headless + 5 helpers published 0.2.0 |
+| Nunjucks | Eleventy 3.1, nunjucks 3.2, vitest 4                                          | 2,844 + 321 cases; app 60/60                                                          |
+| Blazor   | .NET 10 (already current); AspNetCore packages to 10.0.11                     | 1,502 + 203 bUnit cases; app builds                                                   |
 
 Real findings along the way: Next 16's Turbopack refused the React
-app's `@pgds/*` alias — which turned out to resolve *outside the app*
+app's `@pgds/*` alias — which turned out to resolve _outside the app_
 into the sibling headless subproject, with all 411 local component
 "copies" being re-export stubs through it (hollow copy-pattern, broken
 in the standalone subtree repo; now real copies under a `@lily/*`
@@ -3526,7 +3526,7 @@ the guard.
   limit. Disconnecting now clears the record, so a re-connected element
   applies again.
 - **Nunjucks.** `setTheme` / `setLocale` / `setSize` on the returned
-  controller *are* the apply function, so a consumer mirroring the value
+  controller _are_ the apply function, so a consumer mirroring the value
   back from `onChange` recursed.
 - **React.** Controlled mode applied on selection and again when the
   consumer wrote the value back: two `onChange` calls, two storage
@@ -3619,7 +3619,7 @@ same day. Each package's own CHANGELOG carries the full record under
 
 - **Vetoed days render `aria-disabled="true"` + `data-disabled`, never
   the `disabled` attribute.** A `disabled` button refuses focus, so
-  arrowing the roving cursor across a blocked week went *silent* for a
+  arrowing the roving cursor across a blocked week went _silent_ for a
   screen reader while the visible focus stayed behind — and the "exactly
   one tabbable day" invariant broke whenever the cursor sat on a vetoed
   day. Days now stay focusable and announce as unavailable; activation is
@@ -3697,7 +3697,7 @@ same day. Each package's own CHANGELOG carries the full record under
   - **No hardcoded English.** DHCW bakes in `MONTHS`, `SHORT_MONTHS`,
     `"Today"`, `"Cancel"`, `"OK"`, `"Previous year"`. Here month and
     weekday names come from `Intl` and every other string is a prop. For a
-    *Welsh* design system that is the difference between a bilingual
+    _Welsh_ design system that is the difference between a bilingual
     service and an English one with a Welsh veneer.
   - **Monday is not assumed.** First day of week comes from
     `Intl.Locale.getWeekInfo`, overridable by prop.
@@ -3705,7 +3705,7 @@ same day. Each package's own CHANGELOG carries the full record under
     nothing — worse than not declaring it, because the user is told the
     rest of the page is inert while Tab walks into it.
   - **Civil dates, not local-midnight `Date`.** `new Date(y, m, d)` is an
-    *instant* at local midnight and resolves to the previous day in zones
+    _instant_ at local midnight and resolves to the previous day in zones
     whose DST transition falls at midnight. All arithmetic goes through
     UTC epoch days.
 
@@ -3755,7 +3755,7 @@ same day. Each package's own CHANGELOG carries the full record under
 - 1667 tests pass across the seven catalogs: svelte 185, react 240,
   vue 241, html 267, nunjucks 289, angular 265, blazor 180.
 - **A rename hazard worth recording**: `perl -pi` over a file list
-  *follows symlinks* and replaces them with regular files. The sweep
+  _follows symlinks_ and replaces them with regular files. The sweep
   silently destroyed 70 `README.md` → `index.md` symlinks; only
   `bin/test`'s symlink check caught it. This is the fourth instance of
   this repo's recurring failure shape — an operation that reports success

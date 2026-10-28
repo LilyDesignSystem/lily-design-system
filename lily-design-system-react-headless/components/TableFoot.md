@@ -12,7 +12,9 @@ The footer section of a Table, rendered as a <tfoot> element. Contains TableRow 
 
 ```tsx
 <TableFoot>
-  <TableRow><TableTD colSpan={2}>Total: 2 users</TableTD></TableRow>
+  <TableRow>
+    <TableTD colSpan={2}>Total: 2 users</TableTD>
+  </TableRow>
 </TableFoot>
 ```
 

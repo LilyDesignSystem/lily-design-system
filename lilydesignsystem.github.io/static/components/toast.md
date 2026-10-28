@@ -30,7 +30,11 @@ Toasts are similar to notifications but are generally more ephemeral and less in
 ```
 
 ```html
-<Toast label="Error" urgent>Failed to save changes. Please try again.</Toast>
+<Toast
+  label="Error"
+  urgent
+  >Failed to save changes. Please try again.</Toast
+>
 ```
 
 ```html
@@ -76,18 +80,15 @@ None -- this component is a passive notification container. Toasts are announced
 
 This headless component provides a `<div>` with a live region role (`role="status"` or `role="alert"`) and appropriate `aria-live` behavior for screen reader announcements. The consumer provides all content, visual styling, positioning, animation, and auto-dismiss logic.
 
-
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.toast` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
-
 
 - Verify the component renders a `<div>` element with class `toast`
 - Verify role="status"` -- (default) identifies a live region with advisory information, announced at the next graceful opportunity
-- Verify role="alert"` -- (when `urgent` is true) identifies a live region with important, time-sensitive information, announced immediately
+- Verify role="alert"`-- (when`urgent` is true) identifies a live region with important, time-sensitive information, announced immediately
 - Verify aria-label={label}` -- optional descriptive label for the toast region
 - Verify pass-through attributes are applied
 

@@ -13,14 +13,14 @@ The canonical implementation is the Svelte package (`../lily-design-system-svelt
 
 ## Files
 
-| File | Purpose |
-| ---- | ------- |
-| `spec/index.md` | Specification-driven contract (canonical). |
-| `OrgEditor.vue` | Implementation. Vue 3 `<script setup>` + TypeScript. |
-| `OrgEditor.test.ts` | Vitest + @vue/test-utils spec. |
-| `index.md` | User guide. |
-| `docs/accessibility.md` | Tradeoffs, stated plainly. |
-| `examples/` | Runnable examples. |
+| File                    | Purpose                                              |
+| ----------------------- | ---------------------------------------------------- |
+| `spec/index.md`         | Specification-driven contract (canonical).           |
+| `OrgEditor.vue`         | Implementation. Vue 3 `<script setup>` + TypeScript. |
+| `OrgEditor.test.ts`     | Vitest + @vue/test-utils spec.                       |
+| `index.md`              | User guide.                                          |
+| `docs/accessibility.md` | Tradeoffs, stated plainly.                           |
+| `examples/`             | Runnable examples.                                   |
 
 ## Rules that matter
 

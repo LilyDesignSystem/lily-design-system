@@ -9,7 +9,16 @@ See [components/chat-composer/index.md](../../components/chat-composer/index.md)
 ## Usage
 
 ```tsx
-<ChatComposer label="Message" sendLabel="Send" stopLabel="Stop" value={draft} onChange={setDraft} busy={replying} onSend={send} onStop={cancel} />
+<ChatComposer
+  label="Message"
+  sendLabel="Send"
+  stopLabel="Stop"
+  value={draft}
+  onChange={setDraft}
+  busy={replying}
+  onSend={send}
+  onStop={cancel}
+/>
 ```
 
 ## Contract

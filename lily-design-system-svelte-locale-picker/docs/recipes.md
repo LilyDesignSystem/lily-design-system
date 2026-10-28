@@ -25,10 +25,13 @@ To use the matcher directly — on the server against an
 ```ts
 import { matchNavigatorLanguage } from "../LocalePicker.svelte";
 
-const preferred = request.headers.get("accept-language")
-  ?.split(",").map((s) => s.split(";")[0].trim()) ?? [];
+const preferred =
+  request.headers
+    .get("accept-language")
+    ?.split(",")
+    .map((s) => s.split(";")[0].trim()) ?? [];
 
-matchNavigatorLanguage(preferred, ["en", "fr", "ar"]);  // "" if nothing matches
+matchNavigatorLanguage(preferred, ["en", "fr", "ar"]); // "" if nothing matches
 ```
 
 Then pass the result as `value` so the client does no detection at all.
@@ -45,9 +48,16 @@ the user cannot infer it by looking:
   let locale = $state("");
 </script>
 
-<LocalePicker label="Language" locales={["en", "fr", "ar"]} bind:value={locale} />
+<LocalePicker
+  label="Language"
+  locales={["en", "fr", "ar"]}
+  bind:value={locale}
+/>
 
-<p class="locale-picker-status" aria-live="polite">
+<p
+  class="locale-picker-status"
+  aria-live="polite"
+>
   Active language:
   <span lang={bcp47LocaleTag(locale)}>{localeName(locale)}</span>
 </p>
@@ -142,7 +152,11 @@ WCAG 3.1.1 — do not use `target` to avoid setting it. Working example:
 ## Manage `dir` yourself
 
 ```svelte
-<LocalePicker label="Language" locales={["en", "ar"]} applyDir={false} />
+<LocalePicker
+  label="Language"
+  locales={["en", "ar"]}
+  applyDir={false}
+/>
 ```
 
 The select then writes only `lang`, and never touches `dir` — not even
@@ -162,13 +176,17 @@ document.documentElement.dir = isRtlLocale(code) ? "rtl" : "ltr";
   const ALL = Object.keys(defaultLocaleLabels);
 </script>
 
-<LocalePicker label="Language" locales={ALL} bind:value={locale} />
+<LocalePicker
+  label="Language"
+  locales={ALL}
+  bind:value={locale}
+/>
 ```
 
 Do this only if you mean it. A 436-item listbox is a long scroll even
 with typeahead, and offering a language the app has no translations for
 is worse than not offering it. `locales` should be the set the app
-actually supports; the built-in table is a *label* source, not a menu.
+actually supports; the built-in table is a _label_ source, not a menu.
 
 If you genuinely need to pick from hundreds, an APG Combobox with a
 text input is the right pattern, and it is not this component — see
@@ -189,8 +207,17 @@ keyboard contract, same glyph treatment (monochrome, `aria-hidden`,
 one-glyph-wide button). Rendered side by side they read as one set:
 
 ```svelte
-<ThemePicker label="Theme" {themesUrl} {themes} bind:value={theme} />
-<LocalePicker label="Language" {locales} bind:value={locale} />
+<ThemePicker
+  label="Theme"
+  {themesUrl}
+  {themes}
+  bind:value={theme}
+/>
+<LocalePicker
+  label="Language"
+  {locales}
+  bind:value={locale}
+/>
 ```
 
 One shared block of CSS can style both, since the hooks differ only in

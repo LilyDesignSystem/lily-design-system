@@ -47,4 +47,4 @@
 - Documentation: index.md
 - CSS class: .rossiya-snils-input in css-style-sheet-template.css
 - Companion: RossiyaSnilsView
-- Wikipedia: [SNILS (Russia)](https://en.wikipedia.org/wiki/SNILS_(Russia))
+- Wikipedia: [SNILS (Russia)](<https://en.wikipedia.org/wiki/SNILS_(Russia)>)

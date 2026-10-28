@@ -125,18 +125,18 @@ weight in this particular helper, whose whole purpose is WCAG 1.4.4
 `{% from "./text-size-picker.njk" import textSizePicker %}` then
 `{{ textSizePicker(opts) }}`.
 
-| Key            | Type                    | Required | Default                      | Purpose                                                                                                                              |
-| -------------- | ----------------------- | -------- | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| `label`        | `string`                | yes      | —                            | Accessible name for the button AND the listbox (`aria-label` on both). The button is icon-only, so this is its ONLY accessible name. |
-| `sizes`        | `array<string>`         | yes      | —                            | Available size slugs (e.g. `["small", "medium", "large", "x-large"]`).                                                               |
-| `value`        | `string`                | no       | `""`                         | Initial slug. Emitted as `data-lily-text-size-picker-value` for the client to read.                                                  |
-| `defaultValue` | `string`                | no       | `""`                         | Initial slug when nothing else is supplied at runtime.                                                                               |
-| `storageKey`   | `string`                | no       | `""`                         | If non-empty, the client.js persists to `localStorage`.                                                                              |
-| `name`         | `string`                | no       | `"text-size"`                | Hidden-input `name` attribute.                                                                                                       |
-| `sizeLabels`   | `object<string,string>` | no       | `{}`                         | Optional pretty labels per slug.                                                                                                     |
+| Key            | Type                    | Required | Default                     | Purpose                                                                                                                              |
+| -------------- | ----------------------- | -------- | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `label`        | `string`                | yes      | —                           | Accessible name for the button AND the listbox (`aria-label` on both). The button is icon-only, so this is its ONLY accessible name. |
+| `sizes`        | `array<string>`         | yes      | —                           | Available size slugs (e.g. `["small", "medium", "large", "x-large"]`).                                                               |
+| `value`        | `string`                | no       | `""`                        | Initial slug. Emitted as `data-lily-text-size-picker-value` for the client to read.                                                  |
+| `defaultValue` | `string`                | no       | `""`                        | Initial slug when nothing else is supplied at runtime.                                                                               |
+| `storageKey`   | `string`                | no       | `""`                        | If non-empty, the client.js persists to `localStorage`.                                                                              |
+| `name`         | `string`                | no       | `"text-size"`               | Hidden-input `name` attribute.                                                                                                       |
+| `sizeLabels`   | `object<string,string>` | no       | `{}`                        | Optional pretty labels per slug.                                                                                                     |
 | `id`           | `string`                | no       | `"text-size-picker-{name}"` | Id prefix for the listbox and its options. Supply an explicit id when two instances share a `name`.                                  |
-| `classes`      | `string`                | no       | `""`                         | Extra CSS classes on the root `<div>`.                                                                                               |
-| `attributes`   | `object`                | no       | —                            | Extra HTML attributes spread onto the root.                                                                                          |
+| `classes`      | `string`                | no       | `""`                        | Extra CSS classes on the root `<div>`.                                                                                               |
+| `attributes`   | `object`                | no       | —                           | Extra HTML attributes spread onto the root.                                                                                          |
 
 There is **no** `detectFromSystem` param (§2) and **no** `placeholder`
 param (this helper never had one).
@@ -172,9 +172,29 @@ render options.
     aria-controls="{id}-list"
     data-lily-text-size-picker-button
   >
-    <svg class="text-size-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="1.05rem" height="1.05rem"><path d="M4 13 7.2 3h1.6L12 13M5.4 9.5h5.2"/></svg>
+    <svg
+      class="text-size-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      width="1.05rem"
+      height="1.05rem"
+    >
+      <path d="M4 13 7.2 3h1.6L12 13M5.4 9.5h5.2" />
+    </svg>
   </button>
-  <div class="text-size-picker-tooltip" role="tooltip" id="{id}-tooltip" hidden>{label}</div>
+  <div
+    class="text-size-picker-tooltip"
+    role="tooltip"
+    id="{id}-tooltip"
+    hidden
+  >
+    {label}
+  </div>
   <ul
     class="text-size-picker-list"
     id="{id}-list"
@@ -214,11 +234,11 @@ sizes[0])`, and pre-fills the hidden input with it.
 
 `text-size-picker.client.js` is an ES module exporting:
 
-| Export                             | Type                                           | Purpose                                                                |
-| ---------------------------------- | ---------------------------------------------- | ---------------------------------------------------------------------- |
+| Export                            | Type                                           | Purpose                                                                |
+| --------------------------------- | ---------------------------------------------- | ---------------------------------------------------------------------- |
 | `initTextSizePicker(root, opts?)` | `(HTMLElement, object?) => {setSize, destroy}` | Wire one root.                                                         |
-| `autoInit(opts?)`                  | `(object?) => Array<{setSize, destroy}>`       | Wire every root on the page.                                           |
-| `sizeName(slug)`                   | `(string) => string`                           | Title-case a slug per hyphen-word. Mirrors `themeName` / `localeName`. |
+| `autoInit(opts?)`                 | `(object?) => Array<{setSize, destroy}>`       | Wire every root on the page.                                           |
+| `sizeName(slug)`                  | `(string) => string`                           | Title-case a slug per hyphen-word. Mirrors `themeName` / `localeName`. |
 
 Optional `opts` for `initTextSizePicker` / `autoInit`:
 
@@ -256,7 +276,7 @@ Applying a size `slug` performs, in order:
 
 Applying is **idempotent**: a size already applied is a no-op, so none
 of the steps above repeat and `onChange` does not re-fire. `setSize` on
-the returned controller *is* this function, so without the guard a
+the returned controller _is_ this function, so without the guard a
 consumer that mirrors the value back from `onChange` re-enters it
 forever.
 
@@ -274,14 +294,14 @@ On the **button**:
 
 On the **listbox**:
 
-| Key                     | Action                                                                                                                    |
-| ----------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| `ArrowDown` / `ArrowUp` | Move the active option. Clamps at the ends; no wrapping.                                                                  |
-| `Home` / `End`          | Jump to the first / last option.                                                                                          |
-| `Enter` / `Space`       | Select the active option, apply it, close, return focus to the button.                                                    |
-| `Escape`                | Close and return focus, leaving the size unchanged.                                                                       |
-| `PageUp` / `PageDown`   | Move the active option by ten, clamped — an APG-optional key for long lists.                                              |
-| `Tab`                   | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position rather than from `<body>`. |
+| Key                     | Action                                                                                                                                                                                                                                                                                             |
+| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ArrowDown` / `ArrowUp` | Move the active option. Clamps at the ends; no wrapping.                                                                                                                                                                                                                                           |
+| `Home` / `End`          | Jump to the first / last option.                                                                                                                                                                                                                                                                   |
+| `Enter` / `Space`       | Select the active option, apply it, close, return focus to the button.                                                                                                                                                                                                                             |
+| `Escape`                | Close and return focus, leaving the size unchanged.                                                                                                                                                                                                                                                |
+| `PageUp` / `PageDown`   | Move the active option by ten, clamped — an APG-optional key for long lists.                                                                                                                                                                                                                       |
+| `Tab`                   | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position rather than from `<body>`.                                                                                                                        |
 | Printable character     | APG typeahead over the option labels: a single character advances to the NEXT match, a repeated character keeps cycling, and only a buffer of differing characters refines, anchored at the active option. 500 ms buffer reset. Matches the rendered label, so `sizeLabels` overrides participate. |
 
 Clicking an option selects it, applies it, and closes the listbox —

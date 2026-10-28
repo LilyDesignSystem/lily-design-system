@@ -9,36 +9,82 @@ consumer's responsibility.
 
 ## Built-in
 
-| WCAG / APG item | How the picker satisfies it |
-| --------------- | --------------------------- |
-| WCAG 3.1.1 Language of Page | Writes `lang` to the document root on every locale change. |
-| WCAG 3.1.2 Language of Parts | Each `<li role="option">` carries its own `lang` attribute so option text is announced in the right language. |
-| WCAG 1.4.10 Reflow (RTL bidi) | Writes `dir="rtl"` for RTL locales so layout, scrollbar, and text inversion are correct. |
-| WCAG 4.1.2 Name, Role, Value | `<button aria-label aria-haspopup="listbox" aria-expanded>` exposes the trigger; `<ul role="listbox">` and `<li role="option" aria-selected>` expose the choices. |
-| WCAG 2.1.1 Keyboard | The full APG listbox contract is implemented in script — see [Keyboard contract](#keyboard-contract). |
-| WCAG 2.4.3 Focus Order | Focus moves to the `<ul>` on open and returns to the button on commit or cancel. The active option travels via `aria-activedescendant`; DOM focus never lands on an `<li>`. |
-| WCAG 2.4.7 Focus Visible | The browser's default focus ring is preserved; the component never sets `outline: none`. |
-| WCAG 1.4.1 Use of Color | Selection state is in `aria-selected`, the hidden input, and the `lang` / `dir` attributes — not colour alone. |
-| WCAG 3.2.2 On Input | Committing a locale returns focus to the button it came from; nothing navigates or scrolls on its own. |
+| WCAG / APG item               | How the picker satisfies it                                                                                                                                                 |
+| ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| WCAG 3.1.1 Language of Page   | Writes `lang` to the document root on every locale change.                                                                                                                  |
+| WCAG 3.1.2 Language of Parts  | Each `<li role="option">` carries its own `lang` attribute so option text is announced in the right language.                                                               |
+| WCAG 1.4.10 Reflow (RTL bidi) | Writes `dir="rtl"` for RTL locales so layout, scrollbar, and text inversion are correct.                                                                                    |
+| WCAG 4.1.2 Name, Role, Value  | `<button aria-label aria-haspopup="listbox" aria-expanded>` exposes the trigger; `<ul role="listbox">` and `<li role="option" aria-selected>` expose the choices.           |
+| WCAG 2.1.1 Keyboard           | The full APG listbox contract is implemented in script — see [Keyboard contract](#keyboard-contract).                                                                       |
+| WCAG 2.4.3 Focus Order        | Focus moves to the `<ul>` on open and returns to the button on commit or cancel. The active option travels via `aria-activedescendant`; DOM focus never lands on an `<li>`. |
+| WCAG 2.4.7 Focus Visible      | The browser's default focus ring is preserved; the component never sets `outline: none`.                                                                                    |
+| WCAG 1.4.1 Use of Color       | Selection state is in `aria-selected`, the hidden input, and the `lang` / `dir` attributes — not colour alone.                                                              |
+| WCAG 3.2.2 On Input           | Committing a locale returns focus to the button it came from; nothing navigates or scrolls on its own.                                                                      |
 
 ## Roles and properties
 
 ```html
 <div class="locale-picker">
-    <input type="hidden" name="locale" value="fr" />
-    <button type="button" class="locale-picker-button" aria-label="Language"
-            aria-haspopup="listbox" aria-expanded="true"
-            aria-controls="locale-picker-1-list">
-        <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path stroke-width="1.1" d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7"/></svg>
-    </button>
-    <ul class="locale-picker-list" id="locale-picker-1-list" role="listbox"
-        aria-label="Language" tabindex="-1"
-        aria-activedescendant="locale-picker-1-option-1">
-        <li id="locale-picker-1-option-0" role="option"
-            aria-selected="false" lang="en">English</li>
-        <li id="locale-picker-1-option-1" role="option"
-            aria-selected="true" data-active lang="fr">Français</li>
-    </ul>
+  <input
+    type="hidden"
+    name="locale"
+    value="fr"
+  />
+  <button
+    type="button"
+    class="locale-picker-button"
+    aria-label="Language"
+    aria-haspopup="listbox"
+    aria-expanded="true"
+    aria-controls="locale-picker-1-list"
+  >
+    <svg
+      class="locale-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle
+        cx="8"
+        cy="8"
+        r="6"
+      />
+      <path
+        stroke-width="1.1"
+        d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7"
+      />
+    </svg>
+  </button>
+  <ul
+    class="locale-picker-list"
+    id="locale-picker-1-list"
+    role="listbox"
+    aria-label="Language"
+    tabindex="-1"
+    aria-activedescendant="locale-picker-1-option-1"
+  >
+    <li
+      id="locale-picker-1-option-0"
+      role="option"
+      aria-selected="false"
+      lang="en"
+    >
+      English
+    </li>
+    <li
+      id="locale-picker-1-option-1"
+      role="option"
+      aria-selected="true"
+      data-active
+      lang="fr"
+    >
+      Français
+    </li>
+  </ul>
 </div>
 ```
 
@@ -64,24 +110,24 @@ Implemented by the component, not the platform.
 
 On the **button**:
 
-| Key                    | Action                                                          |
-| ---------------------- | --------------------------------------------------------------- |
-| ArrowDown              | Open; active option = the selected one (or the first).          |
-| Enter / Space          | Open; active option = the selected one (or the first).          |
-| ArrowUp                | Open; active option = the **last** option.                      |
-| Tab / Shift+Tab        | Move focus away (native).                                       |
+| Key             | Action                                                 |
+| --------------- | ------------------------------------------------------ |
+| ArrowDown       | Open; active option = the selected one (or the first). |
+| Enter / Space   | Open; active option = the selected one (or the first). |
+| ArrowUp         | Open; active option = the **last** option.             |
+| Tab / Shift+Tab | Move focus away (native).                              |
 
 On the **listbox**:
 
-| Key                    | Action                                                          |
-| ---------------------- | --------------------------------------------------------------- |
-| ArrowDown              | Move the active option down one. Clamps at the end — no wrap.   |
-| ArrowUp                | Move the active option up one. Clamps at the start — no wrap.   |
-| Home / End             | Jump to the first / last option.                                |
-| Enter / Space          | Select the active option, apply it, close, refocus the button.  |
-| Escape                 | Close and refocus the button **without** changing the locale.   |
-| Tab                    | Close; focus lands on the button so the default Tab proceeds from the picker's position. |
-| Printable characters   | Typeahead over the option labels; the buffer resets after 500 ms. |
+| Key                  | Action                                                                                   |
+| -------------------- | ---------------------------------------------------------------------------------------- |
+| ArrowDown            | Move the active option down one. Clamps at the end — no wrap.                            |
+| ArrowUp              | Move the active option up one. Clamps at the start — no wrap.                            |
+| Home / End           | Jump to the first / last option.                                                         |
+| Enter / Space        | Select the active option, apply it, close, refocus the button.                           |
+| Escape               | Close and refocus the button **without** changing the locale.                            |
+| Tab                  | Close; focus lands on the button so the default Tab proceeds from the picker's position. |
+| Printable characters | Typeahead over the option labels; the buffer resets after 500 ms.                        |
 
 Pointer and focus behaviour: clicking an option commits it; clicking
 outside the root closes the listbox; focus leaving the root closes it.
@@ -124,7 +170,7 @@ Practical mitigations, roughly in order of how much they help:
   gives sighted users something to recognise. This is the strongest
   option if your layout can spare the space.
 - **Choose a `label` that travels.** "Language" is widely recognised;
-  a language *name* in the user's own script (via a status line, see
+  a language _name_ in the user's own script (via a status line, see
   below) is better still. Some products use a multilingual label such
   as `"Language / Langue / اللغة"` for the first few supported
   locales. It is inelegant, and it is also the only thing a
@@ -181,7 +227,7 @@ rendering your own `<select>` bound to the same value is a legitimate
 choice.
 
 There is one genuine **win** hiding in here, though. Per-option
-`lang` still works, and works *better* than before: some OS-native
+`lang` still works, and works _better_ than before: some OS-native
 select popups ignore `lang` on `<option>` entirely, whereas
 `<li role="option" lang="fr">` is ordinary DOM that readers handle
 the same way they handle any other inline language change. Endonyms
@@ -252,15 +298,18 @@ const locale = ref("en");
 </script>
 
 <template>
-    <LocalePicker
-        v-model:value="locale"
-        label="Language"
-        :locales="['en', 'fr', 'ar']"
-    />
+  <LocalePicker
+    v-model:value="locale"
+    label="Language"
+    :locales="['en', 'fr', 'ar']"
+  />
 
-    <p class="locale-picker-status" aria-live="polite">
-        Current language: {{ localeName(locale) }}
-    </p>
+  <p
+    class="locale-picker-status"
+    aria-live="polite"
+  >
+    Current language: {{ localeName(locale) }}
+  </p>
 </template>
 ```
 
@@ -274,21 +323,22 @@ Four decisions are baked into that snippet:
 
    ```css
    .locale-picker-status {
-       position: absolute;
-       width: 1px;
-       height: 1px;
-       margin: -1px;
-       overflow: hidden;
-       clip-path: inset(50%);
-       white-space: nowrap;
+     position: absolute;
+     width: 1px;
+     height: 1px;
+     margin: -1px;
+     overflow: hidden;
+     clip-path: inset(50%);
+     white-space: nowrap;
    }
    ```
 
    Use `clip-path`, never `display: none` or `visibility: hidden` —
    the latter two drop the element from the accessibility tree, which
    silences the live region and defeats the point.
+
 2. **`aria-live="polite"`, not `role="alert"`.** A polite live region
-   announces *mutations* only, so it is silent on first paint and
+   announces _mutations_ only, so it is silent on first paint and
    speaks once per change, without moving focus. That matches the
    WCAG 3.2.2 (On Input) contract described above, and it composes
    with the component's own focus handling — which already returns
@@ -375,12 +425,12 @@ can keep choosing.
 
 ## Screen-reader behaviour matrix
 
-| Reader     | OS       | Browser   | What's announced |
-| ---------- | -------- | --------- | ---------------- |
-| VoiceOver  | macOS 14 | Safari 17 | On the button: "Language, pop-up button, collapsed". On open: "Language, list box, French, 2 of 5", then each option as the arrows move — with `lang`-correct pronunciation. |
-| NVDA       | Windows  | Firefox   | "Language button collapsed" → on open, "Language list, French, 2 of 5". Pronounces "Français" in a French voice if a French voice is installed. |
-| JAWS       | Windows  | Chrome    | "Language button" → on open, "Language list box, French, 2 of 5". |
-| TalkBack   | Android  | Chrome    | "Language, button, double-tap to activate". No OS picker — the in-page listbox opens and is swiped through. |
+| Reader    | OS       | Browser   | What's announced                                                                                                                                                             |
+| --------- | -------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| VoiceOver | macOS 14 | Safari 17 | On the button: "Language, pop-up button, collapsed". On open: "Language, list box, French, 2 of 5", then each option as the arrows move — with `lang`-correct pronunciation. |
+| NVDA      | Windows  | Firefox   | "Language button collapsed" → on open, "Language list, French, 2 of 5". Pronounces "Français" in a French voice if a French voice is installed.                              |
+| JAWS      | Windows  | Chrome    | "Language button" → on open, "Language list box, French, 2 of 5".                                                                                                            |
+| TalkBack  | Android  | Chrome    | "Language, button, double-tap to activate". No OS picker — the in-page listbox opens and is swiped through.                                                                  |
 
 Three things to take from that table:
 
@@ -408,7 +458,7 @@ navigable: open it, type "fr", and the active option jumps to
 capability the old placeholder-pinned `<select>` could not offer
 consistently.
 
-If you need free-text *filtering* rather than prefix matching, the
+If you need free-text _filtering_ rather than prefix matching, the
 APG Combobox pattern is the right shape — and this helper does not
 ship one. Render your own combobox next to the component and bind
 both to the same ref: `LocalePicker` keeps owning the apply lifecycle
@@ -425,15 +475,15 @@ the listbox too, which the browser used to draw for you:
 
 ```css
 .locale-picker-button {
-    /* WCAG AAA-grade contrast against white */
-    color: #003087; /* NHS blue */
-    font-weight: 600;
+  /* WCAG AAA-grade contrast against white */
+  color: #003087; /* NHS blue */
+  font-weight: 600;
 }
 
 .locale-picker-option[data-active] {
-    /* Do not signal the active row with colour alone (WCAG 1.4.1). */
-    outline: 2px solid currentColor;
-    outline-offset: -2px;
+  /* Do not signal the active row with colour alone (WCAG 1.4.1). */
+  outline: 2px solid currentColor;
+  outline-offset: -2px;
 }
 ```
 

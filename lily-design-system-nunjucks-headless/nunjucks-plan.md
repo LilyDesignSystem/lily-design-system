@@ -107,16 +107,16 @@ Every macro takes a single `params` options object:
 
 ### Shared parameter conventions (learned from NHS.UK frontend)
 
-| Param         | Type    | Purpose                                                    |
-| ------------- | ------- | ---------------------------------------------------------- |
-| `text`        | string  | Plain text content (escaped)                               |
-| `html`        | string  | Raw HTML content (not escaped, use `\| safe`)              |
-| `label`       | string  | Accessible name (ARIA label)                               |
-| `description` | string  | Accessible description                                     |
-| `id`          | string  | Element id                                                 |
-| `classes`     | string  | Consumer-provided additional CSS classes                   |
-| `attributes`  | object  | Arbitrary additional HTML attributes as key/value          |
-| `caller()`    | content | Nunjucks `{% call %}` block for slot-like child content    |
+| Param         | Type    | Purpose                                                 |
+| ------------- | ------- | ------------------------------------------------------- |
+| `text`        | string  | Plain text content (escaped)                            |
+| `html`        | string  | Raw HTML content (not escaped, use `\| safe`)           |
+| `label`       | string  | Accessible name (ARIA label)                            |
+| `description` | string  | Accessible description                                  |
+| `id`          | string  | Element id                                              |
+| `classes`     | string  | Consumer-provided additional CSS classes                |
+| `attributes`  | object  | Arbitrary additional HTML attributes as key/value       |
+| `caller()`    | content | Nunjucks `{% call %}` block for slot-like child content |
 
 Component-specific params are added on top: `href`, `value`, `type`,
 `name`, `min`, `max`, `step`, `placeholder`, `required`, `autocomplete`,
@@ -181,27 +181,27 @@ Consumers import and call macros in two styles:
 `test/render.js`:
 
 ```js
-import nunjucks from 'nunjucks'
-import { JSDOM } from 'jsdom'
+import nunjucks from "nunjucks";
+import { JSDOM } from "jsdom";
 
-const env = nunjucks.configure('.', {
+const env = nunjucks.configure(".", {
   autoescape: true,
   throwOnUndefined: false,
   trimBlocks: true,
   lstripBlocks: true,
-})
+});
 
 export function render(componentName, params = {}) {
-  const macro = toMacroName(componentName)
-  const src = `{% from "components/${componentName}/macro.njk" import ${macro} %}`
-          + `{{ ${macro}(params) }}`
-  const html = env.renderString(src, { params })
-  const dom = new JSDOM(html)
-  return { html, document: dom.window.document }
+  const macro = toMacroName(componentName);
+  const src =
+    `{% from "components/${componentName}/macro.njk" import ${macro} %}` + `{{ ${macro}(params) }}`;
+  const html = env.renderString(src, { params });
+  const dom = new JSDOM(html);
+  return { html, document: dom.window.document };
 }
 
 function toMacroName(kebab) {
-  return kebab.replace(/-([a-z])/g, (_, c) => c.toUpperCase())
+  return kebab.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
 }
 ```
 
@@ -220,30 +220,29 @@ Each component test asserts:
 Example:
 
 ```js
-import { describe, it, expect } from 'vitest'
-import { render } from '../test/render.js'
+import { describe, it, expect } from "vitest";
+import { render } from "../test/render.js";
 
-describe('button', () => {
-  it('renders a <button> with base class', () => {
-    const { document } = render('button', { text: 'Save' })
-    const el = document.querySelector('button')
-    expect(el).toBeTruthy()
-    expect(el.classList.contains('button')).toBe(true)
-    expect(el.textContent.trim()).toBe('Save')
-  })
+describe("button", () => {
+  it("renders a <button> with base class", () => {
+    const { document } = render("button", { text: "Save" });
+    const el = document.querySelector("button");
+    expect(el).toBeTruthy();
+    expect(el.classList.contains("button")).toBe(true);
+    expect(el.textContent.trim()).toBe("Save");
+  });
 
-  it('appends consumer classes', () => {
-    const { document } = render('button', { text: 'Save', classes: 'extra' })
-    const el = document.querySelector('button.button.extra')
-    expect(el).toBeTruthy()
-  })
+  it("appends consumer classes", () => {
+    const { document } = render("button", { text: "Save", classes: "extra" });
+    const el = document.querySelector("button.button.extra");
+    expect(el).toBeTruthy();
+  });
 
-  it('uses params.label as aria-label', () => {
-    const { document } = render('button', { text: 'x', label: 'Close dialog' })
-    expect(document.querySelector('button').getAttribute('aria-label'))
-      .toBe('Close dialog')
-  })
-})
+  it("uses params.label as aria-label", () => {
+    const { document } = render("button", { text: "x", label: "Close dialog" });
+    expect(document.querySelector("button").getAttribute("aria-label")).toBe("Close dialog");
+  });
+});
 ```
 
 ### Test command
@@ -276,7 +275,7 @@ component in that list, 1:1, with no omissions and no additions.
    b. Form inputs (text-input, email-input, checkbox-input, …)
    c. Links and views (action-link, postal-code-view, …)
    e. Table families (table, data-table, calendar-table, gantt-table,
-      kanban-table — 7 parts each)
+   kanban-table — 7 parts each)
    f. Navigation patterns (accordion-nav, breadcrumb-nav, tree-nav, …)
    g. List patterns (check-list, summary-list, task-list, …)
    h. Bar patterns (tab-bar, menu-bar, tool-bar, task-bar)

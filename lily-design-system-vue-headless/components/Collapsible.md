@@ -26,7 +26,10 @@ The summary text is always visible and acts as the toggle trigger. The content b
 ```
 
 ```svelte
-<Collapsible summary="Advanced settings" bind:open={showAdvanced}>
+<Collapsible
+  summary="Advanced settings"
+  bind:open={showAdvanced}
+>
   <p>Advanced configuration options here.</p>
 </Collapsible>
 ```

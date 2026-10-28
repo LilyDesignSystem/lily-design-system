@@ -39,7 +39,7 @@ excluded, above), built in four passes on 2026-09-06:
   `TextInput`/`EmailInput`-shaped -input pattern (with `autocomplete="off"`
   always forced, and `pattern`/`inputmode` hardcoded for the handful whose
   canonical contract documents a fixed format) paired with a `<span
-  aria-label>`-shaped -view — `role="text"` is added to the -view's span
+aria-label>`-shaped -view — `role="text"` is added to the -view's span
   wherever that identifier's own canonical `AGENTS.md` calls for it (32 of
   the 49 do; 14 don't).
 - 136 more across lists (including 13 more passive `*ListItem` families
@@ -66,7 +66,7 @@ documented in the component's own header comment, not silently guessed).
   Components spec offers two registration styles: autonomous
   (`class X extends HTMLElement`, tag `<lily-button>` — works in every
   evergreen browser) and customized built-in (`class X extends
-  HTMLButtonElement`, used as `<button is="lily-button">` — no extra host
+HTMLButtonElement`, used as `<button is="lily-button">` — no extra host
   node, but WebKit has never implemented this half of the spec and has
   stated it will not, per
   [WebKit bug 182671](https://bugs.webkit.org/show_bug.cgi?id=182671), so it
@@ -115,7 +115,7 @@ component (546 of 581) is implemented as of 2026-10-25.
   across table, data-table, calendar-table, kanban-table, and gantt's
   HTML-named equivalents.
 - **Every interactive `*ListItem` family (5)** — accordion, chat, check,
-  document, tree. The 14 remaining, *passive* `*ListItem` families (plus
+  document, tree. The 14 remaining, _passive_ `*ListItem` families (plus
   breadcrumb) all shipped via the "upgrade in place" pattern above.
 
 The underlying problem for both: a parent and child with a required
@@ -154,7 +154,7 @@ rest-props-spread equivalent for a platform with no such concept built in.
 Same contract as every other Lily catalog: the real semantic element
 carries the kebab-case base class plus the consumer's own `class`
 attribute (`rootClassName` / `applySelfClassName` internally), and that
-base class is the *only* styling contract — no bundled CSS, fonts, icons,
+base class is the _only_ styling contract — no bundled CSS, fonts, icons,
 or images. See [../AGENTS/theme.md](../AGENTS/theme.md) and
 [../AGENTS/headless.md](../AGENTS/headless.md) for the full rules this
 catalog follows.

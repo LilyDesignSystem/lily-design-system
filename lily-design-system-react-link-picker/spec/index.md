@@ -30,15 +30,15 @@ and no words: every link, and every accessible name, comes from the consumer.
 
 ### 4.1 Props
 
-| Prop | Type | Required | Notes |
-| --- | --- | --- | --- |
-| `label` | `string` | yes | Accessible name of the button **and** the list; also the tooltip text. |
-| `links` | `LinkItem[]` | yes | `{ id?, label, href, current?, newTab? }`. `id` defaults to `href`. |
-| `navigate` | `(href: string) => void` | no | Client-side navigation hook (a router's `navigate`). |
-| `onNavigate` | `(id: string, href: string) => void` | no | Fires after a link is chosen. |
-| `children` | `(args: { open }) => ReactNode` | no | Render prop replacing the **icon**, not the links. |
-| `className` | `string` | no | Appended to the root class. |
-| `...rest` | | | Spread on the root `<div>`. |
+| Prop         | Type                                 | Required | Notes                                                                  |
+| ------------ | ------------------------------------ | -------- | ---------------------------------------------------------------------- |
+| `label`      | `string`                             | yes      | Accessible name of the button **and** the list; also the tooltip text. |
+| `links`      | `LinkItem[]`                         | yes      | `{ id?, label, href, current?, newTab? }`. `id` defaults to `href`.    |
+| `navigate`   | `(href: string) => void`             | no       | Client-side navigation hook (a router's `navigate`).                   |
+| `onNavigate` | `(id: string, href: string) => void` | no       | Fires after a link is chosen.                                          |
+| `children`   | `(args: { open }) => ReactNode`      | no       | Render prop replacing the **icon**, not the links.                     |
+| `className`  | `string`                             | no       | Appended to the root class.                                            |
+| `...rest`    |                                      |          | Spread on the root `<div>`.                                            |
 
 **Differences from the Svelte contract (idiom, not behaviour).** React renders the same DOM; `class` is `className`, the icon override is a render-prop `children`, and focus is moved in `useEffect` after the commit. Ids come from `React.useId()` (hydration-safe).
 
@@ -46,12 +46,42 @@ and no words: every link, and every accessible name, comes from the consumer.
 
 ```html
 <div class="link-picker {class}">
-  <button class="link-picker-button" type="button" aria-label="{label}" aria-expanded="false" aria-controls="{id}-list">
-    <svg class="link-picker-icon" aria-hidden="true" viewBox="0 0 16 16" …home…/>
+  <button
+    class="link-picker-button"
+    type="button"
+    aria-label="{label}"
+    aria-expanded="false"
+    aria-controls="{id}-list"
+  >
+    <svg
+      class="link-picker-icon"
+      aria-hidden="true"
+      viewBox="0 0 16 16"
+      …home…
+    />
   </button>
-  <div class="link-picker-tooltip" role="tooltip" id="{id}-tooltip" hidden>{label}</div>
-  <ul class="link-picker-list" id="{id}-list" aria-label="{label}" hidden>
-    <li class="link-picker-list-item"><a class="link-picker-link" href="/" data-link-id="/">Home</a></li>
+  <div
+    class="link-picker-tooltip"
+    role="tooltip"
+    id="{id}-tooltip"
+    hidden
+  >
+    {label}
+  </div>
+  <ul
+    class="link-picker-list"
+    id="{id}-list"
+    aria-label="{label}"
+    hidden
+  >
+    <li class="link-picker-list-item">
+      <a
+        class="link-picker-link"
+        href="/"
+        data-link-id="/"
+        >Home</a
+      >
+    </li>
     …
   </ul>
 </div>

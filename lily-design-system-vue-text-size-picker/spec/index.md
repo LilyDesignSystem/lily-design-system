@@ -96,7 +96,7 @@ and no detection prop, per §2.
 | Event          | Payload  | Purpose                                        |
 | -------------- | -------- | ---------------------------------------------- |
 | `update:value` | `string` | Emitted on selection (drives `v-model:value`). |
-| `change`       | `string` | Emitted after the picker applies a new size.  |
+| `change`       | `string` | Emitted after the picker applies a new size.   |
 
 ### 4.3 Slots
 
@@ -127,8 +127,15 @@ name.
 ### 4.4 DOM contract
 
 ```html
-<div class="text-size-picker {class}" ...$attrs>
-  <input type="hidden" name="{name}" value="{value}" />
+<div
+  class="text-size-picker {class}"
+  ...$attrs
+>
+  <input
+    type="hidden"
+    name="{name}"
+    value="{value}"
+  />
   <button
     type="button"
     class="text-size-picker-button"
@@ -137,9 +144,20 @@ name.
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <span class="text-size-picker-icon" aria-hidden="true">A</span>
+    <span
+      class="text-size-picker-icon"
+      aria-hidden="true"
+      >A</span
+    >
   </button>
-  <div class="text-size-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
+  <div
+    class="text-size-picker-tooltip"
+    role="tooltip"
+    id="{tooltipId}"
+    hidden
+  >
+    {label}
+  </div>
   <ul
     class="text-size-picker-list"
     id="{listId}"
@@ -299,17 +317,17 @@ On the **button**:
 
 On the **listbox**:
 
-| Key                  | Action                                                         |
-| -------------------- | -------------------------------------------------------------- |
-| `ArrowDown`          | Move the active option down one. **Clamps** — no wrapping.     |
-| `ArrowUp`            | Move the active option up one. **Clamps** — no wrapping.       |
-| `Home` / `End`       | Jump to the first / last option.                               |
-| `Enter` / `Space`    | Select the active option, apply it, close, refocus the button. |
-| `Escape`             | Close and refocus the button **without** changing the value.   |
-| `PageUp`             | Move the active option up ten. Clamps at the first.            |
-| `PageDown`           | Move the active option down ten. Clamps at the last.           |
+| Key                  | Action                                                                                                                                                                                                                                                     |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ArrowDown`          | Move the active option down one. **Clamps** — no wrapping.                                                                                                                                                                                                 |
+| `ArrowUp`            | Move the active option up one. **Clamps** — no wrapping.                                                                                                                                                                                                   |
+| `Home` / `End`       | Jump to the first / last option.                                                                                                                                                                                                                           |
+| `Enter` / `Space`    | Select the active option, apply it, close, refocus the button.                                                                                                                                                                                             |
+| `Escape`             | Close and refocus the button **without** changing the value.                                                                                                                                                                                               |
+| `PageUp`             | Move the active option up ten. Clamps at the first.                                                                                                                                                                                                        |
+| `PageDown`           | Move the active option down ten. Clamps at the last.                                                                                                                                                                                                       |
 | `Tab`                | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position. Hiding the focused list first would drop focus to `<body>` and restart Tab from the top of the document. |
-| Printable characters | Typeahead over the option **labels**, 500 ms buffer reset. A single character advances to the **next** match and repeating it cycles onward; a buffer of differing characters refines the match from the active option. Search wraps once. |
+| Printable characters | Typeahead over the option **labels**, 500 ms buffer reset. A single character advances to the **next** match and repeating it cycles onward; a buffer of differing characters refines the match from the active option. Search wraps once.                 |
 
 Pointer and focus behaviour: clicking an option selects it, applies it, and closes the listbox
 — the same close `Enter` performs; clicking
