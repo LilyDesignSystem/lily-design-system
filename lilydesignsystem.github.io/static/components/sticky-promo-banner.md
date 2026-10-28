@@ -100,7 +100,7 @@ responsibility.
 
 Consumer CSS targets the `sticky-promo-banner` class. Use the
 `data-position="top"` and `data-position="bottom"` attribute selectors to
-adjust appearance per edge. Style the inner `sticky-promo-banner-content`
+adjust appearance per edge. The banner is `position: fixed`, so set `--lily-fixed-bar-block-start` / `--lily-fixed-bar-block-end` to its height (see Advice). Style the inner `sticky-promo-banner-content`
 and `sticky-promo-banner-dismiss` classes for layout and the dismiss icon.
 
 ## Testing
@@ -117,6 +117,7 @@ and `sticky-promo-banner-dismiss` classes for layout and the dismiss icon.
 ## Advice
 
 - **Designers**: Keep the message short — one sentence with one link. Reserve top placement for higher-impact announcements; default to bottom for promos.
+- **Focus not obscured (WCAG 2.2 SC 2.4.11)**: A fixed bar can hide the control a keyboard user has just tabbed to. Set `--lily-fixed-bar-block-end` (bottom banner) or `--lily-fixed-bar-block-start` (top banner) on the root element to the banner's height, for example `:root { --lily-fixed-bar-block-end: 4rem; }`. Every Lily theme turns the two properties into `scroll-padding-block`, so focused controls scroll clear of the banner. Also leave room at the end of the page (for example `padding-block-end` on `body` equal to the bar), because scroll-padding cannot scroll past the end of the document. Both are `0px` by default; set both when both edges have a bar, and clear the property when the banner is dismissed.
 - **Developers**: Always supply `label` and `dismissLabel`. Persist the user's dismissal in storage so the banner does not reappear on every page load.
 
 ## Related components

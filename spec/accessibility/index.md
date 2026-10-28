@@ -20,6 +20,7 @@ It does **not** cover: the headless markup and behaviour-boundary rules (see [he
 - **Accessible name.** Every interactive element has a name visible to assistive technology — via visible text content, `aria-label`, or `aria-labelledby`. Required `label` props enforce this where text alone is insufficient (e.g. `IconButton`, `ChatNav`, `Hero`, `TileMap`).
 - **No colour-only meaning.** Status, validity, and selection are conveyed through text, icons, ARIA state, or position — never colour alone (WCAG 1.4.1).
 - **Live regions are deliberate.** `role="alert"` and `aria-live` are reserved for dynamic content the user must hear; static labels stay static.
+- **Focus not obscured (WCAG 2.2 SC 2.4.11).** A focused control is never entirely hidden by author-created content such as a fixed or sticky bar. Whatever fixes a bar to the viewport (`sticky-promo-banner`, a theme's or app's own fixed header, a bottom navigation) sets `--lily-fixed-bar-block-start` / `--lily-fixed-bar-block-end` on the root to the bar's height. The shared "Focus not obscured" section, appended to all 57 themes and pinned by `bin/check-theme`, turns them into `:where(html) { scroll-padding-block: … }` (zero specificity, `0px` defaults), so the browser scrolls a focused control clear of the bar (the page also needs end padding equal to a bottom bar, since scroll-padding cannot scroll past the document end). Each example app's `e2e/focus-obscured.spec.ts` injects a fixed bottom bar, sets the property, tabs to the last focusable element and asserts its bounding box ends above the bar.
 - **Reduced motion.** Headless components do not auto-animate; consumers respect `prefers-reduced-motion` in their CSS.
 
 ## Common ARIA patterns
@@ -79,6 +80,7 @@ axe-core / Playwright integration ships across all seven example apps. Rule set:
 - [x] No component suppresses focus rings; `:focus`, `:focus-visible`, and `tabindex` are correct.
 - [x] No status, validity, or selection is conveyed by colour alone (WCAG 1.4.1).
 - [x] Live regions (`role="alert"`, `aria-live`) are used only for dynamic content the user must hear.
+- [x] A fixed or sticky bar never covers the focused control (WCAG 2.4.11): the pinned "Focus not obscured" theme section plus a per-app Playwright case.
 - [x] Headless components do not auto-animate; reduced-motion is the consumer's CSS concern.
 - [x] axe-core (WCAG 2.0/2.1/2.2 A+AA) passes its full route baseline on all seven example apps: 31/31 for six of them, 29/29 for html-css-js-examples (spec §11.5, re-verified 2026-09-02 plan P1-T6 — see [testing](../testing/index.md) for the live table). This item was stale, not false: it named "six" apps and cited 2026-08-26-era counts (29/29 × 5, 17/17 × 1) from before angular-examples landed and nunjucks-eleventy-examples grew from 17 to 31 routes.
 
