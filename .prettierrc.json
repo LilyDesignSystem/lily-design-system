@@ -18,8 +18,7 @@
     {
       "files": "lily-design-system-angular-*/**/*.ts",
       "options": {
-        "embeddedLanguageFormatting": "off",
-        "tabWidth": 2
+        "embeddedLanguageFormatting": "off"
       }
     }
   ],
