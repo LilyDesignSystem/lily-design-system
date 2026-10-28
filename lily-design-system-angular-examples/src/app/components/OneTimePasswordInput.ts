@@ -17,9 +17,9 @@ import { ChangeDetectionStrategy, Component, input, model } from "@angular/core"
  * host element, not on the inner `<input>`; use the named inputs instead.
  */
 @Component({
-  selector: "lily-one-time-password-input",
-  standalone: true,
-  template: `<input
+    selector: "lily-one-time-password-input",
+    standalone: true,
+    template: `<input
     class="one-time-password-input {{ className() }}"
     type="text"
     [attr.inputmode]="inputMode()"
@@ -36,23 +36,23 @@ import { ChangeDetectionStrategy, Component, input, model } from "@angular/core"
     [required]="required()"
     [disabled]="disabled()"
   />`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OneTimePasswordInput {
-  /** Accessible label, applied to aria-label. */
-  readonly label = input.required<string>();
-  /** Number of characters in the code (maxlength). No default. */
-  readonly length = input.required<number>();
-  /** Extra CSS classes appended to the base class. */
-  readonly className = input<string>("");
-  /** Bindable code value. */
-  readonly value = model<string>("");
-  /** Soft keyboard hint; use "text" for alphanumeric codes. */
-  readonly inputMode = input<string>("numeric");
-  /** Validation pattern; use e.g. "[A-Za-z0-9]*" for alphanumeric codes. */
-  readonly pattern = input<string>("[0-9]*");
-  /** Form field name. */
-  readonly name = input<string | undefined>(undefined);
-  readonly required = input<boolean>(false);
-  readonly disabled = input<boolean>(false);
+    /** Accessible label, applied to aria-label. */
+    readonly label = input.required<string>();
+    /** Number of characters in the code (maxlength). No default. */
+    readonly length = input.required<number>();
+    /** Extra CSS classes appended to the base class. */
+    readonly className = input<string>("");
+    /** Bindable code value. */
+    readonly value = model<string>("");
+    /** Soft keyboard hint; use "text" for alphanumeric codes. */
+    readonly inputMode = input<string>("numeric");
+    /** Validation pattern; use e.g. "[A-Za-z0-9]*" for alphanumeric codes. */
+    readonly pattern = input<string>("[0-9]*");
+    /** Form field name. */
+    readonly name = input<string | undefined>(undefined);
+    readonly required = input<boolean>(false);
+    readonly disabled = input<boolean>(false);
 }

@@ -8,12 +8,12 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * Ships zero CSS; the consumer styles via the class hook.
  */
 @Component({
-  selector: "lily-checkbox-group",
-  standalone: true,
-  template: `<fieldset class="checkbox-group {{ className() }}" role="group" [attr.aria-label]="label() || null"><ng-content /></fieldset>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "lily-checkbox-group",
+    standalone: true,
+    template: `<fieldset class="checkbox-group {{ className() }}" role="group" [attr.aria-label]="label() || null"><ng-content /></fieldset>`,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckboxGroup {
-  readonly label = input<string>("");
-  readonly className = input<string>("");
+    readonly label = input<string>("");
+    readonly className = input<string>("");
 }

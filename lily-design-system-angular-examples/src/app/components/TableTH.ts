@@ -13,16 +13,16 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * zero CSS; the consumer styles via the class hook.
  */
 @Component({
-  selector: "th[lily-table-th]",
-  standalone: true,
-  template: `<ng-content />`,
-  host: {
-    "[class]": '"table-th " + className()',
-    "[attr.scope]": "scope() || null",
-  },
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "th[lily-table-th]",
+    standalone: true,
+    template: `<ng-content />`,
+    host: {
+        "[class]": '"table-th " + className()',
+        "[attr.scope]": "scope() || null",
+    },
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableTH {
-  readonly scope = input<string>("");
-  readonly className = input<string>("");
+    readonly scope = input<string>("");
+    readonly className = input<string>("");
 }

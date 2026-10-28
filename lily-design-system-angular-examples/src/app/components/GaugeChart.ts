@@ -16,15 +16,15 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * cannot detect projected content), empty when nothing is projected.
  */
 @Component({
-  selector: "lily-gauge-chart",
-  standalone: true,
-  template: `<figure class="gauge-chart {{ className() }}"><div class="gauge-chart-graphic" role="img" [attr.aria-label]="label()" [attr.aria-describedby]="describedBy() || null"><ng-content /></div><div class="gauge-chart-data-table"><ng-content select="[dataTable]" /></div></figure>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "lily-gauge-chart",
+    standalone: true,
+    template: `<figure class="gauge-chart {{ className() }}"><div class="gauge-chart-graphic" role="img" [attr.aria-label]="label()" [attr.aria-describedby]="describedBy() || null"><ng-content /></div><div class="gauge-chart-data-table"><ng-content select="[dataTable]" /></div></figure>`,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GaugeChart {
-  /** Accessible name for the chart. */
-  readonly label = input.required<string>();
-  /** Id of a description (aria-describedby on the image wrapper). */
-  readonly describedBy = input<string>("");
-  readonly className = input<string>("");
+    /** Accessible name for the chart. */
+    readonly label = input.required<string>();
+    /** Id of a description (aria-describedby on the image wrapper). */
+    readonly describedBy = input<string>("");
+    readonly className = input<string>("");
 }

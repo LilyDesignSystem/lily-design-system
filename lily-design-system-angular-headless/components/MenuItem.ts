@@ -8,12 +8,12 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * Ships zero CSS; the consumer styles via the class hook.
  */
 @Component({
-  selector: "lily-menu-item",
-  standalone: true,
-  template: `<div class="menu-item {{ className() }}" role="menuitem" tabindex="-1" [attr.aria-label]="label() || null"><ng-content /></div>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "lily-menu-item",
+    standalone: true,
+    template: `<div class="menu-item {{ className() }}" role="menuitem" tabindex="-1" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuItem {
-  readonly label = input<string>("");
-  readonly className = input<string>("");
+    readonly label = input<string>("");
+    readonly className = input<string>("");
 }

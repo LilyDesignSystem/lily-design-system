@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { RomaniaCodNumericPersonalInput } from "./RomaniaCodNumericPersonalInput";
 
 const meta: Meta<RomaniaCodNumericPersonalInput> = {
-  title: "Headless/RomaniaCodNumericPersonalInput",
-  component: RomaniaCodNumericPersonalInput,
-  tags: ["autodocs"],
+    title: "Headless/RomaniaCodNumericPersonalInput",
+    component: RomaniaCodNumericPersonalInput,
+    tags: ["autodocs"],
 };
 
 export default meta;

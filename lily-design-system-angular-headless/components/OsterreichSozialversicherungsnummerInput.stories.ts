@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { OsterreichSozialversicherungsnummerInput } from "./OsterreichSozialversicherungsnummerInput";
 
 const meta: Meta<OsterreichSozialversicherungsnummerInput> = {
-  title: "Headless/OsterreichSozialversicherungsnummerInput",
-  component: OsterreichSozialversicherungsnummerInput,
-  tags: ["autodocs"],
+    title: "Headless/OsterreichSozialversicherungsnummerInput",
+    component: OsterreichSozialversicherungsnummerInput,
+    tags: ["autodocs"],
 };
 
 export default meta;

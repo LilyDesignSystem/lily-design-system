@@ -8,13 +8,13 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * Ships zero CSS; the consumer styles via the class hook.
  */
 @Component({
-  selector: "lily-popconfirm-dialog",
-  standalone: true,
-  template: `<dialog class="popconfirm-dialog {{ className() }}" [attr.aria-label]="label() || null" [open]="open()"><ng-content /></dialog>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "lily-popconfirm-dialog",
+    standalone: true,
+    template: `<dialog class="popconfirm-dialog {{ className() }}" [attr.aria-label]="label() || null" [open]="open()"><ng-content /></dialog>`,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PopconfirmDialog {
-  readonly label = input<string>("");
-  readonly open = input<boolean>(false);
-  readonly className = input<string>("");
+    readonly label = input<string>("");
+    readonly open = input<boolean>(false);
+    readonly className = input<string>("");
 }

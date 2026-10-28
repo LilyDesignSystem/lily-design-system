@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { ToolCallStatus } from "./ToolCallStatus";
 
 const meta: Meta<ToolCallStatus> = {
-  title: "Headless/ToolCallStatus",
-  component: ToolCallStatus,
-  tags: ["autodocs"],
+    title: "Headless/ToolCallStatus",
+    component: ToolCallStatus,
+    tags: ["autodocs"],
 };
 
 export default meta;

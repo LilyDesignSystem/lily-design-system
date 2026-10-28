@@ -1,10 +1,10 @@
 import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  ViewChild,
-  computed,
-  input,
+    ChangeDetectionStrategy,
+    Component,
+    ElementRef,
+    ViewChild,
+    computed,
+    input,
 } from "@angular/core";
 
 /**
@@ -43,9 +43,9 @@ import {
  * (no attribute — unchanged default behaviour).
  */
 @Component({
-  selector: "lily-icon-button",
-  standalone: true,
-  template: `<button
+    selector: "lily-icon-button",
+    standalone: true,
+    template: `<button
     #root
     class="{{ baseClass() }} {{ className() }}"
     type="button"
@@ -56,43 +56,43 @@ import {
     [attr.tabindex]="tabIndex()"
     [disabled]="disabled()"
   ><ng-content /></button>`,
-  host: { style: "display: contents" },
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    host: { style: "display: contents" },
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IconButton {
-  /** Accessible label (REQUIRED for icon-only buttons in practice; enforced by convention, not the type system, to match the button's own required aria-label contract). */
-  readonly label = input<string>("");
-  /** Extra CSS classes appended after the base class. */
-  readonly className = input<string>("");
-  /** Base class token, replacing `"icon-button"` outright (not appended). */
-  readonly baseClass = input<string>("icon-button");
-  readonly ariaHaspopup = input<string>("");
-  readonly ariaExpanded = input<boolean | null>(null);
-  readonly ariaControls = input<string>("");
-  /** Overrides the real button's `tabindex`. `null` (default) sets none. */
-  readonly tabIndex = input<number | null>(null);
-  readonly disabled = input<boolean>(false);
+    /** Accessible label (REQUIRED for icon-only buttons in practice; enforced by convention, not the type system, to match the button's own required aria-label contract). */
+    readonly label = input<string>("");
+    /** Extra CSS classes appended after the base class. */
+    readonly className = input<string>("");
+    /** Base class token, replacing `"icon-button"` outright (not appended). */
+    readonly baseClass = input<string>("icon-button");
+    readonly ariaHaspopup = input<string>("");
+    readonly ariaExpanded = input<boolean | null>(null);
+    readonly ariaControls = input<string>("");
+    /** Overrides the real button's `tabindex`. `null` (default) sets none. */
+    readonly tabIndex = input<number | null>(null);
+    readonly disabled = input<boolean>(false);
 
-  @ViewChild("root") private rootRef?: ElementRef<HTMLButtonElement>;
+    @ViewChild("root") private rootRef?: ElementRef<HTMLButtonElement>;
 
-  protected readonly ariaExpandedAttr = computed(() => {
-    const v = this.ariaExpanded();
-    return v === null ? null : String(v);
-  });
+    protected readonly ariaExpandedAttr = computed(() => {
+        const v = this.ariaExpanded();
+        return v === null ? null : String(v);
+    });
 
-  /** Focus the real rendered `<button>`. */
-  focus(options?: FocusOptions): void {
-    this.rootRef?.nativeElement.focus(options);
-  }
+    /** Focus the real rendered `<button>`. */
+    focus(options?: FocusOptions): void {
+        this.rootRef?.nativeElement.focus(options);
+    }
 
-  /**
-   * The real rendered `<button>` element. `focus()` covers the common
-   * case; this exists for a consumer that needs the raw node itself —
-   * e.g. remembering it as a focus-restoration target, or an
-   * `instanceof HTMLElement` / `.contains()` check — where a behaviour
-   * method alone isn't enough.
-   */
-  get element(): HTMLButtonElement | undefined {
-    return this.rootRef?.nativeElement;
-  }
+    /**
+     * The real rendered `<button>` element. `focus()` covers the common
+     * case; this exists for a consumer that needs the raw node itself —
+     * e.g. remembering it as a focus-restoration target, or an
+     * `instanceof HTMLElement` / `.contains()` check — where a behaviour
+     * method alone isn't enough.
+     */
+    get element(): HTMLButtonElement | undefined {
+        return this.rootRef?.nativeElement;
+    }
 }

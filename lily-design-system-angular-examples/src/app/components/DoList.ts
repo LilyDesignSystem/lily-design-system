@@ -8,12 +8,12 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * Ships zero CSS; the consumer styles via the class hook.
  */
 @Component({
-  selector: "lily-do-list",
-  standalone: true,
-  template: `<ul class="do-list {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></ul>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "lily-do-list",
+    standalone: true,
+    template: `<ul class="do-list {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></ul>`,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DoList {
-  readonly label = input<string>("");
-  readonly className = input<string>("");
+    readonly label = input<string>("");
+    readonly className = input<string>("");
 }

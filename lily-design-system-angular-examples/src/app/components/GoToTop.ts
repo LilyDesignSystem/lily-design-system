@@ -8,12 +8,12 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * Ships zero CSS; the consumer styles via the class hook.
  */
 @Component({
-  selector: "lily-go-to-top",
-  standalone: true,
-  template: `<div class="go-to-top {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "lily-go-to-top",
+    standalone: true,
+    template: `<div class="go-to-top {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GoToTop {
-  readonly label = input<string>("");
-  readonly className = input<string>("");
+    readonly label = input<string>("");
+    readonly className = input<string>("");
 }

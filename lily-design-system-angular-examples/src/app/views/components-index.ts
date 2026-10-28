@@ -4,17 +4,17 @@ import { components, CATEGORY_LABEL } from "../components-data";
 import { suffixPatternOf, SUFFIX_LABEL, STANDALONE_ID } from "../suffix-pattern";
 
 interface Entry {
-  slug: string;
-  pascal: string;
-  description: string;
-  category: string;
-  suffix: string;
+    slug: string;
+    pascal: string;
+    description: string;
+    category: string;
+    suffix: string;
 }
 
 interface FilterOption {
-  id: string;
-  label: string;
-  count: number;
+    id: string;
+    label: string;
+    count: number;
 }
 
 // The catalog registry is generated from components.tsv by
@@ -24,21 +24,21 @@ interface FilterOption {
 // sourced from the canonical HTML tag in components/{slug}/AGENTS.md);
 // suffix pattern is derived client-side from the slug (../suffix-pattern.ts).
 const entries: Entry[] = components
-  .map((c) => ({
-    slug: c.slug,
-    pascal: c.name,
-    description: c.description,
-    category: c.category,
-    suffix: suffixPatternOf(c.slug),
-  }))
-  .sort((a, b) => a.slug.localeCompare(b.slug));
+    .map((c) => ({
+        slug: c.slug,
+        pascal: c.name,
+        description: c.description,
+        category: c.category,
+        suffix: suffixPatternOf(c.slug),
+    }))
+    .sort((a, b) => a.slug.localeCompare(b.slug));
 
 function countBy(items: Entry[], key: "category" | "suffix"): Map<string, number> {
-  const counts = new Map<string, number>();
-  for (const item of items) {
-    counts.set(item[key], (counts.get(item[key]) ?? 0) + 1);
-  }
-  return counts;
+    const counts = new Map<string, number>();
+    for (const item of items) {
+        counts.set(item[key], (counts.get(item[key]) ?? 0) + 1);
+    }
+    return counts;
 }
 
 const categoryCounts = countBy(entries, "category");
@@ -48,31 +48,31 @@ const suffixCounts = countBy(entries, "suffix");
 // so "All ..." plus real, populated options -- no dead choices that
 // would always return zero results.
 const categoryOptions: FilterOption[] = Object.entries(CATEGORY_LABEL)
-  .filter(([id]) => categoryCounts.has(id))
-  .map(([id, label]) => ({ id, label, count: categoryCounts.get(id) ?? 0 }))
-  .sort((a, b) => b.count - a.count);
+    .filter(([id]) => categoryCounts.has(id))
+    .map(([id, label]) => ({ id, label, count: categoryCounts.get(id) ?? 0 }))
+    .sort((a, b) => b.count - a.count);
 
 const suffixOptions: FilterOption[] = Object.entries(SUFFIX_LABEL)
-  .filter(([id]) => suffixCounts.has(id) && id !== STANDALONE_ID)
-  .map(([id, label]) => ({ id, label, count: suffixCounts.get(id) ?? 0 }))
-  .sort((a, b) => b.count - a.count)
-  .concat(
-    suffixCounts.has(STANDALONE_ID)
-      ? [
-          {
-            id: STANDALONE_ID,
-            label: SUFFIX_LABEL[STANDALONE_ID],
-            count: suffixCounts.get(STANDALONE_ID) ?? 0,
-          },
-        ]
-      : [],
-  );
+    .filter(([id]) => suffixCounts.has(id) && id !== STANDALONE_ID)
+    .map(([id, label]) => ({ id, label, count: suffixCounts.get(id) ?? 0 }))
+    .sort((a, b) => b.count - a.count)
+    .concat(
+        suffixCounts.has(STANDALONE_ID)
+            ? [
+                  {
+                      id: STANDALONE_ID,
+                      label: SUFFIX_LABEL[STANDALONE_ID],
+                      count: suffixCounts.get(STANDALONE_ID) ?? 0,
+                  },
+              ]
+            : [],
+    );
 
 @Component({
-  selector: "lily-components-catalog",
-  standalone: true,
-  imports: [RouterLink],
-  template: `
+    selector: "lily-components-catalog",
+    standalone: true,
+    imports: [RouterLink],
+    template: `
     <article class="page-wrapper">
       <h1>Components</h1>
       <p>{{ entries.length }} components in the catalog.</p>
@@ -124,52 +124,52 @@ const suffixOptions: FilterOption[] = Object.entries(SUFFIX_LABEL)
       </ul>
     </article>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class ComponentsIndexPage {
-  protected readonly entries = entries;
-  protected readonly categoryOptions = categoryOptions;
-  protected readonly suffixOptions = suffixOptions;
+    protected readonly entries = entries;
+    protected readonly categoryOptions = categoryOptions;
+    protected readonly suffixOptions = suffixOptions;
 
-  protected readonly query = signal("");
-  protected readonly categoryFilter = signal("");
-  protected readonly suffixFilter = signal("");
+    protected readonly query = signal("");
+    protected readonly categoryFilter = signal("");
+    protected readonly suffixFilter = signal("");
 
-  protected readonly filtered = computed(() => {
-    const q = this.query().trim().toLowerCase();
-    const category = this.categoryFilter();
-    const suffix = this.suffixFilter();
-    return this.entries.filter((e) => {
-      const matchesSearch =
-        q === "" ||
-        e.pascal.toLowerCase().includes(q) ||
-        e.slug.includes(q) ||
-        e.description.toLowerCase().includes(q);
-      const matchesCategory = category === "" || e.category === category;
-      const matchesSuffix = suffix === "" || e.suffix === suffix;
-      return matchesSearch && matchesCategory && matchesSuffix;
+    protected readonly filtered = computed(() => {
+        const q = this.query().trim().toLowerCase();
+        const category = this.categoryFilter();
+        const suffix = this.suffixFilter();
+        return this.entries.filter((e) => {
+            const matchesSearch =
+                q === "" ||
+                e.pascal.toLowerCase().includes(q) ||
+                e.slug.includes(q) ||
+                e.description.toLowerCase().includes(q);
+            const matchesCategory = category === "" || e.category === category;
+            const matchesSuffix = suffix === "" || e.suffix === suffix;
+            return matchesSearch && matchesCategory && matchesSuffix;
+        });
     });
-  });
 
-  protected readonly hasActiveFilter = computed(
-    () => this.query() !== "" || this.categoryFilter() !== "" || this.suffixFilter() !== "",
-  );
+    protected readonly hasActiveFilter = computed(
+        () => this.query() !== "" || this.categoryFilter() !== "" || this.suffixFilter() !== "",
+    );
 
-  protected setQuery(event: Event): void {
-    this.query.set((event.target as HTMLInputElement).value);
-  }
+    protected setQuery(event: Event): void {
+        this.query.set((event.target as HTMLInputElement).value);
+    }
 
-  protected setCategoryFilter(event: Event): void {
-    this.categoryFilter.set((event.target as HTMLSelectElement).value);
-  }
+    protected setCategoryFilter(event: Event): void {
+        this.categoryFilter.set((event.target as HTMLSelectElement).value);
+    }
 
-  protected setSuffixFilter(event: Event): void {
-    this.suffixFilter.set((event.target as HTMLSelectElement).value);
-  }
+    protected setSuffixFilter(event: Event): void {
+        this.suffixFilter.set((event.target as HTMLSelectElement).value);
+    }
 
-  protected resetFilters(): void {
-    this.query.set("");
-    this.categoryFilter.set("");
-    this.suffixFilter.set("");
-  }
+    protected resetFilters(): void {
+        this.query.set("");
+        this.categoryFilter.set("");
+        this.suffixFilter.set("");
+    }
 }

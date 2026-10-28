@@ -8,10 +8,10 @@ import { TextAreaInput } from "../components/TextAreaInput";
 import { Button } from "../components/Button";
 
 @Component({
-  selector: "lily-contact-form",
-  standalone: true,
-  imports: [Form, Field, Label, TextInput, EmailInput, TextAreaInput, Button],
-  template: `
+    selector: "lily-contact-form",
+    standalone: true,
+    imports: [Form, Field, Label, TextInput, EmailInput, TextAreaInput, Button],
+    template: `
     <article class="page-wrapper">
       <h1>Contact Form</h1>
 
@@ -39,18 +39,18 @@ import { Button } from "../components/Button";
       }
     </article>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class ContactFormPage {
-  protected name = signal("");
-  protected email = signal("");
-  protected message = signal("");
-  protected submitted = signal(false);
+    protected name = signal("");
+    protected email = signal("");
+    protected message = signal("");
+    protected submitted = signal(false);
 
-  protected subjectLine = computed(() => this.message().slice(0, 60) || "(no message)");
+    protected subjectLine = computed(() => this.message().slice(0, 60) || "(no message)");
 
-  protected submit(event: Event): void {
-    event.preventDefault();
-    this.submitted.set(true);
-  }
+    protected submit(event: Event): void {
+        event.preventDefault();
+        this.submitted.set(true);
+    }
 }

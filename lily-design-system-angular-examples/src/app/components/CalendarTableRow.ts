@@ -13,14 +13,14 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * zero CSS; the consumer styles via the class hook.
  */
 @Component({
-  selector: "tr[lily-calendar-table-row]",
-  standalone: true,
-  template: `<ng-content />`,
-  host: {
-    "[class]": '"calendar-table-row " + className()',
-  },
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "tr[lily-calendar-table-row]",
+    standalone: true,
+    template: `<ng-content />`,
+    host: {
+        "[class]": '"calendar-table-row " + className()',
+    },
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CalendarTableRow {
-  readonly className = input<string>("");
+    readonly className = input<string>("");
 }

@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { ActionLink } from "./ActionLink";
 
 const meta: Meta<ActionLink> = {
-  title: "Headless/ActionLink",
-  component: ActionLink,
-  tags: ["autodocs"],
+    title: "Headless/ActionLink",
+    component: ActionLink,
+    tags: ["autodocs"],
 };
 
 export default meta;

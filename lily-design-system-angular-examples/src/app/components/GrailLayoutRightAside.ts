@@ -8,12 +8,12 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * Ships zero CSS; the consumer styles via the class hook.
  */
 @Component({
-  selector: "lily-grail-layout-right-aside",
-  standalone: true,
-  template: `<aside class="grail-layout-right-aside {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></aside>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "lily-grail-layout-right-aside",
+    standalone: true,
+    template: `<aside class="grail-layout-right-aside {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></aside>`,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GrailLayoutRightAside {
-  readonly label = input<string>("");
-  readonly className = input<string>("");
+    readonly label = input<string>("");
+    readonly className = input<string>("");
 }

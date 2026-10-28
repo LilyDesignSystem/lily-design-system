@@ -8,12 +8,12 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * Ships zero CSS; the consumer styles via the class hook.
  */
 @Component({
-  selector: "lily-footer",
-  standalone: true,
-  template: `<footer class="footer {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></footer>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "lily-footer",
+    standalone: true,
+    template: `<footer class="footer {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></footer>`,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Footer {
-  readonly label = input<string>("");
-  readonly className = input<string>("");
+    readonly label = input<string>("");
+    readonly className = input<string>("");
 }

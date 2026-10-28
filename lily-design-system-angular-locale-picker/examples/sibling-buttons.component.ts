@@ -24,11 +24,11 @@ import { LocalePicker, bcp47LocaleTag, isRtlLocale } from "../locale-picker.comp
 import { defaultLocaleLabels } from "../locales";
 
 @Component({
-  selector: "example-sibling-buttons",
-  standalone: true,
-  imports: [LocalePicker],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: "example-sibling-buttons",
+    standalone: true,
+    imports: [LocalePicker],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <lily-locale-picker
       label="Language"
       [locales]="locales"
@@ -59,29 +59,29 @@ import { defaultLocaleLabels } from "../locales";
   `,
 })
 export class SiblingButtonsExample {
-  readonly locales = ["en", "fr", "es", "de", "ar", "he"];
+    readonly locales = ["en", "fr", "es", "de", "ar", "he"];
 
-  // Short two-letter codes for compact display.
-  readonly SHORT: Record<string, string> = {
-    en: "EN",
-    fr: "FR",
-    es: "ES",
-    de: "DE",
-    ar: "ع",
-    he: "ע",
-  };
+    // Short two-letter codes for compact display.
+    readonly SHORT: Record<string, string> = {
+        en: "EN",
+        fr: "FR",
+        es: "ES",
+        de: "DE",
+        ar: "ع",
+        he: "ע",
+    };
 
-  locale = signal("en");
+    locale = signal("en");
 
-  tagFor(l: string): string {
-    return bcp47LocaleTag(l);
-  }
+    tagFor(l: string): string {
+        return bcp47LocaleTag(l);
+    }
 
-  isRtl(l: string): boolean {
-    return isRtlLocale(l);
-  }
+    isRtl(l: string): boolean {
+        return isRtlLocale(l);
+    }
 
-  labelFor(l: string): string {
-    return defaultLocaleLabels[l] ?? l;
-  }
+    labelFor(l: string): string {
+        return defaultLocaleLabels[l] ?? l;
+    }
 }

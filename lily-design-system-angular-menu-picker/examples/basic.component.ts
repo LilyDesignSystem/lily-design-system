@@ -3,10 +3,10 @@ import { MenuPicker } from "../menu-picker.component";
 
 // The app provides the panel's content: the package ships no links and no English.
 @Component({
-  selector: "example-basic",
-  standalone: true,
-  imports: [MenuPicker],
-  template: `
+    selector: "example-basic",
+    standalone: true,
+    imports: [MenuPicker],
+    template: `
     <lily-menu-picker label="Menu">
       <ul>
         <li><a href="/">Home</a></li>

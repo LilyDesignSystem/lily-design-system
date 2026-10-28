@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { GrailLayout } from "./GrailLayout";
 
 const meta: Meta<GrailLayout> = {
-  title: "Headless/GrailLayout",
-  component: GrailLayout,
-  tags: ["autodocs"],
+    title: "Headless/GrailLayout",
+    component: GrailLayout,
+    tags: ["autodocs"],
 };
 
 export default meta;

@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { BelgiqueNumeroDeRegistreNationalView } from "./BelgiqueNumeroDeRegistreNationalView";
 
 const meta: Meta<BelgiqueNumeroDeRegistreNationalView> = {
-  title: "Headless/BelgiqueNumeroDeRegistreNationalView",
-  component: BelgiqueNumeroDeRegistreNationalView,
-  tags: ["autodocs"],
+    title: "Headless/BelgiqueNumeroDeRegistreNationalView",
+    component: BelgiqueNumeroDeRegistreNationalView,
+    tags: ["autodocs"],
 };
 
 export default meta;

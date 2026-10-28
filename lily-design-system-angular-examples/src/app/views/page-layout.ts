@@ -8,10 +8,10 @@ import { Sidebar } from "../components/Sidebar";
 import { Panel } from "../components/Panel";
 
 @Component({
-  selector: "lily-page-layout",
-  standalone: true,
-  imports: [Header, Footer, BreadcrumbNav, BreadcrumbList, BreadcrumbListItem, Sidebar, Panel],
-  template: `
+    selector: "lily-page-layout",
+    standalone: true,
+    imports: [Header, Footer, BreadcrumbNav, BreadcrumbList, BreadcrumbListItem, Sidebar, Panel],
+    template: `
     <article class="page-wrapper">
       <h1>Page layout</h1>
 
@@ -38,6 +38,6 @@ import { Panel } from "../components/Panel";
       </div>
     </article>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class PageLayoutPage {}

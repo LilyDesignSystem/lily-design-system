@@ -8,9 +8,9 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * Ships zero CSS; the consumer styles via the class hook.
  */
 @Component({
-  selector: "lily-segment-group-item",
-  standalone: true,
-  template: `<button
+    selector: "lily-segment-group-item",
+    standalone: true,
+    template: `<button
     type="button"
     class="segment-group-item {{ className() }}"
     role="radio"
@@ -20,15 +20,15 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
     [disabled]="disabled()"
     [attr.aria-label]="label() || null"
   ><ng-content /></button>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SegmentGroupItem {
-  readonly label = input<string>("");
-  readonly className = input<string>("");
-  /** Whether this segment is selected (`aria-checked`, and the roving tab stop). */
-  readonly checked = input<boolean>(false);
-  /** Value associated with this segment, exposed as `data-value`. */
-  readonly value = input<string>("");
-  /** Whether this segment is disabled. */
-  readonly disabled = input<boolean>(false);
+    readonly label = input<string>("");
+    readonly className = input<string>("");
+    /** Whether this segment is selected (`aria-checked`, and the roving tab stop). */
+    readonly checked = input<boolean>(false);
+    /** Value associated with this segment, exposed as `data-value`. */
+    readonly value = input<string>("");
+    /** Whether this segment is disabled. */
+    readonly disabled = input<boolean>(false);
 }

@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { CalendarYearTable } from "./CalendarYearTable";
 
 const meta: Meta<CalendarYearTable> = {
-  title: "Headless/CalendarYearTable",
-  component: CalendarYearTable,
-  tags: ["autodocs"],
+    title: "Headless/CalendarYearTable",
+    component: CalendarYearTable,
+    tags: ["autodocs"],
 };
 
 export default meta;

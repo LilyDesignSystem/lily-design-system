@@ -13,16 +13,16 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * zero CSS; the consumer styles via the class hook.
  */
 @Component({
-  selector: "th[lily-kanban-table-th]",
-  standalone: true,
-  template: `<ng-content />`,
-  host: {
-    "[class]": '"kanban-table-th " + className()',
-    "[attr.scope]": "scope() || null",
-  },
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "th[lily-kanban-table-th]",
+    standalone: true,
+    template: `<ng-content />`,
+    host: {
+        "[class]": '"kanban-table-th " + className()',
+        "[attr.scope]": "scope() || null",
+    },
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class KanbanTableTH {
-  readonly scope = input<string>("");
-  readonly className = input<string>("");
+    readonly scope = input<string>("");
+    readonly className = input<string>("");
 }

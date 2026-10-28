@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { SuomiHenkilotunnusView } from "./SuomiHenkilotunnusView";
 
 const meta: Meta<SuomiHenkilotunnusView> = {
-  title: "Headless/SuomiHenkilotunnusView",
-  component: SuomiHenkilotunnusView,
-  tags: ["autodocs"],
+    title: "Headless/SuomiHenkilotunnusView",
+    component: SuomiHenkilotunnusView,
+    tags: ["autodocs"],
 };
 
 export default meta;

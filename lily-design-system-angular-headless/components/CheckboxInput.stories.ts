@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { CheckboxInput } from "./CheckboxInput";
 
 const meta: Meta<CheckboxInput> = {
-  title: "Headless/CheckboxInput",
-  component: CheckboxInput,
-  tags: ["autodocs"],
+    title: "Headless/CheckboxInput",
+    component: CheckboxInput,
+    tags: ["autodocs"],
 };
 
 export default meta;

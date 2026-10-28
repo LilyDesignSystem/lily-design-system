@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { BreadcrumbLink } from "./BreadcrumbLink";
 
 const meta: Meta<BreadcrumbLink> = {
-  title: "Headless/BreadcrumbLink",
-  component: BreadcrumbLink,
-  tags: ["autodocs"],
+    title: "Headless/BreadcrumbLink",
+    component: BreadcrumbLink,
+    tags: ["autodocs"],
 };
 
 export default meta;

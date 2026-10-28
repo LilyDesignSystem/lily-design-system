@@ -10,11 +10,11 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ThemePicker } from "../theme-picker.component";
 
 @Component({
-  selector: "example-custom-labels",
-  standalone: true,
-  imports: [ThemePicker],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: "example-custom-labels",
+    standalone: true,
+    imports: [ThemePicker],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <lily-theme-picker
       label="Thème"
       themesUrl="/assets/themes/"
@@ -29,11 +29,11 @@ import { ThemePicker } from "../theme-picker.component";
   `,
 })
 export class CustomLabelsExample {
-  readonly labels: Record<string, string> = {
-    light: "Clair",
-    dark: "Sombre",
-    "united-kingdom-national-health-service-england-for-patients": "NHS England (patients)",
-    "united-kingdom-national-health-service-england-for-practitioners":
-      "NHS England (practitioners)",
-  };
+    readonly labels: Record<string, string> = {
+        light: "Clair",
+        dark: "Sombre",
+        "united-kingdom-national-health-service-england-for-patients": "NHS England (patients)",
+        "united-kingdom-national-health-service-england-for-practitioners":
+            "NHS England (practitioners)",
+    };
 }

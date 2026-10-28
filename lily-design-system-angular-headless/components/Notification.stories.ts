@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { Notification } from "./Notification";
 
 const meta: Meta<Notification> = {
-  title: "Headless/Notification",
-  component: Notification,
-  tags: ["autodocs"],
+    title: "Headless/Notification",
+    component: Notification,
+    tags: ["autodocs"],
 };
 
 export default meta;

@@ -11,11 +11,11 @@ import { ChangeDetectionStrategy, Component, signal } from "@angular/core";
 import { TextSizePicker } from "../text-size-picker.component";
 
 @Component({
-  selector: "example-two-way-binding",
-  standalone: true,
-  imports: [TextSizePicker],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: "example-two-way-binding",
+    standalone: true,
+    imports: [TextSizePicker],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <lily-text-size-picker
       label="Text size"
       [sizes]="['small', 'medium', 'large', 'x-large']"
@@ -29,10 +29,10 @@ import { TextSizePicker } from "../text-size-picker.component";
   `,
 })
 export class TwoWayBindingExample {
-  size = signal("");
+    size = signal("");
 
-  trackSizeChange(slug: string): void {
-    // e.g. fetch("/api/preferences", { method: "POST", body: JSON.stringify({ textSize: slug }) });
-    console.info("text size changed:", slug);
-  }
+    trackSizeChange(slug: string): void {
+        // e.g. fetch("/api/preferences", { method: "POST", body: JSON.stringify({ textSize: slug }) });
+        console.info("text size changed:", slug);
+    }
 }

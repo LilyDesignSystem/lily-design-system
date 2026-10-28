@@ -5,14 +5,14 @@ import { CalendarTableBody } from "./CalendarTableBody";
 // only knows how to mount an element selector as its own tag, so this story supplies
 // the host <tbody> explicitly via `render`.
 const meta: Meta<CalendarTableBody> = {
-  title: "Headless/CalendarTableBody",
-  component: CalendarTableBody,
-  tags: ["autodocs"],
-  render: (args) => ({
-    props: args,
-    moduleMetadata: { imports: [CalendarTableBody] },
-    template: `<tbody lily-calendar-table-body [className]="className"></tbody>`,
-  }),
+    title: "Headless/CalendarTableBody",
+    component: CalendarTableBody,
+    tags: ["autodocs"],
+    render: (args) => ({
+        props: args,
+        moduleMetadata: { imports: [CalendarTableBody] },
+        template: `<tbody lily-calendar-table-body [className]="className"></tbody>`,
+    }),
 };
 
 export default meta;

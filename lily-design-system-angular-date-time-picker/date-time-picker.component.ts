@@ -1,22 +1,22 @@
 import { NgTemplateOutlet } from "@angular/common";
 import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  DestroyRef,
-  Directive,
-  ElementRef,
-  TemplateRef,
-  afterNextRender,
-  computed,
-  contentChild,
-  effect,
-  inject,
-  input,
-  model,
-  output,
-  signal,
-  viewChild,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    DestroyRef,
+    Directive,
+    ElementRef,
+    TemplateRef,
+    afterNextRender,
+    computed,
+    contentChild,
+    effect,
+    inject,
+    input,
+    model,
+    output,
+    signal,
+    viewChild,
 } from "@angular/core";
 // Only the trigger button composes a headless primitive here. Angular's
 // headless `Dialog` renders `<dialog [open]="open()">` — the native tag,
@@ -69,16 +69,16 @@ export type CivilTime = { hour: number; minute: number };
 
 /** One quick-pick button in the dialog. */
 export type DateTimeShortcut = {
-  /** Stable identifier, passed back on the `shortcut` output. */
-  id: string;
-  /** Visible button text. Consumer-supplied, so it localises. */
-  label: string;
-  /** Days from today. Mutually exclusive with `months` and `date`. */
-  days?: number;
-  /** Calendar months from today. */
-  months?: number;
-  /** An absolute ISO date, for shortcuts that are not relative. */
-  date?: string;
+    /** Stable identifier, passed back on the `shortcut` output. */
+    id: string;
+    /** Visible button text. Consumer-supplied, so it localises. */
+    label: string;
+    /** Days from today. Mutually exclusive with `months` and `date`. */
+    days?: number;
+    /** Calendar months from today. */
+    months?: number;
+    /** An absolute ISO date, for shortcuts that are not relative. */
+    date?: string;
 };
 
 /**
@@ -96,75 +96,75 @@ export type DateTimeShortcut = {
  * avoid. The rest gate optional UI.
  */
 export type DateTimePickerLabels = {
-  /** Accessible name for the previous-year button. */
-  previousYear: string;
-  /** Accessible name for the previous-month button. */
-  previousMonth: string;
-  /** Accessible name for the previous-week button. */
-  previousWeek: string;
-  /** Accessible name for the previous-day button. */
-  previousDay: string;
-  /** Accessible name for the next-day button. */
-  nextDay: string;
-  /** Accessible name for the next-week button. */
-  nextWeek: string;
-  /** Accessible name for the next-month button. */
-  nextMonth: string;
-  /** Accessible name for the next-year button. */
-  nextYear: string;
-  /** Visible text of the commit button. */
-  confirm: string;
-  /** Visible text of the dismiss button. */
-  cancel: string;
-  /** Label for the hour select. Required when `mode` includes a time. */
-  hour?: string;
-  /** Label for the minute select. Required when `mode` includes a time. */
-  minute?: string;
-  /** Label for the AM/PM select, when `hour12` resolves true. */
-  meridiem?: string;
-  /** Column heading for week numbers. Required when `showWeekNumbers`. */
-  week?: string;
-  /** Visible text of the clear button. The button renders only when set. */
-  clear?: string;
-  /**
-   * Label for the time-zone select. The select renders only when set, for
-   * the same reason `clear` gates its button: a zone list is an opt-in
-   * part of the form, and we will not name it in English.
-   */
-  timeZone?: string;
-  /**
-   * Message announced when typed text will not parse or is out of range.
-   * When set, a `role="status"` live region renders after the field and
-   * is wired to it via `aria-errormessage` — without it, `aria-invalid`
-   * flips silently and a screen-reader user who has already left the
-   * field never hears that their date was refused.
-   */
-  invalid?: string;
-  /**
-   * Keyboard help for the dialog, e.g. "Use the arrow keys to choose a
-   * date". When set, it renders inside the dialog and becomes the
-   * dialog's `aria-describedby`, so a screen reader speaks it once on
-   * open — the APG date-picker dialog ships exactly this affordance.
-   */
-  instructions?: string;
+    /** Accessible name for the previous-year button. */
+    previousYear: string;
+    /** Accessible name for the previous-month button. */
+    previousMonth: string;
+    /** Accessible name for the previous-week button. */
+    previousWeek: string;
+    /** Accessible name for the previous-day button. */
+    previousDay: string;
+    /** Accessible name for the next-day button. */
+    nextDay: string;
+    /** Accessible name for the next-week button. */
+    nextWeek: string;
+    /** Accessible name for the next-month button. */
+    nextMonth: string;
+    /** Accessible name for the next-year button. */
+    nextYear: string;
+    /** Visible text of the commit button. */
+    confirm: string;
+    /** Visible text of the dismiss button. */
+    cancel: string;
+    /** Label for the hour select. Required when `mode` includes a time. */
+    hour?: string;
+    /** Label for the minute select. Required when `mode` includes a time. */
+    minute?: string;
+    /** Label for the AM/PM select, when `hour12` resolves true. */
+    meridiem?: string;
+    /** Column heading for week numbers. Required when `showWeekNumbers`. */
+    week?: string;
+    /** Visible text of the clear button. The button renders only when set. */
+    clear?: string;
+    /**
+     * Label for the time-zone select. The select renders only when set, for
+     * the same reason `clear` gates its button: a zone list is an opt-in
+     * part of the form, and we will not name it in English.
+     */
+    timeZone?: string;
+    /**
+     * Message announced when typed text will not parse or is out of range.
+     * When set, a `role="status"` live region renders after the field and
+     * is wired to it via `aria-errormessage` — without it, `aria-invalid`
+     * flips silently and a screen-reader user who has already left the
+     * field never hears that their date was refused.
+     */
+    invalid?: string;
+    /**
+     * Keyboard help for the dialog, e.g. "Use the arrow keys to choose a
+     * date". When set, it renders inside the dialog and becomes the
+     * dialog's `aria-describedby`, so a screen reader speaks it once on
+     * open — the APG date-picker dialog ships exactly this affordance.
+     */
+    instructions?: string;
 };
 
 /** Context passed to a projected icon `<ng-template>` (the button glyph). */
 export type ChildArgs = {
-  /** The committed value, in ISO form. */
-  value: string;
-  /** Is the dialog open? */
-  open: boolean;
-  /** The value as the user sees it in the field. */
-  display: string;
+    /** The committed value, in ISO form. */
+    value: string;
+    /** Is the dialog open? */
+    open: boolean;
+    /** The value as the user sees it in the field. */
+    display: string;
 };
 
 /** Payload of the `shortcut` output. */
 export type ShortcutEvent = {
-  /** The chosen shortcut's `id`. */
-  id: string;
-  /** The ISO date the shortcut resolved to. */
-  isoDate: string;
+    /** The chosen shortcut's `id`. */
+    id: string;
+    /** The ISO date the shortcut resolved to. */
+    isoDate: string;
 };
 
 // -----------------------------------------------------------------
@@ -177,18 +177,18 @@ export type ShortcutEvent = {
 
 /** Zero-pad to `width`. */
 export function pad(n: number, width = 2): string {
-  return String(Math.abs(n)).padStart(width, "0");
+    return String(Math.abs(n)).padStart(width, "0");
 }
 
 /** Days in a month. `month` is 1-12. */
 export function daysInMonth(year: number, month: number): number {
-  // Day 0 of the next month is the last day of this one.
-  return new Date(Date.UTC(year, month, 0)).getUTCDate();
+    // Day 0 of the next month is the last day of this one.
+    return new Date(Date.UTC(year, month, 0)).getUTCDate();
 }
 
 /** `{2026, 3, 1}` → `"2026-03-01"`. */
 export function formatIsoDate(date: CivilDate): string {
-  return `${pad(date.year, 4)}-${pad(date.month)}-${pad(date.day)}`;
+    return `${pad(date.year, 4)}-${pad(date.month)}-${pad(date.day)}`;
 }
 
 /**
@@ -199,36 +199,36 @@ export function formatIsoDate(date: CivilDate): string {
  * reinterprets an impossible date is worse than one that refuses it.
  */
 export function parseIsoDate(text: string): CivilDate | null {
-  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(text.trim());
-  if (!m) return null;
-  const year = Number(m[1]);
-  const month = Number(m[2]);
-  const day = Number(m[3]);
-  if (month < 1 || month > 12) return null;
-  if (day < 1 || day > daysInMonth(year, month)) return null;
-  return { year, month, day };
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(text.trim());
+    if (!m) return null;
+    const year = Number(m[1]);
+    const month = Number(m[2]);
+    const day = Number(m[3]);
+    if (month < 1 || month > 12) return null;
+    if (day < 1 || day > daysInMonth(year, month)) return null;
+    return { year, month, day };
 }
 
 /** Days since the Unix epoch. The unit all date arithmetic goes through. */
 export function toEpochDay(date: CivilDate): number {
-  return Date.UTC(date.year, date.month - 1, date.day) / 86400000;
+    return Date.UTC(date.year, date.month - 1, date.day) / 86400000;
 }
 
 /** Inverse of `toEpochDay`. */
 export function fromEpochDay(epochDay: number): CivilDate {
-  const d = new Date(epochDay * 86400000);
-  return {
-    year: d.getUTCFullYear(),
-    month: d.getUTCMonth() + 1,
-    day: d.getUTCDate(),
-  };
+    const d = new Date(epochDay * 86400000);
+    return {
+        year: d.getUTCFullYear(),
+        month: d.getUTCMonth() + 1,
+        day: d.getUTCDate(),
+    };
 }
 
 /** Shift an ISO date by whole days. */
 export function addDays(isoDate: string, days: number): string {
-  const date = parseIsoDate(isoDate);
-  if (!date) return isoDate;
-  return formatIsoDate(fromEpochDay(toEpochDay(date) + days));
+    const date = parseIsoDate(isoDate);
+    if (!date) return isoDate;
+    return formatIsoDate(fromEpochDay(toEpochDay(date) + days));
 }
 
 /**
@@ -239,23 +239,23 @@ export function addDays(isoDate: string, days: number): string {
  * never what someone paging a calendar means.
  */
 export function addMonths(isoDate: string, months: number): string {
-  const date = parseIsoDate(isoDate);
-  if (!date) return isoDate;
-  const total = date.year * 12 + (date.month - 1) + months;
-  const year = Math.floor(total / 12);
-  const month = (((total % 12) + 12) % 12) + 1;
-  return formatIsoDate({
-    year,
-    month,
-    day: Math.min(date.day, daysInMonth(year, month)),
-  });
+    const date = parseIsoDate(isoDate);
+    if (!date) return isoDate;
+    const total = date.year * 12 + (date.month - 1) + months;
+    const year = Math.floor(total / 12);
+    const month = (((total % 12) + 12) % 12) + 1;
+    return formatIsoDate({
+        year,
+        month,
+        day: Math.min(date.day, daysInMonth(year, month)),
+    });
 }
 
 /** Day of week: 0 = Sunday … 6 = Saturday. */
 export function weekdayOf(isoDate: string): number {
-  const date = parseIsoDate(isoDate);
-  if (!date) return 0;
-  return new Date(Date.UTC(date.year, date.month - 1, date.day)).getUTCDay();
+    const date = parseIsoDate(isoDate);
+    if (!date) return 0;
+    return new Date(Date.UTC(date.year, date.month - 1, date.day)).getUTCDay();
 }
 
 /**
@@ -267,110 +267,110 @@ export function weekdayOf(isoDate: string): number {
  * the column is worth getting exactly right.
  */
 export function isoWeek(isoDate: string): number {
-  if (!parseIsoDate(isoDate)) return 0;
-  const mondayIndex = (weekdayOf(isoDate) + 6) % 7;
-  const thursday = addDays(isoDate, 3 - mondayIndex);
-  const parsed = parseIsoDate(thursday);
-  if (!parsed) return 0;
-  const jan1 = parseIsoDate(formatIsoDate({ year: parsed.year, month: 1, day: 1 }));
-  if (!jan1) return 0;
-  return Math.floor((toEpochDay(parsed) - toEpochDay(jan1)) / 7) + 1;
+    if (!parseIsoDate(isoDate)) return 0;
+    const mondayIndex = (weekdayOf(isoDate) + 6) % 7;
+    const thursday = addDays(isoDate, 3 - mondayIndex);
+    const parsed = parseIsoDate(thursday);
+    if (!parsed) return 0;
+    const jan1 = parseIsoDate(formatIsoDate({ year: parsed.year, month: 1, day: 1 }));
+    if (!jan1) return 0;
+    return Math.floor((toEpochDay(parsed) - toEpochDay(jan1)) / 7) + 1;
 }
 
 /** `"09:30"` → `{9, 30}`, or null. */
 export function parseIsoTime(text: string): CivilTime | null {
-  const m = /^(\d{2}):(\d{2})$/.exec(text.trim());
-  if (!m) return null;
-  const hour = Number(m[1]);
-  const minute = Number(m[2]);
-  if (hour > 23 || minute > 59) return null;
-  return { hour, minute };
+    const m = /^(\d{2}):(\d{2})$/.exec(text.trim());
+    if (!m) return null;
+    const hour = Number(m[1]);
+    const minute = Number(m[2]);
+    if (hour > 23 || minute > 59) return null;
+    return { hour, minute };
 }
 
 /** `{9, 30}` → `"09:30"`. */
 export function formatIsoTime(time: CivilTime): string {
-  return `${pad(time.hour)}:${pad(time.minute)}`;
+    return `${pad(time.hour)}:${pad(time.minute)}`;
 }
 
 /** Pull the date and time halves out of a mode-appropriate ISO value. */
 export function splitValue(value: string, mode: DateTimeMode): { date: string; time: string } {
-  if (!value) return { date: "", time: "" };
-  if (mode === "time") {
-    return { date: "", time: parseIsoTime(value) ? value : "" };
-  }
-  const [datePart = "", timePart = ""] = value.split("T");
-  return {
-    date: parseIsoDate(datePart) ? datePart : "",
-    time: mode === "datetime" && parseIsoTime(timePart) ? timePart : "",
-  };
+    if (!value) return { date: "", time: "" };
+    if (mode === "time") {
+        return { date: "", time: parseIsoTime(value) ? value : "" };
+    }
+    const [datePart = "", timePart = ""] = value.split("T");
+    return {
+        date: parseIsoDate(datePart) ? datePart : "",
+        time: mode === "datetime" && parseIsoTime(timePart) ? timePart : "",
+    };
 }
 
 /** Recombine the halves. Returns "" when the value is incomplete. */
 export function joinValue(date: string, time: string, mode: DateTimeMode): string {
-  if (mode === "date") return date;
-  if (mode === "time") return time;
-  return date && time ? `${date}T${time}` : "";
+    if (mode === "date") return date;
+    if (mode === "time") return time;
+    return date && time ? `${date}T${time}` : "";
 }
 
 /** Is `isoDate` inside the inclusive [min, max] window? Empty bounds pass. */
 export function withinRange(isoDate: string, min?: string, max?: string): boolean {
-  if (min && isoDate < min) return false;
-  if (max && isoDate > max) return false;
-  return true;
+    if (min && isoDate < min) return false;
+    if (max && isoDate > max) return false;
+    return true;
 }
 
 /** Uppercase region subtag of a BCP 47 tag, or "". */
 function regionOf(locale?: string): string {
-  if (!locale) return "";
-  for (const part of locale.split(/[-_]/).slice(1)) {
-    if (/^[A-Za-z]{2}$/.test(part)) return part.toUpperCase();
-  }
-  return "";
+    if (!locale) return "";
+    for (const part of locale.split(/[-_]/).slice(1)) {
+        if (/^[A-Za-z]{2}$/.test(part)) return part.toUpperCase();
+    }
+    return "";
 }
 
 const SUNDAY_FIRST_REGIONS = new Set([
-  "AR",
-  "BR",
-  "CA",
-  "CL",
-  "CO",
-  "DO",
-  "GT",
-  "HK",
-  "IL",
-  "IN",
-  "JP",
-  "KR",
-  "MO",
-  "MX",
-  "PE",
-  "PH",
-  "PK",
-  "TH",
-  "TW",
-  "US",
-  "VE",
-  "ZA",
+    "AR",
+    "BR",
+    "CA",
+    "CL",
+    "CO",
+    "DO",
+    "GT",
+    "HK",
+    "IL",
+    "IN",
+    "JP",
+    "KR",
+    "MO",
+    "MX",
+    "PE",
+    "PH",
+    "PK",
+    "TH",
+    "TW",
+    "US",
+    "VE",
+    "ZA",
 ]);
 
 const SATURDAY_FIRST_REGIONS = new Set([
-  "AE",
-  "AF",
-  "BH",
-  "DJ",
-  "DZ",
-  "EG",
-  "IQ",
-  "IR",
-  "JO",
-  "KW",
-  "LY",
-  "OM",
-  "QA",
-  "SA",
-  "SD",
-  "SY",
-  "YE",
+    "AE",
+    "AF",
+    "BH",
+    "DJ",
+    "DZ",
+    "EG",
+    "IQ",
+    "IR",
+    "JO",
+    "KW",
+    "LY",
+    "OM",
+    "QA",
+    "SA",
+    "SD",
+    "SY",
+    "YE",
 ]);
 
 /**
@@ -383,26 +383,26 @@ const SATURDAY_FIRST_REGIONS = new Set([
  * rule and the majority convention worldwide.
  */
 export function firstDayOfWeekFor(locale?: string): number {
-  if (locale) {
-    try {
-      const loc = new Intl.Locale(locale) as Intl.Locale & {
-        getWeekInfo?: () => { firstDay: number };
-        weekInfo?: { firstDay: number };
-      };
-      const info = loc.getWeekInfo?.() ?? loc.weekInfo;
-      // getWeekInfo reports 1 = Monday … 7 = Sunday, so Sunday (7) has to
-      // fold to 0.
-      if (info && typeof info.firstDay === "number") {
-        return info.firstDay % 7;
-      }
-    } catch {
-      // Malformed tag — fall through to the table.
+    if (locale) {
+        try {
+            const loc = new Intl.Locale(locale) as Intl.Locale & {
+                getWeekInfo?: () => { firstDay: number };
+                weekInfo?: { firstDay: number };
+            };
+            const info = loc.getWeekInfo?.() ?? loc.weekInfo;
+            // getWeekInfo reports 1 = Monday … 7 = Sunday, so Sunday (7) has to
+            // fold to 0.
+            if (info && typeof info.firstDay === "number") {
+                return info.firstDay % 7;
+            }
+        } catch {
+            // Malformed tag — fall through to the table.
+        }
     }
-  }
-  const region = regionOf(locale);
-  if (SUNDAY_FIRST_REGIONS.has(region)) return 0;
-  if (SATURDAY_FIRST_REGIONS.has(region)) return 6;
-  return 1;
+    const region = regionOf(locale);
+    if (SUNDAY_FIRST_REGIONS.has(region)) return 0;
+    if (SATURDAY_FIRST_REGIONS.has(region)) return 6;
+    return 1;
 }
 
 /**
@@ -415,58 +415,60 @@ export function firstDayOfWeekFor(locale?: string): number {
  * costs at most one extra trailing week.
  */
 export function monthMatrix(year: number, month: number, firstDayOfWeek: number): string[][] {
-  const first = formatIsoDate({ year, month, day: 1 });
-  const lead = (weekdayOf(first) - firstDayOfWeek + 7) % 7;
-  const start = addDays(first, -lead);
-  const weeks: string[][] = [];
-  for (let row = 0; row < 6; row++) {
-    const week: string[] = [];
-    for (let col = 0; col < 7; col++) {
-      week.push(addDays(start, row * 7 + col));
+    const first = formatIsoDate({ year, month, day: 1 });
+    const lead = (weekdayOf(first) - firstDayOfWeek + 7) % 7;
+    const start = addDays(first, -lead);
+    const weeks: string[][] = [];
+    for (let row = 0; row < 6; row++) {
+        const week: string[] = [];
+        for (let col = 0; col < 7; col++) {
+            week.push(addDays(start, row * 7 + col));
+        }
+        weeks.push(week);
     }
-    weeks.push(week);
-  }
-  return weeks;
+    return weeks;
 }
 
 /** Long and short month names for a locale, index 0 = January. */
 export function monthNames(locale?: string): {
-  long: string[];
-  short: string[];
+    long: string[];
+    short: string[];
 } {
-  const build = (month: "long" | "short") => {
-    try {
-      const fmt = new Intl.DateTimeFormat(locale, {
-        month,
-        timeZone: "UTC",
-      });
-      return Array.from({ length: 12 }, (_, i) => fmt.format(new Date(Date.UTC(2021, i, 15))));
-    } catch {
-      return [];
-    }
-  };
-  return { long: build("long"), short: build("short") };
+    const build = (month: "long" | "short") => {
+        try {
+            const fmt = new Intl.DateTimeFormat(locale, {
+                month,
+                timeZone: "UTC",
+            });
+            return Array.from({ length: 12 }, (_, i) =>
+                fmt.format(new Date(Date.UTC(2021, i, 15))),
+            );
+        } catch {
+            return [];
+        }
+    };
+    return { long: build("long"), short: build("short") };
 }
 
 /** Match a token against a locale's month names. Returns 1-12, or 0. */
 function matchMonthName(token: string, names: { long: string[]; short: string[] }): number {
-  const norm = (s: string) => s.toLocaleLowerCase().replace(/\.$/, "").normalize("NFKD");
-  const t = norm(token);
-  if (!t || /^\d+$/.test(t)) return 0;
-  for (let i = 0; i < 12; i++) {
-    if (norm(names.long[i] ?? "") === t) return i + 1;
-    if (norm(names.short[i] ?? "") === t) return i + 1;
-  }
-  // Prefix match, so "Sept" finds September. Three characters minimum:
-  // "Ma" cannot choose between March and May, and guessing there would be
-  // worse than refusing.
-  if (t.length >= 3) {
+    const norm = (s: string) => s.toLocaleLowerCase().replace(/\.$/, "").normalize("NFKD");
+    const t = norm(token);
+    if (!t || /^\d+$/.test(t)) return 0;
     for (let i = 0; i < 12; i++) {
-      const long = norm(names.long[i] ?? "");
-      if (long && long.startsWith(t)) return i + 1;
+        if (norm(names.long[i] ?? "") === t) return i + 1;
+        if (norm(names.short[i] ?? "") === t) return i + 1;
     }
-  }
-  return 0;
+    // Prefix match, so "Sept" finds September. Three characters minimum:
+    // "Ma" cannot choose between March and May, and guessing there would be
+    // worse than refusing.
+    if (t.length >= 3) {
+        for (let i = 0; i < 12; i++) {
+            const long = norm(names.long[i] ?? "");
+            if (long && long.startsWith(t)) return i + 1;
+        }
+    }
+    return 0;
 }
 
 /**
@@ -474,21 +476,23 @@ function matchMonthName(token: string, names: { long: string[]; short: string[] 
  * for en-GB, `["month","day","year"]` for en-US.
  */
 export function numericFieldOrder(locale?: string): ("day" | "month" | "year")[] {
-  try {
-    const parts = new Intl.DateTimeFormat(locale, {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      timeZone: "UTC",
-    }).formatToParts(new Date(Date.UTC(2021, 4, 6)));
-    const order = parts
-      .map((p) => p.type)
-      .filter((t): t is "day" | "month" | "year" => t === "day" || t === "month" || t === "year");
-    if (order.length === 3) return order;
-  } catch {
-    // Fall through.
-  }
-  return ["day", "month", "year"];
+    try {
+        const parts = new Intl.DateTimeFormat(locale, {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+            timeZone: "UTC",
+        }).formatToParts(new Date(Date.UTC(2021, 4, 6)));
+        const order = parts
+            .map((p) => p.type)
+            .filter(
+                (t): t is "day" | "month" | "year" => t === "day" || t === "month" || t === "year",
+            );
+        if (order.length === 3) return order;
+    } catch {
+        // Fall through.
+    }
+    return ["day", "month", "year"];
 }
 
 /**
@@ -504,97 +508,97 @@ export function numericFieldOrder(locale?: string): ("day" | "month" | "year")[]
  * silently record the wrong day.
  */
 export function parseDateInput(text: string, locale?: string): string | null {
-  const trimmed = text.trim();
-  if (!trimmed) return null;
+    const trimmed = text.trim();
+    if (!trimmed) return null;
 
-  const iso = parseIsoDate(trimmed);
-  if (iso) return formatIsoDate(iso);
+    const iso = parseIsoDate(trimmed);
+    if (iso) return formatIsoDate(iso);
 
-  const parts = trimmed.split(/[\s./-]+/).filter(Boolean);
-  if (parts.length !== 3) return null;
+    const parts = trimmed.split(/[\s./-]+/).filter(Boolean);
+    if (parts.length !== 3) return null;
 
-  // Look for a written month first. Whichever field it is, the other two
-  // are the day and the year, and their order is then decidable without
-  // knowing the locale: the larger number is the year.
-  const names = monthNames(locale);
-  let month = 0;
-  let monthIndex = -1;
-  for (let i = 0; i < parts.length; i++) {
-    const found = matchMonthName(parts[i], names);
-    if (found) {
-      month = found;
-      monthIndex = i;
-      break;
+    // Look for a written month first. Whichever field it is, the other two
+    // are the day and the year, and their order is then decidable without
+    // knowing the locale: the larger number is the year.
+    const names = monthNames(locale);
+    let month = 0;
+    let monthIndex = -1;
+    for (let i = 0; i < parts.length; i++) {
+        const found = matchMonthName(parts[i], names);
+        if (found) {
+            month = found;
+            monthIndex = i;
+            break;
+        }
     }
-  }
 
-  let day = 0;
-  let year = 0;
+    let day = 0;
+    let year = 0;
 
-  if (monthIndex >= 0) {
-    const rest = parts.filter((_, i) => i !== monthIndex).map((p) => Number(p));
-    if (rest.some((n) => Number.isNaN(n))) return null;
-    [day, year] = rest[0] > rest[1] ? [rest[1], rest[0]] : rest;
-  } else {
-    const nums = parts.map((p) => Number(p));
-    if (nums.some((n) => Number.isNaN(n))) return null;
-    const order = numericFieldOrder(locale);
-    year = nums[order.indexOf("year")];
-    day = nums[order.indexOf("day")];
-    month = nums[order.indexOf("month")];
-  }
+    if (monthIndex >= 0) {
+        const rest = parts.filter((_, i) => i !== monthIndex).map((p) => Number(p));
+        if (rest.some((n) => Number.isNaN(n))) return null;
+        [day, year] = rest[0] > rest[1] ? [rest[1], rest[0]] : rest;
+    } else {
+        const nums = parts.map((p) => Number(p));
+        if (nums.some((n) => Number.isNaN(n))) return null;
+        const order = numericFieldOrder(locale);
+        year = nums[order.indexOf("year")];
+        day = nums[order.indexOf("day")];
+        month = nums[order.indexOf("month")];
+    }
 
-  // Two-digit years: the usual 70 pivot. Documented rather than clever,
-  // because any choice here is wrong for someone.
-  if (year < 100) year += year < 70 ? 2000 : 1900;
-  if (month < 1 || month > 12) return null;
-  if (day < 1 || day > daysInMonth(year, month)) return null;
-  return formatIsoDate({ year, month, day });
+    // Two-digit years: the usual 70 pivot. Documented rather than clever,
+    // because any choice here is wrong for someone.
+    if (year < 100) year += year < 70 ? 2000 : 1900;
+    if (month < 1 || month > 12) return null;
+    if (day < 1 || day > daysInMonth(year, month)) return null;
+    return formatIsoDate({ year, month, day });
 }
 
 /** Accepts `9:30`, `09:30`, `0930`, `9.30`, and a trailing am/pm. */
 export function parseTimeInput(text: string): string | null {
-  const m = /^(\d{1,2})[:.]?(\d{2})\s*([ap])\.?m\.?$|^(\d{1,2})[:.]?(\d{2})$/.exec(
-    text.trim().toLowerCase(),
-  );
-  if (!m) return null;
-  let hour = Number(m[1] ?? m[4]);
-  const minute = Number(m[2] ?? m[5]);
-  const meridiem = m[3];
-  if (meridiem === "p" && hour < 12) hour += 12;
-  if (meridiem === "a" && hour === 12) hour = 0;
-  if (hour > 23 || minute > 59) return null;
-  return formatIsoTime({ hour, minute });
+    const m = /^(\d{1,2})[:.]?(\d{2})\s*([ap])\.?m\.?$|^(\d{1,2})[:.]?(\d{2})$/.exec(
+        text.trim().toLowerCase(),
+    );
+    if (!m) return null;
+    let hour = Number(m[1] ?? m[4]);
+    const minute = Number(m[2] ?? m[5]);
+    const meridiem = m[3];
+    if (meridiem === "p" && hour < 12) hour += 12;
+    if (meridiem === "a" && hour === 12) hour = 0;
+    if (hour > 23 || minute > 59) return null;
+    return formatIsoTime({ hour, minute });
 }
 
 /** Does this locale write times on a 12-hour clock? */
 function localeUsesHour12(loc?: string): boolean {
-  try {
-    const parts = new Intl.DateTimeFormat(loc, {
-      hour: "numeric",
-      timeZone: "UTC",
-    }).formatToParts(new Date(Date.UTC(2021, 0, 1, 13)));
-    return parts.some((p) => p.type === "dayPeriod");
-  } catch {
-    return false;
-  }
+    try {
+        const parts = new Intl.DateTimeFormat(loc, {
+            hour: "numeric",
+            timeZone: "UTC",
+        }).formatToParts(new Date(Date.UTC(2021, 0, 1, 13)));
+        return parts.some((p) => p.type === "dayPeriod");
+    } catch {
+        return false;
+    }
 }
 
 /** The host's current calendar day, read via the *local* getters. */
 function todayIso(): string {
-  const now = new Date();
-  return formatIsoDate({
-    year: now.getFullYear(),
-    month: now.getMonth() + 1,
-    day: now.getDate(),
-  });
+    const now = new Date();
+    return formatIsoDate({
+        year: now.getFullYear(),
+        month: now.getMonth() + 1,
+        day: now.getDate(),
+    });
 }
 
 let uid = 0;
 /** Stable per-instance id prefix; SSR-safe (no Math.random / Date.now). */
 export function nextDateTimePickerId(): string {
-  uid += 1;
-  return `date-time-picker-${uid}`;
+    uid += 1;
+    return `date-time-picker-${uid}`;
 }
 
 /**
@@ -611,16 +615,16 @@ export function nextDateTimePickerId(): string {
  * for type-checking and readability, not for matching.
  */
 @Directive({
-  selector: "ng-template[lilyDateTimePickerIcon]",
-  standalone: true,
+    selector: "ng-template[lilyDateTimePickerIcon]",
+    standalone: true,
 })
 export class DateTimePickerIcon {
-  static ngTemplateContextGuard(
-    _dir: DateTimePickerIcon,
-    _ctx: unknown,
-  ): _ctx is ChildArgs & { $implicit: ChildArgs } {
-    return true;
-  }
+    static ngTemplateContextGuard(
+        _dir: DateTimePickerIcon,
+        _ctx: unknown,
+    ): _ctx is ChildArgs & { $implicit: ChildArgs } {
+        return true;
+    }
 }
 
 /**
@@ -636,14 +640,14 @@ export class DateTimePickerIcon {
  * page-header preference control, and it persists nothing.
  */
 @Component({
-  selector: "lily-date-time-picker",
-  standalone: true,
-  imports: [NgTemplateOutlet, IconButton],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    "(document:click)": "onDocumentClick($event)",
-  },
-  template: `
+    selector: "lily-date-time-picker",
+    standalone: true,
+    imports: [NgTemplateOutlet, IconButton],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: {
+        "(document:click)": "onDocumentClick($event)",
+    },
+    template: `
     <div
       #rootEl
       class="date-time-picker {{ className() }}"
@@ -1036,1009 +1040,1017 @@ export class DateTimePickerIcon {
   `,
 })
 export class DateTimePicker {
-  /** Accessible name for the trigger button and the dialog. */
-  readonly label = input.required<string>();
-  /** Every other user-facing string. See `spec/index.md` §4.2. */
-  readonly labels = input.required<DateTimePickerLabels>();
-  /** What to collect: a date, a time, or both. */
-  readonly mode = input<DateTimeMode>("date");
-  /** ISO value: `YYYY-MM-DD`, `HH:MM`, or `YYYY-MM-DDTHH:MM`. Two-way bindable. */
-  readonly value = model<string>("");
-  /** BCP 47 tag driving month names, weekday names and first weekday. */
-  readonly locale = input<string>("");
-  /** Earliest selectable date, ISO. */
-  readonly min = input<string>("");
-  /** Latest selectable date, ISO. */
-  readonly max = input<string>("");
-  /** Veto individual dates — true means "cannot be picked". */
-  readonly isDateDisabled = input<((isoDate: string) => boolean) | undefined>(undefined);
-  /** 0 = Sunday … 6 = Saturday. Defaults to the locale's convention. */
-  readonly firstDayOfWeek = input<number | undefined>(undefined);
-  /** Granularity of the minute select. */
-  readonly minuteStep = input<number>(1);
-  /** 12-hour clock. Defaults to the locale's convention. */
-  readonly hour12 = input<boolean | undefined>(undefined);
-  /** Render an ISO-8601 week-number column. */
-  readonly showWeekNumbers = input<boolean>(false);
-  /** Quick-pick buttons. */
-  readonly shortcuts = input<DateTimeShortcut[]>([]);
-  /** Commit and close as soon as a day is chosen. Defaults to date-only. */
-  readonly confirmOnSelect = input<boolean | undefined>(undefined);
-  /** `name` of the hidden input that carries the value in a form post. */
-  readonly name = input<string>("date-time");
-  /**
-   * Selected IANA time zone (e.g. `Europe/London`), or `""` for none.
-   * Two-way bindable via `[(timeZone)]`, matching `value`. Rides its own
-   * hidden input `{name}-time-zone` and is reflected as `data-time-zone`
-   * on the root. It is metadata about WHERE the civil value applies, not
-   * part of the value — converting to an instant stays the consumer's
-   * job. Never guessed from the runtime: the picker no more picks a zone
-   * than `locale-picker` picks a locale.
-   */
-  readonly timeZone = model<string>("");
-  /**
-   * Zones offered by the select. Defaults to every zone the runtime
-   * knows via `Intl.supportedValuesOf("timeZone")` — never a bundled
-   * table, the rule month and weekday names already follow.
-   */
-  readonly timeZones = input<string[] | undefined>(undefined);
-  /** Display text per zone id; a zone without an entry shows its id. */
-  readonly timeZoneLabels = input<Record<string, string>>({});
-  /** `id` of the text field, so a consumer `<label for>` can name it. */
-  readonly inputId = input<string>("");
-  /** Forwarded to the text field as `aria-describedby`. */
-  readonly describedBy = input<string>("");
-  /** Placeholder for the text field. */
-  readonly placeholder = input<string>("");
-  /** Disable the whole control. */
-  readonly disabled = input<boolean>(false);
-  /**
-   * Show the value but refuse edits.
-   *
-   * Named `readOnly` (not `readonly`) so the Angular input has an
-   * unambiguous identifier distinct from the TypeScript `readonly`
-   * modifier — the one Angular-forced rename beyond `class` → `className`.
-   */
-  readonly readOnly = input<boolean>(false);
-  /** Mark the field required. */
-  readonly required = input<boolean>(false);
-  /** Override how a committed value is rendered into the text field. */
-  readonly formatValue = input<((value: string) => string) | undefined>(undefined);
-  /** Override how typed text is turned back into an ISO value. */
-  readonly parseInput = input<((text: string) => string | null) | undefined>(undefined);
-  /** Extra CSS class on the root `<div>`. */
-  readonly className = input<string>("");
+    /** Accessible name for the trigger button and the dialog. */
+    readonly label = input.required<string>();
+    /** Every other user-facing string. See `spec/index.md` §4.2. */
+    readonly labels = input.required<DateTimePickerLabels>();
+    /** What to collect: a date, a time, or both. */
+    readonly mode = input<DateTimeMode>("date");
+    /** ISO value: `YYYY-MM-DD`, `HH:MM`, or `YYYY-MM-DDTHH:MM`. Two-way bindable. */
+    readonly value = model<string>("");
+    /** BCP 47 tag driving month names, weekday names and first weekday. */
+    readonly locale = input<string>("");
+    /** Earliest selectable date, ISO. */
+    readonly min = input<string>("");
+    /** Latest selectable date, ISO. */
+    readonly max = input<string>("");
+    /** Veto individual dates — true means "cannot be picked". */
+    readonly isDateDisabled = input<((isoDate: string) => boolean) | undefined>(undefined);
+    /** 0 = Sunday … 6 = Saturday. Defaults to the locale's convention. */
+    readonly firstDayOfWeek = input<number | undefined>(undefined);
+    /** Granularity of the minute select. */
+    readonly minuteStep = input<number>(1);
+    /** 12-hour clock. Defaults to the locale's convention. */
+    readonly hour12 = input<boolean | undefined>(undefined);
+    /** Render an ISO-8601 week-number column. */
+    readonly showWeekNumbers = input<boolean>(false);
+    /** Quick-pick buttons. */
+    readonly shortcuts = input<DateTimeShortcut[]>([]);
+    /** Commit and close as soon as a day is chosen. Defaults to date-only. */
+    readonly confirmOnSelect = input<boolean | undefined>(undefined);
+    /** `name` of the hidden input that carries the value in a form post. */
+    readonly name = input<string>("date-time");
+    /**
+     * Selected IANA time zone (e.g. `Europe/London`), or `""` for none.
+     * Two-way bindable via `[(timeZone)]`, matching `value`. Rides its own
+     * hidden input `{name}-time-zone` and is reflected as `data-time-zone`
+     * on the root. It is metadata about WHERE the civil value applies, not
+     * part of the value — converting to an instant stays the consumer's
+     * job. Never guessed from the runtime: the picker no more picks a zone
+     * than `locale-picker` picks a locale.
+     */
+    readonly timeZone = model<string>("");
+    /**
+     * Zones offered by the select. Defaults to every zone the runtime
+     * knows via `Intl.supportedValuesOf("timeZone")` — never a bundled
+     * table, the rule month and weekday names already follow.
+     */
+    readonly timeZones = input<string[] | undefined>(undefined);
+    /** Display text per zone id; a zone without an entry shows its id. */
+    readonly timeZoneLabels = input<Record<string, string>>({});
+    /** `id` of the text field, so a consumer `<label for>` can name it. */
+    readonly inputId = input<string>("");
+    /** Forwarded to the text field as `aria-describedby`. */
+    readonly describedBy = input<string>("");
+    /** Placeholder for the text field. */
+    readonly placeholder = input<string>("");
+    /** Disable the whole control. */
+    readonly disabled = input<boolean>(false);
+    /**
+     * Show the value but refuse edits.
+     *
+     * Named `readOnly` (not `readonly`) so the Angular input has an
+     * unambiguous identifier distinct from the TypeScript `readonly`
+     * modifier — the one Angular-forced rename beyond `class` → `className`.
+     */
+    readonly readOnly = input<boolean>(false);
+    /** Mark the field required. */
+    readonly required = input<boolean>(false);
+    /** Override how a committed value is rendered into the text field. */
+    readonly formatValue = input<((value: string) => string) | undefined>(undefined);
+    /** Override how typed text is turned back into an ISO value. */
+    readonly parseInput = input<((text: string) => string | null) | undefined>(undefined);
+    /** Extra CSS class on the root `<div>`. */
+    readonly className = input<string>("");
 
-  /** Fires after a new value is committed. */
-  readonly change = output<string>();
-  /** Fires when a shortcut is used, before the value settles. */
-  readonly shortcut = output<ShortcutEvent>();
-  /** Fires when typed text cannot be parsed. */
-  readonly invalidInput = output<string>();
+    /** Fires after a new value is committed. */
+    readonly change = output<string>();
+    /** Fires when a shortcut is used, before the value settles. */
+    readonly shortcut = output<ShortcutEvent>();
+    /** Fires when typed text cannot be parsed. */
+    readonly invalidInput = output<string>();
 
-  /** Projected icon template; replaces the default glyph when supplied. */
-  protected readonly iconTemplate = contentChild(TemplateRef);
+    /** Projected icon template; replaces the default glyph when supplied. */
+    protected readonly iconTemplate = contentChild(TemplateRef);
 
-  private readonly rootRef = viewChild.required<ElementRef<HTMLDivElement>>("rootEl");
-  // Angular resolves a template-ref-variable on a component tag to the
-  // component INSTANCE by default (not its ElementRef) — exactly what's
-  // needed to call the headless component's own public `focus()`
-  // method / `element` getter.
-  private readonly buttonRef = viewChild.required<IconButton>("buttonEl");
-  private readonly dialogRef = viewChild.required<ElementRef<HTMLDivElement>>("dialogEl");
-  /** Optional: the grid renders only when `mode` includes a date. */
-  private readonly gridRef = viewChild<ElementRef<HTMLTableElement>>("gridEl");
+    private readonly rootRef = viewChild.required<ElementRef<HTMLDivElement>>("rootEl");
+    // Angular resolves a template-ref-variable on a component tag to the
+    // component INSTANCE by default (not its ElementRef) — exactly what's
+    // needed to call the headless component's own public `focus()`
+    // method / `element` getter.
+    private readonly buttonRef = viewChild.required<IconButton>("buttonEl");
+    private readonly dialogRef = viewChild.required<ElementRef<HTMLDivElement>>("dialogEl");
+    /** Optional: the grid renders only when `mode` includes a date. */
+    private readonly gridRef = viewChild<ElementRef<HTMLTableElement>>("gridEl");
 
-  protected readonly glyph = CALENDAR;
+    protected readonly glyph = CALENDAR;
 
-  /**
-   * For rendering the view synchronously before a focus move.
-   *
-   * Svelte updates the DOM synchronously when state changes, so the
-   * canonical helper can focus a freshly-paged month from a microtask.
-   * Angular renders later — after the microtask queue drains, whether the
-   * app is zone-based or zoneless — so a queued focus into a month that
-   * has not rendered yet finds nothing (or, worse, finds and focuses a
-   * cell that the next render destroys, dropping focus to `<body>`).
-   * `cdr.detectChanges()` inside the event handler is the Angular
-   * equivalent of Svelte's synchronous flush.
-   */
-  private readonly cdr = inject(ChangeDetectorRef);
+    /**
+     * For rendering the view synchronously before a focus move.
+     *
+     * Svelte updates the DOM synchronously when state changes, so the
+     * canonical helper can focus a freshly-paged month from a microtask.
+     * Angular renders later — after the microtask queue drains, whether the
+     * app is zone-based or zoneless — so a queued focus into a month that
+     * has not rendered yet finds nothing (or, worse, finds and focuses a
+     * cell that the next render destroys, dropping focus to `<body>`).
+     * `cdr.detectChanges()` inside the event handler is the Angular
+     * equivalent of Svelte's synchronous flush.
+     */
+    private readonly cdr = inject(ChangeDetectorRef);
 
-  private readonly baseId = nextDateTimePickerId();
-  protected readonly dialogId = `${this.baseId}-dialog`;
-  protected readonly periodId = `${this.baseId}-period`;
-  protected readonly hourId = `${this.baseId}-hour`;
-  protected readonly minuteId = `${this.baseId}-minute`;
-  protected readonly meridiemId = `${this.baseId}-meridiem`;
-  protected readonly statusId = `${this.baseId}-status`;
-  protected readonly instructionsId = `${this.baseId}-instructions`;
-  protected readonly timeZoneId = `${this.baseId}-time-zone`;
+    private readonly baseId = nextDateTimePickerId();
+    protected readonly dialogId = `${this.baseId}-dialog`;
+    protected readonly periodId = `${this.baseId}-period`;
+    protected readonly hourId = `${this.baseId}-hour`;
+    protected readonly minuteId = `${this.baseId}-minute`;
+    protected readonly meridiemId = `${this.baseId}-meridiem`;
+    protected readonly statusId = `${this.baseId}-status`;
+    protected readonly instructionsId = `${this.baseId}-instructions`;
+    protected readonly timeZoneId = `${this.baseId}-time-zone`;
 
-  protected readonly open = signal(false);
+    protected readonly open = signal(false);
 
-  // Tooltip: shown while the pointer is over the button or the tooltip
-  // itself (hoverable, WCAG 1.4.13) or while the button has keyboard
-  // focus; Escape dismisses it without moving focus; never shown while
-  // the popup is open, since the popup then explains the control.
-  protected readonly tooltipId = `${this.baseId}-tooltip`;
-  protected readonly hoverButton = signal(false);
-  protected readonly hoverTooltip = signal(false);
-  protected readonly focusButton = signal(false);
-  protected readonly dismissed = signal(false);
-  protected readonly tooltipVisible = computed(
-    () =>
-      !this.open() &&
-      !this.dismissed() &&
-      (this.hoverButton() || this.hoverTooltip() || this.focusButton()),
-  );
+    // Tooltip: shown while the pointer is over the button or the tooltip
+    // itself (hoverable, WCAG 1.4.13) or while the button has keyboard
+    // focus; Escape dismisses it without moving focus; never shown while
+    // the popup is open, since the popup then explains the control.
+    protected readonly tooltipId = `${this.baseId}-tooltip`;
+    protected readonly hoverButton = signal(false);
+    protected readonly hoverTooltip = signal(false);
+    protected readonly focusButton = signal(false);
+    protected readonly dismissed = signal(false);
+    protected readonly tooltipVisible = computed(
+        () =>
+            !this.open() &&
+            !this.dismissed() &&
+            (this.hoverButton() || this.hoverTooltip() || this.focusButton()),
+    );
 
-  protected onTooltipButtonEnter(): void {
-    this.hoverButton.set(true);
-    this.dismissed.set(false);
-  }
-
-  protected onTooltipButtonFocusIn(): void {
-    // Keyboard focus only: a mouse click also focuses the button in
-    // Chromium, and the tooltip should not stick after a click.
-    try {
-      this.focusButton.set(this.buttonRef().element?.matches(":focus-visible") ?? false);
-    } catch {
-      this.focusButton.set(true); // engine without :focus-visible — err towards showing
+    protected onTooltipButtonEnter(): void {
+        this.hoverButton.set(true);
+        this.dismissed.set(false);
     }
-  }
 
-  protected onTooltipButtonFocusOut(): void {
-    this.focusButton.set(false);
-    this.dismissed.set(false);
-  }
-
-  protected onTooltipKeydown(event: KeyboardEvent): void {
-    if (event.key === "Escape" && this.tooltipVisible()) this.dismissed.set(true);
-  }
-
-  // WCAG 1.4.13 "dismissable": while the tooltip is visible, Escape works
-  // wherever focus is (hover-only tooltips have focus elsewhere). The
-  // listener exists only while visible; the effect cleanup removes it on
-  // hide and on destroy. No preventDefault/stopPropagation, focus untouched.
-  private readonly tooltipEscapeListener = effect((onCleanup) => {
-    if (!this.tooltipVisible() || typeof document === "undefined") return;
-    const onKey = (event: KeyboardEvent): void => {
-      if (event.key === "Escape") this.dismissed.set(true);
-    };
-    document.addEventListener("keydown", onKey);
-    onCleanup(() => document.removeEventListener("keydown", onKey));
-  });
-  protected readonly invalid = signal(false);
-
-  /**
-   * The element that opened the dialog, so close can return focus to it.
-   *
-   * The APG rule is "focus returns to the element that invoked the
-   * dialog" — which is the trigger button on a click, but the *text
-   * field* when the user pressed Alt+ArrowDown. Always refocusing the
-   * button strands a keyboard user one Tab stop past where they were.
-   */
-  private openerEl: HTMLElement | null = null;
-
-  /**
-   * Text the user has typed but not yet resolved.
-   *
-   * `null` means "no pending edit, show the formatted value". An empty
-   * string is a real state (the user cleared the field) and must not
-   * collapse into `null`.
-   */
-  protected readonly typed = signal<string | null>(null);
-
-  /**
-   * The pending selection, live only while the dialog is open.
-   *
-   * Kept separate from `value` so Cancel and Escape can genuinely revert.
-   * A picker that writes through on every arrow key has no cancel — only
-   * an undo the user has to perform by hand, from memory.
-   */
-  protected readonly pendingDate = signal("");
-  protected readonly pendingTime = signal("");
-
-  /** The month on screen. */
-  protected readonly viewYear = signal(1970);
-  protected readonly viewMonth = signal(1);
-
-  /** The day the grid's roving tabindex sits on. */
-  protected readonly cursor = signal("");
-
-  /**
-   * Today, sampled once at open and refreshed on the initial effect below.
-   * Not re-read per cell: the grid asks "is this today?" 42 times a
-   * render, and a clock read per cell buys nothing over a clock read per
-   * open.
-   */
-  protected readonly today = signal("");
-
-  protected readonly fieldId = computed(() => this.inputId() || `${this.baseId}-input`);
-  protected readonly committed = computed(() => splitValue(this.value(), this.mode()));
-  protected readonly weekStart = computed(
-    () => this.firstDayOfWeek() ?? firstDayOfWeekFor(this.locale() || undefined),
-  );
-  protected readonly commitOnDay = computed(() => this.confirmOnSelect() ?? this.mode() === "date");
-  protected readonly usesDate = computed(() => this.mode() !== "time");
-  protected readonly usesTime = computed(() => this.mode() !== "date");
-  protected readonly clock12 = computed(
-    () => this.hour12() ?? localeUsesHour12(this.locale() || undefined),
-  );
-
-  /**
-   * `aria-describedby` for the field: the consumer's hint, plus — while
-   * invalid, with `labels().invalid` supplied — the status region, for
-   * the assistive technologies that read `aria-describedby` but not the
-   * newer `aria-errormessage`.
-   */
-  protected readonly fieldDescribedBy = computed(
-    () =>
-      [
-        this.describedBy() || undefined,
-        this.invalid() && this.labels().invalid ? this.statusId : undefined,
-      ]
-        .filter(Boolean)
-        .join(" ") || null,
-  );
-
-  /** The text shown in the field. A pending edit wins until resolved. */
-  protected readonly display = computed(() => {
-    const t = this.typed();
-    if (t !== null) return t;
-    const formatter = this.formatValue() ?? ((v: string) => this.defaultFormat(v));
-    return formatter(this.value());
-  });
-
-  /** The "March 2026" heading. */
-  /**
-   * `Intl.supportedValuesOf` is guarded rather than called bare: an empty
-   * select beats a throw at mount on an older embedded runtime that
-   * lacks the method entirely.
-   */
-  protected readonly zoneOptions = computed<string[]>(() => {
-    if (this.timeZones() !== undefined) return this.timeZones() as string[];
-    return typeof Intl.supportedValuesOf === "function" ? Intl.supportedValuesOf("timeZone") : [];
-  });
-
-  protected readonly periodText = computed(() => {
-    const viewYear = this.viewYear();
-    const viewMonth = this.viewMonth();
-    try {
-      return new Intl.DateTimeFormat(this.locale() || undefined, {
-        month: "long",
-        year: "numeric",
-        timeZone: "UTC",
-      }).format(new Date(Date.UTC(viewYear, viewMonth - 1, 1)));
-    } catch {
-      return `${viewYear}-${pad(viewMonth)}`;
+    protected onTooltipButtonFocusIn(): void {
+        // Keyboard focus only: a mouse click also focuses the button in
+        // Chromium, and the tooltip should not stick after a click.
+        try {
+            this.focusButton.set(this.buttonRef().element?.matches(":focus-visible") ?? false);
+        } catch {
+            this.focusButton.set(true); // engine without :focus-visible — err towards showing
+        }
     }
-  });
 
-  /** Column headings, in this locale, starting on `weekStart`. */
-  protected readonly weekdays = computed(() => {
-    const weekStart = this.weekStart();
-    const locale = this.locale() || undefined;
-    const out: { short: string; long: string }[] = [];
-    for (let i = 0; i < 7; i++) {
-      // 2021-08-01 was a Sunday, so this walks the week from whichever
-      // day the locale starts on.
-      const d = new Date(Date.UTC(2021, 7, 1 + ((weekStart + i) % 7)));
-      try {
-        out.push({
-          short: new Intl.DateTimeFormat(locale, {
-            weekday: "short",
-            timeZone: "UTC",
-          }).format(d),
-          long: new Intl.DateTimeFormat(locale, {
-            weekday: "long",
-            timeZone: "UTC",
-          }).format(d),
+    protected onTooltipButtonFocusOut(): void {
+        this.focusButton.set(false);
+        this.dismissed.set(false);
+    }
+
+    protected onTooltipKeydown(event: KeyboardEvent): void {
+        if (event.key === "Escape" && this.tooltipVisible()) this.dismissed.set(true);
+    }
+
+    // WCAG 1.4.13 "dismissable": while the tooltip is visible, Escape works
+    // wherever focus is (hover-only tooltips have focus elsewhere). The
+    // listener exists only while visible; the effect cleanup removes it on
+    // hide and on destroy. No preventDefault/stopPropagation, focus untouched.
+    private readonly tooltipEscapeListener = effect((onCleanup) => {
+        if (!this.tooltipVisible() || typeof document === "undefined") return;
+        const onKey = (event: KeyboardEvent): void => {
+            if (event.key === "Escape") this.dismissed.set(true);
+        };
+        document.addEventListener("keydown", onKey);
+        onCleanup(() => document.removeEventListener("keydown", onKey));
+    });
+    protected readonly invalid = signal(false);
+
+    /**
+     * The element that opened the dialog, so close can return focus to it.
+     *
+     * The APG rule is "focus returns to the element that invoked the
+     * dialog" — which is the trigger button on a click, but the *text
+     * field* when the user pressed Alt+ArrowDown. Always refocusing the
+     * button strands a keyboard user one Tab stop past where they were.
+     */
+    private openerEl: HTMLElement | null = null;
+
+    /**
+     * Text the user has typed but not yet resolved.
+     *
+     * `null` means "no pending edit, show the formatted value". An empty
+     * string is a real state (the user cleared the field) and must not
+     * collapse into `null`.
+     */
+    protected readonly typed = signal<string | null>(null);
+
+    /**
+     * The pending selection, live only while the dialog is open.
+     *
+     * Kept separate from `value` so Cancel and Escape can genuinely revert.
+     * A picker that writes through on every arrow key has no cancel — only
+     * an undo the user has to perform by hand, from memory.
+     */
+    protected readonly pendingDate = signal("");
+    protected readonly pendingTime = signal("");
+
+    /** The month on screen. */
+    protected readonly viewYear = signal(1970);
+    protected readonly viewMonth = signal(1);
+
+    /** The day the grid's roving tabindex sits on. */
+    protected readonly cursor = signal("");
+
+    /**
+     * Today, sampled once at open and refreshed on the initial effect below.
+     * Not re-read per cell: the grid asks "is this today?" 42 times a
+     * render, and a clock read per cell buys nothing over a clock read per
+     * open.
+     */
+    protected readonly today = signal("");
+
+    protected readonly fieldId = computed(() => this.inputId() || `${this.baseId}-input`);
+    protected readonly committed = computed(() => splitValue(this.value(), this.mode()));
+    protected readonly weekStart = computed(
+        () => this.firstDayOfWeek() ?? firstDayOfWeekFor(this.locale() || undefined),
+    );
+    protected readonly commitOnDay = computed(
+        () => this.confirmOnSelect() ?? this.mode() === "date",
+    );
+    protected readonly usesDate = computed(() => this.mode() !== "time");
+    protected readonly usesTime = computed(() => this.mode() !== "date");
+    protected readonly clock12 = computed(
+        () => this.hour12() ?? localeUsesHour12(this.locale() || undefined),
+    );
+
+    /**
+     * `aria-describedby` for the field: the consumer's hint, plus — while
+     * invalid, with `labels().invalid` supplied — the status region, for
+     * the assistive technologies that read `aria-describedby` but not the
+     * newer `aria-errormessage`.
+     */
+    protected readonly fieldDescribedBy = computed(
+        () =>
+            [
+                this.describedBy() || undefined,
+                this.invalid() && this.labels().invalid ? this.statusId : undefined,
+            ]
+                .filter(Boolean)
+                .join(" ") || null,
+    );
+
+    /** The text shown in the field. A pending edit wins until resolved. */
+    protected readonly display = computed(() => {
+        const t = this.typed();
+        if (t !== null) return t;
+        const formatter = this.formatValue() ?? ((v: string) => this.defaultFormat(v));
+        return formatter(this.value());
+    });
+
+    /** The "March 2026" heading. */
+    /**
+     * `Intl.supportedValuesOf` is guarded rather than called bare: an empty
+     * select beats a throw at mount on an older embedded runtime that
+     * lacks the method entirely.
+     */
+    protected readonly zoneOptions = computed<string[]>(() => {
+        if (this.timeZones() !== undefined) return this.timeZones() as string[];
+        return typeof Intl.supportedValuesOf === "function"
+            ? Intl.supportedValuesOf("timeZone")
+            : [];
+    });
+
+    protected readonly periodText = computed(() => {
+        const viewYear = this.viewYear();
+        const viewMonth = this.viewMonth();
+        try {
+            return new Intl.DateTimeFormat(this.locale() || undefined, {
+                month: "long",
+                year: "numeric",
+                timeZone: "UTC",
+            }).format(new Date(Date.UTC(viewYear, viewMonth - 1, 1)));
+        } catch {
+            return `${viewYear}-${pad(viewMonth)}`;
+        }
+    });
+
+    /** Column headings, in this locale, starting on `weekStart`. */
+    protected readonly weekdays = computed(() => {
+        const weekStart = this.weekStart();
+        const locale = this.locale() || undefined;
+        const out: { short: string; long: string }[] = [];
+        for (let i = 0; i < 7; i++) {
+            // 2021-08-01 was a Sunday, so this walks the week from whichever
+            // day the locale starts on.
+            const d = new Date(Date.UTC(2021, 7, 1 + ((weekStart + i) % 7)));
+            try {
+                out.push({
+                    short: new Intl.DateTimeFormat(locale, {
+                        weekday: "short",
+                        timeZone: "UTC",
+                    }).format(d),
+                    long: new Intl.DateTimeFormat(locale, {
+                        weekday: "long",
+                        timeZone: "UTC",
+                    }).format(d),
+                });
+            } catch {
+                out.push({ short: "", long: "" });
+            }
+        }
+        return out;
+    });
+
+    protected readonly weeks = computed(() =>
+        monthMatrix(this.viewYear(), this.viewMonth(), this.weekStart()),
+    );
+
+    protected readonly pendingHour = computed(() => parseIsoTime(this.pendingTime())?.hour ?? 0);
+    protected readonly pendingMinute = computed(
+        () => parseIsoTime(this.pendingTime())?.minute ?? 0,
+    );
+
+    /**
+     * The hours offered.
+     *
+     * On a 12-hour clock this lists only the half of the day the meridiem
+     * select is currently on, so the two controls together name exactly one
+     * hour. Listing 1-12 once and letting the meridiem reinterpret it is
+     * the same thing, but it makes "12 AM" ambiguous at precisely the point
+     * where users already get it wrong.
+     */
+    protected readonly hourOptions = computed(() => {
+        const clock12 = this.clock12();
+        const pendingHour = this.pendingHour();
+        const out: { value: number; label: string }[] = [];
+        for (let h = 0; h < 24; h++) {
+            if (clock12 && h < 12 !== pendingHour < 12) continue;
+            out.push({
+                value: h,
+                label: clock12 ? String(((h + 11) % 12) + 1) : pad(h),
+            });
+        }
+        return out;
+    });
+
+    protected readonly minuteOptions = computed(() => {
+        const step = Math.max(1, this.minuteStep());
+        const out: number[] = [];
+        for (let m = 0; m < 60; m += step) out.push(m);
+        return out;
+    });
+
+    protected readonly childContext = computed(() => {
+        const args: ChildArgs = {
+            value: this.value(),
+            open: this.open(),
+            display: this.display(),
+        };
+        return { $implicit: args, ...args };
+    });
+
+    private initialised = false;
+
+    constructor() {
+        // Seeds the view month and the grid cursor from the committed value
+        // (or today) exactly once. Deferred to `effect()`, rather than read
+        // synchronously in the constructor, because signal inputs are not
+        // bound yet when the constructor runs — an Angular-forced difference
+        // from the Svelte original, which reads `value` synchronously at
+        // `$props()` time. `effect()` is this catalog's established seam for
+        // side effects driven by input signals; see catalog `AGENTS.md`.
+        effect(() => {
+            const committed = this.committed();
+            if (this.initialised) return;
+            this.initialised = true;
+            const today = todayIso();
+            this.today.set(today);
+            const anchor = parseIsoDate(committed.date) ?? parseIsoDate(today);
+            if (anchor) {
+                this.viewYear.set(anchor.year);
+                this.viewMonth.set(anchor.month);
+                this.cursor.set(formatIsoDate(anchor));
+            }
         });
-      } catch {
-        out.push({ short: "", long: "" });
-      }
+
+        // Form reset. The visible field takes a one-way `[value]`, so a reset
+        // blanked it while `value` — and the hidden input the form submits — kept
+        // the date: the field showed nothing and the form still sent the old
+        // value. Restore the initial value instead, one tick later (after the
+        // browser has reset the DOM) and not when the reset was cancelled. Read
+        // after the first render, once the inputs are bound. Like a native reset
+        // it emits no `change`; the `value` model is updated.
+        const destroyRef = inject(DestroyRef);
+        afterNextRender(() => {
+            const root = this.rootRef().nativeElement;
+            const form = root.closest("form");
+            if (!form) return;
+            const initialValue = this.value();
+            const initialZone = this.timeZone();
+            let timer: ReturnType<typeof setTimeout> | undefined;
+            const onReset = (event: Event) => {
+                clearTimeout(timer);
+                timer = setTimeout(() => {
+                    if (event.defaultPrevented) return;
+                    this.closeDialog(false);
+                    this.typed.set(null);
+                    this.invalid.set(false);
+                    this.value.set(initialValue);
+                    this.timeZone.set(initialZone);
+                    const field = root.querySelector<HTMLInputElement>(".date-time-picker-input");
+                    const formatter = this.formatValue() ?? ((v: string) => this.defaultFormat(v));
+                    if (field) field.value = formatter(initialValue ?? "");
+                    this.cdr.markForCheck();
+                }, 0);
+            };
+            form.addEventListener("reset", onReset);
+            destroyRef.onDestroy(() => {
+                clearTimeout(timer);
+                form.removeEventListener("reset", onReset);
+            });
+        });
     }
-    return out;
-  });
 
-  protected readonly weeks = computed(() =>
-    monthMatrix(this.viewYear(), this.viewMonth(), this.weekStart()),
-  );
+    // ---------------------------------------------------------------
+    // Template helpers
+    // ---------------------------------------------------------------
 
-  protected readonly pendingHour = computed(() => parseIsoTime(this.pendingTime())?.hour ?? 0);
-  protected readonly pendingMinute = computed(() => parseIsoTime(this.pendingTime())?.minute ?? 0);
-
-  /**
-   * The hours offered.
-   *
-   * On a 12-hour clock this lists only the half of the day the meridiem
-   * select is currently on, so the two controls together name exactly one
-   * hour. Listing 1-12 once and letting the meridiem reinterpret it is
-   * the same thing, but it makes "12 AM" ambiguous at precisely the point
-   * where users already get it wrong.
-   */
-  protected readonly hourOptions = computed(() => {
-    const clock12 = this.clock12();
-    const pendingHour = this.pendingHour();
-    const out: { value: number; label: string }[] = [];
-    for (let h = 0; h < 24; h++) {
-      if (clock12 && h < 12 !== pendingHour < 12) continue;
-      out.push({
-        value: h,
-        label: clock12 ? String(((h + 11) % 12) + 1) : pad(h),
-      });
+    protected pad2(n: number): string {
+        return pad(n);
     }
-    return out;
-  });
 
-  protected readonly minuteOptions = computed(() => {
-    const step = Math.max(1, this.minuteStep());
-    const out: number[] = [];
-    for (let m = 0; m < 60; m += step) out.push(m);
-    return out;
-  });
-
-  protected readonly childContext = computed(() => {
-    const args: ChildArgs = {
-      value: this.value(),
-      open: this.open(),
-      display: this.display(),
-    };
-    return { $implicit: args, ...args };
-  });
-
-  private initialised = false;
-
-  constructor() {
-    // Seeds the view month and the grid cursor from the committed value
-    // (or today) exactly once. Deferred to `effect()`, rather than read
-    // synchronously in the constructor, because signal inputs are not
-    // bound yet when the constructor runs — an Angular-forced difference
-    // from the Svelte original, which reads `value` synchronously at
-    // `$props()` time. `effect()` is this catalog's established seam for
-    // side effects driven by input signals; see catalog `AGENTS.md`.
-    effect(() => {
-      const committed = this.committed();
-      if (this.initialised) return;
-      this.initialised = true;
-      const today = todayIso();
-      this.today.set(today);
-      const anchor = parseIsoDate(committed.date) ?? parseIsoDate(today);
-      if (anchor) {
-        this.viewYear.set(anchor.year);
-        this.viewMonth.set(anchor.month);
-        this.cursor.set(formatIsoDate(anchor));
-      }
-    });
-
-    // Form reset. The visible field takes a one-way `[value]`, so a reset
-    // blanked it while `value` — and the hidden input the form submits — kept
-    // the date: the field showed nothing and the form still sent the old
-    // value. Restore the initial value instead, one tick later (after the
-    // browser has reset the DOM) and not when the reset was cancelled. Read
-    // after the first render, once the inputs are bound. Like a native reset
-    // it emits no `change`; the `value` model is updated.
-    const destroyRef = inject(DestroyRef);
-    afterNextRender(() => {
-      const root = this.rootRef().nativeElement;
-      const form = root.closest("form");
-      if (!form) return;
-      const initialValue = this.value();
-      const initialZone = this.timeZone();
-      let timer: ReturnType<typeof setTimeout> | undefined;
-      const onReset = (event: Event) => {
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-          if (event.defaultPrevented) return;
-          this.closeDialog(false);
-          this.typed.set(null);
-          this.invalid.set(false);
-          this.value.set(initialValue);
-          this.timeZone.set(initialZone);
-          const field = root.querySelector<HTMLInputElement>(".date-time-picker-input");
-          const formatter = this.formatValue() ?? ((v: string) => this.defaultFormat(v));
-          if (field) field.value = formatter(initialValue ?? "");
-          this.cdr.markForCheck();
-        }, 0);
-      };
-      form.addEventListener("reset", onReset);
-      destroyRef.onDestroy(() => {
-        clearTimeout(timer);
-        form.removeEventListener("reset", onReset);
-      });
-    });
-  }
-
-  // ---------------------------------------------------------------
-  // Template helpers
-  // ---------------------------------------------------------------
-
-  protected pad2(n: number): string {
-    return pad(n);
-  }
-
-  protected isoWeekOf(isoDate: string): number {
-    return isoWeek(isoDate);
-  }
-
-  /** Per-cell derived values for the grid template's `@let`. */
-  protected parseCell(isoDate: string): { day: string; outside: boolean } {
-    const parsed = parseIsoDate(isoDate);
-    return {
-      day: parsed ? String(parsed.day) : "",
-      outside: parsed ? parsed.month !== this.viewMonth() : false,
-    };
-  }
-
-  /** Accessible name for one day cell, e.g. "Sunday 1 March 2026". */
-  protected dayLabel(isoDate: string): string {
-    const parsed = parseIsoDate(isoDate);
-    if (!parsed) return isoDate;
-    try {
-      return new Intl.DateTimeFormat(this.locale() || undefined, {
-        weekday: "long",
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-        timeZone: "UTC",
-      }).format(new Date(Date.UTC(parsed.year, parsed.month - 1, parsed.day)));
-    } catch {
-      return isoDate;
+    protected isoWeekOf(isoDate: string): number {
+        return isoWeek(isoDate);
     }
-  }
 
-  /** The locale's own AM / PM strings, so neither is hardcoded. */
-  protected dayPeriodName(pm: boolean): string {
-    try {
-      const parts = new Intl.DateTimeFormat(this.locale() || undefined, {
-        hour: "numeric",
-        hour12: true,
-        timeZone: "UTC",
-      }).formatToParts(new Date(Date.UTC(2021, 0, 1, pm ? 13 : 1)));
-      const found = parts.find((p) => p.type === "dayPeriod")?.value;
-      if (found) return found;
-    } catch {
-      // Fall through.
+    /** Per-cell derived values for the grid template's `@let`. */
+    protected parseCell(isoDate: string): { day: string; outside: boolean } {
+        const parsed = parseIsoDate(isoDate);
+        return {
+            day: parsed ? String(parsed.day) : "",
+            outside: parsed ? parsed.month !== this.viewMonth() : false,
+        };
     }
-    return pm ? "PM" : "AM";
-  }
 
-  private formatTimeForDisplay(isoTime: string): string {
-    const parsed = parseIsoTime(isoTime);
-    if (!parsed) return isoTime;
-    try {
-      return new Intl.DateTimeFormat(this.locale() || undefined, {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: this.clock12(),
-        timeZone: "UTC",
-      }).format(new Date(Date.UTC(2021, 0, 1, parsed.hour, parsed.minute)));
-    } catch {
-      return isoTime;
+    /** Accessible name for one day cell, e.g. "Sunday 1 March 2026". */
+    protected dayLabel(isoDate: string): string {
+        const parsed = parseIsoDate(isoDate);
+        if (!parsed) return isoDate;
+        try {
+            return new Intl.DateTimeFormat(this.locale() || undefined, {
+                weekday: "long",
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+                timeZone: "UTC",
+            }).format(new Date(Date.UTC(parsed.year, parsed.month - 1, parsed.day)));
+        } catch {
+            return isoDate;
+        }
     }
-  }
 
-  /** Render an ISO value the way this locale writes it. */
-  private defaultFormat(isoValue: string): string {
-    if (!isoValue) return "";
-    const { date, time } = splitValue(isoValue, this.mode());
-    const chunks: string[] = [];
-    const parsed = date ? parseIsoDate(date) : null;
-    if (parsed) {
-      try {
-        chunks.push(
-          new Intl.DateTimeFormat(this.locale() || undefined, {
-            day: "2-digit",
-            month: "short",
-            year: "numeric",
-            timeZone: "UTC",
-          }).format(new Date(Date.UTC(parsed.year, parsed.month - 1, parsed.day))),
-        );
-      } catch {
-        chunks.push(date);
-      }
+    /** The locale's own AM / PM strings, so neither is hardcoded. */
+    protected dayPeriodName(pm: boolean): string {
+        try {
+            const parts = new Intl.DateTimeFormat(this.locale() || undefined, {
+                hour: "numeric",
+                hour12: true,
+                timeZone: "UTC",
+            }).formatToParts(new Date(Date.UTC(2021, 0, 1, pm ? 13 : 1)));
+            const found = parts.find((p) => p.type === "dayPeriod")?.value;
+            if (found) return found;
+        } catch {
+            // Fall through.
+        }
+        return pm ? "PM" : "AM";
     }
-    if (time) chunks.push(this.formatTimeForDisplay(time));
-    return chunks.join(" ");
-  }
 
-  // ---------------------------------------------------------------
-  // Selectability
-  // ---------------------------------------------------------------
-
-  protected dayDisabled(isoDate: string): boolean {
-    if (!withinRange(isoDate, this.min() || undefined, this.max() || undefined)) {
-      return true;
+    private formatTimeForDisplay(isoTime: string): string {
+        const parsed = parseIsoTime(isoTime);
+        if (!parsed) return isoTime;
+        try {
+            return new Intl.DateTimeFormat(this.locale() || undefined, {
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: this.clock12(),
+                timeZone: "UTC",
+            }).format(new Date(Date.UTC(2021, 0, 1, parsed.hour, parsed.minute)));
+        } catch {
+            return isoTime;
+        }
     }
-    return this.isDateDisabled()?.(isoDate) === true;
-  }
 
-  /** The nearest selectable day to `isoDate`, searching outwards. */
-  private nearestSelectable(isoDate: string): string {
-    if (!this.dayDisabled(isoDate)) return isoDate;
-    // Bounded: a year either way is far beyond any real min/max window,
-    // and an unbounded search would hang on a predicate that disables
-    // everything.
-    for (let delta = 1; delta <= 366; delta++) {
-      const after = addDays(isoDate, delta);
-      if (!this.dayDisabled(after)) return after;
-      const before = addDays(isoDate, -delta);
-      if (!this.dayDisabled(before)) return before;
+    /** Render an ISO value the way this locale writes it. */
+    private defaultFormat(isoValue: string): string {
+        if (!isoValue) return "";
+        const { date, time } = splitValue(isoValue, this.mode());
+        const chunks: string[] = [];
+        const parsed = date ? parseIsoDate(date) : null;
+        if (parsed) {
+            try {
+                chunks.push(
+                    new Intl.DateTimeFormat(this.locale() || undefined, {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                        timeZone: "UTC",
+                    }).format(new Date(Date.UTC(parsed.year, parsed.month - 1, parsed.day))),
+                );
+            } catch {
+                chunks.push(date);
+            }
+        }
+        if (time) chunks.push(this.formatTimeForDisplay(time));
+        return chunks.join(" ");
     }
-    return isoDate;
-  }
 
-  // ---------------------------------------------------------------
-  // Open / close / commit
-  // ---------------------------------------------------------------
+    // ---------------------------------------------------------------
+    // Selectability
+    // ---------------------------------------------------------------
 
-  protected openDialog(): void {
-    if (this.disabled() || this.readOnly()) return;
-    // Remember what opened the dialog — the field on Alt+ArrowDown, the
-    // trigger button on a click — so closeDialog can put focus back
-    // there, per the APG dialog rule.
-    const active = document.activeElement;
-    this.openerEl =
-      active instanceof HTMLElement && this.rootRef().nativeElement.contains(active)
-        ? active
-        : (this.buttonRef().element ?? null);
-    const today = todayIso();
-    this.today.set(today);
-    const pendingDate = this.committed().date || this.nearestSelectable(today);
-    this.pendingDate.set(pendingDate);
-    this.pendingTime.set(this.committed().time || this.defaultTime());
-    this.cursor.set(pendingDate);
-    const anchor = parseIsoDate(pendingDate) ?? parseIsoDate(today);
-    if (anchor) {
-      this.viewYear.set(anchor.year);
-      this.viewMonth.set(anchor.month);
+    protected dayDisabled(isoDate: string): boolean {
+        if (!withinRange(isoDate, this.min() || undefined, this.max() || undefined)) {
+            return true;
+        }
+        return this.isDateDisabled()?.(isoDate) === true;
     }
-    this.open.set(true);
-    // Render first, focus second: until change detection runs, the
-    // dialog still carries `hidden`, and focusing into a hidden subtree
-    // is a no-op in a real browser.
-    this.cdr.detectChanges();
-    this.focusInitial();
-  }
 
-  /** Where an unset time starts: now, snapped down to the step. */
-  private defaultTime(): string {
-    if (!this.usesTime()) return "";
-    const now = new Date();
-    const step = Math.max(1, this.minuteStep());
-    return formatIsoTime({
-      hour: now.getHours(),
-      minute: Math.floor(now.getMinutes() / step) * step,
-    });
-  }
-
-  /** Focus the grid cursor, or the first control when there is no grid. */
-  private focusInitial(): void {
-    if (this.usesDate()) {
-      this.focusCursor();
-      return;
+    /** The nearest selectable day to `isoDate`, searching outwards. */
+    private nearestSelectable(isoDate: string): string {
+        if (!this.dayDisabled(isoDate)) return isoDate;
+        // Bounded: a year either way is far beyond any real min/max window,
+        // and an unbounded search would hang on a predicate that disables
+        // everything.
+        for (let delta = 1; delta <= 366; delta++) {
+            const after = addDays(isoDate, delta);
+            if (!this.dayDisabled(after)) return after;
+            const before = addDays(isoDate, -delta);
+            if (!this.dayDisabled(before)) return before;
+        }
+        return isoDate;
     }
-    this.focusables()[0]?.focus?.();
-  }
 
-  protected closeDialog(refocus = true): void {
-    if (!this.open()) return;
-    this.open.set(false);
-    if (refocus) {
-      const target = this.openerEl ?? this.buttonRef().element;
-      queueMicrotask(() => target?.focus?.());
+    // ---------------------------------------------------------------
+    // Open / close / commit
+    // ---------------------------------------------------------------
+
+    protected openDialog(): void {
+        if (this.disabled() || this.readOnly()) return;
+        // Remember what opened the dialog — the field on Alt+ArrowDown, the
+        // trigger button on a click — so closeDialog can put focus back
+        // there, per the APG dialog rule.
+        const active = document.activeElement;
+        this.openerEl =
+            active instanceof HTMLElement && this.rootRef().nativeElement.contains(active)
+                ? active
+                : (this.buttonRef().element ?? null);
+        const today = todayIso();
+        this.today.set(today);
+        const pendingDate = this.committed().date || this.nearestSelectable(today);
+        this.pendingDate.set(pendingDate);
+        this.pendingTime.set(this.committed().time || this.defaultTime());
+        this.cursor.set(pendingDate);
+        const anchor = parseIsoDate(pendingDate) ?? parseIsoDate(today);
+        if (anchor) {
+            this.viewYear.set(anchor.year);
+            this.viewMonth.set(anchor.month);
+        }
+        this.open.set(true);
+        // Render first, focus second: until change detection runs, the
+        // dialog still carries `hidden`, and focusing into a hidden subtree
+        // is a no-op in a real browser.
+        this.cdr.detectChanges();
+        this.focusInitial();
     }
-  }
 
-  /** Commit the pending selection to `value` and notify. */
-  protected commit(): void {
-    const next = joinValue(this.pendingDate(), this.pendingTime(), this.mode());
-    // An incomplete datetime is not committed. Half a timestamp is not a
-    // smaller truth; it is a different one.
-    if (!next) return;
-    this.typed.set(null);
-    this.invalid.set(false);
-    if (next !== this.value()) {
-      this.value.set(next);
-      this.change.emit(next);
+    /** Where an unset time starts: now, snapped down to the step. */
+    private defaultTime(): string {
+        if (!this.usesTime()) return "";
+        const now = new Date();
+        const step = Math.max(1, this.minuteStep());
+        return formatIsoTime({
+            hour: now.getHours(),
+            minute: Math.floor(now.getMinutes() / step) * step,
+        });
     }
-    this.closeDialog();
-  }
 
-  protected clear(): void {
-    this.typed.set(null);
-    this.invalid.set(false);
-    if (this.value() !== "") {
-      this.value.set("");
-      this.change.emit("");
+    /** Focus the grid cursor, or the first control when there is no grid. */
+    private focusInitial(): void {
+        if (this.usesDate()) {
+            this.focusCursor();
+            return;
+        }
+        this.focusables()[0]?.focus?.();
     }
-    this.closeDialog();
-  }
 
-  // ---------------------------------------------------------------
-  // Grid navigation
-  // ---------------------------------------------------------------
-
-  /**
-   * Move the cursor, paging the view when the target is off-screen.
-   *
-   * Disabled days are still reachable — the cursor lands on them and the
-   * button is `aria-disabled` (so it takes real focus and announces), so
-   * arrowing across a blocked range works. What is refused is leaving
-   * the min/max window entirely, because there is nothing out there to
-   * navigate to.
-   */
-  private moveCursor(nextIso: string): void {
-    if (!withinRange(nextIso, this.min() || undefined, this.max() || undefined)) {
-      return;
+    protected closeDialog(refocus = true): void {
+        if (!this.open()) return;
+        this.open.set(false);
+        if (refocus) {
+            const target = this.openerEl ?? this.buttonRef().element;
+            queueMicrotask(() => target?.focus?.());
+        }
     }
-    this.cursor.set(nextIso);
-    const parsed = parseIsoDate(nextIso);
-    if (parsed && (parsed.year !== this.viewYear() || parsed.month !== this.viewMonth())) {
-      this.viewYear.set(parsed.year);
-      this.viewMonth.set(parsed.month);
+
+    /** Commit the pending selection to `value` and notify. */
+    protected commit(): void {
+        const next = joinValue(this.pendingDate(), this.pendingTime(), this.mode());
+        // An incomplete datetime is not committed. Half a timestamp is not a
+        // smaller truth; it is a different one.
+        if (!next) return;
+        this.typed.set(null);
+        this.invalid.set(false);
+        if (next !== this.value()) {
+            this.value.set(next);
+            this.change.emit(next);
+        }
+        this.closeDialog();
     }
-    // Synchronous render-then-focus: when the cursor crossed into a new
-    // month, the cell it needs does not exist until change detection has
-    // run — see `cdr`.
-    this.cdr.detectChanges();
-    this.focusCursor();
-  }
 
-  private focusCursor(): void {
-    const dialogEl = this.dialogRef()?.nativeElement;
-    const cursor = this.cursor();
-    if (!dialogEl || !cursor) return;
-    // An attribute selector, not `#id`: the id is not on this element, and
-    // a value we generated as `YYYY-MM-DD` needs no escaping.
-    const el = dialogEl.querySelector<HTMLElement>(`[data-date="${cursor}"]`);
-    // Guard the METHODS, not only the element. jsdom implements no
-    // `scrollIntoView`, and an unguarded call throws from inside a
-    // keydown handler — where it stays invisible to a green suite.
-    el?.focus?.();
-    el?.scrollIntoView?.({ block: "nearest" });
-  }
+    protected clear(): void {
+        this.typed.set(null);
+        this.invalid.set(false);
+        if (this.value() !== "") {
+            this.value.set("");
+            this.change.emit("");
+        }
+        this.closeDialog();
+    }
 
-  protected selectDay(isoDate: string): void {
-    if (this.dayDisabled(isoDate)) return;
-    this.pendingDate.set(isoDate);
-    this.cursor.set(isoDate);
-    if (this.commitOnDay()) this.commit();
-  }
+    // ---------------------------------------------------------------
+    // Grid navigation
+    // ---------------------------------------------------------------
 
-  protected shiftMonth(delta: number): void {
-    const anchor = formatIsoDate({
-      year: this.viewYear(),
-      month: this.viewMonth(),
-      day: 1,
-    });
-    const next = parseIsoDate(addMonths(anchor, delta));
-    if (!next) return;
-    // Refocus the cursor only when focus is already in the grid: grid
-    // paging (PageUp/PageDown, or a browser that focused nothing on
-    // click) must carry focus, or it dies with the unrendered cell —
-    // but a header button must keep focus, or its user is yanked into
-    // the grid after one activation and cannot page twice.
-    const hadGridFocus = this.gridRef()?.nativeElement.contains(document.activeElement) === true;
-    this.viewYear.set(next.year);
-    this.viewMonth.set(next.month);
-    // Carry the cursor into the new month rather than leaving the roving
-    // tabindex on a cell that is no longer rendered.
-    const c = parseIsoDate(this.cursor());
-    if (c) {
-      this.cursor.set(
-        formatIsoDate({
-          year: next.year,
-          month: next.month,
-          day: Math.min(c.day, daysInMonth(next.year, next.month)),
-        }),
-      );
-      if (hadGridFocus) {
-        // Render-then-focus, synchronously — the target cell does not
-        // exist until change detection has run. See `cdr`.
+    /**
+     * Move the cursor, paging the view when the target is off-screen.
+     *
+     * Disabled days are still reachable — the cursor lands on them and the
+     * button is `aria-disabled` (so it takes real focus and announces), so
+     * arrowing across a blocked range works. What is refused is leaving
+     * the min/max window entirely, because there is nothing out there to
+     * navigate to.
+     */
+    private moveCursor(nextIso: string): void {
+        if (!withinRange(nextIso, this.min() || undefined, this.max() || undefined)) {
+            return;
+        }
+        this.cursor.set(nextIso);
+        const parsed = parseIsoDate(nextIso);
+        if (parsed && (parsed.year !== this.viewYear() || parsed.month !== this.viewMonth())) {
+            this.viewYear.set(parsed.year);
+            this.viewMonth.set(parsed.month);
+        }
+        // Synchronous render-then-focus: when the cursor crossed into a new
+        // month, the cell it needs does not exist until change detection has
+        // run — see `cdr`.
         this.cdr.detectChanges();
         this.focusCursor();
-      }
-    }
-  }
-
-  protected shiftYear(delta: number): void {
-    this.shiftMonth(delta * 12);
-  }
-
-  /**
-   * Week/day steps are the fine end of the header: unlike month/year,
-   * which move the GRID and merely carry the cursor, these move the
-   * pending day itself by ±7 / ±1 civil days and page the grid only
-   * when the new day leaves the shown month. A step off the min/max
-   * window is refused outright; a step onto a vetoed day moves the
-   * cursor — vetoed days are reachable, as with the arrow keys — but
-   * leaves the pending selection where it was. No commit even under
-   * `confirmOnSelect`.
-   */
-  protected shiftDays(delta: number): void {
-    const from = parseIsoDate(this.cursor()) ? this.cursor() : this.pendingDate();
-    if (!from) return;
-    const next = addDays(from, delta);
-    if (!withinRange(next, this.min() || undefined, this.max() || undefined)) {
-      return;
-    }
-    const hadGridFocus = this.gridRef()?.nativeElement.contains(document.activeElement) === true;
-    const parsed = parseIsoDate(next);
-    if (parsed && (parsed.year !== this.viewYear() || parsed.month !== this.viewMonth())) {
-      this.viewYear.set(parsed.year);
-      this.viewMonth.set(parsed.month);
-    }
-    this.cursor.set(next);
-    if (!this.dayDisabled(next)) this.pendingDate.set(next);
-    if (hadGridFocus) {
-      this.cdr.detectChanges();
-      this.focusCursor();
-    }
-  }
-
-  protected onTimeZoneSelect(event: Event): void {
-    this.timeZone.set((event.target as HTMLSelectElement).value);
-  }
-
-  /**
-   * A plain index expression (`timeZoneLabels()[zone] ?? zone`) trips
-   * NG8102: without `noUncheckedIndexedAccess`, TypeScript types a
-   * `Record<string, string>` index as always `string`, so the compiler
-   * sees the `??` as dead code even though a real, unlisted zone id is
-   * exactly the case it exists for. The cast documents that the index
-   * genuinely can miss.
-   */
-  protected zoneLabel(zone: string): string {
-    return (this.timeZoneLabels() as Record<string, string | undefined>)[zone] ?? zone;
-  }
-
-  protected onGridKeydown(event: KeyboardEvent): void {
-    switch (event.key) {
-      case "ArrowLeft":
-        event.preventDefault();
-        this.moveCursor(addDays(this.cursor(), -1));
-        break;
-      case "ArrowRight":
-        event.preventDefault();
-        this.moveCursor(addDays(this.cursor(), 1));
-        break;
-      case "ArrowUp":
-        event.preventDefault();
-        this.moveCursor(addDays(this.cursor(), -7));
-        break;
-      case "ArrowDown":
-        event.preventDefault();
-        this.moveCursor(addDays(this.cursor(), 7));
-        break;
-      case "Home": {
-        event.preventDefault();
-        const offset = (weekdayOf(this.cursor()) - this.weekStart() + 7) % 7;
-        this.moveCursor(addDays(this.cursor(), -offset));
-        break;
-      }
-      case "End": {
-        event.preventDefault();
-        const offset = (weekdayOf(this.cursor()) - this.weekStart() + 7) % 7;
-        this.moveCursor(addDays(this.cursor(), 6 - offset));
-        break;
-      }
-      case "PageUp":
-        event.preventDefault();
-        if (event.shiftKey) this.shiftYear(-1);
-        else this.shiftMonth(-1);
-        break;
-      case "PageDown":
-        event.preventDefault();
-        if (event.shiftKey) this.shiftYear(1);
-        else this.shiftMonth(1);
-        break;
-      case "Enter":
-      case " ":
-        event.preventDefault();
-        this.selectDay(this.cursor());
-        break;
-      default:
-        break;
-    }
-  }
-
-  // ---------------------------------------------------------------
-  // Dialog keys and the focus trap
-  // ---------------------------------------------------------------
-
-  /** Everything tabbable inside the dialog, in DOM order. */
-  private focusables(): HTMLElement[] {
-    const dialogEl = this.dialogRef()?.nativeElement;
-    if (!dialogEl) return [];
-    return Array.from(
-      dialogEl.querySelectorAll<HTMLElement>(
-        'button:not([disabled]):not([tabindex="-1"]), select:not([disabled])',
-      ),
-    );
-  }
-
-  protected onDialogKeydown(event: KeyboardEvent): void {
-    if (event.key === "Escape") {
-      event.preventDefault();
-      // Escape discards: `value` is untouched, so the field still shows
-      // whatever was committed before the dialog opened.
-      this.closeDialog();
-      return;
-    }
-    if (event.key !== "Tab") return;
-
-    // The trap. `aria-modal="true"` is a promise that focus cannot reach
-    // the page behind the dialog, and it is a promise the browser does
-    // not keep for us: an untrapped aria-modal dialog tells a screen
-    // reader the rest of the page is inert while Tab quietly walks into
-    // it.
-    const all = this.focusables();
-    if (all.length === 0) return;
-    const first = all[0];
-    const last = all[all.length - 1];
-    const active = document.activeElement as HTMLElement | null;
-    const dialogEl = this.dialogRef()?.nativeElement;
-    if (event.shiftKey && (active === first || !dialogEl?.contains(active))) {
-      event.preventDefault();
-      last.focus?.();
-    } else if (!event.shiftKey && active === last) {
-      event.preventDefault();
-      first.focus?.();
-    }
-  }
-
-  // ---------------------------------------------------------------
-  // Text field
-  // ---------------------------------------------------------------
-
-  /** Default text parsing, per mode. */
-  private parseTypedForMode(text: string): string | null {
-    if (this.mode() === "time") return parseTimeInput(text);
-    if (this.mode() === "date") return parseDateInput(text, this.locale() || undefined);
-    // datetime: split on the last whitespace run or a literal T, and
-    // require both halves — see `commit` on why half is refused.
-    const m = /^(.*?)[T\s]+([^\sT]+)$/.exec(text.trim());
-    if (!m) return null;
-    const date = parseDateInput(m[1], this.locale() || undefined);
-    const time = parseTimeInput(m[2]);
-    return date && time ? `${date}T${time}` : null;
-  }
-
-  /** Resolve typed text on blur or Enter. */
-  protected resolveTyped(): void {
-    const text = this.typed();
-    if (text === null) return;
-
-    if (!text.trim()) {
-      this.typed.set(null);
-      this.invalid.set(false);
-      if (this.value() !== "") {
-        this.value.set("");
-        this.change.emit("");
-      }
-      return;
     }
 
-    const parser = this.parseInput();
-    const parsed = parser ? parser(text) : this.parseTypedForMode(text);
-    if (!parsed) {
-      this.invalid.set(true);
-      this.invalidInput.emit(text);
-      return;
+    private focusCursor(): void {
+        const dialogEl = this.dialogRef()?.nativeElement;
+        const cursor = this.cursor();
+        if (!dialogEl || !cursor) return;
+        // An attribute selector, not `#id`: the id is not on this element, and
+        // a value we generated as `YYYY-MM-DD` needs no escaping.
+        const el = dialogEl.querySelector<HTMLElement>(`[data-date="${cursor}"]`);
+        // Guard the METHODS, not only the element. jsdom implements no
+        // `scrollIntoView`, and an unguarded call throws from inside a
+        // keydown handler — where it stays invisible to a green suite.
+        el?.focus?.();
+        el?.scrollIntoView?.({ block: "nearest" });
     }
 
-    const { date } = splitValue(parsed, this.mode());
-    if (this.usesDate() && date && this.dayDisabled(date)) {
-      // Parseable but out of bounds. Same outcome as unparseable: the
-      // text stays put and the field is marked invalid, rather than being
-      // silently snapped to some nearby legal date the user never typed.
-      this.invalid.set(true);
-      this.invalidInput.emit(text);
-      return;
+    protected selectDay(isoDate: string): void {
+        if (this.dayDisabled(isoDate)) return;
+        this.pendingDate.set(isoDate);
+        this.cursor.set(isoDate);
+        if (this.commitOnDay()) this.commit();
     }
 
-    this.typed.set(null);
-    this.invalid.set(false);
-    if (parsed !== this.value()) {
-      this.value.set(parsed);
-      this.change.emit(parsed);
+    protected shiftMonth(delta: number): void {
+        const anchor = formatIsoDate({
+            year: this.viewYear(),
+            month: this.viewMonth(),
+            day: 1,
+        });
+        const next = parseIsoDate(addMonths(anchor, delta));
+        if (!next) return;
+        // Refocus the cursor only when focus is already in the grid: grid
+        // paging (PageUp/PageDown, or a browser that focused nothing on
+        // click) must carry focus, or it dies with the unrendered cell —
+        // but a header button must keep focus, or its user is yanked into
+        // the grid after one activation and cannot page twice.
+        const hadGridFocus =
+            this.gridRef()?.nativeElement.contains(document.activeElement) === true;
+        this.viewYear.set(next.year);
+        this.viewMonth.set(next.month);
+        // Carry the cursor into the new month rather than leaving the roving
+        // tabindex on a cell that is no longer rendered.
+        const c = parseIsoDate(this.cursor());
+        if (c) {
+            this.cursor.set(
+                formatIsoDate({
+                    year: next.year,
+                    month: next.month,
+                    day: Math.min(c.day, daysInMonth(next.year, next.month)),
+                }),
+            );
+            if (hadGridFocus) {
+                // Render-then-focus, synchronously — the target cell does not
+                // exist until change detection has run. See `cdr`.
+                this.cdr.detectChanges();
+                this.focusCursor();
+            }
+        }
     }
-  }
 
-  protected onFieldKeydown(event: KeyboardEvent): void {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      this.resolveTyped();
-    } else if (event.key === "ArrowDown" && event.altKey) {
-      // The platform convention for "open the picker" from a field,
-      // matching <input type="date"> in every major browser.
-      event.preventDefault();
-      this.openDialog();
-    } else if (event.key === "Escape" && this.typed() !== null) {
-      // Discard the pending edit and show the committed value again —
-      // the same contract Escape has inside the dialog. Stops
-      // propagating so a surrounding dialog does not also close on
-      // what was, to the user, a text-editing keystroke. When no edit
-      // is pending the key is left alone.
-      event.preventDefault();
-      event.stopPropagation();
-      this.typed.set(null);
-      this.invalid.set(false);
+    protected shiftYear(delta: number): void {
+        this.shiftMonth(delta * 12);
     }
-  }
 
-  // ---------------------------------------------------------------
-  // Time selects
-  // ---------------------------------------------------------------
-
-  protected setHour(hour: number): void {
-    this.pendingTime.set(formatIsoTime({ hour, minute: this.pendingMinute() }));
-  }
-
-  protected setMinute(minute: number): void {
-    this.pendingTime.set(formatIsoTime({ hour: this.pendingHour(), minute }));
-  }
-
-  /** Cross between AM and PM without changing the minute of the hour. */
-  protected setMeridiem(pm: boolean): void {
-    this.setHour((this.pendingHour() % 12) + (pm ? 12 : 0));
-  }
-
-  // ---------------------------------------------------------------
-  // Shortcuts
-  // ---------------------------------------------------------------
-
-  protected applyShortcut(shortcut: DateTimeShortcut): void {
-    const base = todayIso();
-    let target = shortcut.date ?? base;
-    if (shortcut.days !== undefined) target = addDays(base, shortcut.days);
-    else if (shortcut.months !== undefined) {
-      target = addMonths(base, shortcut.months);
+    /**
+     * Week/day steps are the fine end of the header: unlike month/year,
+     * which move the GRID and merely carry the cursor, these move the
+     * pending day itself by ±7 / ±1 civil days and page the grid only
+     * when the new day leaves the shown month. A step off the min/max
+     * window is refused outright; a step onto a vetoed day moves the
+     * cursor — vetoed days are reachable, as with the arrow keys — but
+     * leaves the pending selection where it was. No commit even under
+     * `confirmOnSelect`.
+     */
+    protected shiftDays(delta: number): void {
+        const from = parseIsoDate(this.cursor()) ? this.cursor() : this.pendingDate();
+        if (!from) return;
+        const next = addDays(from, delta);
+        if (!withinRange(next, this.min() || undefined, this.max() || undefined)) {
+            return;
+        }
+        const hadGridFocus =
+            this.gridRef()?.nativeElement.contains(document.activeElement) === true;
+        const parsed = parseIsoDate(next);
+        if (parsed && (parsed.year !== this.viewYear() || parsed.month !== this.viewMonth())) {
+            this.viewYear.set(parsed.year);
+            this.viewMonth.set(parsed.month);
+        }
+        this.cursor.set(next);
+        if (!this.dayDisabled(next)) this.pendingDate.set(next);
+        if (hadGridFocus) {
+            this.cdr.detectChanges();
+            this.focusCursor();
+        }
     }
-    // A shortcut to a blocked date does nothing rather than landing
-    // somewhere near it: "+4 weeks" that quietly means "+27 days" is a
-    // booking error waiting to happen.
-    if (this.dayDisabled(target)) return;
 
-    this.pendingDate.set(target);
-    this.cursor.set(target);
-    const parsed = parseIsoDate(target);
-    if (parsed) {
-      this.viewYear.set(parsed.year);
-      this.viewMonth.set(parsed.month);
+    protected onTimeZoneSelect(event: Event): void {
+        this.timeZone.set((event.target as HTMLSelectElement).value);
     }
-    this.shortcut.emit({ id: shortcut.id, isoDate: target });
-    if (this.commitOnDay()) this.commit();
-    else {
-      // Render-then-focus: the shortcut may have paged to a month whose
-      // cells do not exist until change detection has run. See `cdr`.
-      this.cdr.detectChanges();
-      this.focusCursor();
-    }
-  }
 
-  // ---------------------------------------------------------------
-  // Dismissal
-  // ---------------------------------------------------------------
-
-  protected onDocumentClick(event: Event): void {
-    if (!this.open()) return;
-    const target = event.target as Node | null;
-    if (!target) return;
-    // Anything outside the dialog closes it — including the component's
-    // own text field. The dialog says aria-modal="true", and a modal
-    // that stays open while the user edits the field behind it is
-    // telling assistive technology one thing and doing another. The
-    // trigger button is exempt because its own handler already toggles.
-    if (
-      this.dialogRef().nativeElement.contains(target) ||
-      (this.buttonRef().element?.contains(target) ?? false)
-    ) {
-      return;
+    /**
+     * A plain index expression (`timeZoneLabels()[zone] ?? zone`) trips
+     * NG8102: without `noUncheckedIndexedAccess`, TypeScript types a
+     * `Record<string, string>` index as always `string`, so the compiler
+     * sees the `??` as dead code even though a real, unlisted zone id is
+     * exactly the case it exists for. The cast documents that the index
+     * genuinely can miss.
+     */
+    protected zoneLabel(zone: string): string {
+        return (this.timeZoneLabels() as Record<string, string | undefined>)[zone] ?? zone;
     }
-    this.closeDialog(false);
-  }
+
+    protected onGridKeydown(event: KeyboardEvent): void {
+        switch (event.key) {
+            case "ArrowLeft":
+                event.preventDefault();
+                this.moveCursor(addDays(this.cursor(), -1));
+                break;
+            case "ArrowRight":
+                event.preventDefault();
+                this.moveCursor(addDays(this.cursor(), 1));
+                break;
+            case "ArrowUp":
+                event.preventDefault();
+                this.moveCursor(addDays(this.cursor(), -7));
+                break;
+            case "ArrowDown":
+                event.preventDefault();
+                this.moveCursor(addDays(this.cursor(), 7));
+                break;
+            case "Home": {
+                event.preventDefault();
+                const offset = (weekdayOf(this.cursor()) - this.weekStart() + 7) % 7;
+                this.moveCursor(addDays(this.cursor(), -offset));
+                break;
+            }
+            case "End": {
+                event.preventDefault();
+                const offset = (weekdayOf(this.cursor()) - this.weekStart() + 7) % 7;
+                this.moveCursor(addDays(this.cursor(), 6 - offset));
+                break;
+            }
+            case "PageUp":
+                event.preventDefault();
+                if (event.shiftKey) this.shiftYear(-1);
+                else this.shiftMonth(-1);
+                break;
+            case "PageDown":
+                event.preventDefault();
+                if (event.shiftKey) this.shiftYear(1);
+                else this.shiftMonth(1);
+                break;
+            case "Enter":
+            case " ":
+                event.preventDefault();
+                this.selectDay(this.cursor());
+                break;
+            default:
+                break;
+        }
+    }
+
+    // ---------------------------------------------------------------
+    // Dialog keys and the focus trap
+    // ---------------------------------------------------------------
+
+    /** Everything tabbable inside the dialog, in DOM order. */
+    private focusables(): HTMLElement[] {
+        const dialogEl = this.dialogRef()?.nativeElement;
+        if (!dialogEl) return [];
+        return Array.from(
+            dialogEl.querySelectorAll<HTMLElement>(
+                'button:not([disabled]):not([tabindex="-1"]), select:not([disabled])',
+            ),
+        );
+    }
+
+    protected onDialogKeydown(event: KeyboardEvent): void {
+        if (event.key === "Escape") {
+            event.preventDefault();
+            // Escape discards: `value` is untouched, so the field still shows
+            // whatever was committed before the dialog opened.
+            this.closeDialog();
+            return;
+        }
+        if (event.key !== "Tab") return;
+
+        // The trap. `aria-modal="true"` is a promise that focus cannot reach
+        // the page behind the dialog, and it is a promise the browser does
+        // not keep for us: an untrapped aria-modal dialog tells a screen
+        // reader the rest of the page is inert while Tab quietly walks into
+        // it.
+        const all = this.focusables();
+        if (all.length === 0) return;
+        const first = all[0];
+        const last = all[all.length - 1];
+        const active = document.activeElement as HTMLElement | null;
+        const dialogEl = this.dialogRef()?.nativeElement;
+        if (event.shiftKey && (active === first || !dialogEl?.contains(active))) {
+            event.preventDefault();
+            last.focus?.();
+        } else if (!event.shiftKey && active === last) {
+            event.preventDefault();
+            first.focus?.();
+        }
+    }
+
+    // ---------------------------------------------------------------
+    // Text field
+    // ---------------------------------------------------------------
+
+    /** Default text parsing, per mode. */
+    private parseTypedForMode(text: string): string | null {
+        if (this.mode() === "time") return parseTimeInput(text);
+        if (this.mode() === "date") return parseDateInput(text, this.locale() || undefined);
+        // datetime: split on the last whitespace run or a literal T, and
+        // require both halves — see `commit` on why half is refused.
+        const m = /^(.*?)[T\s]+([^\sT]+)$/.exec(text.trim());
+        if (!m) return null;
+        const date = parseDateInput(m[1], this.locale() || undefined);
+        const time = parseTimeInput(m[2]);
+        return date && time ? `${date}T${time}` : null;
+    }
+
+    /** Resolve typed text on blur or Enter. */
+    protected resolveTyped(): void {
+        const text = this.typed();
+        if (text === null) return;
+
+        if (!text.trim()) {
+            this.typed.set(null);
+            this.invalid.set(false);
+            if (this.value() !== "") {
+                this.value.set("");
+                this.change.emit("");
+            }
+            return;
+        }
+
+        const parser = this.parseInput();
+        const parsed = parser ? parser(text) : this.parseTypedForMode(text);
+        if (!parsed) {
+            this.invalid.set(true);
+            this.invalidInput.emit(text);
+            return;
+        }
+
+        const { date } = splitValue(parsed, this.mode());
+        if (this.usesDate() && date && this.dayDisabled(date)) {
+            // Parseable but out of bounds. Same outcome as unparseable: the
+            // text stays put and the field is marked invalid, rather than being
+            // silently snapped to some nearby legal date the user never typed.
+            this.invalid.set(true);
+            this.invalidInput.emit(text);
+            return;
+        }
+
+        this.typed.set(null);
+        this.invalid.set(false);
+        if (parsed !== this.value()) {
+            this.value.set(parsed);
+            this.change.emit(parsed);
+        }
+    }
+
+    protected onFieldKeydown(event: KeyboardEvent): void {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            this.resolveTyped();
+        } else if (event.key === "ArrowDown" && event.altKey) {
+            // The platform convention for "open the picker" from a field,
+            // matching <input type="date"> in every major browser.
+            event.preventDefault();
+            this.openDialog();
+        } else if (event.key === "Escape" && this.typed() !== null) {
+            // Discard the pending edit and show the committed value again —
+            // the same contract Escape has inside the dialog. Stops
+            // propagating so a surrounding dialog does not also close on
+            // what was, to the user, a text-editing keystroke. When no edit
+            // is pending the key is left alone.
+            event.preventDefault();
+            event.stopPropagation();
+            this.typed.set(null);
+            this.invalid.set(false);
+        }
+    }
+
+    // ---------------------------------------------------------------
+    // Time selects
+    // ---------------------------------------------------------------
+
+    protected setHour(hour: number): void {
+        this.pendingTime.set(formatIsoTime({ hour, minute: this.pendingMinute() }));
+    }
+
+    protected setMinute(minute: number): void {
+        this.pendingTime.set(formatIsoTime({ hour: this.pendingHour(), minute }));
+    }
+
+    /** Cross between AM and PM without changing the minute of the hour. */
+    protected setMeridiem(pm: boolean): void {
+        this.setHour((this.pendingHour() % 12) + (pm ? 12 : 0));
+    }
+
+    // ---------------------------------------------------------------
+    // Shortcuts
+    // ---------------------------------------------------------------
+
+    protected applyShortcut(shortcut: DateTimeShortcut): void {
+        const base = todayIso();
+        let target = shortcut.date ?? base;
+        if (shortcut.days !== undefined) target = addDays(base, shortcut.days);
+        else if (shortcut.months !== undefined) {
+            target = addMonths(base, shortcut.months);
+        }
+        // A shortcut to a blocked date does nothing rather than landing
+        // somewhere near it: "+4 weeks" that quietly means "+27 days" is a
+        // booking error waiting to happen.
+        if (this.dayDisabled(target)) return;
+
+        this.pendingDate.set(target);
+        this.cursor.set(target);
+        const parsed = parseIsoDate(target);
+        if (parsed) {
+            this.viewYear.set(parsed.year);
+            this.viewMonth.set(parsed.month);
+        }
+        this.shortcut.emit({ id: shortcut.id, isoDate: target });
+        if (this.commitOnDay()) this.commit();
+        else {
+            // Render-then-focus: the shortcut may have paged to a month whose
+            // cells do not exist until change detection has run. See `cdr`.
+            this.cdr.detectChanges();
+            this.focusCursor();
+        }
+    }
+
+    // ---------------------------------------------------------------
+    // Dismissal
+    // ---------------------------------------------------------------
+
+    protected onDocumentClick(event: Event): void {
+        if (!this.open()) return;
+        const target = event.target as Node | null;
+        if (!target) return;
+        // Anything outside the dialog closes it — including the component's
+        // own text field. The dialog says aria-modal="true", and a modal
+        // that stays open while the user edits the field behind it is
+        // telling assistive technology one thing and doing another. The
+        // trigger button is exempt because its own handler already toggles.
+        if (
+            this.dialogRef().nativeElement.contains(target) ||
+            (this.buttonRef().element?.contains(target) ?? false)
+        ) {
+            return;
+        }
+        this.closeDialog(false);
+    }
 }

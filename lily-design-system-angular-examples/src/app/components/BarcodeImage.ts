@@ -8,14 +8,14 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * optional `loading`. Ships zero CSS; the consumer styles via the class hook.
  */
 @Component({
-  selector: "lily-barcode-image",
-  standalone: true,
-  template: `<img class="barcode-image {{ className() }}" [src]="src()" [alt]="alt()" [attr.loading]="loading() || null" />`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "lily-barcode-image",
+    standalone: true,
+    template: `<img class="barcode-image {{ className() }}" [src]="src()" [alt]="alt()" [attr.loading]="loading() || null" />`,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BarcodeImage {
-  readonly src = input.required<string>();
-  readonly alt = input.required<string>();
-  readonly loading = input<"lazy" | "eager" | "">("");
-  readonly className = input<string>("");
+    readonly src = input.required<string>();
+    readonly alt = input.required<string>();
+    readonly loading = input<"lazy" | "eager" | "">("");
+    readonly className = input<string>("");
 }

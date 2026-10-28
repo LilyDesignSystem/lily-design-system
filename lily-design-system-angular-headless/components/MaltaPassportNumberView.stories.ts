@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { MaltaPassportNumberView } from "./MaltaPassportNumberView";
 
 const meta: Meta<MaltaPassportNumberView> = {
-  title: "Headless/MaltaPassportNumberView",
-  component: MaltaPassportNumberView,
-  tags: ["autodocs"],
+    title: "Headless/MaltaPassportNumberView",
+    component: MaltaPassportNumberView,
+    tags: ["autodocs"],
 };
 
 export default meta;

@@ -8,12 +8,12 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * Ships zero CSS; the consumer styles via the class hook.
  */
 @Component({
-  selector: "lily-field",
-  standalone: true,
-  template: `<div class="field {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "lily-field",
+    standalone: true,
+    template: `<div class="field {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Field {
-  readonly label = input<string>("");
-  readonly className = input<string>("");
+    readonly label = input<string>("");
+    readonly className = input<string>("");
 }

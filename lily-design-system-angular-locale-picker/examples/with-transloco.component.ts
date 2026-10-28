@@ -34,22 +34,22 @@ import { LocalePicker } from "../locale-picker.component";
 
 // Demo-only stand-ins so this file compiles without Transloco installed.
 class TranslocoService {
-  private current = "en";
-  getActiveLang() {
-    return this.current;
-  }
-  setActiveLang(lang: string) {
-    this.current = lang;
-  }
+    private current = "en";
+    getActiveLang() {
+        return this.current;
+    }
+    setActiveLang(lang: string) {
+        this.current = lang;
+    }
 }
 
 @Component({
-  selector: "example-with-transloco",
-  standalone: true,
-  imports: [LocalePicker],
-  providers: [TranslocoService],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: "example-with-transloco",
+    standalone: true,
+    imports: [LocalePicker],
+    providers: [TranslocoService],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <lily-locale-picker
       label="Language"
       [locales]="['en', 'fr', 'ar']"
@@ -72,10 +72,10 @@ class TranslocoService {
   `,
 })
 export class WithTranslocoExample {
-  private transloco = inject(TranslocoService);
-  current = signal<string>(this.transloco.getActiveLang());
+    private transloco = inject(TranslocoService);
+    current = signal<string>(this.transloco.getActiveLang());
 
-  onLocaleChange(code: string): void {
-    this.transloco.setActiveLang(code);
-  }
+    onLocaleChange(code: string): void {
+        this.transloco.setActiveLang(code);
+    }
 }

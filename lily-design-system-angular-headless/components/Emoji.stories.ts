@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { Emoji } from "./Emoji";
 
 const meta: Meta<Emoji> = {
-  title: "Headless/Emoji",
-  component: Emoji,
-  tags: ["autodocs"],
+    title: "Headless/Emoji",
+    component: Emoji,
+    tags: ["autodocs"],
 };
 
 export default meta;

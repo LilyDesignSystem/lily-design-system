@@ -43,11 +43,11 @@ import { ChangeDetectionStrategy, Component, signal } from "@angular/core";
 import { ThemePicker, ThemePickerIcon } from "../theme-picker.component";
 
 @Component({
-  selector: "example-custom-rendering",
-  standalone: true,
-  imports: [ThemePicker, ThemePickerIcon],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: "example-custom-rendering",
+    standalone: true,
+    imports: [ThemePicker, ThemePickerIcon],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <!-- 1. Inline SVG replacing the default glyph. -->
     <lily-theme-picker
       label="Theme"
@@ -85,6 +85,6 @@ import { ThemePicker, ThemePickerIcon } from "../theme-picker.component";
   `,
 })
 export class CustomRenderingExample {
-  readonly themes = ["light", "dark", "abyss", "cupcake", "dracula"];
-  theme = signal("");
+    readonly themes = ["light", "dark", "abyss", "cupcake", "dracula"];
+    theme = signal("");
 }

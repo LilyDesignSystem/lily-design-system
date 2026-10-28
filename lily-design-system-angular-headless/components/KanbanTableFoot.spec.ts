@@ -9,28 +9,28 @@ import { KanbanTableFoot } from "./KanbanTableFoot";
 // small host template rather than `TestBed.createComponent(KanbanTableFoot)` directly (the
 // latter has no <tfoot> to attach to and falls back to a bare <div>).
 @Component({
-  standalone: true,
-  imports: [KanbanTableFoot],
-  template: `<tfoot lily-kanban-table-foot [className]="className"></tfoot>`,
+    standalone: true,
+    imports: [KanbanTableFoot],
+    template: `<tfoot lily-kanban-table-foot [className]="className"></tfoot>`,
 })
 class TestHost {
-  className = "";
+    className = "";
 }
 
 describe("KanbanTableFoot", () => {
-  test("the host is the tfoot itself — no wrapper element — with the base class", () => {
-    const fixture = TestBed.createComponent(TestHost);
-    fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("tfoot");
-    expect(el.tagName).toBe("TFOOT");
-    expect(el.classList.contains("kanban-table-foot")).toBe(true);
-  });
+    test("the host is the tfoot itself — no wrapper element — with the base class", () => {
+        const fixture = TestBed.createComponent(TestHost);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("tfoot");
+        expect(el.tagName).toBe("TFOOT");
+        expect(el.classList.contains("kanban-table-foot")).toBe(true);
+    });
 
-  test("appends the className input to the host class list", () => {
-    const fixture = TestBed.createComponent(TestHost);
-    fixture.componentInstance.className = "extra";
-    fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("tfoot");
-    expect(el.classList.contains("extra")).toBe(true);
-  });
+    test("appends the className input to the host class list", () => {
+        const fixture = TestBed.createComponent(TestHost);
+        fixture.componentInstance.className = "extra";
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("tfoot");
+        expect(el.classList.contains("extra")).toBe(true);
+    });
 });

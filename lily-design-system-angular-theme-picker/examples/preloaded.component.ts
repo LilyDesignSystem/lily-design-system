@@ -23,11 +23,11 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ThemePicker } from "../theme-picker.component";
 
 @Component({
-  selector: "example-preloaded",
-  standalone: true,
-  imports: [ThemePicker],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: "example-preloaded",
+    standalone: true,
+    imports: [ThemePicker],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <!--
             In src/index.html, add:
               <link rel="stylesheet" href="/assets/themes/light.css">

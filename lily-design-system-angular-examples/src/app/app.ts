@@ -6,10 +6,10 @@ import { TextSizePicker } from "@lilydesignsystem/angular-text-size-picker";
 import { themes, themeLabels, defaultTheme } from "./theme-config";
 
 @Component({
-  selector: "lily-app",
-  standalone: true,
-  imports: [RouterOutlet, ThemePicker, LocalePicker, TextSizePicker],
-  template: `
+    selector: "lily-app",
+    standalone: true,
+    imports: [RouterOutlet, ThemePicker, LocalePicker, TextSizePicker],
+    template: `
     <a class="skip-link" href="#main-content">Skip to main content</a>
 
     <header class="header" aria-label="Site header">
@@ -53,25 +53,25 @@ import { themes, themeLabels, defaultTheme } from "./theme-config";
       </div>
     </footer>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class App {
-  protected readonly themes = themes;
-  protected readonly themeLabels = themeLabels;
-  protected readonly defaultTheme = defaultTheme;
-  // Explicit endonym labels: Intl.DisplayNames is only as good as the
-  // browser's ICU data (headless Chromium lacks Welsh, for example).
-  protected readonly locales = ["en-GB", "cy-GB", "fr-FR", "ar"];
-  protected readonly localeLabels: Record<string, string> = {
-    "en-GB": "English (UK)",
-    "cy-GB": "Cymraeg",
-    "fr-FR": "Français",
-    ar: "العربية",
-  };
-  protected readonly sizes = ["small", "medium", "large"];
-  protected readonly sizeLabels: Record<string, string> = {
-    small: "Small",
-    medium: "Medium",
-    large: "Large",
-  };
+    protected readonly themes = themes;
+    protected readonly themeLabels = themeLabels;
+    protected readonly defaultTheme = defaultTheme;
+    // Explicit endonym labels: Intl.DisplayNames is only as good as the
+    // browser's ICU data (headless Chromium lacks Welsh, for example).
+    protected readonly locales = ["en-GB", "cy-GB", "fr-FR", "ar"];
+    protected readonly localeLabels: Record<string, string> = {
+        "en-GB": "English (UK)",
+        "cy-GB": "Cymraeg",
+        "fr-FR": "Français",
+        ar: "العربية",
+    };
+    protected readonly sizes = ["small", "medium", "large"];
+    protected readonly sizeLabels: Record<string, string> = {
+        small: "Small",
+        medium: "Medium",
+        large: "Large",
+    };
 }

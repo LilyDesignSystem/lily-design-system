@@ -8,12 +8,12 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * Ships zero CSS; the consumer styles via the class hook.
  */
 @Component({
-  selector: "lily-end-notes",
-  standalone: true,
-  template: `<div class="end-notes {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "lily-end-notes",
+    standalone: true,
+    template: `<div class="end-notes {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EndNotes {
-  readonly label = input<string>("");
-  readonly className = input<string>("");
+    readonly label = input<string>("");
+    readonly className = input<string>("");
 }

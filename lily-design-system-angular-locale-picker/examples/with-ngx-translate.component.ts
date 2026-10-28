@@ -29,19 +29,19 @@ import { LocalePicker } from "../locale-picker.component";
 
 // Demo-only stand-ins so this file compiles without ngx-translate.
 class TranslateService {
-  currentLang = "en";
-  use(lang: string) {
-    this.currentLang = lang;
-  }
+    currentLang = "en";
+    use(lang: string) {
+        this.currentLang = lang;
+    }
 }
 
 @Component({
-  selector: "example-with-ngx-translate",
-  standalone: true,
-  imports: [LocalePicker],
-  providers: [TranslateService],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: "example-with-ngx-translate",
+    standalone: true,
+    imports: [LocalePicker],
+    providers: [TranslateService],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <lily-locale-picker
       label="Language"
       [locales]="['en', 'fr', 'ar']"
@@ -58,10 +58,10 @@ class TranslateService {
   `,
 })
 export class WithNgxTranslateExample {
-  private translate = inject(TranslateService);
-  current = signal<string>(this.translate.currentLang);
+    private translate = inject(TranslateService);
+    current = signal<string>(this.translate.currentLang);
 
-  onLocaleChange(code: string): void {
-    this.translate.use(code);
-  }
+    onLocaleChange(code: string): void {
+        this.translate.use(code);
+    }
 }

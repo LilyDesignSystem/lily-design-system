@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { ElladaDematerialisedSecuritiesSystemView } from "./ElladaDematerialisedSecuritiesSystemView";
 
 const meta: Meta<ElladaDematerialisedSecuritiesSystemView> = {
-  title: "Headless/ElladaDematerialisedSecuritiesSystemView",
-  component: ElladaDematerialisedSecuritiesSystemView,
-  tags: ["autodocs"],
+    title: "Headless/ElladaDematerialisedSecuritiesSystemView",
+    component: ElladaDematerialisedSecuritiesSystemView,
+    tags: ["autodocs"],
 };
 
 export default meta;

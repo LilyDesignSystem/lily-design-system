@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { CanadaSocialInsuranceNumberView } from "./CanadaSocialInsuranceNumberView";
 
 const meta: Meta<CanadaSocialInsuranceNumberView> = {
-  title: "Headless/CanadaSocialInsuranceNumberView",
-  component: CanadaSocialInsuranceNumberView,
-  tags: ["autodocs"],
+    title: "Headless/CanadaSocialInsuranceNumberView",
+    component: CanadaSocialInsuranceNumberView,
+    tags: ["autodocs"],
 };
 
 export default meta;

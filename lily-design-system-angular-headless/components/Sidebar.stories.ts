@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { Sidebar } from "./Sidebar";
 
 const meta: Meta<Sidebar> = {
-  title: "Headless/Sidebar",
-  component: Sidebar,
-  tags: ["autodocs"],
+    title: "Headless/Sidebar",
+    component: Sidebar,
+    tags: ["autodocs"],
 };
 
 export default meta;

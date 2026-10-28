@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { FiveStarRatingPicker } from "./FiveStarRatingPicker";
 
 const meta: Meta<FiveStarRatingPicker> = {
-  title: "Headless/FiveStarRatingPicker",
-  component: FiveStarRatingPicker,
-  tags: ["autodocs"],
+    title: "Headless/FiveStarRatingPicker",
+    component: FiveStarRatingPicker,
+    tags: ["autodocs"],
 };
 
 export default meta;

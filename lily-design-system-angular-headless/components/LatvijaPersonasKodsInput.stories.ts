@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { LatvijaPersonasKodsInput } from "./LatvijaPersonasKodsInput";
 
 const meta: Meta<LatvijaPersonasKodsInput> = {
-  title: "Headless/LatvijaPersonasKodsInput",
-  component: LatvijaPersonasKodsInput,
-  tags: ["autodocs"],
+    title: "Headless/LatvijaPersonasKodsInput",
+    component: LatvijaPersonasKodsInput,
+    tags: ["autodocs"],
 };
 
 export default meta;

@@ -17,11 +17,11 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { DateTimePicker, type DateTimePickerLabels } from "../date-time-picker.component";
 
 @Component({
-  selector: "example-basic",
-  standalone: true,
-  imports: [DateTimePicker],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: "example-basic",
+    standalone: true,
+    imports: [DateTimePicker],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <h1>Date picker — basic</h1>
 
     <label for="appointment">Appointment date</label>
@@ -44,18 +44,18 @@ import { DateTimePicker, type DateTimePickerLabels } from "../date-time-picker.c
   `,
 })
 export class BasicExample {
-  appointment = "";
+    appointment = "";
 
-  readonly labels: DateTimePickerLabels = {
-    previousYear: "Previous year",
-    previousMonth: "Previous month",
-    previousWeek: "Previous week",
-    previousDay: "Previous day",
-    nextDay: "Next day",
-    nextWeek: "Next week",
-    nextMonth: "Next month",
-    nextYear: "Next year",
-    confirm: "OK",
-    cancel: "Cancel",
-  };
+    readonly labels: DateTimePickerLabels = {
+        previousYear: "Previous year",
+        previousMonth: "Previous month",
+        previousWeek: "Previous week",
+        previousDay: "Previous day",
+        nextDay: "Next day",
+        nextWeek: "Next week",
+        nextMonth: "Next month",
+        nextYear: "Next year",
+        confirm: "OK",
+        cancel: "Cancel",
+    };
 }

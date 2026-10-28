@@ -4,7 +4,5 @@
   "lib": {
     "entryFile": "index.ts"
   },
-  "allowedNonPeerDependencies": [
-    "@lilydesignsystem/angular-headless"
-  ]
+  "allowedNonPeerDependencies": ["@lilydesignsystem/angular-headless"]
 }

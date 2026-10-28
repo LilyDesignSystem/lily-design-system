@@ -8,12 +8,12 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * Ships zero CSS; the consumer styles via the class hook.
  */
 @Component({
-  selector: "lily-chat-nav",
-  standalone: true,
-  template: `<nav class="chat-nav {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></nav>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "lily-chat-nav",
+    standalone: true,
+    template: `<nav class="chat-nav {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></nav>`,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChatNav {
-  readonly label = input<string>("");
-  readonly className = input<string>("");
+    readonly label = input<string>("");
+    readonly className = input<string>("");
 }

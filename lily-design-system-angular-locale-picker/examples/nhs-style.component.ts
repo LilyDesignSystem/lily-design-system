@@ -22,11 +22,11 @@ import { ChangeDetectionStrategy, Component, signal } from "@angular/core";
 import { LocalePicker, bcp47LocaleTag } from "../locale-picker.component";
 
 @Component({
-  selector: "example-nhs-style",
-  standalone: true,
-  imports: [LocalePicker],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: "example-nhs-style",
+    standalone: true,
+    imports: [LocalePicker],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <header class="utility-banner" aria-label="Site utilities">
       <span>NHS</span>
 
@@ -64,24 +64,24 @@ import { LocalePicker, bcp47LocaleTag } from "../locale-picker.component";
   `,
 })
 export class NhsStyleExample {
-  readonly locales = ["en", "cy", "gd", "ga", "fr", "pl", "ur", "bn", "zh_Hant"];
+    readonly locales = ["en", "cy", "gd", "ga", "fr", "pl", "ur", "bn", "zh_Hant"];
 
-  // Endonyms — each language in its own script.
-  readonly NATIVE: Record<string, string> = {
-    en: "English",
-    cy: "Cymraeg",
-    gd: "Gàidhlig",
-    ga: "Gaeilge",
-    fr: "Français",
-    pl: "Polski",
-    ur: "اردو",
-    bn: "বাংলা",
-    zh_Hant: "繁體中文",
-  };
+    // Endonyms — each language in its own script.
+    readonly NATIVE: Record<string, string> = {
+        en: "English",
+        cy: "Cymraeg",
+        gd: "Gàidhlig",
+        ga: "Gaeilge",
+        fr: "Français",
+        pl: "Polski",
+        ur: "اردو",
+        bn: "বাংলা",
+        zh_Hant: "繁體中文",
+    };
 
-  locale = signal("en");
+    locale = signal("en");
 
-  tagFor(l: string): string {
-    return bcp47LocaleTag(l);
-  }
+    tagFor(l: string): string {
+        return bcp47LocaleTag(l);
+    }
 }

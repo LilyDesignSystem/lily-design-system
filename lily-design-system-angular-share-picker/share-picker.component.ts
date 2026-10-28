@@ -1,21 +1,21 @@
 import { NgTemplateOutlet } from "@angular/common";
 import {
-  afterNextRender,
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  contentChild,
-  Directive,
-  effect,
-  ElementRef,
-  inject,
-  Injector,
-  input,
-  model,
-  output,
-  signal,
-  TemplateRef,
-  viewChild,
+    afterNextRender,
+    ChangeDetectionStrategy,
+    Component,
+    computed,
+    contentChild,
+    Directive,
+    effect,
+    ElementRef,
+    inject,
+    Injector,
+    input,
+    model,
+    output,
+    signal,
+    TemplateRef,
+    viewChild,
 } from "@angular/core";
 // Only the trigger button composes a headless primitive. The list below
 // is real `<a>`/`<button>` navigation with a roving-focus pattern of its
@@ -40,22 +40,22 @@ import { IconButton } from "@lilydesignsystem/angular-headless";
  * which networks exist. See `spec/index.md` §3.
  */
 export type ShareTarget = {
-  /** Stable identifier, passed back on the `share` output. */
-  id: string;
-  /** Visible link text. Consumer-supplied, so it localises. */
-  label: string;
-  /** Build the destination URL from the shared page's metadata. */
-  href: (url: string, title: string, text: string) => string;
-  /** Overrides the default `target="_blank"` for this destination. */
-  newTab?: boolean;
+    /** Stable identifier, passed back on the `share` output. */
+    id: string;
+    /** Visible link text. Consumer-supplied, so it localises. */
+    label: string;
+    /** Build the destination URL from the shared page's metadata. */
+    href: (url: string, title: string, text: string) => string;
+    /** Overrides the default `target="_blank"` for this destination. */
+    newTab?: boolean;
 };
 
 /** Context passed to a custom icon `<ng-template>` (the button icon). */
 export type ChildArgs = {
-  /** Is the list open? */
-  open: boolean;
-  /** The URL that would be shared right now. */
-  url: string;
+    /** Is the list open? */
+    open: boolean;
+    /** The URL that would be shared right now. */
+    url: string;
 };
 
 /** How the button behaves when activated. */
@@ -63,27 +63,27 @@ export type ShareStrategy = "auto" | "native" | "list";
 
 /** Payload of the `share` output: which destination, and the URL shared. */
 export type ShareEvent = {
-  /** The chosen target's `id`. */
-  targetId: string;
-  /** The URL that was shared. */
-  url: string;
+    /** The chosen target's `id`. */
+    targetId: string;
+    /** The URL that was shared. */
+    url: string;
 };
 
 /** Is a native share sheet available? SSR-safe. */
 export function canShareNatively(): boolean {
-  return typeof navigator !== "undefined" && typeof navigator.share === "function";
+    return typeof navigator !== "undefined" && typeof navigator.share === "function";
 }
 
 /** Is an async clipboard available? SSR-safe. */
 export function canCopy(): boolean {
-  return typeof navigator !== "undefined" && typeof navigator.clipboard?.writeText === "function";
+    return typeof navigator !== "undefined" && typeof navigator.clipboard?.writeText === "function";
 }
 
 let uid = 0;
 /** Stable per-instance id prefix; SSR-safe (no Math.random / Date.now). */
 export function nextSharePickerId(): string {
-  uid += 1;
-  return `share-picker-${uid}`;
+    uid += 1;
+    return `share-picker-${uid}`;
 }
 
 /**
@@ -100,16 +100,16 @@ export function nextSharePickerId(): string {
  * for type-checking and readability, not for matching.
  */
 @Directive({
-  selector: "ng-template[lilySharePickerIcon]",
-  standalone: true,
+    selector: "ng-template[lilySharePickerIcon]",
+    standalone: true,
 })
 export class SharePickerIcon {
-  static ngTemplateContextGuard(
-    _dir: SharePickerIcon,
-    _ctx: unknown,
-  ): _ctx is ChildArgs & { $implicit: ChildArgs } {
-    return true;
-  }
+    static ngTemplateContextGuard(
+        _dir: SharePickerIcon,
+        _ctx: unknown,
+    ): _ctx is ChildArgs & { $implicit: ChildArgs } {
+        return true;
+    }
 }
 
 /**
@@ -124,14 +124,14 @@ export class SharePickerIcon {
  * `spec/index.md` for the full contract.
  */
 @Component({
-  selector: "lily-share-picker",
-  standalone: true,
-  imports: [NgTemplateOutlet, IconButton],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    "(document:click)": "onDocumentClick($event)",
-  },
-  template: `
+    selector: "lily-share-picker",
+    standalone: true,
+    imports: [NgTemplateOutlet, IconButton],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: {
+        "(document:click)": "onDocumentClick($event)",
+    },
+    template: `
     <div
       #rootEl
       class="share-picker {{ className() }}"
@@ -235,321 +235,321 @@ export class SharePickerIcon {
   `,
 })
 export class SharePicker {
-  /** Accessible name for the button and the list. */
-  readonly label = input.required<string>();
-  /** Destinations to offer. Empty is valid when `copyLabel` is set. */
-  readonly targets = input<ShareTarget[]>([]);
-  /** URL to share. Defaults to the current page URL, read at share time. */
-  readonly url = input<string>("");
-  /** Title passed to `href(...)` and to the native share sheet. */
-  readonly title = input<string>("");
-  /** Longer text passed to `href(...)` and to the native share sheet. */
-  readonly text = input<string>("");
-  /**
-   * Label for the built-in copy-to-clipboard item. The item renders only
-   * when this is supplied — there is no default, because a default would
-   * be a hardcoded English string.
-   */
-  readonly copyLabel = input<string>("");
-  /** Announced in the status region after a successful copy. */
-  readonly copiedLabel = input<string>("");
-  /** Announced in the status region when the clipboard write fails. */
-  readonly copyFailedLabel = input<string>("");
-  /**
-   * `"auto"` (default) uses the native share sheet when the browser
-   * provides one and falls back to the list; `"native"` always tries the
-   * sheet; `"list"` always shows the list.
-   */
-  readonly strategy = input<ShareStrategy>("auto");
-  /** Extra CSS class on the root div. */
-  readonly className = input<string>("");
+    /** Accessible name for the button and the list. */
+    readonly label = input.required<string>();
+    /** Destinations to offer. Empty is valid when `copyLabel` is set. */
+    readonly targets = input<ShareTarget[]>([]);
+    /** URL to share. Defaults to the current page URL, read at share time. */
+    readonly url = input<string>("");
+    /** Title passed to `href(...)` and to the native share sheet. */
+    readonly title = input<string>("");
+    /** Longer text passed to `href(...)` and to the native share sheet. */
+    readonly text = input<string>("");
+    /**
+     * Label for the built-in copy-to-clipboard item. The item renders only
+     * when this is supplied — there is no default, because a default would
+     * be a hardcoded English string.
+     */
+    readonly copyLabel = input<string>("");
+    /** Announced in the status region after a successful copy. */
+    readonly copiedLabel = input<string>("");
+    /** Announced in the status region when the clipboard write fails. */
+    readonly copyFailedLabel = input<string>("");
+    /**
+     * `"auto"` (default) uses the native share sheet when the browser
+     * provides one and falls back to the list; `"native"` always tries the
+     * sheet; `"list"` always shows the list.
+     */
+    readonly strategy = input<ShareStrategy>("auto");
+    /** Extra CSS class on the root div. */
+    readonly className = input<string>("");
 
-  /** Fires after a destination is chosen. */
-  readonly share = output<ShareEvent>();
-  /** Fires after the URL is copied. */
-  readonly copy = output<string>();
-  /** Fires when the native share sheet was used instead of the list. */
-  readonly nativeShare = output<string>();
+    /** Fires after a destination is chosen. */
+    readonly share = output<ShareEvent>();
+    /** Fires after the URL is copied. */
+    readonly copy = output<string>();
+    /** Fires when the native share sheet was used instead of the list. */
+    readonly nativeShare = output<string>();
 
-  /** Projected icon template; replaces the default icon when supplied. */
-  protected readonly iconTemplate = contentChild(TemplateRef);
+    /** Projected icon template; replaces the default icon when supplied. */
+    protected readonly iconTemplate = contentChild(TemplateRef);
 
-  private readonly rootRef = viewChild.required<ElementRef<HTMLDivElement>>("rootEl");
-  // Angular resolves a template-ref-variable on a component tag to the
-  // component INSTANCE by default (not its ElementRef) — exactly what's
-  // needed to call the headless component's own public `focus()` method.
-  private readonly buttonRef = viewChild.required<IconButton>("buttonEl");
-  private readonly listRef = viewChild.required<ElementRef<HTMLUListElement>>("listEl");
+    private readonly rootRef = viewChild.required<ElementRef<HTMLDivElement>>("rootEl");
+    // Angular resolves a template-ref-variable on a component tag to the
+    // component INSTANCE by default (not its ElementRef) — exactly what's
+    // needed to call the headless component's own public `focus()` method.
+    private readonly buttonRef = viewChild.required<IconButton>("buttonEl");
+    private readonly listRef = viewChild.required<ElementRef<HTMLUListElement>>("listEl");
 
-  private readonly baseId = nextSharePickerId();
-  protected readonly listId = `${this.baseId}-list`;
+    private readonly baseId = nextSharePickerId();
+    protected readonly listId = `${this.baseId}-list`;
 
-  /** Is the popup open? Two-way bindable: `[(open)]`; `openChange` fires for each change. */
-  readonly open = model<boolean>(false);
-  /** Disables the button; an open popup closes. */
-  readonly disabled = input<boolean>(false);
-  private readonly closeWhenDisabled = effect(() => {
-    if (this.disabled() && this.open()) this.open.set(false);
-  });
+    /** Is the popup open? Two-way bindable: `[(open)]`; `openChange` fires for each change. */
+    readonly open = model<boolean>(false);
+    /** Disables the button; an open popup closes. */
+    readonly disabled = input<boolean>(false);
+    private readonly closeWhenDisabled = effect(() => {
+        if (this.disabled() && this.open()) this.open.set(false);
+    });
 
-  // Tooltip: shown while the pointer is over the button or the tooltip
-  // itself (hoverable, WCAG 1.4.13) or while the button has keyboard
-  // focus; Escape dismisses it without moving focus; never shown while
-  // the popup is open, since the popup then explains the control.
-  protected readonly tooltipId = `${this.baseId}-tooltip`;
-  private readonly injector = inject(Injector);
-  protected readonly hoverButton = signal(false);
-  protected readonly hoverTooltip = signal(false);
-  protected readonly focusButton = signal(false);
-  protected readonly dismissed = signal(false);
-  protected readonly tooltipVisible = computed(
-    () =>
-      !this.open() &&
-      !this.dismissed() &&
-      (this.hoverButton() || this.hoverTooltip() || this.focusButton()),
-  );
-
-  protected onTooltipButtonEnter(): void {
-    this.hoverButton.set(true);
-    this.dismissed.set(false);
-  }
-
-  protected onTooltipButtonFocusIn(): void {
-    // Keyboard focus only: a mouse click also focuses the button in
-    // Chromium, and the tooltip should not stick after a click.
-    try {
-      this.focusButton.set(this.buttonRef().element?.matches(":focus-visible") ?? false);
-    } catch {
-      this.focusButton.set(true); // engine without :focus-visible — err towards showing
-    }
-  }
-
-  protected onTooltipButtonFocusOut(): void {
-    this.focusButton.set(false);
-    this.dismissed.set(false);
-  }
-
-  protected onTooltipKeydown(event: KeyboardEvent): void {
-    if (event.key === "Escape" && this.tooltipVisible()) this.dismissed.set(true);
-  }
-
-  // WCAG 1.4.13 "dismissable": while the tooltip is visible, Escape works
-  // wherever focus is (hover-only tooltips have focus elsewhere). The
-  // listener exists only while visible; the effect cleanup removes it on
-  // hide and on destroy. No preventDefault/stopPropagation, focus untouched.
-  private readonly tooltipEscapeListener = effect((onCleanup) => {
-    if (!this.tooltipVisible() || typeof document === "undefined") return;
-    const onKey = (event: KeyboardEvent): void => {
-      if (event.key === "Escape") this.dismissed.set(true);
-    };
-    document.addEventListener("keydown", onKey);
-    onCleanup(() => document.removeEventListener("keydown", onKey));
-  });
-  protected readonly status = signal("");
-
-  protected readonly childContext = computed(() => {
-    const args: ChildArgs = { open: this.open(), url: this.currentUrl() };
-    return { $implicit: args, ...args };
-  });
-
-  /**
-   * The URL to share. Resolved lazily — a plain method, not a computed —
-   * so the default works without the consumer threading `location.href`
-   * through, and so SSR never touches `location`.
-   */
-  currentUrl(): string {
-    const explicit = this.url();
-    if (explicit) return explicit;
-    return typeof location !== "undefined" ? location.href : "";
-  }
-
-  protected hrefFor(target: ShareTarget): string {
-    return target.href(this.currentUrl(), this.title(), this.text());
-  }
-
-  /** Every focusable item in the list, in DOM order. */
-  private items(): HTMLElement[] {
-    return Array.from(
-      this.listRef().nativeElement.querySelectorAll<HTMLElement>(
-        ".share-picker-target, .share-picker-copy",
-      ),
+    // Tooltip: shown while the pointer is over the button or the tooltip
+    // itself (hoverable, WCAG 1.4.13) or while the button has keyboard
+    // focus; Escape dismisses it without moving focus; never shown while
+    // the popup is open, since the popup then explains the control.
+    protected readonly tooltipId = `${this.baseId}-tooltip`;
+    private readonly injector = inject(Injector);
+    protected readonly hoverButton = signal(false);
+    protected readonly hoverTooltip = signal(false);
+    protected readonly focusButton = signal(false);
+    protected readonly dismissed = signal(false);
+    protected readonly tooltipVisible = computed(
+        () =>
+            !this.open() &&
+            !this.dismissed() &&
+            (this.hoverButton() || this.hoverTooltip() || this.focusButton()),
     );
-  }
 
-  // ---------------------------------------------------------------
-  // Open / close
-  // ---------------------------------------------------------------
-
-  /** Open the list, focusing the first item (or the last, if `focusLast`). */
-  openList(focusLast = false): void {
-    this.open.set(true);
-    this.status.set("");
-    // After the next render, so the `hidden` attribute is gone: a hidden element cannot take
-    // focus (a microtask ran before Angular rendered, and the focus silently went nowhere).
-    afterNextRender(
-      () => {
-        const all = this.items();
-        (focusLast ? all[all.length - 1] : all[0])?.focus({ preventScroll: true });
-      },
-      { injector: this.injector },
-    );
-  }
-
-  /** Close the list; `refocus` returns focus to the trigger. */
-  closeList(refocus = true): void {
-    if (!this.open()) return;
-    this.open.set(false);
-    if (refocus) queueMicrotask(() => this.buttonRef().focus({ preventScroll: true }));
-  }
-
-  private shareNatively(): Promise<boolean> {
-    if (!canShareNatively()) return Promise.resolve(false);
-    const shareUrl = this.currentUrl();
-    // Rejections are handled with `.then(onOk, onErr)` rather than
-    // `try { await ... }`. Both handle the rejection, but under zone.js
-    // a rejection caught only by a native `await` is still reported as an
-    // unhandled error against the click event task. Attaching the handler
-    // at the call site keeps the console clean.
-    return navigator.share({ url: shareUrl, title: this.title(), text: this.text() }).then(
-      () => {
-        this.nativeShare.emit(shareUrl);
-        return true;
-      },
-      // A rejection here is almost always the user dismissing the
-      // sheet, which is not an error and must not fall through to the
-      // list — that would reopen UI they just dismissed.
-      () => true,
-    );
-  }
-
-  protected async onButtonClick(): Promise<void> {
-    if (this.open()) {
-      this.closeList();
-      return;
+    protected onTooltipButtonEnter(): void {
+        this.hoverButton.set(true);
+        this.dismissed.set(false);
     }
-    const strategy = this.strategy();
-    if (strategy === "native" || (strategy === "auto" && canShareNatively())) {
-      if (await this.shareNatively()) return;
+
+    protected onTooltipButtonFocusIn(): void {
+        // Keyboard focus only: a mouse click also focuses the button in
+        // Chromium, and the tooltip should not stick after a click.
+        try {
+            this.focusButton.set(this.buttonRef().element?.matches(":focus-visible") ?? false);
+        } catch {
+            this.focusButton.set(true); // engine without :focus-visible — err towards showing
+        }
     }
-    this.openList();
-  }
 
-  protected chooseTarget(target: ShareTarget): void {
-    this.share.emit({ targetId: target.id, url: this.currentUrl() });
-    this.closeList();
-  }
-
-  protected copyUrl(): Promise<void> {
-    const shareUrl = this.currentUrl();
-
-    /** Announce the outcome and close, whichever way the write went. */
-    const settle = (ok: boolean): void => {
-      if (ok) {
-        this.copy.emit(shareUrl);
-        const copied = this.copiedLabel();
-        if (copied) this.status.set(copied);
-      } else {
-        const failed = this.copyFailedLabel();
-        if (failed) this.status.set(failed);
-      }
-      this.closeList();
-    };
-
-    // No clipboard API at all is a failure, not a crash.
-    if (!canCopy()) {
-      settle(false);
-      return Promise.resolve();
+    protected onTooltipButtonFocusOut(): void {
+        this.focusButton.set(false);
+        this.dismissed.set(false);
     }
-    // `.then(onOk, onErr)` for the same zone.js reason as shareNatively().
-    return navigator.clipboard.writeText(shareUrl).then(
-      () => settle(true),
-      () => settle(false),
-    );
-  }
 
-  // ---------------------------------------------------------------
-  // Keyboard
-  // ---------------------------------------------------------------
-
-  protected onButtonKeydown(event: KeyboardEvent): void {
-    // Enter and Space are the button's own activation keys and already
-    // produce a click; only the arrows need handling here.
-    if (event.key === "ArrowDown") {
-      event.preventDefault();
-      if (!this.open()) this.openList();
-      else this.items()[0]?.focus({ preventScroll: true });
-    } else if (event.key === "ArrowUp") {
-      event.preventDefault();
-      if (!this.open()) this.openList(true);
-      else {
-        const all = this.items();
-        all[all.length - 1]?.focus({ preventScroll: true });
-      }
+    protected onTooltipKeydown(event: KeyboardEvent): void {
+        if (event.key === "Escape" && this.tooltipVisible()) this.dismissed.set(true);
     }
-  }
 
-  private moveFocus(delta: number): void {
-    const all = this.items();
-    if (all.length === 0) return;
-    const i = all.indexOf(document.activeElement as HTMLElement);
-    // Clamp rather than wrap.
-    const next = Math.min(Math.max((i < 0 ? 0 : i) + delta, 0), all.length - 1);
-    all[next]?.focus({ preventScroll: true });
-  }
+    // WCAG 1.4.13 "dismissable": while the tooltip is visible, Escape works
+    // wherever focus is (hover-only tooltips have focus elsewhere). The
+    // listener exists only while visible; the effect cleanup removes it on
+    // hide and on destroy. No preventDefault/stopPropagation, focus untouched.
+    private readonly tooltipEscapeListener = effect((onCleanup) => {
+        if (!this.tooltipVisible() || typeof document === "undefined") return;
+        const onKey = (event: KeyboardEvent): void => {
+            if (event.key === "Escape") this.dismissed.set(true);
+        };
+        document.addEventListener("keydown", onKey);
+        onCleanup(() => document.removeEventListener("keydown", onKey));
+    });
+    protected readonly status = signal("");
 
-  protected onListKeydown(event: KeyboardEvent): void {
-    switch (event.key) {
-      case "ArrowDown":
-        event.preventDefault();
-        this.moveFocus(1);
-        break;
-      case "ArrowUp":
-        event.preventDefault();
-        this.moveFocus(-1);
-        break;
-      case "Home": {
-        event.preventDefault();
-        this.items()[0]?.focus({ preventScroll: true });
-        break;
-      }
-      case "End": {
-        event.preventDefault();
-        const all = this.items();
-        all[all.length - 1]?.focus({ preventScroll: true });
-        break;
-      }
-      case "Escape":
-        event.preventDefault();
+    protected readonly childContext = computed(() => {
+        const args: ChildArgs = { open: this.open(), url: this.currentUrl() };
+        return { $implicit: args, ...args };
+    });
+
+    /**
+     * The URL to share. Resolved lazily — a plain method, not a computed —
+     * so the default works without the consumer threading `location.href`
+     * through, and so SSR never touches `location`.
+     */
+    currentUrl(): string {
+        const explicit = this.url();
+        if (explicit) return explicit;
+        return typeof location !== "undefined" ? location.href : "";
+    }
+
+    protected hrefFor(target: ShareTarget): string {
+        return target.href(this.currentUrl(), this.title(), this.text());
+    }
+
+    /** Every focusable item in the list, in DOM order. */
+    private items(): HTMLElement[] {
+        return Array.from(
+            this.listRef().nativeElement.querySelectorAll<HTMLElement>(
+                ".share-picker-target, .share-picker-copy",
+            ),
+        );
+    }
+
+    // ---------------------------------------------------------------
+    // Open / close
+    // ---------------------------------------------------------------
+
+    /** Open the list, focusing the first item (or the last, if `focusLast`). */
+    openList(focusLast = false): void {
+        this.open.set(true);
+        this.status.set("");
+        // After the next render, so the `hidden` attribute is gone: a hidden element cannot take
+        // focus (a microtask ran before Angular rendered, and the focus silently went nowhere).
+        afterNextRender(
+            () => {
+                const all = this.items();
+                (focusLast ? all[all.length - 1] : all[0])?.focus({ preventScroll: true });
+            },
+            { injector: this.injector },
+        );
+    }
+
+    /** Close the list; `refocus` returns focus to the trigger. */
+    closeList(refocus = true): void {
+        if (!this.open()) return;
+        this.open.set(false);
+        if (refocus) queueMicrotask(() => this.buttonRef().focus({ preventScroll: true }));
+    }
+
+    private shareNatively(): Promise<boolean> {
+        if (!canShareNatively()) return Promise.resolve(false);
+        const shareUrl = this.currentUrl();
+        // Rejections are handled with `.then(onOk, onErr)` rather than
+        // `try { await ... }`. Both handle the rejection, but under zone.js
+        // a rejection caught only by a native `await` is still reported as an
+        // unhandled error against the click event task. Attaching the handler
+        // at the call site keeps the console clean.
+        return navigator.share({ url: shareUrl, title: this.title(), text: this.text() }).then(
+            () => {
+                this.nativeShare.emit(shareUrl);
+                return true;
+            },
+            // A rejection here is almost always the user dismissing the
+            // sheet, which is not an error and must not fall through to the
+            // list — that would reopen UI they just dismissed.
+            () => true,
+        );
+    }
+
+    protected async onButtonClick(): Promise<void> {
+        if (this.open()) {
+            this.closeList();
+            return;
+        }
+        const strategy = this.strategy();
+        if (strategy === "native" || (strategy === "auto" && canShareNatively())) {
+            if (await this.shareNatively()) return;
+        }
+        this.openList();
+    }
+
+    protected chooseTarget(target: ShareTarget): void {
+        this.share.emit({ targetId: target.id, url: this.currentUrl() });
         this.closeList();
-        break;
-      case "Tab":
-        // Tab leaves the control — but focus goes to the button FIRST,
-        // without cancelling the key. Hiding the list while one of its
-        // items has focus drops focus to <body>, and the browser then
-        // computes the default Tab move from the top of the document,
-        // so tabbing out of the open list teleported the user to the
-        // page's first tab stop. From the button, the default Tab
-        // lands exactly where leaving the picker should. The button
-        // always exists, so no detectChanges is needed before the
-        // focus move; guard the METHOD because jsdom-shaped hosts may
-        // not implement it.
-        this.buttonRef().focus?.({ preventScroll: true });
-        this.closeList(false);
-        break;
-      default:
-        break;
     }
-  }
 
-  protected onRootFocusOut(event: FocusEvent): void {
-    const next = event.relatedTarget as Node | null;
-    if (next && this.rootRef().nativeElement.contains(next)) return;
-    this.closeList(false);
-  }
+    protected copyUrl(): Promise<void> {
+        const shareUrl = this.currentUrl();
 
-  protected onDocumentClick(event: Event): void {
-    if (!this.open()) return;
-    const t = event.target as Node | null;
-    if (t && !this.rootRef().nativeElement.contains(t)) this.closeList(false);
-  }
+        /** Announce the outcome and close, whichever way the write went. */
+        const settle = (ok: boolean): void => {
+            if (ok) {
+                this.copy.emit(shareUrl);
+                const copied = this.copiedLabel();
+                if (copied) this.status.set(copied);
+            } else {
+                const failed = this.copyFailedLabel();
+                if (failed) this.status.set(failed);
+            }
+            this.closeList();
+        };
+
+        // No clipboard API at all is a failure, not a crash.
+        if (!canCopy()) {
+            settle(false);
+            return Promise.resolve();
+        }
+        // `.then(onOk, onErr)` for the same zone.js reason as shareNatively().
+        return navigator.clipboard.writeText(shareUrl).then(
+            () => settle(true),
+            () => settle(false),
+        );
+    }
+
+    // ---------------------------------------------------------------
+    // Keyboard
+    // ---------------------------------------------------------------
+
+    protected onButtonKeydown(event: KeyboardEvent): void {
+        // Enter and Space are the button's own activation keys and already
+        // produce a click; only the arrows need handling here.
+        if (event.key === "ArrowDown") {
+            event.preventDefault();
+            if (!this.open()) this.openList();
+            else this.items()[0]?.focus({ preventScroll: true });
+        } else if (event.key === "ArrowUp") {
+            event.preventDefault();
+            if (!this.open()) this.openList(true);
+            else {
+                const all = this.items();
+                all[all.length - 1]?.focus({ preventScroll: true });
+            }
+        }
+    }
+
+    private moveFocus(delta: number): void {
+        const all = this.items();
+        if (all.length === 0) return;
+        const i = all.indexOf(document.activeElement as HTMLElement);
+        // Clamp rather than wrap.
+        const next = Math.min(Math.max((i < 0 ? 0 : i) + delta, 0), all.length - 1);
+        all[next]?.focus({ preventScroll: true });
+    }
+
+    protected onListKeydown(event: KeyboardEvent): void {
+        switch (event.key) {
+            case "ArrowDown":
+                event.preventDefault();
+                this.moveFocus(1);
+                break;
+            case "ArrowUp":
+                event.preventDefault();
+                this.moveFocus(-1);
+                break;
+            case "Home": {
+                event.preventDefault();
+                this.items()[0]?.focus({ preventScroll: true });
+                break;
+            }
+            case "End": {
+                event.preventDefault();
+                const all = this.items();
+                all[all.length - 1]?.focus({ preventScroll: true });
+                break;
+            }
+            case "Escape":
+                event.preventDefault();
+                this.closeList();
+                break;
+            case "Tab":
+                // Tab leaves the control — but focus goes to the button FIRST,
+                // without cancelling the key. Hiding the list while one of its
+                // items has focus drops focus to <body>, and the browser then
+                // computes the default Tab move from the top of the document,
+                // so tabbing out of the open list teleported the user to the
+                // page's first tab stop. From the button, the default Tab
+                // lands exactly where leaving the picker should. The button
+                // always exists, so no detectChanges is needed before the
+                // focus move; guard the METHOD because jsdom-shaped hosts may
+                // not implement it.
+                this.buttonRef().focus?.({ preventScroll: true });
+                this.closeList(false);
+                break;
+            default:
+                break;
+        }
+    }
+
+    protected onRootFocusOut(event: FocusEvent): void {
+        const next = event.relatedTarget as Node | null;
+        if (next && this.rootRef().nativeElement.contains(next)) return;
+        this.closeList(false);
+    }
+
+    protected onDocumentClick(event: Event): void {
+        if (!this.open()) return;
+        const t = event.target as Node | null;
+        if (t && !this.rootRef().nativeElement.contains(t)) this.closeList(false);
+    }
 }

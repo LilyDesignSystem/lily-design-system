@@ -8,9 +8,9 @@ import { ChangeDetectionStrategy, Component, input, model } from "@angular/core"
  * Ships zero CSS; the consumer styles via the class hook.
  */
 @Component({
-  selector: "lily-drawer",
-  standalone: true,
-  template: `@if (open()) {
+    selector: "lily-drawer",
+    standalone: true,
+    template: `@if (open()) {
     <div
       class="drawer {{ className() }}"
       role="dialog"
@@ -21,20 +21,20 @@ import { ChangeDetectionStrategy, Component, input, model } from "@angular/core"
       (keydown)="onKeydown($event)"
     ><ng-content /></div>
   }`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Drawer {
-  readonly label = input<string>("");
-  /** Whether the panel is shown. Two-way bindable; Escape sets it to false. */
-  readonly open = model<boolean>(false);
-  /** Edge the panel attaches to; exposed as `data-side`. */
-  readonly side = input<"left" | "right" | "top" | "bottom">("left");
-  readonly className = input<string>("");
+    readonly label = input<string>("");
+    /** Whether the panel is shown. Two-way bindable; Escape sets it to false. */
+    readonly open = model<boolean>(false);
+    /** Edge the panel attaches to; exposed as `data-side`. */
+    readonly side = input<"left" | "right" | "top" | "bottom">("left");
+    readonly className = input<string>("");
 
-  protected onKeydown(event: KeyboardEvent): void {
-    if (event.key === "Escape") {
-      event.preventDefault();
-      this.open.set(false);
+    protected onKeydown(event: KeyboardEvent): void {
+        if (event.key === "Escape") {
+            event.preventDefault();
+            this.open.set(false);
+        }
     }
-  }
 }

@@ -16,28 +16,16 @@
     "target": "ES2022",
     "module": "ES2022",
     "useDefineForClassFields": false,
-    "lib": [
-      "ES2022",
-      "DOM"
-    ],
+    "lib": ["ES2022", "DOM"],
     "skipLibCheck": true,
-    "types": [
-      "node",
-      "vitest/globals"
-    ],
+    "types": ["node", "vitest/globals"],
     "paths": {
       "@lilydesignsystem/angular-headless": [
         "../lily-design-system-angular-headless/dist/types/lilydesignsystem-angular-headless.d.ts"
       ],
-      "@angular/*": [
-        "./node_modules/@angular/*"
-      ],
-      "rxjs": [
-        "./node_modules/rxjs"
-      ],
-      "rxjs/*": [
-        "./node_modules/rxjs/*"
-      ]
+      "@angular/*": ["./node_modules/@angular/*"],
+      "rxjs": ["./node_modules/rxjs"],
+      "rxjs/*": ["./node_modules/rxjs/*"]
     }
   },
   "angularCompilerOptions": {
@@ -46,12 +34,6 @@
     "strictInputAccessModifiers": true,
     "strictTemplates": true
   },
-  "include": [
-    "**/*.ts"
-  ],
-  "exclude": [
-    "**/*.spec.ts",
-    "node_modules",
-    "dist"
-  ]
+  "include": ["**/*.ts"],
+  "exclude": ["**/*.spec.ts", "node_modules", "dist"]
 }

@@ -3,11 +3,7 @@
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "lib": [
-      "ESNext",
-      "DOM",
-      "DOM.Iterable"
-    ],
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -16,9 +12,7 @@
     "declaration": true,
     "sourceMap": false,
     "paths": {
-      "@lilydesignsystem/svelte-headless": [
-        "../lily-design-system-svelte-headless/dist/index.d.ts"
-      ]
+      "@lilydesignsystem/svelte-headless": ["../lily-design-system-svelte-headless/dist/index.d.ts"]
     }
   },
   "exclude": [

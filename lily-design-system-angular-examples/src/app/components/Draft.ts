@@ -10,13 +10,13 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * CSS or JS can observe the draft's state.
  */
 @Component({
-  selector: "lily-draft",
-  standalone: true,
-  template: `<div class="draft {{ className() }}" [attr.aria-label]="label() || null" [attr.data-status]="status() || null"><ng-content /></div>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "lily-draft",
+    standalone: true,
+    template: `<div class="draft {{ className() }}" [attr.aria-label]="label() || null" [attr.data-status]="status() || null"><ng-content /></div>`,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Draft {
-  readonly label = input<string>("");
-  readonly status = input<string>("");
-  readonly className = input<string>("");
+    readonly label = input<string>("");
+    readonly status = input<string>("");
+    readonly className = input<string>("");
 }

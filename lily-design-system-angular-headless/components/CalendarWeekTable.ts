@@ -14,15 +14,15 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * element, so extra attributes land on the `lily-calendar-week-table` host.
  */
 @Component({
-  selector: "lily-calendar-week-table",
-  standalone: true,
-  template: `<table class="calendar-week-table {{ className() }}" role="grid" [attr.aria-label]="label()" data-view="week">@if (caption()) {<caption>{{ caption() }}</caption>}<ng-content /></table>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "lily-calendar-week-table",
+    standalone: true,
+    template: `<table class="calendar-week-table {{ className() }}" role="grid" [attr.aria-label]="label()" data-view="week">@if (caption()) {<caption>{{ caption() }}</caption>}<ng-content /></table>`,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CalendarWeekTable {
-  /** Accessible name describing the period shown. */
-  readonly label = input.required<string>();
-  /** Visible caption for the table. */
-  readonly caption = input<string | undefined>(undefined);
-  readonly className = input<string>("");
+    /** Accessible name describing the period shown. */
+    readonly label = input.required<string>();
+    /** Visible caption for the table. */
+    readonly caption = input<string | undefined>(undefined);
+    readonly className = input<string>("");
 }

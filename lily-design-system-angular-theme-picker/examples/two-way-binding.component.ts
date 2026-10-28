@@ -9,11 +9,11 @@ import { ChangeDetectionStrategy, Component, signal } from "@angular/core";
 import { ThemePicker } from "../theme-picker.component";
 
 @Component({
-  selector: "example-two-way-binding",
-  standalone: true,
-  imports: [ThemePicker],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: "example-two-way-binding",
+    standalone: true,
+    imports: [ThemePicker],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <lily-theme-picker
       label="Theme"
       themesUrl="/assets/themes/"
@@ -28,10 +28,10 @@ import { ThemePicker } from "../theme-picker.component";
   `,
 })
 export class TwoWayBindingExample {
-  theme = signal("");
+    theme = signal("");
 
-  trackThemeChange(slug: string): void {
-    // e.g. fetch("/api/preferences", { method: "POST", body: JSON.stringify({ theme: slug }) });
-    console.info("theme changed:", slug);
-  }
+    trackThemeChange(slug: string): void {
+        // e.g. fetch("/api/preferences", { method: "POST", body: JSON.stringify({ theme: slug }) });
+        console.info("theme changed:", slug);
+    }
 }

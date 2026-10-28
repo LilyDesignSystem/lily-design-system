@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { ResetInput } from "./ResetInput";
 
 const meta: Meta<ResetInput> = {
-  title: "Headless/ResetInput",
-  component: ResetInput,
-  tags: ["autodocs"],
+    title: "Headless/ResetInput",
+    component: ResetInput,
+    tags: ["autodocs"],
 };
 
 export default meta;

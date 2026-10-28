@@ -44,11 +44,11 @@ import { ChangeDetectionStrategy, Component, signal } from "@angular/core";
 import { TextSizePicker, TextSizePickerIcon } from "../text-size-picker.component";
 
 @Component({
-  selector: "example-custom-rendering",
-  standalone: true,
-  imports: [TextSizePicker, TextSizePickerIcon],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: "example-custom-rendering",
+    standalone: true,
+    imports: [TextSizePicker, TextSizePickerIcon],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <!-- 1. Inline SVG replacing the default glyph. -->
     <lily-text-size-picker label="Text size" [sizes]="sizes" [(value)]="size">
       <ng-template>
@@ -84,6 +84,6 @@ import { TextSizePicker, TextSizePickerIcon } from "../text-size-picker.componen
   `,
 })
 export class CustomRenderingExample {
-  readonly sizes = ["small", "medium", "large", "x-large"];
-  size = signal("");
+    readonly sizes = ["small", "medium", "large", "x-large"];
+    size = signal("");
 }

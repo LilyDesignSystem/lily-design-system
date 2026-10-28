@@ -8,15 +8,15 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * spread onto an inner element).
  */
 @Component({
-  selector: "lily-streaming-text",
-  standalone: true,
-  template: `<div class="streaming-text {{ className() }}" role="status" aria-live="polite" aria-atomic="true" [attr.aria-label]="label() || null" [attr.aria-busy]="streaming() ? 'true' : null" [attr.data-streaming]="streaming() ? 'true' : null"><ng-content /></div>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "lily-streaming-text",
+    standalone: true,
+    template: `<div class="streaming-text {{ className() }}" role="status" aria-live="polite" aria-atomic="true" [attr.aria-label]="label() || null" [attr.aria-busy]="streaming() ? 'true' : null" [attr.data-streaming]="streaming() ? 'true' : null"><ng-content /></div>`,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StreamingText {
-  /** Accessible name of the region. */
-  readonly label = input<string>("");
-  /** True while chunks are still arriving. */
-  readonly streaming = input<boolean>(false);
-  readonly className = input<string>("");
+    /** Accessible name of the region. */
+    readonly label = input<string>("");
+    /** True while chunks are still arriving. */
+    readonly streaming = input<boolean>(false);
+    readonly className = input<string>("");
 }

@@ -10,11 +10,11 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ThemePicker } from "../theme-picker.component";
 
 @Component({
-  selector: "example-persistence",
-  standalone: true,
-  imports: [ThemePicker],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: "example-persistence",
+    standalone: true,
+    imports: [ThemePicker],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <lily-theme-picker
       label="Theme"
       themesUrl="/assets/themes/"

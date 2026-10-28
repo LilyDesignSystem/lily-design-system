@@ -4,19 +4,19 @@ import { TestBed } from "@angular/core/testing";
 import { Avatar } from "./Avatar";
 
 describe("Avatar", () => {
-  test("renders the div root with the base class", () => {
-    const fixture = TestBed.createComponent(Avatar);
-    fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("div.avatar");
-    expect(el).toBeTruthy();
-  });
+    test("renders the div root with the base class", () => {
+        const fixture = TestBed.createComponent(Avatar);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("div.avatar");
+        expect(el).toBeTruthy();
+    });
 
-  test("appends the className input to the root class list", () => {
-    const fixture = TestBed.createComponent(Avatar);
-    fixture.componentRef.setInput("className", "extra");
-    fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("div.avatar");
-    expect(el).toBeTruthy();
-    expect(el.classList.contains("extra")).toBe(true);
-  });
+    test("appends the className input to the root class list", () => {
+        const fixture = TestBed.createComponent(Avatar);
+        fixture.componentRef.setInput("className", "extra");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("div.avatar");
+        expect(el).toBeTruthy();
+        expect(el.classList.contains("extra")).toBe(true);
+    });
 });

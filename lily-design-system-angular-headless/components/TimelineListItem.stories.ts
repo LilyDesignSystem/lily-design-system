@@ -5,14 +5,14 @@ import { TimelineListItem } from "./TimelineListItem";
 // only knows how to mount an element selector as its own tag, so this story supplies
 // the host <li> explicitly via `render`.
 const meta: Meta<TimelineListItem> = {
-  title: "Headless/TimelineListItem",
-  component: TimelineListItem,
-  tags: ["autodocs"],
-  render: (args) => ({
-    props: args,
-    moduleMetadata: { imports: [TimelineListItem] },
-    template: `<li lily-timeline-list-item [className]="className"></li>`,
-  }),
+    title: "Headless/TimelineListItem",
+    component: TimelineListItem,
+    tags: ["autodocs"],
+    render: (args) => ({
+        props: args,
+        moduleMetadata: { imports: [TimelineListItem] },
+        template: `<li lily-timeline-list-item [className]="className"></li>`,
+    }),
 };
 
 export default meta;

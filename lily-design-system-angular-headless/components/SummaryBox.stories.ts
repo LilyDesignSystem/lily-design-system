@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { SummaryBox } from "./SummaryBox";
 
 const meta: Meta<SummaryBox> = {
-  title: "Headless/SummaryBox",
-  component: SummaryBox,
-  tags: ["autodocs"],
+    title: "Headless/SummaryBox",
+    component: SummaryBox,
+    tags: ["autodocs"],
 };
 
 export default meta;

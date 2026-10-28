@@ -16,19 +16,19 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * cannot detect projected content), empty when nothing is projected.
  */
 @Component({
-  selector: "lily-heatmap-chart-with-year-of-days",
-  standalone: true,
-  template: `<figure class="heatmap-chart-with-year-of-days {{ className() }}" [attr.data-year]="year()" [attr.data-week-start]="weekStart()"><div class="heatmap-chart-with-year-of-days-graphic" role="img" [attr.aria-label]="label()" [attr.aria-describedby]="describedBy() || null"><ng-content /></div><div class="heatmap-chart-with-year-of-days-data-table"><ng-content select="[dataTable]" /></div></figure>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "lily-heatmap-chart-with-year-of-days",
+    standalone: true,
+    template: `<figure class="heatmap-chart-with-year-of-days {{ className() }}" [attr.data-year]="year()" [attr.data-week-start]="weekStart()"><div class="heatmap-chart-with-year-of-days-graphic" role="img" [attr.aria-label]="label()" [attr.aria-describedby]="describedBy() || null"><ng-content /></div><div class="heatmap-chart-with-year-of-days-data-table"><ng-content select="[dataTable]" /></div></figure>`,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeatmapChartWithYearOfDays {
-  /** Accessible name for the chart. */
-  readonly label = input.required<string>();
-  /** The calendar year shown (data-year). */
-  readonly year = input.required<number>();
-  /** First weekday row: 0 = Sunday … 6 = Saturday (data-week-start). No default: it is locale-dependent. */
-  readonly weekStart = input.required<number>();
-  /** Id of a description (aria-describedby on the image wrapper). */
-  readonly describedBy = input<string>("");
-  readonly className = input<string>("");
+    /** Accessible name for the chart. */
+    readonly label = input.required<string>();
+    /** The calendar year shown (data-year). */
+    readonly year = input.required<number>();
+    /** First weekday row: 0 = Sunday … 6 = Saturday (data-week-start). No default: it is locale-dependent. */
+    readonly weekStart = input.required<number>();
+    /** Id of a description (aria-describedby on the image wrapper). */
+    readonly describedBy = input<string>("");
+    readonly className = input<string>("");
 }

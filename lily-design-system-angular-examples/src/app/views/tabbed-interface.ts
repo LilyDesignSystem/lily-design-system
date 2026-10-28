@@ -4,10 +4,10 @@ import { TabBarButton } from "../components/TabBarButton";
 import { TabPanel } from "../components/TabPanel";
 
 @Component({
-  selector: "lily-tabbed-interface",
-  standalone: true,
-  imports: [TabBar, TabBarButton, TabPanel],
-  template: `
+    selector: "lily-tabbed-interface",
+    standalone: true,
+    imports: [TabBar, TabBarButton, TabPanel],
+    template: `
     <article class="page-wrapper">
       <h1>Tabbed interface</h1>
 
@@ -24,8 +24,8 @@ import { TabPanel } from "../components/TabPanel";
       }
     </article>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class TabbedInterfacePage {
-  protected active = signal<"overview" | "details">("overview");
+    protected active = signal<"overview" | "details">("overview");
 }

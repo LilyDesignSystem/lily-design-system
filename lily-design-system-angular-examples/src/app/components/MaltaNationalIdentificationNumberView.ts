@@ -8,16 +8,16 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * Ships zero CSS; the consumer styles via the class hook.
  */
 @Component({
-  selector: "lily-malta-national-identification-number-view",
-  standalone: true,
-  template: `<span class="malta-national-identification-number-view {{ className() }}" role="text" [attr.aria-label]="label() || null">{{ value() }}</span>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "lily-malta-national-identification-number-view",
+    standalone: true,
+    template: `<span class="malta-national-identification-number-view {{ className() }}" role="text" [attr.aria-label]="label() || null">{{ value() }}</span>`,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MaltaNationalIdentificationNumberView {
-  /** Optional accessible label override (aria-label). */
-  readonly label = input<string>("");
-  /** Extra CSS classes appended to the base class. */
-  readonly className = input<string>("");
-  /** The value to display read-only. */
-  readonly value = input<string>("");
+    /** Optional accessible label override (aria-label). */
+    readonly label = input<string>("");
+    /** Extra CSS classes appended to the base class. */
+    readonly className = input<string>("");
+    /** The value to display read-only. */
+    readonly value = input<string>("");
 }

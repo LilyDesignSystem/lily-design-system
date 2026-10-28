@@ -8,12 +8,12 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * Ships zero CSS; the consumer styles via the class hook.
  */
 @Component({
-  selector: "lily-gantt-table",
-  standalone: true,
-  template: `<table class="gantt-table {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></table>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "lily-gantt-table",
+    standalone: true,
+    template: `<table class="gantt-table {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></table>`,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GanttTable {
-  readonly label = input<string>("");
-  readonly className = input<string>("");
+    readonly label = input<string>("");
+    readonly className = input<string>("");
 }

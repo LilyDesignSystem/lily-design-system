@@ -24,11 +24,11 @@ import { LocalePicker, bcp47LocaleTag, localeName } from "../locale-picker.compo
 import { defaultLocaleLabels } from "../locales";
 
 @Component({
-  selector: "example-sibling-select",
-  standalone: true,
-  imports: [LocalePicker],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: "example-sibling-select",
+    standalone: true,
+    imports: [LocalePicker],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <!-- The hidden helper owns the lifecycle. -->
     <lily-locale-picker
       label="Language"
@@ -60,39 +60,39 @@ import { defaultLocaleLabels } from "../locales";
   `,
 })
 export class SiblingSelectExample {
-  readonly locales = [
-    "en",
-    "en_US",
-    "en_GB",
-    "fr",
-    "fr_CA",
-    "es",
-    "es_419",
-    "de",
-    "zh_Hans",
-    "zh_Hant",
-    "ja",
-    "ko",
-    "ar",
-    "he",
-    "fa",
-    "ur",
-    "hi",
-    "bn",
-    "pt",
-    "pt_BR",
-    "ru",
-    "tr",
-    "vi",
-  ];
+    readonly locales = [
+        "en",
+        "en_US",
+        "en_GB",
+        "fr",
+        "fr_CA",
+        "es",
+        "es_419",
+        "de",
+        "zh_Hans",
+        "zh_Hant",
+        "ja",
+        "ko",
+        "ar",
+        "he",
+        "fa",
+        "ur",
+        "hi",
+        "bn",
+        "pt",
+        "pt_BR",
+        "ru",
+        "tr",
+        "vi",
+    ];
 
-  locale = signal("en");
+    locale = signal("en");
 
-  tagFor(l: string): string {
-    return bcp47LocaleTag(l);
-  }
+    tagFor(l: string): string {
+        return bcp47LocaleTag(l);
+    }
 
-  labelFor(l: string): string {
-    return defaultLocaleLabels[l] ?? localeName(l);
-  }
+    labelFor(l: string): string {
+        return defaultLocaleLabels[l] ?? localeName(l);
+    }
 }

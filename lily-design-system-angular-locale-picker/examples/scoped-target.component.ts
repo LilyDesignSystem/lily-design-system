@@ -13,11 +13,11 @@ import { ChangeDetectionStrategy, Component, ElementRef, signal, viewChild } fro
 import { LocalePicker } from "../locale-picker.component";
 
 @Component({
-  selector: "example-scoped-target",
-  standalone: true,
-  imports: [LocalePicker],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: "example-scoped-target",
+    standalone: true,
+    imports: [LocalePicker],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <article>
       <h1>Document language stays English; panels switch independently.</h1>
 
@@ -50,9 +50,9 @@ import { LocalePicker } from "../locale-picker.component";
   `,
 })
 export class ScopedTargetExample {
-  panelA = viewChild<ElementRef<HTMLElement>>("panelA");
-  panelB = viewChild<ElementRef<HTMLElement>>("panelB");
+    panelA = viewChild<ElementRef<HTMLElement>>("panelA");
+    panelB = viewChild<ElementRef<HTMLElement>>("panelB");
 
-  aLocale = signal("en");
-  bLocale = signal("fr");
+    aLocale = signal("en");
+    bLocale = signal("fr");
 }

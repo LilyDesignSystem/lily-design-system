@@ -6,10 +6,10 @@ import { Tag } from "../components/Tag";
 import { Badge } from "../components/Badge";
 
 @Component({
-  selector: "lily-search-and-filter",
-  standalone: true,
-  imports: [SearchInput, Combobox, TagGroup, Tag, Badge],
-  template: `
+    selector: "lily-search-and-filter",
+    standalone: true,
+    imports: [SearchInput, Combobox, TagGroup, Tag, Badge],
+    template: `
     <article class="page-wrapper">
       <h1>Search and filter</h1>
 
@@ -23,9 +23,9 @@ import { Badge } from "../components/Badge";
       <p>You searched for: <strong>{{ query() || "(nothing)" }}</strong> <lily-badge>{{ count() }}</lily-badge></p>
     </article>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class SearchAndFilterPage {
-  protected query = signal("");
-  protected count = computed(() => (this.query() ? 1 : 0));
+    protected query = signal("");
+    protected count = computed(() => (this.query() ? 1 : 0));
 }

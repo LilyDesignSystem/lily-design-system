@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { SingaporeNationalRegistrationIdentityCardView } from "./SingaporeNationalRegistrationIdentityCardView";
 
 const meta: Meta<SingaporeNationalRegistrationIdentityCardView> = {
-  title: "Headless/SingaporeNationalRegistrationIdentityCardView",
-  component: SingaporeNationalRegistrationIdentityCardView,
-  tags: ["autodocs"],
+    title: "Headless/SingaporeNationalRegistrationIdentityCardView",
+    component: SingaporeNationalRegistrationIdentityCardView,
+    tags: ["autodocs"],
 };
 
 export default meta;

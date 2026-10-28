@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { StatusLight } from "./StatusLight";
 
 const meta: Meta<StatusLight> = {
-  title: "Headless/StatusLight",
-  component: StatusLight,
-  tags: ["autodocs"],
+    title: "Headless/StatusLight",
+    component: StatusLight,
+    tags: ["autodocs"],
 };
 
 export default meta;

@@ -1,8 +1,8 @@
 import { ApplicationConfig, provideZonelessChangeDetection } from "@angular/core";
 import {
-  provideRouter,
-  withEnabledBlockingInitialNavigation,
-  withDebugTracing,
+    provideRouter,
+    withEnabledBlockingInitialNavigation,
+    withDebugTracing,
 } from "@angular/router";
 import { routes } from "./app.routes";
 import { provideHttpClient, withFetch } from "@angular/common/http";
@@ -16,9 +16,9 @@ import { provideHttpClient, withFetch } from "@angular/common/http";
 // initial (lazy, file-based) route before the app reports stable, so SSR
 // prerender serialises the routed page content instead of an empty shell.
 export const config: ApplicationConfig = {
-  providers: [
-    provideZonelessChangeDetection(),
-    provideRouter(routes),
-    provideHttpClient(withFetch()),
-  ],
+    providers: [
+        provideZonelessChangeDetection(),
+        provideRouter(routes),
+        provideHttpClient(withFetch()),
+    ],
 };

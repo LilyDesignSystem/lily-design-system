@@ -8,12 +8,12 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * Ships zero CSS; the consumer styles via the class hook.
  */
 @Component({
-  selector: "lily-header",
-  standalone: true,
-  template: `<header class="header {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></header>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "lily-header",
+    standalone: true,
+    template: `<header class="header {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></header>`,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Header {
-  readonly label = input<string>("");
-  readonly className = input<string>("");
+    readonly label = input<string>("");
+    readonly className = input<string>("");
 }

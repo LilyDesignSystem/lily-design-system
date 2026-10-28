@@ -5,14 +5,14 @@ import { GanttTableTbody } from "./GanttTableTbody";
 // only knows how to mount an element selector as its own tag, so this story supplies
 // the host <tbody> explicitly via `render`.
 const meta: Meta<GanttTableTbody> = {
-  title: "Headless/GanttTableTbody",
-  component: GanttTableTbody,
-  tags: ["autodocs"],
-  render: (args) => ({
-    props: args,
-    moduleMetadata: { imports: [GanttTableTbody] },
-    template: `<tbody lily-gantt-table-tbody [className]="className"></tbody>`,
-  }),
+    title: "Headless/GanttTableTbody",
+    component: GanttTableTbody,
+    tags: ["autodocs"],
+    render: (args) => ({
+        props: args,
+        moduleMetadata: { imports: [GanttTableTbody] },
+        template: `<tbody lily-gantt-table-tbody [className]="className"></tbody>`,
+    }),
 };
 
 export default meta;

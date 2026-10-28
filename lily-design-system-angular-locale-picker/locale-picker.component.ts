@@ -1,20 +1,20 @@
 import { NgTemplateOutlet } from "@angular/common";
 import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  computed,
-  contentChild,
-  Directive,
-  effect,
-  ElementRef,
-  inject,
-  input,
-  model,
-  output,
-  signal,
-  TemplateRef,
-  viewChild,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    computed,
+    contentChild,
+    Directive,
+    effect,
+    ElementRef,
+    inject,
+    input,
+    model,
+    output,
+    signal,
+    TemplateRef,
+    viewChild,
 } from "@angular/core";
 import { IconButton, Listbox } from "@lilydesignsystem/angular-headless";
 
@@ -33,12 +33,12 @@ import { defaultLocaleLabels, RTL_LANGUAGE_TAGS, RTL_SCRIPT_SUBTAGS } from "./lo
 
 /** Context passed to a custom icon `<ng-template>` (the button icon). */
 export type ChildArgs = {
-  /** Currently selected locale code (consumer form, not BCP 47-normalised). */
-  value: string;
-  /** Is the listbox open? */
-  open: boolean;
-  /** Resolve a locale code to its display label. */
-  labelFor: (locale: string) => string;
+    /** Currently selected locale code (consumer form, not BCP 47-normalised). */
+    value: string;
+    /** Is the listbox open? */
+    open: boolean;
+    /** Resolve a locale code to its display label. */
+    labelFor: (locale: string) => string;
 };
 
 // ---------------------------------------------------------------
@@ -47,23 +47,23 @@ export type ChildArgs = {
 
 /** Convert a locale code to its BCP 47 hyphen form. */
 export function bcp47LocaleTag(locale: string): string {
-  return locale.replace(/_/g, "-");
+    return locale.replace(/_/g, "-");
 }
 
 /** Detect whether a locale is right-to-left. See spec/index.md §5.6. */
 export function isRtlLocale(locale: string): boolean {
-  if (!locale) return false;
-  const parts = locale.split(/[-_]/);
-  for (const part of parts) {
-    if (RTL_SCRIPT_SUBTAGS.has(part.toLowerCase())) return true;
-  }
-  const base = parts[0]?.toLowerCase() ?? "";
-  return RTL_LANGUAGE_TAGS.has(base);
+    if (!locale) return false;
+    const parts = locale.split(/[-_]/);
+    for (const part of parts) {
+        if (RTL_SCRIPT_SUBTAGS.has(part.toLowerCase())) return true;
+    }
+    const base = parts[0]?.toLowerCase() ?? "";
+    return RTL_LANGUAGE_TAGS.has(base);
 }
 
 /** Resolve a locale code to its English name via the built-in table. */
 export function localeName(locale: string): string {
-  return defaultLocaleLabels[locale] ?? locale;
+    return defaultLocaleLabels[locale] ?? locale;
 }
 
 /**
@@ -85,58 +85,59 @@ const ENDONYM_OVERRIDES: Record<string, string> = { wuu: "吴语", pcm: "Naijá"
  * of failing, and an echo is not a name.
  */
 export function localeEndonym(locale: string): string {
-  try {
-    const tag = bcp47LocaleTag(locale);
-    const override = ENDONYM_OVERRIDES[tag.split("-")[0].toLowerCase()];
-    if (override) return override;
-    const dn = new Intl.DisplayNames([tag], { type: "language" });
-    const found = dn.of(tag) ?? "";
-    return found && found.toLowerCase() !== tag.toLowerCase() ? found : "";
-  } catch {
-    return "";
-  }
+    try {
+        const tag = bcp47LocaleTag(locale);
+        const override = ENDONYM_OVERRIDES[tag.split("-")[0].toLowerCase()];
+        if (override) return override;
+        const dn = new Intl.DisplayNames([tag], { type: "language" });
+        const found = dn.of(tag) ?? "";
+        return found && found.toLowerCase() !== tag.toLowerCase() ? found : "";
+    } catch {
+        return "";
+    }
 }
 
 /** Opportunistic Intl.DisplayNames lookup; never throws. */
 function intlDisplayName(locale: string): string {
-  try {
-    const env = typeof navigator !== "undefined" && navigator.language ? navigator.language : "en";
-    const dn = new Intl.DisplayNames([env], { type: "language" });
-    return dn.of(bcp47LocaleTag(locale)) ?? "";
-  } catch {
-    return "";
-  }
+    try {
+        const env =
+            typeof navigator !== "undefined" && navigator.language ? navigator.language : "en";
+        const dn = new Intl.DisplayNames([env], { type: "language" });
+        return dn.of(bcp47LocaleTag(locale)) ?? "";
+    } catch {
+        return "";
+    }
 }
 
 /** Match a navigator preference against a supported-locales list. */
 export function matchNavigatorLanguage(
-  navLangs: readonly string[],
-  locales: readonly string[],
+    navLangs: readonly string[],
+    locales: readonly string[],
 ): string {
-  const lc = (s: string) => s.toLowerCase().replace(/_/g, "-");
-  const localesLc = locales.map(lc);
-  for (const raw of navLangs) {
-    const nav = lc(raw);
+    const lc = (s: string) => s.toLowerCase().replace(/_/g, "-");
+    const localesLc = locales.map(lc);
+    for (const raw of navLangs) {
+        const nav = lc(raw);
 
-    // 1. Exact match (treating - and _ as equivalent).
-    const exactIndex = localesLc.indexOf(nav);
-    if (exactIndex !== -1) return locales[exactIndex];
+        // 1. Exact match (treating - and _ as equivalent).
+        const exactIndex = localesLc.indexOf(nav);
+        if (exactIndex !== -1) return locales[exactIndex];
 
-    // 2. Language-only match.
-    const navBase = nav.split("-")[0];
-    for (let i = 0; i < locales.length; i++) {
-      const base = localesLc[i].split("-")[0];
-      if (base === navBase) return locales[i];
+        // 2. Language-only match.
+        const navBase = nav.split("-")[0];
+        for (let i = 0; i < locales.length; i++) {
+            const base = localesLc[i].split("-")[0];
+            if (base === navBase) return locales[i];
+        }
     }
-  }
-  return "";
+    return "";
 }
 
 let uid = 0;
 /** Stable per-instance id prefix; SSR-safe (no Math.random / Date.now). */
 export function nextLocalePickerId(): string {
-  uid += 1;
-  return `locale-picker-${uid}`;
+    uid += 1;
+    return `locale-picker-${uid}`;
 }
 
 /**
@@ -153,16 +154,16 @@ export function nextLocalePickerId(): string {
  * for type-checking and readability, not for matching.
  */
 @Directive({
-  selector: "ng-template[lilyLocalePickerIcon]",
-  standalone: true,
+    selector: "ng-template[lilyLocalePickerIcon]",
+    standalone: true,
 })
 export class LocalePickerIcon {
-  static ngTemplateContextGuard(
-    _dir: LocalePickerIcon,
-    _ctx: unknown,
-  ): _ctx is ChildArgs & { $implicit: ChildArgs } {
-    return true;
-  }
+    static ngTemplateContextGuard(
+        _dir: LocalePickerIcon,
+        _ctx: unknown,
+    ): _ctx is ChildArgs & { $implicit: ChildArgs } {
+        return true;
+    }
 }
 
 /**
@@ -174,14 +175,14 @@ export class LocalePickerIcon {
  * for the full contract.
  */
 @Component({
-  selector: "lily-locale-picker",
-  standalone: true,
-  imports: [NgTemplateOutlet, IconButton, Listbox],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    "(document:click)": "onDocumentClick($event)",
-  },
-  template: `
+    selector: "lily-locale-picker",
+    standalone: true,
+    imports: [NgTemplateOutlet, IconButton, Listbox],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: {
+        "(document:click)": "onDocumentClick($event)",
+    },
+    template: `
     <div
       #rootEl
       class="locale-picker {{ className() }}"
@@ -273,318 +274,321 @@ export class LocalePickerIcon {
   `,
 })
 export class LocalePicker {
-  readonly label = input.required<string>();
-  readonly locales = input.required<string[]>();
-  readonly value = model<string>("");
-  readonly defaultValue = input<string>("");
-  readonly storageKey = input<string>("");
-  readonly detectFromNavigator = input<boolean>(false);
-  readonly name = input<string>("locale");
-  readonly target = input<HTMLElement | null>(null);
-  readonly applyDir = input<boolean>(true);
-  readonly localeLabels = input<Record<string, string>>({});
-  readonly className = input<string>("");
-  readonly localeChange = output<string>();
+    readonly label = input.required<string>();
+    readonly locales = input.required<string[]>();
+    readonly value = model<string>("");
+    readonly defaultValue = input<string>("");
+    readonly storageKey = input<string>("");
+    readonly detectFromNavigator = input<boolean>(false);
+    readonly name = input<string>("locale");
+    readonly target = input<HTMLElement | null>(null);
+    readonly applyDir = input<boolean>(true);
+    readonly localeLabels = input<Record<string, string>>({});
+    readonly className = input<string>("");
+    readonly localeChange = output<string>();
 
-  /** Projected icon template; replaces the default icon when supplied. */
-  protected readonly iconTemplate = contentChild(TemplateRef);
+    /** Projected icon template; replaces the default icon when supplied. */
+    protected readonly iconTemplate = contentChild(TemplateRef);
 
-  private readonly rootRef = viewChild.required<ElementRef<HTMLDivElement>>("rootEl");
-  // Angular resolves a template-ref-variable on a component tag to the
-  // component INSTANCE by default (not its ElementRef) — exactly what's
-  // needed to call the headless components' own public `focus()` methods.
-  private readonly buttonRef = viewChild.required<IconButton>("buttonEl");
-  private readonly listRef = viewChild.required<Listbox>("listEl");
+    private readonly rootRef = viewChild.required<ElementRef<HTMLDivElement>>("rootEl");
+    // Angular resolves a template-ref-variable on a component tag to the
+    // component INSTANCE by default (not its ElementRef) — exactly what's
+    // needed to call the headless components' own public `focus()` methods.
+    private readonly buttonRef = viewChild.required<IconButton>("buttonEl");
+    private readonly listRef = viewChild.required<Listbox>("listEl");
 
-  private readonly baseId = nextLocalePickerId();
-  protected readonly listId = `${this.baseId}-list`;
+    private readonly baseId = nextLocalePickerId();
+    protected readonly listId = `${this.baseId}-list`;
 
-  /** Is the popup open? Two-way bindable: `[(open)]`; `openChange` fires for each change. */
-  readonly open = model<boolean>(false);
-  /** Disables the button; an open popup closes. */
-  readonly disabled = input<boolean>(false);
-  private readonly closeWhenDisabled = effect(() => {
-    if (this.disabled() && this.open()) this.open.set(false);
-  });
+    /** Is the popup open? Two-way bindable: `[(open)]`; `openChange` fires for each change. */
+    readonly open = model<boolean>(false);
+    /** Disables the button; an open popup closes. */
+    readonly disabled = input<boolean>(false);
+    private readonly closeWhenDisabled = effect(() => {
+        if (this.disabled() && this.open()) this.open.set(false);
+    });
 
-  // Tooltip: shown while the pointer is over the button or the tooltip
-  // itself (hoverable, WCAG 1.4.13) or while the button has keyboard
-  // focus; Escape dismisses it without moving focus; never shown while
-  // the popup is open, since the popup then explains the control.
-  protected readonly tooltipId = `${this.baseId}-tooltip`;
-  protected readonly hoverButton = signal(false);
-  protected readonly hoverTooltip = signal(false);
-  protected readonly focusButton = signal(false);
-  protected readonly dismissed = signal(false);
-  protected readonly tooltipVisible = computed(
-    () =>
-      !this.open() &&
-      !this.dismissed() &&
-      (this.hoverButton() || this.hoverTooltip() || this.focusButton()),
-  );
+    // Tooltip: shown while the pointer is over the button or the tooltip
+    // itself (hoverable, WCAG 1.4.13) or while the button has keyboard
+    // focus; Escape dismisses it without moving focus; never shown while
+    // the popup is open, since the popup then explains the control.
+    protected readonly tooltipId = `${this.baseId}-tooltip`;
+    protected readonly hoverButton = signal(false);
+    protected readonly hoverTooltip = signal(false);
+    protected readonly focusButton = signal(false);
+    protected readonly dismissed = signal(false);
+    protected readonly tooltipVisible = computed(
+        () =>
+            !this.open() &&
+            !this.dismissed() &&
+            (this.hoverButton() || this.hoverTooltip() || this.focusButton()),
+    );
 
-  protected onTooltipButtonEnter(): void {
-    this.hoverButton.set(true);
-    this.dismissed.set(false);
-  }
-
-  protected onTooltipButtonFocusIn(): void {
-    // Keyboard focus only: a mouse click also focuses the button in
-    // Chromium, and the tooltip should not stick after a click.
-    try {
-      this.focusButton.set(this.buttonRef().element?.matches(":focus-visible") ?? false);
-    } catch {
-      this.focusButton.set(true); // engine without :focus-visible — err towards showing
+    protected onTooltipButtonEnter(): void {
+        this.hoverButton.set(true);
+        this.dismissed.set(false);
     }
-  }
 
-  protected onTooltipButtonFocusOut(): void {
-    this.focusButton.set(false);
-    this.dismissed.set(false);
-  }
+    protected onTooltipButtonFocusIn(): void {
+        // Keyboard focus only: a mouse click also focuses the button in
+        // Chromium, and the tooltip should not stick after a click.
+        try {
+            this.focusButton.set(this.buttonRef().element?.matches(":focus-visible") ?? false);
+        } catch {
+            this.focusButton.set(true); // engine without :focus-visible — err towards showing
+        }
+    }
 
-  protected onTooltipKeydown(event: KeyboardEvent): void {
-    if (event.key === "Escape" && this.tooltipVisible()) this.dismissed.set(true);
-  }
+    protected onTooltipButtonFocusOut(): void {
+        this.focusButton.set(false);
+        this.dismissed.set(false);
+    }
 
-  // WCAG 1.4.13 "dismissable": while the tooltip is visible, Escape works
-  // wherever focus is (hover-only tooltips have focus elsewhere). The
-  // listener exists only while visible; the effect cleanup removes it on
-  // hide and on destroy. No preventDefault/stopPropagation, focus untouched.
-  private readonly tooltipEscapeListener = effect((onCleanup) => {
-    if (!this.tooltipVisible() || typeof document === "undefined") return;
-    const onKey = (event: KeyboardEvent): void => {
-      if (event.key === "Escape") this.dismissed.set(true);
-    };
-    document.addEventListener("keydown", onKey);
-    onCleanup(() => document.removeEventListener("keydown", onKey));
-  });
-  protected readonly activeIndex = signal(-1);
+    protected onTooltipKeydown(event: KeyboardEvent): void {
+        if (event.key === "Escape" && this.tooltipVisible()) this.dismissed.set(true);
+    }
 
-  protected readonly childContext = computed(() => {
-    const args: ChildArgs = {
-      value: this.value(),
-      open: this.open(),
-      labelFor: (locale: string) => this.labelFor(locale),
-    };
-    return { $implicit: args, ...args };
-  });
+    // WCAG 1.4.13 "dismissable": while the tooltip is visible, Escape works
+    // wherever focus is (hover-only tooltips have focus elsewhere). The
+    // listener exists only while visible; the effect cleanup removes it on
+    // hide and on destroy. No preventDefault/stopPropagation, focus untouched.
+    private readonly tooltipEscapeListener = effect((onCleanup) => {
+        if (!this.tooltipVisible() || typeof document === "undefined") return;
+        const onKey = (event: KeyboardEvent): void => {
+            if (event.key === "Escape") this.dismissed.set(true);
+        };
+        document.addEventListener("keydown", onKey);
+        onCleanup(() => document.removeEventListener("keydown", onKey));
+    });
+    protected readonly activeIndex = signal(-1);
 
-  private initialised = false;
+    protected readonly childContext = computed(() => {
+        const args: ChildArgs = {
+            value: this.value(),
+            open: this.open(),
+            labelFor: (locale: string) => this.labelFor(locale),
+        };
+        return { $implicit: args, ...args };
+    });
 
-  constructor() {
-    effect(() => {
-      const current = this.value();
+    private initialised = false;
 
-      if (!this.initialised) {
-        this.initialised = true;
-        let initial = current;
+    constructor() {
+        effect(() => {
+            const current = this.value();
+
+            if (!this.initialised) {
+                this.initialised = true;
+                let initial = current;
+
+                const sk = this.storageKey();
+                if (!initial && sk) {
+                    try {
+                        initial =
+                            (typeof localStorage !== "undefined"
+                                ? localStorage.getItem(sk)
+                                : null) ?? "";
+                    } catch {
+                        // ignore privacy errors
+                    }
+                }
+
+                if (!initial && this.detectFromNavigator() && typeof navigator !== "undefined") {
+                    const navLangs =
+                        navigator.languages && navigator.languages.length > 0
+                            ? Array.from(navigator.languages)
+                            : navigator.language
+                              ? [navigator.language]
+                              : [];
+                    initial = matchNavigatorLanguage(navLangs, this.locales());
+                }
+
+                if (!initial) {
+                    const locales = this.locales();
+                    const dv = this.defaultValue();
+                    initial = dv || (locales.includes("en") ? "en" : locales[0]) || "";
+                }
+
+                if (initial && initial !== current) {
+                    this.value.set(initial);
+                    return;
+                }
+            }
+
+            if (current) this.applyLocale(current);
+        });
+    }
+
+    protected optionId(index: number): string {
+        return `${this.baseId}-option-${index}`;
+    }
+
+    labelFor(locale: string): string {
+        const labels = this.localeLabels();
+        if (locale in labels) return labels[locale];
+        // Endonym first: a language menu names each language in itself,
+        // because the user who needs the menu is the one who cannot read
+        // the page's language. The English table and the environment
+        // lookup are fallbacks for runtimes without DisplayNames data.
+        const endonym = localeEndonym(locale);
+        if (endonym) return endonym;
+        if (locale in defaultLocaleLabels) return defaultLocaleLabels[locale];
+        const intl = intlDisplayName(locale);
+        if (intl) return intl;
+        return locale;
+    }
+
+    tagFor(locale: string): string {
+        return bcp47LocaleTag(locale);
+    }
+
+    /**
+     * The `lang` attribute for one option — a claim about the language
+     * of the option's TEXT, made only when the text is the endonym we
+     * derived ourselves. A consumer label or the English fallback is in
+     * whatever language the consumer's UI speaks, and claiming otherwise
+     * sends a screen reader's speech engine to the wrong voice: the
+     * English word "Arabic" read out by an Arabic synthesizer.
+     */
+    optionLang(locale: string): string | null {
+        if (locale in this.localeLabels()) return null;
+        return localeEndonym(locale) ? bcp47LocaleTag(locale) : null;
+    }
+
+    // ---------------------------------------------------------------
+    // Open / close
+    // ---------------------------------------------------------------
+
+    /** Under zoneless change detection the signal write that un-hides the
+     * list has not reached the DOM when a microtask runs, so focusing the
+     * still-hidden list fails silently and Escape lands on the button.
+     * Flushing detection first is the Angular equivalent of Svelte's
+     * synchronous update (same fix the date-time-picker port recorded). */
+    private readonly cdr = inject(ChangeDetectorRef);
+
+    protected toggle(): void {
+        if (this.open()) this.closeList();
+        else this.openList();
+    }
+
+    /** Open the listbox, activating `startIndex` (default: the selection). */
+    openList(startIndex?: number): void {
+        const selected = this.locales().indexOf(this.value());
+        // An empty list has no option to activate; -1 keeps
+        // aria-activedescendant off rather than pointing at an id that
+        // does not exist.
+        this.activeIndex.set(
+            this.locales().length === 0 ? -1 : (startIndex ?? (selected >= 0 ? selected : 0)),
+        );
+        this.open.set(true);
+        // Focus moves to the listbox; the active option is conveyed via
+        // aria-activedescendant, per the APG listbox pattern.
+        this.cdr.detectChanges();
+        queueMicrotask(() => {
+            this.listRef().focus({ preventScroll: true });
+            this.scrollActiveIntoView();
+        });
+    }
+
+    /** Close the listbox; `refocus` returns focus to the button. */
+    closeList(refocus = true): void {
+        if (!this.open()) return;
+        this.open.set(false);
+        this.activeIndex.set(-1);
+        if (refocus) queueMicrotask(() => this.buttonRef().focus({ preventScroll: true }));
+    }
+
+    protected choose(index: number): void {
+        const code = this.locales()[index];
+        if (code) this.value.set(code);
+        this.closeList();
+    }
+
+    private scrollActiveIntoView(): void {
+        const i = this.activeIndex();
+        if (i < 0) return;
+        // getElementById rather than reaching into the composed Listbox's
+        // DOM: Listbox exposes behaviour (focus()) and state (activeIndex),
+        // not its rendered children, the same "consumer owns the option
+        // elements" division of responsibility the headless component
+        // documents for itself.
+        const el = document.getElementById(this.optionId(i));
+        // jsdom does not implement scrollIntoView; call it only if present.
+        el?.scrollIntoView?.({ block: "nearest" });
+    }
+
+    // Arrow/Home/End/PageUp/PageDown/typeahead/Escape/Tab keyboard handling
+    // inside the open list is owned by the composed `lily-listbox`'s
+    // `navigation="active-descendant"` mode (see
+    // @lilydesignsystem/angular-headless); this component only decides
+    // what open/close/choose/scroll mean, and keeps the highlighted option
+    // in view whenever activeIndex changes.
+    private readonly scrollOnActiveIndexChange = effect(() => {
+        this.activeIndex();
+        this.scrollActiveIntoView();
+    });
+
+    // ---------------------------------------------------------------
+    // Keyboard
+    // ---------------------------------------------------------------
+
+    protected onButtonKeydown(event: KeyboardEvent): void {
+        switch (event.key) {
+            case "ArrowDown":
+            case "Enter":
+            case " ":
+                event.preventDefault();
+                this.openList();
+                break;
+            case "ArrowUp":
+                event.preventDefault();
+                this.openList(this.locales().length - 1);
+                break;
+        }
+    }
+
+    /** `lily-listbox` Tab handling never prevents the key — focus goes to
+     * the button FIRST so the browser's default Tab move computes from
+     * the picker's position rather than from <body> (hiding the focused
+     * list drops focus there, and the browser would otherwise compute the
+     * default Tab move from the top of the document). */
+    protected onListTabOut(): void {
+        this.buttonRef().focus({ preventScroll: true });
+        this.closeList(false);
+    }
+
+    protected onRootFocusOut(event: FocusEvent): void {
+        const next = event.relatedTarget as Node | null;
+        if (next && this.rootRef().nativeElement.contains(next)) return;
+        this.closeList(false);
+    }
+
+    protected onDocumentClick(event: Event): void {
+        if (!this.open()) return;
+        const t = event.target as Node | null;
+        if (t && !this.rootRef().nativeElement.contains(t)) this.closeList(false);
+    }
+
+    // ---------------------------------------------------------------
+    // Apply
+    // ---------------------------------------------------------------
+
+    private applyLocale(code: string): void {
+        if (typeof document === "undefined" || !code) return;
+        const root = this.target() ?? document.documentElement;
+        root.setAttribute("lang", bcp47LocaleTag(code));
+        if (this.applyDir()) {
+            root.setAttribute("dir", isRtlLocale(code) ? "rtl" : "ltr");
+        }
 
         const sk = this.storageKey();
-        if (!initial && sk) {
-          try {
-            initial = (typeof localStorage !== "undefined" ? localStorage.getItem(sk) : null) ?? "";
-          } catch {
-            // ignore privacy errors
-          }
+        if (sk) {
+            try {
+                localStorage.setItem(sk, code);
+            } catch {
+                // ignore quota / privacy errors
+            }
         }
-
-        if (!initial && this.detectFromNavigator() && typeof navigator !== "undefined") {
-          const navLangs =
-            navigator.languages && navigator.languages.length > 0
-              ? Array.from(navigator.languages)
-              : navigator.language
-                ? [navigator.language]
-                : [];
-          initial = matchNavigatorLanguage(navLangs, this.locales());
-        }
-
-        if (!initial) {
-          const locales = this.locales();
-          const dv = this.defaultValue();
-          initial = dv || (locales.includes("en") ? "en" : locales[0]) || "";
-        }
-
-        if (initial && initial !== current) {
-          this.value.set(initial);
-          return;
-        }
-      }
-
-      if (current) this.applyLocale(current);
-    });
-  }
-
-  protected optionId(index: number): string {
-    return `${this.baseId}-option-${index}`;
-  }
-
-  labelFor(locale: string): string {
-    const labels = this.localeLabels();
-    if (locale in labels) return labels[locale];
-    // Endonym first: a language menu names each language in itself,
-    // because the user who needs the menu is the one who cannot read
-    // the page's language. The English table and the environment
-    // lookup are fallbacks for runtimes without DisplayNames data.
-    const endonym = localeEndonym(locale);
-    if (endonym) return endonym;
-    if (locale in defaultLocaleLabels) return defaultLocaleLabels[locale];
-    const intl = intlDisplayName(locale);
-    if (intl) return intl;
-    return locale;
-  }
-
-  tagFor(locale: string): string {
-    return bcp47LocaleTag(locale);
-  }
-
-  /**
-   * The `lang` attribute for one option — a claim about the language
-   * of the option's TEXT, made only when the text is the endonym we
-   * derived ourselves. A consumer label or the English fallback is in
-   * whatever language the consumer's UI speaks, and claiming otherwise
-   * sends a screen reader's speech engine to the wrong voice: the
-   * English word "Arabic" read out by an Arabic synthesizer.
-   */
-  optionLang(locale: string): string | null {
-    if (locale in this.localeLabels()) return null;
-    return localeEndonym(locale) ? bcp47LocaleTag(locale) : null;
-  }
-
-  // ---------------------------------------------------------------
-  // Open / close
-  // ---------------------------------------------------------------
-
-  /** Under zoneless change detection the signal write that un-hides the
-   * list has not reached the DOM when a microtask runs, so focusing the
-   * still-hidden list fails silently and Escape lands on the button.
-   * Flushing detection first is the Angular equivalent of Svelte's
-   * synchronous update (same fix the date-time-picker port recorded). */
-  private readonly cdr = inject(ChangeDetectorRef);
-
-  protected toggle(): void {
-    if (this.open()) this.closeList();
-    else this.openList();
-  }
-
-  /** Open the listbox, activating `startIndex` (default: the selection). */
-  openList(startIndex?: number): void {
-    const selected = this.locales().indexOf(this.value());
-    // An empty list has no option to activate; -1 keeps
-    // aria-activedescendant off rather than pointing at an id that
-    // does not exist.
-    this.activeIndex.set(
-      this.locales().length === 0 ? -1 : (startIndex ?? (selected >= 0 ? selected : 0)),
-    );
-    this.open.set(true);
-    // Focus moves to the listbox; the active option is conveyed via
-    // aria-activedescendant, per the APG listbox pattern.
-    this.cdr.detectChanges();
-    queueMicrotask(() => {
-      this.listRef().focus({ preventScroll: true });
-      this.scrollActiveIntoView();
-    });
-  }
-
-  /** Close the listbox; `refocus` returns focus to the button. */
-  closeList(refocus = true): void {
-    if (!this.open()) return;
-    this.open.set(false);
-    this.activeIndex.set(-1);
-    if (refocus) queueMicrotask(() => this.buttonRef().focus({ preventScroll: true }));
-  }
-
-  protected choose(index: number): void {
-    const code = this.locales()[index];
-    if (code) this.value.set(code);
-    this.closeList();
-  }
-
-  private scrollActiveIntoView(): void {
-    const i = this.activeIndex();
-    if (i < 0) return;
-    // getElementById rather than reaching into the composed Listbox's
-    // DOM: Listbox exposes behaviour (focus()) and state (activeIndex),
-    // not its rendered children, the same "consumer owns the option
-    // elements" division of responsibility the headless component
-    // documents for itself.
-    const el = document.getElementById(this.optionId(i));
-    // jsdom does not implement scrollIntoView; call it only if present.
-    el?.scrollIntoView?.({ block: "nearest" });
-  }
-
-  // Arrow/Home/End/PageUp/PageDown/typeahead/Escape/Tab keyboard handling
-  // inside the open list is owned by the composed `lily-listbox`'s
-  // `navigation="active-descendant"` mode (see
-  // @lilydesignsystem/angular-headless); this component only decides
-  // what open/close/choose/scroll mean, and keeps the highlighted option
-  // in view whenever activeIndex changes.
-  private readonly scrollOnActiveIndexChange = effect(() => {
-    this.activeIndex();
-    this.scrollActiveIntoView();
-  });
-
-  // ---------------------------------------------------------------
-  // Keyboard
-  // ---------------------------------------------------------------
-
-  protected onButtonKeydown(event: KeyboardEvent): void {
-    switch (event.key) {
-      case "ArrowDown":
-      case "Enter":
-      case " ":
-        event.preventDefault();
-        this.openList();
-        break;
-      case "ArrowUp":
-        event.preventDefault();
-        this.openList(this.locales().length - 1);
-        break;
+        this.localeChange.emit(code);
     }
-  }
-
-  /** `lily-listbox` Tab handling never prevents the key — focus goes to
-   * the button FIRST so the browser's default Tab move computes from
-   * the picker's position rather than from <body> (hiding the focused
-   * list drops focus there, and the browser would otherwise compute the
-   * default Tab move from the top of the document). */
-  protected onListTabOut(): void {
-    this.buttonRef().focus({ preventScroll: true });
-    this.closeList(false);
-  }
-
-  protected onRootFocusOut(event: FocusEvent): void {
-    const next = event.relatedTarget as Node | null;
-    if (next && this.rootRef().nativeElement.contains(next)) return;
-    this.closeList(false);
-  }
-
-  protected onDocumentClick(event: Event): void {
-    if (!this.open()) return;
-    const t = event.target as Node | null;
-    if (t && !this.rootRef().nativeElement.contains(t)) this.closeList(false);
-  }
-
-  // ---------------------------------------------------------------
-  // Apply
-  // ---------------------------------------------------------------
-
-  private applyLocale(code: string): void {
-    if (typeof document === "undefined" || !code) return;
-    const root = this.target() ?? document.documentElement;
-    root.setAttribute("lang", bcp47LocaleTag(code));
-    if (this.applyDir()) {
-      root.setAttribute("dir", isRtlLocale(code) ? "rtl" : "ltr");
-    }
-
-    const sk = this.storageKey();
-    if (sk) {
-      try {
-        localStorage.setItem(sk, code);
-      } catch {
-        // ignore quota / privacy errors
-      }
-    }
-    this.localeChange.emit(code);
-  }
 }

@@ -8,9 +8,9 @@ import { ChangeDetectionStrategy, Component, input, model } from "@angular/core"
  * Ships zero CSS; the consumer styles via the class hook.
  */
 @Component({
-  selector: "lily-cymru-rhif-y-gwasanaeth-iechyd-gwladol-input",
-  standalone: true,
-  template: `<input
+    selector: "lily-cymru-rhif-y-gwasanaeth-iechyd-gwladol-input",
+    standalone: true,
+    template: `<input
       class="cymru-rhif-y-gwasanaeth-iechyd-gwladol-input {{ className() }}"
       type="text"
       [attr.aria-label]="label() || null"
@@ -20,17 +20,17 @@ import { ChangeDetectionStrategy, Component, input, model } from "@angular/core"
       [disabled]="disabled()"
       [required]="required()"
     />`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CymruRhifYGwasanaethIechydGwladolInput {
-  /** Accessible label, applied to aria-label. */
-  readonly label = input<string>("");
-  /** Extra CSS classes appended to the base class. */
-  readonly className = input<string>("");
-  /** Bindable input value. */
-  readonly value = model<string>("");
-  /** Whether the input is required for form submission. */
-  readonly required = input<boolean>(false);
-  /** Whether the input is disabled. */
-  readonly disabled = input<boolean>(false);
+    /** Accessible label, applied to aria-label. */
+    readonly label = input<string>("");
+    /** Extra CSS classes appended to the base class. */
+    readonly className = input<string>("");
+    /** Bindable input value. */
+    readonly value = model<string>("");
+    /** Whether the input is required for form submission. */
+    readonly required = input<boolean>(false);
+    /** Whether the input is disabled. */
+    readonly disabled = input<boolean>(false);
 }

@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { PilipinasPhilhealthIdentificationNumberView } from "./PilipinasPhilhealthIdentificationNumberView";
 
 const meta: Meta<PilipinasPhilhealthIdentificationNumberView> = {
-  title: "Headless/PilipinasPhilhealthIdentificationNumberView",
-  component: PilipinasPhilhealthIdentificationNumberView,
-  tags: ["autodocs"],
+    title: "Headless/PilipinasPhilhealthIdentificationNumberView",
+    component: PilipinasPhilhealthIdentificationNumberView,
+    tags: ["autodocs"],
 };
 
 export default meta;

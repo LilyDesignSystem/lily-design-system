@@ -10,11 +10,11 @@ import { ThemePicker } from "../../../theme-picker.component";
 import { INITIAL_THEME } from "./tokens/initial-theme";
 
 @Component({
-  selector: "app-root",
-  standalone: true,
-  imports: [ThemePicker],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: "app-root",
+    standalone: true,
+    imports: [ThemePicker],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <header>
       <lily-theme-picker
         label="Theme"
@@ -31,15 +31,15 @@ import { INITIAL_THEME } from "./tokens/initial-theme";
   `,
 })
 export class App {
-  readonly themes = ["light", "dark", "abyss"];
-  theme = signal(inject(INITIAL_THEME));
+    readonly themes = ["light", "dark", "abyss"];
+    theme = signal(inject(INITIAL_THEME));
 
-  async persistThemeCookie(slug: string): Promise<void> {
-    if (typeof fetch === "undefined") return;
-    await fetch("/api/theme", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ theme: slug }),
-    });
-  }
+    async persistThemeCookie(slug: string): Promise<void> {
+        if (typeof fetch === "undefined") return;
+        await fetch("/api/theme", {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ theme: slug }),
+        });
+    }
 }

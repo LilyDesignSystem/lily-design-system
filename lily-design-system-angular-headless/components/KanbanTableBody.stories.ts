@@ -5,14 +5,14 @@ import { KanbanTableBody } from "./KanbanTableBody";
 // only knows how to mount an element selector as its own tag, so this story supplies
 // the host <tbody> explicitly via `render`.
 const meta: Meta<KanbanTableBody> = {
-  title: "Headless/KanbanTableBody",
-  component: KanbanTableBody,
-  tags: ["autodocs"],
-  render: (args) => ({
-    props: args,
-    moduleMetadata: { imports: [KanbanTableBody] },
-    template: `<tbody lily-kanban-table-body [className]="className"></tbody>`,
-  }),
+    title: "Headless/KanbanTableBody",
+    component: KanbanTableBody,
+    tags: ["autodocs"],
+    render: (args) => ({
+        props: args,
+        moduleMetadata: { imports: [KanbanTableBody] },
+        template: `<tbody lily-kanban-table-body [className]="className"></tbody>`,
+    }),
 };
 
 export default meta;

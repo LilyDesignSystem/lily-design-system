@@ -4,23 +4,23 @@ import { TestBed } from "@angular/core/testing";
 import { PortugalNumeroDeIdentificacaoFiscalInput } from "./PortugalNumeroDeIdentificacaoFiscalInput";
 
 describe("PortugalNumeroDeIdentificacaoFiscalInput", () => {
-  test("renders the input root with the base class", () => {
-    const fixture = TestBed.createComponent(PortugalNumeroDeIdentificacaoFiscalInput);
-    fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector(
-      "input.portugal-numero-de-identificacao-fiscal-input",
-    );
-    expect(el).toBeTruthy();
-  });
+    test("renders the input root with the base class", () => {
+        const fixture = TestBed.createComponent(PortugalNumeroDeIdentificacaoFiscalInput);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(
+            "input.portugal-numero-de-identificacao-fiscal-input",
+        );
+        expect(el).toBeTruthy();
+    });
 
-  test("appends the className input to the root class list", () => {
-    const fixture = TestBed.createComponent(PortugalNumeroDeIdentificacaoFiscalInput);
-    fixture.componentRef.setInput("className", "extra");
-    fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector(
-      "input.portugal-numero-de-identificacao-fiscal-input",
-    );
-    expect(el).toBeTruthy();
-    expect(el.classList.contains("extra")).toBe(true);
-  });
+    test("appends the className input to the root class list", () => {
+        const fixture = TestBed.createComponent(PortugalNumeroDeIdentificacaoFiscalInput);
+        fixture.componentRef.setInput("className", "extra");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(
+            "input.portugal-numero-de-identificacao-fiscal-input",
+        );
+        expect(el).toBeTruthy();
+        expect(el.classList.contains("extra")).toBe(true);
+    });
 });

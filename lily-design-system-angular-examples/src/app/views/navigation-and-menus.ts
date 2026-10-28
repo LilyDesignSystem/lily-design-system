@@ -5,10 +5,10 @@ import { MenuBarButton } from "../components/MenuBarButton";
 import { HamburgerMenu } from "../components/HamburgerMenu";
 
 @Component({
-  selector: "lily-navigation-and-menus",
-  standalone: true,
-  imports: [NavigationMenu, MenuBar, MenuBarButton, HamburgerMenu],
-  template: `
+    selector: "lily-navigation-and-menus",
+    standalone: true,
+    imports: [NavigationMenu, MenuBar, MenuBarButton, HamburgerMenu],
+    template: `
     <article class="page-wrapper">
       <h1>Navigation and menus</h1>
 
@@ -30,6 +30,6 @@ import { HamburgerMenu } from "../components/HamburgerMenu";
       </lily-hamburger-menu>
     </article>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class NavigationAndMenusPage {}

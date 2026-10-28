@@ -8,11 +8,11 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * Ships zero CSS; the consumer styles via the class hook.
  */
 @Component({
-  selector: "lily-kbd",
-  standalone: true,
-  template: `<kbd class="kbd {{ className() }}"><ng-content /></kbd>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "lily-kbd",
+    standalone: true,
+    template: `<kbd class="kbd {{ className() }}"><ng-content /></kbd>`,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Kbd {
-  readonly className = input<string>("");
+    readonly className = input<string>("");
 }

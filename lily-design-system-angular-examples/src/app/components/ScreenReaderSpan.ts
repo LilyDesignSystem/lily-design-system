@@ -8,12 +8,12 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * Ships zero CSS; the consumer styles via the class hook.
  */
 @Component({
-  selector: "lily-screen-reader-span",
-  standalone: true,
-  template: `<span class="screen-reader-span {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></span>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "lily-screen-reader-span",
+    standalone: true,
+    template: `<span class="screen-reader-span {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></span>`,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ScreenReaderSpan {
-  readonly label = input<string>("");
-  readonly className = input<string>("");
+    readonly label = input<string>("");
+    readonly className = input<string>("");
 }

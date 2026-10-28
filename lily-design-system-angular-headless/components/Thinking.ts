@@ -10,23 +10,23 @@ import { ChangeDetectionStrategy, Component, input, model } from "@angular/core"
  * Keyboard: native summary. Ships zero CSS.
  */
 @Component({
-  selector: "lily-thinking",
-  standalone: true,
-  template: `<details
+    selector: "lily-thinking",
+    standalone: true,
+    template: `<details
     class="thinking {{ className() }}"
     [open]="open()"
     [attr.data-streaming]="streaming() ? 'true' : null"
     [attr.aria-busy]="streaming() ? 'true' : null"
     (toggle)="open.set($any($event.target).open)"
   ><summary class="thinking-summary">{{ label() }}</summary><div class="thinking-content"><ng-content /></div></details>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Thinking {
-  /** The summary text. */
-  readonly label = input.required<string>();
-  readonly className = input<string>("");
-  /** Whether the details is open. Bindable. */
-  readonly open = model<boolean>(false);
-  /** True while content is still arriving. */
-  readonly streaming = input<boolean>(false);
+    /** The summary text. */
+    readonly label = input.required<string>();
+    readonly className = input<string>("");
+    /** Whether the details is open. Bindable. */
+    readonly open = model<boolean>(false);
+    /** True while content is still arriving. */
+    readonly streaming = input<boolean>(false);
 }

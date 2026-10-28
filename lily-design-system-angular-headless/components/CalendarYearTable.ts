@@ -14,15 +14,15 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * element, so extra attributes land on the `lily-calendar-year-table` host.
  */
 @Component({
-  selector: "lily-calendar-year-table",
-  standalone: true,
-  template: `<table class="calendar-year-table {{ className() }}" role="grid" [attr.aria-label]="label()" data-view="year">@if (caption()) {<caption>{{ caption() }}</caption>}<ng-content /></table>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "lily-calendar-year-table",
+    standalone: true,
+    template: `<table class="calendar-year-table {{ className() }}" role="grid" [attr.aria-label]="label()" data-view="year">@if (caption()) {<caption>{{ caption() }}</caption>}<ng-content /></table>`,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CalendarYearTable {
-  /** Accessible name describing the period shown. */
-  readonly label = input.required<string>();
-  /** Visible caption for the table. */
-  readonly caption = input<string | undefined>(undefined);
-  readonly className = input<string>("");
+    /** Accessible name describing the period shown. */
+    readonly label = input.required<string>();
+    /** Visible caption for the table. */
+    readonly caption = input<string | undefined>(undefined);
+    readonly className = input<string>("");
 }

@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { Dialog } from "./Dialog";
 
 const meta: Meta<Dialog> = {
-  title: "Headless/Dialog",
-  component: Dialog,
-  tags: ["autodocs"],
+    title: "Headless/Dialog",
+    component: Dialog,
+    tags: ["autodocs"],
 };
 
 export default meta;

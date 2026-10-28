@@ -5,14 +5,14 @@ import { Option } from "./Option";
 // only knows how to mount an element selector as its own tag, so this story supplies
 // the host <option> explicitly via `render`.
 const meta: Meta<Option> = {
-  title: "Headless/Option",
-  component: Option,
-  tags: ["autodocs"],
-  render: (args) => ({
-    props: args,
-    moduleMetadata: { imports: [Option] },
-    template: `<option lily-option [className]="className" [value]="value"></option>`,
-  }),
+    title: "Headless/Option",
+    component: Option,
+    tags: ["autodocs"],
+    render: (args) => ({
+        props: args,
+        moduleMetadata: { imports: [Option] },
+        template: `<option lily-option [className]="className" [value]="value"></option>`,
+    }),
 };
 
 export default meta;

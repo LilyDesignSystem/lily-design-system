@@ -14,14 +14,14 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * the consumer styles via the class hook.
  */
 @Component({
-  selector: "li[lily-breadcrumb-list-item]",
-  standalone: true,
-  template: `<ng-content />`,
-  host: {
-    "[class]": '"breadcrumb-list-item " + className()',
-  },
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "li[lily-breadcrumb-list-item]",
+    standalone: true,
+    template: `<ng-content />`,
+    host: {
+        "[class]": '"breadcrumb-list-item " + className()',
+    },
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BreadcrumbListItem {
-  readonly className = input<string>("");
+    readonly className = input<string>("");
 }

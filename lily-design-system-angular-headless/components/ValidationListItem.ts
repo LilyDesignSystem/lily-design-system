@@ -13,14 +13,14 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * zero CSS; the consumer styles via the class hook.
  */
 @Component({
-  selector: "li[lily-validation-list-item]",
-  standalone: true,
-  template: `<ng-content />`,
-  host: {
-    "[class]": '"validation-list-item " + className()',
-  },
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "li[lily-validation-list-item]",
+    standalone: true,
+    template: `<ng-content />`,
+    host: {
+        "[class]": '"validation-list-item " + className()',
+    },
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ValidationListItem {
-  readonly className = input<string>("");
+    readonly className = input<string>("");
 }

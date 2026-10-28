@@ -3,11 +3,7 @@
     "target": "ES2022",
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "lib": [
-      "ES2022",
-      "DOM",
-      "DOM.Iterable"
-    ],
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "jsx": "react-jsx",
     "strict": true,
     "esModuleInterop": true,
@@ -20,18 +16,9 @@
       "@lilydesignsystem/react-date-time-picker": [
         "../lily-design-system-react-date-time-picker/dist/index.d.ts"
       ],
-      "@lilydesignsystem/react-headless": [
-        "../lily-design-system-react-headless/dist/index.d.ts"
-      ],
-      "react": [
-        "./node_modules/@types/react/index.d.ts"
-      ]
+      "@lilydesignsystem/react-headless": ["../lily-design-system-react-headless/dist/index.d.ts"],
+      "react": ["./node_modules/@types/react/index.d.ts"]
     }
   },
-  "exclude": [
-    "node_modules",
-    "dist",
-    "examples",
-    "docs"
-  ]
+  "exclude": ["node_modules", "dist", "examples", "docs"]
 }

@@ -14,7 +14,7 @@
 
 /** Tools that act on the heading the caret is under. */
 
-export const WRAP_MARKERS = {
+export const WRAP_MARKERS                           = {
     bold: "*",
     italic: "/",
     underline: "_",
@@ -24,7 +24,7 @@ export const WRAP_MARKERS = {
 };
 
 /** The default toolbar order. */
-export const TOOL_IDS = [
+export const TOOL_IDS                    = [
     "heading",
     "promote",
     "demote",
@@ -51,7 +51,7 @@ export const TOOL_IDS = [
 ];
 
 /** Which group a tool sits in, for a consumer's separators (`data-group`). */
-export const TOOL_GROUPS = {
+export const TOOL_GROUPS                                                         = {
     heading: "structure",
     promote: "structure",
     demote: "structure",
@@ -84,27 +84,35 @@ const DEFAULT_CONTACT = ["EMAIL", "PHONE", "ADDRESS", "BIRTHDAY"];
 // ---- lines ------------------------------------------------------------------------------------
 
 /** Start offset of the line containing `pos`. */
-function lineStartOf(text, pos) {
+function lineStartOf(text        , pos        )         {
     return pos <= 0 ? 0 : text.lastIndexOf("\n", pos - 1) + 1;
 }
 
 /** Offset of the newline ending the line containing `pos` (or the text length). */
-function lineEndOf(text, pos) {
+function lineEndOf(text        , pos        )         {
     const nl = text.indexOf("\n", pos);
     return nl === -1 ? text.length : nl;
 }
 
 /** The line-start offsets covering the selection (a selection ending at a line start excludes that line). */
-function lineBounds(text, start, end) {
+function lineBounds(text        , start        , end        )                               {
     const from = lineStartOf(text, start);
     const effectiveEnd = end > start && text[end - 1] === "\n" ? end - 1 : end;
     return { from, to: lineEndOf(text, effectiveEnd) };
 }
 
-const unchanged = (text, start, end) => ({ text, start, end });
+const unchanged = (text        , start        , end        )       => ({ text, start, end });
 
 /** Replace the lines `from..to` with `next`, keeping the selection on the same text where it can. */
-function replaceLines(text, start, end, from, to, nextLines, firstDelta) {
+function replaceLines(
+    text        ,
+    start        ,
+    end        ,
+    from        ,
+    to        ,
+    nextLines          ,
+    firstDelta         ,
+)       {
     const block = nextLines.join("\n");
     const delta = block.length - (to - from);
     const first =
@@ -125,7 +133,7 @@ const HEADING = /^(\*+) /;
 const PRIORITY = /^\[#([A-Z])\](?: |$)/;
 
 /** Parse `** TODO [#A] Title :tag:`. The keyword is only one of `keywords`. */
-function parseHeading(line, keywords) {
+function parseHeading(line        , keywords          )                 {
     const m = HEADING.exec(line);
     if (!m) return null;
     let rest = line.slice(m[0].length);
@@ -146,7 +154,7 @@ function parseHeading(line, keywords) {
     return { stars: m[1].length, keyword, priority, title: rest };
 }
 
-function formatHeading(h) {
+function formatHeading(h         )         {
     const parts = [h.keyword, h.priority ? `[#${h.priority}]` : "", h.title].filter(
         (p) => p !== "",
     );
@@ -158,12 +166,16 @@ const NUMBERED = /^\d+[.)] /;
 const CHECKBOX = /^([-+] )\[([ X-])\] /;
 
 /** Strip any block prefix a line can have, so a new one is not stacked on it. */
-function stripPrefix(line) {
+function stripPrefix(line        )         {
     return line.replace(HEADING, "").replace(BULLET, "").replace(NUMBERED, "");
 }
 
 /** The nearest heading at or above `pos`: its line start and parsed form. */
-function headingAbove(text, pos, keywords) {
+function headingAbove(
+    text        ,
+    pos        ,
+    keywords          ,
+)                                                        {
     let from = lineStartOf(text, pos);
     for (;;) {
         const to = lineEndOf(text, from);
@@ -180,7 +192,7 @@ function headingAbove(text, pos, keywords) {
  * Wrap the selection in `marker`, or take it off when the selection is already wrapped (markers just
  * outside it, or just inside it). An empty selection inserts a pair and leaves the caret between.
  */
-export function toggleWrap(text, start, end, marker) {
+export function toggleWrap(text        , start        , end        , marker        )       {
     const m = marker.length;
     const before = text.slice(0, start);
     const selected = text.slice(start, end);
@@ -200,7 +212,7 @@ export function toggleWrap(text, start, end, marker) {
 }
 
 /** Link: `[[https://][selection]]` with the address selected; with no selection `[[https://]]`. */
-export function insertLink(text, start, end) {
+export function insertLink(text        , start        , end        )       {
     const url = "https://";
     const selected = text.slice(start, end);
     const body = selected === "" ? `[[${url}]]` : `[[${url}][${selected}]]`;
@@ -214,7 +226,7 @@ export function insertLink(text, start, end) {
 // ---- line prefixes ----------------------------------------------------------------------------
 
 /** Heading: stars on every selected line, or off when every non-empty line is already a heading. */
-export function toggleHeading(text, start, end, level = 1) {
+export function toggleHeading(text        , start        , end        , level = 1)       {
     const { from, to } = lineBounds(text, start, end);
     const lines = text.slice(from, to).split("\n");
     const nonEmpty = lines.filter((l) => l.trim() !== "");
@@ -230,7 +242,7 @@ export function toggleHeading(text, start, end, level = 1) {
 }
 
 /** Promote (fewer stars, never below one) or demote (one more star) every selected heading. */
-export function shiftHeadings(text, start, end, direction) {
+export function shiftHeadings(text        , start        , end        , direction        )       {
     const { from, to } = lineBounds(text, start, end);
     const lines = text.slice(from, to).split("\n");
     let touched = false;
@@ -246,7 +258,12 @@ export function shiftHeadings(text, start, end, direction) {
 }
 
 /** Bulleted or numbered list on every selected line, or off when every non-empty line already has it. */
-export function toggleList(text, start, end, tool) {
+export function toggleList(
+    text        ,
+    start        ,
+    end        ,
+    tool                               ,
+)       {
     const { from, to } = lineBounds(text, start, end);
     const lines = text.slice(from, to).split("\n");
     const matcher = tool === "bulletList" ? BULLET : NUMBERED;
@@ -264,7 +281,7 @@ export function toggleList(text, start, end, tool) {
 }
 
 /** Checkbox on the selected lines, cycling none → `[ ]` → `[X]` → none, by the first non-empty line. */
-export function cycleCheckbox(text, start, end) {
+export function cycleCheckbox(text        , start        , end        )       {
     const { from, to } = lineBounds(text, start, end);
     const lines = text.slice(from, to).split("\n");
     const first = lines.find((l) => l.trim() !== "");
@@ -288,7 +305,15 @@ export function cycleCheckbox(text, start, end) {
  * Wrap the selected lines in `begin` and `end` lines, or take the wrapper off when the selection
  * is already wrapped (the lines just outside it, or its own first and last lines).
  */
-export function toggleBlock(text, start, end, begin, endLine, isBegin, isEnd) {
+export function toggleBlock(
+    text        ,
+    start        ,
+    end        ,
+    begin        ,
+    endLine        ,
+    isBegin                        ,
+    isEnd                        ,
+)       {
     const { from, to } = lineBounds(text, start, end);
     const lines = text.slice(from, to).split("\n");
 
@@ -324,34 +349,37 @@ export function toggleBlock(text, start, end, begin, endLine, isBegin, isEnd) {
     };
 }
 
-const isBeginBlock = (name) => (l) => new RegExp(`^#\\+begin_${name}(\\s|$)`, "i").test(l.trim());
-const isEndBlock = (name) => (l) => new RegExp(`^#\\+end_${name}\\s*$`, "i").test(l.trim());
-const isBeginDrawer = (l) => /^:[^\s:]+:\s*$/.test(l.trim()) && !/^:END:\s*$/i.test(l.trim());
-const isEndDrawer = (l) => /^:END:\s*$/i.test(l.trim());
+const isBeginBlock = (name        ) => (l        ) =>
+    new RegExp(`^#\\+begin_${name}(\\s|$)`, "i").test(l.trim());
+const isEndBlock = (name        ) => (l        ) =>
+    new RegExp(`^#\\+end_${name}\\s*$`, "i").test(l.trim());
+const isBeginDrawer = (l        ) =>
+    /^:[^\s:]+:\s*$/.test(l.trim()) && !/^:END:\s*$/i.test(l.trim());
+const isEndDrawer = (l        ) => /^:END:\s*$/i.test(l.trim());
 
 // ---- dates ------------------------------------------------------------------------------------
 
 // Org writes the weekday abbreviation in the day name of the timestamp; Org itself reads English by default.
 const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-function pad(n) {
+function pad(n        )         {
     return String(n).padStart(2, "0");
 }
 
 /** The local date as `YYYY-MM-DD`. */
-export function localToday(now = new Date()) {
+export function localToday(now       = new Date())         {
     return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
 }
 
 /** `2026-10-24` → `2026-10-24 Sat`, by UTC date maths (no time zone, no `Intl`). */
-export function dayStamp(iso) {
+export function dayStamp(iso        )         {
     const [y, m, d] = iso.split("-").map(Number);
     const weekday = new Date(Date.UTC(y, m - 1, d)).getUTCDay();
     return `${iso} ${WEEKDAYS[weekday]}`;
 }
 
 /** Insert an active timestamp `<2026-10-24 Sat>`, replacing the selection, with the date selected. */
-export function insertTimestamp(text, start, end, today) {
+export function insertTimestamp(text        , start        , end        , today        )       {
     const stamp = dayStamp(today);
     return {
         text: text.slice(0, start) + `<${stamp}>` + text.slice(end),
@@ -366,12 +394,18 @@ export function insertTimestamp(text, start, end, today) {
  * The line at the caret becomes (or already is) a heading and moves one step along
  * none → keyword 1 → … → last keyword → none.
  */
-export function cycleTodo(text, start, end, keywords = DEFAULT_KEYWORDS, level = 1) {
+export function cycleTodo(
+    text        ,
+    start        ,
+    end        ,
+    keywords           = DEFAULT_KEYWORDS,
+    level = 1,
+)       {
     const from = lineStartOf(text, start);
     const to = lineEndOf(text, from);
     const line = text.slice(from, to);
     const h = parseHeading(line, keywords);
-    let next;
+    let next        ;
     if (h) {
         const at = keywords.indexOf(h.keyword);
         const keyword =
@@ -394,13 +428,13 @@ export function cycleTodo(text, start, end, keywords = DEFAULT_KEYWORDS, level =
 
 /** The line at the caret becomes (or already is) a heading and moves one step along none → A → B → C → none. */
 export function cyclePriority(
-    text,
-    start,
-    end,
-    priorities = DEFAULT_PRIORITIES,
-    keywords = DEFAULT_KEYWORDS,
+    text        ,
+    start        ,
+    end        ,
+    priorities           = DEFAULT_PRIORITIES,
+    keywords           = DEFAULT_KEYWORDS,
     level = 1,
-) {
+)       {
     const from = lineStartOf(text, start);
     const to = lineEndOf(text, from);
     const line = text.slice(from, to);
@@ -424,7 +458,7 @@ export function cyclePriority(
 const PLANNING = /^\s*(?:SCHEDULED|DEADLINE|CLOSED):/;
 
 /** The index just past the heading line and its planning line, if it has one. */
-function afterPlanning(text, headingTo) {
+function afterPlanning(text        , headingTo        )         {
     if (headingTo >= text.length) return text.length;
     const nextFrom = headingTo + 1;
     const nextTo = lineEndOf(text, nextFrom);
@@ -435,14 +469,21 @@ function afterPlanning(text, headingTo) {
  * Put `SCHEDULED: <date>` or `DEADLINE: <date>` on the planning line under the heading the caret is in,
  * or take it off when the heading already has it. The date is selected so it can be changed.
  */
-export function togglePlanning(text, start, end, keyword, today, keywords = DEFAULT_KEYWORDS) {
+export function togglePlanning(
+    text        ,
+    start        ,
+    end        ,
+    keyword                          ,
+    today        ,
+    keywords           = DEFAULT_KEYWORDS,
+)       {
     const found = headingAbove(text, start, keywords);
     if (!found) return unchanged(text, start, end);
     const planFrom = found.to + 1;
     const hasPlan =
         found.to < text.length && PLANNING.test(text.slice(planFrom, lineEndOf(text, planFrom)));
     const stamp = `${keyword}: <${dayStamp(today)}>`;
-    const select = (at) => ({
+    const select = (at        )                                 => ({
         start: at,
         end: at + dayStamp(today).length,
     });
@@ -482,10 +523,16 @@ export function togglePlanning(text, start, end, keyword, today, keywords = DEFA
  * Add `:KEY: ` to the property drawer under the heading the caret is in, creating the drawer when there is
  * none. A key the drawer already has is not added again: the caret goes to the end of its line.
  */
-export function addProperty(text, start, end, key = "ID", keywords = DEFAULT_KEYWORDS) {
+export function addProperty(
+    text        ,
+    start        ,
+    end        ,
+    key = "ID",
+    keywords           = DEFAULT_KEYWORDS,
+)       {
     const found = headingAbove(text, start, keywords);
     const anchor = found ? afterPlanning(text, found.to) : -1; // the end of the line the drawer follows
-    const line = (s) => `:${key}: ${s}`.replace(/ +$/, " ");
+    const line = (s        ) => `:${key}: ${s}`.replace(/ +$/, " ");
     // A file-level drawer (no heading above): it goes at the very top.
     if (!found) {
         const out = `:PROPERTIES:\n${line("")}\n:END:\n` + text;
@@ -527,13 +574,13 @@ export function addProperty(text, start, end, key = "ID", keywords = DEFAULT_KEY
  * of `properties`. The selection becomes the contact's name; the caret lands on the first property.
  */
 export function insertContact(
-    text,
-    start,
-    end,
-    properties = DEFAULT_CONTACT,
+    text        ,
+    start        ,
+    end        ,
+    properties           = DEFAULT_CONTACT,
     level = 1,
-    keywords = DEFAULT_KEYWORDS,
-) {
+    keywords           = DEFAULT_KEYWORDS,
+)       {
     const above = headingAbove(text, start, keywords);
     const stars = above ? above.heading.stars + 1 : level;
     const name = text.slice(start, end);
@@ -551,11 +598,17 @@ export function insertContact(
 // ---- dispatch ---------------------------------------------------------------------------------
 
 /** Apply one tool to the text and selection. */
-export function applyTool(tool, text, start, end, options = {}) {
+export function applyTool(
+    tool        ,
+    text        ,
+    start        ,
+    end        ,
+    options             = {},
+)       {
     const keywords = options.todoKeywords ?? DEFAULT_KEYWORDS;
     const level = options.headingLevel ?? 1;
     const today = options.today ?? localToday();
-    if (tool in WRAP_MARKERS) return toggleWrap(text, start, end, WRAP_MARKERS[tool]);
+    if (tool in WRAP_MARKERS) return toggleWrap(text, start, end, WRAP_MARKERS[tool            ]);
     switch (tool) {
         case "link":
             return insertLink(text, start, end);

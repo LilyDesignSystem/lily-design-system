@@ -35,11 +35,11 @@ import { ChangeDetectionStrategy, Component, signal } from "@angular/core";
 import { TextSizePicker } from "../text-size-picker.component";
 
 @Component({
-  selector: "example-basic",
-  standalone: true,
-  imports: [TextSizePicker],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: "example-basic",
+    standalone: true,
+    imports: [TextSizePicker],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <lily-text-size-picker
       #textSizePicker
       label="Text size"
@@ -53,5 +53,5 @@ import { TextSizePicker } from "../text-size-picker.component";
   `,
 })
 export class BasicExample {
-  size = signal("");
+    size = signal("");
 }

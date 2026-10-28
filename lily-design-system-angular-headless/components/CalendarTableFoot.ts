@@ -13,14 +13,14 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * zero CSS; the consumer styles via the class hook.
  */
 @Component({
-  selector: "tfoot[lily-calendar-table-foot]",
-  standalone: true,
-  template: `<ng-content />`,
-  host: {
-    "[class]": '"calendar-table-foot " + className()',
-  },
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "tfoot[lily-calendar-table-foot]",
+    standalone: true,
+    template: `<ng-content />`,
+    host: {
+        "[class]": '"calendar-table-foot " + className()',
+    },
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CalendarTableFoot {
-  readonly className = input<string>("");
+    readonly className = input<string>("");
 }

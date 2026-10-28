@@ -6,11 +6,11 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * A headless part of ConvertDiv: a plain <div> with the base class and projected content.
  */
 @Component({
-  selector: "lily-convert-from-unit-div",
-  standalone: true,
-  template: `<div class="convert-from-unit-div {{ className() }}"><ng-content /></div>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "lily-convert-from-unit-div",
+    standalone: true,
+    template: `<div class="convert-from-unit-div {{ className() }}"><ng-content /></div>`,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConvertFromUnitDiv {
-  readonly className = input<string>("");
+    readonly className = input<string>("");
 }

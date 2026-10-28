@@ -1,24 +1,24 @@
 import { ChangeDetectionStrategy, Component, input, model, output } from "@angular/core";
 
 import {
-  LinkPicker,
-  type LinkItem,
-  type LinkNavigatedEvent,
+    LinkPicker,
+    type LinkItem,
+    type LinkNavigatedEvent,
 } from "@lilydesignsystem/angular-link-picker";
 import { ThemePicker } from "@lilydesignsystem/angular-theme-picker";
 import { LocalePicker } from "@lilydesignsystem/angular-locale-picker";
 import { TextSizePicker } from "@lilydesignsystem/angular-text-size-picker";
 import {
-  TimeZonePicker,
-  DEFAULT_ZONES,
-  type ZoneInfo,
-  type ZoneNames,
+    TimeZonePicker,
+    DEFAULT_ZONES,
+    type ZoneInfo,
+    type ZoneNames,
 } from "@lilydesignsystem/angular-time-zone-picker";
 import {
-  SharePicker,
-  type ShareEvent,
-  type ShareStrategy,
-  type ShareTarget,
+    SharePicker,
+    type ShareEvent,
+    type ShareStrategy,
+    type ShareTarget,
 } from "@lilydesignsystem/angular-share-picker";
 import { SearchPicker, type SearchEvent } from "@lilydesignsystem/angular-search-picker";
 
@@ -30,63 +30,63 @@ import { SearchPicker, type SearchEvent } from "@lilydesignsystem/angular-search
  * slug, so no `themeLabels` override is needed for these to read well.
  */
 export const DEFAULT_THEMES: string[] = [
-  "abyss",
-  "acid",
-  "adobe-spectrum",
-  "ant-design",
-  "aqua",
-  "atlassian",
-  "autumn",
-  "black",
-  "bumblebee",
-  "business",
-  "cappuccino",
-  "caramellatte",
-  "cmyk",
-  "coffee",
-  "corporate",
-  "cupcake",
-  "cyberpunk",
-  "dark",
-  "dim",
-  "dracula",
-  "emerald",
-  "excel",
-  "fantasy",
-  "fluent",
-  "forest",
-  "garden",
-  "github-primer",
-  "halloween",
-  "ibm-carbon",
-  "lemonade",
-  "light",
-  "linear",
-  "lofi",
-  "luxury",
-  "mozilla-protocol",
-  "night",
-  "nord",
-  "notion",
-  "pastel",
-  "retro",
-  "salesforce",
-  "sap-fiori",
-  "silk",
-  "sunset",
-  "synthwave",
-  "valentine",
-  "vercel",
-  "winter",
-  "wireframe",
-  "united-kingdom-government-digital-service",
-  "united-kingdom-national-health-service-england-for-patients",
-  "united-kingdom-national-health-service-england-for-practitioners",
-  "united-kingdom-national-health-service-scotland-for-patients",
-  "united-kingdom-national-health-service-scotland-for-practitioners",
-  "united-kingdom-national-health-service-wales-for-patients",
-  "united-kingdom-national-health-service-wales-for-practitioners",
-  "united-states-web-design-system",
+    "abyss",
+    "acid",
+    "adobe-spectrum",
+    "ant-design",
+    "aqua",
+    "atlassian",
+    "autumn",
+    "black",
+    "bumblebee",
+    "business",
+    "cappuccino",
+    "caramellatte",
+    "cmyk",
+    "coffee",
+    "corporate",
+    "cupcake",
+    "cyberpunk",
+    "dark",
+    "dim",
+    "dracula",
+    "emerald",
+    "excel",
+    "fantasy",
+    "fluent",
+    "forest",
+    "garden",
+    "github-primer",
+    "halloween",
+    "ibm-carbon",
+    "lemonade",
+    "light",
+    "linear",
+    "lofi",
+    "luxury",
+    "mozilla-protocol",
+    "night",
+    "nord",
+    "notion",
+    "pastel",
+    "retro",
+    "salesforce",
+    "sap-fiori",
+    "silk",
+    "sunset",
+    "synthwave",
+    "valentine",
+    "vercel",
+    "winter",
+    "wireframe",
+    "united-kingdom-government-digital-service",
+    "united-kingdom-national-health-service-england-for-patients",
+    "united-kingdom-national-health-service-england-for-practitioners",
+    "united-kingdom-national-health-service-scotland-for-patients",
+    "united-kingdom-national-health-service-scotland-for-practitioners",
+    "united-kingdom-national-health-service-wales-for-patients",
+    "united-kingdom-national-health-service-wales-for-practitioners",
+    "united-states-web-design-system",
 ];
 
 /**
@@ -95,41 +95,41 @@ export const DEFAULT_THEMES: string[] = [
  * own default `labelFor`, so no `sizeLabels` override is needed either.
  */
 export const DEFAULT_SIZES: string[] = [
-  "largest",
-  "larger",
-  "large",
-  "normal",
-  "small",
-  "smaller",
-  "smallest",
+    "largest",
+    "larger",
+    "large",
+    "normal",
+    "small",
+    "smaller",
+    "smallest",
 ];
 
 /** Accessible names for the pickers. Required — no English default (`link` only when `links` is given). */
 export type PickerBarLabels = {
-  /**
-   * Accessible name for the link picker's button and list. Needed only when `links` is
-   * supplied; the link picker renders only when both are present.
-   */
-  link?: string;
-  /** Accessible name for the search picker's button and search landmark. */
-  search: string;
-  /** Accessible name for the search picker's text field. */
-  searchInput: string;
-  /** Accessible name for the search picker's ⏎ submit button. */
-  searchSubmit: string;
-  /** Accessible name for the theme picker's button and listbox. */
-  theme: string;
-  /** Accessible name for the locale picker's button and listbox. */
-  locale: string;
-  /** Accessible name for the text-size picker's button and listbox. */
-  textSize: string;
-  /**
-   * Accessible name for the time-zone picker's button and listbox. Needed only when
-   * `timeZoneLocale` is supplied; the time-zone picker renders only when both are present.
-   */
-  timeZone?: string;
-  /** Accessible name for the share picker's button and list. */
-  share: string;
+    /**
+     * Accessible name for the link picker's button and list. Needed only when `links` is
+     * supplied; the link picker renders only when both are present.
+     */
+    link?: string;
+    /** Accessible name for the search picker's button and search landmark. */
+    search: string;
+    /** Accessible name for the search picker's text field. */
+    searchInput: string;
+    /** Accessible name for the search picker's ⏎ submit button. */
+    searchSubmit: string;
+    /** Accessible name for the theme picker's button and listbox. */
+    theme: string;
+    /** Accessible name for the locale picker's button and listbox. */
+    locale: string;
+    /** Accessible name for the text-size picker's button and listbox. */
+    textSize: string;
+    /**
+     * Accessible name for the time-zone picker's button and listbox. Needed only when
+     * `timeZoneLocale` is supplied; the time-zone picker renders only when both are present.
+     */
+    timeZone?: string;
+    /** Accessible name for the share picker's button and list. */
+    share: string;
 };
 
 /**
@@ -147,19 +147,19 @@ export type PickerBarLabels = {
  * deliberately not included — see `spec/index.md` §1.
  */
 @Component({
-  selector: "lily-picker-bar",
-  standalone: true,
-  imports: [
-    LinkPicker,
-    SearchPicker,
-    ThemePicker,
-    LocalePicker,
-    TextSizePicker,
-    TimeZonePicker,
-    SharePicker,
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: "lily-picker-bar",
+    standalone: true,
+    imports: [
+        LinkPicker,
+        SearchPicker,
+        ThemePicker,
+        LocalePicker,
+        TextSizePicker,
+        TimeZonePicker,
+        SharePicker,
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <div class="picker-bar {{ className() }}">
       @if (links().length > 0 && labels().link) {
         <lily-link-picker
@@ -246,112 +246,112 @@ export type PickerBarLabels = {
   `,
 })
 export class PickerBar {
-  /** Accessible names for each picker. */
-  readonly labels = input.required<PickerBarLabels>();
+    /** Accessible names for each picker. */
+    readonly labels = input.required<PickerBarLabels>();
 
-  // --- link-picker ---
-  /**
-   * Page links for the link picker (a home icon), which renders FIRST — leftmost. Defined by the
-   * app; omitted or empty means no link picker (and `labels().link` is then unused).
-   */
-  readonly links = input<LinkItem[]>([]);
-  /** Client-side navigation hook for the links, e.g. a router's `navigateByUrl`. */
-  readonly linkNavigate = input<((href: string) => void) | undefined>(undefined);
-  /** Fires after a page link is chosen. */
-  readonly linkNavigated = output<LinkNavigatedEvent>();
+    // --- link-picker ---
+    /**
+     * Page links for the link picker (a home icon), which renders FIRST — leftmost. Defined by the
+     * app; omitted or empty means no link picker (and `labels().link` is then unused).
+     */
+    readonly links = input<LinkItem[]>([]);
+    /** Client-side navigation hook for the links, e.g. a router's `navigateByUrl`. */
+    readonly linkNavigate = input<((href: string) => void) | undefined>(undefined);
+    /** Fires after a page link is chosen. */
+    readonly linkNavigated = output<LinkNavigatedEvent>();
 
-  // --- search-picker ---
-  /** Placeholder for the search field. No default (it would be English). */
-  readonly searchPlaceholder = input<string | undefined>(undefined);
-  /** Two-way bindable search text. */
-  readonly searchValue = model<string>("");
-  /** Path the query is appended to (`${searchAction}?${query}`). */
-  readonly searchAction = input<string>("/");
-  /** Performs the search navigation. Defaults to `location.assign(href)`. */
-  readonly searchNavigate = input<((href: string) => void) | undefined>(undefined);
-  /** Fires with the trimmed query and destination, before navigating. */
-  readonly searched = output<SearchEvent>();
+    // --- search-picker ---
+    /** Placeholder for the search field. No default (it would be English). */
+    readonly searchPlaceholder = input<string | undefined>(undefined);
+    /** Two-way bindable search text. */
+    readonly searchValue = model<string>("");
+    /** Path the query is appended to (`${searchAction}?${query}`). */
+    readonly searchAction = input<string>("/");
+    /** Performs the search navigation. Defaults to `location.assign(href)`. */
+    readonly searchNavigate = input<((href: string) => void) | undefined>(undefined);
+    /** Fires with the trimmed query and destination, before navigating. */
+    readonly searched = output<SearchEvent>();
 
-  // --- theme-picker ---
-  /** Base URL of the themes directory, forwarded to ThemePicker. */
-  readonly themesUrl = input.required<string>();
-  /** Available theme slugs. Defaults to {@link DEFAULT_THEMES}. */
-  readonly themes = input<string[]>(DEFAULT_THEMES);
-  /** Two-way bindable current theme slug. */
-  readonly themeValue = model<string>("");
-  readonly themeDefaultValue = input<string>("");
-  readonly themeStorageKey = input<string>("");
-  readonly themeDetectFromSystem = input<boolean>(false);
-  readonly themeName = input<string>("theme");
-  readonly themeTarget = input<HTMLElement | null>(null);
-  readonly themeLabels = input<Record<string, string>>({});
+    // --- theme-picker ---
+    /** Base URL of the themes directory, forwarded to ThemePicker. */
+    readonly themesUrl = input.required<string>();
+    /** Available theme slugs. Defaults to {@link DEFAULT_THEMES}. */
+    readonly themes = input<string[]>(DEFAULT_THEMES);
+    /** Two-way bindable current theme slug. */
+    readonly themeValue = model<string>("");
+    readonly themeDefaultValue = input<string>("");
+    readonly themeStorageKey = input<string>("");
+    readonly themeDetectFromSystem = input<boolean>(false);
+    readonly themeName = input<string>("theme");
+    readonly themeTarget = input<HTMLElement | null>(null);
+    readonly themeLabels = input<Record<string, string>>({});
 
-  // --- locale-picker ---
-  /** Available locale codes. No catalog default exists — supply the set you support. */
-  readonly locales = input.required<string[]>();
-  /** Two-way bindable current locale code. */
-  readonly localeValue = model<string>("");
-  readonly localeDefaultValue = input<string>("");
-  readonly localeStorageKey = input<string>("");
-  readonly localeDetectFromNavigator = input<boolean>(false);
-  readonly localeName = input<string>("locale");
-  readonly localeTarget = input<HTMLElement | null>(null);
-  readonly localeApplyDir = input<boolean>(true);
-  readonly localeLabels = input<Record<string, string>>({});
+    // --- locale-picker ---
+    /** Available locale codes. No catalog default exists — supply the set you support. */
+    readonly locales = input.required<string[]>();
+    /** Two-way bindable current locale code. */
+    readonly localeValue = model<string>("");
+    readonly localeDefaultValue = input<string>("");
+    readonly localeStorageKey = input<string>("");
+    readonly localeDetectFromNavigator = input<boolean>(false);
+    readonly localeName = input<string>("locale");
+    readonly localeTarget = input<HTMLElement | null>(null);
+    readonly localeApplyDir = input<boolean>(true);
+    readonly localeLabels = input<Record<string, string>>({});
 
-  // --- time-zone-picker ---
-  /**
-   * The language that names and sorts the zones (BCP 47, e.g. `fr`). The time-zone picker, which sits
-   * after the locale picker, renders only when this and `labels().timeZone` are both given.
-   */
-  readonly timeZoneLocale = input<string | undefined>(undefined);
-  /** IANA zone ids on offer. Defaults to the picker's own 55. */
-  readonly timeZones = input<readonly string[]>(DEFAULT_ZONES);
-  /** The date the offsets are computed for (daylight time). Defaults to now. */
-  readonly timeZoneDate = input<Date | undefined>(undefined);
-  readonly timeZoneLabelFor = input<((zone: ZoneInfo) => string) | undefined>(undefined);
-  /** CLDR zone names, e.g. `zoneNamesFrom(pack)` from the locale-translations package. */
-  readonly timeZoneNames = input<ZoneNames | undefined>(undefined);
-  /** Two-way bindable current IANA zone id. */
-  readonly timeZoneValue = model<string>("");
-  readonly timeZoneDefaultValue = input<string>("");
-  readonly timeZoneStorageKey = input<string>("");
-  readonly timeZoneName = input<string>("time-zone");
-  readonly timeZoneTarget = input<HTMLElement | null>(null);
+    // --- time-zone-picker ---
+    /**
+     * The language that names and sorts the zones (BCP 47, e.g. `fr`). The time-zone picker, which sits
+     * after the locale picker, renders only when this and `labels().timeZone` are both given.
+     */
+    readonly timeZoneLocale = input<string | undefined>(undefined);
+    /** IANA zone ids on offer. Defaults to the picker's own 55. */
+    readonly timeZones = input<readonly string[]>(DEFAULT_ZONES);
+    /** The date the offsets are computed for (daylight time). Defaults to now. */
+    readonly timeZoneDate = input<Date | undefined>(undefined);
+    readonly timeZoneLabelFor = input<((zone: ZoneInfo) => string) | undefined>(undefined);
+    /** CLDR zone names, e.g. `zoneNamesFrom(pack)` from the locale-translations package. */
+    readonly timeZoneNames = input<ZoneNames | undefined>(undefined);
+    /** Two-way bindable current IANA zone id. */
+    readonly timeZoneValue = model<string>("");
+    readonly timeZoneDefaultValue = input<string>("");
+    readonly timeZoneStorageKey = input<string>("");
+    readonly timeZoneName = input<string>("time-zone");
+    readonly timeZoneTarget = input<HTMLElement | null>(null);
 
-  // --- text-size-picker ---
-  /** Available size slugs. Defaults to {@link DEFAULT_SIZES}. */
-  readonly sizes = input<string[]>(DEFAULT_SIZES);
-  /** Two-way bindable current size slug. */
-  readonly textSizeValue = model<string>("");
-  /**
-   * `text-size-picker`'s own fallback ("medium", else `sizes[0]`) does
-   * not fit the seven-slug scale — "medium" is not one of the seven,
-   * and `sizes[0]` would silently start every consumer on "Largest".
-   */
-  readonly textSizeDefaultValue = input<string>("normal");
-  readonly textSizeStorageKey = input<string>("");
-  readonly textSizeName = input<string>("text-size");
-  readonly textSizeTarget = input<HTMLElement | null>(null);
-  readonly textSizeLabels = input<Record<string, string>>({});
+    // --- text-size-picker ---
+    /** Available size slugs. Defaults to {@link DEFAULT_SIZES}. */
+    readonly sizes = input<string[]>(DEFAULT_SIZES);
+    /** Two-way bindable current size slug. */
+    readonly textSizeValue = model<string>("");
+    /**
+     * `text-size-picker`'s own fallback ("medium", else `sizes[0]`) does
+     * not fit the seven-slug scale — "medium" is not one of the seven,
+     * and `sizes[0]` would silently start every consumer on "Largest".
+     */
+    readonly textSizeDefaultValue = input<string>("normal");
+    readonly textSizeStorageKey = input<string>("");
+    readonly textSizeName = input<string>("text-size");
+    readonly textSizeTarget = input<HTMLElement | null>(null);
+    readonly textSizeLabels = input<Record<string, string>>({});
 
-  // --- share-picker ---
-  /** Destinations offered by the share picker. Empty is valid if `copyLabel` is set. */
-  readonly shareTargets = input<ShareTarget[]>([]);
-  readonly shareUrl = input<string>("");
-  readonly shareTitle = input<string>("");
-  readonly shareText = input<string>("");
-  readonly copyLabel = input<string>("");
-  readonly copiedLabel = input<string>("");
-  readonly copyFailedLabel = input<string>("");
-  readonly shareStrategy = input<ShareStrategy>("auto");
-  /** Fires after a share destination is chosen. */
-  readonly share = output<ShareEvent>();
-  /** Fires after the URL is copied. */
-  readonly copy = output<string>();
-  /** Fires when the native share sheet was used instead of the list. */
-  readonly nativeShare = output<string>();
+    // --- share-picker ---
+    /** Destinations offered by the share picker. Empty is valid if `copyLabel` is set. */
+    readonly shareTargets = input<ShareTarget[]>([]);
+    readonly shareUrl = input<string>("");
+    readonly shareTitle = input<string>("");
+    readonly shareText = input<string>("");
+    readonly copyLabel = input<string>("");
+    readonly copiedLabel = input<string>("");
+    readonly copyFailedLabel = input<string>("");
+    readonly shareStrategy = input<ShareStrategy>("auto");
+    /** Fires after a share destination is chosen. */
+    readonly share = output<ShareEvent>();
+    /** Fires after the URL is copied. */
+    readonly copy = output<string>();
+    /** Fires when the native share sheet was used instead of the list. */
+    readonly nativeShare = output<string>();
 
-  /** Extra CSS class on the root. */
-  readonly className = input<string>("");
+    /** Extra CSS class on the root. */
+    readonly className = input<string>("");
 }

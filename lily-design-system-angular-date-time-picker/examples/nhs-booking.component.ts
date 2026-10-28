@@ -11,61 +11,61 @@
 */
 import { ChangeDetectionStrategy, Component, computed, signal } from "@angular/core";
 import {
-  DateTimePicker,
-  addDays,
-  weekdayOf,
-  type DateTimePickerLabels,
-  type DateTimeShortcut,
-  type ShortcutEvent,
+    DateTimePicker,
+    addDays,
+    weekdayOf,
+    type DateTimePickerLabels,
+    type DateTimeShortcut,
+    type ShortcutEvent,
 } from "../date-time-picker.component";
 
 // A real service would take these from its translation bundle. They are
 // inline here so the example is self-contained.
 const EN: DateTimePickerLabels = {
-  previousYear: "Previous year",
-  previousMonth: "Previous month",
-  previousWeek: "Previous week",
-  previousDay: "Previous day",
-  nextDay: "Next day",
-  nextWeek: "Next week",
-  nextMonth: "Next month",
-  nextYear: "Next year",
-  confirm: "Confirm",
-  cancel: "Cancel",
-  hour: "Hour",
-  minute: "Minute",
-  clear: "Clear",
-  // Announced when typed text is refused. Word it as a correction,
-  // not a verdict.
-  invalid: "Enter a valid date, for example 21 3 2026",
-  // Spoken once when the dialog opens.
-  instructions: "Use the arrow keys to choose a day, and Enter to confirm",
+    previousYear: "Previous year",
+    previousMonth: "Previous month",
+    previousWeek: "Previous week",
+    previousDay: "Previous day",
+    nextDay: "Next day",
+    nextWeek: "Next week",
+    nextMonth: "Next month",
+    nextYear: "Next year",
+    confirm: "Confirm",
+    cancel: "Cancel",
+    hour: "Hour",
+    minute: "Minute",
+    clear: "Clear",
+    // Announced when typed text is refused. Word it as a correction,
+    // not a verdict.
+    invalid: "Enter a valid date, for example 21 3 2026",
+    // Spoken once when the dialog opens.
+    instructions: "Use the arrow keys to choose a day, and Enter to confirm",
 };
 
 const CY: DateTimePickerLabels = {
-  previousYear: "Blwyddyn flaenorol",
-  previousMonth: "Mis blaenorol",
-  previousWeek: "Wythnos flaenorol",
-  previousDay: "Diwrnod blaenorol",
-  nextDay: "Diwrnod nesaf",
-  nextWeek: "Wythnos nesaf",
-  nextMonth: "Mis nesaf",
-  nextYear: "Blwyddyn nesaf",
-  confirm: "Cadarnhau",
-  cancel: "Canslo",
-  hour: "Awr",
-  minute: "Munud",
-  clear: "Clirio",
-  invalid: "Rhowch ddyddiad dilys, er enghraifft 21 3 2026",
-  instructions: "Defnyddiwch y saethau i ddewis diwrnod, ac Enter i gadarnhau",
+    previousYear: "Blwyddyn flaenorol",
+    previousMonth: "Mis blaenorol",
+    previousWeek: "Wythnos flaenorol",
+    previousDay: "Diwrnod blaenorol",
+    nextDay: "Diwrnod nesaf",
+    nextWeek: "Wythnos nesaf",
+    nextMonth: "Mis nesaf",
+    nextYear: "Blwyddyn nesaf",
+    confirm: "Cadarnhau",
+    cancel: "Canslo",
+    hour: "Awr",
+    minute: "Munud",
+    clear: "Clirio",
+    invalid: "Rhowch ddyddiad dilys, er enghraifft 21 3 2026",
+    instructions: "Defnyddiwch y saethau i ddewis diwrnod, ac Enter i gadarnhau",
 };
 
 @Component({
-  selector: "example-nhs-booking",
-  standalone: true,
-  imports: [DateTimePicker],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: "example-nhs-booking",
+    standalone: true,
+    imports: [DateTimePicker],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <h1>{{ welsh() ? "Trefnu apwyntiad" : "Book an appointment" }}</h1>
 
     <button type="button" (click)="welsh.set(!welsh())">
@@ -108,47 +108,47 @@ const CY: DateTimePickerLabels = {
   `,
 })
 export class NhsBookingExample {
-  protected readonly EN = EN;
-  protected readonly CY = CY;
+    protected readonly EN = EN;
+    protected readonly CY = CY;
 
-  readonly welsh = signal(false);
-  appointment = "";
+    readonly welsh = signal(false);
+    appointment = "";
 
-  // Today is resolved once, at construction, so the booking window does
-  // not shift under the user mid-session.
-  private readonly todayIso = (() => {
-    const today = new Date();
-    const y = today.getFullYear();
-    const m = String(today.getMonth() + 1).padStart(2, "0");
-    const d = String(today.getDate()).padStart(2, "0");
-    return `${y}-${m}-${d}`;
-  })();
+    // Today is resolved once, at construction, so the booking window does
+    // not shift under the user mid-session.
+    private readonly todayIso = (() => {
+        const today = new Date();
+        const y = today.getFullYear();
+        const m = String(today.getMonth() + 1).padStart(2, "0");
+        const d = String(today.getDate()).padStart(2, "0");
+        return `${y}-${m}-${d}`;
+    })();
 
-  // Bookable from tomorrow to twelve weeks out.
-  readonly min = addDays(this.todayIso, 1);
-  readonly max = addDays(this.todayIso, 7 * 12);
+    // Bookable from tomorrow to twelve weeks out.
+    readonly min = addDays(this.todayIso, 1);
+    readonly max = addDays(this.todayIso, 7 * 12);
 
-  // Weekends closed. A real service would also fold in bank holidays and
-  // the clinic's own closures — which is exactly why this is a predicate
-  // and not a list of inputs.
-  protected readonly closed = (date: string): boolean =>
-    weekdayOf(date) === 0 || weekdayOf(date) === 6;
+    // Weekends closed. A real service would also fold in bank holidays and
+    // the clinic's own closures — which is exactly why this is a predicate
+    // and not a list of inputs.
+    protected readonly closed = (date: string): boolean =>
+        weekdayOf(date) === 0 || weekdayOf(date) === 6;
 
-  protected readonly shortcuts = computed<DateTimeShortcut[]>(() =>
-    this.welsh()
-      ? [
-          { id: "1w", label: "Ymhen wythnos", days: 7 },
-          { id: "2w", label: "Ymhen pythefnos", days: 14 },
-          { id: "1m", label: "Ymhen mis", months: 1 },
-        ]
-      : [
-          { id: "1w", label: "In 1 week", days: 7 },
-          { id: "2w", label: "In 2 weeks", days: 14 },
-          { id: "1m", label: "In 1 month", months: 1 },
-        ],
-  );
+    protected readonly shortcuts = computed<DateTimeShortcut[]>(() =>
+        this.welsh()
+            ? [
+                  { id: "1w", label: "Ymhen wythnos", days: 7 },
+                  { id: "2w", label: "Ymhen pythefnos", days: 14 },
+                  { id: "1m", label: "Ymhen mis", months: 1 },
+              ]
+            : [
+                  { id: "1w", label: "In 1 week", days: 7 },
+                  { id: "2w", label: "In 2 weeks", days: 14 },
+                  { id: "1m", label: "In 1 month", months: 1 },
+              ],
+    );
 
-  protected onShortcut(event: ShortcutEvent): void {
-    console.log("shortcut", event.id, event.isoDate);
-  }
+    protected onShortcut(event: ShortcutEvent): void {
+        console.log("shortcut", event.id, event.isoDate);
+    }
 }

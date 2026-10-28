@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { FiveStarRatingPickerButton } from "./FiveStarRatingPickerButton";
 
 const meta: Meta<FiveStarRatingPickerButton> = {
-  title: "Headless/FiveStarRatingPickerButton",
-  component: FiveStarRatingPickerButton,
-  tags: ["autodocs"],
+    title: "Headless/FiveStarRatingPickerButton",
+    component: FiveStarRatingPickerButton,
+    tags: ["autodocs"],
 };
 
 export default meta;

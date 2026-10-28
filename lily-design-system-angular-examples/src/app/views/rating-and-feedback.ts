@@ -4,10 +4,10 @@ import { FiveFaceRatingPicker } from "../components/FiveFaceRatingPicker";
 import { NetPromoterScorePicker } from "../components/NetPromoterScorePicker";
 
 @Component({
-  selector: "lily-rating-and-feedback",
-  standalone: true,
-  imports: [FiveStarRatingPicker, FiveFaceRatingPicker, NetPromoterScorePicker],
-  template: `
+    selector: "lily-rating-and-feedback",
+    standalone: true,
+    imports: [FiveStarRatingPicker, FiveFaceRatingPicker, NetPromoterScorePicker],
+    template: `
     <article class="page-wrapper">
       <h1>Rating and feedback</h1>
 
@@ -21,6 +21,6 @@ import { NetPromoterScorePicker } from "../components/NetPromoterScorePicker";
       <lily-net-promoter-score-picker label="NPS" />
     </article>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class RatingAndFeedbackPage {}

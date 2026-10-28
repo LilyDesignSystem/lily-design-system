@@ -8,14 +8,14 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * Ships zero CSS; the consumer styles via the class hook.
  */
 @Component({
-  selector: "lily-menu-bar-button",
-  standalone: true,
-  template: `<button class="menu-bar-button {{ className() }}" type="button" role="menuitem" tabindex="-1" [attr.aria-label]="label() || null"><ng-content /></button>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "lily-menu-bar-button",
+    standalone: true,
+    template: `<button class="menu-bar-button {{ className() }}" type="button" role="menuitem" tabindex="-1" [attr.aria-label]="label() || null"><ng-content /></button>`,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuBarButton {
-  /** Optional aria-label override. */
-  readonly label = input<string>("");
-  /** Extra CSS classes appended to the base class. */
-  readonly className = input<string>("");
+    /** Optional aria-label override. */
+    readonly label = input<string>("");
+    /** Extra CSS classes appended to the base class. */
+    readonly className = input<string>("");
 }

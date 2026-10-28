@@ -1,18 +1,18 @@
 import { NgTemplateOutlet } from "@angular/common";
 import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  contentChild,
-  Directive,
-  effect,
-  ElementRef,
-  input,
-  model,
-  output,
-  signal,
-  TemplateRef,
-  viewChild,
+    ChangeDetectionStrategy,
+    Component,
+    computed,
+    contentChild,
+    Directive,
+    effect,
+    ElementRef,
+    input,
+    model,
+    output,
+    signal,
+    TemplateRef,
+    viewChild,
 } from "@angular/core";
 // Only the trigger button composes a headless primitive. The panel is a
 // real <form role="search"> with a real search field and a real submit
@@ -31,18 +31,18 @@ export const RETURN_SYMBOL = "⏎";
 
 /** Context passed to a custom icon `<ng-template>` (the button icon). */
 export type ChildArgs = {
-  /** Is the search panel open? */
-  open: boolean;
-  /** The current text in the search field. */
-  query: string;
+    /** Is the search panel open? */
+    open: boolean;
+    /** The current text in the search field. */
+    query: string;
 };
 
 /** Payload of the `searched` output: the trimmed query and its destination. */
 export type SearchEvent = {
-  /** The trimmed, non-empty query. */
-  query: string;
-  /** Where the search navigates: `searchHref(query, action)`. */
-  href: string;
+    /** The trimmed, non-empty query. */
+    query: string;
+    /** Where the search navigates: `searchHref(query, action)`. */
+    href: string;
 };
 
 /**
@@ -51,14 +51,14 @@ export type SearchEvent = {
  * `"/?foo%20bar"`.
  */
 export function searchHref(query: string, action = "/"): string {
-  return `${action}?${encodeURIComponent(query.trim())}`;
+    return `${action}?${encodeURIComponent(query.trim())}`;
 }
 
 let uid = 0;
 /** Stable per-instance id prefix; SSR-safe (no Math.random / Date.now). */
 export function nextSearchPickerId(): string {
-  uid += 1;
-  return `search-picker-${uid}`;
+    uid += 1;
+    return `search-picker-${uid}`;
 }
 
 /**
@@ -75,16 +75,16 @@ export function nextSearchPickerId(): string {
  * for type-checking and readability, not for matching.
  */
 @Directive({
-  selector: "ng-template[lilySearchPickerIcon]",
-  standalone: true,
+    selector: "ng-template[lilySearchPickerIcon]",
+    standalone: true,
 })
 export class SearchPickerIcon {
-  static ngTemplateContextGuard(
-    _dir: SearchPickerIcon,
-    _ctx: unknown,
-  ): _ctx is ChildArgs & { $implicit: ChildArgs } {
-    return true;
-  }
+    static ngTemplateContextGuard(
+        _dir: SearchPickerIcon,
+        _ctx: unknown,
+    ): _ctx is ChildArgs & { $implicit: ChildArgs } {
+        return true;
+    }
 }
 
 /**
@@ -100,14 +100,14 @@ export class SearchPickerIcon {
  * the full contract.
  */
 @Component({
-  selector: "lily-search-picker",
-  standalone: true,
-  imports: [NgTemplateOutlet, IconButton],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    "(document:click)": "onDocumentClick($event)",
-  },
-  template: `
+    selector: "lily-search-picker",
+    standalone: true,
+    imports: [NgTemplateOutlet, IconButton],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: {
+        "(document:click)": "onDocumentClick($event)",
+    },
+    template: `
     <div
       #rootEl
       class="search-picker {{ className() }}"
@@ -206,192 +206,192 @@ export class SearchPickerIcon {
   `,
 })
 export class SearchPicker {
-  /** Accessible name for the icon button and the search landmark. */
-  readonly label = input.required<string>();
-  /** Accessible name for the search text field. */
-  readonly inputLabel = input.required<string>();
-  /** Accessible name for the ⏎ submit button. */
-  readonly submitLabel = input.required<string>();
-  /** Placeholder text for the search field. No default. */
-  readonly placeholder = input<string | undefined>(undefined);
-  /** The search text. Two-way bindable: `[(value)]`. */
-  readonly value = model<string>("");
-  /**
-   * Path the query is appended to. The search for `foo` navigates to
-   * `${action}?foo`; the default `"/"` gives `/?foo`.
-   */
-  readonly action = input<string>("/");
-  /**
-   * Performs the navigation. Defaults to `location.assign(href)` — a real
-   * GET request. Pass a client-side router's navigate function (e.g.
-   * `(href) => router.navigateByUrl(href)`) to keep the navigation in-app.
-   */
-  readonly navigate = input<((href: string) => void) | undefined>(undefined);
-  /** Extra CSS class on the root div. */
-  readonly className = input<string>("");
+    /** Accessible name for the icon button and the search landmark. */
+    readonly label = input.required<string>();
+    /** Accessible name for the search text field. */
+    readonly inputLabel = input.required<string>();
+    /** Accessible name for the ⏎ submit button. */
+    readonly submitLabel = input.required<string>();
+    /** Placeholder text for the search field. No default. */
+    readonly placeholder = input<string | undefined>(undefined);
+    /** The search text. Two-way bindable: `[(value)]`. */
+    readonly value = model<string>("");
+    /**
+     * Path the query is appended to. The search for `foo` navigates to
+     * `${action}?foo`; the default `"/"` gives `/?foo`.
+     */
+    readonly action = input<string>("/");
+    /**
+     * Performs the navigation. Defaults to `location.assign(href)` — a real
+     * GET request. Pass a client-side router's navigate function (e.g.
+     * `(href) => router.navigateByUrl(href)`) to keep the navigation in-app.
+     */
+    readonly navigate = input<((href: string) => void) | undefined>(undefined);
+    /** Extra CSS class on the root div. */
+    readonly className = input<string>("");
 
-  /**
-   * Fires with the trimmed query and the destination, before navigating.
-   * Named `searched`, not `search`: `<input type="search">` fires a
-   * native, bubbling `search` DOM event in Chromium and WebKit, and
-   * Angular binds `(search)` on a component host to BOTH the output and
-   * any same-named DOM event — the handler would receive a raw `Event`
-   * on every Return.
-   */
-  readonly searched = output<SearchEvent>();
+    /**
+     * Fires with the trimmed query and the destination, before navigating.
+     * Named `searched`, not `search`: `<input type="search">` fires a
+     * native, bubbling `search` DOM event in Chromium and WebKit, and
+     * Angular binds `(search)` on a component host to BOTH the output and
+     * any same-named DOM event — the handler would receive a raw `Event`
+     * on every Return.
+     */
+    readonly searched = output<SearchEvent>();
 
-  /** Projected icon template; replaces the default icon when supplied. */
-  protected readonly iconTemplate = contentChild(TemplateRef);
+    /** Projected icon template; replaces the default icon when supplied. */
+    protected readonly iconTemplate = contentChild(TemplateRef);
 
-  private readonly rootRef = viewChild.required<ElementRef<HTMLDivElement>>("rootEl");
-  // A template-ref-variable on a component tag resolves to the component
-  // INSTANCE — exactly what's needed to call IconButton's own `focus()`.
-  private readonly buttonRef = viewChild.required<IconButton>("buttonEl");
-  private readonly panelRef = viewChild.required<ElementRef<HTMLDivElement>>("panelEl");
-  private readonly inputRef = viewChild.required<ElementRef<HTMLInputElement>>("inputEl");
+    private readonly rootRef = viewChild.required<ElementRef<HTMLDivElement>>("rootEl");
+    // A template-ref-variable on a component tag resolves to the component
+    // INSTANCE — exactly what's needed to call IconButton's own `focus()`.
+    private readonly buttonRef = viewChild.required<IconButton>("buttonEl");
+    private readonly panelRef = viewChild.required<ElementRef<HTMLDivElement>>("panelEl");
+    private readonly inputRef = viewChild.required<ElementRef<HTMLInputElement>>("inputEl");
 
-  private readonly baseId = nextSearchPickerId();
-  protected readonly panelId = `${this.baseId}-panel`;
-  protected readonly returnSymbol = RETURN_SYMBOL;
+    private readonly baseId = nextSearchPickerId();
+    protected readonly panelId = `${this.baseId}-panel`;
+    protected readonly returnSymbol = RETURN_SYMBOL;
 
-  /** Is the popup open? Two-way bindable: `[(open)]`; `openChange` fires for each change. */
-  readonly open = model<boolean>(false);
-  /** Disables the button; an open popup closes. */
-  readonly disabled = input<boolean>(false);
-  private readonly closeWhenDisabled = effect(() => {
-    if (this.disabled() && this.open()) this.open.set(false);
-  });
+    /** Is the popup open? Two-way bindable: `[(open)]`; `openChange` fires for each change. */
+    readonly open = model<boolean>(false);
+    /** Disables the button; an open popup closes. */
+    readonly disabled = input<boolean>(false);
+    private readonly closeWhenDisabled = effect(() => {
+        if (this.disabled() && this.open()) this.open.set(false);
+    });
 
-  // Tooltip: shown while the pointer is over the button or the tooltip
-  // itself (hoverable, WCAG 1.4.13) or while the button has keyboard
-  // focus; Escape dismisses it without moving focus; never shown while
-  // the popup is open, since the popup then explains the control.
-  protected readonly tooltipId = `${this.baseId}-tooltip`;
-  protected readonly hoverButton = signal(false);
-  protected readonly hoverTooltip = signal(false);
-  protected readonly focusButton = signal(false);
-  protected readonly dismissed = signal(false);
-  protected readonly tooltipVisible = computed(
-    () =>
-      !this.open() &&
-      !this.dismissed() &&
-      (this.hoverButton() || this.hoverTooltip() || this.focusButton()),
-  );
+    // Tooltip: shown while the pointer is over the button or the tooltip
+    // itself (hoverable, WCAG 1.4.13) or while the button has keyboard
+    // focus; Escape dismisses it without moving focus; never shown while
+    // the popup is open, since the popup then explains the control.
+    protected readonly tooltipId = `${this.baseId}-tooltip`;
+    protected readonly hoverButton = signal(false);
+    protected readonly hoverTooltip = signal(false);
+    protected readonly focusButton = signal(false);
+    protected readonly dismissed = signal(false);
+    protected readonly tooltipVisible = computed(
+        () =>
+            !this.open() &&
+            !this.dismissed() &&
+            (this.hoverButton() || this.hoverTooltip() || this.focusButton()),
+    );
 
-  protected onTooltipButtonEnter(): void {
-    this.hoverButton.set(true);
-    this.dismissed.set(false);
-  }
-
-  protected onTooltipButtonFocusIn(): void {
-    // Keyboard focus only: a mouse click also focuses the button in
-    // Chromium, and the tooltip should not stick after a click.
-    try {
-      this.focusButton.set(this.buttonRef().element?.matches(":focus-visible") ?? false);
-    } catch {
-      this.focusButton.set(true); // engine without :focus-visible — err towards showing
+    protected onTooltipButtonEnter(): void {
+        this.hoverButton.set(true);
+        this.dismissed.set(false);
     }
-  }
 
-  protected onTooltipButtonFocusOut(): void {
-    this.focusButton.set(false);
-    this.dismissed.set(false);
-  }
-
-  protected onTooltipKeydown(event: KeyboardEvent): void {
-    if (event.key === "Escape" && this.tooltipVisible()) this.dismissed.set(true);
-  }
-
-  // WCAG 1.4.13 "dismissable": while the tooltip is visible, Escape works
-  // wherever focus is (hover-only tooltips have focus elsewhere). The
-  // listener exists only while visible; the effect cleanup removes it on
-  // hide and on destroy. No preventDefault/stopPropagation, focus untouched.
-  private readonly tooltipEscapeListener = effect((onCleanup) => {
-    if (!this.tooltipVisible() || typeof document === "undefined") return;
-    const onKey = (event: KeyboardEvent): void => {
-      if (event.key === "Escape") this.dismissed.set(true);
-    };
-    document.addEventListener("keydown", onKey);
-    onCleanup(() => document.removeEventListener("keydown", onKey));
-  });
-
-  protected readonly childContext = computed(() => {
-    const args: ChildArgs = { open: this.open(), query: this.value() };
-    return { $implicit: args, ...args };
-  });
-
-  // ---------------------------------------------------------------
-  // Open / close
-  // ---------------------------------------------------------------
-
-  /** Open the panel and move focus into the search field. */
-  openPanel(): void {
-    this.open.set(true);
-    // Unhide the panel now rather than waiting for change detection, so
-    // the field is focusable in this same task — whether the host app is
-    // zone-based or zoneless, the template binding settles on the same
-    // value afterwards. preventScroll: the panel is positioned by
-    // consumer CSS, and focusing a field rendered partly off-screen would
-    // otherwise scroll the whole page.
-    this.panelRef().nativeElement.removeAttribute("hidden");
-    this.inputRef().nativeElement.focus({ preventScroll: true });
-  }
-
-  /** Close the panel; `refocus` returns focus to the trigger. */
-  closePanel(refocus = true): void {
-    if (!this.open()) return;
-    // Focus the trigger BEFORE hiding the panel, so focus never drops to
-    // <body> in between.
-    if (refocus) this.buttonRef().focus({ preventScroll: true });
-    this.open.set(false);
-  }
-
-  protected onButtonClick(): void {
-    if (this.open()) this.closePanel();
-    else this.openPanel();
-  }
-
-  protected onPanelKeydown(event: KeyboardEvent): void {
-    if (event.key === "Escape") {
-      event.preventDefault();
-      this.closePanel();
+    protected onTooltipButtonFocusIn(): void {
+        // Keyboard focus only: a mouse click also focuses the button in
+        // Chromium, and the tooltip should not stick after a click.
+        try {
+            this.focusButton.set(this.buttonRef().element?.matches(":focus-visible") ?? false);
+        } catch {
+            this.focusButton.set(true); // engine without :focus-visible — err towards showing
+        }
     }
-  }
 
-  protected onRootFocusOut(event: FocusEvent): void {
-    // Close only when focus moves to a known element outside the picker.
-    // A focusout with no relatedTarget is not "focus left": Safari does
-    // not focus a <button> on click, so pressing ⏎ (or the icon button)
-    // blurs the field with relatedTarget = null. Closing there hid the
-    // panel before the click landed, so ⏎ never searched and the icon
-    // button re-opened instead of closing. Clicks outside the picker are
-    // handled by the document click listener below.
-    const next = event.relatedTarget as Node | null;
-    if (!next || this.rootRef().nativeElement.contains(next)) return;
-    this.closePanel(false);
-  }
+    protected onTooltipButtonFocusOut(): void {
+        this.focusButton.set(false);
+        this.dismissed.set(false);
+    }
 
-  protected onDocumentClick(event: Event): void {
-    if (!this.open()) return;
-    const t = event.target as Node | null;
-    if (t && !this.rootRef().nativeElement.contains(t)) this.closePanel(false);
-  }
+    protected onTooltipKeydown(event: KeyboardEvent): void {
+        if (event.key === "Escape" && this.tooltipVisible()) this.dismissed.set(true);
+    }
 
-  // ---------------------------------------------------------------
-  // Searching
-  // ---------------------------------------------------------------
+    // WCAG 1.4.13 "dismissable": while the tooltip is visible, Escape works
+    // wherever focus is (hover-only tooltips have focus elsewhere). The
+    // listener exists only while visible; the effect cleanup removes it on
+    // hide and on destroy. No preventDefault/stopPropagation, focus untouched.
+    private readonly tooltipEscapeListener = effect((onCleanup) => {
+        if (!this.tooltipVisible() || typeof document === "undefined") return;
+        const onKey = (event: KeyboardEvent): void => {
+            if (event.key === "Escape") this.dismissed.set(true);
+        };
+        document.addEventListener("keydown", onKey);
+        onCleanup(() => document.removeEventListener("keydown", onKey));
+    });
 
-  protected onSubmit(event: Event): void {
-    // The form's native GET would send `/?name=value`; the contract is
-    // the bare query (`/?foo`), so navigation is done here instead.
-    event.preventDefault();
-    const query = this.value().trim();
-    if (!query) return;
-    const href = searchHref(query, this.action());
-    this.searched.emit({ query, href });
-    this.closePanel(false);
-    const navigate = this.navigate();
-    if (navigate) navigate(href);
-    else if (typeof location !== "undefined") location.assign(href);
-  }
+    protected readonly childContext = computed(() => {
+        const args: ChildArgs = { open: this.open(), query: this.value() };
+        return { $implicit: args, ...args };
+    });
+
+    // ---------------------------------------------------------------
+    // Open / close
+    // ---------------------------------------------------------------
+
+    /** Open the panel and move focus into the search field. */
+    openPanel(): void {
+        this.open.set(true);
+        // Unhide the panel now rather than waiting for change detection, so
+        // the field is focusable in this same task — whether the host app is
+        // zone-based or zoneless, the template binding settles on the same
+        // value afterwards. preventScroll: the panel is positioned by
+        // consumer CSS, and focusing a field rendered partly off-screen would
+        // otherwise scroll the whole page.
+        this.panelRef().nativeElement.removeAttribute("hidden");
+        this.inputRef().nativeElement.focus({ preventScroll: true });
+    }
+
+    /** Close the panel; `refocus` returns focus to the trigger. */
+    closePanel(refocus = true): void {
+        if (!this.open()) return;
+        // Focus the trigger BEFORE hiding the panel, so focus never drops to
+        // <body> in between.
+        if (refocus) this.buttonRef().focus({ preventScroll: true });
+        this.open.set(false);
+    }
+
+    protected onButtonClick(): void {
+        if (this.open()) this.closePanel();
+        else this.openPanel();
+    }
+
+    protected onPanelKeydown(event: KeyboardEvent): void {
+        if (event.key === "Escape") {
+            event.preventDefault();
+            this.closePanel();
+        }
+    }
+
+    protected onRootFocusOut(event: FocusEvent): void {
+        // Close only when focus moves to a known element outside the picker.
+        // A focusout with no relatedTarget is not "focus left": Safari does
+        // not focus a <button> on click, so pressing ⏎ (or the icon button)
+        // blurs the field with relatedTarget = null. Closing there hid the
+        // panel before the click landed, so ⏎ never searched and the icon
+        // button re-opened instead of closing. Clicks outside the picker are
+        // handled by the document click listener below.
+        const next = event.relatedTarget as Node | null;
+        if (!next || this.rootRef().nativeElement.contains(next)) return;
+        this.closePanel(false);
+    }
+
+    protected onDocumentClick(event: Event): void {
+        if (!this.open()) return;
+        const t = event.target as Node | null;
+        if (t && !this.rootRef().nativeElement.contains(t)) this.closePanel(false);
+    }
+
+    // ---------------------------------------------------------------
+    // Searching
+    // ---------------------------------------------------------------
+
+    protected onSubmit(event: Event): void {
+        // The form's native GET would send `/?name=value`; the contract is
+        // the bare query (`/?foo`), so navigation is done here instead.
+        event.preventDefault();
+        const query = this.value().trim();
+        if (!query) return;
+        const href = searchHref(query, this.action());
+        this.searched.emit({ query, href });
+        this.closePanel(false);
+        const navigate = this.navigate();
+        if (navigate) navigate(href);
+        else if (typeof location !== "undefined") location.assign(href);
+    }
 }

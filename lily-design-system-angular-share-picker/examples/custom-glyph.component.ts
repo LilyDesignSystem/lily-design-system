@@ -31,11 +31,11 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { SharePicker, SharePickerIcon, type ShareTarget } from "../share-picker.component";
 
 @Component({
-  selector: "example-custom-glyph",
-  standalone: true,
-  imports: [SharePicker, SharePickerIcon],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: "example-custom-glyph",
+    standalone: true,
+    imports: [SharePicker, SharePickerIcon],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <!-- Visible text instead of the icon. -->
     <lily-share-picker
       label="Share this page"
@@ -59,11 +59,11 @@ import { SharePicker, SharePickerIcon, type ShareTarget } from "../share-picker.
   `,
 })
 export class CustomGlyphExample {
-  readonly targets: ShareTarget[] = [
-    {
-      id: "mastodon",
-      label: "Mastodon",
-      href: (url) => `https://mastodon.social/share?text=${encodeURIComponent(url)}`,
-    },
-  ];
+    readonly targets: ShareTarget[] = [
+        {
+            id: "mastodon",
+            label: "Mastodon",
+            href: (url) => `https://mastodon.social/share?text=${encodeURIComponent(url)}`,
+        },
+    ];
 }

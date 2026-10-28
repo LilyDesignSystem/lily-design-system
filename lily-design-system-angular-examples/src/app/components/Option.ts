@@ -13,16 +13,16 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * zero CSS; the consumer styles via the class hook.
  */
 @Component({
-  selector: "option[lily-option]",
-  standalone: true,
-  template: `<ng-content />`,
-  host: {
-    "[class]": '"option " + className()',
-    "[value]": "value()",
-  },
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "option[lily-option]",
+    standalone: true,
+    template: `<ng-content />`,
+    host: {
+        "[class]": '"option " + className()',
+        "[value]": "value()",
+    },
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Option {
-  readonly value = input<string>("");
-  readonly className = input<string>("");
+    readonly value = input<string>("");
+    readonly className = input<string>("");
 }

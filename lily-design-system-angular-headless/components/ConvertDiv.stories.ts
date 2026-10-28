@@ -2,10 +2,10 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { ConvertDiv } from "./ConvertDiv";
 
 const meta: Meta<ConvertDiv> = {
-  title: "Headless/ConvertDiv",
-  component: ConvertDiv,
-  tags: ["autodocs"],
-  args: { label: "Currency converter" },
+    title: "Headless/ConvertDiv",
+    component: ConvertDiv,
+    tags: ["autodocs"],
+    args: { label: "Currency converter" },
 };
 
 export default meta;

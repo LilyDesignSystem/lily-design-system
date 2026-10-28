@@ -13,14 +13,14 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * zero CSS; the consumer styles via the class hook.
  */
 @Component({
-  selector: "li[lily-step-list-item]",
-  standalone: true,
-  template: `<ng-content />`,
-  host: {
-    "[class]": '"step-list-item " + className()',
-  },
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "li[lily-step-list-item]",
+    standalone: true,
+    template: `<ng-content />`,
+    host: {
+        "[class]": '"step-list-item " + className()',
+    },
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StepListItem {
-  readonly className = input<string>("");
+    readonly className = input<string>("");
 }

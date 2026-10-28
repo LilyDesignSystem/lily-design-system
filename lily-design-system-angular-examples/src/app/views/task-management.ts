@@ -4,10 +4,10 @@ import { TaskListItem } from "../components/TaskListItem";
 import { Badge } from "../components/Badge";
 
 @Component({
-  selector: "lily-task-management",
-  standalone: true,
-  imports: [TaskList, TaskListItem, Badge],
-  template: `
+    selector: "lily-task-management",
+    standalone: true,
+    imports: [TaskList, TaskListItem, Badge],
+    template: `
     <article class="page-wrapper">
       <h1>Task management</h1>
 
@@ -18,6 +18,6 @@ import { Badge } from "../components/Badge";
       </lily-task-list>
     </article>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class TaskManagementPage {}

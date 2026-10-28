@@ -6,36 +6,36 @@
  */
 
 export interface WheelOption {
-  value: string;
-  label: string;
-  disabled?: boolean;
+    value: string;
+    label: string;
+    disabled?: boolean;
 }
 
 export type WheelMoveKey = "ArrowUp" | "ArrowDown" | "Home" | "End" | "PageUp" | "PageDown";
 
 export const WHEEL_MOVE_KEYS: readonly string[] = [
-  "ArrowUp",
-  "ArrowDown",
-  "Home",
-  "End",
-  "PageUp",
-  "PageDown",
+    "ArrowUp",
+    "ArrowDown",
+    "Home",
+    "End",
+    "PageUp",
+    "PageDown",
 ];
 
 export interface WheelMoveOptions {
-  /** Arrow keys wrap from the last enabled option to the first and back. Default false. */
-  loop?: boolean;
-  /** Enabled options PageUp / PageDown move by. Default 5. */
-  pageSize?: number;
+    /** Arrow keys wrap from the last enabled option to the first and back. Default false. */
+    loop?: boolean;
+    /** Enabled options PageUp / PageDown move by. Default 5. */
+    pageSize?: number;
 }
 
 /** Indexes of the options that can be selected. */
 function enabledIndexes(options: readonly WheelOption[]): number[] {
-  const out: number[] = [];
-  options.forEach((o, i) => {
-    if (!o.disabled) out.push(i);
-  });
-  return out;
+    const out: number[] = [];
+    options.forEach((o, i) => {
+        if (!o.disabled) out.push(i);
+    });
+    return out;
 }
 
 /**
@@ -43,67 +43,75 @@ function enabledIndexes(options: readonly WheelOption[]): number[] {
  * With nothing selected, ArrowDown / PageDown / Home choose the first enabled option and ArrowUp / PageUp / End the last.
  */
 export function nextWheelIndex(
-  options: readonly WheelOption[],
-  current: number,
-  key: WheelMoveKey,
-  move: WheelMoveOptions = {},
+    options: readonly WheelOption[],
+    current: number,
+    key: WheelMoveKey,
+    move: WheelMoveOptions = {},
 ): number {
-  const enabled = enabledIndexes(options);
-  if (enabled.length === 0) return -1;
-  const first = enabled[0];
-  const last = enabled[enabled.length - 1];
-  const position = enabled.indexOf(current);
-  const pageSize = Math.max(1, Math.floor(move.pageSize ?? 5));
+    const enabled = enabledIndexes(options);
+    if (enabled.length === 0) return -1;
+    const first = enabled[0];
+    const last = enabled[enabled.length - 1];
+    const position = enabled.indexOf(current);
+    const pageSize = Math.max(1, Math.floor(move.pageSize ?? 5));
 
-  if (key === "Home") return first;
-  if (key === "End") return last;
-  if (position === -1) return key === "ArrowDown" || key === "PageDown" ? first : last;
+    if (key === "Home") return first;
+    if (key === "End") return last;
+    if (position === -1) return key === "ArrowDown" || key === "PageDown" ? first : last;
 
-  switch (key) {
-    case "ArrowDown":
-      return position + 1 < enabled.length ? enabled[position + 1] : move.loop ? first : current;
-    case "ArrowUp":
-      return position > 0 ? enabled[position - 1] : move.loop ? last : current;
-    case "PageDown":
-      return enabled[Math.min(enabled.length - 1, position + pageSize)];
-    case "PageUp":
-      return enabled[Math.max(0, position - pageSize)];
-  }
+    switch (key) {
+        case "ArrowDown":
+            return position + 1 < enabled.length
+                ? enabled[position + 1]
+                : move.loop
+                  ? first
+                  : current;
+        case "ArrowUp":
+            return position > 0 ? enabled[position - 1] : move.loop ? last : current;
+        case "PageDown":
+            return enabled[Math.min(enabled.length - 1, position + pageSize)];
+        case "PageUp":
+            return enabled[Math.max(0, position - pageSize)];
+    }
 }
 
 /** Lower-case and strip diacritics so "é" is typed with "e". */
 function fold(text: string): string {
-  return text.normalize("NFD").replace(/\p{M}/gu, "").toLocaleLowerCase();
+    return text.normalize("NFD").replace(/\p{M}/gu, "").toLocaleLowerCase();
 }
 
 export const WHEEL_TYPEAHEAD_RESET_MS = 700;
 
 export interface WheelTypeahead {
-  prefix: string;
-  at: number;
+    prefix: string;
+    at: number;
 }
 
 /** The prefix after `key` at time `now`: it grows while presses are within the reset time, else starts over. */
 export function nextWheelPrefix(
-  previous: WheelTypeahead,
-  key: string,
-  now: number,
-  resetMs: number = WHEEL_TYPEAHEAD_RESET_MS,
+    previous: WheelTypeahead,
+    key: string,
+    now: number,
+    resetMs: number = WHEEL_TYPEAHEAD_RESET_MS,
 ): WheelTypeahead {
-  const continuing = previous.prefix !== "" && now - previous.at <= resetMs;
-  return { prefix: (continuing ? previous.prefix : "") + key, at: now };
+    const continuing = previous.prefix !== "" && now - previous.at <= resetMs;
+    return { prefix: (continuing ? previous.prefix : "") + key, at: now };
 }
 
 /** Whether a key press is a type-ahead character: one printable character other than space, no Ctrl, Alt or Meta. */
 export function isWheelTypeaheadKey(event: {
-  key: string;
-  ctrlKey?: boolean;
-  altKey?: boolean;
-  metaKey?: boolean;
+    key: string;
+    ctrlKey?: boolean;
+    altKey?: boolean;
+    metaKey?: boolean;
 }): boolean {
-  return (
-    event.key.length === 1 && event.key !== " " && !event.ctrlKey && !event.altKey && !event.metaKey
-  );
+    return (
+        event.key.length === 1 &&
+        event.key !== " " &&
+        !event.ctrlKey &&
+        !event.altKey &&
+        !event.metaKey
+    );
 }
 
 /**
@@ -111,20 +119,20 @@ export function isWheelTypeaheadKey(event: {
  * repeated letter ("ss") counts as that single letter, so pressing it again steps through the options that start with it.
  */
 export function wheelTypeaheadIndex(
-  options: readonly WheelOption[],
-  current: number,
-  prefix: string,
+    options: readonly WheelOption[],
+    current: number,
+    prefix: string,
 ): number {
-  const folded = fold(prefix);
-  if (folded === "" || options.length === 0) return -1;
-  const repeated = folded.length > 1 && [...folded].every((c) => c === folded[0]);
-  const needle = repeated ? folded[0] : folded;
-  const startOffset = needle.length > 1 ? 0 : 1;
-  const from = current < 0 ? -startOffset : current;
-  for (let step = 0; step < options.length; step++) {
-    const index = (from + startOffset + step + options.length) % options.length;
-    const option = options[index];
-    if (!option.disabled && fold(option.label).startsWith(needle)) return index;
-  }
-  return -1;
+    const folded = fold(prefix);
+    if (folded === "" || options.length === 0) return -1;
+    const repeated = folded.length > 1 && [...folded].every((c) => c === folded[0]);
+    const needle = repeated ? folded[0] : folded;
+    const startOffset = needle.length > 1 ? 0 : 1;
+    const from = current < 0 ? -startOffset : current;
+    for (let step = 0; step < options.length; step++) {
+        const index = (from + startOffset + step + options.length) % options.length;
+        const option = options[index];
+        if (!option.disabled && fold(option.label).startsWith(needle)) return index;
+    }
+    return -1;
 }

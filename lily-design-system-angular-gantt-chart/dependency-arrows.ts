@@ -16,27 +16,27 @@ const midY = (box: ArrowBox) => (box.top + box.bottom) / 2;
  * `e2e` end to end. The arrow always arrives horizontally, so the arrowhead points into the bar.
  */
 export function dependencyPath(
-  kind: DependencyKind,
-  from: ArrowBox,
-  to: ArrowBox,
-  gap: number = ARROW_GAP,
+    kind: DependencyKind,
+    from: ArrowBox,
+    to: ArrowBox,
+    gap: number = ARROW_GAP,
 ): string {
-  const fromEnd = kind === "e2s" || kind === "e2e";
-  const toStart = kind === "e2s" || kind === "s2s";
-  const sx = fromEnd ? from.right : from.left;
-  const tx = toStart ? to.left : to.right;
-  const sy = midY(from);
-  const ty = midY(to);
-  const x1 = fromEnd ? sx + gap : sx - gap;
-  const x2 = toStart ? tx - gap : tx + gap;
-  const direct = fromEnd === toStart ? (fromEnd ? x1 <= x2 : x1 >= x2) : false;
-  if (direct) return `M${sx} ${sy}H${x1}V${ty}H${tx}`;
-  if (sy === ty) return `M${sx} ${sy}H${tx}`;
-  const ym = ty > sy ? to.top - 1 : to.bottom + 1;
-  return `M${sx} ${sy}H${x1}V${ym}H${x2}V${ty}H${tx}`;
+    const fromEnd = kind === "e2s" || kind === "e2e";
+    const toStart = kind === "e2s" || kind === "s2s";
+    const sx = fromEnd ? from.right : from.left;
+    const tx = toStart ? to.left : to.right;
+    const sy = midY(from);
+    const ty = midY(to);
+    const x1 = fromEnd ? sx + gap : sx - gap;
+    const x2 = toStart ? tx - gap : tx + gap;
+    const direct = fromEnd === toStart ? (fromEnd ? x1 <= x2 : x1 >= x2) : false;
+    if (direct) return `M${sx} ${sy}H${x1}V${ty}H${tx}`;
+    if (sy === ty) return `M${sx} ${sy}H${tx}`;
+    const ym = ty > sy ? to.top - 1 : to.bottom + 1;
+    return `M${sx} ${sy}H${x1}V${ym}H${x2}V${ty}H${tx}`;
 }
 
 /** The weekday (0 = Sunday … 6 = Saturday) of an ISO date, from its epoch day. */
 export function weekdayOfEpochDay(epochDay: number): number {
-  return (((epochDay + 4) % 7) + 7) % 7;
+    return (((epochDay + 4) % 7) + 7) % 7;
 }

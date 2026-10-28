@@ -9,12 +9,12 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * image plus crop overlay UI as children.
  */
 @Component({
-  selector: "lily-image-cropper",
-  standalone: true,
-  template: `<div class="image-cropper {{ className() }}" role="application" [attr.aria-label]="label() || null"><ng-content /></div>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "lily-image-cropper",
+    standalone: true,
+    template: `<div class="image-cropper {{ className() }}" role="application" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImageCropper {
-  readonly label = input.required<string>();
-  readonly className = input<string>("");
+    readonly label = input.required<string>();
+    readonly className = input<string>("");
 }

@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { CallToAction } from "./CallToAction";
 
 const meta: Meta<CallToAction> = {
-  title: "Headless/CallToAction",
-  component: CallToAction,
-  tags: ["autodocs"],
+    title: "Headless/CallToAction",
+    component: CallToAction,
+    tags: ["autodocs"],
 };
 
 export default meta;

@@ -14,14 +14,14 @@
 
 /** A pack as stored: `names` is a table, `zones` maps an IANA id to one index (a name all year) or [standard, daylight]. */
 export type ZoneNamePack = {
-  /** The locale tag of the label pack this goes with, e.g. `fr-001`. */
-  locale: string;
-  /** The CLDR locale the names were read for (`fr`), or null when CLDR has none for this language. */
-  cldrLocale: string | null;
-  /** The CLDR version the names come from. */
-  cldr: string;
-  names: string[];
-  zones: Record<string, number | [number, number]>;
+    /** The locale tag of the label pack this goes with, e.g. `fr-001`. */
+    locale: string;
+    /** The CLDR locale the names were read for (`fr`), or null when CLDR has none for this language. */
+    cldrLocale: string | null;
+    /** The CLDR version the names come from. */
+    cldr: string;
+    names: string[];
+    zones: Record<string, number | [number, number]>;
 };
 
 /** The shape the pickers' `names` input takes: an IANA id to a name, or to `[standard, daylight]`. */
@@ -29,22 +29,22 @@ export type ZoneNames = Readonly<Record<string, string | readonly [string, strin
 
 /** Expand a pack into the `names` a time zone picker takes. A zone the pack does not name is left out. */
 export function zoneNamesFrom(pack: ZoneNamePack): ZoneNames {
-  const out: Record<string, string | [string, string]> = {};
-  for (const [zone, at] of Object.entries(pack.zones)) {
-    if (typeof at === "number") {
-      const name = pack.names[at];
-      if (name !== undefined) out[zone] = name;
-    } else {
-      const standard = pack.names[at[0]];
-      const daylight = pack.names[at[1]];
-      if (standard !== undefined && daylight !== undefined) out[zone] = [standard, daylight];
-      else if (standard !== undefined) out[zone] = standard;
+    const out: Record<string, string | [string, string]> = {};
+    for (const [zone, at] of Object.entries(pack.zones)) {
+        if (typeof at === "number") {
+            const name = pack.names[at];
+            if (name !== undefined) out[zone] = name;
+        } else {
+            const standard = pack.names[at[0]];
+            const daylight = pack.names[at[1]];
+            if (standard !== undefined && daylight !== undefined) out[zone] = [standard, daylight];
+            else if (standard !== undefined) out[zone] = standard;
+        }
     }
-  }
-  return out;
+    return out;
 }
 
 /** How many zones the pack names. */
 export function zoneNameCount(pack: ZoneNamePack): number {
-  return Object.keys(pack.zones).length;
+    return Object.keys(pack.zones).length;
 }

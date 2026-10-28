@@ -1,9 +1,9 @@
 import {
-  Component,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  signal,
-  inject,
+    Component,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    signal,
+    inject,
 } from "@angular/core";
 import { BackLink } from "../components/BackLink";
 import { WarningCallout } from "../components/WarningCallout";
@@ -112,73 +112,73 @@ type TimeOfDay = "" | "morning" | "afternoon" | "evening";
 type StepStatus = "waiting" | "in-progress" | "finished";
 
 const REASON_LABELS: Record<string, string> = {
-  routine: "Routine check-up",
-  "follow-up": "Follow-up appointment",
-  vaccination: "Vaccination",
-  other: "Something else",
+    routine: "Routine check-up",
+    "follow-up": "Follow-up appointment",
+    vaccination: "Vaccination",
+    other: "Something else",
 };
 
 const TIME_LABELS: Record<string, string> = {
-  morning: "Morning (8am to 12pm)",
-  afternoon: "Afternoon (12pm to 4pm)",
-  evening: "Evening (4pm to 6pm)",
+    morning: "Morning (8am to 12pm)",
+    afternoon: "Afternoon (12pm to 4pm)",
+    evening: "Evening (4pm to 6pm)",
 };
 
 const STATUS_TEXT: Record<StepStatus, string> = {
-  waiting: "not started",
-  "in-progress": "current step",
-  finished: "completed",
+    waiting: "not started",
+    "in-progress": "current step",
+    finished: "completed",
 };
 
 // Fixed rendering order for the error summary -- not object insertion
 // order, which the validate* methods don't guarantee. Each key is also
 // the DOM id `focusField()` jumps to.
 const FIELD_ORDER: readonly string[] = [
-  "reason",
-  "reasonOther",
-  "appointmentDate",
-  "appointmentTime",
-  "fullName",
-  "email",
-  "confirmedAccurate",
+    "reason",
+    "reasonOther",
+    "appointmentDate",
+    "appointmentTime",
+    "fullName",
+    "email",
+    "confirmedAccurate",
 ];
 
 function todayIso(): string {
-  return new Date().toISOString().slice(0, 10);
+    return new Date().toISOString().slice(0, 10);
 }
 
 @Component({
-  selector: "lily-book-an-appointment",
-  standalone: true,
-  imports: [
-    BackLink,
-    WarningCallout,
-    InsetText,
-    Details,
-    Button,
-    Field,
-    Fieldset,
-    Label,
-    Hint,
-    TextAreaInput,
-    CharacterCounter,
-    DateInput,
-    Select,
-    Option,
-    TextInput,
-    EmailInput,
-    TelInput,
-    ErrorSummary,
-    ErrorMessage,
-    StatusTag,
-    SuccessPanel,
-    Panel,
-    StepList,
-    StepListItem,
-    SummaryList,
-    SummaryListItem,
-  ],
-  template: `
+    selector: "lily-book-an-appointment",
+    standalone: true,
+    imports: [
+        BackLink,
+        WarningCallout,
+        InsetText,
+        Details,
+        Button,
+        Field,
+        Fieldset,
+        Label,
+        Hint,
+        TextAreaInput,
+        CharacterCounter,
+        DateInput,
+        Select,
+        Option,
+        TextInput,
+        EmailInput,
+        TelInput,
+        ErrorSummary,
+        ErrorMessage,
+        StatusTag,
+        SuccessPanel,
+        Panel,
+        StepList,
+        StepListItem,
+        SummaryList,
+        SummaryListItem,
+    ],
+    template: `
     <article class="page-wrapper">
       <lily-back-link href="/">Back to examples</lily-back-link>
 
@@ -534,8 +534,8 @@ function todayIso(): string {
       }
     </article>
   `,
-  styles: [
-    `
+    styles: [
+        `
       .visually-hidden {
         position: absolute;
         width: 1px;
@@ -548,192 +548,192 @@ function todayIso(): string {
         border: 0;
       }
     `,
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class BookAnAppointmentPage {
-  private readonly cdr = inject(ChangeDetectorRef);
+    private readonly cdr = inject(ChangeDetectorRef);
 
-  protected readonly reasonLabels = REASON_LABELS;
-  protected readonly timeLabels = TIME_LABELS;
-  private readonly today = todayIso();
+    protected readonly reasonLabels = REASON_LABELS;
+    protected readonly timeLabels = TIME_LABELS;
+    private readonly today = todayIso();
 
-  protected readonly step = signal<Step>(0);
+    protected readonly step = signal<Step>(0);
 
-  protected readonly reason = signal<Reason>("");
-  protected readonly reasonOther = signal("");
-  protected readonly appointmentDate = signal("");
-  protected readonly appointmentTime = signal<TimeOfDay>("");
-  protected readonly fullName = signal("");
-  protected readonly email = signal("");
-  protected readonly phone = signal("");
-  protected readonly needsSupport = signal(false);
-  protected readonly confirmedAccurate = signal(false);
-  protected readonly referenceNumber = signal("");
+    protected readonly reason = signal<Reason>("");
+    protected readonly reasonOther = signal("");
+    protected readonly appointmentDate = signal("");
+    protected readonly appointmentTime = signal<TimeOfDay>("");
+    protected readonly fullName = signal("");
+    protected readonly email = signal("");
+    protected readonly phone = signal("");
+    protected readonly needsSupport = signal(false);
+    protected readonly confirmedAccurate = signal(false);
+    protected readonly referenceNumber = signal("");
 
-  protected readonly errors = signal<Record<string, string>>({});
+    protected readonly errors = signal<Record<string, string>>({});
 
-  protected errorList(): Array<{ key: string; message: string }> {
-    const e = this.errors();
-    return FIELD_ORDER.filter((key) => e[key]).map((key) => ({ key, message: e[key] }));
-  }
-
-  protected reasonSummary(): string {
-    return this.reasonLabels[this.reason()] ?? "Not answered";
-  }
-
-  protected timeSummary(): string {
-    const t = this.appointmentTime();
-    return t ? this.timeLabels[t] : "Not answered";
-  }
-
-  protected statusFor(n: 1 | 2 | 3 | 4): StepStatus {
-    const s = this.step();
-    if (s >= 5) return "finished";
-    if (n < s) return "finished";
-    if (n === s) return "in-progress";
-    return "waiting";
-  }
-
-  protected statusText(status: StepStatus): string {
-    return STATUS_TEXT[status];
-  }
-
-  // Focus management on step change. A single-page wizard has no route
-  // change for the browser or a screen reader to announce on its own, so
-  // the page moves focus to the new step's own heading -- the Angular
-  // equivalent of the outcome a real navigation gives elsewhere in this
-  // app. `detectChanges()` runs the deferred @switch/@if render
-  // synchronously first, the same "render first, focus second" ordering
-  // documented in the angular-date-time-picker helper -- focusing into a
-  // branch that hasn't rendered yet is a no-op in a real browser.
-  private focusStepHeading(): void {
-    this.cdr.detectChanges();
-    document.getElementById("step-heading")?.focus();
-  }
-
-  // GOV.UK/NHS error-summary pattern: render the summary, then move focus
-  // to it so screen reader and keyboard users land on the problem list
-  // immediately rather than being left wherever they were.
-  private focusErrorSummary(): void {
-    this.cdr.detectChanges();
-    document.getElementById("booking-error-summary")?.focus();
-  }
-
-  // Jumps from an error-summary link to the offending field. The target
-  // id may sit on a real native input (the raw-markup radios/checkboxes)
-  // or on a wrapper component's host tag (see file header, point 1) --
-  // either way, focus the element itself if it's focusable, otherwise
-  // the first focusable native control inside it.
-  protected focusField(key: string, event: Event): void {
-    event.preventDefault();
-    const el = document.getElementById(key);
-    if (!el) return;
-    const selector = "input, select, textarea, button, a[href]";
-    const target = el.matches(selector) ? el : el.querySelector<HTMLElement>(selector);
-    target?.focus();
-  }
-
-  private validateReason(): boolean {
-    const e: Record<string, string> = {};
-    if (!this.reason()) e["reason"] = "Select a reason for your appointment";
-    else if (this.reason() === "other" && !this.reasonOther().trim())
-      e["reasonOther"] = "Enter details about your appointment";
-    this.errors.set(e);
-    return Object.keys(e).length === 0;
-  }
-
-  private validateDateTime(): boolean {
-    const e: Record<string, string> = {};
-    if (!this.appointmentDate()) e["appointmentDate"] = "Enter your preferred date";
-    else if (this.appointmentDate() < this.today)
-      e["appointmentDate"] = "Enter a date that is today or in the future";
-    if (!this.appointmentTime()) e["appointmentTime"] = "Select a preferred time of day";
-    this.errors.set(e);
-    return Object.keys(e).length === 0;
-  }
-
-  private validateDetails(): boolean {
-    const e: Record<string, string> = {};
-    if (!this.fullName().trim()) e["fullName"] = "Enter your full name";
-    if (!this.email().trim()) e["email"] = "Enter your email address";
-    else if (!this.email().includes("@"))
-      e["email"] = "Enter an email address in the correct format";
-    this.errors.set(e);
-    return Object.keys(e).length === 0;
-  }
-
-  private validateCheckAnswers(): boolean {
-    const e: Record<string, string> = {};
-    if (!this.confirmedAccurate())
-      e["confirmedAccurate"] = "Confirm that the information above is correct";
-    this.errors.set(e);
-    return Object.keys(e).length === 0;
-  }
-
-  private goNext(validate: () => boolean, next: Step): void {
-    if (validate()) {
-      this.errors.set({});
-      this.step.set(next);
-      this.focusStepHeading();
-    } else {
-      this.focusErrorSummary();
+    protected errorList(): Array<{ key: string; message: string }> {
+        const e = this.errors();
+        return FIELD_ORDER.filter((key) => e[key]).map((key) => ({ key, message: e[key] }));
     }
-  }
 
-  protected goBack(prev: Step): void {
-    this.errors.set({});
-    this.step.set(prev);
-    this.focusStepHeading();
-  }
-
-  protected goToStep(n: Step, event?: Event): void {
-    event?.preventDefault();
-    this.errors.set({});
-    this.step.set(n);
-    this.focusStepHeading();
-  }
-
-  protected submitReason(event: Event): void {
-    event.preventDefault();
-    this.goNext(() => this.validateReason(), 2);
-  }
-
-  protected submitDateTime(event: Event): void {
-    event.preventDefault();
-    this.goNext(() => this.validateDateTime(), 3);
-  }
-
-  protected submitDetails(event: Event): void {
-    event.preventDefault();
-    this.goNext(() => this.validateDetails(), 4);
-  }
-
-  protected submitBooking(event: Event): void {
-    event.preventDefault();
-    if (this.validateCheckAnswers()) {
-      this.errors.set({});
-      this.referenceNumber.set(`APT-${Math.floor(100000 + Math.random() * 900000)}`);
-      this.step.set(5);
-      this.focusStepHeading();
-    } else {
-      this.focusErrorSummary();
+    protected reasonSummary(): string {
+        return this.reasonLabels[this.reason()] ?? "Not answered";
     }
-  }
 
-  protected startOver(): void {
-    this.reason.set("");
-    this.reasonOther.set("");
-    this.appointmentDate.set("");
-    this.appointmentTime.set("");
-    this.fullName.set("");
-    this.email.set("");
-    this.phone.set("");
-    this.needsSupport.set(false);
-    this.confirmedAccurate.set(false);
-    this.referenceNumber.set("");
-    this.errors.set({});
-    this.step.set(0);
-    this.focusStepHeading();
-  }
+    protected timeSummary(): string {
+        const t = this.appointmentTime();
+        return t ? this.timeLabels[t] : "Not answered";
+    }
+
+    protected statusFor(n: 1 | 2 | 3 | 4): StepStatus {
+        const s = this.step();
+        if (s >= 5) return "finished";
+        if (n < s) return "finished";
+        if (n === s) return "in-progress";
+        return "waiting";
+    }
+
+    protected statusText(status: StepStatus): string {
+        return STATUS_TEXT[status];
+    }
+
+    // Focus management on step change. A single-page wizard has no route
+    // change for the browser or a screen reader to announce on its own, so
+    // the page moves focus to the new step's own heading -- the Angular
+    // equivalent of the outcome a real navigation gives elsewhere in this
+    // app. `detectChanges()` runs the deferred @switch/@if render
+    // synchronously first, the same "render first, focus second" ordering
+    // documented in the angular-date-time-picker helper -- focusing into a
+    // branch that hasn't rendered yet is a no-op in a real browser.
+    private focusStepHeading(): void {
+        this.cdr.detectChanges();
+        document.getElementById("step-heading")?.focus();
+    }
+
+    // GOV.UK/NHS error-summary pattern: render the summary, then move focus
+    // to it so screen reader and keyboard users land on the problem list
+    // immediately rather than being left wherever they were.
+    private focusErrorSummary(): void {
+        this.cdr.detectChanges();
+        document.getElementById("booking-error-summary")?.focus();
+    }
+
+    // Jumps from an error-summary link to the offending field. The target
+    // id may sit on a real native input (the raw-markup radios/checkboxes)
+    // or on a wrapper component's host tag (see file header, point 1) --
+    // either way, focus the element itself if it's focusable, otherwise
+    // the first focusable native control inside it.
+    protected focusField(key: string, event: Event): void {
+        event.preventDefault();
+        const el = document.getElementById(key);
+        if (!el) return;
+        const selector = "input, select, textarea, button, a[href]";
+        const target = el.matches(selector) ? el : el.querySelector<HTMLElement>(selector);
+        target?.focus();
+    }
+
+    private validateReason(): boolean {
+        const e: Record<string, string> = {};
+        if (!this.reason()) e["reason"] = "Select a reason for your appointment";
+        else if (this.reason() === "other" && !this.reasonOther().trim())
+            e["reasonOther"] = "Enter details about your appointment";
+        this.errors.set(e);
+        return Object.keys(e).length === 0;
+    }
+
+    private validateDateTime(): boolean {
+        const e: Record<string, string> = {};
+        if (!this.appointmentDate()) e["appointmentDate"] = "Enter your preferred date";
+        else if (this.appointmentDate() < this.today)
+            e["appointmentDate"] = "Enter a date that is today or in the future";
+        if (!this.appointmentTime()) e["appointmentTime"] = "Select a preferred time of day";
+        this.errors.set(e);
+        return Object.keys(e).length === 0;
+    }
+
+    private validateDetails(): boolean {
+        const e: Record<string, string> = {};
+        if (!this.fullName().trim()) e["fullName"] = "Enter your full name";
+        if (!this.email().trim()) e["email"] = "Enter your email address";
+        else if (!this.email().includes("@"))
+            e["email"] = "Enter an email address in the correct format";
+        this.errors.set(e);
+        return Object.keys(e).length === 0;
+    }
+
+    private validateCheckAnswers(): boolean {
+        const e: Record<string, string> = {};
+        if (!this.confirmedAccurate())
+            e["confirmedAccurate"] = "Confirm that the information above is correct";
+        this.errors.set(e);
+        return Object.keys(e).length === 0;
+    }
+
+    private goNext(validate: () => boolean, next: Step): void {
+        if (validate()) {
+            this.errors.set({});
+            this.step.set(next);
+            this.focusStepHeading();
+        } else {
+            this.focusErrorSummary();
+        }
+    }
+
+    protected goBack(prev: Step): void {
+        this.errors.set({});
+        this.step.set(prev);
+        this.focusStepHeading();
+    }
+
+    protected goToStep(n: Step, event?: Event): void {
+        event?.preventDefault();
+        this.errors.set({});
+        this.step.set(n);
+        this.focusStepHeading();
+    }
+
+    protected submitReason(event: Event): void {
+        event.preventDefault();
+        this.goNext(() => this.validateReason(), 2);
+    }
+
+    protected submitDateTime(event: Event): void {
+        event.preventDefault();
+        this.goNext(() => this.validateDateTime(), 3);
+    }
+
+    protected submitDetails(event: Event): void {
+        event.preventDefault();
+        this.goNext(() => this.validateDetails(), 4);
+    }
+
+    protected submitBooking(event: Event): void {
+        event.preventDefault();
+        if (this.validateCheckAnswers()) {
+            this.errors.set({});
+            this.referenceNumber.set(`APT-${Math.floor(100000 + Math.random() * 900000)}`);
+            this.step.set(5);
+            this.focusStepHeading();
+        } else {
+            this.focusErrorSummary();
+        }
+    }
+
+    protected startOver(): void {
+        this.reason.set("");
+        this.reasonOther.set("");
+        this.appointmentDate.set("");
+        this.appointmentTime.set("");
+        this.fullName.set("");
+        this.email.set("");
+        this.phone.set("");
+        this.needsSupport.set(false);
+        this.confirmedAccurate.set(false);
+        this.referenceNumber.set("");
+        this.errors.set({});
+        this.step.set(0);
+        this.focusStepHeading();
+    }
 }

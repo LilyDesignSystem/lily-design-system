@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { ChileRolUnicoNacionalInput } from "./ChileRolUnicoNacionalInput";
 
 const meta: Meta<ChileRolUnicoNacionalInput> = {
-  title: "Headless/ChileRolUnicoNacionalInput",
-  component: ChileRolUnicoNacionalInput,
-  tags: ["autodocs"],
+    title: "Headless/ChileRolUnicoNacionalInput",
+    component: ChileRolUnicoNacionalInput,
+    tags: ["autodocs"],
 };
 
 export default meta;

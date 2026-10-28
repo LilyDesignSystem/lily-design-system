@@ -5,10 +5,10 @@ import { Progress } from "../components/Progress";
 import { Banner } from "../components/Banner";
 
 @Component({
-  selector: "lily-dashboard",
-  standalone: true,
-  imports: [Card, Badge, Progress, Banner],
-  template: `
+    selector: "lily-dashboard",
+    standalone: true,
+    imports: [Card, Badge, Progress, Banner],
+    template: `
     <article class="page-wrapper">
       <h1>Dashboard</h1>
       <lily-banner label="System status">All systems operational.</lily-banner>
@@ -29,6 +29,6 @@ import { Banner } from "../components/Banner";
       </section>
     </article>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class DashboardPage {}

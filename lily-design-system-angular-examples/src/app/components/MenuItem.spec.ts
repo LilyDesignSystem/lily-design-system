@@ -4,29 +4,29 @@ import { TestBed } from "@angular/core/testing";
 import { MenuItem } from "./MenuItem";
 
 describe("MenuItem", () => {
-  test("renders the div root with the base class", () => {
-    const fixture = TestBed.createComponent(MenuItem);
-    fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("div.menu-item");
-    expect(el).toBeTruthy();
-  });
+    test("renders the div root with the base class", () => {
+        const fixture = TestBed.createComponent(MenuItem);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("div.menu-item");
+        expect(el).toBeTruthy();
+    });
 
-  test("appends the className input to the root class list", () => {
-    const fixture = TestBed.createComponent(MenuItem);
-    fixture.componentRef.setInput("className", "extra");
-    fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("div.menu-item");
-    expect(el).toBeTruthy();
-    expect(el.classList.contains("extra")).toBe(true);
-  });
+    test("appends the className input to the root class list", () => {
+        const fixture = TestBed.createComponent(MenuItem);
+        fixture.componentRef.setInput("className", "extra");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("div.menu-item");
+        expect(el).toBeTruthy();
+        expect(el.classList.contains("extra")).toBe(true);
+    });
 });
 
 describe("MenuItem — menuitem semantics", () => {
-  test("is role=menuitem and focusable only programmatically (tabindex=-1)", () => {
-    const fixture = TestBed.createComponent(MenuItem);
-    fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("div.menu-item") as HTMLElement;
-    expect(el.getAttribute("role")).toBe("menuitem");
-    expect(el.getAttribute("tabindex")).toBe("-1");
-  });
+    test("is role=menuitem and focusable only programmatically (tabindex=-1)", () => {
+        const fixture = TestBed.createComponent(MenuItem);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("div.menu-item") as HTMLElement;
+        expect(el.getAttribute("role")).toBe("menuitem");
+        expect(el.getAttribute("tabindex")).toBe("-1");
+    });
 });

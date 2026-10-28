@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { ProgressCircle } from "./ProgressCircle";
 
 const meta: Meta<ProgressCircle> = {
-  title: "Headless/ProgressCircle",
-  component: ProgressCircle,
-  tags: ["autodocs"],
+    title: "Headless/ProgressCircle",
+    component: ProgressCircle,
+    tags: ["autodocs"],
 };
 
 export default meta;

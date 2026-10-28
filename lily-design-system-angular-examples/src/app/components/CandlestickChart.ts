@@ -16,15 +16,15 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * cannot detect projected content), empty when nothing is projected.
  */
 @Component({
-  selector: "lily-candlestick-chart",
-  standalone: true,
-  template: `<figure class="candlestick-chart {{ className() }}"><div class="candlestick-chart-graphic" role="img" [attr.aria-label]="label() || null" [attr.aria-describedby]="describedBy() || null"><ng-content /></div><div class="candlestick-chart-data-table"><ng-content select="[dataTable]" /></div></figure>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "lily-candlestick-chart",
+    standalone: true,
+    template: `<figure class="candlestick-chart {{ className() }}"><div class="candlestick-chart-graphic" role="img" [attr.aria-label]="label() || null" [attr.aria-describedby]="describedBy() || null"><ng-content /></div><div class="candlestick-chart-data-table"><ng-content select="[dataTable]" /></div></figure>`,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CandlestickChart {
-  /** Accessible name for the chart. */
-  readonly label = input<string>("");
-  /** Id of a description (aria-describedby on the image wrapper). */
-  readonly describedBy = input<string>("");
-  readonly className = input<string>("");
+    /** Accessible name for the chart. */
+    readonly label = input<string>("");
+    /** Id of a description (aria-describedby on the image wrapper). */
+    readonly describedBy = input<string>("");
+    readonly className = input<string>("");
 }

@@ -6,10 +6,10 @@ import { DateRange } from "../components/DateRange";
 import { ReviewDate } from "../components/ReviewDate";
 
 @Component({
-  selector: "lily-timeline-and-cards",
-  standalone: true,
-  imports: [TimelineList, TimelineListItem, Card, DateRange, ReviewDate],
-  template: `
+    selector: "lily-timeline-and-cards",
+    standalone: true,
+    imports: [TimelineList, TimelineListItem, Card, DateRange, ReviewDate],
+    template: `
     <article class="page-wrapper">
       <h1>Timeline and cards</h1>
 
@@ -34,6 +34,6 @@ import { ReviewDate } from "../components/ReviewDate";
       </lily-card>
     </article>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class TimelineAndCardsPage {}

@@ -3,86 +3,88 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
 import {
-  SharePicker,
-  SharePickerIcon,
-  canCopy,
-  canShareNatively,
-  nextSharePickerId,
-  type ShareTarget,
+    SharePicker,
+    SharePickerIcon,
+    canCopy,
+    canShareNatively,
+    nextSharePickerId,
+    type ShareTarget,
 } from "./share-picker.component";
 
 const URL_UNDER_TEST = "https://example.test/article";
 
 const TARGETS: ShareTarget[] = [
-  {
-    id: "mastodon",
-    label: "Mastodon",
-    href: (u, t) =>
-      `https://mastodon.test/share?url=${encodeURIComponent(u)}&text=${encodeURIComponent(t)}`,
-  },
-  {
-    id: "linkedin",
-    label: "LinkedIn",
-    href: (u) => `https://linkedin.test/sharing?url=${encodeURIComponent(u)}`,
-  },
+    {
+        id: "mastodon",
+        label: "Mastodon",
+        href: (u, t) =>
+            `https://mastodon.test/share?url=${encodeURIComponent(u)}&text=${encodeURIComponent(t)}`,
+    },
+    {
+        id: "linkedin",
+        label: "LinkedIn",
+        href: (u) => `https://linkedin.test/sharing?url=${encodeURIComponent(u)}`,
+    },
 ];
 
 function flush(): Promise<void> {
-  return new Promise((r) => setTimeout(r, 0));
+    return new Promise((r) => setTimeout(r, 0));
 }
 
 /** Install a fake async clipboard; returns the writes and a restore fn. */
 function stubClipboard(succeed = true): {
-  writes: string[];
-  restore: () => void;
+    writes: string[];
+    restore: () => void;
 } {
-  const original = (navigator as any).clipboard;
-  const writes: string[] = [];
-  Object.defineProperty(navigator, "clipboard", {
-    configurable: true,
-    value: {
-      writeText: (s: string) => {
-        if (!succeed) return Promise.reject(new Error("denied"));
-        writes.push(s);
-        return Promise.resolve();
-      },
-    },
-  });
-  return {
-    writes,
-    restore: () => {
-      if (original === undefined) delete (navigator as any).clipboard;
-      else
-        Object.defineProperty(navigator, "clipboard", {
-          configurable: true,
-          value: original,
-        });
-    },
-  };
+    const original = (navigator as any).clipboard;
+    const writes: string[] = [];
+    Object.defineProperty(navigator, "clipboard", {
+        configurable: true,
+        value: {
+            writeText: (s: string) => {
+                if (!succeed) return Promise.reject(new Error("denied"));
+                writes.push(s);
+                return Promise.resolve();
+            },
+        },
+    });
+    return {
+        writes,
+        restore: () => {
+            if (original === undefined) delete (navigator as any).clipboard;
+            else
+                Object.defineProperty(navigator, "clipboard", {
+                    configurable: true,
+                    value: original,
+                });
+        },
+    };
 }
 
 /** Install a fake native share sheet; returns the calls and a restore fn. */
 function stubNativeShare(behaviour: "resolve" | "reject" = "resolve") {
-  const original = (navigator as any).share;
-  const calls: any[] = [];
-  Object.defineProperty(navigator, "share", {
-    configurable: true,
-    value: (data: any) => {
-      calls.push(data);
-      return behaviour === "resolve" ? Promise.resolve() : Promise.reject(new Error("AbortError"));
-    },
-  });
-  return {
-    calls,
-    restore: () => {
-      if (original === undefined) delete (navigator as any).share;
-      else
-        Object.defineProperty(navigator, "share", {
-          configurable: true,
-          value: original,
-        });
-    },
-  };
+    const original = (navigator as any).share;
+    const calls: any[] = [];
+    Object.defineProperty(navigator, "share", {
+        configurable: true,
+        value: (data: any) => {
+            calls.push(data);
+            return behaviour === "resolve"
+                ? Promise.resolve()
+                : Promise.reject(new Error("AbortError"));
+        },
+    });
+    return {
+        calls,
+        restore: () => {
+            if (original === undefined) delete (navigator as any).share;
+            else
+                Object.defineProperty(navigator, "share", {
+                    configurable: true,
+                    value: original,
+                });
+        },
+    };
 }
 
 /** Fixtures created by a test, destroyed after it so listeners unwind. */
@@ -90,543 +92,545 @@ let fixtures: ComponentFixture<unknown>[] = [];
 
 /** Create + render a SharePicker with the supplied inputs. */
 function mount(inputs: Record<string, unknown> = {}): ComponentFixture<SharePicker> {
-  const fixture = TestBed.createComponent(SharePicker);
-  fixture.componentRef.setInput("label", "Share");
-  fixture.componentRef.setInput("targets", TARGETS);
-  fixture.componentRef.setInput("url", URL_UNDER_TEST);
-  for (const [key, value] of Object.entries(inputs)) {
-    fixture.componentRef.setInput(key, value);
-  }
-  fixture.detectChanges();
-  fixtures.push(fixture);
-  return fixture;
+    const fixture = TestBed.createComponent(SharePicker);
+    fixture.componentRef.setInput("label", "Share");
+    fixture.componentRef.setInput("targets", TARGETS);
+    fixture.componentRef.setInput("url", URL_UNDER_TEST);
+    for (const [key, value] of Object.entries(inputs)) {
+        fixture.componentRef.setInput(key, value);
+    }
+    fixture.detectChanges();
+    fixtures.push(fixture);
+    return fixture;
 }
 
 function q<T extends Element>(fixture: ComponentFixture<unknown>, sel: string): T {
-  return fixture.nativeElement.querySelector(sel) as T;
+    return fixture.nativeElement.querySelector(sel) as T;
 }
 
 function trigger(fixture: ComponentFixture<unknown>): HTMLButtonElement {
-  return q<HTMLButtonElement>(fixture, ".share-picker-button");
+    return q<HTMLButtonElement>(fixture, ".share-picker-button");
 }
 
 function list(fixture: ComponentFixture<unknown>): HTMLUListElement {
-  return q<HTMLUListElement>(fixture, ".share-picker-list");
+    return q<HTMLUListElement>(fixture, ".share-picker-list");
 }
 
 function links(fixture: ComponentFixture<unknown>): HTMLAnchorElement[] {
-  return Array.from(
-    fixture.nativeElement.querySelectorAll(".share-picker-target"),
-  ) as HTMLAnchorElement[];
+    return Array.from(
+        fixture.nativeElement.querySelectorAll(".share-picker-target"),
+    ) as HTMLAnchorElement[];
 }
 
 function items(fixture: ComponentFixture<unknown>): HTMLElement[] {
-  return Array.from(
-    fixture.nativeElement.querySelectorAll(".share-picker-target, .share-picker-copy"),
-  ) as HTMLElement[];
+    return Array.from(
+        fixture.nativeElement.querySelectorAll(".share-picker-target, .share-picker-copy"),
+    ) as HTMLElement[];
 }
 
 function status(fixture: ComponentFixture<unknown>): HTMLElement {
-  return q<HTMLElement>(fixture, ".share-picker-status");
+    return q<HTMLElement>(fixture, ".share-picker-status");
 }
 
 /** Dispatch a bubbling keydown and re-render. */
 function press(fixture: ComponentFixture<unknown>, target: HTMLElement, key: string): void {
-  target.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true }));
-  fixture.detectChanges();
+    target.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true }));
+    fixture.detectChanges();
 }
 
 /** Click an element and re-render. */
 function click(fixture: ComponentFixture<unknown>, target: HTMLElement): void {
-  target.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-  fixture.detectChanges();
+    target.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    fixture.detectChanges();
 }
 
 /** Click an element, let microtasks settle, and re-render. */
 async function clickSettled(
-  fixture: ComponentFixture<unknown>,
-  target: HTMLElement,
+    fixture: ComponentFixture<unknown>,
+    target: HTMLElement,
 ): Promise<void> {
-  click(fixture, target);
-  await flush();
-  fixture.detectChanges();
+    click(fixture, target);
+    await flush();
+    fixture.detectChanges();
 }
 
 beforeEach(() => {
-  // jsdom ships neither API; make their absence explicit rather than assumed.
-  delete (navigator as any).share;
-  delete (navigator as any).clipboard;
+    // jsdom ships neither API; make their absence explicit rather than assumed.
+    delete (navigator as any).share;
+    delete (navigator as any).clipboard;
 });
 
 afterEach(() => {
-  for (const fixture of fixtures) fixture.destroy();
-  fixtures = [];
-  delete (navigator as any).share;
-  delete (navigator as any).clipboard;
+    for (const fixture of fixtures) fixture.destroy();
+    fixtures = [];
+    delete (navigator as any).share;
+    delete (navigator as any).clipboard;
 });
 
 describe("SharePicker — markup contract (§4.2, §7.1–§7.6)", () => {
-  test("§7.1 renders a disclosure button controlling a list", () => {
-    const fixture = mount();
-    const btn = trigger(fixture);
-    expect(btn.tagName).toBe("BUTTON");
-    expect(btn.getAttribute("type")).toBe("button");
-    expect(btn.getAttribute("aria-label")).toBe("Share");
-    expect(btn.getAttribute("aria-expanded")).toBe("false");
-    const listId = btn.getAttribute("aria-controls");
-    expect(listId).toBeTruthy();
-    expect(list(fixture).id).toBe(listId);
-    expect(list(fixture).tagName).toBe("UL");
-  });
-
-  test("§4.2 the trigger's class hook is share-picker-button", () => {
-    const fixture = mount();
-    expect(trigger(fixture)).toBeTruthy();
-    expect(trigger(fixture).tagName).toBe("BUTTON");
-    // The retired `share-button-trigger` hook must not linger.
-    expect(q(fixture, ".share-picker-trigger")).toBeNull();
-  });
-
-  test("§4.2 the root carries the base class plus the consumer's class", () => {
-    const fixture = mount({ className: "extra" });
-    const root = q<HTMLElement>(fixture, ".share-picker");
-    expect(root.tagName).toBe("DIV");
-    expect(root.classList.contains("extra")).toBe(true);
-  });
-
-  test("§7.1 the button renders the default arrow SVG icon, hidden from assistive tech", () => {
-    const fixture = mount();
-    const icon = q<SVGElement>(fixture, ".share-picker-icon");
-    expect(icon.tagName.toLowerCase()).toBe("svg");
-    expect(icon.getAttribute("aria-hidden")).toBe("true");
-    expect(icon.querySelector("path")).toBeTruthy();
-  });
-
-  test("§4.3 nextSharePickerId mints unique, stable ids", () => {
-    const a = nextSharePickerId();
-    const b = nextSharePickerId();
-    expect(a).toMatch(/^share-picker-\d+$/);
-    expect(b).not.toBe(a);
-  });
-
-  test("§7.2 the list is hidden until the button is activated", async () => {
-    const fixture = mount();
-    expect(list(fixture).hasAttribute("hidden")).toBe(true);
-    await clickSettled(fixture, trigger(fixture));
-    expect(list(fixture).hasAttribute("hidden")).toBe(false);
-    expect(trigger(fixture).getAttribute("aria-expanded")).toBe("true");
-  });
-
-  test("§7.3 destinations are real links, not role=menuitem", async () => {
-    const fixture = mount();
-    await clickSettled(fixture, trigger(fixture));
-    const all = links(fixture);
-    expect(all.length).toBe(2);
-    for (const a of all) {
-      expect(a.tagName).toBe("A");
-      // Real link semantics are the point: no role override, and safe
-      // cross-origin defaults.
-      expect(a.getAttribute("role")).toBeNull();
-      expect(a.getAttribute("target")).toBe("_blank");
-      expect(a.getAttribute("rel")).toBe("noopener noreferrer");
-    }
-  });
-
-  test("§7.3 newTab:false drops target=_blank for that destination", async () => {
-    const fixture = mount({
-      targets: [
-        TARGETS[0],
-        {
-          id: "email",
-          label: "Email",
-          href: (u: string) => `mailto:?body=${u}`,
-          newTab: false,
-        },
-      ],
+    test("§7.1 renders a disclosure button controlling a list", () => {
+        const fixture = mount();
+        const btn = trigger(fixture);
+        expect(btn.tagName).toBe("BUTTON");
+        expect(btn.getAttribute("type")).toBe("button");
+        expect(btn.getAttribute("aria-label")).toBe("Share");
+        expect(btn.getAttribute("aria-expanded")).toBe("false");
+        const listId = btn.getAttribute("aria-controls");
+        expect(listId).toBeTruthy();
+        expect(list(fixture).id).toBe(listId);
+        expect(list(fixture).tagName).toBe("UL");
     });
-    await clickSettled(fixture, trigger(fixture));
-    const all = links(fixture);
-    expect(all[0].getAttribute("target")).toBe("_blank");
-    expect(all[1].getAttribute("target")).toBeNull();
-  });
 
-  test("§7.3 destinations sit in .share-picker-list-item children", async () => {
-    const fixture = mount();
-    await clickSettled(fixture, trigger(fixture));
-    const li = fixture.nativeElement.querySelectorAll(".share-picker-list-item");
-    expect(li.length).toBe(2);
-    expect((li[0] as HTMLElement).tagName).toBe("LI");
-  });
-
-  test("§7.4 each destination's href comes from its own href()", async () => {
-    const fixture = mount({ title: "Hello" });
-    await clickSettled(fixture, trigger(fixture));
-    const all = links(fixture);
-    expect(all[0].getAttribute("href")).toBe(
-      `https://mastodon.test/share?url=${encodeURIComponent(URL_UNDER_TEST)}&text=${encodeURIComponent("Hello")}`,
-    );
-    expect(all[1].getAttribute("href")).toBe(
-      `https://linkedin.test/sharing?url=${encodeURIComponent(URL_UNDER_TEST)}`,
-    );
-  });
-
-  test("§7.4 href() also receives text", async () => {
-    const fixture = mount({
-      title: "T",
-      text: "Body",
-      targets: [
-        {
-          id: "x",
-          label: "X",
-          href: (_u: string, _t: string, x: string) => `https://x.test/?t=${x}`,
-        },
-      ],
+    test("§4.2 the trigger's class hook is share-picker-button", () => {
+        const fixture = mount();
+        expect(trigger(fixture)).toBeTruthy();
+        expect(trigger(fixture).tagName).toBe("BUTTON");
+        // The retired `share-button-trigger` hook must not linger.
+        expect(q(fixture, ".share-picker-trigger")).toBeNull();
     });
-    await clickSettled(fixture, trigger(fixture));
-    expect(links(fixture)[0].getAttribute("href")).toBe("https://x.test/?t=Body");
-  });
 
-  test("§7.5 no copy item renders when copyLabel is absent", async () => {
-    const fixture = mount();
-    await clickSettled(fixture, trigger(fixture));
-    expect(q(fixture, ".share-picker-copy")).toBeNull();
-  });
+    test("§4.2 the root carries the base class plus the consumer's class", () => {
+        const fixture = mount({ className: "extra" });
+        const root = q<HTMLElement>(fixture, ".share-picker");
+        expect(root.tagName).toBe("DIV");
+        expect(root.classList.contains("extra")).toBe(true);
+    });
 
-  test("§7.5 the copy item renders when copyLabel is supplied", async () => {
-    const fixture = mount({ copyLabel: "Copy link" });
-    await clickSettled(fixture, trigger(fixture));
-    const copy = q<HTMLElement>(fixture, ".share-picker-copy");
-    expect(copy.tagName).toBe("BUTTON");
-    expect(copy.getAttribute("type")).toBe("button");
-    expect(copy.textContent?.trim()).toBe("Copy link");
-  });
+    test("§7.1 the button renders the default arrow SVG icon, hidden from assistive tech", () => {
+        const fixture = mount();
+        const icon = q<SVGElement>(fixture, ".share-picker-icon");
+        expect(icon.tagName.toLowerCase()).toBe("svg");
+        expect(icon.getAttribute("aria-hidden")).toBe("true");
+        expect(icon.querySelector("path")).toBeTruthy();
+    });
 
-  test("§7.6 the status region is present, polite, and silent on load", () => {
-    const fixture = mount();
-    const el = status(fixture);
-    expect(el.tagName).toBe("P");
-    expect(el.getAttribute("aria-live")).toBe("polite");
-    expect(el.textContent?.trim()).toBe("");
-  });
+    test("§4.3 nextSharePickerId mints unique, stable ids", () => {
+        const a = nextSharePickerId();
+        const b = nextSharePickerId();
+        expect(a).toMatch(/^share-picker-\d+$/);
+        expect(b).not.toBe(a);
+    });
+
+    test("§7.2 the list is hidden until the button is activated", async () => {
+        const fixture = mount();
+        expect(list(fixture).hasAttribute("hidden")).toBe(true);
+        await clickSettled(fixture, trigger(fixture));
+        expect(list(fixture).hasAttribute("hidden")).toBe(false);
+        expect(trigger(fixture).getAttribute("aria-expanded")).toBe("true");
+    });
+
+    test("§7.3 destinations are real links, not role=menuitem", async () => {
+        const fixture = mount();
+        await clickSettled(fixture, trigger(fixture));
+        const all = links(fixture);
+        expect(all.length).toBe(2);
+        for (const a of all) {
+            expect(a.tagName).toBe("A");
+            // Real link semantics are the point: no role override, and safe
+            // cross-origin defaults.
+            expect(a.getAttribute("role")).toBeNull();
+            expect(a.getAttribute("target")).toBe("_blank");
+            expect(a.getAttribute("rel")).toBe("noopener noreferrer");
+        }
+    });
+
+    test("§7.3 newTab:false drops target=_blank for that destination", async () => {
+        const fixture = mount({
+            targets: [
+                TARGETS[0],
+                {
+                    id: "email",
+                    label: "Email",
+                    href: (u: string) => `mailto:?body=${u}`,
+                    newTab: false,
+                },
+            ],
+        });
+        await clickSettled(fixture, trigger(fixture));
+        const all = links(fixture);
+        expect(all[0].getAttribute("target")).toBe("_blank");
+        expect(all[1].getAttribute("target")).toBeNull();
+    });
+
+    test("§7.3 destinations sit in .share-picker-list-item children", async () => {
+        const fixture = mount();
+        await clickSettled(fixture, trigger(fixture));
+        const li = fixture.nativeElement.querySelectorAll(".share-picker-list-item");
+        expect(li.length).toBe(2);
+        expect((li[0] as HTMLElement).tagName).toBe("LI");
+    });
+
+    test("§7.4 each destination's href comes from its own href()", async () => {
+        const fixture = mount({ title: "Hello" });
+        await clickSettled(fixture, trigger(fixture));
+        const all = links(fixture);
+        expect(all[0].getAttribute("href")).toBe(
+            `https://mastodon.test/share?url=${encodeURIComponent(URL_UNDER_TEST)}&text=${encodeURIComponent("Hello")}`,
+        );
+        expect(all[1].getAttribute("href")).toBe(
+            `https://linkedin.test/sharing?url=${encodeURIComponent(URL_UNDER_TEST)}`,
+        );
+    });
+
+    test("§7.4 href() also receives text", async () => {
+        const fixture = mount({
+            title: "T",
+            text: "Body",
+            targets: [
+                {
+                    id: "x",
+                    label: "X",
+                    href: (_u: string, _t: string, x: string) => `https://x.test/?t=${x}`,
+                },
+            ],
+        });
+        await clickSettled(fixture, trigger(fixture));
+        expect(links(fixture)[0].getAttribute("href")).toBe("https://x.test/?t=Body");
+    });
+
+    test("§7.5 no copy item renders when copyLabel is absent", async () => {
+        const fixture = mount();
+        await clickSettled(fixture, trigger(fixture));
+        expect(q(fixture, ".share-picker-copy")).toBeNull();
+    });
+
+    test("§7.5 the copy item renders when copyLabel is supplied", async () => {
+        const fixture = mount({ copyLabel: "Copy link" });
+        await clickSettled(fixture, trigger(fixture));
+        const copy = q<HTMLElement>(fixture, ".share-picker-copy");
+        expect(copy.tagName).toBe("BUTTON");
+        expect(copy.getAttribute("type")).toBe("button");
+        expect(copy.textContent?.trim()).toBe("Copy link");
+    });
+
+    test("§7.6 the status region is present, polite, and silent on load", () => {
+        const fixture = mount();
+        const el = status(fixture);
+        expect(el.tagName).toBe("P");
+        expect(el.getAttribute("aria-live")).toBe("polite");
+        expect(el.textContent?.trim()).toBe("");
+    });
 });
 
 describe("SharePicker — copy to clipboard (§7.7–§7.10)", () => {
-  test("§7.7 copying writes the URL and emits copy", async () => {
-    const clip = stubClipboard();
-    const fixture = mount({ copyLabel: "Copy link" });
-    const copied = vi.fn();
-    fixture.componentInstance.copy.subscribe(copied);
-    await clickSettled(fixture, trigger(fixture));
-    await clickSettled(fixture, q<HTMLElement>(fixture, ".share-picker-copy"));
-    expect(clip.writes).toEqual([URL_UNDER_TEST]);
-    expect(copied).toHaveBeenCalledWith(URL_UNDER_TEST);
-    clip.restore();
-  });
-
-  test("§7.8 a successful copy announces copiedLabel and closes the list", async () => {
-    const clip = stubClipboard();
-    const fixture = mount({
-      copyLabel: "Copy link",
-      copiedLabel: "Link copied",
+    test("§7.7 copying writes the URL and emits copy", async () => {
+        const clip = stubClipboard();
+        const fixture = mount({ copyLabel: "Copy link" });
+        const copied = vi.fn();
+        fixture.componentInstance.copy.subscribe(copied);
+        await clickSettled(fixture, trigger(fixture));
+        await clickSettled(fixture, q<HTMLElement>(fixture, ".share-picker-copy"));
+        expect(clip.writes).toEqual([URL_UNDER_TEST]);
+        expect(copied).toHaveBeenCalledWith(URL_UNDER_TEST);
+        clip.restore();
     });
-    await clickSettled(fixture, trigger(fixture));
-    await clickSettled(fixture, q<HTMLElement>(fixture, ".share-picker-copy"));
-    expect(status(fixture).textContent?.trim()).toBe("Link copied");
-    expect(list(fixture).hasAttribute("hidden")).toBe(true);
-    clip.restore();
-  });
 
-  test("§7.9 a failed copy announces copyFailedLabel and does not throw", async () => {
-    const clip = stubClipboard(false);
-    const fixture = mount({
-      copyLabel: "Copy link",
-      copiedLabel: "Link copied",
-      copyFailedLabel: "Could not copy",
+    test("§7.8 a successful copy announces copiedLabel and closes the list", async () => {
+        const clip = stubClipboard();
+        const fixture = mount({
+            copyLabel: "Copy link",
+            copiedLabel: "Link copied",
+        });
+        await clickSettled(fixture, trigger(fixture));
+        await clickSettled(fixture, q<HTMLElement>(fixture, ".share-picker-copy"));
+        expect(status(fixture).textContent?.trim()).toBe("Link copied");
+        expect(list(fixture).hasAttribute("hidden")).toBe(true);
+        clip.restore();
     });
-    await clickSettled(fixture, trigger(fixture));
-    await clickSettled(fixture, q<HTMLElement>(fixture, ".share-picker-copy"));
-    expect(status(fixture).textContent?.trim()).toBe("Could not copy");
-    clip.restore();
-  });
 
-  test("§7.9 a failed copy does not emit copy, and still closes the list", async () => {
-    const clip = stubClipboard(false);
-    const fixture = mount({
-      copyLabel: "Copy link",
-      copyFailedLabel: "Could not copy",
+    test("§7.9 a failed copy announces copyFailedLabel and does not throw", async () => {
+        const clip = stubClipboard(false);
+        const fixture = mount({
+            copyLabel: "Copy link",
+            copiedLabel: "Link copied",
+            copyFailedLabel: "Could not copy",
+        });
+        await clickSettled(fixture, trigger(fixture));
+        await clickSettled(fixture, q<HTMLElement>(fixture, ".share-picker-copy"));
+        expect(status(fixture).textContent?.trim()).toBe("Could not copy");
+        clip.restore();
     });
-    const copied = vi.fn();
-    fixture.componentInstance.copy.subscribe(copied);
-    await clickSettled(fixture, trigger(fixture));
-    await clickSettled(fixture, q<HTMLElement>(fixture, ".share-picker-copy"));
-    expect(copied).not.toHaveBeenCalled();
-    expect(list(fixture).hasAttribute("hidden")).toBe(true);
-    clip.restore();
-  });
 
-  test("§7.10 an absent clipboard API is treated as a failure, not a crash", async () => {
-    // No stub: jsdom has no navigator.clipboard at all.
-    expect(canCopy()).toBe(false);
-    const fixture = mount({
-      copyLabel: "Copy link",
-      copyFailedLabel: "Could not copy",
+    test("§7.9 a failed copy does not emit copy, and still closes the list", async () => {
+        const clip = stubClipboard(false);
+        const fixture = mount({
+            copyLabel: "Copy link",
+            copyFailedLabel: "Could not copy",
+        });
+        const copied = vi.fn();
+        fixture.componentInstance.copy.subscribe(copied);
+        await clickSettled(fixture, trigger(fixture));
+        await clickSettled(fixture, q<HTMLElement>(fixture, ".share-picker-copy"));
+        expect(copied).not.toHaveBeenCalled();
+        expect(list(fixture).hasAttribute("hidden")).toBe(true);
+        clip.restore();
     });
-    await clickSettled(fixture, trigger(fixture));
-    await clickSettled(fixture, q<HTMLElement>(fixture, ".share-picker-copy"));
-    expect(status(fixture).textContent?.trim()).toBe("Could not copy");
-  });
 
-  test("§7.10 canCopy reflects navigator.clipboard.writeText", () => {
-    expect(canCopy()).toBe(false);
-    const clip = stubClipboard();
-    expect(canCopy()).toBe(true);
-    clip.restore();
-  });
+    test("§7.10 an absent clipboard API is treated as a failure, not a crash", async () => {
+        // No stub: jsdom has no navigator.clipboard at all.
+        expect(canCopy()).toBe(false);
+        const fixture = mount({
+            copyLabel: "Copy link",
+            copyFailedLabel: "Could not copy",
+        });
+        await clickSettled(fixture, trigger(fixture));
+        await clickSettled(fixture, q<HTMLElement>(fixture, ".share-picker-copy"));
+        expect(status(fixture).textContent?.trim()).toBe("Could not copy");
+    });
+
+    test("§7.10 canCopy reflects navigator.clipboard.writeText", () => {
+        expect(canCopy()).toBe(false);
+        const clip = stubClipboard();
+        expect(canCopy()).toBe(true);
+        clip.restore();
+    });
 });
 
 describe("SharePicker — native share sheet (§7.11–§7.14)", () => {
-  test("§7.11 canShareNatively reflects navigator.share", () => {
-    expect(canShareNatively()).toBe(false);
-    const nat = stubNativeShare();
-    expect(canShareNatively()).toBe(true);
-    nat.restore();
-  });
+    test("§7.11 canShareNatively reflects navigator.share", () => {
+        expect(canShareNatively()).toBe(false);
+        const nat = stubNativeShare();
+        expect(canShareNatively()).toBe(true);
+        nat.restore();
+    });
 
-  test("§7.12 strategy=auto uses the sheet when available, and skips the list", async () => {
-    const nat = stubNativeShare();
-    const fixture = mount({ title: "Hello", text: "Body" });
-    const shared = vi.fn();
-    fixture.componentInstance.nativeShare.subscribe(shared);
-    await clickSettled(fixture, trigger(fixture));
-    expect(nat.calls).toEqual([{ url: URL_UNDER_TEST, title: "Hello", text: "Body" }]);
-    expect(shared).toHaveBeenCalledWith(URL_UNDER_TEST);
-    // The list must NOT also open.
-    expect(list(fixture).hasAttribute("hidden")).toBe(true);
-    nat.restore();
-  });
+    test("§7.12 strategy=auto uses the sheet when available, and skips the list", async () => {
+        const nat = stubNativeShare();
+        const fixture = mount({ title: "Hello", text: "Body" });
+        const shared = vi.fn();
+        fixture.componentInstance.nativeShare.subscribe(shared);
+        await clickSettled(fixture, trigger(fixture));
+        expect(nat.calls).toEqual([{ url: URL_UNDER_TEST, title: "Hello", text: "Body" }]);
+        expect(shared).toHaveBeenCalledWith(URL_UNDER_TEST);
+        // The list must NOT also open.
+        expect(list(fixture).hasAttribute("hidden")).toBe(true);
+        nat.restore();
+    });
 
-  test("§7.12 strategy=native attempts the sheet", async () => {
-    const nat = stubNativeShare();
-    const fixture = mount({ strategy: "native" });
-    await clickSettled(fixture, trigger(fixture));
-    expect(nat.calls.length).toBe(1);
-    expect(list(fixture).hasAttribute("hidden")).toBe(true);
-    nat.restore();
-  });
+    test("§7.12 strategy=native attempts the sheet", async () => {
+        const nat = stubNativeShare();
+        const fixture = mount({ strategy: "native" });
+        await clickSettled(fixture, trigger(fixture));
+        expect(nat.calls.length).toBe(1);
+        expect(list(fixture).hasAttribute("hidden")).toBe(true);
+        nat.restore();
+    });
 
-  test("§7.13 strategy=auto falls back to the list with no native sheet", async () => {
-    const fixture = mount();
-    await clickSettled(fixture, trigger(fixture));
-    expect(list(fixture).hasAttribute("hidden")).toBe(false);
-  });
+    test("§7.13 strategy=auto falls back to the list with no native sheet", async () => {
+        const fixture = mount();
+        await clickSettled(fixture, trigger(fixture));
+        expect(list(fixture).hasAttribute("hidden")).toBe(false);
+    });
 
-  test("§7.13 strategy=list ignores an available native sheet", async () => {
-    const nat = stubNativeShare();
-    const fixture = mount({ strategy: "list" });
-    await clickSettled(fixture, trigger(fixture));
-    expect(nat.calls.length).toBe(0);
-    expect(list(fixture).hasAttribute("hidden")).toBe(false);
-    nat.restore();
-  });
+    test("§7.13 strategy=list ignores an available native sheet", async () => {
+        const nat = stubNativeShare();
+        const fixture = mount({ strategy: "list" });
+        await clickSettled(fixture, trigger(fixture));
+        expect(nat.calls.length).toBe(0);
+        expect(list(fixture).hasAttribute("hidden")).toBe(false);
+        nat.restore();
+    });
 
-  test("§7.14 a dismissed share sheet does not fall through to the list", async () => {
-    // navigator.share rejects when the user dismisses the sheet. Opening
-    // the list then would resurrect UI the user just dismissed.
-    const nat = stubNativeShare("reject");
-    const fixture = mount();
-    await clickSettled(fixture, trigger(fixture));
-    expect(nat.calls.length).toBe(1);
-    expect(list(fixture).hasAttribute("hidden")).toBe(true);
-    nat.restore();
-  });
+    test("§7.14 a dismissed share sheet does not fall through to the list", async () => {
+        // navigator.share rejects when the user dismisses the sheet. Opening
+        // the list then would resurrect UI the user just dismissed.
+        const nat = stubNativeShare("reject");
+        const fixture = mount();
+        await clickSettled(fixture, trigger(fixture));
+        expect(nat.calls.length).toBe(1);
+        expect(list(fixture).hasAttribute("hidden")).toBe(true);
+        nat.restore();
+    });
 
-  test("§7.14 a dismissed share sheet does not emit nativeShare", async () => {
-    const nat = stubNativeShare("reject");
-    const fixture = mount();
-    const shared = vi.fn();
-    fixture.componentInstance.nativeShare.subscribe(shared);
-    await clickSettled(fixture, trigger(fixture));
-    expect(shared).not.toHaveBeenCalled();
-    nat.restore();
-  });
+    test("§7.14 a dismissed share sheet does not emit nativeShare", async () => {
+        const nat = stubNativeShare("reject");
+        const fixture = mount();
+        const shared = vi.fn();
+        fixture.componentInstance.nativeShare.subscribe(shared);
+        await clickSettled(fixture, trigger(fixture));
+        expect(shared).not.toHaveBeenCalled();
+        nat.restore();
+    });
 });
 
 describe("SharePicker — keyboard and dismissal (§7.15–§7.19)", () => {
-  async function openList(
-    inputs: Record<string, unknown> = { copyLabel: "Copy link" },
-  ): Promise<ComponentFixture<SharePicker>> {
-    const fixture = mount(inputs);
-    await clickSettled(fixture, trigger(fixture));
-    return fixture;
-  }
+    async function openList(
+        inputs: Record<string, unknown> = { copyLabel: "Copy link" },
+    ): Promise<ComponentFixture<SharePicker>> {
+        const fixture = mount(inputs);
+        await clickSettled(fixture, trigger(fixture));
+        return fixture;
+    }
 
-  test("§7.15 opening moves focus to the first item", async () => {
-    const fixture = await openList();
-    expect(document.activeElement).toBe(items(fixture)[0]);
-  });
-
-  test("§7.15 ArrowDown on the closed button opens and focuses the first item", async () => {
-    const fixture = mount();
-    press(fixture, trigger(fixture), "ArrowDown");
-    await flush();
-    fixture.detectChanges();
-    expect(list(fixture).hasAttribute("hidden")).toBe(false);
-    expect(document.activeElement?.className).toContain("share-picker-target");
-  });
-
-  test("§7.15 ArrowUp on the closed button opens and focuses the last item", async () => {
-    const fixture = mount({ copyLabel: "Copy link" });
-    press(fixture, trigger(fixture), "ArrowUp");
-    await flush();
-    fixture.detectChanges();
-    expect(list(fixture).hasAttribute("hidden")).toBe(false);
-    expect(document.activeElement?.className).toContain("share-picker-copy");
-  });
-
-  test("§7.16 ArrowDown moves focus down the list", async () => {
-    const fixture = await openList();
-    const all = items(fixture);
-    press(fixture, list(fixture), "ArrowDown");
-    expect(document.activeElement).toBe(all[1]);
-  });
-
-  test("§7.16 ArrowUp moves focus up the list", async () => {
-    const fixture = await openList();
-    const all = items(fixture);
-    press(fixture, list(fixture), "ArrowDown");
-    press(fixture, list(fixture), "ArrowUp");
-    expect(document.activeElement).toBe(all[0]);
-  });
-
-  test("§7.16 ArrowUp clamps at the first item rather than wrapping", async () => {
-    const fixture = await openList();
-    const all = items(fixture);
-    press(fixture, list(fixture), "ArrowUp");
-    expect(document.activeElement).toBe(all[0]);
-  });
-
-  test("§7.16 ArrowDown clamps at the last item rather than wrapping", async () => {
-    const fixture = await openList();
-    const all = items(fixture);
-    // Exactly `all.length` presses from the first item: clamping lands on
-    // the last item, wrapping would land back on the first.
-    for (let i = 0; i < all.length; i++) press(fixture, list(fixture), "ArrowDown");
-    expect(document.activeElement).toBe(all[all.length - 1]);
-  });
-
-  test("§7.16 Home and End jump to the first and last item", async () => {
-    const fixture = await openList();
-    const all = items(fixture);
-    press(fixture, list(fixture), "End");
-    expect(document.activeElement).toBe(all[all.length - 1]);
-    press(fixture, list(fixture), "Home");
-    expect(document.activeElement).toBe(all[0]);
-  });
-
-  test("§7.17 Escape closes and returns focus to the button", async () => {
-    const fixture = await openList();
-    press(fixture, list(fixture), "Escape");
-    await flush();
-    fixture.detectChanges();
-    expect(list(fixture).hasAttribute("hidden")).toBe(true);
-    expect(trigger(fixture).getAttribute("aria-expanded")).toBe("false");
-    expect(document.activeElement).toBe(trigger(fixture));
-  });
-
-  test("§7.17 Tab closes after handing focus to the button", async () => {
-    const fixture = await openList();
-    press(fixture, list(fixture), "Tab");
-    await flush();
-    fixture.detectChanges();
-    expect(list(fixture).hasAttribute("hidden")).toBe(true);
-    // Focus sits on the button — not pulled back after the fact, but
-    // placed there before the list hides, so the browser's default Tab
-    // proceeds from the picker's position (see §7.23).
-    expect(document.activeElement).toBe(trigger(fixture));
-  });
-
-  test("§7.18 choosing a destination emits share with its id and closes", async () => {
-    const fixture = mount();
-    const shared = vi.fn();
-    fixture.componentInstance.share.subscribe(shared);
-    await clickSettled(fixture, trigger(fixture));
-    await clickSettled(fixture, q<HTMLElement>(fixture, '[data-target-id="linkedin"]'));
-    expect(shared).toHaveBeenCalledWith({
-      targetId: "linkedin",
-      url: URL_UNDER_TEST,
+    test("§7.15 opening moves focus to the first item", async () => {
+        const fixture = await openList();
+        expect(document.activeElement).toBe(items(fixture)[0]);
     });
-    expect(list(fixture).hasAttribute("hidden")).toBe(true);
-  });
 
-  test("§7.19 clicking outside closes the list", async () => {
-    const fixture = await openList();
-    expect(list(fixture).hasAttribute("hidden")).toBe(false);
-    document.body.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-    fixture.detectChanges();
-    await flush();
-    fixture.detectChanges();
-    expect(list(fixture).hasAttribute("hidden")).toBe(true);
-  });
+    test("§7.15 ArrowDown on the closed button opens and focuses the first item", async () => {
+        const fixture = mount();
+        press(fixture, trigger(fixture), "ArrowDown");
+        await flush();
+        fixture.detectChanges();
+        expect(list(fixture).hasAttribute("hidden")).toBe(false);
+        expect(document.activeElement?.className).toContain("share-picker-target");
+    });
 
-  test("§7.19 clicking the trigger again closes the list", async () => {
-    const fixture = await openList();
-    await clickSettled(fixture, trigger(fixture));
-    expect(list(fixture).hasAttribute("hidden")).toBe(true);
-  });
+    test("§7.15 ArrowUp on the closed button opens and focuses the last item", async () => {
+        const fixture = mount({ copyLabel: "Copy link" });
+        press(fixture, trigger(fixture), "ArrowUp");
+        await flush();
+        fixture.detectChanges();
+        expect(list(fixture).hasAttribute("hidden")).toBe(false);
+        expect(document.activeElement?.className).toContain("share-picker-copy");
+    });
 
-  test("§7.19 focus leaving the root closes the list", async () => {
-    const fixture = await openList();
-    const outside = document.createElement("button");
-    document.body.appendChild(outside);
-    list(fixture).dispatchEvent(
-      new FocusEvent("focusout", { bubbles: true, relatedTarget: outside }),
-    );
-    fixture.detectChanges();
-    expect(list(fixture).hasAttribute("hidden")).toBe(true);
-    outside.remove();
-  });
+    test("§7.16 ArrowDown moves focus down the list", async () => {
+        const fixture = await openList();
+        const all = items(fixture);
+        press(fixture, list(fixture), "ArrowDown");
+        expect(document.activeElement).toBe(all[1]);
+    });
 
-  test("§7.19 focus moving within the root keeps the list open", async () => {
-    const fixture = await openList();
-    const all = items(fixture);
-    list(fixture).dispatchEvent(
-      new FocusEvent("focusout", { bubbles: true, relatedTarget: all[1] }),
-    );
-    fixture.detectChanges();
-    expect(list(fixture).hasAttribute("hidden")).toBe(false);
-  });
+    test("§7.16 ArrowUp moves focus up the list", async () => {
+        const fixture = await openList();
+        const all = items(fixture);
+        press(fixture, list(fixture), "ArrowDown");
+        press(fixture, list(fixture), "ArrowUp");
+        expect(document.activeElement).toBe(all[0]);
+    });
+
+    test("§7.16 ArrowUp clamps at the first item rather than wrapping", async () => {
+        const fixture = await openList();
+        const all = items(fixture);
+        press(fixture, list(fixture), "ArrowUp");
+        expect(document.activeElement).toBe(all[0]);
+    });
+
+    test("§7.16 ArrowDown clamps at the last item rather than wrapping", async () => {
+        const fixture = await openList();
+        const all = items(fixture);
+        // Exactly `all.length` presses from the first item: clamping lands on
+        // the last item, wrapping would land back on the first.
+        for (let i = 0; i < all.length; i++) press(fixture, list(fixture), "ArrowDown");
+        expect(document.activeElement).toBe(all[all.length - 1]);
+    });
+
+    test("§7.16 Home and End jump to the first and last item", async () => {
+        const fixture = await openList();
+        const all = items(fixture);
+        press(fixture, list(fixture), "End");
+        expect(document.activeElement).toBe(all[all.length - 1]);
+        press(fixture, list(fixture), "Home");
+        expect(document.activeElement).toBe(all[0]);
+    });
+
+    test("§7.17 Escape closes and returns focus to the button", async () => {
+        const fixture = await openList();
+        press(fixture, list(fixture), "Escape");
+        await flush();
+        fixture.detectChanges();
+        expect(list(fixture).hasAttribute("hidden")).toBe(true);
+        expect(trigger(fixture).getAttribute("aria-expanded")).toBe("false");
+        expect(document.activeElement).toBe(trigger(fixture));
+    });
+
+    test("§7.17 Tab closes after handing focus to the button", async () => {
+        const fixture = await openList();
+        press(fixture, list(fixture), "Tab");
+        await flush();
+        fixture.detectChanges();
+        expect(list(fixture).hasAttribute("hidden")).toBe(true);
+        // Focus sits on the button — not pulled back after the fact, but
+        // placed there before the list hides, so the browser's default Tab
+        // proceeds from the picker's position (see §7.23).
+        expect(document.activeElement).toBe(trigger(fixture));
+    });
+
+    test("§7.18 choosing a destination emits share with its id and closes", async () => {
+        const fixture = mount();
+        const shared = vi.fn();
+        fixture.componentInstance.share.subscribe(shared);
+        await clickSettled(fixture, trigger(fixture));
+        await clickSettled(fixture, q<HTMLElement>(fixture, '[data-target-id="linkedin"]'));
+        expect(shared).toHaveBeenCalledWith({
+            targetId: "linkedin",
+            url: URL_UNDER_TEST,
+        });
+        expect(list(fixture).hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.19 clicking outside closes the list", async () => {
+        const fixture = await openList();
+        expect(list(fixture).hasAttribute("hidden")).toBe(false);
+        document.body.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        fixture.detectChanges();
+        await flush();
+        fixture.detectChanges();
+        expect(list(fixture).hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.19 clicking the trigger again closes the list", async () => {
+        const fixture = await openList();
+        await clickSettled(fixture, trigger(fixture));
+        expect(list(fixture).hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.19 focus leaving the root closes the list", async () => {
+        const fixture = await openList();
+        const outside = document.createElement("button");
+        document.body.appendChild(outside);
+        list(fixture).dispatchEvent(
+            new FocusEvent("focusout", { bubbles: true, relatedTarget: outside }),
+        );
+        fixture.detectChanges();
+        expect(list(fixture).hasAttribute("hidden")).toBe(true);
+        outside.remove();
+    });
+
+    test("§7.19 focus moving within the root keeps the list open", async () => {
+        const fixture = await openList();
+        const all = items(fixture);
+        list(fixture).dispatchEvent(
+            new FocusEvent("focusout", { bubbles: true, relatedTarget: all[1] }),
+        );
+        fixture.detectChanges();
+        expect(list(fixture).hasAttribute("hidden")).toBe(false);
+    });
 });
 
 describe("SharePicker — url resolution (§7.20–§7.21)", () => {
-  test("§7.20 an explicit url input wins", async () => {
-    const fixture = mount();
-    await clickSettled(fixture, trigger(fixture));
-    expect(links(fixture)[0].getAttribute("href")).toContain(encodeURIComponent(URL_UNDER_TEST));
-  });
-
-  test("§7.21 with no url input it falls back to the current page URL", async () => {
-    const fixture = mount({ url: "" });
-    await clickSettled(fixture, trigger(fixture));
-    expect(links(fixture)[0].getAttribute("href")).toContain(encodeURIComponent(location.href));
-  });
-
-  test("§7.21 the resolved url is what share reports", async () => {
-    const fixture = mount({ url: "" });
-    const shared = vi.fn();
-    fixture.componentInstance.share.subscribe(shared);
-    await clickSettled(fixture, trigger(fixture));
-    await clickSettled(fixture, q<HTMLElement>(fixture, '[data-target-id="mastodon"]'));
-    expect(shared).toHaveBeenCalledWith({
-      targetId: "mastodon",
-      url: location.href,
+    test("§7.20 an explicit url input wins", async () => {
+        const fixture = mount();
+        await clickSettled(fixture, trigger(fixture));
+        expect(links(fixture)[0].getAttribute("href")).toContain(
+            encodeURIComponent(URL_UNDER_TEST),
+        );
     });
-  });
+
+    test("§7.21 with no url input it falls back to the current page URL", async () => {
+        const fixture = mount({ url: "" });
+        await clickSettled(fixture, trigger(fixture));
+        expect(links(fixture)[0].getAttribute("href")).toContain(encodeURIComponent(location.href));
+    });
+
+    test("§7.21 the resolved url is what share reports", async () => {
+        const fixture = mount({ url: "" });
+        const shared = vi.fn();
+        fixture.componentInstance.share.subscribe(shared);
+        await clickSettled(fixture, trigger(fixture));
+        await clickSettled(fixture, q<HTMLElement>(fixture, '[data-target-id="mastodon"]'));
+        expect(shared).toHaveBeenCalledWith({
+            targetId: "mastodon",
+            url: location.href,
+        });
+    });
 });
 
 @Component({
-  standalone: true,
-  imports: [SharePicker, SharePickerIcon],
-  template: `
+    standalone: true,
+    imports: [SharePicker, SharePickerIcon],
+    template: `
     <lily-share-picker label="Share" [targets]="targets" [url]="url">
       <ng-template lilySharePickerIcon let-args>
         <span
@@ -640,249 +644,253 @@ describe("SharePicker — url resolution (§7.20–§7.21)", () => {
   `,
 })
 class IconTemplateHost {
-  readonly targets = TARGETS;
-  readonly url = URL_UNDER_TEST;
+    readonly targets = TARGETS;
+    readonly url = URL_UNDER_TEST;
 }
 
 describe("SharePicker — custom icon template (§7.22)", () => {
-  test("§7.22 a projected ng-template replaces the icon and receives ChildArgs", async () => {
-    const fixture = TestBed.createComponent(IconTemplateHost);
-    fixture.detectChanges();
-    fixtures.push(fixture);
-    await flush();
-    fixture.detectChanges();
+    test("§7.22 a projected ng-template replaces the icon and receives ChildArgs", async () => {
+        const fixture = TestBed.createComponent(IconTemplateHost);
+        fixture.detectChanges();
+        fixtures.push(fixture);
+        await flush();
+        fixture.detectChanges();
 
-    const custom = q<HTMLElement>(fixture, '[data-testid="custom"]');
-    expect(custom).toBeTruthy();
-    // The custom template replaces the default SVG icon inside the trigger.
-    expect(custom.closest("button")?.className).toContain("share-picker-button");
-    expect(q(fixture, ".share-picker-icon")).toBeNull();
-    expect(custom.getAttribute("data-open")).toBe("false");
-    expect(custom.getAttribute("data-url")).toBe(URL_UNDER_TEST);
-  });
+        const custom = q<HTMLElement>(fixture, '[data-testid="custom"]');
+        expect(custom).toBeTruthy();
+        // The custom template replaces the default SVG icon inside the trigger.
+        expect(custom.closest("button")?.className).toContain("share-picker-button");
+        expect(q(fixture, ".share-picker-icon")).toBeNull();
+        expect(custom.getAttribute("data-open")).toBe("false");
+        expect(custom.getAttribute("data-url")).toBe(URL_UNDER_TEST);
+    });
 
-  test("§7.22 the ChildArgs open flag tracks the list state", async () => {
-    const fixture = TestBed.createComponent(IconTemplateHost);
-    fixture.detectChanges();
-    fixtures.push(fixture);
-    await clickSettled(fixture, trigger(fixture));
-    expect(q<HTMLElement>(fixture, '[data-testid="custom"]').getAttribute("data-open")).toBe(
-      "true",
-    );
-  });
+    test("§7.22 the ChildArgs open flag tracks the list state", async () => {
+        const fixture = TestBed.createComponent(IconTemplateHost);
+        fixture.detectChanges();
+        fixtures.push(fixture);
+        await clickSettled(fixture, trigger(fixture));
+        expect(q<HTMLElement>(fixture, '[data-testid="custom"]').getAttribute("data-open")).toBe(
+            "true",
+        );
+    });
 });
 
 describe("SharePicker — accessibility hardening (§7.23–§7.24)", () => {
-  async function openHardened(): Promise<ComponentFixture<SharePicker>> {
-    const fixture = mount({ copyLabel: "Copy link" });
-    await clickSettled(fixture, trigger(fixture));
-    return fixture;
-  }
+    async function openHardened(): Promise<ComponentFixture<SharePicker>> {
+        const fixture = mount({ copyLabel: "Copy link" });
+        await clickSettled(fixture, trigger(fixture));
+        return fixture;
+    }
 
-  test("§7.23 Tab from an open item puts focus on the button before closing", async () => {
-    const fixture = await openHardened();
-    expect(document.activeElement?.className).toContain("share-picker-target");
-    press(fixture, list(fixture), "Tab");
-    // Focus sits on the button, so the browser's default Tab proceeds
-    // from the picker's own position — not from <body>, which is where
-    // focus lands when the list is hidden while its item has focus.
-    expect(document.activeElement).toBe(trigger(fixture));
-    expect(list(fixture).hasAttribute("hidden")).toBe(true);
-  });
+    test("§7.23 Tab from an open item puts focus on the button before closing", async () => {
+        const fixture = await openHardened();
+        expect(document.activeElement?.className).toContain("share-picker-target");
+        press(fixture, list(fixture), "Tab");
+        // Focus sits on the button, so the browser's default Tab proceeds
+        // from the picker's own position — not from <body>, which is where
+        // focus lands when the list is hidden while its item has focus.
+        expect(document.activeElement).toBe(trigger(fixture));
+        expect(list(fixture).hasAttribute("hidden")).toBe(true);
+    });
 
-  test("§7.24 the list carries the picker's accessible name", async () => {
-    const fixture = await openHardened();
-    expect(list(fixture).getAttribute("aria-label")).toBe("Share");
-  });
+    test("§7.24 the list carries the picker's accessible name", async () => {
+        const fixture = await openHardened();
+        expect(list(fixture).getAttribute("aria-label")).toBe("Share");
+    });
 });
 
 describe("share-picker — tooltip (§7.26–§7.31)", () => {
-  function setup() {
-    const fixture = mount();
-    const button = q<HTMLButtonElement>(fixture, ".share-picker-button");
-    const tip = q<HTMLElement>(fixture, ".share-picker-tooltip");
-    const hover = (el: Element, type: "mouseenter" | "mouseleave") => {
-      el.dispatchEvent(new MouseEvent(type, { bubbles: true }));
-      fixture.detectChanges();
-    };
-    const hidden = () => tip.hasAttribute("hidden");
-    return { fixture, button, tip, hover, hidden };
-  }
-
-  test("§7.26 renders a role=tooltip element holding the label, hidden at rest, not aria-describedby-linked", () => {
-    const { button, tip, hidden } = setup();
-    expect(tip.getAttribute("role")).toBe("tooltip");
-    expect(tip.textContent).toBe("Share");
-    expect(hidden()).toBe(true);
-    expect(tip.id).toBeTruthy();
-    expect(button.hasAttribute("aria-describedby")).toBe(false);
-    expect(tip.previousElementSibling).toBe(button.closest("lily-icon-button"));
-  });
-
-  test("§7.27 pointer over the button shows it; leaving hides it", () => {
-    const { button, hover, hidden } = setup();
-    hover(button, "mouseenter");
-    expect(hidden()).toBe(false);
-    hover(button, "mouseleave");
-    expect(hidden()).toBe(true);
-  });
-
-  test("§7.28 it stays visible while the pointer is over the tooltip itself", () => {
-    const { button, tip, hover, hidden } = setup();
-    hover(button, "mouseenter");
-    hover(button, "mouseleave");
-    hover(tip, "mouseenter");
-    expect(hidden()).toBe(false);
-    hover(tip, "mouseleave");
-    expect(hidden()).toBe(true);
-  });
-
-  test("§7.29 keyboard focus shows it; blur hides it", async () => {
-    const { fixture, button, hidden } = setup();
-    // jsdom has no input-modality tracking; stand in for the keyboard.
-    vi.spyOn(button, "matches").mockImplementation((s) => s === ":focus-visible");
-    button.focus();
-    fixture.detectChanges();
-    expect(hidden()).toBe(false);
-    button.blur();
-    fixture.detectChanges();
-    expect(hidden()).toBe(true);
-  });
-
-  test("§7.29 mouse-induced focus (not :focus-visible) does not show it", async () => {
-    const { fixture, button, hidden } = setup();
-    vi.spyOn(button, "matches").mockReturnValue(false);
-    button.focus();
-    fixture.detectChanges();
-    expect(hidden()).toBe(true);
-  });
-
-  test("§7.30 Escape dismisses it without moving focus; re-entering shows it again", () => {
-    const { fixture, button, hover, hidden } = setup();
-    button.focus();
-    hover(button, "mouseenter");
-    expect(hidden()).toBe(false);
-    const ev = new KeyboardEvent("keydown", { key: "Escape", bubbles: true, cancelable: true });
-    button.dispatchEvent(ev);
-    fixture.detectChanges();
-    expect(hidden()).toBe(true);
-    expect(document.activeElement).toBe(button);
-    hover(button, "mouseleave");
-    hover(button, "mouseenter");
-    expect(hidden()).toBe(false);
-  });
-
-  test("§7.31 it is never shown while the popup is open", async () => {
-    const { fixture, button, hover, hidden } = setup();
-    hover(button, "mouseenter");
-    button.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-    await flush();
-    fixture.detectChanges();
-    expect(button.getAttribute("aria-expanded")).toBe("true");
-    expect(hidden()).toBe(true);
-    hover(button, "mouseenter");
-    expect(hidden()).toBe(true);
-  });
-
-  test("§7.32 pointer hover shows it with focus elsewhere; Escape on another element dismisses it, and the document listener is gone after hide/destroy", () => {
-    const { fixture, button, hover, hidden } = setup();
-    const keydownAdds = (spy: ReturnType<typeof vi.spyOn>) =>
-      spy.mock.calls.filter((c) => c[0] === "keydown");
-    const add = vi.spyOn(document, "addEventListener");
-    const remove = vi.spyOn(document, "removeEventListener");
-    try {
-      const other = document.createElement("input");
-      document.body.appendChild(other);
-      other.focus();
-      hover(button, "mouseenter");
-      expect(hidden()).toBe(false);
-      expect(document.activeElement).toBe(other);
-      expect(keydownAdds(add).length).toBe(1); // added once, not per change detection
-      fixture.detectChanges();
-      expect(keydownAdds(add).length).toBe(1);
-
-      const ev = new KeyboardEvent("keydown", { key: "Escape", bubbles: true, cancelable: true });
-      other.dispatchEvent(ev);
-      fixture.detectChanges();
-      expect(hidden()).toBe(true);
-      expect(ev.defaultPrevented).toBe(false);
-      expect(document.activeElement).toBe(other);
-      expect(keydownAdds(remove).length).toBe(1); // removed on hide
-      expect(keydownAdds(remove)[0][1]).toBe(keydownAdds(add)[0][1]);
-
-      // Re-entering shows it again (listener re-added), destroy removes it.
-      hover(button, "mouseleave");
-      hover(button, "mouseenter");
-      expect(hidden()).toBe(false);
-      expect(keydownAdds(add).length).toBe(2);
-      fixture.destroy();
-      expect(keydownAdds(remove).length).toBe(2);
-      other.remove();
-    } finally {
-      add.mockRestore();
-      remove.mockRestore();
+    function setup() {
+        const fixture = mount();
+        const button = q<HTMLButtonElement>(fixture, ".share-picker-button");
+        const tip = q<HTMLElement>(fixture, ".share-picker-tooltip");
+        const hover = (el: Element, type: "mouseenter" | "mouseleave") => {
+            el.dispatchEvent(new MouseEvent(type, { bubbles: true }));
+            fixture.detectChanges();
+        };
+        const hidden = () => tip.hasAttribute("hidden");
+        return { fixture, button, tip, hover, hidden };
     }
-  });
+
+    test("§7.26 renders a role=tooltip element holding the label, hidden at rest, not aria-describedby-linked", () => {
+        const { button, tip, hidden } = setup();
+        expect(tip.getAttribute("role")).toBe("tooltip");
+        expect(tip.textContent).toBe("Share");
+        expect(hidden()).toBe(true);
+        expect(tip.id).toBeTruthy();
+        expect(button.hasAttribute("aria-describedby")).toBe(false);
+        expect(tip.previousElementSibling).toBe(button.closest("lily-icon-button"));
+    });
+
+    test("§7.27 pointer over the button shows it; leaving hides it", () => {
+        const { button, hover, hidden } = setup();
+        hover(button, "mouseenter");
+        expect(hidden()).toBe(false);
+        hover(button, "mouseleave");
+        expect(hidden()).toBe(true);
+    });
+
+    test("§7.28 it stays visible while the pointer is over the tooltip itself", () => {
+        const { button, tip, hover, hidden } = setup();
+        hover(button, "mouseenter");
+        hover(button, "mouseleave");
+        hover(tip, "mouseenter");
+        expect(hidden()).toBe(false);
+        hover(tip, "mouseleave");
+        expect(hidden()).toBe(true);
+    });
+
+    test("§7.29 keyboard focus shows it; blur hides it", async () => {
+        const { fixture, button, hidden } = setup();
+        // jsdom has no input-modality tracking; stand in for the keyboard.
+        vi.spyOn(button, "matches").mockImplementation((s) => s === ":focus-visible");
+        button.focus();
+        fixture.detectChanges();
+        expect(hidden()).toBe(false);
+        button.blur();
+        fixture.detectChanges();
+        expect(hidden()).toBe(true);
+    });
+
+    test("§7.29 mouse-induced focus (not :focus-visible) does not show it", async () => {
+        const { fixture, button, hidden } = setup();
+        vi.spyOn(button, "matches").mockReturnValue(false);
+        button.focus();
+        fixture.detectChanges();
+        expect(hidden()).toBe(true);
+    });
+
+    test("§7.30 Escape dismisses it without moving focus; re-entering shows it again", () => {
+        const { fixture, button, hover, hidden } = setup();
+        button.focus();
+        hover(button, "mouseenter");
+        expect(hidden()).toBe(false);
+        const ev = new KeyboardEvent("keydown", { key: "Escape", bubbles: true, cancelable: true });
+        button.dispatchEvent(ev);
+        fixture.detectChanges();
+        expect(hidden()).toBe(true);
+        expect(document.activeElement).toBe(button);
+        hover(button, "mouseleave");
+        hover(button, "mouseenter");
+        expect(hidden()).toBe(false);
+    });
+
+    test("§7.31 it is never shown while the popup is open", async () => {
+        const { fixture, button, hover, hidden } = setup();
+        hover(button, "mouseenter");
+        button.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await flush();
+        fixture.detectChanges();
+        expect(button.getAttribute("aria-expanded")).toBe("true");
+        expect(hidden()).toBe(true);
+        hover(button, "mouseenter");
+        expect(hidden()).toBe(true);
+    });
+
+    test("§7.32 pointer hover shows it with focus elsewhere; Escape on another element dismisses it, and the document listener is gone after hide/destroy", () => {
+        const { fixture, button, hover, hidden } = setup();
+        const keydownAdds = (spy: ReturnType<typeof vi.spyOn>) =>
+            spy.mock.calls.filter((c) => c[0] === "keydown");
+        const add = vi.spyOn(document, "addEventListener");
+        const remove = vi.spyOn(document, "removeEventListener");
+        try {
+            const other = document.createElement("input");
+            document.body.appendChild(other);
+            other.focus();
+            hover(button, "mouseenter");
+            expect(hidden()).toBe(false);
+            expect(document.activeElement).toBe(other);
+            expect(keydownAdds(add).length).toBe(1); // added once, not per change detection
+            fixture.detectChanges();
+            expect(keydownAdds(add).length).toBe(1);
+
+            const ev = new KeyboardEvent("keydown", {
+                key: "Escape",
+                bubbles: true,
+                cancelable: true,
+            });
+            other.dispatchEvent(ev);
+            fixture.detectChanges();
+            expect(hidden()).toBe(true);
+            expect(ev.defaultPrevented).toBe(false);
+            expect(document.activeElement).toBe(other);
+            expect(keydownAdds(remove).length).toBe(1); // removed on hide
+            expect(keydownAdds(remove)[0][1]).toBe(keydownAdds(add)[0][1]);
+
+            // Re-entering shows it again (listener re-added), destroy removes it.
+            hover(button, "mouseleave");
+            hover(button, "mouseenter");
+            expect(hidden()).toBe(false);
+            expect(keydownAdds(add).length).toBe(2);
+            fixture.destroy();
+            expect(keydownAdds(remove).length).toBe(2);
+            other.remove();
+        } finally {
+            add.mockRestore();
+            remove.mockRestore();
+        }
+    });
 });
 
 describe("SharePicker — open state and disabled", () => {
-  function build(extra: Record<string, unknown> = {}): ComponentFixture<SharePicker> {
-    const fixture = TestBed.createComponent(SharePicker);
-    for (const [key, value] of Object.entries({
-      ...{ label: "Share", targets: TARGETS, url: URL_UNDER_TEST },
-      ...extra,
-    })) {
-      fixture.componentRef.setInput(key, value);
+    function build(extra: Record<string, unknown> = {}): ComponentFixture<SharePicker> {
+        const fixture = TestBed.createComponent(SharePicker);
+        for (const [key, value] of Object.entries({
+            ...{ label: "Share", targets: TARGETS, url: URL_UNDER_TEST },
+            ...extra,
+        })) {
+            fixture.componentRef.setInput(key, value);
+        }
+        fixture.detectChanges();
+        return fixture;
     }
-    fixture.detectChanges();
-    return fixture;
-  }
-  const button = (f: ComponentFixture<unknown>) =>
-    f.nativeElement.querySelector(
-      ".share-picker-button button, button.share-picker-button",
-    ) as HTMLButtonElement;
-  const settle = (): Promise<void> => new Promise((r) => setTimeout(r, 0));
+    const button = (f: ComponentFixture<unknown>) =>
+        f.nativeElement.querySelector(
+            ".share-picker-button button, button.share-picker-button",
+        ) as HTMLButtonElement;
+    const settle = (): Promise<void> => new Promise((r) => setTimeout(r, 0));
 
-  test("open starts the popup open without emitting openChange", async () => {
-    const fixture = build({ open: true });
-    const changes: boolean[] = [];
-    fixture.componentInstance.open.subscribe((v) => changes.push(v));
-    fixture.detectChanges();
-    await settle();
-    expect(button(fixture).getAttribute("aria-expanded")).toBe("true");
-    expect(changes).toEqual([]);
-  });
+    test("open starts the popup open without emitting openChange", async () => {
+        const fixture = build({ open: true });
+        const changes: boolean[] = [];
+        fixture.componentInstance.open.subscribe((v) => changes.push(v));
+        fixture.detectChanges();
+        await settle();
+        expect(button(fixture).getAttribute("aria-expanded")).toBe("true");
+        expect(changes).toEqual([]);
+    });
 
-  test("openChange fires once for each open and close by the user", async () => {
-    const fixture = build();
-    const changes: boolean[] = [];
-    fixture.componentInstance.open.subscribe((v) => changes.push(v));
-    button(fixture).click();
-    fixture.detectChanges();
-    await settle();
-    button(fixture).click();
-    fixture.detectChanges();
-    await settle();
-    expect(changes).toEqual([true, false]);
-  });
+    test("openChange fires once for each open and close by the user", async () => {
+        const fixture = build();
+        const changes: boolean[] = [];
+        fixture.componentInstance.open.subscribe((v) => changes.push(v));
+        button(fixture).click();
+        fixture.detectChanges();
+        await settle();
+        button(fixture).click();
+        fixture.detectChanges();
+        await settle();
+        expect(changes).toEqual([true, false]);
+    });
 
-  test("disabled disables the button and it cannot open", async () => {
-    const fixture = build({ disabled: true });
-    const changes: boolean[] = [];
-    fixture.componentInstance.open.subscribe((v) => changes.push(v));
-    expect(button(fixture).disabled).toBe(true);
-    button(fixture).click();
-    fixture.detectChanges();
-    await settle();
-    expect(button(fixture).getAttribute("aria-expanded")).toBe("false");
-    expect(changes).toEqual([]);
-  });
+    test("disabled disables the button and it cannot open", async () => {
+        const fixture = build({ disabled: true });
+        const changes: boolean[] = [];
+        fixture.componentInstance.open.subscribe((v) => changes.push(v));
+        expect(button(fixture).disabled).toBe(true);
+        button(fixture).click();
+        fixture.detectChanges();
+        await settle();
+        expect(button(fixture).getAttribute("aria-expanded")).toBe("false");
+        expect(changes).toEqual([]);
+    });
 
-  test("disabled closes a popup that was open", async () => {
-    const fixture = build({ open: true, disabled: true });
-    fixture.detectChanges();
-    await settle();
-    fixture.detectChanges();
-    expect(button(fixture).getAttribute("aria-expanded")).toBe("false");
-  });
+    test("disabled closes a popup that was open", async () => {
+        const fixture = build({ open: true, disabled: true });
+        fixture.detectChanges();
+        await settle();
+        fixture.detectChanges();
+        expect(button(fixture).getAttribute("aria-expanded")).toBe("false");
+    });
 });

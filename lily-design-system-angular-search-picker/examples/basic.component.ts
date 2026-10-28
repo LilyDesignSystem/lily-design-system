@@ -17,11 +17,11 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { SearchPicker, type SearchEvent } from "../search-picker.component";
 
 @Component({
-  selector: "example-basic",
-  standalone: true,
-  imports: [SearchPicker],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: "example-basic",
+    standalone: true,
+    imports: [SearchPicker],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <lily-search-picker
       label="Search this site"
       inputLabel="Search terms"
@@ -32,7 +32,7 @@ import { SearchPicker, type SearchEvent } from "../search-picker.component";
   `,
 })
 export class BasicExample {
-  onSearched(event: SearchEvent): void {
-    console.log("searching for", event.query, "at", event.href);
-  }
+    onSearched(event: SearchEvent): void {
+        console.log("searching for", event.query, "at", event.href);
+    }
 }

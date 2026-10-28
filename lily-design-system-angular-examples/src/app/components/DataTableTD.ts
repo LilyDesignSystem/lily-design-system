@@ -13,14 +13,14 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * zero CSS; the consumer styles via the class hook.
  */
 @Component({
-  selector: "td[lily-data-table-td]",
-  standalone: true,
-  template: `<ng-content />`,
-  host: {
-    "[class]": '"data-table-td " + className()',
-  },
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "td[lily-data-table-td]",
+    standalone: true,
+    template: `<ng-content />`,
+    host: {
+        "[class]": '"data-table-td " + className()',
+    },
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DataTableTD {
-  readonly className = input<string>("");
+    readonly className = input<string>("");
 }

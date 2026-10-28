@@ -7,11 +7,11 @@ import angular from "@analogjs/vite-plugin-angular";
 // assertions via TestBed.createComponent + ComponentFixture.
 
 export default defineConfig({
-  plugins: [angular()],
-  test: {
-    globals: true,
-    environment: "jsdom",
-    setupFiles: ["./vitest-setup.ts"],
-    include: ["components/**/*.spec.ts"],
-  },
+    plugins: [angular()],
+    test: {
+        globals: true,
+        environment: "jsdom",
+        setupFiles: ["./vitest-setup.ts"],
+        include: ["components/**/*.spec.ts"],
+    },
 });

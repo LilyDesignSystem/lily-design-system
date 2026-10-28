@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { DropdownMenu } from "./DropdownMenu";
 
 const meta: Meta<DropdownMenu> = {
-  title: "Headless/DropdownMenu",
-  component: DropdownMenu,
-  tags: ["autodocs"],
+    title: "Headless/DropdownMenu",
+    component: DropdownMenu,
+    tags: ["autodocs"],
 };
 
 export default meta;

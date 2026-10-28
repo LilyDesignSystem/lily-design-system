@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { MexicoClaveUnicaDeRegistroDePoblacionInput } from "./MexicoClaveUnicaDeRegistroDePoblacionInput";
 
 const meta: Meta<MexicoClaveUnicaDeRegistroDePoblacionInput> = {
-  title: "Headless/MexicoClaveUnicaDeRegistroDePoblacionInput",
-  component: MexicoClaveUnicaDeRegistroDePoblacionInput,
-  tags: ["autodocs"],
+    title: "Headless/MexicoClaveUnicaDeRegistroDePoblacionInput",
+    component: MexicoClaveUnicaDeRegistroDePoblacionInput,
+    tags: ["autodocs"],
 };
 
 export default meta;

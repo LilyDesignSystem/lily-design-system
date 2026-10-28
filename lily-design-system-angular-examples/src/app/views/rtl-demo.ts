@@ -89,29 +89,29 @@ import { PaginationListItem } from "../components/PaginationListItem";
 // TextInput, and Button render a single native element with no nested
 // structure to break, so they're used as components directly.
 @Component({
-  selector: "lily-rtl-demo",
-  standalone: true,
-  imports: [
-    BackLink,
-    InsetText,
-    Field,
-    Label,
-    TextInput,
-    Button,
-    BreadcrumbNav,
-    BreadcrumbList,
-    BreadcrumbListItem,
-    DataTable,
-    DataTableHead,
-    DataTableBody,
-    DataTableRow,
-    DataTableTH,
-    DataTableTD,
-    PaginationNav,
-    PaginationList,
-    PaginationListItem,
-  ],
-  template: `
+    selector: "lily-rtl-demo",
+    standalone: true,
+    imports: [
+        BackLink,
+        InsetText,
+        Field,
+        Label,
+        TextInput,
+        Button,
+        BreadcrumbNav,
+        BreadcrumbList,
+        BreadcrumbListItem,
+        DataTable,
+        DataTableHead,
+        DataTableBody,
+        DataTableRow,
+        DataTableTH,
+        DataTableTD,
+        PaginationNav,
+        PaginationList,
+        PaginationListItem,
+    ],
+    template: `
     <article class="page-wrapper" dir="rtl" lang="ar">
       <lily-back-link href="/">رجوع إلى الأمثلة</lily-back-link>
 
@@ -224,23 +224,23 @@ import { PaginationListItem } from "../components/PaginationListItem";
       </form>
     </article>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class RtlDemoPage {
-  protected readonly rows = [
-    { name: "سارة أحمد", department: "الموارد البشرية", status: "نشط" },
-    { name: "محمد علي", department: "تقنية المعلومات", status: "نشط" },
-    { name: "ليلى حسن", department: "المالية", status: "متوقف" },
-  ];
+    protected readonly rows = [
+        { name: "سارة أحمد", department: "الموارد البشرية", status: "نشط" },
+        { name: "محمد علي", department: "تقنية المعلومات", status: "نشط" },
+        { name: "ليلى حسن", department: "المالية", status: "متوقف" },
+    ];
 
-  protected readonly pages = [1, 2, 3, 4, 5];
-  protected readonly currentPage = 2;
+    protected readonly pages = [1, 2, 3, 4, 5];
+    protected readonly currentPage = 2;
 
-  protected readonly name = signal("");
-  protected readonly contactMethod = signal<"email" | "phone">("email");
-  protected readonly agreeTerms = signal(false);
+    protected readonly name = signal("");
+    protected readonly contactMethod = signal<"email" | "phone">("email");
+    protected readonly agreeTerms = signal(false);
 
-  protected onSubmit(event: Event): void {
-    event.preventDefault();
-  }
+    protected onSubmit(event: Event): void {
+        event.preventDefault();
+    }
 }

@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { ColorPickerButton } from "./ColorPickerButton";
 
 const meta: Meta<ColorPickerButton> = {
-  title: "Headless/ColorPickerButton",
-  component: ColorPickerButton,
-  tags: ["autodocs"],
+    title: "Headless/ColorPickerButton",
+    component: ColorPickerButton,
+    tags: ["autodocs"],
 };
 
 export default meta;

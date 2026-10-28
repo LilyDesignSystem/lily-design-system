@@ -13,14 +13,14 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * zero CSS; the consumer styles via the class hook.
  */
 @Component({
-  selector: "thead[lily-table-head]",
-  standalone: true,
-  template: `<ng-content />`,
-  host: {
-    "[class]": '"table-head " + className()',
-  },
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "thead[lily-table-head]",
+    standalone: true,
+    template: `<ng-content />`,
+    host: {
+        "[class]": '"table-head " + className()',
+    },
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableHead {
-  readonly className = input<string>("");
+    readonly className = input<string>("");
 }

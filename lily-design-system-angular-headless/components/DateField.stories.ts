@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { DateField } from "./DateField";
 
 const meta: Meta<DateField> = {
-  title: "Headless/DateField",
-  component: DateField,
-  tags: ["autodocs"],
+    title: "Headless/DateField",
+    component: DateField,
+    tags: ["autodocs"],
 };
 
 export default meta;

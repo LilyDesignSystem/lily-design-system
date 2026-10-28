@@ -4,35 +4,35 @@ import { TestBed } from "@angular/core/testing";
 import { YisraelTeudatZehutView } from "./YisraelTeudatZehutView";
 
 describe("YisraelTeudatZehutView", () => {
-  test("renders the span root with the base class", () => {
-    const fixture = TestBed.createComponent(YisraelTeudatZehutView);
-    fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("span.yisrael-teudat-zehut-view");
-    expect(el).toBeTruthy();
-  });
+    test("renders the span root with the base class", () => {
+        const fixture = TestBed.createComponent(YisraelTeudatZehutView);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("span.yisrael-teudat-zehut-view");
+        expect(el).toBeTruthy();
+    });
 
-  test("appends the className input to the root class list", () => {
-    const fixture = TestBed.createComponent(YisraelTeudatZehutView);
-    fixture.componentRef.setInput("className", "extra");
-    fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("span.yisrael-teudat-zehut-view");
-    expect(el).toBeTruthy();
-    expect(el.classList.contains("extra")).toBe(true);
-  });
+    test("appends the className input to the root class list", () => {
+        const fixture = TestBed.createComponent(YisraelTeudatZehutView);
+        fixture.componentRef.setInput("className", "extra");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("span.yisrael-teudat-zehut-view");
+        expect(el).toBeTruthy();
+        expect(el.classList.contains("extra")).toBe(true);
+    });
 
-  test("sets aria-label from the label input", () => {
-    const fixture = TestBed.createComponent(YisraelTeudatZehutView);
-    fixture.componentRef.setInput("label", "Hello");
-    fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("span.yisrael-teudat-zehut-view");
-    expect(el.getAttribute("aria-label")).toBe("Hello");
-  });
+    test("sets aria-label from the label input", () => {
+        const fixture = TestBed.createComponent(YisraelTeudatZehutView);
+        fixture.componentRef.setInput("label", "Hello");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("span.yisrael-teudat-zehut-view");
+        expect(el.getAttribute("aria-label")).toBe("Hello");
+    });
 
-  test("renders the value as text content", () => {
-    const fixture = TestBed.createComponent(YisraelTeudatZehutView);
-    fixture.componentRef.setInput("value", "abc123");
-    fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("span.yisrael-teudat-zehut-view");
-    expect(el.textContent).toBe("abc123");
-  });
+    test("renders the value as text content", () => {
+        const fixture = TestBed.createComponent(YisraelTeudatZehutView);
+        fixture.componentRef.setInput("value", "abc123");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("span.yisrael-teudat-zehut-view");
+        expect(el.textContent).toBe("abc123");
+    });
 });

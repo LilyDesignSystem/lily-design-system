@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { NavigationMenu } from "./NavigationMenu";
 
 const meta: Meta<NavigationMenu> = {
-  title: "Headless/NavigationMenu",
-  component: NavigationMenu,
-  tags: ["autodocs"],
+    title: "Headless/NavigationMenu",
+    component: NavigationMenu,
+    tags: ["autodocs"],
 };
 
 export default meta;

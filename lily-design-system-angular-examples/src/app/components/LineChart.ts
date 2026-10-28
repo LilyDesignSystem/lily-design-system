@@ -16,15 +16,15 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * cannot detect projected content), empty when nothing is projected.
  */
 @Component({
-  selector: "lily-line-chart",
-  standalone: true,
-  template: `<figure class="line-chart {{ className() }}"><div class="line-chart-graphic" role="img" [attr.aria-label]="label() || null" [attr.aria-describedby]="describedBy() || null"><ng-content /></div><div class="line-chart-data-table"><ng-content select="[dataTable]" /></div></figure>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "lily-line-chart",
+    standalone: true,
+    template: `<figure class="line-chart {{ className() }}"><div class="line-chart-graphic" role="img" [attr.aria-label]="label() || null" [attr.aria-describedby]="describedBy() || null"><ng-content /></div><div class="line-chart-data-table"><ng-content select="[dataTable]" /></div></figure>`,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LineChart {
-  /** Accessible name for the chart. */
-  readonly label = input<string>("");
-  /** Id of a description (aria-describedby on the image wrapper). */
-  readonly describedBy = input<string>("");
-  readonly className = input<string>("");
+    /** Accessible name for the chart. */
+    readonly label = input<string>("");
+    /** Id of a description (aria-describedby on the image wrapper). */
+    readonly describedBy = input<string>("");
+    readonly className = input<string>("");
 }

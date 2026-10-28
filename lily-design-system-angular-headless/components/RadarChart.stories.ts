@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { RadarChart } from "./RadarChart";
 
 const meta: Meta<RadarChart> = {
-  title: "Headless/RadarChart",
-  component: RadarChart,
-  tags: ["autodocs"],
+    title: "Headless/RadarChart",
+    component: RadarChart,
+    tags: ["autodocs"],
 };
 
 export default meta;

@@ -9,28 +9,28 @@ import { DataTableFoot } from "./DataTableFoot";
 // small host template rather than `TestBed.createComponent(DataTableFoot)` directly (the
 // latter has no <tfoot> to attach to and falls back to a bare <div>).
 @Component({
-  standalone: true,
-  imports: [DataTableFoot],
-  template: `<tfoot lily-data-table-foot [className]="className"></tfoot>`,
+    standalone: true,
+    imports: [DataTableFoot],
+    template: `<tfoot lily-data-table-foot [className]="className"></tfoot>`,
 })
 class TestHost {
-  className = "";
+    className = "";
 }
 
 describe("DataTableFoot", () => {
-  test("the host is the tfoot itself — no wrapper element — with the base class", () => {
-    const fixture = TestBed.createComponent(TestHost);
-    fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("tfoot");
-    expect(el.tagName).toBe("TFOOT");
-    expect(el.classList.contains("data-table-foot")).toBe(true);
-  });
+    test("the host is the tfoot itself — no wrapper element — with the base class", () => {
+        const fixture = TestBed.createComponent(TestHost);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("tfoot");
+        expect(el.tagName).toBe("TFOOT");
+        expect(el.classList.contains("data-table-foot")).toBe(true);
+    });
 
-  test("appends the className input to the host class list", () => {
-    const fixture = TestBed.createComponent(TestHost);
-    fixture.componentInstance.className = "extra";
-    fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("tfoot");
-    expect(el.classList.contains("extra")).toBe(true);
-  });
+    test("appends the className input to the host class list", () => {
+        const fixture = TestBed.createComponent(TestHost);
+        fixture.componentInstance.className = "extra";
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("tfoot");
+        expect(el.classList.contains("extra")).toBe(true);
+    });
 });

@@ -9,29 +9,29 @@ import { Option } from "./Option";
 // small host template rather than `TestBed.createComponent(Option)` directly (the
 // latter has no <option> to attach to and falls back to a bare <div>).
 @Component({
-  standalone: true,
-  imports: [Option],
-  template: `<option lily-option [className]="className" [value]="value"></option>`,
+    standalone: true,
+    imports: [Option],
+    template: `<option lily-option [className]="className" [value]="value"></option>`,
 })
 class TestHost {
-  className = "";
-  value = "";
+    className = "";
+    value = "";
 }
 
 describe("Option", () => {
-  test("the host is the option itself — no wrapper element — with the base class", () => {
-    const fixture = TestBed.createComponent(TestHost);
-    fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("option");
-    expect(el.tagName).toBe("OPTION");
-    expect(el.classList.contains("option")).toBe(true);
-  });
+    test("the host is the option itself — no wrapper element — with the base class", () => {
+        const fixture = TestBed.createComponent(TestHost);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("option");
+        expect(el.tagName).toBe("OPTION");
+        expect(el.classList.contains("option")).toBe(true);
+    });
 
-  test("appends the className input to the host class list", () => {
-    const fixture = TestBed.createComponent(TestHost);
-    fixture.componentInstance.className = "extra";
-    fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("option");
-    expect(el.classList.contains("extra")).toBe(true);
-  });
+    test("appends the className input to the host class list", () => {
+        const fixture = TestBed.createComponent(TestHost);
+        fixture.componentInstance.className = "extra";
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("option");
+        expect(el.classList.contains("extra")).toBe(true);
+    });
 });

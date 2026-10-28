@@ -13,14 +13,14 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * zero CSS; the consumer styles via the class hook.
  */
 @Component({
-  selector: "tfoot[lily-data-table-foot]",
-  standalone: true,
-  template: `<ng-content />`,
-  host: {
-    "[class]": '"data-table-foot " + className()',
-  },
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "tfoot[lily-data-table-foot]",
+    standalone: true,
+    template: `<ng-content />`,
+    host: {
+        "[class]": '"data-table-foot " + className()',
+    },
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DataTableFoot {
-  readonly className = input<string>("");
+    readonly className = input<string>("");
 }

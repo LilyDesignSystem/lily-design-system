@@ -16,11 +16,11 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { TextSizePicker } from "../text-size-picker.component";
 
 @Component({
-  selector: "example-custom-labels",
-  standalone: true,
-  imports: [TextSizePicker],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: "example-custom-labels",
+    standalone: true,
+    imports: [TextSizePicker],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <lily-text-size-picker
       label="Taille du texte"
       [sizes]="['small', 'medium', 'large', 'x-large']"
@@ -29,10 +29,10 @@ import { TextSizePicker } from "../text-size-picker.component";
   `,
 })
 export class CustomLabelsExample {
-  readonly labels: Record<string, string> = {
-    small: "Petit",
-    medium: "Moyen",
-    large: "Grand",
-    "x-large": "Très grand",
-  };
+    readonly labels: Record<string, string> = {
+        small: "Petit",
+        medium: "Moyen",
+        large: "Grand",
+        "x-large": "Très grand",
+    };
 }

@@ -8,9 +8,9 @@ import { ChangeDetectionStrategy, Component, input, model } from "@angular/core"
  * Ships zero CSS; the consumer styles via the class hook.
  */
 @Component({
-  selector: "lily-tour",
-  standalone: true,
-  template: `@if (active()) {
+    selector: "lily-tour",
+    standalone: true,
+    template: `@if (active()) {
     <div
       class="tour {{ className() }}"
       role="dialog"
@@ -20,15 +20,15 @@ import { ChangeDetectionStrategy, Component, input, model } from "@angular/core"
       (keydown)="onKeydown($event)"
     ><ng-content /></div>
   }`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Tour {
-  readonly label = input<string>("");
-  /** Whether the tour is showing. Two-way bindable; Escape sets it to false. */
-  readonly active = model<boolean>(false);
-  readonly className = input<string>("");
+    readonly label = input<string>("");
+    /** Whether the tour is showing. Two-way bindable; Escape sets it to false. */
+    readonly active = model<boolean>(false);
+    readonly className = input<string>("");
 
-  protected onKeydown(event: KeyboardEvent): void {
-    if (event.key === "Escape") this.active.set(false);
-  }
+    protected onKeydown(event: KeyboardEvent): void {
+        if (event.key === "Escape") this.active.set(false);
+    }
 }

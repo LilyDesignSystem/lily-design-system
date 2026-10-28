@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { EspanaCodigoDeIdentificacionFiscalView } from "./EspanaCodigoDeIdentificacionFiscalView";
 
 const meta: Meta<EspanaCodigoDeIdentificacionFiscalView> = {
-  title: "Headless/EspanaCodigoDeIdentificacionFiscalView",
-  component: EspanaCodigoDeIdentificacionFiscalView,
-  tags: ["autodocs"],
+    title: "Headless/EspanaCodigoDeIdentificacionFiscalView",
+    component: EspanaCodigoDeIdentificacionFiscalView,
+    tags: ["autodocs"],
 };
 
 export default meta;

@@ -8,9 +8,9 @@ import { ChangeDetectionStrategy, Component, input, model } from "@angular/core"
  * Ships zero CSS; the consumer styles via the class hook.
  */
 @Component({
-  selector: "lily-switch-button",
-  standalone: true,
-  template: `<button
+    selector: "lily-switch-button",
+    standalone: true,
+    template: `<button
     class="switch-button {{ className() }}"
     type="button"
     role="switch"
@@ -19,20 +19,20 @@ import { ChangeDetectionStrategy, Component, input, model } from "@angular/core"
     [disabled]="disabled()"
     (click)="toggle()"
   ><ng-content /></button>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SwitchButton {
-  readonly label = input<string>("");
-  /** Whether the control is on. Two-way bindable. */
-  readonly checked = model<boolean>(false);
-  readonly disabled = input<boolean>(false);
-  readonly className = input<string>("");
+    readonly label = input<string>("");
+    /** Whether the control is on. Two-way bindable. */
+    readonly checked = model<boolean>(false);
+    readonly disabled = input<boolean>(false);
+    readonly className = input<string>("");
 
-  /**
-   * Space and Enter activate a native <button> through `click`, so no key handler is
-   * needed (and none can double-toggle).
-   */
-  protected toggle(): void {
-    if (!this.disabled()) this.checked.set(!this.checked());
-  }
+    /**
+     * Space and Enter activate a native <button> through `click`, so no key handler is
+     * needed (and none can double-toggle).
+     */
+    protected toggle(): void {
+        if (!this.disabled()) this.checked.set(!this.checked());
+    }
 }

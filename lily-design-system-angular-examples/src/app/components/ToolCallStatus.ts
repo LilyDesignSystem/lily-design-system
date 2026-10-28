@@ -8,13 +8,13 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * (Angular cannot spread onto an inner element).
  */
 @Component({
-  selector: "lily-tool-call-status",
-  standalone: true,
-  template: `<span class="tool-call-status {{ className() }}" [attr.data-status]="status() || null"><ng-content /></span>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "lily-tool-call-status",
+    standalone: true,
+    template: `<span class="tool-call-status {{ className() }}" [attr.data-status]="status() || null"><ng-content /></span>`,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToolCallStatus {
-  /** Status: pending, running, done or error. */
-  readonly status = input<string>("");
-  readonly className = input<string>("");
+    /** Status: pending, running, done or error. */
+    readonly status = input<string>("");
+    readonly className = input<string>("");
 }

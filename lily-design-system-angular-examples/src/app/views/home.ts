@@ -2,10 +2,10 @@ import { Component, ChangeDetectionStrategy } from "@angular/core";
 import { RouterLink } from "@angular/router";
 
 @Component({
-  selector: "lily-home",
-  standalone: true,
-  imports: [RouterLink],
-  template: `
+    selector: "lily-home",
+    standalone: true,
+    imports: [RouterLink],
+    template: `
     <article class="page-wrapper">
       <h1>Lily Design System — Angular examples</h1>
       <p>
@@ -38,6 +38,6 @@ import { RouterLink } from "@angular/router";
       </ul>
     </article>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class HomePage {}

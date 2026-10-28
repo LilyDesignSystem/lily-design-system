@@ -13,14 +13,14 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * zero CSS; the consumer styles via the class hook.
  */
 @Component({
-  selector: "thead[lily-gantt-table-thead]",
-  standalone: true,
-  template: `<ng-content />`,
-  host: {
-    "[class]": '"gantt-table-thead " + className()',
-  },
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "thead[lily-gantt-table-thead]",
+    standalone: true,
+    template: `<ng-content />`,
+    host: {
+        "[class]": '"gantt-table-thead " + className()',
+    },
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GanttTableThead {
-  readonly className = input<string>("");
+    readonly className = input<string>("");
 }

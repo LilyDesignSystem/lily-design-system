@@ -8,12 +8,12 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * Ships zero CSS; the consumer styles via the class hook.
  */
 @Component({
-  selector: "lily-summary-list",
-  standalone: true,
-  template: `<ol class="summary-list {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></ol>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "lily-summary-list",
+    standalone: true,
+    template: `<ol class="summary-list {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></ol>`,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SummaryList {
-  readonly label = input<string>("");
-  readonly className = input<string>("");
+    readonly label = input<string>("");
+    readonly className = input<string>("");
 }

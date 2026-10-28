@@ -7,10 +7,5 @@
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": false
   },
-  "include": [
-    "index.ts",
-    "label-pack.ts",
-    "intl-labels.ts",
-    "zone-names.ts"
-  ]
+  "include": ["index.ts", "label-pack.ts", "intl-labels.ts", "zone-names.ts"]
 }

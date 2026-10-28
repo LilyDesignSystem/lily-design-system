@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { GanttTable } from "./GanttTable";
 
 const meta: Meta<GanttTable> = {
-  title: "Headless/GanttTable",
-  component: GanttTable,
-  tags: ["autodocs"],
+    title: "Headless/GanttTable",
+    component: GanttTable,
+    tags: ["autodocs"],
 };
 
 export default meta;

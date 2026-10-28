@@ -8,9 +8,9 @@ import { ChangeDetectionStrategy, Component, input, model } from "@angular/core"
  * Ships zero CSS; the consumer styles via the class hook.
  */
 @Component({
-  selector: "lily-slide-out-drawer",
-  standalone: true,
-  template: `@if (open()) {
+    selector: "lily-slide-out-drawer",
+    standalone: true,
+    template: `@if (open()) {
     <div
       class="slide-out-drawer {{ className() }}"
       role="dialog"
@@ -20,18 +20,18 @@ import { ChangeDetectionStrategy, Component, input, model } from "@angular/core"
       (keydown)="onKeydown($event)"
     ><ng-content /></div>
   }`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SlideOutDrawer {
-  readonly label = input<string>("");
-  /** Whether the panel is shown. Two-way bindable; Escape sets it to false. */
-  readonly open = model<boolean>(false);
-  readonly className = input<string>("");
+    readonly label = input<string>("");
+    /** Whether the panel is shown. Two-way bindable; Escape sets it to false. */
+    readonly open = model<boolean>(false);
+    readonly className = input<string>("");
 
-  protected onKeydown(event: KeyboardEvent): void {
-    if (event.key === "Escape") {
-      event.preventDefault();
-      this.open.set(false);
+    protected onKeydown(event: KeyboardEvent): void {
+        if (event.key === "Escape") {
+            event.preventDefault();
+            this.open.set(false);
+        }
     }
-  }
 }

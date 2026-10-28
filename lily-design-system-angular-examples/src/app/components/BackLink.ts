@@ -8,13 +8,13 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * Ships zero CSS; the consumer styles via the class hook.
  */
 @Component({
-  selector: "lily-back-link",
-  standalone: true,
-  template: `<a class="back-link {{ className() }}" [attr.href]="href() || '#'" [attr.aria-label]="label() || null"><ng-content /></a>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "lily-back-link",
+    standalone: true,
+    template: `<a class="back-link {{ className() }}" [attr.href]="href() || '#'" [attr.aria-label]="label() || null"><ng-content /></a>`,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BackLink {
-  readonly href = input<string>("");
-  readonly label = input<string>("");
-  readonly className = input<string>("");
+    readonly href = input<string>("");
+    readonly label = input<string>("");
+    readonly className = input<string>("");
 }

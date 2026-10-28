@@ -8,10 +8,10 @@ import { componentExamples } from "../component-examples";
 import { components } from "../components-data";
 
 @Component({
-  selector: "lily-component-detail",
-  standalone: true,
-  imports: [RouterLink],
-  template: `
+    selector: "lily-component-detail",
+    standalone: true,
+    imports: [RouterLink],
+    template: `
     <article class="page-wrapper">
       <nav aria-label="Breadcrumb">
         <a routerLink="/components">Back to components</a>
@@ -59,42 +59,42 @@ import { components } from "../components-data";
       }
     </article>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class ComponentDetailPage {
-  private readonly sanitizer = inject(DomSanitizer);
-  private readonly route = inject(ActivatedRoute);
-  protected readonly slug = toSignal(this.route.paramMap.pipe(map((p) => p.get("slug"))), {
-    initialValue: this.route.snapshot.paramMap.get("slug"),
-  });
+    private readonly sanitizer = inject(DomSanitizer);
+    private readonly route = inject(ActivatedRoute);
+    protected readonly slug = toSignal(this.route.paramMap.pipe(map((p) => p.get("slug"))), {
+        initialValue: this.route.snapshot.paramMap.get("slug"),
+    });
 
-  protected readonly meta = computed(() => {
-    const s = this.slug();
-    return s ? components.find((c) => c.slug === s) : undefined;
-  });
+    protected readonly meta = computed(() => {
+        const s = this.slug();
+        return s ? components.find((c) => c.slug === s) : undefined;
+    });
 
-  protected readonly demoSource = computed(() => {
-    const s = this.slug();
-    return s ? (componentDemos[s] ?? "") : "";
-  });
+    protected readonly demoSource = computed(() => {
+        const s = this.slug();
+        return s ? (componentDemos[s] ?? "") : "";
+    });
 
-  protected readonly variants = computed(() => {
-    const s = this.slug();
-    const list = (s ? componentExamples[s]?.variants : undefined) ?? [];
-    return list.map((v) => ({
-      title: v.title,
-      html: v.html,
-      safeHtml: this.sanitizer.bypassSecurityTrustHtml(v.html),
-    }));
-  });
+    protected readonly variants = computed(() => {
+        const s = this.slug();
+        const list = (s ? componentExamples[s]?.variants : undefined) ?? [];
+        return list.map((v) => ({
+            title: v.title,
+            html: v.html,
+            safeHtml: this.sanitizer.bypassSecurityTrustHtml(v.html),
+        }));
+    });
 
-  protected readonly usage = computed(() => {
-    const s = this.slug();
-    const u = s ? componentExamples[s]?.usage : undefined;
-    return u ? u.code : "";
-  });
+    protected readonly usage = computed(() => {
+        const s = this.slug();
+        const u = s ? componentExamples[s]?.usage : undefined;
+        return u ? u.code : "";
+    });
 
-  protected readonly demoHtml = computed<SafeHtml>(() =>
-    this.sanitizer.bypassSecurityTrustHtml(this.demoSource()),
-  );
+    protected readonly demoHtml = computed<SafeHtml>(() =>
+        this.sanitizer.bypassSecurityTrustHtml(this.demoSource()),
+    );
 }

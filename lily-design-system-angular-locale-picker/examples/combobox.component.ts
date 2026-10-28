@@ -27,11 +27,11 @@ import { LocalePicker, bcp47LocaleTag } from "../locale-picker.component";
 import { defaultLocaleLabels } from "../locales";
 
 @Component({
-  selector: "example-combobox",
-  standalone: true,
-  imports: [LocalePicker],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: "example-combobox",
+    standalone: true,
+    imports: [LocalePicker],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <lily-locale-picker
       label="Language"
       [locales]="locales()"
@@ -64,27 +64,27 @@ import { defaultLocaleLabels } from "../locales";
   `,
 })
 export class ComboboxExample {
-  // All 436 locale codes from the built-in table.
-  readonly locales = signal<string[]>(Object.keys(defaultLocaleLabels));
+    // All 436 locale codes from the built-in table.
+    readonly locales = signal<string[]>(Object.keys(defaultLocaleLabels));
 
-  locale = signal("en");
-  inputValue = signal("");
+    locale = signal("en");
+    inputValue = signal("");
 
-  tagFor(l: string): string {
-    return bcp47LocaleTag(l);
-  }
-
-  labelFor(l: string): string {
-    return defaultLocaleLabels[l] ?? l;
-  }
-
-  onTyped(typed: string): void {
-    const match = this.locales().find(
-      (l) => this.labelFor(l).toLowerCase() === typed.toLowerCase(),
-    );
-    if (match) {
-      this.locale.set(match);
-      this.inputValue.set("");
+    tagFor(l: string): string {
+        return bcp47LocaleTag(l);
     }
-  }
+
+    labelFor(l: string): string {
+        return defaultLocaleLabels[l] ?? l;
+    }
+
+    onTyped(typed: string): void {
+        const match = this.locales().find(
+            (l) => this.labelFor(l).toLowerCase() === typed.toLowerCase(),
+        );
+        if (match) {
+            this.locale.set(match);
+            this.inputValue.set("");
+        }
+    }
 }

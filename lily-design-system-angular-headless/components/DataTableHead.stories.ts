@@ -5,14 +5,14 @@ import { DataTableHead } from "./DataTableHead";
 // only knows how to mount an element selector as its own tag, so this story supplies
 // the host <thead> explicitly via `render`.
 const meta: Meta<DataTableHead> = {
-  title: "Headless/DataTableHead",
-  component: DataTableHead,
-  tags: ["autodocs"],
-  render: (args) => ({
-    props: args,
-    moduleMetadata: { imports: [DataTableHead] },
-    template: `<thead lily-data-table-head [className]="className"></thead>`,
-  }),
+    title: "Headless/DataTableHead",
+    component: DataTableHead,
+    tags: ["autodocs"],
+    render: (args) => ({
+        props: args,
+        moduleMetadata: { imports: [DataTableHead] },
+        template: `<thead lily-data-table-head [className]="className"></thead>`,
+    }),
 };
 
 export default meta;

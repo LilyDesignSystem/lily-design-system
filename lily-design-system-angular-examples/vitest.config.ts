@@ -22,11 +22,11 @@ import angular from "@analogjs/vite-plugin-angular";
 // that file) fixed all 491 components' specs in one pass -- no
 // per-component changes were needed.
 export default defineConfig({
-  plugins: [angular()],
-  test: {
-    globals: true,
-    environment: "jsdom",
-    setupFiles: ["./vitest-setup.ts"],
-    include: ["src/app/*.spec.ts", "src/app/components/**/*.spec.ts"],
-  },
+    plugins: [angular()],
+    test: {
+        globals: true,
+        environment: "jsdom",
+        setupFiles: ["./vitest-setup.ts"],
+        include: ["src/app/*.spec.ts", "src/app/components/**/*.spec.ts"],
+    },
 });

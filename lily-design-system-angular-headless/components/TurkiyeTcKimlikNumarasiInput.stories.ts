@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { TurkiyeTcKimlikNumarasiInput } from "./TurkiyeTcKimlikNumarasiInput";
 
 const meta: Meta<TurkiyeTcKimlikNumarasiInput> = {
-  title: "Headless/TurkiyeTcKimlikNumarasiInput",
-  component: TurkiyeTcKimlikNumarasiInput,
-  tags: ["autodocs"],
+    title: "Headless/TurkiyeTcKimlikNumarasiInput",
+    component: TurkiyeTcKimlikNumarasiInput,
+    tags: ["autodocs"],
 };
 
 export default meta;

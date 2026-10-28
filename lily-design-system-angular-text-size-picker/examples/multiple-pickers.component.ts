@@ -24,11 +24,11 @@ import { ChangeDetectionStrategy, Component, ElementRef, viewChild } from "@angu
 import { TextSizePicker } from "../text-size-picker.component";
 
 @Component({
-  selector: "example-multiple-pickers",
-  standalone: true,
-  imports: [TextSizePicker],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: "example-multiple-pickers",
+    standalone: true,
+    imports: [TextSizePicker],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <section #regionA>
       <lily-text-size-picker
         label="Sidebar text size"
@@ -49,6 +49,6 @@ import { TextSizePicker } from "../text-size-picker.component";
   `,
 })
 export class MultiplePickersExample {
-  readonly regionA = viewChild<ElementRef<HTMLElement>>("regionA");
-  readonly regionB = viewChild<ElementRef<HTMLElement>>("regionB");
+    readonly regionA = viewChild<ElementRef<HTMLElement>>("regionA");
+    readonly regionB = viewChild<ElementRef<HTMLElement>>("regionB");
 }

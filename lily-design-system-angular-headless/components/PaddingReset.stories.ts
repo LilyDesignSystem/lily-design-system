@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { PaddingReset } from "./PaddingReset";
 
 const meta: Meta<PaddingReset> = {
-  title: "Headless/PaddingReset",
-  component: PaddingReset,
-  tags: ["autodocs"],
+    title: "Headless/PaddingReset",
+    component: PaddingReset,
+    tags: ["autodocs"],
 };
 
 export default meta;

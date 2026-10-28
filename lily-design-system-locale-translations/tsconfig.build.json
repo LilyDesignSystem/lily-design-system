@@ -1,7 +1,17 @@
 {
   "extends": "./tsconfig.json",
-  "compilerOptions": { "noEmit": false, "outDir": "dist", "rootDir": ".", "moduleResolution": "bundler", "allowImportingTsExtensions": false },
-  "include": ["index.ts", "label-pack.ts",
+  "compilerOptions": {
+    "noEmit": false,
+    "outDir": "dist",
+    "rootDir": ".",
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": false
+  },
+  "include": [
+    "index.ts",
+    "label-pack.ts",
     "intl-labels.ts",
-    "zone-names.ts", "label-pack-nunjucks.ts"]
+    "zone-names.ts",
+    "label-pack-nunjucks.ts"
+  ]
 }

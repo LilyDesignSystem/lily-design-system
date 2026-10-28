@@ -8,12 +8,12 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * Ships zero CSS; the consumer styles via the class hook.
  */
 @Component({
-  selector: "lily-theme-select-option",
-  standalone: true,
-  template: `<option class="theme-select-option {{ className() }}" [value]="value()"><ng-content /></option>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "lily-theme-select-option",
+    standalone: true,
+    template: `<option class="theme-select-option {{ className() }}" [value]="value()"><ng-content /></option>`,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ThemeSelectOption {
-  readonly value = input<string>("");
-  readonly className = input<string>("");
+    readonly value = input<string>("");
+    readonly className = input<string>("");
 }

@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { ScrollBar } from "./ScrollBar";
 
 const meta: Meta<ScrollBar> = {
-  title: "Headless/ScrollBar",
-  component: ScrollBar,
-  tags: ["autodocs"],
+    title: "Headless/ScrollBar",
+    component: ScrollBar,
+    tags: ["autodocs"],
 };
 
 export default meta;

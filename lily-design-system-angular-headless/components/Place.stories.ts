@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { Place } from "./Place";
 
 const meta: Meta<Place> = {
-  title: "Headless/Place",
-  component: Place,
-  tags: ["autodocs"],
+    title: "Headless/Place",
+    component: Place,
+    tags: ["autodocs"],
 };
 
 export default meta;

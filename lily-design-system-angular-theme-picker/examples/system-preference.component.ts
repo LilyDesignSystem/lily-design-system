@@ -22,11 +22,11 @@ import { ChangeDetectionStrategy, Component, signal } from "@angular/core";
 import { ThemePicker } from "../theme-picker.component";
 
 @Component({
-  selector: "example-system-preference",
-  standalone: true,
-  imports: [ThemePicker],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: "example-system-preference",
+    standalone: true,
+    imports: [ThemePicker],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <lily-theme-picker
       label="Theme"
       themesUrl="/assets/themes/"
@@ -38,5 +38,5 @@ import { ThemePicker } from "../theme-picker.component";
   `,
 })
 export class SystemPreferenceExample {
-  theme = signal("");
+    theme = signal("");
 }

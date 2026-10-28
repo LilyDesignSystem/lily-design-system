@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { Avatar } from "./Avatar";
 
 const meta: Meta<Avatar> = {
-  title: "Headless/Avatar",
-  component: Avatar,
-  tags: ["autodocs"],
+    title: "Headless/Avatar",
+    component: Avatar,
+    tags: ["autodocs"],
 };
 
 export default meta;

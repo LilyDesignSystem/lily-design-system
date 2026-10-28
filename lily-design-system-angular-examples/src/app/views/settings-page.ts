@@ -10,10 +10,10 @@ import { Option } from "../components/Option";
 import { Banner } from "../components/Banner";
 
 @Component({
-  selector: "lily-settings-page",
-  standalone: true,
-  imports: [Fieldset, Field, Label, SwitchButton, RadioGroup, RadioInput, Select, Option, Banner],
-  template: `
+    selector: "lily-settings-page",
+    standalone: true,
+    imports: [Fieldset, Field, Label, SwitchButton, RadioGroup, RadioInput, Select, Option, Banner],
+    template: `
     <article class="page-wrapper">
       <h1>Settings</h1>
 
@@ -41,6 +41,6 @@ import { Banner } from "../components/Banner";
       </lily-fieldset>
     </article>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class SettingsPagePage {}

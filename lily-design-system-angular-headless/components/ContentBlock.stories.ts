@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { ContentBlock } from "./ContentBlock";
 
 const meta: Meta<ContentBlock> = {
-  title: "Headless/ContentBlock",
-  component: ContentBlock,
-  tags: ["autodocs"],
+    title: "Headless/ContentBlock",
+    component: ContentBlock,
+    tags: ["autodocs"],
 };
 
 export default meta;

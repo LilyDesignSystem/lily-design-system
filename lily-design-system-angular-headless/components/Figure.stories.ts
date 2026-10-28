@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { Figure } from "./Figure";
 
 const meta: Meta<Figure> = {
-  title: "Headless/Figure",
-  component: Figure,
-  tags: ["autodocs"],
+    title: "Headless/Figure",
+    component: Figure,
+    tags: ["autodocs"],
 };
 
 export default meta;

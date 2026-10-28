@@ -8,11 +8,11 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * (Angular cannot spread onto an inner element).
  */
 @Component({
-  selector: "lily-mark",
-  standalone: true,
-  template: `<mark class="mark {{ className() }}" ><ng-content /></mark>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "lily-mark",
+    standalone: true,
+    template: `<mark class="mark {{ className() }}" ><ng-content /></mark>`,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Mark {
-  readonly className = input<string>("");
+    readonly className = input<string>("");
 }

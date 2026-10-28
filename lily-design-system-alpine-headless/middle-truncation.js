@@ -13,8 +13,11 @@
  */
 
 /** Split into user-perceived characters. */
-export function splitGraphemes(text) {
-    const Segmenter = Intl.Segmenter;
+export function splitGraphemes(text        )           {
+    const Segmenter = (
+        Intl
+
+    ).Segmenter;
     if (Segmenter)
         return Array.from(
             new Segmenter(undefined, { granularity: "grapheme" }).segment(text),
@@ -23,20 +26,20 @@ export function splitGraphemes(text) {
     return Array.from(text);
 }
 
-function clampEnd(end, length) {
+function clampEnd(end                    , length        )         {
     if (end === undefined || !Number.isFinite(end)) return 0;
     return Math.min(Math.max(Math.floor(end), 0), length);
 }
 
 /** The text shortened to fit `maxWidth`, or unchanged when it already fits. */
-export function truncateMiddle(text, options) {
+export function truncateMiddle(text        , options                       )         {
     const { ellipsis, maxWidth, measure, strategy = "even" } = options;
     if (measure(text) <= maxWidth) return text;
 
     const g = splitGraphemes(text);
     const n = g.length;
-    const tail = (count) => (count > 0 ? g.slice(n - count).join("") : "");
-    const head = (count) => g.slice(0, count).join("");
+    const tail = (count        )         => (count > 0 ? g.slice(n - count).join("") : "");
+    const head = (count        )         => g.slice(0, count).join("");
 
     if (strategy === "fixed-end") {
         const end = clampEnd(options.end, n);
@@ -53,7 +56,7 @@ export function truncateMiddle(text, options) {
     }
 
     const minEnd = strategy === "min-end" ? clampEnd(options.end, n) : 0;
-    const split = (kept) => {
+    const split = (kept        )                   => {
         const endCount = Math.min(n, Math.max(Math.ceil(kept / 2), minEnd));
         return [Math.max(0, kept - endCount), endCount];
     };

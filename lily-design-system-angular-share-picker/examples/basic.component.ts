@@ -37,11 +37,11 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { SharePicker, type ShareTarget } from "../share-picker.component";
 
 @Component({
-  selector: "example-basic",
-  standalone: true,
-  imports: [SharePicker],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: "example-basic",
+    standalone: true,
+    imports: [SharePicker],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <lily-share-picker
       label="Share this page"
       title="Understanding your test results"
@@ -55,29 +55,29 @@ import { SharePicker, type ShareTarget } from "../share-picker.component";
   `,
 })
 export class BasicExample {
-  readonly targets: ShareTarget[] = [
-    {
-      id: "mastodon",
-      label: "Mastodon",
-      href: (url, title) =>
-        `https://mastodon.social/share?text=${encodeURIComponent(title)}%20${encodeURIComponent(url)}`,
-    },
-    {
-      id: "email",
-      label: "Email",
-      href: (url, title) =>
-        `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(url)}`,
-      // mailto: hands off to the mail client; a new tab would be
-      // left behind blank.
-      newTab: false,
-    },
-  ];
+    readonly targets: ShareTarget[] = [
+        {
+            id: "mastodon",
+            label: "Mastodon",
+            href: (url, title) =>
+                `https://mastodon.social/share?text=${encodeURIComponent(title)}%20${encodeURIComponent(url)}`,
+        },
+        {
+            id: "email",
+            label: "Email",
+            href: (url, title) =>
+                `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(url)}`,
+            // mailto: hands off to the mail client; a new tab would be
+            // left behind blank.
+            newTab: false,
+        },
+    ];
 
-  onShare(event: { targetId: string; url: string }): void {
-    console.log("shared to", event.targetId, event.url);
-  }
+    onShare(event: { targetId: string; url: string }): void {
+        console.log("shared to", event.targetId, event.url);
+    }
 
-  onCopy(url: string): void {
-    console.log("copied", url);
-  }
+    onCopy(url: string): void {
+        console.log("copied", url);
+    }
 }

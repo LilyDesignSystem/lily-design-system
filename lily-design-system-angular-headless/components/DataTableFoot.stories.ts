@@ -5,14 +5,14 @@ import { DataTableFoot } from "./DataTableFoot";
 // only knows how to mount an element selector as its own tag, so this story supplies
 // the host <tfoot> explicitly via `render`.
 const meta: Meta<DataTableFoot> = {
-  title: "Headless/DataTableFoot",
-  component: DataTableFoot,
-  tags: ["autodocs"],
-  render: (args) => ({
-    props: args,
-    moduleMetadata: { imports: [DataTableFoot] },
-    template: `<tfoot lily-data-table-foot [className]="className"></tfoot>`,
-  }),
+    title: "Headless/DataTableFoot",
+    component: DataTableFoot,
+    tags: ["autodocs"],
+    render: (args) => ({
+        props: args,
+        moduleMetadata: { imports: [DataTableFoot] },
+        template: `<tfoot lily-data-table-foot [className]="className"></tfoot>`,
+    }),
 };
 
 export default meta;

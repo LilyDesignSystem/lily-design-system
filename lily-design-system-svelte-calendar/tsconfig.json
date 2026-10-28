@@ -3,11 +3,7 @@
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "lib": [
-      "ESNext",
-      "DOM",
-      "DOM.Iterable"
-    ],
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -19,9 +15,7 @@
       "@lilydesignsystem/svelte-date-time-picker": [
         "../lily-design-system-svelte-date-time-picker/dist/index.d.ts"
       ],
-      "@lilydesignsystem/svelte-headless": [
-        "../lily-design-system-svelte-headless/dist/index.d.ts"
-      ]
+      "@lilydesignsystem/svelte-headless": ["../lily-design-system-svelte-headless/dist/index.d.ts"]
     }
   },
   "exclude": [

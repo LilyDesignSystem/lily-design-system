@@ -9,28 +9,28 @@ import { TableHead } from "./TableHead";
 // small host template rather than `TestBed.createComponent(TableHead)` directly (the
 // latter has no <thead> to attach to and falls back to a bare <div>).
 @Component({
-  standalone: true,
-  imports: [TableHead],
-  template: `<thead lily-table-head [className]="className"></thead>`,
+    standalone: true,
+    imports: [TableHead],
+    template: `<thead lily-table-head [className]="className"></thead>`,
 })
 class TestHost {
-  className = "";
+    className = "";
 }
 
 describe("TableHead", () => {
-  test("the host is the thead itself — no wrapper element — with the base class", () => {
-    const fixture = TestBed.createComponent(TestHost);
-    fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("thead");
-    expect(el.tagName).toBe("THEAD");
-    expect(el.classList.contains("table-head")).toBe(true);
-  });
+    test("the host is the thead itself — no wrapper element — with the base class", () => {
+        const fixture = TestBed.createComponent(TestHost);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("thead");
+        expect(el.tagName).toBe("THEAD");
+        expect(el.classList.contains("table-head")).toBe(true);
+    });
 
-  test("appends the className input to the host class list", () => {
-    const fixture = TestBed.createComponent(TestHost);
-    fixture.componentInstance.className = "extra";
-    fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("thead");
-    expect(el.classList.contains("extra")).toBe(true);
-  });
+    test("appends the className input to the host class list", () => {
+        const fixture = TestBed.createComponent(TestHost);
+        fixture.componentInstance.className = "extra";
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("thead");
+        expect(el.classList.contains("extra")).toBe(true);
+    });
 });

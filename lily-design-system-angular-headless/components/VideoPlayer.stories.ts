@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { VideoPlayer } from "./VideoPlayer";
 
 const meta: Meta<VideoPlayer> = {
-  title: "Headless/VideoPlayer",
-  component: VideoPlayer,
-  tags: ["autodocs"],
+    title: "Headless/VideoPlayer",
+    component: VideoPlayer,
+    tags: ["autodocs"],
 };
 
 export default meta;

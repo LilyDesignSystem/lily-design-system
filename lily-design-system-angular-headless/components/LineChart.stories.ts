@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { LineChart } from "./LineChart";
 
 const meta: Meta<LineChart> = {
-  title: "Headless/LineChart",
-  component: LineChart,
-  tags: ["autodocs"],
+    title: "Headless/LineChart",
+    component: LineChart,
+    tags: ["autodocs"],
 };
 
 export default meta;

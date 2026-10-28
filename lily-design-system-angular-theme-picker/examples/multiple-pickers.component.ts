@@ -19,11 +19,11 @@ import { ChangeDetectionStrategy, Component, ElementRef, viewChild } from "@angu
 import { ThemePicker } from "../theme-picker.component";
 
 @Component({
-  selector: "example-multiple-pickers",
-  standalone: true,
-  imports: [ThemePicker],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: "example-multiple-pickers",
+    standalone: true,
+    imports: [ThemePicker],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <section #regionA>
       <lily-theme-picker
         label="Region A theme"
@@ -46,6 +46,6 @@ import { ThemePicker } from "../theme-picker.component";
   `,
 })
 export class MultipleSelectsExample {
-  readonly regionA = viewChild<ElementRef<HTMLElement>>("regionA");
-  readonly regionB = viewChild<ElementRef<HTMLElement>>("regionB");
+    readonly regionA = viewChild<ElementRef<HTMLElement>>("regionA");
+    readonly regionB = viewChild<ElementRef<HTMLElement>>("regionB");
 }

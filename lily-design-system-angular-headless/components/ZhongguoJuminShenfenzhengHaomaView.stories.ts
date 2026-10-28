@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { ZhongguoJuminShenfenzhengHaomaView } from "./ZhongguoJuminShenfenzhengHaomaView";
 
 const meta: Meta<ZhongguoJuminShenfenzhengHaomaView> = {
-  title: "Headless/ZhongguoJuminShenfenzhengHaomaView",
-  component: ZhongguoJuminShenfenzhengHaomaView,
-  tags: ["autodocs"],
+    title: "Headless/ZhongguoJuminShenfenzhengHaomaView",
+    component: ZhongguoJuminShenfenzhengHaomaView,
+    tags: ["autodocs"],
 };
 
 export default meta;

@@ -5,14 +5,14 @@ import { DocumentListItem } from "./DocumentListItem";
 // only knows how to mount an element selector as its own tag, so this story supplies
 // the host <li> explicitly via `render`.
 const meta: Meta<DocumentListItem> = {
-  title: "Headless/DocumentListItem",
-  component: DocumentListItem,
-  tags: ["autodocs"],
-  render: (args) => ({
-    props: args,
-    moduleMetadata: { imports: [DocumentListItem] },
-    template: `<li lily-document-list-item [className]="className"></li>`,
-  }),
+    title: "Headless/DocumentListItem",
+    component: DocumentListItem,
+    tags: ["autodocs"],
+    render: (args) => ({
+        props: args,
+        moduleMetadata: { imports: [DocumentListItem] },
+        template: `<li lily-document-list-item [className]="className"></li>`,
+    }),
 };
 
 export default meta;

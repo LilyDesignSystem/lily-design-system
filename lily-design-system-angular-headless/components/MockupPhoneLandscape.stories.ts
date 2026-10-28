@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { MockupPhoneLandscape } from "./MockupPhoneLandscape";
 
 const meta: Meta<MockupPhoneLandscape> = {
-  title: "Headless/MockupPhoneLandscape",
-  component: MockupPhoneLandscape,
-  tags: ["autodocs"],
+    title: "Headless/MockupPhoneLandscape",
+    component: MockupPhoneLandscape,
+    tags: ["autodocs"],
 };
 
 export default meta;

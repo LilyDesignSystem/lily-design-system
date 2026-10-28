@@ -24,11 +24,11 @@ import { ChangeDetectionStrategy, Component, signal } from "@angular/core";
 import { TextSizePicker, sizeName } from "../text-size-picker.component";
 
 @Component({
-  selector: "example-external-buttons",
-  standalone: true,
-  imports: [TextSizePicker],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: "example-external-buttons",
+    standalone: true,
+    imports: [TextSizePicker],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <lily-text-size-picker
       label="Text size"
       [sizes]="sizes"
@@ -54,9 +54,9 @@ import { TextSizePicker, sizeName } from "../text-size-picker.component";
   `,
 })
 export class ExternalButtonsExample {
-  readonly sizes = ["small", "medium", "large", "x-large"];
-  readonly size = signal("");
+    readonly sizes = ["small", "medium", "large", "x-large"];
+    readonly size = signal("");
 
-  /** Bound so the template can call the exported label resolver. */
-  protected readonly sizeName = sizeName;
+    /** Bound so the template can call the exported label resolver. */
+    protected readonly sizeName = sizeName;
 }

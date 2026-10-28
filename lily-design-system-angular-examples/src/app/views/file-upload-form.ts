@@ -6,10 +6,10 @@ import { FileInput } from "../components/FileInput";
 import { Button } from "../components/Button";
 
 @Component({
-  selector: "lily-file-upload-form",
-  standalone: true,
-  imports: [Form, Field, Label, FileInput, Button],
-  template: `
+    selector: "lily-file-upload-form",
+    standalone: true,
+    imports: [Form, Field, Label, FileInput, Button],
+    template: `
     <article class="page-wrapper">
       <h1>File upload</h1>
       <form (submit)="submit($event)" novalidate>
@@ -25,13 +25,13 @@ import { Button } from "../components/Button";
       }
     </article>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class FileUploadFormPage {
-  protected submitted = signal(false);
+    protected submitted = signal(false);
 
-  protected submit(event: Event): void {
-    event.preventDefault();
-    this.submitted.set(true);
-  }
+    protected submit(event: Event): void {
+        event.preventDefault();
+        this.submitted.set(true);
+    }
 }

@@ -9,11 +9,5 @@
   "angularCompilerOptions": {
     "compilationMode": "partial"
   },
-  "exclude": [
-    "**/*.spec.ts",
-    "node_modules",
-    "dist",
-    "examples",
-    "docs"
-  ]
+  "exclude": ["**/*.spec.ts", "node_modules", "dist", "examples", "docs"]
 }

@@ -1,24 +1,24 @@
 import { ChangeDetectionStrategy, Component, forwardRef, inject, input } from "@angular/core";
 import {
-  changeField,
-  changeOperator,
-  fieldType,
-  operatorsFor,
-  valueArity,
-  type FilterField,
-  type FilterGroup,
-  type FilterOperator,
-  type FilterRule,
+    changeField,
+    changeOperator,
+    fieldType,
+    operatorsFor,
+    valueArity,
+    type FilterField,
+    type FilterGroup,
+    type FilterOperator,
+    type FilterRule,
 } from "./filter-model";
 import { FilterHost, parseTyped, textOf } from "./filter-host";
 
 /** One group of the filter, and (by recursion) its nested groups. Internal: use `Filter`. */
 @Component({
-  selector: "lily-filter-group-view",
-  standalone: true,
-  imports: [forwardRef(() => FilterGroupView)],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: "lily-filter-group-view",
+    standalone: true,
+    imports: [forwardRef(() => FilterGroupView)],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <div class="filter-group" role="group" [attr.aria-label]="host.labels().group(depth())" [attr.data-depth]="depth()" [attr.data-group-id]="group().id">
       <div class="filter-group-header">
         <select class="filter-combinator" [attr.aria-label]="host.labels().combinator" [disabled]="host.isReadonly()" [value]="group().combinator"
@@ -109,74 +109,74 @@ import { FilterHost, parseTyped, textOf } from "./filter-host";
   `,
 })
 export class FilterGroupView {
-  readonly group = input.required<FilterGroup>();
-  readonly depth = input.required<number>();
-  readonly parentId = input.required<string | null>();
-  protected readonly host = inject(FilterHost);
+    readonly group = input.required<FilterGroup>();
+    readonly depth = input.required<number>();
+    readonly parentId = input.required<string | null>();
+    protected readonly host = inject(FilterHost);
 
-  protected isGroup(node: FilterGroup | FilterRule): boolean {
-    return node.type === "group";
-  }
-  protected asGroup(node: FilterGroup | FilterRule): FilterGroup {
-    return node as FilterGroup;
-  }
-  protected asRule(node: FilterGroup | FilterRule): FilterRule {
-    return node as FilterRule;
-  }
-  protected operators(field: FilterField): FilterOperator[] {
-    return operatorsFor(field);
-  }
-  protected arity(rule: FilterRule): 0 | 1 | 2 | "many" {
-    return valueArity(rule.operator);
-  }
-  protected typeOf(field: FilterField): string {
-    return fieldType(field);
-  }
-  protected inputType(field: FilterField): string {
-    const t = fieldType(field);
-    return t === "number" ? "number" : t === "date" ? "date" : "text";
-  }
-  protected text(v: unknown): string {
-    return textOf(v);
-  }
-  protected isChosen(rule: FilterRule, id: string): boolean {
-    return Array.isArray(rule.value) && (rule.value as string[]).includes(id);
-  }
+    protected isGroup(node: FilterGroup | FilterRule): boolean {
+        return node.type === "group";
+    }
+    protected asGroup(node: FilterGroup | FilterRule): FilterGroup {
+        return node as FilterGroup;
+    }
+    protected asRule(node: FilterGroup | FilterRule): FilterRule {
+        return node as FilterRule;
+    }
+    protected operators(field: FilterField): FilterOperator[] {
+        return operatorsFor(field);
+    }
+    protected arity(rule: FilterRule): 0 | 1 | 2 | "many" {
+        return valueArity(rule.operator);
+    }
+    protected typeOf(field: FilterField): string {
+        return fieldType(field);
+    }
+    protected inputType(field: FilterField): string {
+        const t = fieldType(field);
+        return t === "number" ? "number" : t === "date" ? "date" : "text";
+    }
+    protected text(v: unknown): string {
+        return textOf(v);
+    }
+    protected isChosen(rule: FilterRule, id: string): boolean {
+        return Array.isArray(rule.value) && (rule.value as string[]).includes(id);
+    }
 
-  private raw(event: Event): string {
-    return (event.target as HTMLInputElement | HTMLSelectElement).value;
-  }
+    private raw(event: Event): string {
+        return (event.target as HTMLInputElement | HTMLSelectElement).value;
+    }
 
-  protected withCombinator(event: Event): (g: FilterGroup) => FilterGroup {
-    const v = this.raw(event) === "or" ? "or" : "and";
-    return (g) => ({ ...g, combinator: v });
-  }
-  protected withNot(event: Event): (g: FilterGroup) => FilterGroup {
-    const checked = (event.target as HTMLInputElement).checked;
-    return (g) => ({ ...g, not: checked || undefined });
-  }
-  protected withField(event: Event): (r: FilterRule) => FilterRule {
-    const id = this.raw(event);
-    return (r) => changeField(r, this.host.fields(), id);
-  }
-  protected withOperator(event: Event): (r: FilterRule) => FilterRule {
-    const op = this.raw(event) as FilterOperator;
-    return (r) => changeOperator(r, op);
-  }
-  protected withValue(event: Event, type: string): (r: FilterRule) => FilterRule {
-    const v = parseTyped(type, this.raw(event));
-    return (r) => ({ ...r, value: v });
-  }
-  protected withValue2(event: Event, type: string): (r: FilterRule) => FilterRule {
-    const v = parseTyped(type, this.raw(event));
-    return (r) => ({ ...r, value2: v });
-  }
-  protected toggle(rule: FilterRule, optionId: string, event: Event): void {
-    const checked = (event.target as HTMLInputElement).checked;
-    const current = Array.isArray(rule.value) ? (rule.value as string[]) : [];
-    const next = checked
-      ? [...current.filter((v) => v !== optionId), optionId]
-      : current.filter((v) => v !== optionId);
-    this.host.setRule(rule.id, (r) => ({ ...r, value: next.length ? next : undefined }));
-  }
+    protected withCombinator(event: Event): (g: FilterGroup) => FilterGroup {
+        const v = this.raw(event) === "or" ? "or" : "and";
+        return (g) => ({ ...g, combinator: v });
+    }
+    protected withNot(event: Event): (g: FilterGroup) => FilterGroup {
+        const checked = (event.target as HTMLInputElement).checked;
+        return (g) => ({ ...g, not: checked || undefined });
+    }
+    protected withField(event: Event): (r: FilterRule) => FilterRule {
+        const id = this.raw(event);
+        return (r) => changeField(r, this.host.fields(), id);
+    }
+    protected withOperator(event: Event): (r: FilterRule) => FilterRule {
+        const op = this.raw(event) as FilterOperator;
+        return (r) => changeOperator(r, op);
+    }
+    protected withValue(event: Event, type: string): (r: FilterRule) => FilterRule {
+        const v = parseTyped(type, this.raw(event));
+        return (r) => ({ ...r, value: v });
+    }
+    protected withValue2(event: Event, type: string): (r: FilterRule) => FilterRule {
+        const v = parseTyped(type, this.raw(event));
+        return (r) => ({ ...r, value2: v });
+    }
+    protected toggle(rule: FilterRule, optionId: string, event: Event): void {
+        const checked = (event.target as HTMLInputElement).checked;
+        const current = Array.isArray(rule.value) ? (rule.value as string[]) : [];
+        const next = checked
+            ? [...current.filter((v) => v !== optionId), optionId]
+            : current.filter((v) => v !== optionId);
+        this.host.setRule(rule.id, (r) => ({ ...r, value: next.length ? next : undefined }));
+    }
 }

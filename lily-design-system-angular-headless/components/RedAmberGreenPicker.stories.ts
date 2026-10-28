@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { RedAmberGreenPicker } from "./RedAmberGreenPicker";
 
 const meta: Meta<RedAmberGreenPicker> = {
-  title: "Headless/RedAmberGreenPicker",
-  component: RedAmberGreenPicker,
-  tags: ["autodocs"],
+    title: "Headless/RedAmberGreenPicker",
+    component: RedAmberGreenPicker,
+    tags: ["autodocs"],
 };
 
 export default meta;

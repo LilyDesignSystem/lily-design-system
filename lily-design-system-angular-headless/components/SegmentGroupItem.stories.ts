@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { SegmentGroupItem } from "./SegmentGroupItem";
 
 const meta: Meta<SegmentGroupItem> = {
-  title: "Headless/SegmentGroupItem",
-  component: SegmentGroupItem,
-  tags: ["autodocs"],
+    title: "Headless/SegmentGroupItem",
+    component: SegmentGroupItem,
+    tags: ["autodocs"],
 };
 
 export default meta;

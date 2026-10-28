@@ -585,8 +585,8 @@ export { ZhongguoJuminShenfenzhengHaomaInput } from "./components/ZhongguoJuminS
 export { ZhongguoJuminShenfenzhengHaomaView } from "./components/ZhongguoJuminShenfenzhengHaomaView";
 export { TruncationStrategy, TruncateMiddleOptions } from "./components/middle-truncation";
 export {
-  WheelOption,
-  WheelMoveKey,
-  WheelMoveOptions,
-  WheelTypeahead,
+    WheelOption,
+    WheelMoveKey,
+    WheelMoveOptions,
+    WheelTypeahead,
 } from "./components/wheel-picker";

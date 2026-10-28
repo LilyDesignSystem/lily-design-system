@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { ToolCallError } from "./ToolCallError";
 
 const meta: Meta<ToolCallError> = {
-  title: "Headless/ToolCallError",
-  component: ToolCallError,
-  tags: ["autodocs"],
+    title: "Headless/ToolCallError",
+    component: ToolCallError,
+    tags: ["autodocs"],
 };
 
 export default meta;

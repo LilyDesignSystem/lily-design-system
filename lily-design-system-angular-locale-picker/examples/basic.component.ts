@@ -55,11 +55,11 @@ import { ChangeDetectionStrategy, Component, signal } from "@angular/core";
 import { LocalePicker, localeName } from "../locale-picker.component";
 
 @Component({
-  selector: "example-basic",
-  standalone: true,
-  imports: [LocalePicker],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: "example-basic",
+    standalone: true,
+    imports: [LocalePicker],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <lily-locale-picker
       label="Choose your language"
       [locales]="['en', 'fr', 'ar']"
@@ -72,7 +72,7 @@ import { LocalePicker, localeName } from "../locale-picker.component";
   `,
 })
 export class BasicExample {
-  locale = signal("en");
+    locale = signal("en");
 
-  nameFor = localeName;
+    nameFor = localeName;
 }

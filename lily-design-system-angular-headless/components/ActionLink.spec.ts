@@ -4,19 +4,19 @@ import { TestBed } from "@angular/core/testing";
 import { ActionLink } from "./ActionLink";
 
 describe("ActionLink", () => {
-  test("renders the a root with the base class", () => {
-    const fixture = TestBed.createComponent(ActionLink);
-    fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("a.action-link");
-    expect(el).toBeTruthy();
-  });
+    test("renders the a root with the base class", () => {
+        const fixture = TestBed.createComponent(ActionLink);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("a.action-link");
+        expect(el).toBeTruthy();
+    });
 
-  test("appends the className input to the root class list", () => {
-    const fixture = TestBed.createComponent(ActionLink);
-    fixture.componentRef.setInput("className", "extra");
-    fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("a.action-link");
-    expect(el).toBeTruthy();
-    expect(el.classList.contains("extra")).toBe(true);
-  });
+    test("appends the className input to the root class list", () => {
+        const fixture = TestBed.createComponent(ActionLink);
+        fixture.componentRef.setInput("className", "extra");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("a.action-link");
+        expect(el).toBeTruthy();
+        expect(el.classList.contains("extra")).toBe(true);
+    });
 });

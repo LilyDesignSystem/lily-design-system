@@ -8,11 +8,11 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * (Angular cannot spread onto an inner element).
  */
 @Component({
-  selector: "lily-tool-call-name",
-  standalone: true,
-  template: `<span class="tool-call-name {{ className() }}" ><ng-content /></span>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "lily-tool-call-name",
+    standalone: true,
+    template: `<span class="tool-call-name {{ className() }}" ><ng-content /></span>`,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToolCallName {
-  readonly className = input<string>("");
+    readonly className = input<string>("");
 }

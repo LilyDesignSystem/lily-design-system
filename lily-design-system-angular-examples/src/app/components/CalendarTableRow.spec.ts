@@ -9,28 +9,28 @@ import { CalendarTableRow } from "./CalendarTableRow";
 // small host template rather than `TestBed.createComponent(CalendarTableRow)` directly (the
 // latter has no <tr> to attach to and falls back to a bare <div>).
 @Component({
-  standalone: true,
-  imports: [CalendarTableRow],
-  template: `<tr lily-calendar-table-row [className]="className"></tr>`,
+    standalone: true,
+    imports: [CalendarTableRow],
+    template: `<tr lily-calendar-table-row [className]="className"></tr>`,
 })
 class TestHost {
-  className = "";
+    className = "";
 }
 
 describe("CalendarTableRow", () => {
-  test("the host is the tr itself — no wrapper element — with the base class", () => {
-    const fixture = TestBed.createComponent(TestHost);
-    fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("tr");
-    expect(el.tagName).toBe("TR");
-    expect(el.classList.contains("calendar-table-row")).toBe(true);
-  });
+    test("the host is the tr itself — no wrapper element — with the base class", () => {
+        const fixture = TestBed.createComponent(TestHost);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("tr");
+        expect(el.tagName).toBe("TR");
+        expect(el.classList.contains("calendar-table-row")).toBe(true);
+    });
 
-  test("appends the className input to the host class list", () => {
-    const fixture = TestBed.createComponent(TestHost);
-    fixture.componentInstance.className = "extra";
-    fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("tr");
-    expect(el.classList.contains("extra")).toBe(true);
-  });
+    test("appends the className input to the host class list", () => {
+        const fixture = TestBed.createComponent(TestHost);
+        fixture.componentInstance.className = "extra";
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("tr");
+        expect(el.classList.contains("extra")).toBe(true);
+    });
 });

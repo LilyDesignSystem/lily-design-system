@@ -45,11 +45,11 @@ import { ChangeDetectionStrategy, Component, signal } from "@angular/core";
 import { ThemePicker } from "../theme-picker.component";
 
 @Component({
-  selector: "example-basic",
-  standalone: true,
-  imports: [ThemePicker],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: "example-basic",
+    standalone: true,
+    imports: [ThemePicker],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <lily-theme-picker
       #themePicker
       label="Theme"
@@ -64,5 +64,5 @@ import { ThemePicker } from "../theme-picker.component";
   `,
 })
 export class BasicExample {
-  theme = signal("");
+    theme = signal("");
 }

@@ -8,13 +8,13 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * Ships zero CSS; the consumer styles via the class hook.
  */
 @Component({
-  selector: "lily-email-link",
-  standalone: true,
-  template: `<a class="email-link {{ className() }}" [attr.href]="href() || '#'" [attr.aria-label]="label() || null"><ng-content /></a>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "lily-email-link",
+    standalone: true,
+    template: `<a class="email-link {{ className() }}" [attr.href]="href() || '#'" [attr.aria-label]="label() || null"><ng-content /></a>`,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EmailLink {
-  readonly href = input<string>("");
-  readonly label = input<string>("");
-  readonly className = input<string>("");
+    readonly href = input<string>("");
+    readonly label = input<string>("");
+    readonly className = input<string>("");
 }

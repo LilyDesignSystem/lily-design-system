@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { PostalCodeInput } from "./PostalCodeInput";
 
 const meta: Meta<PostalCodeInput> = {
-  title: "Headless/PostalCodeInput",
-  component: PostalCodeInput,
-  tags: ["autodocs"],
+    title: "Headless/PostalCodeInput",
+    component: PostalCodeInput,
+    tags: ["autodocs"],
 };
 
 export default meta;

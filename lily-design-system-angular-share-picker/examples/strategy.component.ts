@@ -28,18 +28,18 @@
 */
 import { ChangeDetectionStrategy, Component, signal } from "@angular/core";
 import {
-  SharePicker,
-  canShareNatively,
-  type ShareStrategy,
-  type ShareTarget,
+    SharePicker,
+    canShareNatively,
+    type ShareStrategy,
+    type ShareTarget,
 } from "../share-picker.component";
 
 @Component({
-  selector: "example-strategy",
-  standalone: true,
-  imports: [SharePicker],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: "example-strategy",
+    standalone: true,
+    imports: [SharePicker],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <fieldset>
       <legend>Strategy</legend>
       @for (option of options; track option) {
@@ -80,19 +80,19 @@ import {
   `,
 })
 export class StrategyExample {
-  readonly options: ShareStrategy[] = ["auto", "native", "list"];
-  readonly strategy = signal<ShareStrategy>("auto");
-  readonly lastNative = signal("");
+    readonly options: ShareStrategy[] = ["auto", "native", "list"];
+    readonly strategy = signal<ShareStrategy>("auto");
+    readonly lastNative = signal("");
 
-  // Read once at construction: capability, not state. Safe under SSR
-  // because canShareNatively() guards on `typeof navigator`.
-  readonly hasNativeSheet = canShareNatively();
+    // Read once at construction: capability, not state. Safe under SSR
+    // because canShareNatively() guards on `typeof navigator`.
+    readonly hasNativeSheet = canShareNatively();
 
-  readonly targets: ShareTarget[] = [
-    {
-      id: "mastodon",
-      label: "Mastodon",
-      href: (url) => `https://mastodon.social/share?text=${encodeURIComponent(url)}`,
-    },
-  ];
+    readonly targets: ShareTarget[] = [
+        {
+            id: "mastodon",
+            label: "Mastodon",
+            href: (url) => `https://mastodon.social/share?text=${encodeURIComponent(url)}`,
+        },
+    ];
 }

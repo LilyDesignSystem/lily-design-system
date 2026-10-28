@@ -8,11 +8,11 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * (Angular cannot spread onto an inner element).
  */
 @Component({
-  selector: "lily-tool-call-error",
-  standalone: true,
-  template: `<div class="tool-call-error {{ className() }}" role="alert"><ng-content /></div>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "lily-tool-call-error",
+    standalone: true,
+    template: `<div class="tool-call-error {{ className() }}" role="alert"><ng-content /></div>`,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToolCallError {
-  readonly className = input<string>("");
+    readonly className = input<string>("");
 }

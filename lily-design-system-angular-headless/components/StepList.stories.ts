@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { StepList } from "./StepList";
 
 const meta: Meta<StepList> = {
-  title: "Headless/StepList",
-  component: StepList,
-  tags: ["autodocs"],
+    title: "Headless/StepList",
+    component: StepList,
+    tags: ["autodocs"],
 };
 
 export default meta;

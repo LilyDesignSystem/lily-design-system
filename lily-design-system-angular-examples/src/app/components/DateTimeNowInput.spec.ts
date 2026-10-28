@@ -4,29 +4,29 @@ import { TestBed } from "@angular/core/testing";
 import { DateTimeNowInput } from "./DateTimeNowInput";
 
 describe("DateTimeNowInput", () => {
-  test("renders the input root with the base class", () => {
-    const fixture = TestBed.createComponent(DateTimeNowInput);
-    fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.date-time-now-input");
-    expect(el).toBeTruthy();
-  });
+    test("renders the input root with the base class", () => {
+        const fixture = TestBed.createComponent(DateTimeNowInput);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("input.date-time-now-input");
+        expect(el).toBeTruthy();
+    });
 
-  test("appends the className input to the root class list", () => {
-    const fixture = TestBed.createComponent(DateTimeNowInput);
-    fixture.componentRef.setInput("className", "extra");
-    fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.date-time-now-input");
-    expect(el).toBeTruthy();
-    expect(el.classList.contains("extra")).toBe(true);
-  });
+    test("appends the className input to the root class list", () => {
+        const fixture = TestBed.createComponent(DateTimeNowInput);
+        fixture.componentRef.setInput("className", "extra");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("input.date-time-now-input");
+        expect(el).toBeTruthy();
+        expect(el.classList.contains("extra")).toBe(true);
+    });
 
-  // Guards the canonical type from components/{slug}/AGENTS.md — every
-  // typed input in this library once rendered type="text" (fixed
-  // 2026-08-26), and nothing asserted otherwise.
-  test('renders the canonical input type "date"', () => {
-    const fixture = TestBed.createComponent(DateTimeNowInput);
-    fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("input.date-time-now-input");
-    expect(el.getAttribute("type")).toBe("date");
-  });
+    // Guards the canonical type from components/{slug}/AGENTS.md — every
+    // typed input in this library once rendered type="text" (fixed
+    // 2026-08-26), and nothing asserted otherwise.
+    test('renders the canonical input type "date"', () => {
+        const fixture = TestBed.createComponent(DateTimeNowInput);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("input.date-time-now-input");
+        expect(el.getAttribute("type")).toBe("date");
+    });
 });

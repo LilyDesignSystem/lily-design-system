@@ -22,11 +22,11 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { TextSizePicker } from "../text-size-picker.component";
 
 @Component({
-  selector: "example-persistence",
-  standalone: true,
-  imports: [TextSizePicker],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: "example-persistence",
+    standalone: true,
+    imports: [TextSizePicker],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <lily-text-size-picker
       label="Text size"
       [sizes]="['small', 'medium', 'large', 'x-large', 'xx-large']"

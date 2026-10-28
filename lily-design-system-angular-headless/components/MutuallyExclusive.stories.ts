@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { MutuallyExclusive } from "./MutuallyExclusive";
 
 const meta: Meta<MutuallyExclusive> = {
-  title: "Headless/MutuallyExclusive",
-  component: MutuallyExclusive,
-  tags: ["autodocs"],
+    title: "Headless/MutuallyExclusive",
+    component: MutuallyExclusive,
+    tags: ["autodocs"],
 };
 
 export default meta;

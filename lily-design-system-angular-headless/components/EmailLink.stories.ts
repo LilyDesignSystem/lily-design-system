@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/angular";
 import { EmailLink } from "./EmailLink";
 
 const meta: Meta<EmailLink> = {
-  title: "Headless/EmailLink",
-  component: EmailLink,
-  tags: ["autodocs"],
+    title: "Headless/EmailLink",
+    component: EmailLink,
+    tags: ["autodocs"],
 };
 
 export default meta;
