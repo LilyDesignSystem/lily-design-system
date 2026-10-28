@@ -28,7 +28,9 @@ describe("Drawer", () => {
     });
 
     test("has data-side attribute", () => {
-        render(Subject, { props: { label: "Nav", open: true, side: "right", children: textSnippet("C") } });
+        render(Subject, {
+            props: { label: "Nav", open: true, side: "right", children: textSnippet("C") },
+        });
         expect(screen.getByRole("dialog").getAttribute("data-side")).toBe("right");
     });
 
@@ -46,12 +48,16 @@ describe("Drawer", () => {
     });
 
     test("renders children", () => {
-        render(Subject, { props: { label: "Nav", open: true, children: textSnippet("Drawer content") } });
+        render(Subject, {
+            props: { label: "Nav", open: true, children: textSnippet("Drawer content") },
+        });
         expect(screen.getByRole("dialog").textContent).toContain("Drawer content");
     });
 
     test("passes through attributes", () => {
-        render(Subject, { props: { label: "Nav", open: true, "data-testid": "dr", children: textSnippet("C") } });
+        render(Subject, {
+            props: { label: "Nav", open: true, "data-testid": "dr", children: textSnippet("C") },
+        });
         expect(screen.getByTestId("dr")).toBeTruthy();
     });
 });

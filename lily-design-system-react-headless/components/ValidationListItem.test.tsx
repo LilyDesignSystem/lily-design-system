@@ -8,7 +8,7 @@ describe("ValidationListItem", () => {
         render(
             <ul>
                 <Subject>Rule text</Subject>
-            </ul>
+            </ul>,
         );
 
         const item: HTMLElement = screen.getByRole("listitem");
@@ -19,7 +19,7 @@ describe("ValidationListItem", () => {
         render(
             <ul>
                 <Subject>Rule text</Subject>
-            </ul>
+            </ul>,
         );
 
         const item: HTMLElement = screen.getByRole("listitem");
@@ -30,7 +30,7 @@ describe("ValidationListItem", () => {
         render(
             <ul>
                 <Subject>Rule text</Subject>
-            </ul>
+            </ul>,
         );
 
         const item: HTMLElement = screen.getByRole("listitem");
@@ -41,7 +41,7 @@ describe("ValidationListItem", () => {
         render(
             <ul>
                 <Subject status="passed">Rule text</Subject>
-            </ul>
+            </ul>,
         );
 
         const item: HTMLElement = screen.getByRole("listitem");
@@ -52,7 +52,7 @@ describe("ValidationListItem", () => {
         render(
             <ul>
                 <Subject status="failed">Rule text</Subject>
-            </ul>
+            </ul>,
         );
 
         const item: HTMLElement = screen.getByRole("listitem");
@@ -63,7 +63,7 @@ describe("ValidationListItem", () => {
         render(
             <ul>
                 <Subject>At least 8 characters</Subject>
-            </ul>
+            </ul>,
         );
 
         const item: HTMLElement = screen.getByRole("listitem");
@@ -73,10 +73,8 @@ describe("ValidationListItem", () => {
     test("sets aria-label when label is provided", () => {
         render(
             <ul>
-                <Subject label="Length rule passed">
-                    At least 8 characters
-                </Subject>
-            </ul>
+                <Subject label="Length rule passed">At least 8 characters</Subject>
+            </ul>,
         );
 
         const item: HTMLElement = screen.getByRole("listitem");
@@ -87,7 +85,7 @@ describe("ValidationListItem", () => {
         render(
             <ul>
                 <Subject id="rule-1">Rule</Subject>
-            </ul>
+            </ul>,
         );
 
         const item: HTMLElement = screen.getByRole("listitem");

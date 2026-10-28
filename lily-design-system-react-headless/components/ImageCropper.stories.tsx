@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import ImageCropper from './ImageCropper';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import ImageCropper from "./ImageCropper";
 
 const meta = {
-  title: 'Headless/ImageCropper',
-  component: ImageCropper,
-  tags: ['autodocs']
+    title: "Headless/ImageCropper",
+    component: ImageCropper,
+    tags: ["autodocs"],
 } satisfies Meta<typeof ImageCropper>;
 
 export default meta;

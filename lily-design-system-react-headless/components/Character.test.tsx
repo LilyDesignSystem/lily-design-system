@@ -13,7 +13,14 @@ describe("Character", () => {
     });
 
     test("is aria-hidden when decorative", () => {
-        render(<Subject decorative data-testid="char">★</Subject>);
+        render(
+            <Subject
+                decorative
+                data-testid="char"
+            >
+                ★
+            </Subject>,
+        );
 
         const el = screen.getByTestId("char");
         expect(el.getAttribute("aria-hidden")).toBe("true");
@@ -28,7 +35,14 @@ describe("Character", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="Test" data-testid="char">X</Subject>);
+        render(
+            <Subject
+                label="Test"
+                data-testid="char"
+            >
+                X
+            </Subject>,
+        );
 
         expect(screen.getByTestId("char")).toBeTruthy();
     });

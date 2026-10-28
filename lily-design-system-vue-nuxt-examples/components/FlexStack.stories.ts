@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import FlexStack from './FlexStack.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import FlexStack from "./FlexStack.vue";
 
 const meta = {
-  title: 'Headless/FlexStack',
-  component: FlexStack,
-  tags: ['autodocs']
+    title: "Headless/FlexStack",
+    component: FlexStack,
+    tags: ["autodocs"],
 } satisfies Meta<typeof FlexStack>;
 
 export default meta;

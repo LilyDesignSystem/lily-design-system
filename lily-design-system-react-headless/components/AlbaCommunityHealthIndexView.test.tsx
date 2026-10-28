@@ -5,7 +5,12 @@ import Subject from "./AlbaCommunityHealthIndexView";
 
 describe("AlbaCommunityHealthIndexView", () => {
     test("renders with the correct class", () => {
-        render(<Subject label="Community Health Index" value="test-value" />);
+        render(
+            <Subject
+                label="Community Health Index"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Community Health Index");
         expect(el).toBeTruthy();
@@ -13,7 +18,12 @@ describe("AlbaCommunityHealthIndexView", () => {
     });
 
     test("renders the value as text content", () => {
-        render(<Subject label="Community Health Index" value="test-value" />);
+        render(
+            <Subject
+                label="Community Health Index"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Community Health Index");
         expect(el.textContent).toBe("test-value");

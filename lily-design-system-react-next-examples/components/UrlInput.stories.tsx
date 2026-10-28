@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import UrlInput from './UrlInput';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import UrlInput from "./UrlInput";
 
 const meta = {
-  title: 'Headless/UrlInput',
-  component: UrlInput,
-  tags: ['autodocs']
+    title: "Headless/UrlInput",
+    component: UrlInput,
+    tags: ["autodocs"],
 } satisfies Meta<typeof UrlInput>;
 
 export default meta;

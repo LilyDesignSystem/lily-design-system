@@ -33,11 +33,7 @@ export interface MockupWatchProps {
     [key: string]: unknown;
 }
 
-export default function MockupWatch({
-    className = "",
-    children,
-    ...restProps
-}: MockupWatchProps) {
+export default function MockupWatch({ className = "", children, ...restProps }: MockupWatchProps) {
     return (
         <div
             className={`mockup-watch ${className}`}

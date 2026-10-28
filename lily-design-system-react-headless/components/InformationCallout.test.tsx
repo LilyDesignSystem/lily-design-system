@@ -20,7 +20,14 @@ describe("InformationCallout", () => {
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="N" data-testid="ic">C</Subject>);
+        render(
+            <Subject
+                label="N"
+                data-testid="ic"
+            >
+                C
+            </Subject>,
+        );
         expect(screen.getByTestId("ic")).toBeTruthy();
     });
 });

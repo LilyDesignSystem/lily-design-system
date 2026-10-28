@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./IconListItem.vue";
 
-
 describe("IconListItem", () => {
     test("renders as an li element", () => {
         const { container } = render(Subject, { slots: { default: "Hello" } });

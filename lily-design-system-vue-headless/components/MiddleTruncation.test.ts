@@ -43,9 +43,14 @@ const visual = (c: HTMLElement) => c.querySelector(".middle-truncation-visual")!
 
 describe("MiddleTruncation", () => {
     test("renders a <span> with the base class first, then the consumer class", async () => {
-        const { container } = render(Subject, { props: { text, ellipsis: "…" }, attrs: { class: "mine" } });
+        const { container } = render(Subject, {
+            props: { text, ellipsis: "…" },
+            attrs: { class: "mine" },
+        });
         await nextTick();
-        expect(container.querySelector("span.middle-truncation")!.getAttribute("class")).toBe("middle-truncation mine");
+        expect(container.querySelector("span.middle-truncation")!.getAttribute("class")).toBe(
+            "middle-truncation mine",
+        );
     });
 
     test("shortens the visual text to the measured width", async () => {
@@ -57,7 +62,9 @@ describe("MiddleTruncation", () => {
     test("keeps the full text in the accessibility tree and hides the shortened copy from it", async () => {
         const { container } = render(Subject, { props: { text, ellipsis: "…" } });
         await nextTick();
-        expect(container.querySelector(".middle-truncation-visual")!.getAttribute("aria-hidden")).toBe("true");
+        expect(
+            container.querySelector(".middle-truncation-visual")!.getAttribute("aria-hidden"),
+        ).toBe("true");
         const full = container.querySelector(".middle-truncation-full")!;
         expect(full.textContent).toBe(text);
         expect(full.closest("[aria-hidden]")).toBeNull();
@@ -68,11 +75,15 @@ describe("MiddleTruncation", () => {
         const { container } = render(Subject, { props: { text, ellipsis: "…" } });
         await nextTick();
         expect(visual(container)).toBe(text);
-        expect(container.querySelector(".middle-truncation")!.hasAttribute("data-truncated")).toBe(false);
+        expect(container.querySelector(".middle-truncation")!.hasAttribute("data-truncated")).toBe(
+            false,
+        );
     });
 
     test("sets data-truncated and data-strategy", async () => {
-        const { container } = render(Subject, { props: { text, ellipsis: "…", strategy: "fixed-end", end: 4 } });
+        const { container } = render(Subject, {
+            props: { text, ellipsis: "…", strategy: "fixed-end", end: 4 },
+        });
         await nextTick();
         const root = container.querySelector(".middle-truncation")!;
         expect(root.hasAttribute("data-truncated")).toBe(true);
@@ -87,7 +98,9 @@ describe("MiddleTruncation", () => {
 
     test("keeps `end` characters at the end for fixed-end", async () => {
         width = 12;
-        const { container } = render(Subject, { props: { text, ellipsis: "…", strategy: "fixed-end", end: 4 } });
+        const { container } = render(Subject, {
+            props: { text, ellipsis: "…", strategy: "fixed-end", end: 4 },
+        });
         await nextTick();
         expect(visual(container)).toBe("abcdefg…wxyz");
     });
@@ -111,7 +124,10 @@ describe("MiddleTruncation", () => {
     });
 
     test("passes attrs to the root", async () => {
-        const { container } = render(Subject, { props: { text, ellipsis: "…" }, attrs: { "data-testid": "mt", id: "x" } });
+        const { container } = render(Subject, {
+            props: { text, ellipsis: "…" },
+            attrs: { "data-testid": "mt", id: "x" },
+        });
         await nextTick();
         const root = container.querySelector("span.middle-truncation")!;
         expect(root.getAttribute("data-testid")).toBe("mt");

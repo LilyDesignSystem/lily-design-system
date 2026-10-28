@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import GanttTableTr from './GanttTableTr.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import GanttTableTr from "./GanttTableTr.vue";
 
 const meta = {
-  title: 'Headless/GanttTableTr',
-  component: GanttTableTr,
-  tags: ['autodocs']
+    title: "Headless/GanttTableTr",
+    component: GanttTableTr,
+    tags: ["autodocs"],
 } satisfies Meta<typeof GanttTableTr>;
 
 export default meta;

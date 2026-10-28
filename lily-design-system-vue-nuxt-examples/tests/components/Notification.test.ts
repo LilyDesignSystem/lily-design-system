@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "../../components/Notification.vue";
 
-
 describe("Notification", () => {
     test("renders with status role by default", () => {
         render(Subject, { slots: { default: "Saved" } });

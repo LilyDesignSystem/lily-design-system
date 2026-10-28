@@ -91,17 +91,17 @@ export default function ToggleButton({
 
     return (
         <button
-        className={`toggle-button ${className}`}
-        type="button"
-        role="switch"
-        aria-checked={pressed}
-        aria-label={label}
-        disabled={disabled}
-        onClick={toggle}
-        onKeyDown={handleKeyDown}
-        {...restProps}
+            className={`toggle-button ${className}`}
+            type="button"
+            role="switch"
+            aria-checked={pressed}
+            aria-label={label}
+            disabled={disabled}
+            onClick={toggle}
+            onKeyDown={handleKeyDown}
+            {...restProps}
         >
-        {children && (<>{children}</>)}
+            {children && <>{children}</>}
         </button>
     );
 }

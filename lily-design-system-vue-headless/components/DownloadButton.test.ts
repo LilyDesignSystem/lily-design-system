@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./DownloadButton.vue";
 
-
 describe("DownloadButton", () => {
     test("renders as an anchor element", () => {
         render(Subject, {

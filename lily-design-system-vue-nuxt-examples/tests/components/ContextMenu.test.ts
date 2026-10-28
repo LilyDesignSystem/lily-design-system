@@ -4,8 +4,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "../../components/ContextMenu.vue";
 
-
-
 describe("ContextMenu", () => {
     test("hidden when open is false", () => {
         render(Subject, { props: { label: "Actions", open: false }, slots: { default: "Items" } });
@@ -18,23 +16,38 @@ describe("ContextMenu", () => {
     });
 
     test("renders children", () => {
-        render(Subject, { props: { label: "Actions", open: true }, slots: { default: "Custom Content" } });
+        render(Subject, {
+            props: { label: "Actions", open: true },
+            slots: { default: "Custom Content" },
+        });
         expect(screen.getByRole("menu").textContent).toContain("Custom Content");
     });
 
     test("passes through attributes", () => {
-        render(Subject, { props: { label: "Actions", open: true, "data-testid": "ctx" }, slots: { default: "Items" } });
+        render(Subject, {
+            props: { label: "Actions", open: true, "data-testid": "ctx" },
+            slots: { default: "Items" },
+        });
         expect(screen.getByTestId("ctx")).toBeTruthy();
     });
 
     test("has correct aria-label", () => {
-        render(Subject, { props: { label: "File actions", open: true }, slots: { default: "Items" } });
+        render(Subject, {
+            props: { label: "File actions", open: true },
+            slots: { default: "Items" },
+        });
         expect(screen.getByRole("menu").getAttribute("aria-label")).toBe("File actions");
     });
 
     test("ArrowDown navigates to next item", async () => {
         const user: UserEvent = userEvent.setup();
-        render(Subject, { props: { label: "Actions", open: true }, slots: { default: "<li role='menuitem' tabindex='-1'>Cut</li><li role='menuitem' tabindex='-1'>Copy</li><li role='menuitem' tabindex='-1'>Paste</li>" } });
+        render(Subject, {
+            props: { label: "Actions", open: true },
+            slots: {
+                default:
+                    "<li role='menuitem' tabindex='-1'>Cut</li><li role='menuitem' tabindex='-1'>Copy</li><li role='menuitem' tabindex='-1'>Paste</li>",
+            },
+        });
         const items = screen.getAllByRole("menuitem");
         items[0].focus();
         await user.keyboard("{ArrowDown}");
@@ -42,7 +55,13 @@ describe("ContextMenu", () => {
     });
 
     test("ArrowUp navigates to previous item", () => {
-        render(Subject, { props: { label: "Actions", open: true }, slots: { default: "<li role='menuitem' tabindex='-1'>Cut</li><li role='menuitem' tabindex='-1'>Copy</li><li role='menuitem' tabindex='-1'>Paste</li>" } });
+        render(Subject, {
+            props: { label: "Actions", open: true },
+            slots: {
+                default:
+                    "<li role='menuitem' tabindex='-1'>Cut</li><li role='menuitem' tabindex='-1'>Copy</li><li role='menuitem' tabindex='-1'>Paste</li>",
+            },
+        });
         const items = screen.getAllByRole("menuitem");
         items[1].focus();
         items[1].dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowUp", bubbles: true }));
@@ -50,7 +69,13 @@ describe("ContextMenu", () => {
     });
 
     test("ArrowDown wraps from last to first", () => {
-        render(Subject, { props: { label: "Actions", open: true }, slots: { default: "<li role='menuitem' tabindex='-1'>Cut</li><li role='menuitem' tabindex='-1'>Copy</li><li role='menuitem' tabindex='-1'>Paste</li>" } });
+        render(Subject, {
+            props: { label: "Actions", open: true },
+            slots: {
+                default:
+                    "<li role='menuitem' tabindex='-1'>Cut</li><li role='menuitem' tabindex='-1'>Copy</li><li role='menuitem' tabindex='-1'>Paste</li>",
+            },
+        });
         const items = screen.getAllByRole("menuitem");
         items[2].focus();
         items[2].dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true }));
@@ -59,7 +84,13 @@ describe("ContextMenu", () => {
 
     test("Home moves focus to first item", async () => {
         const user: UserEvent = userEvent.setup();
-        render(Subject, { props: { label: "Actions", open: true }, slots: { default: "<li role='menuitem' tabindex='-1'>Cut</li><li role='menuitem' tabindex='-1'>Copy</li><li role='menuitem' tabindex='-1'>Paste</li>" } });
+        render(Subject, {
+            props: { label: "Actions", open: true },
+            slots: {
+                default:
+                    "<li role='menuitem' tabindex='-1'>Cut</li><li role='menuitem' tabindex='-1'>Copy</li><li role='menuitem' tabindex='-1'>Paste</li>",
+            },
+        });
         const items = screen.getAllByRole("menuitem");
         items[2].focus();
         await user.keyboard("{Home}");
@@ -68,7 +99,13 @@ describe("ContextMenu", () => {
 
     test("End moves focus to last item", async () => {
         const user: UserEvent = userEvent.setup();
-        render(Subject, { props: { label: "Actions", open: true }, slots: { default: "<li role='menuitem' tabindex='-1'>Cut</li><li role='menuitem' tabindex='-1'>Copy</li><li role='menuitem' tabindex='-1'>Paste</li>" } });
+        render(Subject, {
+            props: { label: "Actions", open: true },
+            slots: {
+                default:
+                    "<li role='menuitem' tabindex='-1'>Cut</li><li role='menuitem' tabindex='-1'>Copy</li><li role='menuitem' tabindex='-1'>Paste</li>",
+            },
+        });
         const items = screen.getAllByRole("menuitem");
         items[0].focus();
         await user.keyboard("{End}");

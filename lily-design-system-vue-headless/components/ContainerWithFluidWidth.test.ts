@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./ContainerWithFluidWidth.vue";
 
-
 describe("ContainerWithFluidWidth", () => {
     test("renders children content", () => {
         render(Subject, { slots: { default: "Hello" } });
@@ -26,8 +25,10 @@ describe("ContainerWithFluidWidth", () => {
     });
 
     test("accepts custom paddingInline", () => {
-        render(Subject, { props: { paddingInline: "2rem",
-            "data-testid": "cf" }, slots: { default: "Hello" } });
+        render(Subject, {
+            props: { paddingInline: "2rem", "data-testid": "cf" },
+            slots: { default: "Hello" },
+        });
 
         const el: HTMLElement = screen.getByTestId("cf");
         expect(el.getAttribute("data-padding-inline")).toBe("2rem");
@@ -42,8 +43,10 @@ describe("ContainerWithFluidWidth", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(Subject, { props: { id: "fluid",
-            "data-testid": "cf" }, slots: { default: "Hello" } });
+        render(Subject, {
+            props: { id: "fluid", "data-testid": "cf" },
+            slots: { default: "Hello" },
+        });
 
         const el: HTMLElement = screen.getByTestId("cf");
         expect(el.getAttribute("id")).toBe("fluid");

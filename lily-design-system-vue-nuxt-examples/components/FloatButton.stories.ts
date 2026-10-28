@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import FloatButton from './FloatButton.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import FloatButton from "./FloatButton.vue";
 
 const meta = {
-  title: 'Headless/FloatButton',
-  component: FloatButton,
-  tags: ['autodocs']
+    title: "Headless/FloatButton",
+    component: FloatButton,
+    tags: ["autodocs"],
 } satisfies Meta<typeof FloatButton>;
 
 export default meta;

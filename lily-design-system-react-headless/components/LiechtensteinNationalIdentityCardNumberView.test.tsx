@@ -5,15 +5,27 @@ import Subject from "./LiechtensteinNationalIdentityCardNumberView";
 
 describe("LiechtensteinNationalIdentityCardNumberView", () => {
     test("renders with the correct class", () => {
-        render(<Subject label="Liechtenstein National Identity Card Number" value="test-value" />);
+        render(
+            <Subject
+                label="Liechtenstein National Identity Card Number"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Liechtenstein National Identity Card Number");
         expect(el).toBeTruthy();
-        expect(el.getAttribute("class")).toContain("liechtenstein-national-identity-card-number-view");
+        expect(el.getAttribute("class")).toContain(
+            "liechtenstein-national-identity-card-number-view",
+        );
     });
 
     test("renders the value as text content", () => {
-        render(<Subject label="Liechtenstein National Identity Card Number" value="test-value" />);
+        render(
+            <Subject
+                label="Liechtenstein National Identity Card Number"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Liechtenstein National Identity Card Number");
         expect(el.textContent).toBe("test-value");

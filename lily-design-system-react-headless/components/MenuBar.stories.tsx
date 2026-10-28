@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import MenuBar from './MenuBar';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import MenuBar from "./MenuBar";
 
 const meta = {
-  title: 'Headless/MenuBar',
-  component: MenuBar,
-  tags: ['autodocs']
+    title: "Headless/MenuBar",
+    component: MenuBar,
+    tags: ["autodocs"],
 } satisfies Meta<typeof MenuBar>;
 
 export default meta;

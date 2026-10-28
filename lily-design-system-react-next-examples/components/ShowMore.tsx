@@ -45,8 +45,15 @@ export default function ShowMore({
     const contentId = `show-more-${useId()}`;
 
     return (
-        <div className={`show-more ${className}`} {...restProps}>
-            <div className="show-more-content" id={contentId} data-expanded={expanded}>
+        <div
+            className={`show-more ${className}`}
+            {...restProps}
+        >
+            <div
+                className="show-more-content"
+                id={contentId}
+                data-expanded={expanded}
+            >
                 {children}
             </div>
             <button

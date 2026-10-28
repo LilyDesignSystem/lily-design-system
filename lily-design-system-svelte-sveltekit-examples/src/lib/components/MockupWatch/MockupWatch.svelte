@@ -13,6 +13,10 @@
 </script>
 
 <!-- MockupWatch.svelte -->
-<div class={`mockup-watch ${className}`} aria-label={label} {...restProps}>
+<div
+    class={`mockup-watch ${className}`}
+    aria-label={label}
+    {...restProps}
+>
     {@render children?.()}
 </div>

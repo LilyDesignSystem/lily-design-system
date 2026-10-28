@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import Tag from './Tag.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import Tag from "./Tag.vue";
 
 const meta = {
-  title: 'Headless/Tag',
-  component: Tag,
-  tags: ['autodocs']
+    title: "Headless/Tag",
+    component: Tag,
+    tags: ["autodocs"],
 } satisfies Meta<typeof Tag>;
 
 export default meta;

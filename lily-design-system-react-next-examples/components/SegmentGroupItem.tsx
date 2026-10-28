@@ -17,7 +17,7 @@
 //   <SegmentGroupItem checked={true} value="grid">Grid</SegmentGroupItem>
 //
 // Examples:
-//   
+//
 //   <SegmentGroup label="View">
 //     <SegmentGroupItem checked={mode === 'grid'} value="grid" onClick={() => setMode('grid')}>Grid</SegmentGroupItem>
 //     <SegmentGroupItem checked={mode === 'list'} value="list" onClick={() => setMode('list')}>List</SegmentGroupItem>
@@ -70,15 +70,15 @@ export default function SegmentGroupItem({
 }: SegmentGroupItemProps) {
     return (
         <button
-        className={`segment-group-item ${className}`}
-        role="radio"
-        aria-checked={checked}
-        data-value={value}
-        tabIndex={checked ? 0 : -1}
-        disabled={disabled}
-        {...restProps}
+            className={`segment-group-item ${className}`}
+            role="radio"
+            aria-checked={checked}
+            data-value={value}
+            tabIndex={checked ? 0 : -1}
+            disabled={disabled}
+            {...restProps}
         >
-        {children}
+            {children}
         </button>
     );
 }

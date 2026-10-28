@@ -91,26 +91,31 @@ export default function Combobox({
 
     return (
         <div
-        className={`combobox ${className}`}
-        {...restProps}
+            className={`combobox ${className}`}
+            {...restProps}
         >
-        <input
-        type="text"
-        role="combobox"
-        aria-label={label}
-        aria-expanded={open}
-        aria-controls={listboxId}
-        aria-autocomplete="list"
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        onKeyDown={handleKeyDown}
-        />
-        {open && (<><div
-        role="listbox"
-        id={listboxId}
-        aria-label={label}
-        >
-        {children}
-        </div></>)}
+            <input
+                type="text"
+                role="combobox"
+                aria-label={label}
+                aria-expanded={open}
+                aria-controls={listboxId}
+                aria-autocomplete="list"
+                value={value}
+                onChange={(e) => onChange?.(e.target.value)}
+                onKeyDown={handleKeyDown}
+            />
+            {open && (
+                <>
+                    <div
+                        role="listbox"
+                        id={listboxId}
+                        aria-label={label}
+                    >
+                        {children}
+                    </div>
+                </>
+            )}
         </div>
     );
 }

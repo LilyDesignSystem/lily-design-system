@@ -50,14 +50,15 @@ export default function LiechtensteinNationalIdentityCardNumberInput({
 }: LiechtensteinNationalIdentityCardNumberInputProps) {
     return (
         <input
-        className={`liechtenstein-national-identity-card-number-input ${className}`}
-        type="text"
-        aria-label={label}
-        autoComplete="off"
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`liechtenstein-national-identity-card-number-input ${className}`}
+            type="text"
+            aria-label={label}
+            autoComplete="off"
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

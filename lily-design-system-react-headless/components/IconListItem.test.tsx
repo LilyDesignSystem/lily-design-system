@@ -8,7 +8,7 @@ describe("IconListItem", () => {
         render(
             <ul>
                 <Subject>Easy to use</Subject>
-            </ul>
+            </ul>,
         );
 
         const item: HTMLElement = screen.getByRole("listitem");
@@ -19,7 +19,7 @@ describe("IconListItem", () => {
         render(
             <ul>
                 <Subject>Easy to use</Subject>
-            </ul>
+            </ul>,
         );
 
         const item: HTMLElement = screen.getByRole("listitem");
@@ -30,7 +30,7 @@ describe("IconListItem", () => {
         render(
             <ul>
                 <Subject>Easy to use</Subject>
-            </ul>
+            </ul>,
         );
 
         const item: HTMLElement = screen.getByRole("listitem");
@@ -41,12 +41,10 @@ describe("IconListItem", () => {
         const { container } = render(
             <ul>
                 <Subject icon={<svg data-testid="check" />}>Easy to use</Subject>
-            </ul>
+            </ul>,
         );
 
-        const iconSpan: HTMLElement | null = container.querySelector(
-            ".icon-list-item-icon"
-        );
+        const iconSpan: HTMLElement | null = container.querySelector(".icon-list-item-icon");
         expect(iconSpan).toBeTruthy();
         expect(iconSpan!.getAttribute("aria-hidden")).toBe("true");
     });
@@ -55,12 +53,10 @@ describe("IconListItem", () => {
         const { container } = render(
             <ul>
                 <Subject>Easy to use</Subject>
-            </ul>
+            </ul>,
         );
 
-        const iconSpan: HTMLElement | null = container.querySelector(
-            ".icon-list-item-icon"
-        );
+        const iconSpan: HTMLElement | null = container.querySelector(".icon-list-item-icon");
         expect(iconSpan).toBeNull();
     });
 
@@ -68,12 +64,10 @@ describe("IconListItem", () => {
         const { container } = render(
             <ul>
                 <Subject>Easy to use</Subject>
-            </ul>
+            </ul>,
         );
 
-        const textSpan: HTMLElement | null = container.querySelector(
-            ".icon-list-item-text"
-        );
+        const textSpan: HTMLElement | null = container.querySelector(".icon-list-item-text");
         expect(textSpan).toBeTruthy();
         expect(textSpan!.textContent).toContain("Easy to use");
     });
@@ -82,7 +76,7 @@ describe("IconListItem", () => {
         render(
             <ul>
                 <Subject id="my-item">Easy to use</Subject>
-            </ul>
+            </ul>,
         );
 
         const item: HTMLElement = screen.getByRole("listitem");

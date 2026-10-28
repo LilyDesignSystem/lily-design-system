@@ -4,7 +4,6 @@ import { describe, expect, test, vi } from "vitest";
 
 import Subject from "./MentionsInput.vue";
 
-
 describe("MentionsInput", () => {
     test("renders root with mentions-input class", () => {
         const { container } = render(Subject, { props: { label: "Reply" } });
@@ -83,7 +82,7 @@ describe("MentionsInput", () => {
     test("renders suggestions slot content", () => {
         const { container } = render(Subject, {
             props: { label: "Reply", expanded: true },
-            slots: { default: "<ul role=\"listbox\"><li>alice</li></ul>" },
+            slots: { default: '<ul role="listbox"><li>alice</li></ul>' },
         });
 
         expect(container.textContent).toContain("alice");
@@ -92,7 +91,9 @@ describe("MentionsInput", () => {
     test("suggestions panel is hidden when not expanded", () => {
         const { container } = render(Subject, { props: { label: "Reply" } });
 
-        const panel: HTMLElement = container.querySelector(".mentions-input-suggestions") as HTMLElement;
+        const panel: HTMLElement = container.querySelector(
+            ".mentions-input-suggestions",
+        ) as HTMLElement;
         expect(panel.hasAttribute("hidden")).toBe(true);
     });
 

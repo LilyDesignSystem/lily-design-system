@@ -38,12 +38,22 @@ describe("SwitchButton", () => {
     });
 
     test("supports disabled", () => {
-        render(<Subject label="Toggle" disabled />);
+        render(
+            <Subject
+                label="Toggle"
+                disabled
+            />,
+        );
         expect((screen.getByRole("switch") as HTMLButtonElement).disabled).toBe(true);
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="T" data-testid="sw" />);
+        render(
+            <Subject
+                label="T"
+                data-testid="sw"
+            />,
+        );
         expect(screen.getByTestId("sw")).toBeTruthy();
     });
 });

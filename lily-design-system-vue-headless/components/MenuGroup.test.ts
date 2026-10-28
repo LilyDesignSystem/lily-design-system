@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./MenuGroup.vue";
 
-
 describe("MenuGroup", () => {
     test("renders as a group with aria-label", () => {
         render(Subject, { props: { label: "View" }, slots: { default: "<button>Item</button>" } });

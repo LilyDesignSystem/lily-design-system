@@ -50,14 +50,15 @@ export default function NihonKojinBangoInput({
 }: NihonKojinBangoInputProps) {
     return (
         <input
-        className={`nihon-kojin-bango-input ${className}`}
-        type="text"
-        aria-label={label}
-        autoComplete="off"
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`nihon-kojin-bango-input ${className}`}
+            type="text"
+            aria-label={label}
+            autoComplete="off"
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

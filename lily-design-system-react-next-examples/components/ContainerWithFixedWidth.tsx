@@ -59,12 +59,12 @@ export default function ContainerWithFixedWidth({
 }: ContainerWithFixedWidthProps) {
     return (
         <div
-        className={`container-with-fixed-width ${className}`}
-        style={{ maxWidth, marginInline: "auto" }}
-        data-max-width={maxWidth}
-        {...restProps}
+            className={`container-with-fixed-width ${className}`}
+            style={{ maxWidth, marginInline: "auto" }}
+            data-max-width={maxWidth}
+            {...restProps}
         >
-        {children}
+            {children}
         </div>
     );
 }

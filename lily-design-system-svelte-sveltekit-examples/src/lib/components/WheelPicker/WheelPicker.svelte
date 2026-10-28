@@ -93,7 +93,12 @@
         if (disabled) return;
         if (WHEEL_MOVE_KEYS.includes(event.key)) {
             event.preventDefault();
-            select(nextWheelIndex(options, selectedIndex, event.key as WheelMoveKey, { loop, pageSize }));
+            select(
+                nextWheelIndex(options, selectedIndex, event.key as WheelMoveKey, {
+                    loop,
+                    pageSize,
+                }),
+            );
         } else if (isWheelTypeaheadKey(event)) {
             typeahead = nextWheelPrefix(typeahead, event.key, Date.now());
             select(wheelTypeaheadIndex(options, selectedIndex, typeahead.prefix));
@@ -119,7 +124,10 @@
 </script>
 
 <!-- WheelPicker.svelte -->
-<div class={`wheel-picker ${className}`} {...restProps}>
+<div
+    class={`wheel-picker ${className}`}
+    {...restProps}
+>
     <div
         bind:this={list}
         class="wheel-picker-list"
@@ -141,10 +149,16 @@
                 aria-disabled={option.disabled ? "true" : undefined}
                 data-value={option.value}
                 data-index={index}
-            >{option.label}</div>
+            >
+                {option.label}
+            </div>
         {/each}
     </div>
     {#if name}
-        <input type="hidden" {name} {value} />
+        <input
+            type="hidden"
+            {name}
+            {value}
+        />
     {/if}
 </div>

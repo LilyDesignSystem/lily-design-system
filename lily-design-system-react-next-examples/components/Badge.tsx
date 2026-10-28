@@ -19,16 +19,16 @@
 //   <Badge label="3 unread messages">3</Badge>
 //
 // Examples:
-//   
+//
 //   <Badge>New</Badge>
 //
-//   
+//
 //   <Badge label="3 unread messages">3</Badge>
 //
-//   
+//
 //   <Badge type="warning">Alert</Badge>
 //
-//   
+//
 //   <Badge type="error" data-testid="error-badge">Failed</Badge>
 //
 // Keyboard: None — badges are display-only, not interactive.
@@ -73,13 +73,13 @@ export default function Badge({
 }: BadgeProps) {
     return (
         <span
-        className={`badge ${className}`}
-        role="status"
-        aria-label={label}
-        data-type={type}
-        {...restProps}
+            className={`badge ${className}`}
+            role="status"
+            aria-label={label}
+            data-type={type}
+            {...restProps}
         >
-        {children}
+            {children}
         </span>
     );
 }

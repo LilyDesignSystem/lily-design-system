@@ -1,17 +1,20 @@
-<script module lang="ts">
-  import { defineMeta } from '@storybook/addon-svelte-csf';
-  import Thinking from './Thinking.svelte';
+<script
+    module
+    lang="ts"
+>
+    import { defineMeta } from "@storybook/addon-svelte-csf";
+    import Thinking from "./Thinking.svelte";
 
-  const { Story } = defineMeta({
-    title: 'Headless/Thinking',
-    component: Thinking,
-  });
+    const { Story } = defineMeta({
+        title: "Headless/Thinking",
+        component: Thinking,
+    });
 </script>
 
 <Story
-  name="Default"
-  tags={['autodocs', '!dev']}
-  args={{'label':'Thinking'}}
+    name="Default"
+    tags={["autodocs", "!dev"]}
+    args={{ label: "Thinking" }}
 >
-  <p>Reasoning steps appear here.</p>
+    <p>Reasoning steps appear here.</p>
 </Story>

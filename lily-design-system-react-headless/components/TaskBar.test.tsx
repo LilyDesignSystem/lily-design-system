@@ -38,7 +38,14 @@ describe("TaskBar", () => {
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="T" data-testid="tb">{buttons}</Subject>);
+        render(
+            <Subject
+                label="T"
+                data-testid="tb"
+            >
+                {buttons}
+            </Subject>,
+        );
         expect(screen.getByTestId("tb")).toBeTruthy();
     });
 });

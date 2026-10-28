@@ -7,7 +7,11 @@ import Subject from "./ActionBar";
 describe("ActionBar", () => {
     test("renders as a toolbar with the required aria-label", () => {
         render(
-            <Subject label="Selection actions" selectedCount={3} selectedCountLabel="3 selected" />
+            <Subject
+                label="Selection actions"
+                selectedCount={3}
+                selectedCountLabel="3 selected"
+            />,
         );
 
         const toolbar: HTMLElement = screen.getByRole("toolbar", { name: "Selection actions" });
@@ -17,7 +21,11 @@ describe("ActionBar", () => {
 
     test("applies the action-bar root class", () => {
         render(
-            <Subject label="Selection actions" selectedCount={1} selectedCountLabel="1 selected" />
+            <Subject
+                label="Selection actions"
+                selectedCount={1}
+                selectedCountLabel="1 selected"
+            />,
         );
 
         const toolbar: HTMLElement = screen.getByRole("toolbar");
@@ -26,7 +34,11 @@ describe("ActionBar", () => {
 
     test("exposes data-selected-count", () => {
         render(
-            <Subject label="Selection actions" selectedCount={5} selectedCountLabel="5 selected" />
+            <Subject
+                label="Selection actions"
+                selectedCount={5}
+                selectedCountLabel="5 selected"
+            />,
         );
 
         const toolbar: HTMLElement = screen.getByRole("toolbar");
@@ -35,7 +47,11 @@ describe("ActionBar", () => {
 
     test("renders the selectedCountLabel text", () => {
         render(
-            <Subject label="Selection actions" selectedCount={2} selectedCountLabel="2 selected" />
+            <Subject
+                label="Selection actions"
+                selectedCount={2}
+                selectedCountLabel="2 selected"
+            />,
         );
 
         expect(screen.getByText("2 selected")).toBeTruthy();
@@ -43,9 +59,13 @@ describe("ActionBar", () => {
 
     test("renders children", () => {
         render(
-            <Subject label="Selection actions" selectedCount={1} selectedCountLabel="1 selected">
+            <Subject
+                label="Selection actions"
+                selectedCount={1}
+                selectedCountLabel="1 selected"
+            >
                 <button type="button">Delete</button>
-            </Subject>
+            </Subject>,
         );
 
         expect(screen.getByRole("button", { name: "Delete" })).toBeTruthy();
@@ -55,11 +75,11 @@ describe("ActionBar", () => {
         const handleClear = vi.fn();
         render(
             <Subject
-            label="Selection actions"
-            selectedCount={1}
-            selectedCountLabel="1 selected"
-            onClearSelection={handleClear}
-            />
+                label="Selection actions"
+                selectedCount={1}
+                selectedCountLabel="1 selected"
+                onClearSelection={handleClear}
+            />,
         );
 
         expect(screen.queryByRole("button")).toBeNull();
@@ -68,11 +88,11 @@ describe("ActionBar", () => {
     test("does not render clear button when only clearSelectionLabel is provided", () => {
         render(
             <Subject
-            label="Selection actions"
-            selectedCount={1}
-            selectedCountLabel="1 selected"
-            clearSelectionLabel="Clear selection"
-            />
+                label="Selection actions"
+                selectedCount={1}
+                selectedCountLabel="1 selected"
+                clearSelectionLabel="Clear selection"
+            />,
         );
 
         expect(screen.queryByRole("button")).toBeNull();
@@ -82,12 +102,12 @@ describe("ActionBar", () => {
         const handleClear = vi.fn();
         render(
             <Subject
-            label="Selection actions"
-            selectedCount={1}
-            selectedCountLabel="1 selected"
-            clearSelectionLabel="Clear selection"
-            onClearSelection={handleClear}
-            />
+                label="Selection actions"
+                selectedCount={1}
+                selectedCountLabel="1 selected"
+                clearSelectionLabel="Clear selection"
+                onClearSelection={handleClear}
+            />,
         );
 
         expect(screen.getByRole("button", { name: "Clear selection" })).toBeTruthy();
@@ -98,12 +118,12 @@ describe("ActionBar", () => {
         const handleClear = vi.fn();
         render(
             <Subject
-            label="Selection actions"
-            selectedCount={1}
-            selectedCountLabel="1 selected"
-            clearSelectionLabel="Clear selection"
-            onClearSelection={handleClear}
-            />
+                label="Selection actions"
+                selectedCount={1}
+                selectedCountLabel="1 selected"
+                clearSelectionLabel="Clear selection"
+                onClearSelection={handleClear}
+            />,
         );
 
         await user.click(screen.getByRole("button", { name: "Clear selection" }));

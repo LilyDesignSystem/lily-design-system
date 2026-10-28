@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import ThemeProvider from './ThemeProvider';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import ThemeProvider from "./ThemeProvider";
 
 const meta = {
-  title: 'Headless/ThemeProvider',
-  component: ThemeProvider,
-  tags: ['autodocs']
+    title: "Headless/ThemeProvider",
+    component: ThemeProvider,
+    tags: ["autodocs"],
 } satisfies Meta<typeof ThemeProvider>;
 
 export default meta;

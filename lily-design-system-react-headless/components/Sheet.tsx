@@ -91,20 +91,20 @@ export default function Sheet({
 
     return (
         <>
-        {open && (
-        <div
-        className={`sheet ${className}`}
-        role="dialog"
-        aria-label={label}
-        aria-modal="true"
-        tabIndex={-1}
-        data-side={side}
-        onKeyDown={handleKeyDown}
-        {...restProps}
-        >
-        {children}
-        </div>
-        )}
+            {open && (
+                <div
+                    className={`sheet ${className}`}
+                    role="dialog"
+                    aria-label={label}
+                    aria-modal="true"
+                    tabIndex={-1}
+                    data-side={side}
+                    onKeyDown={handleKeyDown}
+                    {...restProps}
+                >
+                    {children}
+                </div>
+            )}
         </>
     );
 }

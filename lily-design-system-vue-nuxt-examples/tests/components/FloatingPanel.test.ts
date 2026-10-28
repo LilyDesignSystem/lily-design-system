@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "../../components/FloatingPanel.vue";
 
-
 describe("FloatingPanel", () => {
     test("hidden when open is false", () => {
         render(Subject, { props: { label: "Panel", open: false }, slots: { default: "C" } });
@@ -21,7 +20,10 @@ describe("FloatingPanel", () => {
     });
 
     test("passes through attributes", () => {
-        render(Subject, { props: { label: "P", open: true, "data-testid": "fp" }, slots: { default: "C" } });
+        render(Subject, {
+            props: { label: "P", open: true, "data-testid": "fp" },
+            slots: { default: "C" },
+        });
         expect(screen.getByTestId("fp")).toBeTruthy();
     });
 });

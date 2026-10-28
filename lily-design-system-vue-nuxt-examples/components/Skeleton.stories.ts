@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import Skeleton from './Skeleton.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import Skeleton from "./Skeleton.vue";
 
 const meta = {
-  title: 'Headless/Skeleton',
-  component: Skeleton,
-  tags: ['autodocs']
+    title: "Headless/Skeleton",
+    component: Skeleton,
+    tags: ["autodocs"],
 } satisfies Meta<typeof Skeleton>;
 
 export default meta;

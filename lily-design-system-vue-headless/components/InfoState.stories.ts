@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import InfoState from './InfoState.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import InfoState from "./InfoState.vue";
 
 const meta = {
-  title: 'Headless/InfoState',
-  component: InfoState,
-  tags: ['autodocs']
+    title: "Headless/InfoState",
+    component: InfoState,
+    tags: ["autodocs"],
 } satisfies Meta<typeof InfoState>;
 
 export default meta;

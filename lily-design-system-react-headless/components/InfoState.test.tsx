@@ -23,14 +23,24 @@ describe("InfoState", () => {
     });
 
     test("accepts a custom level value", () => {
-        render(<Subject level="error" title="Boom" />);
+        render(
+            <Subject
+                level="error"
+                title="Boom"
+            />,
+        );
 
         const status: HTMLElement = screen.getByRole("status");
         expect(status.getAttribute("data-level")).toBe("error");
     });
 
     test("renders description paragraph when provided", () => {
-        render(<Subject title="Title" description="Body text." />);
+        render(
+            <Subject
+                title="Title"
+                description="Body text."
+            />,
+        );
 
         expect(screen.getByText("Body text.")).toBeTruthy();
     });
@@ -56,7 +66,12 @@ describe("InfoState", () => {
     });
 
     test("aria-label override via label prop", () => {
-        render(<Subject title="No results" label="Empty inbox" />);
+        render(
+            <Subject
+                title="No results"
+                label="Empty inbox"
+            />,
+        );
 
         const status: HTMLElement = screen.getByRole("status");
         expect(status.getAttribute("aria-label")).toBe("Empty inbox");

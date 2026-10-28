@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./SegmentGroup.vue";
 
-
 describe("SegmentGroup", () => {
     test("renders a radiogroup", () => {
         render(Subject, { props: { label: "View" }, slots: { default: "content" } });

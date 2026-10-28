@@ -13,7 +13,14 @@ export interface WheelOption {
 
 export type WheelMoveKey = "ArrowUp" | "ArrowDown" | "Home" | "End" | "PageUp" | "PageDown";
 
-export const WHEEL_MOVE_KEYS: readonly string[] = ["ArrowUp", "ArrowDown", "Home", "End", "PageUp", "PageDown"];
+export const WHEEL_MOVE_KEYS: readonly string[] = [
+    "ArrowUp",
+    "ArrowDown",
+    "Home",
+    "End",
+    "PageUp",
+    "PageDown",
+];
 
 export interface WheelMoveOptions {
     /** Arrow keys wrap from the last enabled option to the first and back. Default false. */
@@ -35,7 +42,12 @@ function enabledIndexes(options: readonly WheelOption[]): number[] {
  * The index to select after `key`, or -1 when no option can be selected. `current` is the selected index, or -1 for none.
  * With nothing selected, ArrowDown / PageDown / Home choose the first enabled option and ArrowUp / PageUp / End the last.
  */
-export function nextWheelIndex(options: readonly WheelOption[], current: number, key: WheelMoveKey, move: WheelMoveOptions = {}): number {
+export function nextWheelIndex(
+    options: readonly WheelOption[],
+    current: number,
+    key: WheelMoveKey,
+    move: WheelMoveOptions = {},
+): number {
     const enabled = enabledIndexes(options);
     if (enabled.length === 0) return -1;
     const first = enabled[0];
@@ -49,7 +61,11 @@ export function nextWheelIndex(options: readonly WheelOption[], current: number,
 
     switch (key) {
         case "ArrowDown":
-            return position + 1 < enabled.length ? enabled[position + 1] : move.loop ? first : current;
+            return position + 1 < enabled.length
+                ? enabled[position + 1]
+                : move.loop
+                  ? first
+                  : current;
         case "ArrowUp":
             return position > 0 ? enabled[position - 1] : move.loop ? last : current;
         case "PageDown":
@@ -72,21 +88,41 @@ export interface WheelTypeahead {
 }
 
 /** The prefix after `key` at time `now`: it grows while presses are within the reset time, else starts over. */
-export function nextWheelPrefix(previous: WheelTypeahead, key: string, now: number, resetMs: number = WHEEL_TYPEAHEAD_RESET_MS): WheelTypeahead {
+export function nextWheelPrefix(
+    previous: WheelTypeahead,
+    key: string,
+    now: number,
+    resetMs: number = WHEEL_TYPEAHEAD_RESET_MS,
+): WheelTypeahead {
     const continuing = previous.prefix !== "" && now - previous.at <= resetMs;
     return { prefix: (continuing ? previous.prefix : "") + key, at: now };
 }
 
 /** Whether a key press is a type-ahead character: one printable character other than space, no Ctrl, Alt or Meta. */
-export function isWheelTypeaheadKey(event: { key: string; ctrlKey?: boolean; altKey?: boolean; metaKey?: boolean }): boolean {
-    return event.key.length === 1 && event.key !== " " && !event.ctrlKey && !event.altKey && !event.metaKey;
+export function isWheelTypeaheadKey(event: {
+    key: string;
+    ctrlKey?: boolean;
+    altKey?: boolean;
+    metaKey?: boolean;
+}): boolean {
+    return (
+        event.key.length === 1 &&
+        event.key !== " " &&
+        !event.ctrlKey &&
+        !event.altKey &&
+        !event.metaKey
+    );
 }
 
 /**
  * The enabled option to move to for the typed `prefix`, or -1. Searches from the option after `current` and wraps; a prefix of one
  * repeated letter ("ss") counts as that single letter, so pressing it again steps through the options that start with it.
  */
-export function wheelTypeaheadIndex(options: readonly WheelOption[], current: number, prefix: string): number {
+export function wheelTypeaheadIndex(
+    options: readonly WheelOption[],
+    current: number,
+    prefix: string,
+): number {
     const folded = fold(prefix);
     if (folded === "" || options.length === 0) return -1;
     const repeated = folded.length > 1 && [...folded].every((c) => c === folded[0]);

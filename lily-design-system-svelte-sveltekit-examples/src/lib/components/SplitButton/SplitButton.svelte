@@ -109,7 +109,10 @@
         aria-label={menuLabel}
         onclick={onmenutoggle}
     ></button>
-    <div class="split-button-menu" hidden={!menuOpen}>
+    <div
+        class="split-button-menu"
+        hidden={!menuOpen}
+    >
         {@render children?.()}
     </div>
 </div>

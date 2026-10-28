@@ -5,7 +5,12 @@ import Subject from "./PolskaPeselView";
 
 describe("PolskaPeselView", () => {
     test("renders with the correct class", () => {
-        render(<Subject label="PESEL" value="test-value" />);
+        render(
+            <Subject
+                label="PESEL"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("PESEL");
         expect(el).toBeTruthy();
@@ -13,7 +18,12 @@ describe("PolskaPeselView", () => {
     });
 
     test("renders the value as text content", () => {
-        render(<Subject label="PESEL" value="test-value" />);
+        render(
+            <Subject
+                label="PESEL"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("PESEL");
         expect(el.textContent).toBe("test-value");

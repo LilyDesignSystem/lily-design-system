@@ -20,7 +20,7 @@
 // Examples:
 //
 //   <FiveStarRatingPickerButton value={4} label="4 stars" selected={true} onClick={handleSelect} />
-//   
+//
 //   <FiveStarRatingPickerButton value={1} label="1 star" disabled={true} />
 //
 // Keyboard:
@@ -72,14 +72,16 @@ export default function FiveStarRatingPickerButton({
 }: FiveStarRatingPickerButtonProps) {
     return (
         <button
-        className={`five-star-rating-picker-button ${className}`}
-        type="button"
-        aria-label={label}
-        aria-pressed={selected}
-        disabled={disabled}
-        data-value={value}
-        onClick={onClick}
-        {...restProps}
-        >{label}</button>
+            className={`five-star-rating-picker-button ${className}`}
+            type="button"
+            aria-label={label}
+            aria-pressed={selected}
+            disabled={disabled}
+            data-value={value}
+            onClick={onClick}
+            {...restProps}
+        >
+            {label}
+        </button>
     );
 }

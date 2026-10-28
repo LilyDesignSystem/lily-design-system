@@ -15,11 +15,17 @@ describe("ToolCallError", () => {
 
     it("appends the consumer class after the base class", () => {
         const { container } = render(<ToolCallError className="mine">x</ToolCallError>);
-        expect(container.querySelector(".tool-call-error")!.getAttribute("class")).toBe("tool-call-error mine");
+        expect(container.querySelector(".tool-call-error")!.getAttribute("class")).toBe(
+            "tool-call-error mine",
+        );
     });
 
     it("renders the children", () => {
-        render(<ToolCallError><span data-testid="txt">Hello</span></ToolCallError>);
+        render(
+            <ToolCallError>
+                <span data-testid="txt">Hello</span>
+            </ToolCallError>,
+        );
         expect(screen.getByTestId("txt").textContent).toBe("Hello");
     });
 

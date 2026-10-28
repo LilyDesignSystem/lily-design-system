@@ -37,9 +37,11 @@ export default function LuxembourgMatriculeView({
 }: LuxembourgMatriculeViewProps) {
     return (
         <span
-        className={`luxembourg-matricule-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`luxembourg-matricule-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

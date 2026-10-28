@@ -48,10 +48,10 @@ export default function CalendarTableRow({
 }: CalendarTableRowProps) {
     return (
         <tr
-        className={`calendar-table-row ${className}`}
-        {...restProps}
+            className={`calendar-table-row ${className}`}
+            {...restProps}
         >
-        {children}
+            {children}
         </tr>
     );
 }

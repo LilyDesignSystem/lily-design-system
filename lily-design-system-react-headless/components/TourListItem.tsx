@@ -19,7 +19,7 @@
 //   <TourListItem label="Welcome" current={step === 0} stepNumber={1} totalSteps={3}>...</TourListItem>
 //
 // Examples:
-//   
+//
 //   <TourList label="Getting started" active={active} onChange={setActive}>
 //     <TourListItem label="Welcome" current={step === 0} stepNumber={1} totalSteps={3}>
 //       <p>Welcome to the app!</p>
@@ -82,22 +82,23 @@ export default function TourListItem({
     children,
     ...restProps
 }: TourListItemProps) {
-    const fullLabel = stepNumber != null && totalSteps != null
+    const fullLabel =
+        stepNumber != null && totalSteps != null
             ? `${label} (Step ${stepNumber} of ${totalSteps})`
             : label;
 
     return (
         <li
-        className={`tour-list-item ${className}`}
-        role="group"
-        aria-roledescription="step"
-        aria-label={fullLabel}
-        data-current={current ? "" : undefined}
-        aria-hidden={!current ? "true" : undefined}
-        hidden={!current ? true : undefined}
-        {...restProps}
+            className={`tour-list-item ${className}`}
+            role="group"
+            aria-roledescription="step"
+            aria-label={fullLabel}
+            data-current={current ? "" : undefined}
+            aria-hidden={!current ? "true" : undefined}
+            hidden={!current ? true : undefined}
+            {...restProps}
         >
-        {children}
+            {children}
         </li>
     );
 }

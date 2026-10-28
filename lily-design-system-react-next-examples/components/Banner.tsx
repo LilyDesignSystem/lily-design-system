@@ -22,16 +22,16 @@
 //   <Banner dismissible closeLabel="Close" onClose={handler}>Message</Banner>
 //
 // Examples:
-//   
+//
 //   <Banner>Important announcement here.</Banner>
 //
-//   
+//
 //   <Banner type="warning" dismissible closeLabel="Dismiss"
 //     onClose={handleDismiss}>
 //     Your session will expire soon.
 //   </Banner>
 //
-//   
+//
 //   <Banner type="error" data-testid="error-banner">
 //     Service unavailable. Please try again later.
 //   </Banner>
@@ -95,20 +95,28 @@ export default function Banner({
 
     return (
         <>
-        {visible && (<><div
-        className={`banner ${className}`}
-        role="region"
-        aria-live="polite"
-        data-type={type}
-        {...restProps}
-        >
-        {children}
-        {dismissible && (<><button
-        type="button"
-        aria-label={closeLabel}
-        onClick={dismiss}
-        ></button></>)}
-        </div></>)}
+            {visible && (
+                <>
+                    <div
+                        className={`banner ${className}`}
+                        role="region"
+                        aria-live="polite"
+                        data-type={type}
+                        {...restProps}
+                    >
+                        {children}
+                        {dismissible && (
+                            <>
+                                <button
+                                    type="button"
+                                    aria-label={closeLabel}
+                                    onClick={dismiss}
+                                ></button>
+                            </>
+                        )}
+                    </div>
+                </>
+            )}
         </>
     );
 }

@@ -5,7 +5,9 @@ import Subject from "./AotearoaNationalHealthIndexView.vue";
 
 describe("AotearoaNationalHealthIndexView", () => {
     test("renders with the correct class", () => {
-        render(Subject, { props: { label: "Aotearoa National Health Index", value: "test-value" } });
+        render(Subject, {
+            props: { label: "Aotearoa National Health Index", value: "test-value" },
+        });
 
         const el = screen.getByLabelText("Aotearoa National Health Index");
         expect(el).toBeTruthy();
@@ -13,7 +15,9 @@ describe("AotearoaNationalHealthIndexView", () => {
     });
 
     test("renders the value as text content", () => {
-        render(Subject, { props: { label: "Aotearoa National Health Index", value: "test-value" } });
+        render(Subject, {
+            props: { label: "Aotearoa National Health Index", value: "test-value" },
+        });
 
         const el = screen.getByLabelText("Aotearoa National Health Index");
         expect(el.textContent).toBe("test-value");

@@ -5,7 +5,9 @@ import Subject from "./LuxembourgMatriculeView.svelte";
 
 describe("LuxembourgMatriculeView", () => {
     test("renders with the correct class", () => {
-        render(Subject, { props: { label: "Numéro d'Identification Nationale (Matricule)", value: "test-value" } });
+        render(Subject, {
+            props: { label: "Numéro d'Identification Nationale (Matricule)", value: "test-value" },
+        });
 
         const el = screen.getByLabelText("Numéro d'Identification Nationale (Matricule)");
         expect(el).toBeTruthy();
@@ -13,7 +15,9 @@ describe("LuxembourgMatriculeView", () => {
     });
 
     test("renders the value as text content", () => {
-        render(Subject, { props: { label: "Numéro d'Identification Nationale (Matricule)", value: "test-value" } });
+        render(Subject, {
+            props: { label: "Numéro d'Identification Nationale (Matricule)", value: "test-value" },
+        });
 
         const el = screen.getByLabelText("Numéro d'Identification Nationale (Matricule)");
         expect(el.textContent).toBe("test-value");

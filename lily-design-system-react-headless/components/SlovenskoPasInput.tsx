@@ -50,14 +50,15 @@ export default function SlovenskoPasInput({
 }: SlovenskoPasInputProps) {
     return (
         <input
-        className={`slovensko-pas-input ${className}`}
-        type="text"
-        aria-label={label}
-        autoComplete="off"
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`slovensko-pas-input ${className}`}
+            type="text"
+            aria-label={label}
+            autoComplete="off"
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

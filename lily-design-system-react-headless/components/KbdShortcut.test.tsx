@@ -29,13 +29,20 @@ describe("KbdShortcut", () => {
     });
 
     test("separator is configurable", () => {
-        const { container } = render(<Subject keys={["G", "H"]} separator=" then " />);
+        const { container } = render(
+            <Subject
+                keys={["G", "H"]}
+                separator=" then "
+            />,
+        );
         expect(container.querySelector(".kbd-shortcut-separator")!.textContent).toBe(" then ");
     });
 
     test("separators are aria-hidden", () => {
         const { container } = render(<Subject keys={["A", "B"]} />);
-        expect(container.querySelector(".kbd-shortcut-separator")!.getAttribute("aria-hidden")).toBe("true");
+        expect(
+            container.querySelector(".kbd-shortcut-separator")!.getAttribute("aria-hidden"),
+        ).toBe("true");
     });
 
     test("single key renders no separator", () => {
@@ -44,7 +51,12 @@ describe("KbdShortcut", () => {
     });
 
     test("label becomes aria-label; absent otherwise", () => {
-        const a = render(<Subject keys={["Ctrl", "K"]} label="Control K" />);
+        const a = render(
+            <Subject
+                keys={["Ctrl", "K"]}
+                label="Control K"
+            />,
+        );
         expect(root(a.container).getAttribute("aria-label")).toBe("Control K");
         a.unmount();
         const b = render(<Subject keys={["Ctrl", "K"]} />);
@@ -52,7 +64,12 @@ describe("KbdShortcut", () => {
     });
 
     test("passes through attributes", () => {
-        const { container } = render(<Subject keys={["A"]} data-testid="ks" />);
+        const { container } = render(
+            <Subject
+                keys={["A"]}
+                data-testid="ks"
+            />,
+        );
         expect(root(container).getAttribute("data-testid")).toBe("ks");
     });
 });

@@ -5,7 +5,12 @@ import Subject from "./LuxembourgMatriculeView";
 
 describe("LuxembourgMatriculeView", () => {
     test("renders with the correct class", () => {
-        render(<Subject label="Matricule National" value="test-value" />);
+        render(
+            <Subject
+                label="Matricule National"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Matricule National");
         expect(el).toBeTruthy();
@@ -13,7 +18,12 @@ describe("LuxembourgMatriculeView", () => {
     });
 
     test("renders the value as text content", () => {
-        render(<Subject label="Matricule National" value="test-value" />);
+        render(
+            <Subject
+                label="Matricule National"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Matricule National");
         expect(el.textContent).toBe("test-value");

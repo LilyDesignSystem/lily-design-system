@@ -35,9 +35,9 @@
 
     let styleString = $derived(
         "display: contents;" +
-        Object.entries(flatten(theme))
-            .map(([k, v]) => ` ${k}: ${v};`)
-            .join("")
+            Object.entries(flatten(theme))
+                .map(([k, v]) => ` ${k}: ${v};`)
+                .join(""),
     );
 </script>
 

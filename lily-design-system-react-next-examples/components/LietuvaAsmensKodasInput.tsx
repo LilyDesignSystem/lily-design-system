@@ -50,14 +50,15 @@ export default function LietuvaAsmensKodasInput({
 }: LietuvaAsmensKodasInputProps) {
     return (
         <input
-        className={`lietuva-asmens-kodas-input ${className}`}
-        type="text"
-        aria-label={label}
-        autoComplete="off"
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`lietuva-asmens-kodas-input ${className}`}
+            type="text"
+            aria-label={label}
+            autoComplete="off"
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

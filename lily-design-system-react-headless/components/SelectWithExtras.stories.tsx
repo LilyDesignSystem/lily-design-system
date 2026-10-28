@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import SelectWithExtras from './SelectWithExtras';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import SelectWithExtras from "./SelectWithExtras";
 
 const meta = {
-  title: 'Headless/SelectWithExtras',
-  component: SelectWithExtras,
-  tags: ['autodocs']
+    title: "Headless/SelectWithExtras",
+    component: SelectWithExtras,
+    tags: ["autodocs"],
 } satisfies Meta<typeof SelectWithExtras>;
 
 export default meta;

@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "../../components/ContextMenuItem.vue";
 
-
 describe("ContextMenuItem", () => {
     test("renders a div with menuitem role", () => {
         render(Subject, { slots: { default: "Cut" } });

@@ -37,9 +37,11 @@ export default function LiechtensteinNationalIdentityCardNumberView({
 }: LiechtensteinNationalIdentityCardNumberViewProps) {
     return (
         <span
-        className={`liechtenstein-national-identity-card-number-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`liechtenstein-national-identity-card-number-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

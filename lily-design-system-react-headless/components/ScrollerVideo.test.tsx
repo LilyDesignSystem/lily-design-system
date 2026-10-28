@@ -6,9 +6,13 @@ import Subject from "./ScrollerVideo";
 describe("ScrollerVideo", () => {
     test("renders a div with class scroller-video", () => {
         const { container } = render(
-            <Subject src="/v.mp4" label="Story" alt="A scrolling video">
+            <Subject
+                src="/v.mp4"
+                label="Story"
+                alt="A scrolling video"
+            >
                 <section>step</section>
-            </Subject>
+            </Subject>,
         );
         const root = container.querySelector(".scroller-video");
         expect(root).toBeTruthy();
@@ -17,18 +21,28 @@ describe("ScrollerVideo", () => {
 
     test("applies aria-label from label prop", () => {
         const { container } = render(
-            <Subject src="/v.mp4" label="Story" alt="alt">
+            <Subject
+                src="/v.mp4"
+                label="Story"
+                alt="alt"
+            >
                 <section>step</section>
-            </Subject>
+            </Subject>,
         );
-        expect(container.querySelector(".scroller-video")?.getAttribute("aria-label")).toBe("Story");
+        expect(container.querySelector(".scroller-video")?.getAttribute("aria-label")).toBe(
+            "Story",
+        );
     });
 
     test("renders a video with the src and muted attribute", () => {
         const { container } = render(
-            <Subject src="/v.mp4" label="x" alt="alt">
+            <Subject
+                src="/v.mp4"
+                label="x"
+                alt="alt"
+            >
                 <section>step</section>
-            </Subject>
+            </Subject>,
         );
         const video = container.querySelector("video.scroller-video-element") as HTMLVideoElement;
         expect(video).toBeTruthy();
@@ -39,9 +53,13 @@ describe("ScrollerVideo", () => {
 
     test("background region exposes role=img with alt as aria-label", () => {
         const { container } = render(
-            <Subject src="/v.mp4" label="x" alt="A waterfall scene">
+            <Subject
+                src="/v.mp4"
+                label="x"
+                alt="A waterfall scene"
+            >
                 <section>step</section>
-            </Subject>
+            </Subject>,
         );
         const bg = container.querySelector(".scroller-video-background");
         expect(bg?.getAttribute("role")).toBe("img");
@@ -51,10 +69,14 @@ describe("ScrollerVideo", () => {
 
     test("renders children inside the foreground", () => {
         const { container } = render(
-            <Subject src="/v.mp4" label="x" alt="alt">
+            <Subject
+                src="/v.mp4"
+                label="x"
+                alt="alt"
+            >
                 <section>step 1</section>
                 <section>step 2</section>
-            </Subject>
+            </Subject>,
         );
         const fg = container.querySelector(".scroller-video-foreground");
         expect(fg).toBeTruthy();

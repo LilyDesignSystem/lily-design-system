@@ -20,7 +20,14 @@ describe("AccordionNav", () => {
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="F" data-testid="aan">x</Subject>);
+        render(
+            <Subject
+                label="F"
+                data-testid="aan"
+            >
+                x
+            </Subject>,
+        );
         expect(screen.getByTestId("aan")).toBeTruthy();
     });
 });

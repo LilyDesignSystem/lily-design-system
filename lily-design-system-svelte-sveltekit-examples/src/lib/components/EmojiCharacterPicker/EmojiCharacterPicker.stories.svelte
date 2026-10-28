@@ -1,17 +1,20 @@
-<script module lang="ts">
-  import { defineMeta } from '@storybook/addon-svelte-csf';
-  import EmojiCharacterPicker from './EmojiCharacterPicker.svelte';
+<script
+    module
+    lang="ts"
+>
+    import { defineMeta } from "@storybook/addon-svelte-csf";
+    import EmojiCharacterPicker from "./EmojiCharacterPicker.svelte";
 
-  const { Story } = defineMeta({
-    title: 'Headless/EmojiCharacterPicker',
-    component: EmojiCharacterPicker,
-  });
+    const { Story } = defineMeta({
+        title: "Headless/EmojiCharacterPicker",
+        component: EmojiCharacterPicker,
+    });
 </script>
 
 <Story
-  name="Default"
-  tags={['autodocs', '!dev']}
-  args={{'label':'Emoji Character Picker'}}
+    name="Default"
+    tags={["autodocs", "!dev"]}
+    args={{ label: "Emoji Character Picker" }}
 >
-  <span>😀</span>
+    <span>😀</span>
 </Story>

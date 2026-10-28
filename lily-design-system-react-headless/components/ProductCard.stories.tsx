@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import ProductCard from './ProductCard';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import ProductCard from "./ProductCard";
 
 const meta = {
-  title: 'Headless/ProductCard',
-  component: ProductCard,
-  tags: ['autodocs']
+    title: "Headless/ProductCard",
+    component: ProductCard,
+    tags: ["autodocs"],
 } satisfies Meta<typeof ProductCard>;
 
 export default meta;

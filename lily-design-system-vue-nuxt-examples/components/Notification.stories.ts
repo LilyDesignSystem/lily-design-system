@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import Notification from './Notification.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import Notification from "./Notification.vue";
 
 const meta = {
-  title: 'Headless/Notification',
-  component: Notification,
-  tags: ['autodocs']
+    title: "Headless/Notification",
+    component: Notification,
+    tags: ["autodocs"],
 } satisfies Meta<typeof Notification>;
 
 export default meta;

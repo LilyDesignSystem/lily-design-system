@@ -38,9 +38,11 @@ export default function SouthAfricaIdentityNumberView({
 }: SouthAfricaIdentityNumberViewProps) {
     return (
         <span
-        className={`south-africa-identity-number-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`south-africa-identity-number-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

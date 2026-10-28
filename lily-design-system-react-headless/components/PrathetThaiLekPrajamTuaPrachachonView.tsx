@@ -37,9 +37,11 @@ export default function PrathetThaiLekPrajamTuaPrachachonView({
 }: PrathetThaiLekPrajamTuaPrachachonViewProps) {
     return (
         <span
-        className={`prathet-thai-lek-prajam-tua-prachachon-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`prathet-thai-lek-prajam-tua-prachachon-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-    // GoToNextSection component
-    // A link that takes users to the next section of the current page.
+// GoToNextSection component
+// A link that takes users to the next section of the current page.
 
-    defineProps<{
+defineProps<{
     label: string;
     href: string;
 }>();
@@ -14,5 +14,6 @@
         class="go-to-next-section"
         :href="href"
         :aria-label="label"
-    >{{ label }}</a>
+        >{{ label }}</a
+    >
 </template>

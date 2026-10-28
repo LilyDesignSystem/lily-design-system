@@ -25,19 +25,19 @@
 //   <Alert type="error" heading="Error">Details here.</Alert>
 //
 // Examples:
-//   
+//
 //   <Alert>Something happened.</Alert>
 //
-//   
+//
 //   <Alert type="error" heading="Error">Something went wrong.</Alert>
 //
-//   
+//
 //   <Alert type="success" heading="Saved">Your changes were saved.</Alert>
 //
-//   
+//
 //   <Alert role="status">Loading complete.</Alert>
 //
-//   
+//
 //   <Alert type="warning" data-testid="warn-alert">Check your input.</Alert>
 //
 // Keyboard: None — alerts are passive announcements, not interactive.
@@ -93,15 +93,21 @@ export default function Alert({
 
     return (
         <div
-        className={`alert ${className}`}
-        role={role}
-        aria-live={ariaLive}
-        aria-atomic="true"
-        data-type={type}
-        {...restProps}
+            className={`alert ${className}`}
+            role={role}
+            aria-live={ariaLive}
+            aria-atomic="true"
+            data-type={type}
+            {...restProps}
         >
-        {heading && (<><p><strong>{heading}</strong></p></>)}
-        {children}
+            {heading && (
+                <>
+                    <p>
+                        <strong>{heading}</strong>
+                    </p>
+                </>
+            )}
+            {children}
         </div>
     );
 }

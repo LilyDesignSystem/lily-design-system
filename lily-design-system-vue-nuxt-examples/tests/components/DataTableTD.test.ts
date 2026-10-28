@@ -3,7 +3,6 @@ import { render, screen } from "@testing-library/vue";
 
 import Subject from "../../components/DataTableTD.vue";
 
-
 function renderInRow(props: Record<string, unknown>, slotContent?: string) {
     const container = document.createElement("div");
     const table = document.createElement("table");
@@ -13,7 +12,11 @@ function renderInRow(props: Record<string, unknown>, slotContent?: string) {
     table.appendChild(tbody);
     container.appendChild(table);
     document.body.appendChild(container);
-    const result = render(Subject, { props, ...(slotContent != null ? { slots: { default: slotContent } } : {}), target: tr });
+    const result = render(Subject, {
+        props,
+        ...(slotContent != null ? { slots: { default: slotContent } } : {}),
+        target: tr,
+    });
     return { ...result, container };
 }
 

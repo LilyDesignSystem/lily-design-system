@@ -26,13 +26,27 @@ describe("SummaryList", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="Summary" data-testid="summary-list">Content</Subject>);
+        render(
+            <Subject
+                label="Summary"
+                data-testid="summary-list"
+            >
+                Content
+            </Subject>,
+        );
 
         expect(screen.getByTestId("summary-list")).toBeTruthy();
     });
 
     test("accepts id attribute", () => {
-        render(<Subject label="Summary" id="my-summary">Content</Subject>);
+        render(
+            <Subject
+                label="Summary"
+                id="my-summary"
+            >
+                Content
+            </Subject>,
+        );
 
         const el = screen.getByLabelText("Summary");
         expect(el.getAttribute("id")).toBe("my-summary");

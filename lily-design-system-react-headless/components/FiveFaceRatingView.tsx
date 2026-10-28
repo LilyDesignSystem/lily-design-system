@@ -16,10 +16,10 @@
 //   <FiveFaceRatingView value={4} label="Good rating" />
 //
 // Examples:
-//   
+//
 //   <FiveFaceRatingView value={3} label="Okay rating" />
 //
-//   
+//
 //   <FiveFaceRatingView value={5} label="Excellent" labels={["Terrible", "Poor", "Fair", "Great", "Excellent"]} />
 //
 // Keyboard:
@@ -66,13 +66,13 @@ export default function FiveFaceRatingView({
 
     return (
         <span
-        className={`five-face-rating-view ${className}`}
-        role="img"
-        aria-label={label}
-        data-value={value}
-        {...restProps}
+            className={`five-face-rating-view ${className}`}
+            role="img"
+            aria-label={label}
+            data-value={value}
+            {...restProps}
         >
-        {faceLabel}
+            {faceLabel}
         </span>
     );
 }

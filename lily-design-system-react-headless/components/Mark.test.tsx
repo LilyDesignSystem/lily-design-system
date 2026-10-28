@@ -14,7 +14,11 @@ describe("Mark", () => {
     });
 
     it("renders the children", () => {
-        render(<Mark><span data-testid="txt">Hello</span></Mark>);
+        render(
+            <Mark>
+                <span data-testid="txt">Hello</span>
+            </Mark>,
+        );
         expect(screen.getByTestId("txt").textContent).toBe("Hello");
     });
 

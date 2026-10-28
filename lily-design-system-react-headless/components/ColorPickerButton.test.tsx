@@ -5,49 +5,82 @@ import { describe, expect, test, vi } from "vitest";
 import Subject from "./ColorPickerButton";
 
 describe("ColorPickerButton", () => {
-  test("renders as a button", () => {
-    render(<Subject color="#ff0000" label="Red" />);
-    expect(screen.getByRole("button", { name: "Red" })).toBeTruthy();
-  });
+    test("renders as a button", () => {
+        render(
+            <Subject
+                color="#ff0000"
+                label="Red"
+            />,
+        );
+        expect(screen.getByRole("button", { name: "Red" })).toBeTruthy();
+    });
 
-  test("shows aria-pressed when selected", () => {
-    render(<Subject color="#ff0000" label="Red" selected />);
-    expect(screen.getByRole("button").getAttribute("aria-pressed")).toBe(
-      "true",
-    );
-  });
+    test("shows aria-pressed when selected", () => {
+        render(
+            <Subject
+                color="#ff0000"
+                label="Red"
+                selected
+            />,
+        );
+        expect(screen.getByRole("button").getAttribute("aria-pressed")).toBe("true");
+    });
 
-  test("exposes data-color", () => {
-    render(<Subject color="#00ff00" label="Green" />);
-    expect(screen.getByRole("button").getAttribute("data-color")).toBe(
-      "#00ff00",
-    );
-  });
+    test("exposes data-color", () => {
+        render(
+            <Subject
+                color="#00ff00"
+                label="Green"
+            />,
+        );
+        expect(screen.getByRole("button").getAttribute("data-color")).toBe("#00ff00");
+    });
 
-  test("handles click", async () => {
-    const user: UserEvent = userEvent.setup();
-    const fn = vi.fn();
-    render(<Subject color="#0000ff" label="Blue" onClick={fn} />);
-    await user.click(screen.getByRole("button"));
-    expect(fn).toHaveBeenCalledOnce();
-  });
+    test("handles click", async () => {
+        const user: UserEvent = userEvent.setup();
+        const fn = vi.fn();
+        render(
+            <Subject
+                color="#0000ff"
+                label="Blue"
+                onClick={fn}
+            />,
+        );
+        await user.click(screen.getByRole("button"));
+        expect(fn).toHaveBeenCalledOnce();
+    });
 
-  test("can be disabled", () => {
-    render(<Subject color="#000" label="Black" disabled />);
-    expect((screen.getByRole("button") as HTMLButtonElement).disabled).toBe(
-      true,
-    );
-  });
+    test("can be disabled", () => {
+        render(
+            <Subject
+                color="#000"
+                label="Black"
+                disabled
+            />,
+        );
+        expect((screen.getByRole("button") as HTMLButtonElement).disabled).toBe(true);
+    });
 
-  test("is focusable", async () => {
-    const user: UserEvent = userEvent.setup();
-    render(<Subject color="#fff" label="White" />);
-    await user.tab();
-    expect(document.activeElement).toBe(screen.getByRole("button"));
-  });
+    test("is focusable", async () => {
+        const user: UserEvent = userEvent.setup();
+        render(
+            <Subject
+                color="#fff"
+                label="White"
+            />,
+        );
+        await user.tab();
+        expect(document.activeElement).toBe(screen.getByRole("button"));
+    });
 
-  test("passes through attributes", () => {
-    render(<Subject color="#000" label="Test" data-testid="sw" />);
-    expect(screen.getByTestId("sw")).toBeTruthy();
-  });
+    test("passes through attributes", () => {
+        render(
+            <Subject
+                color="#000"
+                label="Test"
+                data-testid="sw"
+            />,
+        );
+        expect(screen.getByTestId("sw")).toBeTruthy();
+    });
 });

@@ -33,7 +33,10 @@
     aria-label={label}
     {...restProps}
 >
-    <div class="scroller-background" aria-live="polite">
+    <div
+        class="scroller-background"
+        aria-live="polite"
+    >
         {@render background?.()}
     </div>
     <ScrollerBase

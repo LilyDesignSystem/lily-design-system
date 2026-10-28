@@ -5,15 +5,21 @@ import Subject from "./PilipinasPhilhealthIdentificationNumberView.vue";
 
 describe("PilipinasPhilhealthIdentificationNumberView", () => {
     test("renders with the correct class", () => {
-        render(Subject, { props: { label: "Pilipinas Philhealth Identification Number", value: "test-value" } });
+        render(Subject, {
+            props: { label: "Pilipinas Philhealth Identification Number", value: "test-value" },
+        });
 
         const el = screen.getByLabelText("Pilipinas Philhealth Identification Number");
         expect(el).toBeTruthy();
-        expect(el.getAttribute("class")).toContain("pilipinas-philhealth-identification-number-view");
+        expect(el.getAttribute("class")).toContain(
+            "pilipinas-philhealth-identification-number-view",
+        );
     });
 
     test("renders the value as text content", () => {
-        render(Subject, { props: { label: "Pilipinas Philhealth Identification Number", value: "test-value" } });
+        render(Subject, {
+            props: { label: "Pilipinas Philhealth Identification Number", value: "test-value" },
+        });
 
         const el = screen.getByLabelText("Pilipinas Philhealth Identification Number");
         expect(el.textContent).toBe("test-value");

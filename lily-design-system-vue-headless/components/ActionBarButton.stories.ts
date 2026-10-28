@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import ActionBarButton from './ActionBarButton.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import ActionBarButton from "./ActionBarButton.vue";
 
 const meta = {
-  title: 'Headless/ActionBarButton',
-  component: ActionBarButton,
-  tags: ['autodocs']
+    title: "Headless/ActionBarButton",
+    component: ActionBarButton,
+    tags: ["autodocs"],
 } satisfies Meta<typeof ActionBarButton>;
 
 export default meta;

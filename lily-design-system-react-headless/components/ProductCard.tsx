@@ -79,22 +79,22 @@ export default function ProductCard({
 }: ProductCardProps) {
     return (
         <article
-        className={`product-card ${className}`}
-        aria-label={label ?? name}
-        {...restProps}
+            className={`product-card ${className}`}
+            aria-label={label ?? name}
+            {...restProps}
         >
-        {imageUrl !== undefined ? (
-            <img
-                className="product-card-image"
-                src={imageUrl}
-                alt={imageAlt ?? ""}
-            />
-        ) : null}
-        <header className="product-card-header">
-            <h3 className="product-card-name">{name}</h3>
-            <p className="product-card-price">{price}</p>
-        </header>
-        {children}
+            {imageUrl !== undefined ? (
+                <img
+                    className="product-card-image"
+                    src={imageUrl}
+                    alt={imageAlt ?? ""}
+                />
+            ) : null}
+            <header className="product-card-header">
+                <h3 className="product-card-name">{name}</h3>
+                <p className="product-card-price">{price}</p>
+            </header>
+            {children}
         </article>
     );
 }

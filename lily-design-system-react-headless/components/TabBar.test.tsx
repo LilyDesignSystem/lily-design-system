@@ -6,8 +6,18 @@ import Subject from "./TabBar";
 
 const tabs = (
     <>
-        <button role="tab" tabIndex={0}>General</button>
-        <button role="tab" tabIndex={-1}>Advanced</button>
+        <button
+            role="tab"
+            tabIndex={0}
+        >
+            General
+        </button>
+        <button
+            role="tab"
+            tabIndex={-1}
+        >
+            Advanced
+        </button>
     </>
 );
 
@@ -38,7 +48,14 @@ describe("TabBar", () => {
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="S" data-testid="tbar">{tabs}</Subject>);
+        render(
+            <Subject
+                label="S"
+                data-testid="tbar"
+            >
+                {tabs}
+            </Subject>,
+        );
         expect(screen.getByTestId("tbar")).toBeTruthy();
     });
 });

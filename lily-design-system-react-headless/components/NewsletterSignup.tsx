@@ -50,11 +50,7 @@
 
 import React from "react";
 
-export type NewsletterSignupState =
-    | "idle"
-    | "submitting"
-    | "success"
-    | "error";
+export type NewsletterSignupState = "idle" | "submitting" | "success" | "error";
 
 export interface NewsletterSignupProps {
     className?: string;
@@ -106,14 +102,8 @@ export default function NewsletterSignup({
         >
             {(heading || description) && (
                 <header className="newsletter-signup-header">
-                    {heading && (
-                        <h3 className="newsletter-signup-heading">{heading}</h3>
-                    )}
-                    {description && (
-                        <p className="newsletter-signup-description">
-                            {description}
-                        </p>
-                    )}
+                    {heading && <h3 className="newsletter-signup-heading">{heading}</h3>}
+                    {description && <p className="newsletter-signup-description">{description}</p>}
                 </header>
             )}
             <label className="newsletter-signup-label">

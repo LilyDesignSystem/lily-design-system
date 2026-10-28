@@ -12,7 +12,12 @@ describe("TuaisceartEireannHealthAndCareNumberInput", () => {
     });
 
     test("appends className prop to root", () => {
-        const { container } = render(<Subject label="Demo" className="extra" />);
+        const { container } = render(
+            <Subject
+                label="Demo"
+                className="extra"
+            />,
+        );
         const el = container.querySelector(".tuaisceart-eireann-health-and-care-number-input");
         expect(el?.className).toContain("tuaisceart-eireann-health-and-care-number-input");
         expect(el?.className).toContain("extra");

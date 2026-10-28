@@ -1,24 +1,25 @@
 <script setup lang="ts">
+// MaltaPassportNumberInput component
+//
+// A headless input for entering Malta's Malta Passport Number.
+// Format: 7 numerical digits issued by the Civil Registration Directorate.
+//
+// References:
+//   - https://en.wikipedia.org/wiki/Maltese_passport
 
-    // MaltaPassportNumberInput component
-    //
-    // A headless input for entering Malta's Malta Passport Number.
-    // Format: 7 numerical digits issued by the Civil Registration Directorate.
-    //
-    // References:
-    //   - https://en.wikipedia.org/wiki/Maltese_passport
-
-    withDefaults(defineProps<{
+withDefaults(
+    defineProps<{
         label: string;
         required?: boolean;
         disabled?: boolean;
-    }>(), {
+    }>(),
+    {
         required: false,
         disabled: false,
-    });
+    },
+);
 
-    const modelValue = defineModel<string>({ default: "" });
-
+const modelValue = defineModel<string>({ default: "" });
 </script>
 
 <template>

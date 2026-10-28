@@ -2,7 +2,6 @@
     // GoToPreviousSection component
     // A link that takes users to the previous section of the current page.
 
-
     let {
         class: className = "",
         label,
@@ -20,5 +19,5 @@
     class={`go-to-previous-section ${className}`}
     {href}
     aria-label={label}
-    {...restProps}
->{label}</a>
+    {...restProps}>{label}</a
+>

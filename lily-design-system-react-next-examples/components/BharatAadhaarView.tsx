@@ -38,9 +38,11 @@ export default function BharatAadhaarView({
 }: BharatAadhaarViewProps) {
     return (
         <span
-        className={`bharat-aadhaar-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`bharat-aadhaar-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

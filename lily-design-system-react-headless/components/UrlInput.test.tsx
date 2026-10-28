@@ -16,17 +16,32 @@ describe("UrlInput", () => {
     });
 
     test("supports required", () => {
-        render(<Subject label="URL" required />);
+        render(
+            <Subject
+                label="URL"
+                required
+            />,
+        );
         expect((screen.getByLabelText("URL") as HTMLInputElement).required).toBe(true);
     });
 
     test("supports disabled", () => {
-        render(<Subject label="URL" disabled />);
+        render(
+            <Subject
+                label="URL"
+                disabled
+            />,
+        );
         expect((screen.getByLabelText("URL") as HTMLInputElement).disabled).toBe(true);
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="URL" data-testid="ui" />);
+        render(
+            <Subject
+                label="URL"
+                data-testid="ui"
+            />,
+        );
         expect(screen.getByTestId("ui")).toBeTruthy();
     });
 });

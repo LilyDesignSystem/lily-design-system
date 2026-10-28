@@ -17,13 +17,13 @@
 //   <Notification label="Success">Message here.</Notification>
 //
 // Examples:
-//   
+//
 //   <Notification label="Success">Your changes have been saved.</Notification>
 //
-//   
+//
 //   <Notification label="Error" urgent>Something went wrong. Please try again.</Notification>
 //
-//   
+//
 //   <Notification>3 new messages</Notification>
 //
 // Keyboard:
@@ -70,13 +70,13 @@ export default function Notification({
 }: NotificationProps) {
     return (
         <div
-        className={`notification ${className}`}
-        role={urgent ? "alert" : "status"}
-        aria-label={label}
-        aria-live={urgent ? "assertive" : "polite"}
-        {...restProps}
+            className={`notification ${className}`}
+            role={urgent ? "alert" : "status"}
+            aria-label={label}
+            aria-live={urgent ? "assertive" : "polite"}
+            {...restProps}
         >
-        {children}
+            {children}
         </div>
     );
 }

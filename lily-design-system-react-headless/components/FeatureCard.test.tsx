@@ -39,7 +39,12 @@ describe("FeatureCard", () => {
     });
 
     test("respects imagePosition prop", () => {
-        render(<Subject heading="Heading" imagePosition="top" />);
+        render(
+            <Subject
+                heading="Heading"
+                imagePosition="top"
+            />,
+        );
 
         const article: HTMLElement = screen.getByRole("article");
         expect(article.getAttribute("data-image-position")).toBe("top");
@@ -69,7 +74,10 @@ describe("FeatureCard", () => {
 
     test("renders a description paragraph when provided", () => {
         const { container } = render(
-            <Subject heading="Heading" description="Body text" />,
+            <Subject
+                heading="Heading"
+                description="Body text"
+            />,
         );
 
         const p = container.querySelector("p.feature-card-description");
@@ -95,7 +103,12 @@ describe("FeatureCard", () => {
     });
 
     test("uses label when provided in place of heading for aria-label", () => {
-        render(<Subject heading="H" label="Custom label" />);
+        render(
+            <Subject
+                heading="H"
+                label="Custom label"
+            />,
+        );
 
         const article: HTMLElement = screen.getByRole("article", {
             name: "Custom label",

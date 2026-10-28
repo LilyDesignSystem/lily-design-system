@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import Panel from './Panel';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import Panel from "./Panel";
 
 const meta = {
-  title: 'Headless/Panel',
-  component: Panel,
-  tags: ['autodocs']
+    title: "Headless/Panel",
+    component: Panel,
+    tags: ["autodocs"],
 } satisfies Meta<typeof Panel>;
 
 export default meta;

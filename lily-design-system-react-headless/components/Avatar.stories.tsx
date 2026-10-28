@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import Avatar from './Avatar';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import Avatar from "./Avatar";
 
 const meta = {
-  title: 'Headless/Avatar',
-  component: Avatar,
-  tags: ['autodocs']
+    title: "Headless/Avatar",
+    component: Avatar,
+    tags: ["autodocs"],
 } satisfies Meta<typeof Avatar>;
 
 export default meta;

@@ -5,7 +5,12 @@ import Subject from "./UnitedKingdomNationalInsuranceNumberView";
 
 describe("UnitedKingdomNationalInsuranceNumberView", () => {
     test("renders with the correct class", () => {
-        render(<Subject label="National Insurance Number" value="test-value" />);
+        render(
+            <Subject
+                label="National Insurance Number"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("National Insurance Number");
         expect(el).toBeTruthy();
@@ -13,7 +18,12 @@ describe("UnitedKingdomNationalInsuranceNumberView", () => {
     });
 
     test("renders the value as text content", () => {
-        render(<Subject label="National Insurance Number" value="test-value" />);
+        render(
+            <Subject
+                label="National Insurance Number"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("National Insurance Number");
         expect(el.textContent).toBe("test-value");

@@ -47,7 +47,9 @@ describe("FileTree", () => {
     });
 
     test("passes through attributes", () => {
-        render(Subject, { props: { label: "F", "data-testid": "ft", children: htmlSnippet(TREE) } });
+        render(Subject, {
+            props: { label: "F", "data-testid": "ft", children: htmlSnippet(TREE) },
+        });
         expect(screen.getByTestId("ft")).toBeTruthy();
     });
 

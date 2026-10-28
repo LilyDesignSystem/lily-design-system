@@ -31,7 +31,10 @@ describe("StreamingText", () => {
     });
 
     test("clears busy when streaming becomes false", async () => {
-        const { rerender } = render(Subject, { props: { streaming: true }, slots: { default: "Hel" } });
+        const { rerender } = render(Subject, {
+            props: { streaming: true },
+            slots: { default: "Hel" },
+        });
         await rerender({ streaming: false });
         const el = screen.getByRole("status");
         expect(el.hasAttribute("aria-busy")).toBe(false);
@@ -47,7 +50,10 @@ describe("StreamingText", () => {
     });
 
     test("merges attrs (class, id, data-*) onto the root", () => {
-        render(Subject, { attrs: { class: "mine", id: "s1", "data-testid": "root" }, slots: { default: "x" } });
+        render(Subject, {
+            attrs: { class: "mine", id: "s1", "data-testid": "root" },
+            slots: { default: "x" },
+        });
         const el = screen.getByTestId("root");
         expect(el.id).toBe("s1");
         expect(el.getAttribute("class")).toBe("streaming-text mine");

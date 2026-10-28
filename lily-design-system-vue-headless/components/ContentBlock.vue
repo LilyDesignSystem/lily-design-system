@@ -1,18 +1,18 @@
 <script setup lang="ts">
+// ContentBlock component
+//
+// ContentBlock for the Reuters-graphics-style article layout family.
+// Renders a <div> that consumers style.
 
-    // ContentBlock component
-    //
-    // ContentBlock for the Reuters-graphics-style article layout family.
-    // Renders a <div> that consumers style.
-
-    withDefaults(defineProps<{
+withDefaults(
+    defineProps<{
         /** Content width preset. */
         width?: "narrower" | "narrow" | "normal" | "wide" | "wider" | "widest" | "fluid";
-    }>(), {
-        
-width: "normal",
-    });
-
+    }>(),
+    {
+        width: "normal",
+    },
+);
 </script>
 
 <template>

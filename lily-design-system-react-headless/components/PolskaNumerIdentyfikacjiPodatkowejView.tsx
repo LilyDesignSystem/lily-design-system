@@ -37,9 +37,11 @@ export default function PolskaNumerIdentyfikacjiPodatkowejView({
 }: PolskaNumerIdentyfikacjiPodatkowejViewProps) {
     return (
         <span
-        className={`polska-numer-identyfikacji-podatkowej-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`polska-numer-identyfikacji-podatkowej-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

@@ -7,6 +7,8 @@ describe("TuaisceartEireannHealthAndCareNumberView", () => {
         render(TuaisceartEireannHealthAndCareNumberView, { props: { label: "Test" } });
         const el = screen.getByLabelText("Test");
         expect(el).toBeTruthy();
-        expect(el.getAttribute("class")).toContain("tuaisceart-eireann-health-and-care-number-view");
+        expect(el.getAttribute("class")).toContain(
+            "tuaisceart-eireann-health-and-care-number-view",
+        );
     });
 });

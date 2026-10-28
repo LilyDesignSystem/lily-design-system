@@ -46,10 +46,10 @@ export default function DataTableBody({
 }: DataTableBodyProps) {
     return (
         <tbody
-        className={`data-table-body ${className}`}
-        {...restProps}
+            className={`data-table-body ${className}`}
+            {...restProps}
         >
-        {children}
+            {children}
         </tbody>
     );
 }

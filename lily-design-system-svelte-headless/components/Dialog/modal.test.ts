@@ -11,7 +11,11 @@ import { modalDialog } from "./modal.js";
 
 const body = () => createRawSnippet(() => ({ render: () => `<button>OK</button>` }));
 
-const proto = HTMLDialogElement.prototype as unknown as { showModal?: () => void; close?: () => void; show?: () => void };
+const proto = HTMLDialogElement.prototype as unknown as {
+    showModal?: () => void;
+    close?: () => void;
+    show?: () => void;
+};
 let showModal: ReturnType<typeof vi.fn>;
 let close: ReturnType<typeof vi.fn>;
 
@@ -138,7 +142,9 @@ describe("AlertDialog and FileDialog are modal too", () => {
 
 describe("TimeoutDialog", () => {
     test("is shown with showModal() while open, and closed with close() when it stops being open", async () => {
-        const { rerender } = render(TimeoutDialog, { props: { label: "Session", open: true, children: body() } });
+        const { rerender } = render(TimeoutDialog, {
+            props: { label: "Session", open: true, children: body() },
+        });
         expect(showModal).toHaveBeenCalledTimes(1);
         await rerender({ label: "Session", open: false, children: body() });
         expect(close).toHaveBeenCalledTimes(1);

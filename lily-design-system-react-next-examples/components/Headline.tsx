@@ -50,12 +50,8 @@ export default function Headline({
             {...restProps}
         >
             <Heading className="headline-heading">{children}</Heading>
-            {subtitle !== undefined && (
-                <div className="headline-subtitle">{subtitle}</div>
-            )}
-            {byline !== undefined && (
-                <div className="headline-byline">{byline}</div>
-            )}
+            {subtitle !== undefined && <div className="headline-subtitle">{subtitle}</div>}
+            {byline !== undefined && <div className="headline-byline">{byline}</div>}
         </div>
     );
 }

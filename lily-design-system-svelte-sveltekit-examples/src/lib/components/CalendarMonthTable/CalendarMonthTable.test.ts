@@ -26,7 +26,9 @@ describe("CalendarMonthTable", () => {
     });
 
     test("appends the consumer class after the base class", () => {
-        render(Subject, { props: { label: "January 2025", class: "mine", children: textSnippet("1") } });
+        render(Subject, {
+            props: { label: "January 2025", class: "mine", children: textSnippet("1") },
+        });
         expect(screen.getByRole("grid").getAttribute("class")).toBe("calendar-month-table mine");
     });
 
@@ -41,7 +43,13 @@ describe("CalendarMonthTable", () => {
     });
 
     test("renders caption when provided", () => {
-        render(Subject, { props: { label: "January 2025", caption: "Visible caption", children: textSnippet("1") } });
+        render(Subject, {
+            props: {
+                label: "January 2025",
+                caption: "Visible caption",
+                children: textSnippet("1"),
+            },
+        });
         const cap = screen.getByRole("grid").querySelector("caption");
         expect(cap?.textContent).toBe("Visible caption");
     });
@@ -57,7 +65,9 @@ describe("CalendarMonthTable", () => {
     });
 
     test("passes through attributes", () => {
-        render(Subject, { props: { label: "January 2025", "data-testid": "cal", children: textSnippet("1") } });
+        render(Subject, {
+            props: { label: "January 2025", "data-testid": "cal", children: textSnippet("1") },
+        });
         expect(screen.getByTestId("cal")).toBeTruthy();
     });
 });

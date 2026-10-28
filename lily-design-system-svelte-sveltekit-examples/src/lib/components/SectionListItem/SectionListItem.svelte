@@ -18,8 +18,6 @@
 <!-- SectionListItem.svelte -->
 <li
     class={`section-list-item ${className}`}
-
-
     data-current={current ? "" : undefined}
     {...restProps}
 >

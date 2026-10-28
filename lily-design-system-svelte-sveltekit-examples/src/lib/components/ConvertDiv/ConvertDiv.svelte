@@ -22,7 +22,9 @@
 
 <!-- ConvertDiv.svelte -->
 <div
-    class={`convert-div ${className}`} role="group" aria-label={label}
+    class={`convert-div ${className}`}
+    role="group"
+    aria-label={label}
     {...restProps}
 >
     {@render children?.()}

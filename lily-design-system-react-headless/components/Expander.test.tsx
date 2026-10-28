@@ -38,13 +38,27 @@ describe("Expander", () => {
 
     test("clicking again collapses", async () => {
         const user: UserEvent = userEvent.setup();
-        render(<Subject label="More" expanded>C</Subject>);
+        render(
+            <Subject
+                label="More"
+                expanded
+            >
+                C
+            </Subject>,
+        );
         await user.click(screen.getByRole("button"));
         expect(screen.getByRole("button").getAttribute("aria-expanded")).toBe("false");
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="M" data-testid="exp">C</Subject>);
+        render(
+            <Subject
+                label="M"
+                data-testid="exp"
+            >
+                C
+            </Subject>,
+        );
         expect(screen.getByTestId("exp")).toBeTruthy();
     });
 });

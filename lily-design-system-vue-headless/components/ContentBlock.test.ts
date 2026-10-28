@@ -23,7 +23,10 @@ describe("ContentBlock", () => {
     });
 
     test("data-width reflects the width prop", () => {
-        const { container } = render(Subject, { props: { width: "wide" }, slots: { default: "x" } });
+        const { container } = render(Subject, {
+            props: { width: "wide" },
+            slots: { default: "x" },
+        });
         const root = container.querySelector(".content-block");
         expect(root?.getAttribute("data-width")).toBe("wide");
     });

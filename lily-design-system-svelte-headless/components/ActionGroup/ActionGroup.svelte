@@ -78,9 +78,12 @@
             aria-haspopup="menu"
             aria-expanded={overflowOpen}
             aria-label={overflowLabel}
-            onclick={onOverflowToggle}
-        >…</button>
-        <div class="action-group-overflow-menu" hidden={!overflowOpen}>
+            onclick={onOverflowToggle}>…</button
+        >
+        <div
+            class="action-group-overflow-menu"
+            hidden={!overflowOpen}
+        >
             {@render overflow()}
         </div>
     {/if}

@@ -16,10 +16,10 @@
 //   <NetPromoterScoreView label="NPS Score" value="8" />
 //
 // Examples:
-//   
+//
 //   <NetPromoterScoreView label="NPS Score" value="8" />
 //
-//   
+//
 //   <NetPromoterScoreView label="Customer rating" value={score} />
 //
 // Keyboard:
@@ -60,11 +60,12 @@ export default function NetPromoterScoreView({
     ...restProps
 }: NetPromoterScoreViewProps) {
     return (
-        
         <span
-        className={`net-promoter-score-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`net-promoter-score-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

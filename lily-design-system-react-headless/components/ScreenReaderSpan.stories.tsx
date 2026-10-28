@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import ScreenReaderSpan from './ScreenReaderSpan';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import ScreenReaderSpan from "./ScreenReaderSpan";
 
 const meta = {
-  title: 'Headless/ScreenReaderSpan',
-  component: ScreenReaderSpan,
-  tags: ['autodocs']
+    title: "Headless/ScreenReaderSpan",
+    component: ScreenReaderSpan,
+    tags: ["autodocs"],
 } satisfies Meta<typeof ScreenReaderSpan>;
 
 export default meta;

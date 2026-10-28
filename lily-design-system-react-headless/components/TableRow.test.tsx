@@ -3,9 +3,20 @@ import { render } from "@testing-library/react";
 
 import Subject from "./TableRow";
 
-function renderIn(props: Record<string, unknown> = {}, body: React.ReactNode = <><td>cell</td></>) {
+function renderIn(
+    props: Record<string, unknown> = {},
+    body: React.ReactNode = (
+        <>
+            <td>cell</td>
+        </>
+    ),
+) {
     return render(
-        <table><tbody><Subject {...props}>{body}</Subject></tbody></table>
+        <table>
+            <tbody>
+                <Subject {...props}>{body}</Subject>
+            </tbody>
+        </table>,
     );
 }
 

@@ -33,7 +33,12 @@ describe("IndonesiaNomorIndukKependudukanInput", () => {
     });
 
     test("can be set to required", () => {
-        render(<Subject label="Nomor Induk Kependudukan (NIK)" required />);
+        render(
+            <Subject
+                label="Nomor Induk Kependudukan (NIK)"
+                required
+            />,
+        );
 
         const input = screen.getByLabelText("Nomor Induk Kependudukan (NIK)") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -47,14 +52,24 @@ describe("IndonesiaNomorIndukKependudukanInput", () => {
     });
 
     test("can be set to disabled", () => {
-        render(<Subject label="Nomor Induk Kependudukan (NIK)" disabled />);
+        render(
+            <Subject
+                label="Nomor Induk Kependudukan (NIK)"
+                disabled
+            />,
+        );
 
         const input = screen.getByLabelText("Nomor Induk Kependudukan (NIK)") as HTMLInputElement;
         expect(input.disabled).toBe(true);
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="Nomor Induk Kependudukan (NIK)" data-testid="subject" />);
+        render(
+            <Subject
+                label="Nomor Induk Kependudukan (NIK)"
+                data-testid="subject"
+            />,
+        );
 
         const input = screen.getByTestId("subject");
         expect(input).toBeTruthy();

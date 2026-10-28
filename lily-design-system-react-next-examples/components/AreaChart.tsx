@@ -44,7 +44,11 @@ export default function AreaChart({
             className={`area-chart ${className}`}
             {...restProps}
         >
-            <div className="area-chart-graphic" role="img" aria-label={label}>
+            <div
+                className="area-chart-graphic"
+                role="img"
+                aria-label={label}
+            >
                 {children}
             </div>
             {dataTable !== undefined && dataTable !== null && (

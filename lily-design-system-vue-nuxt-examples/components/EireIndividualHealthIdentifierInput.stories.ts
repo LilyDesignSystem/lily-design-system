@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import EireIndividualHealthIdentifierInput from './EireIndividualHealthIdentifierInput.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import EireIndividualHealthIdentifierInput from "./EireIndividualHealthIdentifierInput.vue";
 
 const meta = {
-  title: 'Headless/EireIndividualHealthIdentifierInput',
-  component: EireIndividualHealthIdentifierInput,
-  tags: ['autodocs']
+    title: "Headless/EireIndividualHealthIdentifierInput",
+    component: EireIndividualHealthIdentifierInput,
+    tags: ["autodocs"],
 } satisfies Meta<typeof EireIndividualHealthIdentifierInput>;
 
 export default meta;

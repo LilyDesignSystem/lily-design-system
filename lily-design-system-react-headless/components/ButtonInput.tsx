@@ -18,10 +18,10 @@
 //   <ButtonInput value="Click me" onClick={handleClick} />
 //
 // Examples:
-//   
+//
 //   <ButtonInput value="Submit" disabled />
 //
-//   
+//
 //   <ButtonInput value="Save" name="action" label="Save changes" />
 //
 // Keyboard:
@@ -74,14 +74,14 @@ export default function ButtonInput({
 }: ButtonInputProps) {
     return (
         <input
-        className={`button-input ${className}`}
-        type="button"
-        value={value}
-        disabled={disabled}
-        name={name}
-        aria-label={label}
-        onClick={onClick}
-        {...restProps}
+            className={`button-input ${className}`}
+            type="button"
+            value={value}
+            disabled={disabled}
+            name={name}
+            aria-label={label}
+            onClick={onClick}
+            {...restProps}
         />
     );
 }

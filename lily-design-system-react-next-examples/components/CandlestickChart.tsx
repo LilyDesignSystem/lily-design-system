@@ -44,7 +44,11 @@ export default function CandlestickChart({
             className={`candlestick-chart ${className}`}
             {...restProps}
         >
-            <div className="candlestick-chart-graphic" role="img" aria-label={label}>
+            <div
+                className="candlestick-chart-graphic"
+                role="img"
+                aria-label={label}
+            >
                 {children}
             </div>
             {dataTable !== undefined && dataTable !== null && (

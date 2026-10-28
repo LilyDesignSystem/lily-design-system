@@ -54,7 +54,9 @@ describe("HangukJuminDeungnokBeonhoInput", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(Subject, { props: { label: "Hanguk Jumin Deungnok Beonho", "data-testid": "subject" } });
+        render(Subject, {
+            props: { label: "Hanguk Jumin Deungnok Beonho", "data-testid": "subject" },
+        });
 
         const input = screen.getByTestId("subject");
         expect(input).toBeTruthy();

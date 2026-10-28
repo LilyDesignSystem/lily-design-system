@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import ActionGroup from './ActionGroup';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import ActionGroup from "./ActionGroup";
 
 const meta = {
-  title: 'Headless/ActionGroup',
-  component: ActionGroup,
-  tags: ['autodocs']
+    title: "Headless/ActionGroup",
+    component: ActionGroup,
+    tags: ["autodocs"],
 } satisfies Meta<typeof ActionGroup>;
 
 export default meta;

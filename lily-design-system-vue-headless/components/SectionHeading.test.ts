@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./SectionHeading.vue";
 
-
 describe("SectionHeading", () => {
     test("renders as a header element", () => {
         const { container } = render(Subject, {

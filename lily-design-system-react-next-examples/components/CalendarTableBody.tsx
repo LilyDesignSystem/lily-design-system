@@ -46,10 +46,10 @@ export default function CalendarTableBody({
 }: CalendarTableBodyProps) {
     return (
         <tbody
-        className={`calendar-table-body ${className}`}
-        {...restProps}
+            className={`calendar-table-body ${className}`}
+            {...restProps}
         >
-        {children}
+            {children}
         </tbody>
     );
 }

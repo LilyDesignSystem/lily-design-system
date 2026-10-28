@@ -20,13 +20,13 @@
 //   </AccordionListItem>
 //
 // Examples:
-//   
+//
 //   <AccordionListItem>
 //     <summary>What is React?</summary>
 //     <p>A compiler-based UI framework.</p>
 //   </AccordionListItem>
 //
-//   
+//
 //   <AccordionListItem open={isOpen} onChange={setIsOpen}>
 //     <summary>Details</summary>
 //     <p>Expanded content.</p>
@@ -82,12 +82,12 @@ export default function AccordionListItem({
 
     return (
         <details
-        className={`accordion-list-item ${className}`}
-        open={open}
-        onToggle={handleToggle}
-        {...restProps}
+            className={`accordion-list-item ${className}`}
+            open={open}
+            onToggle={handleToggle}
+            {...restProps}
         >
-        {children}
+            {children}
         </details>
     );
 }

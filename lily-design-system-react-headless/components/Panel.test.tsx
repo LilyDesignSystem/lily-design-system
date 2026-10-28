@@ -20,7 +20,14 @@ describe("Panel", () => {
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="P" data-testid="pn">C</Subject>);
+        render(
+            <Subject
+                label="P"
+                data-testid="pn"
+            >
+                C
+            </Subject>,
+        );
         expect(screen.getByTestId("pn")).toBeTruthy();
     });
 });

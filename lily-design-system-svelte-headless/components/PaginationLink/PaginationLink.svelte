@@ -13,6 +13,10 @@
 </script>
 
 <!-- PaginationLink.svelte -->
-<div class={`pagination-link ${className}`} aria-label={label} {...restProps}>
+<div
+    class={`pagination-link ${className}`}
+    aria-label={label}
+    {...restProps}
+>
     {@render children?.()}
 </div>

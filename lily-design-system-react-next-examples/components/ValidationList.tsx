@@ -54,12 +54,12 @@ export default function ValidationList({
 }: ValidationListProps) {
     return (
         <ul
-        className={`validation-list ${className}`}
-        aria-label={label}
-        aria-live="polite"
-        {...restProps}
+            className={`validation-list ${className}`}
+            aria-label={label}
+            aria-live="polite"
+            {...restProps}
         >
-        {children}
+            {children}
         </ul>
     );
 }

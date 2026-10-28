@@ -5,15 +5,21 @@ import Subject from "./MexicoClaveUnicaDeRegistroDePoblacionView.vue";
 
 describe("MexicoClaveUnicaDeRegistroDePoblacionView", () => {
     test("renders with the correct class", () => {
-        render(Subject, { props: { label: "Mexico Clave Unica De Registro De Poblacion", value: "test-value" } });
+        render(Subject, {
+            props: { label: "Mexico Clave Unica De Registro De Poblacion", value: "test-value" },
+        });
 
         const el = screen.getByLabelText("Mexico Clave Unica De Registro De Poblacion");
         expect(el).toBeTruthy();
-        expect(el.getAttribute("class")).toContain("mexico-clave-unica-de-registro-de-poblacion-view");
+        expect(el.getAttribute("class")).toContain(
+            "mexico-clave-unica-de-registro-de-poblacion-view",
+        );
     });
 
     test("renders the value as text content", () => {
-        render(Subject, { props: { label: "Mexico Clave Unica De Registro De Poblacion", value: "test-value" } });
+        render(Subject, {
+            props: { label: "Mexico Clave Unica De Registro De Poblacion", value: "test-value" },
+        });
 
         const el = screen.getByLabelText("Mexico Clave Unica De Registro De Poblacion");
         expect(el.textContent).toBe("test-value");

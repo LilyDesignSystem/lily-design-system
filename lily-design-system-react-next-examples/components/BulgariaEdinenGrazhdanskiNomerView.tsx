@@ -37,9 +37,11 @@ export default function BulgariaEdinenGrazhdanskiNomerView({
 }: BulgariaEdinenGrazhdanskiNomerViewProps) {
     return (
         <span
-        className={`bulgaria-edinen-grazhdanski-nomer-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`bulgaria-edinen-grazhdanski-nomer-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

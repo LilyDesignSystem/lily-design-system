@@ -4,7 +4,6 @@ import { describe, expect, test, vi } from "vitest";
 
 import Subject from "./Coachmark.vue";
 
-
 describe("Coachmark", () => {
     test("renders as a dialog with the title and dismiss controls", () => {
         render(Subject, {

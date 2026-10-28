@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./Carousel.vue";
 
-
 describe("Carousel", () => {
     test("renders a region", () => {
         render(Subject, { props: { label: "Gallery" }, slots: { default: "slide" } });

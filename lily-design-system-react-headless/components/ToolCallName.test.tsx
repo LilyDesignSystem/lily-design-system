@@ -10,11 +10,17 @@ describe("ToolCallName", () => {
 
     it("appends the consumer class after the base class", () => {
         const { container } = render(<ToolCallName className="mine">x</ToolCallName>);
-        expect(container.querySelector(".tool-call-name")!.getAttribute("class")).toBe("tool-call-name mine");
+        expect(container.querySelector(".tool-call-name")!.getAttribute("class")).toBe(
+            "tool-call-name mine",
+        );
     });
 
     it("renders the children", () => {
-        render(<ToolCallName><span data-testid="txt">Hello</span></ToolCallName>);
+        render(
+            <ToolCallName>
+                <span data-testid="txt">Hello</span>
+            </ToolCallName>,
+        );
         expect(screen.getByTestId("txt").textContent).toBe("Hello");
     });
 

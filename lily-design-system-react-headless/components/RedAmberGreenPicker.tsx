@@ -65,14 +65,15 @@ export default function RedAmberGreenPicker({
 }: RedAmberGreenPickerProps) {
     return (
         <select
-        className={`red-amber-green-picker ${className}`}
-        aria-label={label}
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        {...restProps}
+            className={`red-amber-green-picker ${className}`}
+            aria-label={label}
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            {...restProps}
         >
-        <option value="red">Red</option>
-        <option value="amber">Amber</option>
-        <option value="green">Green</option>
+            <option value="red">Red</option>
+            <option value="amber">Amber</option>
+            <option value="green">Green</option>
         </select>
     );
 }

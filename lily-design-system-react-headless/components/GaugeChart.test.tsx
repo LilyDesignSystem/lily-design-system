@@ -2,8 +2,25 @@ import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import GaugeChart from "./GaugeChart";
 
-const art = <svg data-testid="art" viewBox="0 0 10 10"><circle r="4" /></svg>;
-const table = <table><caption>Values</caption><tbody><tr><th scope="row">A</th><td>1</td></tr></tbody></table>;
+const art = (
+    <svg
+        data-testid="art"
+        viewBox="0 0 10 10"
+    >
+        <circle r="4" />
+    </svg>
+);
+const table = (
+    <table>
+        <caption>Values</caption>
+        <tbody>
+            <tr>
+                <th scope="row">A</th>
+                <td>1</td>
+            </tr>
+        </tbody>
+    </table>
+);
 
 describe("GaugeChart", () => {
     it("renders a <figure> with the base class", () => {
@@ -25,7 +42,14 @@ describe("GaugeChart", () => {
     });
 
     it("appends the consumer class after the base class", () => {
-        const { container } = render(<GaugeChart label="T" className="mine">{art}</GaugeChart>);
+        const { container } = render(
+            <GaugeChart
+                label="T"
+                className="mine"
+            >
+                {art}
+            </GaugeChart>,
+        );
         expect(container.querySelector("figure")!.getAttribute("class")).toBe("gauge-chart mine");
     });
 
@@ -40,7 +64,14 @@ describe("GaugeChart", () => {
     });
 
     it("renders dataTable in a .gauge-chart-data-table sibling after the graphic", () => {
-        const { container } = render(<GaugeChart label="T" dataTable={table}>{art}</GaugeChart>);
+        const { container } = render(
+            <GaugeChart
+                label="T"
+                dataTable={table}
+            >
+                {art}
+            </GaugeChart>,
+        );
         const wrap = container.querySelector(".gauge-chart-data-table")!;
         expect(wrap).toBeTruthy();
         expect(wrap.previousElementSibling).toBe(container.querySelector(".gauge-chart-graphic"));
@@ -48,12 +79,27 @@ describe("GaugeChart", () => {
     });
 
     it("keeps the table outside the role=img element so assistive technology can reach it", () => {
-        render(<GaugeChart label="T" dataTable={table}>{art}</GaugeChart>);
+        render(
+            <GaugeChart
+                label="T"
+                dataTable={table}
+            >
+                {art}
+            </GaugeChart>,
+        );
         expect(screen.getByRole("table").closest("[role=img]")).toBeNull();
     });
 
     it("spreads rest props onto the figure", () => {
-        render(<GaugeChart label="T" id="c1" data-testid="chart">{art}</GaugeChart>);
+        render(
+            <GaugeChart
+                label="T"
+                id="c1"
+                data-testid="chart"
+            >
+                {art}
+            </GaugeChart>,
+        );
         const el = screen.getByTestId("chart");
         expect(el.tagName).toBe("FIGURE");
         expect(el.id).toBe("c1");

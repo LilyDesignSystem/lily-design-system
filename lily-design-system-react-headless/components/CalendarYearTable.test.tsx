@@ -20,7 +20,14 @@ describe("CalendarYearTable", () => {
     });
 
     test("appends the consumer class after the base class", () => {
-        render(<Subject label="2025" className="mine">1</Subject>);
+        render(
+            <Subject
+                label="2025"
+                className="mine"
+            >
+                1
+            </Subject>,
+        );
         expect(screen.getByRole("grid").getAttribute("class")).toBe("calendar-year-table mine");
     });
 
@@ -35,8 +42,17 @@ describe("CalendarYearTable", () => {
     });
 
     test("renders caption when provided", () => {
-        render(<Subject label="2025" caption="Visible caption">1</Subject>);
-        expect(screen.getByRole("grid").querySelector("caption")?.textContent).toBe("Visible caption");
+        render(
+            <Subject
+                label="2025"
+                caption="Visible caption"
+            >
+                1
+            </Subject>,
+        );
+        expect(screen.getByRole("grid").querySelector("caption")?.textContent).toBe(
+            "Visible caption",
+        );
     });
 
     test("renders without caption by default", () => {
@@ -50,7 +66,14 @@ describe("CalendarYearTable", () => {
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="2025" data-testid="cal">1</Subject>);
+        render(
+            <Subject
+                label="2025"
+                data-testid="cal"
+            >
+                1
+            </Subject>,
+        );
         expect(screen.getByTestId("cal")).toBeTruthy();
     });
 });

@@ -10,7 +10,6 @@
         children,
         ...restProps
     }: {
-
         /** The content. */
         children?: Snippet;
         [key: string]: unknown;
@@ -20,7 +19,6 @@
 <!-- Mark.svelte -->
 <mark
     class={`mark ${className}`}
-
     {...restProps}
 >
     {@render children?.()}

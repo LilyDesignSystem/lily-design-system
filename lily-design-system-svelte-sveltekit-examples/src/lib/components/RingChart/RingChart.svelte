@@ -52,7 +52,11 @@
     class={`ring-chart ${className}`}
     {...restProps}
 >
-    <div class="ring-chart-graphic" role="img" aria-label={label}>
+    <div
+        class="ring-chart-graphic"
+        role="img"
+        aria-label={label}
+    >
         {@render children?.()}
     </div>
     {#if dataTable}

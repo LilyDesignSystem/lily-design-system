@@ -20,17 +20,38 @@ describe("ThemeSelectOption", () => {
     });
 
     test("supports selected", () => {
-        render(<Subject value="dark" selected>Dark</Subject>);
+        render(
+            <Subject
+                value="dark"
+                selected
+            >
+                Dark
+            </Subject>,
+        );
         expect((screen.getByRole("option") as HTMLOptionElement).selected).toBe(true);
     });
 
     test("supports disabled", () => {
-        render(<Subject value="dark" disabled>Dark</Subject>);
+        render(
+            <Subject
+                value="dark"
+                disabled
+            >
+                Dark
+            </Subject>,
+        );
         expect((screen.getByRole("option") as HTMLOptionElement).disabled).toBe(true);
     });
 
     test("passes through attributes", () => {
-        render(<Subject value="dark" data-testid="tso">Dark</Subject>);
+        render(
+            <Subject
+                value="dark"
+                data-testid="tso"
+            >
+                Dark
+            </Subject>,
+        );
         expect(screen.getByTestId("tso")).toBeTruthy();
     });
 });

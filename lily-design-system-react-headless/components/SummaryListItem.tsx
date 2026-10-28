@@ -15,7 +15,7 @@
 //   <SummaryListItem term="Label">Value</SummaryListItem>
 //
 // Examples:
-//   
+//
 //   <SummaryList label="Order summary">
 //     <SummaryListItem term="Product">Widget</SummaryListItem>
 //     <SummaryListItem term="Quantity">3</SummaryListItem>
@@ -63,13 +63,12 @@ export default function SummaryListItem({
     ...restProps
 }: SummaryListItemProps) {
     return (
-        
         <div
-        className={`summary-list-item ${className}`}
-        {...restProps}
+            className={`summary-list-item ${className}`}
+            {...restProps}
         >
-        <dt>{term}</dt>
-        <dd>{children}</dd>
+            <dt>{term}</dt>
+            <dd>{children}</dd>
         </div>
     );
 }

@@ -44,7 +44,11 @@ export default function ColumnChart({
             className={`column-chart ${className}`}
             {...restProps}
         >
-            <div className="column-chart-graphic" role="img" aria-label={label}>
+            <div
+                className="column-chart-graphic"
+                role="img"
+                aria-label={label}
+            >
                 {children}
             </div>
             {dataTable !== undefined && dataTable !== null && (

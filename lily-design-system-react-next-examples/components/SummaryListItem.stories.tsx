@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import SummaryListItem from './SummaryListItem';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import SummaryListItem from "./SummaryListItem";
 
 const meta = {
-  title: 'Headless/SummaryListItem',
-  component: SummaryListItem,
-  tags: ['autodocs']
+    title: "Headless/SummaryListItem",
+    component: SummaryListItem,
+    tags: ["autodocs"],
 } satisfies Meta<typeof SummaryListItem>;
 
 export default meta;

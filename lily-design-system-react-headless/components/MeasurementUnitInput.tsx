@@ -70,13 +70,14 @@ export default function MeasurementUnitInput({
 }: MeasurementUnitInputProps) {
     return (
         <input
-        className={`measurement-unit-input ${className}`}
-        type="text"
-        aria-label={label}
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`measurement-unit-input ${className}`}
+            type="text"
+            aria-label={label}
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

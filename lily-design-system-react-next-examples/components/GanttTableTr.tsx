@@ -17,7 +17,7 @@
 //   </GanttTableTr>
 //
 // Examples:
-//   
+//
 //   <GanttTableTr>
 //     <th>Development</th>
 //     <GanttTableTD />
@@ -25,7 +25,7 @@
 //     <GanttTableTD active>---</GanttTableTD>
 //   </GanttTableTr>
 //
-//   
+//
 //   <GanttTableTr>
 //     <th>Task</th><th>Week 1</th><th>Week 2</th><th>Week 3</th>
 //   </GanttTableTr>
@@ -63,10 +63,10 @@ export default function GanttTableTr({
 }: GanttTableTrProps) {
     return (
         <tr
-        className={`gantt-table-tr ${className}`}
-        {...restProps}
+            className={`gantt-table-tr ${className}`}
+            {...restProps}
         >
-        {children}
+            {children}
         </tr>
     );
 }

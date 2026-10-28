@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import Meter from './Meter';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import Meter from "./Meter";
 
 const meta = {
-  title: 'Headless/Meter',
-  component: Meter,
-  tags: ['autodocs']
+    title: "Headless/Meter",
+    component: Meter,
+    tags: ["autodocs"],
 } satisfies Meta<typeof Meter>;
 
 export default meta;

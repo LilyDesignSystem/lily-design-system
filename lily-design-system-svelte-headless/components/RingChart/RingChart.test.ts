@@ -11,13 +11,16 @@ function svgSnippet() {
 
 function tableSnippet() {
     return createRawSnippet(() => ({
-        render: () => `<table><caption>Values</caption><tbody><tr><th scope="row">A</th><td>1</td></tr></tbody></table>`,
+        render: () =>
+            `<table><caption>Values</caption><tbody><tr><th scope="row">A</th><td>1</td></tr></tbody></table>`,
     }));
 }
 
 describe("RingChart", () => {
     it("renders a <figure> with the base class", () => {
-        const { container } = render(RingChart, { props: { label: "Test", children: svgSnippet() } });
+        const { container } = render(RingChart, {
+            props: { label: "Test", children: svgSnippet() },
+        });
         expect(container.querySelector("figure.ring-chart")).toBeTruthy();
     });
 
@@ -31,7 +34,9 @@ describe("RingChart", () => {
 
     it("omits aria-label when no label is given", () => {
         const { container } = render(RingChart, { props: { children: svgSnippet() } });
-        expect(container.querySelector(".ring-chart-graphic")!.hasAttribute("aria-label")).toBe(false);
+        expect(container.querySelector(".ring-chart-graphic")!.hasAttribute("aria-label")).toBe(
+            false,
+        );
     });
 
     it("does not put role=img on the figure", () => {
@@ -40,7 +45,9 @@ describe("RingChart", () => {
     });
 
     it("appends the consumer class after the base class", () => {
-        const { container } = render(RingChart, { props: { label: "T", class: "mine", children: svgSnippet() } });
+        const { container } = render(RingChart, {
+            props: { label: "T", class: "mine", children: svgSnippet() },
+        });
         expect(container.querySelector("figure")!.getAttribute("class")).toBe("ring-chart mine");
     });
 
@@ -55,7 +62,9 @@ describe("RingChart", () => {
     });
 
     it("renders the dataTable snippet in a .ring-chart-data-table sibling after the graphic", () => {
-        const { container } = render(RingChart, { props: { label: "T", children: svgSnippet(), dataTable: tableSnippet() } });
+        const { container } = render(RingChart, {
+            props: { label: "T", children: svgSnippet(), dataTable: tableSnippet() },
+        });
         const wrap = container.querySelector(".ring-chart-data-table")!;
         expect(wrap).toBeTruthy();
         expect(wrap.previousElementSibling).toBe(container.querySelector(".ring-chart-graphic"));
@@ -63,12 +72,16 @@ describe("RingChart", () => {
     });
 
     it("keeps the table outside the role=img element so assistive technology can reach it", () => {
-        render(RingChart, { props: { label: "T", children: svgSnippet(), dataTable: tableSnippet() } });
+        render(RingChart, {
+            props: { label: "T", children: svgSnippet(), dataTable: tableSnippet() },
+        });
         expect(screen.getByRole("table").closest("[role=img]")).toBeNull();
     });
 
     it("spreads rest props onto the figure", () => {
-        render(RingChart, { props: { label: "T", id: "c1", "data-testid": "chart", children: svgSnippet() } });
+        render(RingChart, {
+            props: { label: "T", id: "c1", "data-testid": "chart", children: svgSnippet() },
+        });
         const el = screen.getByTestId("chart");
         expect(el.tagName).toBe("FIGURE");
         expect(el.id).toBe("c1");

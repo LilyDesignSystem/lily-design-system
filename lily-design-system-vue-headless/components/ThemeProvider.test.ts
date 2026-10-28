@@ -19,7 +19,9 @@ describe("ThemeProvider", () => {
             props: { theme: { primary: "#fff" } },
             slots: { default: "x" },
         });
-        expect(container.querySelector(".theme-provider")?.getAttribute("data-theme")).toBe("light");
+        expect(container.querySelector(".theme-provider")?.getAttribute("data-theme")).toBe(
+            "light",
+        );
     });
 
     test("applies data-theme=dark when base=dark", () => {

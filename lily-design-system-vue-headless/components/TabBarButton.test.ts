@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./TabBarButton.vue";
 
-
 describe("TabBarButton", () => {
     test("renders a tab", () => {
         render(Subject, { props: { controls: "panel-1" }, slots: { default: "Dashboard" } });
@@ -26,7 +25,10 @@ describe("TabBarButton", () => {
     });
 
     test("reflects selected state when true", () => {
-        render(Subject, { props: { selected: true, controls: "panel-1" }, slots: { default: "Tab" } });
+        render(Subject, {
+            props: { selected: true, controls: "panel-1" },
+            slots: { default: "Tab" },
+        });
         expect(screen.getByRole("tab").getAttribute("aria-selected")).toBe("true");
     });
 
@@ -36,7 +38,10 @@ describe("TabBarButton", () => {
     });
 
     test("has tabindex 0 when selected", () => {
-        render(Subject, { props: { selected: true, controls: "panel-1" }, slots: { default: "Tab" } });
+        render(Subject, {
+            props: { selected: true, controls: "panel-1" },
+            slots: { default: "Tab" },
+        });
         expect(screen.getByRole("tab").getAttribute("tabindex")).toBe("0");
     });
 
@@ -46,7 +51,10 @@ describe("TabBarButton", () => {
     });
 
     test("passes through attributes", () => {
-        render(Subject, { props: { controls: "panel-1", "data-testid": "my-tab" }, slots: { default: "Tab" } });
+        render(Subject, {
+            props: { controls: "panel-1", "data-testid": "my-tab" },
+            slots: { default: "Tab" },
+        });
         expect(screen.getByTestId("my-tab")).toBeTruthy();
     });
 });

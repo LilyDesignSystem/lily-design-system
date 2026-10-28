@@ -23,7 +23,10 @@ describe("AddressographBox", () => {
     });
 
     test("applies aria-label when label prop is provided", () => {
-        const { container } = render(Subject, { props: { label: "Patient ID" }, slots: { default: "x" } });
+        const { container } = render(Subject, {
+            props: { label: "Patient ID" },
+            slots: { default: "x" },
+        });
         const root = container.querySelector(".addressograph-box");
         expect(root?.getAttribute("aria-label")).toBe("Patient ID");
     });

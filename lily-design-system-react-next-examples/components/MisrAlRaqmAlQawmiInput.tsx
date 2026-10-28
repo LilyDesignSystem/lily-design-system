@@ -50,14 +50,15 @@ export default function MisrAlRaqmAlQawmiInput({
 }: MisrAlRaqmAlQawmiInputProps) {
     return (
         <input
-        className={`misr-al-raqm-al-qawmi-input ${className}`}
-        type="text"
-        aria-label={label}
-        autoComplete="off"
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`misr-al-raqm-al-qawmi-input ${className}`}
+            type="text"
+            aria-label={label}
+            autoComplete="off"
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

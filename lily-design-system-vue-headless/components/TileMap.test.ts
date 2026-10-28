@@ -23,7 +23,10 @@ describe("TileMap", () => {
     test("ArrowRight moves focus to the next tile", async () => {
         const { container } = render(Subject, {
             props: { label: "x" },
-            slots: { default: "<button data-tile tabindex=\"0\">A</button><button data-tile tabindex=\"-1\">B</button><button data-tile tabindex=\"-1\">C</button>" },
+            slots: {
+                default:
+                    '<button data-tile tabindex="0">A</button><button data-tile tabindex="-1">B</button><button data-tile tabindex="-1">C</button>',
+            },
         });
         const tiles = Array.from(container.querySelectorAll("[data-tile]")) as HTMLElement[];
         tiles[0].focus();
@@ -34,7 +37,7 @@ describe("TileMap", () => {
     test("Enter dispatches a tile-activate event on the focused tile", async () => {
         const { container } = render(Subject, {
             props: { label: "x" },
-            slots: { default: "<button data-tile tabindex=\"0\">A</button>" },
+            slots: { default: '<button data-tile tabindex="0">A</button>' },
         });
         const tile = container.querySelector("[data-tile]") as HTMLElement;
         const handler = vi.fn();
@@ -47,7 +50,7 @@ describe("TileMap", () => {
     test("Escape blurs the focused tile", async () => {
         const { container } = render(Subject, {
             props: { label: "x" },
-            slots: { default: "<button data-tile tabindex=\"0\">A</button>" },
+            slots: { default: '<button data-tile tabindex="0">A</button>' },
         });
         const tile = container.querySelector("[data-tile]") as HTMLElement;
         tile.focus();

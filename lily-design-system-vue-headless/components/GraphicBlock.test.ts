@@ -28,7 +28,10 @@ describe("GraphicBlock", () => {
     });
 
     test("omits figcaption when no title, description, or notes", () => {
-        const { container } = render(Subject, { props: { label: "x" }, slots: { default: "<svg />" } });
+        const { container } = render(Subject, {
+            props: { label: "x" },
+            slots: { default: "<svg />" },
+        });
         expect(container.querySelector("figcaption")).toBeNull();
     });
 

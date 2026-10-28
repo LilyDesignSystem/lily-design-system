@@ -52,7 +52,11 @@
     class={`candlestick-chart ${className}`}
     {...restProps}
 >
-    <div class="candlestick-chart-graphic" role="img" aria-label={label}>
+    <div
+        class="candlestick-chart-graphic"
+        role="img"
+        aria-label={label}
+    >
         {@render children?.()}
     </div>
     {#if dataTable}

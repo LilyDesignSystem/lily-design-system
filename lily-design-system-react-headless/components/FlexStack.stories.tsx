@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import FlexStack from './FlexStack';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import FlexStack from "./FlexStack";
 
 const meta = {
-  title: 'Headless/FlexStack',
-  component: FlexStack,
-  tags: ['autodocs']
+    title: "Headless/FlexStack",
+    component: FlexStack,
+    tags: ["autodocs"],
 } satisfies Meta<typeof FlexStack>;
 
 export default meta;

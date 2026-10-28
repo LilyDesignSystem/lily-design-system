@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import TimelineListItem from './TimelineListItem';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import TimelineListItem from "./TimelineListItem";
 
 const meta = {
-  title: 'Headless/TimelineListItem',
-  component: TimelineListItem,
-  tags: ['autodocs']
+    title: "Headless/TimelineListItem",
+    component: TimelineListItem,
+    tags: ["autodocs"],
 } satisfies Meta<typeof TimelineListItem>;
 
 export default meta;

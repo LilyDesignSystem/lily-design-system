@@ -24,7 +24,12 @@ describe("DialGroup", () => {
 
     test("passes through additional HTML attributes", () => {
         const { container } = render(
-            <Subject label="x" data-testid="dg">x</Subject>
+            <Subject
+                label="x"
+                data-testid="dg"
+            >
+                x
+            </Subject>,
         );
         expect(container.querySelector("[data-testid='dg']")).toBeTruthy();
     });

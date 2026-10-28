@@ -17,12 +17,12 @@
 //   </ScrollArea>
 //
 // Examples:
-//   
+//
 //   <ScrollArea label="Chat messages">
 //     {messages.map((msg) => <p>{msg}</p>)}
 //   </ScrollArea>
 //
-//   
+//
 //   <ScrollArea label="Source code" style="overflow:auto; max-height:300px;">
 //     <pre><code>{source}</code></pre>
 //   </ScrollArea>
@@ -70,13 +70,13 @@ export default function ScrollArea({
 }: ScrollAreaProps) {
     return (
         <div
-        className={`scroll-area ${className}`}
-        role="region"
-        aria-label={label}
-        tabIndex={0}
-        {...restProps}
+            className={`scroll-area ${className}`}
+            role="region"
+            aria-label={label}
+            tabIndex={0}
+            {...restProps}
         >
-        {children}
+            {children}
         </div>
     );
 }

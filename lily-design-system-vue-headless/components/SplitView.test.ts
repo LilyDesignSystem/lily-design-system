@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./SplitView.vue";
 
-
 describe("SplitView", () => {
     test("has split-view class on root", () => {
         const { container } = render(Subject, {
@@ -28,7 +27,10 @@ describe("SplitView", () => {
     test("renders primary and secondary slots", () => {
         render(Subject, {
             props: { label: "Editor" },
-            slots: { primary: "<span>primary content</span>", secondary: "<span>secondary content</span>" },
+            slots: {
+                primary: "<span>primary content</span>",
+                secondary: "<span>secondary content</span>",
+            },
         });
 
         expect(screen.getByText("primary content")).toBeTruthy();
@@ -85,7 +87,7 @@ describe("SplitView", () => {
             props: { label: "Editor" },
             slots: {
                 primary: "<div>L</div>",
-                divider: "<div data-testid=\"custom-divider\">CUSTOM</div>",
+                divider: '<div data-testid="custom-divider">CUSTOM</div>',
                 secondary: "<div>R</div>",
             },
         });

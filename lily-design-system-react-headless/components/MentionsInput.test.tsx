@@ -9,7 +9,7 @@ describe("MentionsInput", () => {
         render(
             <Subject label="Comment">
                 <ul>suggestions</ul>
-            </Subject>
+            </Subject>,
         );
 
         const input: HTMLElement = screen.getByRole("combobox");
@@ -21,7 +21,7 @@ describe("MentionsInput", () => {
         const { container } = render(
             <Subject label="Comment">
                 <ul>x</ul>
-            </Subject>
+            </Subject>,
         );
 
         const input: HTMLElement = screen.getByRole("combobox");
@@ -34,7 +34,7 @@ describe("MentionsInput", () => {
         const { container } = render(
             <Subject label="C">
                 <ul>x</ul>
-            </Subject>
+            </Subject>,
         );
 
         const root: HTMLElement = container.querySelector(".mentions-input") as HTMLElement;
@@ -45,7 +45,7 @@ describe("MentionsInput", () => {
         render(
             <Subject label="C">
                 <ul>x</ul>
-            </Subject>
+            </Subject>,
         );
 
         const input: HTMLElement = screen.getByRole("combobox");
@@ -55,16 +55,22 @@ describe("MentionsInput", () => {
 
     test("aria-expanded reflects expanded prop", () => {
         const { rerender } = render(
-            <Subject label="C" expanded={false}>
+            <Subject
+                label="C"
+                expanded={false}
+            >
                 <ul>x</ul>
-            </Subject>
+            </Subject>,
         );
         expect(screen.getByRole("combobox").getAttribute("aria-expanded")).toBe("false");
 
         rerender(
-            <Subject label="C" expanded={true}>
+            <Subject
+                label="C"
+                expanded={true}
+            >
                 <ul>x</ul>
-            </Subject>
+            </Subject>,
         );
         expect(screen.getByRole("combobox").getAttribute("aria-expanded")).toBe("true");
     });
@@ -73,7 +79,7 @@ describe("MentionsInput", () => {
         const { container } = render(
             <Subject label="C">
                 <ul>x</ul>
-            </Subject>
+            </Subject>,
         );
 
         const root: HTMLElement = container.querySelector(".mentions-input") as HTMLElement;
@@ -82,9 +88,12 @@ describe("MentionsInput", () => {
 
     test("supports custom trigger char", () => {
         const { container } = render(
-            <Subject label="C" triggerChar="#">
+            <Subject
+                label="C"
+                triggerChar="#"
+            >
                 <ul>x</ul>
-            </Subject>
+            </Subject>,
         );
 
         const root: HTMLElement = container.querySelector(".mentions-input") as HTMLElement;
@@ -93,31 +102,44 @@ describe("MentionsInput", () => {
 
     test("hides the suggestions panel when not expanded", () => {
         const { container } = render(
-            <Subject label="C" expanded={false}>
+            <Subject
+                label="C"
+                expanded={false}
+            >
                 <ul>x</ul>
-            </Subject>
+            </Subject>,
         );
 
-        const panel: HTMLElement = container.querySelector(".mentions-input-suggestions") as HTMLElement;
+        const panel: HTMLElement = container.querySelector(
+            ".mentions-input-suggestions",
+        ) as HTMLElement;
         expect(panel.hasAttribute("hidden")).toBe(true);
     });
 
     test("shows the suggestions panel when expanded", () => {
         const { container } = render(
-            <Subject label="C" expanded={true}>
+            <Subject
+                label="C"
+                expanded={true}
+            >
                 <ul>x</ul>
-            </Subject>
+            </Subject>,
         );
 
-        const panel: HTMLElement = container.querySelector(".mentions-input-suggestions") as HTMLElement;
+        const panel: HTMLElement = container.querySelector(
+            ".mentions-input-suggestions",
+        ) as HTMLElement;
         expect(panel.hasAttribute("hidden")).toBe(false);
     });
 
     test("renders the value", () => {
         render(
-            <Subject label="C" value="hello @">
+            <Subject
+                label="C"
+                value="hello @"
+            >
                 <ul>x</ul>
-            </Subject>
+            </Subject>,
         );
 
         const input: HTMLInputElement = screen.getByRole("combobox") as HTMLInputElement;
@@ -126,9 +148,12 @@ describe("MentionsInput", () => {
 
     test("can be disabled", () => {
         render(
-            <Subject label="C" disabled>
+            <Subject
+                label="C"
+                disabled
+            >
                 <ul>x</ul>
-            </Subject>
+            </Subject>,
         );
 
         const input: HTMLInputElement = screen.getByRole("combobox") as HTMLInputElement;
@@ -139,9 +164,12 @@ describe("MentionsInput", () => {
         const user: UserEvent = userEvent.setup();
         const handleInput = vi.fn();
         render(
-            <Subject label="C" onInput={handleInput}>
+            <Subject
+                label="C"
+                onInput={handleInput}
+            >
                 <ul>x</ul>
-            </Subject>
+            </Subject>,
         );
 
         await user.type(screen.getByRole("combobox"), "a");

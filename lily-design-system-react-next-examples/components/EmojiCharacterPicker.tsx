@@ -17,7 +17,7 @@
 //   </EmojiCharacterPicker>
 //
 // Examples:
-//   
+//
 //   <EmojiCharacterPicker label="Choose an emoji">
 //     <div role="row">
 //       <button role="gridcell">😀</button>
@@ -66,12 +66,12 @@ export default function EmojiCharacterPicker({
 }: EmojiCharacterPickerProps) {
     return (
         <div
-        className={`emoji-character-picker ${className}`}
-        role="grid"
-        aria-label={label}
-        {...restProps}
+            className={`emoji-character-picker ${className}`}
+            role="grid"
+            aria-label={label}
+            {...restProps}
         >
-        {children}
+            {children}
         </div>
     );
 }

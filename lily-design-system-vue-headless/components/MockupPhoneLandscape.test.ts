@@ -4,7 +4,10 @@ import Subject from "./MockupPhoneLandscape.vue";
 
 describe("MockupPhoneLandscape", () => {
     test("renders root with class mockup-phone-landscape", () => {
-        const { container } = render(Subject, { props: { label: "Test" }, slots: { default: "Body" } });
+        const { container } = render(Subject, {
+            props: { label: "Test" },
+            slots: { default: "Body" },
+        });
         expect(container.querySelector(".mockup-phone-landscape")).toBeTruthy();
     });
 });

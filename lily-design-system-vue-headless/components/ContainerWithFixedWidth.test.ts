@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./ContainerWithFixedWidth.vue";
 
-
 describe("ContainerWithFixedWidth", () => {
     test("renders children content", () => {
         render(Subject, { slots: { default: "Hello" } });
@@ -26,8 +25,10 @@ describe("ContainerWithFixedWidth", () => {
     });
 
     test("accepts custom maxWidth", () => {
-        render(Subject, { props: { maxWidth: "960px",
-            "data-testid": "cw" }, slots: { default: "Hello" } });
+        render(Subject, {
+            props: { maxWidth: "960px", "data-testid": "cw" },
+            slots: { default: "Hello" },
+        });
 
         const el: HTMLElement = screen.getByTestId("cw");
         expect(el.getAttribute("data-max-width")).toBe("960px");
@@ -42,8 +43,10 @@ describe("ContainerWithFixedWidth", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(Subject, { props: { id: "main",
-            "data-testid": "cw" }, slots: { default: "Hello" } });
+        render(Subject, {
+            props: { id: "main", "data-testid": "cw" },
+            slots: { default: "Hello" },
+        });
 
         const el: HTMLElement = screen.getByTestId("cw");
         expect(el.getAttribute("id")).toBe("main");

@@ -13,6 +13,10 @@
 </script>
 
 <!-- Diff.svelte -->
-<div class={`diff ${className}`} aria-label={label} {...restProps}>
+<div
+    class={`diff ${className}`}
+    aria-label={label}
+    {...restProps}
+>
     {@render children?.()}
 </div>

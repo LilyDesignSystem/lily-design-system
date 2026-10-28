@@ -18,8 +18,6 @@
 <!-- GoToTop.svelte -->
 <a
     class={`go-to-top ${className}`}
-
-
     {href}
     {...restProps}
 >

@@ -76,14 +76,14 @@ export default function ImageInput({
 }: ImageInputProps) {
     return (
         <input
-        className={`image-input ${className}`}
-        type="image"
-        src={src}
-        alt={alt}
-        width={width}
-        height={height}
-        disabled={disabled}
-        {...restProps}
+            className={`image-input ${className}`}
+            type="image"
+            src={src}
+            alt={alt}
+            width={width}
+            height={height}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

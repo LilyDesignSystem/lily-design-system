@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./CollectionListItem.vue";
 
-
 describe("CollectionListItem", () => {
     test("renders as an li element", () => {
         const { container } = render(Subject, { props: { heading: "Hello" } });
@@ -71,7 +70,9 @@ describe("CollectionListItem", () => {
     });
 
     test("applies aria-label when provided", () => {
-        const { container } = render(Subject, { props: { heading: "Hello", label: "Article one" } });
+        const { container } = render(Subject, {
+            props: { heading: "Hello", label: "Article one" },
+        });
 
         const li: HTMLElement | null = container.querySelector("li");
         expect(li?.getAttribute("aria-label")).toBe("Article one");

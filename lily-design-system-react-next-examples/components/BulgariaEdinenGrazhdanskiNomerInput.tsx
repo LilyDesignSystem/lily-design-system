@@ -50,14 +50,15 @@ export default function BulgariaEdinenGrazhdanskiNomerInput({
 }: BulgariaEdinenGrazhdanskiNomerInputProps) {
     return (
         <input
-        className={`bulgaria-edinen-grazhdanski-nomer-input ${className}`}
-        type="text"
-        aria-label={label}
-        autoComplete="off"
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`bulgaria-edinen-grazhdanski-nomer-input ${className}`}
+            type="text"
+            aria-label={label}
+            autoComplete="off"
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

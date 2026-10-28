@@ -20,7 +20,14 @@ describe("Footnote", () => {
     });
 
     test("passes through attributes", () => {
-        render(<Subject id="fn1" data-testid="fn">C</Subject>);
+        render(
+            <Subject
+                id="fn1"
+                data-testid="fn"
+            >
+                C
+            </Subject>,
+        );
         expect(screen.getByTestId("fn")).toBeTruthy();
     });
 });

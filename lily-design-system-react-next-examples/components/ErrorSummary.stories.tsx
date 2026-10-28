@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import ErrorSummary from './ErrorSummary';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import ErrorSummary from "./ErrorSummary";
 
 const meta = {
-  title: 'Headless/ErrorSummary',
-  component: ErrorSummary,
-  tags: ['autodocs']
+    title: "Headless/ErrorSummary",
+    component: ErrorSummary,
+    tags: ["autodocs"],
 } satisfies Meta<typeof ErrorSummary>;
 
 export default meta;

@@ -68,11 +68,11 @@ export default function PaginationList({
 }: PaginationListProps) {
     return (
         <ol
-        className={`pagination-list ${className}`}
-        aria-label={label}
-        {...restProps}
+            className={`pagination-list ${className}`}
+            aria-label={label}
+            {...restProps}
         >
-        {children}
+            {children}
         </ol>
     );
 }

@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import SummaryBox from './SummaryBox';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import SummaryBox from "./SummaryBox";
 
 const meta = {
-  title: 'Headless/SummaryBox',
-  component: SummaryBox,
-  tags: ['autodocs']
+    title: "Headless/SummaryBox",
+    component: SummaryBox,
+    tags: ["autodocs"],
 } satisfies Meta<typeof SummaryBox>;
 
 export default meta;

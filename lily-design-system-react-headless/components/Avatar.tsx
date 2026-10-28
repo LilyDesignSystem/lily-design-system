@@ -16,17 +16,17 @@
 //   <Avatar alt="Jane Doe">...</Avatar>
 //
 // Examples:
-//   
+//
 //   <Avatar alt="Jane Doe">
 //     <AvatarImage src="/photos/jane.jpg" alt="Jane Doe" />
 //   </Avatar>
 //
-//   
+//
 //   <Avatar alt="Jane Doe">
 //     <AvatarText>JD</AvatarText>
 //   </Avatar>
 //
-//   
+//
 //   <Avatar alt="Jane Doe">
 //     <AvatarImage src="/photos/jane.jpg" alt="Jane Doe" />
 //     <AvatarText>JD</AvatarText>
@@ -61,20 +61,15 @@ export interface AvatarProps {
     [key: string]: unknown;
 }
 
-export default function Avatar({
-    className = "",
-    alt,
-    children,
-    ...restProps
-}: AvatarProps) {
+export default function Avatar({ className = "", alt, children, ...restProps }: AvatarProps) {
     return (
         <span
-        className={`avatar ${className}`}
-        role="img"
-        aria-label={alt}
-        {...restProps}
+            className={`avatar ${className}`}
+            role="img"
+            aria-label={alt}
+            {...restProps}
         >
-        {children}
+            {children}
         </span>
     );
 }

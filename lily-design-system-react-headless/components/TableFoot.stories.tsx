@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import TableFoot from './TableFoot';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import TableFoot from "./TableFoot";
 
 const meta = {
-  title: 'Headless/TableFoot',
-  component: TableFoot,
-  tags: ['autodocs']
+    title: "Headless/TableFoot",
+    component: TableFoot,
+    tags: ["autodocs"],
 } satisfies Meta<typeof TableFoot>;
 
 export default meta;

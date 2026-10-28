@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import HoverCard from './HoverCard';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import HoverCard from "./HoverCard";
 
 const meta = {
-  title: 'Headless/HoverCard',
-  component: HoverCard,
-  tags: ['autodocs']
+    title: "Headless/HoverCard",
+    component: HoverCard,
+    tags: ["autodocs"],
 } satisfies Meta<typeof HoverCard>;
 
 export default meta;

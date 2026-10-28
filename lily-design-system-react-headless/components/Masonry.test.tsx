@@ -27,7 +27,11 @@ describe("Masonry", () => {
 
     test("accepts custom columns and gap", () => {
         render(
-            <Subject columns={5} gap="2rem" data-testid="m">
+            <Subject
+                columns={5}
+                gap="2rem"
+                data-testid="m"
+            >
                 Inner
             </Subject>,
         );
@@ -39,7 +43,14 @@ describe("Masonry", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject id="gallery" data-testid="m">Inner</Subject>);
+        render(
+            <Subject
+                id="gallery"
+                data-testid="m"
+            >
+                Inner
+            </Subject>,
+        );
 
         const el: HTMLElement = screen.getByTestId("m");
         expect(el.getAttribute("id")).toBe("gallery");

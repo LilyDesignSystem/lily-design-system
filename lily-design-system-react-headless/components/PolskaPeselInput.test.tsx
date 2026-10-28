@@ -33,7 +33,12 @@ describe("PolskaPeselInput", () => {
     });
 
     test("can be set to required", () => {
-        render(<Subject label="PESEL" required />);
+        render(
+            <Subject
+                label="PESEL"
+                required
+            />,
+        );
 
         const input = screen.getByLabelText("PESEL") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -47,14 +52,24 @@ describe("PolskaPeselInput", () => {
     });
 
     test("can be set to disabled", () => {
-        render(<Subject label="PESEL" disabled />);
+        render(
+            <Subject
+                label="PESEL"
+                disabled
+            />,
+        );
 
         const input = screen.getByLabelText("PESEL") as HTMLInputElement;
         expect(input.disabled).toBe(true);
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="PESEL" data-testid="subject" />);
+        render(
+            <Subject
+                label="PESEL"
+                data-testid="subject"
+            />,
+        );
 
         const input = screen.getByTestId("subject");
         expect(input).toBeTruthy();

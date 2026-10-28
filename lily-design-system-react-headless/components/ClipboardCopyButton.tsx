@@ -19,7 +19,7 @@
 //   <ClipboardCopyButton text="https://example.com" label="Copy link" />
 //
 // Examples:
-//   
+//
 //   <ClipboardCopyButton text={code} label="Copy code" onSuccess={handleCopied}>
 //     Copy to clipboard
 //   </ClipboardCopyButton>
@@ -86,14 +86,14 @@ export default function ClipboardCopyButton({
 
     return (
         <button
-        className={`clipboard-copy-button ${className}`}
-        type="button"
-        aria-label={label}
-        data-copied={copied}
-        onClick={handleClick}
-        {...restProps}
+            className={`clipboard-copy-button ${className}`}
+            type="button"
+            aria-label={label}
+            data-copied={copied}
+            onClick={handleClick}
+            {...restProps}
         >
-        {children && (<>{children}</>)}
+            {children && <>{children}</>}
         </button>
     );
 }

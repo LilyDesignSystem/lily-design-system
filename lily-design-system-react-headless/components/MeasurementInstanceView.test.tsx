@@ -10,17 +10,32 @@ describe("MeasurementInstanceView", () => {
     });
 
     test("renders as a span element", () => {
-        render(<Subject value="98.6 F" data-testid="mv" />);
+        render(
+            <Subject
+                value="98.6 F"
+                data-testid="mv"
+            />,
+        );
         expect(screen.getByTestId("mv").tagName).toBe("SPAN");
     });
 
     test("supports aria-label", () => {
-        render(<Subject value="120/80" label="Blood pressure" />);
+        render(
+            <Subject
+                value="120/80"
+                label="Blood pressure"
+            />,
+        );
         expect(screen.getByText("120/80").getAttribute("aria-label")).toBe("Blood pressure");
     });
 
     test("passes through attributes", () => {
-        render(<Subject value="42" data-testid="miv" />);
+        render(
+            <Subject
+                value="42"
+                data-testid="miv"
+            />,
+        );
         expect(screen.getByTestId("miv")).toBeTruthy();
     });
 });

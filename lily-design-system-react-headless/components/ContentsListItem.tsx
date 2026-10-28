@@ -15,7 +15,7 @@
 //   <ContentsListItem><a href="#section">Section</a></ContentsListItem>
 //
 // Examples:
-//   
+//
 //   <ContentsListItem>
 //     <a href="#section-3">Results</a>
 //     <ul>
@@ -58,9 +58,11 @@ export default function ContentsListItem({
     ...restProps
 }: ContentsListItemProps) {
     return (
-        
-        <li className={`contents-list-item ${className}`} {...restProps}>
-        {children}
+        <li
+            className={`contents-list-item ${className}`}
+            {...restProps}
+        >
+            {children}
         </li>
     );
 }

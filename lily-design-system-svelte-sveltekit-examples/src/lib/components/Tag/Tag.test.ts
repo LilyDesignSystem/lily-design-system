@@ -13,7 +13,9 @@ function textSnippet(text: string) {
 
 describe("Tag", () => {
     test("renders a span with the base class and the visible text", () => {
-        const { container } = render(Subject, { props: { label: "Category: Design", children: textSnippet("Design") } });
+        const { container } = render(Subject, {
+            props: { label: "Category: Design", children: textSnippet("Design") },
+        });
         const tag = container.querySelector("span.tag")!;
         expect(tag.tagName).toBe("SPAN");
         expect(tag.textContent).toContain("Design");
@@ -25,7 +27,9 @@ describe("Tag", () => {
     });
 
     test("by default the label is screen-reader text appended to the exposed content", () => {
-        const { container } = render(Subject, { props: { label: "Priority: High", children: textSnippet("High") } });
+        const { container } = render(Subject, {
+            props: { label: "Priority: High", children: textSnippet("High") },
+        });
         const tag = container.querySelector("span.tag")!;
         expect(tag.hasAttribute("aria-label")).toBe(false);
         expect(tag.querySelector(".screen-reader-span")?.textContent).toBe("Priority: High");
@@ -34,7 +38,9 @@ describe("Tag", () => {
     });
 
     test("live renders a status region named by the label", () => {
-        render(Subject, { props: { label: "Build: Passing", live: true, children: textSnippet("Passing") } });
+        render(Subject, {
+            props: { label: "Build: Passing", live: true, children: textSnippet("Passing") },
+        });
         const tag = screen.getByRole("status");
         expect(tag.tagName).toBe("SPAN");
         expect(tag.getAttribute("aria-label")).toBe("Build: Passing");
@@ -42,7 +48,14 @@ describe("Tag", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(Subject, { props: { label: "Tag", "data-testid": "my-tag", id: "tag-1", children: textSnippet("Label") } });
+        render(Subject, {
+            props: {
+                label: "Tag",
+                "data-testid": "my-tag",
+                id: "tag-1",
+                children: textSnippet("Label"),
+            },
+        });
         const tag = screen.getByTestId("my-tag");
         expect(tag.getAttribute("id")).toBe("tag-1");
     });

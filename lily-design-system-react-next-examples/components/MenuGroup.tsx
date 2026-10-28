@@ -39,12 +39,17 @@ export default function MenuGroup({
 }: MenuGroupProps) {
     return (
         <div
-        className={`menu-group ${className}`}
-        role="group"
-        aria-label={label}
-        {...restProps}
+            className={`menu-group ${className}`}
+            role="group"
+            aria-label={label}
+            {...restProps}
         >
-            <div className="menu-group-heading" aria-hidden="true">{label}</div>
+            <div
+                className="menu-group-heading"
+                aria-hidden="true"
+            >
+                {label}
+            </div>
             {children}
         </div>
     );

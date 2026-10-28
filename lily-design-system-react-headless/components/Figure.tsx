@@ -18,12 +18,12 @@
 //   </Figure>
 //
 // Examples:
-//   
+//
 //   <Figure label="Monthly revenue for 2024">
 //     <svg></svg>
 //   </Figure>
 //
-//   
+//
 //   <Figure label="User growth trend">
 //     <canvas></canvas>
 //   </Figure>
@@ -58,20 +58,15 @@ export interface FigureProps {
     [key: string]: unknown;
 }
 
-export default function Figure({
-    className = "",
-    label,
-    children,
-    ...restProps
-}: FigureProps) {
+export default function Figure({ className = "", label, children, ...restProps }: FigureProps) {
     return (
         <figure
-        className={`figure ${className}`}
-        role="img"
-        aria-label={label}
-        {...restProps}
+            className={`figure ${className}`}
+            role="img"
+            aria-label={label}
+            {...restProps}
         >
-        {children}
+            {children}
         </figure>
     );
 }

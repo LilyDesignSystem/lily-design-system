@@ -6,7 +6,8 @@ import Subject from "./TableRow.vue";
 function renderIn(props: Record<string, unknown> = {}, slotContent: string = `<td>cell</td>`) {
     const container = document.createElement("div");
     const wrapper = document.createElement("table");
-    const inner = document.createElement('tbody'); wrapper.appendChild(inner);
+    const inner = document.createElement("tbody");
+    wrapper.appendChild(inner);
     container.appendChild(wrapper);
     document.body.appendChild(container);
     const target = inner;

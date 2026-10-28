@@ -33,7 +33,12 @@ describe("LatvijaPersonasKodsInput", () => {
     });
 
     test("can be set to required", () => {
-        render(<Subject label="Personal Code" required />);
+        render(
+            <Subject
+                label="Personal Code"
+                required
+            />,
+        );
 
         const input = screen.getByLabelText("Personal Code") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -47,14 +52,24 @@ describe("LatvijaPersonasKodsInput", () => {
     });
 
     test("can be set to disabled", () => {
-        render(<Subject label="Personal Code" disabled />);
+        render(
+            <Subject
+                label="Personal Code"
+                disabled
+            />,
+        );
 
         const input = screen.getByLabelText("Personal Code") as HTMLInputElement;
         expect(input.disabled).toBe(true);
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="Personal Code" data-testid="subject" />);
+        render(
+            <Subject
+                label="Personal Code"
+                data-testid="subject"
+            />,
+        );
 
         const input = screen.getByTestId("subject");
         expect(input).toBeTruthy();

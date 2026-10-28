@@ -6,8 +6,18 @@ import Subject from "./Listbox";
 
 const options = (
     <>
-        <div role="option" tabIndex={-1}>Apple</div>
-        <div role="option" tabIndex={-1}>Banana</div>
+        <div
+            role="option"
+            tabIndex={-1}
+        >
+            Apple
+        </div>
+        <div
+            role="option"
+            tabIndex={-1}
+        >
+            Banana
+        </div>
     </>
 );
 
@@ -37,7 +47,14 @@ describe("Listbox", () => {
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="F" data-testid="lb">{options}</Subject>);
+        render(
+            <Subject
+                label="F"
+                data-testid="lb"
+            >
+                {options}
+            </Subject>,
+        );
         expect(screen.getByTestId("lb")).toBeTruthy();
     });
 });
@@ -47,7 +64,12 @@ function activeDescendantOptions(activeIndex: number) {
     return (
         <>
             {labels.map((text, i) => (
-                <div key={text} role="option" id={`opt-${i}`} aria-selected={i === activeIndex}>
+                <div
+                    key={text}
+                    role="option"
+                    id={`opt-${i}`}
+                    aria-selected={i === activeIndex}
+                >
                     {text}
                 </div>
             ))}
@@ -65,7 +87,11 @@ describe("Listbox — active-descendant mode (opt-in, additive)", () => {
 
     test("root carries tabindex=-1 and aria-activedescendant tracking activeIndex", () => {
         render(
-            <Subject label="Fruits" navigation="active-descendant" activeIndex={1}>
+            <Subject
+                label="Fruits"
+                navigation="active-descendant"
+                activeIndex={1}
+            >
                 {activeDescendantOptions(1)}
             </Subject>,
         );
@@ -139,7 +165,12 @@ describe("Listbox — active-descendant mode (opt-in, additive)", () => {
         const user = userEvent.setup();
         const onActivate = vi.fn();
         render(
-            <Subject label="Fruits" navigation="active-descendant" activeIndex={1} onActivate={onActivate}>
+            <Subject
+                label="Fruits"
+                navigation="active-descendant"
+                activeIndex={1}
+                onActivate={onActivate}
+            >
                 {activeDescendantOptions(1)}
             </Subject>,
         );
@@ -152,7 +183,12 @@ describe("Listbox — active-descendant mode (opt-in, additive)", () => {
         const user = userEvent.setup();
         const onEscape = vi.fn();
         render(
-            <Subject label="Fruits" navigation="active-descendant" activeIndex={0} onEscape={onEscape}>
+            <Subject
+                label="Fruits"
+                navigation="active-descendant"
+                activeIndex={0}
+                onEscape={onEscape}
+            >
                 {activeDescendantOptions(0)}
             </Subject>,
         );
@@ -166,7 +202,12 @@ describe("Listbox — active-descendant mode (opt-in, additive)", () => {
         const onTabOut = vi.fn();
         render(
             <>
-                <Subject label="Fruits" navigation="active-descendant" activeIndex={0} onTabOut={onTabOut}>
+                <Subject
+                    label="Fruits"
+                    navigation="active-descendant"
+                    activeIndex={0}
+                    onTabOut={onTabOut}
+                >
                     {activeDescendantOptions(0)}
                 </Subject>
                 <button>after</button>
@@ -236,7 +277,11 @@ describe("Listbox — active-descendant mode (opt-in, additive)", () => {
 
     test("baseClass replaces the default class token outright; as changes the root tag", () => {
         render(
-            <Subject label="Fruits" as="ul" baseClass="motion-picker-list">
+            <Subject
+                label="Fruits"
+                as="ul"
+                baseClass="motion-picker-list"
+            >
                 {options}
             </Subject>,
         );
@@ -248,7 +293,11 @@ describe("Listbox — active-descendant mode (opt-in, additive)", () => {
     test("ref exposes the rendered root", () => {
         const ref = { current: null as HTMLElement | null };
         render(
-            <Subject label="Fruits" navigation="active-descendant" ref={ref}>
+            <Subject
+                label="Fruits"
+                navigation="active-descendant"
+                ref={ref}
+            >
                 {activeDescendantOptions(0)}
             </Subject>,
         );

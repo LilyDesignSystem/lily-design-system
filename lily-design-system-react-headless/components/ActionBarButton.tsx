@@ -50,12 +50,12 @@ export default function ActionBarButton({
 }: ActionBarButtonProps) {
     return (
         <button
-        className={`action-bar-button ${className}`}
-        type={type}
-        disabled={disabled}
-        aria-label={label}
-        onClick={onClick}
-        {...restProps}
+            className={`action-bar-button ${className}`}
+            type={type}
+            disabled={disabled}
+            aria-label={label}
+            onClick={onClick}
+            {...restProps}
         >
             {children}
         </button>

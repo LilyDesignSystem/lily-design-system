@@ -5,7 +5,14 @@ import Subject from "./Sidebar";
 
 describe("Sidebar", () => {
     test("renders an aside", () => {
-        render(<Subject label="Nav" data-testid="sb">content</Subject>);
+        render(
+            <Subject
+                label="Nav"
+                data-testid="sb"
+            >
+                content
+            </Subject>,
+        );
         expect(screen.getByTestId("sb").tagName).toBe("ASIDE");
     });
 
@@ -20,7 +27,14 @@ describe("Sidebar", () => {
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="N" data-testid="sb">x</Subject>);
+        render(
+            <Subject
+                label="N"
+                data-testid="sb"
+            >
+                x
+            </Subject>,
+        );
         expect(screen.getByTestId("sb")).toBeTruthy();
     });
 });

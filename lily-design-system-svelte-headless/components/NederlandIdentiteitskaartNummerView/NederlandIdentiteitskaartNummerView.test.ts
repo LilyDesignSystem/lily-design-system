@@ -5,7 +5,9 @@ import Subject from "./NederlandIdentiteitskaartNummerView.svelte";
 
 describe("NederlandIdentiteitskaartNummerView", () => {
     test("renders with the correct class", () => {
-        render(Subject, { props: { label: "Dutch National Identity Card Number", value: "test-value" } });
+        render(Subject, {
+            props: { label: "Dutch National Identity Card Number", value: "test-value" },
+        });
 
         const el = screen.getByLabelText("Dutch National Identity Card Number");
         expect(el).toBeTruthy();
@@ -13,7 +15,9 @@ describe("NederlandIdentiteitskaartNummerView", () => {
     });
 
     test("renders the value as text content", () => {
-        render(Subject, { props: { label: "Dutch National Identity Card Number", value: "test-value" } });
+        render(Subject, {
+            props: { label: "Dutch National Identity Card Number", value: "test-value" },
+        });
 
         const el = screen.getByLabelText("Dutch National Identity Card Number");
         expect(el.textContent).toBe("test-value");

@@ -39,6 +39,8 @@ describe("Byline", () => {
                 updated: '<time datetime="2026-04-16">April 16</time>',
             },
         });
-        expect(container.querySelector(".byline-updated time")?.getAttribute("datetime")).toBe("2026-04-16");
+        expect(container.querySelector(".byline-updated time")?.getAttribute("datetime")).toBe(
+            "2026-04-16",
+        );
     });
 });

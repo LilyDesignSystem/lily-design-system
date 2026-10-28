@@ -5,21 +5,36 @@ import Subject from "./UnitedStatesSocialSecurityNumberView";
 
 describe("UnitedStatesSocialSecurityNumberView", () => {
     test("renders a span element", () => {
-        render(<Subject label="SSN" value="123-45-6789" />);
+        render(
+            <Subject
+                label="SSN"
+                value="123-45-6789"
+            />,
+        );
 
         const element = screen.getByLabelText("SSN");
         expect(element.tagName).toBe("SPAN");
     });
 
     test("displays the SSN value", () => {
-        render(<Subject label="SSN" value="123-45-6789" />);
+        render(
+            <Subject
+                label="SSN"
+                value="123-45-6789"
+            />,
+        );
 
         const element = screen.getByLabelText("SSN");
         expect(element.textContent).toBe("123-45-6789");
     });
 
     test("has aria-label from label prop", () => {
-        render(<Subject label="Social Security Number" value="999-88-7777" />);
+        render(
+            <Subject
+                label="Social Security Number"
+                value="999-88-7777"
+            />,
+        );
 
         const element = screen.getByLabelText("Social Security Number");
         expect(element).toBeTruthy();
@@ -33,14 +48,26 @@ describe("UnitedStatesSocialSecurityNumberView", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="SSN" value="123-45-6789" data-testid="ssn-view" />);
+        render(
+            <Subject
+                label="SSN"
+                value="123-45-6789"
+                data-testid="ssn-view"
+            />,
+        );
 
         const element = screen.getByTestId("ssn-view");
         expect(element).toBeTruthy();
     });
 
     test("passes through id attribute", () => {
-        render(<Subject label="SSN" value="123-45-6789" id="ssn-display" />);
+        render(
+            <Subject
+                label="SSN"
+                value="123-45-6789"
+                id="ssn-display"
+            />,
+        );
 
         const element = screen.getByLabelText("SSN");
         expect(element.getAttribute("id")).toBe("ssn-display");

@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import DoList from './DoList';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import DoList from "./DoList";
 
 const meta = {
-  title: 'Headless/DoList',
-  component: DoList,
-  tags: ['autodocs']
+    title: "Headless/DoList",
+    component: DoList,
+    tags: ["autodocs"],
 } satisfies Meta<typeof DoList>;
 
 export default meta;

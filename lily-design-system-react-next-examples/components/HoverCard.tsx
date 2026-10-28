@@ -71,14 +71,18 @@ export default function HoverCard({
 }: HoverCardProps) {
     return (
         <>
-        {open && (<><div
-        className={`hover-card ${className}`}
-        role="tooltip"
-        aria-label={label}
-        {...restProps}
-        >
-        {children}
-        </div></>)}
+            {open && (
+                <>
+                    <div
+                        className={`hover-card ${className}`}
+                        role="tooltip"
+                        aria-label={label}
+                        {...restProps}
+                    >
+                        {children}
+                    </div>
+                </>
+            )}
         </>
     );
 }

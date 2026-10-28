@@ -33,7 +33,12 @@ describe("PortugalPassaporteInput", () => {
     });
 
     test("can be set to required", () => {
-        render(<Subject label="Portuguese Passport" required />);
+        render(
+            <Subject
+                label="Portuguese Passport"
+                required
+            />,
+        );
 
         const input = screen.getByLabelText("Portuguese Passport") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -47,14 +52,24 @@ describe("PortugalPassaporteInput", () => {
     });
 
     test("can be set to disabled", () => {
-        render(<Subject label="Portuguese Passport" disabled />);
+        render(
+            <Subject
+                label="Portuguese Passport"
+                disabled
+            />,
+        );
 
         const input = screen.getByLabelText("Portuguese Passport") as HTMLInputElement;
         expect(input.disabled).toBe(true);
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="Portuguese Passport" data-testid="subject" />);
+        render(
+            <Subject
+                label="Portuguese Passport"
+                data-testid="subject"
+            />,
+        );
 
         const input = screen.getByTestId("subject");
         expect(input).toBeTruthy();

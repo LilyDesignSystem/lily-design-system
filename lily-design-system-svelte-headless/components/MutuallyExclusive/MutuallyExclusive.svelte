@@ -16,7 +16,6 @@
 <!-- MutuallyExclusive.svelte -->
 <fieldset
     class={`mutually-exclusive ${className}`}
-
     aria-label={label}
     {...restProps}
 >

@@ -59,7 +59,11 @@ function Tree({ initial }: { initial: boolean | undefined }) {
     const [open, setOpen] = useState(initial);
     return (
         <ol role="tree">
-            <Subject id="parent" expanded={open} onExpandedChange={setOpen}>
+            <Subject
+                id="parent"
+                expanded={open}
+                onExpandedChange={setOpen}
+            >
                 parent
                 <ol role="group">
                     <Subject id="child">child</Subject>
@@ -131,7 +135,14 @@ describe("TreeListItem — expand, collapse and move between levels", () => {
 
     test("a consumer onKeyDown still runs", async () => {
         const seen: string[] = [];
-        const { container } = render(<Subject id="x" onKeyDown={(e: React.KeyboardEvent) => seen.push(e.key)}>x</Subject>);
+        const { container } = render(
+            <Subject
+                id="x"
+                onKeyDown={(e: React.KeyboardEvent) => seen.push(e.key)}
+            >
+                x
+            </Subject>,
+        );
         const user = userEvent.setup();
         (container.querySelector("#x") as HTMLElement).focus();
         await user.keyboard("{ArrowLeft}");

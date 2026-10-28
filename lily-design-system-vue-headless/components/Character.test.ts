@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./Character.vue";
 
-
 describe("Character", () => {
     test("renders with img role and aria-label", () => {
         render(Subject, { props: { label: "Check mark" }, slots: { default: "✓" } });
@@ -14,8 +13,10 @@ describe("Character", () => {
     });
 
     test("is aria-hidden when decorative", () => {
-        render(Subject, { props: { decorative: true,
-            "data-testid": "char" }, slots: { default: "★" } });
+        render(Subject, {
+            props: { decorative: true, "data-testid": "char" },
+            slots: { default: "★" },
+        });
 
         const el = screen.getByTestId("char");
         expect(el.getAttribute("aria-hidden")).toBe("true");
@@ -30,8 +31,10 @@ describe("Character", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(Subject, { props: { label: "Test",
-            "data-testid": "char" }, slots: { default: "X" } });
+        render(Subject, {
+            props: { label: "Test", "data-testid": "char" },
+            slots: { default: "X" },
+        });
 
         expect(screen.getByTestId("char")).toBeTruthy();
     });

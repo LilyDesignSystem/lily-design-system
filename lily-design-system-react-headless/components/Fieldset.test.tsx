@@ -15,7 +15,15 @@ describe("Fieldset", () => {
     });
 
     test("supports disabled", () => {
-        render(<Subject legend="Info" disabled data-testid="fs">C</Subject>);
+        render(
+            <Subject
+                legend="Info"
+                disabled
+                data-testid="fs"
+            >
+                C
+            </Subject>,
+        );
         expect((screen.getByTestId("fs") as HTMLFieldSetElement).disabled).toBe(true);
     });
 
@@ -25,7 +33,14 @@ describe("Fieldset", () => {
     });
 
     test("passes through attributes", () => {
-        render(<Subject legend="G" data-testid="fs">C</Subject>);
+        render(
+            <Subject
+                legend="G"
+                data-testid="fs"
+            >
+                C
+            </Subject>,
+        );
         expect(screen.getByTestId("fs")).toBeTruthy();
     });
 });

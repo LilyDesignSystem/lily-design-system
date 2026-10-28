@@ -5,7 +5,12 @@ import Subject from "./YisraelTeudatZehutView";
 
 describe("YisraelTeudatZehutView", () => {
     test("renders with the correct class", () => {
-        render(<Subject label="Teudat Zehut (תעודת זהות)" value="test-value" />);
+        render(
+            <Subject
+                label="Teudat Zehut (תעודת זהות)"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Teudat Zehut (תעודת זהות)");
         expect(el).toBeTruthy();
@@ -13,7 +18,12 @@ describe("YisraelTeudatZehutView", () => {
     });
 
     test("renders the value as text content", () => {
-        render(<Subject label="Teudat Zehut (תעודת זהות)" value="test-value" />);
+        render(
+            <Subject
+                label="Teudat Zehut (תעודת זהות)"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Teudat Zehut (תעודת זהות)");
         expect(el.textContent).toBe("test-value");

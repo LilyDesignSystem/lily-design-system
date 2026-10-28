@@ -15,10 +15,10 @@
 //   <BeachBall label="Loading content" />
 //
 // Examples:
-//   
+//
 //   <BeachBall label="Processing request" active={isLoading} />
 //
-//   
+//
 //   <BeachBall label="Fetching data" />
 //
 // Keyboard:
@@ -62,15 +62,19 @@ export default function BeachBall({
 }: BeachBallProps) {
     return (
         <div
-        className={`beach-ball ${className}`}
-        role="status"
-        aria-label={label}
-        aria-busy={active}
-        aria-live="polite"
-        data-active={active}
-        {...restProps}
+            className={`beach-ball ${className}`}
+            role="status"
+            aria-label={label}
+            aria-busy={active}
+            aria-live="polite"
+            data-active={active}
+            {...restProps}
         >
-        {active && (<><span aria-hidden="true"></span></>)}
+            {active && (
+                <>
+                    <span aria-hidden="true"></span>
+                </>
+            )}
         </div>
     );
 }

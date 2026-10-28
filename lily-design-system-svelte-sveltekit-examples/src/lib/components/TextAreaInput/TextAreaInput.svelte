@@ -77,5 +77,4 @@
     {rows}
     {required}
     {disabled}
-    {...restProps}
-></textarea>
+    {...restProps}></textarea>

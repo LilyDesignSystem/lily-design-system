@@ -22,14 +22,26 @@ describe("AngleSliderRangeInput", () => {
     });
 
     test("accepts custom value", () => {
-        render(<Subject label="Angle" value={90} />);
+        render(
+            <Subject
+                label="Angle"
+                value={90}
+            />,
+        );
 
         const slider: HTMLInputElement = screen.getByRole("slider") as HTMLInputElement;
         expect(slider.value).toBe("90");
     });
 
     test("accepts custom min, max, and step", () => {
-        render(<Subject label="Angle" min={0} max={180} step={15} />);
+        render(
+            <Subject
+                label="Angle"
+                min={0}
+                max={180}
+                step={15}
+            />,
+        );
 
         const slider: HTMLInputElement = screen.getByRole("slider") as HTMLInputElement;
         expect(slider.getAttribute("min")).toBe("0");
@@ -38,7 +50,14 @@ describe("AngleSliderRangeInput", () => {
     });
 
     test("has correct ARIA value attributes", () => {
-        render(<Subject label="Direction" value={45} min={0} max={360} />);
+        render(
+            <Subject
+                label="Direction"
+                value={45}
+                min={0}
+                max={360}
+            />,
+        );
 
         const slider: HTMLElement = screen.getByRole("slider");
         expect(slider.getAttribute("aria-valuemin")).toBe("0");
@@ -48,7 +67,13 @@ describe("AngleSliderRangeInput", () => {
     });
 
     test("supports custom valueTextSuffix", () => {
-        render(<Subject label="Rotation" value={180} valueTextSuffix=" degrees" />);
+        render(
+            <Subject
+                label="Rotation"
+                value={180}
+                valueTextSuffix=" degrees"
+            />,
+        );
 
         const slider: HTMLElement = screen.getByRole("slider");
         expect(slider.getAttribute("aria-valuetext")).toBe("180 degrees");
@@ -62,14 +87,25 @@ describe("AngleSliderRangeInput", () => {
     });
 
     test("can be disabled", () => {
-        render(<Subject label="Angle" disabled />);
+        render(
+            <Subject
+                label="Angle"
+                disabled
+            />,
+        );
 
         const slider: HTMLInputElement = screen.getByRole("slider") as HTMLInputElement;
         expect(slider.disabled).toBe(true);
     });
 
     test("applies name and id attributes", () => {
-        render(<Subject label="Angle" name="rotation" id="angle-input" />);
+        render(
+            <Subject
+                label="Angle"
+                name="rotation"
+                id="angle-input"
+            />,
+        );
 
         const slider: HTMLElement = screen.getByRole("slider");
         expect(slider.getAttribute("name")).toBe("rotation");
@@ -77,7 +113,12 @@ describe("AngleSliderRangeInput", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="Angle" data-testid="custom-slider" />);
+        render(
+            <Subject
+                label="Angle"
+                data-testid="custom-slider"
+            />,
+        );
 
         const slider: HTMLElement = screen.getByTestId("custom-slider");
         expect(slider).toBeTruthy();

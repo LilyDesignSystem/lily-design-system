@@ -37,9 +37,11 @@ export default function MisrAlRaqmAlQawmiView({
 }: MisrAlRaqmAlQawmiViewProps) {
     return (
         <span
-        className={`misr-al-raqm-al-qawmi-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`misr-al-raqm-al-qawmi-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

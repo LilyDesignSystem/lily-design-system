@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import ConvertFromValueDiv from './ConvertFromValueDiv.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import ConvertFromValueDiv from "./ConvertFromValueDiv.vue";
 
 const meta = {
-  title: 'Headless/ConvertFromValueDiv',
-  component: ConvertFromValueDiv,
-  tags: ['autodocs'],
+    title: "Headless/ConvertFromValueDiv",
+    component: ConvertFromValueDiv,
+    tags: ["autodocs"],
 } satisfies Meta<typeof ConvertFromValueDiv>;
 
 export default meta;

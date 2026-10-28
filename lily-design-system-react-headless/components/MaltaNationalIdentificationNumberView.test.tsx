@@ -5,7 +5,12 @@ import Subject from "./MaltaNationalIdentificationNumberView";
 
 describe("MaltaNationalIdentificationNumberView", () => {
     test("renders with the correct class", () => {
-        render(<Subject label="Malta National Identification Number" value="test-value" />);
+        render(
+            <Subject
+                label="Malta National Identification Number"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Malta National Identification Number");
         expect(el).toBeTruthy();
@@ -13,7 +18,12 @@ describe("MaltaNationalIdentificationNumberView", () => {
     });
 
     test("renders the value as text content", () => {
-        render(<Subject label="Malta National Identification Number" value="test-value" />);
+        render(
+            <Subject
+                label="Malta National Identification Number"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Malta National Identification Number");
         expect(el.textContent).toBe("test-value");

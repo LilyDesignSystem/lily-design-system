@@ -83,6 +83,8 @@ export default function Meter({
             optimum={optimum}
             aria-label={label}
             {...restProps}
-        >{value}</meter>
+        >
+            {value}
+        </meter>
     );
 }

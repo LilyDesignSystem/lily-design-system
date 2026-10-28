@@ -67,14 +67,18 @@ export default function Tooltip({
 }: TooltipProps) {
     return (
         <>
-        {visible && (<><div
-        className={`tooltip ${className}`}
-        role="tooltip"
-        id={id}
-        {...restProps}
-        >
-        {label}
-        </div></>)}
+            {visible && (
+                <>
+                    <div
+                        className={`tooltip ${className}`}
+                        role="tooltip"
+                        id={id}
+                        {...restProps}
+                    >
+                        {label}
+                    </div>
+                </>
+            )}
         </>
     );
 }

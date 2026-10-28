@@ -3,7 +3,8 @@ import { render, screen } from "@testing-library/svelte";
 import { createRawSnippet } from "svelte";
 import StreamingText from "./StreamingText.svelte";
 
-const text = (t: string) => createRawSnippet(() => ({ render: () => `<span data-testid="txt">${t}</span>` }));
+const text = (t: string) =>
+    createRawSnippet(() => ({ render: () => `<span data-testid="txt">${t}</span>` }));
 
 describe("StreamingText", () => {
     it("renders a <div> with the base class", () => {
@@ -33,7 +34,9 @@ describe("StreamingText", () => {
     });
 
     it("clears busy when streaming becomes false", async () => {
-        const { rerender } = render(StreamingText, { props: { streaming: true, children: text("Hel") } });
+        const { rerender } = render(StreamingText, {
+            props: { streaming: true, children: text("Hel") },
+        });
         await rerender({ streaming: false });
         const el = screen.getByRole("status");
         expect(el.hasAttribute("aria-busy")).toBe(false);

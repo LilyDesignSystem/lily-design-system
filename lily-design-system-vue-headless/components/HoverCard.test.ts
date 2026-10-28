@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./HoverCard.vue";
 
-
 describe("HoverCard", () => {
     test("hidden when closed", () => {
         render(Subject, { props: { label: "Info", open: false }, slots: { default: "C" } });
@@ -21,7 +20,10 @@ describe("HoverCard", () => {
     });
 
     test("passes through attributes", () => {
-        render(Subject, { props: { label: "I", open: true, "data-testid": "hc" }, slots: { default: "C" } });
+        render(Subject, {
+            props: { label: "I", open: true, "data-testid": "hc" },
+            slots: { default: "C" },
+        });
         expect(screen.getByTestId("hc")).toBeTruthy();
     });
 });

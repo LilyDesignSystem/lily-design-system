@@ -4,7 +4,6 @@ import { describe, expect, test, vi } from "vitest";
 
 import Subject from "./StickyPromoBanner.vue";
 
-
 describe("StickyPromoBanner", () => {
     const baseProps = {
         label: "Promotional banner",
@@ -17,7 +16,9 @@ describe("StickyPromoBanner", () => {
             slots: { default: "Save 20%" },
         });
 
-        const aside: HTMLElement = screen.getByRole("complementary", { name: "Promotional banner" });
+        const aside: HTMLElement = screen.getByRole("complementary", {
+            name: "Promotional banner",
+        });
         expect(aside.tagName).toBe("ASIDE");
     });
 
@@ -110,7 +111,9 @@ describe("StickyPromoBanner", () => {
             slots: { default: "Save 20%" },
         });
 
-        const button: HTMLElement = screen.getByRole("button", { name: "Dismiss promotional banner" });
+        const button: HTMLElement = screen.getByRole("button", {
+            name: "Dismiss promotional banner",
+        });
         expect(button.classList.contains("sticky-promo-banner-dismiss")).toBe(true);
         expect(button.getAttribute("type")).toBe("button");
     });
@@ -124,7 +127,9 @@ describe("StickyPromoBanner", () => {
             slots: { default: "Save 20%" },
         });
 
-        const button: HTMLElement = screen.getByRole("button", { name: "Dismiss promotional banner" });
+        const button: HTMLElement = screen.getByRole("button", {
+            name: "Dismiss promotional banner",
+        });
         await user.click(button);
 
         expect(onDismiss).toHaveBeenCalledOnce();

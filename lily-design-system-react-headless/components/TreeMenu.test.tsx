@@ -29,7 +29,14 @@ describe("TreeMenu", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        const { container } = render(<Subject label="x" data-testid="subject">content</Subject>);
+        const { container } = render(
+            <Subject
+                label="x"
+                data-testid="subject"
+            >
+                content
+            </Subject>,
+        );
         expect(container.querySelector("[data-testid='subject']")).toBeTruthy();
     });
 });

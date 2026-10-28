@@ -1,44 +1,44 @@
 <script setup lang="ts">
+// GovernmentIdentifier component
+//
+// An identifier section with a parent agency logo, agency name, and
+// required government links. Renders <section class="government-identifier">
+// with a masthead area and a nested <nav> for required links.
+//
+// Props:
+//   label       — string, REQUIRED. aria-label for the section AND the nav.
+//   agencyName  — string, REQUIRED. Parent agency name.
+//   agencyHref  — string, optional. Link to the agency's site.
+//   logoUrl     — string, optional. Agency logo image src.
+//   logoAlt     — string, optional. Logo alt text.
+//   description — string, optional. Agency description.
+//   default slot — required-links list content (e.g., a <ul> of links).
+//
+// Syntax:
+//   <GovernmentIdentifier
+//     label="Agency identifier"
+//     agencyName="General Services Administration"
+//     agencyHref="https://gsa.gov"
+//     logoUrl="/gsa.svg"
+//     logoAlt="GSA logo"
+//   >…</GovernmentIdentifier>
+//
+// Accessibility:
+//   - <section> as a region landmark with aria-label
+//   - inner <nav> with aria-label for the required links
+//
+// Internationalization:
+//   - All text strings come from props
+//
+// Claude rules:
+//   - Headless: no CSS, no styles
+//   - label and agencyName are required
+//
+// References:
+//   - USWDS Identifier: https://designsystem.digital.gov/components/identifier/
 
-    // GovernmentIdentifier component
-    //
-    // An identifier section with a parent agency logo, agency name, and
-    // required government links. Renders <section class="government-identifier">
-    // with a masthead area and a nested <nav> for required links.
-    //
-    // Props:
-    //   label       — string, REQUIRED. aria-label for the section AND the nav.
-    //   agencyName  — string, REQUIRED. Parent agency name.
-    //   agencyHref  — string, optional. Link to the agency's site.
-    //   logoUrl     — string, optional. Agency logo image src.
-    //   logoAlt     — string, optional. Logo alt text.
-    //   description — string, optional. Agency description.
-    //   default slot — required-links list content (e.g., a <ul> of links).
-    //
-    // Syntax:
-    //   <GovernmentIdentifier
-    //     label="Agency identifier"
-    //     agencyName="General Services Administration"
-    //     agencyHref="https://gsa.gov"
-    //     logoUrl="/gsa.svg"
-    //     logoAlt="GSA logo"
-    //   >…</GovernmentIdentifier>
-    //
-    // Accessibility:
-    //   - <section> as a region landmark with aria-label
-    //   - inner <nav> with aria-label for the required links
-    //
-    // Internationalization:
-    //   - All text strings come from props
-    //
-    // Claude rules:
-    //   - Headless: no CSS, no styles
-    //   - label and agencyName are required
-    //
-    // References:
-    //   - USWDS Identifier: https://designsystem.digital.gov/components/identifier/
-
-    withDefaults(defineProps<{
+withDefaults(
+    defineProps<{
         /** aria-label for the section and nav (REQUIRED). */
         label: string;
         /** Parent agency name (REQUIRED). */
@@ -51,13 +51,14 @@
         logoAlt?: string;
         /** Agency description. */
         description?: string;
-    }>(), {
+    }>(),
+    {
         agencyHref: undefined,
         logoUrl: undefined,
         logoAlt: undefined,
         description: undefined,
-    });
-
+    },
+);
 </script>
 
 <template>
@@ -74,7 +75,11 @@
                 :alt="logoAlt ?? ''"
             />
             <p class="government-identifier-agency">
-                <a v-if="agencyHref" :href="agencyHref">{{ agencyName }}</a>
+                <a
+                    v-if="agencyHref"
+                    :href="agencyHref"
+                    >{{ agencyName }}</a
+                >
                 <span v-else>{{ agencyName }}</span>
             </p>
             <p

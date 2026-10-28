@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import StepListItem from './StepListItem';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import StepListItem from "./StepListItem";
 
 const meta = {
-  title: 'Headless/StepListItem',
-  component: StepListItem,
-  tags: ['autodocs']
+    title: "Headless/StepListItem",
+    component: StepListItem,
+    tags: ["autodocs"],
 } satisfies Meta<typeof StepListItem>;
 
 export default meta;

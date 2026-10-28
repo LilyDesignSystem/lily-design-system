@@ -38,9 +38,11 @@ export default function SingaporeNationalRegistrationIdentityCardView({
 }: SingaporeNationalRegistrationIdentityCardViewProps) {
     return (
         <span
-        className={`singapore-national-registration-identity-card-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`singapore-national-registration-identity-card-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

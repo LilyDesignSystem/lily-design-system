@@ -17,12 +17,12 @@
 //   </Sparkline>
 //
 // Examples:
-//   
+//
 //   <Sparkline label="Revenue trend over past 7 days">
 //     <svg viewBox="0 0 100 20"><polyline points="0,20 20,10 40,15 60,5 80,12 100,2" /></svg>
 //   </Sparkline>
 //
-//   
+//
 //   <Sparkline label="Temperature last 24 hours">
 //     <canvas width="100" height="20"></canvas>
 //   </Sparkline>
@@ -65,12 +65,12 @@ export default function Sparkline({
 }: SparklineProps) {
     return (
         <span
-        className={`sparkline ${className}`}
-        role="img"
-        aria-label={label}
-        {...restProps}
+            className={`sparkline ${className}`}
+            role="img"
+            aria-label={label}
+            {...restProps}
         >
-        {children}
+            {children}
         </span>
     );
 }

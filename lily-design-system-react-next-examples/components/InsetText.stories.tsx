@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import InsetText from './InsetText';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import InsetText from "./InsetText";
 
 const meta = {
-  title: 'Headless/InsetText',
-  component: InsetText,
-  tags: ['autodocs']
+    title: "Headless/InsetText",
+    component: InsetText,
+    tags: ["autodocs"],
 } satisfies Meta<typeof InsetText>;
 
 export default meta;

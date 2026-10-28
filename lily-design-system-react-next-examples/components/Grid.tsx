@@ -63,17 +63,15 @@ export default function Grid({
     ...restProps
 }: GridProps) {
     const gridTemplateColumns: string =
-        typeof columns === "number"
-            ? `repeat(${columns}, minmax(0, 1fr))`
-            : columns;
+        typeof columns === "number" ? `repeat(${columns}, minmax(0, 1fr))` : columns;
     return (
         <div
-        className={`grid ${className}`}
-        data-columns={String(columns)}
-        style={{ display: "grid", gridTemplateColumns, gap }}
-        {...restProps}
+            className={`grid ${className}`}
+            data-columns={String(columns)}
+            style={{ display: "grid", gridTemplateColumns, gap }}
+            {...restProps}
         >
-        {children}
+            {children}
         </div>
     );
 }

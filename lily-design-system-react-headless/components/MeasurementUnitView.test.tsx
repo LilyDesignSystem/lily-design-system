@@ -10,17 +10,32 @@ describe("MeasurementUnitView", () => {
     });
 
     test("renders as a span element", () => {
-        render(<Subject value="lb" data-testid="mu" />);
+        render(
+            <Subject
+                value="lb"
+                data-testid="mu"
+            />,
+        );
         expect(screen.getByTestId("mu").tagName).toBe("SPAN");
     });
 
     test("supports aria-label", () => {
-        render(<Subject value="cm" label="Centimeters" />);
+        render(
+            <Subject
+                value="cm"
+                label="Centimeters"
+            />,
+        );
         expect(screen.getByText("cm").getAttribute("aria-label")).toBe("Centimeters");
     });
 
     test("passes through attributes", () => {
-        render(<Subject value="inch" data-testid="muv" />);
+        render(
+            <Subject
+                value="inch"
+                data-testid="muv"
+            />,
+        );
         expect(screen.getByTestId("muv")).toBeTruthy();
     });
 });

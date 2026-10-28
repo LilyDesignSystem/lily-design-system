@@ -15,7 +15,13 @@ const months = [
 function make(props: Record<string, unknown> = {}, attrs: Record<string, unknown> = {}) {
     const emitted: string[] = [];
     const result = render(Subject, {
-        props: { label: "Month", options: months, modelValue: "2", "onUpdate:modelValue": (v: string) => emitted.push(v), ...props },
+        props: {
+            label: "Month",
+            options: months,
+            modelValue: "2",
+            "onUpdate:modelValue": (v: string) => emitted.push(v),
+            ...props,
+        },
         attrs,
     });
     return { ...result, emitted };
@@ -26,7 +32,9 @@ const selected = () => document.querySelector('[role="option"][aria-selected="tr
 describe("WheelPicker", () => {
     test("renders a div with the base class first, then the consumer class, and a vertical listbox inside", () => {
         const { container } = make({}, { class: "mine" });
-        expect(container.querySelector("div.wheel-picker")!.getAttribute("class")).toBe("wheel-picker mine");
+        expect(container.querySelector("div.wheel-picker")!.getAttribute("class")).toBe(
+            "wheel-picker mine",
+        );
         expect(list().getAttribute("aria-orientation")).toBe("vertical");
         expect(list().getAttribute("aria-label")).toBe("Month");
         expect(list().className).toBe("wheel-picker-list");
@@ -89,7 +97,11 @@ describe("WheelPicker", () => {
 
     test("prevents the page scroll for the keys it handles", () => {
         make();
-        const event = new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true, cancelable: true });
+        const event = new KeyboardEvent("keydown", {
+            key: "ArrowDown",
+            bubbles: true,
+            cancelable: true,
+        });
         list().dispatchEvent(event);
         expect(event.defaultPrevented).toBe(true);
     });

@@ -78,16 +78,17 @@ export default function FranceNumeroDIdentificationAuRepertoireInput({
 
     return (
         <input
-        className={`france-numero-d-identification-au-repertoire-input ${className}`}
-        type="text"
-        aria-label={label}
-        inputMode="numeric"
-        pattern={nirPattern}
-        autoComplete="off"
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`france-numero-d-identification-au-repertoire-input ${className}`}
+            type="text"
+            aria-label={label}
+            inputMode="numeric"
+            pattern={nirPattern}
+            autoComplete="off"
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

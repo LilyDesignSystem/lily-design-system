@@ -88,7 +88,10 @@ export default function TreeSelect({
             >
                 {value || placeholder}
             </button>
-            <div className="tree-select-panel" hidden={!expanded}>
+            <div
+                className="tree-select-panel"
+                hidden={!expanded}
+            >
                 {children}
             </div>
         </div>

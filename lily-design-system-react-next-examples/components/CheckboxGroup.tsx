@@ -72,13 +72,13 @@ export default function CheckboxGroup({
 }: CheckboxGroupProps) {
     return (
         <fieldset
-        className={`checkbox-group ${className}`}
-        role="group"
-        aria-label={label}
-        disabled={disabled}
-        {...restProps}
+            className={`checkbox-group ${className}`}
+            role="group"
+            aria-label={label}
+            disabled={disabled}
+            {...restProps}
         >
-        {children}
+            {children}
         </fieldset>
     );
 }

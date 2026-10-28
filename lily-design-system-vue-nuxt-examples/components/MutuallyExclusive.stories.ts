@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import MutuallyExclusive from './MutuallyExclusive.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import MutuallyExclusive from "./MutuallyExclusive.vue";
 
 const meta = {
-  title: 'Headless/MutuallyExclusive',
-  component: MutuallyExclusive,
-  tags: ['autodocs']
+    title: "Headless/MutuallyExclusive",
+    component: MutuallyExclusive,
+    tags: ["autodocs"],
 } satisfies Meta<typeof MutuallyExclusive>;
 
 export default meta;

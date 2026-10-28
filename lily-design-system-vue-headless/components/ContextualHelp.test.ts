@@ -4,7 +4,6 @@ import { describe, expect, test, vi } from "vitest";
 
 import Subject from "./ContextualHelp.vue";
 
-
 describe("ContextualHelp", () => {
     test("has contextual-help class on root", () => {
         const { container } = render(Subject, {

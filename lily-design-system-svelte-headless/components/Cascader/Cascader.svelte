@@ -87,7 +87,10 @@
     >
         {value ?? placeholder ?? ""}
     </button>
-    <div class="cascader-panel" hidden={!expanded}>
+    <div
+        class="cascader-panel"
+        hidden={!expanded}
+    >
         {#if children}{@render children?.()}{/if}
     </div>
 </div>

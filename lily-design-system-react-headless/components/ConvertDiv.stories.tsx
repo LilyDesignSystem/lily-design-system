@@ -1,11 +1,11 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import ConvertDiv from './ConvertDiv';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import ConvertDiv from "./ConvertDiv";
 
 const meta = {
-  title: 'Headless/ConvertDiv',
-  component: ConvertDiv,
-  tags: ['autodocs'],
-  args: { label: 'Currency converter' },
+    title: "Headless/ConvertDiv",
+    component: ConvertDiv,
+    tags: ["autodocs"],
+    args: { label: "Currency converter" },
 } satisfies Meta<typeof ConvertDiv>;
 
 export default meta;

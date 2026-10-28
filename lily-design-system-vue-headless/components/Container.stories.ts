@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import Container from './Container.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import Container from "./Container.vue";
 
 const meta = {
-  title: 'Headless/Container',
-  component: Container,
-  tags: ['autodocs']
+    title: "Headless/Container",
+    component: Container,
+    tags: ["autodocs"],
 } satisfies Meta<typeof Container>;
 
 export default meta;

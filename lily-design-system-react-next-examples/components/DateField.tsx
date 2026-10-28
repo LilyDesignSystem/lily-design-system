@@ -90,28 +90,37 @@ export default function DateField({
 
     return (
         <div
-        className={`date-field ${className}`}
-        {...restProps}
+            className={`date-field ${className}`}
+            {...restProps}
         >
-        <label htmlFor={inputId}>{label}</label>
-        <input
-        className="date-input"
-        id={inputId}
-        type="date"
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        aria-describedby={description ? descriptionId : undefined}
-        aria-invalid={error ? true : undefined}
-        aria-errormessage={error ? errorId : undefined}
-        />
-        {description && (<><p id={descriptionId}>{description}</p></>)}
-        {error && (<><p
-        id={errorId}
-        role="alert"
-        >
-        {error}
-        </p></>)}
+            <label htmlFor={inputId}>{label}</label>
+            <input
+                className="date-input"
+                id={inputId}
+                type="date"
+                value={value}
+                onChange={(e) => onChange?.(e.target.value)}
+                required={required}
+                disabled={disabled}
+                aria-describedby={description ? descriptionId : undefined}
+                aria-invalid={error ? true : undefined}
+                aria-errormessage={error ? errorId : undefined}
+            />
+            {description && (
+                <>
+                    <p id={descriptionId}>{description}</p>
+                </>
+            )}
+            {error && (
+                <>
+                    <p
+                        id={errorId}
+                        role="alert"
+                    >
+                        {error}
+                    </p>
+                </>
+            )}
         </div>
     );
 }

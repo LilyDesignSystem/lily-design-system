@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import MedicalBannerBoxForDanger from './MedicalBannerBoxForDanger.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import MedicalBannerBoxForDanger from "./MedicalBannerBoxForDanger.vue";
 
 const meta = {
-  title: 'Headless/MedicalBannerBoxForDanger',
-  component: MedicalBannerBoxForDanger,
-  tags: ['autodocs']
+    title: "Headless/MedicalBannerBoxForDanger",
+    component: MedicalBannerBoxForDanger,
+    tags: ["autodocs"],
 } satisfies Meta<typeof MedicalBannerBoxForDanger>;
 
 export default meta;

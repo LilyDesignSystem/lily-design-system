@@ -18,13 +18,27 @@ describe("Caption", () => {
     });
 
     test("applies id for aria-describedby references", () => {
-        render(<Subject id="chart-desc" data-testid="caption">Chart description</Subject>);
+        render(
+            <Subject
+                id="chart-desc"
+                data-testid="caption"
+            >
+                Chart description
+            </Subject>,
+        );
 
         expect(screen.getByTestId("caption").getAttribute("id")).toBe("chart-desc");
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject data-testid="caption" data-media="image">Content</Subject>);
+        render(
+            <Subject
+                data-testid="caption"
+                data-media="image"
+            >
+                Content
+            </Subject>,
+        );
 
         expect(screen.getByTestId("caption").getAttribute("data-media")).toBe("image");
     });

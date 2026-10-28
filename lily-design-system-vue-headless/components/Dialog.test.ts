@@ -4,10 +4,12 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./Dialog.vue";
 
-
 describe("Dialog", () => {
     test("hidden when open is false", () => {
-        render(Subject, { props: { label: "Confirm", open: false }, slots: { default: "Content" } });
+        render(Subject, {
+            props: { label: "Confirm", open: false },
+            slots: { default: "Content" },
+        });
         expect(screen.queryByRole("dialog")).toBeNull();
     });
 
@@ -22,12 +24,18 @@ describe("Dialog", () => {
     });
 
     test("has aria-modal when modal", () => {
-        render(Subject, { props: { label: "D", open: true, modal: true }, slots: { default: "C" } });
+        render(Subject, {
+            props: { label: "D", open: true, modal: true },
+            slots: { default: "C" },
+        });
         expect(screen.getByRole("dialog").getAttribute("aria-modal")).toBe("true");
     });
 
     test("no aria-modal when non-modal", () => {
-        render(Subject, { props: { label: "D", open: true, modal: false }, slots: { default: "C" } });
+        render(Subject, {
+            props: { label: "D", open: true, modal: false },
+            slots: { default: "C" },
+        });
         expect(screen.getByRole("dialog").getAttribute("aria-modal")).toBeNull();
     });
 
@@ -46,7 +54,10 @@ describe("Dialog", () => {
     });
 
     test("passes through attributes", () => {
-        render(Subject, { props: { label: "D", open: true, "data-testid": "dlg" }, slots: { default: "C" } });
+        render(Subject, {
+            props: { label: "D", open: true, "data-testid": "dlg" },
+            slots: { default: "C" },
+        });
         expect(screen.getByTestId("dlg")).toBeTruthy();
     });
 });

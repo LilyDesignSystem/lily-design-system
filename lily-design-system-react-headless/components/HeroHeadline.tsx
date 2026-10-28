@@ -22,7 +22,11 @@ export interface HeroHeadlineProps {
 }
 
 export default function HeroHeadline({
-    className = "", label, media, children, ...restProps
+    className = "",
+    label,
+    media,
+    children,
+    ...restProps
 }: HeroHeadlineProps) {
     return (
         <div

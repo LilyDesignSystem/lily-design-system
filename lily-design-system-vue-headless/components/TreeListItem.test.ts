@@ -31,7 +31,10 @@ describe("TreeListItem", () => {
     });
 
     test("applies aria-label when label prop is provided", () => {
-        const { container } = render(Subject, { props: { label: "Hello" }, slots: { default: "x" } });
+        const { container } = render(Subject, {
+            props: { label: "Hello" },
+            slots: { default: "x" },
+        });
         const root = container.querySelector(".tree-list-item");
         expect(root?.getAttribute("aria-label")).toBe("Hello");
     });
@@ -45,7 +48,10 @@ describe("TreeListItem", () => {
     });
 
     test("a consumer tabindex overrides the default (roving tabindex: the active item is 0)", () => {
-        const { container } = render(Subject, { attrs: { tabindex: "0" }, slots: { default: "x" } });
+        const { container } = render(Subject, {
+            attrs: { tabindex: "0" },
+            slots: { default: "x" },
+        });
         expect(container.querySelector(".tree-list-item")?.getAttribute("tabindex")).toBe("0");
     });
 });
@@ -58,8 +64,17 @@ function makeTree(initial: boolean | undefined) {
                 h("ol", { role: "tree" }, [
                     h(
                         Subject,
-                        { id: "parent", expanded: open.value, "onUpdate:expanded": (v: boolean) => (open.value = v) },
-                        () => ["parent", h("ol", { role: "group" }, [h(Subject, { id: "child" }, () => "child")])],
+                        {
+                            id: "parent",
+                            expanded: open.value,
+                            "onUpdate:expanded": (v: boolean) => (open.value = v),
+                        },
+                        () => [
+                            "parent",
+                            h("ol", { role: "group" }, [
+                                h(Subject, { id: "child" }, () => "child"),
+                            ]),
+                        ],
                     ),
                     h(Subject, { id: "leaf" }, () => "leaf"),
                 ]);

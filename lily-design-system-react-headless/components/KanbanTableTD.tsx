@@ -64,13 +64,13 @@ export default function KanbanTableTD({
 }: KanbanTableTDProps) {
     return (
         <td
-        className={`kanban-table-td ${className}`}
-        role="gridcell"
-        tabIndex={active ? 0 : -1}
-        aria-label={label}
-        {...restProps}
+            className={`kanban-table-td ${className}`}
+            role="gridcell"
+            tabIndex={active ? 0 : -1}
+            aria-label={label}
+            {...restProps}
         >
-        {children && (<>{children}</>)}
+            {children && <>{children}</>}
         </td>
     );
 }

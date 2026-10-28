@@ -5,7 +5,12 @@ import Subject from "./ZhongguoJuminShenfenzhengHaomaView";
 
 describe("ZhongguoJuminShenfenzhengHaomaView", () => {
     test("renders with the correct class", () => {
-        render(<Subject label="Resident Identity Card Number (居民身份证号码)" value="test-value" />);
+        render(
+            <Subject
+                label="Resident Identity Card Number (居民身份证号码)"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Resident Identity Card Number (居民身份证号码)");
         expect(el).toBeTruthy();
@@ -13,7 +18,12 @@ describe("ZhongguoJuminShenfenzhengHaomaView", () => {
     });
 
     test("renders the value as text content", () => {
-        render(<Subject label="Resident Identity Card Number (居民身份证号码)" value="test-value" />);
+        render(
+            <Subject
+                label="Resident Identity Card Number (居民身份证号码)"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Resident Identity Card Number (居民身份证号码)");
         expect(el.textContent).toBe("test-value");
@@ -23,6 +33,8 @@ describe("ZhongguoJuminShenfenzhengHaomaView", () => {
         render(<Subject label="Resident Identity Card Number (居民身份证号码)" />);
 
         const el = screen.getByLabelText("Resident Identity Card Number (居民身份证号码)");
-        expect(el.getAttribute("aria-label")).toBe("Resident Identity Card Number (居民身份证号码)");
+        expect(el.getAttribute("aria-label")).toBe(
+            "Resident Identity Card Number (居民身份证号码)",
+        );
     });
 });

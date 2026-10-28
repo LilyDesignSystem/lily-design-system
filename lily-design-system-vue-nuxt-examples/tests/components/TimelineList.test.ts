@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "../../components/TimelineList.vue";
 
-
 describe("TimelineList", () => {
     test("renders an ordered list element", () => {
         render(Subject, { props: { label: "Project milestones" }, slots: { default: "events" } });
@@ -27,16 +26,20 @@ describe("TimelineList", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(Subject, { props: { label: "Timeline",
-            "data-testid": "my-timeline" }, slots: { default: "events" } });
+        render(Subject, {
+            props: { label: "Timeline", "data-testid": "my-timeline" },
+            slots: { default: "events" },
+        });
 
         const list = screen.getByTestId("my-timeline");
         expect(list).toBeTruthy();
     });
 
     test("passes through id attribute", () => {
-        render(Subject, { props: { label: "Timeline",
-            id: "project-timeline" }, slots: { default: "events" } });
+        render(Subject, {
+            props: { label: "Timeline", id: "project-timeline" },
+            slots: { default: "events" },
+        });
 
         const list = screen.getByRole("list");
         expect(list.getAttribute("id")).toBe("project-timeline");

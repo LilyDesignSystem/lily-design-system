@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import ScrollArea from './ScrollArea';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import ScrollArea from "./ScrollArea";
 
 const meta = {
-  title: 'Headless/ScrollArea',
-  component: ScrollArea,
-  tags: ['autodocs']
+    title: "Headless/ScrollArea",
+    component: ScrollArea,
+    tags: ["autodocs"],
 } satisfies Meta<typeof ScrollArea>;
 
 export default meta;

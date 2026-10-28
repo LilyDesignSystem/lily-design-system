@@ -68,14 +68,15 @@ export default function TelInput({
 }: TelInputProps) {
     return (
         <input
-        className={`tel-input ${className}`}
-        type="tel"
-        aria-label={label}
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        autoComplete="tel"
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`tel-input ${className}`}
+            type="tel"
+            aria-label={label}
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            autoComplete="tel"
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

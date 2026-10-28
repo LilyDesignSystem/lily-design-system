@@ -5,7 +5,12 @@ import Subject from "./DeutschlandKrankenversichertennummerView";
 
 describe("DeutschlandKrankenversichertennummerView", () => {
     test("renders with the correct class", () => {
-        render(<Subject label="Health Insurance Number" value="test-value" />);
+        render(
+            <Subject
+                label="Health Insurance Number"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Health Insurance Number");
         expect(el).toBeTruthy();
@@ -13,7 +18,12 @@ describe("DeutschlandKrankenversichertennummerView", () => {
     });
 
     test("renders the value as text content", () => {
-        render(<Subject label="Health Insurance Number" value="test-value" />);
+        render(
+            <Subject
+                label="Health Insurance Number"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Health Insurance Number");
         expect(el.textContent).toBe("test-value");

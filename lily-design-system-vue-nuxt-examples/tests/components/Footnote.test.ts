@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "../../components/Footnote.vue";
 
-
 describe("Footnote", () => {
     test("renders with note role", () => {
         render(Subject, { props: { id: "fn1" }, slots: { default: "Source info" } });

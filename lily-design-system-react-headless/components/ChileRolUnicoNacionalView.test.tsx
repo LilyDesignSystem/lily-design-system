@@ -5,7 +5,12 @@ import Subject from "./ChileRolUnicoNacionalView";
 
 describe("ChileRolUnicoNacionalView", () => {
     test("renders with the correct class", () => {
-        render(<Subject label="Rol Único Nacional (RUN)" value="test-value" />);
+        render(
+            <Subject
+                label="Rol Único Nacional (RUN)"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Rol Único Nacional (RUN)");
         expect(el).toBeTruthy();
@@ -13,7 +18,12 @@ describe("ChileRolUnicoNacionalView", () => {
     });
 
     test("renders the value as text content", () => {
-        render(<Subject label="Rol Único Nacional (RUN)" value="test-value" />);
+        render(
+            <Subject
+                label="Rol Único Nacional (RUN)"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Rol Único Nacional (RUN)");
         expect(el.textContent).toBe("test-value");

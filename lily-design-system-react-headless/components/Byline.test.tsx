@@ -20,7 +20,7 @@ describe("Byline", () => {
         const { container } = render(
             <Subject published={<time dateTime="2026-04-15">April 15, 2026</time>}>
                 Jane Smith
-            </Subject>
+            </Subject>,
         );
         const pub = container.querySelector(".byline-published time");
         expect(pub?.getAttribute("datetime")).toBe("2026-04-15");
@@ -39,16 +39,14 @@ describe("Byline", () => {
                 updated={<time dateTime="2026-04-16">April 16</time>}
             >
                 Jane Smith
-            </Subject>
+            </Subject>,
         );
         const upd = container.querySelector(".byline-updated time");
         expect(upd?.getAttribute("datetime")).toBe("2026-04-16");
     });
 
     test("passes through additional HTML attributes", () => {
-        const { container } = render(
-            <Subject data-testid="byline">Jane Smith</Subject>
-        );
+        const { container } = render(<Subject data-testid="byline">Jane Smith</Subject>);
         expect(container.querySelector("[data-testid='byline']")).toBeTruthy();
     });
 });

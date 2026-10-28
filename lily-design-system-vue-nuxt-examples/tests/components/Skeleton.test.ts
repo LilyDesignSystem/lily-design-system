@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "../../components/Skeleton.vue";
 
-
 describe("Skeleton", () => {
     test("renders a div", () => {
         render(Subject, { props: { "data-testid": "sk" } });

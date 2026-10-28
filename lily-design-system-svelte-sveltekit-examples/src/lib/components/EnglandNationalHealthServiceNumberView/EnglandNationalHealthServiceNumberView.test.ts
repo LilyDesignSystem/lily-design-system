@@ -5,7 +5,9 @@ import Subject from "./EnglandNationalHealthServiceNumberView.svelte";
 
 describe("EnglandNationalHealthServiceNumberView", () => {
     test("renders with the correct class", () => {
-        render(Subject, { props: { label: "National Health Service Number", value: "test-value" } });
+        render(Subject, {
+            props: { label: "National Health Service Number", value: "test-value" },
+        });
 
         const el = screen.getByLabelText("National Health Service Number");
         expect(el).toBeTruthy();
@@ -13,7 +15,9 @@ describe("EnglandNationalHealthServiceNumberView", () => {
     });
 
     test("renders the value as text content", () => {
-        render(Subject, { props: { label: "National Health Service Number", value: "test-value" } });
+        render(Subject, {
+            props: { label: "National Health Service Number", value: "test-value" },
+        });
 
         const el = screen.getByLabelText("National Health Service Number");
         expect(el.textContent).toBe("test-value");

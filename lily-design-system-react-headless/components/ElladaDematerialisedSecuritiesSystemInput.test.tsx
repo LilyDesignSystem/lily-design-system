@@ -15,7 +15,9 @@ describe("ElladaDematerialisedSecuritiesSystemInput", () => {
         render(<Subject label="Dematerialised Securities System" />);
 
         const input = screen.getByLabelText("Dematerialised Securities System");
-        expect(input.getAttribute("class")).toContain("ellada-dematerialised-securities-system-input");
+        expect(input.getAttribute("class")).toContain(
+            "ellada-dematerialised-securities-system-input",
+        );
     });
 
     test("has autocomplete off", () => {
@@ -33,7 +35,12 @@ describe("ElladaDematerialisedSecuritiesSystemInput", () => {
     });
 
     test("can be set to required", () => {
-        render(<Subject label="Dematerialised Securities System" required />);
+        render(
+            <Subject
+                label="Dematerialised Securities System"
+                required
+            />,
+        );
 
         const input = screen.getByLabelText("Dematerialised Securities System") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -47,14 +54,24 @@ describe("ElladaDematerialisedSecuritiesSystemInput", () => {
     });
 
     test("can be set to disabled", () => {
-        render(<Subject label="Dematerialised Securities System" disabled />);
+        render(
+            <Subject
+                label="Dematerialised Securities System"
+                disabled
+            />,
+        );
 
         const input = screen.getByLabelText("Dematerialised Securities System") as HTMLInputElement;
         expect(input.disabled).toBe(true);
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="Dematerialised Securities System" data-testid="subject" />);
+        render(
+            <Subject
+                label="Dematerialised Securities System"
+                data-testid="subject"
+            />,
+        );
 
         const input = screen.getByTestId("subject");
         expect(input).toBeTruthy();

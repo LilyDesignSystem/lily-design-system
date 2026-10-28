@@ -44,7 +44,11 @@ export default function ScatterChart({
             className={`scatter-chart ${className}`}
             {...restProps}
         >
-            <div className="scatter-chart-graphic" role="img" aria-label={label}>
+            <div
+                className="scatter-chart-graphic"
+                role="img"
+                aria-label={label}
+            >
                 {children}
             </div>
             {dataTable !== undefined && dataTable !== null && (

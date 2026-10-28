@@ -15,7 +15,10 @@ describe("ToolCallError", () => {
     });
 
     test("merges attrs (class, id) onto the root", () => {
-        const { container } = render(Subject, { attrs: { class: "mine", id: "x1" }, slots: { default: "x" } });
+        const { container } = render(Subject, {
+            attrs: { class: "mine", id: "x1" },
+            slots: { default: "x" },
+        });
         const el = container.querySelector(".tool-call-error")!;
         expect(el.id).toBe("x1");
         expect(el.getAttribute("class")).toBe("tool-call-error mine");

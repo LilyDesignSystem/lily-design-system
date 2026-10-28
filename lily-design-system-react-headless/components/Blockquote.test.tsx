@@ -20,18 +20,14 @@ describe("Blockquote", () => {
     });
 
     test("renders the cite attribute on the blockquote", () => {
-        const { container } = render(
-            <Subject cite="https://example.com/source">Quote</Subject>,
-        );
+        const { container } = render(<Subject cite="https://example.com/source">Quote</Subject>);
 
         const root = container.querySelector("blockquote");
         expect(root!.getAttribute("cite")).toBe("https://example.com/source");
     });
 
     test("renders citationText inside a footer when provided", () => {
-        const { container } = render(
-            <Subject citationText="— Jane Doe">Quote</Subject>,
-        );
+        const { container } = render(<Subject citationText="— Jane Doe">Quote</Subject>);
 
         const footer = container.querySelector("blockquote footer");
         expect(footer).toBeTruthy();
@@ -47,9 +43,7 @@ describe("Blockquote", () => {
     });
 
     test("applies aria-label when label is provided", () => {
-        const { container } = render(
-            <Subject label="Famous quote">Quote</Subject>,
-        );
+        const { container } = render(<Subject label="Famous quote">Quote</Subject>);
 
         const root = container.querySelector("blockquote");
         expect(root!.getAttribute("aria-label")).toBe("Famous quote");
@@ -64,9 +58,7 @@ describe("Blockquote", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        const { container } = render(
-            <Subject id="quote-1">Quote</Subject>,
-        );
+        const { container } = render(<Subject id="quote-1">Quote</Subject>);
 
         const root = container.querySelector('[id="quote-1"]');
         expect(root).toBeTruthy();

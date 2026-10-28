@@ -18,12 +18,12 @@
 //   <QrCodeImage label="Scan to visit example.com">{qrSvg}</QrCodeImage>
 //
 // Examples:
-//   
+//
 //   <QrCodeImage label="Scan to visit example.com">
 //     <svg></svg>
 //   </QrCodeImage>
 //
-//   
+//
 //   <QrCodeImage label="Scan to download the app">
 //     <canvas ref={qrCanvasRef}></canvas>
 //   </QrCodeImage>
@@ -67,12 +67,12 @@ export default function QrCodeImage({
 }: QrCodeImageProps) {
     return (
         <div
-        className={`qr-code-image ${className}`}
-        role="img"
-        aria-label={label}
-        {...restProps}
+            className={`qr-code-image ${className}`}
+            role="img"
+            aria-label={label}
+            {...restProps}
         >
-        {children}
+            {children}
         </div>
     );
 }

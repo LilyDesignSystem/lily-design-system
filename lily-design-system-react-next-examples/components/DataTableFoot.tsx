@@ -46,10 +46,10 @@ export default function DataTableFoot({
 }: DataTableFootProps) {
     return (
         <tfoot
-        className={`data-table-foot ${className}`}
-        {...restProps}
+            className={`data-table-foot ${className}`}
+            {...restProps}
         >
-        {children}
+            {children}
         </tfoot>
     );
 }

@@ -6,9 +6,24 @@ import Subject from "./MenuBar";
 
 const menuItems = (
     <>
-        <div role="menuitem" tabIndex={-1}>File</div>
-        <div role="menuitem" tabIndex={-1}>Edit</div>
-        <div role="menuitem" tabIndex={-1}>View</div>
+        <div
+            role="menuitem"
+            tabIndex={-1}
+        >
+            File
+        </div>
+        <div
+            role="menuitem"
+            tabIndex={-1}
+        >
+            Edit
+        </div>
+        <div
+            role="menuitem"
+            tabIndex={-1}
+        >
+            View
+        </div>
     </>
 );
 
@@ -33,7 +48,14 @@ describe("MenuBar", () => {
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="M" data-testid="mb">{menuItems}</Subject>);
+        render(
+            <Subject
+                label="M"
+                data-testid="mb"
+            >
+                {menuItems}
+            </Subject>,
+        );
         expect(screen.getByTestId("mb")).toBeTruthy();
     });
 });

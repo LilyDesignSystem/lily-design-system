@@ -57,25 +57,28 @@ export default function ActionGroup({
     const showOverflow = overflow !== undefined;
     return (
         <div
-        className={`action-group ${className}`}
-        role="group"
-        aria-label={label}
-        {...restProps}
+            className={`action-group ${className}`}
+            role="group"
+            aria-label={label}
+            {...restProps}
         >
             {children}
             {showOverflow && (
                 <>
                     <button
-                    className="action-group-overflow-trigger"
-                    type="button"
-                    aria-haspopup="menu"
-                    aria-expanded={overflowOpen}
-                    aria-label={overflowLabel}
-                    onClick={onOverflowToggle}
+                        className="action-group-overflow-trigger"
+                        type="button"
+                        aria-haspopup="menu"
+                        aria-expanded={overflowOpen}
+                        aria-label={overflowLabel}
+                        onClick={onOverflowToggle}
                     >
                         …
                     </button>
-                    <div className="action-group-overflow-menu" hidden={!overflowOpen}>
+                    <div
+                        className="action-group-overflow-menu"
+                        hidden={!overflowOpen}
+                    >
                         {overflow}
                     </div>
                 </>

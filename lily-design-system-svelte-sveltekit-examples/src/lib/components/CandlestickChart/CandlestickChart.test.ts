@@ -11,13 +11,16 @@ function svgSnippet() {
 
 function tableSnippet() {
     return createRawSnippet(() => ({
-        render: () => `<table><caption>Values</caption><tbody><tr><th scope="row">A</th><td>1</td></tr></tbody></table>`,
+        render: () =>
+            `<table><caption>Values</caption><tbody><tr><th scope="row">A</th><td>1</td></tr></tbody></table>`,
     }));
 }
 
 describe("CandlestickChart", () => {
     it("renders a <figure> with the base class", () => {
-        const { container } = render(CandlestickChart, { props: { label: "Test", children: svgSnippet() } });
+        const { container } = render(CandlestickChart, {
+            props: { label: "Test", children: svgSnippet() },
+        });
         expect(container.querySelector("figure.candlestick-chart")).toBeTruthy();
     });
 
@@ -31,17 +34,25 @@ describe("CandlestickChart", () => {
 
     it("omits aria-label when no label is given", () => {
         const { container } = render(CandlestickChart, { props: { children: svgSnippet() } });
-        expect(container.querySelector(".candlestick-chart-graphic")!.hasAttribute("aria-label")).toBe(false);
+        expect(
+            container.querySelector(".candlestick-chart-graphic")!.hasAttribute("aria-label"),
+        ).toBe(false);
     });
 
     it("does not put role=img on the figure", () => {
-        const { container } = render(CandlestickChart, { props: { label: "T", children: svgSnippet() } });
+        const { container } = render(CandlestickChart, {
+            props: { label: "T", children: svgSnippet() },
+        });
         expect(container.querySelector("figure")!.hasAttribute("role")).toBe(false);
     });
 
     it("appends the consumer class after the base class", () => {
-        const { container } = render(CandlestickChart, { props: { label: "T", class: "mine", children: svgSnippet() } });
-        expect(container.querySelector("figure")!.getAttribute("class")).toBe("candlestick-chart mine");
+        const { container } = render(CandlestickChart, {
+            props: { label: "T", class: "mine", children: svgSnippet() },
+        });
+        expect(container.querySelector("figure")!.getAttribute("class")).toBe(
+            "candlestick-chart mine",
+        );
     });
 
     it("renders the consumer svg inside the image wrapper", () => {
@@ -50,25 +61,35 @@ describe("CandlestickChart", () => {
     });
 
     it("renders no data-table wrapper without a dataTable snippet", () => {
-        const { container } = render(CandlestickChart, { props: { label: "T", children: svgSnippet() } });
+        const { container } = render(CandlestickChart, {
+            props: { label: "T", children: svgSnippet() },
+        });
         expect(container.querySelector(".candlestick-chart-data-table")).toBeNull();
     });
 
     it("renders the dataTable snippet in a .candlestick-chart-data-table sibling after the graphic", () => {
-        const { container } = render(CandlestickChart, { props: { label: "T", children: svgSnippet(), dataTable: tableSnippet() } });
+        const { container } = render(CandlestickChart, {
+            props: { label: "T", children: svgSnippet(), dataTable: tableSnippet() },
+        });
         const wrap = container.querySelector(".candlestick-chart-data-table")!;
         expect(wrap).toBeTruthy();
-        expect(wrap.previousElementSibling).toBe(container.querySelector(".candlestick-chart-graphic"));
+        expect(wrap.previousElementSibling).toBe(
+            container.querySelector(".candlestick-chart-graphic"),
+        );
         expect(wrap.parentElement!.tagName).toBe("FIGURE");
     });
 
     it("keeps the table outside the role=img element so assistive technology can reach it", () => {
-        render(CandlestickChart, { props: { label: "T", children: svgSnippet(), dataTable: tableSnippet() } });
+        render(CandlestickChart, {
+            props: { label: "T", children: svgSnippet(), dataTable: tableSnippet() },
+        });
         expect(screen.getByRole("table").closest("[role=img]")).toBeNull();
     });
 
     it("spreads rest props onto the figure", () => {
-        render(CandlestickChart, { props: { label: "T", id: "c1", "data-testid": "chart", children: svgSnippet() } });
+        render(CandlestickChart, {
+            props: { label: "T", id: "c1", "data-testid": "chart", children: svgSnippet() },
+        });
         const el = screen.getByTestId("chart");
         expect(el.tagName).toBe("FIGURE");
         expect(el.id).toBe("c1");

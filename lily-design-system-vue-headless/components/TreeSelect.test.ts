@@ -4,7 +4,6 @@ import { describe, expect, test, vi } from "vitest";
 
 import Subject from "./TreeSelect.vue";
 
-
 describe("TreeSelect", () => {
     test("renders root with tree-select class and combobox role", () => {
         const { container } = render(Subject, { props: { label: "Department" } });
@@ -59,7 +58,9 @@ describe("TreeSelect", () => {
     });
 
     test("renders trigger with value when provided", () => {
-        render(Subject, { props: { label: "Department", value: "Engineering / Web", placeholder: "Choose…" } });
+        render(Subject, {
+            props: { label: "Department", value: "Engineering / Web", placeholder: "Choose…" },
+        });
 
         const trigger: HTMLElement = screen.getByRole("button");
         expect(trigger.textContent).toContain("Engineering / Web");
@@ -75,7 +76,7 @@ describe("TreeSelect", () => {
     test("renders panel slot content", () => {
         const { container } = render(Subject, {
             props: { label: "Department", expanded: true },
-            slots: { default: "<ul role=\"tree\"><li>Engineering</li></ul>" },
+            slots: { default: '<ul role="tree"><li>Engineering</li></ul>' },
         });
 
         expect(container.textContent).toContain("Engineering");

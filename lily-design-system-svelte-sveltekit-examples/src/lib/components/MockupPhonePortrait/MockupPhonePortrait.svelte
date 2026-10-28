@@ -13,6 +13,10 @@
 </script>
 
 <!-- MockupPhonePortrait.svelte -->
-<div class={`mockup-phone-portrait ${className}`} aria-label={label} {...restProps}>
+<div
+    class={`mockup-phone-portrait ${className}`}
+    aria-label={label}
+    {...restProps}
+>
     {@render children?.()}
 </div>

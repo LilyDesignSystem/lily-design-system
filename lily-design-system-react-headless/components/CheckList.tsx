@@ -17,7 +17,7 @@
 //   </CheckList>
 //
 // Examples:
-//   
+//
 //   <CheckList label="Onboarding tasks">
 //     <CheckListItem checked>Create account</CheckListItem>
 //     <CheckListItem>Set up profile</CheckListItem>
@@ -60,12 +60,12 @@ export default function CheckList({
 }: CheckListProps) {
     return (
         <ol
-        className={`check-list ${className}`}
-        role="list"
-        aria-label={label}
-        {...restProps}
+            className={`check-list ${className}`}
+            role="list"
+            aria-label={label}
+            {...restProps}
         >
-        {children}
+            {children}
         </ol>
     );
 }

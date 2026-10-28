@@ -6,9 +6,24 @@ import Subject from "./Menu";
 
 const menuItems = (
     <>
-        <div role="menuitem" tabIndex={-1}>Cut</div>
-        <div role="menuitem" tabIndex={-1}>Copy</div>
-        <div role="menuitem" tabIndex={-1}>Paste</div>
+        <div
+            role="menuitem"
+            tabIndex={-1}
+        >
+            Cut
+        </div>
+        <div
+            role="menuitem"
+            tabIndex={-1}
+        >
+            Copy
+        </div>
+        <div
+            role="menuitem"
+            tabIndex={-1}
+        >
+            Paste
+        </div>
     </>
 );
 
@@ -39,7 +54,14 @@ describe("Menu", () => {
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="A" data-testid="m">{menuItems}</Subject>);
+        render(
+            <Subject
+                label="A"
+                data-testid="m"
+            >
+                {menuItems}
+            </Subject>,
+        );
         expect(screen.getByTestId("m")).toBeTruthy();
     });
 });

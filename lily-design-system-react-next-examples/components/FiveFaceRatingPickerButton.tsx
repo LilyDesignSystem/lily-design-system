@@ -20,7 +20,7 @@
 // Examples:
 //
 //   <FiveFaceRatingPickerButton value={4} label="Good" selected={true} onClick={handleSelect} />
-//   
+//
 //   <FiveFaceRatingPickerButton value={1} label="Very bad" disabled={true} />
 //
 // Keyboard:
@@ -72,14 +72,16 @@ export default function FiveFaceRatingPickerButton({
 }: FiveFaceRatingPickerButtonProps) {
     return (
         <button
-        className={`five-face-rating-picker-button ${className}`}
-        type="button"
-        aria-label={label}
-        aria-pressed={selected}
-        disabled={disabled}
-        data-value={value}
-        onClick={onClick}
-        {...restProps}
-        >{label}</button>
+            className={`five-face-rating-picker-button ${className}`}
+            type="button"
+            aria-label={label}
+            aria-pressed={selected}
+            disabled={disabled}
+            data-value={value}
+            onClick={onClick}
+            {...restProps}
+        >
+            {label}
+        </button>
     );
 }

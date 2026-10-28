@@ -66,9 +66,7 @@ export default function Blockquote({
             {...restProps}
         >
             {children}
-            {citationText && (
-                <footer className="blockquote-citation">{citationText}</footer>
-            )}
+            {citationText && <footer className="blockquote-citation">{citationText}</footer>}
         </blockquote>
     );
 }

@@ -33,7 +33,12 @@ describe("SchweizAhvNummerInput", () => {
     });
 
     test("can be set to required", () => {
-        render(<Subject label="AHV-Nummer / Numéro AVS" required />);
+        render(
+            <Subject
+                label="AHV-Nummer / Numéro AVS"
+                required
+            />,
+        );
 
         const input = screen.getByLabelText("AHV-Nummer / Numéro AVS") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -47,14 +52,24 @@ describe("SchweizAhvNummerInput", () => {
     });
 
     test("can be set to disabled", () => {
-        render(<Subject label="AHV-Nummer / Numéro AVS" disabled />);
+        render(
+            <Subject
+                label="AHV-Nummer / Numéro AVS"
+                disabled
+            />,
+        );
 
         const input = screen.getByLabelText("AHV-Nummer / Numéro AVS") as HTMLInputElement;
         expect(input.disabled).toBe(true);
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="AHV-Nummer / Numéro AVS" data-testid="subject" />);
+        render(
+            <Subject
+                label="AHV-Nummer / Numéro AVS"
+                data-testid="subject"
+            />,
+        );
 
         const input = screen.getByTestId("subject");
         expect(input).toBeTruthy();

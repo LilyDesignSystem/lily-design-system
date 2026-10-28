@@ -20,7 +20,14 @@ describe("Toast", () => {
     });
 
     test("has assertive live region when urgent", () => {
-        render(<Subject urgent data-testid="t">E</Subject>);
+        render(
+            <Subject
+                urgent
+                data-testid="t"
+            >
+                E
+            </Subject>,
+        );
         expect(screen.getByTestId("t").getAttribute("aria-live")).toBe("assertive");
     });
 

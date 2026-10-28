@@ -202,14 +202,17 @@
         const count = options().length;
         if (count === 0) return;
         const next = activeIndex + delta;
-        activeIndex = clamp ? Math.min(Math.max(next, 0), count - 1) : ((next % count) + count) % count;
+        activeIndex = clamp
+            ? Math.min(Math.max(next, 0), count - 1)
+            : ((next % count) + count) % count;
     }
 
     function runTypeahead(char: string) {
         const opts = options();
         if (opts.length === 0) return;
         const lower = char.toLowerCase();
-        const sameCharRun = typeaheadBuffer === "" || [...typeaheadBuffer].every((c) => c === lower);
+        const sameCharRun =
+            typeaheadBuffer === "" || [...typeaheadBuffer].every((c) => c === lower);
         typeaheadBuffer += lower;
         clearTimeout(typeaheadTimer);
         typeaheadTimer = setTimeout(() => (typeaheadBuffer = ""), 500);
@@ -267,7 +270,13 @@
                 onTabOut?.(event);
                 break;
             default:
-                if (typeahead && event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey) {
+                if (
+                    typeahead &&
+                    event.key.length === 1 &&
+                    !event.ctrlKey &&
+                    !event.metaKey &&
+                    !event.altKey
+                ) {
                     runTypeahead(event.key);
                 }
         }

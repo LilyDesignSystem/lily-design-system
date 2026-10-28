@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./Card.vue";
 
-
 describe("Card", () => {
     test("renders as an article element", () => {
         render(Subject, { slots: { default: "Card content" } });
@@ -21,15 +20,19 @@ describe("Card", () => {
     });
 
     test("renders heading with custom level", () => {
-        render(Subject, { props: { heading: "Section",
-            headingLevel: 2 }, slots: { default: "Content" } });
+        render(Subject, {
+            props: { heading: "Section", headingLevel: 2 },
+            slots: { default: "Content" },
+        });
 
         expect(screen.getByRole("heading").tagName.toLowerCase()).toBe("h2");
     });
 
     test("renders heading as link when href provided", () => {
-        render(Subject, { props: { heading: "Product",
-            href: "/products/1" }, slots: { default: "Desc" } });
+        render(Subject, {
+            props: { heading: "Product", href: "/products/1" },
+            slots: { default: "Desc" },
+        });
 
         const link = screen.getByRole("link", { name: "Product" });
         expect(link.getAttribute("href")).toBe("/products/1");

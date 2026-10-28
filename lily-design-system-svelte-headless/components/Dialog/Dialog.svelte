@@ -102,8 +102,8 @@
         aria-modal={modal || undefined}
         use:modalDialog={modal}
         {onkeydown}
-        oncancel={oncancel}
-        onclose={onclose}
+        {oncancel}
+        {onclose}
         {...restProps}
     >
         {@render children?.()}

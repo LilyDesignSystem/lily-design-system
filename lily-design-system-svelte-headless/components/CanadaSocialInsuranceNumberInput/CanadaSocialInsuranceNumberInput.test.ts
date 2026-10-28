@@ -54,7 +54,9 @@ describe("CanadaSocialInsuranceNumberInput", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(Subject, { props: { label: "Social Insurance Number (SIN)", "data-testid": "subject" } });
+        render(Subject, {
+            props: { label: "Social Insurance Number (SIN)", "data-testid": "subject" },
+        });
 
         const input = screen.getByTestId("subject");
         expect(input).toBeTruthy();

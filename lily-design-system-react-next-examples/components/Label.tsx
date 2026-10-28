@@ -16,11 +16,11 @@
 //   <Label for="email">Email address</Label>
 //
 // Examples:
-//   
+//
 //   <Label for="email">Email address</Label>
 //   <input id="email" type="email" />
 //
-//   
+//
 //   <Label>
 //     Email address
 //     <input type="email" />
@@ -65,11 +65,11 @@ export default function Label({
 }: LabelProps) {
     return (
         <label
-        className={`label ${className}`}
-        htmlFor={forProp}
-        {...restProps}
+            className={`label ${className}`}
+            htmlFor={forProp}
+            {...restProps}
         >
-        {children}
+            {children}
         </label>
     );
 }

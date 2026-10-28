@@ -19,6 +19,9 @@ export default function TuaisceartEireannHealthAndCareNumberView({
         <span
             className={`tuaisceart-eireann-health-and-care-number-view ${className}`}
             aria-label={label}
-            {...restProps}>{value}</span>
+            {...restProps}
+        >
+            {value}
+        </span>
     );
 }

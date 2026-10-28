@@ -44,7 +44,11 @@ export default function SunburstChart({
             className={`sunburst-chart ${className}`}
             {...restProps}
         >
-            <div className="sunburst-chart-graphic" role="img" aria-label={label}>
+            <div
+                className="sunburst-chart-graphic"
+                role="img"
+                aria-label={label}
+            >
                 {children}
             </div>
             {dataTable !== undefined && dataTable !== null && (

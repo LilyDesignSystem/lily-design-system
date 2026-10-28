@@ -17,14 +17,14 @@
 //   </Sidebar>
 //
 // Examples:
-//   
+//
 //   <Sidebar label="Filters">
 //     <form>
 //       <select><option>Category</option></select>
 //     </form>
 //   </Sidebar>
 //
-//   
+//
 //   <Sidebar label="Related articles">
 //     <ul><li><a href="/article-1">Article 1</a></li></ul>
 //   </Sidebar>
@@ -61,19 +61,14 @@ export interface SidebarProps {
     [key: string]: unknown;
 }
 
-export default function Sidebar({
-    className = "",
-    label,
-    children,
-    ...restProps
-}: SidebarProps) {
+export default function Sidebar({ className = "", label, children, ...restProps }: SidebarProps) {
     return (
         <aside
-        className={`sidebar ${className}`}
-        aria-label={label}
-        {...restProps}
+            className={`sidebar ${className}`}
+            aria-label={label}
+            {...restProps}
         >
-        {children}
+            {children}
         </aside>
     );
 }

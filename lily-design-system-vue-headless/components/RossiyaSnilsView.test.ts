@@ -5,7 +5,9 @@ import Subject from "./RossiyaSnilsView.vue";
 
 describe("RossiyaSnilsView", () => {
     test("renders with the correct class", () => {
-        render(Subject, { props: { label: "Individual Insurance Account Number", value: "test-value" } });
+        render(Subject, {
+            props: { label: "Individual Insurance Account Number", value: "test-value" },
+        });
 
         const el = screen.getByLabelText("Individual Insurance Account Number");
         expect(el).toBeTruthy();
@@ -13,7 +15,9 @@ describe("RossiyaSnilsView", () => {
     });
 
     test("renders the value as text content", () => {
-        render(Subject, { props: { label: "Individual Insurance Account Number", value: "test-value" } });
+        render(Subject, {
+            props: { label: "Individual Insurance Account Number", value: "test-value" },
+        });
 
         const el = screen.getByLabelText("Individual Insurance Account Number");
         expect(el.textContent).toBe("test-value");

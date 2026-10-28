@@ -37,9 +37,11 @@ export default function SuomiHenkilotunnusView({
 }: SuomiHenkilotunnusViewProps) {
     return (
         <span
-        className={`suomi-henkilotunnus-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`suomi-henkilotunnus-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

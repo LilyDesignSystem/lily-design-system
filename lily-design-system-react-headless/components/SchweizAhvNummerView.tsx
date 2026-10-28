@@ -38,9 +38,11 @@ export default function SchweizAhvNummerView({
 }: SchweizAhvNummerViewProps) {
     return (
         <span
-        className={`schweiz-ahv-nummer-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`schweiz-ahv-nummer-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

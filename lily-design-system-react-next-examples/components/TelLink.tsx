@@ -16,7 +16,7 @@
 //   <TelLink phone="+1-555-0100" />
 //
 // Examples:
-//   
+//
 //   <TelLink phone="+1-555-0100" label="Call customer support" />
 //
 // Keyboard:
@@ -56,10 +56,12 @@ export default function TelLink({
 }: TelLinkProps) {
     return (
         <a
-        className={`tel-link ${className}`}
-        href={`tel:${phone}`}
-        aria-label={label}
-        {...restProps}>{phone}</a
+            className={`tel-link ${className}`}
+            href={`tel:${phone}`}
+            aria-label={label}
+            {...restProps}
         >
+            {phone}
+        </a>
     );
 }

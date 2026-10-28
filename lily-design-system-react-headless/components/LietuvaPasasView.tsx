@@ -37,9 +37,11 @@ export default function LietuvaPasasView({
 }: LietuvaPasasViewProps) {
     return (
         <span
-        className={`lietuva-pasas-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`lietuva-pasas-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

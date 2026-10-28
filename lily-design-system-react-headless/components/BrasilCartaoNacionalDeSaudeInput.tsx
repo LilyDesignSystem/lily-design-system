@@ -50,14 +50,15 @@ export default function BrasilCartaoNacionalDeSaudeInput({
 }: BrasilCartaoNacionalDeSaudeInputProps) {
     return (
         <input
-        className={`brasil-cartao-nacional-de-saude-input ${className}`}
-        type="text"
-        aria-label={label}
-        autoComplete="off"
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`brasil-cartao-nacional-de-saude-input ${className}`}
+            type="text"
+            aria-label={label}
+            autoComplete="off"
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

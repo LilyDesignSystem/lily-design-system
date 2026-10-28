@@ -14,10 +14,10 @@
 //   <EmailLink email="alice@example.com" />
 //
 // Examples:
-//   
+//
 //   <EmailLink email="alice@example.com" />
 //
-//   
+//
 //   <EmailLink email="support@example.com" label="Contact support team" />
 //
 // Keyboard:
@@ -56,12 +56,12 @@ export default function EmailLink({
 }: EmailLinkProps) {
     return (
         <a
-        className={`email-link ${className}`}
-        href={`mailto:${email}`}
-        aria-label={label}
-        {...restProps}
+            className={`email-link ${className}`}
+            href={`mailto:${email}`}
+            aria-label={label}
+            {...restProps}
         >
-        {email}
+            {email}
         </a>
     );
 }

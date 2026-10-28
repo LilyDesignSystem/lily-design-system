@@ -5,7 +5,12 @@ import Subject from "./TurkiyeTcKimlikNumarasiView";
 
 describe("TurkiyeTcKimlikNumarasiView", () => {
     test("renders with the correct class", () => {
-        render(<Subject label="T.C. Kimlik Numarası" value="test-value" />);
+        render(
+            <Subject
+                label="T.C. Kimlik Numarası"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("T.C. Kimlik Numarası");
         expect(el).toBeTruthy();
@@ -13,7 +18,12 @@ describe("TurkiyeTcKimlikNumarasiView", () => {
     });
 
     test("renders the value as text content", () => {
-        render(<Subject label="T.C. Kimlik Numarası" value="test-value" />);
+        render(
+            <Subject
+                label="T.C. Kimlik Numarası"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("T.C. Kimlik Numarası");
         expect(el.textContent).toBe("test-value");

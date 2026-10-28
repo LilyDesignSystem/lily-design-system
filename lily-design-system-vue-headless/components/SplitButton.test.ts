@@ -4,7 +4,6 @@ import { describe, expect, test, vi } from "vitest";
 
 import Subject from "./SplitButton.vue";
 
-
 describe("SplitButton", () => {
     const baseProps = {
         label: "Save options",
@@ -85,8 +84,12 @@ describe("SplitButton", () => {
     test("disabled disables both buttons", () => {
         render(Subject, { props: { ...baseProps, disabled: true } });
 
-        const primary: HTMLButtonElement = screen.getByRole("button", { name: "Save" }) as HTMLButtonElement;
-        const trigger: HTMLButtonElement = screen.getByRole("button", { name: "More save actions" }) as HTMLButtonElement;
+        const primary: HTMLButtonElement = screen.getByRole("button", {
+            name: "Save",
+        }) as HTMLButtonElement;
+        const trigger: HTMLButtonElement = screen.getByRole("button", {
+            name: "More save actions",
+        }) as HTMLButtonElement;
         expect(primary.disabled).toBe(true);
         expect(trigger.disabled).toBe(true);
     });

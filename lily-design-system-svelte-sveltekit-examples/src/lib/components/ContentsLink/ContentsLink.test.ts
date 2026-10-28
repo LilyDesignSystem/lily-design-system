@@ -33,7 +33,9 @@ describe("ContentsLink", () => {
     });
 
     test("countLabel renders inside the link, so the link's name includes it", () => {
-        render(ContentsLink, { props: { count: 3, countLabel: "3 to do", children: textSnippet("Address") } });
+        render(ContentsLink, {
+            props: { count: 3, countLabel: "3 to do", children: textSnippet("Address") },
+        });
         expect(link().querySelector(".contents-link-count")!.textContent).toBe("3 to do");
         expect(screen.getByRole("link", { name: /Address.*3 to do/ })).toBeTruthy();
     });
@@ -58,7 +60,9 @@ describe("ContentsLink", () => {
     });
 
     test("class and rest props land on the anchor", () => {
-        render(ContentsLink, { props: { class: "extra", "data-testid": "l", children: textSnippet("x") } });
+        render(ContentsLink, {
+            props: { class: "extra", "data-testid": "l", children: textSnippet("x") },
+        });
         expect(link().classList.contains("extra")).toBe(true);
         expect(link().getAttribute("data-testid")).toBe("l");
     });

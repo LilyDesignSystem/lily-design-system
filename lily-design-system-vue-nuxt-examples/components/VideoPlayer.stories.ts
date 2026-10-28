@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import VideoPlayer from './VideoPlayer.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import VideoPlayer from "./VideoPlayer.vue";
 
 const meta = {
-  title: 'Headless/VideoPlayer',
-  component: VideoPlayer,
-  tags: ['autodocs']
+    title: "Headless/VideoPlayer",
+    component: VideoPlayer,
+    tags: ["autodocs"],
 } satisfies Meta<typeof VideoPlayer>;
 
 export default meta;

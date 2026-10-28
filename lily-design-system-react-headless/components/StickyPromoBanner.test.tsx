@@ -7,7 +7,10 @@ import Subject from "./StickyPromoBanner";
 describe("StickyPromoBanner", () => {
     test("renders as a complementary landmark with the required aria-label", () => {
         render(
-            <Subject label="Promo" dismissLabel="Dismiss">
+            <Subject
+                label="Promo"
+                dismissLabel="Dismiss"
+            >
                 <p>Hello</p>
             </Subject>,
         );
@@ -18,7 +21,10 @@ describe("StickyPromoBanner", () => {
 
     test("applies the sticky-promo-banner root class", () => {
         render(
-            <Subject label="Promo" dismissLabel="Dismiss">
+            <Subject
+                label="Promo"
+                dismissLabel="Dismiss"
+            >
                 <p>Hi</p>
             </Subject>,
         );
@@ -29,7 +35,10 @@ describe("StickyPromoBanner", () => {
 
     test("defaults position to bottom and exposes data-position", () => {
         render(
-            <Subject label="Promo" dismissLabel="Dismiss">
+            <Subject
+                label="Promo"
+                dismissLabel="Dismiss"
+            >
                 <p>Hi</p>
             </Subject>,
         );
@@ -40,7 +49,11 @@ describe("StickyPromoBanner", () => {
 
     test("respects position prop for top", () => {
         render(
-            <Subject label="Promo" dismissLabel="Dismiss" position="top">
+            <Subject
+                label="Promo"
+                dismissLabel="Dismiss"
+                position="top"
+            >
                 <p>Hi</p>
             </Subject>,
         );
@@ -51,7 +64,10 @@ describe("StickyPromoBanner", () => {
 
     test("uses inline position fixed with bottom: 0 by default", () => {
         render(
-            <Subject label="Promo" dismissLabel="Dismiss">
+            <Subject
+                label="Promo"
+                dismissLabel="Dismiss"
+            >
                 <p>Hi</p>
             </Subject>,
         );
@@ -65,7 +81,11 @@ describe("StickyPromoBanner", () => {
 
     test("uses inline position fixed with top: 0 when position is top", () => {
         render(
-            <Subject label="Promo" dismissLabel="Dismiss" position="top">
+            <Subject
+                label="Promo"
+                dismissLabel="Dismiss"
+                position="top"
+            >
                 <p>Hi</p>
             </Subject>,
         );
@@ -79,7 +99,10 @@ describe("StickyPromoBanner", () => {
 
     test("renders children content in the content wrapper", () => {
         const { container } = render(
-            <Subject label="Promo" dismissLabel="Dismiss">
+            <Subject
+                label="Promo"
+                dismissLabel="Dismiss"
+            >
                 <p>Subscribe now</p>
             </Subject>,
         );
@@ -91,7 +114,10 @@ describe("StickyPromoBanner", () => {
 
     test("does NOT render the dismiss button when onDismiss is not provided", () => {
         const { container } = render(
-            <Subject label="Promo" dismissLabel="Dismiss">
+            <Subject
+                label="Promo"
+                dismissLabel="Dismiss"
+            >
                 <p>Hi</p>
             </Subject>,
         );
@@ -103,7 +129,11 @@ describe("StickyPromoBanner", () => {
     test("renders the dismiss button when onDismiss is provided", () => {
         const handle = vi.fn();
         render(
-            <Subject label="Promo" dismissLabel="Dismiss banner" onDismiss={handle}>
+            <Subject
+                label="Promo"
+                dismissLabel="Dismiss banner"
+                onDismiss={handle}
+            >
                 <p>Hi</p>
             </Subject>,
         );
@@ -116,7 +146,11 @@ describe("StickyPromoBanner", () => {
         const user: UserEvent = userEvent.setup();
         const handle = vi.fn();
         render(
-            <Subject label="Promo" dismissLabel="Dismiss banner" onDismiss={handle}>
+            <Subject
+                label="Promo"
+                dismissLabel="Dismiss banner"
+                onDismiss={handle}
+            >
                 <p>Hi</p>
             </Subject>,
         );
@@ -127,7 +161,11 @@ describe("StickyPromoBanner", () => {
 
     test("hides the banner when open is false", () => {
         render(
-            <Subject label="Promo" dismissLabel="Dismiss" open={false}>
+            <Subject
+                label="Promo"
+                dismissLabel="Dismiss"
+                open={false}
+            >
                 <p>Hi</p>
             </Subject>,
         );
@@ -139,7 +177,10 @@ describe("StickyPromoBanner", () => {
 
     test("is visible by default", () => {
         render(
-            <Subject label="Promo" dismissLabel="Dismiss">
+            <Subject
+                label="Promo"
+                dismissLabel="Dismiss"
+            >
                 <p>Hi</p>
             </Subject>,
         );

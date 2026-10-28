@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "../../components/Table.vue";
 
-
 describe("Table", () => {
     test("renders a table element", () => {
         render(Subject, { props: { label: "Users" }, slots: { default: "content" } });
@@ -27,16 +26,20 @@ describe("Table", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(Subject, { props: { label: "Users",
-            "data-testid": "my-table" }, slots: { default: "content" } });
+        render(Subject, {
+            props: { label: "Users", "data-testid": "my-table" },
+            slots: { default: "content" },
+        });
 
         const table = screen.getByTestId("my-table");
         expect(table).toBeTruthy();
     });
 
     test("passes through id attribute", () => {
-        render(Subject, { props: { label: "Users",
-            id: "users-table" }, slots: { default: "content" } });
+        render(Subject, {
+            props: { label: "Users", id: "users-table" },
+            slots: { default: "content" },
+        });
 
         const table = screen.getByRole("table");
         expect(table.getAttribute("id")).toBe("users-table");

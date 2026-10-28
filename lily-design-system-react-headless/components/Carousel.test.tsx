@@ -25,7 +25,14 @@ describe("Carousel", () => {
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="G" data-testid="car">x</Subject>);
+        render(
+            <Subject
+                label="G"
+                data-testid="car"
+            >
+                x
+            </Subject>,
+        );
         expect(screen.getByTestId("car")).toBeTruthy();
     });
 });

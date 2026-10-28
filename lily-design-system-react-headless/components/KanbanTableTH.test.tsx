@@ -6,9 +6,17 @@ import Subject from "./KanbanTableTH";
 function renderInRow(props: Record<string, unknown> = {}) {
     return render(
         <table>
-            <thead><tr><Subject {...props} /></tr></thead>
-            <tbody><tr><td>cell</td></tr></tbody>
-        </table>
+            <thead>
+                <tr>
+                    <Subject {...props} />
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>cell</td>
+                </tr>
+            </tbody>
+        </table>,
     );
 }
 

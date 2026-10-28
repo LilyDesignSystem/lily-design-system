@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import NavigationMenu from './NavigationMenu';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import NavigationMenu from "./NavigationMenu";
 
 const meta = {
-  title: 'Headless/NavigationMenu',
-  component: NavigationMenu,
-  tags: ['autodocs']
+    title: "Headless/NavigationMenu",
+    component: NavigationMenu,
+    tags: ["autodocs"],
 } satisfies Meta<typeof NavigationMenu>;
 
 export default meta;

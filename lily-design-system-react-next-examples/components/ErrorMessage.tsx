@@ -14,10 +14,10 @@
 //   <ErrorMessage>Error text here</ErrorMessage>
 //
 // Examples:
-//   
+//
 //   <ErrorMessage>Password is required</ErrorMessage>
 //
-//   
+//
 //   {error && (
 //     <ErrorMessage>{error}</ErrorMessage>
 //   )}
@@ -55,11 +55,11 @@ export default function ErrorMessage({
 }: ErrorMessageProps) {
     return (
         <p
-        className={`error-message ${className}`}
-        role="alert"
-        {...restProps}
+            className={`error-message ${className}`}
+            role="alert"
+            {...restProps}
         >
-        {children}
+            {children}
         </p>
     );
 }

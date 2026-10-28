@@ -64,13 +64,14 @@ export default function TimePickerInput({
 }: TimePickerInputProps) {
     return (
         <input
-        className={`time-picker-input ${className}`}
-        type="time"
-        aria-label={label}
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`time-picker-input ${className}`}
+            type="time"
+            aria-label={label}
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

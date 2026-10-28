@@ -35,7 +35,14 @@ describe("SuperBanner", () => {
     });
 
     test("uses custom dismissLabel for the dismiss button", () => {
-        render(<Subject dismissable dismissLabel="Close banner">Outage</Subject>);
+        render(
+            <Subject
+                dismissable
+                dismissLabel="Close banner"
+            >
+                Outage
+            </Subject>,
+        );
         const btn = screen.getByRole("button", { name: "Close banner" });
         expect(btn).toBeTruthy();
     });
@@ -43,7 +50,14 @@ describe("SuperBanner", () => {
     test("calls onDismiss when the dismiss button is clicked", async () => {
         const user: UserEvent = userEvent.setup();
         const onDismiss = vi.fn();
-        render(<Subject dismissable onDismiss={onDismiss}>Outage</Subject>);
+        render(
+            <Subject
+                dismissable
+                onDismiss={onDismiss}
+            >
+                Outage
+            </Subject>,
+        );
         await user.click(screen.getByRole("button"));
         expect(onDismiss).toHaveBeenCalledOnce();
     });

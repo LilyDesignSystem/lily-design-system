@@ -1,15 +1,13 @@
 <script setup lang="ts">
+// HeroHeadline component
+//
+// HeroHeadline for the Reuters-graphics-style article layout family.
+// Renders a <div> that consumers style.
 
-    // HeroHeadline component
-    //
-    // HeroHeadline for the Reuters-graphics-style article layout family.
-    // Renders a <div> that consumers style.
-
-    defineProps<{
-        /** Accessible label set on aria-label. */
-        label: string;
-    }>();
-
+defineProps<{
+    /** Accessible label set on aria-label. */
+    label: string;
+}>();
 </script>
 
 <template>

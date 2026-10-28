@@ -15,22 +15,43 @@ describe("TextAreaInput", () => {
     });
 
     test("sets rows attribute", () => {
-        render(<Subject label="C" rows={5} data-testid="ta" />);
+        render(
+            <Subject
+                label="C"
+                rows={5}
+                data-testid="ta"
+            />,
+        );
         expect((screen.getByTestId("ta") as HTMLTextAreaElement).rows).toBe(5);
     });
 
     test("supports required", () => {
-        render(<Subject label="C" required />);
+        render(
+            <Subject
+                label="C"
+                required
+            />,
+        );
         expect((screen.getByRole("textbox") as HTMLTextAreaElement).required).toBe(true);
     });
 
     test("supports disabled", () => {
-        render(<Subject label="C" disabled />);
+        render(
+            <Subject
+                label="C"
+                disabled
+            />,
+        );
         expect((screen.getByRole("textbox") as HTMLTextAreaElement).disabled).toBe(true);
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="C" data-testid="ta" />);
+        render(
+            <Subject
+                label="C"
+                data-testid="ta"
+            />,
+        );
         expect(screen.getByTestId("ta")).toBeTruthy();
     });
 });

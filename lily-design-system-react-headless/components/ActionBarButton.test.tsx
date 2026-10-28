@@ -28,7 +28,14 @@ describe("ActionBarButton", () => {
     });
 
     test("can be disabled", () => {
-        render(<Subject label="Delete" disabled>Delete</Subject>);
+        render(
+            <Subject
+                label="Delete"
+                disabled
+            >
+                Delete
+            </Subject>,
+        );
 
         const button: HTMLButtonElement = screen.getByRole("button") as HTMLButtonElement;
         expect(button.disabled).toBe(true);
@@ -37,21 +44,39 @@ describe("ActionBarButton", () => {
     test("handles click events", async () => {
         const user: UserEvent = userEvent.setup();
         const handleClick = vi.fn();
-        render(<Subject label="Delete" onClick={handleClick}>Delete</Subject>);
+        render(
+            <Subject
+                label="Delete"
+                onClick={handleClick}
+            >
+                Delete
+            </Subject>,
+        );
 
         await user.click(screen.getByRole("button"));
         expect(handleClick).toHaveBeenCalledOnce();
     });
 
     test("renders children content", () => {
-        render(<Subject label="Delete"><span>icon</span>Delete</Subject>);
+        render(
+            <Subject label="Delete">
+                <span>icon</span>Delete
+            </Subject>,
+        );
 
         expect(screen.getByText("Delete")).toBeTruthy();
         expect(screen.getByText("icon")).toBeTruthy();
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="Delete" id="del-btn">Delete</Subject>);
+        render(
+            <Subject
+                label="Delete"
+                id="del-btn"
+            >
+                Delete
+            </Subject>,
+        );
 
         const button: HTMLElement = screen.getByRole("button");
         expect(button.getAttribute("id")).toBe("del-btn");

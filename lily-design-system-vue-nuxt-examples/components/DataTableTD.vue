@@ -1,43 +1,44 @@
 <script setup lang="ts">
+// DataTableTD component
+//
+// A single data cell within a DataTableRow. Renders as a <td> with
+// role="gridcell". Supports an active state marking the grid's single roving tab
+// stop (tabindex="0"); it does not set aria-selected.
+//
+// Props:
+//   className — string, optional. CSS class name.
+//   active — boolean, default false. Whether this cell is the roving tab stop.
+//   default slot. Cell content.
+//   ...restProps — additional HTML attributes spread onto the <td>.
+//
+// Syntax:
+//   <DataTableTD>Alice</DataTableTD>
+//   <DataTableTD active>Bob</DataTableTD>
+//
+// Keyboard:
+//   None built-in — keyboard navigation handled at the DataTable grid level.
+//
+// Accessibility:
+//   - role="gridcell" identifies the cell as part of an interactive grid
+//   - `active` is the roving tab stop only: it never sets aria-selected, because focus is not selection (a grid with real selection passes aria-selected itself)
+//   - Roving tabindex: tabindex="0" when active, "-1" otherwise
+//
+// Claude rules:
+//   - Headless: no CSS, no styles — consumer provides all styling
+//   - Must be used inside a DataTableRow
+//
+// References:
+//   - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/
 
-    // DataTableTD component
-    //
-    // A single data cell within a DataTableRow. Renders as a <td> with
-    // role="gridcell". Supports an active state marking the grid's single roving tab
-    // stop (tabindex="0"); it does not set aria-selected.
-    //
-    // Props:
-    //   className — string, optional. CSS class name.
-    //   active — boolean, default false. Whether this cell is the roving tab stop.
-    //   default slot. Cell content.
-    //   ...restProps — additional HTML attributes spread onto the <td>.
-    //
-    // Syntax:
-    //   <DataTableTD>Alice</DataTableTD>
-    //   <DataTableTD active>Bob</DataTableTD>
-    //
-    // Keyboard:
-    //   None built-in — keyboard navigation handled at the DataTable grid level.
-    //
-    // Accessibility:
-    //   - role="gridcell" identifies the cell as part of an interactive grid
-    //   - `active` is the roving tab stop only: it never sets aria-selected, because focus is not selection (a grid with real selection passes aria-selected itself)
-    //   - Roving tabindex: tabindex="0" when active, "-1" otherwise
-    //
-    // Claude rules:
-    //   - Headless: no CSS, no styles — consumer provides all styling
-    //   - Must be used inside a DataTableRow
-    //
-    // References:
-    //   - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/
-
-    withDefaults(defineProps<{
+withDefaults(
+    defineProps<{
         /** Whether this cell is the roving tab stop (tabindex="0"). Never sets aria-selected. */
         active?: boolean;
-    }>(), {
+    }>(),
+    {
         active: false,
-    });
-
+    },
+);
 </script>
 
 <template>

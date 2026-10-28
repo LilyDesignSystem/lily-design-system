@@ -1,15 +1,13 @@
 <script setup lang="ts">
-    // Container component
-    // A generic block-level content container.
+// Container component
+// A generic block-level content container.
 
-    // no props
+// no props
 </script>
 
 <template>
     <!-- Container.vue -->
-    <div
-        class="container"
-    >
+    <div class="container">
         <slot />
     </div>
 </template>

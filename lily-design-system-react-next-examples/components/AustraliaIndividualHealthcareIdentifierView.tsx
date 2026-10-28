@@ -37,9 +37,11 @@ export default function AustraliaIndividualHealthcareIdentifierView({
 }: AustraliaIndividualHealthcareIdentifierViewProps) {
     return (
         <span
-        className={`australia-individual-healthcare-identifier-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`australia-individual-healthcare-identifier-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

@@ -91,26 +91,26 @@ export default function HamburgerMenu({
 
     return (
         <div
-        className={`hamburger-menu ${className}`}
-        {...restProps}
+            className={`hamburger-menu ${className}`}
+            {...restProps}
         >
-        <button
-        type="button"
-        aria-label={label}
-        aria-expanded={open}
-        aria-controls={menuId}
-        onClick={handleClick}
-        >
-        {label}
-        </button>
-        {open && (
-        <nav
-        id={menuId}
-        aria-label={label}
-        >
-        {children}
-        </nav>
-        )}
+            <button
+                type="button"
+                aria-label={label}
+                aria-expanded={open}
+                aria-controls={menuId}
+                onClick={handleClick}
+            >
+                {label}
+            </button>
+            {open && (
+                <nav
+                    id={menuId}
+                    aria-label={label}
+                >
+                    {children}
+                </nav>
+            )}
         </div>
     );
 }

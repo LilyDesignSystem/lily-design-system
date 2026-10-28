@@ -37,9 +37,11 @@ export default function BelgiqueNumeroDeRegistreNationalView({
 }: BelgiqueNumeroDeRegistreNationalViewProps) {
     return (
         <span
-        className={`belgique-numero-de-registre-national-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`belgique-numero-de-registre-national-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

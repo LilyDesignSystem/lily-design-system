@@ -5,7 +5,12 @@ import Subject from "./CeskoRodneCisloView";
 
 describe("CeskoRodneCisloView", () => {
     test("renders with the correct class", () => {
-        render(<Subject label="Czech Personal Number" value="test-value" />);
+        render(
+            <Subject
+                label="Czech Personal Number"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Czech Personal Number");
         expect(el).toBeTruthy();
@@ -13,7 +18,12 @@ describe("CeskoRodneCisloView", () => {
     });
 
     test("renders the value as text content", () => {
-        render(<Subject label="Czech Personal Number" value="test-value" />);
+        render(
+            <Subject
+                label="Czech Personal Number"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Czech Personal Number");
         expect(el.textContent).toBe("test-value");

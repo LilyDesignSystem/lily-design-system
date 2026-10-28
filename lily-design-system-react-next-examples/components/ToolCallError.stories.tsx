@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import ToolCallError from './ToolCallError';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import ToolCallError from "./ToolCallError";
 
 const meta = {
-  title: 'Headless/ToolCallError',
-  component: ToolCallError,
-  tags: ['autodocs']
+    title: "Headless/ToolCallError",
+    component: ToolCallError,
+    tags: ["autodocs"],
 } satisfies Meta<typeof ToolCallError>;
 
 export default meta;

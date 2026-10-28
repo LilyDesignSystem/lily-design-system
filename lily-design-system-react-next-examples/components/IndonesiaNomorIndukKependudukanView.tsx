@@ -37,9 +37,11 @@ export default function IndonesiaNomorIndukKependudukanView({
 }: IndonesiaNomorIndukKependudukanViewProps) {
     return (
         <span
-        className={`indonesia-nomor-induk-kependudukan-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`indonesia-nomor-induk-kependudukan-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

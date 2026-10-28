@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./AccordionNav.vue";
 
-
 describe("AccordionNav", () => {
     test("renders a nav element", () => {
         render(Subject, { props: { label: "FAQ" }, slots: { default: "content" } });

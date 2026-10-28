@@ -63,14 +63,15 @@ export default function ColorInput({
 }: ColorInputProps) {
     return (
         <input
-        className={`color-input ${className}`}
-        type="color"
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        aria-label={label}
-        disabled={disabled}
-        name={name}
-        id={id}
-        {...restProps}
+            className={`color-input ${className}`}
+            type="color"
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            aria-label={label}
+            disabled={disabled}
+            name={name}
+            id={id}
+            {...restProps}
         />
     );
 }

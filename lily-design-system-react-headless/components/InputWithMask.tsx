@@ -72,23 +72,28 @@ export default function InputWithMask({
 }: InputWithMaskProps) {
     return (
         <div
-        className={`input-with-mask ${className}`}
-        data-mask={mask}
-        {...restProps}
+            className={`input-with-mask ${className}`}
+            data-mask={mask}
+            {...restProps}
         >
-        <span className="input-with-mask-display" aria-hidden="true">
-            {mask}
-        </span>
-        <input
-        className="input-with-mask-control"
-        type="text"
-        aria-label={label}
-        value={value}
-        placeholder={placeholder}
-        disabled={disabled}
-        onInput={onInput}
-        onChange={() => { /* React requires onChange when value is provided */ }}
-        />
+            <span
+                className="input-with-mask-display"
+                aria-hidden="true"
+            >
+                {mask}
+            </span>
+            <input
+                className="input-with-mask-control"
+                type="text"
+                aria-label={label}
+                value={value}
+                placeholder={placeholder}
+                disabled={disabled}
+                onInput={onInput}
+                onChange={() => {
+                    /* React requires onChange when value is provided */
+                }}
+            />
         </div>
     );
 }

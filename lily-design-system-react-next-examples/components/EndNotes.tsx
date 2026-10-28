@@ -20,7 +20,10 @@ export interface EndNotesProps {
 }
 
 export default function EndNotes({
-    className = "", label = "End notes", children, ...restProps
+    className = "",
+    label = "End notes",
+    children,
+    ...restProps
 }: EndNotesProps) {
     return (
         <section

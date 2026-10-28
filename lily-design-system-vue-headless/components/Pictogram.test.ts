@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./Pictogram.vue";
 
-
 describe("Pictogram", () => {
     test("renders as a figure element", () => {
         const { container } = render(Subject, {
@@ -59,7 +58,9 @@ describe("Pictogram", () => {
             slots: { icon: "<span>I</span>" },
         });
 
-        const caption: HTMLElement = container.querySelector("figcaption.pictogram-caption") as HTMLElement;
+        const caption: HTMLElement = container.querySelector(
+            "figcaption.pictogram-caption",
+        ) as HTMLElement;
         const h3: HTMLElement | null = caption.querySelector("h3.pictogram-heading");
         expect(h3?.textContent).toBe("Fast");
     });

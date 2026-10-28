@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "../../components/ContentsListItem.vue";
 
-
 describe("ContentsListItem", () => {
     test("renders a list item element", () => {
         render(Subject, { slots: { default: "Introduction" } });

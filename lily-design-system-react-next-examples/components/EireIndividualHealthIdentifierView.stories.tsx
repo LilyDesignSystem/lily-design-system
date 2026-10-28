@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import EireIndividualHealthIdentifierView from './EireIndividualHealthIdentifierView';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import EireIndividualHealthIdentifierView from "./EireIndividualHealthIdentifierView";
 
 const meta = {
-  title: 'Headless/EireIndividualHealthIdentifierView',
-  component: EireIndividualHealthIdentifierView,
-  tags: ['autodocs']
+    title: "Headless/EireIndividualHealthIdentifierView",
+    component: EireIndividualHealthIdentifierView,
+    tags: ["autodocs"],
 } satisfies Meta<typeof EireIndividualHealthIdentifierView>;
 
 export default meta;

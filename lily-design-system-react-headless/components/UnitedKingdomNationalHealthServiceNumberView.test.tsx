@@ -5,21 +5,36 @@ import Subject from "./UnitedKingdomNationalHealthServiceNumberView";
 
 describe("UnitedKingdomNationalHealthServiceNumberView", () => {
     test("renders a span element", () => {
-        render(<Subject label="NHS Number" value="123 456 7890" />);
+        render(
+            <Subject
+                label="NHS Number"
+                value="123 456 7890"
+            />,
+        );
 
         const element = screen.getByLabelText("NHS Number");
         expect(element.tagName).toBe("SPAN");
     });
 
     test("displays the NHS number value", () => {
-        render(<Subject label="NHS Number" value="123 456 7890" />);
+        render(
+            <Subject
+                label="NHS Number"
+                value="123 456 7890"
+            />,
+        );
 
         const element = screen.getByLabelText("NHS Number");
         expect(element.textContent).toBe("123 456 7890");
     });
 
     test("has aria-label from label prop", () => {
-        render(<Subject label="Patient NHS Number" value="999 888 7777" />);
+        render(
+            <Subject
+                label="Patient NHS Number"
+                value="999 888 7777"
+            />,
+        );
 
         const element = screen.getByLabelText("Patient NHS Number");
         expect(element).toBeTruthy();
@@ -33,14 +48,26 @@ describe("UnitedKingdomNationalHealthServiceNumberView", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="NHS Number" value="123 456 7890" data-testid="nhs-view" />);
+        render(
+            <Subject
+                label="NHS Number"
+                value="123 456 7890"
+                data-testid="nhs-view"
+            />,
+        );
 
         const element = screen.getByTestId("nhs-view");
         expect(element).toBeTruthy();
     });
 
     test("passes through id attribute", () => {
-        render(<Subject label="NHS Number" value="123 456 7890" id="nhs-display" />);
+        render(
+            <Subject
+                label="NHS Number"
+                value="123 456 7890"
+                id="nhs-display"
+            />,
+        );
 
         const element = screen.getByLabelText("NHS Number");
         expect(element.getAttribute("id")).toBe("nhs-display");

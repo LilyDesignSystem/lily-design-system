@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./TimelineListItem.vue";
 
-
 describe("TimelineListItem", () => {
     test("renders a list item", () => {
         render(Subject, { slots: { default: "Order placed" } });
@@ -16,8 +15,10 @@ describe("TimelineListItem", () => {
     });
 
     test("renders time element with datetime and heading", () => {
-        render(Subject, { props: { datetime: "2024-01-15",
-            heading: "January 15, 2024" }, slots: { default: "Order placed" } });
+        render(Subject, {
+            props: { datetime: "2024-01-15", heading: "January 15, 2024" },
+            slots: { default: "Order placed" },
+        });
         const time = screen.getByText("January 15, 2024");
         expect(time.tagName).toBe("TIME");
         expect(time.getAttribute("datetime")).toBe("2024-01-15");
@@ -30,7 +31,10 @@ describe("TimelineListItem", () => {
     });
 
     test("renders time element with datetime only", () => {
-        render(Subject, { props: { datetime: "2024-06-01" }, slots: { default: "Milestone reached" } });
+        render(Subject, {
+            props: { datetime: "2024-06-01" },
+            slots: { default: "Milestone reached" },
+        });
         const li = screen.getByRole("listitem");
         const time = li.querySelector("time");
         expect(time).toBeTruthy();

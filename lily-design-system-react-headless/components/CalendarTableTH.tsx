@@ -59,13 +59,13 @@ export default function CalendarTableTH({
 }: CalendarTableTHProps) {
     return (
         <th
-        className={`calendar-table-th ${className}`}
-        scope={scope}
-        colSpan={colSpan || undefined}
-        rowSpan={rowSpan || undefined}
-        {...restProps}
+            className={`calendar-table-th ${className}`}
+            scope={scope}
+            colSpan={colSpan || undefined}
+            rowSpan={rowSpan || undefined}
+            {...restProps}
         >
-        {children}
+            {children}
         </th>
     );
 }

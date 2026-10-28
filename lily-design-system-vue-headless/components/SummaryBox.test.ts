@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./SummaryBox.vue";
 
-
 describe("SummaryBox", () => {
     test("renders as a complementary landmark", () => {
         render(Subject, { props: { heading: "Key takeaways" } });

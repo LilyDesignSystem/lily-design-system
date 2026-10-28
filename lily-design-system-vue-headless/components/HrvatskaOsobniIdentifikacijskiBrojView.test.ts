@@ -5,7 +5,9 @@ import Subject from "./HrvatskaOsobniIdentifikacijskiBrojView.vue";
 
 describe("HrvatskaOsobniIdentifikacijskiBrojView", () => {
     test("renders with the correct class", () => {
-        render(Subject, { props: { label: "Personal Identification Number", value: "test-value" } });
+        render(Subject, {
+            props: { label: "Personal Identification Number", value: "test-value" },
+        });
 
         const el = screen.getByLabelText("Personal Identification Number");
         expect(el).toBeTruthy();
@@ -13,7 +15,9 @@ describe("HrvatskaOsobniIdentifikacijskiBrojView", () => {
     });
 
     test("renders the value as text content", () => {
-        render(Subject, { props: { label: "Personal Identification Number", value: "test-value" } });
+        render(Subject, {
+            props: { label: "Personal Identification Number", value: "test-value" },
+        });
 
         const el = screen.getByLabelText("Personal Identification Number");
         expect(el.textContent).toBe("test-value");

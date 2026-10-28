@@ -12,7 +12,14 @@ describe("BannerBox", () => {
     });
 
     test("appends className prop to root", () => {
-        const { container } = render(<Subject label="Demo" className="extra">content</Subject>);
+        const { container } = render(
+            <Subject
+                label="Demo"
+                className="extra"
+            >
+                content
+            </Subject>,
+        );
         const el = container.querySelector(".banner-box");
         expect(el?.className).toContain("banner-box");
         expect(el?.className).toContain("extra");

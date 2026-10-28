@@ -16,7 +16,7 @@
 //   <RadioGroup label="Size">{children}</RadioGroup>
 //
 // Examples:
-//   
+//
 //   <RadioGroup label="Size">
 //     <label><input type="radio" name="size" value="s" /> Small</label>
 //     <label><input type="radio" name="size" value="m" /> Medium</label>
@@ -65,12 +65,12 @@ export default function RadioGroup({
 }: RadioGroupProps) {
     return (
         <fieldset
-        className={`radio-group ${className}`}
-        role="radiogroup"
-        aria-label={label}
-        {...restProps}
+            className={`radio-group ${className}`}
+            role="radiogroup"
+            aria-label={label}
+            {...restProps}
         >
-        {children}
+            {children}
         </fieldset>
     );
 }

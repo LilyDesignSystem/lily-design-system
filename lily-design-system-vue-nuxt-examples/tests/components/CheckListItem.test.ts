@@ -4,14 +4,17 @@ import userEvent from "@testing-library/user-event";
 
 import CheckListItem from "../../components/CheckListItem.vue";
 
-
 // Wrap CheckListItem in an <ol> for valid HTML context
 function renderInList(props: Record<string, unknown>, slotContent?: string) {
     const container = document.createElement("div");
     const ol = document.createElement("ol");
     container.appendChild(ol);
     document.body.appendChild(container);
-    const result = render(CheckListItem, { props, ...(slotContent != null ? { slots: { default: slotContent } } : {}), target: ol });
+    const result = render(CheckListItem, {
+        props,
+        ...(slotContent != null ? { slots: { default: slotContent } } : {}),
+        target: ol,
+    });
     return { ...result, container };
 }
 

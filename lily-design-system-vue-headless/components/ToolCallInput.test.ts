@@ -11,7 +11,9 @@ describe("ToolCallInput", () => {
 
     test("with a label it is a named group; without one it has neither role nor aria-label", () => {
         const a = render(Subject, { props: { label: "Input" }, slots: { default: "x" } });
-        expect(screen.getByRole("group", { name: "Input" }).getAttribute("aria-label")).toBe("Input");
+        expect(screen.getByRole("group", { name: "Input" }).getAttribute("aria-label")).toBe(
+            "Input",
+        );
         a.unmount();
         const { container } = render(Subject, { slots: { default: "x" } });
         const el = container.querySelector(".tool-call-input")!;
@@ -20,7 +22,10 @@ describe("ToolCallInput", () => {
     });
 
     test("merges attrs (class, id) onto the root", () => {
-        const { container } = render(Subject, { attrs: { class: "mine", id: "x1" }, slots: { default: "x" } });
+        const { container } = render(Subject, {
+            attrs: { class: "mine", id: "x1" },
+            slots: { default: "x" },
+        });
         const el = container.querySelector(".tool-call-input")!;
         expect(el.id).toBe("x1");
         expect(el.getAttribute("class")).toBe("tool-call-input mine");

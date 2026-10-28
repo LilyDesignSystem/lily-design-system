@@ -49,15 +49,18 @@ export default function IconListItem({
 }: IconListItemProps) {
     return (
         <li
-        className={`icon-list-item ${className}`}
-        {...restProps}
+            className={`icon-list-item ${className}`}
+            {...restProps}
         >
-        {icon && (
-            <span className="icon-list-item-icon" aria-hidden="true">
-                {icon}
-            </span>
-        )}
-        <span className="icon-list-item-text">{children}</span>
+            {icon && (
+                <span
+                    className="icon-list-item-icon"
+                    aria-hidden="true"
+                >
+                    {icon}
+                </span>
+            )}
+            <span className="icon-list-item-text">{children}</span>
         </li>
     );
 }

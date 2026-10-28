@@ -5,7 +5,9 @@ import Subject from "./ZhongguoJuminShenfenzhengHaomaView.svelte";
 
 describe("ZhongguoJuminShenfenzhengHaomaView", () => {
     test("renders with the correct class", () => {
-        render(Subject, { props: { label: "居民身份证号码 (Jūmín Shēnfènzhèng Hàomǎ)", value: "test-value" } });
+        render(Subject, {
+            props: { label: "居民身份证号码 (Jūmín Shēnfènzhèng Hàomǎ)", value: "test-value" },
+        });
 
         const el = screen.getByLabelText("居民身份证号码 (Jūmín Shēnfènzhèng Hàomǎ)");
         expect(el).toBeTruthy();
@@ -13,7 +15,9 @@ describe("ZhongguoJuminShenfenzhengHaomaView", () => {
     });
 
     test("renders the value as text content", () => {
-        render(Subject, { props: { label: "居民身份证号码 (Jūmín Shēnfènzhèng Hàomǎ)", value: "test-value" } });
+        render(Subject, {
+            props: { label: "居民身份证号码 (Jūmín Shēnfènzhèng Hàomǎ)", value: "test-value" },
+        });
 
         const el = screen.getByLabelText("居民身份证号码 (Jūmín Shēnfènzhèng Hàomǎ)");
         expect(el.textContent).toBe("test-value");

@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import Slider from './Slider';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import Slider from "./Slider";
 
 const meta = {
-  title: 'Headless/Slider',
-  component: Slider,
-  tags: ['autodocs']
+    title: "Headless/Slider",
+    component: Slider,
+    tags: ["autodocs"],
 } satisfies Meta<typeof Slider>;
 
 export default meta;

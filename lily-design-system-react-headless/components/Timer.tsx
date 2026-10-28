@@ -17,10 +17,10 @@
 //   <Timer label="Countdown">05:30</Timer>
 //
 // Examples:
-//   
+//
 //   <Timer label="Session timeout" datetime="PT5M30S">5:30</Timer>
 //
-//   
+//
 //   <Timer label="Elapsed time">{formatted}</Timer>
 //
 // Keyboard:
@@ -57,21 +57,16 @@ export interface TimerProps {
     [key: string]: unknown;
 }
 
-export default function Timer({
-    className = "",
-    label,
-    children,
-    ...restProps
-}: TimerProps) {
+export default function Timer({ className = "", label, children, ...restProps }: TimerProps) {
     return (
         <time
-        className={`timer ${className}`}
-        role="timer"
-        aria-label={label}
-        aria-live="polite"
-        {...restProps}
+            className={`timer ${className}`}
+            role="timer"
+            aria-label={label}
+            aria-live="polite"
+            {...restProps}
         >
-        {children}
+            {children}
         </time>
     );
 }

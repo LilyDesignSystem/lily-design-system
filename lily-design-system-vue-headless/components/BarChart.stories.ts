@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import BarChart from './BarChart.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import BarChart from "./BarChart.vue";
 
 const meta = {
-  title: 'Headless/BarChart',
-  component: BarChart,
-  tags: ['autodocs']
+    title: "Headless/BarChart",
+    component: BarChart,
+    tags: ["autodocs"],
 } satisfies Meta<typeof BarChart>;
 
 export default meta;

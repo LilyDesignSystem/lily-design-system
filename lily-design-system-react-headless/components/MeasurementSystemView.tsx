@@ -16,10 +16,10 @@
 //   <MeasurementSystemView value="metric" />
 //
 // Examples:
-//   
+//
 //   <MeasurementSystemView value="metric" />
 //
-//   
+//
 //   <MeasurementSystemView value="SI" label="International System of Units" />
 //
 // Keyboard:
@@ -59,9 +59,11 @@ export default function MeasurementSystemView({
 }: MeasurementSystemViewProps) {
     return (
         <span
-        className={`measurement-system-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`measurement-system-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

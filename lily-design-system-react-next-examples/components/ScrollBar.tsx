@@ -18,12 +18,12 @@
 //   </ScrollBar>
 //
 // Examples:
-//   
+//
 //   <ScrollBar orientation="horizontal" label="Timeline scroll">
 //     <div class="thumb"></div>
 //   </ScrollBar>
 //
-//   
+//
 //   <ScrollBar orientation="vertical" label="Page scroll" aria-valuenow={scrollPos}>
 //     <div class="thumb"></div>
 //   </ScrollBar>
@@ -74,16 +74,16 @@ export default function ScrollBar({
 }: ScrollBarProps) {
     return (
         <div
-        className={`scroll-bar ${className}`}
-        role="scrollbar"
-        aria-label={label}
-        aria-orientation={orientation}
-        aria-valuenow={0}
-        aria-valuemin={0}
-        aria-valuemax={100}
-        {...restProps}
+            className={`scroll-bar ${className}`}
+            role="scrollbar"
+            aria-label={label}
+            aria-orientation={orientation}
+            aria-valuenow={0}
+            aria-valuemin={0}
+            aria-valuemax={100}
+            {...restProps}
         >
-        {children}
+            {children}
         </div>
     );
 }

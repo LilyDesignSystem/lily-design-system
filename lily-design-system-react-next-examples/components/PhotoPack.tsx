@@ -20,7 +20,10 @@ export interface PhotoPackProps {
 }
 
 export default function PhotoPack({
-    className = "", label, children, ...restProps
+    className = "",
+    label,
+    children,
+    ...restProps
 }: PhotoPackProps) {
     return (
         <div

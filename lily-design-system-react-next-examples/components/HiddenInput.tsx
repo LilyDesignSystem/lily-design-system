@@ -15,10 +15,10 @@
 //   <HiddenInput name="csrf" value={token} />
 //
 // Examples:
-//   
+//
 //   <HiddenInput name="csrf" value={token} />
 //
-//   
+//
 //   <HiddenInput name="record_id" value={id} />
 //
 // Keyboard:
@@ -55,11 +55,11 @@ export default function HiddenInput({
 }: HiddenInputProps) {
     return (
         <input
-        className={`hidden-input ${className}`}
-        type="hidden"
-        name={name}
-        value={value}
-        {...restProps}
+            className={`hidden-input ${className}`}
+            type="hidden"
+            name={name}
+            value={value}
+            {...restProps}
         />
     );
 }

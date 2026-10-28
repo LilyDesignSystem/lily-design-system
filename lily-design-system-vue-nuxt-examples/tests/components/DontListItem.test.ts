@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "../../components/DontListItem.vue";
 
-
 describe("DontListItem", () => {
     test("renders a list item", () => {
         render(Subject, { slots: { default: "Use color alone" } });
@@ -22,7 +21,10 @@ describe("DontListItem", () => {
     });
 
     test("passes through data-testid attribute", () => {
-        render(Subject, { props: { "data-testid": "dont-item" }, slots: { default: "Bad practice" } });
+        render(Subject, {
+            props: { "data-testid": "dont-item" },
+            slots: { default: "Bad practice" },
+        });
         expect(screen.getByTestId("dont-item")).toBeTruthy();
         expect(screen.getByTestId("dont-item").tagName).toBe("LI");
     });

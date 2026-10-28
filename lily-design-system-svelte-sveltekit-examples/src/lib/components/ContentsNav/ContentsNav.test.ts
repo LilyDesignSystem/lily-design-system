@@ -27,7 +27,9 @@ describe("ContentsNav", () => {
     });
 
     test("passes through attributes", () => {
-        render(Subject, { props: { label: "Contents", "data-testid": "cn", children: textSnippet("Items") } });
+        render(Subject, {
+            props: { label: "Contents", "data-testid": "cn", children: textSnippet("Items") },
+        });
         expect(screen.getByTestId("cn")).toBeTruthy();
     });
 });
@@ -58,12 +60,26 @@ function linksSnippet(ids: string[]) {
 function sections(ids: string[]): Record<string, number> {
     const tops: Record<string, number> = {};
     // A tall page, so the viewport is not "at the bottom" unless a test says so.
-    Object.defineProperty(document.documentElement, "scrollHeight", { value: 5000, configurable: true });
+    Object.defineProperty(document.documentElement, "scrollHeight", {
+        value: 5000,
+        configurable: true,
+    });
     for (const id of ids) {
         const el = document.createElement("section");
         el.id = id;
         tops[id] = 0;
-        el.getBoundingClientRect = () => ({ top: tops[id], bottom: tops[id] + 100, left: 0, right: 0, width: 0, height: 100, x: 0, y: tops[id], toJSON() {} }) as DOMRect;
+        el.getBoundingClientRect = () =>
+            ({
+                top: tops[id],
+                bottom: tops[id] + 100,
+                left: 0,
+                right: 0,
+                width: 0,
+                height: 100,
+                x: 0,
+                y: tops[id],
+                toJSON() {},
+            }) as DOMRect;
         document.body.appendChild(el);
     }
     return tops;
@@ -129,12 +145,16 @@ describe("ContentsNav — scrollspy", () => {
         await settle();
         expect(activeLink()!.textContent).toBe("intro");
 
-        tops.intro = -400; tops.usage = -100; tops.api = 200;
+        tops.intro = -400;
+        tops.usage = -100;
+        tops.api = 200;
         window.dispatchEvent(new Event("scroll"));
         await settle();
         expect(activeLink()!.textContent).toBe("usage");
 
-        tops.intro = 0; tops.usage = 300; tops.api = 600;
+        tops.intro = 0;
+        tops.usage = 300;
+        tops.api = 600;
         window.dispatchEvent(new Event("scroll"));
         await settle();
         expect(activeLink()!.textContent).toBe("intro");
@@ -142,28 +162,43 @@ describe("ContentsNav — scrollspy", () => {
 
     test("offset moves the activation line", async () => {
         const tops = sections(IDS);
-        tops.intro = -400; tops.usage = 60; tops.api = 500;
-        render(Subject, { props: { label: "Contents", spy: true, offset: 80, children: linksSnippet(IDS) } });
+        tops.intro = -400;
+        tops.usage = 60;
+        tops.api = 500;
+        render(Subject, {
+            props: { label: "Contents", spy: true, offset: 80, children: linksSnippet(IDS) },
+        });
         await settle();
         expect(activeLink()!.textContent).toBe("usage");
     });
 
     test("current sets the aria-current token", async () => {
         sections(IDS);
-        render(Subject, { props: { label: "Contents", spy: true, current: "location", children: linksSnippet(IDS) } });
+        render(Subject, {
+            props: {
+                label: "Contents",
+                spy: true,
+                current: "location",
+                children: linksSnippet(IDS),
+            },
+        });
         await settle();
         expect(activeLink()!.getAttribute("aria-current")).toBe("location");
     });
 
     test("a click makes its link current at once and holds it while the scroll settles", async () => {
         const tops = sections(IDS);
-        tops.intro = 0; tops.usage = 300; tops.api = 600;
+        tops.intro = 0;
+        tops.usage = 300;
+        tops.api = 600;
         render(Subject, { props: { label: "Contents", spy: true, children: linksSnippet(IDS) } });
         await settle();
         (document.querySelector('a[href="#api"]') as HTMLElement).click();
         expect(activeLink()!.textContent).toBe("api");
         // A scroll event mid-flight (the smooth scroll passing through "usage") must not steal the mark.
-        tops.intro = -100; tops.usage = 0; tops.api = 300;
+        tops.intro = -100;
+        tops.usage = 0;
+        tops.api = 300;
         window.dispatchEvent(new Event("scroll"));
         await settle();
         expect(activeLink()!.textContent).toBe("api");
@@ -175,15 +210,21 @@ describe("ContentsNav — scrollspy", () => {
 
     test("onActiveChange fires once per change, with the section id", async () => {
         const tops = sections(IDS);
-        tops.intro = 0; tops.usage = 300; tops.api = 600;
+        tops.intro = 0;
+        tops.usage = 300;
+        tops.api = 600;
         const onActiveChange = vi.fn();
-        render(Subject, { props: { label: "Contents", spy: true, onActiveChange, children: linksSnippet(IDS) } });
+        render(Subject, {
+            props: { label: "Contents", spy: true, onActiveChange, children: linksSnippet(IDS) },
+        });
         await settle();
         window.dispatchEvent(new Event("scroll"));
         await settle();
         expect(onActiveChange).toHaveBeenCalledTimes(1);
         expect(onActiveChange).toHaveBeenLastCalledWith("intro");
-        tops.intro = -400; tops.usage = -100; tops.api = 200;
+        tops.intro = -400;
+        tops.usage = -100;
+        tops.api = 200;
         window.dispatchEvent(new Event("scroll"));
         await settle();
         expect(onActiveChange).toHaveBeenCalledTimes(2);
@@ -192,8 +233,13 @@ describe("ContentsNav — scrollspy", () => {
 
     test("at the bottom of the page the last section is current even if it never reaches the line", async () => {
         const tops = sections(IDS);
-        tops.intro = -900; tops.usage = -500; tops.api = 400;
-        Object.defineProperty(document.documentElement, "scrollHeight", { value: window.innerHeight + 10, configurable: true });
+        tops.intro = -900;
+        tops.usage = -500;
+        tops.api = 400;
+        Object.defineProperty(document.documentElement, "scrollHeight", {
+            value: window.innerHeight + 10,
+            configurable: true,
+        });
         Object.defineProperty(window, "scrollY", { value: 10, configurable: true });
         render(Subject, { props: { label: "Contents", spy: true, children: linksSnippet(IDS) } });
         await settle();
@@ -203,7 +249,9 @@ describe("ContentsNav — scrollspy", () => {
 
     test("the URL hash wins on load", async () => {
         const tops = sections(IDS);
-        tops.intro = 0; tops.usage = 300; tops.api = 600;
+        tops.intro = 0;
+        tops.usage = 300;
+        tops.api = 600;
         window.location.hash = "#api";
         render(Subject, { props: { label: "Contents", spy: true, children: linksSnippet(IDS) } });
         await settle();
@@ -212,10 +260,12 @@ describe("ContentsNav — scrollspy", () => {
 
     test("ancestors of the active link get data-descendant-active", async () => {
         const tops = sections(["intro", "child"]);
-        tops.intro = -400; tops.child = -10;
+        tops.intro = -400;
+        tops.child = -10;
         const nested = (($$anchor: Comment) => {
             const ol = document.createElement("ol");
-            ol.innerHTML = '<li><a href="#intro">intro</a><ol><li><a href="#child">child</a></li></ol></li>';
+            ol.innerHTML =
+                '<li><a href="#intro">intro</a><ol><li><a href="#child">child</a></li></ol></li>';
             $$anchor.before(ol);
         }) as any;
         render(Subject, { props: { label: "Contents", spy: true, children: nested } });
@@ -229,7 +279,9 @@ describe("ContentsNav — scrollspy", () => {
     test("links with no matching element are ignored", async () => {
         const tops = sections(["intro"]);
         tops.intro = 0;
-        render(Subject, { props: { label: "Contents", spy: true, children: linksSnippet(["intro", "missing"]) } });
+        render(Subject, {
+            props: { label: "Contents", spy: true, children: linksSnippet(["intro", "missing"]) },
+        });
         await settle();
         expect(activeLink()!.textContent).toBe("intro");
     });

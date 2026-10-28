@@ -33,7 +33,12 @@ describe("BharatAadhaarInput", () => {
     });
 
     test("can be set to required", () => {
-        render(<Subject label="Aadhaar (आधार)" required />);
+        render(
+            <Subject
+                label="Aadhaar (आधार)"
+                required
+            />,
+        );
 
         const input = screen.getByLabelText("Aadhaar (आधार)") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -47,14 +52,24 @@ describe("BharatAadhaarInput", () => {
     });
 
     test("can be set to disabled", () => {
-        render(<Subject label="Aadhaar (आधार)" disabled />);
+        render(
+            <Subject
+                label="Aadhaar (आधार)"
+                disabled
+            />,
+        );
 
         const input = screen.getByLabelText("Aadhaar (आधार)") as HTMLInputElement;
         expect(input.disabled).toBe(true);
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="Aadhaar (आधार)" data-testid="subject" />);
+        render(
+            <Subject
+                label="Aadhaar (आधार)"
+                data-testid="subject"
+            />,
+        );
 
         const input = screen.getByTestId("subject");
         expect(input).toBeTruthy();

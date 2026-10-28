@@ -24,7 +24,9 @@ describe("ScrollerBase", () => {
             label: "My story",
             children: snippet("<div>1</div>"),
         });
-        expect(container.querySelector(".scroller-base")?.getAttribute("aria-label")).toBe("My story");
+        expect(container.querySelector(".scroller-base")?.getAttribute("aria-label")).toBe(
+            "My story",
+        );
     });
 
     test("does not set aria-label when omitted", () => {

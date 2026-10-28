@@ -70,9 +70,7 @@
 
     function onkeydown(event: KeyboardEvent) {
         if (!barRef) return;
-        const items = Array.from(
-            barRef.querySelectorAll<HTMLElement>("[role='tab']"),
-        );
+        const items = Array.from(barRef.querySelectorAll<HTMLElement>("[role='tab']"));
         const current = document.activeElement as HTMLElement;
         const index = items.indexOf(current);
         switch (event.key) {

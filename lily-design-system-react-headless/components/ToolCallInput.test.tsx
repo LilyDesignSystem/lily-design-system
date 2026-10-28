@@ -10,7 +10,9 @@ describe("ToolCallInput", () => {
 
     it("with a label it is a named group; without one it has neither role nor aria-label", () => {
         const a = render(<ToolCallInput label="Input">x</ToolCallInput>);
-        expect(screen.getByRole("group", { name: "Input" }).getAttribute("aria-label")).toBe("Input");
+        expect(screen.getByRole("group", { name: "Input" }).getAttribute("aria-label")).toBe(
+            "Input",
+        );
         a.unmount();
         const { container } = render(<ToolCallInput>x</ToolCallInput>);
         const el = container.querySelector(".tool-call-input")!;
@@ -20,11 +22,17 @@ describe("ToolCallInput", () => {
 
     it("appends the consumer class after the base class", () => {
         const { container } = render(<ToolCallInput className="mine">x</ToolCallInput>);
-        expect(container.querySelector(".tool-call-input")!.getAttribute("class")).toBe("tool-call-input mine");
+        expect(container.querySelector(".tool-call-input")!.getAttribute("class")).toBe(
+            "tool-call-input mine",
+        );
     });
 
     it("renders the children", () => {
-        render(<ToolCallInput><span data-testid="txt">Hello</span></ToolCallInput>);
+        render(
+            <ToolCallInput>
+                <span data-testid="txt">Hello</span>
+            </ToolCallInput>,
+        );
         expect(screen.getByTestId("txt").textContent).toBe("Hello");
     });
 

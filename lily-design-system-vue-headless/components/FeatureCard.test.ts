@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./FeatureCard.vue";
 
-
 describe("FeatureCard", () => {
     test("renders as an article element", () => {
         const { container } = render(Subject, {
@@ -109,7 +108,7 @@ describe("FeatureCard", () => {
     test("renders default slot content", () => {
         render(Subject, {
             props: { heading: "Privacy first" },
-            slots: { default: "<a href=\"/p\">Read</a>" },
+            slots: { default: '<a href="/p">Read</a>' },
         });
 
         expect(screen.getByText("Read")).toBeTruthy();

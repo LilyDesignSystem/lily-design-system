@@ -15,10 +15,10 @@
 //   <ResetInput />
 //
 // Examples:
-//   
+//
 //   <ResetInput value="Clear form" />
 //
-//   
+//
 //   <ResetInput value="Start over" disabled={!formDirty} />
 //
 // Keyboard:
@@ -61,11 +61,11 @@ export default function ResetInput({
 }: ResetInputProps) {
     return (
         <input
-        className={`reset-input ${className}`}
-        type="reset"
-        value={value}
-        disabled={disabled}
-        {...restProps}
+            className={`reset-input ${className}`}
+            type="reset"
+            value={value}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

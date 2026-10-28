@@ -23,7 +23,10 @@ describe("EndNotes", () => {
     });
 
     test("aria-label can be overridden", () => {
-        const { container } = render(Subject, { props: { label: "Other" }, slots: { default: "x" } });
+        const { container } = render(Subject, {
+            props: { label: "Other" },
+            slots: { default: "x" },
+        });
         const root = container.querySelector(".end-notes");
         expect(root?.getAttribute("aria-label")).toBe("Other");
     });

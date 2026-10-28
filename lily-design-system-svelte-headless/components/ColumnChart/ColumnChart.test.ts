@@ -11,13 +11,16 @@ function svgSnippet() {
 
 function tableSnippet() {
     return createRawSnippet(() => ({
-        render: () => `<table><caption>Values</caption><tbody><tr><th scope="row">A</th><td>1</td></tr></tbody></table>`,
+        render: () =>
+            `<table><caption>Values</caption><tbody><tr><th scope="row">A</th><td>1</td></tr></tbody></table>`,
     }));
 }
 
 describe("ColumnChart", () => {
     it("renders a <figure> with the base class", () => {
-        const { container } = render(ColumnChart, { props: { label: "Test", children: svgSnippet() } });
+        const { container } = render(ColumnChart, {
+            props: { label: "Test", children: svgSnippet() },
+        });
         expect(container.querySelector("figure.column-chart")).toBeTruthy();
     });
 
@@ -31,16 +34,22 @@ describe("ColumnChart", () => {
 
     it("omits aria-label when no label is given", () => {
         const { container } = render(ColumnChart, { props: { children: svgSnippet() } });
-        expect(container.querySelector(".column-chart-graphic")!.hasAttribute("aria-label")).toBe(false);
+        expect(container.querySelector(".column-chart-graphic")!.hasAttribute("aria-label")).toBe(
+            false,
+        );
     });
 
     it("does not put role=img on the figure", () => {
-        const { container } = render(ColumnChart, { props: { label: "T", children: svgSnippet() } });
+        const { container } = render(ColumnChart, {
+            props: { label: "T", children: svgSnippet() },
+        });
         expect(container.querySelector("figure")!.hasAttribute("role")).toBe(false);
     });
 
     it("appends the consumer class after the base class", () => {
-        const { container } = render(ColumnChart, { props: { label: "T", class: "mine", children: svgSnippet() } });
+        const { container } = render(ColumnChart, {
+            props: { label: "T", class: "mine", children: svgSnippet() },
+        });
         expect(container.querySelector("figure")!.getAttribute("class")).toBe("column-chart mine");
     });
 
@@ -50,12 +59,16 @@ describe("ColumnChart", () => {
     });
 
     it("renders no data-table wrapper without a dataTable snippet", () => {
-        const { container } = render(ColumnChart, { props: { label: "T", children: svgSnippet() } });
+        const { container } = render(ColumnChart, {
+            props: { label: "T", children: svgSnippet() },
+        });
         expect(container.querySelector(".column-chart-data-table")).toBeNull();
     });
 
     it("renders the dataTable snippet in a .column-chart-data-table sibling after the graphic", () => {
-        const { container } = render(ColumnChart, { props: { label: "T", children: svgSnippet(), dataTable: tableSnippet() } });
+        const { container } = render(ColumnChart, {
+            props: { label: "T", children: svgSnippet(), dataTable: tableSnippet() },
+        });
         const wrap = container.querySelector(".column-chart-data-table")!;
         expect(wrap).toBeTruthy();
         expect(wrap.previousElementSibling).toBe(container.querySelector(".column-chart-graphic"));
@@ -63,12 +76,16 @@ describe("ColumnChart", () => {
     });
 
     it("keeps the table outside the role=img element so assistive technology can reach it", () => {
-        render(ColumnChart, { props: { label: "T", children: svgSnippet(), dataTable: tableSnippet() } });
+        render(ColumnChart, {
+            props: { label: "T", children: svgSnippet(), dataTable: tableSnippet() },
+        });
         expect(screen.getByRole("table").closest("[role=img]")).toBeNull();
     });
 
     it("spreads rest props onto the figure", () => {
-        render(ColumnChart, { props: { label: "T", id: "c1", "data-testid": "chart", children: svgSnippet() } });
+        render(ColumnChart, {
+            props: { label: "T", id: "c1", "data-testid": "chart", children: svgSnippet() },
+        });
         const el = screen.getByTestId("chart");
         expect(el.tagName).toBe("FIGURE");
         expect(el.id).toBe("c1");

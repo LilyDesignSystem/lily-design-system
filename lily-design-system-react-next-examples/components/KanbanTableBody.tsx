@@ -46,10 +46,10 @@ export default function KanbanTableBody({
 }: KanbanTableBodyProps) {
     return (
         <tbody
-        className={`kanban-table-body ${className}`}
-        {...restProps}
+            className={`kanban-table-body ${className}`}
+            {...restProps}
         >
-        {children}
+            {children}
         </tbody>
     );
 }

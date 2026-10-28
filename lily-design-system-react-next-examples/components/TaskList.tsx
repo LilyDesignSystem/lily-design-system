@@ -16,14 +16,14 @@
 //   <TaskList label="Today's tasks">...</TaskList>
 //
 // Examples:
-//   
+//
 //   <TaskList label="Today's tasks">
 //     <li>Review pull requests</li>
 //     <li>Update documentation</li>
 //     <li>Deploy to staging</li>
 //   </TaskList>
 //
-//   
+//
 //   <TaskList label="Onboarding CheckList">
 //     <li><label><input type="checkbox" /> Create account</label></li>
 //     <li><label><input type="checkbox" /> Complete tutorial</label></li>
@@ -62,21 +62,15 @@ export interface TaskListProps {
     [key: string]: unknown;
 }
 
-export default function TaskList({
-    className = "",
-    label,
-    children,
-    ...restProps
-}: TaskListProps) {
+export default function TaskList({ className = "", label, children, ...restProps }: TaskListProps) {
     return (
-        
         <ol
-        className={`task-list ${className}`}
-        role="list"
-        aria-label={label}
-        {...restProps}
+            className={`task-list ${className}`}
+            role="list"
+            aria-label={label}
+            {...restProps}
         >
-        {children}
+            {children}
         </ol>
     );
 }

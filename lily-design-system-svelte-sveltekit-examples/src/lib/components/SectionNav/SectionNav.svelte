@@ -16,7 +16,6 @@
 <!-- SectionNav.svelte -->
 <nav
     class={`section-nav ${className}`}
-
     aria-label={label}
     {...restProps}
 >

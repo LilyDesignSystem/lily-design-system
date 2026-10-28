@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./DoList.vue";
 
-
 describe("DoList", () => {
     test("renders as a list", () => {
         render(Subject, { slots: { default: "Items" } });

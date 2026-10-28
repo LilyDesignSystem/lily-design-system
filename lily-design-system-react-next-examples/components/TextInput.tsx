@@ -69,13 +69,14 @@ export default function TextInput({
 }: TextInputProps) {
     return (
         <input
-        className={`text-input ${className}`}
-        type="text"
-        aria-label={label}
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`text-input ${className}`}
+            type="text"
+            aria-label={label}
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

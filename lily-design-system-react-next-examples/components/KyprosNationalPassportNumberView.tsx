@@ -37,9 +37,11 @@ export default function KyprosNationalPassportNumberView({
 }: KyprosNationalPassportNumberViewProps) {
     return (
         <span
-        className={`kypros-national-passport-number-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`kypros-national-passport-number-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

@@ -4,7 +4,12 @@ import Subject from "./ProgressBar";
 
 describe("ProgressBar", () => {
     test("renders root with class progress-bar", () => {
-        const { container } = render(<Subject value={42} label="Test" />);
+        const { container } = render(
+            <Subject
+                value={42}
+                label="Test"
+            />,
+        );
         expect(container.querySelector(".progress-bar")).toBeTruthy();
     });
 });

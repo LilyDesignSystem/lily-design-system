@@ -16,10 +16,10 @@
 //   <CalendarTableTD>15</CalendarTableTD>
 //
 // Examples:
-//   
+//
 //   <CalendarTableTD selected today>15</CalendarTableTD>
 //
-//   
+//
 //   <CalendarTableTD>22</CalendarTableTD>
 //
 // Keyboard:
@@ -64,14 +64,14 @@ export default function CalendarTableTD({
 }: CalendarTableTDProps) {
     return (
         <td
-        className={`calendar-table-td ${className}`}
-        role="gridcell"
-        aria-selected={selected || undefined}
-        aria-current={today ? "date" : undefined}
-        tabIndex={selected ? 0 : -1}
-        {...restProps}
+            className={`calendar-table-td ${className}`}
+            role="gridcell"
+            aria-selected={selected || undefined}
+            aria-current={today ? "date" : undefined}
+            tabIndex={selected ? 0 : -1}
+            {...restProps}
         >
-        {children}
+            {children}
         </td>
     );
 }

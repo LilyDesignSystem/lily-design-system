@@ -5,7 +5,12 @@ import Subject from "./RomaniaCodNumericPersonalView";
 
 describe("RomaniaCodNumericPersonalView", () => {
     test("renders with the correct class", () => {
-        render(<Subject label="Personal Numerical Code" value="test-value" />);
+        render(
+            <Subject
+                label="Personal Numerical Code"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Personal Numerical Code");
         expect(el).toBeTruthy();
@@ -13,7 +18,12 @@ describe("RomaniaCodNumericPersonalView", () => {
     });
 
     test("renders the value as text content", () => {
-        render(<Subject label="Personal Numerical Code" value="test-value" />);
+        render(
+            <Subject
+                label="Personal Numerical Code"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Personal Numerical Code");
         expect(el.textContent).toBe("test-value");

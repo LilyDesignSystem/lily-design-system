@@ -33,7 +33,13 @@ describe("MultiSelectWithExtras", () => {
 
     test("renders before and after around the select in order", () => {
         const { container } = render(
-            <Subject label="Pick" before={<span>BEFORE</span>} after={<span>AFTER</span>}>{options}</Subject>,
+            <Subject
+                label="Pick"
+                before={<span>BEFORE</span>}
+                after={<span>AFTER</span>}
+            >
+                {options}
+            </Subject>,
         );
         const kids = Array.from((container.firstElementChild as HTMLElement).children).map(
             (c) => c.tagName + ":" + c.textContent?.slice(0, 6),
@@ -44,28 +50,58 @@ describe("MultiSelectWithExtras", () => {
     });
 
     test("initial array value selects options", () => {
-        render(<Subject label="Pick" value={["b"]}>{options}</Subject>);
+        render(
+            <Subject
+                label="Pick"
+                value={["b"]}
+            >
+                {options}
+            </Subject>,
+        );
         expect(Array.from(select().selectedOptions).map((o) => o.value)).toEqual(["b"]);
     });
 
     test("multiple options can be selected and reported", async () => {
         const user = userEvent.setup();
         const seen: string[][] = [];
-        render(<Subject label="Pick" onChange={(v) => seen.push(v)}>{options}</Subject>);
+        render(
+            <Subject
+                label="Pick"
+                onChange={(v) => seen.push(v)}
+            >
+                {options}
+            </Subject>,
+        );
         await user.selectOptions(select(), ["a", "b"]);
         expect(select().selectedOptions).toHaveLength(2);
         expect(seen[seen.length - 1]).toEqual(["a", "b"]);
     });
 
     test("size, required and disabled reach the select", () => {
-        render(<Subject label="Pick" size={5} required disabled>{options}</Subject>);
+        render(
+            <Subject
+                label="Pick"
+                size={5}
+                required
+                disabled
+            >
+                {options}
+            </Subject>,
+        );
         expect(select().getAttribute("size")).toBe("5");
         expect(select().required).toBe(true);
         expect(select().disabled).toBe(true);
     });
 
     test("rest props land on the wrapper", () => {
-        const { container } = render(<Subject label="Pick" data-testid="x">{options}</Subject>);
+        const { container } = render(
+            <Subject
+                label="Pick"
+                data-testid="x"
+            >
+                {options}
+            </Subject>,
+        );
         expect(screen.getByTestId("x")).toBe(container.firstElementChild);
     });
 });

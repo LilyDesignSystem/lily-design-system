@@ -75,16 +75,20 @@ export default function FileDialog({
 
     return (
         <>
-        {open && (<><dialog
-        className={`file-dialog ${className}`}
-        open
-        tabIndex={-1}
-        aria-label={label}
-        onKeyDown={handleKeyDown}
-        {...restProps}
-        >
-        {children}
-        </dialog></>)}
+            {open && (
+                <>
+                    <dialog
+                        className={`file-dialog ${className}`}
+                        open
+                        tabIndex={-1}
+                        aria-label={label}
+                        onKeyDown={handleKeyDown}
+                        {...restProps}
+                    >
+                        {children}
+                    </dialog>
+                </>
+            )}
         </>
     );
 }

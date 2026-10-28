@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import FiveFaceRatingView from './FiveFaceRatingView';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import FiveFaceRatingView from "./FiveFaceRatingView";
 
 const meta = {
-  title: 'Headless/FiveFaceRatingView',
-  component: FiveFaceRatingView,
-  tags: ['autodocs']
+    title: "Headless/FiveFaceRatingView",
+    component: FiveFaceRatingView,
+    tags: ["autodocs"],
 } satisfies Meta<typeof FiveFaceRatingView>;
 
 export default meta;

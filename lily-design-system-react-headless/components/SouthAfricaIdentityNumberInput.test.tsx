@@ -33,7 +33,12 @@ describe("SouthAfricaIdentityNumberInput", () => {
     });
 
     test("can be set to required", () => {
-        render(<Subject label="South African Identity Number" required />);
+        render(
+            <Subject
+                label="South African Identity Number"
+                required
+            />,
+        );
 
         const input = screen.getByLabelText("South African Identity Number") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -47,14 +52,24 @@ describe("SouthAfricaIdentityNumberInput", () => {
     });
 
     test("can be set to disabled", () => {
-        render(<Subject label="South African Identity Number" disabled />);
+        render(
+            <Subject
+                label="South African Identity Number"
+                disabled
+            />,
+        );
 
         const input = screen.getByLabelText("South African Identity Number") as HTMLInputElement;
         expect(input.disabled).toBe(true);
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="South African Identity Number" data-testid="subject" />);
+        render(
+            <Subject
+                label="South African Identity Number"
+                data-testid="subject"
+            />,
+        );
 
         const input = screen.getByTestId("subject");
         expect(input).toBeTruthy();

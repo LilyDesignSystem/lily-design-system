@@ -4,12 +4,10 @@ import { describe, expect, test, vi } from "vitest";
 
 import Subject from "./InputWithMask.vue";
 
-
 const baseProps = {
     label: "Phone number",
     mask: "(___) ___-____",
 };
-
 
 describe("InputWithMask", () => {
     test("renders a wrapper div with input-with-mask class", () => {
@@ -40,8 +38,12 @@ describe("InputWithMask", () => {
 
         const root: HTMLElement | null = container.querySelector(".input-with-mask");
         const children: Element[] = Array.from(root?.children ?? []);
-        const displayIndex: number = children.findIndex(c => c.classList.contains("input-with-mask-display"));
-        const inputIndex: number = children.findIndex(c => c.classList.contains("input-with-mask-control"));
+        const displayIndex: number = children.findIndex((c) =>
+            c.classList.contains("input-with-mask-display"),
+        );
+        const inputIndex: number = children.findIndex((c) =>
+            c.classList.contains("input-with-mask-control"),
+        );
         expect(displayIndex).toBeGreaterThanOrEqual(0);
         expect(inputIndex).toBeGreaterThan(displayIndex);
     });

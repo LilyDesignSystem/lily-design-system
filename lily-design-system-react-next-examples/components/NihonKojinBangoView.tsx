@@ -38,9 +38,11 @@ export default function NihonKojinBangoView({
 }: NihonKojinBangoViewProps) {
     return (
         <span
-        className={`nihon-kojin-bango-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`nihon-kojin-bango-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

@@ -78,14 +78,15 @@ export default function PostalCodeInput({
 }: PostalCodeInputProps) {
     return (
         <input
-        className={`postal-code-input ${className}`}
-        type="text"
-        aria-label={label}
-        autoComplete="postal-code"
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`postal-code-input ${className}`}
+            type="text"
+            aria-label={label}
+            autoComplete="postal-code"
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

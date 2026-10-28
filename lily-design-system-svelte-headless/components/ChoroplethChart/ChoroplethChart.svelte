@@ -52,7 +52,11 @@
     class={`choropleth-chart ${className}`}
     {...restProps}
 >
-    <div class="choropleth-chart-graphic" role="img" aria-label={label}>
+    <div
+        class="choropleth-chart-graphic"
+        role="img"
+        aria-label={label}
+    >
         {@render children?.()}
     </div>
     {#if dataTable}

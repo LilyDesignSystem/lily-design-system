@@ -97,10 +97,13 @@ export default function FiveStarRatingPicker({
                 // Tell the consumer, as a user's choice would: its last onChange
                 // may name a value the form no longer holds.
                 setValue((current) => {
-                    if (current !== initialValue.current) onChangeRef.current?.(initialValue.current);
+                    if (current !== initialValue.current)
+                        onChangeRef.current?.(initialValue.current);
                     return initialValue.current;
                 });
-                for (const input of root.querySelectorAll<HTMLInputElement>('input[type="radio"]')) {
+                for (const input of root.querySelectorAll<HTMLInputElement>(
+                    'input[type="radio"]',
+                )) {
                     input.checked = input.value === String(initialValue.current);
                 }
             }, 0);
@@ -121,27 +124,27 @@ export default function FiveStarRatingPicker({
 
     return (
         <fieldset
-        ref={rootRef}
-        className={`five-star-rating-picker ${className}`}
-        role="radiogroup"
-        aria-label={label}
-        disabled={disabled}
-        {...restProps}
+            ref={rootRef}
+            className={`five-star-rating-picker ${className}`}
+            role="radiogroup"
+            aria-label={label}
+            disabled={disabled}
+            {...restProps}
         >
-        {stars.map((star) => (
-        <React.Fragment key={star}>
-        <label>
-        <input
-        type="radio"
-        name={name}
-        value={star}
-        checked={value === star}
-        onChange={() => handleChange(star)}
-        />
-        {starLabel ? starLabel(star) : star}
-        </label>
-        </React.Fragment>
-        ))}
+            {stars.map((star) => (
+                <React.Fragment key={star}>
+                    <label>
+                        <input
+                            type="radio"
+                            name={name}
+                            value={star}
+                            checked={value === star}
+                            onChange={() => handleChange(star)}
+                        />
+                        {starLabel ? starLabel(star) : star}
+                    </label>
+                </React.Fragment>
+            ))}
         </fieldset>
     );
 }

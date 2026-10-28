@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./ValidationList.vue";
 
-
 describe("ValidationList", () => {
     test("renders a ul element", () => {
         const { container } = render(Subject, {

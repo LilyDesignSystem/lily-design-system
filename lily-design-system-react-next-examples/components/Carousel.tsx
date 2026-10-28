@@ -18,7 +18,7 @@
 //   </Carousel>
 //
 // Examples:
-//   
+//
 //   <Carousel label="Featured products">
 //     {slides.map((slide, i) => (
 //       <div role="group" aria-roledescription="slide" aria-label={`Slide ${i + 1} of ${slides.length}`}>
@@ -59,21 +59,16 @@ export interface CarouselProps {
     [key: string]: unknown;
 }
 
-export default function Carousel({
-    className = "",
-    label,
-    children,
-    ...restProps
-}: CarouselProps) {
+export default function Carousel({ className = "", label, children, ...restProps }: CarouselProps) {
     return (
         <div
-        className={`carousel ${className}`}
-        role="region"
-        aria-label={label}
-        aria-roledescription="carousel"
-        {...restProps}
+            className={`carousel ${className}`}
+            role="region"
+            aria-label={label}
+            aria-roledescription="carousel"
+            {...restProps}
         >
-        {children}
+            {children}
         </div>
     );
 }

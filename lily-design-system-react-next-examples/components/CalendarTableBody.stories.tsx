@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import CalendarTableBody from './CalendarTableBody';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import CalendarTableBody from "./CalendarTableBody";
 
 const meta = {
-  title: 'Headless/CalendarTableBody',
-  component: CalendarTableBody,
-  tags: ['autodocs']
+    title: "Headless/CalendarTableBody",
+    component: CalendarTableBody,
+    tags: ["autodocs"],
 } satisfies Meta<typeof CalendarTableBody>;
 
 export default meta;

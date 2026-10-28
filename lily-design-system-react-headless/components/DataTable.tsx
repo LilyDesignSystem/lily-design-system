@@ -19,7 +19,7 @@
 //   </DataTable>
 //
 // Examples:
-//   
+//
 //   <DataTable label="Sales data" caption="Quarterly sales">
 //     <DataTableHead>
 //       <DataTableRow><th scope="col">Month</th><th scope="col">Revenue</th></DataTableRow>
@@ -72,13 +72,17 @@ export default function DataTable({
 }: DataTableProps) {
     return (
         <table
-        className={`data-table ${className}`}
-        role="grid"
-        aria-label={label}
-        {...restProps}
+            className={`data-table ${className}`}
+            role="grid"
+            aria-label={label}
+            {...restProps}
         >
-        {caption && (<><caption>{caption}</caption></>)}
-        {children}
+            {caption && (
+                <>
+                    <caption>{caption}</caption>
+                </>
+            )}
+            {children}
         </table>
     );
 }

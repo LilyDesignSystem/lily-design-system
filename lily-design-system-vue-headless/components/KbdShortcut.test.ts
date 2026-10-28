@@ -34,7 +34,9 @@ describe("KbdShortcut", () => {
 
     test("separators are aria-hidden", () => {
         const { container } = render(Subject, { props: { keys: ["A", "B"] } });
-        expect(container.querySelector(".kbd-shortcut-separator")!.getAttribute("aria-hidden")).toBe("true");
+        expect(
+            container.querySelector(".kbd-shortcut-separator")!.getAttribute("aria-hidden"),
+        ).toBe("true");
     });
 
     test("single key renders no separator", () => {

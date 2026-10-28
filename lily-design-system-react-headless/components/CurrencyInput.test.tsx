@@ -25,7 +25,12 @@ describe("CurrencyInput", () => {
     });
 
     test("displays the value prop", () => {
-        render(<Subject label="Amount" value={42.5} />);
+        render(
+            <Subject
+                label="Amount"
+                value={42.5}
+            />,
+        );
         const input = screen.getByLabelText("Amount") as HTMLInputElement;
         expect(input.value).toBe("42.5");
     });
@@ -39,7 +44,12 @@ describe("CurrencyInput", () => {
     test("calls onChange with parsed number when input changes", async () => {
         const user: UserEvent = userEvent.setup();
         const onChange = vi.fn();
-        render(<Subject label="Amount" onChange={onChange} />);
+        render(
+            <Subject
+                label="Amount"
+                onChange={onChange}
+            />,
+        );
         await user.type(screen.getByLabelText("Amount"), "5");
         expect(onChange).toHaveBeenLastCalledWith(5);
     });
@@ -47,13 +57,24 @@ describe("CurrencyInput", () => {
     test("calls onChange with undefined when input is cleared", async () => {
         const user: UserEvent = userEvent.setup();
         const onChange = vi.fn();
-        render(<Subject label="Amount" value={5} onChange={onChange} />);
+        render(
+            <Subject
+                label="Amount"
+                value={5}
+                onChange={onChange}
+            />,
+        );
         await user.clear(screen.getByLabelText("Amount"));
         expect(onChange).toHaveBeenLastCalledWith(undefined);
     });
 
     test("exposes the currencyCode via data attribute", () => {
-        render(<Subject label="Amount" currencyCode="EUR" />);
+        render(
+            <Subject
+                label="Amount"
+                currencyCode="EUR"
+            />,
+        );
         const input = screen.getByLabelText("Amount") as HTMLInputElement;
         expect(input.getAttribute("data-currency-code")).toBe("EUR");
     });
@@ -65,13 +86,23 @@ describe("CurrencyInput", () => {
     });
 
     test("applies disabled attribute", () => {
-        render(<Subject label="Amount" disabled />);
+        render(
+            <Subject
+                label="Amount"
+                disabled
+            />,
+        );
         const input = screen.getByLabelText("Amount") as HTMLInputElement;
         expect(input.disabled).toBe(true);
     });
 
     test("applies required attribute", () => {
-        render(<Subject label="Amount" required />);
+        render(
+            <Subject
+                label="Amount"
+                required
+            />,
+        );
         const input = screen.getByLabelText("Amount") as HTMLInputElement;
         expect(input.required).toBe(true);
     });

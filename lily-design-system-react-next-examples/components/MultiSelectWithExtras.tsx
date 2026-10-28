@@ -61,7 +61,10 @@ export default function MultiSelectWithExtras({
     }, [key]);
 
     return (
-        <div className={`multi-select-with-extras ${className}`} {...restProps}>
+        <div
+            className={`multi-select-with-extras ${className}`}
+            {...restProps}
+        >
             {before && before}
             <select
                 multiple

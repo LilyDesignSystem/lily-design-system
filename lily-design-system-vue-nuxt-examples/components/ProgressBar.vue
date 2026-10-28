@@ -1,13 +1,16 @@
 <script setup lang="ts">
-    // ProgressBar component
-    // A horizontal progress indicator.
+// ProgressBar component
+// A horizontal progress indicator.
 
-    withDefaults(defineProps<{
-    label: string;
-    value: number;
-    min?: number;
-    max?: number;
-}>(), { min: 0, max: 100 });
+withDefaults(
+    defineProps<{
+        label: string;
+        value: number;
+        min?: number;
+        max?: number;
+    }>(),
+    { min: 0, max: 100 },
+);
 </script>
 
 <template>

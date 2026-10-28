@@ -33,7 +33,12 @@ describe("LiechtensteinPassportNumberInput", () => {
     });
 
     test("can be set to required", () => {
-        render(<Subject label="Liechtenstein Passport Number" required />);
+        render(
+            <Subject
+                label="Liechtenstein Passport Number"
+                required
+            />,
+        );
 
         const input = screen.getByLabelText("Liechtenstein Passport Number") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -47,14 +52,24 @@ describe("LiechtensteinPassportNumberInput", () => {
     });
 
     test("can be set to disabled", () => {
-        render(<Subject label="Liechtenstein Passport Number" disabled />);
+        render(
+            <Subject
+                label="Liechtenstein Passport Number"
+                disabled
+            />,
+        );
 
         const input = screen.getByLabelText("Liechtenstein Passport Number") as HTMLInputElement;
         expect(input.disabled).toBe(true);
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="Liechtenstein Passport Number" data-testid="subject" />);
+        render(
+            <Subject
+                label="Liechtenstein Passport Number"
+                data-testid="subject"
+            />,
+        );
 
         const input = screen.getByTestId("subject");
         expect(input).toBeTruthy();

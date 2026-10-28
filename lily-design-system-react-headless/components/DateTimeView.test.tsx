@@ -6,7 +6,10 @@ import Subject from "./DateTimeView";
 describe("DateTimeView", () => {
     test("renders a <time> element with the dateTime attribute", () => {
         const { container } = render(
-            <Subject value="2026-01-15T09:30:00Z" data-testid="dt" />,
+            <Subject
+                value="2026-01-15T09:30:00Z"
+                data-testid="dt"
+            />,
         );
 
         const time: HTMLElement = screen.getByTestId("dt");
@@ -16,14 +19,24 @@ describe("DateTimeView", () => {
     });
 
     test("applies the date-time-view root class", () => {
-        render(<Subject value="2026-01-15" data-testid="dt" />);
+        render(
+            <Subject
+                value="2026-01-15"
+                data-testid="dt"
+            />,
+        );
 
         const el: HTMLElement = screen.getByTestId("dt");
         expect(el.className.includes("date-time-view")).toBe(true);
     });
 
     test("falls back to value when format and children are not provided", () => {
-        render(<Subject value="2026-01-15" data-testid="dt" />);
+        render(
+            <Subject
+                value="2026-01-15"
+                data-testid="dt"
+            />,
+        );
 
         const el: HTMLElement = screen.getByTestId("dt");
         expect(el.textContent).toBe("2026-01-15");
@@ -31,7 +44,11 @@ describe("DateTimeView", () => {
 
     test("renders the format string as display text when no children", () => {
         render(
-            <Subject value="2026-01-15T09:30:00Z" format="Jan 15, 2026" data-testid="dt" />,
+            <Subject
+                value="2026-01-15T09:30:00Z"
+                format="Jan 15, 2026"
+                data-testid="dt"
+            />,
         );
 
         const el: HTMLElement = screen.getByTestId("dt");
@@ -40,7 +57,11 @@ describe("DateTimeView", () => {
 
     test("children override the format prop", () => {
         render(
-            <Subject value="2026-01-15T09:30:00Z" format="ignored" data-testid="dt">
+            <Subject
+                value="2026-01-15T09:30:00Z"
+                format="ignored"
+                data-testid="dt"
+            >
                 Custom
             </Subject>,
         );
@@ -51,7 +72,11 @@ describe("DateTimeView", () => {
 
     test("applies aria-label when label provided", () => {
         render(
-            <Subject value="2026-01-15" label="Published date" data-testid="dt" />,
+            <Subject
+                value="2026-01-15"
+                label="Published date"
+                data-testid="dt"
+            />,
         );
 
         const el: HTMLElement = screen.getByTestId("dt");
@@ -59,7 +84,13 @@ describe("DateTimeView", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject value="2026-01-15" id="pub" data-testid="dt" />);
+        render(
+            <Subject
+                value="2026-01-15"
+                id="pub"
+                data-testid="dt"
+            />,
+        );
 
         const el: HTMLElement = screen.getByTestId("dt");
         expect(el.getAttribute("id")).toBe("pub");

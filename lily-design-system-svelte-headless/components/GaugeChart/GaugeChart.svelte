@@ -52,7 +52,11 @@
     class={`gauge-chart ${className}`}
     {...restProps}
 >
-    <div class="gauge-chart-graphic" role="img" aria-label={label}>
+    <div
+        class="gauge-chart-graphic"
+        role="img"
+        aria-label={label}
+    >
         {@render children?.()}
     </div>
     {#if dataTable}

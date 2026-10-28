@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import QrCodeImage from './QrCodeImage';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import QrCodeImage from "./QrCodeImage";
 
 const meta = {
-  title: 'Headless/QrCodeImage',
-  component: QrCodeImage,
-  tags: ['autodocs']
+    title: "Headless/QrCodeImage",
+    component: QrCodeImage,
+    tags: ["autodocs"],
 } satisfies Meta<typeof QrCodeImage>;
 
 export default meta;

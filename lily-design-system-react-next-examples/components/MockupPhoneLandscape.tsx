@@ -17,6 +17,13 @@ export default function MockupPhoneLandscape({
     ...restProps
 }: MockupPhoneLandscapeProps) {
     return (
-        <div className={`mockup-phone-landscape ${className}`} role="img" aria-label={label} {...restProps}>{children}</div>
+        <div
+            className={`mockup-phone-landscape ${className}`}
+            role="img"
+            aria-label={label}
+            {...restProps}
+        >
+            {children}
+        </div>
     );
 }

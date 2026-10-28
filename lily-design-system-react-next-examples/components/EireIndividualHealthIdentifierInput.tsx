@@ -74,17 +74,17 @@ export default function EireIndividualHealthIdentifierInput({
 
     return (
         <input
-        className={`eire-individual-health-identifier-input ${className}`}
-        type="text"
-        aria-label={label}
-        inputMode="numeric"
-        pattern={ihiPattern}
-        autoComplete="off"
-        value={value}
-        onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`eire-individual-health-identifier-input ${className}`}
+            type="text"
+            aria-label={label}
+            inputMode="numeric"
+            pattern={ihiPattern}
+            autoComplete="off"
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import AreaChart from './AreaChart.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import AreaChart from "./AreaChart.vue";
 
 const meta = {
-  title: 'Headless/AreaChart',
-  component: AreaChart,
-  tags: ['autodocs']
+    title: "Headless/AreaChart",
+    component: AreaChart,
+    tags: ["autodocs"],
 } satisfies Meta<typeof AreaChart>;
 
 export default meta;

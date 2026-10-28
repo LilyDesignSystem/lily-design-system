@@ -1,3 +1,39 @@
+<script
+    lang="ts"
+    module
+>
+    /**
+     * Which section is current: the last whose top has passed the activation line
+     * (`tops` are each section's top relative to the scroller; `offset` is the line).
+     * At the bottom of the scroll range the last section wins (a short last section
+     * never reaches the line); before the first section, the first.
+     */
+    export function activeSectionIndex(tops: number[], offset: number, atBottom: boolean): number {
+        if (tops.length === 0) return -1;
+        if (atBottom) return tops.length - 1;
+        let index = 0;
+        for (let i = 0; i < tops.length; i++) {
+            if (tops[i] <= offset + 1) index = i;
+        }
+        return index;
+    }
+
+    /** The in-page `<a href="#id">` links inside `nav`. */
+    export function contentsLinks(nav: Element): HTMLAnchorElement[] {
+        return Array.from(nav.querySelectorAll<HTMLAnchorElement>('a[href^="#"]')).filter(
+            (a) => a.getAttribute("href")!.length > 1,
+        );
+    }
+
+    export function contentsLinkId(link: Element): string {
+        return decodeURIComponent((link.getAttribute("href") ?? "").slice(1));
+    }
+
+    export function contentsTarget(link: Element, doc: Document): HTMLElement | null {
+        return doc.getElementById(contentsLinkId(link));
+    }
+</script>
+
 <script lang="ts">
     // ContentsNav component
     //
@@ -131,7 +167,9 @@
             if (locked) return;
             if (hashPending) {
                 const id = decodeURIComponent(window.location.hash.slice(1));
-                const hashed = id ? contentsLinks(nav!).find((a) => contentsLinkId(a) === id) : undefined;
+                const hashed = id
+                    ? contentsLinks(nav!).find((a) => contentsLinkId(a) === id)
+                    : undefined;
                 if (hashed) {
                     mark(hashed);
                     return;
@@ -174,7 +212,12 @@
 
         function onClick(event: Event): void {
             const link = (event.target as Element | null)?.closest?.("a");
-            if (!link || !nav!.contains(link) || !contentsTarget(link as HTMLAnchorElement, nav!.ownerDocument)) return;
+            if (
+                !link ||
+                !nav!.contains(link) ||
+                !contentsTarget(link as HTMLAnchorElement, nav!.ownerDocument)
+            )
+                return;
             // The link is current at once; observer-style updates wait until the scroll settles.
             mark(link as HTMLAnchorElement);
             locked = true;
@@ -194,13 +237,21 @@
         window.addEventListener("hashchange", onHashChange);
         nav.addEventListener("click", onClick);
         // Links rendered or re-pointed after mount (a list built from data) are picked up too.
-        const mutations = typeof MutationObserver === "undefined" ? null : new MutationObserver(schedule);
-        mutations?.observe(nav, { childList: true, subtree: true, attributes: true, attributeFilter: ["href"] });
+        const mutations =
+            typeof MutationObserver === "undefined" ? null : new MutationObserver(schedule);
+        mutations?.observe(nav, {
+            childList: true,
+            subtree: true,
+            attributes: true,
+            attributeFilter: ["href"],
+        });
 
         // The URL hash wins on load; otherwise the position decides.
         const initial = decodeURIComponent(window.location.hash.slice(1));
         hashPending = initial !== "";
-        const hashLink = initial ? contentsLinks(nav).find((a) => contentsLinkId(a) === initial) : undefined;
+        const hashLink = initial
+            ? contentsLinks(nav).find((a) => contentsLinkId(a) === initial)
+            : undefined;
         if (hashLink) mark(hashLink);
         else update();
 
@@ -215,37 +266,6 @@
             if (lockTimer) clearTimeout(lockTimer);
         };
     });
-</script>
-
-<script lang="ts" module>
-    /**
-     * Which section is current: the last whose top has passed the activation line
-     * (`tops` are each section's top relative to the scroller; `offset` is the line).
-     * At the bottom of the scroll range the last section wins (a short last section
-     * never reaches the line); before the first section, the first.
-     */
-    export function activeSectionIndex(tops: number[], offset: number, atBottom: boolean): number {
-        if (tops.length === 0) return -1;
-        if (atBottom) return tops.length - 1;
-        let index = 0;
-        for (let i = 0; i < tops.length; i++) {
-            if (tops[i] <= offset + 1) index = i;
-        }
-        return index;
-    }
-
-    /** The in-page `<a href="#id">` links inside `nav`. */
-    export function contentsLinks(nav: Element): HTMLAnchorElement[] {
-        return Array.from(nav.querySelectorAll<HTMLAnchorElement>('a[href^="#"]')).filter((a) => a.getAttribute("href")!.length > 1);
-    }
-
-    export function contentsLinkId(link: Element): string {
-        return decodeURIComponent((link.getAttribute("href") ?? "").slice(1));
-    }
-
-    export function contentsTarget(link: Element, doc: Document): HTMLElement | null {
-        return doc.getElementById(contentsLinkId(link));
-    }
 </script>
 
 <!-- ContentsNav.svelte -->

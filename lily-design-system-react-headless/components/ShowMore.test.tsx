@@ -19,7 +19,9 @@ describe("ShowMore", () => {
         const { container } = render(<Subject {...base}>Body</Subject>);
         const button = screen.getByRole("button", { name: "Show more" });
         expect(button.getAttribute("aria-expanded")).toBe("false");
-        expect(container.querySelector(".show-more-content")!.getAttribute("data-expanded")).toBe("false");
+        expect(container.querySelector(".show-more-content")!.getAttribute("data-expanded")).toBe(
+            "false",
+        );
     });
 
     test("content stays in the DOM and accessibility tree while collapsed", () => {
@@ -33,20 +35,38 @@ describe("ShowMore", () => {
         await user.click(screen.getByRole("button"));
         const button = screen.getByRole("button", { name: "Show less" });
         expect(button.getAttribute("aria-expanded")).toBe("true");
-        expect(container.querySelector(".show-more-content")!.getAttribute("data-expanded")).toBe("true");
+        expect(container.querySelector(".show-more-content")!.getAttribute("data-expanded")).toBe(
+            "true",
+        );
     });
 
     test("clicking again collapses", async () => {
         const user = userEvent.setup();
-        render(<Subject {...base} expanded>Body</Subject>);
+        render(
+            <Subject
+                {...base}
+                expanded
+            >
+                Body
+            </Subject>,
+        );
         await user.click(screen.getByRole("button", { name: "Show less" }));
-        expect(screen.getByRole("button", { name: "Show more" }).getAttribute("aria-expanded")).toBe("false");
+        expect(
+            screen.getByRole("button", { name: "Show more" }).getAttribute("aria-expanded"),
+        ).toBe("false");
     });
 
     test("onChange reports the new expanded state", async () => {
         const user = userEvent.setup();
         const seen: boolean[] = [];
-        render(<Subject {...base} onChange={(v) => seen.push(v)}>Body</Subject>);
+        render(
+            <Subject
+                {...base}
+                onChange={(v) => seen.push(v)}
+            >
+                Body
+            </Subject>,
+        );
         await user.click(screen.getByRole("button"));
         await user.click(screen.getByRole("button"));
         expect(seen).toEqual([true, false]);
@@ -82,7 +102,14 @@ describe("ShowMore", () => {
     });
 
     test("passes through attributes", () => {
-        render(<Subject {...base} data-testid="sm">Body</Subject>);
+        render(
+            <Subject
+                {...base}
+                data-testid="sm"
+            >
+                Body
+            </Subject>,
+        );
         expect(screen.getByTestId("sm")).toBeTruthy();
     });
 });

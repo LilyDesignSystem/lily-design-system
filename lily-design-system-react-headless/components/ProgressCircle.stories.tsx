@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import ProgressCircle from './ProgressCircle';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import ProgressCircle from "./ProgressCircle";
 
 const meta = {
-  title: 'Headless/ProgressCircle',
-  component: ProgressCircle,
-  tags: ['autodocs']
+    title: "Headless/ProgressCircle",
+    component: ProgressCircle,
+    tags: ["autodocs"],
 } satisfies Meta<typeof ProgressCircle>;
 
 export default meta;

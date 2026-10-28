@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import PaginationList from './PaginationList';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import PaginationList from "./PaginationList";
 
 const meta = {
-  title: 'Headless/PaginationList',
-  component: PaginationList,
-  tags: ['autodocs']
+    title: "Headless/PaginationList",
+    component: PaginationList,
+    tags: ["autodocs"],
 } satisfies Meta<typeof PaginationList>;
 
 export default meta;

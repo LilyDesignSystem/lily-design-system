@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./FlexStack.vue";
 
-
 describe("FlexStack", () => {
     test("renders children content", () => {
         render(Subject, { slots: { default: "Hello" } });
@@ -27,8 +26,10 @@ describe("FlexStack", () => {
     });
 
     test("accepts row direction", () => {
-        render(Subject, { props: { direction: "row",
-            "data-testid": "fs" }, slots: { default: "Hello" } });
+        render(Subject, {
+            props: { direction: "row", "data-testid": "fs" },
+            slots: { default: "Hello" },
+        });
 
         const el: HTMLElement = screen.getByTestId("fs");
         expect(el.getAttribute("data-direction")).toBe("row");
@@ -43,16 +44,20 @@ describe("FlexStack", () => {
     });
 
     test("accepts custom gap", () => {
-        render(Subject, { props: { gap: "0.5rem",
-            "data-testid": "fs" }, slots: { default: "Hello" } });
+        render(Subject, {
+            props: { gap: "0.5rem", "data-testid": "fs" },
+            slots: { default: "Hello" },
+        });
 
         const el: HTMLElement = screen.getByTestId("fs");
         expect(el.style.gap).toBe("0.5rem");
     });
 
     test("applies align and justify", () => {
-        render(Subject, { props: { align: "center", justify: "space-between",
-            "data-testid": "fs" }, slots: { default: "Hello" } });
+        render(Subject, {
+            props: { align: "center", justify: "space-between", "data-testid": "fs" },
+            slots: { default: "Hello" },
+        });
 
         const el: HTMLElement = screen.getByTestId("fs");
         expect(el.style.alignItems).toBe("center");
@@ -67,8 +72,10 @@ describe("FlexStack", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(Subject, { props: { id: "stack",
-            "data-testid": "fs" }, slots: { default: "Hello" } });
+        render(Subject, {
+            props: { id: "stack", "data-testid": "fs" },
+            slots: { default: "Hello" },
+        });
 
         const el: HTMLElement = screen.getByTestId("fs");
         expect(el.getAttribute("id")).toBe("stack");

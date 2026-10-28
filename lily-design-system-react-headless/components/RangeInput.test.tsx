@@ -15,24 +15,45 @@ describe("RangeInput", () => {
     });
 
     test("sets min and max", () => {
-        render(<Subject label="V" min={10} max={200} />);
+        render(
+            <Subject
+                label="V"
+                min={10}
+                max={200}
+            />,
+        );
         const input = screen.getByRole("slider") as HTMLInputElement;
         expect(input.min).toBe("10");
         expect(input.max).toBe("200");
     });
 
     test("sets step", () => {
-        render(<Subject label="V" step={5} />);
+        render(
+            <Subject
+                label="V"
+                step={5}
+            />,
+        );
         expect((screen.getByRole("slider") as HTMLInputElement).step).toBe("5");
     });
 
     test("supports disabled", () => {
-        render(<Subject label="V" disabled />);
+        render(
+            <Subject
+                label="V"
+                disabled
+            />,
+        );
         expect((screen.getByRole("slider") as HTMLInputElement).disabled).toBe(true);
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="V" data-testid="ri" />);
+        render(
+            <Subject
+                label="V"
+                data-testid="ri"
+            />,
+        );
         expect(screen.getByTestId("ri")).toBeTruthy();
     });
 });

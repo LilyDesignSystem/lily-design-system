@@ -43,10 +43,10 @@ export default function CalendarTableHead({
 }: CalendarTableHeadProps) {
     return (
         <thead
-        className={`calendar-table-head ${className}`}
-        {...restProps}
+            className={`calendar-table-head ${className}`}
+            {...restProps}
         >
-        {children}
+            {children}
         </thead>
     );
 }

@@ -43,10 +43,10 @@ export default function KanbanTableHead({
 }: KanbanTableHeadProps) {
     return (
         <thead
-        className={`kanban-table-head ${className}`}
-        {...restProps}
+            className={`kanban-table-head ${className}`}
+            {...restProps}
         >
-        {children}
+            {children}
         </thead>
     );
 }

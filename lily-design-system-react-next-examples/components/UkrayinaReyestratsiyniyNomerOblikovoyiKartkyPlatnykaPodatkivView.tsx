@@ -37,9 +37,11 @@ export default function UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPoda
 }: UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivViewProps) {
     return (
         <span
-        className={`ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

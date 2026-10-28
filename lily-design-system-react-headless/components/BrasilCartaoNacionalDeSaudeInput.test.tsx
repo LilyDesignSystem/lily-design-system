@@ -33,7 +33,12 @@ describe("BrasilCartaoNacionalDeSaudeInput", () => {
     });
 
     test("can be set to required", () => {
-        render(<Subject label="Cartão Nacional de Saúde (CNS)" required />);
+        render(
+            <Subject
+                label="Cartão Nacional de Saúde (CNS)"
+                required
+            />,
+        );
 
         const input = screen.getByLabelText("Cartão Nacional de Saúde (CNS)") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -47,14 +52,24 @@ describe("BrasilCartaoNacionalDeSaudeInput", () => {
     });
 
     test("can be set to disabled", () => {
-        render(<Subject label="Cartão Nacional de Saúde (CNS)" disabled />);
+        render(
+            <Subject
+                label="Cartão Nacional de Saúde (CNS)"
+                disabled
+            />,
+        );
 
         const input = screen.getByLabelText("Cartão Nacional de Saúde (CNS)") as HTMLInputElement;
         expect(input.disabled).toBe(true);
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="Cartão Nacional de Saúde (CNS)" data-testid="subject" />);
+        render(
+            <Subject
+                label="Cartão Nacional de Saúde (CNS)"
+                data-testid="subject"
+            />,
+        );
 
         const input = screen.getByTestId("subject");
         expect(input).toBeTruthy();

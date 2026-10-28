@@ -5,15 +5,21 @@ import Subject from "./MexicoClaveUnicaDeRegistroDePoblacionView.svelte";
 
 describe("MexicoClaveUnicaDeRegistroDePoblacionView", () => {
     test("renders with the correct class", () => {
-        render(Subject, { props: { label: "Clave Única de Registro de Población (CURP)", value: "test-value" } });
+        render(Subject, {
+            props: { label: "Clave Única de Registro de Población (CURP)", value: "test-value" },
+        });
 
         const el = screen.getByLabelText("Clave Única de Registro de Población (CURP)");
         expect(el).toBeTruthy();
-        expect(el.getAttribute("class")).toContain("mexico-clave-unica-de-registro-de-poblacion-view");
+        expect(el.getAttribute("class")).toContain(
+            "mexico-clave-unica-de-registro-de-poblacion-view",
+        );
     });
 
     test("renders the value as text content", () => {
-        render(Subject, { props: { label: "Clave Única de Registro de Población (CURP)", value: "test-value" } });
+        render(Subject, {
+            props: { label: "Clave Única de Registro de Población (CURP)", value: "test-value" },
+        });
 
         const el = screen.getByLabelText("Clave Única de Registro de Población (CURP)");
         expect(el.textContent).toBe("test-value");

@@ -19,13 +19,13 @@
 //   </Fieldset>
 //
 // Examples:
-//   
+//
 //   <Fieldset legend="Contact info">
 //     <label>Email <input type="email" /></label>
 //     <label>Phone <input type="tel" /></label>
 //   </Fieldset>
 //
-//   
+//
 //   <Fieldset legend="Shipping address" disabled={usesBillingAddress}>
 //     <label>Street <input type="text" /></label>
 //     <label>City <input type="text" /></label>
@@ -71,12 +71,12 @@ export default function Fieldset({
 }: FieldsetProps) {
     return (
         <fieldset
-        className={`fieldset ${className}`}
-        disabled={disabled}
-        {...restProps}
+            className={`fieldset ${className}`}
+            disabled={disabled}
+            {...restProps}
         >
-        <legend>{legend}</legend>
-        {children}
+            <legend>{legend}</legend>
+            {children}
         </fieldset>
     );
 }

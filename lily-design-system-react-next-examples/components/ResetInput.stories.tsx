@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import ResetInput from './ResetInput';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import ResetInput from "./ResetInput";
 
 const meta = {
-  title: 'Headless/ResetInput',
-  component: ResetInput,
-  tags: ['autodocs']
+    title: "Headless/ResetInput",
+    component: ResetInput,
+    tags: ["autodocs"],
 } satisfies Meta<typeof ResetInput>;
 
 export default meta;

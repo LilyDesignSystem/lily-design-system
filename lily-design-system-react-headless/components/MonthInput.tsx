@@ -66,13 +66,14 @@ export default function MonthInput({
 }: MonthInputProps) {
     return (
         <input
-        className={`month-input ${className}`}
-        type="month"
-        aria-label={label}
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`month-input ${className}`}
+            type="month"
+            aria-label={label}
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

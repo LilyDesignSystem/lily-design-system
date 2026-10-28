@@ -12,7 +12,12 @@ describe("TextInputWithSearch", () => {
     });
 
     test("appends className prop to root", () => {
-        const { container } = render(<Subject label="Demo" className="extra" />);
+        const { container } = render(
+            <Subject
+                label="Demo"
+                className="extra"
+            />,
+        );
         const el = container.querySelector(".text-input-with-search");
         expect(el?.className).toContain("text-input-with-search");
         expect(el?.className).toContain("extra");

@@ -41,7 +41,9 @@ describe("CalendarYearTable", () => {
     });
 
     test("renders caption when provided", () => {
-        render(Subject, { props: { label: "2025", caption: "Visible caption", children: textSnippet("1") } });
+        render(Subject, {
+            props: { label: "2025", caption: "Visible caption", children: textSnippet("1") },
+        });
         const cap = screen.getByRole("grid").querySelector("caption");
         expect(cap?.textContent).toBe("Visible caption");
     });
@@ -57,7 +59,9 @@ describe("CalendarYearTable", () => {
     });
 
     test("passes through attributes", () => {
-        render(Subject, { props: { label: "2025", "data-testid": "cal", children: textSnippet("1") } });
+        render(Subject, {
+            props: { label: "2025", "data-testid": "cal", children: textSnippet("1") },
+        });
         expect(screen.getByTestId("cal")).toBeTruthy();
     });
 });

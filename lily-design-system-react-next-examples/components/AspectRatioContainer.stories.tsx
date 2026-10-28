@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import AspectRatioContainer from './AspectRatioContainer';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import AspectRatioContainer from "./AspectRatioContainer";
 
 const meta = {
-  title: 'Headless/AspectRatioContainer',
-  component: AspectRatioContainer,
-  tags: ['autodocs']
+    title: "Headless/AspectRatioContainer",
+    component: AspectRatioContainer,
+    tags: ["autodocs"],
 } satisfies Meta<typeof AspectRatioContainer>;
 
 export default meta;

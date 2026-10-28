@@ -13,6 +13,10 @@
 </script>
 
 <!-- Hero.svelte -->
-<div class={`hero ${className}`} aria-label={label} {...restProps}>
+<div
+    class={`hero ${className}`}
+    aria-label={label}
+    {...restProps}
+>
     {@render children?.()}
 </div>

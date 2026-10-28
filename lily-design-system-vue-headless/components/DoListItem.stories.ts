@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import DoListItem from './DoListItem.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import DoListItem from "./DoListItem.vue";
 
 const meta = {
-  title: 'Headless/DoListItem',
-  component: DoListItem,
-  tags: ['autodocs']
+    title: "Headless/DoListItem",
+    component: DoListItem,
+    tags: ["autodocs"],
 } satisfies Meta<typeof DoListItem>;
 
 export default meta;

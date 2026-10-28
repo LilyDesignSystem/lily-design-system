@@ -36,32 +36,68 @@ describe("MultiSelect", () => {
     });
 
     test("initial value array selects the matching options", () => {
-        render(<Subject label="Pick" value={["a", "c"]}>{options}</Subject>);
+        render(
+            <Subject
+                label="Pick"
+                value={["a", "c"]}
+            >
+                {options}
+            </Subject>,
+        );
         expect(Array.from(select().selectedOptions).map((o) => o.value)).toEqual(["a", "c"]);
     });
 
     test("selecting several options works and reports an array", async () => {
         const user = userEvent.setup();
         const seen: string[][] = [];
-        render(<Subject label="Pick" onChange={(v) => seen.push(v)}>{options}</Subject>);
+        render(
+            <Subject
+                label="Pick"
+                onChange={(v) => seen.push(v)}
+            >
+                {options}
+            </Subject>,
+        );
         await user.selectOptions(select(), ["a", "b"]);
         expect(Array.from(select().selectedOptions).map((o) => o.value)).toEqual(["a", "b"]);
         expect(seen[seen.length - 1]).toEqual(["a", "b"]);
     });
 
     test("size sets the visible rows", () => {
-        render(<Subject label="Pick" size={4}>{options}</Subject>);
+        render(
+            <Subject
+                label="Pick"
+                size={4}
+            >
+                {options}
+            </Subject>,
+        );
         expect(select().getAttribute("size")).toBe("4");
     });
 
     test("supports required and disabled", () => {
-        render(<Subject label="Pick" required disabled>{options}</Subject>);
+        render(
+            <Subject
+                label="Pick"
+                required
+                disabled
+            >
+                {options}
+            </Subject>,
+        );
         expect(select().required).toBe(true);
         expect(select().disabled).toBe(true);
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="Pick" data-testid="ms">{options}</Subject>);
+        render(
+            <Subject
+                label="Pick"
+                data-testid="ms"
+            >
+                {options}
+            </Subject>,
+        );
         expect(screen.getByTestId("ms")).toBeTruthy();
     });
 });

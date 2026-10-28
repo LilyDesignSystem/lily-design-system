@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "../../components/NavigationMenu.vue";
 
-
 describe("NavigationMenu", () => {
     test("renders a navigation landmark", () => {
         render(Subject, { props: { label: "Main" }, slots: { default: "content" } });

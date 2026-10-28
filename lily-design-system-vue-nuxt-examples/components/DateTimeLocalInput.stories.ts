@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import DateTimeLocalInput from './DateTimeLocalInput.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import DateTimeLocalInput from "./DateTimeLocalInput.vue";
 
 const meta = {
-  title: 'Headless/DateTimeLocalInput',
-  component: DateTimeLocalInput,
-  tags: ['autodocs']
+    title: "Headless/DateTimeLocalInput",
+    component: DateTimeLocalInput,
+    tags: ["autodocs"],
 } satisfies Meta<typeof DateTimeLocalInput>;
 
 export default meta;

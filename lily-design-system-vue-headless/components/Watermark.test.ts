@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./Watermark.vue";
 
-
 describe("Watermark", () => {
     test("renders root with watermark class", () => {
         const { container } = render(Subject, { slots: { default: "<p>x</p>" } });

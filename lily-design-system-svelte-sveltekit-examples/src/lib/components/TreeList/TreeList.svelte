@@ -66,9 +66,9 @@
 
     function onkeydown(event: KeyboardEvent) {
         if (!treeRef) return;
-        const items = Array.from(
-            treeRef.querySelectorAll<HTMLElement>("[role='treeitem']"),
-        ).filter((el) => !el.parentElement?.closest("[role='treeitem'][aria-expanded='false']"));
+        const items = Array.from(treeRef.querySelectorAll<HTMLElement>("[role='treeitem']")).filter(
+            (el) => !el.parentElement?.closest("[role='treeitem'][aria-expanded='false']"),
+        );
         const current = document.activeElement as HTMLElement;
         const index = items.indexOf(current);
         switch (event.key) {

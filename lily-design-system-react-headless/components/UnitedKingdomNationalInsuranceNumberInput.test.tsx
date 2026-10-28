@@ -15,7 +15,9 @@ describe("UnitedKingdomNationalInsuranceNumberInput", () => {
         render(<Subject label="National Insurance Number" />);
 
         const input = screen.getByLabelText("National Insurance Number");
-        expect(input.getAttribute("class")).toContain("united-kingdom-national-insurance-number-input");
+        expect(input.getAttribute("class")).toContain(
+            "united-kingdom-national-insurance-number-input",
+        );
     });
 
     test("has autocomplete off", () => {
@@ -33,7 +35,12 @@ describe("UnitedKingdomNationalInsuranceNumberInput", () => {
     });
 
     test("can be set to required", () => {
-        render(<Subject label="National Insurance Number" required />);
+        render(
+            <Subject
+                label="National Insurance Number"
+                required
+            />,
+        );
 
         const input = screen.getByLabelText("National Insurance Number") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -47,14 +54,24 @@ describe("UnitedKingdomNationalInsuranceNumberInput", () => {
     });
 
     test("can be set to disabled", () => {
-        render(<Subject label="National Insurance Number" disabled />);
+        render(
+            <Subject
+                label="National Insurance Number"
+                disabled
+            />,
+        );
 
         const input = screen.getByLabelText("National Insurance Number") as HTMLInputElement;
         expect(input.disabled).toBe(true);
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="National Insurance Number" data-testid="subject" />);
+        render(
+            <Subject
+                label="National Insurance Number"
+                data-testid="subject"
+            />,
+        );
 
         const input = screen.getByTestId("subject");
         expect(input).toBeTruthy();

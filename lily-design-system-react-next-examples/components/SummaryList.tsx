@@ -16,7 +16,7 @@
 //   <SummaryList label="Order summary">...</SummaryList>
 //
 // Examples:
-//   
+//
 //   <SummaryList label="Order summary">
 //     <dt>Product</dt><dd>Widget</dd>
 //     <dt>Quantity</dt><dd>3</dd>
@@ -62,13 +62,12 @@ export default function SummaryList({
     ...restProps
 }: SummaryListProps) {
     return (
-        
         <dl
-        className={`summary-list ${className}`}
-        aria-label={label}
-        {...restProps}
+            className={`summary-list ${className}`}
+            aria-label={label}
+            {...restProps}
         >
-        {children}
+            {children}
         </dl>
     );
 }

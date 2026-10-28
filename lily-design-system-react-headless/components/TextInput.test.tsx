@@ -16,17 +16,32 @@ describe("TextInput", () => {
     });
 
     test("supports required", () => {
-        render(<Subject label="Name" required />);
+        render(
+            <Subject
+                label="Name"
+                required
+            />,
+        );
         expect((screen.getByLabelText("Name") as HTMLInputElement).required).toBe(true);
     });
 
     test("supports disabled", () => {
-        render(<Subject label="Name" disabled />);
+        render(
+            <Subject
+                label="Name"
+                disabled
+            />,
+        );
         expect((screen.getByLabelText("Name") as HTMLInputElement).disabled).toBe(true);
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="Name" data-testid="ti" />);
+        render(
+            <Subject
+                label="Name"
+                data-testid="ti"
+            />,
+        );
         expect(screen.getByTestId("ti")).toBeTruthy();
     });
 });

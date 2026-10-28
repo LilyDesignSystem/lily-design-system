@@ -20,7 +20,10 @@ export interface ContentBlockProps {
 }
 
 export default function ContentBlock({
-    className = "", width = "normal", children, ...restProps
+    className = "",
+    width = "normal",
+    children,
+    ...restProps
 }: ContentBlockProps) {
     return (
         <div

@@ -13,6 +13,10 @@
 </script>
 
 <!-- DigitalObjectIdentifierLink.svelte -->
-<div class={`digital-object-identifier-link ${className}`} aria-label={label} {...restProps}>
+<div
+    class={`digital-object-identifier-link ${className}`}
+    aria-label={label}
+    {...restProps}
+>
     {@render children?.()}
 </div>

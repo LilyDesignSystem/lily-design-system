@@ -3,8 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./DataTable.vue";
 
-
-
 describe("DataTable", () => {
     test("renders a grid", () => {
         render(Subject, { props: { label: "Users" }, slots: { default: "<td>Alice</td>" } });
@@ -22,7 +20,10 @@ describe("DataTable", () => {
     });
 
     test("renders caption when provided", () => {
-        render(Subject, { props: { label: "Users", caption: "User list" }, slots: { default: "<td>Alice</td>" } });
+        render(Subject, {
+            props: { label: "Users", caption: "User list" },
+            slots: { default: "<td>Alice</td>" },
+        });
         const table = screen.getByRole("grid");
         const cap = table.querySelector("caption");
         expect(cap).toBeTruthy();
@@ -41,7 +42,10 @@ describe("DataTable", () => {
     });
 
     test("passes through attributes", () => {
-        render(Subject, { props: { label: "T", "data-testid": "dt" }, slots: { default: "<td>Alice</td>" } });
+        render(Subject, {
+            props: { label: "T", "data-testid": "dt" },
+            slots: { default: "<td>Alice</td>" },
+        });
         expect(screen.getByTestId("dt")).toBeTruthy();
     });
 });

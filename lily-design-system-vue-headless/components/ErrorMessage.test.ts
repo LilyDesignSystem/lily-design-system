@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./ErrorMessage.vue";
 
-
 describe("ErrorMessage", () => {
     test("renders with alert role", () => {
         render(Subject, { slots: { default: "Error occurred" } });

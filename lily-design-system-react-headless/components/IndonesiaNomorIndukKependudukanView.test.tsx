@@ -5,7 +5,12 @@ import Subject from "./IndonesiaNomorIndukKependudukanView";
 
 describe("IndonesiaNomorIndukKependudukanView", () => {
     test("renders with the correct class", () => {
-        render(<Subject label="Nomor Induk Kependudukan (NIK)" value="test-value" />);
+        render(
+            <Subject
+                label="Nomor Induk Kependudukan (NIK)"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Nomor Induk Kependudukan (NIK)");
         expect(el).toBeTruthy();
@@ -13,7 +18,12 @@ describe("IndonesiaNomorIndukKependudukanView", () => {
     });
 
     test("renders the value as text content", () => {
-        render(<Subject label="Nomor Induk Kependudukan (NIK)" value="test-value" />);
+        render(
+            <Subject
+                label="Nomor Induk Kependudukan (NIK)"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Nomor Induk Kependudukan (NIK)");
         expect(el.textContent).toBe("test-value");

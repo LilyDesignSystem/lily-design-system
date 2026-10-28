@@ -88,9 +88,7 @@ export default function FeatureCard({
             <header className="feature-card-header">
                 <h3 className="feature-card-heading">{heading}</h3>
             </header>
-            {description && (
-                <p className="feature-card-description">{description}</p>
-            )}
+            {description && <p className="feature-card-description">{description}</p>}
             {children}
         </article>
     );

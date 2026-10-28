@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import RelatedContent from './RelatedContent.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import RelatedContent from "./RelatedContent.vue";
 
 const meta = {
-  title: 'Headless/RelatedContent',
-  component: RelatedContent,
-  tags: ['autodocs']
+    title: "Headless/RelatedContent",
+    component: RelatedContent,
+    tags: ["autodocs"],
 } satisfies Meta<typeof RelatedContent>;
 
 export default meta;

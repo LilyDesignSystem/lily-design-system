@@ -44,7 +44,11 @@ export default function BarChart({
             className={`bar-chart ${className}`}
             {...restProps}
         >
-            <div className="bar-chart-graphic" role="img" aria-label={label}>
+            <div
+                className="bar-chart-graphic"
+                role="img"
+                aria-label={label}
+            >
                 {children}
             </div>
             {dataTable !== undefined && dataTable !== null && (

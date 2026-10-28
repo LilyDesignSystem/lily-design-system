@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import RedOrangeYellowGreenBluePickerButton from './RedOrangeYellowGreenBluePickerButton.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import RedOrangeYellowGreenBluePickerButton from "./RedOrangeYellowGreenBluePickerButton.vue";
 
 const meta = {
-  title: 'Headless/RedOrangeYellowGreenBluePickerButton',
-  component: RedOrangeYellowGreenBluePickerButton,
-  tags: ['autodocs']
+    title: "Headless/RedOrangeYellowGreenBluePickerButton",
+    component: RedOrangeYellowGreenBluePickerButton,
+    tags: ["autodocs"],
 } satisfies Meta<typeof RedOrangeYellowGreenBluePickerButton>;
 
 export default meta;

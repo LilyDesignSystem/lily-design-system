@@ -90,7 +90,7 @@
             class="action-bar-clear"
             type="button"
             aria-label={clearSelectionLabel}
-            onclick={onClearSelection}
-        >×</button>
+            onclick={onClearSelection}>×</button
+        >
     {/if}
 </div>

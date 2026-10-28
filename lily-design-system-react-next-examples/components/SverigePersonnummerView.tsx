@@ -37,9 +37,11 @@ export default function SverigePersonnummerView({
 }: SverigePersonnummerViewProps) {
     return (
         <span
-        className={`sverige-personnummer-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`sverige-personnummer-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

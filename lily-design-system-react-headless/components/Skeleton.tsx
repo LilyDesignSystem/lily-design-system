@@ -14,13 +14,13 @@
 //   <Skeleton />
 //
 // Examples:
-//   
+//
 //   <Skeleton>
 //     <div class="skeleton-line"></div>
 //     <div class="skeleton-line"></div>
 //   </Skeleton>
 //
-//   
+//
 //   <Skeleton style="width:200px; height:20px;" />
 //
 // Keyboard:
@@ -52,19 +52,15 @@ export interface SkeletonProps {
     [key: string]: unknown;
 }
 
-export default function Skeleton({
-    className = "",
-    children,
-    ...restProps
-}: SkeletonProps) {
+export default function Skeleton({ className = "", children, ...restProps }: SkeletonProps) {
     return (
         <div
-        className={`skeleton ${className}`}
-        aria-hidden="true"
-        aria-busy="true"
-        {...restProps}
+            className={`skeleton ${className}`}
+            aria-hidden="true"
+            aria-busy="true"
+            {...restProps}
         >
-        {children && (<>{children}</>)}
+            {children && <>{children}</>}
         </div>
     );
 }

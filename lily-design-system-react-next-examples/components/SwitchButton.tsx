@@ -68,7 +68,9 @@ export default function SwitchButton({
     const [checked, setChecked] = useState(checkedProp);
 
     // Sync internal state when the prop changes externally.
-    useEffect(() => { setChecked(checkedProp); }, [checkedProp]);
+    useEffect(() => {
+        setChecked(checkedProp);
+    }, [checkedProp]);
 
     function toggle() {
         if (!disabled) {
@@ -87,15 +89,15 @@ export default function SwitchButton({
 
     return (
         <button
-        className={`switch-button ${className}`}
-        type="button"
-        role="switch"
-        aria-checked={checked}
-        aria-label={label}
-        disabled={disabled}
-        onClick={toggle}
-        onKeyDown={handleKeydown}
-        {...restProps}
+            className={`switch-button ${className}`}
+            type="button"
+            role="switch"
+            aria-checked={checked}
+            aria-label={label}
+            disabled={disabled}
+            onClick={toggle}
+            onKeyDown={handleKeydown}
+            {...restProps}
         ></button>
     );
 }

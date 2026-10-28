@@ -37,9 +37,11 @@ export default function AlbaCommunityHealthIndexView({
 }: AlbaCommunityHealthIndexViewProps) {
     return (
         <span
-        className={`alba-community-health-index-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`alba-community-health-index-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

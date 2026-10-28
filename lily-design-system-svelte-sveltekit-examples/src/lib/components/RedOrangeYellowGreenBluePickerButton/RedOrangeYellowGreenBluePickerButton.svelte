@@ -77,5 +77,5 @@
     {disabled}
     data-value={value}
     {onclick}
-    {...restProps}
->{label}</button>
+    {...restProps}>{label}</button
+>

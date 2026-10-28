@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./Alert.vue";
 
-
 describe("Alert", () => {
     test("renders with alert role", () => {
         render(Subject, { slots: { default: "Something happened" } });
@@ -72,8 +71,10 @@ describe("Alert", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(Subject, { props: { id: "my-alert",
-            "data-testid": "custom-alert" }, slots: { default: "Custom" } });
+        render(Subject, {
+            props: { id: "my-alert", "data-testid": "custom-alert" },
+            slots: { default: "Custom" },
+        });
 
         const alert: HTMLElement = screen.getByTestId("custom-alert");
         expect(alert.getAttribute("id")).toBe("my-alert");

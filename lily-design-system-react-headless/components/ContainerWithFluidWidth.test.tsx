@@ -25,14 +25,28 @@ describe("ContainerWithFluidWidth", () => {
     });
 
     test("accepts custom paddingInline", () => {
-        render(<Subject paddingInline="2rem" data-testid="cf">Inner</Subject>);
+        render(
+            <Subject
+                paddingInline="2rem"
+                data-testid="cf"
+            >
+                Inner
+            </Subject>,
+        );
 
         const el: HTMLElement = screen.getByTestId("cf");
         expect(el.getAttribute("data-padding-inline")).toBe("2rem");
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject id="page" data-testid="cf">Inner</Subject>);
+        render(
+            <Subject
+                id="page"
+                data-testid="cf"
+            >
+                Inner
+            </Subject>,
+        );
 
         const el: HTMLElement = screen.getByTestId("cf");
         expect(el.getAttribute("id")).toBe("page");

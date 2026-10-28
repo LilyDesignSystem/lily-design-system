@@ -14,7 +14,14 @@ describe("BackLink", () => {
     });
 
     test("applies aria-label when label prop is provided", () => {
-        render(<Subject href="/dashboard" label="Return to dashboard">Back</Subject>);
+        render(
+            <Subject
+                href="/dashboard"
+                label="Return to dashboard"
+            >
+                Back
+            </Subject>,
+        );
 
         const link: HTMLElement = screen.getByRole("link", { name: "Return to dashboard" });
         expect(link.getAttribute("aria-label")).toBe("Return to dashboard");
@@ -28,7 +35,14 @@ describe("BackLink", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject href="/home" data-testid="back-link">Back</Subject>);
+        render(
+            <Subject
+                href="/home"
+                data-testid="back-link"
+            >
+                Back
+            </Subject>,
+        );
 
         const link: HTMLElement = screen.getByTestId("back-link");
         expect(link).toBeTruthy();

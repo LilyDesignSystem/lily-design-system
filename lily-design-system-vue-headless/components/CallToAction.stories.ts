@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import CallToAction from './CallToAction.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import CallToAction from "./CallToAction.vue";
 
 const meta = {
-  title: 'Headless/CallToAction',
-  component: CallToAction,
-  tags: ['autodocs']
+    title: "Headless/CallToAction",
+    component: CallToAction,
+    tags: ["autodocs"],
 } satisfies Meta<typeof CallToAction>;
 
 export default meta;

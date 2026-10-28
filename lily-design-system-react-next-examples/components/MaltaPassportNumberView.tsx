@@ -37,9 +37,11 @@ export default function MaltaPassportNumberView({
 }: MaltaPassportNumberViewProps) {
     return (
         <span
-        className={`malta-passport-number-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`malta-passport-number-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

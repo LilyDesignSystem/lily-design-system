@@ -4,7 +4,8 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./MultiSelect.vue";
 
-const OPTIONS = '<option value="a">Option A</option><option value="b">Option B</option><option value="c">Option C</option>';
+const OPTIONS =
+    '<option value="a">Option A</option><option value="b">Option B</option><option value="c">Option C</option>';
 
 function select() {
     return screen.getByLabelText("Pick") as HTMLSelectElement;
@@ -29,7 +30,10 @@ describe("MultiSelect", () => {
     });
 
     test("initial value array selects the matching options", () => {
-        render(Subject, { props: { label: "Pick", modelValue: ["a", "c"] }, slots: { default: OPTIONS } });
+        render(Subject, {
+            props: { label: "Pick", modelValue: ["a", "c"] },
+            slots: { default: OPTIONS },
+        });
         const selected = Array.from(select().selectedOptions).map((o) => o.value);
         expect(selected).toEqual(["a", "c"]);
     });
@@ -44,7 +48,10 @@ describe("MultiSelect", () => {
 
     test("selection is emitted as a string array (v-model)", async () => {
         const user = userEvent.setup();
-        const { emitted } = render(Subject, { props: { label: "Pick" }, slots: { default: OPTIONS } });
+        const { emitted } = render(Subject, {
+            props: { label: "Pick" },
+            slots: { default: OPTIONS },
+        });
         await user.selectOptions(select(), ["a", "b"]);
         const events = emitted()["update:modelValue"] as unknown[][];
         expect(events[events.length - 1][0]).toEqual(["a", "b"]);
@@ -56,13 +63,19 @@ describe("MultiSelect", () => {
     });
 
     test("supports required and disabled", () => {
-        render(Subject, { props: { label: "Pick", required: true, disabled: true }, slots: { default: OPTIONS } });
+        render(Subject, {
+            props: { label: "Pick", required: true, disabled: true },
+            slots: { default: OPTIONS },
+        });
         expect(select().required).toBe(true);
         expect(select().disabled).toBe(true);
     });
 
     test("passes through attributes", () => {
-        render(Subject, { props: { label: "Pick", "data-testid": "ms" }, slots: { default: OPTIONS } });
+        render(Subject, {
+            props: { label: "Pick", "data-testid": "ms" },
+            slots: { default: OPTIONS },
+        });
         expect(screen.getByTestId("ms")).toBeTruthy();
     });
 });

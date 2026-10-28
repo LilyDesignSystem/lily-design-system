@@ -10,7 +10,14 @@ describe("Label", () => {
     });
 
     test("has for attribute", () => {
-        render(<Subject for="email-input" data-testid="lbl">Email</Subject>);
+        render(
+            <Subject
+                for="email-input"
+                data-testid="lbl"
+            >
+                Email
+            </Subject>,
+        );
         expect(screen.getByTestId("lbl").getAttribute("for")).toBe("email-input");
     });
 

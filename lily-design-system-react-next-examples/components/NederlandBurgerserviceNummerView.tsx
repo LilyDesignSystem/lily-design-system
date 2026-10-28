@@ -37,9 +37,11 @@ export default function NederlandBurgerserviceNummerView({
 }: NederlandBurgerserviceNummerViewProps) {
     return (
         <span
-        className={`nederland-burgerservice-nummer-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`nederland-burgerservice-nummer-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

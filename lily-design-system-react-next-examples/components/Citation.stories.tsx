@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import Citation from './Citation';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import Citation from "./Citation";
 
 const meta = {
-  title: 'Headless/Citation',
-  component: Citation,
-  tags: ['autodocs']
+    title: "Headless/Citation",
+    component: Citation,
+    tags: ["autodocs"],
 } satisfies Meta<typeof Citation>;
 
 export default meta;

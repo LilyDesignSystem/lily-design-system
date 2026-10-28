@@ -2,8 +2,25 @@ import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import RingChart from "./RingChart";
 
-const art = <svg data-testid="art" viewBox="0 0 10 10"><circle r="4" /></svg>;
-const table = <table><caption>Values</caption><tbody><tr><th scope="row">A</th><td>1</td></tr></tbody></table>;
+const art = (
+    <svg
+        data-testid="art"
+        viewBox="0 0 10 10"
+    >
+        <circle r="4" />
+    </svg>
+);
+const table = (
+    <table>
+        <caption>Values</caption>
+        <tbody>
+            <tr>
+                <th scope="row">A</th>
+                <td>1</td>
+            </tr>
+        </tbody>
+    </table>
+);
 
 describe("RingChart", () => {
     it("renders a <figure> with the base class", () => {
@@ -21,7 +38,9 @@ describe("RingChart", () => {
 
     it("omits aria-label when no label is given", () => {
         const { container } = render(<RingChart>{art}</RingChart>);
-        expect(container.querySelector(".ring-chart-graphic")!.hasAttribute("aria-label")).toBe(false);
+        expect(container.querySelector(".ring-chart-graphic")!.hasAttribute("aria-label")).toBe(
+            false,
+        );
     });
 
     it("does not put role=img on the figure", () => {
@@ -30,7 +49,14 @@ describe("RingChart", () => {
     });
 
     it("appends the consumer class after the base class", () => {
-        const { container } = render(<RingChart label="T" className="mine">{art}</RingChart>);
+        const { container } = render(
+            <RingChart
+                label="T"
+                className="mine"
+            >
+                {art}
+            </RingChart>,
+        );
         expect(container.querySelector("figure")!.getAttribute("class")).toBe("ring-chart mine");
     });
 
@@ -45,7 +71,14 @@ describe("RingChart", () => {
     });
 
     it("renders dataTable in a .ring-chart-data-table sibling after the graphic", () => {
-        const { container } = render(<RingChart label="T" dataTable={table}>{art}</RingChart>);
+        const { container } = render(
+            <RingChart
+                label="T"
+                dataTable={table}
+            >
+                {art}
+            </RingChart>,
+        );
         const wrap = container.querySelector(".ring-chart-data-table")!;
         expect(wrap).toBeTruthy();
         expect(wrap.previousElementSibling).toBe(container.querySelector(".ring-chart-graphic"));
@@ -53,12 +86,27 @@ describe("RingChart", () => {
     });
 
     it("keeps the table outside the role=img element so assistive technology can reach it", () => {
-        render(<RingChart label="T" dataTable={table}>{art}</RingChart>);
+        render(
+            <RingChart
+                label="T"
+                dataTable={table}
+            >
+                {art}
+            </RingChart>,
+        );
         expect(screen.getByRole("table").closest("[role=img]")).toBeNull();
     });
 
     it("spreads rest props onto the figure", () => {
-        render(<RingChart label="T" id="c1" data-testid="chart">{art}</RingChart>);
+        render(
+            <RingChart
+                label="T"
+                id="c1"
+                data-testid="chart"
+            >
+                {art}
+            </RingChart>,
+        );
         const el = screen.getByTestId("chart");
         expect(el.tagName).toBe("FIGURE");
         expect(el.id).toBe("c1");

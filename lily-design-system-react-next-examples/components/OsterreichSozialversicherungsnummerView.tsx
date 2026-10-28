@@ -37,9 +37,11 @@ export default function OsterreichSozialversicherungsnummerView({
 }: OsterreichSozialversicherungsnummerViewProps) {
     return (
         <span
-        className={`osterreich-sozialversicherungsnummer-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`osterreich-sozialversicherungsnummer-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import TileMap from './TileMap';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import TileMap from "./TileMap";
 
 const meta = {
-  title: 'Headless/TileMap',
-  component: TileMap,
-  tags: ['autodocs']
+    title: "Headless/TileMap",
+    component: TileMap,
+    tags: ["autodocs"],
 } satisfies Meta<typeof TileMap>;
 
 export default meta;

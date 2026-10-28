@@ -17,27 +17,52 @@ describe("DateTimeLocalInput", () => {
     });
 
     test("supports min attribute", () => {
-        render(<Subject label="Event" min="2024-01-01T00:00" />);
+        render(
+            <Subject
+                label="Event"
+                min="2024-01-01T00:00"
+            />,
+        );
         expect((screen.getByLabelText("Event") as HTMLInputElement).min).toBe("2024-01-01T00:00");
     });
 
     test("supports max attribute", () => {
-        render(<Subject label="Event" max="2024-12-31T23:59" />);
+        render(
+            <Subject
+                label="Event"
+                max="2024-12-31T23:59"
+            />,
+        );
         expect((screen.getByLabelText("Event") as HTMLInputElement).max).toBe("2024-12-31T23:59");
     });
 
     test("supports required", () => {
-        render(<Subject label="Event" required />);
+        render(
+            <Subject
+                label="Event"
+                required
+            />,
+        );
         expect((screen.getByLabelText("Event") as HTMLInputElement).required).toBe(true);
     });
 
     test("supports disabled", () => {
-        render(<Subject label="Event" disabled />);
+        render(
+            <Subject
+                label="Event"
+                disabled
+            />,
+        );
         expect((screen.getByLabelText("Event") as HTMLInputElement).disabled).toBe(true);
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="Event" data-testid="dtl" />);
+        render(
+            <Subject
+                label="Event"
+                data-testid="dtl"
+            />,
+        );
         expect(screen.getByTestId("dtl")).toBeTruthy();
     });
 });

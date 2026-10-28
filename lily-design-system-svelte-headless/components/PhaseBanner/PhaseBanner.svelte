@@ -16,7 +16,6 @@
 <!-- PhaseBanner.svelte -->
 <div
     class={`phase-banner ${className}`}
-
     aria-label={label}
     {...restProps}
 >

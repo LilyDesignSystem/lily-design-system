@@ -59,9 +59,11 @@ export default function FranceNumeroDIdentificationAuRepertoireView({
 }: FranceNumeroDIdentificationAuRepertoireViewProps) {
     return (
         <span
-        className={`france-numero-d-identification-au-repertoire-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`france-numero-d-identification-au-repertoire-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

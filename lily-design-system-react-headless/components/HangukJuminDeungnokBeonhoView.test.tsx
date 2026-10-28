@@ -5,7 +5,12 @@ import Subject from "./HangukJuminDeungnokBeonhoView";
 
 describe("HangukJuminDeungnokBeonhoView", () => {
     test("renders with the correct class", () => {
-        render(<Subject label="Resident Registration Number (주민등록번호)" value="test-value" />);
+        render(
+            <Subject
+                label="Resident Registration Number (주민등록번호)"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Resident Registration Number (주민등록번호)");
         expect(el).toBeTruthy();
@@ -13,7 +18,12 @@ describe("HangukJuminDeungnokBeonhoView", () => {
     });
 
     test("renders the value as text content", () => {
-        render(<Subject label="Resident Registration Number (주민등록번호)" value="test-value" />);
+        render(
+            <Subject
+                label="Resident Registration Number (주민등록번호)"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Resident Registration Number (주민등록번호)");
         expect(el.textContent).toBe("test-value");

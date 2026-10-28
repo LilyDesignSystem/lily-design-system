@@ -96,7 +96,9 @@ export default function NetPromoterScorePicker({
                 if (event.defaultPrevented) return;
                 // Controlled: tell the consumer, as a user's choice would.
                 if (value !== initialValue.current) onChangeRef.current?.(initialValue.current);
-                for (const input of root.querySelectorAll<HTMLInputElement>('input[type="radio"]')) {
+                for (const input of root.querySelectorAll<HTMLInputElement>(
+                    'input[type="radio"]',
+                )) {
                     input.checked = input.value === String(initialValue.current);
                 }
             }, 0);

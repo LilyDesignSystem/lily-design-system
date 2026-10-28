@@ -37,10 +37,7 @@
     //   - WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
 
     function makeId(prefix: string): string {
-        if (
-            typeof crypto !== "undefined" &&
-            typeof crypto.randomUUID === "function"
-        ) {
+        if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
             return `${prefix}-${crypto.randomUUID()}`;
         }
         return `${prefix}-${Math.random().toString(36).slice(2, 11)}`;
@@ -83,14 +80,24 @@
     hidden={!open}
     {...restProps}
 >
-    <h2 class="coachmark-title" id={titleId}>{title}</h2>
+    <h2
+        class="coachmark-title"
+        id={titleId}
+    >
+        {title}
+    </h2>
     {#if description}
-        <p class="coachmark-description" id={descId}>{description}</p>
+        <p
+            class="coachmark-description"
+            id={descId}
+        >
+            {description}
+        </p>
     {/if}
     <button
         class="coachmark-dismiss"
         type="button"
         aria-label={dismissLabel}
-        onclick={onDismiss}
-    >×</button>
+        onclick={onDismiss}>×</button
+    >
 </div>

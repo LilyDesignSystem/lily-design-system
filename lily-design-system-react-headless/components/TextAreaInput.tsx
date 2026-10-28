@@ -76,13 +76,14 @@ export default function TextAreaInput({
 }: TextAreaInputProps) {
     return (
         <textarea
-        className={`text-area-input ${className}`}
-        aria-label={label}
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        rows={rows}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`text-area-input ${className}`}
+            aria-label={label}
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            rows={rows}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         ></textarea>
     );
 }

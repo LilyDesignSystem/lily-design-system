@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./SummaryList.vue";
 
-
 describe("SummaryList", () => {
     test("renders a dl element", () => {
         render(Subject, { props: { label: "Summary" }, slots: { default: "Content" } });
@@ -27,15 +26,19 @@ describe("SummaryList", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(Subject, { props: { label: "Summary",
-            "data-testid": "summary-list" }, slots: { default: "Content" } });
+        render(Subject, {
+            props: { label: "Summary", "data-testid": "summary-list" },
+            slots: { default: "Content" },
+        });
 
         expect(screen.getByTestId("summary-list")).toBeTruthy();
     });
 
     test("accepts id attribute", () => {
-        render(Subject, { props: { label: "Summary",
-            id: "my-summary" }, slots: { default: "Content" } });
+        render(Subject, {
+            props: { label: "Summary", id: "my-summary" },
+            slots: { default: "Content" },
+        });
 
         const el = screen.getByLabelText("Summary");
         expect(el.getAttribute("id")).toBe("my-summary");

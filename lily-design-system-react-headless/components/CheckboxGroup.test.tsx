@@ -5,8 +5,22 @@ import Subject from "./CheckboxGroup";
 
 const checkboxes = (
     <>
-        <label><input type="checkbox" name="features" value="wifi" /> Wi-Fi</label>
-        <label><input type="checkbox" name="features" value="bluetooth" /> Bluetooth</label>
+        <label>
+            <input
+                type="checkbox"
+                name="features"
+                value="wifi"
+            />{" "}
+            Wi-Fi
+        </label>
+        <label>
+            <input
+                type="checkbox"
+                name="features"
+                value="bluetooth"
+            />{" "}
+            Bluetooth
+        </label>
     </>
 );
 
@@ -32,12 +46,26 @@ describe("CheckboxGroup", () => {
     });
 
     test("supports disabled", () => {
-        render(<Subject label="Features" disabled>{checkboxes}</Subject>);
+        render(
+            <Subject
+                label="Features"
+                disabled
+            >
+                {checkboxes}
+            </Subject>,
+        );
         expect((screen.getByRole("group") as HTMLFieldSetElement).disabled).toBe(true);
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="F" data-testid="cg">{checkboxes}</Subject>);
+        render(
+            <Subject
+                label="F"
+                data-testid="cg"
+            >
+                {checkboxes}
+            </Subject>,
+        );
         expect(screen.getByTestId("cg")).toBeTruthy();
     });
 });

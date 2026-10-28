@@ -26,7 +26,7 @@
     } = $props();
 
     let hasCaption = $derived(
-        title !== undefined || description !== undefined || notes !== undefined
+        title !== undefined || description !== undefined || notes !== undefined,
     );
 </script>
 

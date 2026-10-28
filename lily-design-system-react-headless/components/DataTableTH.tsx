@@ -44,13 +44,13 @@ export default function DataTableTH({
 }: DataTableTHProps) {
     return (
         <th
-        className={`data-table-th ${className}`}
-        scope={scope}
-        colSpan={colSpan || undefined}
-        rowSpan={rowSpan || undefined}
-        {...restProps}
+            className={`data-table-th ${className}`}
+            scope={scope}
+            colSpan={colSpan || undefined}
+            rowSpan={rowSpan || undefined}
+            {...restProps}
         >
-        {children}
+            {children}
         </th>
     );
 }

@@ -52,7 +52,11 @@
     class={`heatmap-chart ${className}`}
     {...restProps}
 >
-    <div class="heatmap-chart-graphic" role="img" aria-label={label}>
+    <div
+        class="heatmap-chart-graphic"
+        role="img"
+        aria-label={label}
+    >
         {@render children?.()}
     </div>
     {#if dataTable}

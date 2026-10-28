@@ -20,7 +20,14 @@ describe("KanbanTable", () => {
     });
 
     test("renders caption when provided", () => {
-        render(<Subject label="Board" caption="Sprint 5 board">cols</Subject>);
+        render(
+            <Subject
+                label="Board"
+                caption="Sprint 5 board"
+            >
+                cols
+            </Subject>,
+        );
         const table = screen.getByRole("grid");
         const cap = table.querySelector("caption");
         expect(cap).toBeTruthy();
@@ -39,7 +46,14 @@ describe("KanbanTable", () => {
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="K" data-testid="kb">x</Subject>);
+        render(
+            <Subject
+                label="K"
+                data-testid="kb"
+            >
+                x
+            </Subject>,
+        );
         expect(screen.getByTestId("kb")).toBeTruthy();
     });
 });

@@ -78,12 +78,12 @@ export default function FlexStack({
     if (justify !== undefined) style.justifyContent = justify;
     return (
         <div
-        className={`flex-stack ${className}`}
-        data-direction={direction}
-        style={style}
-        {...restProps}
+            className={`flex-stack ${className}`}
+            data-direction={direction}
+            style={style}
+            {...restProps}
         >
-        {children}
+            {children}
         </div>
     );
 }

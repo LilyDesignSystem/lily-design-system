@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./ToolBarButton.vue";
 
-
 describe("ToolBarButton", () => {
     test("renders a button", () => {
         render(Subject, { slots: { default: "Bold" } });

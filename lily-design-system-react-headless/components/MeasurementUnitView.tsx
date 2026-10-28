@@ -16,10 +16,10 @@
 //   <MeasurementUnitView value="kg" />
 //
 // Examples:
-//   
+//
 //   <MeasurementUnitView value="kg" />
 //
-//   
+//
 //   <MeasurementUnitView value="lb" label="Pounds" />
 //
 // Keyboard:
@@ -59,9 +59,11 @@ export default function MeasurementUnitView({
 }: MeasurementUnitViewProps) {
     return (
         <span
-        className={`measurement-unit-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`measurement-unit-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

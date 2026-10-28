@@ -50,14 +50,15 @@ export default function SlovenskoRodneCisloInput({
 }: SlovenskoRodneCisloInputProps) {
     return (
         <input
-        className={`slovensko-rodne-cislo-input ${className}`}
-        type="text"
-        aria-label={label}
-        autoComplete="off"
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`slovensko-rodne-cislo-input ${className}`}
+            type="text"
+            aria-label={label}
+            autoComplete="off"
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

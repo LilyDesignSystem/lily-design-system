@@ -15,10 +15,10 @@
 //   <MeasurementInstanceView value="72 kg" />
 //
 // Examples:
-//   
+//
 //   <MeasurementInstanceView value="72 kg" />
 //
-//   
+//
 //   <MeasurementInstanceView value="98.6 F" label="Body temperature" />
 //
 // Keyboard:
@@ -58,9 +58,11 @@ export default function MeasurementInstanceView({
 }: MeasurementInstanceViewProps) {
     return (
         <span
-        className={`measurement-instance-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`measurement-instance-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

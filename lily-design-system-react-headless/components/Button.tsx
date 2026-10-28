@@ -82,15 +82,15 @@ export default function Button({
 }: ButtonProps) {
     return (
         <button
-        className={`button ${className}`}
-        type={type}
-        disabled={disabled}
-        aria-pressed={pressed}
-        aria-label={label}
-        onClick={onClick}
-        {...restProps}
+            className={`button ${className}`}
+            type={type}
+            disabled={disabled}
+            aria-pressed={pressed}
+            aria-label={label}
+            onClick={onClick}
+            {...restProps}
         >
-        {children}
+            {children}
         </button>
     );
 }

@@ -67,13 +67,14 @@ export default function EmailInput({
 }: EmailInputProps) {
     return (
         <input
-        className={`email-input ${className}`}
-        type="email"
-        aria-label={label}
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`email-input ${className}`}
+            type="email"
+            aria-label={label}
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

@@ -33,7 +33,12 @@ describe("YisraelTeudatZehutInput", () => {
     });
 
     test("can be set to required", () => {
-        render(<Subject label="Teudat Zehut (תעודת זהות)" required />);
+        render(
+            <Subject
+                label="Teudat Zehut (תעודת זהות)"
+                required
+            />,
+        );
 
         const input = screen.getByLabelText("Teudat Zehut (תעודת זהות)") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -47,14 +52,24 @@ describe("YisraelTeudatZehutInput", () => {
     });
 
     test("can be set to disabled", () => {
-        render(<Subject label="Teudat Zehut (תעודת זהות)" disabled />);
+        render(
+            <Subject
+                label="Teudat Zehut (תעודת זהות)"
+                disabled
+            />,
+        );
 
         const input = screen.getByLabelText("Teudat Zehut (תעודת זהות)") as HTMLInputElement;
         expect(input.disabled).toBe(true);
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="Teudat Zehut (תעודת זהות)" data-testid="subject" />);
+        render(
+            <Subject
+                label="Teudat Zehut (תעודת זהות)"
+                data-testid="subject"
+            />,
+        );
 
         const input = screen.getByTestId("subject");
         expect(input).toBeTruthy();

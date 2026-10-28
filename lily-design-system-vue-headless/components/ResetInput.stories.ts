@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import ResetInput from './ResetInput.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import ResetInput from "./ResetInput.vue";
 
 const meta = {
-  title: 'Headless/ResetInput',
-  component: ResetInput,
-  tags: ['autodocs']
+    title: "Headless/ResetInput",
+    component: ResetInput,
+    tags: ["autodocs"],
 } satisfies Meta<typeof ResetInput>;
 
 export default meta;

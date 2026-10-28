@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./ThemeSelectOption.vue";
 
-
 describe("ThemeSelectOption", () => {
     test("renders an option element", () => {
         render(Subject, { props: { value: "dark" }, slots: { default: "Dark" } });
@@ -31,7 +30,10 @@ describe("ThemeSelectOption", () => {
     });
 
     test("passes through attributes", () => {
-        render(Subject, { props: { value: "dark", "data-testid": "tso" }, slots: { default: "Dark" } });
+        render(Subject, {
+            props: { value: "dark", "data-testid": "tso" },
+            slots: { default: "Dark" },
+        });
         expect(screen.getByTestId("tso")).toBeTruthy();
     });
 });

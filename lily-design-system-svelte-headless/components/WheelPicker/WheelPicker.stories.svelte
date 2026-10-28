@@ -1,4 +1,7 @@
-<script module lang="ts">
+<script
+    module
+    lang="ts"
+>
     import { defineMeta } from "@storybook/addon-svelte-csf";
     import WheelPicker from "./WheelPicker.svelte";
     const { Story } = defineMeta({
@@ -12,6 +15,13 @@
     ];
 </script>
 
-<Story name="Default" tags={["autodocs", "!dev"]}>
-    <WheelPicker label="Month" {options} value="2" />
+<Story
+    name="Default"
+    tags={["autodocs", "!dev"]}
+>
+    <WheelPicker
+        label="Month"
+        {options}
+        value="2"
+    />
 </Story>

@@ -20,7 +20,14 @@ describe("ToggleGroup", () => {
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="F" data-testid="tg">x</Subject>);
+        render(
+            <Subject
+                label="F"
+                data-testid="tg"
+            >
+                x
+            </Subject>,
+        );
         expect(screen.getByTestId("tg")).toBeTruthy();
     });
 });

@@ -7,7 +7,15 @@ const setup = (props: Record<string, unknown> = {}) => {
     const onSend = vi.fn();
     const onStop = vi.fn();
     const onChange = vi.fn();
-    const r = render(<ChatComposer {...LABELS} onSend={onSend} onStop={onStop} onChange={onChange} {...props} />);
+    const r = render(
+        <ChatComposer
+            {...LABELS}
+            onSend={onSend}
+            onStop={onStop}
+            onChange={onChange}
+            {...props}
+        />,
+    );
     const ta = screen.getByRole("textbox", { name: "Message" }) as HTMLTextAreaElement;
     return { ...r, ta, onSend, onStop, onChange };
 };

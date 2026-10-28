@@ -4,13 +4,11 @@ import { describe, expect, test, vi } from "vitest";
 
 import Subject from "./GovernmentBanner.vue";
 
-
 const baseProps = {
     label: "Official government website",
     headerText: "An official website of the United States government",
     expandLabel: "Here's how you know",
 };
-
 
 describe("GovernmentBanner", () => {
     test("renders as a complementary landmark with aria-label", () => {

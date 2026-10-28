@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import UnitedKingdomNationalHealthServiceNumberInput from './UnitedKingdomNationalHealthServiceNumberInput';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import UnitedKingdomNationalHealthServiceNumberInput from "./UnitedKingdomNationalHealthServiceNumberInput";
 
 const meta = {
-  title: 'Headless/UnitedKingdomNationalHealthServiceNumberInput',
-  component: UnitedKingdomNationalHealthServiceNumberInput,
-  tags: ['autodocs']
+    title: "Headless/UnitedKingdomNationalHealthServiceNumberInput",
+    component: UnitedKingdomNationalHealthServiceNumberInput,
+    tags: ["autodocs"],
 } satisfies Meta<typeof UnitedKingdomNationalHealthServiceNumberInput>;
 
 export default meta;

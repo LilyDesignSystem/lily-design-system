@@ -76,9 +76,7 @@ export default function FeaturePhoto({
                     {caption !== undefined && (
                         <span className="feature-photo-caption-text">{caption}</span>
                     )}
-                    {credit !== undefined && (
-                        <span className="feature-photo-credit">{credit}</span>
-                    )}
+                    {credit !== undefined && <span className="feature-photo-credit">{credit}</span>}
                 </figcaption>
             )}
         </figure>

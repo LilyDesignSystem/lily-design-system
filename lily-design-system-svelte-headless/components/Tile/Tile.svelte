@@ -13,6 +13,10 @@
 </script>
 
 <!-- Tile.svelte -->
-<div class={`tile ${className}`} aria-label={label} {...restProps}>
+<div
+    class={`tile ${className}`}
+    aria-label={label}
+    {...restProps}
+>
     {@render children?.()}
 </div>

@@ -17,10 +17,10 @@
 //   <Character label="Check mark">✓</Character>
 //
 // Examples:
-//   
+//
 //   <Character label="Warning symbol">⚠</Character>
 //
-//   
+//
 //   <Character decorative>★</Character>
 //
 // Keyboard:
@@ -62,13 +62,13 @@ export default function Character({
 }: CharacterProps) {
     return (
         <span
-        className={`character ${className}`}
-        role={decorative ? "presentation" : "img"}
-        aria-label={decorative ? undefined : label}
-        aria-hidden={decorative ? "true" : undefined}
-        {...restProps}
+            className={`character ${className}`}
+            role={decorative ? "presentation" : "img"}
+            aria-label={decorative ? undefined : label}
+            aria-hidden={decorative ? "true" : undefined}
+            {...restProps}
         >
-        {children}
+            {children}
         </span>
     );
 }

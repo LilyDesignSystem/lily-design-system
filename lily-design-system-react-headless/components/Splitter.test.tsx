@@ -20,7 +20,12 @@ describe("Splitter", () => {
     });
 
     test("supports horizontal orientation", () => {
-        render(<Subject label="Resize" orientation="horizontal" />);
+        render(
+            <Subject
+                label="Resize"
+                orientation="horizontal"
+            />,
+        );
         expect(screen.getByRole("separator").getAttribute("aria-orientation")).toBe("horizontal");
     });
 
@@ -30,7 +35,12 @@ describe("Splitter", () => {
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="R" data-testid="sp" />);
+        render(
+            <Subject
+                label="R"
+                data-testid="sp"
+            />,
+        );
         expect(screen.getByTestId("sp")).toBeTruthy();
     });
 });

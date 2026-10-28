@@ -38,9 +38,11 @@ export default function YisraelTeudatZehutView({
 }: YisraelTeudatZehutViewProps) {
     return (
         <span
-        className={`yisrael-teudat-zehut-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`yisrael-teudat-zehut-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

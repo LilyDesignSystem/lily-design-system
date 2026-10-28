@@ -50,14 +50,15 @@ export default function ChileRolUnicoNacionalInput({
 }: ChileRolUnicoNacionalInputProps) {
     return (
         <input
-        className={`chile-rol-unico-nacional-input ${className}`}
-        type="text"
-        aria-label={label}
-        autoComplete="off"
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`chile-rol-unico-nacional-input ${className}`}
+            type="text"
+            aria-label={label}
+            autoComplete="off"
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

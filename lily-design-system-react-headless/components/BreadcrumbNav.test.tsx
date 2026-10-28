@@ -20,7 +20,14 @@ describe("BreadcrumbNav", () => {
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="Breadcrumb" data-testid="bcn">x</Subject>);
+        render(
+            <Subject
+                label="Breadcrumb"
+                data-testid="bcn"
+            >
+                x
+            </Subject>,
+        );
         expect(screen.getByTestId("bcn")).toBeTruthy();
     });
 });

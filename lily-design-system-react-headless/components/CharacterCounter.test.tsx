@@ -15,7 +15,12 @@ describe("CharacterCounter", () => {
     });
 
     test("displays count / max when max provided", () => {
-        render(<Subject count={50} max={280} />);
+        render(
+            <Subject
+                count={50}
+                max={280}
+            />,
+        );
         expect(screen.getByRole("status").textContent).toContain("50 / 280");
     });
 
@@ -30,17 +35,32 @@ describe("CharacterCounter", () => {
     });
 
     test("exposes data-remaining attribute", () => {
-        render(<Subject count={50} max={280} />);
+        render(
+            <Subject
+                count={50}
+                max={280}
+            />,
+        );
         expect(screen.getByRole("status").getAttribute("data-remaining")).toBe("230");
     });
 
     test("exposes data-over-limit when over max", () => {
-        render(<Subject count={300} max={280} />);
+        render(
+            <Subject
+                count={300}
+                max={280}
+            />,
+        );
         expect(screen.getByRole("status").getAttribute("data-over-limit")).toBe("true");
     });
 
     test("does not have data-over-limit when under max", () => {
-        render(<Subject count={100} max={280} />);
+        render(
+            <Subject
+                count={100}
+                max={280}
+            />,
+        );
         expect(screen.getByRole("status").getAttribute("data-over-limit")).toBeNull();
     });
 

@@ -5,7 +5,12 @@ import Subject from "./BulgariaEdinenGrazhdanskiNomerView";
 
 describe("BulgariaEdinenGrazhdanskiNomerView", () => {
     test("renders with the correct class", () => {
-        render(<Subject label="Uniform Civil Number" value="test-value" />);
+        render(
+            <Subject
+                label="Uniform Civil Number"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Uniform Civil Number");
         expect(el).toBeTruthy();
@@ -13,7 +18,12 @@ describe("BulgariaEdinenGrazhdanskiNomerView", () => {
     });
 
     test("renders the value as text content", () => {
-        render(<Subject label="Uniform Civil Number" value="test-value" />);
+        render(
+            <Subject
+                label="Uniform Civil Number"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Uniform Civil Number");
         expect(el.textContent).toBe("test-value");

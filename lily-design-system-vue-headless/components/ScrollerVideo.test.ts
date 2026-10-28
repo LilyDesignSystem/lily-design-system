@@ -19,7 +19,9 @@ describe("ScrollerVideo", () => {
             props: { src: "/v.mp4", label: "Story", alt: "alt" },
             slots: { default: "<section>step</section>" },
         });
-        expect(container.querySelector(".scroller-video")?.getAttribute("aria-label")).toBe("Story");
+        expect(container.querySelector(".scroller-video")?.getAttribute("aria-label")).toBe(
+            "Story",
+        );
     });
 
     test("renders a video with the src attribute", () => {

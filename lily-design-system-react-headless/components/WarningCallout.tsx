@@ -17,12 +17,12 @@
 //   <WarningCallout label="Warning">...</WarningCallout>
 //
 // Examples:
-//   
+//
 //   <WarningCallout label="Warning">
 //     <p>Your session is about to expire.</p>
 //   </WarningCallout>
 //
-//   
+//
 //   <WarningCallout>
 //     <p>Unsaved changes will be lost.</p>
 //   </WarningCallout>
@@ -65,12 +65,12 @@ export default function WarningCallout({
 }: WarningCalloutProps) {
     return (
         <aside
-        className={`warning-callout ${className}`}
-        role="alert"
-        aria-label={label}
-        {...restProps}
+            className={`warning-callout ${className}`}
+            role="alert"
+            aria-label={label}
+            {...restProps}
         >
-        {children}
+            {children}
         </aside>
     );
 }

@@ -18,17 +18,36 @@ describe("TileMap", () => {
     });
 
     test("renders children content", () => {
-        const { container } = render(<Subject label="x"><span>tiles</span></Subject>);
+        const { container } = render(
+            <Subject label="x">
+                <span>tiles</span>
+            </Subject>,
+        );
         expect(container.textContent).toBe("tiles");
     });
 
     test("ArrowRight moves focus to the next tile", () => {
         const { container } = render(
             <Subject label="x">
-                <button data-tile tabIndex={0}>A</button>
-                <button data-tile tabIndex={-1}>B</button>
-                <button data-tile tabIndex={-1}>C</button>
-            </Subject>
+                <button
+                    data-tile
+                    tabIndex={0}
+                >
+                    A
+                </button>
+                <button
+                    data-tile
+                    tabIndex={-1}
+                >
+                    B
+                </button>
+                <button
+                    data-tile
+                    tabIndex={-1}
+                >
+                    C
+                </button>
+            </Subject>,
         );
         const tiles = Array.from(container.querySelectorAll("[data-tile]")) as HTMLElement[];
         tiles[0].focus();
@@ -39,9 +58,19 @@ describe("TileMap", () => {
     test("ArrowLeft moves focus to the previous tile", () => {
         const { container } = render(
             <Subject label="x">
-                <button data-tile tabIndex={-1}>A</button>
-                <button data-tile tabIndex={0}>B</button>
-            </Subject>
+                <button
+                    data-tile
+                    tabIndex={-1}
+                >
+                    A
+                </button>
+                <button
+                    data-tile
+                    tabIndex={0}
+                >
+                    B
+                </button>
+            </Subject>,
         );
         const tiles = Array.from(container.querySelectorAll("[data-tile]")) as HTMLElement[];
         tiles[1].focus();
@@ -52,8 +81,13 @@ describe("TileMap", () => {
     test("Enter dispatches a tile-activate event on the focused tile", () => {
         const { container } = render(
             <Subject label="x">
-                <button data-tile tabIndex={0}>A</button>
-            </Subject>
+                <button
+                    data-tile
+                    tabIndex={0}
+                >
+                    A
+                </button>
+            </Subject>,
         );
         const tile = container.querySelector("[data-tile]") as HTMLElement;
         const handler = vi.fn();
@@ -66,8 +100,13 @@ describe("TileMap", () => {
     test("Escape blurs the focused tile", () => {
         const { container } = render(
             <Subject label="x">
-                <button data-tile tabIndex={0}>A</button>
-            </Subject>
+                <button
+                    data-tile
+                    tabIndex={0}
+                >
+                    A
+                </button>
+            </Subject>,
         );
         const tile = container.querySelector("[data-tile]") as HTMLElement;
         tile.focus();
@@ -80,7 +119,7 @@ describe("TileMap", () => {
         const { container } = render(<Subject label="x">no tiles</Subject>);
         // should not throw
         expect(() =>
-            fireEvent.keyDown(container.querySelector(".tile-map")!, { key: "ArrowRight" })
+            fireEvent.keyDown(container.querySelector(".tile-map")!, { key: "ArrowRight" }),
         ).not.toThrow();
     });
 });

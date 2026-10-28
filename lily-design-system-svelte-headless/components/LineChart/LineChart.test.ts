@@ -11,13 +11,16 @@ function svgSnippet() {
 
 function tableSnippet() {
     return createRawSnippet(() => ({
-        render: () => `<table><caption>Values</caption><tbody><tr><th scope="row">A</th><td>1</td></tr></tbody></table>`,
+        render: () =>
+            `<table><caption>Values</caption><tbody><tr><th scope="row">A</th><td>1</td></tr></tbody></table>`,
     }));
 }
 
 describe("LineChart", () => {
     it("renders a <figure> with the base class", () => {
-        const { container } = render(LineChart, { props: { label: "Test", children: svgSnippet() } });
+        const { container } = render(LineChart, {
+            props: { label: "Test", children: svgSnippet() },
+        });
         expect(container.querySelector("figure.line-chart")).toBeTruthy();
     });
 
@@ -31,7 +34,9 @@ describe("LineChart", () => {
 
     it("omits aria-label when no label is given", () => {
         const { container } = render(LineChart, { props: { children: svgSnippet() } });
-        expect(container.querySelector(".line-chart-graphic")!.hasAttribute("aria-label")).toBe(false);
+        expect(container.querySelector(".line-chart-graphic")!.hasAttribute("aria-label")).toBe(
+            false,
+        );
     });
 
     it("does not put role=img on the figure", () => {
@@ -40,7 +45,9 @@ describe("LineChart", () => {
     });
 
     it("appends the consumer class after the base class", () => {
-        const { container } = render(LineChart, { props: { label: "T", class: "mine", children: svgSnippet() } });
+        const { container } = render(LineChart, {
+            props: { label: "T", class: "mine", children: svgSnippet() },
+        });
         expect(container.querySelector("figure")!.getAttribute("class")).toBe("line-chart mine");
     });
 
@@ -55,7 +62,9 @@ describe("LineChart", () => {
     });
 
     it("renders the dataTable snippet in a .line-chart-data-table sibling after the graphic", () => {
-        const { container } = render(LineChart, { props: { label: "T", children: svgSnippet(), dataTable: tableSnippet() } });
+        const { container } = render(LineChart, {
+            props: { label: "T", children: svgSnippet(), dataTable: tableSnippet() },
+        });
         const wrap = container.querySelector(".line-chart-data-table")!;
         expect(wrap).toBeTruthy();
         expect(wrap.previousElementSibling).toBe(container.querySelector(".line-chart-graphic"));
@@ -63,12 +72,16 @@ describe("LineChart", () => {
     });
 
     it("keeps the table outside the role=img element so assistive technology can reach it", () => {
-        render(LineChart, { props: { label: "T", children: svgSnippet(), dataTable: tableSnippet() } });
+        render(LineChart, {
+            props: { label: "T", children: svgSnippet(), dataTable: tableSnippet() },
+        });
         expect(screen.getByRole("table").closest("[role=img]")).toBeNull();
     });
 
     it("spreads rest props onto the figure", () => {
-        render(LineChart, { props: { label: "T", id: "c1", "data-testid": "chart", children: svgSnippet() } });
+        render(LineChart, {
+            props: { label: "T", id: "c1", "data-testid": "chart", children: svgSnippet() },
+        });
         const el = screen.getByTestId("chart");
         expect(el.tagName).toBe("FIGURE");
         expect(el.id).toBe("c1");

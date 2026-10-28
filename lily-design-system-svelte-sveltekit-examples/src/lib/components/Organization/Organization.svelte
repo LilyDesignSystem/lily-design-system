@@ -13,6 +13,10 @@
 </script>
 
 <!-- Organization.svelte -->
-<div class={`organization ${className}`} aria-label={label} {...restProps}>
+<div
+    class={`organization ${className}`}
+    aria-label={label}
+    {...restProps}
+>
     {@render children?.()}
 </div>

@@ -55,9 +55,7 @@ describe("StepListItem", () => {
     });
 
     test("supports aria-label override", () => {
-        const { container } = renderInList(
-            <Subject label="Step 2 of 3: Profile">x</Subject>
-        );
+        const { container } = renderInList(<Subject label="Step 2 of 3: Profile">x</Subject>);
 
         const li: HTMLElement = container.querySelector(".step-list-item") as HTMLElement;
         expect(li.getAttribute("aria-label")).toBe("Step 2 of 3: Profile");

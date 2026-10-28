@@ -18,12 +18,12 @@
 //   </SignaturePad>
 //
 // Examples:
-//   
+//
 //   <SignaturePad label="Sign to accept terms">
 //     <canvas width="400" height="200"></canvas>
 //   </SignaturePad>
 //
-//   
+//
 //   <SignaturePad label="Your signature">
 //     <svg viewBox="0 0 400 200"><path d="" /></svg>
 //   </SignaturePad>
@@ -66,12 +66,12 @@ export default function SignaturePad({
 }: SignaturePadProps) {
     return (
         <div
-        className={`signature-pad ${className}`}
-        role="application"
-        aria-label={label}
-        {...restProps}
+            className={`signature-pad ${className}`}
+            role="application"
+            aria-label={label}
+            {...restProps}
         >
-        {children}
+            {children}
         </div>
     );
 }

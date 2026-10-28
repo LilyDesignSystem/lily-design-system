@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "../../components/Fieldset.vue";
 
-
 describe("Fieldset", () => {
     test("renders as a group with legend", () => {
         render(Subject, { props: { legend: "Contact" }, slots: { default: "Fields" } });
@@ -16,7 +15,10 @@ describe("Fieldset", () => {
     });
 
     test("supports disabled", () => {
-        render(Subject, { props: { legend: "Info", disabled: true, "data-testid": "fs" }, slots: { default: "C" } });
+        render(Subject, {
+            props: { legend: "Info", disabled: true, "data-testid": "fs" },
+            slots: { default: "C" },
+        });
         expect((screen.getByTestId("fs") as HTMLFieldSetElement).disabled).toBe(true);
     });
 

@@ -43,12 +43,8 @@ export default function Byline({
             {...restProps}
         >
             <span className="byline-authors">{children}</span>
-            {published !== undefined && (
-                <span className="byline-published">{published}</span>
-            )}
-            {updated !== undefined && (
-                <span className="byline-updated">{updated}</span>
-            )}
+            {published !== undefined && <span className="byline-published">{published}</span>}
+            {updated !== undefined && <span className="byline-updated">{updated}</span>}
         </div>
     );
 }

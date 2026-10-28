@@ -37,9 +37,11 @@ export default function TurkiyeTcKimlikNumarasiView({
 }: TurkiyeTcKimlikNumarasiViewProps) {
     return (
         <span
-        className={`turkiye-tc-kimlik-numarasi-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`turkiye-tc-kimlik-numarasi-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import StatusLight from './StatusLight.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import StatusLight from "./StatusLight.vue";
 
 const meta = {
-  title: 'Headless/StatusLight',
-  component: StatusLight,
-  tags: ['autodocs']
+    title: "Headless/StatusLight",
+    component: StatusLight,
+    tags: ["autodocs"],
 } satisfies Meta<typeof StatusLight>;
 
 export default meta;

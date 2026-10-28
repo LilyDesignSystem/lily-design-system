@@ -86,22 +86,22 @@ export default function InfoState({
 }: InfoStateProps) {
     return (
         <section
-        className={`info-state ${className}`}
-        role="status"
-        aria-label={label ?? title}
-        data-level={level}
-        {...restProps}
+            className={`info-state ${className}`}
+            role="status"
+            aria-label={label ?? title}
+            data-level={level}
+            {...restProps}
         >
-        {children !== undefined ? (
-            children
-        ) : (
-            <>
-                {illustration !== undefined ? illustration : null}
-                <h2>{title}</h2>
-                {description !== undefined ? <p>{description}</p> : null}
-                {action !== undefined ? action : null}
-            </>
-        )}
+            {children !== undefined ? (
+                children
+            ) : (
+                <>
+                    {illustration !== undefined ? illustration : null}
+                    <h2>{title}</h2>
+                    {description !== undefined ? <p>{description}</p> : null}
+                    {action !== undefined ? action : null}
+                </>
+            )}
         </section>
     );
 }

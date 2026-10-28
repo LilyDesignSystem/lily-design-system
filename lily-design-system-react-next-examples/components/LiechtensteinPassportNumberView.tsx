@@ -37,9 +37,11 @@ export default function LiechtensteinPassportNumberView({
 }: LiechtensteinPassportNumberViewProps) {
     return (
         <span
-        className={`liechtenstein-passport-number-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`liechtenstein-passport-number-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

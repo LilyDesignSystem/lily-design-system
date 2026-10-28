@@ -69,14 +69,18 @@ export default function Popover({
 }: PopoverProps) {
     return (
         <>
-        {open && (<><div
-        className={`popover ${className}`}
-        role="dialog"
-        aria-label={label}
-        {...restProps}
-        >
-        {children}
-        </div></>)}
+            {open && (
+                <>
+                    <div
+                        className={`popover ${className}`}
+                        role="dialog"
+                        aria-label={label}
+                        {...restProps}
+                    >
+                        {children}
+                    </div>
+                </>
+            )}
         </>
     );
 }

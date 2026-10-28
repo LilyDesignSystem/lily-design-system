@@ -15,7 +15,12 @@ describe("ProgressSpinner", () => {
     });
 
     test("has polite aria-live", () => {
-        render(<Subject label="Loading" data-testid="ps" />);
+        render(
+            <Subject
+                label="Loading"
+                data-testid="ps"
+            />,
+        );
         expect(screen.getByTestId("ps").getAttribute("aria-live")).toBe("polite");
     });
 
@@ -25,7 +30,12 @@ describe("ProgressSpinner", () => {
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="L" data-testid="ps" />);
+        render(
+            <Subject
+                label="L"
+                data-testid="ps"
+            />,
+        );
         expect(screen.getByTestId("ps")).toBeTruthy();
     });
 });

@@ -1,18 +1,18 @@
 <script setup lang="ts">
+// EndNotes component
+//
+// EndNotes for the Reuters-graphics-style article layout family.
+// Renders a <section> that consumers style.
 
-    // EndNotes component
-    //
-    // EndNotes for the Reuters-graphics-style article layout family.
-    // Renders a <section> that consumers style.
-
-    withDefaults(defineProps<{
+withDefaults(
+    defineProps<{
         /** Accessible label set on aria-label. Defaults to 'End notes'. */
         label?: string;
-    }>(), {
-        
-label: "End notes",
-    });
-
+    }>(),
+    {
+        label: "End notes",
+    },
+);
 </script>
 
 <template>

@@ -27,7 +27,10 @@ describe("Pictogram", () => {
 
     test("respects layout prop", () => {
         const { container } = render(
-            <Subject icon={<svg />} layout="side" />,
+            <Subject
+                icon={<svg />}
+                layout="side"
+            />,
         );
 
         const figure = container.querySelector("figure");
@@ -35,9 +38,7 @@ describe("Pictogram", () => {
     });
 
     test("renders the icon inside an aria-hidden wrapper", () => {
-        const { container } = render(
-            <Subject icon={<svg data-testid="my-icon" />} />,
-        );
+        const { container } = render(<Subject icon={<svg data-testid="my-icon" />} />);
 
         const iconWrapper = container.querySelector(".pictogram-icon");
         expect(iconWrapper).toBeTruthy();
@@ -46,7 +47,12 @@ describe("Pictogram", () => {
     });
 
     test("renders heading inside figcaption when provided", () => {
-        render(<Subject icon={<svg />} heading="Privacy" />);
+        render(
+            <Subject
+                icon={<svg />}
+                heading="Privacy"
+            />,
+        );
 
         const h3 = screen.getByRole("heading", { level: 3, name: "Privacy" });
         expect(h3).toBeTruthy();
@@ -55,7 +61,10 @@ describe("Pictogram", () => {
 
     test("renders description paragraph when provided", () => {
         const { container } = render(
-            <Subject icon={<svg />} description="Body text" />,
+            <Subject
+                icon={<svg />}
+                description="Body text"
+            />,
         );
 
         const p = container.querySelector("p.pictogram-description");
@@ -65,7 +74,10 @@ describe("Pictogram", () => {
 
     test("children override description when both provided", () => {
         const { container } = render(
-            <Subject icon={<svg />} description="Body text">
+            <Subject
+                icon={<svg />}
+                description="Body text"
+            >
                 <p data-id="custom">Custom body</p>
             </Subject>,
         );
@@ -77,7 +89,10 @@ describe("Pictogram", () => {
 
     test("applies aria-label when label is provided", () => {
         const { container } = render(
-            <Subject icon={<svg />} label="Pictogram label" />,
+            <Subject
+                icon={<svg />}
+                label="Pictogram label"
+            />,
         );
 
         const figure = container.querySelector("figure");
@@ -85,7 +100,12 @@ describe("Pictogram", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject icon={<svg />} id="pic-1" />);
+        render(
+            <Subject
+                icon={<svg />}
+                id="pic-1"
+            />,
+        );
 
         const figure = document.querySelector('[id="pic-1"]');
         expect(figure).toBeTruthy();

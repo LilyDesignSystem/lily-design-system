@@ -33,10 +33,7 @@
     import type { Snippet } from "svelte";
 
     function makeId(prefix: string): string {
-        if (
-            typeof crypto !== "undefined" &&
-            typeof crypto.randomUUID === "function"
-        ) {
+        if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
             return `${prefix}-${crypto.randomUUID()}`;
         }
         return `${prefix}-${Math.random().toString(36).slice(2, 11)}`;
@@ -66,7 +63,10 @@
 </script>
 
 <!-- ContextualHelp.svelte -->
-<div class={`contextual-help ${className}`} {...restProps}>
+<div
+    class={`contextual-help ${className}`}
+    {...restProps}
+>
     <button
         class="contextual-help-trigger"
         type="button"
@@ -74,8 +74,8 @@
         aria-haspopup="dialog"
         aria-expanded={expanded}
         aria-controls={panelId}
-        {onclick}
-    >?</button>
+        {onclick}>?</button
+    >
     <div
         class="contextual-help-panel"
         id={panelId}

@@ -3,10 +3,12 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./Sidebar.vue";
 
-
 describe("Sidebar", () => {
     test("renders an aside", () => {
-        render(Subject, { props: { label: "Nav", "data-testid": "sb" }, slots: { default: "content" } });
+        render(Subject, {
+            props: { label: "Nav", "data-testid": "sb" },
+            slots: { default: "content" },
+        });
         expect(screen.getByTestId("sb").tagName).toBe("ASIDE");
     });
 

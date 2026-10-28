@@ -19,7 +19,12 @@ describe("NetPromoterScoreView", () => {
     });
 
     test("displays the value as text", () => {
-        render(<Subject label="NPS Score" value="8" />);
+        render(
+            <Subject
+                label="NPS Score"
+                value="8"
+            />,
+        );
 
         const el = screen.getByLabelText("NPS Score");
         expect(el.textContent).toBe("8");
@@ -33,21 +38,36 @@ describe("NetPromoterScoreView", () => {
     });
 
     test("displays score of 0", () => {
-        render(<Subject label="NPS Score" value="0" />);
+        render(
+            <Subject
+                label="NPS Score"
+                value="0"
+            />,
+        );
 
         const el = screen.getByLabelText("NPS Score");
         expect(el.textContent).toBe("0");
     });
 
     test("displays score of 10", () => {
-        render(<Subject label="NPS Score" value="10" />);
+        render(
+            <Subject
+                label="NPS Score"
+                value="10"
+            />,
+        );
 
         const el = screen.getByLabelText("NPS Score");
         expect(el.textContent).toBe("10");
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="NPS" data-testid="nps-view" />);
+        render(
+            <Subject
+                label="NPS"
+                data-testid="nps-view"
+            />,
+        );
 
         expect(screen.getByTestId("nps-view")).toBeTruthy();
     });

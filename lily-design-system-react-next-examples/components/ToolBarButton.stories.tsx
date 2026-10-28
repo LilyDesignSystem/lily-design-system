@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import ToolBarButton from './ToolBarButton';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import ToolBarButton from "./ToolBarButton";
 
 const meta = {
-  title: 'Headless/ToolBarButton',
-  component: ToolBarButton,
-  tags: ['autodocs']
+    title: "Headless/ToolBarButton",
+    component: ToolBarButton,
+    tags: ["autodocs"],
 } satisfies Meta<typeof ToolBarButton>;
 
 export default meta;

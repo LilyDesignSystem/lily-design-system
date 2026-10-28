@@ -37,9 +37,11 @@ export default function EnglandNationalHealthServiceNumberView({
 }: EnglandNationalHealthServiceNumberViewProps) {
     return (
         <span
-        className={`england-national-health-service-number-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`england-national-health-service-number-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

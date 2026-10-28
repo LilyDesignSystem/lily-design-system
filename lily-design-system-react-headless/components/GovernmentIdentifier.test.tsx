@@ -6,7 +6,10 @@ import Subject from "./GovernmentIdentifier";
 describe("GovernmentIdentifier", () => {
     test("renders a section with aria-label", () => {
         const { container } = render(
-            <Subject label="Agency identifier" agencyName="GSA" />
+            <Subject
+                label="Agency identifier"
+                agencyName="GSA"
+            />,
         );
 
         const section: HTMLElement = container.querySelector("section")!;
@@ -15,7 +18,10 @@ describe("GovernmentIdentifier", () => {
 
     test("applies the government-identifier root class", () => {
         const { container } = render(
-            <Subject label="Agency" agencyName="GSA" />
+            <Subject
+                label="Agency"
+                agencyName="GSA"
+            />,
         );
 
         const section: HTMLElement = container.querySelector("section")!;
@@ -24,7 +30,10 @@ describe("GovernmentIdentifier", () => {
 
     test("renders the agency name inside a span when no agencyHref", () => {
         const { container } = render(
-            <Subject label="Agency" agencyName="General Services Administration" />
+            <Subject
+                label="Agency"
+                agencyName="General Services Administration"
+            />,
         );
 
         const anchor: HTMLElement | null = container.querySelector("a");
@@ -38,7 +47,7 @@ describe("GovernmentIdentifier", () => {
                 label="Agency"
                 agencyName="GSA"
                 agencyHref="https://gsa.gov"
-            />
+            />,
         );
 
         const link: HTMLElement = screen.getByRole("link", { name: "GSA" });
@@ -52,7 +61,7 @@ describe("GovernmentIdentifier", () => {
                 agencyName="GSA"
                 logoUrl="/logo.svg"
                 logoAlt="GSA logo"
-            />
+            />,
         );
 
         const img: HTMLElement = screen.getByRole("img", { name: "GSA logo" });
@@ -61,7 +70,10 @@ describe("GovernmentIdentifier", () => {
 
     test("does not render an image when logoUrl is omitted", () => {
         const { container } = render(
-            <Subject label="Agency" agencyName="GSA" />
+            <Subject
+                label="Agency"
+                agencyName="GSA"
+            />,
         );
 
         const img: HTMLElement | null = container.querySelector("img");
@@ -74,7 +86,7 @@ describe("GovernmentIdentifier", () => {
                 label="Agency"
                 agencyName="GSA"
                 description="Official website description"
-            />
+            />,
         );
 
         expect(container.textContent).toContain("Official website description");
@@ -82,13 +94,16 @@ describe("GovernmentIdentifier", () => {
 
     test("renders required-links nav when children are provided", () => {
         render(
-            <Subject label="Agency identifier" agencyName="GSA">
+            <Subject
+                label="Agency identifier"
+                agencyName="GSA"
+            >
                 <ul>
                     <li>
                         <a href="/about">About</a>
                     </li>
                 </ul>
-            </Subject>
+            </Subject>,
         );
 
         const nav: HTMLElement = screen.getByRole("navigation", {
@@ -99,7 +114,10 @@ describe("GovernmentIdentifier", () => {
 
     test("does not render nav when no children are provided", () => {
         const { container } = render(
-            <Subject label="Agency" agencyName="GSA" />
+            <Subject
+                label="Agency"
+                agencyName="GSA"
+            />,
         );
 
         const nav: HTMLElement | null = container.querySelector("nav");

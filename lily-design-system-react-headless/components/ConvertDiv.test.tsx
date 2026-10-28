@@ -10,8 +10,17 @@ describe("ConvertDiv", () => {
     });
 
     test("appends the consumer class after the base class", () => {
-        const { container } = render(<Subject label="Currency converter" className="mine">content</Subject>);
-        expect(container.querySelector(".convert-div")?.getAttribute("class")).toBe("convert-div mine");
+        const { container } = render(
+            <Subject
+                label="Currency converter"
+                className="mine"
+            >
+                content
+            </Subject>,
+        );
+        expect(container.querySelector(".convert-div")?.getAttribute("class")).toBe(
+            "convert-div mine",
+        );
     });
 
     test("renders children content", () => {
@@ -20,7 +29,14 @@ describe("ConvertDiv", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        const { container } = render(<Subject label="Currency converter" data-testid="subject">content</Subject>);
+        const { container } = render(
+            <Subject
+                label="Currency converter"
+                data-testid="subject"
+            >
+                content
+            </Subject>,
+        );
         expect(container.querySelector("[data-testid='subject']")).toBeTruthy();
     });
 

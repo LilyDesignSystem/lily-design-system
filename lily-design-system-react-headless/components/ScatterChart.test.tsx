@@ -2,8 +2,25 @@ import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import ScatterChart from "./ScatterChart";
 
-const art = <svg data-testid="art" viewBox="0 0 10 10"><circle r="4" /></svg>;
-const table = <table><caption>Values</caption><tbody><tr><th scope="row">A</th><td>1</td></tr></tbody></table>;
+const art = (
+    <svg
+        data-testid="art"
+        viewBox="0 0 10 10"
+    >
+        <circle r="4" />
+    </svg>
+);
+const table = (
+    <table>
+        <caption>Values</caption>
+        <tbody>
+            <tr>
+                <th scope="row">A</th>
+                <td>1</td>
+            </tr>
+        </tbody>
+    </table>
+);
 
 describe("ScatterChart", () => {
     it("renders a <figure> with the base class", () => {
@@ -21,7 +38,9 @@ describe("ScatterChart", () => {
 
     it("omits aria-label when no label is given", () => {
         const { container } = render(<ScatterChart>{art}</ScatterChart>);
-        expect(container.querySelector(".scatter-chart-graphic")!.hasAttribute("aria-label")).toBe(false);
+        expect(container.querySelector(".scatter-chart-graphic")!.hasAttribute("aria-label")).toBe(
+            false,
+        );
     });
 
     it("does not put role=img on the figure", () => {
@@ -30,7 +49,14 @@ describe("ScatterChart", () => {
     });
 
     it("appends the consumer class after the base class", () => {
-        const { container } = render(<ScatterChart label="T" className="mine">{art}</ScatterChart>);
+        const { container } = render(
+            <ScatterChart
+                label="T"
+                className="mine"
+            >
+                {art}
+            </ScatterChart>,
+        );
         expect(container.querySelector("figure")!.getAttribute("class")).toBe("scatter-chart mine");
     });
 
@@ -45,7 +71,14 @@ describe("ScatterChart", () => {
     });
 
     it("renders dataTable in a .scatter-chart-data-table sibling after the graphic", () => {
-        const { container } = render(<ScatterChart label="T" dataTable={table}>{art}</ScatterChart>);
+        const { container } = render(
+            <ScatterChart
+                label="T"
+                dataTable={table}
+            >
+                {art}
+            </ScatterChart>,
+        );
         const wrap = container.querySelector(".scatter-chart-data-table")!;
         expect(wrap).toBeTruthy();
         expect(wrap.previousElementSibling).toBe(container.querySelector(".scatter-chart-graphic"));
@@ -53,12 +86,27 @@ describe("ScatterChart", () => {
     });
 
     it("keeps the table outside the role=img element so assistive technology can reach it", () => {
-        render(<ScatterChart label="T" dataTable={table}>{art}</ScatterChart>);
+        render(
+            <ScatterChart
+                label="T"
+                dataTable={table}
+            >
+                {art}
+            </ScatterChart>,
+        );
         expect(screen.getByRole("table").closest("[role=img]")).toBeNull();
     });
 
     it("spreads rest props onto the figure", () => {
-        render(<ScatterChart label="T" id="c1" data-testid="chart">{art}</ScatterChart>);
+        render(
+            <ScatterChart
+                label="T"
+                id="c1"
+                data-testid="chart"
+            >
+                {art}
+            </ScatterChart>,
+        );
         const el = screen.getByTestId("chart");
         expect(el.tagName).toBe("FIGURE");
         expect(el.id).toBe("c1");

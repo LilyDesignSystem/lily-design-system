@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import DataTableBody from './DataTableBody.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import DataTableBody from "./DataTableBody.vue";
 
 const meta = {
-  title: 'Headless/DataTableBody',
-  component: DataTableBody,
-  tags: ['autodocs']
+    title: "Headless/DataTableBody",
+    component: DataTableBody,
+    tags: ["autodocs"],
 } satisfies Meta<typeof DataTableBody>;
 
 export default meta;

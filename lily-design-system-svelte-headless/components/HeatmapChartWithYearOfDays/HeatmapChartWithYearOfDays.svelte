@@ -63,7 +63,11 @@
     data-week-start={weekStart}
     {...restProps}
 >
-    <div class="heatmap-chart-with-year-of-days-graphic" role="img" aria-label={label}>
+    <div
+        class="heatmap-chart-with-year-of-days-graphic"
+        role="img"
+        aria-label={label}
+    >
         {@render children?.()}
     </div>
     {#if dataTable}

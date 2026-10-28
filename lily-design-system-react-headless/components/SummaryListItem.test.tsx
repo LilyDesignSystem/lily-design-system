@@ -35,13 +35,27 @@ describe("SummaryListItem", () => {
     });
 
     test("passes through attributes to wrapper div", () => {
-        render(<Subject term="Key" data-testid="sli">Value</Subject>);
+        render(
+            <Subject
+                term="Key"
+                data-testid="sli"
+            >
+                Value
+            </Subject>,
+        );
         expect(screen.getByTestId("sli")).toBeTruthy();
         expect(screen.getByTestId("sli").tagName).toBe("DIV");
     });
 
     test("passes through id attribute", () => {
-        render(<Subject term="Key" id="row-1">Value</Subject>);
+        render(
+            <Subject
+                term="Key"
+                id="row-1"
+            >
+                Value
+            </Subject>,
+        );
         const dt = screen.getByText("Key");
         expect(dt.parentElement?.getAttribute("id")).toBe("row-1");
     });

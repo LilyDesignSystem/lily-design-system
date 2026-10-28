@@ -28,7 +28,11 @@ describe("HeroHeadline", () => {
     });
 
     test("renders media slot", () => {
-        const { container } = render(Subject, { label: "x", media: snippet("MEDIA"), children: snippet("HEADLINE") });
+        const { container } = render(Subject, {
+            label: "x",
+            media: snippet("MEDIA"),
+            children: snippet("HEADLINE"),
+        });
         expect(container.textContent).toContain("MEDIA");
         expect(container.textContent).toContain("HEADLINE");
     });

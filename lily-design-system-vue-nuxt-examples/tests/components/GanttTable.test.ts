@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "../../components/GanttTable.vue";
 
-
 describe("GanttTable", () => {
     test("renders a grid", () => {
         render(Subject, { props: { label: "Project" }, slots: { default: "tasks" } });
@@ -21,7 +20,10 @@ describe("GanttTable", () => {
     });
 
     test("renders caption when provided", () => {
-        render(Subject, { props: { label: "Project", caption: "Q1 Schedule" }, slots: { default: "tasks" } });
+        render(Subject, {
+            props: { label: "Project", caption: "Q1 Schedule" },
+            slots: { default: "tasks" },
+        });
         const table = screen.getByRole("grid");
         const cap = table.querySelector("caption");
         expect(cap).toBeTruthy();

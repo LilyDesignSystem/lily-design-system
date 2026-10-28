@@ -33,14 +33,28 @@ describe("TaskList", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="Tasks" data-testid="my-tasks">items</Subject>);
+        render(
+            <Subject
+                label="Tasks"
+                data-testid="my-tasks"
+            >
+                items
+            </Subject>,
+        );
 
         const list = screen.getByTestId("my-tasks");
         expect(list).toBeTruthy();
     });
 
     test("passes through id attribute", () => {
-        render(<Subject label="Tasks" id="task-list-1">items</Subject>);
+        render(
+            <Subject
+                label="Tasks"
+                id="task-list-1"
+            >
+                items
+            </Subject>,
+        );
 
         const list = screen.getByRole("list");
         expect(list.getAttribute("id")).toBe("task-list-1");

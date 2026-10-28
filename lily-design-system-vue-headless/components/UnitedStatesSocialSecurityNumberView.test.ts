@@ -33,7 +33,9 @@ describe("UnitedStatesSocialSecurityNumberView", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(Subject, { props: { label: "SSN", value: "123-45-6789", "data-testid": "ssn-view" } });
+        render(Subject, {
+            props: { label: "SSN", value: "123-45-6789", "data-testid": "ssn-view" },
+        });
 
         const element = screen.getByTestId("ssn-view");
         expect(element).toBeTruthy();

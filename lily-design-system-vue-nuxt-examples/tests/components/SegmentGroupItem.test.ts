@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "../../components/SegmentGroupItem.vue";
 
-
 describe("SegmentGroupItem", () => {
     test("renders a radio button", () => {
         render(Subject, { slots: { default: "Grid" } });

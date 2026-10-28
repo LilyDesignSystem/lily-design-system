@@ -18,14 +18,14 @@
 //   <DontListItem>Use vague placeholder text</DontListItem>
 //
 // Examples:
-//   
+//
 //   <ul aria-label="Practices to avoid">
 //     <DontListItem>Use color alone to convey meaning</DontListItem>
 //     <DontListItem>Remove focus outlines without replacement</DontListItem>
 //     <DontListItem>Rely solely on placeholder text as labels</DontListItem>
 //   </ul>
 //
-//   
+//
 //   <ul aria-label="Do">
 //     <DoListItem>Write clear error messages</DoListItem>
 //   </ul>
@@ -70,11 +70,11 @@ export default function DontListItem({
 }: DontListItemProps) {
     return (
         <li
-        className={`dont-list-item ${className}`}
-        data-recommendation="dont"
-        {...restProps}
+            className={`dont-list-item ${className}`}
+            data-recommendation="dont"
+            {...restProps}
         >
-        {children}
+            {children}
         </li>
     );
 }

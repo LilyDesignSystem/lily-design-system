@@ -18,12 +18,12 @@
 //   </Sonner>
 //
 // Examples:
-//   
+//
 //   <Sonner label="Notifications">
 //     <div role="status">File saved successfully.</div>
 //   </Sonner>
 //
-//   
+//
 //   <Sonner label="Alerts">
 //     {toasts.map((toast) => (
 //       <div role="status">{toast.message}</div>
@@ -62,21 +62,16 @@ export interface SonnerProps {
     [key: string]: unknown;
 }
 
-export default function Sonner({
-    className = "",
-    label,
-    children,
-    ...restProps
-}: SonnerProps) {
+export default function Sonner({ className = "", label, children, ...restProps }: SonnerProps) {
     return (
         <div
-        className={`sonner ${className}`}
-        role="region"
-        aria-label={label}
-        aria-live="polite"
-        {...restProps}
+            className={`sonner ${className}`}
+            role="region"
+            aria-label={label}
+            aria-live="polite"
+            {...restProps}
         >
-        {children}
+            {children}
         </div>
     );
 }

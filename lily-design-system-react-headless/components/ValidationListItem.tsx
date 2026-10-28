@@ -54,12 +54,12 @@ export default function ValidationListItem({
 }: ValidationListItemProps) {
     return (
         <li
-        className={`validation-list-item ${className}`}
-        data-status={status}
-        aria-label={label}
-        {...restProps}
+            className={`validation-list-item ${className}`}
+            data-status={status}
+            aria-label={label}
+            {...restProps}
         >
-        {children}
+            {children}
         </li>
     );
 }

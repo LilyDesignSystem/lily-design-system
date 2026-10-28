@@ -20,7 +20,14 @@ describe("Notification", () => {
     });
 
     test("has assertive live region when urgent", () => {
-        render(<Subject urgent data-testid="n">E</Subject>);
+        render(
+            <Subject
+                urgent
+                data-testid="n"
+            >
+                E
+            </Subject>,
+        );
         expect(screen.getByTestId("n").getAttribute("aria-live")).toBe("assertive");
     });
 

@@ -4,7 +4,6 @@ import { describe, expect, test, vi } from "vitest";
 
 import Subject from "./IconButton.vue";
 
-
 describe("IconButton", () => {
     test("renders as a button with aria-label", () => {
         render(Subject, { props: { label: "Close" }, slots: { default: "×" } });
@@ -92,7 +91,10 @@ describe("IconButton", () => {
     });
 
     test("baseClass replaces the default class token outright", () => {
-        render(Subject, { props: { label: "X", baseClass: "motion-picker-button" }, slots: { default: "X" } });
+        render(Subject, {
+            props: { label: "X", baseClass: "motion-picker-button" },
+            slots: { default: "X" },
+        });
 
         const button: HTMLElement = screen.getByRole("button");
         expect(button.className).toBe("motion-picker-button");
@@ -100,7 +102,12 @@ describe("IconButton", () => {
 
     test("aria-haspopup/aria-expanded/aria-controls fall through via restProps", () => {
         render(Subject, {
-            props: { label: "Motion", "aria-haspopup": "listbox", "aria-expanded": "false", "aria-controls": "list-1" },
+            props: {
+                label: "Motion",
+                "aria-haspopup": "listbox",
+                "aria-expanded": "false",
+                "aria-controls": "list-1",
+            },
             slots: { default: "X" },
         });
 

@@ -4,7 +4,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./Command.vue";
 
-
 describe("Command", () => {
     test("renders search region", () => {
         render(Subject, { props: { label: "Commands" }, slots: { default: "Items" } });
@@ -22,7 +21,10 @@ describe("Command", () => {
     });
 
     test("applies placeholder", () => {
-        render(Subject, { props: { label: "Cmd", placeholder: "Type..." }, slots: { default: "Items" } });
+        render(Subject, {
+            props: { label: "Cmd", placeholder: "Type..." },
+            slots: { default: "Items" },
+        });
         expect(screen.getByPlaceholderText("Type...")).toBeTruthy();
     });
 
@@ -34,7 +36,10 @@ describe("Command", () => {
     });
 
     test("passes through attributes", () => {
-        render(Subject, { props: { label: "Cmd", "data-testid": "cmd" }, slots: { default: "Items" } });
+        render(Subject, {
+            props: { label: "Cmd", "data-testid": "cmd" },
+            slots: { default: "Items" },
+        });
         expect(screen.getByTestId("cmd")).toBeTruthy();
     });
 });

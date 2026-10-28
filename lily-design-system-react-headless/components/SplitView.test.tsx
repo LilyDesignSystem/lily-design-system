@@ -6,7 +6,11 @@ import Subject from "./SplitView";
 describe("SplitView", () => {
     test("applies the split-view root class", () => {
         const { container } = render(
-            <Subject label="Editor" primary={<div>P</div>} secondary={<div>S</div>} />
+            <Subject
+                label="Editor"
+                primary={<div>P</div>}
+                secondary={<div>S</div>}
+            />,
         );
 
         const root: HTMLElement | null = container.querySelector(".split-view");
@@ -15,7 +19,11 @@ describe("SplitView", () => {
 
     test("sets aria-label from the label prop", () => {
         const { container } = render(
-            <Subject label="Editor" primary={<div>P</div>} secondary={<div>S</div>} />
+            <Subject
+                label="Editor"
+                primary={<div>P</div>}
+                secondary={<div>S</div>}
+            />,
         );
 
         const root: HTMLElement | null = container.querySelector(".split-view");
@@ -24,7 +32,11 @@ describe("SplitView", () => {
 
     test("defaults orientation to horizontal", () => {
         const { container } = render(
-            <Subject label="Editor" primary={<div>P</div>} secondary={<div>S</div>} />
+            <Subject
+                label="Editor"
+                primary={<div>P</div>}
+                secondary={<div>S</div>}
+            />,
         );
 
         const root: HTMLElement | null = container.querySelector(".split-view");
@@ -34,11 +46,11 @@ describe("SplitView", () => {
     test("supports vertical orientation", () => {
         const { container } = render(
             <Subject
-            label="Editor"
-            orientation="vertical"
-            primary={<div>P</div>}
-            secondary={<div>S</div>}
-            />
+                label="Editor"
+                orientation="vertical"
+                primary={<div>P</div>}
+                secondary={<div>S</div>}
+            />,
         );
 
         const root: HTMLElement | null = container.querySelector(".split-view");
@@ -47,7 +59,11 @@ describe("SplitView", () => {
 
     test("defaults splitPercent to 50", () => {
         const { container } = render(
-            <Subject label="Editor" primary={<div>P</div>} secondary={<div>S</div>} />
+            <Subject
+                label="Editor"
+                primary={<div>P</div>}
+                secondary={<div>S</div>}
+            />,
         );
 
         const root: HTMLElement | null = container.querySelector(".split-view");
@@ -57,11 +73,11 @@ describe("SplitView", () => {
     test("uses a custom splitPercent", () => {
         const { container } = render(
             <Subject
-            label="Editor"
-            splitPercent={75}
-            primary={<div>P</div>}
-            secondary={<div>S</div>}
-            />
+                label="Editor"
+                splitPercent={75}
+                primary={<div>P</div>}
+                secondary={<div>S</div>}
+            />,
         );
 
         const root: HTMLElement | null = container.querySelector(".split-view");
@@ -71,10 +87,10 @@ describe("SplitView", () => {
     test("renders primary and secondary sections", () => {
         render(
             <Subject
-            label="Editor"
-            primary={<div>Primary content</div>}
-            secondary={<div>Secondary content</div>}
-            />
+                label="Editor"
+                primary={<div>Primary content</div>}
+                secondary={<div>Secondary content</div>}
+            />,
         );
 
         expect(screen.getByText("Primary content")).toBeTruthy();
@@ -83,7 +99,11 @@ describe("SplitView", () => {
 
     test("renders a default separator when no divider is provided", () => {
         render(
-            <Subject label="Editor" primary={<div>P</div>} secondary={<div>S</div>} />
+            <Subject
+                label="Editor"
+                primary={<div>P</div>}
+                secondary={<div>S</div>}
+            />,
         );
 
         const separator: HTMLElement = screen.getByRole("separator");
@@ -98,11 +118,11 @@ describe("SplitView", () => {
     test("uses a custom divider when provided", () => {
         render(
             <Subject
-            label="Editor"
-            primary={<div>P</div>}
-            secondary={<div>S</div>}
-            divider={<div data-testid="custom-divider">My divider</div>}
-            />
+                label="Editor"
+                primary={<div>P</div>}
+                secondary={<div>S</div>}
+                divider={<div data-testid="custom-divider">My divider</div>}
+            />,
         );
 
         expect(screen.getByTestId("custom-divider")).toBeTruthy();
@@ -112,11 +132,11 @@ describe("SplitView", () => {
     test("default separator aria-orientation matches the prop", () => {
         render(
             <Subject
-            label="Editor"
-            orientation="vertical"
-            primary={<div>P</div>}
-            secondary={<div>S</div>}
-            />
+                label="Editor"
+                orientation="vertical"
+                primary={<div>P</div>}
+                secondary={<div>S</div>}
+            />,
         );
 
         const separator: HTMLElement = screen.getByRole("separator");

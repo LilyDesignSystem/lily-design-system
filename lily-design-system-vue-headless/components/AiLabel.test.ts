@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./AiLabel.vue";
 
-
 describe("AiLabel", () => {
     test("renders a span", () => {
         render(Subject);

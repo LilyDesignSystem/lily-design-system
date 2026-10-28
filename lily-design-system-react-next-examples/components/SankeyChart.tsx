@@ -48,7 +48,11 @@ export default function SankeyChart({
             className={`sankey-chart ${className}`}
             {...restProps}
         >
-            <div className="sankey-chart-graphic" role="img" aria-label={label}>
+            <div
+                className="sankey-chart-graphic"
+                role="img"
+                aria-label={label}
+            >
                 {children}
             </div>
             {dataTable !== undefined && dataTable !== null && (

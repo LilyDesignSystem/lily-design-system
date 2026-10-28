@@ -18,7 +18,9 @@ export interface PaddingResetProps {
 }
 
 export default function PaddingReset({
-    className = "", children, ...restProps
+    className = "",
+    children,
+    ...restProps
 }: PaddingResetProps) {
     return (
         <div

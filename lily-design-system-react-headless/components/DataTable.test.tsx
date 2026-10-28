@@ -5,8 +5,14 @@ import Subject from "./DataTable";
 
 const tableContent = (
     <tbody>
-        <tr><td>Alice</td><td>alice@example.com</td></tr>
-        <tr><td>Bob</td><td>bob@example.com</td></tr>
+        <tr>
+            <td>Alice</td>
+            <td>alice@example.com</td>
+        </tr>
+        <tr>
+            <td>Bob</td>
+            <td>bob@example.com</td>
+        </tr>
     </tbody>
 );
 
@@ -27,7 +33,14 @@ describe("DataTable", () => {
     });
 
     test("renders caption when provided", () => {
-        render(<Subject label="Users" caption="User list">{tableContent}</Subject>);
+        render(
+            <Subject
+                label="Users"
+                caption="User list"
+            >
+                {tableContent}
+            </Subject>,
+        );
         const table = screen.getByRole("grid");
         const cap = table.querySelector("caption");
         expect(cap).toBeTruthy();
@@ -46,7 +59,14 @@ describe("DataTable", () => {
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="T" data-testid="dt">{tableContent}</Subject>);
+        render(
+            <Subject
+                label="T"
+                data-testid="dt"
+            >
+                {tableContent}
+            </Subject>,
+        );
         expect(screen.getByTestId("dt")).toBeTruthy();
     });
 });

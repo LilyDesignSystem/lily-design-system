@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "../../components/ToggleGroup.vue";
 
-
 describe("ToggleGroup", () => {
     test("renders a group", () => {
         render(Subject, { props: { label: "Format" }, slots: { default: "content" } });

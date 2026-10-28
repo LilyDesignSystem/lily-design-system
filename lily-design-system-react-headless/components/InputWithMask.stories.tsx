@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import InputWithMask from './InputWithMask';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import InputWithMask from "./InputWithMask";
 
 const meta = {
-  title: 'Headless/InputWithMask',
-  component: InputWithMask,
-  tags: ['autodocs']
+    title: "Headless/InputWithMask",
+    component: InputWithMask,
+    tags: ["autodocs"],
 } satisfies Meta<typeof InputWithMask>;
 
 export default meta;

@@ -15,13 +15,13 @@
 //   <DontList><li>Avoid this</li></DontList>
 //
 // Examples:
-//   
+//
 //   <DontList>
 //     <li>Skip alt text</li>
 //     <li>Use only color for meaning</li>
 //   </DontList>
 //
-//   
+//
 //   <DontList label="Avoid">
 //     <li>Hard-code user-facing strings</li>
 //     <li>Rely on placeholder text as labels</li>
@@ -65,12 +65,12 @@ export default function DontList({
 }: DontListProps) {
     return (
         <ul
-        className={`dont-list ${className}`}
-        role="list"
-        aria-label={label}
-        {...restProps}
+            className={`dont-list ${className}`}
+            role="list"
+            aria-label={label}
+            {...restProps}
         >
-        {children}
+            {children}
         </ul>
     );
 }

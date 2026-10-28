@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import ImageInput from './ImageInput.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import ImageInput from "./ImageInput.vue";
 
 const meta = {
-  title: 'Headless/ImageInput',
-  component: ImageInput,
-  tags: ['autodocs']
+    title: "Headless/ImageInput",
+    component: ImageInput,
+    tags: ["autodocs"],
 } satisfies Meta<typeof ImageInput>;
 
 export default meta;

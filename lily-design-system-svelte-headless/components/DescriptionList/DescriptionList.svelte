@@ -16,8 +16,6 @@
 <!-- DescriptionList.svelte -->
 <dl
     class={`description-list ${className}`}
-
-
     {...restProps}
 >
     {@render children?.()}

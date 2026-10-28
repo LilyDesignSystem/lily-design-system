@@ -4,7 +4,6 @@ import { describe, expect, test, vi } from "vitest";
 
 import Subject from "./OverlayContainer.vue";
 
-
 describe("OverlayContainer", () => {
     test("has overlay-container class on root", () => {
         render(Subject, {

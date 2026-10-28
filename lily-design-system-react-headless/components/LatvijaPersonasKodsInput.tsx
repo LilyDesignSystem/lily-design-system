@@ -50,14 +50,15 @@ export default function LatvijaPersonasKodsInput({
 }: LatvijaPersonasKodsInputProps) {
     return (
         <input
-        className={`latvija-personas-kods-input ${className}`}
-        type="text"
-        aria-label={label}
-        autoComplete="off"
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`latvija-personas-kods-input ${className}`}
+            type="text"
+            aria-label={label}
+            autoComplete="off"
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

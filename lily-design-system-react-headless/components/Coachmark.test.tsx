@@ -6,7 +6,13 @@ import Subject from "./Coachmark";
 
 describe("Coachmark", () => {
     test("renders as a non-modal dialog with the required title", () => {
-        render(<Subject open title="Try this feature" dismissLabel="Dismiss" />);
+        render(
+            <Subject
+                open
+                title="Try this feature"
+                dismissLabel="Dismiss"
+            />,
+        );
 
         const dialog: HTMLElement = screen.getByRole("dialog");
         expect(dialog).toBeTruthy();
@@ -14,28 +20,51 @@ describe("Coachmark", () => {
     });
 
     test("applies the coachmark root class", () => {
-        render(<Subject open title="Try this feature" dismissLabel="Dismiss" />);
+        render(
+            <Subject
+                open
+                title="Try this feature"
+                dismissLabel="Dismiss"
+            />,
+        );
 
         const dialog: HTMLElement = screen.getByRole("dialog");
         expect(dialog.className.includes("coachmark")).toBe(true);
     });
 
     test("hides the dialog when open is false", () => {
-        render(<Subject title="Try this feature" dismissLabel="Dismiss" />);
+        render(
+            <Subject
+                title="Try this feature"
+                dismissLabel="Dismiss"
+            />,
+        );
 
         const dialog: HTMLElement = screen.getByRole("dialog", { hidden: true });
         expect(dialog.hasAttribute("hidden")).toBe(true);
     });
 
     test("shows the dialog when open is true", () => {
-        render(<Subject open title="Try this feature" dismissLabel="Dismiss" />);
+        render(
+            <Subject
+                open
+                title="Try this feature"
+                dismissLabel="Dismiss"
+            />,
+        );
 
         const dialog: HTMLElement = screen.getByRole("dialog");
         expect(dialog.hasAttribute("hidden")).toBe(false);
     });
 
     test("links aria-labelledby to the rendered title id", () => {
-        render(<Subject open title="Try this feature" dismissLabel="Dismiss" />);
+        render(
+            <Subject
+                open
+                title="Try this feature"
+                dismissLabel="Dismiss"
+            />,
+        );
 
         const dialog: HTMLElement = screen.getByRole("dialog");
         const labelledBy: string | null = dialog.getAttribute("aria-labelledby");
@@ -48,11 +77,11 @@ describe("Coachmark", () => {
     test("renders the description when provided and links aria-describedby", () => {
         render(
             <Subject
-            open
-            title="Try this feature"
-            description="Click here to learn more"
-            dismissLabel="Dismiss"
-            />
+                open
+                title="Try this feature"
+                description="Click here to learn more"
+                dismissLabel="Dismiss"
+            />,
         );
 
         const dialog: HTMLElement = screen.getByRole("dialog");
@@ -64,14 +93,26 @@ describe("Coachmark", () => {
     });
 
     test("does not set aria-describedby when description is omitted", () => {
-        render(<Subject open title="Try this feature" dismissLabel="Dismiss" />);
+        render(
+            <Subject
+                open
+                title="Try this feature"
+                dismissLabel="Dismiss"
+            />,
+        );
 
         const dialog: HTMLElement = screen.getByRole("dialog");
         expect(dialog.getAttribute("aria-describedby")).toBeNull();
     });
 
     test("renders the dismiss button with the required aria-label", () => {
-        render(<Subject open title="Try this feature" dismissLabel="Dismiss coachmark" />);
+        render(
+            <Subject
+                open
+                title="Try this feature"
+                dismissLabel="Dismiss coachmark"
+            />,
+        );
 
         const dismiss: HTMLElement = screen.getByRole("button", { name: "Dismiss coachmark" });
         expect(dismiss).toBeTruthy();
@@ -82,11 +123,11 @@ describe("Coachmark", () => {
         const handleDismiss = vi.fn();
         render(
             <Subject
-            open
-            title="Try this feature"
-            dismissLabel="Dismiss"
-            onDismiss={handleDismiss}
-            />
+                open
+                title="Try this feature"
+                dismissLabel="Dismiss"
+                onDismiss={handleDismiss}
+            />,
         );
 
         await user.click(screen.getByRole("button", { name: "Dismiss" }));

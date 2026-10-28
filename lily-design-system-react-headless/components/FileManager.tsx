@@ -16,7 +16,7 @@
 //   <FileManager label="Project files">Content</FileManager>
 //
 // Examples:
-//   
+//
 //   <FileManager label="Project files">
 //     <ul>
 //       <li>document.pdf</li>
@@ -64,12 +64,12 @@ export default function FileManager({
 }: FileManagerProps) {
     return (
         <div
-        className={`file-manager ${className}`}
-        role="region"
-        aria-label={label}
-        {...restProps}
+            className={`file-manager ${className}`}
+            role="region"
+            aria-label={label}
+            {...restProps}
         >
-        {children}
+            {children}
         </div>
     );
 }

@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "../../components/InformationCallout.vue";
 
-
 describe("InformationCallout", () => {
     test("renders with note role", () => {
         render(Subject, { props: { label: "Note" }, slots: { default: "Info" } });

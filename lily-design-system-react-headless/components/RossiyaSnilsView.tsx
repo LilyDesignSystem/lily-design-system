@@ -37,9 +37,11 @@ export default function RossiyaSnilsView({
 }: RossiyaSnilsViewProps) {
     return (
         <span
-        className={`rossiya-snils-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`rossiya-snils-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

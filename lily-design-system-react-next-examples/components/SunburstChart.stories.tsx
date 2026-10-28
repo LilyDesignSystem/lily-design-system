@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import SunburstChart from './SunburstChart';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import SunburstChart from "./SunburstChart";
 
 const meta = {
-  title: 'Headless/SunburstChart',
-  component: SunburstChart,
-  tags: ['autodocs']
+    title: "Headless/SunburstChart",
+    component: SunburstChart,
+    tags: ["autodocs"],
 } satisfies Meta<typeof SunburstChart>;
 
 export default meta;

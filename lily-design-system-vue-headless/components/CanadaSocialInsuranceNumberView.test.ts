@@ -5,7 +5,9 @@ import Subject from "./CanadaSocialInsuranceNumberView.vue";
 
 describe("CanadaSocialInsuranceNumberView", () => {
     test("renders with the correct class", () => {
-        render(Subject, { props: { label: "Canada Social Insurance Number", value: "test-value" } });
+        render(Subject, {
+            props: { label: "Canada Social Insurance Number", value: "test-value" },
+        });
 
         const el = screen.getByLabelText("Canada Social Insurance Number");
         expect(el).toBeTruthy();
@@ -13,7 +15,9 @@ describe("CanadaSocialInsuranceNumberView", () => {
     });
 
     test("renders the value as text content", () => {
-        render(Subject, { props: { label: "Canada Social Insurance Number", value: "test-value" } });
+        render(Subject, {
+            props: { label: "Canada Social Insurance Number", value: "test-value" },
+        });
 
         const el = screen.getByLabelText("Canada Social Insurance Number");
         expect(el.textContent).toBe("test-value");

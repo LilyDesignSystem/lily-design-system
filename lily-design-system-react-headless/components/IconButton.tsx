@@ -78,23 +78,22 @@ export interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEl
     children: React.ReactNode;
 }
 
-const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
-    function IconButton(
-        {
-            className = "",
-            baseClass = "icon-button",
-            label,
-            type = "button",
-            disabled = false,
-            pressed = undefined,
-            onClick = undefined,
-            children,
-            ...restProps
-        }: IconButtonProps,
-        ref: React.ForwardedRef<HTMLButtonElement>,
-    ) {
-        return (
-            <button
+const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(function IconButton(
+    {
+        className = "",
+        baseClass = "icon-button",
+        label,
+        type = "button",
+        disabled = false,
+        pressed = undefined,
+        onClick = undefined,
+        children,
+        ...restProps
+    }: IconButtonProps,
+    ref: React.ForwardedRef<HTMLButtonElement>,
+) {
+    return (
+        <button
             className={`${baseClass} ${className}`}
             type={type}
             disabled={disabled}
@@ -103,11 +102,10 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
             onClick={onClick}
             ref={ref}
             {...restProps}
-            >
+        >
             {children}
-            </button>
-        );
-    },
-);
+        </button>
+    );
+});
 
 export default IconButton;

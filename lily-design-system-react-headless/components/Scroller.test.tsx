@@ -8,7 +8,7 @@ describe("Scroller", () => {
         const { container } = render(
             <Subject background={<div>BG</div>}>
                 <section>step</section>
-            </Subject>
+            </Subject>,
         );
         const root = container.querySelector(".scroller");
         expect(root).toBeTruthy();
@@ -17,9 +17,12 @@ describe("Scroller", () => {
 
     test("applies aria-label when label prop is provided", () => {
         const { container } = render(
-            <Subject label="Story" background={<div />}>
+            <Subject
+                label="Story"
+                background={<div />}
+            >
                 <section>step</section>
-            </Subject>
+            </Subject>,
         );
         expect(container.querySelector(".scroller")?.getAttribute("aria-label")).toBe("Story");
     });
@@ -28,7 +31,7 @@ describe("Scroller", () => {
         const { container } = render(
             <Subject background={<div>BG</div>}>
                 <section>step</section>
-            </Subject>
+            </Subject>,
         );
         const bg = container.querySelector(".scroller-background");
         expect(bg).toBeTruthy();
@@ -41,7 +44,7 @@ describe("Scroller", () => {
             <Subject background={<div />}>
                 <section>step 1</section>
                 <section>step 2</section>
-            </Subject>
+            </Subject>,
         );
         const fg = container.querySelector(".scroller-foreground");
         expect(fg).toBeTruthy();
@@ -52,7 +55,7 @@ describe("Scroller", () => {
         const { container } = render(
             <Subject background={<div />}>
                 <section>step</section>
-            </Subject>
+            </Subject>,
         );
         const fg = container.querySelector(".scroller-foreground");
         expect(fg?.classList.contains("scroller-base")).toBe(true);

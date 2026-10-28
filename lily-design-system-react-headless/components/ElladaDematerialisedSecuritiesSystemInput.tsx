@@ -50,14 +50,15 @@ export default function ElladaDematerialisedSecuritiesSystemInput({
 }: ElladaDematerialisedSecuritiesSystemInputProps) {
     return (
         <input
-        className={`ellada-dematerialised-securities-system-input ${className}`}
-        type="text"
-        aria-label={label}
-        autoComplete="off"
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`ellada-dematerialised-securities-system-input ${className}`}
+            type="text"
+            aria-label={label}
+            autoComplete="off"
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

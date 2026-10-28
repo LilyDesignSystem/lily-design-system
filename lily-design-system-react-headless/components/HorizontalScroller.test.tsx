@@ -23,7 +23,14 @@ describe("HorizontalScroller", () => {
     });
 
     test("ArrowRight calls scrollBy with positive step", () => {
-        render(<Subject label="x" step={150}>items</Subject>);
+        render(
+            <Subject
+                label="x"
+                step={150}
+            >
+                items
+            </Subject>,
+        );
         const region = screen.getByRole("region");
         const scrollBy = vi.fn();
         Object.defineProperty(region, "scrollBy", { value: scrollBy, configurable: true });
@@ -32,7 +39,14 @@ describe("HorizontalScroller", () => {
     });
 
     test("ArrowLeft calls scrollBy with negative step", () => {
-        render(<Subject label="x" step={150}>items</Subject>);
+        render(
+            <Subject
+                label="x"
+                step={150}
+            >
+                items
+            </Subject>,
+        );
         const region = screen.getByRole("region");
         const scrollBy = vi.fn();
         Object.defineProperty(region, "scrollBy", { value: scrollBy, configurable: true });

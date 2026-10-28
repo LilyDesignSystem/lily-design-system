@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "../../components/PaginationList.vue";
 
-
 describe("PaginationList", () => {
     test("renders an ordered list", () => {
         render(Subject, { slots: { default: "<a>1</a><a>2</a>" } });

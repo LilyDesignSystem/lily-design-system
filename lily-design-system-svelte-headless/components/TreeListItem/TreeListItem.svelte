@@ -49,6 +49,14 @@
 </script>
 
 <!-- TreeListItem.svelte -->
-<li class={`tree-list-item ${className}`} role="treeitem" tabindex="-1" aria-label={label} aria-expanded={expanded} {onkeydown} {...restProps}>
+<li
+    class={`tree-list-item ${className}`}
+    role="treeitem"
+    tabindex="-1"
+    aria-label={label}
+    aria-expanded={expanded}
+    {onkeydown}
+    {...restProps}
+>
     {@render children?.()}
 </li>

@@ -18,14 +18,14 @@
 //   <DoListItem>Use semantic HTML elements</DoListItem>
 //
 // Examples:
-//   
+//
 //   <ul aria-label="Recommended practices">
 //     <DoListItem>Use descriptive alt text for images</DoListItem>
 //     <DoListItem>Provide visible focus indicators</DoListItem>
 //     <DoListItem>Use sufficient color contrast</DoListItem>
 //   </ul>
 //
-//   
+//
 //   <ul aria-label="Do">
 //     <DoListItem>Write clear error messages</DoListItem>
 //   </ul>
@@ -63,18 +63,14 @@ export interface DoListItemProps {
     [key: string]: unknown;
 }
 
-export default function DoListItem({
-    className = "",
-    children,
-    ...restProps
-}: DoListItemProps) {
+export default function DoListItem({ className = "", children, ...restProps }: DoListItemProps) {
     return (
         <li
-        className={`do-list-item ${className}`}
-        data-recommendation="do"
-        {...restProps}
+            className={`do-list-item ${className}`}
+            data-recommendation="do"
+            {...restProps}
         >
-        {children}
+            {children}
         </li>
     );
 }

@@ -17,7 +17,7 @@
 //   <ThemeView label="Current theme" value="dark" />
 //
 // Examples:
-//   
+//
 //   <ThemeView label="Active theme" value={currentTheme} />
 //
 // Keyboard:
@@ -48,17 +48,14 @@ export interface ThemeViewProps {
     [key: string]: unknown;
 }
 
-export default function ThemeView({
-    className = "",
-    label,
-    value,
-    ...restProps
-}: ThemeViewProps) {
+export default function ThemeView({ className = "", label, value, ...restProps }: ThemeViewProps) {
     return (
         <span
-        className={`theme-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`theme-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

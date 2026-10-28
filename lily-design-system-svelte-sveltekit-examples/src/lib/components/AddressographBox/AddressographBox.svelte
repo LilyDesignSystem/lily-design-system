@@ -13,6 +13,10 @@
 </script>
 
 <!-- AddressographBox.svelte -->
-<div class={`addressograph-box ${className}`} aria-label={label} {...restProps}>
+<div
+    class={`addressograph-box ${className}`}
+    aria-label={label}
+    {...restProps}
+>
     {@render children?.()}
 </div>

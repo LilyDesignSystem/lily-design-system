@@ -50,14 +50,15 @@ export default function EspanaCodigoDeIdentificacionFiscalInput({
 }: EspanaCodigoDeIdentificacionFiscalInputProps) {
     return (
         <input
-        className={`espana-codigo-de-identificacion-fiscal-input ${className}`}
-        type="text"
-        aria-label={label}
-        autoComplete="off"
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`espana-codigo-de-identificacion-fiscal-input ${className}`}
+            type="text"
+            aria-label={label}
+            autoComplete="off"
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

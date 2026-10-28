@@ -17,7 +17,9 @@ describe("PasswordInput", () => {
 
     test("has default autocomplete", () => {
         render(Subject, { props: { label: "Password" } });
-        expect(screen.getByLabelText("Password").getAttribute("autocomplete")).toBe("current-password");
+        expect(screen.getByLabelText("Password").getAttribute("autocomplete")).toBe(
+            "current-password",
+        );
     });
 
     test("supports custom autocomplete", () => {

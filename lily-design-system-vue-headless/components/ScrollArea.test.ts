@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./ScrollArea.vue";
 
-
 describe("ScrollArea", () => {
     test("renders a region", () => {
         render(Subject, { props: { label: "Content" }, slots: { default: "text" } });

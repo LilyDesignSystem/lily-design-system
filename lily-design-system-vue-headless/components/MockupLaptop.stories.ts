@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import MockupLaptop from './MockupLaptop.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import MockupLaptop from "./MockupLaptop.vue";
 
 const meta = {
-  title: 'Headless/MockupLaptop',
-  component: MockupLaptop,
-  tags: ['autodocs']
+    title: "Headless/MockupLaptop",
+    component: MockupLaptop,
+    tags: ["autodocs"],
 } satisfies Meta<typeof MockupLaptop>;
 
 export default meta;

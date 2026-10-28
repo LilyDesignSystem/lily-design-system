@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "../../components/TaskBarButton.vue";
 
-
 describe("TaskBarButton", () => {
     test("renders a button", () => {
         render(Subject, { slots: { default: "New" } });

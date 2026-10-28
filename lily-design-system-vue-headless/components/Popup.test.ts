@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./Popup.vue";
 
-
 describe("Popup", () => {
     test("hidden when closed", () => {
         render(Subject, { props: { label: "Info", open: false }, slots: { default: "C" } });
@@ -26,7 +25,10 @@ describe("Popup", () => {
     });
 
     test("passes through attributes", () => {
-        render(Subject, { props: { label: "I", open: true, "data-testid": "pu" }, slots: { default: "C" } });
+        render(Subject, {
+            props: { label: "I", open: true, "data-testid": "pu" },
+            slots: { default: "C" },
+        });
         expect(screen.getByTestId("pu")).toBeTruthy();
     });
 });

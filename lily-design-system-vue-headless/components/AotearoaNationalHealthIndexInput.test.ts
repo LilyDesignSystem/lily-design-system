@@ -54,7 +54,9 @@ describe("AotearoaNationalHealthIndexInput", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(Subject, { props: { label: "Aotearoa National Health Index", "data-testid": "subject" } });
+        render(Subject, {
+            props: { label: "Aotearoa National Health Index", "data-testid": "subject" },
+        });
 
         const input = screen.getByTestId("subject");
         expect(input).toBeTruthy();

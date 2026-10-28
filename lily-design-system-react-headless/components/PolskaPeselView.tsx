@@ -37,9 +37,11 @@ export default function PolskaPeselView({
 }: PolskaPeselViewProps) {
     return (
         <span
-        className={`polska-pesel-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`polska-pesel-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

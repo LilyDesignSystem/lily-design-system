@@ -51,12 +51,23 @@ describe("StreamingText", () => {
     });
 
     it("renders the children", () => {
-        render(<StreamingText><span data-testid="txt">Hello</span></StreamingText>);
+        render(
+            <StreamingText>
+                <span data-testid="txt">Hello</span>
+            </StreamingText>,
+        );
         expect(screen.getByTestId("txt").textContent).toBe("Hello");
     });
 
     it("spreads rest props onto the root", () => {
-        render(<StreamingText id="s1" data-testid="root">x</StreamingText>);
+        render(
+            <StreamingText
+                id="s1"
+                data-testid="root"
+            >
+                x
+            </StreamingText>,
+        );
         expect(screen.getByTestId("root").id).toBe("s1");
     });
 });

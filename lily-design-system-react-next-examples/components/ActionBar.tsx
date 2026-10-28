@@ -62,20 +62,20 @@ export default function ActionBar({
     const showClearButton = onClearSelection !== undefined && clearSelectionLabel !== undefined;
     return (
         <div
-        className={`action-bar ${className}`}
-        role="toolbar"
-        aria-label={label}
-        data-selected-count={selectedCount}
-        {...restProps}
+            className={`action-bar ${className}`}
+            role="toolbar"
+            aria-label={label}
+            data-selected-count={selectedCount}
+            {...restProps}
         >
             <span className="action-bar-count">{selectedCountLabel}</span>
             {children}
             {showClearButton && (
                 <button
-                className="action-bar-clear"
-                type="button"
-                aria-label={clearSelectionLabel}
-                onClick={onClearSelection}
+                    className="action-bar-clear"
+                    type="button"
+                    aria-label={clearSelectionLabel}
+                    onClick={onClearSelection}
                 >
                     ×
                 </button>

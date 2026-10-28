@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./Timer.vue";
 
-
 describe("Timer", () => {
     test("renders a time element", () => {
         render(Subject, { props: { label: "Countdown" }, slots: { default: "05:30" } });
@@ -47,15 +46,19 @@ describe("Timer", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(Subject, { props: { label: "Timer",
-            "data-testid": "my-timer" }, slots: { default: "00:00" } });
+        render(Subject, {
+            props: { label: "Timer", "data-testid": "my-timer" },
+            slots: { default: "00:00" },
+        });
 
         expect(screen.getByTestId("my-timer")).toBeTruthy();
     });
 
     test("passes through datetime attribute", () => {
-        render(Subject, { props: { label: "Timer",
-            datetime: "PT5M30S" }, slots: { default: "05:30" } });
+        render(Subject, {
+            props: { label: "Timer", datetime: "PT5M30S" },
+            slots: { default: "05:30" },
+        });
 
         const el = screen.getByRole("timer");
         expect(el.getAttribute("datetime")).toBe("PT5M30S");

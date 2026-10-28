@@ -55,5 +55,5 @@
 <span
     class={`ai-label ${className}`}
     aria-label={label}
-    {...restProps}
->{text}</span>
+    {...restProps}>{text}</span
+>

@@ -20,7 +20,14 @@ describe("NavigationMenu", () => {
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="N" data-testid="nm">x</Subject>);
+        render(
+            <Subject
+                label="N"
+                data-testid="nm"
+            >
+                x
+            </Subject>,
+        );
         expect(screen.getByTestId("nm")).toBeTruthy();
     });
 });

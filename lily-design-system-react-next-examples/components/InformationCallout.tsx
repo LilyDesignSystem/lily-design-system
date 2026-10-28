@@ -16,12 +16,12 @@
 //   <InformationCallout label="Note">{children}</InformationCallout>
 //
 // Examples:
-//   
+//
 //   <InformationCallout label="Note">
 //     <p>This feature is in beta.</p>
 //   </InformationCallout>
 //
-//   
+//
 //   <InformationCallout label="Warning">
 //     <p>Changes cannot be undone after submission.</p>
 //   </InformationCallout>
@@ -63,12 +63,12 @@ export default function InformationCallout({
 }: InformationCalloutProps) {
     return (
         <aside
-        className={`information-callout ${className}`}
-        role="note"
-        aria-label={label}
-        {...restProps}
+            className={`information-callout ${className}`}
+            role="note"
+            aria-label={label}
+            {...restProps}
         >
-        {children}
+            {children}
         </aside>
     );
 }

@@ -18,7 +18,14 @@ describe("DigitalObjectIdentifierLink", () => {
     });
 
     test("applies aria-label when label prop is provided", () => {
-        render(<Subject href="/x" label="More info">Click</Subject>);
+        render(
+            <Subject
+                href="/x"
+                label="More info"
+            >
+                Click
+            </Subject>,
+        );
         const link = screen.getByRole("link", { name: "More info" });
         expect(link.getAttribute("aria-label")).toBe("More info");
     });
@@ -30,7 +37,14 @@ describe("DigitalObjectIdentifierLink", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject href="/x" data-testid="link">Click</Subject>);
+        render(
+            <Subject
+                href="/x"
+                data-testid="link"
+            >
+                Click
+            </Subject>,
+        );
         expect(screen.getByTestId("link")).toBeTruthy();
     });
 });

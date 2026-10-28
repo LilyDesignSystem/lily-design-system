@@ -21,7 +21,12 @@ describe("ButtonInput", () => {
     });
 
     test("can be disabled", () => {
-        render(<Subject value="Disabled" disabled />);
+        render(
+            <Subject
+                value="Disabled"
+                disabled
+            />,
+        );
 
         const button: HTMLInputElement = screen.getByRole("button") as HTMLInputElement;
         expect(button.disabled).toBe(true);
@@ -30,7 +35,12 @@ describe("ButtonInput", () => {
     test("handles click events", async () => {
         const user: UserEvent = userEvent.setup();
         const handleClick = vi.fn();
-        render(<Subject value="Click" onClick={handleClick} />);
+        render(
+            <Subject
+                value="Click"
+                onClick={handleClick}
+            />,
+        );
 
         const button: HTMLElement = screen.getByRole("button");
         await user.click(button);
@@ -38,14 +48,24 @@ describe("ButtonInput", () => {
     });
 
     test("applies name attribute", () => {
-        render(<Subject value="Submit" name="action-btn" />);
+        render(
+            <Subject
+                value="Submit"
+                name="action-btn"
+            />,
+        );
 
         const button: HTMLElement = screen.getByRole("button");
         expect(button.getAttribute("name")).toBe("action-btn");
     });
 
     test("applies aria-label when label prop is provided", () => {
-        render(<Subject value="X" label="Close dialog" />);
+        render(
+            <Subject
+                value="X"
+                label="Close dialog"
+            />,
+        );
 
         const button: HTMLElement = screen.getByRole("button", { name: "Close dialog" });
         expect(button).toBeTruthy();
@@ -61,7 +81,12 @@ describe("ButtonInput", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject value="Test" data-testid="btn-input" />);
+        render(
+            <Subject
+                value="Test"
+                data-testid="btn-input"
+            />,
+        );
 
         const button: HTMLElement = screen.getByTestId("btn-input");
         expect(button).toBeTruthy();

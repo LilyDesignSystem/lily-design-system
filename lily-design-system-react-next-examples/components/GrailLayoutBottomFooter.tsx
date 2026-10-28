@@ -43,10 +43,10 @@ export default function GrailLayoutBottomFooter({
 }: GrailLayoutBottomFooterProps) {
     return (
         <footer
-        className={`grail-layout-bottom-footer ${className}`}
-        {...restProps}
+            className={`grail-layout-bottom-footer ${className}`}
+            {...restProps}
         >
-        {children}
+            {children}
         </footer>
     );
 }

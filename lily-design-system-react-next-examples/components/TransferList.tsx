@@ -81,13 +81,19 @@ export default function TransferList({
             aria-label={label}
             {...restProps}
         >
-            <section className="transfer-list-source" aria-label={sourceLabel}>
+            <section
+                className="transfer-list-source"
+                aria-label={sourceLabel}
+            >
                 {source}
             </section>
             {actions !== undefined && actions !== null ? (
                 <div className="transfer-list-actions">{actions}</div>
             ) : null}
-            <section className="transfer-list-target" aria-label={targetLabel}>
+            <section
+                className="transfer-list-target"
+                aria-label={targetLabel}
+            >
                 {target}
             </section>
         </div>

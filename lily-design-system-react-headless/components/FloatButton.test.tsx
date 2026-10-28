@@ -28,7 +28,14 @@ describe("FloatButton", () => {
     });
 
     test("supports top-left position", () => {
-        render(<Subject label="x" position="top-left">↑</Subject>);
+        render(
+            <Subject
+                label="x"
+                position="top-left"
+            >
+                ↑
+            </Subject>,
+        );
         const button: HTMLElement = screen.getByRole("button");
         expect(button.getAttribute("data-position")).toBe("top-left");
         expect(button.style.top).toBe("1rem");
@@ -36,14 +43,28 @@ describe("FloatButton", () => {
     });
 
     test("supports top-right position", () => {
-        render(<Subject label="x" position="top-right">↑</Subject>);
+        render(
+            <Subject
+                label="x"
+                position="top-right"
+            >
+                ↑
+            </Subject>,
+        );
         const button: HTMLElement = screen.getByRole("button");
         expect(button.style.top).toBe("1rem");
         expect(button.style.right).toBe("1rem");
     });
 
     test("supports bottom-left position", () => {
-        render(<Subject label="x" position="bottom-left">↑</Subject>);
+        render(
+            <Subject
+                label="x"
+                position="bottom-left"
+            >
+                ↑
+            </Subject>,
+        );
         const button: HTMLElement = screen.getByRole("button");
         expect(button.style.bottom).toBe("1rem");
         expect(button.style.left).toBe("1rem");
@@ -56,7 +77,14 @@ describe("FloatButton", () => {
     });
 
     test("can be disabled", () => {
-        render(<Subject label="x" disabled>↑</Subject>);
+        render(
+            <Subject
+                label="x"
+                disabled
+            >
+                ↑
+            </Subject>,
+        );
         const button: HTMLButtonElement = screen.getByRole("button") as HTMLButtonElement;
         expect(button.disabled).toBe(true);
     });
@@ -64,14 +92,28 @@ describe("FloatButton", () => {
     test("handles click events", async () => {
         const user: UserEvent = userEvent.setup();
         const handleClick = vi.fn();
-        render(<Subject label="x" onClick={handleClick}>↑</Subject>);
+        render(
+            <Subject
+                label="x"
+                onClick={handleClick}
+            >
+                ↑
+            </Subject>,
+        );
 
         await user.click(screen.getByRole("button"));
         expect(handleClick).toHaveBeenCalledOnce();
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="x" id="fab-1">↑</Subject>);
+        render(
+            <Subject
+                label="x"
+                id="fab-1"
+            >
+                ↑
+            </Subject>,
+        );
         const button: HTMLElement = screen.getByRole("button");
         expect(button.getAttribute("id")).toBe("fab-1");
     });

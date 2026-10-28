@@ -177,7 +177,8 @@ const Listbox = React.forwardRef<HTMLElement, ListboxProps>(function Listbox(
     function setRef(node: HTMLElement | null) {
         listRef.current = node;
         if (typeof forwardedRef === "function") forwardedRef(node);
-        else if (forwardedRef) (forwardedRef as React.MutableRefObject<HTMLElement | null>).current = node;
+        else if (forwardedRef)
+            (forwardedRef as React.MutableRefObject<HTMLElement | null>).current = node;
     }
 
     function setActiveIndex(next: number) {
@@ -233,7 +234,9 @@ const Listbox = React.forwardRef<HTMLElement, ListboxProps>(function Listbox(
         const count = options().length;
         if (count === 0) return;
         const next = activeIndex + delta;
-        setActiveIndex(clamp ? Math.min(Math.max(next, 0), count - 1) : ((next % count) + count) % count);
+        setActiveIndex(
+            clamp ? Math.min(Math.max(next, 0), count - 1) : ((next % count) + count) % count,
+        );
     }
 
     function runTypeahead(char: string) {
@@ -299,7 +302,13 @@ const Listbox = React.forwardRef<HTMLElement, ListboxProps>(function Listbox(
                 onTabOut?.(event);
                 break;
             default:
-                if (typeahead && event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey) {
+                if (
+                    typeahead &&
+                    event.key.length === 1 &&
+                    !event.ctrlKey &&
+                    !event.metaKey &&
+                    !event.altKey
+                ) {
                     runTypeahead(event.key);
                 }
         }
@@ -325,16 +334,16 @@ const Listbox = React.forwardRef<HTMLElement, ListboxProps>(function Listbox(
 
     return (
         <Tag
-        className={`${baseClass} ${className}`}
-        role="listbox"
-        aria-label={label}
-        tabIndex={navigation === "active-descendant" ? -1 : undefined}
-        aria-activedescendant={activeId}
-        ref={setRef}
-        onKeyDown={handleKeyDown}
-        {...restProps}
+            className={`${baseClass} ${className}`}
+            role="listbox"
+            aria-label={label}
+            tabIndex={navigation === "active-descendant" ? -1 : undefined}
+            aria-activedescendant={activeId}
+            ref={setRef}
+            onKeyDown={handleKeyDown}
+            {...restProps}
         >
-        {children}
+            {children}
         </Tag>
     );
 });

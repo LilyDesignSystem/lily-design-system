@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import IconButton from './IconButton';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import IconButton from "./IconButton";
 
 const meta = {
-  title: 'Headless/IconButton',
-  component: IconButton,
-  tags: ['autodocs']
+    title: "Headless/IconButton",
+    component: IconButton,
+    tags: ["autodocs"],
 } satisfies Meta<typeof IconButton>;
 
 export default meta;

@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./ProductCard.vue";
 
-
 describe("ProductCard", () => {
     test("renders as an <article>", () => {
         const { container } = render(Subject, {

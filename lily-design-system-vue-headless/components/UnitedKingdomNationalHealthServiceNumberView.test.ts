@@ -33,14 +33,18 @@ describe("UnitedKingdomNationalHealthServiceNumberView", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(Subject, { props: { label: "NHS Number", value: "123 456 7890", "data-testid": "nhs-view" } });
+        render(Subject, {
+            props: { label: "NHS Number", value: "123 456 7890", "data-testid": "nhs-view" },
+        });
 
         const element = screen.getByTestId("nhs-view");
         expect(element).toBeTruthy();
     });
 
     test("passes through id attribute", () => {
-        render(Subject, { props: { label: "NHS Number", value: "123 456 7890", id: "nhs-display" } });
+        render(Subject, {
+            props: { label: "NHS Number", value: "123 456 7890", id: "nhs-display" },
+        });
 
         const element = screen.getByLabelText("NHS Number");
         expect(element.getAttribute("id")).toBe("nhs-display");

@@ -16,7 +16,7 @@
 //   <ToolBar label="Editor tools">...</ToolBar>
 //
 // Examples:
-//   
+//
 //   <ToolBar label="Editor tools">
 //     <ToolBarButton>Bold</ToolBarButton>
 //     <ToolBarButton>Italic</ToolBarButton>
@@ -58,20 +58,13 @@ export interface ToolBarProps {
     [key: string]: unknown;
 }
 
-export default function ToolBar({
-    className = "",
-    label,
-    children,
-    ...restProps
-}: ToolBarProps) {
+export default function ToolBar({ className = "", label, children, ...restProps }: ToolBarProps) {
     const toolbarRef = useRef<HTMLDivElement>(null);
 
     function handleKeyDown(event: React.KeyboardEvent) {
         if (!toolbarRef.current) return;
         const items = Array.from(
-            toolbarRef.current.querySelectorAll<HTMLElement>(
-                "button, [role='button'], [tabindex]",
-            ),
+            toolbarRef.current.querySelectorAll<HTMLElement>("button, [role='button'], [tabindex]"),
         );
         const current = document.activeElement as HTMLElement;
         const index = items.indexOf(current);
@@ -103,14 +96,14 @@ export default function ToolBar({
 
     return (
         <div
-        className={`tool-bar ${className}`}
-        role="toolbar"
-        aria-label={label}
-        ref={toolbarRef}
-        onKeyDown={handleKeyDown}
-        {...restProps}
+            className={`tool-bar ${className}`}
+            role="toolbar"
+            aria-label={label}
+            ref={toolbarRef}
+            onKeyDown={handleKeyDown}
+            {...restProps}
         >
-        {children}
+            {children}
         </div>
     );
 }

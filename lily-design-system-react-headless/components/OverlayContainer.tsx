@@ -68,16 +68,16 @@ export default function OverlayContainer({
 }: OverlayContainerProps) {
     return (
         <div
-        className={`overlay-container ${className}`}
-        role="presentation"
-        aria-hidden={!open}
-        data-open={open}
-        hidden={!open}
-        aria-label={label}
-        onClick={onClick}
-        {...restProps}
+            className={`overlay-container ${className}`}
+            role="presentation"
+            aria-hidden={!open}
+            data-open={open}
+            hidden={!open}
+            aria-label={label}
+            onClick={onClick}
+            {...restProps}
         >
-        {children}
+            {children}
         </div>
     );
 }

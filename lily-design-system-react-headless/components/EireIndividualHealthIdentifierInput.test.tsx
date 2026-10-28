@@ -12,7 +12,12 @@ describe("EireIndividualHealthIdentifierInput", () => {
     });
 
     test("appends className prop to root", () => {
-        const { container } = render(<Subject label="Demo" className="extra" />);
+        const { container } = render(
+            <Subject
+                label="Demo"
+                className="extra"
+            />,
+        );
         const el = container.querySelector(".eire-individual-health-identifier-input");
         expect(el?.className).toContain("eire-individual-health-identifier-input");
         expect(el?.className).toContain("extra");

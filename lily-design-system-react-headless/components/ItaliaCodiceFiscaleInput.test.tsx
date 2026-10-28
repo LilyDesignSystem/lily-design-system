@@ -33,7 +33,12 @@ describe("ItaliaCodiceFiscaleInput", () => {
     });
 
     test("can be set to required", () => {
-        render(<Subject label="Italian Fiscal Code" required />);
+        render(
+            <Subject
+                label="Italian Fiscal Code"
+                required
+            />,
+        );
 
         const input = screen.getByLabelText("Italian Fiscal Code") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -47,14 +52,24 @@ describe("ItaliaCodiceFiscaleInput", () => {
     });
 
     test("can be set to disabled", () => {
-        render(<Subject label="Italian Fiscal Code" disabled />);
+        render(
+            <Subject
+                label="Italian Fiscal Code"
+                disabled
+            />,
+        );
 
         const input = screen.getByLabelText("Italian Fiscal Code") as HTMLInputElement;
         expect(input.disabled).toBe(true);
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="Italian Fiscal Code" data-testid="subject" />);
+        render(
+            <Subject
+                label="Italian Fiscal Code"
+                data-testid="subject"
+            />,
+        );
 
         const input = screen.getByTestId("subject");
         expect(input).toBeTruthy();

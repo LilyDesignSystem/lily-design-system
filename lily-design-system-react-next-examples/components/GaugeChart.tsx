@@ -48,7 +48,11 @@ export default function GaugeChart({
             className={`gauge-chart ${className}`}
             {...restProps}
         >
-            <div className="gauge-chart-graphic" role="img" aria-label={label}>
+            <div
+                className="gauge-chart-graphic"
+                role="img"
+                aria-label={label}
+            >
                 {children}
             </div>
             {dataTable !== undefined && dataTable !== null && (

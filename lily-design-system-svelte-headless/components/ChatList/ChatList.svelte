@@ -13,6 +13,10 @@
 </script>
 
 <!-- ChatList.svelte -->
-<div class={`chat-list ${className}`} aria-label={label} {...restProps}>
+<div
+    class={`chat-list ${className}`}
+    aria-label={label}
+    {...restProps}
+>
     {@render children?.()}
 </div>

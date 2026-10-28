@@ -44,7 +44,11 @@ export default function ChoroplethChart({
             className={`choropleth-chart ${className}`}
             {...restProps}
         >
-            <div className="choropleth-chart-graphic" role="img" aria-label={label}>
+            <div
+                className="choropleth-chart-graphic"
+                role="img"
+                aria-label={label}
+            >
                 {children}
             </div>
             {dataTable !== undefined && dataTable !== null && (

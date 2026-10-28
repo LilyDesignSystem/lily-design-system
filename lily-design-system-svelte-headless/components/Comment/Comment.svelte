@@ -13,6 +13,10 @@
 </script>
 
 <!-- Comment.svelte -->
-<div class={`comment ${className}`} aria-label={label} {...restProps}>
+<div
+    class={`comment ${className}`}
+    aria-label={label}
+    {...restProps}
+>
     {@render children?.()}
 </div>

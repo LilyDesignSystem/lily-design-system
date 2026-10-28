@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import PasswordInput from './PasswordInput';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import PasswordInput from "./PasswordInput";
 
 const meta = {
-  title: 'Headless/PasswordInput',
-  component: PasswordInput,
-  tags: ['autodocs']
+    title: "Headless/PasswordInput",
+    component: PasswordInput,
+    tags: ["autodocs"],
 } satisfies Meta<typeof PasswordInput>;
 
 export default meta;

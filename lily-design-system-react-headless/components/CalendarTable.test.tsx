@@ -20,7 +20,14 @@ describe("CalendarTable", () => {
     });
 
     test("renders caption when provided", () => {
-        render(<Subject label="January" caption="January 2025">1</Subject>);
+        render(
+            <Subject
+                label="January"
+                caption="January 2025"
+            >
+                1
+            </Subject>,
+        );
         const table = screen.getByRole("grid");
         const cap = table.querySelector("caption");
         expect(cap).toBeTruthy();
@@ -39,7 +46,14 @@ describe("CalendarTable", () => {
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="J" data-testid="cal">1</Subject>);
+        render(
+            <Subject
+                label="J"
+                data-testid="cal"
+            >
+                1
+            </Subject>,
+        );
         expect(screen.getByTestId("cal")).toBeTruthy();
     });
 });

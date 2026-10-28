@@ -26,7 +26,14 @@ describe("Tag", () => {
     });
 
     test("live renders a status region named by the label", () => {
-        render(<Subject label="Build: Passing" live>Passing</Subject>);
+        render(
+            <Subject
+                label="Build: Passing"
+                live
+            >
+                Passing
+            </Subject>,
+        );
         const tag = screen.getByRole("status");
         expect(tag.tagName).toBe("SPAN");
         expect(tag.getAttribute("aria-label")).toBe("Build: Passing");
@@ -34,7 +41,15 @@ describe("Tag", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="Tag" data-testid="my-tag" id="tag-1">Label</Subject>);
+        render(
+            <Subject
+                label="Tag"
+                data-testid="my-tag"
+                id="tag-1"
+            >
+                Label
+            </Subject>,
+        );
         expect(screen.getByTestId("my-tag").getAttribute("id")).toBe("tag-1");
     });
 

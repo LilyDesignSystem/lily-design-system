@@ -81,7 +81,9 @@ export default function Dialog({
     const [open, setOpen] = useState(openProp);
 
     // Sync internal state when the prop changes externally.
-    useEffect(() => { setOpen(openProp); }, [openProp]);
+    useEffect(() => {
+        setOpen(openProp);
+    }, [openProp]);
 
     function handleKeyDown(event: React.KeyboardEvent) {
         if (event.key === "Escape") {
@@ -93,19 +95,19 @@ export default function Dialog({
 
     return (
         <>
-        {open && (
-        <dialog
-        className={`dialog ${className}`}
-        open
-        tabIndex={-1}
-        aria-label={label}
-        aria-modal={modal || undefined}
-        onKeyDown={handleKeyDown}
-        {...restProps}
-        >
-        {children}
-        </dialog>
-        )}
+            {open && (
+                <dialog
+                    className={`dialog ${className}`}
+                    open
+                    tabIndex={-1}
+                    aria-label={label}
+                    aria-modal={modal || undefined}
+                    onKeyDown={handleKeyDown}
+                    {...restProps}
+                >
+                    {children}
+                </dialog>
+            )}
         </>
     );
 }

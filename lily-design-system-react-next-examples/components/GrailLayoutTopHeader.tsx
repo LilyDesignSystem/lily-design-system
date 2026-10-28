@@ -43,10 +43,10 @@ export default function GrailLayoutTopHeader({
 }: GrailLayoutTopHeaderProps) {
     return (
         <header
-        className={`grail-layout-top-header ${className}`}
-        {...restProps}
+            className={`grail-layout-top-header ${className}`}
+            {...restProps}
         >
-        {children}
+            {children}
         </header>
     );
 }

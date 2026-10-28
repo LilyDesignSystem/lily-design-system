@@ -29,12 +29,7 @@ export interface ChatNavProps {
     [key: string]: unknown;
 }
 
-export default function ChatNav({
-    className = "",
-    label,
-    children,
-    ...restProps
-}: ChatNavProps) {
+export default function ChatNav({ className = "", label, children, ...restProps }: ChatNavProps) {
     return (
         <nav
             className={`chat-nav ${className}`}

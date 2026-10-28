@@ -65,7 +65,13 @@ export default function MiddleTruncation({
             const style = getComputedStyle(el);
             context.font = `${style.fontStyle} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
             const ctx = context;
-            const result = truncateMiddle(text, { ellipsis, strategy, end, maxWidth: width, measure: (s) => ctx.measureText(s).width });
+            const result = truncateMiddle(text, {
+                ellipsis,
+                strategy,
+                end,
+                maxWidth: width,
+                measure: (s) => ctx.measureText(s).width,
+            });
             setShown(result === text ? null : result);
         };
 
@@ -91,7 +97,12 @@ export default function MiddleTruncation({
             data-truncated={shown === null ? undefined : ""}
             {...restProps}
         >
-            <span className="middle-truncation-visual" aria-hidden="true">{shown ?? text}</span>
+            <span
+                className="middle-truncation-visual"
+                aria-hidden="true"
+            >
+                {shown ?? text}
+            </span>
             <span className="middle-truncation-full">{text}</span>
         </span>
     );

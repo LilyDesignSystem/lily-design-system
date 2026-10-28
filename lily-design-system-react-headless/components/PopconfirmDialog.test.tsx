@@ -12,7 +12,7 @@ describe("PopconfirmDialog", () => {
                 title="Delete?"
                 confirmLabel="Yes"
                 cancelLabel="No"
-            />
+            />,
         );
 
         const dialog: HTMLElement = screen.getByRole("alertdialog");
@@ -22,14 +22,23 @@ describe("PopconfirmDialog", () => {
 
     test("aria-modal is false (popconfirm is non-modal)", () => {
         render(
-            <Subject open title="t" confirmLabel="y" cancelLabel="n" />
+            <Subject
+                open
+                title="t"
+                confirmLabel="y"
+                cancelLabel="n"
+            />,
         );
         expect(screen.getByRole("alertdialog").getAttribute("aria-modal")).toBe("false");
     });
 
     test("hidden when open=false", () => {
         const { container } = render(
-            <Subject title="t" confirmLabel="y" cancelLabel="n" />
+            <Subject
+                title="t"
+                confirmLabel="y"
+                cancelLabel="n"
+            />,
         );
         const dialog: HTMLElement = container.querySelector(".popconfirm-dialog") as HTMLElement;
         expect(dialog.hasAttribute("hidden")).toBe(true);
@@ -37,7 +46,12 @@ describe("PopconfirmDialog", () => {
 
     test("aria-labelledby points at the title element", () => {
         render(
-            <Subject open title="Delete?" confirmLabel="y" cancelLabel="n" />
+            <Subject
+                open
+                title="Delete?"
+                confirmLabel="y"
+                cancelLabel="n"
+            />,
         );
         const dialog: HTMLElement = screen.getByRole("alertdialog");
         const labelledBy: string | null = dialog.getAttribute("aria-labelledby");
@@ -56,7 +70,7 @@ describe("PopconfirmDialog", () => {
                 description="cannot be undone"
                 confirmLabel="y"
                 cancelLabel="n"
-            />
+            />,
         );
         const dialog: HTMLElement = screen.getByRole("alertdialog");
         const describedBy: string | null = dialog.getAttribute("aria-describedby");
@@ -66,13 +80,25 @@ describe("PopconfirmDialog", () => {
     });
 
     test("aria-describedby is not set when no description", () => {
-        render(<Subject open title="t" confirmLabel="y" cancelLabel="n" />);
+        render(
+            <Subject
+                open
+                title="t"
+                confirmLabel="y"
+                cancelLabel="n"
+            />,
+        );
         expect(screen.getByRole("alertdialog").getAttribute("aria-describedby")).toBeNull();
     });
 
     test("renders confirm and cancel buttons with provided labels", () => {
         render(
-            <Subject open title="t" confirmLabel="Yes, delete" cancelLabel="Keep it" />
+            <Subject
+                open
+                title="t"
+                confirmLabel="Yes, delete"
+                cancelLabel="Keep it"
+            />,
         );
         expect(screen.getByRole("button", { name: "Yes, delete" })).toBeTruthy();
         expect(screen.getByRole("button", { name: "Keep it" })).toBeTruthy();
@@ -88,7 +114,7 @@ describe("PopconfirmDialog", () => {
                 confirmLabel="Yes"
                 cancelLabel="No"
                 onConfirm={handleConfirm}
-            />
+            />,
         );
         await user.click(screen.getByRole("button", { name: "Yes" }));
         expect(handleConfirm).toHaveBeenCalledOnce();
@@ -104,7 +130,7 @@ describe("PopconfirmDialog", () => {
                 confirmLabel="Yes"
                 cancelLabel="No"
                 onCancel={handleCancel}
-            />
+            />,
         );
         await user.click(screen.getByRole("button", { name: "No" }));
         expect(handleCancel).toHaveBeenCalledOnce();

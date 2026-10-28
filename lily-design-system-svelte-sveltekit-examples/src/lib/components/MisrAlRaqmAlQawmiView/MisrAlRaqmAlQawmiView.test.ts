@@ -5,7 +5,9 @@ import Subject from "./MisrAlRaqmAlQawmiView.svelte";
 
 describe("MisrAlRaqmAlQawmiView", () => {
     test("renders with the correct class", () => {
-        render(Subject, { props: { label: "الرقم القومي (Al-Raqm Al-Qawmi)", value: "test-value" } });
+        render(Subject, {
+            props: { label: "الرقم القومي (Al-Raqm Al-Qawmi)", value: "test-value" },
+        });
 
         const el = screen.getByLabelText("الرقم القومي (Al-Raqm Al-Qawmi)");
         expect(el).toBeTruthy();
@@ -13,7 +15,9 @@ describe("MisrAlRaqmAlQawmiView", () => {
     });
 
     test("renders the value as text content", () => {
-        render(Subject, { props: { label: "الرقم القومي (Al-Raqm Al-Qawmi)", value: "test-value" } });
+        render(Subject, {
+            props: { label: "الرقم القومي (Al-Raqm Al-Qawmi)", value: "test-value" },
+        });
 
         const el = screen.getByLabelText("الرقم القومي (Al-Raqm Al-Qawmi)");
         expect(el.textContent).toBe("test-value");

@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./InfoState.vue";
 
-
 describe("InfoState", () => {
     test("renders a section with role status", () => {
         render(Subject, { props: { title: "No tasks" } });
@@ -69,7 +68,7 @@ describe("InfoState", () => {
     test("renders illustration slot when provided", () => {
         render(Subject, {
             props: { title: "No tasks" },
-            slots: { illustration: "<svg data-testid=\"illo\"></svg>" },
+            slots: { illustration: '<svg data-testid="illo"></svg>' },
         });
 
         expect(screen.getByTestId("illo")).toBeTruthy();

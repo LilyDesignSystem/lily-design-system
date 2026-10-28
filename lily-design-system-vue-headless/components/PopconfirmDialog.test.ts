@@ -4,7 +4,6 @@ import { describe, expect, test, vi } from "vitest";
 
 import Subject from "./PopconfirmDialog.vue";
 
-
 describe("PopconfirmDialog", () => {
     const baseProps = {
         title: "Delete this item?",
@@ -104,8 +103,12 @@ describe("PopconfirmDialog", () => {
             props: { ...baseProps, open: true, description: "y" },
         });
 
-        const id1: string | null = (c1.firstElementChild as HTMLElement).getAttribute("aria-labelledby");
-        const id2: string | null = (c2.firstElementChild as HTMLElement).getAttribute("aria-labelledby");
+        const id1: string | null = (c1.firstElementChild as HTMLElement).getAttribute(
+            "aria-labelledby",
+        );
+        const id2: string | null = (c2.firstElementChild as HTMLElement).getAttribute(
+            "aria-labelledby",
+        );
         expect(id1).toBeTruthy();
         expect(id2).toBeTruthy();
         expect(id1).not.toBe(id2);

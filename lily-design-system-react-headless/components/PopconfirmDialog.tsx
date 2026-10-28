@@ -90,11 +90,17 @@ export default function PopconfirmDialog({
             hidden={!open}
             {...restProps}
         >
-            <h2 className="popconfirm-dialog-title" id={titleId}>
+            <h2
+                className="popconfirm-dialog-title"
+                id={titleId}
+            >
                 {title}
             </h2>
             {description ? (
-                <p className="popconfirm-dialog-description" id={descId}>
+                <p
+                    className="popconfirm-dialog-description"
+                    id={descId}
+                >
                     {description}
                 </p>
             ) : null}

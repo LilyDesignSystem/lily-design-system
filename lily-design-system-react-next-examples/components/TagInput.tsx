@@ -75,13 +75,14 @@ export default function TagInput({
 
     return (
         <input
-        className={`tag-input ${className}`}
-        type="text"
-        aria-label={label}
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        onKeyDown={handleKeyDown}
-        disabled={disabled}
-        {...restProps}
+            className={`tag-input ${className}`}
+            type="text"
+            aria-label={label}
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            onKeyDown={handleKeyDown}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

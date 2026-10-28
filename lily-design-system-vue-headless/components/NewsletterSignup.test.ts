@@ -4,7 +4,6 @@ import { describe, expect, test, vi } from "vitest";
 
 import Subject from "./NewsletterSignup.vue";
 
-
 describe("NewsletterSignup", () => {
     const baseProps = {
         label: "Subscribe to newsletter",
@@ -82,7 +81,9 @@ describe("NewsletterSignup", () => {
             props: { ...baseProps, state: "success", successMessage: "Thanks!" },
         });
 
-        const success: HTMLElement = container.querySelector(".newsletter-signup-success") as HTMLElement;
+        const success: HTMLElement = container.querySelector(
+            ".newsletter-signup-success",
+        ) as HTMLElement;
         expect(success.getAttribute("role")).toBe("status");
         expect(success.getAttribute("aria-live")).toBe("polite");
         expect(success.hasAttribute("hidden")).toBe(false);
@@ -94,7 +95,9 @@ describe("NewsletterSignup", () => {
             props: { ...baseProps, state: "idle", successMessage: "Thanks!" },
         });
 
-        const success: HTMLElement = container.querySelector(".newsletter-signup-success") as HTMLElement;
+        const success: HTMLElement = container.querySelector(
+            ".newsletter-signup-success",
+        ) as HTMLElement;
         expect(success.hasAttribute("hidden")).toBe(true);
     });
 
@@ -103,7 +106,9 @@ describe("NewsletterSignup", () => {
             props: { ...baseProps, state: "error", errorMessage: "Try again" },
         });
 
-        const error: HTMLElement = container.querySelector(".newsletter-signup-error") as HTMLElement;
+        const error: HTMLElement = container.querySelector(
+            ".newsletter-signup-error",
+        ) as HTMLElement;
         expect(error.getAttribute("role")).toBe("alert");
         expect(error.hasAttribute("hidden")).toBe(false);
         expect(error.textContent).toBe("Try again");
@@ -114,7 +119,9 @@ describe("NewsletterSignup", () => {
             props: { ...baseProps, state: "idle", errorMessage: "Try again" },
         });
 
-        const error: HTMLElement = container.querySelector(".newsletter-signup-error") as HTMLElement;
+        const error: HTMLElement = container.querySelector(
+            ".newsletter-signup-error",
+        ) as HTMLElement;
         expect(error.hasAttribute("hidden")).toBe(true);
     });
 

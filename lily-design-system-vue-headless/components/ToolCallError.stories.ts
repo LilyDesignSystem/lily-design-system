@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import ToolCallError from './ToolCallError.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import ToolCallError from "./ToolCallError.vue";
 
 const meta = {
-  title: 'Headless/ToolCallError',
-  component: ToolCallError,
-  tags: ['autodocs']
+    title: "Headless/ToolCallError",
+    component: ToolCallError,
+    tags: ["autodocs"],
 } satisfies Meta<typeof ToolCallError>;
 
 export default meta;

@@ -35,11 +35,7 @@ export interface TableBodyProps {
     [key: string]: unknown;
 }
 
-export default function TableBody({
-    className = "",
-    children,
-    ...restProps
-}: TableBodyProps) {
+export default function TableBody({ className = "", children, ...restProps }: TableBodyProps) {
     return (
         <tbody
             className={`table-body ${className}`}

@@ -88,20 +88,20 @@ export default function Drawer({
 
     return (
         <>
-        {open && (
-        <div
-        className={`drawer ${className}`}
-        role="dialog"
-        tabIndex={-1}
-        aria-label={label}
-        aria-modal="true"
-        data-side={side}
-        onKeyDown={handleKeyDown}
-        {...restProps}
-        >
-        {children}
-        </div>
-        )}
+            {open && (
+                <div
+                    className={`drawer ${className}`}
+                    role="dialog"
+                    tabIndex={-1}
+                    aria-label={label}
+                    aria-modal="true"
+                    data-side={side}
+                    onKeyDown={handleKeyDown}
+                    {...restProps}
+                >
+                    {children}
+                </div>
+            )}
         </>
     );
 }

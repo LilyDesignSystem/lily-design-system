@@ -16,13 +16,13 @@
 //   <GanttTableTD />
 //
 // Examples:
-//   
+//
 //   <GanttTableTD active>---</GanttTableTD>
 //
-//   
+//
 //   <GanttTableTD />
 //
-//   
+//
 //   <GanttTableTD active>◆</GanttTableTD>
 //
 // Keyboard:
@@ -63,12 +63,12 @@ export default function GanttTableTD({
 }: GanttTableTdProps) {
     return (
         <td
-        className={`gantt-table-td ${className}`}
-        role="gridcell"
-        tabIndex={active ? 0 : -1}
-        {...restProps}
+            className={`gantt-table-td ${className}`}
+            role="gridcell"
+            tabIndex={active ? 0 : -1}
+            {...restProps}
         >
-        {children && (<>{children}</>)}
+            {children && <>{children}</>}
         </td>
     );
 }

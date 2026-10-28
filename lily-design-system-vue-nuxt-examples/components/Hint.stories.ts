@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import Hint from './Hint.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import Hint from "./Hint.vue";
 
 const meta = {
-  title: 'Headless/Hint',
-  component: Hint,
-  tags: ['autodocs']
+    title: "Headless/Hint",
+    component: Hint,
+    tags: ["autodocs"],
 } satisfies Meta<typeof Hint>;
 
 export default meta;

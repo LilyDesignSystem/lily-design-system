@@ -5,7 +5,12 @@ import Subject from "./AotearoaNationalHealthIndexView";
 
 describe("AotearoaNationalHealthIndexView", () => {
     test("renders with the correct class", () => {
-        render(<Subject label="National Health Index (NHI) Number" value="test-value" />);
+        render(
+            <Subject
+                label="National Health Index (NHI) Number"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("National Health Index (NHI) Number");
         expect(el).toBeTruthy();
@@ -13,7 +18,12 @@ describe("AotearoaNationalHealthIndexView", () => {
     });
 
     test("renders the value as text content", () => {
-        render(<Subject label="National Health Index (NHI) Number" value="test-value" />);
+        render(
+            <Subject
+                label="National Health Index (NHI) Number"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("National Health Index (NHI) Number");
         expect(el.textContent).toBe("test-value");

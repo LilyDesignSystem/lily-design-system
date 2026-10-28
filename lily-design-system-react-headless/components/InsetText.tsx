@@ -15,10 +15,10 @@
 //   <InsetText>It can take up to 8 weeks to process.</InsetText>
 //
 // Examples:
-//   
+//
 //   <InsetText>It can take up to 8 weeks to process.</InsetText>
 //
-//   
+//
 //   <InsetText>
 //     <p>You must apply before the deadline. Late applications will not be accepted.</p>
 //   </InsetText>
@@ -51,18 +51,14 @@ export interface InsetTextProps {
     [key: string]: unknown;
 }
 
-export default function InsetText({
-    className = "",
-    children,
-    ...restProps
-}: InsetTextProps) {
+export default function InsetText({ className = "", children, ...restProps }: InsetTextProps) {
     return (
         <div
-        className={`inset-text ${className}`}
-        role="note"
-        {...restProps}
+            className={`inset-text ${className}`}
+            role="note"
+            {...restProps}
         >
-        {children}
+            {children}
         </div>
     );
 }

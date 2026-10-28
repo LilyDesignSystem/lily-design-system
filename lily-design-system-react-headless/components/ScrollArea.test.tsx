@@ -25,7 +25,14 @@ describe("ScrollArea", () => {
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="C" data-testid="sa">x</Subject>);
+        render(
+            <Subject
+                label="C"
+                data-testid="sa"
+            >
+                x
+            </Subject>,
+        );
         expect(screen.getByTestId("sa")).toBeTruthy();
     });
 });

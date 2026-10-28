@@ -5,7 +5,9 @@ import Subject from "./ElladaDematerialisedSecuritiesSystemView.svelte";
 
 describe("ElladaDematerialisedSecuritiesSystemView", () => {
     test("renders with the correct class", () => {
-        render(Subject, { props: { label: "Dematerialised Securities System", value: "test-value" } });
+        render(Subject, {
+            props: { label: "Dematerialised Securities System", value: "test-value" },
+        });
 
         const el = screen.getByLabelText("Dematerialised Securities System");
         expect(el).toBeTruthy();
@@ -13,7 +15,9 @@ describe("ElladaDematerialisedSecuritiesSystemView", () => {
     });
 
     test("renders the value as text content", () => {
-        render(Subject, { props: { label: "Dematerialised Securities System", value: "test-value" } });
+        render(Subject, {
+            props: { label: "Dematerialised Securities System", value: "test-value" },
+        });
 
         const el = screen.getByLabelText("Dematerialised Securities System");
         expect(el.textContent).toBe("test-value");

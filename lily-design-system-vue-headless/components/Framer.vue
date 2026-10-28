@@ -1,18 +1,18 @@
 <script setup lang="ts">
+// Framer component
+//
+// Framer for the Reuters-graphics-style article layout family.
+// Renders a <div> that consumers style.
 
-    // Framer component
-    //
-    // Framer for the Reuters-graphics-style article layout family.
-    // Renders a <div> that consumers style.
-
-    withDefaults(defineProps<{
+withDefaults(
+    defineProps<{
         /** Optional accessible label set on aria-label. */
         label?: string;
-    }>(), {
-        
-label: undefined,
-    });
-
+    }>(),
+    {
+        label: undefined,
+    },
+);
 </script>
 
 <template>

@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import KanbanTableRow from './KanbanTableRow.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import KanbanTableRow from "./KanbanTableRow.vue";
 
 const meta = {
-  title: 'Headless/KanbanTableRow',
-  component: KanbanTableRow,
-  tags: ['autodocs']
+    title: "Headless/KanbanTableRow",
+    component: KanbanTableRow,
+    tags: ["autodocs"],
 } satisfies Meta<typeof KanbanTableRow>;
 
 export default meta;

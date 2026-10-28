@@ -6,7 +6,11 @@ import Subject from "./MultiSelect.svelte";
 
 function optionsSnippet() {
     return (($anchor: Comment) => {
-        for (const [v, t] of [["a", "Option A"], ["b", "Option B"], ["c", "Option C"]]) {
+        for (const [v, t] of [
+            ["a", "Option A"],
+            ["b", "Option B"],
+            ["c", "Option C"],
+        ]) {
             const opt = document.createElement("option");
             opt.value = v;
             opt.textContent = t;
@@ -38,7 +42,9 @@ describe("MultiSelect", () => {
     });
 
     test("initial value array selects the matching options", () => {
-        render(Subject, { props: { label: "Pick", value: ["a", "c"], children: optionsSnippet() } });
+        render(Subject, {
+            props: { label: "Pick", value: ["a", "c"], children: optionsSnippet() },
+        });
         const selected = Array.from(select().selectedOptions).map((o) => o.value);
         expect(selected).toEqual(["a", "c"]);
     });
@@ -57,13 +63,17 @@ describe("MultiSelect", () => {
     });
 
     test("supports required and disabled", () => {
-        render(Subject, { props: { label: "Pick", required: true, disabled: true, children: optionsSnippet() } });
+        render(Subject, {
+            props: { label: "Pick", required: true, disabled: true, children: optionsSnippet() },
+        });
         expect(select().required).toBe(true);
         expect(select().disabled).toBe(true);
     });
 
     test("passes through attributes", () => {
-        render(Subject, { props: { label: "Pick", "data-testid": "ms", children: optionsSnippet() } });
+        render(Subject, {
+            props: { label: "Pick", "data-testid": "ms", children: optionsSnippet() },
+        });
         expect(screen.getByTestId("ms")).toBeTruthy();
     });
 });

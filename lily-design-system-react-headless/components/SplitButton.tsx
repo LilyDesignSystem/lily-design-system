@@ -87,31 +87,34 @@ export default function SplitButton({
 }: SplitButtonProps) {
     return (
         <div
-        className={`split-button ${className}`}
-        role="group"
-        aria-label={label}
-        {...restProps}
+            className={`split-button ${className}`}
+            role="group"
+            aria-label={label}
+            {...restProps}
         >
-        <button
-            className="split-button-primary"
-            type="button"
-            disabled={disabled}
-            onClick={onPrimaryClick}
-        >
-            {primaryLabel}
-        </button>
-        <button
-            className="split-button-menu-trigger"
-            type="button"
-            disabled={disabled}
-            aria-haspopup="menu"
-            aria-expanded={menuOpen}
-            aria-label={menuLabel}
-            onClick={onMenuToggle}
-        />
-        <div className="split-button-menu" hidden={!menuOpen}>
-            {children}
-        </div>
+            <button
+                className="split-button-primary"
+                type="button"
+                disabled={disabled}
+                onClick={onPrimaryClick}
+            >
+                {primaryLabel}
+            </button>
+            <button
+                className="split-button-menu-trigger"
+                type="button"
+                disabled={disabled}
+                aria-haspopup="menu"
+                aria-expanded={menuOpen}
+                aria-label={menuLabel}
+                onClick={onMenuToggle}
+            />
+            <div
+                className="split-button-menu"
+                hidden={!menuOpen}
+            >
+                {children}
+            </div>
         </div>
     );
 }

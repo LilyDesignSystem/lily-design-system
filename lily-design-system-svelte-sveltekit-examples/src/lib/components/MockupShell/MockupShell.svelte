@@ -13,6 +13,10 @@
 </script>
 
 <!-- MockupShell.svelte -->
-<div class={`mockup-shell ${className}`} aria-label={label} {...restProps}>
+<div
+    class={`mockup-shell ${className}`}
+    aria-label={label}
+    {...restProps}
+>
     {@render children?.()}
 </div>

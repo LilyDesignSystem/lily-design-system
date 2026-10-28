@@ -5,7 +5,9 @@ import Subject from "./BrasilCartaoNacionalDeSaudeView.vue";
 
 describe("BrasilCartaoNacionalDeSaudeView", () => {
     test("renders with the correct class", () => {
-        render(Subject, { props: { label: "Brasil Cartao Nacional De Saude", value: "test-value" } });
+        render(Subject, {
+            props: { label: "Brasil Cartao Nacional De Saude", value: "test-value" },
+        });
 
         const el = screen.getByLabelText("Brasil Cartao Nacional De Saude");
         expect(el).toBeTruthy();
@@ -13,7 +15,9 @@ describe("BrasilCartaoNacionalDeSaudeView", () => {
     });
 
     test("renders the value as text content", () => {
-        render(Subject, { props: { label: "Brasil Cartao Nacional De Saude", value: "test-value" } });
+        render(Subject, {
+            props: { label: "Brasil Cartao Nacional De Saude", value: "test-value" },
+        });
 
         const el = screen.getByLabelText("Brasil Cartao Nacional De Saude");
         expect(el.textContent).toBe("test-value");

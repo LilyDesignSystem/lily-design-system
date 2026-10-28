@@ -18,13 +18,13 @@
 //   <Progress label="Upload progress" value={50} />
 //
 // Examples:
-//   
+//
 //   <Progress label="Upload progress" value={50} max={100} />
 //
-//   
+//
 //   <Progress label="Loading" />
 //
-//   
+//
 //   <Progress label="Installation" value={3} max={5} />
 //
 // Keyboard:
@@ -70,11 +70,11 @@ export default function Progress({
 }: ProgressProps) {
     return (
         <progress
-        className={`progress ${className}`}
-        aria-label={label}
-        value={value}
-        max={max}
-        {...restProps}
+            className={`progress ${className}`}
+            aria-label={label}
+            value={value}
+            max={max}
+            {...restProps}
         ></progress>
     );
 }

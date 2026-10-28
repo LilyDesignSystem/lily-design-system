@@ -72,13 +72,17 @@ export default function GanttTable({
 }: GanttTableProps) {
     return (
         <table
-        className={`gantt-table ${className}`}
-        role="grid"
-        aria-label={label}
-        {...restProps}
+            className={`gantt-table ${className}`}
+            role="grid"
+            aria-label={label}
+            {...restProps}
         >
-        {caption && (<><caption>{caption}</caption></>)}
-        {children}
+            {caption && (
+                <>
+                    <caption>{caption}</caption>
+                </>
+            )}
+            {children}
         </table>
     );
 }

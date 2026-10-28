@@ -11,13 +11,16 @@ function svgSnippet() {
 
 function tableSnippet() {
     return createRawSnippet(() => ({
-        render: () => `<table><caption>Values</caption><tbody><tr><th scope="row">A</th><td>1</td></tr></tbody></table>`,
+        render: () =>
+            `<table><caption>Values</caption><tbody><tr><th scope="row">A</th><td>1</td></tr></tbody></table>`,
     }));
 }
 
 describe("RadarChart", () => {
     it("renders a <figure> with the base class", () => {
-        const { container } = render(RadarChart, { props: { label: "Test", children: svgSnippet() } });
+        const { container } = render(RadarChart, {
+            props: { label: "Test", children: svgSnippet() },
+        });
         expect(container.querySelector("figure.radar-chart")).toBeTruthy();
     });
 
@@ -35,7 +38,9 @@ describe("RadarChart", () => {
     });
 
     it("appends the consumer class after the base class", () => {
-        const { container } = render(RadarChart, { props: { label: "T", class: "mine", children: svgSnippet() } });
+        const { container } = render(RadarChart, {
+            props: { label: "T", class: "mine", children: svgSnippet() },
+        });
         expect(container.querySelector("figure")!.getAttribute("class")).toBe("radar-chart mine");
     });
 
@@ -50,7 +55,9 @@ describe("RadarChart", () => {
     });
 
     it("renders the dataTable snippet in a .radar-chart-data-table sibling after the graphic", () => {
-        const { container } = render(RadarChart, { props: { label: "T", children: svgSnippet(), dataTable: tableSnippet() } });
+        const { container } = render(RadarChart, {
+            props: { label: "T", children: svgSnippet(), dataTable: tableSnippet() },
+        });
         const wrap = container.querySelector(".radar-chart-data-table")!;
         expect(wrap).toBeTruthy();
         expect(wrap.previousElementSibling).toBe(container.querySelector(".radar-chart-graphic"));
@@ -58,13 +65,17 @@ describe("RadarChart", () => {
     });
 
     it("keeps the table outside the role=img element so assistive technology can reach it", () => {
-        render(RadarChart, { props: { label: "T", children: svgSnippet(), dataTable: tableSnippet() } });
+        render(RadarChart, {
+            props: { label: "T", children: svgSnippet(), dataTable: tableSnippet() },
+        });
         const table = screen.getByRole("table");
         expect(table.closest("[role=img]")).toBeNull();
     });
 
     it("spreads rest props onto the figure", () => {
-        render(RadarChart, { props: { label: "T", id: "c1", "data-testid": "chart", children: svgSnippet() } });
+        render(RadarChart, {
+            props: { label: "T", id: "c1", "data-testid": "chart", children: svgSnippet() },
+        });
         const el = screen.getByTestId("chart");
         expect(el.tagName).toBe("FIGURE");
         expect(el.id).toBe("c1");

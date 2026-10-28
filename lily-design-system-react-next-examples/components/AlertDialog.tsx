@@ -95,21 +95,31 @@ export default function AlertDialog({
 
     return (
         <>
-        {open && (<><dialog
-        className={`alert-dialog ${className}`}
-        open
-        role="alertdialog"
-        aria-labelledby={titleId}
-        aria-describedby={description ? descriptionId : undefined}
-        aria-modal="true"
-        {...restProps}
-        >
-        <div>
-        <p id={titleId}><strong>{title}</strong></p>
-        {description && (<><p id={descriptionId}>{description}</p></>)}
-        {children}
-        </div>
-        </dialog></>)}
+            {open && (
+                <>
+                    <dialog
+                        className={`alert-dialog ${className}`}
+                        open
+                        role="alertdialog"
+                        aria-labelledby={titleId}
+                        aria-describedby={description ? descriptionId : undefined}
+                        aria-modal="true"
+                        {...restProps}
+                    >
+                        <div>
+                            <p id={titleId}>
+                                <strong>{title}</strong>
+                            </p>
+                            {description && (
+                                <>
+                                    <p id={descriptionId}>{description}</p>
+                                </>
+                            )}
+                            {children}
+                        </div>
+                    </dialog>
+                </>
+            )}
         </>
     );
 }

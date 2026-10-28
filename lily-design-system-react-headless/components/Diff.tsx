@@ -34,12 +34,7 @@ export interface DiffProps {
     [key: string]: unknown;
 }
 
-export default function Diff({
-    className = "",
-    label,
-    children,
-    ...restProps
-}: DiffProps) {
+export default function Diff({ className = "", label, children, ...restProps }: DiffProps) {
     return (
         <div
             className={`diff ${className}`}

@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "../../components/TaskList.vue";
 
-
 describe("TaskList", () => {
     test("renders an ordered list element", () => {
         render(Subject, { props: { label: "Tasks" }, slots: { default: "items" } });
@@ -34,16 +33,20 @@ describe("TaskList", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(Subject, { props: { label: "Tasks",
-            "data-testid": "my-tasks" }, slots: { default: "items" } });
+        render(Subject, {
+            props: { label: "Tasks", "data-testid": "my-tasks" },
+            slots: { default: "items" },
+        });
 
         const list = screen.getByTestId("my-tasks");
         expect(list).toBeTruthy();
     });
 
     test("passes through id attribute", () => {
-        render(Subject, { props: { label: "Tasks",
-            id: "task-list-1" }, slots: { default: "items" } });
+        render(Subject, {
+            props: { label: "Tasks", id: "task-list-1" },
+            slots: { default: "items" },
+        });
 
         const list = screen.getByRole("list");
         expect(list.getAttribute("id")).toBe("task-list-1");

@@ -44,7 +44,11 @@ export default function ComposedChart({
             className={`composed-chart ${className}`}
             {...restProps}
         >
-            <div className="composed-chart-graphic" role="img" aria-label={label}>
+            <div
+                className="composed-chart-graphic"
+                role="img"
+                aria-label={label}
+            >
                 {children}
             </div>
             {dataTable !== undefined && dataTable !== null && (

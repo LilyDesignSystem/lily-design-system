@@ -33,4 +33,5 @@
 <span
     class={`tuaisceart-eireann-health-and-care-number-view ${className}`}
     aria-label={label}
-    {...restProps}>{value}</span>
+    {...restProps}>{value}</span
+>

@@ -83,26 +83,26 @@ export default function Expander({
 
     return (
         <div
-        className={`expander ${className}`}
-        {...restProps}
+            className={`expander ${className}`}
+            {...restProps}
         >
-        <button
-        type="button"
-        aria-expanded={expanded}
-        aria-controls={contentId}
-        onClick={handleClick}
-        >
-        {label}
-        </button>
-        {expanded && (
-        <div
-        id={contentId}
-        role="region"
-        aria-label={label}
-        >
-        {children}
-        </div>
-        )}
+            <button
+                type="button"
+                aria-expanded={expanded}
+                aria-controls={contentId}
+                onClick={handleClick}
+            >
+                {label}
+            </button>
+            {expanded && (
+                <div
+                    id={contentId}
+                    role="region"
+                    aria-label={label}
+                >
+                    {children}
+                </div>
+            )}
         </div>
     );
 }

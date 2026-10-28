@@ -33,7 +33,12 @@ describe("RossiyaSnilsInput", () => {
     });
 
     test("can be set to required", () => {
-        render(<Subject label="SNILS (СНИЛС)" required />);
+        render(
+            <Subject
+                label="SNILS (СНИЛС)"
+                required
+            />,
+        );
 
         const input = screen.getByLabelText("SNILS (СНИЛС)") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -47,14 +52,24 @@ describe("RossiyaSnilsInput", () => {
     });
 
     test("can be set to disabled", () => {
-        render(<Subject label="SNILS (СНИЛС)" disabled />);
+        render(
+            <Subject
+                label="SNILS (СНИЛС)"
+                disabled
+            />,
+        );
 
         const input = screen.getByLabelText("SNILS (СНИЛС)") as HTMLInputElement;
         expect(input.disabled).toBe(true);
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="SNILS (СНИЛС)" data-testid="subject" />);
+        render(
+            <Subject
+                label="SNILS (СНИЛС)"
+                data-testid="subject"
+            />,
+        );
 
         const input = screen.getByTestId("subject");
         expect(input).toBeTruthy();

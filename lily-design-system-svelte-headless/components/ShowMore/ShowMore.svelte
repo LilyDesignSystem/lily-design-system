@@ -48,8 +48,15 @@
 </script>
 
 <!-- ShowMore.svelte -->
-<div class={`show-more ${className}`} {...restProps}>
-    <div class="show-more-content" id={contentId} data-expanded={expanded}>
+<div
+    class={`show-more ${className}`}
+    {...restProps}
+>
+    <div
+        class="show-more-content"
+        id={contentId}
+        data-expanded={expanded}
+    >
         {@render children?.()}
     </div>
     <button

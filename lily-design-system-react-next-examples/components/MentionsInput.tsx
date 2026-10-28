@@ -92,7 +92,11 @@ export default function MentionsInput({
                 onInput={onInput}
                 onChange={() => {}}
             />
-            <div className="mentions-input-suggestions" id={suggestionsId} hidden={!expanded}>
+            <div
+                className="mentions-input-suggestions"
+                id={suggestionsId}
+                hidden={!expanded}
+            >
                 {children}
             </div>
         </div>

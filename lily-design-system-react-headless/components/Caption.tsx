@@ -14,10 +14,10 @@
 //   <Caption>Photo of a sunset over the ocean.</Caption>
 //
 // Examples:
-//   
+//
 //   <Caption id="chart-caption">Figure 1: Revenue growth over time.</Caption>
 //
-//   
+//
 //   <figure>
 //     <img src="sunset.jpg" alt="Sunset over the ocean" />
 //     <Caption>Photo taken at Malibu beach.</Caption>
@@ -48,17 +48,13 @@ export interface CaptionProps {
     [key: string]: unknown;
 }
 
-export default function Caption({
-    className = "",
-    children,
-    ...restProps
-}: CaptionProps) {
+export default function Caption({ className = "", children, ...restProps }: CaptionProps) {
     return (
         <figcaption
-        className={`caption ${className}`}
-        {...restProps}
+            className={`caption ${className}`}
+            {...restProps}
         >
-        {children}
+            {children}
         </figcaption>
     );
 }

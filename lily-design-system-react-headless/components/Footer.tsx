@@ -15,12 +15,12 @@
 //   <Footer label="Site footer">{children}</Footer>
 //
 // Examples:
-//   
+//
 //   <Footer label="Site footer">
 //     <p>Copyright 2024</p>
 //   </Footer>
 //
-//   
+//
 //   <Footer>
 //     <nav aria-label="Footer navigation">
 //       <a href="/privacy">Privacy</a>
@@ -66,11 +66,11 @@ export default function Footer({
 }: FooterProps) {
     return (
         <footer
-        className={`footer ${className}`}
-        aria-label={label}
-        {...restProps}
+            className={`footer ${className}`}
+            aria-label={label}
+            {...restProps}
         >
-        {children}
+            {children}
         </footer>
     );
 }

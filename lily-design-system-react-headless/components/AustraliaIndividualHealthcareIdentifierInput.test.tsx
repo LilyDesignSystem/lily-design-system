@@ -15,7 +15,9 @@ describe("AustraliaIndividualHealthcareIdentifierInput", () => {
         render(<Subject label="Individual Healthcare Identifier" />);
 
         const input = screen.getByLabelText("Individual Healthcare Identifier");
-        expect(input.getAttribute("class")).toContain("australia-individual-healthcare-identifier-input");
+        expect(input.getAttribute("class")).toContain(
+            "australia-individual-healthcare-identifier-input",
+        );
     });
 
     test("has autocomplete off", () => {
@@ -33,7 +35,12 @@ describe("AustraliaIndividualHealthcareIdentifierInput", () => {
     });
 
     test("can be set to required", () => {
-        render(<Subject label="Individual Healthcare Identifier" required />);
+        render(
+            <Subject
+                label="Individual Healthcare Identifier"
+                required
+            />,
+        );
 
         const input = screen.getByLabelText("Individual Healthcare Identifier") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -47,14 +54,24 @@ describe("AustraliaIndividualHealthcareIdentifierInput", () => {
     });
 
     test("can be set to disabled", () => {
-        render(<Subject label="Individual Healthcare Identifier" disabled />);
+        render(
+            <Subject
+                label="Individual Healthcare Identifier"
+                disabled
+            />,
+        );
 
         const input = screen.getByLabelText("Individual Healthcare Identifier") as HTMLInputElement;
         expect(input.disabled).toBe(true);
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="Individual Healthcare Identifier" data-testid="subject" />);
+        render(
+            <Subject
+                label="Individual Healthcare Identifier"
+                data-testid="subject"
+            />,
+        );
 
         const input = screen.getByTestId("subject");
         expect(input).toBeTruthy();

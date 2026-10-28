@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "../../components/InsetText.vue";
 
-
 describe("InsetText", () => {
     test("renders with note role", () => {
         render(Subject, { slots: { default: "Important" } });

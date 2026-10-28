@@ -82,37 +82,31 @@ export default function GovernmentIdentifier({
 }: GovernmentIdentifierProps) {
     return (
         <section
-        className={`government-identifier ${className}`}
-        aria-label={label}
-        {...restProps}
-        >
-        <div className="government-identifier-masthead">
-            {logoUrl && (
-                <img
-                className="government-identifier-logo"
-                src={logoUrl}
-                alt={logoAlt}
-                />
-            )}
-            <p className="government-identifier-agency">
-                {agencyHref ? (
-                    <a href={agencyHref}>{agencyName}</a>
-                ) : (
-                    <span>{agencyName}</span>
-                )}
-            </p>
-            {description && (
-                <p className="government-identifier-description">{description}</p>
-            )}
-        </div>
-        {children && (
-            <nav
-            className="government-identifier-links"
+            className={`government-identifier ${className}`}
             aria-label={label}
-            >
-            {children}
-            </nav>
-        )}
+            {...restProps}
+        >
+            <div className="government-identifier-masthead">
+                {logoUrl && (
+                    <img
+                        className="government-identifier-logo"
+                        src={logoUrl}
+                        alt={logoAlt}
+                    />
+                )}
+                <p className="government-identifier-agency">
+                    {agencyHref ? <a href={agencyHref}>{agencyName}</a> : <span>{agencyName}</span>}
+                </p>
+                {description && <p className="government-identifier-description">{description}</p>}
+            </div>
+            {children && (
+                <nav
+                    className="government-identifier-links"
+                    aria-label={label}
+                >
+                    {children}
+                </nav>
+            )}
         </section>
     );
 }

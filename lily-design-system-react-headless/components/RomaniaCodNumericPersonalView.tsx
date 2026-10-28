@@ -37,9 +37,11 @@ export default function RomaniaCodNumericPersonalView({
 }: RomaniaCodNumericPersonalViewProps) {
     return (
         <span
-        className={`romania-cod-numeric-personal-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`romania-cod-numeric-personal-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

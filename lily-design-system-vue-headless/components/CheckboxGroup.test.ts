@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./CheckboxGroup.vue";
 
-
 describe("CheckboxGroup", () => {
     test("renders a group", () => {
         render(Subject, { props: { label: "Features" }, slots: { default: "" } });
@@ -16,7 +15,13 @@ describe("CheckboxGroup", () => {
     });
 
     test("renders checkbox children", () => {
-        render(Subject, { props: { label: "Features" }, slots: { default: "<label><input type='checkbox' name='features' value='wifi' /> Wi-Fi</label><label><input type='checkbox' name='features' value='bluetooth' /> Bluetooth</label>" } });
+        render(Subject, {
+            props: { label: "Features" },
+            slots: {
+                default:
+                    "<label><input type='checkbox' name='features' value='wifi' /> Wi-Fi</label><label><input type='checkbox' name='features' value='bluetooth' /> Bluetooth</label>",
+            },
+        });
         expect(screen.getAllByRole("checkbox").length).toBe(2);
     });
 

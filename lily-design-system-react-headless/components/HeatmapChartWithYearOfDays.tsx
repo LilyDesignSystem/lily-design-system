@@ -58,7 +58,11 @@ export default function HeatmapChartWithYearOfDays({
             data-week-start={weekStart}
             {...restProps}
         >
-            <div className="heatmap-chart-with-year-of-days-graphic" role="img" aria-label={label}>
+            <div
+                className="heatmap-chart-with-year-of-days-graphic"
+                role="img"
+                aria-label={label}
+            >
                 {children}
             </div>
             {dataTable !== undefined && dataTable !== null && (

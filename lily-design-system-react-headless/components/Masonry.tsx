@@ -58,12 +58,12 @@ export default function Masonry({
 }: MasonryProps) {
     return (
         <div
-        className={`masonry ${className}`}
-        data-columns={columns}
-        style={{ columnCount: columns, columnGap: gap }}
-        {...restProps}
+            className={`masonry ${className}`}
+            data-columns={columns}
+            style={{ columnCount: columns, columnGap: gap }}
+            {...restProps}
         >
-        {children}
+            {children}
         </div>
     );
 }

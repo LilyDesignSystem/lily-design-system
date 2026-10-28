@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import TelLink from './TelLink';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import TelLink from "./TelLink";
 
 const meta = {
-  title: 'Headless/TelLink',
-  component: TelLink,
-  tags: ['autodocs']
+    title: "Headless/TelLink",
+    component: TelLink,
+    tags: ["autodocs"],
 } satisfies Meta<typeof TelLink>;
 
 export default meta;

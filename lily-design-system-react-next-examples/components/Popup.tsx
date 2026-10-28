@@ -72,14 +72,18 @@ export default function Popup({
 }: PopupProps) {
     return (
         <>
-        {open && (<><div
-        className={`popup ${className}`}
-        role="dialog"
-        aria-label={label}
-        {...restProps}
-        >
-        {children}
-        </div></>)}
+            {open && (
+                <>
+                    <div
+                        className={`popup ${className}`}
+                        role="dialog"
+                        aria-label={label}
+                        {...restProps}
+                    >
+                        {children}
+                    </div>
+                </>
+            )}
         </>
     );
 }

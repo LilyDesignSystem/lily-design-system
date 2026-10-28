@@ -20,7 +20,10 @@ export interface FramerProps {
 }
 
 export default function Framer({
-    className = "", label = undefined, children, ...restProps
+    className = "",
+    label = undefined,
+    children,
+    ...restProps
 }: FramerProps) {
     return (
         <div

@@ -86,7 +86,11 @@
 </script>
 
 <!-- ChatComposer.svelte -->
-<form class={`chat-composer ${className}`} onsubmit={onSubmit} {...restProps}>
+<form
+    class={`chat-composer ${className}`}
+    onsubmit={onSubmit}
+    {...restProps}
+>
     {@render children?.()}
     <textarea
         class="chat-composer-input"
@@ -96,8 +100,7 @@
         {placeholder}
         {name}
         {disabled}
-        onkeydown={onKeydown}
-    ></textarea>
+        onkeydown={onKeydown}></textarea>
     <button
         class="chat-composer-button"
         type={busy ? "button" : "submit"}

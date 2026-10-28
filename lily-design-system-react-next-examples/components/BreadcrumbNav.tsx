@@ -49,27 +49,27 @@
 import React from "react";
 
 export interface BreadcrumbNavProps {
-  className?: string;
-  /** Accessible label for the breadcrumb navigation. */
-  label: string;
-  /** BreadcrumbList element. */
-  children: React.ReactNode;
-  [key: string]: unknown;
+    className?: string;
+    /** Accessible label for the breadcrumb navigation. */
+    label: string;
+    /** BreadcrumbList element. */
+    children: React.ReactNode;
+    [key: string]: unknown;
 }
 
 export default function BreadcrumbNav({
-  className = "",
-  label,
-  children,
-  ...restProps
+    className = "",
+    label,
+    children,
+    ...restProps
 }: BreadcrumbNavProps) {
-  return (
-    <nav
-      className={`breadcrumb-nav ${className}`}
-      aria-label={label}
-      {...restProps}
-    >
-      {children}
-    </nav>
-  );
+    return (
+        <nav
+            className={`breadcrumb-nav ${className}`}
+            aria-label={label}
+            {...restProps}
+        >
+            {children}
+        </nav>
+    );
 }

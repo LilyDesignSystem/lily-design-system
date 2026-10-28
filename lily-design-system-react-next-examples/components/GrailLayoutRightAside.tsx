@@ -43,10 +43,10 @@ export default function GrailLayoutRightAside({
 }: GrailLayoutRightAsideProps) {
     return (
         <aside
-        className={`grail-layout-right-aside ${className}`}
-        {...restProps}
+            className={`grail-layout-right-aside ${className}`}
+            {...restProps}
         >
-        {children}
+            {children}
         </aside>
     );
 }

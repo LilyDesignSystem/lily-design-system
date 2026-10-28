@@ -8,7 +8,10 @@ const table = `<table><caption>Values</caption><tbody><tr><th scope="row">A</th>
 
 describe("HeatmapChart", () => {
     test("renders a <figure> with the base class", () => {
-        const { container } = render(Subject, { props: { label: "Test" }, slots: { default: svg } });
+        const { container } = render(Subject, {
+            props: { label: "Test" },
+            slots: { default: svg },
+        });
         expect(container.querySelector("figure.heatmap-chart")).toBeTruthy();
     });
 
@@ -36,7 +39,10 @@ describe("HeatmapChart", () => {
     });
 
     test("renders the dataTable slot in a .heatmap-chart-data-table sibling after the graphic", () => {
-        const { container } = render(Subject, { props: { label: "T" }, slots: { default: svg, dataTable: table } });
+        const { container } = render(Subject, {
+            props: { label: "T" },
+            slots: { default: svg, dataTable: table },
+        });
         const wrap = container.querySelector(".heatmap-chart-data-table")!;
         expect(wrap).toBeTruthy();
         expect(wrap.previousElementSibling).toBe(container.querySelector(".heatmap-chart-graphic"));
@@ -49,7 +55,11 @@ describe("HeatmapChart", () => {
     });
 
     test("passes attrs (class, id, data-*) through onto the figure", () => {
-        render(Subject, { props: { label: "T" }, attrs: { class: "mine", id: "c1", "data-testid": "chart" }, slots: { default: svg } });
+        render(Subject, {
+            props: { label: "T" },
+            attrs: { class: "mine", id: "c1", "data-testid": "chart" },
+            slots: { default: svg },
+        });
         const el = screen.getByTestId("chart");
         expect(el.tagName).toBe("FIGURE");
         expect(el.id).toBe("c1");

@@ -3,10 +3,9 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./InputGroup.vue";
 
-
 describe("InputGroup", () => {
     test("renders default slot content", () => {
-        render(Subject, { slots: { default: "<input data-testid=\"in\" />" } });
+        render(Subject, { slots: { default: '<input data-testid="in" />' } });
 
         expect(screen.getByTestId("in")).toBeTruthy();
     });

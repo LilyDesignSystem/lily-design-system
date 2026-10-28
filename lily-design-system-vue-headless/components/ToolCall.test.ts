@@ -3,7 +3,10 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./ToolCall.vue";
 
-const slots = { summary: '<span data-testid="sum">search_web</span>', default: '<span data-testid="body">Body</span>' };
+const slots = {
+    summary: '<span data-testid="sum">search_web</span>',
+    default: '<span data-testid="body">Body</span>',
+};
 
 describe("ToolCall", () => {
     test("renders a <details> with the base class, closed by default", () => {

@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./Badge.vue";
 
-
 describe("Badge", () => {
     test("renders with status role", () => {
         render(Subject, { slots: { default: "New" } });
@@ -42,8 +41,10 @@ describe("Badge", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(Subject, { props: { "data-testid": "my-badge",
-            id: "badge-1" }, slots: { default: "Tag" } });
+        render(Subject, {
+            props: { "data-testid": "my-badge", id: "badge-1" },
+            slots: { default: "Tag" },
+        });
 
         const badge: HTMLElement = screen.getByTestId("my-badge");
         expect(badge.getAttribute("id")).toBe("badge-1");

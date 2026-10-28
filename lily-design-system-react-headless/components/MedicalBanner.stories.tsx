@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import MedicalBanner from './MedicalBanner';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import MedicalBanner from "./MedicalBanner";
 
 const meta = {
-  title: 'Headless/MedicalBanner',
-  component: MedicalBanner,
-  tags: ['autodocs']
+    title: "Headless/MedicalBanner",
+    component: MedicalBanner,
+    tags: ["autodocs"],
 } satisfies Meta<typeof MedicalBanner>;
 
 export default meta;

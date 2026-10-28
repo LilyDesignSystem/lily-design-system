@@ -15,10 +15,10 @@
 //   <Emoji emoji="👍" label="Thumbs up" />
 //
 // Examples:
-//   
+//
 //   <Emoji emoji="👍" label="Thumbs up" />
 //
-//   
+//
 //   <Emoji emoji="⚠️" label="Warning" />
 //
 // Keyboard:
@@ -50,18 +50,15 @@ export interface EmojiProps {
     [key: string]: unknown;
 }
 
-export default function Emoji({
-    className = "",
-    emoji,
-    label,
-    ...restProps
-}: EmojiProps) {
+export default function Emoji({ className = "", emoji, label, ...restProps }: EmojiProps) {
     return (
         <span
-        className={`emoji ${className}`}
-        role="img"
-        aria-label={label}
-        {...restProps}>{emoji}</span
+            className={`emoji ${className}`}
+            role="img"
+            aria-label={label}
+            {...restProps}
         >
+            {emoji}
+        </span>
     );
 }

@@ -66,12 +66,12 @@ export default function ImageCropper({
 }: ImageCropperProps) {
     return (
         <div
-        className={`image-cropper ${className}`}
-        role="application"
-        aria-label={label}
-        {...restProps}
+            className={`image-cropper ${className}`}
+            role="application"
+            aria-label={label}
+            {...restProps}
         >
-        {children}
+            {children}
         </div>
     );
 }

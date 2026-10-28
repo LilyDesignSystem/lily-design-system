@@ -6,8 +6,12 @@ import Subject from "./TableTD";
 function renderInRow(props: Record<string, unknown> = {}, content: React.ReactNode = "cell") {
     return render(
         <table>
-            <tbody><tr><Subject {...props}>{content}</Subject></tr></tbody>
-        </table>
+            <tbody>
+                <tr>
+                    <Subject {...props}>{content}</Subject>
+                </tr>
+            </tbody>
+        </table>,
     );
 }
 

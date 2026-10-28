@@ -38,7 +38,7 @@
                     }
                 }
             },
-            { threshold, rootMargin }
+            { threshold, rootMargin },
         );
         observer.observe(el);
         return () => observer.disconnect();

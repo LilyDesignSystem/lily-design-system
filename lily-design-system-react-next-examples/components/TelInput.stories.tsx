@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import TelInput from './TelInput';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import TelInput from "./TelInput";
 
 const meta = {
-  title: 'Headless/TelInput',
-  component: TelInput,
-  tags: ['autodocs']
+    title: "Headless/TelInput",
+    component: TelInput,
+    tags: ["autodocs"],
 } satisfies Meta<typeof TelInput>;
 
 export default meta;

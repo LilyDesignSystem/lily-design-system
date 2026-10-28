@@ -11,18 +11,40 @@ describe("Details", () => {
     });
 
     test("is collapsed by default", () => {
-        render(<Subject summary="Info" data-testid="det">Content</Subject>);
+        render(
+            <Subject
+                summary="Info"
+                data-testid="det"
+            >
+                Content
+            </Subject>,
+        );
         expect((screen.getByTestId("det") as HTMLDetailsElement).open).toBe(false);
     });
 
     test("can be initially open", () => {
-        render(<Subject summary="Info" open data-testid="det">Content</Subject>);
+        render(
+            <Subject
+                summary="Info"
+                open
+                data-testid="det"
+            >
+                Content
+            </Subject>,
+        );
         expect((screen.getByTestId("det") as HTMLDetailsElement).open).toBe(true);
     });
 
     test("toggles on summary click", async () => {
         const user: UserEvent = userEvent.setup();
-        render(<Subject summary="Toggle" data-testid="det">Content</Subject>);
+        render(
+            <Subject
+                summary="Toggle"
+                data-testid="det"
+            >
+                Content
+            </Subject>,
+        );
         const details = screen.getByTestId("det") as HTMLDetailsElement;
 
         await user.click(screen.getByText("Toggle"));
@@ -33,12 +55,26 @@ describe("Details", () => {
     });
 
     test("renders children content", () => {
-        render(<Subject summary="S" data-testid="det">Inner text</Subject>);
+        render(
+            <Subject
+                summary="S"
+                data-testid="det"
+            >
+                Inner text
+            </Subject>,
+        );
         expect(screen.getByTestId("det").textContent).toContain("Inner text");
     });
 
     test("passes through attributes", () => {
-        render(<Subject summary="S" data-testid="det">C</Subject>);
+        render(
+            <Subject
+                summary="S"
+                data-testid="det"
+            >
+                C
+            </Subject>,
+        );
         expect(screen.getByTestId("det")).toBeTruthy();
     });
 });

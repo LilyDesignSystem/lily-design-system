@@ -37,9 +37,18 @@ describe("CallToAction", () => {
     });
 
     test("applies aria-label", () => {
-        render(<Subject href="/learn" label="Learn more about our services">Learn More</Subject>);
+        render(
+            <Subject
+                href="/learn"
+                label="Learn more about our services"
+            >
+                Learn More
+            </Subject>,
+        );
 
-        const link: HTMLElement = screen.getByRole("link", { name: "Learn more about our services" });
+        const link: HTMLElement = screen.getByRole("link", {
+            name: "Learn more about our services",
+        });
         expect(link).toBeTruthy();
     });
 

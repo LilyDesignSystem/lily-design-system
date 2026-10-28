@@ -13,6 +13,10 @@
 </script>
 
 <!-- CurrencyInput.svelte -->
-<div class={`currency-input ${className}`} aria-label={label} {...restProps}>
+<div
+    class={`currency-input ${className}`}
+    aria-label={label}
+    {...restProps}
+>
     {@render children?.()}
 </div>

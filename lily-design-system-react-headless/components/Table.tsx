@@ -16,7 +16,7 @@
 //   <Table label="User accounts">...</Table>
 //
 // Examples:
-//   
+//
 //   <Table label="User accounts">
 //     <thead><tr><th scope="col">Name</th><th scope="col">Email</th></tr></thead>
 //     <tbody><tr><td>Alice</td><td>alice@example.com</td></tr></tbody>
@@ -57,20 +57,14 @@ export interface TableProps {
     [key: string]: unknown;
 }
 
-export default function Table({
-    className = "",
-    label,
-    children,
-    ...restProps
-}: TableProps) {
+export default function Table({ className = "", label, children, ...restProps }: TableProps) {
     return (
-        
         <table
-        className={`table ${className}`}
-        aria-label={label}
-        {...restProps}
+            className={`table ${className}`}
+            aria-label={label}
+            {...restProps}
         >
-        {children}
+            {children}
         </table>
     );
 }

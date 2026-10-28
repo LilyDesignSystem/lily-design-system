@@ -12,7 +12,12 @@ describe("EspanaTarjetaSanitariaIndividualInput", () => {
     });
 
     test("appends className prop to root", () => {
-        const { container } = render(<Subject label="Demo" className="extra" />);
+        const { container } = render(
+            <Subject
+                label="Demo"
+                className="extra"
+            />,
+        );
         const el = container.querySelector(".espana-tarjeta-sanitaria-individual-input");
         expect(el?.className).toContain("espana-tarjeta-sanitaria-individual-input");
         expect(el?.className).toContain("extra");

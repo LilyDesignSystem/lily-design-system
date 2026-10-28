@@ -14,17 +14,32 @@ describe("TimePickerInput", () => {
     });
 
     test("supports required", () => {
-        render(<Subject label="Time" required />);
+        render(
+            <Subject
+                label="Time"
+                required
+            />,
+        );
         expect((screen.getByLabelText("Time") as HTMLInputElement).required).toBe(true);
     });
 
     test("supports disabled", () => {
-        render(<Subject label="Time" disabled />);
+        render(
+            <Subject
+                label="Time"
+                disabled
+            />,
+        );
         expect((screen.getByLabelText("Time") as HTMLInputElement).disabled).toBe(true);
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="T" data-testid="tp" />);
+        render(
+            <Subject
+                label="T"
+                data-testid="tp"
+            />,
+        );
         expect(screen.getByTestId("tp")).toBeTruthy();
     });
 });

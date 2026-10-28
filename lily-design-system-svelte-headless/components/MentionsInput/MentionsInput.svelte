@@ -97,7 +97,11 @@
         {disabled}
         {oninput}
     />
-    <div class="mentions-input-suggestions" id={suggestionsId} hidden={!expanded}>
+    <div
+        class="mentions-input-suggestions"
+        id={suggestionsId}
+        hidden={!expanded}
+    >
         {#if children}{@render children?.()}{/if}
     </div>
 </div>

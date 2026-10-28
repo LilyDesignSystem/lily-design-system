@@ -16,8 +16,6 @@
 <!-- DocumentListItem.svelte -->
 <li
     class={`document-list-item ${className}`}
-
-
     {...restProps}
 >
     {@render children?.()}

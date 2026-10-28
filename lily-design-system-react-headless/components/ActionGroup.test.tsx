@@ -25,7 +25,7 @@ describe("ActionGroup", () => {
             <Subject label="Editor actions">
                 <button type="button">Bold</button>
                 <button type="button">Italic</button>
-            </Subject>
+            </Subject>,
         );
 
         expect(screen.getByRole("button", { name: "Bold" })).toBeTruthy();
@@ -36,7 +36,7 @@ describe("ActionGroup", () => {
         render(
             <Subject label="Editor actions">
                 <button type="button">Bold</button>
-            </Subject>
+            </Subject>,
         );
 
         expect(screen.queryByRole("button", { name: /more/i })).toBeNull();
@@ -45,12 +45,12 @@ describe("ActionGroup", () => {
     test("renders overflow trigger and menu when overflow is provided", () => {
         render(
             <Subject
-            label="Editor actions"
-            overflowLabel="More actions"
-            overflow={<button type="button">Underline</button>}
+                label="Editor actions"
+                overflowLabel="More actions"
+                overflow={<button type="button">Underline</button>}
             >
                 <button type="button">Bold</button>
-            </Subject>
+            </Subject>,
         );
 
         const trigger: HTMLElement = screen.getByRole("button", { name: "More actions" });
@@ -62,11 +62,11 @@ describe("ActionGroup", () => {
     test("overflow trigger reflects overflowOpen via aria-expanded", () => {
         render(
             <Subject
-            label="Editor actions"
-            overflowLabel="More actions"
-            overflowOpen
-            overflow={<button type="button">Underline</button>}
-            />
+                label="Editor actions"
+                overflowLabel="More actions"
+                overflowOpen
+                overflow={<button type="button">Underline</button>}
+            />,
         );
 
         const trigger: HTMLElement = screen.getByRole("button", { name: "More actions" });
@@ -76,10 +76,10 @@ describe("ActionGroup", () => {
     test("overflow menu is hidden when overflowOpen is false", () => {
         const { container } = render(
             <Subject
-            label="Editor actions"
-            overflowLabel="More actions"
-            overflow={<button type="button">Underline</button>}
-            />
+                label="Editor actions"
+                overflowLabel="More actions"
+                overflow={<button type="button">Underline</button>}
+            />,
         );
 
         const menu: HTMLElement | null = container.querySelector(".action-group-overflow-menu");
@@ -90,11 +90,11 @@ describe("ActionGroup", () => {
     test("overflow menu is visible when overflowOpen is true", () => {
         const { container } = render(
             <Subject
-            label="Editor actions"
-            overflowLabel="More actions"
-            overflowOpen
-            overflow={<button type="button">Underline</button>}
-            />
+                label="Editor actions"
+                overflowLabel="More actions"
+                overflowOpen
+                overflow={<button type="button">Underline</button>}
+            />,
         );
 
         const menu: HTMLElement | null = container.querySelector(".action-group-overflow-menu");
@@ -107,11 +107,11 @@ describe("ActionGroup", () => {
         const handleToggle = vi.fn();
         render(
             <Subject
-            label="Editor actions"
-            overflowLabel="More actions"
-            onOverflowToggle={handleToggle}
-            overflow={<button type="button">Underline</button>}
-            />
+                label="Editor actions"
+                overflowLabel="More actions"
+                onOverflowToggle={handleToggle}
+                overflow={<button type="button">Underline</button>}
+            />,
         );
 
         await user.click(screen.getByRole("button", { name: "More actions" }));

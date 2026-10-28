@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./Field.vue";
 
-
 describe("Field", () => {
     test("renders label", () => {
         render(Subject, { props: { label: "Name" }, slots: { default: "input" } });
@@ -11,12 +10,18 @@ describe("Field", () => {
     });
 
     test("renders description", () => {
-        render(Subject, { props: { label: "Name", description: "Full name" }, slots: { default: "input" } });
+        render(Subject, {
+            props: { label: "Name", description: "Full name" },
+            slots: { default: "input" },
+        });
         expect(screen.getByText("Full name")).toBeTruthy();
     });
 
     test("renders error with alert role", () => {
-        render(Subject, { props: { label: "Name", error: "Required" }, slots: { default: "input" } });
+        render(Subject, {
+            props: { label: "Name", error: "Required" },
+            slots: { default: "input" },
+        });
         expect(screen.getByRole("alert").textContent).toBe("Required");
     });
 

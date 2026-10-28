@@ -20,7 +20,14 @@ describe("SegmentGroup", () => {
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="V" data-testid="sg">x</Subject>);
+        render(
+            <Subject
+                label="V"
+                data-testid="sg"
+            >
+                x
+            </Subject>,
+        );
         expect(screen.getByTestId("sg")).toBeTruthy();
     });
 });

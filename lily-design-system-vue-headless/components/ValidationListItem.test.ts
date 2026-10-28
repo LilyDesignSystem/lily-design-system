@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./ValidationListItem.vue";
 
-
 describe("ValidationListItem", () => {
     test("renders as an li element", () => {
         const { container } = render(Subject, { slots: { default: "8+ chars" } });

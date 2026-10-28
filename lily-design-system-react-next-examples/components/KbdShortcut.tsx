@@ -31,11 +31,18 @@ export default function KbdShortcut({
     ...restProps
 }: KbdShortcutProps) {
     return (
-        <kbd className={`kbd-shortcut ${className}`} aria-label={label} {...restProps}>
+        <kbd
+            className={`kbd-shortcut ${className}`}
+            aria-label={label}
+            {...restProps}
+        >
             {keys.map((key, i) => (
                 <React.Fragment key={i}>
                     {i > 0 && (
-                        <span className="kbd-shortcut-separator" aria-hidden="true">
+                        <span
+                            className="kbd-shortcut-separator"
+                            aria-hidden="true"
+                        >
                             {separator}
                         </span>
                     )}

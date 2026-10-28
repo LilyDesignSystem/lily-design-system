@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./Header.vue";
 
-
 describe("Header", () => {
     test("renders as banner landmark", () => {
         render(Subject, { slots: { default: "Title" } });

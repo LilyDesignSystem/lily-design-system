@@ -37,9 +37,11 @@ export default function EestiIsikukoodView({
 }: EestiIsikukoodViewProps) {
     return (
         <span
-        className={`eesti-isikukood-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`eesti-isikukood-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

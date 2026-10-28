@@ -29,7 +29,14 @@ describe("ContextualHelp", () => {
     });
 
     test("aria-controls points to the rendered panel id", () => {
-        render(<Subject label="Show help" expanded>Content</Subject>);
+        render(
+            <Subject
+                label="Show help"
+                expanded
+            >
+                Content
+            </Subject>,
+        );
 
         const trigger: HTMLElement = screen.getByRole("button", { name: "Show help" });
         const controls: string | null = trigger.getAttribute("aria-controls");
@@ -48,7 +55,14 @@ describe("ContextualHelp", () => {
     });
 
     test("panel is visible when expanded is true", () => {
-        const { container } = render(<Subject label="Show help" expanded>Content</Subject>);
+        const { container } = render(
+            <Subject
+                label="Show help"
+                expanded
+            >
+                Content
+            </Subject>,
+        );
 
         const panel: HTMLElement | null = container.querySelector(".contextual-help-panel");
         expect(panel).toBeTruthy();
@@ -56,14 +70,28 @@ describe("ContextualHelp", () => {
     });
 
     test("aria-expanded reflects the expanded prop", () => {
-        render(<Subject label="Show help" expanded>Content</Subject>);
+        render(
+            <Subject
+                label="Show help"
+                expanded
+            >
+                Content
+            </Subject>,
+        );
 
         const trigger: HTMLElement = screen.getByRole("button", { name: "Show help" });
         expect(trigger.getAttribute("aria-expanded")).toBe("true");
     });
 
     test("renders children inside the panel", () => {
-        render(<Subject label="Show help" expanded>Helpful info</Subject>);
+        render(
+            <Subject
+                label="Show help"
+                expanded
+            >
+                Helpful info
+            </Subject>,
+        );
 
         expect(screen.getByText("Helpful info")).toBeTruthy();
     });
@@ -71,7 +99,14 @@ describe("ContextualHelp", () => {
     test("calls onClick when the trigger is clicked", async () => {
         const user: UserEvent = userEvent.setup();
         const handleClick = vi.fn();
-        render(<Subject label="Show help" onClick={handleClick}>Content</Subject>);
+        render(
+            <Subject
+                label="Show help"
+                onClick={handleClick}
+            >
+                Content
+            </Subject>,
+        );
 
         await user.click(screen.getByRole("button", { name: "Show help" }));
         expect(handleClick).toHaveBeenCalledOnce();

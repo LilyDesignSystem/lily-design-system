@@ -92,17 +92,17 @@ export default function CheckboxInput({
 
     return (
         <input
-        className={`checkbox-input ${className}`}
-        type="checkbox"
-        checked={internalChecked}
-        onChange={handleChange}
-        aria-label={label}
-        disabled={disabled}
-        required={required}
-        name={name}
-        id={id}
-        value={value}
-        {...restProps}
+            className={`checkbox-input ${className}`}
+            type="checkbox"
+            checked={internalChecked}
+            onChange={handleChange}
+            aria-label={label}
+            disabled={disabled}
+            required={required}
+            name={name}
+            id={id}
+            value={value}
+            {...restProps}
         />
     );
 }

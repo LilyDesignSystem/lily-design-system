@@ -130,7 +130,12 @@ describe("ChatComposer", () => {
     });
 
     test("renders the default slot before the textarea", () => {
-        const { container } = setup({}, { slots: { default: '<span data-testid="extra">E</span>' } });
-        expect(container.querySelector("form")!.firstElementChild!.getAttribute("data-testid")).toBe("extra");
+        const { container } = setup(
+            {},
+            { slots: { default: '<span data-testid="extra">E</span>' } },
+        );
+        expect(
+            container.querySelector("form")!.firstElementChild!.getAttribute("data-testid"),
+        ).toBe("extra");
     });
 });

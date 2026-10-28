@@ -37,11 +37,7 @@
 
 import React from "react";
 
-export type FloatButtonPosition =
-    | "top-left"
-    | "top-right"
-    | "bottom-left"
-    | "bottom-right";
+export type FloatButtonPosition = "top-left" | "top-right" | "bottom-left" | "bottom-right";
 
 export interface FloatButtonProps {
     className?: string;

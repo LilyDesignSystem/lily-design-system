@@ -5,7 +5,12 @@ import Subject from "./MisrAlRaqmAlQawmiView";
 
 describe("MisrAlRaqmAlQawmiView", () => {
     test("renders with the correct class", () => {
-        render(<Subject label="National Number (الرقم القومي)" value="test-value" />);
+        render(
+            <Subject
+                label="National Number (الرقم القومي)"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("National Number (الرقم القومي)");
         expect(el).toBeTruthy();
@@ -13,7 +18,12 @@ describe("MisrAlRaqmAlQawmiView", () => {
     });
 
     test("renders the value as text content", () => {
-        render(<Subject label="National Number (الرقم القومي)" value="test-value" />);
+        render(
+            <Subject
+                label="National Number (الرقم القومي)"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("National Number (الرقم القومي)");
         expect(el.textContent).toBe("test-value");

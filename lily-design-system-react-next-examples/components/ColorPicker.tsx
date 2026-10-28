@@ -122,18 +122,18 @@ export default function ColorPicker({
 
     return (
         <div
-        className={`color-picker ${className}`}
-        role="slider"
-        tabIndex={disabled ? -1 : 0}
-        aria-label={label}
-        aria-valuenow={x}
-        aria-valuemin={0}
-        aria-valuemax={100}
-        aria-disabled={disabled || undefined}
-        data-x={x}
-        data-y={y}
-        onKeyDown={handleKeyDown}
-        {...restProps}
+            className={`color-picker ${className}`}
+            role="slider"
+            tabIndex={disabled ? -1 : 0}
+            aria-label={label}
+            aria-valuenow={x}
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-disabled={disabled || undefined}
+            data-x={x}
+            data-y={y}
+            onKeyDown={handleKeyDown}
+            {...restProps}
         ></div>
     );
 }

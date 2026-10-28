@@ -46,7 +46,14 @@ describe("Button", () => {
     test("does not fire click when disabled", async () => {
         const user: UserEvent = userEvent.setup();
         const handleClick = vi.fn();
-        render(<Subject disabled onClick={handleClick}>Disabled</Subject>);
+        render(
+            <Subject
+                disabled
+                onClick={handleClick}
+            >
+                Disabled
+            </Subject>,
+        );
 
         const button: HTMLElement = screen.getByRole("button");
         await user.click(button);
@@ -106,14 +113,28 @@ describe("Button", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject data-testid="my-btn" id="btn-1">Custom</Subject>);
+        render(
+            <Subject
+                data-testid="my-btn"
+                id="btn-1"
+            >
+                Custom
+            </Subject>,
+        );
 
         const button: HTMLElement = screen.getByTestId("my-btn");
         expect(button.getAttribute("id")).toBe("btn-1");
     });
 
     test("a pending button stays enabled and focusable, carrying aria-busy and aria-disabled", () => {
-        render(<Subject aria-busy="true" aria-disabled="true">Saving</Subject>);
+        render(
+            <Subject
+                aria-busy="true"
+                aria-disabled="true"
+            >
+                Saving
+            </Subject>,
+        );
         const button = screen.getByRole("button") as HTMLButtonElement;
         expect(button.disabled).toBe(false);
         expect(button.getAttribute("aria-busy")).toBe("true");

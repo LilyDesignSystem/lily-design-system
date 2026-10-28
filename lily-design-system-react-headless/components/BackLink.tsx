@@ -18,13 +18,13 @@
 //   <BackLink href="/previous">Back</BackLink>
 //
 // Examples:
-//   
+//
 //   <BackLink href="/previous-page">Back to previous page</BackLink>
 //
-//   
+//
 //   <BackLink href="/dashboard" label="Return to dashboard">Back</BackLink>
 //
-//   
+//
 //   <BackLink href="/step-2" data-step="3">Go back</BackLink>
 //
 // Keyboard:
@@ -71,12 +71,12 @@ export default function BackLink({
 }: BackLinkProps) {
     return (
         <a
-        className={`back-link ${className}`}
-        href={href}
-        aria-label={label}
-        {...restProps}
+            className={`back-link ${className}`}
+            href={href}
+            aria-label={label}
+            {...restProps}
         >
-        {children}
+            {children}
         </a>
     );
 }

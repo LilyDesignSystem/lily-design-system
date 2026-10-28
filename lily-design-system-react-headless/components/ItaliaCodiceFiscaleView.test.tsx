@@ -5,7 +5,12 @@ import Subject from "./ItaliaCodiceFiscaleView";
 
 describe("ItaliaCodiceFiscaleView", () => {
     test("renders with the correct class", () => {
-        render(<Subject label="Italian Fiscal Code" value="test-value" />);
+        render(
+            <Subject
+                label="Italian Fiscal Code"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Italian Fiscal Code");
         expect(el).toBeTruthy();
@@ -13,7 +18,12 @@ describe("ItaliaCodiceFiscaleView", () => {
     });
 
     test("renders the value as text content", () => {
-        render(<Subject label="Italian Fiscal Code" value="test-value" />);
+        render(
+            <Subject
+                label="Italian Fiscal Code"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Italian Fiscal Code");
         expect(el.textContent).toBe("test-value");

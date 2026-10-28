@@ -74,17 +74,17 @@ export default function TuaisceartEireannHealthAndCareNumberInput({
 
     return (
         <input
-        className={`tuaisceart-eireann-health-and-care-number-input ${className}`}
-        type="text"
-        aria-label={label}
-        inputMode="numeric"
-        pattern={hcPattern}
-        autoComplete="off"
-        value={value}
-        onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`tuaisceart-eireann-health-and-care-number-input ${className}`}
+            type="text"
+            aria-label={label}
+            inputMode="numeric"
+            pattern={hcPattern}
+            autoComplete="off"
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

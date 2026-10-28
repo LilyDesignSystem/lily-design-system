@@ -4,7 +4,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./BackLink.vue";
 
-
 describe("BackLink", () => {
     test("renders as a link with href", () => {
         render(Subject, { props: { href: "/previous" }, slots: { default: "Back" } });
@@ -15,8 +14,10 @@ describe("BackLink", () => {
     });
 
     test("applies aria-label when label prop is provided", () => {
-        render(Subject, { props: { href: "/dashboard",
-            label: "Return to dashboard" }, slots: { default: "Back" } });
+        render(Subject, {
+            props: { href: "/dashboard", label: "Return to dashboard" },
+            slots: { default: "Back" },
+        });
 
         const link: HTMLElement = screen.getByRole("link", { name: "Return to dashboard" });
         expect(link.getAttribute("aria-label")).toBe("Return to dashboard");
@@ -30,8 +31,10 @@ describe("BackLink", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(Subject, { props: { href: "/home",
-            "data-testid": "back-link" }, slots: { default: "Back" } });
+        render(Subject, {
+            props: { href: "/home", "data-testid": "back-link" },
+            slots: { default: "Back" },
+        });
 
         const link: HTMLElement = screen.getByTestId("back-link");
         expect(link).toBeTruthy();

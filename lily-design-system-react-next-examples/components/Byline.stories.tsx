@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import Byline from './Byline';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import Byline from "./Byline";
 
 const meta = {
-  title: 'Headless/Byline',
-  component: Byline,
-  tags: ['autodocs']
+    title: "Headless/Byline",
+    component: Byline,
+    tags: ["autodocs"],
 } satisfies Meta<typeof Byline>;
 
 export default meta;

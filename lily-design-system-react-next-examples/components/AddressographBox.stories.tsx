@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import AddressographBox from './AddressographBox';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import AddressographBox from "./AddressographBox";
 
 const meta = {
-  title: 'Headless/AddressographBox',
-  component: AddressographBox,
-  tags: ['autodocs']
+    title: "Headless/AddressographBox",
+    component: AddressographBox,
+    tags: ["autodocs"],
 } satisfies Meta<typeof AddressographBox>;
 
 export default meta;

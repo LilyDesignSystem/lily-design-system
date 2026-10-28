@@ -37,9 +37,11 @@ export default function UnitedKingdomNationalInsuranceNumberView({
 }: UnitedKingdomNationalInsuranceNumberViewProps) {
     return (
         <span
-        className={`united-kingdom-national-insurance-number-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`united-kingdom-national-insurance-number-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

@@ -14,10 +14,10 @@
 //   <PaginationListItem><a href="/page/1">1</a></PaginationListItem>
 //
 // Examples:
-//   
+//
 //   <PaginationListItem><a href="/page/1">1</a></PaginationListItem>
 //
-//   
+//
 //   <PaginationListItem><a href="/page/2" aria-current="page">2</a></PaginationListItem>
 //
 // Keyboard:
@@ -55,10 +55,10 @@ export default function PaginationListItem({
 }: PaginationListItemProps) {
     return (
         <li
-        className={`pagination-list-item ${className}`}
-        {...restProps}
+            className={`pagination-list-item ${className}`}
+            {...restProps}
         >
-        {children}
+            {children}
         </li>
     );
 }

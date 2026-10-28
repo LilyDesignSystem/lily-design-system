@@ -4,7 +4,6 @@ import { describe, expect, test, vi } from "vitest";
 
 import Subject from "./ActionBarButton.vue";
 
-
 describe("ActionBarButton", () => {
     test("renders as a button with aria-label", () => {
         render(Subject, { props: { label: "Delete" }, slots: { default: "Delete" } });
@@ -44,7 +43,10 @@ describe("ActionBarButton", () => {
     });
 
     test("can be disabled", () => {
-        render(Subject, { props: { label: "Delete", disabled: true }, slots: { default: "Delete" } });
+        render(Subject, {
+            props: { label: "Delete", disabled: true },
+            slots: { default: "Delete" },
+        });
 
         const button: HTMLButtonElement = screen.getByRole("button") as HTMLButtonElement;
         expect(button.disabled).toBe(true);

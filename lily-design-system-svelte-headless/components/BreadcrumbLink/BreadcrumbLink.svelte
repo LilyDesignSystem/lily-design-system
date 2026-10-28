@@ -13,6 +13,10 @@
 </script>
 
 <!-- BreadcrumbLink.svelte -->
-<div class={`breadcrumb-link ${className}`} aria-label={label} {...restProps}>
+<div
+    class={`breadcrumb-link ${className}`}
+    aria-label={label}
+    {...restProps}
+>
     {@render children?.()}
 </div>

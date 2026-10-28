@@ -26,7 +26,14 @@ describe("Grid", () => {
     });
 
     test("accepts numeric columns", () => {
-        render(<Subject columns={3} data-testid="g">Inner</Subject>);
+        render(
+            <Subject
+                columns={3}
+                data-testid="g"
+            >
+                Inner
+            </Subject>,
+        );
 
         const el: HTMLElement = screen.getByTestId("g");
         expect(el.getAttribute("data-columns")).toBe("3");
@@ -35,7 +42,10 @@ describe("Grid", () => {
 
     test("accepts a custom grid-template-columns string", () => {
         render(
-            <Subject columns="200px 1fr 200px" data-testid="g">
+            <Subject
+                columns="200px 1fr 200px"
+                data-testid="g"
+            >
                 Inner
             </Subject>,
         );
@@ -46,14 +56,28 @@ describe("Grid", () => {
     });
 
     test("applies custom gap", () => {
-        render(<Subject gap="2rem" data-testid="g">Inner</Subject>);
+        render(
+            <Subject
+                gap="2rem"
+                data-testid="g"
+            >
+                Inner
+            </Subject>,
+        );
 
         const el: HTMLElement = screen.getByTestId("g");
         expect(el.style.gap).toBe("2rem");
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject id="layout" data-testid="g">Inner</Subject>);
+        render(
+            <Subject
+                id="layout"
+                data-testid="g"
+            >
+                Inner
+            </Subject>,
+        );
 
         const el: HTMLElement = screen.getByTestId("g");
         expect(el.getAttribute("id")).toBe("layout");

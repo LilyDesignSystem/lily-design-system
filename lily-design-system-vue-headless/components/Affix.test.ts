@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./Affix.vue";
 
-
 describe("Affix", () => {
     test("renders a div with affix class on root", () => {
         const { container } = render(Subject, { slots: { default: "content" } });

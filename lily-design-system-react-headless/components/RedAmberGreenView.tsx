@@ -15,10 +15,10 @@
 //   <RedAmberGreenView label="Project status" value="green" />
 //
 // Examples:
-//   
+//
 //   <RedAmberGreenView label="Health check" value={status} />
 //
-//   
+//
 //   <RedAmberGreenView label="Risk level" value="amber" data-testid="risk" />
 //
 // Keyboard:
@@ -61,9 +61,11 @@ export default function RedAmberGreenView({
 }: RedAmberGreenViewProps) {
     return (
         <span
-        className={`red-amber-green-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`red-amber-green-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

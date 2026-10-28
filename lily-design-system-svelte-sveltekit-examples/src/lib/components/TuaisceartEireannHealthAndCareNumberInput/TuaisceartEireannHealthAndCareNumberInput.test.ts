@@ -7,6 +7,8 @@ describe("TuaisceartEireannHealthAndCareNumberInput", () => {
         render(TuaisceartEireannHealthAndCareNumberInput, { props: { label: "Test" } });
         const el = screen.getByLabelText("Test");
         expect(el).toBeTruthy();
-        expect(el.getAttribute("class")).toContain("tuaisceart-eireann-health-and-care-number-input");
+        expect(el.getAttribute("class")).toContain(
+            "tuaisceart-eireann-health-and-care-number-input",
+        );
     });
 });

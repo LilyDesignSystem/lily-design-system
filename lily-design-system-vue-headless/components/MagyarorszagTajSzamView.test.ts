@@ -5,7 +5,9 @@ import Subject from "./MagyarorszagTajSzamView.vue";
 
 describe("MagyarorszagTajSzamView", () => {
     test("renders with the correct class", () => {
-        render(Subject, { props: { label: "Health Insurance Identification Number", value: "test-value" } });
+        render(Subject, {
+            props: { label: "Health Insurance Identification Number", value: "test-value" },
+        });
 
         const el = screen.getByLabelText("Health Insurance Identification Number");
         expect(el).toBeTruthy();
@@ -13,7 +15,9 @@ describe("MagyarorszagTajSzamView", () => {
     });
 
     test("renders the value as text content", () => {
-        render(Subject, { props: { label: "Health Insurance Identification Number", value: "test-value" } });
+        render(Subject, {
+            props: { label: "Health Insurance Identification Number", value: "test-value" },
+        });
 
         const el = screen.getByLabelText("Health Insurance Identification Number");
         expect(el.textContent).toBe("test-value");

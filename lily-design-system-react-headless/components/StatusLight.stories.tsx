@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import StatusLight from './StatusLight';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import StatusLight from "./StatusLight";
 
 const meta = {
-  title: 'Headless/StatusLight',
-  component: StatusLight,
-  tags: ['autodocs']
+    title: "Headless/StatusLight",
+    component: StatusLight,
+    tags: ["autodocs"],
 } satisfies Meta<typeof StatusLight>;
 
 export default meta;

@@ -73,18 +73,17 @@ export default function Pictogram({
             aria-label={label}
             {...restProps}
         >
-            <div className="pictogram-icon" aria-hidden="true">
+            <div
+                className="pictogram-icon"
+                aria-hidden="true"
+            >
                 {icon}
             </div>
             <figcaption className="pictogram-caption">
-                {heading && (
-                    <h3 className="pictogram-heading">{heading}</h3>
-                )}
+                {heading && <h3 className="pictogram-heading">{heading}</h3>}
                 {children
                     ? children
-                    : description && (
-                          <p className="pictogram-description">{description}</p>
-                      )}
+                    : description && <p className="pictogram-description">{description}</p>}
             </figcaption>
         </figure>
     );

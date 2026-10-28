@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import ClipboardCopyButton from './ClipboardCopyButton';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import ClipboardCopyButton from "./ClipboardCopyButton";
 
 const meta = {
-  title: 'Headless/ClipboardCopyButton',
-  component: ClipboardCopyButton,
-  tags: ['autodocs']
+    title: "Headless/ClipboardCopyButton",
+    component: ClipboardCopyButton,
+    tags: ["autodocs"],
 } satisfies Meta<typeof ClipboardCopyButton>;
 
 export default meta;

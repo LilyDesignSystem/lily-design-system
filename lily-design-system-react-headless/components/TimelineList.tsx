@@ -16,7 +16,7 @@
 //   <TimelineList label="Project milestones">...</TimelineList>
 //
 // Examples:
-//   
+//
 //   <TimelineList label="Order history">
 //     <TimelineListItem datetime="2024-01-15" heading="January 15, 2024">
 //       Order placed
@@ -69,11 +69,11 @@ export default function TimelineList({
 }: TimelineListProps) {
     return (
         <ol
-        className={`timeline-list ${className}`}
-        aria-label={label}
-        {...restProps}
+            className={`timeline-list ${className}`}
+            aria-label={label}
+            {...restProps}
         >
-        {children}
+            {children}
         </ol>
     );
 }

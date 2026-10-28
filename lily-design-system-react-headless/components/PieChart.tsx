@@ -44,7 +44,11 @@ export default function PieChart({
             className={`pie-chart ${className}`}
             {...restProps}
         >
-            <div className="pie-chart-graphic" role="img" aria-label={label}>
+            <div
+                className="pie-chart-graphic"
+                role="img"
+                aria-label={label}
+            >
                 {children}
             </div>
             {dataTable !== undefined && dataTable !== null && (

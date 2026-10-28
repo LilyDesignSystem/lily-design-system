@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./Option.vue";
 
-
 describe("Option", () => {
     test("renders an option element", () => {
         render(Subject, { props: { value: "a" }, slots: { default: "Alpha" } });

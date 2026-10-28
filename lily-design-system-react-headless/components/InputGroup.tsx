@@ -75,18 +75,14 @@ export default function InputGroup({
 }: InputGroupProps) {
     return (
         <div
-        className={`input-group ${className}`}
-        role="group"
-        aria-label={label}
-        {...restProps}
+            className={`input-group ${className}`}
+            role="group"
+            aria-label={label}
+            {...restProps}
         >
-        {prefix !== undefined ? (
-            <span className="input-group-prefix">{prefix}</span>
-        ) : null}
-        {children}
-        {suffix !== undefined ? (
-            <span className="input-group-suffix">{suffix}</span>
-        ) : null}
+            {prefix !== undefined ? <span className="input-group-prefix">{prefix}</span> : null}
+            {children}
+            {suffix !== undefined ? <span className="input-group-suffix">{suffix}</span> : null}
         </div>
     );
 }

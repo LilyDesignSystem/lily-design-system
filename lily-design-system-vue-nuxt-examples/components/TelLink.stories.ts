@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import TelLink from './TelLink.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import TelLink from "./TelLink.vue";
 
 const meta = {
-  title: 'Headless/TelLink',
-  component: TelLink,
-  tags: ['autodocs']
+    title: "Headless/TelLink",
+    component: TelLink,
+    tags: ["autodocs"],
 } satisfies Meta<typeof TelLink>;
 
 export default meta;

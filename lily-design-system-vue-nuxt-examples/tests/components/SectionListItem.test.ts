@@ -3,12 +3,12 @@ import { render } from "@testing-library/vue";
 import SectionListItem from "../../components/SectionListItem.vue";
 
 describe("SectionListItem", () => {
-  it("renders with class", () => {
-    const { container } = render(SectionListItem, {
-      props: { label: "Test" },
-      slots: { default: "content" },
+    it("renders with class", () => {
+        const { container } = render(SectionListItem, {
+            props: { label: "Test" },
+            slots: { default: "content" },
+        });
+        const el = container.querySelector(".section-list-item");
+        expect(el).toBeTruthy();
     });
-    const el = container.querySelector(".section-list-item");
-    expect(el).toBeTruthy();
-  });
 });

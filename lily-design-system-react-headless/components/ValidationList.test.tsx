@@ -8,7 +8,7 @@ describe("ValidationList", () => {
         render(
             <Subject label="Password requirements">
                 <li>Rule</li>
-            </Subject>
+            </Subject>,
         );
 
         const list: HTMLElement = screen.getByRole("list", {
@@ -22,7 +22,7 @@ describe("ValidationList", () => {
         render(
             <Subject label="Rules">
                 <li>Rule</li>
-            </Subject>
+            </Subject>,
         );
 
         const list: HTMLElement = screen.getByRole("list");
@@ -34,7 +34,7 @@ describe("ValidationList", () => {
             <Subject label="Rules">
                 <li>Rule one</li>
                 <li>Rule two</li>
-            </Subject>
+            </Subject>,
         );
 
         const items: HTMLElement[] = screen.getAllByRole("listitem");
@@ -43,9 +43,12 @@ describe("ValidationList", () => {
 
     test("passes through additional HTML attributes", () => {
         render(
-            <Subject label="Rules" id="my-validation">
+            <Subject
+                label="Rules"
+                id="my-validation"
+            >
                 <li>Rule</li>
-            </Subject>
+            </Subject>,
         );
 
         const list: HTMLElement = screen.getByRole("list");

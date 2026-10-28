@@ -5,7 +5,12 @@ import Subject from "./RossiyaSnilsView";
 
 describe("RossiyaSnilsView", () => {
     test("renders with the correct class", () => {
-        render(<Subject label="SNILS (СНИЛС)" value="test-value" />);
+        render(
+            <Subject
+                label="SNILS (СНИЛС)"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("SNILS (СНИЛС)");
         expect(el).toBeTruthy();
@@ -13,7 +18,12 @@ describe("RossiyaSnilsView", () => {
     });
 
     test("renders the value as text content", () => {
-        render(<Subject label="SNILS (СНИЛС)" value="test-value" />);
+        render(
+            <Subject
+                label="SNILS (СНИЛС)"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("SNILS (СНИЛС)");
         expect(el.textContent).toBe("test-value");

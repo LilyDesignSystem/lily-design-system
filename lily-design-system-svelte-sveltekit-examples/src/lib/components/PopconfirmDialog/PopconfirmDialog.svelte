@@ -98,9 +98,19 @@
     hidden={!open}
     {...restProps}
 >
-    <h2 class="popconfirm-dialog-title" id={titleId}>{title}</h2>
+    <h2
+        class="popconfirm-dialog-title"
+        id={titleId}
+    >
+        {title}
+    </h2>
     {#if description}
-        <p class="popconfirm-dialog-description" id={descId}>{description}</p>
+        <p
+            class="popconfirm-dialog-description"
+            id={descId}
+        >
+            {description}
+        </p>
     {/if}
     <button
         class="popconfirm-dialog-cancel"

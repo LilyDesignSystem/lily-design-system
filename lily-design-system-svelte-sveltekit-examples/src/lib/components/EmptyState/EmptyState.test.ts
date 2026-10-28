@@ -35,7 +35,9 @@ describe("EmptyState", () => {
     });
 
     test("is not a live region", () => {
-        const { container } = render(Subject, { props: { label: "L", children: textSnippet("x") } });
+        const { container } = render(Subject, {
+            props: { label: "L", children: textSnippet("x") },
+        });
         const root = container.firstElementChild as HTMLElement;
         expect(root.getAttribute("aria-live")).toBeNull();
         expect(root.getAttribute("role")).not.toBe("status");

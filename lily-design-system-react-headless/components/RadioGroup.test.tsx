@@ -5,8 +5,22 @@ import Subject from "./RadioGroup";
 
 const radioButtons = (
     <>
-        <label><input type="radio" name="size" value="s" /> Small</label>
-        <label><input type="radio" name="size" value="m" /> Medium</label>
+        <label>
+            <input
+                type="radio"
+                name="size"
+                value="s"
+            />{" "}
+            Small
+        </label>
+        <label>
+            <input
+                type="radio"
+                name="size"
+                value="m"
+            />{" "}
+            Medium
+        </label>
     </>
 );
 
@@ -32,7 +46,14 @@ describe("RadioGroup", () => {
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="S" data-testid="rg">{radioButtons}</Subject>);
+        render(
+            <Subject
+                label="S"
+                data-testid="rg"
+            >
+                {radioButtons}
+            </Subject>,
+        );
         expect(screen.getByTestId("rg")).toBeTruthy();
     });
 });

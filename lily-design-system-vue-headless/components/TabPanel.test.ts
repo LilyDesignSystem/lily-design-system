@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./TabPanel.vue";
 
-
 describe("TabPanel", () => {
     test("renders as a tabpanel", () => {
         render(Subject, {

@@ -92,7 +92,10 @@ export default function Cascader({
             >
                 {value || placeholder}
             </button>
-            <div className="cascader-panel" hidden={!expanded}>
+            <div
+                className="cascader-panel"
+                hidden={!expanded}
+            >
                 {children}
             </div>
         </div>

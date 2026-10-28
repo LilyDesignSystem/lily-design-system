@@ -7,7 +7,9 @@ describe("HangukJuminDeungnokBeonhoInput", () => {
     test("renders a text input", () => {
         render(<Subject label="Resident Registration Number (주민등록번호)" />);
 
-        const input = screen.getByLabelText("Resident Registration Number (주민등록번호)") as HTMLInputElement;
+        const input = screen.getByLabelText(
+            "Resident Registration Number (주민등록번호)",
+        ) as HTMLInputElement;
         expect(input.type).toBe("text");
     });
 
@@ -28,33 +30,56 @@ describe("HangukJuminDeungnokBeonhoInput", () => {
     test("is not required by default", () => {
         render(<Subject label="Resident Registration Number (주민등록번호)" />);
 
-        const input = screen.getByLabelText("Resident Registration Number (주민등록번호)") as HTMLInputElement;
+        const input = screen.getByLabelText(
+            "Resident Registration Number (주민등록번호)",
+        ) as HTMLInputElement;
         expect(input.required).toBe(false);
     });
 
     test("can be set to required", () => {
-        render(<Subject label="Resident Registration Number (주민등록번호)" required />);
+        render(
+            <Subject
+                label="Resident Registration Number (주민등록번호)"
+                required
+            />,
+        );
 
-        const input = screen.getByLabelText("Resident Registration Number (주민등록번호)") as HTMLInputElement;
+        const input = screen.getByLabelText(
+            "Resident Registration Number (주민등록번호)",
+        ) as HTMLInputElement;
         expect(input.required).toBe(true);
     });
 
     test("is not disabled by default", () => {
         render(<Subject label="Resident Registration Number (주민등록번호)" />);
 
-        const input = screen.getByLabelText("Resident Registration Number (주민등록번호)") as HTMLInputElement;
+        const input = screen.getByLabelText(
+            "Resident Registration Number (주민등록번호)",
+        ) as HTMLInputElement;
         expect(input.disabled).toBe(false);
     });
 
     test("can be set to disabled", () => {
-        render(<Subject label="Resident Registration Number (주민등록번호)" disabled />);
+        render(
+            <Subject
+                label="Resident Registration Number (주민등록번호)"
+                disabled
+            />,
+        );
 
-        const input = screen.getByLabelText("Resident Registration Number (주민등록번호)") as HTMLInputElement;
+        const input = screen.getByLabelText(
+            "Resident Registration Number (주민등록번호)",
+        ) as HTMLInputElement;
         expect(input.disabled).toBe(true);
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="Resident Registration Number (주민등록번호)" data-testid="subject" />);
+        render(
+            <Subject
+                label="Resident Registration Number (주민등록번호)"
+                data-testid="subject"
+            />,
+        );
 
         const input = screen.getByTestId("subject");
         expect(input).toBeTruthy();

@@ -18,7 +18,7 @@
 //   </TaskBar>
 //
 // Examples:
-//   
+//
 //   <TaskBar label="Tasks">
 //     <TaskBarButton>New</TaskBarButton>
 //     <TaskBarButton>Open</TaskBarButton>
@@ -59,20 +59,13 @@ export interface TaskBarProps {
     [key: string]: unknown;
 }
 
-export default function TaskBar({
-    className = "",
-    label,
-    children,
-    ...restProps
-}: TaskBarProps) {
+export default function TaskBar({ className = "", label, children, ...restProps }: TaskBarProps) {
     const barRef = useRef<HTMLDivElement>(null);
 
     function handleKeyDown(event: React.KeyboardEvent) {
         if (!barRef.current) return;
         const items = Array.from(
-            barRef.current.querySelectorAll<HTMLElement>(
-                "button, [role='button'], [tabindex]",
-            ),
+            barRef.current.querySelectorAll<HTMLElement>("button, [role='button'], [tabindex]"),
         );
         const current = document.activeElement as HTMLElement;
         const index = items.indexOf(current);
@@ -104,14 +97,14 @@ export default function TaskBar({
 
     return (
         <div
-        className={`task-bar ${className}`}
-        role="toolbar"
-        aria-label={label}
-        ref={barRef}
-        onKeyDown={handleKeyDown}
-        {...restProps}
+            className={`task-bar ${className}`}
+            role="toolbar"
+            aria-label={label}
+            ref={barRef}
+            onKeyDown={handleKeyDown}
+            {...restProps}
         >
-        {children}
+            {children}
         </div>
     );
 }

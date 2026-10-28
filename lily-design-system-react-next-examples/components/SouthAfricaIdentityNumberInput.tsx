@@ -50,14 +50,15 @@ export default function SouthAfricaIdentityNumberInput({
 }: SouthAfricaIdentityNumberInputProps) {
     return (
         <input
-        className={`south-africa-identity-number-input ${className}`}
-        type="text"
-        aria-label={label}
-        autoComplete="off"
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`south-africa-identity-number-input ${className}`}
+            type="text"
+            aria-label={label}
+            autoComplete="off"
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

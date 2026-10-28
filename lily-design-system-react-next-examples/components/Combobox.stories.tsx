@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import Combobox from './Combobox';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import Combobox from "./Combobox";
 
 const meta = {
-  title: 'Headless/Combobox',
-  component: Combobox,
-  tags: ['autodocs']
+    title: "Headless/Combobox",
+    component: Combobox,
+    tags: ["autodocs"],
 } satisfies Meta<typeof Combobox>;
 
 export default meta;

@@ -36,11 +36,7 @@ export interface TableHeadProps {
     [key: string]: unknown;
 }
 
-export default function TableHead({
-    className = "",
-    children,
-    ...restProps
-}: TableHeadProps) {
+export default function TableHead({ className = "", children, ...restProps }: TableHeadProps) {
     return (
         <thead
             className={`table-head ${className}`}

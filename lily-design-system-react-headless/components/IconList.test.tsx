@@ -8,7 +8,7 @@ describe("IconList", () => {
         const { container } = render(
             <Subject>
                 <li>One</li>
-            </Subject>
+            </Subject>,
         );
 
         const ul: HTMLElement | null = container.querySelector("ul");
@@ -19,7 +19,7 @@ describe("IconList", () => {
         const { container } = render(
             <Subject>
                 <li>One</li>
-            </Subject>
+            </Subject>,
         );
 
         const ul: HTMLElement = container.querySelector("ul")!;
@@ -30,7 +30,7 @@ describe("IconList", () => {
         render(
             <Subject label="Benefits">
                 <li>One</li>
-            </Subject>
+            </Subject>,
         );
 
         const list: HTMLElement = screen.getByRole("list", { name: "Benefits" });
@@ -43,7 +43,7 @@ describe("IconList", () => {
                 <li>One</li>
                 <li>Two</li>
                 <li>Three</li>
-            </Subject>
+            </Subject>,
         );
 
         const items: HTMLElement[] = screen.getAllByRole("listitem");
@@ -54,7 +54,7 @@ describe("IconList", () => {
         const { container } = render(
             <Subject id="my-icon-list">
                 <li>One</li>
-            </Subject>
+            </Subject>,
         );
 
         const ul: HTMLElement = container.querySelector("ul")!;

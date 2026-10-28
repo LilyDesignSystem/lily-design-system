@@ -7,7 +7,9 @@ describe("PrathetThaiLekPrajamTuaPrachachonInput", () => {
     test("renders a text input", () => {
         render(Subject, { props: { label: "เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)" } });
 
-        const input = screen.getByLabelText("เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)") as HTMLInputElement;
+        const input = screen.getByLabelText(
+            "เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)",
+        ) as HTMLInputElement;
         expect(input.type).toBe("text");
     });
 
@@ -15,7 +17,9 @@ describe("PrathetThaiLekPrajamTuaPrachachonInput", () => {
         render(Subject, { props: { label: "เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)" } });
 
         const input = screen.getByLabelText("เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)");
-        expect(input.getAttribute("class")).toContain("prathet-thai-lek-prajam-tua-prachachon-input");
+        expect(input.getAttribute("class")).toContain(
+            "prathet-thai-lek-prajam-tua-prachachon-input",
+        );
     });
 
     test("has autocomplete off", () => {
@@ -28,33 +32,50 @@ describe("PrathetThaiLekPrajamTuaPrachachonInput", () => {
     test("is not required by default", () => {
         render(Subject, { props: { label: "เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)" } });
 
-        const input = screen.getByLabelText("เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)") as HTMLInputElement;
+        const input = screen.getByLabelText(
+            "เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)",
+        ) as HTMLInputElement;
         expect(input.required).toBe(false);
     });
 
     test("can be set to required", () => {
-        render(Subject, { props: { label: "เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)", required: true } });
+        render(Subject, {
+            props: { label: "เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)", required: true },
+        });
 
-        const input = screen.getByLabelText("เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)") as HTMLInputElement;
+        const input = screen.getByLabelText(
+            "เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)",
+        ) as HTMLInputElement;
         expect(input.required).toBe(true);
     });
 
     test("is not disabled by default", () => {
         render(Subject, { props: { label: "เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)" } });
 
-        const input = screen.getByLabelText("เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)") as HTMLInputElement;
+        const input = screen.getByLabelText(
+            "เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)",
+        ) as HTMLInputElement;
         expect(input.disabled).toBe(false);
     });
 
     test("can be set to disabled", () => {
-        render(Subject, { props: { label: "เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)", disabled: true } });
+        render(Subject, {
+            props: { label: "เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)", disabled: true },
+        });
 
-        const input = screen.getByLabelText("เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)") as HTMLInputElement;
+        const input = screen.getByLabelText(
+            "เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)",
+        ) as HTMLInputElement;
         expect(input.disabled).toBe(true);
     });
 
     test("passes through additional HTML attributes", () => {
-        render(Subject, { props: { label: "เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)", "data-testid": "subject" } });
+        render(Subject, {
+            props: {
+                label: "เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)",
+                "data-testid": "subject",
+            },
+        });
 
         const input = screen.getByTestId("subject");
         expect(input).toBeTruthy();

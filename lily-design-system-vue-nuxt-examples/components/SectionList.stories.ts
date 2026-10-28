@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import SectionList from './SectionList.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import SectionList from "./SectionList.vue";
 
 const meta = {
-  title: 'Headless/SectionList',
-  component: SectionList,
-  tags: ['autodocs']
+    title: "Headless/SectionList",
+    component: SectionList,
+    tags: ["autodocs"],
 } satisfies Meta<typeof SectionList>;
 
 export default meta;

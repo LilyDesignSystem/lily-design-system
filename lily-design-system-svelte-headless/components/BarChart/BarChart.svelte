@@ -52,7 +52,11 @@
     class={`bar-chart ${className}`}
     {...restProps}
 >
-    <div class="bar-chart-graphic" role="img" aria-label={label}>
+    <div
+        class="bar-chart-graphic"
+        role="img"
+        aria-label={label}
+    >
         {@render children?.()}
     </div>
     {#if dataTable}

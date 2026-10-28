@@ -18,7 +18,9 @@ describe("ShowMore", () => {
         const { container } = render(Subject, { props: base, slots: { default: "Body" } });
         const button = screen.getByRole("button", { name: "Show more" });
         expect(button.getAttribute("aria-expanded")).toBe("false");
-        expect(container.querySelector(".show-more-content")!.getAttribute("data-expanded")).toBe("false");
+        expect(container.querySelector(".show-more-content")!.getAttribute("data-expanded")).toBe(
+            "false",
+        );
     });
 
     test("content stays in the DOM and accessibility tree while collapsed", () => {
@@ -32,14 +34,18 @@ describe("ShowMore", () => {
         await user.click(screen.getByRole("button"));
         const button = screen.getByRole("button", { name: "Show less" });
         expect(button.getAttribute("aria-expanded")).toBe("true");
-        expect(container.querySelector(".show-more-content")!.getAttribute("data-expanded")).toBe("true");
+        expect(container.querySelector(".show-more-content")!.getAttribute("data-expanded")).toBe(
+            "true",
+        );
     });
 
     test("clicking again collapses", async () => {
         const user = userEvent.setup();
         render(Subject, { props: { ...base, expanded: true }, slots: { default: "Body" } });
         await user.click(screen.getByRole("button", { name: "Show less" }));
-        expect(screen.getByRole("button", { name: "Show more" }).getAttribute("aria-expanded")).toBe("false");
+        expect(
+            screen.getByRole("button", { name: "Show more" }).getAttribute("aria-expanded"),
+        ).toBe("false");
     });
 
     test("keyboard Enter and Space toggle the native button", async () => {

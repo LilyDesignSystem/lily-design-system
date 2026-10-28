@@ -46,10 +46,10 @@ export default function KanbanTableFoot({
 }: KanbanTableFootProps) {
     return (
         <tfoot
-        className={`kanban-table-foot ${className}`}
-        {...restProps}
+            className={`kanban-table-foot ${className}`}
+            {...restProps}
         >
-        {children}
+            {children}
         </tfoot>
     );
 }

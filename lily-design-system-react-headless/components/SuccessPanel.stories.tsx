@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import SuccessPanel from './SuccessPanel';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import SuccessPanel from "./SuccessPanel";
 
 const meta = {
-  title: 'Headless/SuccessPanel',
-  component: SuccessPanel,
-  tags: ['autodocs']
+    title: "Headless/SuccessPanel",
+    component: SuccessPanel,
+    tags: ["autodocs"],
 } satisfies Meta<typeof SuccessPanel>;
 
 export default meta;

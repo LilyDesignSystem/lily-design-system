@@ -21,7 +21,14 @@ describe("Command", () => {
     });
 
     test("applies placeholder", () => {
-        render(<Subject label="Cmd" placeholder="Type...">Items</Subject>);
+        render(
+            <Subject
+                label="Cmd"
+                placeholder="Type..."
+            >
+                Items
+            </Subject>,
+        );
         expect(screen.getByPlaceholderText("Type...")).toBeTruthy();
     });
 
@@ -33,7 +40,14 @@ describe("Command", () => {
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="Cmd" data-testid="cmd">Items</Subject>);
+        render(
+            <Subject
+                label="Cmd"
+                data-testid="cmd"
+            >
+                Items
+            </Subject>,
+        );
         expect(screen.getByTestId("cmd")).toBeTruthy();
     });
 });

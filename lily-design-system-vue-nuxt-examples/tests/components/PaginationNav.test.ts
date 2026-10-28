@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "../../components/PaginationNav.vue";
 
-
 describe("PaginationNav", () => {
     test("renders a navigation landmark", () => {
         render(Subject, { props: { label: "Pagination" }, slots: { default: "pages" } });
@@ -26,7 +25,10 @@ describe("PaginationNav", () => {
     });
 
     test("passes through attributes", () => {
-        render(Subject, { props: { label: "Pagination", "data-testid": "pn" }, slots: { default: "x" } });
+        render(Subject, {
+            props: { label: "Pagination", "data-testid": "pn" },
+            slots: { default: "x" },
+        });
         expect(screen.getByTestId("pn")).toBeTruthy();
     });
 });

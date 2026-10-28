@@ -40,19 +40,14 @@ export interface IconListProps {
     [key: string]: unknown;
 }
 
-export default function IconList({
-    className = "",
-    label,
-    children,
-    ...restProps
-}: IconListProps) {
+export default function IconList({ className = "", label, children, ...restProps }: IconListProps) {
     return (
         <ul
-        className={`icon-list ${className}`}
-        aria-label={label}
-        {...restProps}
+            className={`icon-list ${className}`}
+            aria-label={label}
+            {...restProps}
         >
-        {children}
+            {children}
         </ul>
     );
 }

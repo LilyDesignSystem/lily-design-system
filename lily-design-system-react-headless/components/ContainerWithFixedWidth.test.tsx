@@ -25,14 +25,28 @@ describe("ContainerWithFixedWidth", () => {
     });
 
     test("accepts custom maxWidth", () => {
-        render(<Subject maxWidth="64rem" data-testid="cf">Inner</Subject>);
+        render(
+            <Subject
+                maxWidth="64rem"
+                data-testid="cf"
+            >
+                Inner
+            </Subject>,
+        );
 
         const el: HTMLElement = screen.getByTestId("cf");
         expect(el.getAttribute("data-max-width")).toBe("64rem");
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject id="page" data-testid="cf">Inner</Subject>);
+        render(
+            <Subject
+                id="page"
+                data-testid="cf"
+            >
+                Inner
+            </Subject>,
+        );
 
         const el: HTMLElement = screen.getByTestId("cf");
         expect(el.getAttribute("id")).toBe("page");

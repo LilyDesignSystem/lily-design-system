@@ -48,12 +48,12 @@ export default function DataTableTD({
 }: DataTableTDProps) {
     return (
         <td
-        className={`data-table-td ${className}`}
-        role="gridcell"
-        tabIndex={active ? 0 : -1}
-        {...restProps}
+            className={`data-table-td ${className}`}
+            role="gridcell"
+            tabIndex={active ? 0 : -1}
+            {...restProps}
         >
-        {children}
+            {children}
         </td>
     );
 }

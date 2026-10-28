@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./CalendarTable.vue";
 
-
 describe("CalendarTable", () => {
     test("renders a grid", () => {
         render(Subject, { props: { label: "January" }, slots: { default: "1" } });
@@ -21,7 +20,10 @@ describe("CalendarTable", () => {
     });
 
     test("renders caption when provided", () => {
-        render(Subject, { props: { label: "January", caption: "January 2025" }, slots: { default: "1" } });
+        render(Subject, {
+            props: { label: "January", caption: "January 2025" },
+            slots: { default: "1" },
+        });
         const table = screen.getByRole("grid");
         const cap = table.querySelector("caption");
         expect(cap).toBeTruthy();

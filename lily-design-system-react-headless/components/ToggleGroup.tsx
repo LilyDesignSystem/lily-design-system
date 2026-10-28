@@ -17,7 +17,7 @@
 //   <ToggleGroup label="Text formatting">...</ToggleGroup>
 //
 // Examples:
-//   
+//
 //   <ToggleGroup label="Text formatting">
 //     <button aria-pressed="true">Bold</button>
 //     <button aria-pressed="false">Italic</button>
@@ -62,12 +62,12 @@ export default function ToggleGroup({
 }: ToggleGroupProps) {
     return (
         <div
-        className={`toggle-group ${className}`}
-        role="group"
-        aria-label={label}
-        {...restProps}
+            className={`toggle-group ${className}`}
+            role="group"
+            aria-label={label}
+            {...restProps}
         >
-        {children}
+            {children}
         </div>
     );
 }

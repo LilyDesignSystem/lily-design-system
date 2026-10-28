@@ -15,7 +15,9 @@ describe("UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput", ()
         render(Subject, { props: { label: "Taxpayer Registration Number" } });
 
         const input = screen.getByLabelText("Taxpayer Registration Number");
-        expect(input.getAttribute("class")).toContain("ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input");
+        expect(input.getAttribute("class")).toContain(
+            "ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input",
+        );
     });
 
     test("has autocomplete off", () => {
@@ -54,7 +56,9 @@ describe("UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput", ()
     });
 
     test("passes through additional HTML attributes", () => {
-        render(Subject, { props: { label: "Taxpayer Registration Number", "data-testid": "subject" } });
+        render(Subject, {
+            props: { label: "Taxpayer Registration Number", "data-testid": "subject" },
+        });
 
         const input = screen.getByTestId("subject");
         expect(input).toBeTruthy();

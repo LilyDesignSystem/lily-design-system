@@ -20,17 +20,38 @@ describe("Option", () => {
     });
 
     test("supports selected", () => {
-        render(<Subject value="a" selected>A</Subject>);
+        render(
+            <Subject
+                value="a"
+                selected
+            >
+                A
+            </Subject>,
+        );
         expect((screen.getByRole("option") as HTMLOptionElement).selected).toBe(true);
     });
 
     test("supports disabled", () => {
-        render(<Subject value="a" disabled>A</Subject>);
+        render(
+            <Subject
+                value="a"
+                disabled
+            >
+                A
+            </Subject>,
+        );
         expect((screen.getByRole("option") as HTMLOptionElement).disabled).toBe(true);
     });
 
     test("passes through attributes", () => {
-        render(<Subject value="a" data-testid="opt">A</Subject>);
+        render(
+            <Subject
+                value="a"
+                data-testid="opt"
+            >
+                A
+            </Subject>,
+        );
         expect(screen.getByTestId("opt")).toBeTruthy();
     });
 });

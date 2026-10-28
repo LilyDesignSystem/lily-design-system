@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import BeachBall from './BeachBall.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import BeachBall from "./BeachBall.vue";
 
 const meta = {
-  title: 'Headless/BeachBall',
-  component: BeachBall,
-  tags: ['autodocs']
+    title: "Headless/BeachBall",
+    component: BeachBall,
+    tags: ["autodocs"],
 } satisfies Meta<typeof BeachBall>;
 
 export default meta;

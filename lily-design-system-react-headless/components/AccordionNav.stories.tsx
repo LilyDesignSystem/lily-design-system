@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import AccordionNav from './AccordionNav';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import AccordionNav from "./AccordionNav";
 
 const meta = {
-  title: 'Headless/AccordionNav',
-  component: AccordionNav,
-  tags: ['autodocs']
+    title: "Headless/AccordionNav",
+    component: AccordionNav,
+    tags: ["autodocs"],
 } satisfies Meta<typeof AccordionNav>;
 
 export default meta;

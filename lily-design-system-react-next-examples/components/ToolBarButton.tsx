@@ -16,7 +16,7 @@
 //   <ToolBarButton>Bold</ToolBarButton>
 //
 // Examples:
-//   
+//
 //   <ToolBar label="Editor tools">
 //     <ToolBarButton>Bold</ToolBarButton>
 //     <ToolBarButton>Italic</ToolBarButton>
@@ -63,12 +63,12 @@ export default function ToolBarButton({
 }: ToolBarButtonProps) {
     return (
         <button
-        className={`tool-bar-button ${className}`}
-        type="button"
-        disabled={disabled}
-        {...restProps}
+            className={`tool-bar-button ${className}`}
+            type="button"
+            disabled={disabled}
+            {...restProps}
         >
-        {children}
+            {children}
         </button>
     );
 }

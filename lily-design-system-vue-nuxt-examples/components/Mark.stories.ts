@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import Mark from './Mark.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import Mark from "./Mark.vue";
 
 const meta = {
-  title: 'Headless/Mark',
-  component: Mark,
-  tags: ['autodocs']
+    title: "Headless/Mark",
+    component: Mark,
+    tags: ["autodocs"],
 } satisfies Meta<typeof Mark>;
 
 export default meta;

@@ -50,14 +50,15 @@ export default function SingaporeNationalRegistrationIdentityCardInput({
 }: SingaporeNationalRegistrationIdentityCardInputProps) {
     return (
         <input
-        className={`singapore-national-registration-identity-card-input ${className}`}
-        type="text"
-        aria-label={label}
-        autoComplete="off"
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`singapore-national-registration-identity-card-input ${className}`}
+            type="text"
+            aria-label={label}
+            autoComplete="off"
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

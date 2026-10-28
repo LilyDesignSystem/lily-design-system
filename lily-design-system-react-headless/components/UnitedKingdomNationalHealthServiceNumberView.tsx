@@ -17,7 +17,7 @@
 //   <UnitedKingdomNationalHealthServiceNumberView label="NHS Number" value="123 456 7890" />
 //
 // Examples:
-//   
+//
 //   <UnitedKingdomNationalHealthServiceNumberView label="Patient NHS Number" value={nhsNumber} />
 //
 // Keyboard:
@@ -59,9 +59,11 @@ export default function UnitedKingdomNationalHealthServiceNumberView({
 }: UnitedKingdomNationalHealthServiceNumberViewProps) {
     return (
         <span
-        className={`united-kingdom-national-health-service-number-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`united-kingdom-national-health-service-number-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

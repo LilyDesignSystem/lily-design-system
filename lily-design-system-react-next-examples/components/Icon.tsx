@@ -16,13 +16,13 @@
 //   <Icon label="Close">x</Icon>
 //
 // Examples:
-//   
+//
 //   <Icon label="Close">x</Icon>
 //
-//   
+//
 //   <Icon decorative>*</Icon>
 //
-//   
+//
 //   <Icon label="Search" data-testid="search-icon">Q</Icon>
 //
 // Keyboard:
@@ -65,13 +65,13 @@ export default function Icon({
 }: IconProps) {
     return (
         <span
-        className={`icon ${className}`}
-        role={decorative ? undefined : "img"}
-        aria-label={label}
-        aria-hidden={decorative || undefined}
-        {...restProps}
+            className={`icon ${className}`}
+            role={decorative ? undefined : "img"}
+            aria-label={label}
+            aria-hidden={decorative || undefined}
+            {...restProps}
         >
-        {children}
+            {children}
         </span>
     );
 }

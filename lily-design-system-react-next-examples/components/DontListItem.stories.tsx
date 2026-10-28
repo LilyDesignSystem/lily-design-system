@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import DontListItem from './DontListItem';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import DontListItem from "./DontListItem";
 
 const meta = {
-  title: 'Headless/DontListItem',
-  component: DontListItem,
-  tags: ['autodocs']
+    title: "Headless/DontListItem",
+    component: DontListItem,
+    tags: ["autodocs"],
 } satisfies Meta<typeof DontListItem>;
 
 export default meta;

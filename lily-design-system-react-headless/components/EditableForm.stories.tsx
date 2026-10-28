@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import EditableForm from './EditableForm';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import EditableForm from "./EditableForm";
 
 const meta = {
-  title: 'Headless/EditableForm',
-  component: EditableForm,
-  tags: ['autodocs']
+    title: "Headless/EditableForm",
+    component: EditableForm,
+    tags: ["autodocs"],
 } satisfies Meta<typeof EditableForm>;
 
 export default meta;

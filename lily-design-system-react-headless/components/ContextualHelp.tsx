@@ -49,23 +49,26 @@ export default function ContextualHelp({
     const reactId = useId();
     const panelId = `contextual-help-${reactId}-panel`;
     return (
-        <div className={`contextual-help ${className}`} {...restProps}>
+        <div
+            className={`contextual-help ${className}`}
+            {...restProps}
+        >
             <button
-            className="contextual-help-trigger"
-            type="button"
-            aria-label={label}
-            aria-haspopup="dialog"
-            aria-expanded={expanded}
-            aria-controls={panelId}
-            onClick={onClick}
+                className="contextual-help-trigger"
+                type="button"
+                aria-label={label}
+                aria-haspopup="dialog"
+                aria-expanded={expanded}
+                aria-controls={panelId}
+                onClick={onClick}
             >
                 ?
             </button>
             <div
-            className="contextual-help-panel"
-            id={panelId}
-            role="dialog"
-            hidden={!expanded}
+                className="contextual-help-panel"
+                id={panelId}
+                role="dialog"
+                hidden={!expanded}
             >
                 {children}
             </div>

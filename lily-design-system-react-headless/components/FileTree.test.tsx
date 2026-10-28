@@ -8,29 +8,70 @@ import Subject from "./FileTree";
 // src (folder, open) > [lib (folder, open) > [index.ts], app.ts]; docs (folder, closed) > [guide.md]; readme.md; etc (closed)
 const TREE = (
     <>
-        <li role="treeitem" aria-expanded="true" data-id="src">
+        <li
+            role="treeitem"
+            aria-expanded="true"
+            data-id="src"
+        >
             src
             <ul role="group">
-                <li role="treeitem" aria-expanded="true" data-id="lib">
+                <li
+                    role="treeitem"
+                    aria-expanded="true"
+                    data-id="lib"
+                >
                     lib
                     <ul role="group">
-                        <li role="treeitem" data-id="index">index.ts</li>
+                        <li
+                            role="treeitem"
+                            data-id="index"
+                        >
+                            index.ts
+                        </li>
                     </ul>
                 </li>
-                <li role="treeitem" data-id="app">app.ts</li>
+                <li
+                    role="treeitem"
+                    data-id="app"
+                >
+                    app.ts
+                </li>
             </ul>
         </li>
-        <li role="treeitem" aria-expanded="false" data-id="docs">
+        <li
+            role="treeitem"
+            aria-expanded="false"
+            data-id="docs"
+        >
             docs
             <ul role="group">
-                <li role="treeitem" data-id="guide">guide.md</li>
+                <li
+                    role="treeitem"
+                    data-id="guide"
+                >
+                    guide.md
+                </li>
             </ul>
         </li>
-        <li role="treeitem" data-id="readme">readme.md</li>
-        <li role="treeitem" aria-expanded="false" data-id="etc">
+        <li
+            role="treeitem"
+            data-id="readme"
+        >
+            readme.md
+        </li>
+        <li
+            role="treeitem"
+            aria-expanded="false"
+            data-id="etc"
+        >
             etc
             <ul role="group">
-                <li role="treeitem" data-id="x">x.txt</li>
+                <li
+                    role="treeitem"
+                    data-id="x"
+                >
+                    x.txt
+                </li>
             </ul>
         </li>
     </>
@@ -38,18 +79,34 @@ const TREE = (
 
 const NESTED = (
     <>
-        <li role="treeitem" aria-expanded="true" data-id="a">
+        <li
+            role="treeitem"
+            aria-expanded="true"
+            data-id="a"
+        >
             a
             <ul role="group">
-                <li role="treeitem" aria-expanded="false" data-id="b">
+                <li
+                    role="treeitem"
+                    aria-expanded="false"
+                    data-id="b"
+                >
                     b
-                    <ul role="group"><li role="treeitem">c</li></ul>
+                    <ul role="group">
+                        <li role="treeitem">c</li>
+                    </ul>
                 </li>
             </ul>
         </li>
-        <li role="treeitem" aria-expanded="false" data-id="d">
+        <li
+            role="treeitem"
+            aria-expanded="false"
+            data-id="d"
+        >
             d
-            <ul role="group"><li role="treeitem">e</li></ul>
+            <ul role="group">
+                <li role="treeitem">e</li>
+            </ul>
         </li>
     </>
 );
@@ -71,7 +128,14 @@ describe("FileTree", () => {
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="F" data-testid="ft">{TREE}</Subject>);
+        render(
+            <Subject
+                label="F"
+                data-testid="ft"
+            >
+                {TREE}
+            </Subject>,
+        );
         expect(screen.getByTestId("ft")).toBeTruthy();
     });
 

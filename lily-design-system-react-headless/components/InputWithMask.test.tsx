@@ -6,7 +6,12 @@ import Subject from "./InputWithMask";
 
 describe("InputWithMask", () => {
     test("renders an input with the required aria-label", () => {
-        render(<Subject label="Phone number" mask="(___) ___-____" />);
+        render(
+            <Subject
+                label="Phone number"
+                mask="(___) ___-____"
+            />,
+        );
 
         const input: HTMLElement = screen.getByRole("textbox", {
             name: "Phone number",
@@ -16,7 +21,10 @@ describe("InputWithMask", () => {
 
     test("applies the input-with-mask root class", () => {
         const { container } = render(
-            <Subject label="Phone" mask="(___) ___-____" />
+            <Subject
+                label="Phone"
+                mask="(___) ___-____"
+            />,
         );
 
         const root: HTMLElement = container.querySelector(".input-with-mask")!;
@@ -25,7 +33,10 @@ describe("InputWithMask", () => {
 
     test("exposes the mask as a data-mask attribute on the root", () => {
         const { container } = render(
-            <Subject label="Phone" mask="(___) ___-____" />
+            <Subject
+                label="Phone"
+                mask="(___) ___-____"
+            />,
         );
 
         const root: HTMLElement = container.querySelector(".input-with-mask")!;
@@ -34,18 +45,24 @@ describe("InputWithMask", () => {
 
     test("renders the mask in an aria-hidden display span", () => {
         const { container } = render(
-            <Subject label="Phone" mask="(___) ___-____" />
+            <Subject
+                label="Phone"
+                mask="(___) ___-____"
+            />,
         );
 
-        const display: HTMLElement = container.querySelector(
-            ".input-with-mask-display"
-        )!;
+        const display: HTMLElement = container.querySelector(".input-with-mask-display")!;
         expect(display.getAttribute("aria-hidden")).toBe("true");
         expect(display.textContent).toBe("(___) ___-____");
     });
 
     test("uses input type text", () => {
-        render(<Subject label="Phone" mask="(___) ___-____" />);
+        render(
+            <Subject
+                label="Phone"
+                mask="(___) ___-____"
+            />,
+        );
 
         const input: HTMLInputElement = screen.getByRole("textbox") as HTMLInputElement;
         expect(input.type).toBe("text");
@@ -53,7 +70,11 @@ describe("InputWithMask", () => {
 
     test("reflects the value prop", () => {
         render(
-            <Subject label="Phone" mask="(___) ___-____" value="(555) 123-4567" />
+            <Subject
+                label="Phone"
+                mask="(___) ___-____"
+                value="(555) 123-4567"
+            />,
         );
 
         const input: HTMLInputElement = screen.getByRole("textbox") as HTMLInputElement;
@@ -61,7 +82,13 @@ describe("InputWithMask", () => {
     });
 
     test("can be disabled", () => {
-        render(<Subject label="Phone" mask="(___) ___-____" disabled />);
+        render(
+            <Subject
+                label="Phone"
+                mask="(___) ___-____"
+                disabled
+            />,
+        );
 
         const input: HTMLInputElement = screen.getByRole("textbox") as HTMLInputElement;
         expect(input.disabled).toBe(true);
@@ -71,7 +98,11 @@ describe("InputWithMask", () => {
         const user: UserEvent = userEvent.setup();
         const handleInput = vi.fn();
         render(
-            <Subject label="Phone" mask="(___) ___-____" onInput={handleInput} />
+            <Subject
+                label="Phone"
+                mask="(___) ___-____"
+                onInput={handleInput}
+            />,
         );
 
         await user.type(screen.getByRole("textbox"), "5");
@@ -84,7 +115,7 @@ describe("InputWithMask", () => {
                 label="Phone"
                 mask="(___) ___-____"
                 placeholder="Enter phone"
-            />
+            />,
         );
 
         const input: HTMLInputElement = screen.getByRole("textbox") as HTMLInputElement;

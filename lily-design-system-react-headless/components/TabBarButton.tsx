@@ -17,7 +17,7 @@
 //   <TabBarButton selected={true} controls="panel-1">Label</TabBarButton>
 //
 // Examples:
-//   
+//
 //   <TabBar label="Settings">
 //     <TabBarButton selected={activeTab === "general"} controls="panel-general"
 //       onClick={() => setActiveTab("general")}>General</TabBarButton>
@@ -73,14 +73,14 @@ export default function TabBarButton({
 }: TabBarButtonProps) {
     return (
         <button
-        className={`tab-bar-button ${className}`}
-        role="tab"
-        aria-selected={selected}
-        aria-controls={controls}
-        tabIndex={selected ? 0 : -1}
-        {...restProps}
+            className={`tab-bar-button ${className}`}
+            role="tab"
+            aria-selected={selected}
+            aria-controls={controls}
+            tabIndex={selected ? 0 : -1}
+            {...restProps}
         >
-        {children}
+            {children}
         </button>
     );
 }

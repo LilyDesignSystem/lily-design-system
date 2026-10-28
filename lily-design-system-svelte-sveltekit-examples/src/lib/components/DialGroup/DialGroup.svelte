@@ -13,6 +13,10 @@
 </script>
 
 <!-- DialGroup.svelte -->
-<div class={`dial-group ${className}`} aria-label={label} {...restProps}>
+<div
+    class={`dial-group ${className}`}
+    aria-label={label}
+    {...restProps}
+>
     {@render children?.()}
 </div>

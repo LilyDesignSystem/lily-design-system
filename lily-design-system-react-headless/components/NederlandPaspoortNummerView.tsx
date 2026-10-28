@@ -37,9 +37,11 @@ export default function NederlandPaspoortNummerView({
 }: NederlandPaspoortNummerViewProps) {
     return (
         <span
-        className={`nederland-paspoort-nummer-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`nederland-paspoort-nummer-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

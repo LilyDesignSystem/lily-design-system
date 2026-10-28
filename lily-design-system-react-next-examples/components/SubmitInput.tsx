@@ -15,10 +15,10 @@
 //   <SubmitInput />
 //
 // Examples:
-//   
+//
 //   <SubmitInput value="Send" />
 //
-//   
+//
 //   <SubmitInput value="Save changes" disabled={!formValid} />
 //
 // Keyboard:
@@ -60,11 +60,11 @@ export default function SubmitInput({
 }: SubmitInputProps) {
     return (
         <input
-        className={`submit-input ${className}`}
-        type="submit"
-        value={value}
-        disabled={disabled}
-        {...restProps}
+            className={`submit-input ${className}`}
+            type="submit"
+            value={value}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

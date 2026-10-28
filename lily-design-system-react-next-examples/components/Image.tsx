@@ -17,13 +17,13 @@
 //   <Image src="/photo.jpg" alt="Description" />
 //
 // Examples:
-//   
+//
 //   <Image src="/photo.jpg" alt="A sunset over the ocean" />
 //
-//   
+//
 //   <Image src="/photo.jpg" alt="A sunset over the ocean" caption="Photo by Jane Doe" />
 //
-//   
+//
 //   <Image src="/large-photo.jpg" alt="Landscape" loading="lazy" />
 //
 // Keyboard:
@@ -67,23 +67,31 @@ export default function Image({
 }: ImageProps) {
     return (
         <>
-        {caption ? (<><figure
-        className={`image ${className}`}
-        {...restProps}
-        >
-        <img
-        src={src}
-        alt={alt}
-        loading={loading}
-        />
-        <figcaption>{caption}</figcaption>
-        </figure></>) : (<><img
-        className={`image ${className}`}
-        src={src}
-        alt={alt}
-        loading={loading}
-        {...restProps}
-        /></>)}
+            {caption ? (
+                <>
+                    <figure
+                        className={`image ${className}`}
+                        {...restProps}
+                    >
+                        <img
+                            src={src}
+                            alt={alt}
+                            loading={loading}
+                        />
+                        <figcaption>{caption}</figcaption>
+                    </figure>
+                </>
+            ) : (
+                <>
+                    <img
+                        className={`image ${className}`}
+                        src={src}
+                        alt={alt}
+                        loading={loading}
+                        {...restProps}
+                    />
+                </>
+            )}
         </>
     );
 }

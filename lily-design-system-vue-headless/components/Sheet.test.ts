@@ -3,30 +3,44 @@ import { describe, expect, test, vi } from "vitest";
 
 import Subject from "./Sheet.vue";
 
-
 describe("Sheet", () => {
     test("not visible when closed", () => {
-        render(Subject, { props: { label: "Settings", open: false }, slots: { default: "content" } });
+        render(Subject, {
+            props: { label: "Settings", open: false },
+            slots: { default: "content" },
+        });
         expect(screen.queryByRole("dialog")).toBeNull();
     });
 
     test("visible when open", () => {
-        render(Subject, { props: { label: "Settings", open: true }, slots: { default: "content" } });
+        render(Subject, {
+            props: { label: "Settings", open: true },
+            slots: { default: "content" },
+        });
         expect(screen.getByRole("dialog")).toBeTruthy();
     });
 
     test("has aria-label", () => {
-        render(Subject, { props: { label: "Settings", open: true }, slots: { default: "content" } });
+        render(Subject, {
+            props: { label: "Settings", open: true },
+            slots: { default: "content" },
+        });
         expect(screen.getByLabelText("Settings")).toBeTruthy();
     });
 
     test("has aria-modal", () => {
-        render(Subject, { props: { label: "Settings", open: true }, slots: { default: "content" } });
+        render(Subject, {
+            props: { label: "Settings", open: true },
+            slots: { default: "content" },
+        });
         expect(screen.getByRole("dialog").getAttribute("aria-modal")).toBe("true");
     });
 
     test("has data-side attribute", () => {
-        render(Subject, { props: { label: "S", open: true, side: "left" }, slots: { default: "x" } });
+        render(Subject, {
+            props: { label: "S", open: true, side: "left" },
+            slots: { default: "x" },
+        });
         expect(screen.getByRole("dialog").getAttribute("data-side")).toBe("left");
     });
 
@@ -39,7 +53,10 @@ describe("Sheet", () => {
     });
 
     test("passes through attributes", () => {
-        render(Subject, { props: { label: "S", open: true, "data-testid": "sh" }, slots: { default: "x" } });
+        render(Subject, {
+            props: { label: "S", open: true, "data-testid": "sh" },
+            slots: { default: "x" },
+        });
         expect(screen.getByTestId("sh")).toBeTruthy();
     });
 });

@@ -13,6 +13,10 @@
 </script>
 
 <!-- MockupTabletLandscape.svelte -->
-<div class={`mockup-tablet-landscape ${className}`} aria-label={label} {...restProps}>
+<div
+    class={`mockup-tablet-landscape ${className}`}
+    aria-label={label}
+    {...restProps}
+>
     {@render children?.()}
 </div>

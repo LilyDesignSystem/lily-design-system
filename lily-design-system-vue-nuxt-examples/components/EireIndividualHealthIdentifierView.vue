@@ -1,14 +1,15 @@
 <script setup lang="ts">
+// EireIndividualHealthIdentifierView component
 
-    // EireIndividualHealthIdentifierView component
-
-    withDefaults(defineProps<{
+withDefaults(
+    defineProps<{
         label: string;
         value?: string;
-    }>(), {
+    }>(),
+    {
         value: "",
-    });
-
+    },
+);
 </script>
 
 <template>
@@ -16,5 +17,6 @@
     <span
         class="eire-individual-health-identifier-view"
         :aria-label="label"
-    >{{ value }}</span>
+        >{{ value }}</span
+    >
 </template>

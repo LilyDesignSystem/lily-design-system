@@ -20,13 +20,27 @@ describe("Card", () => {
     });
 
     test("renders heading with custom level", () => {
-        render(<Subject heading="Section" headingLevel={2}>Content</Subject>);
+        render(
+            <Subject
+                heading="Section"
+                headingLevel={2}
+            >
+                Content
+            </Subject>,
+        );
 
         expect(screen.getByRole("heading").tagName.toLowerCase()).toBe("h2");
     });
 
     test("renders heading as link when href provided", () => {
-        render(<Subject heading="Product" href="/products/1">Desc</Subject>);
+        render(
+            <Subject
+                heading="Product"
+                href="/products/1"
+            >
+                Desc
+            </Subject>,
+        );
 
         const link = screen.getByRole("link", { name: "Product" });
         expect(link.getAttribute("href")).toBe("/products/1");

@@ -3,12 +3,12 @@ import { render } from "@testing-library/vue";
 import GoToTop from "./GoToTop.vue";
 
 describe("GoToTop", () => {
-  it("renders with class", () => {
-    const { container } = render(GoToTop, {
-      props: { label: "Test" },
-      slots: { default: "content" },
+    it("renders with class", () => {
+        const { container } = render(GoToTop, {
+            props: { label: "Test" },
+            slots: { default: "content" },
+        });
+        const el = container.querySelector(".go-to-top");
+        expect(el).toBeTruthy();
     });
-    const el = container.querySelector(".go-to-top");
-    expect(el).toBeTruthy();
-  });
 });

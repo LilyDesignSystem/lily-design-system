@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import ToolCallStatus from './ToolCallStatus.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import ToolCallStatus from "./ToolCallStatus.vue";
 
 const meta = {
-  title: 'Headless/ToolCallStatus',
-  component: ToolCallStatus,
-  tags: ['autodocs']
+    title: "Headless/ToolCallStatus",
+    component: ToolCallStatus,
+    tags: ["autodocs"],
 } satisfies Meta<typeof ToolCallStatus>;
 
 export default meta;

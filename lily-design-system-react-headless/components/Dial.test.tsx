@@ -11,7 +11,14 @@ describe("Dial", () => {
     });
 
     test("has correct ARIA value attributes", () => {
-        render(<Subject label="Volume" value={50} min={0} max={100} />);
+        render(
+            <Subject
+                label="Volume"
+                value={50}
+                min={0}
+                max={100}
+            />,
+        );
         const slider = screen.getByRole("slider");
         expect(slider.getAttribute("aria-valuenow")).toBe("50");
         expect(slider.getAttribute("aria-valuemin")).toBe("0");
@@ -20,7 +27,12 @@ describe("Dial", () => {
 
     test("ArrowRight increases value", async () => {
         const user: UserEvent = userEvent.setup();
-        render(<Subject label="Vol" value={50} />);
+        render(
+            <Subject
+                label="Vol"
+                value={50}
+            />,
+        );
         const slider = screen.getByRole("slider");
         slider.focus();
         await user.keyboard("{ArrowRight}");
@@ -29,7 +41,12 @@ describe("Dial", () => {
 
     test("ArrowLeft decreases value", async () => {
         const user: UserEvent = userEvent.setup();
-        render(<Subject label="Vol" value={50} />);
+        render(
+            <Subject
+                label="Vol"
+                value={50}
+            />,
+        );
         const slider = screen.getByRole("slider");
         slider.focus();
         await user.keyboard("{ArrowLeft}");
@@ -38,7 +55,13 @@ describe("Dial", () => {
 
     test("Shift+Arrow uses large step", async () => {
         const user: UserEvent = userEvent.setup();
-        render(<Subject label="Vol" value={50} step={1} />);
+        render(
+            <Subject
+                label="Vol"
+                value={50}
+                step={1}
+            />,
+        );
         const slider = screen.getByRole("slider");
         slider.focus();
         await user.keyboard("{Shift>}{ArrowRight}{/Shift}");
@@ -47,7 +70,13 @@ describe("Dial", () => {
 
     test("Home sets to min", async () => {
         const user: UserEvent = userEvent.setup();
-        render(<Subject label="Vol" value={50} min={0} />);
+        render(
+            <Subject
+                label="Vol"
+                value={50}
+                min={0}
+            />,
+        );
         const slider = screen.getByRole("slider");
         slider.focus();
         await user.keyboard("{Home}");
@@ -56,7 +85,13 @@ describe("Dial", () => {
 
     test("End sets to max", async () => {
         const user: UserEvent = userEvent.setup();
-        render(<Subject label="Vol" value={50} max={100} />);
+        render(
+            <Subject
+                label="Vol"
+                value={50}
+                max={100}
+            />,
+        );
         const slider = screen.getByRole("slider");
         slider.focus();
         await user.keyboard("{End}");
@@ -65,7 +100,13 @@ describe("Dial", () => {
 
     test("clamps value at min", async () => {
         const user: UserEvent = userEvent.setup();
-        render(<Subject label="Vol" value={0} min={0} />);
+        render(
+            <Subject
+                label="Vol"
+                value={0}
+                min={0}
+            />,
+        );
         const slider = screen.getByRole("slider");
         slider.focus();
         await user.keyboard("{ArrowLeft}");
@@ -74,7 +115,13 @@ describe("Dial", () => {
 
     test("clamps value at max", async () => {
         const user: UserEvent = userEvent.setup();
-        render(<Subject label="Vol" value={100} max={100} />);
+        render(
+            <Subject
+                label="Vol"
+                value={100}
+                max={100}
+            />,
+        );
         const slider = screen.getByRole("slider");
         slider.focus();
         await user.keyboard("{ArrowRight}");
@@ -83,7 +130,13 @@ describe("Dial", () => {
 
     test("disabled dial ignores keys", async () => {
         const user: UserEvent = userEvent.setup();
-        render(<Subject label="Vol" value={50} disabled />);
+        render(
+            <Subject
+                label="Vol"
+                value={50}
+                disabled
+            />,
+        );
         const slider = screen.getByRole("slider");
         slider.focus();
         await user.keyboard("{ArrowRight}");
@@ -91,7 +144,12 @@ describe("Dial", () => {
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="Vol" data-testid="dial" />);
+        render(
+            <Subject
+                label="Vol"
+                data-testid="dial"
+            />,
+        );
         expect(screen.getByTestId("dial")).toBeTruthy();
     });
 });

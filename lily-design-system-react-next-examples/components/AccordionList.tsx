@@ -62,12 +62,12 @@ export default function AccordionList({
 }: AccordionListProps) {
     return (
         <div
-        className={`accordion-list ${className}`}
-        role="group"
-        aria-label={label || undefined}
-        {...restProps}
+            className={`accordion-list ${className}`}
+            role="group"
+            aria-label={label || undefined}
+            {...restProps}
         >
-        {children}
+            {children}
         </div>
     );
 }

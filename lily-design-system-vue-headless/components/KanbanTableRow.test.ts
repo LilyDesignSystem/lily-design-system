@@ -3,7 +3,6 @@ import { render } from "@testing-library/vue";
 
 import Subject from "./KanbanTableRow.vue";
 
-
 function renderInTable(props: Record<string, unknown>, slotContent?: string) {
     const container = document.createElement("div");
     const table = document.createElement("table");
@@ -11,7 +10,11 @@ function renderInTable(props: Record<string, unknown>, slotContent?: string) {
     table.appendChild(tbody);
     container.appendChild(table);
     document.body.appendChild(container);
-    const result = render(Subject, { props, ...(slotContent != null ? { slots: { default: slotContent } } : {}), target: tbody });
+    const result = render(Subject, {
+        props,
+        ...(slotContent != null ? { slots: { default: slotContent } } : {}),
+        target: tbody,
+    });
     return { ...result, container };
 }
 

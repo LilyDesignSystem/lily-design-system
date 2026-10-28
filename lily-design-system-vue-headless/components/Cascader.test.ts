@@ -4,7 +4,6 @@ import { describe, expect, test, vi } from "vitest";
 
 import Subject from "./Cascader.vue";
 
-
 describe("Cascader", () => {
     test("renders with cascader class and combobox role", () => {
         const { container } = render(Subject, { props: { label: "Region" } });
@@ -45,7 +44,9 @@ describe("Cascader", () => {
     });
 
     test("renders trigger button with value when provided", () => {
-        render(Subject, { props: { label: "Region", value: "USA / California", placeholder: "Select…" } });
+        render(Subject, {
+            props: { label: "Region", value: "USA / California", placeholder: "Select…" },
+        });
 
         const trigger: HTMLElement = screen.getByRole("button");
         expect(trigger.textContent).toContain("USA / California");
@@ -61,7 +62,7 @@ describe("Cascader", () => {
     test("renders panel content from default slot", () => {
         const { container } = render(Subject, {
             props: { label: "Region", expanded: true },
-            slots: { default: "<ul role=\"tree\"><li>Item</li></ul>" },
+            slots: { default: '<ul role="tree"><li>Item</li></ul>' },
         });
 
         expect(container.textContent).toContain("Item");

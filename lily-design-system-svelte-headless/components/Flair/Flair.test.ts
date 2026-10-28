@@ -22,7 +22,9 @@ describe("Flair", () => {
     });
 
     test("meaningful when label provided", () => {
-        render(Subject, { props: { label: "Status: new", "data-testid": "fl", children: textSnippet("New") } });
+        render(Subject, {
+            props: { label: "Status: new", "data-testid": "fl", children: textSnippet("New") },
+        });
         expect(screen.getByTestId("fl").getAttribute("aria-label")).toBe("Status: new");
         expect(screen.getByTestId("fl").getAttribute("aria-hidden")).toBeNull();
     });

@@ -9,7 +9,7 @@ describe("ScrollerBase", () => {
             <Subject>
                 <div>step 1</div>
                 <div>step 2</div>
-            </Subject>
+            </Subject>,
         );
         const root = container.querySelector(".scroller-base");
         expect(root).toBeTruthy();
@@ -18,14 +18,20 @@ describe("ScrollerBase", () => {
 
     test("applies aria-label when label prop is provided", () => {
         const { container } = render(
-            <Subject label="My story"><div>1</div></Subject>
+            <Subject label="My story">
+                <div>1</div>
+            </Subject>,
         );
         const root = container.querySelector(".scroller-base");
         expect(root?.getAttribute("aria-label")).toBe("My story");
     });
 
     test("does not set aria-label when label is omitted", () => {
-        const { container } = render(<Subject><div>1</div></Subject>);
+        const { container } = render(
+            <Subject>
+                <div>1</div>
+            </Subject>,
+        );
         const root = container.querySelector(".scroller-base");
         expect(root?.getAttribute("aria-label")).toBeNull();
     });
@@ -36,7 +42,7 @@ describe("ScrollerBase", () => {
                 <div>one</div>
                 <div>two</div>
                 <div>three</div>
-            </Subject>
+            </Subject>,
         );
         const root = container.querySelector(".scroller-base") as HTMLElement;
         expect(root.children.length).toBe(3);
@@ -46,7 +52,9 @@ describe("ScrollerBase", () => {
 
     test("passes through additional HTML attributes", () => {
         const { container } = render(
-            <Subject data-testid="sb"><div>1</div></Subject>
+            <Subject data-testid="sb">
+                <div>1</div>
+            </Subject>,
         );
         expect(container.querySelector("[data-testid='sb']")).toBeTruthy();
     });

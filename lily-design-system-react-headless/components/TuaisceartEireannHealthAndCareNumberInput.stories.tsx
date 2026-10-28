@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import TuaisceartEireannHealthAndCareNumberInput from './TuaisceartEireannHealthAndCareNumberInput';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import TuaisceartEireannHealthAndCareNumberInput from "./TuaisceartEireannHealthAndCareNumberInput";
 
 const meta = {
-  title: 'Headless/TuaisceartEireannHealthAndCareNumberInput',
-  component: TuaisceartEireannHealthAndCareNumberInput,
-  tags: ['autodocs']
+    title: "Headless/TuaisceartEireannHealthAndCareNumberInput",
+    component: TuaisceartEireannHealthAndCareNumberInput,
+    tags: ["autodocs"],
 } satisfies Meta<typeof TuaisceartEireannHealthAndCareNumberInput>;
 
 export default meta;

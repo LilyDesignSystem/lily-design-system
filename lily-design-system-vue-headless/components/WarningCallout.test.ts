@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./WarningCallout.vue";
 
-
 describe("WarningCallout", () => {
     test("renders with alert role", () => {
         render(Subject, { slots: { default: "Warning!" } });

@@ -8,7 +8,7 @@ describe("CollectionList", () => {
         const { container } = render(
             <Subject>
                 <li>One</li>
-            </Subject>
+            </Subject>,
         );
 
         const ul: HTMLElement | null = container.querySelector("ul");
@@ -19,7 +19,7 @@ describe("CollectionList", () => {
         const { container } = render(
             <Subject>
                 <li>One</li>
-            </Subject>
+            </Subject>,
         );
 
         const ul: HTMLElement = container.querySelector("ul")!;
@@ -30,7 +30,7 @@ describe("CollectionList", () => {
         render(
             <Subject label="Articles">
                 <li>One</li>
-            </Subject>
+            </Subject>,
         );
 
         const list: HTMLElement = screen.getByRole("list", { name: "Articles" });
@@ -42,7 +42,7 @@ describe("CollectionList", () => {
             <Subject>
                 <li>One</li>
                 <li>Two</li>
-            </Subject>
+            </Subject>,
         );
 
         const items: HTMLElement[] = screen.getAllByRole("listitem");
@@ -53,7 +53,7 @@ describe("CollectionList", () => {
         const { container } = render(
             <Subject id="my-list">
                 <li>One</li>
-            </Subject>
+            </Subject>,
         );
 
         const ul: HTMLElement = container.querySelector("ul")!;

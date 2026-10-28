@@ -70,12 +70,12 @@ export default function DateTimeView({
     const display: React.ReactNode = children ?? format ?? value;
     return (
         <time
-        className={`date-time-view ${className}`}
-        dateTime={value}
-        aria-label={label}
-        {...restProps}
+            className={`date-time-view ${className}`}
+            dateTime={value}
+            aria-label={label}
+            {...restProps}
         >
-        {display}
+            {display}
         </time>
     );
 }

@@ -26,7 +26,11 @@ describe("HorizontalScroller", () => {
     });
 
     test("ArrowRight calls scrollBy with positive step", () => {
-        const { container } = render(Subject, { label: "x", step: 150, children: snippet("items") });
+        const { container } = render(Subject, {
+            label: "x",
+            step: 150,
+            children: snippet("items"),
+        });
         const region = container.querySelector(".horizontal-scroller") as HTMLDivElement;
         const scrollBy = vi.fn();
         Object.defineProperty(region, "scrollBy", { value: scrollBy, configurable: true });
@@ -35,7 +39,11 @@ describe("HorizontalScroller", () => {
     });
 
     test("ArrowLeft calls scrollBy with negative step", () => {
-        const { container } = render(Subject, { label: "x", step: 150, children: snippet("items") });
+        const { container } = render(Subject, {
+            label: "x",
+            step: 150,
+            children: snippet("items"),
+        });
         const region = container.querySelector(".horizontal-scroller") as HTMLDivElement;
         const scrollBy = vi.fn();
         Object.defineProperty(region, "scrollBy", { value: scrollBy, configurable: true });

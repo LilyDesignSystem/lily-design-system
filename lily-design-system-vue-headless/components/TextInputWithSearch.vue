@@ -1,40 +1,40 @@
 <script setup lang="ts">
+// TextInputWithSearch component
+//
+// A headless component that wraps a native <input type="text"> and
+// <button type="button"> inside a <div role="search">. The search button
+// triggers a callback with the current input value. Pressing Enter in the
+// input also triggers the search.
+//
+// Props:
+//   label — string, required. Accessible name for the search region via aria-label.
+//   inputLabel — string, default "Search". Accessible name for the text input.
+//   searchLabel — string, default "Search". Accessible label and text for the search button.
+//   placeholder — string, optional. Placeholder text for the input.
+//   onsearch — (value: string) => void, optional. Callback when search is triggered.
+//   required — boolean, default false. Whether the input is required.
+//   disabled — boolean, default false. Whether the input and button are disabled.
+//
+// Models:
+//   modelValue — string, default "". Bindable text input value.
+//
+// Syntax:
+//   <TextInputWithSearch label="Site search" @search="handleSearch" v-model="query" />
+//
+// Keyboard:
+//   - Tab: Moves focus between input and search button
+//   - Enter in input: Triggers search
+//   - Enter/Space on button: Triggers search
+//
+// Accessibility:
+//   - role="search" on wrapper for search landmark
+//   - aria-label on region, input, and button
+//
+// Claude rules:
+//   - Headless: no CSS, no styles — consumer provides all styling
 
-    // TextInputWithSearch component
-    //
-    // A headless component that wraps a native <input type="text"> and
-    // <button type="button"> inside a <div role="search">. The search button
-    // triggers a callback with the current input value. Pressing Enter in the
-    // input also triggers the search.
-    //
-    // Props:
-    //   label — string, required. Accessible name for the search region via aria-label.
-    //   inputLabel — string, default "Search". Accessible name for the text input.
-    //   searchLabel — string, default "Search". Accessible label and text for the search button.
-    //   placeholder — string, optional. Placeholder text for the input.
-    //   onsearch — (value: string) => void, optional. Callback when search is triggered.
-    //   required — boolean, default false. Whether the input is required.
-    //   disabled — boolean, default false. Whether the input and button are disabled.
-    //
-    // Models:
-    //   modelValue — string, default "". Bindable text input value.
-    //
-    // Syntax:
-    //   <TextInputWithSearch label="Site search" @search="handleSearch" v-model="query" />
-    //
-    // Keyboard:
-    //   - Tab: Moves focus between input and search button
-    //   - Enter in input: Triggers search
-    //   - Enter/Space on button: Triggers search
-    //
-    // Accessibility:
-    //   - role="search" on wrapper for search landmark
-    //   - aria-label on region, input, and button
-    //
-    // Claude rules:
-    //   - Headless: no CSS, no styles — consumer provides all styling
-
-    const props = withDefaults(defineProps<{
+const props = withDefaults(
+    defineProps<{
         label: string;
         inputLabel?: string;
         searchLabel?: string;
@@ -42,27 +42,28 @@
         onsearch?: (value: string) => void;
         required?: boolean;
         disabled?: boolean;
-    }>(), {
+    }>(),
+    {
         inputLabel: "Search",
         searchLabel: "Search",
         placeholder: undefined,
         required: false,
         disabled: false,
-    });
+    },
+);
 
-    const modelValue = defineModel<string>({ default: "" });
+const modelValue = defineModel<string>({ default: "" });
 
-    function handleSearch() {
-        props.onsearch?.(modelValue.value);
+function handleSearch() {
+    props.onsearch?.(modelValue.value);
+}
+
+function handleKeydown(e: KeyboardEvent) {
+    if (e.key === "Enter") {
+        e.preventDefault();
+        handleSearch();
     }
-
-    function handleKeydown(e: KeyboardEvent) {
-        if (e.key === "Enter") {
-            e.preventDefault();
-            handleSearch();
-        }
-    }
-
+}
 </script>
 
 <template>

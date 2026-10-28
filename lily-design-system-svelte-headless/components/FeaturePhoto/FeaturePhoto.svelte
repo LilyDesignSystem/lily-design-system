@@ -29,7 +29,10 @@
 </script>
 
 <!-- FeaturePhoto.svelte -->
-<figure class={`feature-photo ${className}`} {...restProps}>
+<figure
+    class={`feature-photo ${className}`}
+    {...restProps}
+>
     <img
         class="feature-photo-image"
         {src}

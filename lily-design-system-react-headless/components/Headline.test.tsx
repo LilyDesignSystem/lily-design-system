@@ -34,16 +34,12 @@ describe("Headline", () => {
     });
 
     test("renders byline when provided", () => {
-        const { container } = render(
-            <Subject byline={<span>By Jane</span>}>Title</Subject>
-        );
+        const { container } = render(<Subject byline={<span>By Jane</span>}>Title</Subject>);
         expect(container.querySelector(".headline-byline")?.textContent).toBe("By Jane");
     });
 
     test("passes through additional HTML attributes", () => {
-        const { container } = render(
-            <Subject data-testid="hl">Title</Subject>
-        );
+        const { container } = render(<Subject data-testid="hl">Title</Subject>);
         expect(container.querySelector("[data-testid='hl']")).toBeTruthy();
     });
 });

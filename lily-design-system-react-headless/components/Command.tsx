@@ -20,7 +20,7 @@
 //   </Command>
 //
 // Examples:
-//   
+//
 //   <Command label="Command palette" placeholder="Search commands..." value={query} onChange={setQuery}>
 //     {filteredCommands.map((cmd) => (
 //       <div role="option">{cmd.name}</div>
@@ -74,24 +74,25 @@ export default function Command({
 }: CommandProps) {
     return (
         <div
-        className={`command ${className}`}
-        role="search"
-        aria-label={label}
-        {...restProps}
+            className={`command ${className}`}
+            role="search"
+            aria-label={label}
+            {...restProps}
         >
-        <input
-        type="search"
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        aria-label={label}
-        placeholder={placeholder}
-        autoComplete="off"
-        />
-        <div
-        role="listbox"
-        aria-label={label}
-        >
-        {children}
-        </div>
+            <input
+                type="search"
+                value={value}
+                onChange={(e) => onChange?.(e.target.value)}
+                aria-label={label}
+                placeholder={placeholder}
+                autoComplete="off"
+            />
+            <div
+                role="listbox"
+                aria-label={label}
+            >
+                {children}
+            </div>
         </div>
     );
 }

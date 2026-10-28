@@ -7,7 +7,9 @@ describe("MagyarorszagTajSzamInput", () => {
     test("renders a text input", () => {
         render(<Subject label="Társadalombiztosítási Azonosító Jel (TAJ)" />);
 
-        const input = screen.getByLabelText("Társadalombiztosítási Azonosító Jel (TAJ)") as HTMLInputElement;
+        const input = screen.getByLabelText(
+            "Társadalombiztosítási Azonosító Jel (TAJ)",
+        ) as HTMLInputElement;
         expect(input.type).toBe("text");
     });
 
@@ -28,33 +30,56 @@ describe("MagyarorszagTajSzamInput", () => {
     test("is not required by default", () => {
         render(<Subject label="Társadalombiztosítási Azonosító Jel (TAJ)" />);
 
-        const input = screen.getByLabelText("Társadalombiztosítási Azonosító Jel (TAJ)") as HTMLInputElement;
+        const input = screen.getByLabelText(
+            "Társadalombiztosítási Azonosító Jel (TAJ)",
+        ) as HTMLInputElement;
         expect(input.required).toBe(false);
     });
 
     test("can be set to required", () => {
-        render(<Subject label="Társadalombiztosítási Azonosító Jel (TAJ)" required />);
+        render(
+            <Subject
+                label="Társadalombiztosítási Azonosító Jel (TAJ)"
+                required
+            />,
+        );
 
-        const input = screen.getByLabelText("Társadalombiztosítási Azonosító Jel (TAJ)") as HTMLInputElement;
+        const input = screen.getByLabelText(
+            "Társadalombiztosítási Azonosító Jel (TAJ)",
+        ) as HTMLInputElement;
         expect(input.required).toBe(true);
     });
 
     test("is not disabled by default", () => {
         render(<Subject label="Társadalombiztosítási Azonosító Jel (TAJ)" />);
 
-        const input = screen.getByLabelText("Társadalombiztosítási Azonosító Jel (TAJ)") as HTMLInputElement;
+        const input = screen.getByLabelText(
+            "Társadalombiztosítási Azonosító Jel (TAJ)",
+        ) as HTMLInputElement;
         expect(input.disabled).toBe(false);
     });
 
     test("can be set to disabled", () => {
-        render(<Subject label="Társadalombiztosítási Azonosító Jel (TAJ)" disabled />);
+        render(
+            <Subject
+                label="Társadalombiztosítási Azonosító Jel (TAJ)"
+                disabled
+            />,
+        );
 
-        const input = screen.getByLabelText("Társadalombiztosítási Azonosító Jel (TAJ)") as HTMLInputElement;
+        const input = screen.getByLabelText(
+            "Társadalombiztosítási Azonosító Jel (TAJ)",
+        ) as HTMLInputElement;
         expect(input.disabled).toBe(true);
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="Társadalombiztosítási Azonosító Jel (TAJ)" data-testid="subject" />);
+        render(
+            <Subject
+                label="Társadalombiztosítási Azonosító Jel (TAJ)"
+                data-testid="subject"
+            />,
+        );
 
         const input = screen.getByTestId("subject");
         expect(input).toBeTruthy();

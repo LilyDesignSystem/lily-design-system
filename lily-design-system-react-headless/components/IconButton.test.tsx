@@ -28,7 +28,14 @@ describe("IconButton", () => {
     });
 
     test("can be disabled", () => {
-        render(<Subject label="Close" disabled>X</Subject>);
+        render(
+            <Subject
+                label="Close"
+                disabled
+            >
+                X
+            </Subject>,
+        );
 
         const button: HTMLButtonElement = screen.getByRole("button") as HTMLButtonElement;
         expect(button.disabled).toBe(true);
@@ -37,14 +44,28 @@ describe("IconButton", () => {
     test("handles click events", async () => {
         const user: UserEvent = userEvent.setup();
         const handleClick = vi.fn();
-        render(<Subject label="Close" onClick={handleClick}>X</Subject>);
+        render(
+            <Subject
+                label="Close"
+                onClick={handleClick}
+            >
+                X
+            </Subject>,
+        );
 
         await user.click(screen.getByRole("button"));
         expect(handleClick).toHaveBeenCalledOnce();
     });
 
     test("supports aria-pressed for toggle buttons", () => {
-        render(<Subject label="Mute" pressed>M</Subject>);
+        render(
+            <Subject
+                label="Mute"
+                pressed
+            >
+                M
+            </Subject>,
+        );
 
         const button: HTMLElement = screen.getByRole("button");
         expect(button.getAttribute("aria-pressed")).toBe("true");
@@ -58,14 +79,28 @@ describe("IconButton", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="Close" id="x-btn">X</Subject>);
+        render(
+            <Subject
+                label="Close"
+                id="x-btn"
+            >
+                X
+            </Subject>,
+        );
 
         const button: HTMLElement = screen.getByRole("button");
         expect(button.getAttribute("id")).toBe("x-btn");
     });
 
     test("baseClass replaces the default class token outright", () => {
-        render(<Subject label="Close" baseClass="motion-picker-button">X</Subject>);
+        render(
+            <Subject
+                label="Close"
+                baseClass="motion-picker-button"
+            >
+                X
+            </Subject>,
+        );
 
         const button: HTMLElement = screen.getByRole("button");
         expect(button.className.trim()).toBe("motion-picker-button");
@@ -73,7 +108,14 @@ describe("IconButton", () => {
 
     test("ref exposes the rendered button", () => {
         const ref = { current: null as HTMLButtonElement | null };
-        render(<Subject label="Close" ref={ref}>X</Subject>);
+        render(
+            <Subject
+                label="Close"
+                ref={ref}
+            >
+                X
+            </Subject>,
+        );
         expect(ref.current).toBe(screen.getByRole("button"));
     });
 });

@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import FloatingPanel from './FloatingPanel.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import FloatingPanel from "./FloatingPanel.vue";
 
 const meta = {
-  title: 'Headless/FloatingPanel',
-  component: FloatingPanel,
-  tags: ['autodocs']
+    title: "Headless/FloatingPanel",
+    component: FloatingPanel,
+    tags: ["autodocs"],
 } satisfies Meta<typeof FloatingPanel>;
 
 export default meta;

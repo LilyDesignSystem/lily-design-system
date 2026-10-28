@@ -76,23 +76,31 @@ export default function CallToAction({
 }: CallToActionProps) {
     return (
         <>
-        {href ? (<><a
-        className={`call-to-action ${className}`}
-        href={href}
-        aria-label={label}
-        {...restProps}
-        >
-        {children}
-        </a></>) : (<><button
-        className={`call-to-action ${className}`}
-        type="button"
-        disabled={disabled}
-        aria-label={label}
-        onClick={onClick}
-        {...restProps}
-        >
-        {children}
-        </button></>)}
+            {href ? (
+                <>
+                    <a
+                        className={`call-to-action ${className}`}
+                        href={href}
+                        aria-label={label}
+                        {...restProps}
+                    >
+                        {children}
+                    </a>
+                </>
+            ) : (
+                <>
+                    <button
+                        className={`call-to-action ${className}`}
+                        type="button"
+                        disabled={disabled}
+                        aria-label={label}
+                        onClick={onClick}
+                        {...restProps}
+                    >
+                        {children}
+                    </button>
+                </>
+            )}
         </>
     );
 }

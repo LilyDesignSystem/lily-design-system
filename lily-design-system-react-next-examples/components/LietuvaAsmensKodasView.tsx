@@ -37,9 +37,11 @@ export default function LietuvaAsmensKodasView({
 }: LietuvaAsmensKodasViewProps) {
     return (
         <span
-        className={`lietuva-asmens-kodas-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`lietuva-asmens-kodas-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

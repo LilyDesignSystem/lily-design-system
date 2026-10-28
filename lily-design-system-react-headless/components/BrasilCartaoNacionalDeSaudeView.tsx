@@ -38,9 +38,11 @@ export default function BrasilCartaoNacionalDeSaudeView({
 }: BrasilCartaoNacionalDeSaudeViewProps) {
     return (
         <span
-        className={`brasil-cartao-nacional-de-saude-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`brasil-cartao-nacional-de-saude-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

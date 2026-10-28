@@ -41,7 +41,14 @@ describe("Badge", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject data-testid="my-badge" id="badge-1">Tag</Subject>);
+        render(
+            <Subject
+                data-testid="my-badge"
+                id="badge-1"
+            >
+                Tag
+            </Subject>,
+        );
 
         const badge: HTMLElement = screen.getByTestId("my-badge");
         expect(badge.getAttribute("id")).toBe("badge-1");

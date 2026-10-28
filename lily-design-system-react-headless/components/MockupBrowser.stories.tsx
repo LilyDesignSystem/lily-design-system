@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import MockupBrowser from './MockupBrowser';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import MockupBrowser from "./MockupBrowser";
 
 const meta = {
-  title: 'Headless/MockupBrowser',
-  component: MockupBrowser,
-  tags: ['autodocs']
+    title: "Headless/MockupBrowser",
+    component: MockupBrowser,
+    tags: ["autodocs"],
 } satisfies Meta<typeof MockupBrowser>;
 
 export default meta;

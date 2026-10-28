@@ -5,7 +5,12 @@ import Subject from "./BharatAadhaarView";
 
 describe("BharatAadhaarView", () => {
     test("renders with the correct class", () => {
-        render(<Subject label="Aadhaar (आधार)" value="test-value" />);
+        render(
+            <Subject
+                label="Aadhaar (आधार)"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Aadhaar (आधार)");
         expect(el).toBeTruthy();
@@ -13,7 +18,12 @@ describe("BharatAadhaarView", () => {
     });
 
     test("renders the value as text content", () => {
-        render(<Subject label="Aadhaar (आधार)" value="test-value" />);
+        render(
+            <Subject
+                label="Aadhaar (आधार)"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Aadhaar (आधार)");
         expect(el.textContent).toBe("test-value");

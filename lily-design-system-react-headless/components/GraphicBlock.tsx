@@ -58,15 +58,11 @@ export default function GraphicBlock({
         >
             {hasCaption && (
                 <figcaption className="graphic-block-caption">
-                    {title !== undefined && (
-                        <div className="graphic-block-title">{title}</div>
-                    )}
+                    {title !== undefined && <div className="graphic-block-title">{title}</div>}
                     {description !== undefined && (
                         <div className="graphic-block-description">{description}</div>
                     )}
-                    {notes !== undefined && (
-                        <div className="graphic-block-notes">{notes}</div>
-                    )}
+                    {notes !== undefined && <div className="graphic-block-notes">{notes}</div>}
                 </figcaption>
             )}
             <div className="graphic-block-content">{children}</div>

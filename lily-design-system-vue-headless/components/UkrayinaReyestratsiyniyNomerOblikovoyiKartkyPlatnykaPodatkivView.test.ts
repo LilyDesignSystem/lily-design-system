@@ -9,7 +9,9 @@ describe("UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivView", () 
 
         const el = screen.getByLabelText("Taxpayer Registration Number");
         expect(el).toBeTruthy();
-        expect(el.getAttribute("class")).toContain("ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view");
+        expect(el.getAttribute("class")).toContain(
+            "ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view",
+        );
     });
 
     test("renders the value as text content", () => {

@@ -3,10 +3,11 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./Statistic.vue";
 
-
 describe("Statistic", () => {
     test("renders root with statistic class and group role", () => {
-        const { container } = render(Subject, { props: { title: "Active users", value: "12,345" } });
+        const { container } = render(Subject, {
+            props: { title: "Active users", value: "12,345" },
+        });
 
         const root: HTMLElement = container.firstElementChild as HTMLElement;
         expect(root.tagName).toBe("DIV");
@@ -15,7 +16,9 @@ describe("Statistic", () => {
     });
 
     test("default aria-label combines title and value", () => {
-        const { container } = render(Subject, { props: { title: "Active users", value: "12,345" } });
+        const { container } = render(Subject, {
+            props: { title: "Active users", value: "12,345" },
+        });
 
         const root: HTMLElement = container.firstElementChild as HTMLElement;
         expect(root.getAttribute("aria-label")).toBe("Active users: 12,345");
@@ -23,7 +26,11 @@ describe("Statistic", () => {
 
     test("custom aria-label overrides default", () => {
         const { container } = render(Subject, {
-            props: { title: "Active users", value: "12,345", label: "12,345 active users right now" },
+            props: {
+                title: "Active users",
+                value: "12,345",
+                label: "12,345 active users right now",
+            },
         });
 
         const root: HTMLElement = container.firstElementChild as HTMLElement;

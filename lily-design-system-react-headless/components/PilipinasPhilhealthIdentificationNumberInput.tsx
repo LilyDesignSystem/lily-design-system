@@ -50,14 +50,15 @@ export default function PilipinasPhilhealthIdentificationNumberInput({
 }: PilipinasPhilhealthIdentificationNumberInputProps) {
     return (
         <input
-        className={`pilipinas-philhealth-identification-number-input ${className}`}
-        type="text"
-        aria-label={label}
-        autoComplete="off"
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`pilipinas-philhealth-identification-number-input ${className}`}
+            type="text"
+            aria-label={label}
+            autoComplete="off"
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

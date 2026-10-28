@@ -76,6 +76,8 @@ export default function ThemeSelectOption({
             selected={selected}
             disabled={disabled}
             {...restProps}
-        >{children}</option>
+        >
+            {children}
+        </option>
     );
 }

@@ -4,7 +4,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./Collapsible.vue";
 
-
 describe("Collapsible", () => {
     test("renders summary text", () => {
         render(Subject, { props: { summary: "Show more" }, slots: { default: "Hidden content" } });
@@ -13,17 +12,20 @@ describe("Collapsible", () => {
     });
 
     test("is collapsed by default", () => {
-        render(Subject, { props: { summary: "Details",
-            "data-testid": "details" }, slots: { default: "Content" } });
+        render(Subject, {
+            props: { summary: "Details", "data-testid": "details" },
+            slots: { default: "Content" },
+        });
 
         const details = screen.getByTestId("details") as HTMLDetailsElement;
         expect(details.open).toBe(false);
     });
 
     test("can be initially open", () => {
-        render(Subject, { props: { summary: "Details",
-            open: true,
-            "data-testid": "details" }, slots: { default: "Visible content" } });
+        render(Subject, {
+            props: { summary: "Details", open: true, "data-testid": "details" },
+            slots: { default: "Visible content" },
+        });
 
         const details = screen.getByTestId("details") as HTMLDetailsElement;
         expect(details.open).toBe(true);
@@ -31,8 +33,10 @@ describe("Collapsible", () => {
 
     test("toggles on summary click", async () => {
         const user: UserEvent = userEvent.setup();
-        render(Subject, { props: { summary: "Toggle me",
-            "data-testid": "details" }, slots: { default: "Content" } });
+        render(Subject, {
+            props: { summary: "Toggle me", "data-testid": "details" },
+            slots: { default: "Content" },
+        });
 
         const summary = screen.getByText("Toggle me");
         const details = screen.getByTestId("details") as HTMLDetailsElement;
@@ -45,8 +49,10 @@ describe("Collapsible", () => {
     });
 
     test("summary element is focusable", () => {
-        render(Subject, { props: { summary: "Focus me",
-            "data-testid": "det" }, slots: { default: "Content" } });
+        render(Subject, {
+            props: { summary: "Focus me", "data-testid": "det" },
+            slots: { default: "Content" },
+        });
 
         // jsdom doesn't tab to <summary>, so focus it directly.
         const summary = screen.getByTestId("det").querySelector("summary") as HTMLElement;
@@ -55,8 +61,10 @@ describe("Collapsible", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(Subject, { props: { summary: "Info",
-            "data-testid": "coll" }, slots: { default: "Content" } });
+        render(Subject, {
+            props: { summary: "Info", "data-testid": "coll" },
+            slots: { default: "Content" },
+        });
 
         expect(screen.getByTestId("coll")).toBeTruthy();
     });

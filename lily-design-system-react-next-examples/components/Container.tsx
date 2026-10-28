@@ -9,12 +9,13 @@ export interface ContainerProps {
     [key: string]: unknown;
 }
 
-export default function Container({
-    className = "",
-    children,
-    ...restProps
-}: ContainerProps) {
+export default function Container({ className = "", children, ...restProps }: ContainerProps) {
     return (
-        <div className={`container ${className}`} {...restProps}>{children}</div>
+        <div
+            className={`container ${className}`}
+            {...restProps}
+        >
+            {children}
+        </div>
     );
 }

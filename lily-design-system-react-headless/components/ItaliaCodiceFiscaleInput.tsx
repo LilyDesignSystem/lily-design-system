@@ -50,14 +50,15 @@ export default function ItaliaCodiceFiscaleInput({
 }: ItaliaCodiceFiscaleInputProps) {
     return (
         <input
-        className={`italia-codice-fiscale-input ${className}`}
-        type="text"
-        aria-label={label}
-        autoComplete="off"
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`italia-codice-fiscale-input ${className}`}
+            type="text"
+            aria-label={label}
+            autoComplete="off"
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

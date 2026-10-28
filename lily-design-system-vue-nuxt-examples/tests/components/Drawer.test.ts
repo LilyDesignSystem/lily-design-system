@@ -4,7 +4,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "../../components/Drawer.vue";
 
-
 describe("Drawer", () => {
     test("hidden when open is false", () => {
         render(Subject, { props: { label: "Nav", open: false }, slots: { default: "Content" } });
@@ -22,7 +21,10 @@ describe("Drawer", () => {
     });
 
     test("has data-side attribute", () => {
-        render(Subject, { props: { label: "Nav", open: true, side: "right" }, slots: { default: "C" } });
+        render(Subject, {
+            props: { label: "Nav", open: true, side: "right" },
+            slots: { default: "C" },
+        });
         expect(screen.getByRole("dialog").getAttribute("data-side")).toBe("right");
     });
 
@@ -40,12 +42,18 @@ describe("Drawer", () => {
     });
 
     test("renders children", () => {
-        render(Subject, { props: { label: "Nav", open: true }, slots: { default: "Drawer content" } });
+        render(Subject, {
+            props: { label: "Nav", open: true },
+            slots: { default: "Drawer content" },
+        });
         expect(screen.getByRole("dialog").textContent).toContain("Drawer content");
     });
 
     test("passes through attributes", () => {
-        render(Subject, { props: { label: "Nav", open: true, "data-testid": "dr" }, slots: { default: "C" } });
+        render(Subject, {
+            props: { label: "Nav", open: true, "data-testid": "dr" },
+            slots: { default: "C" },
+        });
         expect(screen.getByTestId("dr")).toBeTruthy();
     });
 });

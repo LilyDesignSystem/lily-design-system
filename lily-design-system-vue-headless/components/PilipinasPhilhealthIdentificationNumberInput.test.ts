@@ -7,7 +7,9 @@ describe("PilipinasPhilhealthIdentificationNumberInput", () => {
     test("renders a text input", () => {
         render(Subject, { props: { label: "Pilipinas Philhealth Identification Number" } });
 
-        const input = screen.getByLabelText("Pilipinas Philhealth Identification Number") as HTMLInputElement;
+        const input = screen.getByLabelText(
+            "Pilipinas Philhealth Identification Number",
+        ) as HTMLInputElement;
         expect(input.type).toBe("text");
     });
 
@@ -15,7 +17,9 @@ describe("PilipinasPhilhealthIdentificationNumberInput", () => {
         render(Subject, { props: { label: "Pilipinas Philhealth Identification Number" } });
 
         const input = screen.getByLabelText("Pilipinas Philhealth Identification Number");
-        expect(input.getAttribute("class")).toContain("pilipinas-philhealth-identification-number-input");
+        expect(input.getAttribute("class")).toContain(
+            "pilipinas-philhealth-identification-number-input",
+        );
     });
 
     test("has autocomplete off", () => {
@@ -28,33 +32,50 @@ describe("PilipinasPhilhealthIdentificationNumberInput", () => {
     test("is not required by default", () => {
         render(Subject, { props: { label: "Pilipinas Philhealth Identification Number" } });
 
-        const input = screen.getByLabelText("Pilipinas Philhealth Identification Number") as HTMLInputElement;
+        const input = screen.getByLabelText(
+            "Pilipinas Philhealth Identification Number",
+        ) as HTMLInputElement;
         expect(input.required).toBe(false);
     });
 
     test("can be set to required", () => {
-        render(Subject, { props: { label: "Pilipinas Philhealth Identification Number", required: true } });
+        render(Subject, {
+            props: { label: "Pilipinas Philhealth Identification Number", required: true },
+        });
 
-        const input = screen.getByLabelText("Pilipinas Philhealth Identification Number") as HTMLInputElement;
+        const input = screen.getByLabelText(
+            "Pilipinas Philhealth Identification Number",
+        ) as HTMLInputElement;
         expect(input.required).toBe(true);
     });
 
     test("is not disabled by default", () => {
         render(Subject, { props: { label: "Pilipinas Philhealth Identification Number" } });
 
-        const input = screen.getByLabelText("Pilipinas Philhealth Identification Number") as HTMLInputElement;
+        const input = screen.getByLabelText(
+            "Pilipinas Philhealth Identification Number",
+        ) as HTMLInputElement;
         expect(input.disabled).toBe(false);
     });
 
     test("can be set to disabled", () => {
-        render(Subject, { props: { label: "Pilipinas Philhealth Identification Number", disabled: true } });
+        render(Subject, {
+            props: { label: "Pilipinas Philhealth Identification Number", disabled: true },
+        });
 
-        const input = screen.getByLabelText("Pilipinas Philhealth Identification Number") as HTMLInputElement;
+        const input = screen.getByLabelText(
+            "Pilipinas Philhealth Identification Number",
+        ) as HTMLInputElement;
         expect(input.disabled).toBe(true);
     });
 
     test("passes through additional HTML attributes", () => {
-        render(Subject, { props: { label: "Pilipinas Philhealth Identification Number", "data-testid": "subject" } });
+        render(Subject, {
+            props: {
+                label: "Pilipinas Philhealth Identification Number",
+                "data-testid": "subject",
+            },
+        });
 
         const input = screen.getByTestId("subject");
         expect(input).toBeTruthy();

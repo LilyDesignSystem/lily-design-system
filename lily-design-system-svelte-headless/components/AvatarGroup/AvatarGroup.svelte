@@ -13,6 +13,10 @@
 </script>
 
 <!-- AvatarGroup.svelte -->
-<div class={`avatar-group ${className}`} aria-label={label} {...restProps}>
+<div
+    class={`avatar-group ${className}`}
+    aria-label={label}
+    {...restProps}
+>
     {@render children?.()}
 </div>

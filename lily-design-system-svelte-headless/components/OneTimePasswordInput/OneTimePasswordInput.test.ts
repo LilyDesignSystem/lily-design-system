@@ -45,7 +45,9 @@ describe("OneTimePasswordInput", () => {
         const { unmount } = render(Subject, { props: { label: "Code", length: 6 } });
         expect(input().getAttribute("pattern")).toBe("[0-9]*");
         unmount();
-        render(Subject, { props: { label: "Code", length: 6, pattern: "[A-Z0-9]*", inputMode: "text" } });
+        render(Subject, {
+            props: { label: "Code", length: 6, pattern: "[A-Z0-9]*", inputMode: "text" },
+        });
         expect(input().getAttribute("pattern")).toBe("[A-Z0-9]*");
         expect(input().getAttribute("inputmode")).toBe("text");
     });
@@ -62,7 +64,9 @@ describe("OneTimePasswordInput", () => {
     });
 
     test("supports name, required and disabled", () => {
-        render(Subject, { props: { label: "Code", length: 6, name: "otp", required: true, disabled: true } });
+        render(Subject, {
+            props: { label: "Code", length: 6, name: "otp", required: true, disabled: true },
+        });
         expect(input().name).toBe("otp");
         expect(input().required).toBe(true);
         expect(input().disabled).toBe(true);

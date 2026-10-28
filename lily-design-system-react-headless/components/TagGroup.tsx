@@ -16,7 +16,7 @@
 //   <TagGroup label="Technologies">...</TagGroup>
 //
 // Examples:
-//   
+//
 //   <TagGroup label="Technologies">
 //     <Tag label="Technology">React</Tag>
 //     <Tag label="Technology">TypeScript</Tag>
@@ -51,20 +51,15 @@ export interface TagGroupProps {
     [key: string]: unknown;
 }
 
-export default function TagGroup({
-    className = "",
-    label,
-    children,
-    ...restProps
-}: TagGroupProps) {
+export default function TagGroup({ className = "", label, children, ...restProps }: TagGroupProps) {
     return (
         <div
-        className={`tag-group ${className}`}
-        role="group"
-        aria-label={label}
-        {...restProps}
+            className={`tag-group ${className}`}
+            role="group"
+            aria-label={label}
+            {...restProps}
         >
-        {children}
+            {children}
         </div>
     );
 }

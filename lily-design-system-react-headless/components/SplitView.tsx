@@ -56,24 +56,24 @@ export default function SplitView({
 }: SplitViewProps) {
     return (
         <div
-        className={`split-view ${className}`}
-        aria-label={label}
-        data-orientation={orientation}
-        data-split-percent={splitPercent}
-        {...restProps}
+            className={`split-view ${className}`}
+            aria-label={label}
+            data-orientation={orientation}
+            data-split-percent={splitPercent}
+            {...restProps}
         >
             <section className="split-view-primary">{primary}</section>
             {divider !== undefined ? (
                 divider
             ) : (
                 <div
-                className="split-view-divider"
-                role="separator"
-                aria-orientation={orientation}
-                aria-valuenow={splitPercent}
-                aria-valuemin={0}
-                aria-valuemax={100}
-                tabIndex={0}
+                    className="split-view-divider"
+                    role="separator"
+                    aria-orientation={orientation}
+                    aria-valuenow={splitPercent}
+                    aria-valuemin={0}
+                    aria-valuemax={100}
+                    tabIndex={0}
                 />
             )}
             <section className="split-view-secondary">{secondary}</section>

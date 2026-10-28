@@ -10,24 +10,45 @@ describe("NumberInput", () => {
     });
 
     test("supports min/max", () => {
-        render(<Subject label="Qty" min={0} max={99} />);
+        render(
+            <Subject
+                label="Qty"
+                min={0}
+                max={99}
+            />,
+        );
         const input = screen.getByLabelText("Qty") as HTMLInputElement;
         expect(input.min).toBe("0");
         expect(input.max).toBe("99");
     });
 
     test("supports step", () => {
-        render(<Subject label="Qty" step={5} />);
+        render(
+            <Subject
+                label="Qty"
+                step={5}
+            />,
+        );
         expect((screen.getByLabelText("Qty") as HTMLInputElement).step).toBe("5");
     });
 
     test("supports required", () => {
-        render(<Subject label="Qty" required />);
+        render(
+            <Subject
+                label="Qty"
+                required
+            />,
+        );
         expect((screen.getByLabelText("Qty") as HTMLInputElement).required).toBe(true);
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="N" data-testid="ni" />);
+        render(
+            <Subject
+                label="N"
+                data-testid="ni"
+            />,
+        );
         expect(screen.getByTestId("ni")).toBeTruthy();
     });
 });

@@ -37,9 +37,11 @@ export default function ChileRolUnicoNacionalView({
 }: ChileRolUnicoNacionalViewProps) {
     return (
         <span
-        className={`chile-rol-unico-nacional-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`chile-rol-unico-nacional-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

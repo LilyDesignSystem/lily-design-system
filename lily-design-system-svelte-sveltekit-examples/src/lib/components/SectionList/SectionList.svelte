@@ -16,8 +16,6 @@
 <!-- SectionList.svelte -->
 <ul
     class={`section-list ${className}`}
-
-
     {...restProps}
 >
     {@render children?.()}

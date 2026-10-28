@@ -26,7 +26,14 @@ describe("FlexStack", () => {
     });
 
     test("accepts row direction", () => {
-        render(<Subject direction="row" data-testid="fs">Inner</Subject>);
+        render(
+            <Subject
+                direction="row"
+                data-testid="fs"
+            >
+                Inner
+            </Subject>,
+        );
 
         const el: HTMLElement = screen.getByTestId("fs");
         expect(el.getAttribute("data-direction")).toBe("row");
@@ -52,7 +59,14 @@ describe("FlexStack", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject id="row1" data-testid="fs">Inner</Subject>);
+        render(
+            <Subject
+                id="row1"
+                data-testid="fs"
+            >
+                Inner
+            </Subject>,
+        );
 
         const el: HTMLElement = screen.getByTestId("fs");
         expect(el.getAttribute("id")).toBe("row1");

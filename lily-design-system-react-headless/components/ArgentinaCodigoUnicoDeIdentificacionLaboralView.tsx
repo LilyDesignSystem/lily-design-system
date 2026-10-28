@@ -37,9 +37,11 @@ export default function ArgentinaCodigoUnicoDeIdentificacionLaboralView({
 }: ArgentinaCodigoUnicoDeIdentificacionLaboralViewProps) {
     return (
         <span
-        className={`argentina-codigo-unico-de-identificacion-laboral-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`argentina-codigo-unico-de-identificacion-laboral-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

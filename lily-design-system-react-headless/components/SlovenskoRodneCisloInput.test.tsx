@@ -33,7 +33,12 @@ describe("SlovenskoRodneCisloInput", () => {
     });
 
     test("can be set to required", () => {
-        render(<Subject label="Slovak Personal Number" required />);
+        render(
+            <Subject
+                label="Slovak Personal Number"
+                required
+            />,
+        );
 
         const input = screen.getByLabelText("Slovak Personal Number") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -47,14 +52,24 @@ describe("SlovenskoRodneCisloInput", () => {
     });
 
     test("can be set to disabled", () => {
-        render(<Subject label="Slovak Personal Number" disabled />);
+        render(
+            <Subject
+                label="Slovak Personal Number"
+                disabled
+            />,
+        );
 
         const input = screen.getByLabelText("Slovak Personal Number") as HTMLInputElement;
         expect(input.disabled).toBe(true);
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="Slovak Personal Number" data-testid="subject" />);
+        render(
+            <Subject
+                label="Slovak Personal Number"
+                data-testid="subject"
+            />,
+        );
 
         const input = screen.getByTestId("subject");
         expect(input).toBeTruthy();

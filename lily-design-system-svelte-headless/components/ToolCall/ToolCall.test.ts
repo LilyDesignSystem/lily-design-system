@@ -5,7 +5,11 @@ import ToolCall from "./ToolCall.svelte";
 
 const snip = (html: string) => createRawSnippet(() => ({ render: () => html }));
 const base = (extra: Record<string, unknown> = {}) => ({
-    props: { summary: snip(`<span data-testid="sum">search_web</span>`), children: snip(`<span data-testid="body">Body</span>`), ...extra },
+    props: {
+        summary: snip(`<span data-testid="sum">search_web</span>`),
+        children: snip(`<span data-testid="body">Body</span>`),
+        ...extra,
+    },
 });
 
 describe("ToolCall", () => {

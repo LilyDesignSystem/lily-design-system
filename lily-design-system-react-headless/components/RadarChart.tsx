@@ -48,7 +48,11 @@ export default function RadarChart({
             className={`radar-chart ${className}`}
             {...restProps}
         >
-            <div className="radar-chart-graphic" role="img" aria-label={label}>
+            <div
+                className="radar-chart-graphic"
+                role="img"
+                aria-label={label}
+            >
                 {children}
             </div>
             {dataTable !== undefined && dataTable !== null && (

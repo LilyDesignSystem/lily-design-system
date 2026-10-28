@@ -19,10 +19,10 @@
 //   <UnitedKingdomNationalHealthServiceNumberInput label="NHS Number" value={value} onChange={setValue} />
 //
 // Examples:
-//   
+//
 //   <UnitedKingdomNationalHealthServiceNumberInput label="NHS Number" required />
 //
-//   
+//
 //   <UnitedKingdomNationalHealthServiceNumberInput label="NHS Number" disabled />
 //
 // Keyboard:
@@ -79,16 +79,17 @@ export default function UnitedKingdomNationalHealthServiceNumberInput({
 
     return (
         <input
-        className={`united-kingdom-national-health-service-number-input ${className}`}
-        type="text"
-        aria-label={label}
-        inputMode="numeric"
-        pattern={nhsPattern}
-        autoComplete="off"
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`united-kingdom-national-health-service-number-input ${className}`}
+            type="text"
+            aria-label={label}
+            inputMode="numeric"
+            pattern={nhsPattern}
+            autoComplete="off"
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

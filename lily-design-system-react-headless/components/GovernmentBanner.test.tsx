@@ -11,7 +11,7 @@ describe("GovernmentBanner", () => {
                 label="Official government website"
                 headerText="An official website"
                 expandLabel="Here's how you know"
-            />
+            />,
         );
 
         const aside: HTMLElement = screen.getByRole("complementary", {
@@ -26,7 +26,7 @@ describe("GovernmentBanner", () => {
                 label="Banner"
                 headerText="Header"
                 expandLabel="Toggle"
-            />
+            />,
         );
 
         const aside: HTMLElement = screen.getByRole("complementary");
@@ -39,7 +39,7 @@ describe("GovernmentBanner", () => {
                 label="Banner"
                 headerText="An official website"
                 expandLabel="Toggle"
-            />
+            />,
         );
 
         const aside: HTMLElement = screen.getByRole("complementary");
@@ -52,7 +52,7 @@ describe("GovernmentBanner", () => {
                 label="Banner"
                 headerText="Header"
                 expandLabel="Here's how you know"
-            />
+            />,
         );
 
         const button: HTMLElement = screen.getByRole("button", {
@@ -68,7 +68,7 @@ describe("GovernmentBanner", () => {
                 headerText="Header"
                 expandLabel="Toggle"
                 expanded
-            />
+            />,
         );
 
         const button: HTMLElement = screen.getByRole("button");
@@ -84,16 +84,14 @@ describe("GovernmentBanner", () => {
                 expanded
             >
                 <p>Details</p>
-            </Subject>
+            </Subject>,
         );
 
         const button: HTMLElement = screen.getByRole("button");
         const panelId: string | null = button.getAttribute("aria-controls");
         expect(panelId).toBeTruthy();
 
-        const panel: HTMLElement | null = container.querySelector(
-            `[id="${panelId!}"]`
-        );
+        const panel: HTMLElement | null = container.querySelector(`[id="${panelId!}"]`);
         expect(panel).toBeTruthy();
     });
 
@@ -105,12 +103,10 @@ describe("GovernmentBanner", () => {
                 expandLabel="Toggle"
             >
                 <p>Details</p>
-            </Subject>
+            </Subject>,
         );
 
-        const panel: HTMLElement = container.querySelector(
-            ".government-banner-details"
-        )!;
+        const panel: HTMLElement = container.querySelector(".government-banner-details")!;
         expect(panel.hasAttribute("hidden")).toBe(true);
     });
 
@@ -123,12 +119,10 @@ describe("GovernmentBanner", () => {
                 expanded
             >
                 <p>Details</p>
-            </Subject>
+            </Subject>,
         );
 
-        const panel: HTMLElement = container.querySelector(
-            ".government-banner-details"
-        )!;
+        const panel: HTMLElement = container.querySelector(".government-banner-details")!;
         expect(panel.hasAttribute("hidden")).toBe(false);
     });
 
@@ -141,7 +135,7 @@ describe("GovernmentBanner", () => {
                 headerText="Header"
                 expandLabel="Toggle"
                 onToggle={handleToggle}
-            />
+            />,
         );
 
         await user.click(screen.getByRole("button"));

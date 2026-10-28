@@ -78,9 +78,7 @@
 
     function onkeydown(event: KeyboardEvent) {
         if (!menuRef) return;
-        const items = Array.from(
-            menuRef.querySelectorAll<HTMLElement>("[role='menuitem']"),
-        );
+        const items = Array.from(menuRef.querySelectorAll<HTMLElement>("[role='menuitem']"));
         const current = document.activeElement as HTMLElement;
         const index = items.indexOf(current);
         switch (event.key) {

@@ -11,7 +11,9 @@ describe("ConvertFromValueDiv", () => {
 
     test("appends the consumer class after the base class", () => {
         const { container } = render(<Subject className="mine">content</Subject>);
-        expect(container.querySelector(".convert-from-value-div")?.getAttribute("class")).toBe("convert-from-value-div mine");
+        expect(container.querySelector(".convert-from-value-div")?.getAttribute("class")).toBe(
+            "convert-from-value-div mine",
+        );
     });
 
     test("renders children content", () => {

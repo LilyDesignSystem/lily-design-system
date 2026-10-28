@@ -5,7 +5,9 @@ import Subject from "./NihonKojinBangoView.svelte";
 
 describe("NihonKojinBangoView", () => {
     test("renders with the correct class", () => {
-        render(Subject, { props: { label: "Individual Number / My Number (マイナンバー)", value: "test-value" } });
+        render(Subject, {
+            props: { label: "Individual Number / My Number (マイナンバー)", value: "test-value" },
+        });
 
         const el = screen.getByLabelText("Individual Number / My Number (マイナンバー)");
         expect(el).toBeTruthy();
@@ -13,7 +15,9 @@ describe("NihonKojinBangoView", () => {
     });
 
     test("renders the value as text content", () => {
-        render(Subject, { props: { label: "Individual Number / My Number (マイナンバー)", value: "test-value" } });
+        render(Subject, {
+            props: { label: "Individual Number / My Number (マイナンバー)", value: "test-value" },
+        });
 
         const el = screen.getByLabelText("Individual Number / My Number (マイナンバー)");
         expect(el.textContent).toBe("test-value");

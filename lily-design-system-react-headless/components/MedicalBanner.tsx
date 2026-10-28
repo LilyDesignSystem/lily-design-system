@@ -68,22 +68,30 @@ export default function MedicalBanner({
 
     return (
         <>
-        {visible && (<><div
-            className={`medical-banner ${className}`}
-            role="region"
-            aria-live="polite"
-            aria-label={label}
-            data-type={type}
-            data-context="medical"
-            {...restProps}
-        >
-            {children}
-            {dismissible && (<><button
-                type="button"
-                aria-label={closeLabel}
-                onClick={dismiss}
-            ></button></>)}
-        </div></>)}
+            {visible && (
+                <>
+                    <div
+                        className={`medical-banner ${className}`}
+                        role="region"
+                        aria-live="polite"
+                        aria-label={label}
+                        data-type={type}
+                        data-context="medical"
+                        {...restProps}
+                    >
+                        {children}
+                        {dismissible && (
+                            <>
+                                <button
+                                    type="button"
+                                    aria-label={closeLabel}
+                                    onClick={dismiss}
+                                ></button>
+                            </>
+                        )}
+                    </div>
+                </>
+            )}
         </>
     );
 }

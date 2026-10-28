@@ -19,14 +19,24 @@ describe("BeachBall", () => {
     });
 
     test("is aria-busy when active", () => {
-        render(<Subject label="Loading" active />);
+        render(
+            <Subject
+                label="Loading"
+                active
+            />,
+        );
 
         const indicator: HTMLElement = screen.getByRole("status");
         expect(indicator.getAttribute("aria-busy")).toBe("true");
     });
 
     test("is not aria-busy when inactive", () => {
-        render(<Subject label="Loading" active={false} />);
+        render(
+            <Subject
+                label="Loading"
+                active={false}
+            />,
+        );
 
         const indicator: HTMLElement = screen.getByRole("status");
         expect(indicator.getAttribute("aria-busy")).toBe("false");
@@ -40,14 +50,24 @@ describe("BeachBall", () => {
     });
 
     test("exposes data-active attribute", () => {
-        render(<Subject label="Loading" active />);
+        render(
+            <Subject
+                label="Loading"
+                active
+            />,
+        );
 
         const indicator: HTMLElement = screen.getByRole("status");
         expect(indicator.getAttribute("data-active")).toBe("true");
     });
 
     test("renders spinner span when active", () => {
-        render(<Subject label="Loading" active />);
+        render(
+            <Subject
+                label="Loading"
+                active
+            />,
+        );
 
         const indicator: HTMLElement = screen.getByRole("status");
         const spinner: HTMLElement | null = indicator.querySelector("span[aria-hidden]");
@@ -55,7 +75,12 @@ describe("BeachBall", () => {
     });
 
     test("hides spinner span when inactive", () => {
-        render(<Subject label="Loading" active={false} />);
+        render(
+            <Subject
+                label="Loading"
+                active={false}
+            />,
+        );
 
         const indicator: HTMLElement = screen.getByRole("status");
         const spinner: HTMLElement | null = indicator.querySelector("span[aria-hidden]");
@@ -63,7 +88,12 @@ describe("BeachBall", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="Loading" data-testid="beach-ball" />);
+        render(
+            <Subject
+                label="Loading"
+                data-testid="beach-ball"
+            />,
+        );
 
         const indicator: HTMLElement = screen.getByTestId("beach-ball");
         expect(indicator).toBeTruthy();

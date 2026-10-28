@@ -45,10 +45,10 @@ export default function DataTableRow({
 }: DataTableRowProps) {
     return (
         <tr
-        className={`data-table-row ${className}`}
-        {...restProps}
+            className={`data-table-row ${className}`}
+            {...restProps}
         >
-        {children}
+            {children}
         </tr>
     );
 }

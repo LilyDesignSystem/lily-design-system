@@ -25,7 +25,14 @@ describe("PaginationNav", () => {
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="Pagination" data-testid="pn">x</Subject>);
+        render(
+            <Subject
+                label="Pagination"
+                data-testid="pn"
+            >
+                x
+            </Subject>,
+        );
         expect(screen.getByTestId("pn")).toBeTruthy();
     });
 });

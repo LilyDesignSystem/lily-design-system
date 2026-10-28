@@ -37,9 +37,11 @@ export default function ElladaDematerialisedSecuritiesSystemView({
 }: ElladaDematerialisedSecuritiesSystemViewProps) {
     return (
         <span
-        className={`ellada-dematerialised-securities-system-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`ellada-dematerialised-securities-system-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

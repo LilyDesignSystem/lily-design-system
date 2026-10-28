@@ -50,14 +50,15 @@ export default function RomaniaCodNumericPersonalInput({
 }: RomaniaCodNumericPersonalInputProps) {
     return (
         <input
-        className={`romania-cod-numeric-personal-input ${className}`}
-        type="text"
-        aria-label={label}
-        autoComplete="off"
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`romania-cod-numeric-personal-input ${className}`}
+            type="text"
+            aria-label={label}
+            autoComplete="off"
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

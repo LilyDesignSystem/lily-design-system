@@ -9,7 +9,9 @@ describe("ArgentinaCodigoUnicoDeIdentificacionLaboralView", () => {
 
         const el = screen.getByLabelText("Labor Identification Code");
         expect(el).toBeTruthy();
-        expect(el.getAttribute("class")).toContain("argentina-codigo-unico-de-identificacion-laboral-view");
+        expect(el.getAttribute("class")).toContain(
+            "argentina-codigo-unico-de-identificacion-laboral-view",
+        );
     });
 
     test("renders the value as text content", () => {

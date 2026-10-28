@@ -3,7 +3,8 @@ import { render, screen } from "@testing-library/svelte";
 import { createRawSnippet } from "svelte";
 import ToolCallInput from "./ToolCallInput.svelte";
 
-const txt = () => createRawSnippet(() => ({ render: () => `<span data-testid="txt">Hello</span>` }));
+const txt = () =>
+    createRawSnippet(() => ({ render: () => `<span data-testid="txt">Hello</span>` }));
 
 describe("ToolCallInput", () => {
     it("renders a <div> with the base class", () => {
@@ -24,7 +25,9 @@ describe("ToolCallInput", () => {
 
     it("appends the consumer class after the base class", () => {
         const { container } = render(ToolCallInput, { props: { class: "mine", children: txt() } });
-        expect(container.querySelector(".tool-call-input")!.getAttribute("class")).toBe("tool-call-input mine");
+        expect(container.querySelector(".tool-call-input")!.getAttribute("class")).toBe(
+            "tool-call-input mine",
+        );
     });
 
     it("renders the children", () => {

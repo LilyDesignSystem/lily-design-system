@@ -111,7 +111,9 @@ export default function FileUpload({
                 data-file-count={fileCount}
             >
                 {fileCount > 0 && (
-                    <>{fileCount} {fileCount === 1 ? "file" : "files"} selected</>
+                    <>
+                        {fileCount} {fileCount === 1 ? "file" : "files"} selected
+                    </>
                 )}
             </span>
         </div>

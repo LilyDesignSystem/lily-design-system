@@ -72,7 +72,9 @@ export default function FiveStarRatingView({
                     key={star}
                     aria-hidden="true"
                     data-filled={value >= star}
-                >{value >= star ? "\u2605" : "\u2606"}</span>
+                >
+                    {value >= star ? "\u2605" : "\u2606"}
+                </span>
             ))}
         </span>
     );

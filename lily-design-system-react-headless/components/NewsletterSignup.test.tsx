@@ -82,7 +82,9 @@ describe("NewsletterSignup", () => {
             />,
         );
 
-        const button: HTMLButtonElement = screen.getByRole("button", { name: "Subscribe now" }) as HTMLButtonElement;
+        const button: HTMLButtonElement = screen.getByRole("button", {
+            name: "Subscribe now",
+        }) as HTMLButtonElement;
         expect(button).toBeTruthy();
         expect(button.type).toBe("submit");
     });
@@ -98,7 +100,9 @@ describe("NewsletterSignup", () => {
         );
 
         const input: HTMLInputElement = screen.getByLabelText("Email") as HTMLInputElement;
-        const button: HTMLButtonElement = screen.getByRole("button", { name: "Subscribe" }) as HTMLButtonElement;
+        const button: HTMLButtonElement = screen.getByRole("button", {
+            name: "Subscribe",
+        }) as HTMLButtonElement;
         expect(input.disabled).toBe(true);
         expect(button.disabled).toBe(true);
     });

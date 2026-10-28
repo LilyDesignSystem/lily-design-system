@@ -19,10 +19,10 @@
 //   <RadioInput label="Option A" name="choice" value="a" />
 //
 // Examples:
-//   
+//
 //   <RadioInput label="Option A" name="choice" value="a" />
 //
-//   
+//
 //   <RadioInput label="Small" name="size" value="small" checked />
 //   <RadioInput label="Medium" name="size" value="medium" />
 //   <RadioInput label="Large" name="size" value="large" />
@@ -87,15 +87,15 @@ export default function RadioInput({
 
     return (
         <input
-        className={`radio-input ${className}`}
-        type="radio"
-        aria-label={label}
-        name={name}
-        value={value}
-        checked={checked}
-        disabled={disabled}
-        onChange={handleChange}
-        {...restProps}
+            className={`radio-input ${className}`}
+            type="radio"
+            aria-label={label}
+            name={name}
+            value={value}
+            checked={checked}
+            disabled={disabled}
+            onChange={handleChange}
+            {...restProps}
         />
     );
 }

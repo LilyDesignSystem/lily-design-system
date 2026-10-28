@@ -26,14 +26,24 @@ describe("StatusLight", () => {
     });
 
     test("exposes variant via data-variant", () => {
-        render(<Subject label="Active" variant="positive" />);
+        render(
+            <Subject
+                label="Active"
+                variant="positive"
+            />,
+        );
 
         const root: HTMLElement = screen.getByRole("status");
         expect(root.getAttribute("data-variant")).toBe("positive");
     });
 
     test("renders the label text", () => {
-        render(<Subject label="Offline" variant="negative" />);
+        render(
+            <Subject
+                label="Offline"
+                variant="negative"
+            />,
+        );
 
         expect(screen.getByText("Offline")).toBeTruthy();
     });
@@ -58,7 +68,10 @@ describe("StatusLight", () => {
         ];
         for (const v of variants) {
             const { container, unmount } = render(
-                <Subject label="X" variant={v as never} />
+                <Subject
+                    label="X"
+                    variant={v as never}
+                />,
             );
             const root: HTMLElement | null = container.querySelector(".status-light");
             expect(root?.getAttribute("data-variant")).toBe(v);

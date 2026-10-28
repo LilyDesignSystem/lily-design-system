@@ -22,7 +22,9 @@ describe("FranceNumeroDIdentificationAuRepertoireInput", () => {
         render(<Subject label="NIR" />);
 
         const input = screen.getByLabelText("NIR");
-        expect(input.getAttribute("pattern")).toBe("[0-9]{1} [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{3} [0-9]{3} [0-9]{2}");
+        expect(input.getAttribute("pattern")).toBe(
+            "[0-9]{1} [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{3} [0-9]{3} [0-9]{2}",
+        );
     });
 
     test("has autocomplete off", () => {
@@ -40,7 +42,12 @@ describe("FranceNumeroDIdentificationAuRepertoireInput", () => {
     });
 
     test("can be set to required", () => {
-        render(<Subject label="NIR" required />);
+        render(
+            <Subject
+                label="NIR"
+                required
+            />,
+        );
 
         const input = screen.getByLabelText("NIR") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -54,21 +61,36 @@ describe("FranceNumeroDIdentificationAuRepertoireInput", () => {
     });
 
     test("can be set to disabled", () => {
-        render(<Subject label="NIR" disabled />);
+        render(
+            <Subject
+                label="NIR"
+                disabled
+            />,
+        );
 
         const input = screen.getByLabelText("NIR") as HTMLInputElement;
         expect(input.disabled).toBe(true);
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="NIR" data-testid="nir-input" />);
+        render(
+            <Subject
+                label="NIR"
+                data-testid="nir-input"
+            />,
+        );
 
         const input = screen.getByTestId("nir-input");
         expect(input).toBeTruthy();
     });
 
     test("passes through id attribute", () => {
-        render(<Subject label="NIR" id="nir-field" />);
+        render(
+            <Subject
+                label="NIR"
+                id="nir-field"
+            />,
+        );
 
         const input = screen.getByLabelText("NIR");
         expect(input.getAttribute("id")).toBe("nir-field");

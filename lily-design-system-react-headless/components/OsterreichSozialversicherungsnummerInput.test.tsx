@@ -33,7 +33,12 @@ describe("OsterreichSozialversicherungsnummerInput", () => {
     });
 
     test("can be set to required", () => {
-        render(<Subject label="Sozialversicherungsnummer (SVNR)" required />);
+        render(
+            <Subject
+                label="Sozialversicherungsnummer (SVNR)"
+                required
+            />,
+        );
 
         const input = screen.getByLabelText("Sozialversicherungsnummer (SVNR)") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -47,14 +52,24 @@ describe("OsterreichSozialversicherungsnummerInput", () => {
     });
 
     test("can be set to disabled", () => {
-        render(<Subject label="Sozialversicherungsnummer (SVNR)" disabled />);
+        render(
+            <Subject
+                label="Sozialversicherungsnummer (SVNR)"
+                disabled
+            />,
+        );
 
         const input = screen.getByLabelText("Sozialversicherungsnummer (SVNR)") as HTMLInputElement;
         expect(input.disabled).toBe(true);
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="Sozialversicherungsnummer (SVNR)" data-testid="subject" />);
+        render(
+            <Subject
+                label="Sozialversicherungsnummer (SVNR)"
+                data-testid="subject"
+            />,
+        );
 
         const input = screen.getByTestId("subject");
         expect(input).toBeTruthy();

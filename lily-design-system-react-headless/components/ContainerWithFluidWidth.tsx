@@ -58,12 +58,12 @@ export default function ContainerWithFluidWidth({
 }: ContainerWithFluidWidthProps) {
     return (
         <div
-        className={`container-with-fluid-width ${className}`}
-        style={{ width: "100%", paddingInline }}
-        data-padding-inline={paddingInline}
-        {...restProps}
+            className={`container-with-fluid-width ${className}`}
+            style={{ width: "100%", paddingInline }}
+            data-padding-inline={paddingInline}
+            {...restProps}
         >
-        {children}
+            {children}
         </div>
     );
 }

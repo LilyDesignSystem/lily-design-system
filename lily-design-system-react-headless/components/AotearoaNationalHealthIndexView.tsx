@@ -38,9 +38,11 @@ export default function AotearoaNationalHealthIndexView({
 }: AotearoaNationalHealthIndexViewProps) {
     return (
         <span
-        className={`aotearoa-national-health-index-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`aotearoa-national-health-index-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

@@ -1,15 +1,15 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput from './UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput from "./UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput.vue";
 
 const meta = {
-  title: 'Headless/UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput',
-  component: UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput,
-  tags: ['autodocs']
+    title: "Headless/UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput",
+    component: UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput,
+    tags: ["autodocs"],
 } satisfies Meta<typeof UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-    args: { label: 'UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput' }
+    args: { label: "UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput" },
 };

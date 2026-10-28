@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import AngleSliderRangeInput from './AngleSliderRangeInput.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import AngleSliderRangeInput from "./AngleSliderRangeInput.vue";
 
 const meta = {
-  title: 'Headless/AngleSliderRangeInput',
-  component: AngleSliderRangeInput,
-  tags: ['autodocs']
+    title: "Headless/AngleSliderRangeInput",
+    component: AngleSliderRangeInput,
+    tags: ["autodocs"],
 } satisfies Meta<typeof AngleSliderRangeInput>;
 
 export default meta;

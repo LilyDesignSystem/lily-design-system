@@ -13,6 +13,10 @@
 </script>
 
 <!-- Loading.svelte -->
-<div class={`loading ${className}`} aria-label={label} {...restProps}>
+<div
+    class={`loading ${className}`}
+    aria-label={label}
+    {...restProps}
+>
     {@render children?.()}
 </div>

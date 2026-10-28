@@ -48,7 +48,9 @@
     let bufferTimer: ReturnType<typeof setTimeout> | undefined;
 
     function allItems(): HTMLElement[] {
-        return treeRef ? Array.from(treeRef.querySelectorAll<HTMLElement>("[role='treeitem']")) : [];
+        return treeRef
+            ? Array.from(treeRef.querySelectorAll<HTMLElement>("[role='treeitem']"))
+            : [];
     }
 
     function parentItem(item: HTMLElement): HTMLElement | null {
@@ -72,7 +74,11 @@
     function ownText(item: HTMLElement): string {
         let text = "";
         item.childNodes.forEach((n) => {
-            if (n.nodeType === Node.ELEMENT_NODE && (n as HTMLElement).getAttribute("role") === "group") return;
+            if (
+                n.nodeType === Node.ELEMENT_NODE &&
+                (n as HTMLElement).getAttribute("role") === "group"
+            )
+                return;
             text += n.textContent ?? "";
         });
         return text.trim().toLowerCase();
@@ -154,7 +160,10 @@
                 if (expanded === "false") {
                     item.setAttribute("aria-expanded", "true");
                 } else if (expanded === "true") {
-                    focusItem(item.querySelector<HTMLElement>("[role='group'] [role='treeitem']") ?? undefined);
+                    focusItem(
+                        item.querySelector<HTMLElement>("[role='group'] [role='treeitem']") ??
+                            undefined,
+                    );
                 }
                 return;
             case "ArrowLeft":
@@ -175,7 +184,10 @@
             case "*":
                 event.preventDefault();
                 for (const sibling of Array.from(item.parentElement?.children ?? [])) {
-                    if (sibling.getAttribute("role") === "treeitem" && sibling.getAttribute("aria-expanded") === "false") {
+                    if (
+                        sibling.getAttribute("role") === "treeitem" &&
+                        sibling.getAttribute("aria-expanded") === "false"
+                    ) {
                         sibling.setAttribute("aria-expanded", "true");
                     }
                 }
@@ -190,7 +202,10 @@
             bufferTimer = setTimeout(() => (buffer = ""), 500);
             const cycle = buffer.length === 1 || [...buffer].every((c) => c === buffer[0]);
             const needle = cycle ? buffer[0] : buffer;
-            const ordered = [...visible.slice(index + (cycle ? 1 : 0)), ...visible.slice(0, index + (cycle ? 1 : 0))];
+            const ordered = [
+                ...visible.slice(index + (cycle ? 1 : 0)),
+                ...visible.slice(0, index + (cycle ? 1 : 0)),
+            ];
             focusItem(ordered.find((i) => ownText(i).startsWith(needle)));
         }
     }

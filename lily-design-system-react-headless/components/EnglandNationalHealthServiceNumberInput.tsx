@@ -50,14 +50,15 @@ export default function EnglandNationalHealthServiceNumberInput({
 }: EnglandNationalHealthServiceNumberInputProps) {
     return (
         <input
-        className={`england-national-health-service-number-input ${className}`}
-        type="text"
-        aria-label={label}
-        autoComplete="off"
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`england-national-health-service-number-input ${className}`}
+            type="text"
+            aria-label={label}
+            autoComplete="off"
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

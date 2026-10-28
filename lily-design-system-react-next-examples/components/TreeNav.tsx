@@ -57,19 +57,14 @@ export interface TreeNavProps {
     [key: string]: unknown;
 }
 
-export default function TreeNav({
-    className = "",
-    label,
-    children,
-    ...restProps
-}: TreeNavProps) {
+export default function TreeNav({ className = "", label, children, ...restProps }: TreeNavProps) {
     return (
         <nav
-        className={`tree-nav ${className}`}
-        aria-label={label}
-        {...restProps}
+            className={`tree-nav ${className}`}
+            aria-label={label}
+            {...restProps}
         >
-        {children}
+            {children}
         </nav>
     );
 }

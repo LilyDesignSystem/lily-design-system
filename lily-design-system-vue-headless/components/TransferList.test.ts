@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./TransferList.vue";
 
-
 describe("TransferList", () => {
     const baseProps = {
         label: "Move items",
@@ -67,7 +66,9 @@ describe("TransferList", () => {
             },
         });
 
-        const actions: HTMLElement = container.querySelector(".transfer-list-actions") as HTMLElement;
+        const actions: HTMLElement = container.querySelector(
+            ".transfer-list-actions",
+        ) as HTMLElement;
         expect(actions).toBeTruthy();
         expect(actions.textContent).toContain("→");
     });

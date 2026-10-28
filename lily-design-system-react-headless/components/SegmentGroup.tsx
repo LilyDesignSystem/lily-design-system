@@ -19,7 +19,7 @@
 //   </SegmentGroup>
 //
 // Examples:
-//   
+//
 //   <SegmentGroup label="Display mode">
 //     <SegmentGroupItem checked={mode === 'grid'} value="grid">Grid</SegmentGroupItem>
 //     <SegmentGroupItem checked={mode === 'list'} value="list">List</SegmentGroupItem>
@@ -65,12 +65,12 @@ export default function SegmentGroup({
 }: SegmentGroupProps) {
     return (
         <div
-        className={`segment-group ${className}`}
-        role="radiogroup"
-        aria-label={label}
-        {...restProps}
+            className={`segment-group ${className}`}
+            role="radiogroup"
+            aria-label={label}
+            {...restProps}
         >
-        {children}
+            {children}
         </div>
     );
 }

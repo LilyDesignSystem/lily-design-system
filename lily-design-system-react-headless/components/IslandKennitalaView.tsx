@@ -37,9 +37,11 @@ export default function IslandKennitalaView({
 }: IslandKennitalaViewProps) {
     return (
         <span
-        className={`island-kennitala-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`island-kennitala-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

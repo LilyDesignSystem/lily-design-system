@@ -72,7 +72,7 @@ export default function ScrollerBase({
             {
                 rootMargin: `-${triggerFromTop} 0px -${(100 - offset * 100).toFixed(2)}% 0px`,
                 threshold: 0,
-            }
+            },
         );
         for (const step of steps) observer.observe(step);
 

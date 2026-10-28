@@ -37,9 +37,11 @@ export default function SlovenskoRodneCisloView({
 }: SlovenskoRodneCisloViewProps) {
     return (
         <span
-        className={`slovensko-rodne-cislo-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`slovensko-rodne-cislo-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

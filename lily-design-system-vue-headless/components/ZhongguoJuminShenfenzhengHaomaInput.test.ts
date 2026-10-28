@@ -54,7 +54,9 @@ describe("ZhongguoJuminShenfenzhengHaomaInput", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(Subject, { props: { label: "Resident Identity Card Number", "data-testid": "subject" } });
+        render(Subject, {
+            props: { label: "Resident Identity Card Number", "data-testid": "subject" },
+        });
 
         const input = screen.getByTestId("subject");
         expect(input).toBeTruthy();

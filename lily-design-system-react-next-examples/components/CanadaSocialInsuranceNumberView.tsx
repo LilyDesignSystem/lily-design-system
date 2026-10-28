@@ -38,9 +38,11 @@ export default function CanadaSocialInsuranceNumberView({
 }: CanadaSocialInsuranceNumberViewProps) {
     return (
         <span
-        className={`canada-social-insurance-number-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`canada-social-insurance-number-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

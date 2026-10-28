@@ -16,10 +16,10 @@
 //   <Tag label="Category">Design</Tag>
 //
 // Examples:
-//   
+//
 //   <Tag label="Status">Active</Tag>
 //
-//   
+//
 //   <Tag label="Priority: High">High</Tag>
 //
 // Keyboard:
@@ -68,7 +68,12 @@ export default function Tag({
 }: TagProps) {
     if (live) {
         return (
-            <span className={`tag ${className}`} role="status" aria-label={label} {...restProps}>
+            <span
+                className={`tag ${className}`}
+                role="status"
+                aria-label={label}
+                {...restProps}
+            >
                 {children}
             </span>
         );
@@ -78,7 +83,10 @@ export default function Tag({
     // .screen-reader-span). The content stays exposed: it may hold a focusable
     // control, such as a remove button.
     return (
-        <span className={`tag ${className}`} {...restProps}>
+        <span
+            className={`tag ${className}`}
+            {...restProps}
+        >
             {children}
             {label ? <span className="screen-reader-span">{label}</span> : null}
         </span>

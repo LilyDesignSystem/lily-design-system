@@ -18,7 +18,7 @@
 //   </MenuBar>
 //
 // Examples:
-//   
+//
 //   <MenuBar label="Main menu">
 //     <MenuBarButton>File</MenuBarButton>
 //     <MenuBarButton>Edit</MenuBarButton>
@@ -61,19 +61,12 @@ export interface MenuBarProps {
     [key: string]: unknown;
 }
 
-export default function MenuBar({
-    className = "",
-    label,
-    children,
-    ...restProps
-}: MenuBarProps) {
+export default function MenuBar({ className = "", label, children, ...restProps }: MenuBarProps) {
     const barRef = useRef<HTMLDivElement>(null);
 
     function handleKeyDown(event: React.KeyboardEvent) {
         if (!barRef.current) return;
-        const items = Array.from(
-            barRef.current.querySelectorAll<HTMLElement>("[role='menuitem']"),
-        );
+        const items = Array.from(barRef.current.querySelectorAll<HTMLElement>("[role='menuitem']"));
         const current = document.activeElement as HTMLElement;
         const index = items.indexOf(current);
         switch (event.key) {
@@ -104,14 +97,14 @@ export default function MenuBar({
 
     return (
         <div
-        className={`menu-bar ${className}`}
-        role="menubar"
-        aria-label={label}
-        ref={barRef}
-        onKeyDown={handleKeyDown}
-        {...restProps}
+            className={`menu-bar ${className}`}
+            role="menubar"
+            aria-label={label}
+            ref={barRef}
+            onKeyDown={handleKeyDown}
+            {...restProps}
         >
-        {children}
+            {children}
         </div>
     );
 }

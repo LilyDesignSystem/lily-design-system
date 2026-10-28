@@ -14,12 +14,12 @@
 //   <AvatarText>JD</AvatarText>
 //
 // Examples:
-//   
+//
 //   <Avatar alt="Jane Doe">
 //     <AvatarText>JD</AvatarText>
 //   </Avatar>
 //
-//   
+//
 //   <Avatar alt="Jane Doe">
 //     <AvatarImage src="/photo.jpg" alt="Jane Doe" />
 //     <AvatarText>JD</AvatarText>
@@ -51,18 +51,14 @@ export interface AvatarTextProps {
     [key: string]: unknown;
 }
 
-export default function AvatarText({
-    className = "",
-    children,
-    ...restProps
-}: AvatarTextProps) {
+export default function AvatarText({ className = "", children, ...restProps }: AvatarTextProps) {
     return (
         <span
-        className={`avatar-text ${className}`}
-        aria-hidden="true"
-        {...restProps}
+            className={`avatar-text ${className}`}
+            aria-hidden="true"
+            {...restProps}
         >
-        {children}
+            {children}
         </span>
     );
 }

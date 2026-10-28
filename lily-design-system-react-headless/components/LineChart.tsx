@@ -44,7 +44,11 @@ export default function LineChart({
             className={`line-chart ${className}`}
             {...restProps}
         >
-            <div className="line-chart-graphic" role="img" aria-label={label}>
+            <div
+                className="line-chart-graphic"
+                role="img"
+                aria-label={label}
+            >
                 {children}
             </div>
             {dataTable !== undefined && dataTable !== null && (

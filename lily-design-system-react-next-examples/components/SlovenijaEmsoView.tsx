@@ -37,9 +37,11 @@ export default function SlovenijaEmsoView({
 }: SlovenijaEmsoViewProps) {
     return (
         <span
-        className={`slovenija-emso-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`slovenija-emso-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

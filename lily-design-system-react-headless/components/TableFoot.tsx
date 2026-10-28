@@ -35,11 +35,7 @@ export interface TableFootProps {
     [key: string]: unknown;
 }
 
-export default function TableFoot({
-    className = "",
-    children,
-    ...restProps
-}: TableFootProps) {
+export default function TableFoot({ className = "", children, ...restProps }: TableFootProps) {
     return (
         <tfoot
             className={`table-foot ${className}`}

@@ -81,29 +81,29 @@ export default function GovernmentBanner({
 
     return (
         <aside
-        className={`government-banner ${className}`}
-        aria-label={label}
-        {...restProps}
+            className={`government-banner ${className}`}
+            aria-label={label}
+            {...restProps}
         >
-        <header className="government-banner-header">
-            <span className="government-banner-text">{headerText}</span>
-            <button
-            type="button"
-            className="government-banner-toggle"
-            aria-expanded={expanded}
-            aria-controls={panelId}
-            onClick={onToggle}
+            <header className="government-banner-header">
+                <span className="government-banner-text">{headerText}</span>
+                <button
+                    type="button"
+                    className="government-banner-toggle"
+                    aria-expanded={expanded}
+                    aria-controls={panelId}
+                    onClick={onToggle}
+                >
+                    {expandLabel}
+                </button>
+            </header>
+            <div
+                className="government-banner-details"
+                id={panelId}
+                hidden={!expanded}
             >
-            {expandLabel}
-            </button>
-        </header>
-        <div
-        className="government-banner-details"
-        id={panelId}
-        hidden={!expanded}
-        >
-        {children}
-        </div>
+                {children}
+            </div>
         </aside>
     );
 }

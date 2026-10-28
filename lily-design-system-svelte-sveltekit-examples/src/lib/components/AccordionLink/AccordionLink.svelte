@@ -13,6 +13,10 @@
 </script>
 
 <!-- AccordionLink.svelte -->
-<div class={`accordion-link ${className}`} aria-label={label} {...restProps}>
+<div
+    class={`accordion-link ${className}`}
+    aria-label={label}
+    {...restProps}
+>
     {@render children?.()}
 </div>

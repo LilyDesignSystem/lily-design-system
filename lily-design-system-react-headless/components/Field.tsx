@@ -20,12 +20,12 @@
 //   <Field label="Name"><input id="name-input" /></Field>
 //
 // Examples:
-//   
+//
 //   <Field label="Name" description="Enter full name">
 //     <input id="name-input" />
 //   </Field>
 //
-//   
+//
 //   <Field label="Email" required error="Email is required">
 //     <input id="email-input" type="email" />
 //   </Field>
@@ -87,21 +87,34 @@ export default function Field({
 
     return (
         <div
-        className={`field ${className}`}
-        data-required={required || undefined}
-        {...restProps}
+            className={`field ${className}`}
+            data-required={required || undefined}
+            {...restProps}
         >
-        <label htmlFor={fieldId}
-        >{label}{required && (<><span aria-hidden="true"> *</span></>)}</label
-        >
-        {description && (<><p id={descId}>{description}</p></>)}
-        {children}
-        {error && (<><p
-        id={errorId}
-        role="alert"
-        >
-        {error}
-        </p></>)}
+            <label htmlFor={fieldId}>
+                {label}
+                {required && (
+                    <>
+                        <span aria-hidden="true"> *</span>
+                    </>
+                )}
+            </label>
+            {description && (
+                <>
+                    <p id={descId}>{description}</p>
+                </>
+            )}
+            {children}
+            {error && (
+                <>
+                    <p
+                        id={errorId}
+                        role="alert"
+                    >
+                        {error}
+                    </p>
+                </>
+            )}
         </div>
     );
 }

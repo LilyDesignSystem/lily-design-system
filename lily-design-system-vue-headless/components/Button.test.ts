@@ -4,7 +4,6 @@ import { describe, expect, test, vi } from "vitest";
 
 import Subject from "./Button.vue";
 
-
 describe("Button", () => {
     test("renders as a button", () => {
         render(Subject, { slots: { default: "Click me" } });
@@ -47,8 +46,10 @@ describe("Button", () => {
     test("does not fire click when disabled", async () => {
         const user: UserEvent = userEvent.setup();
         const handleClick = vi.fn();
-        render(Subject, { props: { disabled: true,
-            onClick: handleClick }, slots: { default: "Disabled" } });
+        render(Subject, {
+            props: { disabled: true, onClick: handleClick },
+            slots: { default: "Disabled" },
+        });
 
         const button: HTMLElement = screen.getByRole("button");
         await user.click(button);
@@ -108,15 +109,20 @@ describe("Button", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(Subject, { props: { "data-testid": "my-btn",
-            id: "btn-1" }, slots: { default: "Custom" } });
+        render(Subject, {
+            props: { "data-testid": "my-btn", id: "btn-1" },
+            slots: { default: "Custom" },
+        });
 
         const button: HTMLElement = screen.getByTestId("my-btn");
         expect(button.getAttribute("id")).toBe("btn-1");
     });
 
     test("a pending button stays enabled and focusable, carrying aria-busy and aria-disabled", () => {
-        render(Subject, { props: { "aria-busy": "true", "aria-disabled": "true" }, slots: { default: "Saving" } });
+        render(Subject, {
+            props: { "aria-busy": "true", "aria-disabled": "true" },
+            slots: { default: "Saving" },
+        });
         const button = screen.getByRole("button") as HTMLButtonElement;
         expect(button.disabled).toBe(false);
         expect(button.getAttribute("aria-busy")).toBe("true");

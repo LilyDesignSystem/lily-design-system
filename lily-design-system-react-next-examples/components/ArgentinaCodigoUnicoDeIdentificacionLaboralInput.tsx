@@ -50,14 +50,15 @@ export default function ArgentinaCodigoUnicoDeIdentificacionLaboralInput({
 }: ArgentinaCodigoUnicoDeIdentificacionLaboralInputProps) {
     return (
         <input
-        className={`argentina-codigo-unico-de-identificacion-laboral-input ${className}`}
-        type="text"
-        aria-label={label}
-        autoComplete="off"
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`argentina-codigo-unico-de-identificacion-laboral-input ${className}`}
+            type="text"
+            aria-label={label}
+            autoComplete="off"
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

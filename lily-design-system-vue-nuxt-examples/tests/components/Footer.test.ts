@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "../../components/Footer.vue";
 
-
 describe("Footer", () => {
     test("renders as contentinfo landmark", () => {
         render(Subject, { slots: { default: "Copyright" } });

@@ -73,13 +73,14 @@ export default function Input({
 }: InputProps) {
     return (
         <input
-        className={`input ${className}`}
-        type={type}
-        aria-label={label}
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`input ${className}`}
+            type={type}
+            aria-label={label}
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

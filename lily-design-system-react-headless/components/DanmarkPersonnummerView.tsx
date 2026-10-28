@@ -37,9 +37,11 @@ export default function DanmarkPersonnummerView({
 }: DanmarkPersonnummerViewProps) {
     return (
         <span
-        className={`danmark-personnummer-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`danmark-personnummer-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

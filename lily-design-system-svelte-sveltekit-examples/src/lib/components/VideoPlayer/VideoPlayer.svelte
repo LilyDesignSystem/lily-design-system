@@ -47,7 +47,7 @@
                     }
                 }
             },
-            { threshold: 0.5 }
+            { threshold: 0.5 },
         );
         observer.observe(video);
         return () => observer.disconnect();
@@ -55,7 +55,11 @@
 </script>
 
 <!-- VideoPlayer.svelte -->
-<figure class={`video-player ${className}`} aria-label={label} {...restProps}>
+<figure
+    class={`video-player ${className}`}
+    aria-label={label}
+    {...restProps}
+>
     <video
         bind:this={videoEl}
         class="video-player-element"

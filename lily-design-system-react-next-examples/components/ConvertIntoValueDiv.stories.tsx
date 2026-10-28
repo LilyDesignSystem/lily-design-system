@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import ConvertIntoValueDiv from './ConvertIntoValueDiv';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import ConvertIntoValueDiv from "./ConvertIntoValueDiv";
 
 const meta = {
-  title: 'Headless/ConvertIntoValueDiv',
-  component: ConvertIntoValueDiv,
-  tags: ['autodocs'],
+    title: "Headless/ConvertIntoValueDiv",
+    component: ConvertIntoValueDiv,
+    tags: ["autodocs"],
 } satisfies Meta<typeof ConvertIntoValueDiv>;
 
 export default meta;

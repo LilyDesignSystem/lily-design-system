@@ -17,10 +17,10 @@
 //   <ProgressSpinner label="Loading data" />
 //
 // Examples:
-//   
+//
 //   <ProgressSpinner label="Loading data" />
 //
-//   
+//
 //   <ProgressSpinner label="Loading search results">
 //     <span>Loading...</span>
 //   </ProgressSpinner>
@@ -65,13 +65,13 @@ export default function ProgressSpinner({
 }: ProgressSpinnerProps) {
     return (
         <div
-        className={`progress-spinner ${className}`}
-        role="status"
-        aria-label={label}
-        aria-live="polite"
-        {...restProps}
+            className={`progress-spinner ${className}`}
+            role="status"
+            aria-label={label}
+            aria-live="polite"
+            {...restProps}
         >
-        {children && (<>{children}</>)}
+            {children && <>{children}</>}
         </div>
     );
 }

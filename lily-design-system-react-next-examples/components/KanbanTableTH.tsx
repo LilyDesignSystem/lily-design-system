@@ -44,13 +44,13 @@ export default function KanbanTableTH({
 }: KanbanTableTHProps) {
     return (
         <th
-        className={`kanban-table-th ${className}`}
-        scope={scope}
-        colSpan={colSpan || undefined}
-        rowSpan={rowSpan || undefined}
-        {...restProps}
+            className={`kanban-table-th ${className}`}
+            scope={scope}
+            colSpan={colSpan || undefined}
+            rowSpan={rowSpan || undefined}
+            {...restProps}
         >
-        {children}
+            {children}
         </th>
     );
 }

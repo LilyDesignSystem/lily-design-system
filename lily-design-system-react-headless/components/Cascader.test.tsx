@@ -9,7 +9,7 @@ describe("Cascader", () => {
         render(
             <Subject label="Region">
                 <ul>options</ul>
-            </Subject>
+            </Subject>,
         );
 
         const combo: HTMLElement = screen.getByRole("combobox");
@@ -21,7 +21,7 @@ describe("Cascader", () => {
         const { container } = render(
             <Subject label="R">
                 <ul>x</ul>
-            </Subject>
+            </Subject>,
         );
 
         const root: HTMLElement = container.querySelector(".cascader") as HTMLElement;
@@ -30,25 +30,34 @@ describe("Cascader", () => {
 
     test("aria-expanded reflects expanded prop", () => {
         const { rerender } = render(
-            <Subject label="R" expanded={false}>
+            <Subject
+                label="R"
+                expanded={false}
+            >
                 <ul>x</ul>
-            </Subject>
+            </Subject>,
         );
         expect(screen.getByRole("combobox").getAttribute("aria-expanded")).toBe("false");
 
         rerender(
-            <Subject label="R" expanded={true}>
+            <Subject
+                label="R"
+                expanded={true}
+            >
                 <ul>x</ul>
-            </Subject>
+            </Subject>,
         );
         expect(screen.getByRole("combobox").getAttribute("aria-expanded")).toBe("true");
     });
 
     test("renders trigger button with value when provided", () => {
         render(
-            <Subject label="R" value="Asia / Japan">
+            <Subject
+                label="R"
+                value="Asia / Japan"
+            >
                 <ul>x</ul>
-            </Subject>
+            </Subject>,
         );
 
         const trigger: HTMLElement = screen.getByRole("button");
@@ -57,9 +66,12 @@ describe("Cascader", () => {
 
     test("falls back to placeholder when no value", () => {
         render(
-            <Subject label="R" placeholder="Choose…">
+            <Subject
+                label="R"
+                placeholder="Choose…"
+            >
                 <ul>x</ul>
-            </Subject>
+            </Subject>,
         );
 
         const trigger: HTMLElement = screen.getByRole("button");
@@ -68,9 +80,12 @@ describe("Cascader", () => {
 
     test("disables the trigger when disabled", () => {
         render(
-            <Subject label="R" disabled>
+            <Subject
+                label="R"
+                disabled
+            >
                 <ul>x</ul>
-            </Subject>
+            </Subject>,
         );
 
         const trigger: HTMLButtonElement = screen.getByRole("button") as HTMLButtonElement;
@@ -79,9 +94,12 @@ describe("Cascader", () => {
 
     test("hides the panel when not expanded", () => {
         const { container } = render(
-            <Subject label="R" expanded={false}>
+            <Subject
+                label="R"
+                expanded={false}
+            >
                 <ul>x</ul>
-            </Subject>
+            </Subject>,
         );
 
         const panel: HTMLElement = container.querySelector(".cascader-panel") as HTMLElement;
@@ -90,9 +108,12 @@ describe("Cascader", () => {
 
     test("shows the panel when expanded", () => {
         const { container } = render(
-            <Subject label="R" expanded={true}>
+            <Subject
+                label="R"
+                expanded={true}
+            >
                 <ul>x</ul>
-            </Subject>
+            </Subject>,
         );
 
         const panel: HTMLElement = container.querySelector(".cascader-panel") as HTMLElement;
@@ -103,9 +124,12 @@ describe("Cascader", () => {
         const user: UserEvent = userEvent.setup();
         const handleClick = vi.fn();
         render(
-            <Subject label="R" onClick={handleClick}>
+            <Subject
+                label="R"
+                onClick={handleClick}
+            >
                 <ul>x</ul>
-            </Subject>
+            </Subject>,
         );
 
         await user.click(screen.getByRole("button"));

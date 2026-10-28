@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import Question from './Question.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import Question from "./Question.vue";
 
 const meta = {
-  title: 'Headless/Question',
-  component: Question,
-  tags: ['autodocs']
+    title: "Headless/Question",
+    component: Question,
+    tags: ["autodocs"],
 } satisfies Meta<typeof Question>;
 
 export default meta;

@@ -15,7 +15,9 @@ describe("PolskaNumerIdentyfikacjiPodatkowejInput", () => {
         render(<Subject label="Tax Identification Number" />);
 
         const input = screen.getByLabelText("Tax Identification Number");
-        expect(input.getAttribute("class")).toContain("polska-numer-identyfikacji-podatkowej-input");
+        expect(input.getAttribute("class")).toContain(
+            "polska-numer-identyfikacji-podatkowej-input",
+        );
     });
 
     test("has autocomplete off", () => {
@@ -33,7 +35,12 @@ describe("PolskaNumerIdentyfikacjiPodatkowejInput", () => {
     });
 
     test("can be set to required", () => {
-        render(<Subject label="Tax Identification Number" required />);
+        render(
+            <Subject
+                label="Tax Identification Number"
+                required
+            />,
+        );
 
         const input = screen.getByLabelText("Tax Identification Number") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -47,14 +54,24 @@ describe("PolskaNumerIdentyfikacjiPodatkowejInput", () => {
     });
 
     test("can be set to disabled", () => {
-        render(<Subject label="Tax Identification Number" disabled />);
+        render(
+            <Subject
+                label="Tax Identification Number"
+                disabled
+            />,
+        );
 
         const input = screen.getByLabelText("Tax Identification Number") as HTMLInputElement;
         expect(input.disabled).toBe(true);
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="Tax Identification Number" data-testid="subject" />);
+        render(
+            <Subject
+                label="Tax Identification Number"
+                data-testid="subject"
+            />,
+        );
 
         const input = screen.getByTestId("subject");
         expect(input).toBeTruthy();

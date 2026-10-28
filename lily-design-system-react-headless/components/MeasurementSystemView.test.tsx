@@ -10,17 +10,32 @@ describe("MeasurementSystemView", () => {
     });
 
     test("renders as a span element", () => {
-        render(<Subject value="imperial" data-testid="ms" />);
+        render(
+            <Subject
+                value="imperial"
+                data-testid="ms"
+            />,
+        );
         expect(screen.getByTestId("ms").tagName).toBe("SPAN");
     });
 
     test("supports aria-label", () => {
-        render(<Subject value="SI" label="International System" />);
+        render(
+            <Subject
+                value="SI"
+                label="International System"
+            />,
+        );
         expect(screen.getByText("SI").getAttribute("aria-label")).toBe("International System");
     });
 
     test("passes through attributes", () => {
-        render(<Subject value="metric" data-testid="msv" />);
+        render(
+            <Subject
+                value="metric"
+                data-testid="msv"
+            />,
+        );
         expect(screen.getByTestId("msv")).toBeTruthy();
     });
 });

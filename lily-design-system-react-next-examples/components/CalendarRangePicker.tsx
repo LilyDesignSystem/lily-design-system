@@ -13,14 +13,14 @@
 //
 // Syntax:
 //   <CalendarRangePicker label="Select dates">
-//     
+//
 //   </CalendarRangePicker>
 //
 // Examples:
-//   
+//
 //   <CalendarRangePicker label="Select travel dates">
 //     <CalendarTable label="January 2025">
-//       
+//
 //     </CalendarTable>
 //   </CalendarRangePicker>
 //
@@ -62,12 +62,12 @@ export default function CalendarRangePicker({
 }: CalendarRangePickerProps) {
     return (
         <div
-        className={`calendar-range-picker ${className}`}
-        role="application"
-        aria-label={label}
-        {...restProps}
+            className={`calendar-range-picker ${className}`}
+            role="application"
+            aria-label={label}
+            {...restProps}
         >
-        {children}
+            {children}
         </div>
     );
 }

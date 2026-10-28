@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./StatusLight.vue";
 
-
 describe("StatusLight", () => {
     test("has status-light class on root", () => {
         render(Subject, { props: { label: "Active" } });

@@ -54,7 +54,9 @@ describe("IndonesiaNomorIndukKependudukanInput", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(Subject, { props: { label: "Nomor Induk Kependudukan (NIK)", "data-testid": "subject" } });
+        render(Subject, {
+            props: { label: "Nomor Induk Kependudukan (NIK)", "data-testid": "subject" },
+        });
 
         const input = screen.getByTestId("subject");
         expect(input).toBeTruthy();

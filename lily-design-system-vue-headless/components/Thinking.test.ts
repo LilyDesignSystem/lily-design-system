@@ -10,13 +10,19 @@ function root(container: HTMLElement) {
 
 describe("Thinking", () => {
     test("root is native <details> with the thinking class", () => {
-        const { container } = render(Subject, { props: { label: "Thinking" }, slots: { default: "x" } });
+        const { container } = render(Subject, {
+            props: { label: "Thinking" },
+            slots: { default: "x" },
+        });
         expect(root(container).tagName).toBe("DETAILS");
         expect(root(container).getAttribute("class")).toContain("thinking");
     });
 
     test("summary carries label and class", () => {
-        const { container } = render(Subject, { props: { label: "Reasoning" }, slots: { default: "x" } });
+        const { container } = render(Subject, {
+            props: { label: "Reasoning" },
+            slots: { default: "x" },
+        });
         const summary = container.querySelector("summary.thinking-summary")!;
         expect(summary.textContent).toBe("Reasoning");
     });
@@ -27,12 +33,18 @@ describe("Thinking", () => {
     });
 
     test("open prop opens it", () => {
-        const { container } = render(Subject, { props: { label: "T", open: true }, slots: { default: "x" } });
+        const { container } = render(Subject, {
+            props: { label: "T", open: true },
+            slots: { default: "x" },
+        });
         expect(root(container).open).toBe(true);
     });
 
     test("children render inside .thinking-content", () => {
-        const { container } = render(Subject, { props: { label: "T" }, slots: { default: "Step 1" } });
+        const { container } = render(Subject, {
+            props: { label: "T" },
+            slots: { default: "Step 1" },
+        });
         expect(container.querySelector(".thinking-content")!.textContent).toBe("Step 1");
     });
 
@@ -44,7 +56,10 @@ describe("Thinking", () => {
     });
 
     test("toggling mirrors into the open model (update:open)", () => {
-        const { container, emitted } = render(Subject, { props: { label: "T" }, slots: { default: "x" } });
+        const { container, emitted } = render(Subject, {
+            props: { label: "T" },
+            slots: { default: "x" },
+        });
         root(container).open = true;
         root(container).dispatchEvent(new Event("toggle"));
         const events = emitted()["update:open"] as unknown[][];
@@ -52,7 +67,10 @@ describe("Thinking", () => {
     });
 
     test("streaming sets data-streaming and aria-busy", () => {
-        const { container } = render(Subject, { props: { label: "T", streaming: true }, slots: { default: "x" } });
+        const { container } = render(Subject, {
+            props: { label: "T", streaming: true },
+            slots: { default: "x" },
+        });
         expect(root(container).getAttribute("data-streaming")).toBe("true");
         expect(root(container).getAttribute("aria-busy")).toBe("true");
     });

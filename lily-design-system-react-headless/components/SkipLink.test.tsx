@@ -11,7 +11,9 @@ describe("SkipLink", () => {
 
     test("has default href #content", () => {
         render(<Subject />);
-        expect((screen.getByRole("link") as HTMLAnchorElement).getAttribute("href")).toBe("#content");
+        expect((screen.getByRole("link") as HTMLAnchorElement).getAttribute("href")).toBe(
+            "#content",
+        );
     });
 
     test("has default label text", () => {

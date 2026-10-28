@@ -40,7 +40,12 @@ describe("UnitedKingdomNationalHealthServiceNumberInput", () => {
     });
 
     test("can be set to required", () => {
-        render(<Subject label="NHS Number" required />);
+        render(
+            <Subject
+                label="NHS Number"
+                required
+            />,
+        );
 
         const input = screen.getByLabelText("NHS Number") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -54,21 +59,36 @@ describe("UnitedKingdomNationalHealthServiceNumberInput", () => {
     });
 
     test("can be set to disabled", () => {
-        render(<Subject label="NHS Number" disabled />);
+        render(
+            <Subject
+                label="NHS Number"
+                disabled
+            />,
+        );
 
         const input = screen.getByLabelText("NHS Number") as HTMLInputElement;
         expect(input.disabled).toBe(true);
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="NHS Number" data-testid="nhs-input" />);
+        render(
+            <Subject
+                label="NHS Number"
+                data-testid="nhs-input"
+            />,
+        );
 
         const input = screen.getByTestId("nhs-input");
         expect(input).toBeTruthy();
     });
 
     test("passes through id attribute", () => {
-        render(<Subject label="NHS Number" id="nhs-field" />);
+        render(
+            <Subject
+                label="NHS Number"
+                id="nhs-field"
+            />,
+        );
 
         const input = screen.getByLabelText("NHS Number");
         expect(input.getAttribute("id")).toBe("nhs-field");

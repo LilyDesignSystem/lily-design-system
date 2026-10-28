@@ -66,13 +66,13 @@ export default function ClampText({
 }: ClampTextProps) {
     return (
         <div
-        className={`clamp-text ${className}`}
-        data-lines={lines}
-        style={{ "--clamp-text-lines": lines } as React.CSSProperties}
-        aria-label={label}
-        {...restProps}
+            className={`clamp-text ${className}`}
+            data-lines={lines}
+            style={{ "--clamp-text-lines": lines } as React.CSSProperties}
+            aria-label={label}
+            {...restProps}
         >
-        {children}
+            {children}
         </div>
     );
 }

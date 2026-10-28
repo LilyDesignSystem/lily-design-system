@@ -37,9 +37,11 @@ export default function EspanaCodigoDeIdentificacionFiscalView({
 }: EspanaCodigoDeIdentificacionFiscalViewProps) {
     return (
         <span
-        className={`espana-codigo-de-identificacion-fiscal-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`espana-codigo-de-identificacion-fiscal-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

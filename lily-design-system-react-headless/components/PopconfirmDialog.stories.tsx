@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import PopconfirmDialog from './PopconfirmDialog';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import PopconfirmDialog from "./PopconfirmDialog";
 
 const meta = {
-  title: 'Headless/PopconfirmDialog',
-  component: PopconfirmDialog,
-  tags: ['autodocs']
+    title: "Headless/PopconfirmDialog",
+    component: PopconfirmDialog,
+    tags: ["autodocs"],
 } satisfies Meta<typeof PopconfirmDialog>;
 
 export default meta;

@@ -7,7 +7,9 @@ describe("ArgentinaCodigoUnicoDeIdentificacionLaboralInput", () => {
     test("renders a text input", () => {
         render(<Subject label="Código Único de Identificación Laboral (CUIL)" />);
 
-        const input = screen.getByLabelText("Código Único de Identificación Laboral (CUIL)") as HTMLInputElement;
+        const input = screen.getByLabelText(
+            "Código Único de Identificación Laboral (CUIL)",
+        ) as HTMLInputElement;
         expect(input.type).toBe("text");
     });
 
@@ -15,7 +17,9 @@ describe("ArgentinaCodigoUnicoDeIdentificacionLaboralInput", () => {
         render(<Subject label="Código Único de Identificación Laboral (CUIL)" />);
 
         const input = screen.getByLabelText("Código Único de Identificación Laboral (CUIL)");
-        expect(input.getAttribute("class")).toContain("argentina-codigo-unico-de-identificacion-laboral-input");
+        expect(input.getAttribute("class")).toContain(
+            "argentina-codigo-unico-de-identificacion-laboral-input",
+        );
     });
 
     test("has autocomplete off", () => {
@@ -28,33 +32,56 @@ describe("ArgentinaCodigoUnicoDeIdentificacionLaboralInput", () => {
     test("is not required by default", () => {
         render(<Subject label="Código Único de Identificación Laboral (CUIL)" />);
 
-        const input = screen.getByLabelText("Código Único de Identificación Laboral (CUIL)") as HTMLInputElement;
+        const input = screen.getByLabelText(
+            "Código Único de Identificación Laboral (CUIL)",
+        ) as HTMLInputElement;
         expect(input.required).toBe(false);
     });
 
     test("can be set to required", () => {
-        render(<Subject label="Código Único de Identificación Laboral (CUIL)" required />);
+        render(
+            <Subject
+                label="Código Único de Identificación Laboral (CUIL)"
+                required
+            />,
+        );
 
-        const input = screen.getByLabelText("Código Único de Identificación Laboral (CUIL)") as HTMLInputElement;
+        const input = screen.getByLabelText(
+            "Código Único de Identificación Laboral (CUIL)",
+        ) as HTMLInputElement;
         expect(input.required).toBe(true);
     });
 
     test("is not disabled by default", () => {
         render(<Subject label="Código Único de Identificación Laboral (CUIL)" />);
 
-        const input = screen.getByLabelText("Código Único de Identificación Laboral (CUIL)") as HTMLInputElement;
+        const input = screen.getByLabelText(
+            "Código Único de Identificación Laboral (CUIL)",
+        ) as HTMLInputElement;
         expect(input.disabled).toBe(false);
     });
 
     test("can be set to disabled", () => {
-        render(<Subject label="Código Único de Identificación Laboral (CUIL)" disabled />);
+        render(
+            <Subject
+                label="Código Único de Identificación Laboral (CUIL)"
+                disabled
+            />,
+        );
 
-        const input = screen.getByLabelText("Código Único de Identificación Laboral (CUIL)") as HTMLInputElement;
+        const input = screen.getByLabelText(
+            "Código Único de Identificación Laboral (CUIL)",
+        ) as HTMLInputElement;
         expect(input.disabled).toBe(true);
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="Código Único de Identificación Laboral (CUIL)" data-testid="subject" />);
+        render(
+            <Subject
+                label="Código Único de Identificación Laboral (CUIL)"
+                data-testid="subject"
+            />,
+        );
 
         const input = screen.getByTestId("subject");
         expect(input).toBeTruthy();

@@ -20,7 +20,10 @@ export interface ArticleLayoutProps {
 }
 
 export default function ArticleLayout({
-    className = "", label = undefined, children, ...restProps
+    className = "",
+    label = undefined,
+    children,
+    ...restProps
 }: ArticleLayoutProps) {
     return (
         <article

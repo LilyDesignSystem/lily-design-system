@@ -44,7 +44,11 @@ export default function RingChart({
             className={`ring-chart ${className}`}
             {...restProps}
         >
-            <div className="ring-chart-graphic" role="img" aria-label={label}>
+            <div
+                className="ring-chart-graphic"
+                role="img"
+                aria-label={label}
+            >
                 {children}
             </div>
             {dataTable !== undefined && dataTable !== null && (

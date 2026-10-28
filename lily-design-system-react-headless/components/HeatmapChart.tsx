@@ -48,7 +48,11 @@ export default function HeatmapChart({
             className={`heatmap-chart ${className}`}
             {...restProps}
         >
-            <div className="heatmap-chart-graphic" role="img" aria-label={label}>
+            <div
+                className="heatmap-chart-graphic"
+                role="img"
+                aria-label={label}
+            >
                 {children}
             </div>
             {dataTable !== undefined && dataTable !== null && (

@@ -38,9 +38,11 @@ export default function PilipinasPhilhealthIdentificationNumberView({
 }: PilipinasPhilhealthIdentificationNumberViewProps) {
     return (
         <span
-        className={`pilipinas-philhealth-identification-number-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`pilipinas-philhealth-identification-number-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

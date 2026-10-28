@@ -44,7 +44,11 @@ export default function FunnelChart({
             className={`funnel-chart ${className}`}
             {...restProps}
         >
-            <div className="funnel-chart-graphic" role="img" aria-label={label}>
+            <div
+                className="funnel-chart-graphic"
+                role="img"
+                aria-label={label}
+            >
                 {children}
             </div>
             {dataTable !== undefined && dataTable !== null && (

@@ -50,14 +50,15 @@ export default function NorgeFodselsnummerInput({
 }: NorgeFodselsnummerInputProps) {
     return (
         <input
-        className={`norge-fodselsnummer-input ${className}`}
-        type="text"
-        aria-label={label}
-        autoComplete="off"
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`norge-fodselsnummer-input ${className}`}
+            type="text"
+            aria-label={label}
+            autoComplete="off"
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

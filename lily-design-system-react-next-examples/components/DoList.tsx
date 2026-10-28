@@ -15,13 +15,13 @@
 //   <DoList><li>Best practice</li></DoList>
 //
 // Examples:
-//   
+//
 //   <DoList>
 //     <li>Write clear labels</li>
 //     <li>Use semantic HTML</li>
 //   </DoList>
 //
-//   
+//
 //   <DoList label="Recommended">
 //     <li>Provide alt text for images</li>
 //     <li>Use sufficient color contrast</li>
@@ -65,12 +65,12 @@ export default function DoList({
 }: DoListProps) {
     return (
         <ul
-        className={`do-list ${className}`}
-        role="list"
-        aria-label={label}
-        {...restProps}
+            className={`do-list ${className}`}
+            role="list"
+            aria-label={label}
+            {...restProps}
         >
-        {children}
+            {children}
         </ul>
     );
 }

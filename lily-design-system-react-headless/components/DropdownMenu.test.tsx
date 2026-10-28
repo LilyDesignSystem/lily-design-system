@@ -6,9 +6,24 @@ import Subject from "./DropdownMenu";
 
 const menuItems = (
     <>
-        <div role="menuitem" tabIndex={-1}>Edit</div>
-        <div role="menuitem" tabIndex={-1}>Duplicate</div>
-        <div role="menuitem" tabIndex={-1}>Delete</div>
+        <div
+            role="menuitem"
+            tabIndex={-1}
+        >
+            Edit
+        </div>
+        <div
+            role="menuitem"
+            tabIndex={-1}
+        >
+            Duplicate
+        </div>
+        <div
+            role="menuitem"
+            tabIndex={-1}
+        >
+            Delete
+        </div>
     </>
 );
 
@@ -49,7 +64,14 @@ describe("DropdownMenu", () => {
 
     test("ArrowDown navigates items", async () => {
         const user: UserEvent = userEvent.setup();
-        render(<Subject label="Options" open>{menuItems}</Subject>);
+        render(
+            <Subject
+                label="Options"
+                open
+            >
+                {menuItems}
+            </Subject>,
+        );
         const items = screen.getAllByRole("menuitem");
         items[0].focus();
         await user.keyboard("{ArrowDown}");
@@ -58,7 +80,14 @@ describe("DropdownMenu", () => {
 
     test("ArrowUp navigates items", async () => {
         const user: UserEvent = userEvent.setup();
-        render(<Subject label="Options" open>{menuItems}</Subject>);
+        render(
+            <Subject
+                label="Options"
+                open
+            >
+                {menuItems}
+            </Subject>,
+        );
         const items = screen.getAllByRole("menuitem");
         items[1].focus();
         await user.keyboard("{ArrowUp}");
@@ -67,14 +96,28 @@ describe("DropdownMenu", () => {
 
     test("Escape closes menu", async () => {
         const user: UserEvent = userEvent.setup();
-        render(<Subject label="Options" open>{menuItems}</Subject>);
+        render(
+            <Subject
+                label="Options"
+                open
+            >
+                {menuItems}
+            </Subject>,
+        );
         screen.getByRole("menu").focus();
         await user.keyboard("{Escape}");
         expect(screen.queryByRole("menu")).toBeNull();
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="Options" data-testid="dd">{menuItems}</Subject>);
+        render(
+            <Subject
+                label="Options"
+                data-testid="dd"
+            >
+                {menuItems}
+            </Subject>,
+        );
         expect(screen.getByTestId("dd")).toBeTruthy();
     });
 });

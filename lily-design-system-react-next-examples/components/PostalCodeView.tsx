@@ -14,13 +14,13 @@
 //   <PostalCodeView text="90210" />
 //
 // Examples:
-//   
+//
 //   <PostalCodeView text="90210" />
 //
-//   
+//
 //   <PostalCodeView text="SW1A 1AA" />
 //
-//   
+//
 //   <p>Your postal code: <PostalCodeView text={postalCode} /></p>
 //
 // Keyboard:
@@ -57,8 +57,10 @@ export default function PostalCodeView({
 }: PostalCodeViewProps) {
     return (
         <span
-        className={`postal-code-view ${className}`}
-        {...restProps}>{text}</span
+            className={`postal-code-view ${className}`}
+            {...restProps}
         >
+            {text}
+        </span>
     );
 }

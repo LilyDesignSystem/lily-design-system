@@ -50,14 +50,15 @@ export default function BelgiqueNumeroDeRegistreNationalInput({
 }: BelgiqueNumeroDeRegistreNationalInputProps) {
     return (
         <input
-        className={`belgique-numero-de-registre-national-input ${className}`}
-        type="text"
-        aria-label={label}
-        autoComplete="off"
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`belgique-numero-de-registre-national-input ${className}`}
+            type="text"
+            aria-label={label}
+            autoComplete="off"
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

@@ -52,7 +52,11 @@
     class={`pie-chart ${className}`}
     {...restProps}
 >
-    <div class="pie-chart-graphic" role="img" aria-label={label}>
+    <div
+        class="pie-chart-graphic"
+        role="img"
+        aria-label={label}
+    >
         {@render children?.()}
     </div>
     {#if dataTable}

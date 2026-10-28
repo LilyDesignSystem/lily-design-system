@@ -48,17 +48,13 @@ export interface GrailLayoutProps {
     [key: string]: unknown;
 }
 
-export default function GrailLayout({
-    className = "",
-    children,
-    ...restProps
-}: GrailLayoutProps) {
+export default function GrailLayout({ className = "", children, ...restProps }: GrailLayoutProps) {
     return (
         <div
-        className={`grail-layout ${className}`}
-        {...restProps}
+            className={`grail-layout ${className}`}
+            {...restProps}
         >
-        {children}
+            {children}
         </div>
     );
 }

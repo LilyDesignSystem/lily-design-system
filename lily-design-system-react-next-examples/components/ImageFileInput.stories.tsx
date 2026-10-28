@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import ImageFileInput from './ImageFileInput';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import ImageFileInput from "./ImageFileInput";
 
 const meta = {
-  title: 'Headless/ImageFileInput',
-  component: ImageFileInput,
-  tags: ['autodocs']
+    title: "Headless/ImageFileInput",
+    component: ImageFileInput,
+    tags: ["autodocs"],
 } satisfies Meta<typeof ImageFileInput>;
 
 export default meta;

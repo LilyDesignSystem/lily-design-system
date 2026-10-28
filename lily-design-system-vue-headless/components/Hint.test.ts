@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./Hint.vue";
 
-
 describe("Hint", () => {
     test("renders hint text", () => {
         render(Subject, { slots: { default: "Enter email" } });

@@ -4,7 +4,6 @@ import { describe, expect, test, vi } from "vitest";
 
 import Subject from "./FloatButton.vue";
 
-
 describe("FloatButton", () => {
     test("renders as a button with float-button class and aria-label", () => {
         render(Subject, { props: { label: "Help" }, slots: { default: "?" } });
@@ -45,7 +44,10 @@ describe("FloatButton", () => {
     });
 
     test("applies top-left corner offsets", () => {
-        render(Subject, { props: { label: "Help", position: "top-left" }, slots: { default: "?" } });
+        render(Subject, {
+            props: { label: "Help", position: "top-left" },
+            slots: { default: "?" },
+        });
 
         const button: HTMLElement = screen.getByRole("button");
         expect(button.getAttribute("data-position")).toBe("top-left");
@@ -54,7 +56,10 @@ describe("FloatButton", () => {
     });
 
     test("applies top-right corner offsets", () => {
-        render(Subject, { props: { label: "Help", position: "top-right" }, slots: { default: "?" } });
+        render(Subject, {
+            props: { label: "Help", position: "top-right" },
+            slots: { default: "?" },
+        });
 
         const button: HTMLElement = screen.getByRole("button");
         expect(button.style.top).toBe("1rem");
@@ -62,7 +67,10 @@ describe("FloatButton", () => {
     });
 
     test("applies bottom-left corner offsets", () => {
-        render(Subject, { props: { label: "Help", position: "bottom-left" }, slots: { default: "?" } });
+        render(Subject, {
+            props: { label: "Help", position: "bottom-left" },
+            slots: { default: "?" },
+        });
 
         const button: HTMLElement = screen.getByRole("button");
         expect(button.style.bottom).toBe("1rem");

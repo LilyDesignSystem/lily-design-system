@@ -18,7 +18,7 @@
 //   </AccordionNav>
 //
 // Examples:
-//   
+//
 //   <AccordionNav label="Frequently Asked Questions">
 //     <AccordionList>
 //       <AccordionListItem>
@@ -66,11 +66,11 @@ export default function AccordionNav({
 }: AccordionNavProps) {
     return (
         <nav
-        className={`accordion-nav ${className}`}
-        aria-label={label}
-        {...restProps}
+            className={`accordion-nav ${className}`}
+            aria-label={label}
+            {...restProps}
         >
-        {children}
+            {children}
         </nav>
     );
 }

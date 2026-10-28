@@ -5,7 +5,12 @@ import Subject from "./SchweizAhvNummerView";
 
 describe("SchweizAhvNummerView", () => {
     test("renders with the correct class", () => {
-        render(<Subject label="AHV-Nummer / Numéro AVS" value="test-value" />);
+        render(
+            <Subject
+                label="AHV-Nummer / Numéro AVS"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("AHV-Nummer / Numéro AVS");
         expect(el).toBeTruthy();
@@ -13,7 +18,12 @@ describe("SchweizAhvNummerView", () => {
     });
 
     test("renders the value as text content", () => {
-        render(<Subject label="AHV-Nummer / Numéro AVS" value="test-value" />);
+        render(
+            <Subject
+                label="AHV-Nummer / Numéro AVS"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("AHV-Nummer / Numéro AVS");
         expect(el.textContent).toBe("test-value");

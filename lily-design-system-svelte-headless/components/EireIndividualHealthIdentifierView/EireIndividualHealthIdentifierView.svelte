@@ -34,4 +34,5 @@
 <span
     class={`eire-individual-health-identifier-view ${className}`}
     aria-label={label}
-    {...restProps}>{value}</span>
+    {...restProps}>{value}</span
+>

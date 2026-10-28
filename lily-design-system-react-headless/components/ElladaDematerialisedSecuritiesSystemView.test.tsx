@@ -5,7 +5,12 @@ import Subject from "./ElladaDematerialisedSecuritiesSystemView";
 
 describe("ElladaDematerialisedSecuritiesSystemView", () => {
     test("renders with the correct class", () => {
-        render(<Subject label="Dematerialised Securities System" value="test-value" />);
+        render(
+            <Subject
+                label="Dematerialised Securities System"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Dematerialised Securities System");
         expect(el).toBeTruthy();
@@ -13,7 +18,12 @@ describe("ElladaDematerialisedSecuritiesSystemView", () => {
     });
 
     test("renders the value as text content", () => {
-        render(<Subject label="Dematerialised Securities System" value="test-value" />);
+        render(
+            <Subject
+                label="Dematerialised Securities System"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Dematerialised Securities System");
         expect(el.textContent).toBe("test-value");

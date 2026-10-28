@@ -35,7 +35,14 @@ describe("Banner", () => {
     });
 
     test("shows dismiss button when dismissible", () => {
-        render(<Subject dismissible closeLabel="Dismiss banner">Dismissible</Subject>);
+        render(
+            <Subject
+                dismissible
+                closeLabel="Dismiss banner"
+            >
+                Dismissible
+            </Subject>,
+        );
 
         const button: HTMLElement = screen.getByRole("button", { name: "Dismiss banner" });
         expect(button).toBeTruthy();
@@ -51,7 +58,15 @@ describe("Banner", () => {
     test("dismisses banner on button click", async () => {
         const user: UserEvent = userEvent.setup();
         const handleClose = vi.fn();
-        render(<Subject dismissible closeLabel="Close" onClose={handleClose}>Dismiss me</Subject>);
+        render(
+            <Subject
+                dismissible
+                closeLabel="Close"
+                onClose={handleClose}
+            >
+                Dismiss me
+            </Subject>,
+        );
 
         const button: HTMLElement = screen.getByRole("button", { name: "Close" });
         await user.click(button);

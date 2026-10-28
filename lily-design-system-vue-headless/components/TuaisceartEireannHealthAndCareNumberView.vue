@@ -1,14 +1,15 @@
 <script setup lang="ts">
+// TuaisceartEireannHealthAndCareNumberView component
 
-    // TuaisceartEireannHealthAndCareNumberView component
-
-    withDefaults(defineProps<{
+withDefaults(
+    defineProps<{
         label: string;
         value?: string;
-    }>(), {
+    }>(),
+    {
         value: "",
-    });
-
+    },
+);
 </script>
 
 <template>
@@ -16,5 +17,6 @@
     <span
         class="tuaisceart-eireann-health-and-care-number-view"
         :aria-label="label"
-    >{{ value }}</span>
+        >{{ value }}</span
+    >
 </template>

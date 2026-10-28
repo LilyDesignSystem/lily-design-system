@@ -4,7 +4,6 @@ import { describe, expect, test, vi } from "vitest";
 
 import Subject from "../../components/CallToAction.vue";
 
-
 describe("CallToAction", () => {
     test("renders as a link when href is provided", () => {
         render(Subject, { props: { href: "/signup" }, slots: { default: "Sign Up" } });
@@ -38,10 +37,14 @@ describe("CallToAction", () => {
     });
 
     test("applies aria-label", () => {
-        render(Subject, { props: { href: "/learn",
-            label: "Learn more about our services" }, slots: { default: "Learn More" } });
+        render(Subject, {
+            props: { href: "/learn", label: "Learn more about our services" },
+            slots: { default: "Learn More" },
+        });
 
-        const link: HTMLElement = screen.getByRole("link", { name: "Learn more about our services" });
+        const link: HTMLElement = screen.getByRole("link", {
+            name: "Learn more about our services",
+        });
         expect(link).toBeTruthy();
     });
 

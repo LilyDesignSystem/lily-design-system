@@ -100,18 +100,18 @@ export default function EditableForm({
 
     return (
         <>
-        {editing && (
-        <form
-        className={`editable-form ${className}`}
-        aria-label={label}
-        tabIndex={-1}
-        onSubmit={handleSubmit}
-        onKeyDown={handleKeydown}
-        {...restProps}
-        >
-        {children}
-        </form>
-        )}
+            {editing && (
+                <form
+                    className={`editable-form ${className}`}
+                    aria-label={label}
+                    tabIndex={-1}
+                    onSubmit={handleSubmit}
+                    onKeyDown={handleKeydown}
+                    {...restProps}
+                >
+                    {children}
+                </form>
+            )}
         </>
     );
 }

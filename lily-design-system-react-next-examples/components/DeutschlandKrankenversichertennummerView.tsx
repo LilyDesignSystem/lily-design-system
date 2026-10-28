@@ -37,9 +37,11 @@ export default function DeutschlandKrankenversichertennummerView({
 }: DeutschlandKrankenversichertennummerViewProps) {
     return (
         <span
-        className={`deutschland-krankenversichertennummer-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`deutschland-krankenversichertennummer-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

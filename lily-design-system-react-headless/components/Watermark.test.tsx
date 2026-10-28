@@ -27,9 +27,7 @@ describe("Watermark", () => {
     });
 
     test("exposes imageUrl as data-image-url on the overlay", () => {
-        const { container } = render(
-            <Subject imageUrl="/wm.png">x</Subject>
-        );
+        const { container } = render(<Subject imageUrl="/wm.png">x</Subject>);
         const overlay: HTMLElement = container.querySelector(".watermark-overlay") as HTMLElement;
         expect(overlay.getAttribute("data-image-url")).toBe("/wm.png");
     });
@@ -43,9 +41,13 @@ describe("Watermark", () => {
 
     test("applies custom gap and rotate", () => {
         const { container } = render(
-            <Subject text="x" gap="120px" rotate={-30}>
+            <Subject
+                text="x"
+                gap="120px"
+                rotate={-30}
+            >
                 y
-            </Subject>
+            </Subject>,
         );
         const root: HTMLElement = container.querySelector(".watermark") as HTMLElement;
         expect(root.getAttribute("data-gap")).toBe("120px");
@@ -56,16 +58,19 @@ describe("Watermark", () => {
         render(
             <Subject text="x">
                 <p>page content</p>
-            </Subject>
+            </Subject>,
         );
         expect(screen.getByText("page content")).toBeTruthy();
     });
 
     test("passes through additional HTML attributes", () => {
         const { container } = render(
-            <Subject text="x" id="wm-1">
+            <Subject
+                text="x"
+                id="wm-1"
+            >
                 y
-            </Subject>
+            </Subject>,
         );
         const root: HTMLElement = container.querySelector(".watermark") as HTMLElement;
         expect(root.getAttribute("id")).toBe("wm-1");

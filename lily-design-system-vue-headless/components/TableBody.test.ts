@@ -3,10 +3,13 @@ import { render } from "@testing-library/vue";
 
 import Subject from "./TableBody.vue";
 
-function renderIn(props: Record<string, unknown> = {}, slotContent: string = `<tr><td>cell</td></tr>`) {
+function renderIn(
+    props: Record<string, unknown> = {},
+    slotContent: string = `<tr><td>cell</td></tr>`,
+) {
     const container = document.createElement("div");
     const wrapper = document.createElement("table");
-    
+
     container.appendChild(wrapper);
     document.body.appendChild(container);
     const target = wrapper;

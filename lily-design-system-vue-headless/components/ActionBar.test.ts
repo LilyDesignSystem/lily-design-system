@@ -4,7 +4,6 @@ import { describe, expect, test, vi } from "vitest";
 
 import Subject from "./ActionBar.vue";
 
-
 describe("ActionBar", () => {
     test("renders as a toolbar with aria-label", () => {
         render(Subject, {

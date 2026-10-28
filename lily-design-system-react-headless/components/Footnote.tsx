@@ -15,10 +15,10 @@
 //   <Footnote id="fn1">Source: Example et al., 2024</Footnote>
 //
 // Examples:
-//   
+//
 //   <Footnote id="fn1">Source: Example et al., 2024</Footnote>
 //
-//   
+//
 //   <p>This claim is supported by research.<a href="#fn1"><sup>1</sup></a></p>
 //   <Footnote id="fn1">
 //     <a href="#ref1">1.</a> Example, A. (2024). Research Title. Journal Name.
@@ -56,21 +56,16 @@ export interface FootnoteProps {
     [key: string]: unknown;
 }
 
-export default function Footnote({
-    className = "",
-    id,
-    children,
-    ...restProps
-}: FootnoteProps) {
+export default function Footnote({ className = "", id, children, ...restProps }: FootnoteProps) {
     return (
         <aside
-        className={`footnote ${className}`}
-        id={id}
-        role="note"
-        aria-label={id}
-        {...restProps}
+            className={`footnote ${className}`}
+            id={id}
+            role="note"
+            aria-label={id}
+            {...restProps}
         >
-        {children}
+            {children}
         </aside>
     );
 }

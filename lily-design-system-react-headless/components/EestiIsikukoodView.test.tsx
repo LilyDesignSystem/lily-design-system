@@ -5,7 +5,12 @@ import Subject from "./EestiIsikukoodView";
 
 describe("EestiIsikukoodView", () => {
     test("renders with the correct class", () => {
-        render(<Subject label="Personal Identification Code" value="test-value" />);
+        render(
+            <Subject
+                label="Personal Identification Code"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Personal Identification Code");
         expect(el).toBeTruthy();
@@ -13,7 +18,12 @@ describe("EestiIsikukoodView", () => {
     });
 
     test("renders the value as text content", () => {
-        render(<Subject label="Personal Identification Code" value="test-value" />);
+        render(
+            <Subject
+                label="Personal Identification Code"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Personal Identification Code");
         expect(el.textContent).toBe("test-value");

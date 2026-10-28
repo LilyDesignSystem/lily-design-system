@@ -37,9 +37,11 @@ export default function HrvatskaOsobniIdentifikacijskiBrojView({
 }: HrvatskaOsobniIdentifikacijskiBrojViewProps) {
     return (
         <span
-        className={`hrvatska-osobni-identifikacijski-broj-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`hrvatska-osobni-identifikacijski-broj-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

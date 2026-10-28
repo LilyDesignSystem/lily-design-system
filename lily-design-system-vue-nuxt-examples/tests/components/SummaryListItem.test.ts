@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "../../components/SummaryListItem.vue";
 
-
 describe("SummaryListItem", () => {
     test("renders a dt element with the term", () => {
         render(Subject, { props: { term: "Product" }, slots: { default: "Widget" } });
@@ -36,7 +35,10 @@ describe("SummaryListItem", () => {
     });
 
     test("passes through attributes to wrapper div", () => {
-        render(Subject, { props: { term: "Key", "data-testid": "sli" }, slots: { default: "Value" } });
+        render(Subject, {
+            props: { term: "Key", "data-testid": "sli" },
+            slots: { default: "Value" },
+        });
         expect(screen.getByTestId("sli")).toBeTruthy();
         expect(screen.getByTestId("sli").tagName).toBe("DIV");
     });

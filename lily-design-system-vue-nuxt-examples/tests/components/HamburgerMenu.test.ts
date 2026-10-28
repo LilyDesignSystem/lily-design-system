@@ -4,7 +4,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "../../components/HamburgerMenu.vue";
 
-
 describe("HamburgerMenu", () => {
     test("renders toggle button", () => {
         render(Subject, { props: { label: "Menu" }, slots: { default: "Nav" } });

@@ -9,14 +9,17 @@ const months = [
     { value: "4", label: "April", disabled: true },
     { value: "5", label: "May" },
 ];
-const make = (props: Record<string, unknown> = {}) => render(WheelPicker, { props: { label: "Month", options: months, value: "2", ...props } });
+const make = (props: Record<string, unknown> = {}) =>
+    render(WheelPicker, { props: { label: "Month", options: months, value: "2", ...props } });
 const list = () => screen.getByRole("listbox");
 const selected = () => document.querySelector('[role="option"][aria-selected="true"]')?.textContent;
 
 describe("WheelPicker", () => {
     it("renders a div with the base class first, then the consumer class, and a vertical listbox inside", () => {
         const { container } = make({ class: "mine" });
-        expect(container.querySelector("div.wheel-picker")!.getAttribute("class")).toBe("wheel-picker mine");
+        expect(container.querySelector("div.wheel-picker")!.getAttribute("class")).toBe(
+            "wheel-picker mine",
+        );
         expect(list().getAttribute("aria-orientation")).toBe("vertical");
         expect(list().getAttribute("aria-label")).toBe("Month");
         expect(list().className).toBe("wheel-picker-list");

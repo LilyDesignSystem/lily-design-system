@@ -17,6 +17,13 @@ export default function GoToPreviousSection({
     ...restProps
 }: GoToPreviousSectionProps) {
     return (
-        <a className={`go-to-previous-section ${className}`} href={href} aria-label={label} {...restProps}>{label}</a>
+        <a
+            className={`go-to-previous-section ${className}`}
+            href={href}
+            aria-label={label}
+            {...restProps}
+        >
+            {label}
+        </a>
     );
 }

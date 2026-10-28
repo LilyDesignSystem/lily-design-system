@@ -71,7 +71,14 @@ describe("Alert", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject id="my-alert" data-testid="custom-alert">Custom</Subject>);
+        render(
+            <Subject
+                id="my-alert"
+                data-testid="custom-alert"
+            >
+                Custom
+            </Subject>,
+        );
 
         const alert: HTMLElement = screen.getByTestId("custom-alert");
         expect(alert.getAttribute("id")).toBe("my-alert");

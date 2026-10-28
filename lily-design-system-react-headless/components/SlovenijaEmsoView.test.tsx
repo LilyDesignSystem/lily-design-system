@@ -5,7 +5,12 @@ import Subject from "./SlovenijaEmsoView";
 
 describe("SlovenijaEmsoView", () => {
     test("renders with the correct class", () => {
-        render(<Subject label="Unique Master Citizen Number" value="test-value" />);
+        render(
+            <Subject
+                label="Unique Master Citizen Number"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Unique Master Citizen Number");
         expect(el).toBeTruthy();
@@ -13,7 +18,12 @@ describe("SlovenijaEmsoView", () => {
     });
 
     test("renders the value as text content", () => {
-        render(<Subject label="Unique Master Citizen Number" value="test-value" />);
+        render(
+            <Subject
+                label="Unique Master Citizen Number"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Unique Master Citizen Number");
         expect(el.textContent).toBe("test-value");

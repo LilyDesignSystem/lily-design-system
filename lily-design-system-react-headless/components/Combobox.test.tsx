@@ -15,22 +15,50 @@ describe("Combobox", () => {
     });
 
     test("listbox hidden when closed", () => {
-        render(<Subject label="Fruit" open={false}>Content</Subject>);
+        render(
+            <Subject
+                label="Fruit"
+                open={false}
+            >
+                Content
+            </Subject>,
+        );
         expect(screen.queryByRole("listbox")).toBeNull();
     });
 
     test("listbox shown when open", () => {
-        render(<Subject label="Fruit" open>Content</Subject>);
+        render(
+            <Subject
+                label="Fruit"
+                open
+            >
+                Content
+            </Subject>,
+        );
         expect(screen.getByRole("listbox")).toBeTruthy();
     });
 
     test("has aria-expanded", () => {
-        render(<Subject label="Fruit" open>Content</Subject>);
+        render(
+            <Subject
+                label="Fruit"
+                open
+            >
+                Content
+            </Subject>,
+        );
         expect(screen.getByRole("combobox").getAttribute("aria-expanded")).toBe("true");
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="F" data-testid="cb">Content</Subject>);
+        render(
+            <Subject
+                label="F"
+                data-testid="cb"
+            >
+                Content
+            </Subject>,
+        );
         expect(screen.getByTestId("cb")).toBeTruthy();
     });
 });

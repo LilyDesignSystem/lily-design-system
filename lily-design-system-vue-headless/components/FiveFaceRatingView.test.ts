@@ -20,7 +20,9 @@ describe("FiveFaceRatingView", () => {
     });
 
     test("supports custom labels", () => {
-        render(Subject, { props: { value: 1, label: "R", labels: ["Awful", "Poor", "Fine", "Nice", "Great"] } });
+        render(Subject, {
+            props: { value: 1, label: "R", labels: ["Awful", "Poor", "Fine", "Nice", "Great"] },
+        });
         expect(screen.getByRole("img").textContent).toContain("Awful");
     });
 

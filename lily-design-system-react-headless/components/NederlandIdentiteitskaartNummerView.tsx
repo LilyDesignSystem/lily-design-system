@@ -37,9 +37,11 @@ export default function NederlandIdentiteitskaartNummerView({
 }: NederlandIdentiteitskaartNummerViewProps) {
     return (
         <span
-        className={`nederland-identiteitskaart-nummer-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`nederland-identiteitskaart-nummer-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

@@ -12,7 +12,12 @@ describe("DateTimeNowInput", () => {
     });
 
     test("appends className prop to root", () => {
-        const { container } = render(<Subject label="Demo" className="extra" />);
+        const { container } = render(
+            <Subject
+                label="Demo"
+                className="extra"
+            />,
+        );
         const el = container.querySelector(".date-time-now-input");
         expect(el?.className).toContain("date-time-now-input");
         expect(el?.className).toContain("extra");

@@ -1,24 +1,25 @@
 <script setup lang="ts">
+// CeskoCestovniPasInput component
+//
+// A headless input for entering Czech Republic's Cestovní pas.
+// Format: usually 8 digits, sometimes longer, issued by the Ministry of the Interior.
+//
+// References:
+//   - https://en.wikipedia.org/wiki/Czech_passport
 
-    // CeskoCestovniPasInput component
-    //
-    // A headless input for entering Czech Republic's Cestovní pas.
-    // Format: usually 8 digits, sometimes longer, issued by the Ministry of the Interior.
-    //
-    // References:
-    //   - https://en.wikipedia.org/wiki/Czech_passport
-
-    withDefaults(defineProps<{
+withDefaults(
+    defineProps<{
         label: string;
         required?: boolean;
         disabled?: boolean;
-    }>(), {
+    }>(),
+    {
         required: false,
         disabled: false,
-    });
+    },
+);
 
-    const modelValue = defineModel<string>({ default: "" });
-
+const modelValue = defineModel<string>({ default: "" });
 </script>
 
 <template>

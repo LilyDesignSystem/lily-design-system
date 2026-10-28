@@ -99,10 +99,13 @@ export default function FiveFaceRatingPicker({
                 // Tell the consumer, as a user's choice would: its last onChange
                 // may name a value the form no longer holds.
                 setValue((current) => {
-                    if (current !== initialValue.current) onChangeRef.current?.(initialValue.current);
+                    if (current !== initialValue.current)
+                        onChangeRef.current?.(initialValue.current);
                     return initialValue.current;
                 });
-                for (const input of root.querySelectorAll<HTMLInputElement>('input[type="radio"]')) {
+                for (const input of root.querySelectorAll<HTMLInputElement>(
+                    'input[type="radio"]',
+                )) {
                     input.checked = input.value === String(initialValue.current);
                 }
             }, 0);
@@ -123,27 +126,27 @@ export default function FiveFaceRatingPicker({
 
     return (
         <fieldset
-        ref={rootRef}
-        className={`five-face-rating-picker ${className}`}
-        role="radiogroup"
-        aria-label={label}
-        disabled={disabled}
-        {...restProps}
+            ref={rootRef}
+            className={`five-face-rating-picker ${className}`}
+            role="radiogroup"
+            aria-label={label}
+            disabled={disabled}
+            {...restProps}
         >
-        {faces.map((face, i) => (
-        <React.Fragment key={face}>
-        <label>
-        <input
-        type="radio"
-        name={name}
-        value={face}
-        checked={value === face}
-        onChange={() => handleChange(face)}
-        />
-        {labels[i]}
-        </label>
-        </React.Fragment>
-        ))}
+            {faces.map((face, i) => (
+                <React.Fragment key={face}>
+                    <label>
+                        <input
+                            type="radio"
+                            name={name}
+                            value={face}
+                            checked={value === face}
+                            onChange={() => handleChange(face)}
+                        />
+                        {labels[i]}
+                    </label>
+                </React.Fragment>
+            ))}
         </fieldset>
     );
 }

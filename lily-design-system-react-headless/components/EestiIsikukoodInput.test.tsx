@@ -33,7 +33,12 @@ describe("EestiIsikukoodInput", () => {
     });
 
     test("can be set to required", () => {
-        render(<Subject label="Personal Identification Code" required />);
+        render(
+            <Subject
+                label="Personal Identification Code"
+                required
+            />,
+        );
 
         const input = screen.getByLabelText("Personal Identification Code") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -47,14 +52,24 @@ describe("EestiIsikukoodInput", () => {
     });
 
     test("can be set to disabled", () => {
-        render(<Subject label="Personal Identification Code" disabled />);
+        render(
+            <Subject
+                label="Personal Identification Code"
+                disabled
+            />,
+        );
 
         const input = screen.getByLabelText("Personal Identification Code") as HTMLInputElement;
         expect(input.disabled).toBe(true);
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="Personal Identification Code" data-testid="subject" />);
+        render(
+            <Subject
+                label="Personal Identification Code"
+                data-testid="subject"
+            />,
+        );
 
         const input = screen.getByTestId("subject");
         expect(input).toBeTruthy();

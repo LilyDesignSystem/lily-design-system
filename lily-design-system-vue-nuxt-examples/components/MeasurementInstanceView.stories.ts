@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import MeasurementInstanceView from './MeasurementInstanceView.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import MeasurementInstanceView from "./MeasurementInstanceView.vue";
 
 const meta = {
-  title: 'Headless/MeasurementInstanceView',
-  component: MeasurementInstanceView,
-  tags: ['autodocs']
+    title: "Headless/MeasurementInstanceView",
+    component: MeasurementInstanceView,
+    tags: ["autodocs"],
 } satisfies Meta<typeof MeasurementInstanceView>;
 
 export default meta;

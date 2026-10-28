@@ -18,7 +18,14 @@ describe("Form", () => {
     test("calls onSubmit and prevents default", async () => {
         const user: UserEvent = userEvent.setup();
         const handleSubmit = vi.fn();
-        render(<Subject label="F" onSubmit={handleSubmit}><button type="submit">Go</button></Subject>);
+        render(
+            <Subject
+                label="F"
+                onSubmit={handleSubmit}
+            >
+                <button type="submit">Go</button>
+            </Subject>,
+        );
         await user.click(screen.getByRole("button", { name: "Go" }));
         expect(handleSubmit).toHaveBeenCalledOnce();
     });
@@ -29,7 +36,14 @@ describe("Form", () => {
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="F" data-testid="fm">C</Subject>);
+        render(
+            <Subject
+                label="F"
+                data-testid="fm"
+            >
+                C
+            </Subject>,
+        );
         expect(screen.getByTestId("fm")).toBeTruthy();
     });
 });

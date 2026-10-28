@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "../../components/Resizable.vue";
 
-
 describe("Resizable", () => {
     test("renders a region", () => {
         render(Subject, { props: { label: "Panel" }, slots: { default: "content" } });
@@ -21,7 +20,10 @@ describe("Resizable", () => {
     });
 
     test("supports horizontal direction", () => {
-        render(Subject, { props: { label: "Panel", direction: "horizontal" }, slots: { default: "x" } });
+        render(Subject, {
+            props: { label: "Panel", direction: "horizontal" },
+            slots: { default: "x" },
+        });
         expect(screen.getByRole("region").getAttribute("data-resize")).toBe("horizontal");
     });
 

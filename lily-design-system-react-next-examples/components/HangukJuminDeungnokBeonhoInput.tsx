@@ -50,14 +50,15 @@ export default function HangukJuminDeungnokBeonhoInput({
 }: HangukJuminDeungnokBeonhoInputProps) {
     return (
         <input
-        className={`hanguk-jumin-deungnok-beonho-input ${className}`}
-        type="text"
-        aria-label={label}
-        autoComplete="off"
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`hanguk-jumin-deungnok-beonho-input ${className}`}
+            type="text"
+            aria-label={label}
+            autoComplete="off"
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

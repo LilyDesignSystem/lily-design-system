@@ -52,7 +52,11 @@
     class={`scatter-chart ${className}`}
     {...restProps}
 >
-    <div class="scatter-chart-graphic" role="img" aria-label={label}>
+    <div
+        class="scatter-chart-graphic"
+        role="img"
+        aria-label={label}
+    >
         {@render children?.()}
     </div>
     {#if dataTable}

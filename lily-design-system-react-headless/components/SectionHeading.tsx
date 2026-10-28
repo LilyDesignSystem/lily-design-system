@@ -60,14 +60,13 @@ export default function SectionHeading({
 }: SectionHeadingProps) {
     const HeadingTag = `h${level}` as keyof React.JSX.IntrinsicElements;
     return (
-        <header className={`section-heading ${className}`} {...restProps}>
-            {eyebrow && (
-                <p className="section-heading-eyebrow">{eyebrow}</p>
-            )}
+        <header
+            className={`section-heading ${className}`}
+            {...restProps}
+        >
+            {eyebrow && <p className="section-heading-eyebrow">{eyebrow}</p>}
             <HeadingTag className="section-heading-heading">{heading}</HeadingTag>
-            {subtitle && (
-                <p className="section-heading-subtitle">{subtitle}</p>
-            )}
+            {subtitle && <p className="section-heading-subtitle">{subtitle}</p>}
         </header>
     );
 }

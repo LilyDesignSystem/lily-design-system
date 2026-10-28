@@ -19,10 +19,10 @@
 //   <Dial label="Volume" value={value} onChange={setValue} min={0} max={100} />
 //
 // Examples:
-//   
+//
 //   <Dial label="Brightness" value={brightness} onChange={setBrightness} min={0} max={100} step={5} />
 //
-//   
+//
 //   <Dial label="Disabled control" value={30} disabled />
 //
 // Keyboard:
@@ -123,16 +123,16 @@ export default function Dial({
 
     return (
         <div
-        className={`dial ${className}`}
-        role="slider"
-        tabIndex={disabled ? -1 : 0}
-        aria-label={label}
-        aria-valuenow={value}
-        aria-valuemin={min}
-        aria-valuemax={max}
-        aria-disabled={disabled || undefined}
-        onKeyDown={handleKeyDown}
-        {...restProps}
+            className={`dial ${className}`}
+            role="slider"
+            tabIndex={disabled ? -1 : 0}
+            aria-label={label}
+            aria-valuenow={value}
+            aria-valuemin={min}
+            aria-valuemax={max}
+            aria-disabled={disabled || undefined}
+            onKeyDown={handleKeyDown}
+            {...restProps}
         ></div>
     );
 }

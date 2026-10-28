@@ -6,81 +6,115 @@ import Subject from "./ClipboardCopyButton";
 
 // Helper: mock navigator.clipboard.writeText for the duration of a test.
 function mockClipboard(impl?: (text: string) => Promise<void>) {
-  const writeText = vi.fn<(text: string) => Promise<void>>(
-    impl ?? (() => Promise.resolve()),
-  );
-  Object.defineProperty(navigator, "clipboard", {
-    value: { writeText },
-    writable: true,
-    configurable: true,
-  });
-  return writeText;
+    const writeText = vi.fn<(text: string) => Promise<void>>(impl ?? (() => Promise.resolve()));
+    Object.defineProperty(navigator, "clipboard", {
+        value: { writeText },
+        writable: true,
+        configurable: true,
+    });
+    return writeText;
 }
 
 describe("ClipboardCopyButton", () => {
-  test("renders as a button", () => {
-    mockClipboard();
-    render(<Subject text="hello" label="Copy" />);
-    expect(screen.getByRole("button", { name: "Copy" })).toBeTruthy();
-  });
-
-  test("has aria-label", () => {
-    mockClipboard();
-    render(<Subject text="hello" label="Copy text" />);
-    expect(screen.getByRole("button").getAttribute("aria-label")).toBe(
-      "Copy text",
-    );
-  });
-
-  test("copies text to clipboard on click", async () => {
-    const writeText = mockClipboard();
-    const handleSuccess = vi.fn();
-    render(<Subject text="copied text" label="Copy" onSuccess={handleSuccess} />);
-
-    screen.getByRole("button").click();
-    await vi.waitFor(() => {
-      expect(writeText).toHaveBeenCalledWith("copied text");
+    test("renders as a button", () => {
+        mockClipboard();
+        render(
+            <Subject
+                text="hello"
+                label="Copy"
+            />,
+        );
+        expect(screen.getByRole("button", { name: "Copy" })).toBeTruthy();
     });
-    await vi.waitFor(() => {
-      expect(handleSuccess).toHaveBeenCalledOnce();
+
+    test("has aria-label", () => {
+        mockClipboard();
+        render(
+            <Subject
+                text="hello"
+                label="Copy text"
+            />,
+        );
+        expect(screen.getByRole("button").getAttribute("aria-label")).toBe("Copy text");
     });
-  });
 
-  test("sets data-copied on success", async () => {
-    mockClipboard();
-    render(<Subject text="test" label="Copy" />);
-    const button = screen.getByRole("button");
+    test("copies text to clipboard on click", async () => {
+        const writeText = mockClipboard();
+        const handleSuccess = vi.fn();
+        render(
+            <Subject
+                text="copied text"
+                label="Copy"
+                onSuccess={handleSuccess}
+            />,
+        );
 
-    button.click();
-    await vi.waitFor(() => {
-      expect(button.getAttribute("data-copied")).toBe("true");
+        screen.getByRole("button").click();
+        await vi.waitFor(() => {
+            expect(writeText).toHaveBeenCalledWith("copied text");
+        });
+        await vi.waitFor(() => {
+            expect(handleSuccess).toHaveBeenCalledOnce();
+        });
     });
-  });
 
-  test("calls onError on failure", async () => {
-    const error = new Error("fail");
-    mockClipboard(() => Promise.reject(error));
+    test("sets data-copied on success", async () => {
+        mockClipboard();
+        render(
+            <Subject
+                text="test"
+                label="Copy"
+            />,
+        );
+        const button = screen.getByRole("button");
 
-    const handleError = vi.fn();
-    render(<Subject text="test" label="Copy" onError={handleError} />);
-
-    screen.getByRole("button").click();
-    await vi.waitFor(() => {
-      expect(handleError).toHaveBeenCalledWith(error);
+        button.click();
+        await vi.waitFor(() => {
+            expect(button.getAttribute("data-copied")).toBe("true");
+        });
     });
-  });
 
-  test("is focusable via keyboard", async () => {
-    mockClipboard();
-    const user: UserEvent = userEvent.setup();
-    render(<Subject text="test" label="Copy" />);
-    await user.tab();
-    expect(document.activeElement).toBe(screen.getByRole("button"));
-  });
+    test("calls onError on failure", async () => {
+        const error = new Error("fail");
+        mockClipboard(() => Promise.reject(error));
 
-  test("passes through additional HTML attributes", () => {
-    mockClipboard();
-    render(<Subject text="test" label="Copy" data-testid="clip" />);
-    expect(screen.getByTestId("clip")).toBeTruthy();
-  });
+        const handleError = vi.fn();
+        render(
+            <Subject
+                text="test"
+                label="Copy"
+                onError={handleError}
+            />,
+        );
+
+        screen.getByRole("button").click();
+        await vi.waitFor(() => {
+            expect(handleError).toHaveBeenCalledWith(error);
+        });
+    });
+
+    test("is focusable via keyboard", async () => {
+        mockClipboard();
+        const user: UserEvent = userEvent.setup();
+        render(
+            <Subject
+                text="test"
+                label="Copy"
+            />,
+        );
+        await user.tab();
+        expect(document.activeElement).toBe(screen.getByRole("button"));
+    });
+
+    test("passes through additional HTML attributes", () => {
+        mockClipboard();
+        render(
+            <Subject
+                text="test"
+                label="Copy"
+                data-testid="clip"
+            />,
+        );
+        expect(screen.getByTestId("clip")).toBeTruthy();
+    });
 });

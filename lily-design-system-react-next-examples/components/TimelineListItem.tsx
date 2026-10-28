@@ -17,7 +17,7 @@
 //   <TimelineListItem datetime="2024-01-15" heading="Jan 15">Event description</TimelineListItem>
 //
 // Examples:
-//   
+//
 //   <TimelineList label="Order history">
 //     <TimelineListItem datetime="2024-01-15" heading="January 15, 2024">
 //       Order placed
@@ -30,7 +30,7 @@
 //     </TimelineListItem>
 //   </TimelineList>
 //
-//   
+//
 //   <TimelineListItem>Status pending review</TimelineListItem>
 //
 // Keyboard:
@@ -78,11 +78,11 @@ export default function TimelineListItem({
 }: TimelineListItemProps) {
     return (
         <li
-        className={`timeline-list-item ${className}`}
-        {...restProps}
+            className={`timeline-list-item ${className}`}
+            {...restProps}
         >
-        {(datetime || heading) && (<time dateTime={datetime || undefined}>{heading}</time>)}
-        {children}
+            {(datetime || heading) && <time dateTime={datetime || undefined}>{heading}</time>}
+            {children}
         </li>
     );
 }

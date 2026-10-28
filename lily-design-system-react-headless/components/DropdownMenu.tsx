@@ -135,29 +135,29 @@ export default function DropdownMenu({
 
     return (
         <div
-        className={`dropdown-menu ${className}`}
-        {...restProps}
+            className={`dropdown-menu ${className}`}
+            {...restProps}
         >
-        <button
-        type="button"
-        aria-haspopup="true"
-        aria-expanded={open}
-        aria-label={label}
-        onClick={toggleMenu}
-        >
-        {label}
-        </button>
-        {open && (
-        <div
-        role="menu"
-        aria-label={label}
-        tabIndex={-1}
-        ref={menuRef}
-        onKeyDown={onMenuKeydown}
-        >
-        {children}
-        </div>
-        )}
+            <button
+                type="button"
+                aria-haspopup="true"
+                aria-expanded={open}
+                aria-label={label}
+                onClick={toggleMenu}
+            >
+                {label}
+            </button>
+            {open && (
+                <div
+                    role="menu"
+                    aria-label={label}
+                    tabIndex={-1}
+                    ref={menuRef}
+                    onKeyDown={onMenuKeydown}
+                >
+                    {children}
+                </div>
+            )}
         </div>
     );
 }

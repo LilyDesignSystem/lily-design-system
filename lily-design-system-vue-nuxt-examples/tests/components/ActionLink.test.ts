@@ -16,8 +16,10 @@ describe("ActionLink", () => {
     });
 
     test("applies aria-label when label prop is provided", () => {
-        render(Subject, { props: { href: "/next",
-            label: "Navigate to next section" }, slots: { default: "Next" } });
+        render(Subject, {
+            props: { href: "/next", label: "Navigate to next section" },
+            slots: { default: "Next" },
+        });
 
         const link: HTMLElement = screen.getByRole("link", { name: "Navigate to next section" });
         expect(link).toBeTruthy();
@@ -32,9 +34,10 @@ describe("ActionLink", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(Subject, { props: { href: "/ext",
-            target: "_blank",
-            rel: "noopener noreferrer" }, slots: { default: "External" } });
+        render(Subject, {
+            props: { href: "/ext", target: "_blank", rel: "noopener noreferrer" },
+            slots: { default: "External" },
+        });
 
         const link: HTMLElement = screen.getByRole("link", { name: "External" });
         expect(link.getAttribute("target")).toBe("_blank");

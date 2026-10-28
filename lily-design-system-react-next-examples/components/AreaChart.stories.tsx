@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import AreaChart from './AreaChart';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import AreaChart from "./AreaChart";
 
 const meta = {
-  title: 'Headless/AreaChart',
-  component: AreaChart,
-  tags: ['autodocs']
+    title: "Headless/AreaChart",
+    component: AreaChart,
+    tags: ["autodocs"],
 } satisfies Meta<typeof AreaChart>;
 
 export default meta;

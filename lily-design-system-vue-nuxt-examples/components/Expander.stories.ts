@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import Expander from './Expander.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import Expander from "./Expander.vue";
 
 const meta = {
-  title: 'Headless/Expander',
-  component: Expander,
-  tags: ['autodocs']
+    title: "Headless/Expander",
+    component: Expander,
+    tags: ["autodocs"],
 } satisfies Meta<typeof Expander>;
 
 export default meta;

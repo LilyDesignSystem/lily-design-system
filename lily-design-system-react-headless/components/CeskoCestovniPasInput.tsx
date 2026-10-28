@@ -50,14 +50,15 @@ export default function CeskoCestovniPasInput({
 }: CeskoCestovniPasInputProps) {
     return (
         <input
-        className={`cesko-cestovni-pas-input ${className}`}
-        type="text"
-        aria-label={label}
-        autoComplete="off"
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`cesko-cestovni-pas-input ${className}`}
+            type="text"
+            aria-label={label}
+            autoComplete="off"
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

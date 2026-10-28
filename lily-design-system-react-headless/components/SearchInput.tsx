@@ -72,13 +72,14 @@ export default function SearchInput({
 }: SearchInputProps) {
     return (
         <input
-        className={`search-input ${className}`}
-        type="search"
-        aria-label={label}
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`search-input ${className}`}
+            type="search"
+            aria-label={label}
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

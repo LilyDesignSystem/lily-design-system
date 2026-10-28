@@ -17,27 +17,52 @@ describe("DateInput", () => {
     });
 
     test("supports min attribute", () => {
-        render(<Subject label="Date" min="2024-01-01" />);
+        render(
+            <Subject
+                label="Date"
+                min="2024-01-01"
+            />,
+        );
         expect((screen.getByLabelText("Date") as HTMLInputElement).min).toBe("2024-01-01");
     });
 
     test("supports max attribute", () => {
-        render(<Subject label="Date" max="2024-12-31" />);
+        render(
+            <Subject
+                label="Date"
+                max="2024-12-31"
+            />,
+        );
         expect((screen.getByLabelText("Date") as HTMLInputElement).max).toBe("2024-12-31");
     });
 
     test("supports required attribute", () => {
-        render(<Subject label="Date" required />);
+        render(
+            <Subject
+                label="Date"
+                required
+            />,
+        );
         expect((screen.getByLabelText("Date") as HTMLInputElement).required).toBe(true);
     });
 
     test("supports disabled attribute", () => {
-        render(<Subject label="Date" disabled />);
+        render(
+            <Subject
+                label="Date"
+                disabled
+            />,
+        );
         expect((screen.getByLabelText("Date") as HTMLInputElement).disabled).toBe(true);
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="Date" data-testid="di" />);
+        render(
+            <Subject
+                label="Date"
+                data-testid="di"
+            />,
+        );
         expect(screen.getByTestId("di")).toBeTruthy();
     });
 });

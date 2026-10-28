@@ -189,7 +189,9 @@ describe("Listbox — active-descendant mode (opt-in, additive)", () => {
             },
         });
         await fireEvent.keyDown(withTypeahead.getByRole("listbox"), { key: "b" });
-        expect(withTypeahead.getByRole("listbox").getAttribute("aria-activedescendant")).toBe("opt-1");
+        expect(withTypeahead.getByRole("listbox").getAttribute("aria-activedescendant")).toBe(
+            "opt-1",
+        );
         withTypeahead.unmount();
 
         const withoutTypeahead = render(Subject, {
@@ -201,7 +203,9 @@ describe("Listbox — active-descendant mode (opt-in, additive)", () => {
             },
         });
         await fireEvent.keyDown(withoutTypeahead.getByRole("listbox"), { key: "b" });
-        expect(withoutTypeahead.getByRole("listbox").getAttribute("aria-activedescendant")).toBe("opt-0");
+        expect(withoutTypeahead.getByRole("listbox").getAttribute("aria-activedescendant")).toBe(
+            "opt-0",
+        );
     });
 
     test("PageDown/PageUp move by pageSize, clamped", async () => {
@@ -230,7 +234,14 @@ describe("Listbox — active-descendant mode (opt-in, additive)", () => {
     });
 
     test("as changes the root tag; baseClass replaces the default class token outright", () => {
-        render(Subject, { props: { label: "Fruits", as: "ul", baseClass: "motion-picker-list", children: optionsSnippet() } });
+        render(Subject, {
+            props: {
+                label: "Fruits",
+                as: "ul",
+                baseClass: "motion-picker-list",
+                children: optionsSnippet(),
+            },
+        });
         const listbox = screen.getByRole("listbox");
         expect(listbox.tagName).toBe("UL");
         expect(listbox.className).toBe("motion-picker-list ");

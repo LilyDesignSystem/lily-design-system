@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import InputGroup from './InputGroup';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import InputGroup from "./InputGroup";
 
 const meta = {
-  title: 'Headless/InputGroup',
-  component: InputGroup,
-  tags: ['autodocs']
+    title: "Headless/InputGroup",
+    component: InputGroup,
+    tags: ["autodocs"],
 } satisfies Meta<typeof InputGroup>;
 
 export default meta;

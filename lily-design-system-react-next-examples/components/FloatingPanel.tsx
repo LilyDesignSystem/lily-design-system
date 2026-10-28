@@ -16,12 +16,12 @@
 //   <FloatingPanel open={showPanel} label="Options">{children}</FloatingPanel>
 //
 // Examples:
-//   
+//
 //   <FloatingPanel open={showPanel} label="Options">
 //     <p>Panel content</p>
 //   </FloatingPanel>
 //
-//   
+//
 //   <FloatingPanel open={filtersVisible} label="Filters">
 //     <form>...</form>
 //   </FloatingPanel>
@@ -66,14 +66,18 @@ export default function FloatingPanel({
 }: FloatingPanelProps) {
     return (
         <>
-        {open && (<><div
-        className={`floating-panel ${className}`}
-        role="region"
-        aria-label={label}
-        {...restProps}
-        >
-        {children}
-        </div></>)}
+            {open && (
+                <>
+                    <div
+                        className={`floating-panel ${className}`}
+                        role="region"
+                        aria-label={label}
+                        {...restProps}
+                    >
+                        {children}
+                    </div>
+                </>
+            )}
         </>
     );
 }

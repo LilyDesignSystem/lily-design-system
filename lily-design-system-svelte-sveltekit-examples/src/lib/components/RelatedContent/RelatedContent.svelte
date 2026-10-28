@@ -16,7 +16,6 @@
 <!-- RelatedContent.svelte -->
 <aside
     class={`related-content ${className}`}
-
     aria-label={label}
     {...restProps}
 >

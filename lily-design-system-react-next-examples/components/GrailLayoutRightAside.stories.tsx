@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import GrailLayoutRightAside from './GrailLayoutRightAside';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import GrailLayoutRightAside from "./GrailLayoutRightAside";
 
 const meta = {
-  title: 'Headless/GrailLayoutRightAside',
-  component: GrailLayoutRightAside,
-  tags: ['autodocs']
+    title: "Headless/GrailLayoutRightAside",
+    component: GrailLayoutRightAside,
+    tags: ["autodocs"],
 } satisfies Meta<typeof GrailLayoutRightAside>;
 
 export default meta;

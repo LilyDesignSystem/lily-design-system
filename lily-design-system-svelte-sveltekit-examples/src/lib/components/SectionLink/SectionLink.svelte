@@ -18,8 +18,6 @@
 <!-- SectionLink.svelte -->
 <a
     class={`section-link ${className}`}
-
-
     {href}
     {...restProps}
 >

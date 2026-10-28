@@ -34,7 +34,9 @@ describe("Form", () => {
     test("calls onsubmit and prevents default", async () => {
         const user: UserEvent = userEvent.setup();
         const handleSubmit = vi.fn();
-        render(Subject, { props: { label: "F", onsubmit: handleSubmit, children: buttonSnippet("Go") } });
+        render(Subject, {
+            props: { label: "F", onsubmit: handleSubmit, children: buttonSnippet("Go") },
+        });
         await user.click(screen.getByRole("button", { name: "Go" }));
         expect(handleSubmit).toHaveBeenCalledOnce();
     });

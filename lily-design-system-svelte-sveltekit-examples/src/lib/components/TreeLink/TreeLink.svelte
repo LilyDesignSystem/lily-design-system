@@ -13,6 +13,10 @@
 </script>
 
 <!-- TreeLink.svelte -->
-<div class={`tree-link ${className}`} aria-label={label} {...restProps}>
+<div
+    class={`tree-link ${className}`}
+    aria-label={label}
+    {...restProps}
+>
     {@render children?.()}
 </div>

@@ -79,17 +79,21 @@ export default function TourList({
 
     return (
         <>
-        {active && (<><ol
-        className={`tour-list ${className}`}
-        role="dialog"
-        aria-modal="true"
-        aria-label={label}
-        tabIndex={-1}
-        onKeyDown={handleKeyDown}
-        {...restProps}
-        >
-        {children}
-        </ol></>)}
+            {active && (
+                <>
+                    <ol
+                        className={`tour-list ${className}`}
+                        role="dialog"
+                        aria-modal="true"
+                        aria-label={label}
+                        tabIndex={-1}
+                        onKeyDown={handleKeyDown}
+                        {...restProps}
+                    >
+                        {children}
+                    </ol>
+                </>
+            )}
         </>
     );
 }

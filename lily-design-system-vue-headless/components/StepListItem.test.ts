@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./StepListItem.vue";
 
-
 describe("StepListItem", () => {
     test("renders as an li with step-list-item class", () => {
         const { container } = render(Subject, { slots: { default: "Cart" } });

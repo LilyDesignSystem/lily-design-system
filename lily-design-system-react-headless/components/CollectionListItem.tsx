@@ -79,25 +79,23 @@ export default function CollectionListItem({
 }: CollectionListItemProps) {
     return (
         <li
-        className={`collection-list-item ${className}`}
-        aria-label={label}
-        {...restProps}
+            className={`collection-list-item ${className}`}
+            aria-label={label}
+            {...restProps}
         >
-        {imageUrl && (
-            <img
-            className="collection-list-item-image"
-            src={imageUrl}
-            alt={imageAlt}
-            />
-        )}
-        <h3 className="collection-list-item-heading">
-            {href ? <a href={href}>{heading}</a> : heading}
-        </h3>
-        {meta && <p className="collection-list-item-meta">{meta}</p>}
-        {description && (
-            <p className="collection-list-item-description">{description}</p>
-        )}
-        {children}
+            {imageUrl && (
+                <img
+                    className="collection-list-item-image"
+                    src={imageUrl}
+                    alt={imageAlt}
+                />
+            )}
+            <h3 className="collection-list-item-heading">
+                {href ? <a href={href}>{heading}</a> : heading}
+            </h3>
+            {meta && <p className="collection-list-item-meta">{meta}</p>}
+            {description && <p className="collection-list-item-description">{description}</p>}
+            {children}
         </li>
     );
 }

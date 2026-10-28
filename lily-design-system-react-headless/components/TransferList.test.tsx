@@ -12,7 +12,7 @@ describe("TransferList", () => {
                 targetLabel="Selected"
                 source={<ul>src</ul>}
                 target={<ul>tgt</ul>}
-            />
+            />,
         );
 
         const group: HTMLElement = screen.getByRole("group", { name: "Permissions" });
@@ -27,10 +27,12 @@ describe("TransferList", () => {
                 targetLabel="Selected"
                 source={<ul>src</ul>}
                 target={<ul>tgt</ul>}
-            />
+            />,
         );
 
-        const section: HTMLElement = container.querySelector(".transfer-list-source") as HTMLElement;
+        const section: HTMLElement = container.querySelector(
+            ".transfer-list-source",
+        ) as HTMLElement;
         expect(section.tagName).toBe("SECTION");
         expect(section.getAttribute("aria-label")).toBe("Available");
         expect(section.textContent).toContain("src");
@@ -44,10 +46,12 @@ describe("TransferList", () => {
                 targetLabel="Selected"
                 source={<ul>src</ul>}
                 target={<ul>tgt</ul>}
-            />
+            />,
         );
 
-        const section: HTMLElement = container.querySelector(".transfer-list-target") as HTMLElement;
+        const section: HTMLElement = container.querySelector(
+            ".transfer-list-target",
+        ) as HTMLElement;
         expect(section.tagName).toBe("SECTION");
         expect(section.getAttribute("aria-label")).toBe("Selected");
         expect(section.textContent).toContain("tgt");
@@ -62,7 +66,7 @@ describe("TransferList", () => {
                 source={<ul>s</ul>}
                 target={<ul>t</ul>}
                 actions={<button>Move</button>}
-            />
+            />,
         );
 
         const actionsEl: HTMLElement | null = container.querySelector(".transfer-list-actions");
@@ -78,7 +82,7 @@ describe("TransferList", () => {
                 targetLabel="B"
                 source={<ul>s</ul>}
                 target={<ul>t</ul>}
-            />
+            />,
         );
 
         expect(container.querySelector(".transfer-list-actions")).toBeNull();
@@ -93,7 +97,7 @@ describe("TransferList", () => {
                 source={<ul>s</ul>}
                 target={<ul>t</ul>}
                 id="transfer-1"
-            />
+            />,
         );
 
         const group: HTMLElement = screen.getByRole("group");

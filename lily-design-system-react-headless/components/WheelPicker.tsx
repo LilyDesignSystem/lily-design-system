@@ -92,7 +92,12 @@ export default function WheelPicker({
         if (disabled) return;
         if (WHEEL_MOVE_KEYS.includes(event.key)) {
             event.preventDefault();
-            select(nextWheelIndex(options, selectedIndex, event.key as WheelMoveKey, { loop, pageSize }));
+            select(
+                nextWheelIndex(options, selectedIndex, event.key as WheelMoveKey, {
+                    loop,
+                    pageSize,
+                }),
+            );
         } else if (isWheelTypeaheadKey(event)) {
             typeahead.current = nextWheelPrefix(typeahead.current, event.key, Date.now());
             select(wheelTypeaheadIndex(options, selectedIndex, typeahead.current.prefix));
@@ -117,7 +122,10 @@ export default function WheelPicker({
     }, [selectedIndex]);
 
     return (
-        <div className={`wheel-picker ${className}`} {...restProps}>
+        <div
+            className={`wheel-picker ${className}`}
+            {...restProps}
+        >
             <div
                 ref={list}
                 className="wheel-picker-list"
@@ -125,7 +133,9 @@ export default function WheelPicker({
                 aria-label={label}
                 aria-orientation="vertical"
                 aria-disabled={disabled ? "true" : undefined}
-                aria-activedescendant={selectedIndex >= 0 ? `${uid}-option-${selectedIndex}` : undefined}
+                aria-activedescendant={
+                    selectedIndex >= 0 ? `${uid}-option-${selectedIndex}` : undefined
+                }
                 tabIndex={disabled ? -1 : 0}
                 onKeyDown={onKeyDown}
                 onClick={onClick}
@@ -145,7 +155,14 @@ export default function WheelPicker({
                     </div>
                 ))}
             </div>
-            {name ? <input type="hidden" name={name} value={value} readOnly /> : null}
+            {name ? (
+                <input
+                    type="hidden"
+                    name={name}
+                    value={value}
+                    readOnly
+                />
+            ) : null}
         </div>
     );
 }

@@ -37,9 +37,11 @@ export default function MagyarorszagTajSzamView({
 }: MagyarorszagTajSzamViewProps) {
     return (
         <span
-        className={`magyarorszag-taj-szam-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`magyarorszag-taj-szam-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

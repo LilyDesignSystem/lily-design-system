@@ -44,13 +44,13 @@ export default function GanttTableTH({
 }: GanttTableThProps) {
     return (
         <th
-        className={`gantt-table-th ${className}`}
-        scope={scope}
-        colSpan={colSpan || undefined}
-        rowSpan={rowSpan || undefined}
-        {...restProps}
+            className={`gantt-table-th ${className}`}
+            scope={scope}
+            colSpan={colSpan || undefined}
+            rowSpan={rowSpan || undefined}
+            {...restProps}
         >
-        {children}
+            {children}
         </th>
     );
 }

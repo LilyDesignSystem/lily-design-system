@@ -15,10 +15,10 @@
 //   <SkipLink />
 //
 // Examples:
-//   
+//
 //   <SkipLink href="#main" label="Skip to main content" />
 //
-//   
+//
 //   <SkipLink href="#content" label="Skip navigation" class="sr-only-focusable" />
 //
 // Keyboard:
@@ -63,9 +63,11 @@ export default function SkipLink({
 }: SkipLinkProps) {
     return (
         <a
-        className={`skip-link ${className}`}
-        href={href}
-        {...restProps}>{label}</a
+            className={`skip-link ${className}`}
+            href={href}
+            {...restProps}
         >
+            {label}
+        </a>
     );
 }

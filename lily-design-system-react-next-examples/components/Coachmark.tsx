@@ -56,23 +56,33 @@ export default function Coachmark({
     const descId = `coachmark-${reactId}-desc`;
     return (
         <div
-        className={`coachmark ${className}`}
-        role="dialog"
-        aria-modal="false"
-        aria-labelledby={titleId}
-        aria-describedby={description !== undefined ? descId : undefined}
-        hidden={!open}
-        {...restProps}
+            className={`coachmark ${className}`}
+            role="dialog"
+            aria-modal="false"
+            aria-labelledby={titleId}
+            aria-describedby={description !== undefined ? descId : undefined}
+            hidden={!open}
+            {...restProps}
         >
-            <h2 className="coachmark-title" id={titleId}>{title}</h2>
+            <h2
+                className="coachmark-title"
+                id={titleId}
+            >
+                {title}
+            </h2>
             {description !== undefined && (
-                <p className="coachmark-description" id={descId}>{description}</p>
+                <p
+                    className="coachmark-description"
+                    id={descId}
+                >
+                    {description}
+                </p>
             )}
             <button
-            className="coachmark-dismiss"
-            type="button"
-            aria-label={dismissLabel}
-            onClick={onDismiss}
+                className="coachmark-dismiss"
+                type="button"
+                aria-label={dismissLabel}
+                onClick={onDismiss}
             >
                 ×
             </button>

@@ -20,12 +20,12 @@
 //   </CareCard>
 //
 // Examples:
-//   
+//
 //   <CareCard type="non-urgent" heading="Speak to a GP if:">
 //     <ul><li>you have symptoms for more than 3 days</li></ul>
 //   </CareCard>
 //
-//   
+//
 //   <CareCard type="immediate" heading="Call 999 if:">
 //     <ul><li>you have difficulty breathing</li></ul>
 //   </CareCard>
@@ -70,14 +70,14 @@ export default function CareCard({
 }: CareCardProps) {
     return (
         <section
-        className={`care-card ${className}`}
-        role="region"
-        aria-label={label ?? heading}
-        data-type={type}
-        {...restProps}
+            className={`care-card ${className}`}
+            role="region"
+            aria-label={label ?? heading}
+            data-type={type}
+            {...restProps}
         >
-        <h2>{heading}</h2>
-        {children}
+            <h2>{heading}</h2>
+            {children}
         </section>
     );
 }

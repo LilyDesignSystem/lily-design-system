@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import TreeSelect from './TreeSelect';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import TreeSelect from "./TreeSelect";
 
 const meta = {
-  title: 'Headless/TreeSelect',
-  component: TreeSelect,
-  tags: ['autodocs']
+    title: "Headless/TreeSelect",
+    component: TreeSelect,
+    tags: ["autodocs"],
 } satisfies Meta<typeof TreeSelect>;
 
 export default meta;

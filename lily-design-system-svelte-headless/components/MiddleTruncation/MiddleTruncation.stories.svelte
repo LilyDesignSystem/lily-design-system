@@ -1,4 +1,7 @@
-<script module lang="ts">
+<script
+    module
+    lang="ts"
+>
     import { defineMeta } from "@storybook/addon-svelte-csf";
     import MiddleTruncation from "./MiddleTruncation.svelte";
     const { Story } = defineMeta({
@@ -7,6 +10,14 @@
     });
 </script>
 
-<Story name="Default" tags={["autodocs", "!dev"]}>
-    <MiddleTruncation text="quarterly-report-final-version-3.pdf" ellipsis="…" strategy="min-end" end={6} />
+<Story
+    name="Default"
+    tags={["autodocs", "!dev"]}
+>
+    <MiddleTruncation
+        text="quarterly-report-final-version-3.pdf"
+        ellipsis="…"
+        strategy="min-end"
+        end={6}
+    />
 </Story>

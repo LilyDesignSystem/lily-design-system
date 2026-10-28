@@ -27,7 +27,14 @@ describe("ErrorSummary", () => {
     });
 
     test("passes through attributes", () => {
-        render(<Subject title="E" data-testid="es">C</Subject>);
+        render(
+            <Subject
+                title="E"
+                data-testid="es"
+            >
+                C
+            </Subject>,
+        );
         expect(screen.getByTestId("es")).toBeTruthy();
     });
 });

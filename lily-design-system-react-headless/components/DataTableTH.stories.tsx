@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import DataTableTH from './DataTableTH';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import DataTableTH from "./DataTableTH";
 
 const meta = {
-  title: 'Headless/DataTableTH',
-  component: DataTableTH,
-  tags: ['autodocs']
+    title: "Headless/DataTableTH",
+    component: DataTableTH,
+    tags: ["autodocs"],
 } satisfies Meta<typeof DataTableTH>;
 
 export default meta;

@@ -15,10 +15,10 @@
 //   <Splitter label="Resize panels" orientation="vertical" />
 //
 // Examples:
-//   
+//
 //   <Splitter label="Resize editor and preview" orientation="horizontal" />
 //
-//   
+//
 //   <Splitter label="Resize sidebar" orientation="vertical" aria-valuenow={splitPos} />
 //
 // Keyboard:
@@ -66,15 +66,15 @@ export default function Splitter({
 }: SplitterProps) {
     return (
         <div
-        className={`splitter ${className}`}
-        role="separator"
-        aria-label={label}
-        aria-orientation={orientation}
-        tabIndex={0}
-        aria-valuenow={50}
-        aria-valuemin={0}
-        aria-valuemax={100}
-        {...restProps}
+            className={`splitter ${className}`}
+            role="separator"
+            aria-label={label}
+            aria-orientation={orientation}
+            tabIndex={0}
+            aria-valuenow={50}
+            aria-valuemin={0}
+            aria-valuemax={100}
+            {...restProps}
         ></div>
     );
 }

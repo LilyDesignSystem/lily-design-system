@@ -5,7 +5,9 @@ import Subject from "./BrasilCartaoNacionalDeSaudeView.svelte";
 
 describe("BrasilCartaoNacionalDeSaudeView", () => {
     test("renders with the correct class", () => {
-        render(Subject, { props: { label: "Cartão Nacional de Saúde (CNS)", value: "test-value" } });
+        render(Subject, {
+            props: { label: "Cartão Nacional de Saúde (CNS)", value: "test-value" },
+        });
 
         const el = screen.getByLabelText("Cartão Nacional de Saúde (CNS)");
         expect(el).toBeTruthy();
@@ -13,7 +15,9 @@ describe("BrasilCartaoNacionalDeSaudeView", () => {
     });
 
     test("renders the value as text content", () => {
-        render(Subject, { props: { label: "Cartão Nacional de Saúde (CNS)", value: "test-value" } });
+        render(Subject, {
+            props: { label: "Cartão Nacional de Saúde (CNS)", value: "test-value" },
+        });
 
         const el = screen.getByLabelText("Cartão Nacional de Saúde (CNS)");
         expect(el.textContent).toBe("test-value");

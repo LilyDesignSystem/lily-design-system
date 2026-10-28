@@ -8,7 +8,10 @@ const table = `<table><caption>Values</caption><tbody><tr><th scope="row">A</th>
 
 describe("CandlestickChart", () => {
     test("renders a <figure> with the base class", () => {
-        const { container } = render(Subject, { props: { label: "Test" }, slots: { default: svg } });
+        const { container } = render(Subject, {
+            props: { label: "Test" },
+            slots: { default: svg },
+        });
         expect(container.querySelector("figure.candlestick-chart")).toBeTruthy();
     });
 
@@ -22,7 +25,9 @@ describe("CandlestickChart", () => {
 
     test("omits aria-label when no label is given", () => {
         const { container } = render(Subject, { slots: { default: svg } });
-        expect(container.querySelector(".candlestick-chart-graphic")!.hasAttribute("aria-label")).toBe(false);
+        expect(
+            container.querySelector(".candlestick-chart-graphic")!.hasAttribute("aria-label"),
+        ).toBe(false);
     });
 
     test("does not put role=img on the figure", () => {
@@ -41,10 +46,15 @@ describe("CandlestickChart", () => {
     });
 
     test("renders the dataTable slot in a .candlestick-chart-data-table sibling after the graphic", () => {
-        const { container } = render(Subject, { props: { label: "T" }, slots: { default: svg, dataTable: table } });
+        const { container } = render(Subject, {
+            props: { label: "T" },
+            slots: { default: svg, dataTable: table },
+        });
         const wrap = container.querySelector(".candlestick-chart-data-table")!;
         expect(wrap).toBeTruthy();
-        expect(wrap.previousElementSibling).toBe(container.querySelector(".candlestick-chart-graphic"));
+        expect(wrap.previousElementSibling).toBe(
+            container.querySelector(".candlestick-chart-graphic"),
+        );
         expect(wrap.parentElement!.tagName).toBe("FIGURE");
     });
 
@@ -54,7 +64,11 @@ describe("CandlestickChart", () => {
     });
 
     test("passes attrs (class, id, data-*) through onto the figure", () => {
-        render(Subject, { props: { label: "T" }, attrs: { class: "mine", id: "c1", "data-testid": "chart" }, slots: { default: svg } });
+        render(Subject, {
+            props: { label: "T" },
+            attrs: { class: "mine", id: "c1", "data-testid": "chart" },
+            slots: { default: svg },
+        });
         const el = screen.getByTestId("chart");
         expect(el.tagName).toBe("FIGURE");
         expect(el.id).toBe("c1");

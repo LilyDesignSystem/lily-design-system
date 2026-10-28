@@ -15,17 +15,32 @@ describe("MeasurementUnitInput", () => {
     });
 
     test("supports required", () => {
-        render(<Subject label="Unit" required />);
+        render(
+            <Subject
+                label="Unit"
+                required
+            />,
+        );
         expect((screen.getByLabelText("Unit") as HTMLInputElement).required).toBe(true);
     });
 
     test("supports disabled", () => {
-        render(<Subject label="Unit" disabled />);
+        render(
+            <Subject
+                label="Unit"
+                disabled
+            />,
+        );
         expect((screen.getByLabelText("Unit") as HTMLInputElement).disabled).toBe(true);
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="U" data-testid="mui" />);
+        render(
+            <Subject
+                label="U"
+                data-testid="mui"
+            />,
+        );
         expect(screen.getByTestId("mui")).toBeTruthy();
     });
 });

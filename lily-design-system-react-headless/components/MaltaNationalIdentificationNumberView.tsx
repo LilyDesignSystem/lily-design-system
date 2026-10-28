@@ -37,9 +37,11 @@ export default function MaltaNationalIdentificationNumberView({
 }: MaltaNationalIdentificationNumberViewProps) {
     return (
         <span
-        className={`malta-national-identification-number-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`malta-national-identification-number-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

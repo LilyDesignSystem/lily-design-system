@@ -15,10 +15,10 @@
 //   <Flair>New</Flair>
 //
 // Examples:
-//   
+//
 //   <Flair>New</Flair>
 //
-//   
+//
 //   <Flair label="Status: new">New</Flair>
 //
 // Keyboard:
@@ -55,12 +55,12 @@ export default function Flair({
 }: FlairProps) {
     return (
         <span
-        className={`flair ${className}`}
-        aria-label={label}
-        aria-hidden={label ? undefined : "true"}
-        {...restProps}
+            className={`flair ${className}`}
+            aria-label={label}
+            aria-hidden={label ? undefined : "true"}
+            {...restProps}
         >
-        {children}
+            {children}
         </span>
     );
 }

@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import ValidationListItem from './ValidationListItem';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import ValidationListItem from "./ValidationListItem";
 
 const meta = {
-  title: 'Headless/ValidationListItem',
-  component: ValidationListItem,
-  tags: ['autodocs']
+    title: "Headless/ValidationListItem",
+    component: ValidationListItem,
+    tags: ["autodocs"],
 } satisfies Meta<typeof ValidationListItem>;
 
 export default meta;

@@ -26,14 +26,28 @@ describe("TimelineList", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="Timeline" data-testid="my-timeline">events</Subject>);
+        render(
+            <Subject
+                label="Timeline"
+                data-testid="my-timeline"
+            >
+                events
+            </Subject>,
+        );
 
         const list = screen.getByTestId("my-timeline");
         expect(list).toBeTruthy();
     });
 
     test("passes through id attribute", () => {
-        render(<Subject label="Timeline" id="project-timeline">events</Subject>);
+        render(
+            <Subject
+                label="Timeline"
+                id="project-timeline"
+            >
+                events
+            </Subject>,
+        );
 
         const list = screen.getByRole("list");
         expect(list.getAttribute("id")).toBe("project-timeline");

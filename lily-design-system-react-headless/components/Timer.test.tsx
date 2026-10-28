@@ -46,13 +46,27 @@ describe("Timer", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="Timer" data-testid="my-timer">00:00</Subject>);
+        render(
+            <Subject
+                label="Timer"
+                data-testid="my-timer"
+            >
+                00:00
+            </Subject>,
+        );
 
         expect(screen.getByTestId("my-timer")).toBeTruthy();
     });
 
     test("passes through datetime attribute", () => {
-        render(<Subject label="Timer" datetime="PT5M30S">05:30</Subject>);
+        render(
+            <Subject
+                label="Timer"
+                datetime="PT5M30S"
+            >
+                05:30
+            </Subject>,
+        );
 
         const el = screen.getByRole("timer");
         expect(el.getAttribute("datetime")).toBe("PT5M30S");

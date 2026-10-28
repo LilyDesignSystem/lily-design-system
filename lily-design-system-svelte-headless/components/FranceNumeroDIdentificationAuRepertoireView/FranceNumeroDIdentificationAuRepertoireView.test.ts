@@ -7,6 +7,8 @@ describe("FranceNumeroDIdentificationAuRepertoireView", () => {
         render(FranceNumeroDIdentificationAuRepertoireView, { props: { label: "Test" } });
         const el = screen.getByLabelText("Test");
         expect(el).toBeTruthy();
-        expect(el.getAttribute("class")).toContain("france-numero-d-identification-au-repertoire-view");
+        expect(el.getAttribute("class")).toContain(
+            "france-numero-d-identification-au-repertoire-view",
+        );
     });
 });

@@ -10,7 +10,8 @@ const setup = (props: Record<string, unknown> = {}) => {
     const ta = screen.getByRole("textbox", { name: "Message" }) as HTMLTextAreaElement;
     return { ...r, ta, onSend, onStop };
 };
-const type = (ta: HTMLTextAreaElement, text: string) => fireEvent.input(ta, { target: { value: text } });
+const type = (ta: HTMLTextAreaElement, text: string) =>
+    fireEvent.input(ta, { target: { value: text } });
 
 describe("ChatComposer", () => {
     it("renders a <form> with the base class, a named textarea and one button", () => {

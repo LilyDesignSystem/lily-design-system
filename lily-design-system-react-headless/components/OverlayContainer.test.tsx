@@ -6,14 +6,28 @@ import Subject from "./OverlayContainer";
 
 describe("OverlayContainer", () => {
     test("applies the overlay-container root class", () => {
-        render(<Subject open data-testid="ov">Content</Subject>);
+        render(
+            <Subject
+                open
+                data-testid="ov"
+            >
+                Content
+            </Subject>,
+        );
 
         const el: HTMLElement = screen.getByTestId("ov");
         expect(el.className.includes("overlay-container")).toBe(true);
     });
 
     test("uses role=presentation", () => {
-        render(<Subject open data-testid="ov">Content</Subject>);
+        render(
+            <Subject
+                open
+                data-testid="ov"
+            >
+                Content
+            </Subject>,
+        );
 
         const el: HTMLElement = screen.getByTestId("ov");
         expect(el.getAttribute("role")).toBe("presentation");
@@ -29,7 +43,14 @@ describe("OverlayContainer", () => {
     });
 
     test("is visible and aria-hidden=false when open", () => {
-        render(<Subject open data-testid="ov">Content</Subject>);
+        render(
+            <Subject
+                open
+                data-testid="ov"
+            >
+                Content
+            </Subject>,
+        );
 
         const el: HTMLElement = screen.getByTestId("ov");
         expect(el.hasAttribute("hidden")).toBe(false);
@@ -38,7 +59,15 @@ describe("OverlayContainer", () => {
     });
 
     test("applies aria-label when label provided", () => {
-        render(<Subject open label="Backdrop" data-testid="ov">Content</Subject>);
+        render(
+            <Subject
+                open
+                label="Backdrop"
+                data-testid="ov"
+            >
+                Content
+            </Subject>,
+        );
 
         const el: HTMLElement = screen.getByTestId("ov");
         expect(el.getAttribute("aria-label")).toBe("Backdrop");
@@ -48,7 +77,11 @@ describe("OverlayContainer", () => {
         const user: UserEvent = userEvent.setup();
         const handleClick = vi.fn();
         render(
-            <Subject open onClick={handleClick} data-testid="ov">
+            <Subject
+                open
+                onClick={handleClick}
+                data-testid="ov"
+            >
                 Content
             </Subject>,
         );
@@ -58,7 +91,15 @@ describe("OverlayContainer", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject open id="overlay-1" data-testid="ov">C</Subject>);
+        render(
+            <Subject
+                open
+                id="overlay-1"
+                data-testid="ov"
+            >
+                C
+            </Subject>,
+        );
 
         const el: HTMLElement = screen.getByTestId("ov");
         expect(el.getAttribute("id")).toBe("overlay-1");

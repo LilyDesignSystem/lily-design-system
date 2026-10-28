@@ -68,7 +68,12 @@
 
 <!-- Tag.svelte -->
 {#if live}
-    <span class={`tag ${className}`} role="status" aria-label={label} {...restProps}>
+    <span
+        class={`tag ${className}`}
+        role="status"
+        aria-label={label}
+        {...restProps}
+    >
         {@render children?.()}
     </span>
 {:else}
@@ -76,7 +81,10 @@
          label is screen-reader text appended after the content (the themes hide
          .screen-reader-span). The content stays exposed: it may hold a focusable
          control, such as a remove button. -->
-    <span class={`tag ${className}`} {...restProps}>
+    <span
+        class={`tag ${className}`}
+        {...restProps}
+    >
         {@render children?.()}{#if label}<span class="screen-reader-span">{label}</span>{/if}
     </span>
 {/if}

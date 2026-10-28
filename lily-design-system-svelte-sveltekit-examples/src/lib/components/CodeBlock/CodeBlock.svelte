@@ -13,6 +13,10 @@
 </script>
 
 <!-- CodeBlock.svelte -->
-<div class={`code-block ${className}`} aria-label={label} {...restProps}>
+<div
+    class={`code-block ${className}`}
+    aria-label={label}
+    {...restProps}
+>
     {@render children?.()}
 </div>

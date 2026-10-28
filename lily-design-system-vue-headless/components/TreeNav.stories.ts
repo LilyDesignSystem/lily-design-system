@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import TreeNav from './TreeNav.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import TreeNav from "./TreeNav.vue";
 
 const meta = {
-  title: 'Headless/TreeNav',
-  component: TreeNav,
-  tags: ['autodocs']
+    title: "Headless/TreeNav",
+    component: TreeNav,
+    tags: ["autodocs"],
 } satisfies Meta<typeof TreeNav>;
 
 export default meta;

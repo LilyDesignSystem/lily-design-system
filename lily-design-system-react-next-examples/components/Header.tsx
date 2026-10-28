@@ -16,12 +16,12 @@
 //   <Header label="Site header">{children}</Header>
 //
 // Examples:
-//   
+//
 //   <Header label="Site header">
 //     <h1>My Site</h1>
 //   </Header>
 //
-//   
+//
 //   <Header>
 //     <h1>Page Title</h1>
 //     <nav>
@@ -67,11 +67,11 @@ export default function Header({
 }: HeaderProps) {
     return (
         <header
-        className={`header ${className}`}
-        aria-label={label}
-        {...restProps}
+            className={`header ${className}`}
+            aria-label={label}
+            {...restProps}
         >
-        {children}
+            {children}
         </header>
     );
 }

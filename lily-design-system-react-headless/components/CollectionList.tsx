@@ -50,11 +50,11 @@ export default function CollectionList({
 }: CollectionListProps) {
     return (
         <ul
-        className={`collection-list ${className}`}
-        aria-label={label}
-        {...restProps}
+            className={`collection-list ${className}`}
+            aria-label={label}
+            {...restProps}
         >
-        {children}
+            {children}
         </ul>
     );
 }

@@ -95,7 +95,10 @@ export default function AccordionCheckbox({
     };
 
     return (
-        <div className={`accordion-checkbox ${className}`} {...restProps}>
+        <div
+            className={`accordion-checkbox ${className}`}
+            {...restProps}
+        >
             <input
                 type="checkbox"
                 className="accordion-checkbox-input"
@@ -105,7 +108,10 @@ export default function AccordionCheckbox({
                 checked={checked}
                 onChange={handleChange}
             />
-            <label className="accordion-checkbox-label" htmlFor={checkboxId}>
+            <label
+                className="accordion-checkbox-label"
+                htmlFor={checkboxId}
+            >
                 {label}
             </label>
             <div

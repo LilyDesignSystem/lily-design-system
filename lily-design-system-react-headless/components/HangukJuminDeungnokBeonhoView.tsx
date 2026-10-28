@@ -38,9 +38,11 @@ export default function HangukJuminDeungnokBeonhoView({
 }: HangukJuminDeungnokBeonhoViewProps) {
     return (
         <span
-        className={`hanguk-jumin-deungnok-beonho-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`hanguk-jumin-deungnok-beonho-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

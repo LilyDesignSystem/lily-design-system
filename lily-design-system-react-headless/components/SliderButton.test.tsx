@@ -47,7 +47,12 @@ describe("SliderButton", () => {
 
     test("custom step is honored", async () => {
         const user: UserEvent = userEvent.setup();
-        render(<Subject label="x" step={25} />);
+        render(
+            <Subject
+                label="x"
+                step={25}
+            />,
+        );
         const slider = screen.getByRole("slider");
         slider.focus();
         await user.keyboard("{ArrowRight}");
@@ -57,7 +62,12 @@ describe("SliderButton", () => {
     test("End key fires onConfirm and resets to 0", async () => {
         const user: UserEvent = userEvent.setup();
         const onConfirm = vi.fn();
-        render(<Subject label="x" onConfirm={onConfirm} />);
+        render(
+            <Subject
+                label="x"
+                onConfirm={onConfirm}
+            />,
+        );
         const slider = screen.getByRole("slider");
         slider.focus();
         await user.keyboard("{End}");
@@ -68,7 +78,12 @@ describe("SliderButton", () => {
     test("Enter activates immediately as accessibility fallback", async () => {
         const user: UserEvent = userEvent.setup();
         const onConfirm = vi.fn();
-        render(<Subject label="x" onConfirm={onConfirm} />);
+        render(
+            <Subject
+                label="x"
+                onConfirm={onConfirm}
+            />,
+        );
         screen.getByRole("slider").focus();
         await user.keyboard("{Enter}");
         expect(onConfirm).toHaveBeenCalledOnce();
@@ -77,7 +92,13 @@ describe("SliderButton", () => {
     test("ArrowRight repeatedly to 100 fires onConfirm", async () => {
         const user: UserEvent = userEvent.setup();
         const onConfirm = vi.fn();
-        render(<Subject label="x" step={50} onConfirm={onConfirm} />);
+        render(
+            <Subject
+                label="x"
+                step={50}
+                onConfirm={onConfirm}
+            />,
+        );
         const slider = screen.getByRole("slider");
         slider.focus();
         await user.keyboard("{ArrowRight}{ArrowRight}");
@@ -88,7 +109,13 @@ describe("SliderButton", () => {
     test("does not respond to keys when disabled", async () => {
         const user: UserEvent = userEvent.setup();
         const onConfirm = vi.fn();
-        render(<Subject label="x" disabled onConfirm={onConfirm} />);
+        render(
+            <Subject
+                label="x"
+                disabled
+                onConfirm={onConfirm}
+            />,
+        );
         const slider = screen.getByRole("slider");
         slider.focus();
         await user.keyboard("{ArrowRight}{End}");

@@ -2,8 +2,25 @@ import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import HeatmapChart from "./HeatmapChart";
 
-const art = <svg data-testid="art" viewBox="0 0 10 10"><circle r="4" /></svg>;
-const table = <table><caption>Values</caption><tbody><tr><th scope="row">A</th><td>1</td></tr></tbody></table>;
+const art = (
+    <svg
+        data-testid="art"
+        viewBox="0 0 10 10"
+    >
+        <circle r="4" />
+    </svg>
+);
+const table = (
+    <table>
+        <caption>Values</caption>
+        <tbody>
+            <tr>
+                <th scope="row">A</th>
+                <td>1</td>
+            </tr>
+        </tbody>
+    </table>
+);
 
 describe("HeatmapChart", () => {
     it("renders a <figure> with the base class", () => {
@@ -25,7 +42,14 @@ describe("HeatmapChart", () => {
     });
 
     it("appends the consumer class after the base class", () => {
-        const { container } = render(<HeatmapChart label="T" className="mine">{art}</HeatmapChart>);
+        const { container } = render(
+            <HeatmapChart
+                label="T"
+                className="mine"
+            >
+                {art}
+            </HeatmapChart>,
+        );
         expect(container.querySelector("figure")!.getAttribute("class")).toBe("heatmap-chart mine");
     });
 
@@ -40,7 +64,14 @@ describe("HeatmapChart", () => {
     });
 
     it("renders dataTable in a .heatmap-chart-data-table sibling after the graphic", () => {
-        const { container } = render(<HeatmapChart label="T" dataTable={table}>{art}</HeatmapChart>);
+        const { container } = render(
+            <HeatmapChart
+                label="T"
+                dataTable={table}
+            >
+                {art}
+            </HeatmapChart>,
+        );
         const wrap = container.querySelector(".heatmap-chart-data-table")!;
         expect(wrap).toBeTruthy();
         expect(wrap.previousElementSibling).toBe(container.querySelector(".heatmap-chart-graphic"));
@@ -48,12 +79,27 @@ describe("HeatmapChart", () => {
     });
 
     it("keeps the table outside the role=img element so assistive technology can reach it", () => {
-        render(<HeatmapChart label="T" dataTable={table}>{art}</HeatmapChart>);
+        render(
+            <HeatmapChart
+                label="T"
+                dataTable={table}
+            >
+                {art}
+            </HeatmapChart>,
+        );
         expect(screen.getByRole("table").closest("[role=img]")).toBeNull();
     });
 
     it("spreads rest props onto the figure", () => {
-        render(<HeatmapChart label="T" id="c1" data-testid="chart">{art}</HeatmapChart>);
+        render(
+            <HeatmapChart
+                label="T"
+                id="c1"
+                data-testid="chart"
+            >
+                {art}
+            </HeatmapChart>,
+        );
         const el = screen.getByTestId("chart");
         expect(el.tagName).toBe("FIGURE");
         expect(el.id).toBe("c1");

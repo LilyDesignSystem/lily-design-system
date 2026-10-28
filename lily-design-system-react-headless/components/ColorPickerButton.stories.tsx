@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import ColorPickerButton from './ColorPickerButton';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import ColorPickerButton from "./ColorPickerButton";
 
 const meta = {
-  title: 'Headless/ColorPickerButton',
-  component: ColorPickerButton,
-  tags: ['autodocs']
+    title: "Headless/ColorPickerButton",
+    component: ColorPickerButton,
+    tags: ["autodocs"],
 } satisfies Meta<typeof ColorPickerButton>;
 
 export default meta;

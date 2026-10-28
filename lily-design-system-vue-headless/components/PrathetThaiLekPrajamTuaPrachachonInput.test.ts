@@ -15,7 +15,9 @@ describe("PrathetThaiLekPrajamTuaPrachachonInput", () => {
         render(Subject, { props: { label: "National Identification Number" } });
 
         const input = screen.getByLabelText("National Identification Number");
-        expect(input.getAttribute("class")).toContain("prathet-thai-lek-prajam-tua-prachachon-input");
+        expect(input.getAttribute("class")).toContain(
+            "prathet-thai-lek-prajam-tua-prachachon-input",
+        );
     });
 
     test("has autocomplete off", () => {
@@ -54,7 +56,9 @@ describe("PrathetThaiLekPrajamTuaPrachachonInput", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(Subject, { props: { label: "National Identification Number", "data-testid": "subject" } });
+        render(Subject, {
+            props: { label: "National Identification Number", "data-testid": "subject" },
+        });
 
         const input = screen.getByTestId("subject");
         expect(input).toBeTruthy();

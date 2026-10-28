@@ -3,12 +3,12 @@ import { render } from "@testing-library/vue";
 import DescriptionList from "../../components/DescriptionList.vue";
 
 describe("DescriptionList", () => {
-  it("renders with class", () => {
-    const { container } = render(DescriptionList, {
-      props: { label: "Test" },
-      slots: { default: "content" },
+    it("renders with class", () => {
+        const { container } = render(DescriptionList, {
+            props: { label: "Test" },
+            slots: { default: "content" },
+        });
+        const el = container.querySelector(".description-list");
+        expect(el).toBeTruthy();
     });
-    const el = container.querySelector(".description-list");
-    expect(el).toBeTruthy();
-  });
 });

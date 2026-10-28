@@ -50,14 +50,15 @@ export default function HrvatskaOsobniIdentifikacijskiBrojInput({
 }: HrvatskaOsobniIdentifikacijskiBrojInputProps) {
     return (
         <input
-        className={`hrvatska-osobni-identifikacijski-broj-input ${className}`}
-        type="text"
-        aria-label={label}
-        autoComplete="off"
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`hrvatska-osobni-identifikacijski-broj-input ${className}`}
+            type="text"
+            aria-label={label}
+            autoComplete="off"
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

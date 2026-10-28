@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import MeasurementInstanceView from './MeasurementInstanceView';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import MeasurementInstanceView from "./MeasurementInstanceView";
 
 const meta = {
-  title: 'Headless/MeasurementInstanceView',
-  component: MeasurementInstanceView,
-  tags: ['autodocs']
+    title: "Headless/MeasurementInstanceView",
+    component: MeasurementInstanceView,
+    tags: ["autodocs"],
 } satisfies Meta<typeof MeasurementInstanceView>;
 
 export default meta;

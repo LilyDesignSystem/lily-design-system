@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./DateTimeView.vue";
 
-
 describe("DateTimeView", () => {
     test("renders as a <time> element", () => {
         const { container } = render(Subject, { props: { value: "2026-04-27T10:00:00Z" } });

@@ -12,14 +12,29 @@ describe("Collapsible", () => {
     });
 
     test("is collapsed by default", () => {
-        render(<Subject summary="Details" data-testid="details">Content</Subject>);
+        render(
+            <Subject
+                summary="Details"
+                data-testid="details"
+            >
+                Content
+            </Subject>,
+        );
 
         const details = screen.getByTestId("details") as HTMLDetailsElement;
         expect(details.open).toBe(false);
     });
 
     test("can be initially open", () => {
-        render(<Subject summary="Details" open data-testid="details">Visible content</Subject>);
+        render(
+            <Subject
+                summary="Details"
+                open
+                data-testid="details"
+            >
+                Visible content
+            </Subject>,
+        );
 
         const details = screen.getByTestId("details") as HTMLDetailsElement;
         expect(details.open).toBe(true);
@@ -27,7 +42,14 @@ describe("Collapsible", () => {
 
     test("toggles on summary click", async () => {
         const user: UserEvent = userEvent.setup();
-        render(<Subject summary="Toggle me" data-testid="details">Content</Subject>);
+        render(
+            <Subject
+                summary="Toggle me"
+                data-testid="details"
+            >
+                Content
+            </Subject>,
+        );
 
         const summary = screen.getByText("Toggle me");
         const details = screen.getByTestId("details") as HTMLDetailsElement;
@@ -40,7 +62,14 @@ describe("Collapsible", () => {
     });
 
     test("summary element is focusable", () => {
-        render(<Subject summary="Focus me" data-testid="det">Content</Subject>);
+        render(
+            <Subject
+                summary="Focus me"
+                data-testid="det"
+            >
+                Content
+            </Subject>,
+        );
 
         // jsdom doesn't tab to <summary>, so focus it directly.
         const summary = screen.getByTestId("det").querySelector("summary") as HTMLElement;
@@ -49,7 +78,14 @@ describe("Collapsible", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject summary="Info" data-testid="coll">Content</Subject>);
+        render(
+            <Subject
+                summary="Info"
+                data-testid="coll"
+            >
+                Content
+            </Subject>,
+        );
 
         expect(screen.getByTestId("coll")).toBeTruthy();
     });

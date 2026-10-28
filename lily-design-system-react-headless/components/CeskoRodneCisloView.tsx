@@ -37,9 +37,11 @@ export default function CeskoRodneCisloView({
 }: CeskoRodneCisloViewProps) {
     return (
         <span
-        className={`cesko-rodne-cislo-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`cesko-rodne-cislo-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

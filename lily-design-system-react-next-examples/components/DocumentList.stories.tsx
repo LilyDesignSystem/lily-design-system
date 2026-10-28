@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import DocumentList from './DocumentList';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import DocumentList from "./DocumentList";
 
 const meta = {
-  title: 'Headless/DocumentList',
-  component: DocumentList,
-  tags: ['autodocs']
+    title: "Headless/DocumentList",
+    component: DocumentList,
+    tags: ["autodocs"],
 } satisfies Meta<typeof DocumentList>;
 
 export default meta;

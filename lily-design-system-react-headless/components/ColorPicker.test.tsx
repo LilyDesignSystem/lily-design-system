@@ -5,57 +5,83 @@ import { describe, expect, test } from "vitest";
 import Subject from "./ColorPicker";
 
 describe("ColorPicker", () => {
-  test("renders as a slider", () => {
-    render(<Subject label="Color board" />);
-    expect(screen.getByRole("slider", { name: "Color board" })).toBeTruthy();
-  });
+    test("renders as a slider", () => {
+        render(<Subject label="Color board" />);
+        expect(screen.getByRole("slider", { name: "Color board" })).toBeTruthy();
+    });
 
-  test("defaults to x=0 y=0", () => {
-    render(<Subject label="Board" />);
-    const el = screen.getByRole("slider");
-    expect(el.getAttribute("data-x")).toBe("0");
-    expect(el.getAttribute("data-y")).toBe("0");
-  });
+    test("defaults to x=0 y=0", () => {
+        render(<Subject label="Board" />);
+        const el = screen.getByRole("slider");
+        expect(el.getAttribute("data-x")).toBe("0");
+        expect(el.getAttribute("data-y")).toBe("0");
+    });
 
-  test("accepts initial x and y", () => {
-    render(<Subject label="Board" x={50} y={75} />);
-    const el = screen.getByRole("slider");
-    expect(el.getAttribute("data-x")).toBe("50");
-    expect(el.getAttribute("data-y")).toBe("75");
-  });
+    test("accepts initial x and y", () => {
+        render(
+            <Subject
+                label="Board"
+                x={50}
+                y={75}
+            />,
+        );
+        const el = screen.getByRole("slider");
+        expect(el.getAttribute("data-x")).toBe("50");
+        expect(el.getAttribute("data-y")).toBe("75");
+    });
 
-  test("moves right with ArrowRight", async () => {
-    const user: UserEvent = userEvent.setup();
-    render(<Subject label="Board" x={50} y={50} />);
-    screen.getByRole("slider").focus();
-    await user.keyboard("{ArrowRight}");
-    expect(screen.getByRole("slider").getAttribute("data-x")).toBe("51");
-  });
+    test("moves right with ArrowRight", async () => {
+        const user: UserEvent = userEvent.setup();
+        render(
+            <Subject
+                label="Board"
+                x={50}
+                y={50}
+            />,
+        );
+        screen.getByRole("slider").focus();
+        await user.keyboard("{ArrowRight}");
+        expect(screen.getByRole("slider").getAttribute("data-x")).toBe("51");
+    });
 
-  test("clamps at boundaries", async () => {
-    const user: UserEvent = userEvent.setup();
-    render(<Subject label="Board" x={0} y={0} />);
-    screen.getByRole("slider").focus();
-    await user.keyboard("{ArrowLeft}");
-    expect(screen.getByRole("slider").getAttribute("data-x")).toBe("0");
-  });
+    test("clamps at boundaries", async () => {
+        const user: UserEvent = userEvent.setup();
+        render(
+            <Subject
+                label="Board"
+                x={0}
+                y={0}
+            />,
+        );
+        screen.getByRole("slider").focus();
+        await user.keyboard("{ArrowLeft}");
+        expect(screen.getByRole("slider").getAttribute("data-x")).toBe("0");
+    });
 
-  test("is focusable", async () => {
-    const user: UserEvent = userEvent.setup();
-    render(<Subject label="Board" />);
-    await user.tab();
-    expect(document.activeElement).toBe(screen.getByRole("slider"));
-  });
+    test("is focusable", async () => {
+        const user: UserEvent = userEvent.setup();
+        render(<Subject label="Board" />);
+        await user.tab();
+        expect(document.activeElement).toBe(screen.getByRole("slider"));
+    });
 
-  test("can be disabled", () => {
-    render(<Subject label="Board" disabled />);
-    expect(screen.getByRole("slider").getAttribute("aria-disabled")).toBe(
-      "true",
-    );
-  });
+    test("can be disabled", () => {
+        render(
+            <Subject
+                label="Board"
+                disabled
+            />,
+        );
+        expect(screen.getByRole("slider").getAttribute("aria-disabled")).toBe("true");
+    });
 
-  test("passes through attributes", () => {
-    render(<Subject label="Board" data-testid="cpb" />);
-    expect(screen.getByTestId("cpb")).toBeTruthy();
-  });
+    test("passes through attributes", () => {
+        render(
+            <Subject
+                label="Board"
+                data-testid="cpb"
+            />,
+        );
+        expect(screen.getByTestId("cpb")).toBeTruthy();
+    });
 });

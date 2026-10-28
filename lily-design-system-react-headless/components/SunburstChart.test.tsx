@@ -2,8 +2,25 @@ import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import SunburstChart from "./SunburstChart";
 
-const art = <svg data-testid="art" viewBox="0 0 10 10"><circle r="4" /></svg>;
-const table = <table><caption>Values</caption><tbody><tr><th scope="row">A</th><td>1</td></tr></tbody></table>;
+const art = (
+    <svg
+        data-testid="art"
+        viewBox="0 0 10 10"
+    >
+        <circle r="4" />
+    </svg>
+);
+const table = (
+    <table>
+        <caption>Values</caption>
+        <tbody>
+            <tr>
+                <th scope="row">A</th>
+                <td>1</td>
+            </tr>
+        </tbody>
+    </table>
+);
 
 describe("SunburstChart", () => {
     it("renders a <figure> with the base class", () => {
@@ -21,7 +38,9 @@ describe("SunburstChart", () => {
 
     it("omits aria-label when no label is given", () => {
         const { container } = render(<SunburstChart>{art}</SunburstChart>);
-        expect(container.querySelector(".sunburst-chart-graphic")!.hasAttribute("aria-label")).toBe(false);
+        expect(container.querySelector(".sunburst-chart-graphic")!.hasAttribute("aria-label")).toBe(
+            false,
+        );
     });
 
     it("does not put role=img on the figure", () => {
@@ -30,8 +49,17 @@ describe("SunburstChart", () => {
     });
 
     it("appends the consumer class after the base class", () => {
-        const { container } = render(<SunburstChart label="T" className="mine">{art}</SunburstChart>);
-        expect(container.querySelector("figure")!.getAttribute("class")).toBe("sunburst-chart mine");
+        const { container } = render(
+            <SunburstChart
+                label="T"
+                className="mine"
+            >
+                {art}
+            </SunburstChart>,
+        );
+        expect(container.querySelector("figure")!.getAttribute("class")).toBe(
+            "sunburst-chart mine",
+        );
     });
 
     it("renders the consumer svg inside the image wrapper", () => {
@@ -45,20 +73,44 @@ describe("SunburstChart", () => {
     });
 
     it("renders dataTable in a .sunburst-chart-data-table sibling after the graphic", () => {
-        const { container } = render(<SunburstChart label="T" dataTable={table}>{art}</SunburstChart>);
+        const { container } = render(
+            <SunburstChart
+                label="T"
+                dataTable={table}
+            >
+                {art}
+            </SunburstChart>,
+        );
         const wrap = container.querySelector(".sunburst-chart-data-table")!;
         expect(wrap).toBeTruthy();
-        expect(wrap.previousElementSibling).toBe(container.querySelector(".sunburst-chart-graphic"));
+        expect(wrap.previousElementSibling).toBe(
+            container.querySelector(".sunburst-chart-graphic"),
+        );
         expect(wrap.parentElement!.tagName).toBe("FIGURE");
     });
 
     it("keeps the table outside the role=img element so assistive technology can reach it", () => {
-        render(<SunburstChart label="T" dataTable={table}>{art}</SunburstChart>);
+        render(
+            <SunburstChart
+                label="T"
+                dataTable={table}
+            >
+                {art}
+            </SunburstChart>,
+        );
         expect(screen.getByRole("table").closest("[role=img]")).toBeNull();
     });
 
     it("spreads rest props onto the figure", () => {
-        render(<SunburstChart label="T" id="c1" data-testid="chart">{art}</SunburstChart>);
+        render(
+            <SunburstChart
+                label="T"
+                id="c1"
+                data-testid="chart"
+            >
+                {art}
+            </SunburstChart>,
+        );
         const el = screen.getByTestId("chart");
         expect(el.tagName).toBe("FIGURE");
         expect(el.id).toBe("c1");

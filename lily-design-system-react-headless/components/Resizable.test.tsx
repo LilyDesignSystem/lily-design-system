@@ -20,7 +20,14 @@ describe("Resizable", () => {
     });
 
     test("supports horizontal direction", () => {
-        render(<Subject label="Panel" direction="horizontal">x</Subject>);
+        render(
+            <Subject
+                label="Panel"
+                direction="horizontal"
+            >
+                x
+            </Subject>,
+        );
         expect(screen.getByRole("region").getAttribute("data-resize")).toBe("horizontal");
     });
 
@@ -30,7 +37,14 @@ describe("Resizable", () => {
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="P" data-testid="rs">x</Subject>);
+        render(
+            <Subject
+                label="P"
+                data-testid="rs"
+            >
+                x
+            </Subject>,
+        );
         expect(screen.getByTestId("rs")).toBeTruthy();
     });
 });

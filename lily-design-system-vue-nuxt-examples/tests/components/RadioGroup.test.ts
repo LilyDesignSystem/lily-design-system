@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "../../components/RadioGroup.vue";
 
-
 describe("RadioGroup", () => {
     test("renders a radiogroup", () => {
         render(Subject, { props: { label: "Size" }, slots: { default: "" } });
@@ -16,7 +15,13 @@ describe("RadioGroup", () => {
     });
 
     test("renders radio children", () => {
-        render(Subject, { props: { label: "Size" }, slots: { default: "<label><input type='radio' name='size' value='s' /> Small</label><label><input type='radio' name='size' value='m' /> Medium</label>" } });
+        render(Subject, {
+            props: { label: "Size" },
+            slots: {
+                default:
+                    "<label><input type='radio' name='size' value='s' /> Small</label><label><input type='radio' name='size' value='m' /> Medium</label>",
+            },
+        });
         expect(screen.getAllByRole("radio").length).toBe(2);
     });
 

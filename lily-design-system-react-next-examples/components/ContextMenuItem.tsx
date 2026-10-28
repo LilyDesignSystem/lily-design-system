@@ -15,7 +15,7 @@
 //   <ContextMenuItem>Cut</ContextMenuItem>
 //
 // Examples:
-//   
+//
 //   <ContextMenuItem>Cut</ContextMenuItem>
 //   <ContextMenuItem>Copy</ContextMenuItem>
 //   <ContextMenuItem>Paste</ContextMenuItem>
@@ -58,14 +58,13 @@ export default function ContextMenuItem({
     ...restProps
 }: ContextMenuItemProps) {
     return (
-        
         <div
-        className={`context-menu-item ${className}`}
-        role="menuitem"
-        tabIndex={-1}
-        {...restProps}
+            className={`context-menu-item ${className}`}
+            role="menuitem"
+            tabIndex={-1}
+            {...restProps}
         >
-        {children}
+            {children}
         </div>
     );
 }

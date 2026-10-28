@@ -78,16 +78,17 @@ export default function NumberInput({
 }: NumberInputProps) {
     return (
         <input
-        className={`number-input ${className}`}
-        type="number"
-        aria-label={label}
-        value={value} onChange={(e) => onChange?.(Number(e.target.value))}
-        min={min}
-        max={max}
-        step={step}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`number-input ${className}`}
+            type="number"
+            aria-label={label}
+            value={value}
+            onChange={(e) => onChange?.(Number(e.target.value))}
+            min={min}
+            max={max}
+            step={step}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

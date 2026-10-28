@@ -15,10 +15,10 @@
 //   <RedOrangeYellowGreenBlueView label="Risk level" value="yellow" />
 //
 // Examples:
-//   
+//
 //   <RedOrangeYellowGreenBlueView label="Alert status" value={level} />
 //
-//   
+//
 //   <RedOrangeYellowGreenBlueView label="System health" value="blue" data-testid="health" />
 //
 // Keyboard:
@@ -60,11 +60,12 @@ export default function RedOrangeYellowGreenBlueView({
     ...restProps
 }: RedOrangeYellowGreenBlueViewProps) {
     return (
-        
         <span
-        className={`red-orange-yellow-green-blue-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`red-orange-yellow-green-blue-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

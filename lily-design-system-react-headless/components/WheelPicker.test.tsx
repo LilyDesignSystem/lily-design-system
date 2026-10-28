@@ -13,7 +13,15 @@ const months = [
 ];
 
 // The component is controlled: a small host holds the value, as a consumer would.
-function Host({ initial = "2", onChange, ...rest }: { initial?: string; onChange?: (v: string) => void; [key: string]: unknown }) {
+function Host({
+    initial = "2",
+    onChange,
+    ...rest
+}: {
+    initial?: string;
+    onChange?: (v: string) => void;
+    [key: string]: unknown;
+}) {
     const [value, setValue] = useState(initial);
     return (
         <Subject
@@ -34,7 +42,9 @@ const selected = () => document.querySelector('[role="option"][aria-selected="tr
 describe("WheelPicker", () => {
     test("renders a div with the base class first, then the consumer class, and a vertical listbox inside", () => {
         const { container } = render(<Host className="mine" />);
-        expect(container.querySelector("div.wheel-picker")!.getAttribute("class")).toBe("wheel-picker mine");
+        expect(container.querySelector("div.wheel-picker")!.getAttribute("class")).toBe(
+            "wheel-picker mine",
+        );
         expect(list().getAttribute("aria-orientation")).toBe("vertical");
         expect(list().getAttribute("aria-label")).toBe("Month");
         expect(list().className).toBe("wheel-picker-list");
@@ -62,7 +72,12 @@ describe("WheelPicker", () => {
 
     test("ArrowDown selects the next enabled option, skipping a disabled one, and calls onChange once", () => {
         const onChange = vi.fn();
-        render(<Host initial="3" onChange={onChange} />);
+        render(
+            <Host
+                initial="3"
+                onChange={onChange}
+            />,
+        );
         fireEvent.keyDown(list(), { key: "ArrowDown" });
         expect(selected()).toBe("May");
         expect(onChange).toHaveBeenCalledTimes(1);
@@ -84,13 +99,23 @@ describe("WheelPicker", () => {
         fireEvent.keyDown(list(), { key: "ArrowUp" });
         expect(selected()).toBe("January");
         first.unmount();
-        render(<Host initial="1" loop />);
+        render(
+            <Host
+                initial="1"
+                loop
+            />,
+        );
         fireEvent.keyDown(list(), { key: "ArrowUp" });
         expect(selected()).toBe("May");
     });
 
     test("PageDown moves by pageSize", () => {
-        render(<Host initial="1" pageSize={2} />);
+        render(
+            <Host
+                initial="1"
+                pageSize={2}
+            />,
+        );
         fireEvent.keyDown(list(), { key: "PageDown" });
         expect(selected()).toBe("March");
     });
@@ -118,7 +143,12 @@ describe("WheelPicker", () => {
 
     test("selecting the value already held is a no-op (no onChange)", () => {
         const onChange = vi.fn();
-        render(<Host initial="5" onChange={onChange} />);
+        render(
+            <Host
+                initial="5"
+                onChange={onChange}
+            />,
+        );
         fireEvent.keyDown(list(), { key: "End" });
         fireEvent.click(screen.getByText("May"));
         expect(onChange).not.toHaveBeenCalled();
@@ -132,7 +162,12 @@ describe("WheelPicker", () => {
 
     test("when disabled: not focusable, ignores keys and clicks", () => {
         const onChange = vi.fn();
-        render(<Host disabled onChange={onChange} />);
+        render(
+            <Host
+                disabled
+                onChange={onChange}
+            />,
+        );
         expect(list().getAttribute("tabindex")).toBe("-1");
         expect(list().getAttribute("aria-disabled")).toBe("true");
         fireEvent.keyDown(list(), { key: "ArrowDown" });
@@ -152,7 +187,12 @@ describe("WheelPicker", () => {
     });
 
     test("passes rest props to the root", () => {
-        const { container } = render(<Host data-testid="wp" id="x" />);
+        const { container } = render(
+            <Host
+                data-testid="wp"
+                id="x"
+            />,
+        );
         const root = container.querySelector("div.wheel-picker")!;
         expect(root.getAttribute("data-testid")).toBe("wp");
         expect(root.id).toBe("x");

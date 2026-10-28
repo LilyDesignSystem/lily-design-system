@@ -44,7 +44,9 @@ export default function TreeListItem({
     // ArrowRight/ArrowLeft (WAI-ARIA tree pattern). Only for the focused item itself, not a
     // nested one the event bubbled up from. Swapped in right-to-left layouts.
     function handleKeyDown(event: React.KeyboardEvent<HTMLLIElement>) {
-        (restProps.onKeyDown as ((e: React.KeyboardEvent<HTMLLIElement>) => void) | undefined)?.(event);
+        (restProps.onKeyDown as ((e: React.KeyboardEvent<HTMLLIElement>) => void) | undefined)?.(
+            event,
+        );
         const item = event.currentTarget;
         if (event.defaultPrevented || event.target !== item) return;
         const rtl = getComputedStyle(item).direction === "rtl";

@@ -17,7 +17,7 @@
 //   <Collapsible summary="More info">Content here</Collapsible>
 //
 // Examples:
-//   
+//
 //   <Collapsible summary="Advanced settings" open={showAdvanced} onChange={setShowAdvanced}>
 //     <p>Advanced configuration options here.</p>
 //   </Collapsible>
@@ -75,13 +75,13 @@ export default function Collapsible({
 
     return (
         <details
-        className={`collapsible ${className}`}
-        open={open}
-        onToggle={handleToggle}
-        {...restProps}
+            className={`collapsible ${className}`}
+            open={open}
+            onToggle={handleToggle}
+            {...restProps}
         >
-        <summary>{summary}</summary>
-        {children}
+            <summary>{summary}</summary>
+            {children}
         </details>
     );
 }

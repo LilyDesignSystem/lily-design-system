@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./ErrorSummary.vue";
 
-
 describe("ErrorSummary", () => {
     test("renders with alert role", () => {
         render(Subject, { props: { title: "Errors" }, slots: { default: "Fix these" } });

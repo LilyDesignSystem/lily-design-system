@@ -19,10 +19,10 @@
 //   <UnitedStatesSocialSecurityNumberInput label="Social Security Number" value={value} onChange={setValue} />
 //
 // Examples:
-//   
+//
 //   <UnitedStatesSocialSecurityNumberInput label="Social Security Number" required />
 //
-//   
+//
 //   <UnitedStatesSocialSecurityNumberInput label="Social Security Number" disabled />
 //
 // Keyboard:
@@ -79,16 +79,17 @@ export default function UnitedStatesSocialSecurityNumberInput({
 
     return (
         <input
-        className={`united-states-social-security-number-input ${className}`}
-        type="text"
-        aria-label={label}
-        inputMode="numeric"
-        pattern={ssnPattern}
-        autoComplete="off"
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`united-states-social-security-number-input ${className}`}
+            type="text"
+            aria-label={label}
+            inputMode="numeric"
+            pattern={ssnPattern}
+            autoComplete="off"
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

@@ -18,15 +18,15 @@
 //   <ActionLink href="/path">Link text</ActionLink>
 //
 // Examples:
-//   
+//
 //   <ActionLink href="/next-step">Continue to next step</ActionLink>
 //
-//   
+//
 //   <ActionLink href="/find" label="Find a GP surgery near you">
 //     Find a GP
 //   </ActionLink>
 //
-//   
+//
 //   <ActionLink href="/apply" data-track="apply-cta">
 //     Start your application
 //   </ActionLink>
@@ -75,12 +75,12 @@ export default function ActionLink({
 }: ActionLinkProps) {
     return (
         <a
-        className={`action-link ${className}`}
-        href={href}
-        aria-label={label}
-        {...restProps}
+            className={`action-link ${className}`}
+            href={href}
+            aria-label={label}
+            {...restProps}
         >
-        {children}
+            {children}
         </a>
     );
 }

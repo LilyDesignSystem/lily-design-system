@@ -89,7 +89,9 @@
             timer = setTimeout(() => {
                 if (event.defaultPrevented || !root) return;
                 value = initialValue;
-                for (const input of root.querySelectorAll<HTMLInputElement>('input[type="radio"]')) {
+                for (const input of root.querySelectorAll<HTMLInputElement>(
+                    'input[type="radio"]',
+                )) {
                     input.checked = input.value === String(initialValue);
                 }
             }, 0);

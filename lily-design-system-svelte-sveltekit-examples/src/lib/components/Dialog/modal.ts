@@ -12,7 +12,8 @@ export function modalDialog(node: HTMLDialogElement, enabled: boolean) {
     let modal = enabled;
     // Where focus was when the dialog opened. A native close() would hand focus back there, but Svelte takes the element
     // out of the page before this action's cleanup runs, so by then the browser can no longer do it: we do.
-    const opener = typeof document === "undefined" ? null : (document.activeElement as HTMLElement | null);
+    const opener =
+        typeof document === "undefined" ? null : (document.activeElement as HTMLElement | null);
 
     function show(): void {
         if (node.open) return;

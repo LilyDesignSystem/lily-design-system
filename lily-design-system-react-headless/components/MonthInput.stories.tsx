@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import MonthInput from './MonthInput';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import MonthInput from "./MonthInput";
 
 const meta = {
-  title: 'Headless/MonthInput',
-  component: MonthInput,
-  tags: ['autodocs']
+    title: "Headless/MonthInput",
+    component: MonthInput,
+    tags: ["autodocs"],
 } satisfies Meta<typeof MonthInput>;
 
 export default meta;

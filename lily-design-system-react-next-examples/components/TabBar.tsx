@@ -17,7 +17,7 @@
 //   </TabBar>
 //
 // Examples:
-//   
+//
 //   <TabBar label="Settings">
 //     <TabBarButton selected={activeTab === "general"} controls="panel-general"
 //       onClick={() => setActiveTab("general")}>General</TabBarButton>
@@ -61,19 +61,12 @@ export interface TabBarProps {
     [key: string]: unknown;
 }
 
-export default function TabBar({
-    className = "",
-    label,
-    children,
-    ...restProps
-}: TabBarProps) {
+export default function TabBar({ className = "", label, children, ...restProps }: TabBarProps) {
     const barRef = useRef<HTMLDivElement>(null);
 
     function handleKeyDown(event: React.KeyboardEvent) {
         if (!barRef.current) return;
-        const items = Array.from(
-            barRef.current.querySelectorAll<HTMLElement>("[role='tab']"),
-        );
+        const items = Array.from(barRef.current.querySelectorAll<HTMLElement>("[role='tab']"));
         const current = document.activeElement as HTMLElement;
         const index = items.indexOf(current);
         switch (event.key) {
@@ -104,14 +97,14 @@ export default function TabBar({
 
     return (
         <div
-        className={`tab-bar ${className}`}
-        role="tablist"
-        aria-label={label}
-        ref={barRef}
-        onKeyDown={handleKeyDown}
-        {...restProps}
+            className={`tab-bar ${className}`}
+            role="tablist"
+            aria-label={label}
+            ref={barRef}
+            onKeyDown={handleKeyDown}
+            {...restProps}
         >
-        {children}
+            {children}
         </div>
     );
 }

@@ -92,7 +92,9 @@ export function startScrollspy(nav: HTMLElement, options: ScrollspyOptions = {})
         if (locked) return;
         if (hashPending) {
             const id = decodeURIComponent(window.location.hash.slice(1));
-            const hashed = id ? contentsLinks(nav!).find((a) => contentsLinkId(a) === id) : undefined;
+            const hashed = id
+                ? contentsLinks(nav!).find((a) => contentsLinkId(a) === id)
+                : undefined;
             if (hashed) {
                 mark(hashed);
                 return;
@@ -154,13 +156,21 @@ export function startScrollspy(nav: HTMLElement, options: ScrollspyOptions = {})
     window.addEventListener("hashchange", onHashChange);
     nav.addEventListener("click", onClick);
     // Links rendered or re-pointed after mount (a list built from data) are picked up too.
-    const mutations = typeof MutationObserver === "undefined" ? null : new MutationObserver(schedule);
-    mutations?.observe(nav, { childList: true, subtree: true, attributes: true, attributeFilter: ["href"] });
+    const mutations =
+        typeof MutationObserver === "undefined" ? null : new MutationObserver(schedule);
+    mutations?.observe(nav, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ["href"],
+    });
 
     // The URL hash wins on load; otherwise the position decides.
     const initial = decodeURIComponent(window.location.hash.slice(1));
     hashPending = initial !== "";
-    const hashLink = initial ? contentsLinks(nav).find((a) => contentsLinkId(a) === initial) : undefined;
+    const hashLink = initial
+        ? contentsLinks(nav).find((a) => contentsLinkId(a) === initial)
+        : undefined;
     if (hashLink) mark(hashLink);
     else update();
 

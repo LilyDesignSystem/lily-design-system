@@ -16,8 +16,6 @@
 <!-- DescriptionListItem.svelte -->
 <div
     class={`description-list-item ${className}`}
-
-
     {...restProps}
 >
     {@render children?.()}

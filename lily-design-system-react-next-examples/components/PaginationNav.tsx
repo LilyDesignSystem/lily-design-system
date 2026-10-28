@@ -18,7 +18,7 @@
 //   </PaginationNav>
 //
 // Examples:
-//   
+//
 //   <PaginationNav label="Pagination">
 //     <PaginationList>
 //       <PaginationListItem><a href="/page/1">Previous</a></PaginationListItem>
@@ -68,11 +68,11 @@ export default function PaginationNav({
 }: PaginationNavProps) {
     return (
         <nav
-        className={`pagination-nav ${className}`}
-        aria-label={label}
-        {...restProps}
+            className={`pagination-nav ${className}`}
+            aria-label={label}
+            {...restProps}
         >
-        {children}
+            {children}
         </nav>
     );
 }

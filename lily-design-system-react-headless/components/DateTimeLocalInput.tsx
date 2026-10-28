@@ -78,15 +78,16 @@ export default function DateTimeLocalInput({
 }: DateTimeLocalInputProps) {
     return (
         <input
-        className={`date-time-local-input ${className}`}
-        type="datetime-local"
-        aria-label={label}
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        min={min}
-        max={max}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`date-time-local-input ${className}`}
+            type="datetime-local"
+            aria-label={label}
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            min={min}
+            max={max}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

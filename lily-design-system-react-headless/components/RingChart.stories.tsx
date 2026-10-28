@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import RingChart from './RingChart';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import RingChart from "./RingChart";
 
 const meta = {
-  title: 'Headless/RingChart',
-  component: RingChart,
-  tags: ['autodocs']
+    title: "Headless/RingChart",
+    component: RingChart,
+    tags: ["autodocs"],
 } satisfies Meta<typeof RingChart>;
 
 export default meta;

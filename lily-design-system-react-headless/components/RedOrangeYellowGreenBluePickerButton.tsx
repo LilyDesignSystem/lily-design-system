@@ -19,7 +19,7 @@
 // Examples:
 //
 //   <RedOrangeYellowGreenBluePickerButton value="red" label="Red" selected={true} onClick={handleSelect} />
-//   
+//
 //   <RedOrangeYellowGreenBluePickerButton value="yellow" label="Yellow" disabled={true} />
 //
 // Keyboard:
@@ -72,14 +72,16 @@ export default function RedOrangeYellowGreenBluePickerButton({
 }: RedOrangeYellowGreenBluePickerButtonProps) {
     return (
         <button
-        className={`red-orange-yellow-green-blue-picker-button ${className}`}
-        type="button"
-        aria-label={label}
-        aria-pressed={selected}
-        disabled={disabled}
-        data-value={value}
-        onClick={onClick}
-        {...restProps}
-        >{label}</button>
+            className={`red-orange-yellow-green-blue-picker-button ${className}`}
+            type="button"
+            aria-label={label}
+            aria-pressed={selected}
+            disabled={disabled}
+            data-value={value}
+            onClick={onClick}
+            {...restProps}
+        >
+            {label}
+        </button>
     );
 }

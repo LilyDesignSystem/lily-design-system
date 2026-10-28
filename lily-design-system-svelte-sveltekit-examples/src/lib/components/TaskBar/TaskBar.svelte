@@ -69,9 +69,7 @@
     function onkeydown(event: KeyboardEvent) {
         if (!barRef) return;
         const items = Array.from(
-            barRef.querySelectorAll<HTMLElement>(
-                "button, [role='button'], [tabindex]",
-            ),
+            barRef.querySelectorAll<HTMLElement>("button, [role='button'], [tabindex]"),
         );
         const current = document.activeElement as HTMLElement;
         const index = items.indexOf(current);

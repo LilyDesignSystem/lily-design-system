@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./Masonry.vue";
 
-
 describe("Masonry", () => {
     test("renders children content", () => {
         render(Subject, { slots: { default: "Hello" } });
@@ -27,8 +26,7 @@ describe("Masonry", () => {
     });
 
     test("accepts custom columns", () => {
-        render(Subject, { props: { columns: 4,
-            "data-testid": "m" }, slots: { default: "Hello" } });
+        render(Subject, { props: { columns: 4, "data-testid": "m" }, slots: { default: "Hello" } });
 
         const el: HTMLElement = screen.getByTestId("m");
         expect(el.getAttribute("data-columns")).toBe("4");
@@ -43,16 +41,20 @@ describe("Masonry", () => {
     });
 
     test("accepts custom gap", () => {
-        render(Subject, { props: { gap: "0.5rem",
-            "data-testid": "m" }, slots: { default: "Hello" } });
+        render(Subject, {
+            props: { gap: "0.5rem", "data-testid": "m" },
+            slots: { default: "Hello" },
+        });
 
         const el: HTMLElement = screen.getByTestId("m");
         expect(el.style.columnGap).toBe("0.5rem");
     });
 
     test("passes through additional HTML attributes", () => {
-        render(Subject, { props: { id: "gallery",
-            "data-testid": "m" }, slots: { default: "Hello" } });
+        render(Subject, {
+            props: { id: "gallery", "data-testid": "m" },
+            slots: { default: "Hello" },
+        });
 
         const el: HTMLElement = screen.getByTestId("m");
         expect(el.getAttribute("id")).toBe("gallery");

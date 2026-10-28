@@ -5,7 +5,12 @@ import Subject from "./MagyarorszagTajSzamView";
 
 describe("MagyarorszagTajSzamView", () => {
     test("renders with the correct class", () => {
-        render(<Subject label="Társadalombiztosítási Azonosító Jel (TAJ)" value="test-value" />);
+        render(
+            <Subject
+                label="Társadalombiztosítási Azonosító Jel (TAJ)"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Társadalombiztosítási Azonosító Jel (TAJ)");
         expect(el).toBeTruthy();
@@ -13,7 +18,12 @@ describe("MagyarorszagTajSzamView", () => {
     });
 
     test("renders the value as text content", () => {
-        render(<Subject label="Társadalombiztosítási Azonosító Jel (TAJ)" value="test-value" />);
+        render(
+            <Subject
+                label="Társadalombiztosítási Azonosító Jel (TAJ)"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Társadalombiztosítási Azonosító Jel (TAJ)");
         expect(el.textContent).toBe("test-value");

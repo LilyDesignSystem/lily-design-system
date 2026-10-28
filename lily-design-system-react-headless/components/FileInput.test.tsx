@@ -11,27 +11,52 @@ describe("FileInput", () => {
     });
 
     test("supports accept attribute", () => {
-        render(<Subject label="Upload" accept="image/*" />);
+        render(
+            <Subject
+                label="Upload"
+                accept="image/*"
+            />,
+        );
         expect((screen.getByLabelText("Upload") as HTMLInputElement).accept).toBe("image/*");
     });
 
     test("supports multiple", () => {
-        render(<Subject label="Upload" multiple />);
+        render(
+            <Subject
+                label="Upload"
+                multiple
+            />,
+        );
         expect((screen.getByLabelText("Upload") as HTMLInputElement).multiple).toBe(true);
     });
 
     test("supports required", () => {
-        render(<Subject label="Upload" required />);
+        render(
+            <Subject
+                label="Upload"
+                required
+            />,
+        );
         expect((screen.getByLabelText("Upload") as HTMLInputElement).required).toBe(true);
     });
 
     test("supports disabled", () => {
-        render(<Subject label="Upload" disabled />);
+        render(
+            <Subject
+                label="Upload"
+                disabled
+            />,
+        );
         expect((screen.getByLabelText("Upload") as HTMLInputElement).disabled).toBe(true);
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="Upload" data-testid="fi" />);
+        render(
+            <Subject
+                label="Upload"
+                data-testid="fi"
+            />,
+        );
         expect(screen.getByTestId("fi")).toBeTruthy();
     });
 });

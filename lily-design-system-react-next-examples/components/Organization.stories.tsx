@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import Organization from './Organization';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import Organization from "./Organization";
 
 const meta = {
-  title: 'Headless/Organization',
-  component: Organization,
-  tags: ['autodocs']
+    title: "Headless/Organization",
+    component: Organization,
+    tags: ["autodocs"],
 } satisfies Meta<typeof Organization>;
 
 export default meta;

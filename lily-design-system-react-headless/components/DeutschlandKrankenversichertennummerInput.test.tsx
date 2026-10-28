@@ -15,7 +15,9 @@ describe("DeutschlandKrankenversichertennummerInput", () => {
         render(<Subject label="Health Insurance Number" />);
 
         const input = screen.getByLabelText("Health Insurance Number");
-        expect(input.getAttribute("class")).toContain("deutschland-krankenversichertennummer-input");
+        expect(input.getAttribute("class")).toContain(
+            "deutschland-krankenversichertennummer-input",
+        );
     });
 
     test("has autocomplete off", () => {
@@ -33,7 +35,12 @@ describe("DeutschlandKrankenversichertennummerInput", () => {
     });
 
     test("can be set to required", () => {
-        render(<Subject label="Health Insurance Number" required />);
+        render(
+            <Subject
+                label="Health Insurance Number"
+                required
+            />,
+        );
 
         const input = screen.getByLabelText("Health Insurance Number") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -47,14 +54,24 @@ describe("DeutschlandKrankenversichertennummerInput", () => {
     });
 
     test("can be set to disabled", () => {
-        render(<Subject label="Health Insurance Number" disabled />);
+        render(
+            <Subject
+                label="Health Insurance Number"
+                disabled
+            />,
+        );
 
         const input = screen.getByLabelText("Health Insurance Number") as HTMLInputElement;
         expect(input.disabled).toBe(true);
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="Health Insurance Number" data-testid="subject" />);
+        render(
+            <Subject
+                label="Health Insurance Number"
+                data-testid="subject"
+            />,
+        );
 
         const input = screen.getByTestId("subject");
         expect(input).toBeTruthy();

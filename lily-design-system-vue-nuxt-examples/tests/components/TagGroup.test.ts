@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "../../components/TagGroup.vue";
 
-
 describe("TagGroup", () => {
     test("renders a group", () => {
         render(Subject, { props: { label: "Tags" }, slots: { default: "content" } });

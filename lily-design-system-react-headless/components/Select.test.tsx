@@ -28,17 +28,38 @@ describe("Select", () => {
     });
 
     test("supports required", () => {
-        render(<Subject label="C" required>{options}</Subject>);
+        render(
+            <Subject
+                label="C"
+                required
+            >
+                {options}
+            </Subject>,
+        );
         expect((screen.getByRole("combobox") as HTMLSelectElement).required).toBe(true);
     });
 
     test("supports disabled", () => {
-        render(<Subject label="C" disabled>{options}</Subject>);
+        render(
+            <Subject
+                label="C"
+                disabled
+            >
+                {options}
+            </Subject>,
+        );
         expect((screen.getByRole("combobox") as HTMLSelectElement).disabled).toBe(true);
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="C" data-testid="sel">{options}</Subject>);
+        render(
+            <Subject
+                label="C"
+                data-testid="sel"
+            >
+                {options}
+            </Subject>,
+        );
         expect(screen.getByTestId("sel")).toBeTruthy();
     });
 });

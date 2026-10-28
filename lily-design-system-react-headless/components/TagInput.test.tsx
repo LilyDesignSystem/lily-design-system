@@ -15,12 +15,22 @@ describe("TagInput", () => {
     });
 
     test("supports disabled", () => {
-        render(<Subject label="Add tag" disabled />);
+        render(
+            <Subject
+                label="Add tag"
+                disabled
+            />,
+        );
         expect((screen.getByLabelText("Add tag") as HTMLInputElement).disabled).toBe(true);
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="T" data-testid="ti" />);
+        render(
+            <Subject
+                label="T"
+                data-testid="ti"
+            />,
+        );
         expect(screen.getByTestId("ti")).toBeTruthy();
     });
 });

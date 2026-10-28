@@ -82,7 +82,7 @@ export default function VideoPlayer({
                     }
                 }
             },
-            { threshold: 0.5 }
+            { threshold: 0.5 },
         );
         observer.observe(video);
         return () => observer.disconnect();
@@ -104,9 +104,7 @@ export default function VideoPlayer({
                 controls={controls}
                 playsInline
             />
-            {children !== undefined && (
-                <div className="video-player-controls">{children}</div>
-            )}
+            {children !== undefined && <div className="video-player-controls">{children}</div>}
             {caption !== undefined && (
                 <figcaption className="video-player-caption">{caption}</figcaption>
             )}

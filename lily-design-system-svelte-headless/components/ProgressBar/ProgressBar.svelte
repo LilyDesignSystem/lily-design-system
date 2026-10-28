@@ -2,7 +2,6 @@
     // ProgressBar component
     // A horizontal progress indicator.
 
-
     let {
         class: className = "",
         label,

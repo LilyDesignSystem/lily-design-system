@@ -32,7 +32,9 @@ describe("Popup", () => {
     });
 
     test("passes through attributes", () => {
-        render(Subject, { props: { label: "I", open: true, "data-testid": "pu", children: textSnippet("C") } });
+        render(Subject, {
+            props: { label: "I", open: true, "data-testid": "pu", children: textSnippet("C") },
+        });
         expect(screen.getByTestId("pu")).toBeTruthy();
     });
 });

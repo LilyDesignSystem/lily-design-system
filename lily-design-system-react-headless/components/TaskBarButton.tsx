@@ -16,7 +16,7 @@
 //   <TaskBarButton>New Task</TaskBarButton>
 //
 // Examples:
-//   
+//
 //   <TaskBarButton disabled>Delete</TaskBarButton>
 //
 // Keyboard:
@@ -59,12 +59,12 @@ export default function TaskBarButton({
 }: TaskBarButtonProps) {
     return (
         <button
-        className={`task-bar-button ${className}`}
-        type="button"
-        disabled={disabled}
-        {...restProps}
+            className={`task-bar-button ${className}`}
+            type="button"
+            disabled={disabled}
+            {...restProps}
         >
-        {children}
+            {children}
         </button>
     );
 }

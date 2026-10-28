@@ -26,13 +26,7 @@
 import React from "react";
 
 export type StatusLightVariant =
-    | "neutral"
-    | "informative"
-    | "positive"
-    | "notice"
-    | "negative"
-    | "active"
-    | "inactive";
+    "neutral" | "informative" | "positive" | "notice" | "negative" | "active" | "inactive";
 
 export interface StatusLightProps {
     className?: string;
@@ -51,12 +45,15 @@ export default function StatusLight({
 }: StatusLightProps) {
     return (
         <span
-        className={`status-light ${className}`}
-        role="status"
-        data-variant={variant}
-        {...restProps}
+            className={`status-light ${className}`}
+            role="status"
+            data-variant={variant}
+            {...restProps}
         >
-            <span className="status-light-dot" aria-hidden="true"></span>
+            <span
+                className="status-light-dot"
+                aria-hidden="true"
+            ></span>
             <span className="status-light-label">{label}</span>
         </span>
     );

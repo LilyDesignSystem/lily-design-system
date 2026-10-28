@@ -15,17 +15,32 @@ describe("MeasurementSystemInput", () => {
     });
 
     test("supports required", () => {
-        render(<Subject label="System" required />);
+        render(
+            <Subject
+                label="System"
+                required
+            />,
+        );
         expect((screen.getByLabelText("System") as HTMLInputElement).required).toBe(true);
     });
 
     test("supports disabled", () => {
-        render(<Subject label="System" disabled />);
+        render(
+            <Subject
+                label="System"
+                disabled
+            />,
+        );
         expect((screen.getByLabelText("System") as HTMLInputElement).disabled).toBe(true);
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="S" data-testid="msi" />);
+        render(
+            <Subject
+                label="S"
+                data-testid="msi"
+            />,
+        );
         expect(screen.getByTestId("msi")).toBeTruthy();
     });
 });

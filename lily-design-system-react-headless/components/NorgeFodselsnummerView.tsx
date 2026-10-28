@@ -37,9 +37,11 @@ export default function NorgeFodselsnummerView({
 }: NorgeFodselsnummerViewProps) {
     return (
         <span
-        className={`norge-fodselsnummer-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`norge-fodselsnummer-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

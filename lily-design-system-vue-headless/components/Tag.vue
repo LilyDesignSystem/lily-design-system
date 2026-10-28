@@ -1,49 +1,49 @@
 <script setup lang="ts">
+// Tag component
+//
+// A headless tag for displaying labels, categories, keywords, or status
+// indicators. Renders as an inline <span> with role="status" and an accessible
+// label, creating an implicit live region so screen readers announce content
+// changes. Commonly used in content management, product listings, article
+// metadata, and filtering interfaces to visually group or classify content.
+//
+// Props:
+//   className — string, optional. CSS class name.
+//   label — string, required. Accessible label for screen readers via aria-label.
+//   default slot. The tag's visible content (text, etc.).
+//   ...restProps — additional HTML attributes spread onto the <span>.
+//
+// Syntax:
+//   <Tag label="Category">Design</Tag>
+//
+// Examples:
+//   <!-- Status tag -->
+//   <Tag label="Status">Active</Tag>
+//
+//   <!-- Priority tag with expanded context -->
+//   <Tag label="Priority: High">High</Tag>
+//
+// Keyboard:
+//   - None -- tags are informational, not interactive
+//
+// Accessibility:
+//   - role="status" enables live region announcements for screen readers
+//   - aria-label provides expanded context beyond the visible tag text
+//
+// Internationalization:
+//   - The label prop externalizes user-facing text for translation
+//   - All visible content is provided through the default slot
+//   - No hardcoded strings in the component
+//
+// Claude rules:
+//   - Headless: no CSS, no styles -- consumer provides all styling
+//   - role="status" creates an implicit live region
+//
+// References:
+//   - WAI-ARIA Status Role: https://www.w3.org/TR/wai-aria-1.2/#status
 
-    // Tag component
-    //
-    // A headless tag for displaying labels, categories, keywords, or status
-    // indicators. Renders as an inline <span> with role="status" and an accessible
-    // label, creating an implicit live region so screen readers announce content
-    // changes. Commonly used in content management, product listings, article
-    // metadata, and filtering interfaces to visually group or classify content.
-    //
-    // Props:
-    //   className — string, optional. CSS class name.
-    //   label — string, required. Accessible label for screen readers via aria-label.
-    //   default slot. The tag's visible content (text, etc.).
-    //   ...restProps — additional HTML attributes spread onto the <span>.
-    //
-    // Syntax:
-    //   <Tag label="Category">Design</Tag>
-    //
-    // Examples:
-    //   <!-- Status tag -->
-    //   <Tag label="Status">Active</Tag>
-    //
-    //   <!-- Priority tag with expanded context -->
-    //   <Tag label="Priority: High">High</Tag>
-    //
-    // Keyboard:
-    //   - None -- tags are informational, not interactive
-    //
-    // Accessibility:
-    //   - role="status" enables live region announcements for screen readers
-    //   - aria-label provides expanded context beyond the visible tag text
-    //
-    // Internationalization:
-    //   - The label prop externalizes user-facing text for translation
-    //   - All visible content is provided through the default slot
-    //   - No hardcoded strings in the component
-    //
-    // Claude rules:
-    //   - Headless: no CSS, no styles -- consumer provides all styling
-    //   - role="status" creates an implicit live region
-    //
-    // References:
-    //   - WAI-ARIA Status Role: https://www.w3.org/TR/wai-aria-1.2/#status
-
-    withDefaults(defineProps<{
+withDefaults(
+    defineProps<{
         /** Accessible label for screen readers */
         label: string;
         /**
@@ -52,17 +52,30 @@
          * tags should not be a page of live regions.
          */
         live?: boolean;
-    }>(), { live: false });
-
+    }>(),
+    { live: false },
+);
 </script>
 
 <template>
     <!-- Tag.vue -->
-    <span v-if="live" class="tag" role="status" :aria-label="label">
+    <span
+        v-if="live"
+        class="tag"
+        role="status"
+        :aria-label="label"
+    >
         <slot />
     </span>
     <!-- Not a live region: aria-label is not allowed on a plain <span>, so the label is screen-reader text appended after the content (the themes hide .screen-reader-span). The content stays exposed: it may hold a focusable control, such as a remove button. -->
-    <span v-else class="tag">
-        <slot /><span v-if="label" class="screen-reader-span">{{ label }}</span>
+    <span
+        v-else
+        class="tag"
+    >
+        <slot /><span
+            v-if="label"
+            class="screen-reader-span"
+            >{{ label }}</span
+        >
     </span>
 </template>

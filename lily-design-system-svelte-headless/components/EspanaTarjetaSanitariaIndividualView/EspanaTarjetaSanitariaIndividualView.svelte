@@ -40,4 +40,5 @@
 <span
     class={`espana-tarjeta-sanitaria-individual-view ${className}`}
     aria-label={label}
-    {...restProps}>{value}</span>
+    {...restProps}>{value}</span
+>

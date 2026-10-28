@@ -37,9 +37,11 @@ export default function LatvijaPersonasKodsView({
 }: LatvijaPersonasKodsViewProps) {
     return (
         <span
-        className={`latvija-personas-kods-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`latvija-personas-kods-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

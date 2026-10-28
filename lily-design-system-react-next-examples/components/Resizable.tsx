@@ -18,12 +18,12 @@
 //   </Resizable>
 //
 // Examples:
-//   
+//
 //   <Resizable label="Sidebar" direction="horizontal">
 //     <nav>Links</nav>
 //   </Resizable>
 //
-//   
+//
 //   <Resizable label="Preview" direction="vertical">
 //     <div>Preview content</div>
 //   </Resizable>
@@ -72,14 +72,14 @@ export default function Resizable({
 }: ResizableProps) {
     return (
         <div
-        className={`resizable ${className}`}
-        role="region"
-        aria-label={label}
-        tabIndex={0}
-        data-resize={direction}
-        {...restProps}
+            className={`resizable ${className}`}
+            role="region"
+            aria-label={label}
+            tabIndex={0}
+            data-resize={direction}
+            {...restProps}
         >
-        {children}
+            {children}
         </div>
     );
 }

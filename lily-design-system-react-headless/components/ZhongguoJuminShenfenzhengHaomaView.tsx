@@ -37,9 +37,11 @@ export default function ZhongguoJuminShenfenzhengHaomaView({
 }: ZhongguoJuminShenfenzhengHaomaViewProps) {
     return (
         <span
-        className={`zhongguo-jumin-shenfenzheng-haoma-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`zhongguo-jumin-shenfenzheng-haoma-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

@@ -8,7 +8,7 @@ describe("StepList", () => {
         const { container } = render(
             <Subject>
                 <li>a</li>
-            </Subject>
+            </Subject>,
         );
 
         const ol: HTMLElement = container.querySelector(".step-list") as HTMLElement;
@@ -20,7 +20,7 @@ describe("StepList", () => {
         render(
             <Subject label="Sign up steps">
                 <li>a</li>
-            </Subject>
+            </Subject>,
         );
 
         const list: HTMLElement = screen.getByRole("list", { name: "Sign up steps" });
@@ -31,7 +31,7 @@ describe("StepList", () => {
         const { container } = render(
             <Subject>
                 <li>a</li>
-            </Subject>
+            </Subject>,
         );
 
         const ol: HTMLElement = container.querySelector(".step-list") as HTMLElement;
@@ -42,7 +42,7 @@ describe("StepList", () => {
         const { container } = render(
             <Subject current={2}>
                 <li>a</li>
-            </Subject>
+            </Subject>,
         );
 
         const ol: HTMLElement = container.querySelector(".step-list") as HTMLElement;
@@ -53,7 +53,7 @@ describe("StepList", () => {
         const { container } = render(
             <Subject>
                 <li>a</li>
-            </Subject>
+            </Subject>,
         );
 
         const ol: HTMLElement = container.querySelector(".step-list") as HTMLElement;
@@ -65,7 +65,7 @@ describe("StepList", () => {
             <Subject>
                 <li>step one</li>
                 <li>step two</li>
-            </Subject>
+            </Subject>,
         );
 
         expect(screen.getByText("step one")).toBeTruthy();
@@ -76,7 +76,7 @@ describe("StepList", () => {
         const { container } = render(
             <Subject id="steps">
                 <li>a</li>
-            </Subject>
+            </Subject>,
         );
 
         const ol: HTMLElement = container.querySelector(".step-list") as HTMLElement;

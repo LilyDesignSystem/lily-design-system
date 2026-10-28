@@ -82,28 +82,28 @@ export default function PasswordInputOrTextInputDiv({
 
     return (
         <div
-        className={`password-input-or-text-input-div ${className}`}
-        {...restProps}
+            className={`password-input-or-text-input-div ${className}`}
+            {...restProps}
         >
-        <input
-        type={visible ? "text" : "password"}
-        aria-label={label}
-        value={value}
-        onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        autoComplete="current-password"
-        />
-        {showToggle && (
-        <button
-        type="button"
-        aria-label={toggleLabel}
-        aria-pressed={visible}
-        onClick={() => setVisible(!visible)}
-        >
-        {toggleLabel}
-        </button>
-        )}
+            <input
+                type={visible ? "text" : "password"}
+                aria-label={label}
+                value={value}
+                onChange={(e) => onChange?.(e.target.value)}
+                required={required}
+                disabled={disabled}
+                autoComplete="current-password"
+            />
+            {showToggle && (
+                <button
+                    type="button"
+                    aria-label={toggleLabel}
+                    aria-pressed={visible}
+                    onClick={() => setVisible(!visible)}
+                >
+                    {toggleLabel}
+                </button>
+            )}
         </div>
     );
 }

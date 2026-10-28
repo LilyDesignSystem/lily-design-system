@@ -45,10 +45,10 @@ export default function CalendarTableFoot({
 }: CalendarTableFootProps) {
     return (
         <tfoot
-        className={`calendar-table-foot ${className}`}
-        {...restProps}
+            className={`calendar-table-foot ${className}`}
+            {...restProps}
         >
-        {children}
+            {children}
         </tfoot>
     );
 }

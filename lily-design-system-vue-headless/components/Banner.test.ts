@@ -4,7 +4,6 @@ import { describe, expect, test, vi } from "vitest";
 
 import Subject from "./Banner.vue";
 
-
 describe("Banner", () => {
     test("renders with region role", () => {
         render(Subject, { slots: { default: "Announcement" } });
@@ -36,8 +35,10 @@ describe("Banner", () => {
     });
 
     test("shows dismiss button when dismissible", () => {
-        render(Subject, { props: { dismissible: true,
-            closeLabel: "Dismiss banner" }, slots: { default: "Dismissible" } });
+        render(Subject, {
+            props: { dismissible: true, closeLabel: "Dismiss banner" },
+            slots: { default: "Dismissible" },
+        });
 
         const button: HTMLElement = screen.getByRole("button", { name: "Dismiss banner" });
         expect(button).toBeTruthy();
@@ -53,9 +54,10 @@ describe("Banner", () => {
     test("dismisses banner on button click", async () => {
         const user: UserEvent = userEvent.setup();
         const handleClose = vi.fn();
-        render(Subject, { props: { dismissible: true,
-            closeLabel: "Close",
-            onclose: handleClose }, slots: { default: "Dismiss me" } });
+        render(Subject, {
+            props: { dismissible: true, closeLabel: "Close", onclose: handleClose },
+            slots: { default: "Dismiss me" },
+        });
 
         const button: HTMLElement = screen.getByRole("button", { name: "Close" });
         await user.click(button);

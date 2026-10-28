@@ -70,8 +70,12 @@ describe("SplitButton", () => {
     test("disables both buttons when disabled is true", () => {
         renderDefault({ disabled: true });
 
-        const primary: HTMLButtonElement = screen.getByRole("button", { name: "Save" }) as HTMLButtonElement;
-        const trigger: HTMLButtonElement = screen.getByRole("button", { name: "More save options" }) as HTMLButtonElement;
+        const primary: HTMLButtonElement = screen.getByRole("button", {
+            name: "Save",
+        }) as HTMLButtonElement;
+        const trigger: HTMLButtonElement = screen.getByRole("button", {
+            name: "More save options",
+        }) as HTMLButtonElement;
         expect(primary.disabled).toBe(true);
         expect(trigger.disabled).toBe(true);
     });

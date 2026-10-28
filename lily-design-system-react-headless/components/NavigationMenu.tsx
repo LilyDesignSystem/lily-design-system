@@ -18,13 +18,13 @@
 //   </NavigationMenu>
 //
 // Examples:
-//   
+//
 //   <NavigationMenu label="Main navigation">
 //     <a href="/">Home</a>
 //     <a href="/about">About</a>
 //   </NavigationMenu>
 //
-//   
+//
 //   <NavigationMenu label="Footer navigation">
 //     <ul>
 //       <li><a href="/privacy">Privacy Policy</a></li>
@@ -72,11 +72,11 @@ export default function NavigationMenu({
 }: NavigationMenuProps) {
     return (
         <nav
-        className={`navigation-menu ${className}`}
-        aria-label={label}
-        {...restProps}
+            className={`navigation-menu ${className}`}
+            aria-label={label}
+            {...restProps}
         >
-        {children}
+            {children}
         </nav>
     );
 }

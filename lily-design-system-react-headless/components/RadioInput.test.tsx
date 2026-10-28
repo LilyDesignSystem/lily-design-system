@@ -17,14 +17,25 @@ describe("RadioInput", () => {
     });
 
     test("supports name and value", () => {
-        render(<Subject label="A" name="grp" value="a" />);
+        render(
+            <Subject
+                label="A"
+                name="grp"
+                value="a"
+            />,
+        );
         const radio = screen.getByRole("radio") as HTMLInputElement;
         expect(radio.name).toBe("grp");
         expect(radio.value).toBe("a");
     });
 
     test("supports checked prop", () => {
-        render(<Subject label="A" checked />);
+        render(
+            <Subject
+                label="A"
+                checked
+            />,
+        );
         expect((screen.getByRole("radio") as HTMLInputElement).checked).toBe(true);
     });
 
@@ -37,12 +48,22 @@ describe("RadioInput", () => {
     });
 
     test("supports disabled", () => {
-        render(<Subject label="A" disabled />);
+        render(
+            <Subject
+                label="A"
+                disabled
+            />,
+        );
         expect((screen.getByRole("radio") as HTMLInputElement).disabled).toBe(true);
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="A" data-testid="ri" />);
+        render(
+            <Subject
+                label="A"
+                data-testid="ri"
+            />,
+        );
         expect(screen.getByTestId("ri")).toBeTruthy();
     });
 });

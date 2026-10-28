@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "../../components/DoListItem.vue";
 
-
 describe("DoListItem", () => {
     test("renders a list item", () => {
         render(Subject, { slots: { default: "Use semantic HTML" } });

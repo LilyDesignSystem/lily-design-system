@@ -5,15 +5,27 @@ import Subject from "./AustraliaIndividualHealthcareIdentifierView";
 
 describe("AustraliaIndividualHealthcareIdentifierView", () => {
     test("renders with the correct class", () => {
-        render(<Subject label="Individual Healthcare Identifier" value="test-value" />);
+        render(
+            <Subject
+                label="Individual Healthcare Identifier"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Individual Healthcare Identifier");
         expect(el).toBeTruthy();
-        expect(el.getAttribute("class")).toContain("australia-individual-healthcare-identifier-view");
+        expect(el.getAttribute("class")).toContain(
+            "australia-individual-healthcare-identifier-view",
+        );
     });
 
     test("renders the value as text content", () => {
-        render(<Subject label="Individual Healthcare Identifier" value="test-value" />);
+        render(
+            <Subject
+                label="Individual Healthcare Identifier"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Individual Healthcare Identifier");
         expect(el.textContent).toBe("test-value");

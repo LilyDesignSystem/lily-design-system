@@ -17,7 +17,7 @@
 //   <UnitedStatesSocialSecurityNumberView label="SSN" value="123-45-6789" />
 //
 // Examples:
-//   
+//
 //   <UnitedStatesSocialSecurityNumberView label="Social Security Number" value={ssn} />
 //
 // Keyboard:
@@ -59,9 +59,11 @@ export default function UnitedStatesSocialSecurityNumberView({
 }: UnitedStatesSocialSecurityNumberViewProps) {
     return (
         <span
-        className={`united-states-social-security-number-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`united-states-social-security-number-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

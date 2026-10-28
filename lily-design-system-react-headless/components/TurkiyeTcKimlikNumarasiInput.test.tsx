@@ -33,7 +33,12 @@ describe("TurkiyeTcKimlikNumarasiInput", () => {
     });
 
     test("can be set to required", () => {
-        render(<Subject label="T.C. Kimlik Numarası" required />);
+        render(
+            <Subject
+                label="T.C. Kimlik Numarası"
+                required
+            />,
+        );
 
         const input = screen.getByLabelText("T.C. Kimlik Numarası") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -47,14 +52,24 @@ describe("TurkiyeTcKimlikNumarasiInput", () => {
     });
 
     test("can be set to disabled", () => {
-        render(<Subject label="T.C. Kimlik Numarası" disabled />);
+        render(
+            <Subject
+                label="T.C. Kimlik Numarası"
+                disabled
+            />,
+        );
 
         const input = screen.getByLabelText("T.C. Kimlik Numarası") as HTMLInputElement;
         expect(input.disabled).toBe(true);
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="T.C. Kimlik Numarası" data-testid="subject" />);
+        render(
+            <Subject
+                label="T.C. Kimlik Numarası"
+                data-testid="subject"
+            />,
+        );
 
         const input = screen.getByTestId("subject");
         expect(input).toBeTruthy();

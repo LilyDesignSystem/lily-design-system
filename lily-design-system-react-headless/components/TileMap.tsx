@@ -34,12 +34,7 @@ export interface TileMapProps {
     [key: string]: unknown;
 }
 
-export default function TileMap({
-    className = "",
-    label,
-    children,
-    ...restProps
-}: TileMapProps) {
+export default function TileMap({ className = "", label, children, ...restProps }: TileMapProps) {
     const ref = useRef<HTMLDivElement>(null);
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
@@ -66,9 +61,7 @@ export default function TileMap({
                 const current = tiles[idx];
                 const currentRect = current.getBoundingClientRect();
                 const targetX = currentRect.left + currentRect.width / 2;
-                const candidates = tiles
-                    .map((t, i) => ({ t, i }))
-                    .filter(({ i }) => i !== idx);
+                const candidates = tiles.map((t, i) => ({ t, i })).filter(({ i }) => i !== idx);
                 const wantBelow = event.key === "ArrowDown";
                 const next = candidates
                     .filter(({ t }) => {

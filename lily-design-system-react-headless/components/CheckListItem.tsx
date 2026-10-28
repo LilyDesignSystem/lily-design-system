@@ -15,10 +15,10 @@
 //   <CheckListItem>Task one</CheckListItem>
 //
 // Examples:
-//   
+//
 //   <CheckListItem checked>Create account</CheckListItem>
 //
-//   
+//
 //   <CheckListItem disabled>Locked step</CheckListItem>
 //
 // Keyboard:
@@ -61,16 +61,19 @@ export default function CheckListItem({
     ...restProps
 }: CheckListItemProps) {
     return (
-        <li className={`check-list-item ${className}`} {...restProps}>
-        <label>
-        <input
-        type="checkbox"
-        checked={checked}
-        disabled={disabled}
-        readOnly
-        />
-        {children}
-        </label>
+        <li
+            className={`check-list-item ${className}`}
+            {...restProps}
+        >
+            <label>
+                <input
+                    type="checkbox"
+                    checked={checked}
+                    disabled={disabled}
+                    readOnly
+                />
+                {children}
+            </label>
         </li>
     );
 }

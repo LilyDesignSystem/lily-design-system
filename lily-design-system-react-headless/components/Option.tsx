@@ -74,6 +74,8 @@ export default function Option({
             selected={selected}
             disabled={disabled}
             {...restProps}
-        >{children}</option>
+        >
+            {children}
+        </option>
     );
 }

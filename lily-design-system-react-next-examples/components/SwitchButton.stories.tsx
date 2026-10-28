@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import SwitchButton from './SwitchButton';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import SwitchButton from "./SwitchButton";
 
 const meta = {
-  title: 'Headless/SwitchButton',
-  component: SwitchButton,
-  tags: ['autodocs']
+    title: "Headless/SwitchButton",
+    component: SwitchButton,
+    tags: ["autodocs"],
 } satisfies Meta<typeof SwitchButton>;
 
 export default meta;

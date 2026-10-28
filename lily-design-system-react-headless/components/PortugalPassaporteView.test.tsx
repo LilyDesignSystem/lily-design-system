@@ -5,7 +5,12 @@ import Subject from "./PortugalPassaporteView";
 
 describe("PortugalPassaporteView", () => {
     test("renders with the correct class", () => {
-        render(<Subject label="Portuguese Passport" value="test-value" />);
+        render(
+            <Subject
+                label="Portuguese Passport"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Portuguese Passport");
         expect(el).toBeTruthy();
@@ -13,7 +18,12 @@ describe("PortugalPassaporteView", () => {
     });
 
     test("renders the value as text content", () => {
-        render(<Subject label="Portuguese Passport" value="test-value" />);
+        render(
+            <Subject
+                label="Portuguese Passport"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Portuguese Passport");
         expect(el.textContent).toBe("test-value");

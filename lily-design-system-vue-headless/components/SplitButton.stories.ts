@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import SplitButton from './SplitButton.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import SplitButton from "./SplitButton.vue";
 
 const meta = {
-  title: 'Headless/SplitButton',
-  component: SplitButton,
-  tags: ['autodocs']
+    title: "Headless/SplitButton",
+    component: SplitButton,
+    tags: ["autodocs"],
 } satisfies Meta<typeof SplitButton>;
 
 export default meta;

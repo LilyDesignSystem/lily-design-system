@@ -54,7 +54,9 @@ describe("MisrAlRaqmAlQawmiInput", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(Subject, { props: { label: "الرقم القومي (Al-Raqm Al-Qawmi)", "data-testid": "subject" } });
+        render(Subject, {
+            props: { label: "الرقم القومي (Al-Raqm Al-Qawmi)", "data-testid": "subject" },
+        });
 
         const input = screen.getByTestId("subject");
         expect(input).toBeTruthy();

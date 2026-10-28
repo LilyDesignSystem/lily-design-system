@@ -15,22 +15,42 @@ describe("Input", () => {
     });
 
     test("supports custom type", () => {
-        render(<Subject label="Search" type="search" />);
+        render(
+            <Subject
+                label="Search"
+                type="search"
+            />,
+        );
         expect((screen.getByLabelText("Search") as HTMLInputElement).type).toBe("search");
     });
 
     test("supports required", () => {
-        render(<Subject label="Name" required />);
+        render(
+            <Subject
+                label="Name"
+                required
+            />,
+        );
         expect((screen.getByLabelText("Name") as HTMLInputElement).required).toBe(true);
     });
 
     test("supports disabled", () => {
-        render(<Subject label="Name" disabled />);
+        render(
+            <Subject
+                label="Name"
+                disabled
+            />,
+        );
         expect((screen.getByLabelText("Name") as HTMLInputElement).disabled).toBe(true);
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="N" data-testid="inp" />);
+        render(
+            <Subject
+                label="N"
+                data-testid="inp"
+            />,
+        );
         expect(screen.getByTestId("inp")).toBeTruthy();
     });
 });

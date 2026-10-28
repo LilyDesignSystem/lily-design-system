@@ -20,12 +20,12 @@
 //   <ProgressCircle label="Upload" value={75} />
 //
 // Examples:
-//   
+//
 //   <ProgressCircle label="Upload" value={75}>
 //     <span>75%</span>
 //   </ProgressCircle>
 //
-//   
+//
 //   <ProgressCircle label="Loading" value={30} />
 //
 // Keyboard:
@@ -78,15 +78,15 @@ export default function ProgressCircle({
 }: ProgressCircleProps) {
     return (
         <div
-        className={`progress-circle ${className}`}
-        role="progressbar"
-        aria-label={label}
-        aria-valuenow={value}
-        aria-valuemin={min}
-        aria-valuemax={max}
-        {...restProps}
+            className={`progress-circle ${className}`}
+            role="progressbar"
+            aria-label={label}
+            aria-valuenow={value}
+            aria-valuemin={min}
+            aria-valuemax={max}
+            {...restProps}
         >
-        {children && (<>{children}</>)}
+            {children && <>{children}</>}
         </div>
     );
 }

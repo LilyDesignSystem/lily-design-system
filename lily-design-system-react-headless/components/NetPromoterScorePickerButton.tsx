@@ -19,7 +19,7 @@
 // Examples:
 //
 //   <NetPromoterScorePickerButton value={10} label="10" selected={true} onClick={handleSelect} />
-//   
+//
 //   <NetPromoterScorePickerButton value={0} label="0" disabled={true} />
 //
 // Keyboard:
@@ -72,14 +72,16 @@ export default function NetPromoterScorePickerButton({
 }: NetPromoterScorePickerButtonProps) {
     return (
         <button
-        className={`net-promoter-score-picker-button ${className}`}
-        type="button"
-        aria-label={label}
-        aria-pressed={selected}
-        disabled={disabled}
-        data-value={value}
-        onClick={onClick}
-        {...restProps}
-        >{label}</button>
+            className={`net-promoter-score-picker-button ${className}`}
+            type="button"
+            aria-label={label}
+            aria-pressed={selected}
+            disabled={disabled}
+            data-value={value}
+            onClick={onClick}
+            {...restProps}
+        >
+            {label}
+        </button>
     );
 }

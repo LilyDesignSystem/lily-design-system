@@ -7,7 +7,9 @@ describe("PrathetThaiLekPrajamTuaPrachachonInput", () => {
     test("renders a text input", () => {
         render(<Subject label="National Identification Number (เลขประจำตัวประชาชน)" />);
 
-        const input = screen.getByLabelText("National Identification Number (เลขประจำตัวประชาชน)") as HTMLInputElement;
+        const input = screen.getByLabelText(
+            "National Identification Number (เลขประจำตัวประชาชน)",
+        ) as HTMLInputElement;
         expect(input.type).toBe("text");
     });
 
@@ -15,7 +17,9 @@ describe("PrathetThaiLekPrajamTuaPrachachonInput", () => {
         render(<Subject label="National Identification Number (เลขประจำตัวประชาชน)" />);
 
         const input = screen.getByLabelText("National Identification Number (เลขประจำตัวประชาชน)");
-        expect(input.getAttribute("class")).toContain("prathet-thai-lek-prajam-tua-prachachon-input");
+        expect(input.getAttribute("class")).toContain(
+            "prathet-thai-lek-prajam-tua-prachachon-input",
+        );
     });
 
     test("has autocomplete off", () => {
@@ -28,33 +32,56 @@ describe("PrathetThaiLekPrajamTuaPrachachonInput", () => {
     test("is not required by default", () => {
         render(<Subject label="National Identification Number (เลขประจำตัวประชาชน)" />);
 
-        const input = screen.getByLabelText("National Identification Number (เลขประจำตัวประชาชน)") as HTMLInputElement;
+        const input = screen.getByLabelText(
+            "National Identification Number (เลขประจำตัวประชาชน)",
+        ) as HTMLInputElement;
         expect(input.required).toBe(false);
     });
 
     test("can be set to required", () => {
-        render(<Subject label="National Identification Number (เลขประจำตัวประชาชน)" required />);
+        render(
+            <Subject
+                label="National Identification Number (เลขประจำตัวประชาชน)"
+                required
+            />,
+        );
 
-        const input = screen.getByLabelText("National Identification Number (เลขประจำตัวประชาชน)") as HTMLInputElement;
+        const input = screen.getByLabelText(
+            "National Identification Number (เลขประจำตัวประชาชน)",
+        ) as HTMLInputElement;
         expect(input.required).toBe(true);
     });
 
     test("is not disabled by default", () => {
         render(<Subject label="National Identification Number (เลขประจำตัวประชาชน)" />);
 
-        const input = screen.getByLabelText("National Identification Number (เลขประจำตัวประชาชน)") as HTMLInputElement;
+        const input = screen.getByLabelText(
+            "National Identification Number (เลขประจำตัวประชาชน)",
+        ) as HTMLInputElement;
         expect(input.disabled).toBe(false);
     });
 
     test("can be set to disabled", () => {
-        render(<Subject label="National Identification Number (เลขประจำตัวประชาชน)" disabled />);
+        render(
+            <Subject
+                label="National Identification Number (เลขประจำตัวประชาชน)"
+                disabled
+            />,
+        );
 
-        const input = screen.getByLabelText("National Identification Number (เลขประจำตัวประชาชน)") as HTMLInputElement;
+        const input = screen.getByLabelText(
+            "National Identification Number (เลขประจำตัวประชาชน)",
+        ) as HTMLInputElement;
         expect(input.disabled).toBe(true);
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="National Identification Number (เลขประจำตัวประชาชน)" data-testid="subject" />);
+        render(
+            <Subject
+                label="National Identification Number (เลขประจำตัวประชาชน)"
+                data-testid="subject"
+            />,
+        );
 
         const input = screen.getByTestId("subject");
         expect(input).toBeTruthy();

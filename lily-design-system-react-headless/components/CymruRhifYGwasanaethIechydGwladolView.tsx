@@ -37,9 +37,11 @@ export default function CymruRhifYGwasanaethIechydGwladolView({
 }: CymruRhifYGwasanaethIechydGwladolViewProps) {
     return (
         <span
-        className={`cymru-rhif-y-gwasanaeth-iechyd-gwladol-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`cymru-rhif-y-gwasanaeth-iechyd-gwladol-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

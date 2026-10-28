@@ -27,7 +27,14 @@ describe("Thinking", () => {
     });
 
     test("open prop opens it", () => {
-        const { container } = render(<Subject label="T" open>x</Subject>);
+        const { container } = render(
+            <Subject
+                label="T"
+                open
+            >
+                x
+            </Subject>,
+        );
         expect(root(container).open).toBe(true);
     });
 
@@ -46,13 +53,27 @@ describe("Thinking", () => {
     test("onChange reports the open state", async () => {
         const user = userEvent.setup();
         const seen: boolean[] = [];
-        render(<Subject label="T" onChange={(v) => seen.push(v)}>x</Subject>);
+        render(
+            <Subject
+                label="T"
+                onChange={(v) => seen.push(v)}
+            >
+                x
+            </Subject>,
+        );
         await user.click(screen.getByText("T"));
         expect(seen).toEqual([true]);
     });
 
     test("streaming sets data-streaming and aria-busy", () => {
-        const { container } = render(<Subject label="T" streaming>x</Subject>);
+        const { container } = render(
+            <Subject
+                label="T"
+                streaming
+            >
+                x
+            </Subject>,
+        );
         expect(root(container).getAttribute("data-streaming")).toBe("true");
         expect(root(container).getAttribute("aria-busy")).toBe("true");
     });
@@ -64,7 +85,14 @@ describe("Thinking", () => {
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="T" data-testid="th">x</Subject>);
+        render(
+            <Subject
+                label="T"
+                data-testid="th"
+            >
+                x
+            </Subject>,
+        );
         expect(screen.getByTestId("th")).toBeTruthy();
     });
 });

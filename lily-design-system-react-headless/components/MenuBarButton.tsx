@@ -15,7 +15,7 @@
 //   <MenuBarButton>File</MenuBarButton>
 //
 // Examples:
-//   
+//
 //   <MenuBar label="Main menu">
 //     <MenuBarButton>File</MenuBarButton>
 //     <MenuBarButton>Edit</MenuBarButton>
@@ -59,13 +59,13 @@ export default function MenuBarButton({
 }: MenuBarButtonProps) {
     return (
         <button
-        className={`menu-bar-button ${className}`}
-        type="button"
-        role="menuitem"
-        tabIndex={-1}
-        {...restProps}
+            className={`menu-bar-button ${className}`}
+            type="button"
+            role="menuitem"
+            tabIndex={-1}
+            {...restProps}
         >
-        {children}
+            {children}
         </button>
     );
 }

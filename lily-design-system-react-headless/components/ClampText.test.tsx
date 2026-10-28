@@ -25,21 +25,42 @@ describe("ClampText", () => {
     });
 
     test("accepts custom lines value", () => {
-        render(<Subject lines={5} data-testid="ct">Text</Subject>);
+        render(
+            <Subject
+                lines={5}
+                data-testid="ct"
+            >
+                Text
+            </Subject>,
+        );
 
         const el: HTMLElement = screen.getByTestId("ct");
         expect(el.getAttribute("data-lines")).toBe("5");
     });
 
     test("applies aria-label when label provided", () => {
-        render(<Subject label="Bio text" data-testid="ct">Text</Subject>);
+        render(
+            <Subject
+                label="Bio text"
+                data-testid="ct"
+            >
+                Text
+            </Subject>,
+        );
 
         const el: HTMLElement = screen.getByTestId("ct");
         expect(el.getAttribute("aria-label")).toBe("Bio text");
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject id="bio" data-testid="ct">Text</Subject>);
+        render(
+            <Subject
+                id="bio"
+                data-testid="ct"
+            >
+                Text
+            </Subject>,
+        );
 
         const el: HTMLElement = screen.getByTestId("ct");
         expect(el.getAttribute("id")).toBe("bio");

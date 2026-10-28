@@ -8,7 +8,7 @@ describe("ButtonGroup", () => {
         render(
             <Subject label="Actions">
                 <button type="button">Save</button>
-            </Subject>
+            </Subject>,
         );
 
         const group: HTMLElement = screen.getByRole("group", { name: "Actions" });
@@ -20,7 +20,7 @@ describe("ButtonGroup", () => {
         render(
             <Subject label="Actions">
                 <button type="button">Save</button>
-            </Subject>
+            </Subject>,
         );
 
         const group: HTMLElement = screen.getByRole("group");
@@ -32,7 +32,7 @@ describe("ButtonGroup", () => {
             <Subject label="Actions">
                 <button type="button">Save</button>
                 <button type="button">Cancel</button>
-            </Subject>
+            </Subject>,
         );
 
         const buttons: HTMLElement[] = screen.getAllByRole("button");
@@ -41,9 +41,12 @@ describe("ButtonGroup", () => {
 
     test("passes through additional HTML attributes", () => {
         render(
-            <Subject label="Actions" id="my-group">
+            <Subject
+                label="Actions"
+                id="my-group"
+            >
                 <button type="button">Save</button>
-            </Subject>
+            </Subject>,
         );
 
         const group: HTMLElement = screen.getByRole("group");
@@ -52,9 +55,12 @@ describe("ButtonGroup", () => {
 
     test("appends consumer className alongside root class", () => {
         render(
-            <Subject label="Actions" className="custom">
+            <Subject
+                label="Actions"
+                className="custom"
+            >
                 <button type="button">Save</button>
-            </Subject>
+            </Subject>,
         );
 
         const group: HTMLElement = screen.getByRole("group");

@@ -92,17 +92,21 @@ export default function Tour({
 
     return (
         <>
-        {active && (<><div
-        className={`tour ${className}`}
-        role="dialog"
-        aria-modal="true"
-        aria-label={label}
-        tabIndex={-1}
-        onKeyDown={handleKeyDown}
-        {...restProps}
-        >
-        {children}
-        </div></>)}
+            {active && (
+                <>
+                    <div
+                        className={`tour ${className}`}
+                        role="dialog"
+                        aria-modal="true"
+                        aria-label={label}
+                        tabIndex={-1}
+                        onKeyDown={handleKeyDown}
+                        {...restProps}
+                    >
+                        {children}
+                    </div>
+                </>
+            )}
         </>
     );
 }

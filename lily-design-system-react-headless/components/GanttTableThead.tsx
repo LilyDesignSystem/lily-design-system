@@ -44,10 +44,10 @@ export default function GanttTableHead({
 }: GanttTableTheadProps) {
     return (
         <thead
-        className={`gantt-table-thead ${className}`}
-        {...restProps}
+            className={`gantt-table-thead ${className}`}
+            {...restProps}
         >
-        {children}
+            {children}
         </thead>
     );
 }

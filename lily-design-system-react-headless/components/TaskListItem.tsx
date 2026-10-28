@@ -18,14 +18,14 @@
 //   <TaskListItem label="Archived task" checked disabled />
 //
 // Examples:
-//   
+//
 //   <ul aria-label="Today's tasks" role="list">
 //     <TaskListItem label="Review pull request" />
 //     <TaskListItem label="Update documentation" checked />
 //     <TaskListItem label="Deploy to staging" />
 //   </ul>
 //
-//   
+//
 //   <TaskListItem label="Accept terms" checked={termsAccepted} onChange={setTermsAccepted} />
 //
 // Keyboard:
@@ -85,20 +85,20 @@ export default function TaskListItem({
 
     return (
         <li
-        className={`task-list-item ${className}`}
-        data-checked={checked}
-        data-disabled={disabled || undefined}
-        {...restProps}
+            className={`task-list-item ${className}`}
+            data-checked={checked}
+            data-disabled={disabled || undefined}
+            {...restProps}
         >
-        <label>
-        <input
-        type="checkbox"
-        checked={checked}
-        onChange={handleChange}
-        disabled={disabled}
-        />
-        {label}
-        </label>
+            <label>
+                <input
+                    type="checkbox"
+                    checked={checked}
+                    onChange={handleChange}
+                    disabled={disabled}
+                />
+                {label}
+            </label>
         </li>
     );
 }

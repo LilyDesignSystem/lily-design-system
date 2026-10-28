@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import Diff from './Diff';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import Diff from "./Diff";
 
 const meta = {
-  title: 'Headless/Diff',
-  component: Diff,
-  tags: ['autodocs']
+    title: "Headless/Diff",
+    component: Diff,
+    tags: ["autodocs"],
 } satisfies Meta<typeof Diff>;
 
 export default meta;

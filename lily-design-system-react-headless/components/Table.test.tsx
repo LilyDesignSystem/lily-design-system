@@ -26,14 +26,28 @@ describe("Table", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="Users" data-testid="my-table">content</Subject>);
+        render(
+            <Subject
+                label="Users"
+                data-testid="my-table"
+            >
+                content
+            </Subject>,
+        );
 
         const table = screen.getByTestId("my-table");
         expect(table).toBeTruthy();
     });
 
     test("passes through id attribute", () => {
-        render(<Subject label="Users" id="users-table">content</Subject>);
+        render(
+            <Subject
+                label="Users"
+                id="users-table"
+            >
+                content
+            </Subject>,
+        );
 
         const table = screen.getByRole("table");
         expect(table.getAttribute("id")).toBe("users-table");

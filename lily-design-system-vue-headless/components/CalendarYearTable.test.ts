@@ -37,8 +37,13 @@ describe("CalendarYearTable", () => {
     });
 
     test("renders caption when provided", () => {
-        render(Subject, { props: { label: L, caption: "Visible caption" }, slots: { default: "1" } });
-        expect(screen.getByRole("grid").querySelector("caption")?.textContent).toBe("Visible caption");
+        render(Subject, {
+            props: { label: L, caption: "Visible caption" },
+            slots: { default: "1" },
+        });
+        expect(screen.getByRole("grid").querySelector("caption")?.textContent).toBe(
+            "Visible caption",
+        );
     });
 
     test("renders without caption by default", () => {
@@ -52,7 +57,11 @@ describe("CalendarYearTable", () => {
     });
 
     test("passes through attributes", () => {
-        render(Subject, { props: { label: L }, attrs: { "data-testid": "cal" }, slots: { default: "1" } });
+        render(Subject, {
+            props: { label: L },
+            attrs: { "data-testid": "cal" },
+            slots: { default: "1" },
+        });
         expect(screen.getByTestId("cal")).toBeTruthy();
     });
 });

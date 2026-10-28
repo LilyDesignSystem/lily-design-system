@@ -3,12 +3,10 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./GovernmentIdentifier.vue";
 
-
 const baseProps = {
     label: "Agency identifier",
     agencyName: "General Services Administration",
 };
-
 
 describe("GovernmentIdentifier", () => {
     test("renders as a region landmark with aria-label", () => {
@@ -34,7 +32,9 @@ describe("GovernmentIdentifier", () => {
     test("wraps agency name in an anchor when agencyHref is provided", () => {
         render(Subject, { props: { ...baseProps, agencyHref: "https://gsa.gov" } });
 
-        const link: HTMLAnchorElement = screen.getByRole("link", { name: baseProps.agencyName }) as HTMLAnchorElement;
+        const link: HTMLAnchorElement = screen.getByRole("link", {
+            name: baseProps.agencyName,
+        }) as HTMLAnchorElement;
         expect(link.getAttribute("href")).toBe("https://gsa.gov");
     });
 

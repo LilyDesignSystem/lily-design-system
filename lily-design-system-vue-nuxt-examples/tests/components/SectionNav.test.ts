@@ -3,12 +3,12 @@ import { render } from "@testing-library/vue";
 import SectionNav from "../../components/SectionNav.vue";
 
 describe("SectionNav", () => {
-  it("renders with class", () => {
-    const { container } = render(SectionNav, {
-      props: { label: "Test" },
-      slots: { default: "content" },
+    it("renders with class", () => {
+        const { container } = render(SectionNav, {
+            props: { label: "Test" },
+            slots: { default: "content" },
+        });
+        const el = container.querySelector(".section-nav");
+        expect(el).toBeTruthy();
     });
-    const el = container.querySelector(".section-nav");
-    expect(el).toBeTruthy();
-  });
 });

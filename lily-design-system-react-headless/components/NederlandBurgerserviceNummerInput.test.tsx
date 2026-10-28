@@ -33,7 +33,12 @@ describe("NederlandBurgerserviceNummerInput", () => {
     });
 
     test("can be set to required", () => {
-        render(<Subject label="Citizen Service Number" required />);
+        render(
+            <Subject
+                label="Citizen Service Number"
+                required
+            />,
+        );
 
         const input = screen.getByLabelText("Citizen Service Number") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -47,14 +52,24 @@ describe("NederlandBurgerserviceNummerInput", () => {
     });
 
     test("can be set to disabled", () => {
-        render(<Subject label="Citizen Service Number" disabled />);
+        render(
+            <Subject
+                label="Citizen Service Number"
+                disabled
+            />,
+        );
 
         const input = screen.getByLabelText("Citizen Service Number") as HTMLInputElement;
         expect(input.disabled).toBe(true);
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="Citizen Service Number" data-testid="subject" />);
+        render(
+            <Subject
+                label="Citizen Service Number"
+                data-testid="subject"
+            />,
+        );
 
         const input = screen.getByTestId("subject");
         expect(input).toBeTruthy();

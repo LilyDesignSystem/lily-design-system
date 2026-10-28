@@ -37,9 +37,11 @@ export default function PortugalPassaporteView({
 }: PortugalPassaporteViewProps) {
     return (
         <span
-        className={`portugal-passaporte-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`portugal-passaporte-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

@@ -116,16 +116,20 @@ export default function ContextMenu({
 
     return (
         <>
-        {open && (<><div
-        className={`context-menu ${className}`}
-        role="menu"
-        aria-label={label}
-        ref={menuRef}
-        onKeyDown={handleKeyDown}
-        {...restProps}
-        >
-        {children}
-        </div></>)}
+            {open && (
+                <>
+                    <div
+                        className={`context-menu ${className}`}
+                        role="menu"
+                        aria-label={label}
+                        ref={menuRef}
+                        onKeyDown={handleKeyDown}
+                        {...restProps}
+                    >
+                        {children}
+                    </div>
+                </>
+            )}
         </>
     );
 }

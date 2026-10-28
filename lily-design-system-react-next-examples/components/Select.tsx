@@ -88,14 +88,15 @@ export default function Select({
 }: SelectProps) {
     return (
         <select
-        className={`select ${className}`}
-        aria-label={label}
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`select ${className}`}
+            aria-label={label}
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         >
-        {children}
+            {children}
         </select>
     );
 }

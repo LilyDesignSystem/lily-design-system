@@ -21,14 +21,24 @@ describe("SectionHeading", () => {
     });
 
     test("respects the level prop for h3", () => {
-        render(<Subject heading="Title" level={3} />);
+        render(
+            <Subject
+                heading="Title"
+                level={3}
+            />,
+        );
 
         const h3 = screen.getByRole("heading", { level: 3, name: "Title" });
         expect(h3).toBeTruthy();
     });
 
     test("respects the level prop for h6", () => {
-        render(<Subject heading="Title" level={6} />);
+        render(
+            <Subject
+                heading="Title"
+                level={6}
+            />,
+        );
 
         const h6 = screen.getByRole("heading", { level: 6, name: "Title" });
         expect(h6).toBeTruthy();
@@ -36,7 +46,10 @@ describe("SectionHeading", () => {
 
     test("renders eyebrow paragraph above the heading when provided", () => {
         const { container } = render(
-            <Subject heading="Title" eyebrow="Features" />,
+            <Subject
+                heading="Title"
+                eyebrow="Features"
+            />,
         );
 
         const eyebrow = container.querySelector("p.section-heading-eyebrow");
@@ -52,7 +65,10 @@ describe("SectionHeading", () => {
 
     test("renders subtitle paragraph below the heading when provided", () => {
         const { container } = render(
-            <Subject heading="Title" subtitle="Tagline" />,
+            <Subject
+                heading="Title"
+                subtitle="Tagline"
+            />,
         );
 
         const subtitle = container.querySelector("p.section-heading-subtitle");
@@ -68,7 +84,10 @@ describe("SectionHeading", () => {
 
     test("appends consumer className to the root", () => {
         const { container } = render(
-            <Subject heading="Title" className="extra" />,
+            <Subject
+                heading="Title"
+                className="extra"
+            />,
         );
 
         const header = container.querySelector("header");
@@ -77,7 +96,12 @@ describe("SectionHeading", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject heading="Title" id="sh-1" />);
+        render(
+            <Subject
+                heading="Title"
+                id="sh-1"
+            />,
+        );
 
         const root = document.querySelector('[id="sh-1"]');
         expect(root).toBeTruthy();

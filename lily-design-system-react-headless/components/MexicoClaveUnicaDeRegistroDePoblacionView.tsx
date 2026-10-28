@@ -38,9 +38,11 @@ export default function MexicoClaveUnicaDeRegistroDePoblacionView({
 }: MexicoClaveUnicaDeRegistroDePoblacionViewProps) {
     return (
         <span
-        className={`mexico-clave-unica-de-registro-de-poblacion-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`mexico-clave-unica-de-registro-de-poblacion-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

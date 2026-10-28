@@ -51,13 +51,13 @@ export default function TabPanel({
 }: TabPanelProps) {
     return (
         <div
-        className={`tab-panel ${className}`}
-        role="tabpanel"
-        aria-label={labelledBy !== undefined ? undefined : label}
-        aria-labelledby={labelledBy}
-        hidden={!selected}
-        tabIndex={0}
-        {...restProps}
+            className={`tab-panel ${className}`}
+            role="tabpanel"
+            aria-label={labelledBy !== undefined ? undefined : label}
+            aria-labelledby={labelledBy}
+            hidden={!selected}
+            tabIndex={0}
+            {...restProps}
         >
             {children}
         </div>

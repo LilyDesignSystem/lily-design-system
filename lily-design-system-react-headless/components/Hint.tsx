@@ -15,11 +15,11 @@
 //   <Hint id="email-hint">Enter your work email</Hint>
 //
 // Examples:
-//   
+//
 //   <Hint id="email-hint">Enter your work email</Hint>
 //   <input aria-describedby="email-hint" />
 //
-//   
+//
 //   <Hint id="password-hint">Must be at least 8 characters</Hint>
 //   <input type="password" aria-describedby="password-hint" />
 //
@@ -58,11 +58,11 @@ export default function Hint({
 }: HintProps) {
     return (
         <p
-        className={`hint ${className}`}
-        id={id}
-        {...restProps}
+            className={`hint ${className}`}
+            id={id}
+            {...restProps}
         >
-        {children}
+            {children}
         </p>
     );
 }

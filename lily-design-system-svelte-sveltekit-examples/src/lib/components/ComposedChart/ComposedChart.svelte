@@ -52,7 +52,11 @@
     class={`composed-chart ${className}`}
     {...restProps}
 >
-    <div class="composed-chart-graphic" role="img" aria-label={label}>
+    <div
+        class="composed-chart-graphic"
+        role="img"
+        aria-label={label}
+    >
         {@render children?.()}
     </div>
     {#if dataTable}

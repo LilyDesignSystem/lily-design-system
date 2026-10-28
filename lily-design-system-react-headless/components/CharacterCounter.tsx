@@ -18,10 +18,10 @@
 //   <CharacterCounter count={text.length} max={280} label="Characters" />
 //
 // Examples:
-//   
+//
 //   <CharacterCounter count={text.length} max={280} label="Character count" />
 //
-//   
+//
 //   <CharacterCounter count={text.length} label="Characters typed" />
 //
 // Keyboard:
@@ -73,17 +73,17 @@ export default function CharacterCounter({
 
     return (
         <span
-        className={`character-counter ${className}`}
-        role="status"
-        aria-live="polite"
-        aria-label={label}
-        data-count={count}
-        data-max={max}
-        data-remaining={remaining}
-        data-over-limit={overLimit || undefined}
-        {...restProps}
+            className={`character-counter ${className}`}
+            role="status"
+            aria-live="polite"
+            aria-label={label}
+            data-count={count}
+            data-max={max}
+            data-remaining={remaining}
+            data-over-limit={overLimit || undefined}
+            {...restProps}
         >
-        {displayText}
+            {displayText}
         </span>
     );
 }

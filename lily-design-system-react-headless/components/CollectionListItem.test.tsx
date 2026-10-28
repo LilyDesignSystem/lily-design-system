@@ -8,7 +8,7 @@ describe("CollectionListItem", () => {
         render(
             <ul>
                 <Subject heading="Article one" />
-            </ul>
+            </ul>,
         );
 
         const item: HTMLElement = screen.getByRole("listitem");
@@ -19,7 +19,7 @@ describe("CollectionListItem", () => {
         render(
             <ul>
                 <Subject heading="Article one" />
-            </ul>
+            </ul>,
         );
 
         const item: HTMLElement = screen.getByRole("listitem");
@@ -30,7 +30,7 @@ describe("CollectionListItem", () => {
         render(
             <ul>
                 <Subject heading="Article one" />
-            </ul>
+            </ul>,
         );
 
         const heading: HTMLElement = screen.getByRole("heading", { level: 3 });
@@ -40,8 +40,11 @@ describe("CollectionListItem", () => {
     test("wraps heading in an anchor when href is provided", () => {
         render(
             <ul>
-                <Subject heading="Article one" href="/articles/1" />
-            </ul>
+                <Subject
+                    heading="Article one"
+                    href="/articles/1"
+                />
+            </ul>,
         );
 
         const link: HTMLElement = screen.getByRole("link", { name: "Article one" });
@@ -52,7 +55,7 @@ describe("CollectionListItem", () => {
         const { container } = render(
             <ul>
                 <Subject heading="Article one" />
-            </ul>
+            </ul>,
         );
 
         const anchor: HTMLElement | null = container.querySelector("a");
@@ -62,8 +65,12 @@ describe("CollectionListItem", () => {
     test("renders an image when imageUrl is provided", () => {
         render(
             <ul>
-                <Subject heading="Article one" imageUrl="/cover.jpg" imageAlt="Cover" />
-            </ul>
+                <Subject
+                    heading="Article one"
+                    imageUrl="/cover.jpg"
+                    imageAlt="Cover"
+                />
+            </ul>,
         );
 
         const img: HTMLElement = screen.getByRole("img", { name: "Cover" });
@@ -74,7 +81,7 @@ describe("CollectionListItem", () => {
         const { container } = render(
             <ul>
                 <Subject heading="Article one" />
-            </ul>
+            </ul>,
         );
 
         const img: HTMLElement | null = container.querySelector("img");
@@ -89,7 +96,7 @@ describe("CollectionListItem", () => {
                     meta="2026-04-27"
                     description="Body text here"
                 />
-            </ul>
+            </ul>,
         );
 
         expect(container.textContent).toContain("2026-04-27");
@@ -99,8 +106,11 @@ describe("CollectionListItem", () => {
     test("sets aria-label override when provided", () => {
         render(
             <ul>
-                <Subject heading="Article one" label="Custom label" />
-            </ul>
+                <Subject
+                    heading="Article one"
+                    label="Custom label"
+                />
+            </ul>,
         );
 
         const item: HTMLElement = screen.getByRole("listitem");
@@ -113,7 +123,7 @@ describe("CollectionListItem", () => {
                 <Subject heading="Article one">
                     <span>Extra</span>
                 </Subject>
-            </ul>
+            </ul>,
         );
 
         const item: HTMLElement = screen.getByRole("listitem");

@@ -43,10 +43,10 @@ export default function DataTableHead({
 }: DataTableHeadProps) {
     return (
         <thead
-        className={`data-table-head ${className}`}
-        {...restProps}
+            className={`data-table-head ${className}`}
+            {...restProps}
         >
-        {children}
+            {children}
         </thead>
     );
 }

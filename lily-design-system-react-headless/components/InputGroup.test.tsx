@@ -7,7 +7,10 @@ describe("InputGroup", () => {
     test("renders children and applies the input-group root class", () => {
         render(
             <Subject>
-                <input type="text" data-testid="input" />
+                <input
+                    type="text"
+                    data-testid="input"
+                />
             </Subject>,
         );
 

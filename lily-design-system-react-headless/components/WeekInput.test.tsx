@@ -16,17 +16,32 @@ describe("WeekInput", () => {
     });
 
     test("supports required", () => {
-        render(<Subject label="Week" required />);
+        render(
+            <Subject
+                label="Week"
+                required
+            />,
+        );
         expect((screen.getByLabelText("Week") as HTMLInputElement).required).toBe(true);
     });
 
     test("supports disabled", () => {
-        render(<Subject label="Week" disabled />);
+        render(
+            <Subject
+                label="Week"
+                disabled
+            />,
+        );
         expect((screen.getByLabelText("Week") as HTMLInputElement).disabled).toBe(true);
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="Week" data-testid="wi" />);
+        render(
+            <Subject
+                label="Week"
+                data-testid="wi"
+            />,
+        );
         expect(screen.getByTestId("wi")).toBeTruthy();
     });
 });

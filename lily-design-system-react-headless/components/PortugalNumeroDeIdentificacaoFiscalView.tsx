@@ -37,9 +37,11 @@ export default function PortugalNumeroDeIdentificacaoFiscalView({
 }: PortugalNumeroDeIdentificacaoFiscalViewProps) {
     return (
         <span
-        className={`portugal-numero-de-identificacao-fiscal-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`portugal-numero-de-identificacao-fiscal-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

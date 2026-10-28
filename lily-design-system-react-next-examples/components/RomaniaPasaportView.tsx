@@ -37,9 +37,11 @@ export default function RomaniaPasaportView({
 }: RomaniaPasaportViewProps) {
     return (
         <span
-        className={`romania-pasaport-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`romania-pasaport-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

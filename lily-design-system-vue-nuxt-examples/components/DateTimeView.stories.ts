@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import DateTimeView from './DateTimeView.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import DateTimeView from "./DateTimeView.vue";
 
 const meta = {
-  title: 'Headless/DateTimeView',
-  component: DateTimeView,
-  tags: ['autodocs']
+    title: "Headless/DateTimeView",
+    component: DateTimeView,
+    tags: ["autodocs"],
 } satisfies Meta<typeof DateTimeView>;
 
 export default meta;

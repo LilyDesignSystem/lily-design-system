@@ -16,7 +16,7 @@
 //   </BreadcrumbList>
 //
 // Examples:
-//   
+//
 //   <BreadcrumbNav label="Breadcrumb">
 //     <BreadcrumbList>
 //       <BreadcrumbListItem><a href="/">Home</a></BreadcrumbListItem>
@@ -60,10 +60,10 @@ export default function BreadcrumbList({
 }: BreadcrumbListProps) {
     return (
         <ol
-        className={`breadcrumb-list ${className}`}
-        {...restProps}
+            className={`breadcrumb-list ${className}`}
+            {...restProps}
         >
-        {children}
+            {children}
         </ol>
     );
 }

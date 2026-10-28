@@ -12,7 +12,9 @@ describe("TreeListItem", () => {
     });
 
     test("is a focusable li role=treeitem (tabindex=-1) so TreeList's arrow keys can focus it", () => {
-        const { container } = render(TreeListItem, { props: { label: "Test", children: (() => {}) as any } });
+        const { container } = render(TreeListItem, {
+            props: { label: "Test", children: (() => {}) as any },
+        });
         const el = container.querySelector(".tree-list-item") as HTMLElement;
         expect(el.tagName).toBe("LI");
         expect(el.getAttribute("role")).toBe("treeitem");
@@ -20,7 +22,9 @@ describe("TreeListItem", () => {
     });
 
     test("a consumer tabindex overrides the default (roving tabindex: the active item is 0)", () => {
-        const { container } = render(TreeListItem, { props: { label: "Test", tabindex: "0", children: (() => {}) as any } });
+        const { container } = render(TreeListItem, {
+            props: { label: "Test", tabindex: "0", children: (() => {}) as any },
+        });
         expect(container.querySelector(".tree-list-item")?.getAttribute("tabindex")).toBe("0");
     });
 });
@@ -48,14 +52,28 @@ function renderTree(expanded: boolean | undefined) {
     const tree = document.createElement("ol");
     tree.setAttribute("role", "tree");
     document.body.appendChild(tree);
-    const parent = render(TreeListItem, { props: { id: "parent", expanded, children: slotSnippet("parent") }, target: tree });
-    const child = render(TreeListItem, { props: { id: "child", children: leafSnippet() }, target: document.getElementById("slot")! });
-    const leaf = render(TreeListItem, { props: { id: "leaf", children: leafSnippet() }, target: tree });
+    const parent = render(TreeListItem, {
+        props: { id: "parent", expanded, children: slotSnippet("parent") },
+        target: tree,
+    });
+    const child = render(TreeListItem, {
+        props: { id: "child", children: leafSnippet() },
+        target: document.getElementById("slot")!,
+    });
+    const leaf = render(TreeListItem, {
+        props: { id: "leaf", children: leafSnippet() },
+        target: tree,
+    });
     return {
         parent: document.getElementById("parent")!,
         child: document.getElementById("child")!,
         leaf: document.getElementById("leaf")!,
-        cleanup: () => { parent.unmount(); child.unmount(); leaf.unmount(); tree.remove(); },
+        cleanup: () => {
+            parent.unmount();
+            child.unmount();
+            leaf.unmount();
+            tree.remove();
+        },
     };
 }
 

@@ -13,6 +13,10 @@
 </script>
 
 <!-- TimerButton.svelte -->
-<div class={`timer-button ${className}`} aria-label={label} {...restProps}>
+<div
+    class={`timer-button ${className}`}
+    aria-label={label}
+    {...restProps}
+>
     {@render children?.()}
 </div>

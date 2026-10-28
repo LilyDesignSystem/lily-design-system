@@ -70,13 +70,14 @@ export default function MeasurementInstanceInput({
 }: MeasurementInstanceInputProps) {
     return (
         <input
-        className={`measurement-instance-input ${className}`}
-        type="text"
-        aria-label={label}
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`measurement-instance-input ${className}`}
+            type="text"
+            aria-label={label}
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

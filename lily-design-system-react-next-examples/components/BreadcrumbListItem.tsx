@@ -15,10 +15,10 @@
 //   <BreadcrumbListItem><a href="/">Home</a></BreadcrumbListItem>
 //
 // Examples:
-//   
+//
 //   <BreadcrumbListItem><a href="/products">Products</a></BreadcrumbListItem>
 //
-//   
+//
 //   <BreadcrumbListItem current>About</BreadcrumbListItem>
 //
 // Keyboard:
@@ -57,11 +57,11 @@ export default function BreadcrumbListItem({
 }: BreadcrumbListItemProps) {
     return (
         <li
-        className={`breadcrumb-list-item ${className}`}
-        data-current={current ? "" : undefined}
-        {...restProps}
+            className={`breadcrumb-list-item ${className}`}
+            data-current={current ? "" : undefined}
+            {...restProps}
         >
-        {children}
+            {children}
         </li>
     );
 }

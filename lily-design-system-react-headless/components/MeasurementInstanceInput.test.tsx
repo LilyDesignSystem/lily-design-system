@@ -15,17 +15,32 @@ describe("MeasurementInstanceInput", () => {
     });
 
     test("supports required", () => {
-        render(<Subject label="Weight" required />);
+        render(
+            <Subject
+                label="Weight"
+                required
+            />,
+        );
         expect((screen.getByLabelText("Weight") as HTMLInputElement).required).toBe(true);
     });
 
     test("supports disabled", () => {
-        render(<Subject label="Weight" disabled />);
+        render(
+            <Subject
+                label="Weight"
+                disabled
+            />,
+        );
         expect((screen.getByLabelText("Weight") as HTMLInputElement).disabled).toBe(true);
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="W" data-testid="mii" />);
+        render(
+            <Subject
+                label="W"
+                data-testid="mii"
+            />,
+        );
         expect(screen.getByTestId("mii")).toBeTruthy();
     });
 });

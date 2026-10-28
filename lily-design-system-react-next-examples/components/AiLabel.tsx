@@ -55,9 +55,11 @@ export default function AiLabel({
 }: AiLabelProps) {
     return (
         <span
-        className={`ai-label ${className}`}
-        aria-label={label}
-        {...restProps}
-        >{text}</span>
+            className={`ai-label ${className}`}
+            aria-label={label}
+            {...restProps}
+        >
+            {text}
+        </span>
     );
 }

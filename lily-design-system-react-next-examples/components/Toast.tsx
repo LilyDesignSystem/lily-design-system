@@ -17,10 +17,10 @@
 //   <Toast label="Success">Your changes have been saved.</Toast>
 //
 // Examples:
-//   
+//
 //   <Toast label="Error" urgent>Something went wrong.</Toast>
 //
-//   
+//
 //   <Toast label="Info">
 //     <p>3 new messages in your inbox.</p>
 //   </Toast>
@@ -70,13 +70,13 @@ export default function Toast({
 }: ToastProps) {
     return (
         <div
-        className={`toast ${className}`}
-        role={urgent ? "alert" : "status"}
-        aria-label={label}
-        aria-live={urgent ? "assertive" : "polite"}
-        {...restProps}
+            className={`toast ${className}`}
+            role={urgent ? "alert" : "status"}
+            aria-label={label}
+            aria-live={urgent ? "assertive" : "polite"}
+            {...restProps}
         >
-        {children}
+            {children}
         </div>
     );
 }

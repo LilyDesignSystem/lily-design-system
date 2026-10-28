@@ -14,4 +14,10 @@
 </script>
 
 <!-- BarcodeImage.svelte -->
-<img class={`barcode-image ${className}`} {src} {alt} {loading} {...restProps} />
+<img
+    class={`barcode-image ${className}`}
+    {src}
+    {alt}
+    {loading}
+    {...restProps}
+/>

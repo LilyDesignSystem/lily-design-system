@@ -81,15 +81,15 @@ export default function PasswordInput({
 }: PasswordInputProps) {
     return (
         <input
-        className={`password-input ${className}`}
-        type="password"
-        aria-label={label}
-        value={value}
-        onChange={(e) => onChange?.(e.target.value)}
-        autoComplete={autocomplete}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`password-input ${className}`}
+            type="password"
+            aria-label={label}
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            autoComplete={autocomplete}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

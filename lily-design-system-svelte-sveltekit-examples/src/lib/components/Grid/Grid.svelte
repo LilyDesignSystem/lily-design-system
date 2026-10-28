@@ -56,9 +56,7 @@
     } = $props();
 
     const templateColumns = $derived(
-        typeof columns === "number"
-            ? `repeat(${columns}, minmax(0, 1fr))`
-            : columns
+        typeof columns === "number" ? `repeat(${columns}, minmax(0, 1fr))` : columns,
     );
 </script>
 

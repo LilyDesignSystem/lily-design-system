@@ -3,12 +3,12 @@ import { render } from "@testing-library/vue";
 import SuccessPanel from "../../components/SuccessPanel.vue";
 
 describe("SuccessPanel", () => {
-  it("renders with class", () => {
-    const { container } = render(SuccessPanel, {
-      props: { label: "Test" },
-      slots: { default: "content" },
+    it("renders with class", () => {
+        const { container } = render(SuccessPanel, {
+            props: { label: "Test" },
+            slots: { default: "content" },
+        });
+        const el = container.querySelector(".success-panel");
+        expect(el).toBeTruthy();
     });
-    const el = container.querySelector(".success-panel");
-    expect(el).toBeTruthy();
-  });
 });

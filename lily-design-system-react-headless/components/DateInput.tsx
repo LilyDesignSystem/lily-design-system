@@ -78,15 +78,16 @@ export default function DateInput({
 }: DateInputProps) {
     return (
         <input
-        className={`date-input ${className}`}
-        type="date"
-        aria-label={label}
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        min={min}
-        max={max}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`date-input ${className}`}
+            type="date"
+            aria-label={label}
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            min={min}
+            max={max}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

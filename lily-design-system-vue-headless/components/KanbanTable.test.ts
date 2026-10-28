@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./KanbanTable.vue";
 
-
 describe("KanbanTable", () => {
     test("renders a grid", () => {
         render(Subject, { props: { label: "Board" }, slots: { default: "cols" } });
@@ -21,7 +20,10 @@ describe("KanbanTable", () => {
     });
 
     test("renders caption when provided", () => {
-        render(Subject, { props: { label: "Board", caption: "Sprint 5 board" }, slots: { default: "cols" } });
+        render(Subject, {
+            props: { label: "Board", caption: "Sprint 5 board" },
+            slots: { default: "cols" },
+        });
         const table = screen.getByRole("grid");
         const cap = table.querySelector("caption");
         expect(cap).toBeTruthy();

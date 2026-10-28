@@ -4,8 +4,6 @@ import { describe, expect, test, vi } from "vitest";
 
 import Subject from "./Form.vue";
 
-
-
 describe("Form", () => {
     test("renders as a form", () => {
         render(Subject, { props: { label: "Login" }, slots: { default: "Fields" } });
@@ -20,7 +18,10 @@ describe("Form", () => {
     test("calls onsubmit and prevents default", async () => {
         const user: UserEvent = userEvent.setup();
         const handleSubmit = vi.fn();
-        render(Subject, { props: { label: "F", onSubmit: handleSubmit }, slots: { default: '<button type="submit">Go</button>' } });
+        render(Subject, {
+            props: { label: "F", onSubmit: handleSubmit },
+            slots: { default: '<button type="submit">Go</button>' },
+        });
         await user.click(screen.getByRole("button", { name: "Go" }));
         expect(handleSubmit).toHaveBeenCalledOnce();
     });

@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import InputWithMask from './InputWithMask.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import InputWithMask from "./InputWithMask.vue";
 
 const meta = {
-  title: 'Headless/InputWithMask',
-  component: InputWithMask,
-  tags: ['autodocs']
+    title: "Headless/InputWithMask",
+    component: InputWithMask,
+    tags: ["autodocs"],
 } satisfies Meta<typeof InputWithMask>;
 
 export default meta;

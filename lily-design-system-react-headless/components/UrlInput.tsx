@@ -67,13 +67,14 @@ export default function UrlInput({
 }: UrlInputProps) {
     return (
         <input
-        className={`url-input ${className}`}
-        type="url"
-        aria-label={label}
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`url-input ${className}`}
+            type="url"
+            aria-label={label}
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

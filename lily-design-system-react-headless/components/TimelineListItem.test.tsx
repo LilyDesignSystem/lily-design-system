@@ -15,7 +15,14 @@ describe("TimelineListItem", () => {
     });
 
     test("renders time element with datetime and heading", () => {
-        render(<Subject datetime="2024-01-15" heading="January 15, 2024">Order placed</Subject>);
+        render(
+            <Subject
+                datetime="2024-01-15"
+                heading="January 15, 2024"
+            >
+                Order placed
+            </Subject>,
+        );
         const time = screen.getByText("January 15, 2024");
         expect(time.tagName).toBe("TIME");
         expect(time.getAttribute("datetime")).toBe("2024-01-15");

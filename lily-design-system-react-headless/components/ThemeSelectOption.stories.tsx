@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import ThemeSelectOption from './ThemeSelectOption';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import ThemeSelectOption from "./ThemeSelectOption";
 
 const meta = {
-  title: 'Headless/ThemeSelectOption',
-  component: ThemeSelectOption,
-  tags: ['autodocs']
+    title: "Headless/ThemeSelectOption",
+    component: ThemeSelectOption,
+    tags: ["autodocs"],
 } satisfies Meta<typeof ThemeSelectOption>;
 
 export default meta;

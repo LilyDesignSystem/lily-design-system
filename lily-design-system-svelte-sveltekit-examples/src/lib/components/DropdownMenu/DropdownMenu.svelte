@@ -85,8 +85,7 @@
     // Focus the first menuitem when the menu opens.
     $effect(() => {
         if (open && menuRef) {
-            const first =
-                menuRef.querySelector<HTMLElement>("[role='menuitem']");
+            const first = menuRef.querySelector<HTMLElement>("[role='menuitem']");
             first?.focus();
         }
     });
@@ -97,9 +96,7 @@
 
     function onMenuKeydown(event: KeyboardEvent) {
         if (!menuRef) return;
-        const items = Array.from(
-            menuRef.querySelectorAll<HTMLElement>("[role='menuitem']"),
-        );
+        const items = Array.from(menuRef.querySelectorAll<HTMLElement>("[role='menuitem']"));
         const current = document.activeElement as HTMLElement;
         const index = items.indexOf(current);
 

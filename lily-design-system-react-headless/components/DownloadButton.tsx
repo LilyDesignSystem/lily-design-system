@@ -71,8 +71,7 @@ export default function DownloadButton({
     children,
     ...restProps
 }: DownloadButtonProps) {
-    const downloadAttr =
-        typeof download === "boolean" ? (download ? "" : undefined) : download;
+    const downloadAttr = typeof download === "boolean" ? (download ? "" : undefined) : download;
 
     return (
         <a

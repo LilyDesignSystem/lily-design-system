@@ -54,7 +54,9 @@ describe("BrasilCartaoNacionalDeSaudeInput", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(Subject, { props: { label: "Cartão Nacional de Saúde (CNS)", "data-testid": "subject" } });
+        render(Subject, {
+            props: { label: "Cartão Nacional de Saúde (CNS)", "data-testid": "subject" },
+        });
 
         const input = screen.getByTestId("subject");
         expect(input).toBeTruthy();

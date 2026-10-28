@@ -15,17 +15,32 @@ describe("TelInput", () => {
     });
 
     test("supports required", () => {
-        render(<Subject label="Phone" required />);
+        render(
+            <Subject
+                label="Phone"
+                required
+            />,
+        );
         expect((screen.getByLabelText("Phone") as HTMLInputElement).required).toBe(true);
     });
 
     test("supports disabled", () => {
-        render(<Subject label="Phone" disabled />);
+        render(
+            <Subject
+                label="Phone"
+                disabled
+            />,
+        );
         expect((screen.getByLabelText("Phone") as HTMLInputElement).disabled).toBe(true);
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="P" data-testid="ti" />);
+        render(
+            <Subject
+                label="P"
+                data-testid="ti"
+            />,
+        );
         expect(screen.getByTestId("ti")).toBeTruthy();
     });
 });

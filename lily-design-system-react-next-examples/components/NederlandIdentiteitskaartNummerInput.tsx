@@ -50,14 +50,15 @@ export default function NederlandIdentiteitskaartNummerInput({
 }: NederlandIdentiteitskaartNummerInputProps) {
     return (
         <input
-        className={`nederland-identiteitskaart-nummer-input ${className}`}
-        type="text"
-        aria-label={label}
-        autoComplete="off"
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`nederland-identiteitskaart-nummer-input ${className}`}
+            type="text"
+            aria-label={label}
+            autoComplete="off"
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

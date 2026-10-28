@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import EspanaTarjetaSanitariaIndividualView from './EspanaTarjetaSanitariaIndividualView';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import EspanaTarjetaSanitariaIndividualView from "./EspanaTarjetaSanitariaIndividualView";
 
 const meta = {
-  title: 'Headless/EspanaTarjetaSanitariaIndividualView',
-  component: EspanaTarjetaSanitariaIndividualView,
-  tags: ['autodocs']
+    title: "Headless/EspanaTarjetaSanitariaIndividualView",
+    component: EspanaTarjetaSanitariaIndividualView,
+    tags: ["autodocs"],
 } satisfies Meta<typeof EspanaTarjetaSanitariaIndividualView>;
 
 export default meta;

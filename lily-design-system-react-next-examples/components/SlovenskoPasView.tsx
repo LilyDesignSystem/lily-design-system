@@ -37,9 +37,11 @@ export default function SlovenskoPasView({
 }: SlovenskoPasViewProps) {
     return (
         <span
-        className={`slovensko-pas-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`slovensko-pas-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

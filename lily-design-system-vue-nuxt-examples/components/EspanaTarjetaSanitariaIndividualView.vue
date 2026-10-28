@@ -1,16 +1,17 @@
 <script setup lang="ts">
+// EspanaTarjetaSanitariaIndividualView component
+//
+// A headless display for a España TSI / CIP-SNS in read-only format.
 
-    // EspanaTarjetaSanitariaIndividualView component
-    //
-    // A headless display for a España TSI / CIP-SNS in read-only format.
-
-    withDefaults(defineProps<{
+withDefaults(
+    defineProps<{
         label: string;
         value?: string;
-    }>(), {
+    }>(),
+    {
         value: "",
-    });
-
+    },
+);
 </script>
 
 <template>
@@ -18,5 +19,6 @@
     <span
         class="espana-tarjeta-sanitaria-individual-view"
         :aria-label="label"
-    >{{ value }}</span>
+        >{{ value }}</span
+    >
 </template>

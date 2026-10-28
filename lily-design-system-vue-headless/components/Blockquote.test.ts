@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./Blockquote.vue";
 
-
 describe("Blockquote", () => {
     test("renders as a blockquote element", () => {
         const { container } = render(Subject, { slots: { default: "A quote" } });

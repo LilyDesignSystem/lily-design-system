@@ -13,6 +13,10 @@
 </script>
 
 <!-- TreeMenu.svelte -->
-<div class={`tree-menu ${className}`} aria-label={label} {...restProps}>
+<div
+    class={`tree-menu ${className}`}
+    aria-label={label}
+    {...restProps}
+>
     {@render children?.()}
 </div>

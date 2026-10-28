@@ -21,7 +21,7 @@
 // Examples:
 //
 //   <ColorPickerButton color="#0066cc" label="Blue" selected={true} onClick={handleSelect} />
-//   
+//
 //   <ColorPickerButton color="#cccccc" label="Gray" disabled={true} />
 //
 // Keyboard:
@@ -67,15 +67,15 @@ export default function ColorPickerButton({
 }: ColorPickerButtonProps) {
     return (
         <button
-        className={`color-picker-button ${className}`}
-        type="button"
-        aria-label={label}
-        aria-pressed={selected}
-        disabled={disabled}
-        style={{ backgroundColor: color }}
-        data-color={color}
-        onClick={onClick}
-        {...restProps}
+            className={`color-picker-button ${className}`}
+            type="button"
+            aria-label={label}
+            aria-pressed={selected}
+            disabled={disabled}
+            style={{ backgroundColor: color }}
+            data-color={color}
+            onClick={onClick}
+            {...restProps}
         ></button>
     );
 }

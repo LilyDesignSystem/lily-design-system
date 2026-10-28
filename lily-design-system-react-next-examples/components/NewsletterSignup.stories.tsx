@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import NewsletterSignup from './NewsletterSignup';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import NewsletterSignup from "./NewsletterSignup";
 
 const meta = {
-  title: 'Headless/NewsletterSignup',
-  component: NewsletterSignup,
-  tags: ['autodocs']
+    title: "Headless/NewsletterSignup",
+    component: NewsletterSignup,
+    tags: ["autodocs"],
 } satisfies Meta<typeof NewsletterSignup>;
 
 export default meta;

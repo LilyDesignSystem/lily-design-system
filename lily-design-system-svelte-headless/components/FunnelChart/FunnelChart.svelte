@@ -52,7 +52,11 @@
     class={`funnel-chart ${className}`}
     {...restProps}
 >
-    <div class="funnel-chart-graphic" role="img" aria-label={label}>
+    <div
+        class="funnel-chart-graphic"
+        role="img"
+        aria-label={label}
+    >
         {@render children?.()}
     </div>
     {#if dataTable}

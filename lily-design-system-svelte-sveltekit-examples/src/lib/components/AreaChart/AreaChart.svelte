@@ -52,7 +52,11 @@
     class={`area-chart ${className}`}
     {...restProps}
 >
-    <div class="area-chart-graphic" role="img" aria-label={label}>
+    <div
+        class="area-chart-graphic"
+        role="img"
+        aria-label={label}
+    >
         {@render children?.()}
     </div>
     {#if dataTable}

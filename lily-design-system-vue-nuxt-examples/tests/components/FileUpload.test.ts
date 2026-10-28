@@ -11,7 +11,9 @@ describe("FileUpload", () => {
 
     test("has hidden file input", () => {
         render(Subject, { props: { label: "Upload", "data-testid": "fu" } });
-        const hidden = screen.getByTestId("fu").querySelector("input[type='file']") as HTMLInputElement;
+        const hidden = screen
+            .getByTestId("fu")
+            .querySelector("input[type='file']") as HTMLInputElement;
         expect(hidden).toBeTruthy();
         expect(hidden.hidden).toBe(true);
     });

@@ -67,13 +67,14 @@ export default function TimeInput({
 }: TimeInputProps) {
     return (
         <input
-        className={`time-input ${className}`}
-        type="time"
-        aria-label={label}
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`time-input ${className}`}
+            type="time"
+            aria-label={label}
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

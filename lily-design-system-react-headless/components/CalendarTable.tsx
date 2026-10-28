@@ -65,13 +65,17 @@ export default function CalendarTable({
 }: CalendarTableProps) {
     return (
         <table
-        className={`calendar-table ${className}`}
-        role="grid"
-        aria-label={label}
-        {...restProps}
+            className={`calendar-table ${className}`}
+            role="grid"
+            aria-label={label}
+            {...restProps}
         >
-        {caption && (<><caption>{caption}</caption></>)}
-        {children}
+            {caption && (
+                <>
+                    <caption>{caption}</caption>
+                </>
+            )}
+            {children}
         </table>
     );
 }

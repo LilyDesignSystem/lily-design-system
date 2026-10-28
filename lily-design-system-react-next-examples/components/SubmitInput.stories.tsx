@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import SubmitInput from './SubmitInput';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import SubmitInput from "./SubmitInput";
 
 const meta = {
-  title: 'Headless/SubmitInput',
-  component: SubmitInput,
-  tags: ['autodocs']
+    title: "Headless/SubmitInput",
+    component: SubmitInput,
+    tags: ["autodocs"],
 } satisfies Meta<typeof SubmitInput>;
 
 export default meta;

@@ -33,7 +33,12 @@ describe("CanadaSocialInsuranceNumberInput", () => {
     });
 
     test("can be set to required", () => {
-        render(<Subject label="Social Insurance Number (SIN)" required />);
+        render(
+            <Subject
+                label="Social Insurance Number (SIN)"
+                required
+            />,
+        );
 
         const input = screen.getByLabelText("Social Insurance Number (SIN)") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -47,14 +52,24 @@ describe("CanadaSocialInsuranceNumberInput", () => {
     });
 
     test("can be set to disabled", () => {
-        render(<Subject label="Social Insurance Number (SIN)" disabled />);
+        render(
+            <Subject
+                label="Social Insurance Number (SIN)"
+                disabled
+            />,
+        );
 
         const input = screen.getByLabelText("Social Insurance Number (SIN)") as HTMLInputElement;
         expect(input.disabled).toBe(true);
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="Social Insurance Number (SIN)" data-testid="subject" />);
+        render(
+            <Subject
+                label="Social Insurance Number (SIN)"
+                data-testid="subject"
+            />,
+        );
 
         const input = screen.getByTestId("subject");
         expect(input).toBeTruthy();

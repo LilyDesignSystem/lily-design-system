@@ -13,6 +13,10 @@
 </script>
 
 <!-- SuperBanner.svelte -->
-<div class={`super-banner ${className}`} aria-label={label} {...restProps}>
+<div
+    class={`super-banner ${className}`}
+    aria-label={label}
+    {...restProps}
+>
     {@render children?.()}
 </div>

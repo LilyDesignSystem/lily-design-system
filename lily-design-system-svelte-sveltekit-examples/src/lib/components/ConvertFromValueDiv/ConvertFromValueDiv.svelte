@@ -10,7 +10,6 @@
         children,
         ...restProps
     }: {
-
         /** The content. */
         children?: Snippet;
         [key: string]: unknown;

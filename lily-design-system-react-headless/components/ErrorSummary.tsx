@@ -18,7 +18,7 @@
 //   </ErrorSummary>
 //
 // Examples:
-//   
+//
 //   <ErrorSummary title="There is a problem">
 //     <ul>
 //       <li><a href="#name">Enter your name</a></li>
@@ -26,7 +26,7 @@
 //     </ul>
 //   </ErrorSummary>
 //
-//   
+//
 //   <ErrorSummary title="Please fix the following errors">
 //     <ul>
 //       <li><a href="#password">Password must be at least 8 characters</a></li>
@@ -77,14 +77,14 @@ export default function ErrorSummary({
 
     return (
         <div
-        className={`error-summary ${className}`}
-        role="alert"
-        aria-labelledby={titleId}
-        tabIndex={-1}
-        {...restProps}
+            className={`error-summary ${className}`}
+            role="alert"
+            aria-labelledby={titleId}
+            tabIndex={-1}
+            {...restProps}
         >
-        <h2 id={titleId}>{title}</h2>
-        {children}
+            <h2 id={titleId}>{title}</h2>
+            {children}
         </div>
     );
 }

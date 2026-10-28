@@ -72,12 +72,13 @@ export default function ThemeSelect({
 }: ThemeSelectProps) {
     return (
         <select
-        className={`theme-select ${className}`}
-        aria-label={label}
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        {...restProps}
+            className={`theme-select ${className}`}
+            aria-label={label}
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            {...restProps}
         >
-        {children}
+            {children}
         </select>
     );
 }

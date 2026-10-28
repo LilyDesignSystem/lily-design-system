@@ -4,24 +4,32 @@ import { describe, expect, test, vi } from "vitest";
 
 import Subject from "./ActionGroup.vue";
 
-
 describe("ActionGroup", () => {
     test("renders as a group with aria-label", () => {
-        render(Subject, { props: { label: "Toolbar" }, slots: { default: "<button>One</button>" } });
+        render(Subject, {
+            props: { label: "Toolbar" },
+            slots: { default: "<button>One</button>" },
+        });
 
         const group: HTMLElement = screen.getByRole("group", { name: "Toolbar" });
         expect(group).toBeTruthy();
     });
 
     test("has action-group class on root", () => {
-        render(Subject, { props: { label: "Toolbar" }, slots: { default: "<button>One</button>" } });
+        render(Subject, {
+            props: { label: "Toolbar" },
+            slots: { default: "<button>One</button>" },
+        });
 
         const group: HTMLElement = screen.getByRole("group");
         expect(group.classList.contains("action-group")).toBe(true);
     });
 
     test("renders default slot children", () => {
-        render(Subject, { props: { label: "Toolbar" }, slots: { default: "<button>One</button>" } });
+        render(Subject, {
+            props: { label: "Toolbar" },
+            slots: { default: "<button>One</button>" },
+        });
 
         expect(screen.getByText("One")).toBeTruthy();
     });

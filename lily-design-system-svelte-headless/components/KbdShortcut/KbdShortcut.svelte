@@ -42,8 +42,15 @@
 </script>
 
 <!-- KbdShortcut.svelte -->
-<kbd class={`kbd-shortcut ${className}`} aria-label={label} {...restProps}>
+<kbd
+    class={`kbd-shortcut ${className}`}
+    aria-label={label}
+    {...restProps}
+>
     {#each keys as key, i (i)}
-        {#if i > 0}<span class="kbd-shortcut-separator" aria-hidden="true">{separator}</span>{/if}<kbd class="kbd-shortcut-key">{key}</kbd>
+        {#if i > 0}<span
+                class="kbd-shortcut-separator"
+                aria-hidden="true">{separator}</span
+            >{/if}<kbd class="kbd-shortcut-key">{key}</kbd>
     {/each}
 </kbd>

@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./ContentsList.vue";
 
-
 describe("ContentsList", () => {
     test("renders as an ordered list", () => {
         render(Subject, { slots: { default: "Items" } });

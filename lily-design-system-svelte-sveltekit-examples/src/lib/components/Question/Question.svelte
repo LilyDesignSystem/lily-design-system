@@ -13,6 +13,10 @@
 </script>
 
 <!-- Question.svelte -->
-<div class={`question ${className}`} aria-label={label} {...restProps}>
+<div
+    class={`question ${className}`}
+    aria-label={label}
+    {...restProps}
+>
     {@render children?.()}
 </div>

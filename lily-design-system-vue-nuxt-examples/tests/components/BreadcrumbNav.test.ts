@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "../../components/BreadcrumbNav.vue";
 
-
 describe("BreadcrumbNav", () => {
     test("renders a navigation landmark", () => {
         render(Subject, { props: { label: "Breadcrumb" }, slots: { default: "trail" } });
@@ -21,7 +20,10 @@ describe("BreadcrumbNav", () => {
     });
 
     test("passes through attributes", () => {
-        render(Subject, { props: { label: "Breadcrumb", "data-testid": "bcn" }, slots: { default: "x" } });
+        render(Subject, {
+            props: { label: "Breadcrumb", "data-testid": "bcn" },
+            slots: { default: "x" },
+        });
         expect(screen.getByTestId("bcn")).toBeTruthy();
     });
 });

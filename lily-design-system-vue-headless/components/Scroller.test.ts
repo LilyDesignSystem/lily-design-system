@@ -33,7 +33,10 @@ describe("Scroller", () => {
 
     test("renders default slot inside the foreground", () => {
         const { container } = render(Subject, {
-            slots: { default: "<section>step 1</section><section>step 2</section>", background: "<div />" },
+            slots: {
+                default: "<section>step 1</section><section>step 2</section>",
+                background: "<div />",
+            },
         });
         const fg = container.querySelector(".scroller-foreground");
         expect(fg).toBeTruthy();

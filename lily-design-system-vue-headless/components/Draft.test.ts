@@ -23,7 +23,10 @@ describe("Draft", () => {
     });
 
     test("applies aria-label when label prop is provided", () => {
-        const { container } = render(Subject, { props: { label: "Draft article" }, slots: { default: "x" } });
+        const { container } = render(Subject, {
+            props: { label: "Draft article" },
+            slots: { default: "x" },
+        });
         const root = container.querySelector(".draft");
         expect(root?.getAttribute("aria-label")).toBe("Draft article");
     });
@@ -35,7 +38,10 @@ describe("Draft", () => {
     });
 
     test("applies data-status when status prop is provided", () => {
-        const { container } = render(Subject, { props: { status: "in-progress" }, slots: { default: "x" } });
+        const { container } = render(Subject, {
+            props: { status: "in-progress" },
+            slots: { default: "x" },
+        });
         const root = container.querySelector(".draft");
         expect(root?.getAttribute("data-status")).toBe("in-progress");
     });

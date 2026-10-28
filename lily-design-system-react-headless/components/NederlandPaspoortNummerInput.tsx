@@ -50,14 +50,15 @@ export default function NederlandPaspoortNummerInput({
 }: NederlandPaspoortNummerInputProps) {
     return (
         <input
-        className={`nederland-paspoort-nummer-input ${className}`}
-        type="text"
-        aria-label={label}
-        autoComplete="off"
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`nederland-paspoort-nummer-input ${className}`}
+            type="text"
+            aria-label={label}
+            autoComplete="off"
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

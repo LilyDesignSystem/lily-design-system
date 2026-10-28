@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import TimerButton from './TimerButton.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import TimerButton from "./TimerButton.vue";
 
 const meta = {
-  title: 'Headless/TimerButton',
-  component: TimerButton,
-  tags: ['autodocs']
+    title: "Headless/TimerButton",
+    component: TimerButton,
+    tags: ["autodocs"],
 } satisfies Meta<typeof TimerButton>;
 
 export default meta;

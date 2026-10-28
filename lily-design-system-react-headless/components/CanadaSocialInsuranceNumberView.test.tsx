@@ -5,7 +5,12 @@ import Subject from "./CanadaSocialInsuranceNumberView";
 
 describe("CanadaSocialInsuranceNumberView", () => {
     test("renders with the correct class", () => {
-        render(<Subject label="Social Insurance Number (SIN)" value="test-value" />);
+        render(
+            <Subject
+                label="Social Insurance Number (SIN)"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Social Insurance Number (SIN)");
         expect(el).toBeTruthy();
@@ -13,7 +18,12 @@ describe("CanadaSocialInsuranceNumberView", () => {
     });
 
     test("renders the value as text content", () => {
-        render(<Subject label="Social Insurance Number (SIN)" value="test-value" />);
+        render(
+            <Subject
+                label="Social Insurance Number (SIN)"
+                value="test-value"
+            />,
+        );
 
         const el = screen.getByLabelText("Social Insurance Number (SIN)");
         expect(el.textContent).toBe("test-value");

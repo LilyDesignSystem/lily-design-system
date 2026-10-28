@@ -14,10 +14,10 @@
 //   <Separator />
 //
 // Examples:
-//   
+//
 //   <Separator label="End of introduction" />
 //
-//   
+//
 //   <Separator label="Section break" data-section="divider" />
 //
 // Keyboard:
@@ -55,10 +55,10 @@ export default function Separator({
 }: SeparatorProps) {
     return (
         <hr
-        className={`separator ${className}`}
-        role="separator"
-        aria-label={label}
-        {...restProps}
+            className={`separator ${className}`}
+            role="separator"
+            aria-label={label}
+            {...restProps}
         />
     );
 }

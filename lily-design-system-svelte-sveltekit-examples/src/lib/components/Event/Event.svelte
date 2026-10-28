@@ -13,6 +13,10 @@
 </script>
 
 <!-- Event.svelte -->
-<div class={`event ${className}`} aria-label={label} {...restProps}>
+<div
+    class={`event ${className}`}
+    aria-label={label}
+    {...restProps}
+>
     {@render children?.()}
 </div>

@@ -9,7 +9,7 @@ describe("TreeSelect", () => {
         render(
             <Subject label="Category">
                 <ul>tree</ul>
-            </Subject>
+            </Subject>,
         );
 
         const combo: HTMLElement = screen.getByRole("combobox");
@@ -21,7 +21,7 @@ describe("TreeSelect", () => {
         const { container } = render(
             <Subject label="C">
                 <ul>x</ul>
-            </Subject>
+            </Subject>,
         );
         const root: HTMLElement = container.querySelector(".tree-select") as HTMLElement;
         expect(root).toBeTruthy();
@@ -29,25 +29,34 @@ describe("TreeSelect", () => {
 
     test("aria-expanded reflects expanded prop", () => {
         const { rerender } = render(
-            <Subject label="C" expanded={false}>
+            <Subject
+                label="C"
+                expanded={false}
+            >
                 <ul>x</ul>
-            </Subject>
+            </Subject>,
         );
         expect(screen.getByRole("combobox").getAttribute("aria-expanded")).toBe("false");
 
         rerender(
-            <Subject label="C" expanded={true}>
+            <Subject
+                label="C"
+                expanded={true}
+            >
                 <ul>x</ul>
-            </Subject>
+            </Subject>,
         );
         expect(screen.getByRole("combobox").getAttribute("aria-expanded")).toBe("true");
     });
 
     test("data-multiple when multiple", () => {
         render(
-            <Subject label="C" multiple>
+            <Subject
+                label="C"
+                multiple
+            >
                 <ul>x</ul>
-            </Subject>
+            </Subject>,
         );
         expect(screen.getByRole("combobox").getAttribute("data-multiple")).toBe("true");
     });
@@ -56,34 +65,43 @@ describe("TreeSelect", () => {
         render(
             <Subject label="C">
                 <ul>x</ul>
-            </Subject>
+            </Subject>,
         );
         expect(screen.getByRole("combobox").getAttribute("data-multiple")).toBeNull();
     });
 
     test("trigger displays value when provided", () => {
         render(
-            <Subject label="C" value="Fruits / Apple">
+            <Subject
+                label="C"
+                value="Fruits / Apple"
+            >
                 <ul>x</ul>
-            </Subject>
+            </Subject>,
         );
         expect(screen.getByRole("button").textContent).toBe("Fruits / Apple");
     });
 
     test("trigger displays placeholder when no value", () => {
         render(
-            <Subject label="C" placeholder="Pick…">
+            <Subject
+                label="C"
+                placeholder="Pick…"
+            >
                 <ul>x</ul>
-            </Subject>
+            </Subject>,
         );
         expect(screen.getByRole("button").textContent).toBe("Pick…");
     });
 
     test("disables the trigger when disabled", () => {
         render(
-            <Subject label="C" disabled>
+            <Subject
+                label="C"
+                disabled
+            >
                 <ul>x</ul>
-            </Subject>
+            </Subject>,
         );
         const trigger: HTMLButtonElement = screen.getByRole("button") as HTMLButtonElement;
         expect(trigger.disabled).toBe(true);
@@ -91,9 +109,12 @@ describe("TreeSelect", () => {
 
     test("hides the panel when not expanded", () => {
         const { container } = render(
-            <Subject label="C" expanded={false}>
+            <Subject
+                label="C"
+                expanded={false}
+            >
                 <ul>x</ul>
-            </Subject>
+            </Subject>,
         );
         const panel: HTMLElement = container.querySelector(".tree-select-panel") as HTMLElement;
         expect(panel.hasAttribute("hidden")).toBe(true);
@@ -101,9 +122,12 @@ describe("TreeSelect", () => {
 
     test("shows the panel when expanded", () => {
         const { container } = render(
-            <Subject label="C" expanded={true}>
+            <Subject
+                label="C"
+                expanded={true}
+            >
                 <ul>x</ul>
-            </Subject>
+            </Subject>,
         );
         const panel: HTMLElement = container.querySelector(".tree-select-panel") as HTMLElement;
         expect(panel.hasAttribute("hidden")).toBe(false);
@@ -113,9 +137,12 @@ describe("TreeSelect", () => {
         const user: UserEvent = userEvent.setup();
         const handleClick = vi.fn();
         render(
-            <Subject label="C" onClick={handleClick}>
+            <Subject
+                label="C"
+                onClick={handleClick}
+            >
                 <ul>x</ul>
-            </Subject>
+            </Subject>,
         );
         await user.click(screen.getByRole("button"));
         expect(handleClick).toHaveBeenCalledOnce();

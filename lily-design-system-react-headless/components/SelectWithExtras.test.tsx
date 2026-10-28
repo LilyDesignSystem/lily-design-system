@@ -27,12 +27,26 @@ describe("SelectWithExtras", () => {
     });
 
     test("supports required", () => {
-        render(<Subject label="Choose" required>{options}</Subject>);
+        render(
+            <Subject
+                label="Choose"
+                required
+            >
+                {options}
+            </Subject>,
+        );
         expect((screen.getByRole("combobox") as HTMLSelectElement).required).toBe(true);
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="C" data-testid="swe">{options}</Subject>);
+        render(
+            <Subject
+                label="C"
+                data-testid="swe"
+            >
+                {options}
+            </Subject>,
+        );
         expect(screen.getByTestId("swe")).toBeTruthy();
     });
 });

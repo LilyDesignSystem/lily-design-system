@@ -37,9 +37,11 @@ export default function CeskoCestovniPasView({
 }: CeskoCestovniPasViewProps) {
     return (
         <span
-        className={`cesko-cestovni-pas-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`cesko-cestovni-pas-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

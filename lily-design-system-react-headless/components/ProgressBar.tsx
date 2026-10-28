@@ -21,6 +21,14 @@ export default function ProgressBar({
     ...restProps
 }: ProgressBarProps) {
     return (
-        <div className={`progress-bar ${className}`} role="progressbar" aria-valuenow={value} aria-valuemin={min} aria-valuemax={max} aria-label={label} {...restProps} />
+        <div
+            className={`progress-bar ${className}`}
+            role="progressbar"
+            aria-valuenow={value}
+            aria-valuemin={min}
+            aria-valuemax={max}
+            aria-label={label}
+            {...restProps}
+        />
     );
 }

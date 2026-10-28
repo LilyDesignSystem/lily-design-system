@@ -14,7 +14,7 @@
 //   <AvatarImage src="/photo.jpg" alt="Jane Doe" />
 //
 // Examples:
-//   
+//
 //   <Avatar alt="Jane Doe">
 //     <AvatarImage src="/photos/jane.jpg" alt="Jane Doe" />
 //   </Avatar>
@@ -48,19 +48,14 @@ export interface AvatarImageProps {
     [key: string]: unknown;
 }
 
-export default function AvatarImage({
-    className = "",
-    src,
-    alt,
-    ...restProps
-}: AvatarImageProps) {
+export default function AvatarImage({ className = "", src, alt, ...restProps }: AvatarImageProps) {
     return (
         <img
-        className={`avatar-image ${className}`}
-        src={src}
-        alt={alt}
-        aria-hidden="true"
-        {...restProps}
+            className={`avatar-image ${className}`}
+            src={src}
+            alt={alt}
+            aria-hidden="true"
+            {...restProps}
         />
     );
 }

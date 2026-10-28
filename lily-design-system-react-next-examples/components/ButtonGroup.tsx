@@ -58,12 +58,12 @@ export default function ButtonGroup({
 }: ButtonGroupProps) {
     return (
         <div
-        className={`button-group ${className}`}
-        role="group"
-        aria-label={label}
-        {...restProps}
+            className={`button-group ${className}`}
+            role="group"
+            aria-label={label}
+            {...restProps}
         >
-        {children}
+            {children}
         </div>
     );
 }

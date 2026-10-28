@@ -17,9 +17,7 @@ export interface BodyTextProps {
     [key: string]: unknown;
 }
 
-export default function BodyText({
-    className = "", children, ...restProps
-}: BodyTextProps) {
+export default function BodyText({ className = "", children, ...restProps }: BodyTextProps) {
     return (
         <div
             className={`body-text ${className}`}

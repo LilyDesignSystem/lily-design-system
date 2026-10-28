@@ -13,6 +13,10 @@
 </script>
 
 <!-- SliderButton.svelte -->
-<div class={`slider-button ${className}`} aria-label={label} {...restProps}>
+<div
+    class={`slider-button ${className}`}
+    aria-label={label}
+    {...restProps}
+>
     {@render children?.()}
 </div>

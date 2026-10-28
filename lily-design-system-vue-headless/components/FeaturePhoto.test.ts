@@ -25,7 +25,9 @@ describe("FeaturePhoto", () => {
     });
 
     test("supports loading=eager", () => {
-        const { container } = render(Subject, { props: { src: "/p.jpg", alt: "A", loading: "eager" } });
+        const { container } = render(Subject, {
+            props: { src: "/p.jpg", alt: "A", loading: "eager" },
+        });
         expect(container.querySelector("img")?.getAttribute("loading")).toBe("eager");
     });
 
@@ -48,7 +50,9 @@ describe("FeaturePhoto", () => {
             props: { src: "/p.jpg", alt: "A" },
             slots: { caption: "Sunset over the harbour" },
         });
-        expect(container.querySelector(".feature-photo-caption-text")?.textContent).toBe("Sunset over the harbour");
+        expect(container.querySelector(".feature-photo-caption-text")?.textContent).toBe(
+            "Sunset over the harbour",
+        );
     });
 
     test("renders credit slot when provided", () => {
@@ -56,7 +60,9 @@ describe("FeaturePhoto", () => {
             props: { src: "/p.jpg", alt: "A" },
             slots: { credit: "Jane Photographer" },
         });
-        expect(container.querySelector(".feature-photo-credit")?.textContent).toBe("Jane Photographer");
+        expect(container.querySelector(".feature-photo-credit")?.textContent).toBe(
+            "Jane Photographer",
+        );
     });
 
     test("accepts empty alt for decorative images", () => {

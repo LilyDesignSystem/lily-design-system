@@ -11,13 +11,16 @@ function svgSnippet() {
 
 function tableSnippet() {
     return createRawSnippet(() => ({
-        render: () => `<table><caption>Values</caption><tbody><tr><th scope="row">A</th><td>1</td></tr></tbody></table>`,
+        render: () =>
+            `<table><caption>Values</caption><tbody><tr><th scope="row">A</th><td>1</td></tr></tbody></table>`,
     }));
 }
 
 describe("PieChart", () => {
     it("renders a <figure> with the base class", () => {
-        const { container } = render(PieChart, { props: { label: "Test", children: svgSnippet() } });
+        const { container } = render(PieChart, {
+            props: { label: "Test", children: svgSnippet() },
+        });
         expect(container.querySelector("figure.pie-chart")).toBeTruthy();
     });
 
@@ -31,7 +34,9 @@ describe("PieChart", () => {
 
     it("omits aria-label when no label is given", () => {
         const { container } = render(PieChart, { props: { children: svgSnippet() } });
-        expect(container.querySelector(".pie-chart-graphic")!.hasAttribute("aria-label")).toBe(false);
+        expect(container.querySelector(".pie-chart-graphic")!.hasAttribute("aria-label")).toBe(
+            false,
+        );
     });
 
     it("does not put role=img on the figure", () => {
@@ -40,7 +45,9 @@ describe("PieChart", () => {
     });
 
     it("appends the consumer class after the base class", () => {
-        const { container } = render(PieChart, { props: { label: "T", class: "mine", children: svgSnippet() } });
+        const { container } = render(PieChart, {
+            props: { label: "T", class: "mine", children: svgSnippet() },
+        });
         expect(container.querySelector("figure")!.getAttribute("class")).toBe("pie-chart mine");
     });
 
@@ -55,7 +62,9 @@ describe("PieChart", () => {
     });
 
     it("renders the dataTable snippet in a .pie-chart-data-table sibling after the graphic", () => {
-        const { container } = render(PieChart, { props: { label: "T", children: svgSnippet(), dataTable: tableSnippet() } });
+        const { container } = render(PieChart, {
+            props: { label: "T", children: svgSnippet(), dataTable: tableSnippet() },
+        });
         const wrap = container.querySelector(".pie-chart-data-table")!;
         expect(wrap).toBeTruthy();
         expect(wrap.previousElementSibling).toBe(container.querySelector(".pie-chart-graphic"));
@@ -63,12 +72,16 @@ describe("PieChart", () => {
     });
 
     it("keeps the table outside the role=img element so assistive technology can reach it", () => {
-        render(PieChart, { props: { label: "T", children: svgSnippet(), dataTable: tableSnippet() } });
+        render(PieChart, {
+            props: { label: "T", children: svgSnippet(), dataTable: tableSnippet() },
+        });
         expect(screen.getByRole("table").closest("[role=img]")).toBeNull();
     });
 
     it("spreads rest props onto the figure", () => {
-        render(PieChart, { props: { label: "T", id: "c1", "data-testid": "chart", children: svgSnippet() } });
+        render(PieChart, {
+            props: { label: "T", id: "c1", "data-testid": "chart", children: svgSnippet() },
+        });
         const el = screen.getByTestId("chart");
         expect(el.tagName).toBe("FIGURE");
         expect(el.id).toBe("c1");

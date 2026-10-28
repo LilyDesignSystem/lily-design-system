@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import FranceNumeroDIdentificationAuRepertoireView from './FranceNumeroDIdentificationAuRepertoireView.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import FranceNumeroDIdentificationAuRepertoireView from "./FranceNumeroDIdentificationAuRepertoireView.vue";
 
 const meta = {
-  title: 'Headless/FranceNumeroDIdentificationAuRepertoireView',
-  component: FranceNumeroDIdentificationAuRepertoireView,
-  tags: ['autodocs']
+    title: "Headless/FranceNumeroDIdentificationAuRepertoireView",
+    component: FranceNumeroDIdentificationAuRepertoireView,
+    tags: ["autodocs"],
 } satisfies Meta<typeof FranceNumeroDIdentificationAuRepertoireView>;
 
 export default meta;

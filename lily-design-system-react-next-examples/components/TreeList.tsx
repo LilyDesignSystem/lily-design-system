@@ -49,65 +49,60 @@
 import React, { useRef } from "react";
 
 export interface TreeListProps {
-  className?: string;
-  /** Accessible label. */
-  label: string;
-  /** Tree item elements. */
-  children: React.ReactNode;
-  [key: string]: unknown;
+    className?: string;
+    /** Accessible label. */
+    label: string;
+    /** Tree item elements. */
+    children: React.ReactNode;
+    [key: string]: unknown;
 }
 
-export default function TreeList({
-  className = "",
-  label,
-  children,
-  ...restProps
-}: TreeListProps) {
-  const treeRef = useRef<HTMLOListElement>(null);
+export default function TreeList({ className = "", label, children, ...restProps }: TreeListProps) {
+    const treeRef = useRef<HTMLOListElement>(null);
 
-  function handleKeyDown(event: React.KeyboardEvent) {
-    if (!treeRef.current) return;
-    const items = Array.from(
-      treeRef.current.querySelectorAll<HTMLElement>("[role='treeitem']"),
-    ).filter((el) => !el.parentElement?.closest("[role='treeitem'][aria-expanded='false']"));
-    const current = document.activeElement as HTMLElement;
-    const index = items.indexOf(current);
-    switch (event.key) {
-      case "ArrowDown": {
-        event.preventDefault();
-        const next = index < items.length - 1 ? index + 1 : 0;
-        items[next]?.focus();
-        break;
-      }
-      case "ArrowUp": {
-        event.preventDefault();
-        const prev = index > 0 ? index - 1 : items.length - 1;
-        items[prev]?.focus();
-        break;
-      }
-      case "Home": {
-        event.preventDefault();
-        items[0]?.focus();
-        break;
-      }
-      case "End": {
-        event.preventDefault();
-        items[items.length - 1]?.focus();
-        break;
-      }
+    function handleKeyDown(event: React.KeyboardEvent) {
+        if (!treeRef.current) return;
+        const items = Array.from(
+            treeRef.current.querySelectorAll<HTMLElement>("[role='treeitem']"),
+        ).filter((el) => !el.parentElement?.closest("[role='treeitem'][aria-expanded='false']"));
+        const current = document.activeElement as HTMLElement;
+        const index = items.indexOf(current);
+        switch (event.key) {
+            case "ArrowDown": {
+                event.preventDefault();
+                const next = index < items.length - 1 ? index + 1 : 0;
+                items[next]?.focus();
+                break;
+            }
+            case "ArrowUp": {
+                event.preventDefault();
+                const prev = index > 0 ? index - 1 : items.length - 1;
+                items[prev]?.focus();
+                break;
+            }
+            case "Home": {
+                event.preventDefault();
+                items[0]?.focus();
+                break;
+            }
+            case "End": {
+                event.preventDefault();
+                items[items.length - 1]?.focus();
+                break;
+            }
+        }
     }
-  }
 
-  return (
-    <ol
-      className={`tree-list ${className}`}
-      role="tree"
-      aria-label={label}
-      ref={treeRef}
-      onKeyDown={handleKeyDown}
-      {...restProps}
-    >
-      {children}
-    </ol>
-  );
+    return (
+        <ol
+            className={`tree-list ${className}`}
+            role="tree"
+            aria-label={label}
+            ref={treeRef}
+            onKeyDown={handleKeyDown}
+            {...restProps}
+        >
+            {children}
+        </ol>
+    );
 }

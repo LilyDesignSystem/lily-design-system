@@ -21,6 +21,9 @@ export default function EireIndividualHealthIdentifierView({
         <span
             className={`eire-individual-health-identifier-view ${className}`}
             aria-label={label}
-            {...restProps}>{value}</span>
+            {...restProps}
+        >
+            {value}
+        </span>
     );
 }

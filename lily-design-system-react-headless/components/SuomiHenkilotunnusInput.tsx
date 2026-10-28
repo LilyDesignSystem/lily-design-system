@@ -50,14 +50,15 @@ export default function SuomiHenkilotunnusInput({
 }: SuomiHenkilotunnusInputProps) {
     return (
         <input
-        className={`suomi-henkilotunnus-input ${className}`}
-        type="text"
-        aria-label={label}
-        autoComplete="off"
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`suomi-henkilotunnus-input ${className}`}
+            type="text"
+            aria-label={label}
+            autoComplete="off"
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

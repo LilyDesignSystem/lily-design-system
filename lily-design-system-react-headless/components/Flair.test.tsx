@@ -15,7 +15,14 @@ describe("Flair", () => {
     });
 
     test("meaningful when label provided", () => {
-        render(<Subject label="Status: new" data-testid="fl">New</Subject>);
+        render(
+            <Subject
+                label="Status: new"
+                data-testid="fl"
+            >
+                New
+            </Subject>,
+        );
         expect(screen.getByTestId("fl").getAttribute("aria-label")).toBe("Status: new");
         expect(screen.getByTestId("fl").getAttribute("aria-hidden")).toBeNull();
     });

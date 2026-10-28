@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import SplitView from './SplitView';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import SplitView from "./SplitView";
 
 const meta = {
-  title: 'Headless/SplitView',
-  component: SplitView,
-  tags: ['autodocs']
+    title: "Headless/SplitView",
+    component: SplitView,
+    tags: ["autodocs"],
 } satisfies Meta<typeof SplitView>;
 
 export default meta;

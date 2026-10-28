@@ -52,10 +52,10 @@ export default function KanbanTableRow({
 }: KanbanTableRowProps) {
     return (
         <tr
-        className={`kanban-table-row ${className}`}
-        {...restProps}
+            className={`kanban-table-row ${className}`}
+            {...restProps}
         >
-        {children}
+            {children}
         </tr>
     );
 }

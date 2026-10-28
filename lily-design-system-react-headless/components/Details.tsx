@@ -16,12 +16,12 @@
 //   <Details summary="More info">Content here</Details>
 //
 // Examples:
-//   
+//
 //   <Details summary="More information">
 //     <p>Additional details shown when expanded.</p>
 //   </Details>
 //
-//   
+//
 //   <Details summary="Advanced options" open={showAdvanced} onChange={setShowAdvanced}>
 //     <p>Configure advanced settings here.</p>
 //   </Details>
@@ -81,13 +81,13 @@ export default function Details({
 
     return (
         <details
-        className={`details ${className}`}
-        open={open}
-        onToggle={handleToggle}
-        {...restProps}
+            className={`details ${className}`}
+            open={open}
+            onToggle={handleToggle}
+            {...restProps}
         >
-        <summary>{summary}</summary>
-        {children}
+            <summary>{summary}</summary>
+            {children}
         </details>
     );
 }

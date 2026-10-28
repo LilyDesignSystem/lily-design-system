@@ -15,7 +15,9 @@ describe("ArgentinaCodigoUnicoDeIdentificacionLaboralInput", () => {
         render(Subject, { props: { label: "Labor Identification Code" } });
 
         const input = screen.getByLabelText("Labor Identification Code");
-        expect(input.getAttribute("class")).toContain("argentina-codigo-unico-de-identificacion-laboral-input");
+        expect(input.getAttribute("class")).toContain(
+            "argentina-codigo-unico-de-identificacion-laboral-input",
+        );
     });
 
     test("has autocomplete off", () => {
@@ -54,7 +56,9 @@ describe("ArgentinaCodigoUnicoDeIdentificacionLaboralInput", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(Subject, { props: { label: "Labor Identification Code", "data-testid": "subject" } });
+        render(Subject, {
+            props: { label: "Labor Identification Code", "data-testid": "subject" },
+        });
 
         const input = screen.getByTestId("subject");
         expect(input).toBeTruthy();

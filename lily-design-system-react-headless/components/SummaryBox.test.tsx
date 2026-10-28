@@ -8,7 +8,7 @@ describe("SummaryBox", () => {
         render(
             <Subject heading="Key takeaways">
                 <p>Body</p>
-            </Subject>
+            </Subject>,
         );
 
         const aside: HTMLElement = screen.getByRole("complementary", {
@@ -21,7 +21,7 @@ describe("SummaryBox", () => {
         render(
             <Subject heading="Key takeaways">
                 <p>Body</p>
-            </Subject>
+            </Subject>,
         );
 
         const aside: HTMLElement = screen.getByRole("complementary");
@@ -32,7 +32,7 @@ describe("SummaryBox", () => {
         render(
             <Subject heading="Key takeaways">
                 <p>Body</p>
-            </Subject>
+            </Subject>,
         );
 
         const aside: HTMLElement = screen.getByRole("complementary");
@@ -41,9 +41,12 @@ describe("SummaryBox", () => {
 
     test("allows label to override the aria-label", () => {
         render(
-            <Subject heading="Key takeaways" label="Custom label">
+            <Subject
+                heading="Key takeaways"
+                label="Custom label"
+            >
                 <p>Body</p>
-            </Subject>
+            </Subject>,
         );
 
         const aside: HTMLElement = screen.getByRole("complementary");
@@ -54,7 +57,7 @@ describe("SummaryBox", () => {
         render(
             <Subject heading="Key takeaways">
                 <p>Body</p>
-            </Subject>
+            </Subject>,
         );
 
         const h3: HTMLElement = screen.getByRole("heading", { level: 3 });
@@ -65,7 +68,7 @@ describe("SummaryBox", () => {
         render(
             <Subject heading="Key takeaways">
                 <p>Plain language wins</p>
-            </Subject>
+            </Subject>,
         );
 
         const aside: HTMLElement = screen.getByRole("complementary");
@@ -74,9 +77,12 @@ describe("SummaryBox", () => {
 
     test("passes through additional HTML attributes", () => {
         render(
-            <Subject heading="Key takeaways" id="my-summary">
+            <Subject
+                heading="Key takeaways"
+                id="my-summary"
+            >
                 <p>Body</p>
-            </Subject>
+            </Subject>,
         );
 
         const aside: HTMLElement = screen.getByRole("complementary");

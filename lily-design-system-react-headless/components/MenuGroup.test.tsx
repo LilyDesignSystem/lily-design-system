@@ -33,7 +33,7 @@ describe("MenuGroup", () => {
             <Subject label="File actions">
                 <div role="menuitem">New</div>
                 <div role="menuitem">Open</div>
-            </Subject>
+            </Subject>,
         );
 
         expect(screen.getByRole("menuitem", { name: "New" })).toBeTruthy();

@@ -14,20 +14,20 @@
 //   <MenuItem>New File</MenuItem>
 //
 // Examples:
-//   
+//
 //   <Menu label="File">
 //     <MenuItem>New File</MenuItem>
 //     <MenuItem>Open File</MenuItem>
 //     <MenuItem>Save</MenuItem>
 //   </Menu>
 //
-//   
+//
 //   <MenuItem onClick={() => handleNew()}>New File</MenuItem>
 //
-//   
+//
 //   <MenuItem aria-disabled="true">Paste</MenuItem>
 //
-//   
+//
 //   <MenuItem aria-haspopup="true" aria-expanded={submenuOpen}>Recent Files</MenuItem>
 //
 // Keyboard:
@@ -64,20 +64,15 @@ export interface MenuItemProps {
     [key: string]: unknown;
 }
 
-export default function MenuItem({
-    className = "",
-    children,
-    ...restProps
-}: MenuItemProps) {
+export default function MenuItem({ className = "", children, ...restProps }: MenuItemProps) {
     return (
-        
         <div
-        className={`menu-item ${className}`}
-        role="menuitem"
-        tabIndex={-1}
-        {...restProps}
+            className={`menu-item ${className}`}
+            role="menuitem"
+            tabIndex={-1}
+            {...restProps}
         >
-        {children}
+            {children}
         </div>
     );
 }

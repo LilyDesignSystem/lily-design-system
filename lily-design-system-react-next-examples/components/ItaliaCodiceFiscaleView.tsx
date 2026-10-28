@@ -37,9 +37,11 @@ export default function ItaliaCodiceFiscaleView({
 }: ItaliaCodiceFiscaleViewProps) {
     return (
         <span
-        className={`italia-codice-fiscale-view ${className}`}
-        aria-label={label}
-        {...restProps}>{value}</span
+            className={`italia-codice-fiscale-view ${className}`}
+            aria-label={label}
+            {...restProps}
         >
+            {value}
+        </span>
     );
 }

@@ -69,13 +69,14 @@ export default function WeekInput({
 }: WeekInputProps) {
     return (
         <input
-        className={`week-input ${className}`}
-        type="week"
-        aria-label={label}
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`week-input ${className}`}
+            type="week"
+            aria-label={label}
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

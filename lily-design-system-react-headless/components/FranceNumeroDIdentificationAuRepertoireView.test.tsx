@@ -12,7 +12,12 @@ describe("FranceNumeroDIdentificationAuRepertoireView", () => {
     });
 
     test("appends className prop to root", () => {
-        const { container } = render(<Subject label="Demo" className="extra" />);
+        const { container } = render(
+            <Subject
+                label="Demo"
+                className="extra"
+            />,
+        );
         const el = container.querySelector(".france-numero-d-identification-au-repertoire-view");
         expect(el?.className).toContain("france-numero-d-identification-au-repertoire-view");
         expect(el?.className).toContain("extra");

@@ -25,7 +25,14 @@ describe("TabBarButton", () => {
     });
 
     test("reflects selected state when true", () => {
-        render(<Subject selected controls="panel-1">Tab</Subject>);
+        render(
+            <Subject
+                selected
+                controls="panel-1"
+            >
+                Tab
+            </Subject>,
+        );
         expect(screen.getByRole("tab").getAttribute("aria-selected")).toBe("true");
     });
 
@@ -35,7 +42,14 @@ describe("TabBarButton", () => {
     });
 
     test("has tabindex 0 when selected", () => {
-        render(<Subject selected controls="panel-1">Tab</Subject>);
+        render(
+            <Subject
+                selected
+                controls="panel-1"
+            >
+                Tab
+            </Subject>,
+        );
         expect(screen.getByRole("tab").getAttribute("tabindex")).toBe("0");
     });
 
@@ -45,7 +59,14 @@ describe("TabBarButton", () => {
     });
 
     test("passes through attributes", () => {
-        render(<Subject controls="panel-1" data-testid="my-tab">Tab</Subject>);
+        render(
+            <Subject
+                controls="panel-1"
+                data-testid="my-tab"
+            >
+                Tab
+            </Subject>,
+        );
         expect(screen.getByTestId("my-tab")).toBeTruthy();
     });
 });

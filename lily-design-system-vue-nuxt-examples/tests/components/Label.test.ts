@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "../../components/Label.vue";
 
-
 describe("Label", () => {
     test("renders label text", () => {
         render(Subject, { slots: { default: "Email" } });
@@ -11,7 +10,10 @@ describe("Label", () => {
     });
 
     test("has for attribute", () => {
-        render(Subject, { props: { for: "email-input", "data-testid": "lbl" }, slots: { default: "Email" } });
+        render(Subject, {
+            props: { for: "email-input", "data-testid": "lbl" },
+            slots: { default: "Email" },
+        });
         expect(screen.getByTestId("lbl").getAttribute("for")).toBe("email-input");
     });
 

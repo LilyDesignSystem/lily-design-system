@@ -53,12 +53,12 @@ export default function SummaryBox({
 }: SummaryBoxProps) {
     return (
         <aside
-        className={`summary-box ${className}`}
-        aria-label={label || heading}
-        {...restProps}
+            className={`summary-box ${className}`}
+            aria-label={label || heading}
+            {...restProps}
         >
-        <h3 className="summary-box-heading">{heading}</h3>
-        <div className="summary-box-body">{children}</div>
+            <h3 className="summary-box-heading">{heading}</h3>
+            <div className="summary-box-body">{children}</div>
         </aside>
     );
 }

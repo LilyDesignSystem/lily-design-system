@@ -19,12 +19,23 @@ describe("CheckboxInput", () => {
     });
 
     test("can be disabled", () => {
-        render(<Subject label="Disabled" disabled />);
+        render(
+            <Subject
+                label="Disabled"
+                disabled
+            />,
+        );
         expect((screen.getByRole("checkbox") as HTMLInputElement).disabled).toBe(true);
     });
 
     test("applies name and value", () => {
-        render(<Subject label="Opt" name="opt" value="1" />);
+        render(
+            <Subject
+                label="Opt"
+                name="opt"
+                value="1"
+            />,
+        );
         const cb = screen.getByRole("checkbox");
         expect(cb.getAttribute("name")).toBe("opt");
         expect(cb.getAttribute("value")).toBe("1");
@@ -38,7 +49,12 @@ describe("CheckboxInput", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        render(<Subject label="Test" data-testid="cb" />);
+        render(
+            <Subject
+                label="Test"
+                data-testid="cb"
+            />,
+        );
         expect(screen.getByTestId("cb")).toBeTruthy();
     });
 });

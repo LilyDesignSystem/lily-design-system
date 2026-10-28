@@ -15,12 +15,12 @@
 //   <Panel label="Settings">{children}</Panel>
 //
 // Examples:
-//   
+//
 //   <Panel label="Settings">
 //     <p>Adjust your preferences below.</p>
 //   </Panel>
 //
-//   
+//
 //   <Panel label="Account information">
 //     <p>Name, email, and profile details.</p>
 //   </Panel>
@@ -60,19 +60,14 @@ export interface PanelProps {
     [key: string]: unknown;
 }
 
-export default function Panel({
-    className = "",
-    label,
-    children,
-    ...restProps
-}: PanelProps) {
+export default function Panel({ className = "", label, children, ...restProps }: PanelProps) {
     return (
         <section
-        className={`panel ${className}`}
-        aria-label={label}
-        {...restProps}
+            className={`panel ${className}`}
+            aria-label={label}
+            {...restProps}
         >
-        {children}
+            {children}
         </section>
     );
 }

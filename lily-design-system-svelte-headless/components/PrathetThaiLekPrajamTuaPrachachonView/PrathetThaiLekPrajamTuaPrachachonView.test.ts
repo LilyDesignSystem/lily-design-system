@@ -5,7 +5,9 @@ import Subject from "./PrathetThaiLekPrajamTuaPrachachonView.svelte";
 
 describe("PrathetThaiLekPrajamTuaPrachachonView", () => {
     test("renders with the correct class", () => {
-        render(Subject, { props: { label: "เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)", value: "test-value" } });
+        render(Subject, {
+            props: { label: "เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)", value: "test-value" },
+        });
 
         const el = screen.getByLabelText("เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)");
         expect(el).toBeTruthy();
@@ -13,7 +15,9 @@ describe("PrathetThaiLekPrajamTuaPrachachonView", () => {
     });
 
     test("renders the value as text content", () => {
-        render(Subject, { props: { label: "เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)", value: "test-value" } });
+        render(Subject, {
+            props: { label: "เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)", value: "test-value" },
+        });
 
         const el = screen.getByLabelText("เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)");
         expect(el.textContent).toBe("test-value");
@@ -23,6 +27,8 @@ describe("PrathetThaiLekPrajamTuaPrachachonView", () => {
         render(Subject, { props: { label: "เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)" } });
 
         const el = screen.getByLabelText("เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)");
-        expect(el.getAttribute("aria-label")).toBe("เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)");
+        expect(el.getAttribute("aria-label")).toBe(
+            "เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)",
+        );
     });
 });

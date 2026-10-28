@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "../../components/PaginationListItem.vue";
 
-
 describe("PaginationListItem", () => {
     test("renders a list item", () => {
         render(Subject, { props: { "data-testid": "pli" }, slots: { default: "1" } });

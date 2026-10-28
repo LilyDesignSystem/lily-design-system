@@ -29,12 +29,7 @@ export interface TreeMenuProps {
     [key: string]: unknown;
 }
 
-export default function TreeMenu({
-    className = "",
-    label,
-    children,
-    ...restProps
-}: TreeMenuProps) {
+export default function TreeMenu({ className = "", label, children, ...restProps }: TreeMenuProps) {
     return (
         <div
             className={`tree-menu ${className}`}

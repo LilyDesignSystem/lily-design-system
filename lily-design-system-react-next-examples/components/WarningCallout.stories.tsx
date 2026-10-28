@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import WarningCallout from './WarningCallout';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import WarningCallout from "./WarningCallout";
 
 const meta = {
-  title: 'Headless/WarningCallout',
-  component: WarningCallout,
-  tags: ['autodocs']
+    title: "Headless/WarningCallout",
+    component: WarningCallout,
+    tags: ["autodocs"],
 } satisfies Meta<typeof WarningCallout>;
 
 export default meta;

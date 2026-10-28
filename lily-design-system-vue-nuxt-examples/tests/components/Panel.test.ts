@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "../../components/Panel.vue";
 
-
 describe("Panel", () => {
     test("renders as a region", () => {
         render(Subject, { props: { label: "Settings" }, slots: { default: "Content" } });

@@ -4,7 +4,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./Expander.vue";
 
-
 describe("Expander", () => {
     test("renders toggle button", () => {
         render(Subject, { props: { label: "More" }, slots: { default: "Content" } });

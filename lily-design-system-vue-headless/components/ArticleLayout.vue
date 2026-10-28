@@ -1,18 +1,18 @@
 <script setup lang="ts">
+// ArticleLayout component
+//
+// ArticleLayout for the Reuters-graphics-style article layout family.
+// Renders a <article> that consumers style.
 
-    // ArticleLayout component
-    //
-    // ArticleLayout for the Reuters-graphics-style article layout family.
-    // Renders a <article> that consumers style.
-
-    withDefaults(defineProps<{
+withDefaults(
+    defineProps<{
         /** Optional accessible label set on aria-label. */
         label?: string;
-    }>(), {
-        
-label: undefined,
-    });
-
+    }>(),
+    {
+        label: undefined,
+    },
+);
 </script>
 
 <template>

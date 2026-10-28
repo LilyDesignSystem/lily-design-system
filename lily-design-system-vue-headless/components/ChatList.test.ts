@@ -23,7 +23,10 @@ describe("ChatList", () => {
     });
 
     test("applies aria-label when label prop is provided", () => {
-        const { container } = render(Subject, { props: { label: "Hello" }, slots: { default: "x" } });
+        const { container } = render(Subject, {
+            props: { label: "Hello" },
+            slots: { default: "x" },
+        });
         const root = container.querySelector(".chat-list");
         expect(root?.getAttribute("aria-label")).toBe("Hello");
     });

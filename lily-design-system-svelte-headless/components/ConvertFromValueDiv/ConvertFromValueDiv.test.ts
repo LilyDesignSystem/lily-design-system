@@ -3,7 +3,8 @@ import { render, screen } from "@testing-library/svelte";
 import { createRawSnippet } from "svelte";
 import ConvertFromValueDiv from "./ConvertFromValueDiv.svelte";
 
-const txt = () => createRawSnippet(() => ({ render: () => `<span data-testid="txt">Hello</span>` }));
+const txt = () =>
+    createRawSnippet(() => ({ render: () => `<span data-testid="txt">Hello</span>` }));
 
 describe("ConvertFromValueDiv", () => {
     it("renders a <div> with the base class", () => {
@@ -12,8 +13,12 @@ describe("ConvertFromValueDiv", () => {
     });
 
     it("appends the consumer class after the base class", () => {
-        const { container } = render(ConvertFromValueDiv, { props: { class: "mine", children: txt() } });
-        expect(container.querySelector(".convert-from-value-div")!.getAttribute("class")).toBe("convert-from-value-div mine");
+        const { container } = render(ConvertFromValueDiv, {
+            props: { class: "mine", children: txt() },
+        });
+        expect(container.querySelector(".convert-from-value-div")!.getAttribute("class")).toBe(
+            "convert-from-value-div mine",
+        );
     });
 
     it("renders the children", () => {

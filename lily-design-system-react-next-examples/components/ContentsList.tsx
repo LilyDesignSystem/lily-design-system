@@ -16,7 +16,7 @@
 //   </ContentsList>
 //
 // Examples:
-//   
+//
 //   <ContentsNav label="On this page">
 //     <ContentsList>
 //       <ContentsListItem><a href="#introduction">Introduction</a></ContentsListItem>
@@ -56,10 +56,10 @@ export default function ContentsList({
 }: ContentsListProps) {
     return (
         <ol
-        className={`contents-list ${className}`}
-        {...restProps}
+            className={`contents-list ${className}`}
+            {...restProps}
         >
-        {children}
+            {children}
         </ol>
     );
 }

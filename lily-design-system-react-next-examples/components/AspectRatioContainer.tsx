@@ -17,17 +17,17 @@
 //   <AspectRatioContainer ratio={16/9}>content</AspectRatioContainer>
 //
 // Examples:
-//   
+//
 //   <AspectRatioContainer ratio={16/9}>
 //     <video src="video.mp4"></video>
 //   </AspectRatioContainer>
 //
-//   
+//
 //   <AspectRatioContainer ratio={1}>
 //     <img src="avatar.jpg" alt="User avatar" />
 //   </AspectRatioContainer>
 //
-//   
+//
 //   <AspectRatioContainer ratio={4/3} data-testid="card-frame">
 //     <p>Card content</p>
 //   </AspectRatioContainer>
@@ -69,12 +69,12 @@ export default function AspectRatioContainer({
 }: AspectRatioContainerProps) {
     return (
         <div
-        className={`aspect-ratio-container ${className}`}
-        style={{ aspectRatio: ratio }}
-        data-aspect-ratio-container={ratio}
-        {...restProps}
+            className={`aspect-ratio-container ${className}`}
+            style={{ aspectRatio: ratio }}
+            data-aspect-ratio-container={ratio}
+            {...restProps}
         >
-        {children}
+            {children}
         </div>
     );
 }

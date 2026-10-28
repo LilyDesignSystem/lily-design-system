@@ -29,12 +29,7 @@ export interface HeroProps {
     [key: string]: unknown;
 }
 
-export default function Hero({
-    className = "",
-    label,
-    children,
-    ...restProps
-}: HeroProps) {
+export default function Hero({ className = "", label, children, ...restProps }: HeroProps) {
     return (
         <section
             className={`hero ${className}`}

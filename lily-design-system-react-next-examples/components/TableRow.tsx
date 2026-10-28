@@ -33,11 +33,7 @@ export interface TableRowProps {
     [key: string]: unknown;
 }
 
-export default function TableRow({
-    className = "",
-    children,
-    ...restProps
-}: TableRowProps) {
+export default function TableRow({ className = "", children, ...restProps }: TableRowProps) {
     return (
         <tr
             className={`table-row ${className}`}

@@ -50,14 +50,15 @@ export default function PrathetThaiLekPrajamTuaPrachachonInput({
 }: PrathetThaiLekPrajamTuaPrachachonInputProps) {
     return (
         <input
-        className={`prathet-thai-lek-prajam-tua-prachachon-input ${className}`}
-        type="text"
-        aria-label={label}
-        autoComplete="off"
-        value={value} onChange={(e) => onChange?.(e.target.value)}
-        required={required}
-        disabled={disabled}
-        {...restProps}
+            className={`prathet-thai-lek-prajam-tua-prachachon-input ${className}`}
+            type="text"
+            aria-label={label}
+            autoComplete="off"
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            required={required}
+            disabled={disabled}
+            {...restProps}
         />
     );
 }

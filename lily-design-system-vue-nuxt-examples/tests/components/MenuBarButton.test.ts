@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "../../components/MenuBarButton.vue";
 
-
 describe("MenuBarButton", () => {
     test("renders a menuitem", () => {
         render(Subject, { slots: { default: "File" } });

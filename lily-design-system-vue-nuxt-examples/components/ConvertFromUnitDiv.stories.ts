@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import ConvertFromUnitDiv from './ConvertFromUnitDiv.vue';
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import ConvertFromUnitDiv from "./ConvertFromUnitDiv.vue";
 
 const meta = {
-  title: 'Headless/ConvertFromUnitDiv',
-  component: ConvertFromUnitDiv,
-  tags: ['autodocs'],
+    title: "Headless/ConvertFromUnitDiv",
+    component: ConvertFromUnitDiv,
+    tags: ["autodocs"],
 } satisfies Meta<typeof ConvertFromUnitDiv>;
 
 export default meta;

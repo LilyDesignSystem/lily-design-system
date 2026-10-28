@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import RedOrangeYellowGreenBlueView from './RedOrangeYellowGreenBlueView';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import RedOrangeYellowGreenBlueView from "./RedOrangeYellowGreenBlueView";
 
 const meta = {
-  title: 'Headless/RedOrangeYellowGreenBlueView',
-  component: RedOrangeYellowGreenBlueView,
-  tags: ['autodocs']
+    title: "Headless/RedOrangeYellowGreenBlueView",
+    component: RedOrangeYellowGreenBlueView,
+    tags: ["autodocs"],
 } satisfies Meta<typeof RedOrangeYellowGreenBlueView>;
 
 export default meta;

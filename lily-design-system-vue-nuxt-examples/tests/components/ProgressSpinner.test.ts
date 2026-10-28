@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "../../components/ProgressSpinner.vue";
 
-
 describe("ProgressSpinner", () => {
     test("renders with status role", () => {
         render(Subject, { props: { label: "Loading" } });

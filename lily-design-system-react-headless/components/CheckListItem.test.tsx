@@ -1,7 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, test } from "vitest";
 
-
 import type { ReactNode } from "react";
 import CheckListItem from "./CheckListItem";
 
@@ -11,7 +10,7 @@ function renderInList(props: { children?: ReactNode; [key: string]: unknown }) {
     return render(
         <ol>
             <CheckListItem {...rest}>{children}</CheckListItem>
-        </ol>
+        </ol>,
     );
 }
 

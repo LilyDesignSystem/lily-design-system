@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "../../components/DontList.vue";
 
-
 describe("DontList", () => {
     test("renders as a list", () => {
         render(Subject, { slots: { default: "Items" } });

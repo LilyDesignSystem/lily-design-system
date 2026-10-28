@@ -16,7 +16,6 @@
 <!-- DocumentList.svelte -->
 <ul
     class={`document-list ${className}`}
-
     aria-label={label}
     {...restProps}
 >

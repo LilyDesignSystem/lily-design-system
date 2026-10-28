@@ -18,14 +18,14 @@
 //   </Menu>
 //
 // Examples:
-//   
+//
 //   <Menu label="Actions">
 //     <div role="menuitem" tabindex="-1">Cut</div>
 //     <div role="menuitem" tabindex="-1">Copy</div>
 //     <div role="menuitem" tabindex="-1">Paste</div>
 //   </Menu>
 //
-//   
+//
 //   <Menu label="File actions">
 //     {actions.map((action) => (
 //       <div role="menuitem" tabindex="-1" onClick={() => handleAction(action)}>
@@ -69,12 +69,7 @@ export interface MenuProps {
     [key: string]: unknown;
 }
 
-export default function Menu({
-    className = "",
-    label,
-    children,
-    ...restProps
-}: MenuProps) {
+export default function Menu({ className = "", label, children, ...restProps }: MenuProps) {
     const menuRef = useRef<HTMLDivElement>(null);
 
     function handleKeyDown(event: React.KeyboardEvent) {
@@ -112,14 +107,14 @@ export default function Menu({
 
     return (
         <div
-        className={`menu ${className}`}
-        role="menu"
-        aria-label={label}
-        ref={menuRef}
-        onKeyDown={handleKeyDown}
-        {...restProps}
+            className={`menu ${className}`}
+            role="menu"
+            aria-label={label}
+            ref={menuRef}
+            onKeyDown={handleKeyDown}
+            {...restProps}
         >
-        {children}
+            {children}
         </div>
     );
 }
