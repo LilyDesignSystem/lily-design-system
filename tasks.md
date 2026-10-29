@@ -372,7 +372,7 @@ version` succeeds; scratch-consumer smoke renders 3 components each.
       (language navigation -> locale-picker), and two genuine catalog
       gaps (character count, textarea) pointed at RFC.md rather than
       papered over. Every slug reference verified against components.tsv
-      before publishing. Linked from COMPARISONS.md.
+      before publishing. Linked from COMPARE.md.
 
 - [x] **P5-T5 `lily-figma` decision.**
       Either seed a community Figma library from P3-T6 tokens and document

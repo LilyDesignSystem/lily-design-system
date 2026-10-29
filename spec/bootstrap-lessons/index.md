@@ -177,7 +177,7 @@ organised by _framework_ and layer.
 ### 7. A Bootstrap-to-Lily migration guide
 
 Bootstrap publishes migration guides and now migration _skills_; Lily has
-`COMPARISONS.md` but nothing aimed at the large number of teams starting on
+`COMPARE.md` but nothing aimed at the large number of teams starting on
 Bootstrap.
 
 - **Deliverable:** `MIGRATING-FROM-BOOTSTRAP.md` (and a docs-site page): a
@@ -284,4 +284,4 @@ version switcher (v6 alpha, 5.3, 4.6, …), and an "Optimize" page.
 - [Bootstrap](https://getbootstrap.com/) (v6.0.0-alpha.1 home page; read 2026-10-21).
 - [JavaScript](https://getbootstrap.com/docs/5.3/getting-started/javascript/), [CSS variables](https://getbootstrap.com/docs/5.3/customize/css-variables/), [Color modes](https://getbootstrap.com/docs/5.3/customize/color-modes/), [Accessibility](https://getbootstrap.com/docs/5.3/getting-started/accessibility/), [Form validation](https://getbootstrap.com/docs/5.3/forms/validation/) (5.3).
 - [Bootstrap & AI docs](https://getbootstrap.com/docs/6.0/getting-started/ai/) (v6 alpha).
-- Lily's own state: [themes/](../../themes/), [bin/check-theme](../../bin/check-theme), [COMPARISONS.md](../../COMPARISONS.md).
+- Lily's own state: [themes/](../../themes/), [bin/check-theme](../../bin/check-theme), [COMPARE.md](../../COMPARE.md).

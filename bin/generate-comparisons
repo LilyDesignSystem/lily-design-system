@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""bin/generate-comparisons — the component matrix in comparisons/index.md, from comparisons/comparisons.tsv.
+"""bin/generate-comparisons — the component matrix in compare/index.md, from compare/compare.tsv.
 
 The TSV is the source of truth (one row per Lily component, one column per system; `+` ships a matching
 component, `-` does not, `?` unknown, blank not surveyed). This script rewrites the table in
-comparisons/index.md from it, and the "rows matched" counts it prints are the ones COMPARISONS.md quotes.
+compare/index.md from it, and the "rows matched" counts it prints are the ones COMPARE.md quotes.
 
   bin/generate-comparisons            rewrite the table
   bin/generate-comparisons --check    fail if the table differs from the TSV (used by bin/test)
@@ -14,8 +14,8 @@ import sys
 from pathlib import Path
 
 top = Path(__file__).resolve().parent.parent
-tsv = [line.rstrip("\n").split("\t") for line in (top / "comparisons" / "comparisons.tsv").read_text().splitlines()]
-md_path = top / "comparisons" / "index.md"
+tsv = [line.rstrip("\n").split("\t") for line in (top / "compare" / "compare.tsv").read_text().splitlines()]
+md_path = top / "compare" / "index.md"
 
 
 def name(header_cell):
@@ -40,12 +40,12 @@ def main():
     md = md_path.read_text()
     m = re.search(r"^\| Component .*?\n(?=\n|\Z)", md, re.S | re.M)
     if not m:
-        sys.exit("generate-comparisons: no matrix table found in comparisons/index.md")
+        sys.exit("generate-comparisons: no matrix table found in compare/index.md")
     table = build_table()
     new = md[: m.start()] + table + md[m.end():]
     if mode == "--check":
         if new != md:
-            print("Error: comparisons/index.md differs from comparisons/comparisons.tsv; run bin/generate-comparisons", file=sys.stderr)
+            print("Error: compare/index.md differs from compare/compare.tsv; run bin/generate-comparisons", file=sys.stderr)
             return 1
         print(f"generate-comparisons: OK ({len(tsv) - 1} rows, {len(tsv[0]) - 1} systems)")
         return 0

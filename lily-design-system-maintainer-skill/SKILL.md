@@ -37,7 +37,7 @@ Don't hand-write these — scaffold, then fill in content.
 `index.md`, `README.md` (symlink → `index.md`), `AGENTS.md`, `spec/index.md`.
 (`CLAUDE.md` was retired 2026-09-19; `AGENTS.md` is the single AI-instruction file.) Then the 14 "special
 files" a public project needs — LICENSE.md, CITATION.cff, NEWS.md,
-COMPARISONS.md, BENCHMARKS.md, INSTALL.md, CONTRIBUTING.md, CODEOWNERS,
+COMPARE.md, BENCHMARKS.md, INSTALL.md, CONTRIBUTING.md, CODEOWNERS,
 MAINTAINERS.md, CHANGELOG.md, AI_STATEMENT.md, GOVERNANCE.md, SECURITY.md,
 CODE_OF_CONDUCT.md, RFC.md — propagated by `bin/sync-special-files`, which
 auto-discovers any dir matching `lily-design-system-*`. Run it after

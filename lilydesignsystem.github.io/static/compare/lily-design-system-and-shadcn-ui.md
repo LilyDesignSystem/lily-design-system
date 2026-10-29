@@ -12,7 +12,7 @@ shadcn/ui is a code distribution platform that copies styled component source in
 
 shadcn/ui's documentation says "This is not a component library. It is how you build your component library." You run a CLI, and the component source lands in your repository. Its docs list the commands `init`, `add`, `view`, `search`, `build`, `migrate` and `eject`, among others, and by default `add` does not overwrite files that already exist.
 
-Lily's main route is the reverse: each headless library is a package you install, with the components as its public surface. Lily can also be copied, and its own example apps do exactly that: `bin/sync-example-components` keeps four example apps' copies of every component identical to their headless library. But Lily has no command that copies a component into your project, and Lily's own review of the field (`COMPARISONS.md`) concludes that shadcn's tooling for copying is better.
+Lily's main route is the reverse: each headless library is a package you install, with the components as its public surface. Lily can also be copied, and its own example apps do exactly that: `bin/sync-example-components` keeps four example apps' copies of every component identical to their headless library. But Lily has no command that copies a component into your project, and Lily's own review of the field (`COMPARE.md`) concludes that shadcn's tooling for copying is better.
 
 ## Who owns the code and who carries upgrades
 
@@ -34,7 +34,7 @@ Lily publishes the same catalogue as full headless libraries for HTML, Svelte, R
 
 ## Catalogue size, theming and the registry format
 
-shadcn/ui's components page lists 66 components, from Accordion to Typography, including newer ones such as Trace, Code Block and Questionnaire. Lily's `components.tsv` has 582 rows. That count is not a measure of quality: Lily counts every table part, identifier input and chart as its own entry, and a larger catalogue is also more to keep correct. In Lily's own survey (`comparisons/comparisons.tsv`, 428 rows), 152 rows match a shadcn/ui component, and Lily covers all 428 by construction, because the survey is built from Lily's catalogue. So that figure shows where shadcn/ui overlaps Lily, not who has more.
+shadcn/ui's components page lists 66 components, from Accordion to Typography, including newer ones such as Trace, Code Block and Questionnaire. Lily's `components.tsv` has 582 rows. That count is not a measure of quality: Lily counts every table part, identifier input and chart as its own entry, and a larger catalogue is also more to keep correct. In Lily's own survey (`compare/compare.tsv`, 428 rows), 152 rows match a shadcn/ui component, and Lily covers all 428 by construction, because the survey is built from Lily's catalogue. So that figure shows where shadcn/ui overlaps Lily, not who has more.
 
 Theming in shadcn/ui is CSS variables: semantic tokens such as `background`, `foreground` and `primary` under `:root` and `.dark`, with `oklch()` colour values and a single `--radius` base. You can host your own registry, and the docs mention private and authenticated registries, so a team can distribute its own components the same way. Lily themes are plain stylesheets that target the class hooks, swapped at runtime by its `theme-picker`, and it has no installable registry. Lily's planned lessons from a related review (`spec/coss-ui-lessons`) include per-component JSON manifests, and the docs site already publishes `/r/slug.json` manifests, but Lily has no CLI that installs from them.
 
@@ -63,8 +63,8 @@ Lily is released under a choice of licences (MIT, Apache-2.0, GPL-2.0-only, GPL-
 - [shadcn/ui changelog](https://ui.shadcn.com/docs/changelog)
 - [shadcn-ui/ui on GitHub](https://github.com/shadcn-ui/ui)
 - [shadcn-ui/ui LICENSE.md](https://github.com/shadcn-ui/ui/blob/main/LICENSE.md)
-- [Lily COMPARISONS.md](https://github.com/lilydesignsystem/lily-design-system/blob/main/COMPARISONS.md)
-- [Lily comparisons/comparisons.tsv](https://github.com/lilydesignsystem/lily-design-system/blob/main/comparisons/comparisons.tsv)
+- [Lily COMPARE.md](https://github.com/lilydesignsystem/lily-design-system/blob/main/COMPARE.md)
+- [Lily compare/compare.tsv](https://github.com/lilydesignsystem/lily-design-system/blob/main/compare/compare.tsv)
 - [Lily components.tsv](https://github.com/lilydesignsystem/lily-design-system/blob/main/components.tsv)
 - [Lily bin/sync-example-components](https://github.com/lilydesignsystem/lily-design-system/blob/main/bin/sync-example-components)
 - [Lily AGENTS/lily.md](https://github.com/lilydesignsystem/lily-design-system/blob/main/AGENTS/lily.md)

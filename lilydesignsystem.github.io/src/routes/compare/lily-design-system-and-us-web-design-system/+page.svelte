@@ -47,8 +47,8 @@
     <li><a href="https://github.com/uswds/uswds">USWDS GitHub repository (README)</a></li>
     <li><a href="https://github.com/uswds/uswds/blob/develop/LICENSE.md">USWDS LICENSE.md</a></li>
     <li><a href="https://github.com/lilydesignsystem/lily-design-system/blob/main/components.tsv">Lily components.tsv</a></li>
-    <li><a href="https://github.com/lilydesignsystem/lily-design-system/blob/main/COMPARISONS.md">Lily COMPARISONS.md</a></li>
-    <li><a href="https://github.com/lilydesignsystem/lily-design-system/blob/main/comparisons/comparisons.tsv">Lily comparisons.tsv</a></li>
+    <li><a href="https://github.com/lilydesignsystem/lily-design-system/blob/main/COMPARE.md">Lily COMPARE.md</a></li>
+    <li><a href="https://github.com/lilydesignsystem/lily-design-system/blob/main/compare/compare.tsv">Lily comparisons.tsv</a></li>
     <li><a href="https://github.com/lilydesignsystem/lily-design-system/blob/main/themes/united-states-web-design-system.css">Lily united-states-web-design-system.css</a></li>
     <li><a href="https://github.com/lilydesignsystem/lily-design-system/blob/main/LICENSE.md">Lily LICENSE.md</a></li>
   </ul>

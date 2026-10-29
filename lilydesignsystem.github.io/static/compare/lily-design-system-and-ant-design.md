@@ -42,13 +42,13 @@ Lily takes the opposite route for most components: it ships no user-facing Engli
 
 The Ant Design pages I read, the introduction, the values page, the README and the theming page, make no accessibility claims, and the README mentions no standard or conformance level. That is not evidence that the components are inaccessible, only that I found no statement either way, and I did not test the library.
 
-Lily states a WCAG 2.2 AAA target and follows WAI-ARIA Authoring Practices patterns, with a documented keyboard contract per component and automated axe-core checks. It has never been independently audited, and its COMPARISONS.md says plainly that automated baselines are not an audit. If you need a conformance statement from someone else, neither source gives one in the pages cited here.
+Lily states a WCAG 2.2 AAA target and follows WAI-ARIA Authoring Practices patterns, with a documented keyboard contract per component and automated axe-core checks. It has never been independently audited, and its COMPARE.md says plainly that automated baselines are not an audit. If you need a conformance statement from someone else, neither source gives one in the pages cited here.
 
 ## Component scope and enterprise widgets
 
 Ant Design's component overview lists about 73 core components in seven groups (General, Layout, Navigation, Data Entry, Data Display, Feedback, Other), plus six ProComponents: ProLayout, ProForm, ProTable, ProDescriptions, ProList and EditableProTable. Notable pieces include Transfer, Cascader, TreeSelect, Tour and Watermark. The overview did not list a chart component, though the README links a separate Ant Design Charts project.
 
-Lily's catalog is much larger in count (581 components) because it splits compound parts into separate entries (a table has head, body, row and cell components) and includes national identifier inputs, charts, calendars and a Gantt chart. Lily's own survey (comparisons/comparisons.tsv, 428 rows, which is Lily at 428 by construction because the rows are built from Lily's catalog) finds 187 rows with a matching Ant Design component. Counts compare badly: Ant Design's 73 are finished, styled components, and Lily's are headless parts you assemble. The ProComponents have no direct counterpart as a packaged, styled, data-bound table or form.
+Lily's catalog is much larger in count (581 components) because it splits compound parts into separate entries (a table has head, body, row and cell components) and includes national identifier inputs, charts, calendars and a Gantt chart. Lily's own survey (compare/compare.tsv, 428 rows, which is Lily at 428 by construction because the rows are built from Lily's catalog) finds 187 rows with a matching Ant Design component. Counts compare badly: Ant Design's 73 are finished, styled components, and Lily's are headless parts you assemble. The ProComponents have no direct counterpart as a packaged, styled, data-bound table or form.
 
 ## Licence and who maintains it
 
@@ -70,8 +70,8 @@ Lily is offered under a choice of licences (an SPDX expression listing MIT, Apac
 - [Ant Design Blazor](https://github.com/ant-design-blazor/ant-design-blazor)
 - [Lily: components.tsv](https://github.com/lilydesignsystem/lily-design-system/blob/main/components.tsv)
 - [Lily: themes/ant-design.css](https://github.com/lilydesignsystem/lily-design-system/blob/main/themes/ant-design.css)
-- [Lily: COMPARISONS.md](https://github.com/lilydesignsystem/lily-design-system/blob/main/COMPARISONS.md)
-- [Lily: comparisons/comparisons.tsv](https://github.com/lilydesignsystem/lily-design-system/blob/main/comparisons/comparisons.tsv)
+- [Lily: COMPARE.md](https://github.com/lilydesignsystem/lily-design-system/blob/main/COMPARE.md)
+- [Lily: compare/compare.tsv](https://github.com/lilydesignsystem/lily-design-system/blob/main/compare/compare.tsv)
 - [Lily: AGENTS/internationalization.md](https://github.com/lilydesignsystem/lily-design-system/blob/main/AGENTS/internationalization.md)
 - [Lily: AGENTS/accessibility.md](https://github.com/lilydesignsystem/lily-design-system/blob/main/AGENTS/accessibility.md)
 

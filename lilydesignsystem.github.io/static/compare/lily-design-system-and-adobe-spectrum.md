@@ -14,13 +14,13 @@ Spectrum's home page calls it "the system behind Adobe experiences, a shared lan
 
 Lily makes no visual decisions in its headless layer. It ships semantic HTML, ARIA, focus and keyboard behaviour, and a kebab-case class hook per component. Lily does include a theme called `adobe-spectrum.css` among the 57 stylesheets in its `themes/` directory. That is a reference stylesheet aimed at Lily's class hooks. It is not Spectrum, it carries no endorsement from Adobe, and it is not a substitute for Spectrum's guidance.
 
-Lily's own survey (428 rows, `comparisons/comparisons.tsv`) marks 152 rows as matching an Adobe component. Lily is 428 of 428 by construction, because the survey is built from Lily's catalog (582 rows in `components.tsv`). Read the 152 as overlap, not as a score for Spectrum.
+Lily's own survey (428 rows, `compare/compare.tsv`) marks 152 rows as matching an Adobe component. Lily is 428 of 428 by construction, because the survey is built from Lily's catalog (582 rows in `components.tsv`). Read the 152 as overlap, not as a score for Spectrum.
 
 ## Implementations and who maintains them
 
 Spectrum's home page says dedicated React and Web Components areas are "available in beta", and that iOS, Android and other platforms are planned. Two repositories matter for code. The Spectrum Web Components README calls it "a library of web components implementing Adobe's Spectrum design system", developed by "a core team in Adobe Design Engineering", under Apache-2.0. The React Spectrum repository contains React Spectrum (ready-made components), React Aria (unstyled hooks and components), React Stately (state hooks) and Internationalized, also under Apache-2.0. The pages I read did not name who maintains the iOS or Android work, and did not state a maintenance or support commitment for any of them.
 
-Lily has seven full-catalog headless libraries (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks), a Web Components library covering a subset of the catalog, and an Alpine.js library of markup snippets plus one plugin. Each follows the same names and class hooks. Maintenance is one person, per Lily's own `COMPARISONS.md`, which says there is no vendor relationship, SLA or support contract.
+Lily has seven full-catalog headless libraries (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks), a Web Components library covering a subset of the catalog, and an Alpine.js library of markup snippets plus one plugin. Each follows the same names and class hooks. Maintenance is one person, per Lily's own `COMPARE.md`, which says there is no vendor relationship, SLA or support contract.
 
 The practical difference: Spectrum has a corporate team behind two web implementations, but nothing for Vue, Angular, Blazor or server-rendered templates in what I read. Lily covers more frameworks, with a much smaller team and far less production history.
 
@@ -34,7 +34,7 @@ Lily's headless components carry no styles. Its theming is a flat token object t
 
 The React Spectrum repository states that "Accessibility and behavior is implemented according to WAI-ARIA Authoring Practices", that components support keyboard navigation and screen readers, and that "Support over 30 languages is included out of the box", with right-to-left and locale-aware date and number formatting. These are the project's own claims. The Spectrum Web Components docs say "Accessible by default"; the home page of spectrum.adobe.com and the SWC README state no accessibility position, and I found no conformance statement in what I read.
 
-Lily targets WCAG 2.2 AAA and follows the APG patterns, with automated axe checks, but has never been audited, as its `COMPARISONS.md` says. Its internationalisation rule is different in kind: components contain no user-facing strings at all, and every label is a prop. That avoids shipping translations that might be wrong, but it hands the work to you. Lily offers 64 label packs for its grid-like helpers, of which 63 are unreviewed machine drafts. If you want locale handling built into the components, the React Spectrum libraries look further along.
+Lily targets WCAG 2.2 AAA and follows the APG patterns, with automated axe checks, but has never been audited, as its `COMPARE.md` says. Its internationalisation rule is different in kind: components contain no user-facing strings at all, and every label is a prop. That avoids shipping translations that might be wrong, but it hands the work to you. Lily offers 64 label packs for its grid-like helpers, of which 63 are unreviewed machine drafts. If you want locale handling built into the components, the React Spectrum libraries look further along.
 
 ## Scope, maturity and licence
 
@@ -52,8 +52,8 @@ Both Spectrum code repositories I checked show Apache-2.0. Lily's licence is a c
 - [React Spectrum site](https://react-spectrum.adobe.com/)
 - [React Spectrum on GitHub](https://github.com/adobe/react-spectrum)
 - [Lily components.tsv](https://github.com/lilydesignsystem/lily-design-system/blob/main/components.tsv)
-- [Lily COMPARISONS.md](https://github.com/lilydesignsystem/lily-design-system/blob/main/COMPARISONS.md)
-- [Lily comparisons.tsv](https://github.com/lilydesignsystem/lily-design-system/blob/main/comparisons/comparisons.tsv)
+- [Lily COMPARE.md](https://github.com/lilydesignsystem/lily-design-system/blob/main/COMPARE.md)
+- [Lily comparisons.tsv](https://github.com/lilydesignsystem/lily-design-system/blob/main/compare/compare.tsv)
 - [Lily adobe-spectrum.css](https://github.com/lilydesignsystem/lily-design-system/blob/main/themes/adobe-spectrum.css)
 - [Lily internationalization.md](https://github.com/lilydesignsystem/lily-design-system/blob/main/AGENTS/internationalization.md)
 

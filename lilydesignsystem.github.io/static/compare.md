@@ -6,7 +6,7 @@ Description:
 
 # Comparisons
 
-Read on 28 October 2026 from each system's own public site, plus Lily's own survey of 428 component rows across 18 systems ([COMPARISONS.md](https://github.com/lilydesignsystem/lily-design-system/blob/main/COMPARISONS.md)). Lily scores 428 of 428 on that survey by construction, which is a property of how the table was built, not evidence of superiority. Where a system's site does not state something, the section says so rather than guessing.
+Read on 28 October 2026 from each system's own public site, plus Lily's own survey of 428 component rows across 18 systems ([COMPARE.md](https://github.com/lilydesignsystem/lily-design-system/blob/main/COMPARE.md)). Lily scores 428 of 428 on that survey by construction, which is a property of how the table was built, not evidence of superiority. Where a system's site does not state something, the section says so rather than guessing.
 
 | Design system | Headless | Frameworks | Accessibility | License |
 | --- | --- | --- | --- | --- |
@@ -17,7 +17,7 @@ Read on 28 October 2026 from each system's own public site, plus Lily's own surv
 | [Ant Design](https://lilydesignsystem.com/compare/lily-design-system-and-ant-design/) | No | React, Vue, Angular | WCAG 2.1 AA | MIT |
 | [shadcn/ui](https://lilydesignsystem.com/compare/lily-design-system-and-shadcn-ui/) | Yes | React | WCAG 2.1 AA | MIT |
 | [DaisyUI](https://lilydesignsystem.com/compare/lily-design-system-and-daisyui/) | No | HTML/CSS | WCAG 2.1 AA | MIT |
-| [DHCW Design System](https://lilydesignsystem.com/compare/lily-design-system-and-dhcw-design-system/) | No | HTML, Nunjucks | WCAG 2.2 AA | MIT (code), Open Government Licence v3.0 (content) |
+| [DHCW Design System](https://lilydesignsystem.com/compare/lily-design-system-and-dhcw-design-system/) | No | HTML, Nunjucks | WCAG 2.2 AA | MIT (code), [United Kingdom (UK) Open Government License (OGL) version 3 for Public Sector Information](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/) (content) |
 
 ## Read each comparison
 

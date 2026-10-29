@@ -36,9 +36,13 @@ Lily's catalog (components.tsv) has 582 rows, including data grids, charts, cale
 
 ## Accessibility evidence and Welsh-language support
 
-DHCW's accessibility statement says "This website is compliant with the Web Content Accessibility Guidelines 2.2 AA standard", based on internal testing of "a representative sample of pages, components and functionality" in October 2026, and gives an address for reporting problems and a ten-working-day response time. Its component pages cite specific WCAG 2.2 criteria, for example 2.4.11 (focus not obscured) for its navigation menu. It also has errors: its tag page says colour pairs meet 1.4.3 "Contrast Enhanced", and 1.4.3 is the minimum-contrast criterion. Lily targets WCAG 2.2 AAA and runs automated AA checks with axe-core, but it has never been audited, and COMPARISONS.md says so. Both claims rest on internal testing. Neither is an independent audit.
+DHCW's accessibility statement says "This website is compliant with the Web Content Accessibility Guidelines 2.2 AA standard", based on internal testing of "a representative sample of pages, components and functionality" in October 2026, and gives an address for reporting problems and a ten-working-day response time. Its component pages cite specific WCAG 2.2 criteria, for example 2.4.11 (focus not obscured) for its navigation menu. It also has errors: its tag page says colour pairs meet 1.4.3 "Contrast Enhanced", and 1.4.3 is the minimum-contrast criterion. Lily targets WCAG 2.2 AAA and runs automated AA checks with axe-core, but it has never been audited, and COMPARE.md says so. Both claims rest on internal testing. Neither is an independent audit.
 
 Welsh is where the two differ most in practice. DHCW's fourth principle is "Design services in Welsh and English" and says "Treat those who speak Welsh equally with those who speak English." But the pages I read say little about how: the accessibility statement does not mention Welsh, the typography page has nothing on text expansion, and the header, date input and page-template pages give no bilingual guidance. A principle is not a component behaviour. Lily's rule is that components hold no hardcoded strings, so every label is yours to supply in Welsh. Lily's NHS Wales themes include a `:lang(cy)` block, its responsive tests lengthen labels by 30 percent with `lang="cy"`, and its docs site has a Welsh translation. These are modest, but they are things you can read and run.
+
+## Licence
+
+DHCW's terms of use say its code is under the MIT licence. Its content, such as guidance text and images, is under the [United Kingdom (UK) Open Government License (OGL) version 3 for Public Sector Information](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/). The OGL lets you copy, adapt and use the content commercially if you acknowledge the source, so reusing DHCW's wording needs an attribution line. Lily's own code is under a choice of five licences (MIT, Apache-2.0, GPL-2.0-only, GPL-3.0-only or BSD-3-Clause).
 
 ## Sources
 
@@ -60,10 +64,10 @@ Welsh is where the two differ most in practice. DHCW's fourth principle is "Desi
 - [Terms of use](https://dhcw-digital-health-and-care-wales.github.io/dhcw-design-system/terms-of-use.html)
 - [Privacy policy](https://dhcw-digital-health-and-care-wales.github.io/dhcw-design-system/privacy-policy.html)
 - [Cookie policy](https://dhcw-digital-health-and-care-wales.github.io/dhcw-design-system/cookie-policy.html)
-- [Lily COMPARISONS.md](https://github.com/lilydesignsystem/lily-design-system/blob/main/COMPARISONS.md)
+- [Lily COMPARE.md](https://github.com/lilydesignsystem/lily-design-system/blob/main/COMPARE.md)
 - [Lily MAINTAINERS.md](https://github.com/lilydesignsystem/lily-design-system/blob/main/MAINTAINERS.md)
 - [Lily components.tsv](https://github.com/lilydesignsystem/lily-design-system/blob/main/components.tsv)
-- [Lily comparisons.tsv](https://github.com/lilydesignsystem/lily-design-system/blob/main/comparisons/comparisons.tsv)
+- [Lily comparisons.tsv](https://github.com/lilydesignsystem/lily-design-system/blob/main/compare/compare.tsv)
 - [Lily spec: DHCW lessons](https://github.com/lilydesignsystem/lily-design-system/blob/main/spec/dhcw-design-system-lessons/index.md)
 - [Lily spec: internationalization](https://github.com/lilydesignsystem/lily-design-system/blob/main/spec/internationalization/index.md)
 - [Lily AGENTS/theme.md](https://github.com/lilydesignsystem/lily-design-system/blob/main/AGENTS/theme.md)

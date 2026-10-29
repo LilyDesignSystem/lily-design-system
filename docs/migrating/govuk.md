@@ -4,7 +4,7 @@ _Prepared 2026-08-29 (plan P5-T4) against GOV.UK Frontend v6 (see
 [spec/theme](../../spec/theme/index.md) for the palette this project
 tracks). This is a naming and structure map, not a compatibility
 layer — Lily is not a drop-in replacement for `govuk-frontend`; see
-[COMPARISONS.md](../../COMPARISONS.md)._
+[COMPARE.md](../../COMPARE.md)._
 
 ## How to read this table
 
@@ -71,7 +71,7 @@ Lily's catalog is 571 components against GOV.UK's 37; most of the
 difference is scope GOV.UK doesn't attempt — editorial/scrollytelling
 primitives, data visualisation, 92 national personal identifier
 components, kanban/gantt table families. See
-[COMPARISONS.md](../../COMPARISONS.md) for the honest positioning
+[COMPARE.md](../../COMPARE.md) for the honest positioning
 rather than a component-count boast.
 
 ---

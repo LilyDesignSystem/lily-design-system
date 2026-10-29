@@ -34,7 +34,7 @@ Lily ships the same 582-component catalog as real components in seven framework 
 
 DaisyUI does not make accessibility its headline: the home page makes no explicit accessibility claims. Where its component pages speak to it, they are specific and honest. The modal page says the native dialog "is accessible" and closes with Esc, while the legacy checkbox and anchor variants have no Esc support or background locking, and the page does not document focus trapping, focus return or ARIA beyond `role="dialog"` in legacy examples. The dropdown page describes a focus-based dropdown on a `div` with `tabindex="0"` and `role="button"`, closing "when focus is lost", and does not document arrow-key navigation or Escape. The Button page explains that `btn-disabled` is only visual and must be paired with `tabindex="-1"`, `role="button"` and `aria-disabled="true"`.
 
-Lily targets WCAG 2.2 AAA and follows WAI-ARIA Authoring Practices for keyboard patterns, with a documented keyboard contract per component. Be clear about what that means: Lily has never been independently audited, runs automated axe-core checks, and its own COMPARISONS.md says it has shipped green test suites over real defects. DaisyUI has not been audited either as far as these pages state. The honest reading is that Lily is built around keyboard and ARIA behaviour as its main job while daisyUI leaves much of it to you, but neither offers a conformance statement.
+Lily targets WCAG 2.2 AAA and follows WAI-ARIA Authoring Practices for keyboard patterns, with a documented keyboard contract per component. Be clear about what that means: Lily has never been independently audited, runs automated axe-core checks, and its own COMPARE.md says it has shipped green test suites over real defects. DaisyUI has not been audited either as far as these pages state. The honest reading is that Lily is built around keyboard and ARIA behaviour as its main job while daisyUI leaves much of it to you, but neither offers a conformance statement.
 
 ## AI tooling: Blueprint, a skill and llms.txt versus a link map
 
@@ -65,7 +65,7 @@ Lily lists 582 components in its catalog, 57 themes and one maintainer, with a f
 - [daisyUI on GitHub](https://github.com/saadeghi/daisyui)
 - [daisyUI LICENSE](https://raw.githubusercontent.com/saadeghi/daisyui/master/LICENSE)
 - [Lily: daisyUI lessons](https://github.com/lilydesignsystem/lily-design-system/blob/main/spec/daisyui-lessons/index.md)
-- [Lily: COMPARISONS.md](https://github.com/lilydesignsystem/lily-design-system/blob/main/COMPARISONS.md)
+- [Lily: COMPARE.md](https://github.com/lilydesignsystem/lily-design-system/blob/main/COMPARE.md)
 - [Lily: components.tsv](https://github.com/lilydesignsystem/lily-design-system/blob/main/components.tsv)
 - [Lily: tasks.md](https://github.com/lilydesignsystem/lily-design-system/blob/main/tasks.md)
 - [Lily: headless rules](https://github.com/lilydesignsystem/lily-design-system/blob/main/AGENTS/headless.md)

@@ -60,7 +60,7 @@ or the publish pipeline (see [tooling](../tooling/index.md)).
 | `LICENSE.md`         | copy             | SPDX expression + trademark note. **The reason this topic exists**                     |
 | `CITATION.cff`       | generate         | Per-repository title, abstract, and `repository-code`; shared author and ORCID         |
 | `NEWS.md`            | copy             | News, release highlights, press contacts, boilerplate                                  |
-| `COMPARISONS.md`     | copy             | Positioning against other design systems, with honest limitations                      |
+| `COMPARE.md`         | copy             | Positioning against other design systems, with honest limitations                      |
 | `BENCHMARKS.md`      | copy             | Measured package sizes and test scale; states plainly that no runtime benchmarks exist |
 | `INSTALL.md`         | generate         | Per-framework install and usage; the file that most needs to differ                    |
 | `CONTRIBUTING.md`    | copy             | Time, code, and money                                                                  |
@@ -136,7 +136,7 @@ after editing any canonical file, and before publishing.
 
 ## Sources
 
-- [LICENSE.md](../../LICENSE.md), [GOVERNANCE.md](../../GOVERNANCE.md), [SECURITY.md](../../SECURITY.md), [CITATION.cff](../../CITATION.cff), [CONTRIBUTING.md](../../CONTRIBUTING.md), [MAINTAINERS.md](../../MAINTAINERS.md), [AI_STATEMENT.md](../../AI_STATEMENT.md), [RFC.md](../../RFC.md), [NEWS.md](../../NEWS.md), [COMPARISONS.md](../../COMPARISONS.md), [BENCHMARKS.md](../../BENCHMARKS.md), [INSTALL.md](../../INSTALL.md), [CODEOWNERS](../../CODEOWNERS), [CODE_OF_CONDUCT.md](../../CODE_OF_CONDUCT.md), [CHANGELOG.md](../../CHANGELOG.md)
+- [LICENSE.md](../../LICENSE.md), [GOVERNANCE.md](../../GOVERNANCE.md), [SECURITY.md](../../SECURITY.md), [CITATION.cff](../../CITATION.cff), [CONTRIBUTING.md](../../CONTRIBUTING.md), [MAINTAINERS.md](../../MAINTAINERS.md), [AI_STATEMENT.md](../../AI_STATEMENT.md), [RFC.md](../../RFC.md), [NEWS.md](../../NEWS.md), [COMPARE.md](../../COMPARE.md), [BENCHMARKS.md](../../BENCHMARKS.md), [INSTALL.md](../../INSTALL.md), [CODEOWNERS](../../CODEOWNERS), [CODE_OF_CONDUCT.md](../../CODE_OF_CONDUCT.md), [CHANGELOG.md](../../CHANGELOG.md)
 - [AI_STATEMENT.md](AI_STATEMENT.md) — the project-agnostic template
 - [bin/sync-special-files](../../bin/sync-special-files), [bin/test](../../bin/test), [bin/check-links](../../bin/check-links)
 

@@ -5,7 +5,7 @@ in pre-release; re-check this table when it goes stable, the same
 trigger [spec/theme](../../spec/theme/index.md) records for the theme
 stylesheet. This is a naming and structure map, not a compatibility
 layer — Lily is not a drop-in replacement for `nhsuk-frontend`; see
-[COMPARISONS.md](../../COMPARISONS.md)._
+[COMPARE.md](../../COMPARE.md)._
 
 ## How to read this table
 
@@ -90,7 +90,7 @@ number, and identifiers for other UK nations and territories). See
 
 Lily's catalog is 571 components against NHS.UK's 38; most of the
 difference is scope NHS.UK doesn't attempt. See
-[COMPARISONS.md](../../COMPARISONS.md) for the honest positioning.
+[COMPARE.md](../../COMPARE.md) for the honest positioning.
 
 ---
 

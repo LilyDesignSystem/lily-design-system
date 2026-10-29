@@ -57,8 +57,8 @@ Lily is licensed, at your option, under any of MIT, Apache 2.0, GPL-2.0-only, GP
 - [USWDS GitHub repository (README)](https://github.com/uswds/uswds)
 - [USWDS LICENSE.md](https://github.com/uswds/uswds/blob/develop/LICENSE.md)
 - [Lily components.tsv](https://github.com/lilydesignsystem/lily-design-system/blob/main/components.tsv)
-- [Lily COMPARISONS.md](https://github.com/lilydesignsystem/lily-design-system/blob/main/COMPARISONS.md)
-- [Lily comparisons.tsv](https://github.com/lilydesignsystem/lily-design-system/blob/main/comparisons/comparisons.tsv)
+- [Lily COMPARE.md](https://github.com/lilydesignsystem/lily-design-system/blob/main/COMPARE.md)
+- [Lily comparisons.tsv](https://github.com/lilydesignsystem/lily-design-system/blob/main/compare/compare.tsv)
 - [Lily united-states-web-design-system.css](https://github.com/lilydesignsystem/lily-design-system/blob/main/themes/united-states-web-design-system.css)
 - [Lily LICENSE.md](https://github.com/lilydesignsystem/lily-design-system/blob/main/LICENSE.md)
 

@@ -63,7 +63,7 @@ applications need means fewer escapes into bespoke markup.
 
 **The doubt:** mature systems settle at 100–200 components, and they get there by
 subtraction after production use. Lily arrived at 571 by construction, without that
-pressure. [COMPARISONS.md](COMPARISONS.md) shows the gap plainly. Breadth may be
+pressure. [COMPARE.md](COMPARE.md) shows the gap plainly. Breadth may be
 diluting depth — and depth is what an accessible component actually needs.
 
 **Changes my mind:** a credible account of which components are load-bearing and

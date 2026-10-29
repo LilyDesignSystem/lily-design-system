@@ -12,7 +12,7 @@ The GOV.UK Design System is the Government Digital Service's styled kit of style
 
 The GOV.UK Design System home page says it is maintained by the GOV.UK Design System team at the Government Digital Service, and the govuk-frontend README says "GOV.UK Frontend is maintained by a team at Government Digital Service." Questions go to that team by email or Slack, and the README notes that the team cannot monitor the repository outside office hours (10am to 4pm, UK time). It also says contributions are welcome from anyone, and the design system site has open GitHub discussions and a roadmap.
 
-Lily is maintained by one unpaid person, and Lily's own COMPARISONS.md says so under "where the alternatives are stronger". It lists "Actual GOV.UK or NHS compliance" as a case where govuk-frontend is the right choice: it is the real thing, maintained by the organisation that owns it. Lily's GOV.UK theme takes visual reference only and carries no endorsement. If you need a named public body behind your front end, Lily cannot offer that.
+Lily is maintained by one unpaid person, and Lily's own COMPARE.md says so under "where the alternatives are stronger". It lists "Actual GOV.UK or NHS compliance" as a case where govuk-frontend is the right choice: it is the real thing, maintained by the organisation that owns it. Lily's GOV.UK theme takes visual reference only and carries no endorsement. If you need a named public body behind your front end, Lily cannot offer that.
 
 ## What you install, and what is in the box
 
@@ -36,7 +36,7 @@ Lily implements the same catalog in eight headless libraries (HTML, Svelte, Reac
 
 At the time I read it the GOV.UK components page lists 37 components, among them Accordion, Date input, Exit this page, Language navigation, Password input, Service navigation, Task list and Warning text. The patterns page lists 30 patterns in three groups: Ask users for, Help users to, and Pages. It describes patterns as "best practice design solutions for specific user-focused tasks and page types", often using one or more components. Examples include Addresses, Check answers, Create accounts, Question pages and Service unavailable pages.
 
-Lily's catalog is far larger, at 582 components, and includes charts, data grids and 140 national identifier input and view components. Size is not quality: a system with a few dozen components has usually earned each one through production use. Lily's own survey of 428 component rows (comparisons/comparisons.tsv) finds 76 rows that match a GOV.UK component. Lily's column in that survey is 428 by construction, because the rows were built from Lily's catalog, so that figure shows Lily's breadth and says nothing about quality. Lily has no equivalent of GOV.UK's written pattern guidance, which rests on research with government services.
+Lily's catalog is far larger, at 582 components, and includes charts, data grids and 140 national identifier input and view components. Size is not quality: a system with a few dozen components has usually earned each one through production use. Lily's own survey of 428 component rows (compare/compare.tsv) finds 76 rows that match a GOV.UK component. Lily's column in that survey is 428 by construction, because the rows were built from Lily's catalog, so that figure shows Lily's breadth and says nothing about quality. Lily has no equivalent of GOV.UK's written pattern guidance, which rests on research with government services.
 
 ## Accessibility evidence
 
@@ -64,10 +64,10 @@ On licences, govuk-frontend code is MIT "unless stated otherwise", and the site'
 - [GOV.UK Frontend documentation](https://frontend.design-system.service.gov.uk/)
 - [Import CSS](https://frontend.design-system.service.gov.uk/import-css/)
 - [govuk-frontend README](https://github.com/alphagov/govuk-frontend)
-- [Lily COMPARISONS.md](https://github.com/lilydesignsystem/lily-design-system/blob/main/COMPARISONS.md)
+- [Lily COMPARE.md](https://github.com/lilydesignsystem/lily-design-system/blob/main/COMPARE.md)
 - [Lily migration guide for GOV.UK Frontend](https://github.com/lilydesignsystem/lily-design-system/blob/main/docs/migrating/govuk.md)
 - [Lily GOV.UK GDS theme](https://github.com/lilydesignsystem/lily-design-system/blob/main/themes/united-kingdom-government-digital-service.css)
-- [Lily comparison survey (comparisons.tsv)](https://github.com/lilydesignsystem/lily-design-system/blob/main/comparisons/comparisons.tsv)
+- [Lily comparison survey (comparisons.tsv)](https://github.com/lilydesignsystem/lily-design-system/blob/main/compare/compare.tsv)
 - [Lily component catalog (components.tsv)](https://github.com/lilydesignsystem/lily-design-system/blob/main/components.tsv)
 
 [All comparisons](https://lilydesignsystem.com/compare/)
