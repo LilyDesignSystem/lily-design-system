@@ -13,6 +13,7 @@
 - **Accessible name**. Every interactive element has a name visible to assistive technology — either via visible text content, `aria-label`, or `aria-labelledby`. Required `label` props enforce this where text content alone is insufficient (e.g. `IconButton`, `ChatNav`, `Hero`, `TileMap`).
 - **No colour-only meaning**. Status, validity, and selection are conveyed through text, icons, ARIA state, or position — never colour alone (WCAG 1.4.1).
 - **Live regions are deliberate**. `role="alert"` and `aria-live` are reserved for dynamic content the user must hear. Static labels stay static.
+- **Focus not obscured (WCAG 2.2 SC 2.4.11)**. A focused control is never entirely hidden by author-created content such as a fixed or sticky bar. Whatever fixes a bar to the viewport (`sticky-promo-banner`, a theme's or app's own fixed header, a bottom navigation) sets `--lily-fixed-bar-block-start` / `--lily-fixed-bar-block-end` on the root to the bar's height; the shared "Focus not obscured" section in all 57 themes turns them into `scroll-padding-block`, so the browser scrolls a focused control clear of the bar. Each example app's `e2e/focus-obscured.spec.ts` verifies it.
 - **Reduced motion**. Animations are an example-layer choice; headless components do not auto-animate. Consumers respect `prefers-reduced-motion` in their CSS.
 
 ## Common ARIA patterns

@@ -19,6 +19,7 @@ Full topic: [spec/responsive/index.md](../spec/responsive/index.md).
 - **Reflow.** No horizontal scrolling at 320 CSS pixels wide (WCAG 1.4.10), and text that still works at 400% zoom (1.4.4).
   A wide table or code block scrolls inside its own labelled, focusable region; the page does not.
 - **Text does not shrink below `1rem`** and is never sized in `vw` alone. Fluid values are for spacing, not text.
+- **Text expansion.** Layouts must survive labels 30 percent longer than English (Welsh runs 20 to 30 percent longer); the sweep tests it at 320px.
 - **Touch and hover are queries, not guesses.** Use `(hover: none)` and `(pointer: coarse)`, never a viewport width, to
   decide on target size or hover-only affordances.
 

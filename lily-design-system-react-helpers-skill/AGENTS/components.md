@@ -233,6 +233,32 @@ Style the label (`:has(input:checked)` for the selected state, `:has(input:focus
 hide the input visually without removing it — clip it, never `display: none` or `hidden`, which take it out of the
 form and the accessibility tree. For removable chips, use `TagInput`.
 
+### Summary card pattern: Card → title + header actions + SummaryList
+
+A composition of `Card` and `SummaryList`, not a component: the card title, optional header actions, and a summary list in the body.
+
+```tsx
+<Card>
+  <h3>Personal details</h3>
+  <a href="/name">
+    Change<span class="visually-hidden"> name</span>
+  </a>
+  <SummaryList label="Personal details">
+    <SummaryListItem>…</SummaryListItem>
+  </SummaryList>
+</Card>
+```
+
+- Each action's accessible name says what it changes ("Change name"), through consumer-supplied visually hidden text.
+- Action targets are at least 24 by 24 CSS pixels, or spaced (WCAG 2.5.8).
+- A missing value links to the question that answers it, not to a "Change" link.
+- Earlier answers are pre-filled when the user returns through a change link (WCAG 3.3.7).
+- Card titles are short and unique; header actions are about two words each, two or three at most.
+
+### Patient banner pattern
+
+A labelled `<section aria-label>` holding a `dl` of consumer-supplied items (name, date of birth, national identifier shown with its `-view` component, gender, adverse reactions); no field truncated or hidden at a narrow width. Not a component and not named `patient-header` (the suffix table maps `-header` to `<header>`). Details: [`medical-banner`](../components/medical-banner/index.md).
+
 ### Table pattern: Table → Head/Body → Row → TH/TD
 
 ```tsx
