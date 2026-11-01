@@ -9,6 +9,11 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Forced-colours e2e — 2026-11-01
+
+`e2e/forced-colors.spec.ts` in the HTML examples app runs under Chromium's `forcedColors: 'active'`: focus ring, control border and the
+`SelectedItem` selected option. Closes P12-T13.
+
 ## theme-picker `themeColor` — 2026-11-01
 
 The theme-picker, in all eight catalogs, can also set `<meta name="theme-color">` from the theme's `--lily-brand` once its stylesheet
