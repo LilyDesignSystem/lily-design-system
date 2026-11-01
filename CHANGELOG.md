@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## theme-picker `themeColor` — 2026-11-01
+
+The theme-picker, in all eight catalogs, can also set `<meta name="theme-color">` from the theme's `--lily-brand` once its stylesheet
+has loaded (`themeColor`, `theme-color`, `ThemeColor`; off by default, idempotent). One shared module, `shared/theme-color.ts`.
+P21-T7.
+
 ## Logo slot — 2026-11-01
 
 A pinned "Logo slot" section in all 63 themes: a home link marked `data-lily-logo` takes padding from `--lily-logo-clear-space` and a

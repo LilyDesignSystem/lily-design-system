@@ -40,6 +40,11 @@ export type Props = {
     storageKey?: string;
     /** Resolve `prefers-color-scheme` to a supported theme on first visit. */
     detectFromSystem?: boolean;
+    /**
+     * Also set `<meta name="theme-color">` from the theme's `--lily-brand` once its stylesheet has loaded, so the
+     * browser chrome follows the theme. Off by default; a theme without `--lily-brand` leaves the tag alone.
+     */
+    themeColor?: boolean;
     /** Discriminates the managed <link>; also the hidden input's `name`. */
     name?: string;
     /** File extension appended to each slug when constructing the URL. */
@@ -109,6 +114,7 @@ export function nextThemePickerId(): string {
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { IconButton, Listbox } from "@lilydesignsystem/vue-headless";
+import { applyThemeColorWhenLoaded } from "./theme-color";
 
 const props = withDefaults(defineProps<Props>(), {
     disabled: false,
@@ -117,6 +123,7 @@ const props = withDefaults(defineProps<Props>(), {
     defaultValue: undefined,
     storageKey: undefined,
     detectFromSystem: false,
+    themeColor: false,
     name: "theme",
     extension: ".css",
     target: undefined,
@@ -233,7 +240,9 @@ function getManagedLink(): HTMLLinkElement {
 
 function applyTheme(slug: string): void {
     if (typeof document === "undefined" || !slug) return;
-    getManagedLink().href = themeHref(props.themesUrl, slug, props.extension);
+    const link = getManagedLink();
+    link.href = themeHref(props.themesUrl, slug, props.extension);
+    if (props.themeColor) applyThemeColorWhenLoaded(link);
     (props.target ?? document.documentElement).setAttribute("data-theme", slug);
     if (props.storageKey) {
         try {

@@ -404,6 +404,7 @@ Highlights:
 | `default-value`      | string        | no       | Initial when nothing else applies.                                                                           |
 | `storage-key`        | string        | no       | `localStorage` persistence.                                                                                  |
 | `detect-from-system` | boolean attr  | no       | Resolve `prefers-color-scheme` on first visit. Mirrors locale-picker's `detect-from-navigator`.              |
+| `theme-color`        | boolean attr  | no       | Also set `<meta name="theme-color">` from `--lily-brand` once the stylesheet loads; off by default.          |
 | `name`               | string        | no       | Hidden `<input>` `name` and managed-`<link>` discriminator; defaults to `"theme"`.                           |
 | `variant`            | string        | no       | `"select"` renders a native `<select>` instead; see [The native select variant](#the-native-select-variant). |
 | `extension`          | string        | no       | Defaults to `".css"`.                                                                                        |

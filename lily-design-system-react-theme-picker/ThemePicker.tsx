@@ -1,5 +1,6 @@
 import * as React from "react";
 import { IconButton, Listbox } from "@lilydesignsystem/react-headless";
+import { applyThemeColorWhenLoaded } from "./theme-color.js";
 
 /**
  * Default button icon: a bundled SVG (contrast/half-circle), not a
@@ -44,6 +45,11 @@ export type Props = Omit<
     storageKey?: string;
     /** Resolve `prefers-color-scheme` to a supported theme on first visit. */
     detectFromSystem?: boolean;
+    /**
+     * Also set `<meta name="theme-color">` from the theme's `--lily-brand` once its stylesheet has loaded, so the
+     * browser chrome follows the theme. Off by default; a theme without `--lily-brand` leaves the tag alone.
+     */
+    themeColor?: boolean;
     /** Discriminates the managed `<link>`; also the hidden input's `name`. */
     name?: string;
     /** File extension appended to each slug when constructing the URL. */
@@ -206,6 +212,7 @@ export function ThemePicker({
     defaultValue,
     storageKey,
     detectFromSystem = false,
+    themeColor = false,
     name = "theme",
     extension = ".css",
     target,
@@ -295,7 +302,9 @@ export function ThemePicker({
         if (typeof document === "undefined" || !slug) return;
         if (slug === appliedRef.current) return;
         appliedRef.current = slug;
-        getManagedLink().href = themeHref(themesUrl, slug, extension);
+        const link = getManagedLink();
+        link.href = themeHref(themesUrl, slug, extension);
+        if (themeColor) applyThemeColorWhenLoaded(link);
         (target ?? document.documentElement).setAttribute("data-theme", slug);
         if (storageKey) {
             try {

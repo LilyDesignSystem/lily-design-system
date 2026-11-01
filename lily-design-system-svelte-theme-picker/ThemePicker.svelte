@@ -45,6 +45,11 @@
         storageKey?: string;
         /** Resolve `prefers-color-scheme` to a supported theme on first visit. */
         detectFromSystem?: boolean;
+        /**
+         * Also set `<meta name="theme-color">` from the theme's `--lily-brand` once its stylesheet has loaded, so the
+         * browser chrome follows the theme. Off by default; a theme without `--lily-brand` leaves the tag alone.
+         */
+        themeColor?: boolean;
         /** Discriminates the managed <link>; also the hidden input's `name`. */
         name?: string;
         /** File extension appended to each slug when constructing the URL. */
@@ -129,6 +134,7 @@
 
 <script lang="ts">
     import { untrack } from "svelte";
+    import { applyThemeColorWhenLoaded } from "./theme-color.js";
     let {
         class: className = "",
         label,
@@ -138,6 +144,7 @@
         defaultValue,
         storageKey,
         detectFromSystem = false,
+        themeColor = false,
         name = "theme",
         extension = ".css",
         target,
@@ -224,7 +231,9 @@
         if (typeof document === "undefined" || !slug) return;
         if (slug === appliedValue) return;
         appliedValue = slug;
-        getManagedLink().href = themeHref(themesUrl, slug, extension);
+        const link = getManagedLink();
+        link.href = themeHref(themesUrl, slug, extension);
+        if (themeColor) applyThemeColorWhenLoaded(link);
         (target ?? document.documentElement).setAttribute("data-theme", slug);
         if (storageKey) {
             try {

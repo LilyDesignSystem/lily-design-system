@@ -27,6 +27,9 @@
                     `value` nor storage supplied a slug. Client-only:
                     matchMedia does not exist at render time, so this
                     never affects the server-rendered aria-selected.
+    themeColor    — boolean. If true, client.js also sets <meta name="theme-color">
+                    from the theme's `--lily-brand` once its stylesheet has
+                    loaded. Client-only; off by default.
     name          — string. Hidden-input `name` AND the discriminator on
                     the managed <link data-lily-theme-picker="{name}">
                     (default "theme").
@@ -80,6 +83,7 @@
 {%- set storageKey = opts.storageKey | default("") -%}
 {%- set defaultValue = opts.defaultValue | default("") -%}
 {%- set detectFromSystem = opts.detectFromSystem | default(false) -%}
+{%- set themeColor = opts.themeColor | default(false) -%}
 {%- set themeLabels = opts.themeLabels | default({}) -%}
 {%- set id = opts.id | default("theme-picker-" + name) -%}
 {%- set disabled = opts.disabled | default(false) -%}
@@ -103,6 +107,7 @@
   data-lily-theme-picker-storage-key="{{ storageKey }}"
   data-lily-theme-picker-default-value="{{ defaultValue }}"
   data-lily-theme-picker-detect-from-system="{{ 'true' if detectFromSystem else 'false' }}"
+  data-lily-theme-picker-theme-color="{{ 'true' if themeColor else 'false' }}"
   {%- if value %} data-lily-theme-picker-value="{{ value }}"{% endif %}
   {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
@@ -128,6 +133,7 @@
   data-lily-theme-picker-storage-key="{{ storageKey }}"
   data-lily-theme-picker-default-value="{{ defaultValue }}"
   data-lily-theme-picker-detect-from-system="{{ 'true' if detectFromSystem else 'false' }}"
+  data-lily-theme-picker-theme-color="{{ 'true' if themeColor else 'false' }}"
   {%- if value %} data-lily-theme-picker-value="{{ value }}"{% endif %}
   {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >

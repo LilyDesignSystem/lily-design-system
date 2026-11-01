@@ -79,6 +79,23 @@ List item with theme picker option <slug>:
 </li>
 ```
 
+## Theme colour (added 2026-11-01, P21-T7)
+
+Optional and off by default. With `themeColor` (`theme-color` on the custom elements, `data-lily-theme-picker-theme-color` from
+the Nunjucks macro, `ThemeColor` in Blazor) the picker also writes `<meta name="theme-color">`, so the browser chrome (the
+address bar on a phone) follows the applied theme.
+
+- The colour is the root's computed `--lily-brand`, the decorative identity colour every theme defines
+  ([visual-identity](../visual-identity/index.md)). The picker holds no colour table.
+- It is written when the managed stylesheet fires `load`, because the new theme's custom properties exist only then; the
+  listener is attached before the `href` changes. A stylesheet that fails to load leaves the tag as it was.
+- Idempotent, like every apply: an unchanged colour writes nothing. A theme with no `--lily-brand` leaves the tag alone, and the
+  tag is created only when a colour is written.
+- The logic is one shared module, `shared/theme-color.ts`, copied into the TypeScript catalogs by `bin/sync-shared-modules`
+  (Nunjucks gets the types-stripped `.js`); Blazor repeats the steps in its apply script.
+- The value is whatever CSS colour the browser accepts for `theme-color`; it is not converted. Adopters who need a hex or
+  `rgb()` value set `--lily-brand` to one.
+
 ## Acceptance criteria
 
 - [x] Shipped as its own package in all eight frameworks: `bin/list-helper-packages <framework>` lists `<framework>-theme-picker` for

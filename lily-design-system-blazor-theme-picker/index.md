@@ -565,3 +565,7 @@ joel@joelparkerhenderson.com for other terms.
 ---
 
 Lily™ and Lily Design System™ are trademarks.
+
+## Theme colour (`ThemeColor`)
+
+Optional, off by default: set `ThemeColor` to also write `<meta name="theme-color">` from the theme's `--lily-brand` once its stylesheet has loaded (done in the same interop script that swaps the `<link>`). See [spec/theme-picker](../spec/theme-picker/index.md).

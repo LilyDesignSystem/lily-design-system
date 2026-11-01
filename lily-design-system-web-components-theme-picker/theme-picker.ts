@@ -16,6 +16,7 @@
  */
 
 import "@lilydesignsystem/web-components-headless";
+import { applyThemeColorWhenLoaded } from "./theme-color.js";
 
 /** Namespace for building the default button icon's SVG elements. */
 const SVG_NS = "http://www.w3.org/2000/svg";
@@ -46,6 +47,8 @@ export type ThemePickerProps = {
     defaultValue?: string;
     storageKey?: string;
     detectFromSystem?: boolean;
+    /** Also set <meta name="theme-color"> from the theme's --lily-brand once its stylesheet has loaded (off by default). */
+    themeColor?: boolean;
     name?: string;
     extension?: string;
     themeLabels?: Record<string, string>;
@@ -304,6 +307,20 @@ export class ThemePicker extends HTMLElement {
     set detectFromSystem(v: boolean) {
         if (v) this.setAttribute("detect-from-system", "");
         else this.removeAttribute("detect-from-system");
+    }
+
+    /**
+     * Also set `<meta name="theme-color">` from the theme's `--lily-brand` once its stylesheet has loaded, so the
+     * browser chrome follows the theme. Off by default (absent → false, present → true, "false" → false); a theme
+     * without `--lily-brand` leaves the tag alone.
+     */
+    get themeColor(): boolean {
+        const v = this.getAttribute("theme-color");
+        return v !== null && v !== "false";
+    }
+    set themeColor(v: boolean) {
+        if (v) this.setAttribute("theme-color", "");
+        else this.removeAttribute("theme-color");
     }
 
     get name(): string {
@@ -594,7 +611,9 @@ export class ThemePicker extends HTMLElement {
         if (typeof document === "undefined" || !slug) return;
         if (slug === this.#appliedValue) return;
         this.#appliedValue = slug;
-        this.#getManagedLink().href = themeHref(this.themesUrl, slug, this.extension);
+        const link = this.#getManagedLink();
+        link.href = themeHref(this.themesUrl, slug, this.extension);
+        if (this.themeColor) applyThemeColorWhenLoaded(link);
         (this.#target ?? document.documentElement).setAttribute("data-theme", slug);
         if (this.storageKey) {
             try {

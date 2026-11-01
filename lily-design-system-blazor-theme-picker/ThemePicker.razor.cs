@@ -69,6 +69,12 @@ public partial class ThemePicker : ComponentBase
     /// first visit. Mirrors <c>DetectFromNavigator</c> on LocalePicker.</summary>
     [Parameter] public bool DetectFromSystem { get; set; }
 
+    /// <summary>Also set <c>&lt;meta name="theme-color"&gt;</c> from the theme's
+    /// <c>--lily-brand</c> once its stylesheet has loaded, so the browser chrome
+    /// follows the theme. Off by default; a theme without <c>--lily-brand</c>
+    /// leaves the tag alone.</summary>
+    [Parameter] public bool ThemeColor { get; set; }
+
     /// <summary>Shared <c>name</c> attribute for the hidden input and the
     /// <c>data-lily-theme-picker</c> discriminator on the managed <c>&lt;link&gt;</c>.</summary>
     [Parameter] public string Name { get; set; } = "theme";
@@ -499,7 +505,7 @@ public partial class ThemePicker : ComponentBase
     private async Task ApplyThemeAsync(string slug)
     {
         var href = ThemeHref(ThemesUrl, slug, Extension);
-        var script = BuildApplyScript(Name, href, slug, StorageKey);
+        var script = BuildApplyScript(Name, href, slug, StorageKey, ThemeColor);
         try
         {
             await JS.InvokeVoidAsync("eval", script);
@@ -512,7 +518,7 @@ public partial class ThemePicker : ComponentBase
     }
 
     /// <summary>Build the JS snippet that mutates the DOM. Exposed for tests.</summary>
-    internal static string BuildApplyScript(string name, string href, string slug, string? storageKey)
+    internal static string BuildApplyScript(string name, string href, string slug, string? storageKey, bool themeColor = false)
     {
         var nameLit = JsonString(name);
         var hrefLit = JsonString(href);
@@ -521,10 +527,20 @@ public partial class ThemePicker : ComponentBase
             ? ""
             : $"try{{localStorage.setItem({JsonString(storageKey!)},{slugLit});}}catch(e){{}}";
 
+        // The same steps as shared/theme-color.ts: wait for the stylesheet, read --lily-brand, set the tag if it changed.
+        var themeColorLine = themeColor
+            ? "l.addEventListener('load',function(){"
+                + "var c=getComputedStyle(document.documentElement).getPropertyValue('--lily-brand').trim();if(!c)return;"
+                + "var m=document.head.querySelector('meta[name=\"theme-color\"]');"
+                + "if(!m){m=document.createElement('meta');m.name='theme-color';document.head.appendChild(m);}"
+                + "if(m.content!==c)m.content=c;},{once:true});"
+            : "";
+
         return "(function(){"
             + $"var n={nameLit};var sel='link[data-lily-theme-picker=\"'+n+'\"]';"
             + "var l=document.head.querySelector(sel);"
             + "if(!l){l=document.createElement('link');l.rel='stylesheet';l.setAttribute('data-lily-theme-picker',n);document.head.appendChild(l);}"
+            + themeColorLine
             + $"l.href={hrefLit};"
             + $"document.documentElement.setAttribute('data-theme',{slugLit});"
             + storageLine

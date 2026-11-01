@@ -1306,3 +1306,41 @@ describe('themePicker — variant="select" (§select, RFC 3 prototype; ported fr
         expect(root.getAttribute("data-testid")).toBe("tp");
     });
 });
+
+describe("theme-picker (Nunjucks) — themeColor (P21-T7)", () => {
+    const meta = () => document.head.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+    afterEach(() => {
+        meta()?.remove();
+        document.documentElement.style.removeProperty("--lily-brand");
+    });
+
+    test("the macro emits the flag", () => {
+        expect(renderMacro({ label: "Theme", themesUrl: "/t/", themes: ["light"], themeColor: true })).toContain(
+            'data-lily-theme-picker-theme-color="true"',
+        );
+        expect(renderMacro({ label: "Theme", themesUrl: "/t/", themes: ["light"] })).toContain(
+            'data-lily-theme-picker-theme-color="false"',
+        );
+    });
+
+    test("off by default: no theme-color tag is written", () => {
+        document.documentElement.style.setProperty("--lily-brand", "#005eb8");
+        setup({ defaultValue: "dark" });
+        getManagedLink()!.dispatchEvent(new Event("load"));
+        expect(meta()).toBeNull();
+    });
+
+    test("on: the tag follows --lily-brand once the stylesheet has loaded", () => {
+        setup({ defaultValue: "dark", themeColor: true });
+        document.documentElement.style.setProperty("--lily-brand", "#005eb8");
+        expect(meta()).toBeNull(); // not before the stylesheet loads
+        getManagedLink()!.dispatchEvent(new Event("load"));
+        expect(meta()?.content).toBe("#005eb8");
+    });
+
+    test("on: a theme with no --lily-brand leaves the tag as it was", () => {
+        setup({ defaultValue: "dark", themeColor: true });
+        getManagedLink()!.dispatchEvent(new Event("load"));
+        expect(meta()).toBeNull();
+    });
+});

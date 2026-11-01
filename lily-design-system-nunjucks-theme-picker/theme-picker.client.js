@@ -28,6 +28,7 @@
 // See spec/index.md §4.3 (client.js exports), §5 (behaviour).
 
 import { createListboxKeyboard } from "@lilydesignsystem/nunjucks-listbox-behavior";
+import { applyThemeColorWhenLoaded } from "./theme-color.js";
 
 /**
  * Resolve a theme slug to its display label: each hyphen-separated word
@@ -258,6 +259,7 @@ export function initThemePicker(root, opts = {}) {
     const defaultValue = root.getAttribute("data-lily-theme-picker-default-value") || "";
     const detectFromSystem =
         root.getAttribute("data-lily-theme-picker-detect-from-system") === "true";
+    const themeColor = root.getAttribute("data-lily-theme-picker-theme-color") === "true";
     // The consumer's `value` prop. The macro emits it as a data
     // attribute rather than baking it into a control the browser would
     // paint before hydration.
@@ -282,7 +284,9 @@ export function initThemePicker(root, opts = {}) {
         if (slug === appliedValue) return;
         appliedValue = slug;
         current = slug;
-        getManagedLink(name).href = themeHref(themesUrl, slug, extension);
+        const link = getManagedLink(name);
+        link.href = themeHref(themesUrl, slug, extension);
+        if (themeColor) applyThemeColorWhenLoaded(link);
         const target = opts.target || document.documentElement;
         target.setAttribute("data-theme", slug);
         if (storageKey) safeStorageSet(storageKey, slug);
@@ -540,12 +544,15 @@ function initSelectVariant(root, select, opts) {
     const themesUrl = root.getAttribute("data-lily-theme-picker-themes-url") || "";
     const extension = root.getAttribute("data-lily-theme-picker-extension") || ".css";
     const storageKey = root.getAttribute("data-lily-theme-picker-storage-key") || "";
+    const themeColor = root.getAttribute("data-lily-theme-picker-theme-color") === "true";
     let appliedValue = "";
 
     function applyTheme(slug) {
         if (!slug || slug === appliedValue) return;
         appliedValue = slug;
-        getManagedLink(name).href = themeHref(themesUrl, slug, extension);
+        const link = getManagedLink(name);
+        link.href = themeHref(themesUrl, slug, extension);
+        if (themeColor) applyThemeColorWhenLoaded(link);
         (opts.target || document.documentElement).setAttribute("data-theme", slug);
         if (storageKey) safeStorageSet(storageKey, slug);
         if (select.value !== slug) select.value = slug;

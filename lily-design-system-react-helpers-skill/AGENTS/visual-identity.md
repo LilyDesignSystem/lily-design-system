@@ -44,10 +44,10 @@ tokens (the eight colour roles with their `-content`, `--lily-brand` / `--lily-o
 ends in a generic family. `bin/check-theme --overlay` (in `bin/test`) enforces it; `brand-overlays/example.css` is the worked
 example (a fictional brand).
 
-### Planned (not yet built)
+### Browser chrome
 
-`theme-color`: task P21-T7 and
-P21-T8 in [tasks.md](../tasks.md).
+The theme-picker can also set `<meta name="theme-color">` from `--lily-brand` (`themeColor`, off by default), in all eight
+catalogs: [spec/theme-picker](../spec/theme-picker/index.md).
 
 ### Checks
 

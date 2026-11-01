@@ -3144,9 +3144,10 @@ Plan: [plan.md § Phase 21](plan.md#phase-21--visual-identity-principles-2026-11
       `currentColor`, `aria-hidden`) in `AGENTS/visual-identity.md` and check every bundled picker icon against it.
       Verify: a check fails an icon with a different `viewBox` or a fixed colour.
       _(2026-11-01: done. `bin/check-picker-icons` (in `bin/test`) reads the source of every `*-picker` package, JSX/templates and `createElementNS` code alike, and checks all 80 icons (ten pickers in eight catalogs): `viewBox`, `aria-hidden`, `stroke="currentColor"`, `stroke-width` 1.6, round caps and joins, `rem` size. Shown to fail on a changed `viewBox`. `date-time-picker` is exempt (a Unicode glyph).)_
-- [ ] **P21-T7 `theme-color` follows the theme.** Optional `themeColor` behaviour in the eight `theme-picker` catalogs:
+- [x] **P21-T7 `theme-color` follows the theme.** Optional `themeColor` behaviour in the eight `theme-picker` catalogs:
       sets `<meta name="theme-color">` from `--lily-brand` on apply, off by default, idempotent. Needs P21-T3.
       Verify: a test per catalog sets and updates the tag and does nothing on an unchanged value.
+      _(2026-11-01: done in all eight catalogs. `shared/theme-color.ts` (+ test, 5 cases) is synced into the Svelte, React, Vue, Angular, Web Components and HTML pickers and, types stripped, the Nunjucks one; each picker gains `themeColor` (`theme-color`, `data-lily-theme-picker-theme-color`) and three tests (off by default, on after the stylesheet's `load`, no `--lily-brand` leaves the tag); Blazor repeats the steps in its apply script with two tests (61 pass). Shown to bite in Svelte by disabling the call. Not done: a real browser run (jsdom fires `load` by hand), the Chromium/theme-color meta in the example apps, and `themeColor` is not on in `picker-bar`.)_
 - [x] **P21-T8 Identity change log.** Dated identity-change notes in `themes/references.tsv`, surfaced on each theme's docs
       page, and reported by `bin/check-theme-references`.
       Verify: the 2026-10-29 NHS.UK re-baseline appears as the first entry.

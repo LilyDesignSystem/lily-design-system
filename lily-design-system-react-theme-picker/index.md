@@ -315,6 +315,7 @@ The complete table is in [spec/index.md §4.1](./spec/index.md#41-props). Highli
 | `defaultValue`     | `string`                               | no       | Initial when nothing else applies.                                                                           |
 | `storageKey`       | `string`                               | no       | `localStorage` persistence.                                                                                  |
 | `detectFromSystem` | `boolean`                              | no       | Resolve `prefers-color-scheme` on first visit; defaults to `false`.                                          |
+| `themeColor`       | `boolean`                              | no       | Also set `<meta name="theme-color">` from `--lily-brand` once the stylesheet loads; off by default.          |
 | `name`             | `string`                               | no       | Hidden input `name` + managed `<link>` discriminator; defaults to `"theme"`.                                 |
 | `variant`          | `"listbox" \| "select"`                | no       | `"select"` renders a native `<select>` instead; see [The native select variant](#the-native-select-variant). |
 | `extension`        | `string`                               | no       | Defaults to `".css"`.                                                                                        |

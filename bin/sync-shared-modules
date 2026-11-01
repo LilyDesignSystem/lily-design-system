@@ -54,6 +54,24 @@ EXTRA_TARGETS = {
     "org-format.ts": [
         "lily-design-system-nunjucks-org-editor/org-format.js",
     ],
+    # The theme-picker's optional themeColor (spec/visual-identity, P21-T7): the Blazor picker has its own C# version.
+    "theme-color.ts": [
+        "lily-design-system-svelte-theme-picker/theme-color.ts",
+        "lily-design-system-react-theme-picker/theme-color.ts",
+        "lily-design-system-vue-theme-picker/theme-color.ts",
+        "lily-design-system-angular-theme-picker/theme-color.ts",
+        "lily-design-system-web-components-theme-picker/theme-color.ts",
+        "lily-design-system-html-theme-picker/theme-color.ts",
+        "lily-design-system-nunjucks-theme-picker/theme-color.js",
+    ],
+    "theme-color.test.ts": [
+        "lily-design-system-svelte-theme-picker/theme-color.test.ts",
+        "lily-design-system-react-theme-picker/theme-color.test.ts",
+        "lily-design-system-vue-theme-picker/theme-color.test.ts",
+        "lily-design-system-angular-theme-picker/theme-color.spec.ts",
+        "lily-design-system-web-components-theme-picker/theme-color.test.ts",
+        "lily-design-system-html-theme-picker/theme-color.test.ts",
+    ],
     "zones.ts": [
         "lily-design-system-svelte-time-zone-picker/zones.ts",
         "lily-design-system-react-time-zone-picker/zones.ts",

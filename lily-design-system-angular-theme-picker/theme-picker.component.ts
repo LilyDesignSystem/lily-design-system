@@ -17,6 +17,7 @@ import {
     viewChild,
 } from "@angular/core";
 import { IconButton, Listbox } from "@lilydesignsystem/angular-headless";
+import { applyThemeColorWhenLoaded } from "./theme-color";
 
 /**
  * Default button icon: a bundled SVG (contrast/half-circle), not a
@@ -245,6 +246,11 @@ export class ThemePicker {
     readonly storageKey = input<string>("");
     /** Resolve `prefers-color-scheme` to a supported theme on first visit. */
     readonly detectFromSystem = input<boolean>(false);
+    /**
+     * Also set `<meta name="theme-color">` from the theme's `--lily-brand` once its stylesheet has loaded, so the
+     * browser chrome follows the theme. Off by default; a theme without `--lily-brand` leaves the tag alone.
+     */
+    readonly themeColor = input<boolean>(false);
     readonly name = input<string>("theme");
     readonly extension = input<string>(".css");
     readonly target = input<HTMLElement | null>(null);
@@ -531,7 +537,10 @@ export class ThemePicker {
     private applyTheme(slug: string): void {
         if (typeof document === "undefined" || !slug) return;
         const link = this.getManagedLink();
-        if (link) link.href = themeHref(this.themesUrl(), slug, this.extension());
+        if (link) {
+            link.href = themeHref(this.themesUrl(), slug, this.extension());
+            if (this.themeColor()) applyThemeColorWhenLoaded(link);
+        }
         (this.target() ?? document.documentElement).setAttribute("data-theme", slug);
 
         const sk = this.storageKey();

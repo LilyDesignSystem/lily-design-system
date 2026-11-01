@@ -341,22 +341,23 @@ the whole session, add a `matchMedia` listener — see
 
 The complete table is in [spec/index.md §4.1](./spec/index.md#41-props). Highlights:
 
-| Prop               | Type                     | Required | Notes                                                                                 |
-| ------------------ | ------------------------ | -------- | ------------------------------------------------------------------------------------- |
-| `label`            | `string`                 | yes      | `aria-label` on the button **and** the listbox. The control's entire accessible name. |
-| `themesUrl`        | `string`                 | yes      | Trailing `/` is auto-added.                                                           |
-| `themes`           | `string[]`               | yes      | Available slugs.                                                                      |
-| `value`            | `string` (bindable)      | no       | Two-way bind for the current slug.                                                    |
-| `defaultValue`     | `string`                 | no       | Initial when nothing else applies.                                                    |
-| `storageKey`       | `string`                 | no       | `localStorage` persistence.                                                           |
-| `detectFromSystem` | `boolean`                | no       | Resolve `prefers-color-scheme` on first visit.                                        |
-| `name`             | `string`                 | no       | Hidden input `name`, and the managed `<link>` discriminator; defaults to `"theme"`.   |
-| `extension`        | `string`                 | no       | Defaults to `".css"`.                                                                 |
-| `target`           | `HTMLElement \| null`    | no       | `data-theme` target; defaults to `<html>`.                                            |
-| `themeLabels`      | `Record<string, string>` | no       | Per-slug display label override.                                                      |
-| `onChange`         | `(slug) => void`         | no       | Callback fired after apply.                                                           |
-| `children`         | `Snippet<[ChildArgs]>`   | no       | Replaces the button's glyph.                                                          |
-| `variant`          | `"listbox" \| "select"`  | no       | `"select"` renders a native `<select>` instead (opt-in prototype, see below).         |
+| Prop               | Type                     | Required | Notes                                                                                               |
+| ------------------ | ------------------------ | -------- | --------------------------------------------------------------------------------------------------- |
+| `label`            | `string`                 | yes      | `aria-label` on the button **and** the listbox. The control's entire accessible name.               |
+| `themesUrl`        | `string`                 | yes      | Trailing `/` is auto-added.                                                                         |
+| `themes`           | `string[]`               | yes      | Available slugs.                                                                                    |
+| `value`            | `string` (bindable)      | no       | Two-way bind for the current slug.                                                                  |
+| `defaultValue`     | `string`                 | no       | Initial when nothing else applies.                                                                  |
+| `storageKey`       | `string`                 | no       | `localStorage` persistence.                                                                         |
+| `detectFromSystem` | `boolean`                | no       | Resolve `prefers-color-scheme` on first visit.                                                      |
+| `themeColor`       | `boolean`                | no       | Also set `<meta name="theme-color">` from `--lily-brand` once the stylesheet loads; off by default. |
+| `name`             | `string`                 | no       | Hidden input `name`, and the managed `<link>` discriminator; defaults to `"theme"`.                 |
+| `extension`        | `string`                 | no       | Defaults to `".css"`.                                                                               |
+| `target`           | `HTMLElement \| null`    | no       | `data-theme` target; defaults to `<html>`.                                                          |
+| `themeLabels`      | `Record<string, string>` | no       | Per-slug display label override.                                                                    |
+| `onChange`         | `(slug) => void`         | no       | Callback fired after apply.                                                                         |
+| `children`         | `Snippet<[ChildArgs]>`   | no       | Replaces the button's glyph.                                                                        |
+| `variant`          | `"listbox" \| "select"`  | no       | `"select"` renders a native `<select>` instead (opt-in prototype, see below).                       |
 
 **There is no `placeholder` prop.** It was removed along with the
 native `<select>` it belonged to.

@@ -959,6 +959,48 @@ public class ThemePickerTests : TestContext
     }
 
     /// <summary>True when some eval interop call carried the given substring.</summary>
+    // -----------------------------------------------------------------
+    // P21-T7 — ThemeColor: the apply script sets <meta name="theme-color"> from --lily-brand once the stylesheet loads.
+    // -----------------------------------------------------------------
+
+    [Fact]
+    public void ThemeColor_IsOffByDefault_AndTheScriptCarriesItWhenOn()
+    {
+        var off = ThemePicker.BuildApplyScript("theme", "/a/dark.css", "dark", null);
+        Assert.DoesNotContain("theme-color", off);
+
+        var on = ThemePicker.BuildApplyScript("theme", "/a/dark.css", "dark", null, themeColor: true);
+        Assert.Contains("--lily-brand", on);
+        Assert.Contains("meta[name=\"theme-color\"]", on);
+        Assert.Contains("addEventListener('load'", on);
+        // The listener is attached before the href changes, so the load event cannot be missed.
+        Assert.True(on.IndexOf("addEventListener('load'", StringComparison.Ordinal)
+            < on.IndexOf("l.href=", StringComparison.Ordinal));
+    }
+
+    [Fact]
+    public void ThemeColor_ParameterReachesTheInteropCall()
+    {
+        RenderComponent<ThemePicker>(p => p
+            .Add(x => x.Label, "Theme")
+            .Add(x => x.ThemesUrl, UrlTrailing)
+            .Add(x => x.Themes, Themes)
+            .Add(x => x.DefaultValue, "dark")
+            .Add(x => x.ThemeColor, true));
+        Assert.True(SawEvalContaining("--lily-brand"), "Expected the apply script to read --lily-brand");
+    }
+
+    [Fact]
+    public void ThemeColor_OffByDefault_NeverReadsTheBrandColour()
+    {
+        RenderComponent<ThemePicker>(p => p
+            .Add(x => x.Label, "Theme")
+            .Add(x => x.ThemesUrl, UrlTrailing)
+            .Add(x => x.Themes, Themes)
+            .Add(x => x.DefaultValue, "dark"));
+        Assert.False(SawEvalContaining("--lily-brand"));
+    }
+
     private bool SawEvalContaining(string needle)
     {
         foreach (var inv in JSInterop.Invocations)

@@ -1253,3 +1253,33 @@ describe('ThemePicker — variant="select" (§select, RFC 3 prototype; ported fr
         expect(html).toMatch(/<option[^>]*value="dark"[^>]*selected/);
     });
 });
+
+describe("ThemePicker — themeColor (P21-T7)", () => {
+    const meta = () => document.head.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+    const base = { label: "Theme", themesUrl: URL_TRAILING, themes: THEMES, defaultValue: "dark" };
+    afterEach(() => {
+        meta()?.remove();
+        document.documentElement.style.removeProperty("--lily-brand");
+    });
+
+    test("off by default: no theme-color tag is written", () => {
+        document.documentElement.style.setProperty("--lily-brand", "#005eb8");
+        render(<ThemePicker {...base} />);
+        getManagedLink()!.dispatchEvent(new Event("load"));
+        expect(meta()).toBeNull();
+    });
+
+    test("on: the tag follows --lily-brand once the stylesheet has loaded", () => {
+        render(<ThemePicker {...base} themeColor />);
+        document.documentElement.style.setProperty("--lily-brand", "#005eb8");
+        expect(meta()).toBeNull(); // not before the stylesheet loads
+        getManagedLink()!.dispatchEvent(new Event("load"));
+        expect(meta()?.content).toBe("#005eb8");
+    });
+
+    test("on: a theme with no --lily-brand leaves the tag as it was", () => {
+        render(<ThemePicker {...base} themeColor />);
+        getManagedLink()!.dispatchEvent(new Event("load"));
+        expect(meta()).toBeNull();
+    });
+});
