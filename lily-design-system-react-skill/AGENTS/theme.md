@@ -45,6 +45,13 @@ Arabic script, Hebrew, the Indic scripts, Thai, Lao, Khmer), re-declared on ever
 `--lily-line-height-body` (1.75 for scripts with tall marks). Never define `--lily-font-body` in a theme; `bin/check-theme`
 rule 14 fails it. Details: [spec/theme](../spec/theme/index.md#writing-systems-2026-10-30-tasksmd-p17-t9).
 
+### Brand colour
+
+`--lily-brand` and `--lily-on-brand` are the identity's decorative colour and the text on it, defined once in every theme's
+pinned "Brand colour" section and defaulting to the primary pair. Use them for a header band, a rule or a logo background,
+never for text or a control's boundary (`bin/check-theme` rule 15 fails it); text and borders use the content pairs. An adopter
+with a brand colour that fails 4.5:1 sets both in their own CSS. Details: [visual-identity.md](visual-identity.md).
+
 ### Error text
 
 `--color-error` is a fill colour, not a text colour. Error _text_ uses `--lily-error-text` (error mixed 22% into

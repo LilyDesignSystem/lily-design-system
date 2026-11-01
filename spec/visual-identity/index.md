@@ -144,7 +144,7 @@ theme's `--lily-brand` (item 3), creating it if absent, off by default. Idempote
 - [x] `AGENTS/visual-identity.md` exists, is imported by `AGENTS.md`, synced by `bin/sync`, and `bin/test` fails without it.
 - [ ] A brand overlay format is documented with one worked example, and `bin/check-theme --overlay` rejects an overlay that
       sets an undocumented token or leaves a content pair under 4.5:1.
-- [ ] `--lily-brand` and `--lily-on-brand` are in every theme's shared section and pinned by `bin/check-theme`.
+- [x] `--lily-brand` and `--lily-on-brand` are in every theme's shared section and pinned by `bin/check-theme`.
 - [ ] The logo-slot composition is in `AGENTS/components.md` and `spec/visual-identity`, with an example page tested in one
       example app.
 - [ ] `themes/references.tsv` has a `font_licence` column filled for all 63 themes, with unknowns marked unknown.

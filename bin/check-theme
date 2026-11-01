@@ -129,6 +129,7 @@ SHARED_SECTIONS = (
     "Scoped overflow",
     "target-size (minimum) floor",
     "Coarse pointer targets",
+    "Brand colour",
     "Overflow guards",
     "Helper packages — layout and look",
     "Overflow navigation",
@@ -467,6 +468,13 @@ def main() -> int:
             errors.append(f"{base}: no @media (forced-colors: active) block")
         if not re.search(r"@media\s*\(prefers-contrast:\s*more\)", css):
             errors.append(f"{base}: no @media (prefers-contrast: more) block")
+
+        # 15. brand colour is decorative (spec/visual-identity, P21-T3): never a text colour or a border
+        for m in re.finditer(r"(?<![\w-])(color|border[\w-]*|outline[\w-]*|-webkit-text-fill-color|text-decoration-color|caret-color|fill|stroke)\s*:[^;{}]*var\(--lily-brand\b", css):
+            errors.append(f"{base}: --lily-brand used in `{m.group(1)}` (brand colour is never text or a control boundary; use a content pair)")
+        if not re.search(r"--lily-brand\s*:\s*var\(--color-primary\)\s*;", css) or \
+           not re.search(r"--lily-on-brand\s*:\s*var\(--color-primary-content\)\s*;", css):
+            errors.append(f"{base}: --lily-brand/--lily-on-brand must default to the primary pair")
 
         # 14. the font stack: the theme names the Latin part; the shared section builds the rest
         latin = len(re.findall(r"--lily-font-body-latin\s*:", css))

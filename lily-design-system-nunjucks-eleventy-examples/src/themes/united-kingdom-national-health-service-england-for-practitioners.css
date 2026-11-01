@@ -4014,6 +4014,23 @@
 }
 
 /* ============================================================================
+ * Brand colour — shared verbatim by all themes (spec/visual-identity, P21-T3).
+ *
+ * --lily-brand is the identity's decorative colour: a header band, a rule, a
+ * logo background. It is NEVER a text colour or a control's boundary, because a
+ * brand colour need not reach 4.5:1 (WCAG 1.4.3, 1.4.11). --lily-on-brand is the
+ * text drawn on it. By default they follow the theme's primary pair, which every
+ * theme keeps readable; an adopter whose brand colour is lighter or darker sets
+ * both in their own CSS, with a pair of at least 4.5:1, and text keeps using the
+ * content pairs (--color-base-content, --lily-error-text and so on).
+ * ========================================================================== */
+
+:where(:root) {
+    --lily-brand: var(--color-primary);
+    --lily-on-brand: var(--color-primary-content);
+}
+
+/* ============================================================================
  * Overflow guards — narrow-viewport safety, shared verbatim by all themes.
  *
  * Content that is intrinsically wider than the viewport scrolls or wraps

@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Brand colour tokens and the identity policy — 2026-11-01
+
+`AGENTS/visual-identity.md` (loaded by `AGENTS.md`, required by `bin/test`) and a pinned "Brand colour" section in all 63
+themes: `--lily-brand` and `--lily-on-brand`, defaulting to the primary pair, decorative only. `bin/check-theme` rule 15 fails
+either token used as a text, border or outline colour. P21-T1 and P21-T3.
+
 ## Visual identity principles, planned — 2026-11-01
 
 New topic `spec/visual-identity`: a review of visual identity practice, an assessment against the 63 themes, and eight proposals

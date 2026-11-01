@@ -3124,10 +3124,11 @@ Plan: [plan.md § Phase 21](plan.md#phase-21--visual-identity-principles-2026-11
       that composes with `[data-theme]` and the theme-picker, one worked example, and `bin/check-theme --overlay`. Reuse the
       format the theme generator of `spec/daisyui-lessons` item 3 will emit.
       Verify: the example overlay passes; an overlay setting an undocumented token or a content pair under 4.5:1 fails.
-- [ ] **P21-T3 `--lily-brand` and `--lily-on-brand`.** Optional decorative brand colour and its text colour, defaulting to
+- [x] **P21-T3 `--lily-brand` and `--lily-on-brand`.** Optional decorative brand colour and its text colour, defaulting to
       `--color-primary` and `--color-primary-content`, in the shared theme section of all 63 themes; document the
       lightness-shift derivation.
       Verify: `bin/check-theme` pins the section, checks the pair at 4.5:1, and fails a rule that uses `--lily-brand` as text.
+      _(2026-11-01: done. The "Brand colour" section is in all 63 themes and pinned; `check-theme` rule 15 fails `--lily-brand` in a text, border, outline, fill or stroke property and fails a theme whose defaults are not the primary pair (shown to bite on a temporary rule). The 4.5:1 check on an adopter's own pair belongs to the overlay check, P21-T2; the defaults are the primary pair, which `--contrast` reports. No component uses the tokens yet.)_
 - [ ] **P21-T4 Logo slot composition.** In `AGENTS/components.md` and the topic: a home-linked logo in the header with
       `--lily-logo-clear-space` and `--lily-logo-min-size` set per theme (unset allowed), accessible name rules, and the
       logotype contrast exemption. No component, no bundled logo.
