@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "bulgaria-edinen-grazhdanski-nomer-view",
+  "type": "registry:component",
+  "title": "BulgariaEdinenGrazhdanskiNomerView",
+  "description": "A read-only display of Bulgaria's Единен граждански номер / Edinen grazhdanski nomer (EGN).",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/BulgariaEdinenGrazhdanskiNomerView.tsx",
+      "content": "import React from \"react\";\n\n// BulgariaEdinenGrazhdanskiNomerView component\n//\n// A headless display component for showing Bulgaria's\n// Единен граждански номер / Edinen grazhdanski nomer (EGN) in a read-only format.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". The identifier string to display.\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <BulgariaEdinenGrazhdanskiNomerView label=\"Uniform Civil Number\" value={value} />\n//\n// Accessibility:\n//   - aria-label provides the accessible name so screen readers announce the purpose\n//\n// References:\n//   - https://en.wikipedia.org/wiki/Unique_citizenship_number\n\nexport interface BulgariaEdinenGrazhdanskiNomerViewProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The identifier to display */\n    value?: string;\n    [key: string]: unknown;\n}\n\nexport default function BulgariaEdinenGrazhdanskiNomerView({\n    className = \"\",\n    label,\n    value = \"\",\n    ...restProps\n}: BulgariaEdinenGrazhdanskiNomerViewProps) {\n    return (\n        <span\n            className={`bulgaria-edinen-grazhdanski-nomer-view ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {value}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/BulgariaEdinenGrazhdanskiNomerView.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/bulgaria-edinen-grazhdanski-nomer-view/"
+}

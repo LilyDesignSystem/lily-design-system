@@ -8,10 +8,13 @@
 //
 // Attributes:
 //   label — REQUIRED. Accessible name for the group, via aria-label.
-//   date-label — default "Date". Accessible name for the date input.
-//   time-label — default "Time". Accessible name for the time input.
-//   now-label — default "Now". Accessible name and visible text for the
+//   date-label — REQUIRED. Accessible name for the date input.
+//   time-label — REQUIRED. Accessible name for the time input.
+//   now-label — REQUIRED. Accessible name and visible text for the
 //     "Now" button.
+//   No defaults (no English from us): a missing label leaves its control
+//   unnamed. dateTimeNowInputLabels(pack) in
+//   @lilydesignsystem/web-components-locale-translations gives all three.
 //   date-value — bindable date string (YYYY-MM-DD); also a live
 //     `dateValue` property.
 //   time-value — bindable time string (HH:mm); also a live `timeValue`
@@ -28,6 +31,11 @@
 //   - MDN time input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time
 
 import { applySelfClassName } from "../lib/dom-utils.js";
+
+/** aria-label from an attribute, or none: an unnamed control rather than a name in another language. */
+function setLabel(el: HTMLElement, label: string | null): void {
+    if (label) el.setAttribute("aria-label", label);
+}
 
 export class DateTimeNowInput extends HTMLElement {
     #built = false;
@@ -48,8 +56,8 @@ export class DateTimeNowInput extends HTMLElement {
 
         const dateInput = document.createElement("input");
         dateInput.type = "date";
-        dateInput.setAttribute("aria-label", this.getAttribute("date-label") ?? "Date");
-        dateInput.value = this.getAttribute("date-value") ?? "";
+        setLabel(dateInput, this.getAttribute("date-label"));
+        dateInput.defaultValue = this.getAttribute("date-value") ?? "";
         dateInput.required = required;
         dateInput.disabled = disabled;
         dateInput.addEventListener("input", this.#onDateInput);
@@ -57,18 +65,18 @@ export class DateTimeNowInput extends HTMLElement {
 
         const timeInput = document.createElement("input");
         timeInput.type = "time";
-        timeInput.setAttribute("aria-label", this.getAttribute("time-label") ?? "Time");
-        timeInput.value = this.getAttribute("time-value") ?? "";
+        setLabel(timeInput, this.getAttribute("time-label"));
+        timeInput.defaultValue = this.getAttribute("time-value") ?? "";
         timeInput.required = required;
         timeInput.disabled = disabled;
         timeInput.addEventListener("input", this.#onTimeInput);
         this.#timeInput = timeInput;
 
-        const nowLabel = this.getAttribute("now-label") ?? "Now";
+        const nowLabel = this.getAttribute("now-label");
         const nowButton = document.createElement("button");
         nowButton.type = "button";
-        nowButton.setAttribute("aria-label", nowLabel);
-        nowButton.textContent = nowLabel;
+        setLabel(nowButton, nowLabel);
+        nowButton.textContent = nowLabel ?? "";
         nowButton.disabled = disabled;
         nowButton.addEventListener("click", this.#onNow);
 

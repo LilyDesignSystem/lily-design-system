@@ -4,7 +4,7 @@ A tour guide is an outer container for a guided walkthrough experience, such as 
 
 ## Implementation Notes
 
-- Conditionally renders a `<div>` with `role="dialog"` and `aria-modal="true"` when `active` is true
+- Conditionally renders a `<div>` with `role="dialog"` when `active` is true. It is non-modal: no `aria-modal` and no focus trap, because a tour points at parts of the live page and often asks the user to try them, so the page must stay usable
 - Uses `aria-label` for an accessible name describing the tour
 - Sets `tabindex="-1"` on the dialog to enable keyboard event capture
 - Handles Escape key via an `onkeydown` handler that sets `active` to false
@@ -66,7 +66,7 @@ A tour guide is an outer container for a guided walkthrough experience, such as 
 ## ARIA
 
 - `role="dialog"` -- identifies the tour overlay as a dialog window
-- `aria-modal="true"` -- indicates the dialog is modal and content behind it is inert
+- no `aria-modal` -- the tour is non-modal; the page behind it stays usable
 - `aria-label={label}` -- provides an accessible name describing the tour
 - `tabindex="-1"` -- allows the dialog element to receive focus for keyboard event handling
 

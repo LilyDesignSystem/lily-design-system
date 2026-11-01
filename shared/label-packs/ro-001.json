@@ -283,5 +283,10 @@
     "small": "mic",
     "smaller": "mai mic",
     "smallest": "cel mai mic"
+  },
+  "date-time-now-input": {
+    "date": "Data",
+    "time": "Ora",
+    "now": "Acum"
   }
 }

@@ -15,7 +15,8 @@
 //   value        — number | undefined. Current numeric value (controlled).
 //   onChange     — callback, optional. Receives the parsed number, or
 //                  undefined if the input is empty / non-numeric.
-//   currencyCode — string, default "USD". ISO 4217 currency code.
+//   currencyCode — string, required, no default (the component never
+//                  assumes a currency). ISO 4217 currency code.
 //   min, max     — number, optional. Min/max allowed value (constraints,
 //                  not enforced clamping; consumer may layer that on).
 //   required     — boolean, default false.
@@ -45,8 +46,8 @@ export interface CurrencyInputProps {
     value?: number;
     /** Fired when the parsed number changes. */
     onChange?: (value: number | undefined) => void;
-    /** ISO 4217 currency code (passed through for consumer formatting). */
-    currencyCode?: string;
+    /** ISO 4217 currency code (required; passed through for consumer formatting). */
+    currencyCode: string;
     /** Minimum allowed value. */
     min?: number;
     /** Maximum allowed value. */
@@ -63,7 +64,7 @@ export default function CurrencyInput({
     label,
     value = undefined,
     onChange = undefined,
-    currencyCode = "USD",
+    currencyCode,
     min,
     max,
     required = false,

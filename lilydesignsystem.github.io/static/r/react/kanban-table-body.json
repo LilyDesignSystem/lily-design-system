@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "kanban-table-body",
+  "type": "registry:component",
+  "title": "KanbanTableBody",
+  "description": "A kanban board table interactive grid tbody for organizing items by status <tbody>.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/KanbanTableBody.tsx",
+      "content": "import React from \"react\";\n\n// KanbanTableBody component\n//\n// The body section of a KanbanTable, rendered as a <tbody> element.\n// Contains KanbanTableRow elements with task data cells.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   children — ReactNode, required. KanbanTableRow elements with data cells.\n//   ...restProps — additional HTML attributes spread onto the <tbody>.\n//\n// Syntax:\n//   <KanbanTableBody>\n//     <KanbanTableRow>\n//       <KanbanTableTD>Task A</KanbanTableTD>\n//       <KanbanTableTD>Task B</KanbanTableTD>\n//     </KanbanTableRow>\n//   </KanbanTableBody>\n//\n// Keyboard:\n//   None built-in — keyboard navigation handled at the KanbanTable grid level.\n//\n// Accessibility:\n//   - <tbody> provides structural body semantics for the table\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Must be used inside a KanbanTable\n//   - No internal state — purely a structural wrapper\n//\n// References:\n//   - HTML tbody element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tbody\n\nexport interface KanbanTableBodyProps {\n    className?: string;\n    /** KanbanTableRow elements with data cells. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function KanbanTableBody({\n    className = \"\",\n    children,\n    ...restProps\n}: KanbanTableBodyProps) {\n    return (\n        <tbody\n            className={`kanban-table-body ${className}`}\n            {...restProps}\n        >\n            {children}\n        </tbody>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/KanbanTableBody.tsx"
+    }
+  ],
+  "categories": [
+    "tables"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/kanban-table-body/"
+}

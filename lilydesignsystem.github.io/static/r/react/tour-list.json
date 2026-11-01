@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tour-list",
+  "type": "registry:component",
+  "title": "TourList",
+  "description": "An ordered list of tour guide steps.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/TourList.tsx",
+      "content": "import React from \"react\";\n\n// TourList component\n//\n// A headless guided walkthrough overlay that presents step-by-step\n// instructions to users. Useful for onboarding flows, feature tutorials, or\n// contextual help systems. The consumer provides TourListItem children to\n// define each step of the tour.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name for the tour dialog via aria-label.\n//   active — boolean, default false. Whether the tour is visible; controlled via active + onChange.\n//   children — ReactNode, required. TourListItem elements.\n//   ...restProps — additional HTML attributes spread onto the <ol>.\n//\n// Syntax:\n//   <TourList label=\"Getting started\" active={active} onChange={setActive}>...</TourList>\n//\n// Examples:\n//\n//   <TourList label=\"Getting started\" active={active} onChange={setActive}>\n//     <TourListItem label=\"Welcome\" current={step === 0} stepNumber={1} totalSteps={3}>\n//       <p>Welcome to the app!</p>\n//       <button onClick={() => setStep(step + 1)}>Next</button>\n//     </TourListItem>\n//     <TourListItem label=\"Features\" current={step === 1} stepNumber={2} totalSteps={3}>\n//       <p>Here are the features.</p>\n//       <button onClick={() => setStep(step - 1)}>Back</button>\n//       <button onClick={() => setStep(step + 1)}>Next</button>\n//     </TourListItem>\n//   </TourList>\n//\n// Keyboard:\n//   - Escape: closes the tour by setting active to false\n//\n// Accessibility:\n//   - native <ol> list semantics: no role=\"dialog\" (it would hide the list) and no aria-modal (not modal);\n//     dialog semantics belong to the enclosing Tour, which is non-modal\n//   - aria-label={label} provides an accessible name for the tour\n//   - tabindex=\"-1\" allows the dialog to receive focus for keyboard events\n//\n// Internationalization:\n//   - The label prop accepts any translated string\n//   - All step content comes through TourListItem children\n//\n// Claude rules:\n//   - Headless: no CSS, no styles -- consumer provides all styling\n//   - Compound component: pair with TourListItem for each step\n//   - Uses controlled for two-way binding on active\n//\n// References:\n//   - WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/\n\nexport interface TourListProps {\n    className?: string;\n    /** Accessible label for the tour. */\n    label: string;\n    /** TourListItem elements. */\n    children: React.ReactNode;\n    /** Callback when active changes. */\n    onChange?: (value: unknown) => void;\n    [key: string]: unknown;\n}\n\nexport default function TourList({\n    className = \"\",\n    label,\n    active = false,\n    onChange,\n    children,\n    ...restProps\n}: TourListProps) {\n    function handleKeyDown(event: React.KeyboardEvent) {\n        if (event.key === \"Escape\") {\n            onChange?.(false);\n        }\n    }\n\n    return (\n        <>\n            {active && (\n                <>\n                    <ol\n                        className={`tour-list ${className}`}\n                        aria-label={label}\n                        tabIndex={-1}\n                        onKeyDown={handleKeyDown}\n                        {...restProps}\n                    >\n                        {children}\n                    </ol>\n                </>\n            )}\n        </>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/TourList.tsx"
+    }
+  ],
+  "categories": [
+    "lists"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/tour-list/"
+}

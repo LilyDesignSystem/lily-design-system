@@ -40,6 +40,14 @@
 - `modal`: boolean (default: true) -- whether the dialog behaves as a modal
 - `children`: slot (required) -- dialog body content
 
+## Native platform
+
+- Decision: native
+- Uses: <dialog> showModal() (modal) or open attribute (non-modal) via modal.ts
+- Could use: command="show-modal"/"close" on consumer buttons
+- Notes: Same as alert-dialog. The open prop stays the source of truth, so a commandfor trigger would need the dialog always mounted. P14-T4 (2026-10-30): all nine libraries now open it with showModal(); Angular keeps the <dialog> always mounted and shows it while open (a ModalDialog directive), Blazor through Drawer.razor.js (ModalDialogBase).
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
+
 ## Acceptance Criteria
 
 - [ ] Renders <dialog> element with class="dialog"

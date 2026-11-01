@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "aotearoa-national-health-index-view",
+  "type": "registry:component",
+  "title": "AotearoaNationalHealthIndexView",
+  "description": "A read-only display of New Zealand's National Health Index (NHI) Number.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/AotearoaNationalHealthIndexView.tsx",
+      "content": "import React from \"react\";\n\n// AotearoaNationalHealthIndexView component\n//\n// A headless display component for showing New Zealand's\n// National Health Index (NHI) Number in a read-only format.\n// Format: Seven-character identifier (three letters, four digits). The legacy AAANNNC format uses a Modulus-11 check digit over the six preceding characters; an expanded AAANNAX format (issued from July 2026) uses a Modulus-23 check digit instead, to extend the identifier space.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". The identifier string to display.\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <AotearoaNationalHealthIndexView label=\"National Health Index (NHI) Number\" value={value} />\n//\n// Accessibility:\n//   - aria-label provides the accessible name so screen readers announce the purpose\n//\n// References:\n//   - https://en.wikipedia.org/wiki/NHI_Number\n\nexport interface AotearoaNationalHealthIndexViewProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The identifier to display */\n    value?: string;\n    [key: string]: unknown;\n}\n\nexport default function AotearoaNationalHealthIndexView({\n    className = \"\",\n    label,\n    value = \"\",\n    ...restProps\n}: AotearoaNationalHealthIndexViewProps) {\n    return (\n        <span\n            className={`aotearoa-national-health-index-view ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {value}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/AotearoaNationalHealthIndexView.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/aotearoa-national-health-index-view/"
+}

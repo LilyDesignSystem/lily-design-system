@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tag-input",
+  "type": "registry:component",
+  "title": "TagInput",
+  "description": "An input for adding and removing tags.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/TagInput.tsx",
+      "content": "import React from \"react\";\n\n// TagInput component\n//\n// A headless text input for adding tags to a collection. When the user types\n// a value and presses Enter, the component calls the onAdd callback with the\n// trimmed text and automatically clears the input, providing a streamlined\n// tag entry experience. Commonly used alongside TagGroup for tag management\n// interfaces such as adding skills, keywords, or labels.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name for the input via aria-label.\n//   value — string, default \"\". Current input text; bindable with value + onChange.\n//   onAdd — (value: string) => void, optional. Callback fired when Enter is pressed with non-empty trimmed value.\n//   disabled — boolean, default false. Whether the input is disabled.\n//   ...restProps — additional HTML attributes spread onto the <input>.\n//\n// Syntax:\n//   <TagInput label=\"Add tag\" value={value} onChange={setValue} onAdd={(tag) => setTags([...tags, tag])} />\n//\n// Examples:\n//\n//   <TagInput label=\"Add skill\" value={value} onChange={setValue} onAdd={(skill) => setSkills([...skills, skill])} />\n//\n// Keyboard:\n//   - Enter: when the input has a non-empty trimmed value, calls onAdd and clears input\n//\n// Accessibility:\n//   - aria-label={label} provides an accessible name for the text input\n//\n// Internationalization:\n//   - The label prop accepts any translated string\n//   - No hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles -- consumer provides all styling\n//   - Uses controlled for two-way binding on value\n//   - Enter handler calls preventDefault to avoid form submission\n//\n// References:\n//   - WAI-ARIA textbox role: https://www.w3.org/TR/wai-aria-1.2/#textbox\n\nexport interface TagInputProps {\n    className?: string;\n    /** Accessible label. */\n    label: string;\n    /** Current input value. Bindable. */\n    value?: string;\n    /** Callback when a tag is submitted. */\n    onAdd?: (value: string) => void;\n    /** Whether disabled. */\n    disabled?: boolean;\n    /** Callback when value changes. */\n    onChange?: (value: string) => void;\n    [key: string]: unknown;\n}\n\nexport default function TagInput({\n    className = \"\",\n    label,\n    value = \"\",\n    onAdd,\n    disabled = false,\n    onChange,\n    ...restProps\n}: TagInputProps) {\n    function handleKeyDown(event: React.KeyboardEvent) {\n        if (event.key === \"Enter\" && value.trim()) {\n            event.preventDefault();\n            onAdd?.(value.trim());\n            onChange?.(\"\");\n        }\n    }\n\n    return (\n        <input\n            className={`tag-input ${className}`}\n            type=\"text\"\n            aria-label={label}\n            value={value}\n            onChange={(e) => onChange?.(e.target.value)}\n            onKeyDown={handleKeyDown}\n            disabled={disabled}\n            {...restProps}\n        />\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/TagInput.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/tag-input/"
+}

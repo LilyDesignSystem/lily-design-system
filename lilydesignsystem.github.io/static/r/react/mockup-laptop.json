@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "mockup-laptop",
+  "type": "registry:component",
+  "title": "MockupLaptop",
+  "description": "A box area that looks like a laptop computer.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/MockupLaptop.tsx",
+      "content": "import React from \"react\";\n\n// MockupLaptop component\n//\n// A box area that looks like a laptop computer. Renders a decorative <div> container that\n// the consumer styles to look like the named device or surface; useful in\n// marketing pages, documentation, and component galleries to frame a\n// screenshot or video preview.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   children — ReactNode, required. The content rendered inside the device frame.\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Keyboard:\n//   None — this is a passive decorative container.\n//\n// Accessibility:\n//   - No specific ARIA. If the children are an image of UI, set role=\"img\"\n//     and aria-label on the image element so assistive tech describes it.\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - No interactive behavior built in\n//\n// References:\n//   - HTML div element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div\n\nexport interface MockupLaptopProps {\n    className?: string;\n    /** Content rendered inside the device frame. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function MockupLaptop({\n    className = \"\",\n    children,\n    ...restProps\n}: MockupLaptopProps) {\n    return (\n        <div\n            className={`mockup-laptop ${className}`}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/MockupLaptop.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/mockup-laptop/"
+}

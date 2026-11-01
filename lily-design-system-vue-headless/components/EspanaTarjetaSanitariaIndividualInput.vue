@@ -43,6 +43,9 @@
 // References:
 //   - Ministerio de Sanidad: https://www.sanidad.gob.es/
 
+import { ref } from "vue";
+import { useFormReset } from "./form-reset";
+
 withDefaults(
     defineProps<{
         /** Accessible label for screen readers */
@@ -59,6 +62,8 @@ withDefaults(
 );
 
 const modelValue = defineModel<string>({ default: "" });
+const field = ref<HTMLInputElement | HTMLTextAreaElement | null>(null);
+useFormReset(modelValue, field);
 </script>
 
 <template>
@@ -68,6 +73,7 @@ const modelValue = defineModel<string>({ default: "" });
         type="text"
         :aria-label="label"
         autocomplete="off"
+        ref="field"
         v-model="modelValue"
         :required="required"
         :disabled="disabled"

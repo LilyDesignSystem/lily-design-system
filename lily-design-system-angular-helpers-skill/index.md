@@ -2,7 +2,7 @@
 
 A Claude Skill ([`SKILL.md`](SKILL.md)) that explains how to consume the
 [the Angular helper packages](../spec/helpers/index.md#angular-helper-packages)
-catalog: installing and importing each of the six `*-picker` packages
+catalog: installing and importing each of the helper packages
 (`theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`,
 `share-picker`, `date-time-picker`), their shared and individual contracts,
 and the Angular-specific usage idiom — standalone components, signal
@@ -29,7 +29,7 @@ stays the single source of truth.
 
 ## Structure
 
-- [`SKILL.md`](SKILL.md) — the skill itself: the six helpers' contracts,
+- [`SKILL.md`](SKILL.md) — the skill itself: the helpers' contracts,
   the two markup shapes (icon-button-opens-listbox vs. share-picker's
   disclosure vs. date-time-picker's field+dialog), the Angular-specific
   idiom, and SSR/idempotent-apply notes.
@@ -37,5 +37,5 @@ stays the single source of truth.
 Scaffolded to the same full-subproject bar as its siblings
 (`lily-design-system-skill`, `lily-design-system-maintainer-skill`,
 `lily-design-system-angular-headless-skill`) — including `index.md`,
-`README.md` (symlink), `AGENTS.md`, `CLAUDE.md`, `spec/index.md` — and lives only in this monorepo (its standalone subtree
+`README.md` (symlink), `AGENTS.md`, `spec/index.md` — and lives only in this monorepo (its standalone subtree
 repository was deleted 2026-10-10).

@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<ol class=\"tour-list\"><li class=\"tour-list-item\">Step 1: Welcome</li><li class=\"tour-list-item\">Step 2: Features</li></ol>";
   const svelteSource: string = "// In your Svelte component:\nimport TourList from \"lily-design-system-svelte-headless/components/TourList/TourList.svelte\";\n\n<TourList>\n  <!-- list children -->\n</TourList>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import TourList from \"./TourList.svelte\";\n  import TourListItem from \"../TourListItem/TourListItem.svelte\";\n\n  let active = $state(true);\n  let step = $state(0);\n<\/script>\n\n<TourList label=\"Getting started\" bind:active>\n  <TourListItem label=\"Welcome\" current={step === 0} stepNumber={1} totalSteps={2}>\n    <p>Welcome!</p>\n    <button onclick={() => step++}>Next</button>\n  </TourListItem>\n  <TourListItem label=\"Done\" current={step === 1} stepNumber={2} totalSteps={2}>\n    <button onclick={() => (active = false)}>Finish</button>\n  </TourListItem>\n</TourList>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import TourList from \"./TourList.svelte\";\n  import TourListItem from \"../TourListItem/TourListItem.svelte\";\n\n  let active = $state(true);\n  let step = $state(0);\n<\/script>\n\n<TourList\n  label=\"Getting started\"\n  bind:active\n>\n  <TourListItem\n    label=\"Welcome\"\n    current={step === 0}\n    stepNumber={1}\n    totalSteps={2}\n  >\n    <p>Welcome!</p>\n    <button onclick={() => step++}>Next</button>\n  </TourListItem>\n  <TourListItem\n    label=\"Done\"\n    current={step === 1}\n    stepNumber={2}\n    totalSteps={2}\n  >\n    <button onclick={() => (active = false)}>Finish</button>\n  </TourListItem>\n</TourList>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>
@@ -82,10 +82,9 @@
     </ul>
     <h3>ARIA</h3>
     <ul>
-      <li><code>role="dialog"</code> -- identifies the tour overlay as a dialog window</li>
-      <li><code>aria-modal="true"</code> -- indicates the dialog is modal and content behind it is inert</li>
-      <li><code>aria-label=&#123;label&#125;</code> -- provides an accessible name describing the tour</li>
-      <li><code>tabindex="-1"</code> -- allows the dialog element to receive focus for keyboard event handling</li>
+      <li>implicit <code>list</code> role from the <code>&lt;ol&gt;</code> (no <code>role="dialog"</code>, no <code>aria-modal</code>)</li>
+      <li><code>aria-label=&#123;label&#125;</code> -- provides an accessible name for the list of steps</li>
+      <li><code>tabindex="-1"</code> -- lets the list take focus for keyboard event handling</li>
     </ul>
     <h3>Keyboard</h3>
     <ul>
@@ -94,9 +93,9 @@
     <h3>Props</h3>
     <p>| Prop           | Type            | Default    | Description                                                                   |</p>
     <p>| -------------- | --------------- | ---------- | ----------------------------------------------------------------------------- |</p>
-    <p>| <code>label</code>        | <code>string</code>        | (required) | Accessible name for the tour dialog via <code>aria-label</code>                          |</p>
+    <p>| <code>label</code>        | <code>string</code>        | (required) | Accessible name for the list via <code>aria-label</code>                                 |</p>
     <p>| <code>active</code>       | <code>boolean</code>       | <code>false</code>    | Whether the tour is currently visible; bindable with two-way <code>active</code> binding |</p>
     <p>| <code>children</code>     | <code>slot</code>          | (required) | Tour step content, navigation controls, and any additional UI                 |</p>
-    <p>| <code>...restProps</code> | HTML attributes |            | Additional attributes spread onto the dialog <code>&lt;div&gt;</code>                          |</p>
+    <p>| <code>...restProps</code> | HTML attributes |            | Additional attributes spread onto the <code>&lt;ol&gt;</code>                                  |</p>
 </section>
 <!-- END generated: canonical contract -->

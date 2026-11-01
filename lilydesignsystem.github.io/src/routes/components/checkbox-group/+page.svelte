@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"checkbox-group\" role=\"group\" aria-label=\"Options\"><label><input type=\"checkbox\" checked /> Option A</label><label><input type=\"checkbox\" /> Option B</label></div>";
   const svelteSource: string = "// In your Svelte component:\nimport CheckboxGroup from \"lily-design-system-svelte-headless/components/CheckboxGroup/CheckboxGroup.svelte\";\n\n<CheckboxGroup>\n  <!-- list children -->\n</CheckboxGroup>\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import CheckboxGroup from \"./CheckboxGroup.svelte\";\n<\/script>\n\n<CheckboxGroup label=\"Features\">\n    <label><input type=\"checkbox\" name=\"features\" value=\"wifi\" /> Wi-Fi</label>\n    <label><input type=\"checkbox\" name=\"features\" value=\"bluetooth\" /> Bluetooth</label>\n    <label><input type=\"checkbox\" name=\"features\" value=\"gps\" /> GPS</label>\n</CheckboxGroup>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import CheckboxGroup from \"./CheckboxGroup.svelte\";\n<\/script>\n\n<CheckboxGroup label=\"Features\">\n  <label\n    ><input\n      type=\"checkbox\"\n      name=\"features\"\n      value=\"wifi\"\n    /> Wi-Fi</label\n  >\n  <label\n    ><input\n      type=\"checkbox\"\n      name=\"features\"\n      value=\"bluetooth\"\n    /> Bluetooth</label\n  >\n  <label\n    ><input\n      type=\"checkbox\"\n      name=\"features\"\n      value=\"gps\"\n    /> GPS</label\n  >\n</CheckboxGroup>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

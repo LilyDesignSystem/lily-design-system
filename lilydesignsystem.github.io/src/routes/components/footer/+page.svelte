@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<footer class=\"footer\" aria-label=\"Page footer\"><p>© 2026 Lily Design System</p></footer>";
   const svelteSource: string = "// In your Svelte component:\nimport Footer from \"lily-design-system-svelte-headless/components/Footer/Footer.svelte\";\n\n<Footer>\n  <!-- content -->\n</Footer>\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import Footer from \"./Footer.svelte\";\n<\/script>\n\n<Footer label=\"Site footer\">\n    <p>Copyright 2026</p>\n</Footer>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import Footer from \"./Footer.svelte\";\n<\/script>\n\n<Footer label=\"Site footer\">\n  <p>Copyright 2026</p>\n</Footer>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

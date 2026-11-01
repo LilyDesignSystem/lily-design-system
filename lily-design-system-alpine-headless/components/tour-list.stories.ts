@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<ol\n  class="tour-list"\n  aria-label=""\n>\n  <!-- Consumer provides list items -->\n</ol>';
+    '<ol class="tour-list" aria-label="" x-data="lilyTourList(true)" x-bind="list">\n  <!-- Consumer provides tour-list-item steps; it hears lily:close -->\n</ol>';
 
 const meta = {
     title: "Headless/Tour List",

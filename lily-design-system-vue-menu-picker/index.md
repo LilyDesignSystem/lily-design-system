@@ -62,7 +62,7 @@ By default, activating a link, a button or a `[role="menuitem"]` inside the pane
 ## Styling
 
 Headless: no CSS ships. Target `.menu-picker`, `.menu-picker-button`, `.menu-picker-icon`, `.menu-picker-tooltip`,
-`.menu-picker-panel`. The 45 reference themes in the monorepo's `themes/` style all of them, including the popup placement.
+`.menu-picker-panel`. The 63 reference themes in the monorepo's `themes/` style all of them, including the popup placement.
 
 ## Examples
 

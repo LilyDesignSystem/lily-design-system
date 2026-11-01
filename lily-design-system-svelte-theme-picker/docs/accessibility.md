@@ -171,6 +171,17 @@ This helper is the right tool when horizontal space is genuinely
 constrained and the catalog is large enough that a `<select>` would
 either dominate the header or truncate its own option text.
 
+### The native alternative: `variant="select"`
+
+Since 2026-10-29 the helper has an opt-in `variant="select"` that
+renders a native `<select>` instead of the icon button and listbox. It
+removes Tradeoff 2: keyboard, typeahead, the mobile picker and the
+screen-reader announcement are the browser's. It costs the single-icon
+footprint (the closed select is as wide as its longest label) and has
+no tooltip, because it shows the current theme's name as visible text.
+It is a prototype for [RFC 3](../RFC.md#rfc-3--was-replacing-the-native-select-with-a-hand-rolled-listbox-a-mistake);
+no mobile screen-reader testing has been done on either variant yet.
+
 ## Tradeoff 3 — the glyph is font-dependent
 
 The default glyph is U+25D1 CIRCLE WITH RIGHT HALF BLACK (`◑`,

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "data-table-body",
+  "type": "registry:component",
+  "title": "DataTableBody",
+  "description": "A data table interactive grid tbody for displaying and sorting tabular data <tbody>.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/DataTableBody.tsx",
+      "content": "import React from \"react\";\n\n// DataTableBody component\n//\n// The body section of a DataTable, rendered as a <tbody> element.\n// Contains DataTableRow elements with data cells.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   children — ReactNode, required. DataTableRow elements with data cells.\n//   ...restProps — additional HTML attributes spread onto the <tbody>.\n//\n// Syntax:\n//   <DataTableBody>\n//     <DataTableRow>\n//       <DataTableTD>Alice</DataTableTD>\n//       <DataTableTD>alice@example.com</DataTableTD>\n//     </DataTableRow>\n//   </DataTableBody>\n//\n// Keyboard:\n//   None built-in — keyboard navigation handled at the DataTable grid level.\n//\n// Accessibility:\n//   - <tbody> provides structural body semantics for the table\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Must be used inside a DataTable\n//   - No internal state — purely a structural wrapper\n//\n// References:\n//   - HTML tbody element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tbody\n\nexport interface DataTableBodyProps {\n    className?: string;\n    /** DataTableRow elements with data cells. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function DataTableBody({\n    className = \"\",\n    children,\n    ...restProps\n}: DataTableBodyProps) {\n    return (\n        <tbody\n            className={`data-table-body ${className}`}\n            {...restProps}\n        >\n            {children}\n        </tbody>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/DataTableBody.tsx"
+    }
+  ],
+  "categories": [
+    "tables"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/data-table-body/"
+}

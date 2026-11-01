@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "nederland-identiteitskaart-nummer-input",
+  "type": "registry:component",
+  "title": "NederlandIdentiteitskaartNummerInput",
+  "description": "An input for entering Netherlands's Identiteitskaart Nummer.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/NederlandIdentiteitskaartNummerInput.tsx",
+      "content": "import React from \"react\";\n\n// NederlandIdentiteitskaartNummerInput component\n//\n// A headless input for entering Netherlands's Identiteitskaart Nummer.\n// Format: 9 characters following the same format as the passport number; 'O' is disallowed but '0' is permitted.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". Bindable input value; supports value + onChange.\n//   required — boolean, default false. Whether the input is required for form submission.\n//   disabled — boolean, default false. Whether the input is disabled.\n//   ...restProps — additional HTML attributes spread onto the <input>.\n//\n// Syntax:\n//   <NederlandIdentiteitskaartNummerInput label=\"Dutch National Identity Card Number\" value={value} onChange={setValue} />\n//\n// Accessibility:\n//   - aria-label provides the accessible name for screen readers\n//   - autoComplete=\"off\" protects sensitive identifiers\n//   - required and disabled states are conveyed to assistive technology\n//\n// References:\n//   - https://en.wikipedia.org/wiki/Dutch_identity_card\n\nexport interface NederlandIdentiteitskaartNummerInputProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The current value of the input, bindable */\n    value?: string;\n    /** Whether the input is required for form submission */\n    required?: boolean;\n    /** Whether the input is disabled */\n    disabled?: boolean;\n    /** Callback when value changes. */\n    onChange?: (value: string) => void;\n    [key: string]: unknown;\n}\n\nexport default function NederlandIdentiteitskaartNummerInput({\n    className = \"\",\n    label,\n    value = \"\",\n    required = false,\n    disabled = false,\n    onChange,\n    ...restProps\n}: NederlandIdentiteitskaartNummerInputProps) {\n    return (\n        <input\n            className={`nederland-identiteitskaart-nummer-input ${className}`}\n            type=\"text\"\n            aria-label={label}\n            autoComplete=\"off\"\n            value={value}\n            onChange={(e) => onChange?.(e.target.value)}\n            required={required}\n            disabled={disabled}\n            {...restProps}\n        />\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/NederlandIdentiteitskaartNummerInput.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/nederland-identiteitskaart-nummer-input/"
+}

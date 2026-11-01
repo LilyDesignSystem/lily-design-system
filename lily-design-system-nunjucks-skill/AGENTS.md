@@ -23,11 +23,11 @@
 
 ## Overview
 
-A Claude Skill that ties together the three real Nunjucks subprojects in
+A Claude Skill that ties together the three Nunjucks layers in
 this monorepo — [`@lilydesignsystem/nunjucks-headless`](../lily-design-system-nunjucks-headless/)
-(the 582-component headless macro library),
+(the 607-component headless macro library),
 [the Nunjucks helper packages](../spec/helpers/index.md#nunjucks-helper-packages)
-(the six `*-picker` macro-plus-`client.js` packages), and
+(the `*-picker` macro-plus-`client.js` packages and the other helper packages), and
 [`lily-design-system-nunjucks-eleventy-examples`](../lily-design-system-nunjucks-eleventy-examples/)
 (the fully styled Eleventy 3 reference app) — and helps an agent decide
 which one a task needs. It is an **umbrella skill**: it sits one level
@@ -48,7 +48,7 @@ than all seven.
   coverage of the Eleventy example app (the one of the three that neither
   deeper sibling skill documents), and pointers into the two deeper
   sibling skills for the headless and helpers contracts.
-- **Isn't**: the Nunjucks headless library, the helpers catalog, or the
+- **Isn't**: the Nunjucks headless library, the helper packages, or the
   Eleventy example app themselves — it ships no macros, no client.js
   modules, no example pages. Isn't the general, framework-agnostic
   [`lily-design-system-skill`](../lily-design-system-skill/), which covers

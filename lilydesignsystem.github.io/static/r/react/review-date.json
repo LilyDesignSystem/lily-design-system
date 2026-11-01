@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "review-date",
+  "type": "registry:component",
+  "title": "ReviewDate",
+  "description": "A display of a content review date.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ReviewDate.tsx",
+      "content": "import React from \"react\";\n\n// ReviewDate component\n//\n// A headless review date component that renders a semantic <time> element with\n// a machine-readable datetime attribute and human-readable display text via a\n// children prop. Commonly used in dashboards, compliance tracking, audit logs,\n// and scheduling interfaces where dates must be both human-readable and machine-parseable.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   datetime — string, required. Machine-readable date/time in ISO 8601 format.\n//   children — ReactNode, required. Human-readable display text for the date.\n//   ...restProps — additional HTML attributes spread onto the <time>.\n//\n// Syntax:\n//   <ReviewDate label=\"Next review\" datetime=\"2025-06-15\">June 15, 2025</ReviewDate>\n//\n// Examples:\n//\n//   <ReviewDate label=\"Last audit\" datetime={isoDate}>{formattedDate}</ReviewDate>\n//\n//\n//   <ReviewDate label=\"Due date\" datetime=\"2025-12-31\" data-urgency=\"high\">Dec 31, 2025</ReviewDate>\n//\n// Keyboard:\n//   - None — this is an informational display, not an interactive element.\n//\n// Accessibility:\n//   - Semantic <time> element provides machine-readable date context\n//   - aria-label for screen reader context beyond the visible text\n//   - The datetime attribute enables browsers and assistive technology to parse dates\n//   - WCAG 2.2 AAA: properly labeled with semantic time element\n//\n// Internationalization:\n//   - The label prop externalizes the accessible label string\n//   - The children prop allows localized date formatting\n//   - The datetime attribute uses ISO 8601, which is locale-independent\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Both label and datetime are required — no defaults\n//   - Children prop provides the human-readable date text\n//\n// References:\n//   - HTML <time> element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time\n//   - ISO 8601 Date Format: https://en.wikipedia.org/wiki/ISO_8601\n\nexport interface ReviewDateProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** Machine-readable date/time in ISO 8601 format */\n    datetime: string;\n    /** Human-readable display text for the date */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function ReviewDate({\n    className = \"\",\n    label,\n    datetime,\n    children,\n    ...restProps\n}: ReviewDateProps) {\n    return (\n        <time\n            className={`review-date ${className}`}\n            aria-label={label}\n            dateTime={datetime}\n            {...restProps}\n        >\n            {children}\n        </time>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ReviewDate.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/review-date/"
+}

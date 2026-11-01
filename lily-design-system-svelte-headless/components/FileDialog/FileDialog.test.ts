@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/svelte";
+import { fireEvent, render, screen } from "@testing-library/svelte";
 import { describe, expect, test } from "vitest";
 import Subject from "./FileDialog.svelte";
 function textSnippet(text: string) {
@@ -26,5 +26,11 @@ describe("FileDialog", () => {
             props: { label: "F", open: true, "data-testid": "fd", children: textSnippet("x") },
         });
         expect(screen.getByTestId("fd")).toBeTruthy();
+    });
+
+    test("Escape closes the dialog", async () => {
+        render(Subject, { props: { label: "Open", open: true, children: textSnippet("files") } });
+        await fireEvent.keyDown(screen.getByRole("dialog"), { key: "Escape" });
+        expect(screen.queryByRole("dialog")).toBeNull();
     });
 });

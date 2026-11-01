@@ -46,3 +46,20 @@ directories with no entry: the Web Components library and its helpers, the nine 
 `themes` packages, and twelve Blazor helper packages plus three Blazor test projects. Four entries were added
 (24 `npm`, 15 `nuget` in all); every manifest directory is now covered. When adding a package, add its
 directory to the entry for its catalog.
+
+## Acceptance criteria
+
+- [x] Repo-level security updates enabled: `vulnerability-alerts` returns 204 and `automated-security-fixes` returns
+      `{"enabled":true,"paused":false}` (checked 2026-10-30).
+- [x] Every manifest directory has an entry: all 166 npm (`package.json`) and 44 NuGet (`.csproj`) directories are listed in
+      `.github/dependabot.yml`'s 40 entries (checked 2026-10-30).
+- [x] Each entry groups its updates into one weekly PR (`groups: lily`).
+- [x] Every `ignore` carries its reason in a comment: TypeScript majors for the Angular and Vue tooling and, since 2026-10-30, the
+      Alpine helpers (`tsup --dts` needs the TypeScript compiler API, which TypeScript 7 does not ship).
+- [x] The 2026-10-30 round is closed: the 14 PRs (#334 to #347) applied locally and closed with a comment; the 25 low `deepmerge`
+      alerts dismissed as tolerable risk (no patched release; build tooling only).
+
+## Related topics
+
+[node-current-version](../node-current-version/index.md) · [trusted-publishing](../trusted-publishing/index.md) ·
+[tooling](../tooling/index.md)

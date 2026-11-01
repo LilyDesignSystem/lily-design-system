@@ -283,5 +283,10 @@
     "small": "txikia",
     "smaller": "txikiagoa",
     "smallest": "txikiena"
+  },
+  "date-time-now-input": {
+    "date": "Data",
+    "time": "Ordua",
+    "now": "Orain"
   }
 }

@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<ul class=\"do-list\"><li class=\"do-list-item\">Do use semantic HTML</li><li class=\"do-list-item\">Do add ARIA labels</li></ul>";
   const svelteSource: string = "// In your Svelte component:\nimport DoList from \"lily-design-system-svelte-headless/components/DoList/DoList.svelte\";\n\n<DoList>\n  <!-- list children -->\n</DoList>\n";
-  const usageCode: string = "<DoList>\n    <DoListItem>Write clear labels</DoListItem>\n    <DoListItem>Use semantic HTML</DoListItem>\n</DoList>\n";
+  const usageCode: string = "<DoList>\n  <DoListItem>Write clear labels</DoListItem>\n  <DoListItem>Use semantic HTML</DoListItem>\n</DoList>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>
@@ -76,7 +76,7 @@
       <li>PascalCase: DoList</li>
       <li>Description: a guideline list of encouraged do-list-item components</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
-      <li>HTML tag: &lt;ol&gt;</li>
+      <li>HTML tag: &lt;ul&gt;</li>
       <li>CSS class: .do-list</li>
       <li>Interactive: no</li>
     </ul>

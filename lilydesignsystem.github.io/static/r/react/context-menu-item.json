@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "context-menu-item",
+  "type": "registry:component",
+  "title": "ContextMenuItem",
+  "description": "One item in a context menu.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ContextMenuItem.tsx",
+      "content": "import React from \"react\";\n\n// ContextMenuItem component\n//\n// A headless context menu item representing a single action within a context menu.\n// Renders a <div> with role=\"menuitem\" and tabindex=\"-1\" for proper menu keyboard\n// navigation. Focus is managed programmatically by the parent ContextMenu component\n// using Arrow keys. Should be placed within a role=\"menu\" container. Commonly used\n// for right-click menu actions like cut, copy, paste, and delete.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   children — ReactNode, required. Menu item content (text, shortcut hint, etc.).\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Syntax:\n//   <ContextMenuItem>Cut</ContextMenuItem>\n//\n// Examples:\n//\n//   <ContextMenuItem>Cut</ContextMenuItem>\n//   <ContextMenuItem>Copy</ContextMenuItem>\n//   <ContextMenuItem>Paste</ContextMenuItem>\n//   <ContextMenuItem aria-disabled=\"true\">Delete</ContextMenuItem>\n//\n// Keyboard:\n//   - Focus is managed by the parent menu using ArrowUp/ArrowDown\n//   - Enter/Space: Activate the menu item (handled by consumer event listeners)\n//\n// Accessibility:\n//   - role=\"menuitem\" identifies this element as an item within a menu\n//   - tabindex=\"-1\" supports roving focus management by the parent menu\n//   - Consumer can add aria-disabled=\"true\" for disabled items\n//   - Consumer can add aria-keyshortcuts for keyboard shortcut hints\n//\n// Internationalization:\n//   - All content is provided through the children prop; no hardcoded strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Compound component: used as a child within ContextMenu\n//   - Must be placed inside a role=\"menu\" container\n//\n// References:\n//   - WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menu/\n\nexport interface ContextMenuItemProps {\n    className?: string;\n    /** Menu item content (text, icon, shortcut hint, etc.) */\n    children: React.ReactNode;\n    /** Additional HTML attributes */\n    [key: string]: unknown;\n}\n\nexport default function ContextMenuItem({\n    className = \"\",\n    children,\n    ...restProps\n}: ContextMenuItemProps) {\n    return (\n        <div\n            className={`context-menu-item ${className}`}\n            role=\"menuitem\"\n            tabIndex={-1}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ContextMenuItem.tsx"
+    }
+  ],
+  "categories": [
+    "navigation"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/context-menu-item/"
+}

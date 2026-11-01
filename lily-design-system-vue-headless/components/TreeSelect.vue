@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { shallowRef, toRef } from "vue";
+import { usePopoverState } from "./popover";
 // TreeSelect component
 //
 // A select dropdown showing a tree of hierarchical options. Renders a
@@ -67,6 +69,8 @@ defineEmits<{
 }>();
 
 const dataMultiple = computed<boolean | undefined>(() => (props.multiple ? true : undefined));
+const panelEl = shallowRef<HTMLElement | null>(null);
+usePopoverState(panelEl, toRef(props, "expanded"));
 </script>
 
 <template>
@@ -89,7 +93,8 @@ const dataMultiple = computed<boolean | undefined>(() => (props.multiple ? true 
         </button>
         <div
             class="tree-select-panel"
-            :hidden="!expanded"
+            ref="panelEl"
+            popover="manual"
         >
             <slot />
         </div>

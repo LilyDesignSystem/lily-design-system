@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tool-call",
+  "type": "registry:component",
+  "title": "ToolCall",
+  "description": "A collapsible record of one tool invocation by an AI agent, with a name, a status word, and its input, output or error.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ToolCall.tsx",
+      "content": "\"use client\";\n\n// ToolCall component\n//\n// A headless disclosure for one tool invocation, built on the native <details>. Closed by default. The `summary` content (typically ToolCallName and ToolCallStatus) goes inside <summary class=\"tool-call-summary\">; the body (ToolCallInput, ToolCallOutput, ToolCallError) goes inside <div class=\"tool-call-content\">. `status` (pending | running | done | error) sets data-status on the root, and aria-busy=\"true\" only while running. The component never animates, times or opens itself: the consumer owns `open` (open it on error so ToolCallError is not hidden) and any spinner/animation CSS.\n//\n// Props: className, status, open (boolean, default false), onChange, summary (ReactNode),\n// children (ReactNode, the body), ...restProps spread onto the root <details>.\n// Keyboard: Enter / Space on the native <summary> toggles.\n\nimport React, { useEffect, useState } from \"react\";\n\nexport interface ToolCallProps {\n    className?: string;\n    /** pending | running | done | error. */\n    status?: string;\n    /** Whether open. */\n    open?: boolean;\n    /** Summary content (name + status words). */\n    summary?: React.ReactNode;\n    /** Body content. */\n    children?: React.ReactNode;\n    /** Callback when open changes. */\n    onChange?: (value: boolean) => void;\n    [key: string]: unknown;\n}\n\nexport default function ToolCall({\n    className = \"\",\n    status = undefined,\n    open: openProp = false,\n    summary,\n    onChange,\n    children,\n    ...restProps\n}: ToolCallProps) {\n    const [open, setOpen] = useState(openProp);\n    useEffect(() => setOpen(openProp), [openProp]);\n\n    return (\n        <details\n            className={`tool-call ${className}`}\n            open={open}\n            onToggle={(e) => {\n                const next = (e.currentTarget as HTMLDetailsElement).open;\n                if (next === open) return;\n                setOpen(next);\n                onChange?.(next);\n            }}\n            data-status={status}\n            aria-busy={status === \"running\" ? \"true\" : undefined}\n            {...restProps}\n        >\n            <summary className=\"tool-call-summary\">{summary}</summary>\n            <div className=\"tool-call-content\">{children}</div>\n        </details>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ToolCall.tsx"
+    }
+  ],
+  "categories": [
+    "navigation"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/tool-call/"
+}

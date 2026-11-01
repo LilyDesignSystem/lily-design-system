@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-pictogram",
     standalone: true,
-    template: `<div class="pictogram {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<figure class="pictogram {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></figure>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Pictogram {

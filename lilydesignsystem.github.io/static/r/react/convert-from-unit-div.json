@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "convert-from-unit-div",
+  "type": "registry:component",
+  "title": "ConvertFromUnitDiv",
+  "description": "The unit to convert from, such as a select box of currencies or lengths.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ConvertFromUnitDiv.tsx",
+      "content": "import React from \"react\";\n\n// ConvertFromUnitDiv component\n//\n// A headless part of ConvertDiv: the unit to convert from, such as a select box of currencies or lengths.\n// Contract: a plain <div> with the base class and children.\n// Converts nothing and carries no strings of its own.\n//\n// Props:\n//   className    -- string, optional. CSS class name.\n//   children     -- ReactNode, optional. The content.\n//   ...restProps -- additional HTML attributes spread onto the root.\n\nexport interface ConvertFromUnitDivProps {\n    className?: string;\n    /** The content. */\n    children?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function ConvertFromUnitDiv({\n    className = \"\",\n    children,\n    ...restProps\n}: ConvertFromUnitDivProps) {\n    return (\n        <div\n            className={`convert-from-unit-div ${className}`}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ConvertFromUnitDiv.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/convert-from-unit-div/"
+}

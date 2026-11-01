@@ -4,10 +4,10 @@ import { TestBed } from "@angular/core/testing";
 import { Sparkline } from "./Sparkline";
 
 describe("Sparkline", () => {
-    test("renders the div root with the base class", () => {
+    test("renders the <span> root with the base class", () => {
         const fixture = TestBed.createComponent(Sparkline);
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.sparkline");
+        const el = fixture.nativeElement.querySelector("span.sparkline");
         expect(el).toBeTruthy();
     });
 
@@ -15,7 +15,7 @@ describe("Sparkline", () => {
         const fixture = TestBed.createComponent(Sparkline);
         fixture.componentRef.setInput("className", "extra");
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.sparkline");
+        const el = fixture.nativeElement.querySelector("span.sparkline");
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });

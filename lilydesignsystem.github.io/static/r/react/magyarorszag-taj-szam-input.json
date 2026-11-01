@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "magyarorszag-taj-szam-input",
+  "type": "registry:component",
+  "title": "MagyarorszagTajSzamInput",
+  "description": "An input for entering Hungary's Tarsadalombiztositasi Azonosito Jel (TAJ).",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/MagyarorszagTajSzamInput.tsx",
+      "content": "import React from \"react\";\n\n// MagyarorszagTajSzamInput component\n//\n// A headless input for entering Hungary's Társadalombiztosítási Azonosító Jel (TAJ).\n// Format: Nine digits, displayed as SSS SSS SSK. The first eight digits are a simple issued-in-order serial number; the ninth is a check digit computed by multiplying the first eight digits by alternating weights 3 and 7, summing the products, and taking the result Modulus 10 -- an algorithm unique to Hungary, distinct from Luhn.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". Bindable input value; supports value + onChange.\n//   required — boolean, default false. Whether the input is required for form submission.\n//   disabled — boolean, default false. Whether the input is disabled.\n//   ...restProps — additional HTML attributes spread onto the <input>.\n//\n// Syntax:\n//   <MagyarorszagTajSzamInput label=\"Társadalombiztosítási Azonosító Jel (TAJ)\" value={value} onChange={setValue} />\n//\n// Accessibility:\n//   - aria-label provides the accessible name for screen readers\n//   - autoComplete=\"off\" protects sensitive identifiers\n//   - required and disabled states are conveyed to assistive technology\n//\n// References:\n//   - https://hu.wikipedia.org/wiki/T%C3%A1rsadalombiztos%C3%ADt%C3%A1si_azonos%C3%ADt%C3%B3_jel\n\nexport interface MagyarorszagTajSzamInputProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The current value of the input, bindable */\n    value?: string;\n    /** Whether the input is required for form submission */\n    required?: boolean;\n    /** Whether the input is disabled */\n    disabled?: boolean;\n    /** Callback when value changes. */\n    onChange?: (value: string) => void;\n    [key: string]: unknown;\n}\n\nexport default function MagyarorszagTajSzamInput({\n    className = \"\",\n    label,\n    value = \"\",\n    required = false,\n    disabled = false,\n    onChange,\n    ...restProps\n}: MagyarorszagTajSzamInputProps) {\n    return (\n        <input\n            className={`magyarorszag-taj-szam-input ${className}`}\n            type=\"text\"\n            aria-label={label}\n            autoComplete=\"off\"\n            value={value}\n            onChange={(e) => onChange?.(e.target.value)}\n            required={required}\n            disabled={disabled}\n            {...restProps}\n        />\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/MagyarorszagTajSzamInput.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/magyarorszag-taj-szam-input/"
+}

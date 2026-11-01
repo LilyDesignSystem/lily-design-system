@@ -245,6 +245,9 @@ const add = async (text) => { field().value = text; await press(field(), "Enter"
         tag: "input",
         keyboard: "None (passive element); native text entry",
         aria: 'aria-label names the input; inputmode="decimal"; aria-invalid outside min / max; data-currency-code carries the ISO 4217 code',
+        notes: [
+            "Currency: lilyCurrencyInput(currencyCode, min, max) -- currencyCode is REQUIRED (ISO 4217), never defaulted; GBP below is only an example.",
+        ],
         markup: `<input class="currency-input" aria-label="" x-data="lilyCurrencyInput('GBP', 0, 100)" x-bind="input">`,
         sel: "input.currency-input",
         extra: press,
@@ -266,6 +269,10 @@ const add = async (text) => { field().value = text; await press(field(), "Enter"
     expect(el().getAttribute("aria-invalid")).toBe("true");
     await type(el(), "50");
     expect(el().hasAttribute("aria-invalid")).toBe(false);
+  });
+  it("never defaults the currency code when the plugin is called without one", async () => {
+    await mount("currency-input", '<input class="currency-input" x-data="lilyCurrencyInput()" x-bind="input" />');
+    expect(el().hasAttribute("data-currency-code")).toBe(false);
   });`,
     },
 

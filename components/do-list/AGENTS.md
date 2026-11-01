@@ -6,7 +6,7 @@
 - PascalCase: DoList
 - Description: a guideline list of encouraged do-list-item components
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
-- HTML tag: <ol>
+- HTML tag: <ul>
 - CSS class: .do-list
 - Interactive: no
 

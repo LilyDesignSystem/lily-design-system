@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<textarea class=\"text-area-input\" aria-label=\"Message\" rows=\"4\">Type your message here...</textarea>";
   const svelteSource: string = "// In your Svelte component:\nimport TextAreaInput from \"lily-design-system-svelte-headless/components/TextAreaInput/TextAreaInput.svelte\";\n\n<TextAreaInput label=\"Label\" />\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import TextAreaInput from \"./TextAreaInput.svelte\";\n\n  let comments = $state(\"\");\n<\/script>\n\n<TextAreaInput label=\"Comments\" bind:value={comments} rows={5} />\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import TextAreaInput from \"./TextAreaInput.svelte\";\n\n  let comments = $state(\"\");\n<\/script>\n\n<TextAreaInput\n  label=\"Comments\"\n  bind:value={comments}\n  rows={5}\n/>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

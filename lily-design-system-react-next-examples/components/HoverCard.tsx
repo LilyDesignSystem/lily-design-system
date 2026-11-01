@@ -50,6 +50,7 @@
 //   - WAI-ARIA Tooltip Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/
 
 import React from "react";
+import { usePopoverState } from "./Popover";
 
 export interface HoverCardProps {
     className?: string;
@@ -69,20 +70,18 @@ export default function HoverCard({
     children,
     ...restProps
 }: HoverCardProps) {
+    const panelRef = React.useRef<HTMLDivElement>(null);
+    usePopoverState(panelRef, open);
     return (
-        <>
-            {open && (
-                <>
-                    <div
-                        className={`hover-card ${className}`}
-                        role="tooltip"
-                        aria-label={label}
-                        {...restProps}
-                    >
-                        {children}
-                    </div>
-                </>
-            )}
-        </>
+        <div
+            className={`hover-card ${className}`}
+            ref={panelRef}
+            role="tooltip"
+            popover="manual"
+            aria-label={label}
+            {...restProps}
+        >
+            {children}
+        </div>
     );
 }

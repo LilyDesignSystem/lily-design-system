@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "hero-headline",
+  "type": "registry:component",
+  "title": "HeroHeadline",
+  "description": "A full-bleed hero section with headline overlaid on media.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/HeroHeadline.tsx",
+      "content": "import React from \"react\";\n\n// HeroHeadline component\n//\n// HeroHeadline for the Reuters-graphics-style article layout family. Renders a\n// <div> that consumers style; this component is a structural\n// wrapper only.\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Sets the hero-headline class as the styling hook\n\nexport interface HeroHeadlineProps {\n    className?: string;\n    /** Accessible label set on aria-label. */\n    label: string;\n    /** Background media (image or video). */\n    media: React.ReactNode;\n    /** Component content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function HeroHeadline({\n    className = \"\",\n    label,\n    media,\n    children,\n    ...restProps\n}: HeroHeadlineProps) {\n    return (\n        <div\n            className={`hero-headline ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {media}\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/HeroHeadline.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/hero-headline/"
+}

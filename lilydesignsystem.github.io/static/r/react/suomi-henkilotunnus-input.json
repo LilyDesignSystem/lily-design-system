@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "suomi-henkilotunnus-input",
+  "type": "registry:component",
+  "title": "SuomiHenkilotunnusInput",
+  "description": "An input for entering Finland's Henkilötunnus (HETU).",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/SuomiHenkilotunnusInput.tsx",
+      "content": "import React from \"react\";\n\n// SuomiHenkilotunnusInput component\n//\n// A headless input for entering Finland's Henkilötunnus (HETU).\n// Format: 11 characters in the format DDMMYYCZZZQ: DDMMYY is the date of birth, C is the century sign (+, -, or A), ZZZ is an individual number (odd male, even female), Q is the checksum.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". Bindable input value; supports value + onChange.\n//   required — boolean, default false. Whether the input is required for form submission.\n//   disabled — boolean, default false. Whether the input is disabled.\n//   ...restProps — additional HTML attributes spread onto the <input>.\n//\n// Syntax:\n//   <SuomiHenkilotunnusInput label=\"Personal Identity Code\" value={value} onChange={setValue} />\n//\n// Accessibility:\n//   - aria-label provides the accessible name for screen readers\n//   - autoComplete=\"off\" protects sensitive identifiers\n//   - required and disabled states are conveyed to assistive technology\n//\n// References:\n//   - https://en.wikipedia.org/wiki/Personal_identity_code_(Finland)\n\nexport interface SuomiHenkilotunnusInputProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The current value of the input, bindable */\n    value?: string;\n    /** Whether the input is required for form submission */\n    required?: boolean;\n    /** Whether the input is disabled */\n    disabled?: boolean;\n    /** Callback when value changes. */\n    onChange?: (value: string) => void;\n    [key: string]: unknown;\n}\n\nexport default function SuomiHenkilotunnusInput({\n    className = \"\",\n    label,\n    value = \"\",\n    required = false,\n    disabled = false,\n    onChange,\n    ...restProps\n}: SuomiHenkilotunnusInputProps) {\n    return (\n        <input\n            className={`suomi-henkilotunnus-input ${className}`}\n            type=\"text\"\n            aria-label={label}\n            autoComplete=\"off\"\n            value={value}\n            onChange={(e) => onChange?.(e.target.value)}\n            required={required}\n            disabled={disabled}\n            {...restProps}\n        />\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/SuomiHenkilotunnusInput.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/suomi-henkilotunnus-input/"
+}

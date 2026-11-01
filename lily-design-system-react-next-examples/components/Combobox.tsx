@@ -52,6 +52,7 @@
 //   - WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
 
 import React, { useId } from "react";
+import { usePopoverState } from "./Popover";
 
 export interface ComboboxProps {
     className?: string;
@@ -81,6 +82,8 @@ export default function Combobox({
     ...restProps
 }: ComboboxProps) {
     const listboxId = `combobox-listbox-${useId()}`;
+    const listboxRef = React.useRef<HTMLDivElement>(null);
+    usePopoverState(listboxRef, open);
 
     function handleKeyDown(event: React.KeyboardEvent) {
         if (event.key === "Escape") {
@@ -105,17 +108,15 @@ export default function Combobox({
                 onChange={(e) => onChange?.(e.target.value)}
                 onKeyDown={handleKeyDown}
             />
-            {open && (
-                <>
-                    <div
-                        role="listbox"
-                        id={listboxId}
-                        aria-label={label}
-                    >
-                        {children}
-                    </div>
-                </>
-            )}
+            <div
+                ref={listboxRef}
+                role="listbox"
+                popover="manual"
+                id={listboxId}
+                aria-label={label}
+            >
+                {children}
+            </div>
         </div>
     );
 }

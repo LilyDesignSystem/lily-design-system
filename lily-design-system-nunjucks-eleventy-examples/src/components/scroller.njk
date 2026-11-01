@@ -13,10 +13,16 @@ layout: layouts/component-demo.njk
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>
-<pre tabindex="0"><code>{% raw %}&lt;Scroller label="Climate change data story" bind:index&gt;
+<pre tabindex="0"><code>{% raw %}&lt;Scroller
+  label="Climate change data story"
+  bind:index
+&gt;
   &lt;div slot="background"&gt;
     &lt;!-- Changes based on index --&gt;
-    &lt;img src="chart-{index}.png" alt="Chart showing step {index}" /&gt;
+    &lt;img
+      src="chart-{index}.png"
+      alt="Chart showing step {index}"
+    /&gt;
   &lt;/div&gt;
   &lt;div class="step"&gt;
     &lt;p&gt;In 2020, temperatures rose significantly.&lt;/p&gt;

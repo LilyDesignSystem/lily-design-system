@@ -24,7 +24,7 @@
 
 A Claude Skill explaining how to install and use
 [the Blazor helper packages](../spec/helpers/index.md#blazor-helper-packages),
-the Blazor catalog of six `*-picker` helper packages. The skill itself is
+the 20 Blazor helper packages. The skill itself is
 [`SKILL.md`](SKILL.md); the `@AGENTS/*.md` files loaded above are the same
 binding design-principle rules every other subproject in this repository
 loads — including [`AGENTS/helpers.md`](../AGENTS/helpers.md), the canonical

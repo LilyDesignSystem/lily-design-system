@@ -17,6 +17,7 @@ import {
     type WheelOption,
     type WheelTypeahead,
 } from "./wheel-picker";
+import { restoreOnFormReset } from "./form-reset";
 
 export type { WheelOption };
 
@@ -67,6 +68,7 @@ export class WheelPicker {
     }
 
     constructor() {
+        restoreOnFormReset(this.value);
         // Keep the selected option centred in the list. Only the list scrolls (never the page), and instantly: no animation.
         effect(() => {
             const el = this.list()?.nativeElement;

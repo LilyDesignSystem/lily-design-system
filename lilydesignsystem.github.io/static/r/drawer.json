@@ -2,20 +2,22 @@
   "slug": "drawer",
   "name": "Drawer",
   "description": "a panel that slides in from the edge of the screen",
-  "htmlTag": "div",
-  "category": "content",
+  "htmlTag": "dialog",
+  "category": "overlays",
   "baseClass": ".drawer",
   "subClasses": [],
   "interactive": true,
   "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
   "aria": [
-    "`role=\"dialog\"` -- identifies the drawer as a dialog for assistive technology",
+    "`role=\"dialog\"` -- implicit on the native `<dialog>` element (not repeated as an attribute)",
     "`aria-label={label}` -- provides an accessible name for the dialog",
-    "`aria-modal=\"true\"` -- indicates the drawer is modal, restricting interaction to its contents",
-    "`data-side={side}` -- data attribute for consumer CSS styling based on drawer position"
+    "`aria-modal=\"true\"` -- true: `showModal()` makes the page behind inert",
+    "`tabindex=\"-1\"` -- lets the dialog take focus",
+    "`data-side={side}` -- data attribute for consumer CSS styling based on position"
   ],
   "keyboard": [
-    "Escape: closes the drawer by setting `open` to `false`"
+    "Escape: closes it by setting `open` to `false`",
+    "Tab / Shift+Tab: move between focusable elements inside it; focus cannot leave while it is open"
   ],
   "props": [
     "`open`: boolean (default: false) -- whether the drawer is visible, two-way bindable via `open`",
@@ -40,5 +42,10 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Drawer.razor"
   },
   "docs": "https://lilydesignsystem.com/components/drawer/",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/drawer/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/drawer/AGENTS.md",
+  "nativePlatform": {
+    "decision": "native",
+    "uses": "<dialog> showModal() via Dialog/modal.ts (open-attribute fallback where showModal is missing)",
+    "could_use": "::backdrop; command=\"show-modal\"/\"close\" on consumer buttons"
+  }
 }

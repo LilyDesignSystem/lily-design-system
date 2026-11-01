@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "comment",
+  "type": "registry:component",
+  "title": "Comment",
+  "description": "A comment is anything that expresses an opinion, observation, explanation, etc..",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Comment.tsx",
+      "content": "import React from \"react\";\n\n// Comment component\n//\n// A comment is anything that expresses an opinion, observation, explanation, etc.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label    — string, optional. Accessible label via aria-label.\n//   children — ReactNode, required. Component content.\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Accessibility:\n//   - aria-label exposes a screen-reader name when label is provided\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n\nexport interface CommentProps {\n    className?: string;\n    /** Optional accessible label set on aria-label. */\n    label?: string;\n    /** Component content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Comment({\n    className = \"\",\n    label = undefined,\n    children,\n    ...restProps\n}: CommentProps) {\n    return (\n        <div\n            className={`comment ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Comment.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/comment/"
+}

@@ -21,6 +21,7 @@
 //   - components/dialog/index.md (canonical contract)
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { ModalDialogState } from "../lib/modal-dialog.js";
 
 const HANDLED = new Set(["open", "label", "modal"]);
 
@@ -30,6 +31,7 @@ export class Dialog extends HTMLElement {
     }
 
     #dialog: HTMLDialogElement | null = null;
+    #modal: ModalDialogState | null = null;
 
     connectedCallback(): void {
         if (this.#dialog) return;
@@ -39,10 +41,12 @@ export class Dialog extends HTMLElement {
         dialog.tabIndex = -1;
         passThroughAttributes(this, dialog, HANDLED);
         dialog.addEventListener("keydown", this.#onKeydown);
+        dialog.addEventListener("cancel", this.#onCancel);
 
         moveChildrenInto(this, dialog);
         this.appendChild(dialog);
         this.#dialog = dialog;
+        this.#modal = new ModalDialogState(dialog);
         this.#sync();
     }
 
@@ -53,18 +57,29 @@ export class Dialog extends HTMLElement {
     #sync(): void {
         const dialog = this.#dialog;
         if (!dialog) return;
-        dialog.open = this.hasAttribute("open");
         const label = this.getAttribute("label");
         if (label !== null) dialog.setAttribute("aria-label", label);
-        const modal = this.getAttribute("modal");
-        if (modal === "false") dialog.removeAttribute("aria-modal");
-        else dialog.setAttribute("aria-modal", "true");
+        const modal = this.getAttribute("modal") !== "false";
+        if (modal) dialog.setAttribute("aria-modal", "true");
+        else dialog.removeAttribute("aria-modal");
+        this.#modal?.sync(this.hasAttribute("open"), modal);
+    }
+
+    // The native cancel event (Escape under showModal()): close through the attribute, as Escape does.
+    #onCancel = (event: Event): void => {
+        event.preventDefault();
+        this.#close();
+    };
+
+    #close(): void {
+        if (!this.hasAttribute("open")) return;
+        this.removeAttribute("open");
+        this.dispatchEvent(new CustomEvent("lily-close", { bubbles: true, composed: true }));
     }
 
     #onKeydown = (event: KeyboardEvent): void => {
         if (event.key !== "Escape") return;
         event.preventDefault();
-        this.removeAttribute("open");
-        this.dispatchEvent(new CustomEvent("lily-close", { bubbles: true, composed: true }));
+        this.#close();
     };
 }

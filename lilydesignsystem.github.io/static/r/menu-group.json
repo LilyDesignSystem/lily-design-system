@@ -39,5 +39,10 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MenuGroup.razor"
   },
   "docs": "https://lilydesignsystem.com/components/menu-group/",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/menu-group/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/menu-group/AGENTS.md",
+  "nativePlatform": {
+    "decision": "hand-rolled because ARIA menu grouping has no native element",
+    "uses": "none (div role=\"group\")",
+    "could_use": "none"
+  }
 }

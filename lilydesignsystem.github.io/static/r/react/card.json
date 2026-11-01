@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "card",
+  "type": "registry:component",
+  "title": "Card",
+  "description": "A grouped content container with header, body, and footer areas.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Card.tsx",
+      "content": "import React from \"react\";\n\n// Card component\n//\n// A headless card that groups related content into a self-contained semantic\n// <article> element. Supports a configurable heading level (h2-h6) for proper\n// document outline, with an optional link wrapper on the heading. Commonly used\n// for product listings, user profiles, article previews, and dashboard widgets.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   heading — string, optional. Heading text for the card.\n//   headingLevel — 2 | 3 | 4 | 5 | 6, default 3. HTML heading level.\n//   href — string, optional. Makes the heading a link.\n//   label — string, optional. aria-label for the article landmark.\n//   children — ReactNode, required. Card body content.\n//   ...restProps — additional HTML attributes spread onto the <article>.\n//\n// Syntax:\n//   <Card><h3>Title</h3><p>Content</p></Card>\n//\n// Examples:\n//\n//   <Card heading=\"Product\" href=\"/products/1\"><p>Description</p></Card>\n//\n//\n//   <Card heading=\"Dashboard\" headingLevel={2} label=\"Sales dashboard\">\n//     <p>Revenue metrics</p>\n//   </Card>\n//\n// Keyboard:\n//   - Tab: Focus the heading link when href is provided\n//   - Enter: Activate the heading link (browser default)\n//\n// Accessibility:\n//   - Implicit article role from <article> element\n//   - Optional aria-label identifies the card as a named landmark\n//   - Heading provides document outline structure at the specified level\n//\n// Internationalization:\n//   - All text comes through heading and children props; no hardcoded strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Heading level should match the card's position in the document outline\n//\n// References:\n//   - MDN article element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article\n\nexport interface CardProps {\n    className?: string;\n    heading?: string;\n    headingLevel?: 2 | 3 | 4 | 5 | 6;\n    href?: string;\n    label?: string;\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Card({\n    className = \"\",\n    heading = undefined,\n    headingLevel = 3,\n    href = undefined,\n    label = undefined,\n    children,\n    ...restProps\n}: CardProps) {\n    const headingContent = href ? <a href={href}>{heading}</a> : heading;\n\n    return (\n        <article\n            className={`card ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {heading && (\n                <>\n                    {headingLevel === 2 ? (\n                        <h2>{headingContent}</h2>\n                    ) : headingLevel === 3 ? (\n                        <h3>{headingContent}</h3>\n                    ) : headingLevel === 4 ? (\n                        <h4>{headingContent}</h4>\n                    ) : headingLevel === 5 ? (\n                        <h5>{headingContent}</h5>\n                    ) : headingLevel === 6 ? (\n                        <h6>{headingContent}</h6>\n                    ) : null}\n                </>\n            )}\n            {children}\n        </article>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Card.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/card/"
+}

@@ -158,7 +158,7 @@ pnpm run dev</code></pre>
 <section class="section prose" id="themes" style="margin: 0 auto;">
   <h2>기성 테마</h2>
   <p>
-    CSS를 처음부터 쓰고 싶지 않으신가요? Lily에는 <strong>57가지 독립 참조 테마</strong>가
+    CSS를 처음부터 쓰고 싶지 않으신가요? Lily에는 <strong>63가지 독립 참조 테마</strong>가
     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
     디렉터리에 포함되어 있습니다. 각각은 Lily 클래스 훅을 겨냥한 스타일시트 하나이며,
     연결하기만 하면 스타일이 적용됩니다.
@@ -185,12 +185,7 @@ pnpm run dev</code></pre>
 
 <section class="section prose" id="helpers" style="margin: 0 auto;">
   <h2>환경설정 도우미</h2>
-  <p>
-    각 프레임워크에는 작은 선택기가 여덟 개 있으며, 각각 독립된
-    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> 패키지입니다(이를 조립하는 <code>picker-bar</code>도 있습니다). 각각은
-    팝업(리스트박스, 링크 목록, 검색 폼, date-time-picker의 경우 날짜 선택 대화 상자)을 여는 헤드리스 아이콘 버튼이며, 네이티브
-    <code>&lt;select&gt;</code>가 아니고, SSR에 안전하며, CSS는 포함하지 않습니다.
-  </p>
+  <p>각 프레임워크에는 11개의 작은 피커가 있으며, 각각 자체 <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> 패키지입니다(그리고 이들을 모으는 <code>picker-bar</code>가 있습니다). 각각은 팝업을 여는 headless 아이콘 버튼입니다 — 목록 상자, 링크 목록, 검색 양식, 직접 넣은 콘텐츠의 패널, 또는 (date-time-picker의 경우) 날짜 선택 대화 상자 — 네이티브 <code>&lt;select&gt;</code>가 아닙니다(theme-picker는 선택적 변형으로 하나를 제공합니다). SSR에 안전하며 CSS를 포함하지 않습니다. menu-picker, settings-picker, time-zone-picker 외에 다음과 같습니다:</p>
   <ul>
     <li>
       <strong>theme-picker</strong> — 관리되는 <code>&lt;link&gt;</code>를 교체해서 런타임에 테마 스타일시트를 불러오고, 문서에
@@ -312,7 +307,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
     <p>
       헤드리스가 의도대로 동작하는 것입니다. 컴포넌트에는 CSS가 포함되지 않습니다.
       컴포넌트의 케밥 케이스 클래스(<a href="/components/">카탈로그의 모든 페이지</a>에 표시됩니다)에 맞춰 CSS를 작성하거나
-      <a href="#themes">57가지 기성 테마</a> 중 하나를 연결하세요.
+      <a href="#themes">63가지 기성 테마</a> 중 하나를 연결하세요.
     </p>
   </details>
 
@@ -408,7 +403,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
     <summary>왜 스타일이 적용된 것이 아니라 헤드리스인가요?</summary>
     <p>
       미리 스타일이 적용된 컴포넌트는 편리하지만, 브랜드와 맞지 않게 되는 순간까지만입니다.
-      헤드리스 컴포넌트는 처음에 조금 더 일이 들지만 시각 디자인을 완전히 통제할 수 있게 해 줍니다. 예제 앱과 57가지 테마가 스타일을 입히는 방법을 보여 주며,
+      헤드리스 컴포넌트는 처음에 조금 더 일이 들지만 시각 디자인을 완전히 통제할 수 있게 해 줍니다. 예제 앱과 63가지 테마가 스타일을 입히는 방법을 보여 주며,
       그것을 가져다 써도 되고 완전히 바꿔도 됩니다.
       더 긴 논의는 <a href="/why/">Lily를 선택하는 이유</a>에 있습니다.
     </p>

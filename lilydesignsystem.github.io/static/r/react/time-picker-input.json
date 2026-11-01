@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "time-picker-input",
+  "type": "registry:component",
+  "title": "TimePickerInput",
+  "description": "An input with a dropdown for picking a time.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/TimePickerInput.tsx",
+      "content": "import React from \"react\";\n\n// TimePickerInput component\n//\n// A headless time picker that wraps a native <input type=\"time\"> element,\n// allowing users to select a specific time of day. Often used alongside date\n// pickers in forms, scheduling tools, or booking systems. The native input\n// handles 12-hour/24-hour format based on the browser locale. Supports\n// two-way data binding and standard form validation attributes.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name via aria-label.\n//   value — string, default \"\". Current time value in HH:MM format; bindable with value + onChange.\n//   required — boolean, default false. Whether a value is required for form submission.\n//   disabled — boolean, default false. Whether the input is disabled.\n//   ...restProps — additional HTML attributes spread onto the <input>.\n//\n// Syntax:\n//   <TimePickerInput label=\"Appointment time\" value={value} onChange={setValue} />\n//\n// Examples:\n//\n//   <TimePickerInput label=\"Departure time\" value={value} onChange={setValue} required />\n//\n// Keyboard:\n//   - Tab: move focus to/from the time input\n//   - ArrowUp/ArrowDown: increment/decrement the focused time segment\n//   - ArrowLeft/ArrowRight: move between time segments\n//\n// Accessibility:\n//   - aria-label={label} provides an accessible name for the time input\n//\n// Internationalization:\n//   - The label prop accepts any translated string\n//   - Time format is locale-dependent via native browser behavior\n//\n// Claude rules:\n//   - Headless: no CSS, no styles -- consumer provides all styling\n//   - Uses controlled for two-way data binding on value\n//\n// References:\n//   - MDN input type=\"time\": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time\n\nexport interface TimePickerInputProps {\n    className?: string;\n    label: string;\n    value?: string;\n    required?: boolean;\n    disabled?: boolean;\n    /** Callback when value changes. */\n    onChange?: (value: string) => void;\n    [key: string]: unknown;\n}\n\nexport default function TimePickerInput({\n    className = \"\",\n    label,\n    value = \"\",\n    required = false,\n    disabled = false,\n    onChange,\n    ...restProps\n}: TimePickerInputProps) {\n    return (\n        <input\n            className={`time-picker-input ${className}`}\n            type=\"time\"\n            aria-label={label}\n            value={value}\n            onChange={(e) => onChange?.(e.target.value)}\n            required={required}\n            disabled={disabled}\n            {...restProps}\n        />\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/TimePickerInput.tsx"
+    }
+  ],
+  "categories": [
+    "forms"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/time-picker-input/"
+}

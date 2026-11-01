@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-end-notes",
     standalone: true,
-    template: `<div class="end-notes {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<section class="end-notes {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></section>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EndNotes {

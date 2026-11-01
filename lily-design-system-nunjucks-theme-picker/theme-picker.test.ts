@@ -1203,3 +1203,106 @@ describe("theme-picker (Nunjucks) — open state and disabled", () => {
         expect(button.disabled).toBe(false);
     });
 });
+
+describe('themePicker — variant="select" (§select, RFC 3 prototype; ported from Svelte)', () => {
+    const base = {
+        label: "Colour theme",
+        themesUrl: URL_TRAILING,
+        themes: THEMES,
+        variant: "select",
+    };
+    const managed = () =>
+        document.head.querySelector<HTMLLinkElement>('link[data-lily-theme-picker="theme"]');
+    function mountSelect(
+        opts: Record<string, unknown> = {},
+        initOpts: Record<string, unknown> = {},
+    ) {
+        const root = mountIntoBody(renderMacro({ ...base, ...opts }));
+        const api = initThemePicker(root, initOpts);
+        return { root, api, select: root.querySelector("select") as HTMLSelectElement };
+    }
+
+    test("renders one native <select> named by label, and no button, listbox, tooltip or hidden input", () => {
+        const root = mountIntoBody(renderMacro(base));
+        const select = root.querySelector("select") as HTMLSelectElement;
+        expect(select.classList.contains("theme-picker-select")).toBe(true);
+        expect(select.getAttribute("aria-label")).toBe("Colour theme");
+        expect(select.name).toBe("theme");
+        expect(root.getAttribute("data-variant")).toBe("select");
+        expect(root.querySelector("button")).toBeNull();
+        expect(root.querySelector('[role="listbox"]')).toBeNull();
+        expect(root.querySelector(".theme-picker-tooltip")).toBeNull();
+        expect(root.querySelector('input[type="hidden"]')).toBeNull();
+    });
+
+    test("labels are params: option text comes from themeLabels or the title-cased slug, never built-in English", () => {
+        const root = mountIntoBody(
+            renderMacro({ ...base, label: "Thème", themeLabels: { dark: "Sombre" } }),
+        );
+        const options = [...root.querySelectorAll<HTMLOptionElement>("option.theme-picker-option")];
+        expect(options.map((o) => o.value)).toEqual(THEMES);
+        expect(options.map((o) => o.textContent?.trim())).toEqual(["Light", "Sombre", "Abyss"]);
+        expect(root.textContent).not.toMatch(/default/i);
+    });
+
+    test("server-rendered markup marks the resolved option selected, before any script", () => {
+        const html = renderMacro({ ...base, value: "dark" });
+        expect(html).toMatch(/<option class="theme-picker-option" value="dark" selected>/);
+        expect((html.match(/ selected>/g) ?? []).length).toBe(1);
+    });
+
+    test("the resolved initial value is the selected option and is applied", () => {
+        const { select } = mountSelect();
+        expect(select.value).toBe("light");
+        expect(document.documentElement.getAttribute("data-theme")).toBe("light");
+        expect(managed()?.getAttribute("href")).toBe("/assets/themes/light.css");
+    });
+
+    test("storage resolves the initial value as in the listbox variant", () => {
+        localStorage.setItem("lily-theme", "abyss");
+        const { select } = mountSelect({ storageKey: "lily-theme" });
+        expect(select.value).toBe("abyss");
+        expect(document.documentElement.getAttribute("data-theme")).toBe("abyss");
+    });
+
+    test("choosing an option applies the theme, persists it and calls onChange once", () => {
+        const onChange = vi.fn();
+        const { select } = mountSelect({ storageKey: "lily-theme" }, { onChange });
+        onChange.mockClear();
+        select.value = "abyss";
+        select.dispatchEvent(new Event("change", { bubbles: true }));
+        expect(document.documentElement.getAttribute("data-theme")).toBe("abyss");
+        expect(managed()?.getAttribute("href")).toBe("/assets/themes/abyss.css");
+        expect(localStorage.getItem("lily-theme")).toBe("abyss");
+        expect(onChange.mock.calls).toEqual([["abyss"]]);
+    });
+
+    test("keyboard is the platform's; there is no popup; setTheme and setDisabled work", () => {
+        const { api, select } = mountSelect();
+        const event = new KeyboardEvent("keydown", {
+            key: "ArrowDown",
+            bubbles: true,
+            cancelable: true,
+        });
+        select.dispatchEvent(event);
+        expect(event.defaultPrevented).toBe(false);
+        expect(api.isOpen()).toBe(false);
+        api.setTheme("dark");
+        expect(select.value).toBe("dark");
+        api.setDisabled(true);
+        expect(select.disabled).toBe(true);
+    });
+
+    test("disabled renders the select disabled", () => {
+        const root = mountIntoBody(renderMacro({ ...base, disabled: true }));
+        expect((root.querySelector("select") as HTMLSelectElement).disabled).toBe(true);
+    });
+
+    test("classes and attributes go on the root", () => {
+        const root = mountIntoBody(
+            renderMacro({ ...base, classes: "header-theme", attributes: { "data-testid": "tp" } }),
+        );
+        expect(root.className).toBe("theme-picker header-theme");
+        expect(root.getAttribute("data-testid")).toBe("tp");
+    });
+});

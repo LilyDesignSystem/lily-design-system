@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<a class=\"back-link\" href=\"#\">Back</a>";
   const svelteSource: string = "// In your Svelte component:\nimport BackLink from \"lily-design-system-svelte-headless/components/BackLink/BackLink.svelte\";\n\n<BackLink>BackLink</BackLink>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import BackLink from './BackLink.svelte';\n<\/script>\n\n<BackLink href=\"/previous-page\">Back to previous page</BackLink>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import BackLink from \"./BackLink.svelte\";\n<\/script>\n\n<BackLink href=\"/previous-page\">Back to previous page</BackLink>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

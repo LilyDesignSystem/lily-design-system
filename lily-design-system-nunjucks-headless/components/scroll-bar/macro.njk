@@ -4,17 +4,22 @@
   HTML tag: <div role="scrollbar">
   CSS class: scroll-bar
 
-  Params: orientation (default "vertical"), value (0-100), controls,
+  Params: label (the accessible name), orientation (default "vertical"),
+    value (default 0), min (default 0), max (default 100), controls,
     id, classes, attributes.
+
+  Markup only: the keys the contract names (arrows, Page Up/Down, Home/End
+  moving aria-valuenow) are the consumer's client script.
 #}
 {%- macro scrollBar(params) -%}
 {%- set p = params | default({}) -%}
 <div
   class="scroll-bar{% if p.classes %} {{ p.classes }}{% endif %}"
   role="scrollbar"
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
   aria-orientation="{{ p.orientation | default('vertical') }}"
-  aria-valuemin="0"
-  aria-valuemax="100"
+  aria-valuemin="{{ p.min | default(0) }}"
+  aria-valuemax="{{ p.max | default(100) }}"
   aria-valuenow="{{ p.value | default(0) }}"
   {%- if p.controls %} aria-controls="{{ p.controls }}"{% endif %}
   tabindex="0"

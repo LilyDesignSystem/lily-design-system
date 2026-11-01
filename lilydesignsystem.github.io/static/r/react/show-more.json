@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "show-more",
+  "type": "registry:component",
+  "title": "ShowMore",
+  "description": "A content region clamped to a shorter height with a button that reveals the rest.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ShowMore.tsx",
+      "content": "\"use client\";\n\n// ShowMore component\n//\n// A headless \"show more / show less\" toggle. The content is always in the DOM\n// and accessibility tree; the visual clamp is consumer CSS keyed on\n// data-expanded on .show-more-content (no inline style).\n//\n// Props:\n//   className -- string, optional. CSS class name.\n//   moreLabel, lessLabel -- string, required. Button text per state (no default).\n//   expanded -- boolean, default false. Bindable; supports onChange.\n//   children -- ReactNode. The content.\n//   ...restProps -- spread onto the root <div>.\n//\n// Keyboard: native <button> (Enter / Space).\n// Accessibility: aria-expanded + aria-controls on the button.\n\nimport React, { useEffect, useId, useState } from \"react\";\n\nexport interface ShowMoreProps {\n    className?: string;\n    /** Button text while collapsed. */\n    moreLabel: string;\n    /** Button text while expanded. */\n    lessLabel: string;\n    /** Whether the content is expanded. Bindable. */\n    expanded?: boolean;\n    /** The content. */\n    children?: React.ReactNode;\n    /** Callback when expanded changes. */\n    onChange?: (value: boolean) => void;\n    [key: string]: unknown;\n}\n\nexport default function ShowMore({\n    className = \"\",\n    moreLabel,\n    lessLabel,\n    expanded: expandedProp = false,\n    onChange,\n    children,\n    ...restProps\n}: ShowMoreProps) {\n    const [expanded, setExpanded] = useState(expandedProp);\n    useEffect(() => setExpanded(expandedProp), [expandedProp]);\n    const contentId = `show-more-${useId()}`;\n\n    return (\n        <div\n            className={`show-more ${className}`}\n            {...restProps}\n        >\n            <div\n                className=\"show-more-content\"\n                id={contentId}\n                data-expanded={expanded}\n            >\n                {children}\n            </div>\n            <button\n                type=\"button\"\n                className=\"show-more-button\"\n                aria-expanded={expanded}\n                aria-controls={contentId}\n                onClick={() => {\n                    const next = !expanded;\n                    setExpanded(next);\n                    onChange?.(next);\n                }}\n            >\n                {expanded ? lessLabel : moreLabel}\n            </button>\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ShowMore.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/show-more/"
+}

@@ -52,6 +52,7 @@
     //   - WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menu/
 
     import type { Snippet } from "svelte";
+    import { popoverState, toggleOpened } from "../Popover/popover.js";
 
     let {
         class: className = "",
@@ -119,15 +120,19 @@
     }
 </script>
 
-{#if open}
-    <div
-        class={`context-menu ${className}`}
-        role="menu"
-        aria-label={label}
-        bind:this={menuRef}
-        {onkeydown}
-        {...restProps}
-    >
-        {@render children?.()}
-    </div>
-{/if}
+<!-- popover="auto": there is no declarative trigger (a right-click or long-press opens it), so popoverState shows it
+     with showPopover() when `open` turns true, in the top layer; light dismiss and Escape come from the browser and the
+     toggle event writes `open` back. Positioning at the pointer stays the consumer's CSS. -->
+<div
+    class={`context-menu ${className}`}
+    role="menu"
+    aria-label={label}
+    popover="auto"
+    bind:this={menuRef}
+    use:popoverState={open}
+    ontoggle={(event) => (open = toggleOpened(event))}
+    {onkeydown}
+    {...restProps}
+>
+    {@render children?.()}
+</div>

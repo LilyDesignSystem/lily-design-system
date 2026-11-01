@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "chat-nav",
+  "type": "registry:component",
+  "title": "ChatNav",
+  "description": "A navigation container for chat information.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ChatNav.tsx",
+      "content": "import React from \"react\";\n\n// ChatNav component\n//\n// A navigation container for chat information.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label    — string, required. Accessible label via aria-label.\n//   children — ReactNode, required. Component content.\n//   ...restProps — additional HTML attributes spread onto the <nav>.\n//\n// Accessibility:\n//   - native <nav> semantics\n//   - aria-label exposes a screen-reader name when label is provided\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//\n// References:\n//   - HTML nav element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav\n\nexport interface ChatNavProps {\n    className?: string;\n    /** Accessible label set on aria-label. */\n    label: string;\n    /** Component content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function ChatNav({ className = \"\", label, children, ...restProps }: ChatNavProps) {\n    return (\n        <nav\n            className={`chat-nav ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </nav>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ChatNav.tsx"
+    }
+  ],
+  "categories": [
+    "navigation"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/chat-nav/"
+}

@@ -11,25 +11,27 @@ easy access to extended functionality.
 
 **Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
 
-This component renders as a `<div>` with `role="dialog"`, `aria-label`, and
-`aria-modal="true"` when open, and is completely removed from the DOM when
-closed. The `open` prop is two-way binding, and the Escape key
+This component renders as a native `<dialog>` with `aria-label` and
+`aria-modal="true"` when open, opened with `showModal()` so it is a real modal
+(inert page, Tab trap, focus returns to the opener), and is completely removed
+from the DOM when closed. The `open` prop is two-way binding, and the Escape key
 closes the drawer.
 
 ## Implementation Notes
 
-- Renders as `<div role="dialog" aria-label={label} aria-modal="true">` when open
+- Renders as `<dialog aria-label={label} aria-modal="true">` when open, opened with `showModal()` (falls back to the `open` attribute where `showModal` is missing)
+- Moves focus inside on open and returns it to the opener on close
 - Conditionally rendered with conditional rendering -- not in the DOM when closed
 - The `open` prop is two-way binding
-- Escape key closes the drawer via a keydown handler
-- `tabindex="-1"` allows the dialog div to receive focus programmatically
+- Escape (keydown or the native `cancel` event) and the native `close` event close the drawer
+- `tabindex="-1"` allows the dialog to receive focus programmatically
 
 ## Props
 
 - `label`: string (required) -- accessible label for the dialog
 - `open`: boolean (default: false) -- whether the drawer is visible, bindable
 - `children`: slot (required) -- drawer content
-- `...restProps`: Any additional HTML attributes spread onto the `<div>`
+- `...restProps`: Any additional HTML attributes spread onto the `<dialog>`
 
 ## Usage
 
@@ -85,12 +87,13 @@ Settings panel:
 ## Keyboard Interactions
 
 - Escape closes the drawer
+- Tab / Shift+Tab stay inside the drawer while it is open
 
 ## ARIA
 
-- `role="dialog"` for modal dialog semantics
+- `role="dialog"` implicit on the native `<dialog>` element
 - `aria-label` from the label prop provides the accessible name
-- `aria-modal="true"` indicates modal behavior (content behind the drawer is inert)
+- `aria-modal="true"` is true: `showModal()` makes the content behind the drawer inert
 - `tabindex="-1"` for programmatic focus management
 
 ## When to Use
@@ -107,11 +110,11 @@ Settings panel:
 
 ## Headless
 
-This headless component provides a modal dialog container with `role="dialog"`, `aria-modal="true"`, `aria-label`, Escape key dismissal, and `tabindex="-1"` for programmatic focus. The consumer provides all visual styling including slide-in animations, backdrop overlay, width, and positioning.
+This headless component provides a modal `<dialog>` opened with `showModal()` (top layer, inert page, Tab trap, focus return), `aria-modal="true"`, `aria-label`, Escape key dismissal, and `tabindex="-1"` for programmatic focus. The consumer provides all visual styling including slide-in animations, backdrop overlay, width, and positioning.
 
 ## Reduced motion
 
-Reduced motion changes how content appears, never whether it does. Apply it in consumer CSS under `@media (prefers-reduced-motion: reduce)` and under the `motion-picker`'s `[data-motion="reduce"]` on the document root (the 57 reference themes already honour both for the preference hooks they style). For a drawer:
+Reduced motion changes how content appears, never whether it does. Apply it in consumer CSS under `@media (prefers-reduced-motion: reduce)` and under the `motion-picker`'s `[data-motion="reduce"]` on the document root (the 63 reference themes already honour both for the preference hooks they style). For a drawer:
 
 - **Suppress:** the slide-in and slide-out, and any backdrop fade longer than about 100 ms. Show and hide the drawer and its backdrop at once.
 - **Keep:** the focus rules exactly as they are: focus moves into the drawer when it opens and returns to the trigger when it closes, Escape closes it, and the backdrop is present immediately. Motion never decides when the drawer is usable.
@@ -122,7 +125,8 @@ The consumer provides all CSS styling. The component renders with a `.slide-out-
 
 ## Testing
 
-- Verify the component renders a `<div>` element with class `slide-out-drawer`
+- Verify the component renders a `<dialog>` element with class `slide-out-drawer`, opened with `showModal()`
+- Verify focus moves inside on open, stays inside while open, and returns to the trigger on close
 - Verify role="dialog"` for modal dialog semantics
 - Verify aria-label` from the label prop provides the accessible name
 - Verify keyboard interactions work correctly
@@ -131,7 +135,7 @@ The consumer provides all CSS styling. The component renders with a `.slide-out-
 ## Advice
 
 - **Designers**: Include a visible close button inside the drawer and use a semi-transparent backdrop to indicate the drawer is an overlay. Animate the slide transition to reinforce direction.
-- **Developers**: Implement focus trapping within the drawer so keyboard users cannot interact with content behind it. Restore focus to the trigger element when the drawer closes.
+- **Developers**: Focus trapping and focus return come from `showModal()`; open the drawer from a button so focus has somewhere to return to.
 
 ## Related components
 

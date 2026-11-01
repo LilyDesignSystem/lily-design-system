@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "option",
+  "type": "registry:component",
+  "title": "Option",
+  "description": "An option element within a select dropdown.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Option.tsx",
+      "content": "import React from \"react\";\n\n// Option component\n//\n// A headless <option> element wrapper for use inside <select> elements. It\n// accepts a value prop for the form submission value and renders children as\n// the visible option label text. Supports selected and disabled states using\n// native HTML attributes. Used in dropdown menus, form selects, and list pickers.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   value — string, required. The option value submitted with the form.\n//   selected — boolean, default false. Whether this option is pre-selected.\n//   disabled — boolean, default false. Whether this option is disabled.\n//   children — ReactNode, required. The option label text content.\n//   ...restProps — additional HTML attributes spread onto the <option>.\n//\n// Syntax:\n//   <Option value=\"us\">United States</Option>\n//\n// Examples:\n//\n//   <select>\n//     <Option value=\"us\">United States</Option>\n//     <Option value=\"uk\">United Kingdom</Option>\n//     <Option value=\"ca\" disabled>Canada</Option>\n//   </select>\n//\n// Keyboard:\n//   None directly — keyboard behavior is managed by the parent <select> element\n//   (Up/Down arrows, Home/End, type-ahead search).\n//\n// Accessibility:\n//   - Native <option> element provides built-in accessibility via the parent <select>\n//   - Screen readers announce the option text and selected state automatically\n//\n// Internationalization:\n//   - Option label text comes through the children prop\n//   - No hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Must be used inside a <select> element for proper semantics\n//   - Do not add ARIA attributes — native <option> provides all accessibility\n//\n// References:\n//   - HTML option element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/option\n\nexport interface OptionProps {\n    className?: string;\n    /** The value of this option */\n    value: string;\n    /** Whether this option is pre-selected */\n    selected?: boolean;\n    /** Whether this option is disabled */\n    disabled?: boolean;\n    /** The option label content */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Option({\n    className = \"\",\n    value,\n    selected = false,\n    disabled = false,\n    children,\n    ...restProps\n}: OptionProps) {\n    return (\n        <option\n            className={`option ${className}`}\n            value={value}\n            selected={selected}\n            disabled={disabled}\n            {...restProps}\n        >\n            {children}\n        </option>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Option.tsx"
+    }
+  ],
+  "categories": [
+    "forms"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/option/"
+}

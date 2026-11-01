@@ -15,9 +15,10 @@ describe("Image", function () {
         expect(className).toContain("image");
     });
 
-    it("should have an aria-label attribute", async function () {
+    it("takes its text alternative from alt, not aria-label", async function () {
         const el = await $("img.image");
-        const label = await el.getAttribute("aria-label");
-        expect(label).not.toBeNull();
+        expect(await el.getAttribute("alt")).not.toBeNull();
+        expect(await el.getAttribute("src")).not.toBeNull();
+        expect(await el.getAttribute("aria-label")).toBeNull();
     });
 });

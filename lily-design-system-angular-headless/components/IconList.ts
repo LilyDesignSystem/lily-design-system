@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-icon-list",
     standalone: true,
-    template: `<ol class="icon-list {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></ol>`,
+    template: `<ul class="icon-list {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></ul>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IconList {

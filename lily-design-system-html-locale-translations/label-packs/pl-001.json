@@ -283,5 +283,10 @@
     "small": "mały",
     "smaller": "mniejszy",
     "smallest": "najmniejszy"
+  },
+  "date-time-now-input": {
+    "date": "Data",
+    "time": "Godzina",
+    "now": "Teraz"
   }
 }

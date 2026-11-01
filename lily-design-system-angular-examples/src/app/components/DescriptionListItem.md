@@ -7,13 +7,13 @@ in the canonical repo root for the cross-framework documentation.
 
 ## Selector
 
-Attribute selector on the native `<li>` — matches Angular Material's idiom
+Attribute selector on the native `<div>` — matches Angular Material's idiom
 for list/table sub-elements, so there is no wrapper element between this
-`<li>` and its parent (a wrapper broke a required parent-child
+`<div>` and its parent `<dl>` (a wrapper broke a required parent-child
 content-model relationship for assistive technology).
 
 ```html
-<li lily-description-list-item></li>
+<div lily-description-list-item><dt>Name</dt><dd>Ada Lovelace</dd></div>
 ```
 
 ## Files

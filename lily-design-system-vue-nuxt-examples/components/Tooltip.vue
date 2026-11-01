@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { shallowRef, toRef } from "vue";
+import { usePopoverState } from "./popover";
 // Tooltip component
 //
 // A headless tooltip that displays brief, contextual information when made
@@ -46,7 +48,7 @@
 //   - WAI-ARIA Tooltip Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/
 //   - MDN aria-describedby: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-describedby
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
         /** Tooltip text content. */
         label: string;
@@ -59,12 +61,15 @@ withDefaults(
 );
 
 const visible = defineModel<boolean>("visible", { default: false });
+const panelEl = shallowRef<HTMLElement | null>(null);
+usePopoverState(panelEl, toRef(props, "visible"));
 </script>
 
 <template>
     <!-- Tooltip.vue -->
     <div
-        v-if="visible"
+        ref="panelEl"
+        popover="manual"
         class="tooltip"
         role="tooltip"
         :id="id"

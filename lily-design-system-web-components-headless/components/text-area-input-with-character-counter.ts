@@ -40,7 +40,7 @@ export class TextAreaInputWithCharacterCounter extends HTMLElement {
         const textarea = document.createElement("textarea");
         const label = this.getAttribute("label");
         if (label !== null) textarea.setAttribute("aria-label", label);
-        textarea.value = this.getAttribute("value") ?? "";
+        textarea.defaultValue = this.getAttribute("value") ?? "";
         this.#maxLength = Number(this.getAttribute("max-length") ?? "0") || 0;
         textarea.maxLength = this.#maxLength;
         const rows = this.getAttribute("rows");

@@ -1,8 +1,8 @@
 # Lily Design System™ — HTML Skill
 
-A Claude Skill ([`SKILL.md`](SKILL.md)) that maps the three real plain-HTML
-subprojects in this monorepo — the full-catalog headless component library,
-the six `*-picker` helper web components, and the styled NHS UK example
+A Claude Skill ([`SKILL.md`](SKILL.md)) that maps the three plain-HTML
+layers in this monorepo — the full-catalog headless component library,
+the `*-picker` helper web components and the other helper packages, and the styled NHS UK example
 application — and helps an agent decide which one a request actually needs.
 
 It is an **umbrella skill**, one level up from
@@ -17,16 +17,16 @@ the styled example app — gets real coverage here instead.
 
 Load this skill when someone asks what's available for plain HTML in Lily
 Design System, which HTML subproject they need, how the HTML headless
-library relates to the HTML helpers catalog or the example app, or wants to
+library relates to the HTML helper packages or the example app, or wants to
 see components styled and running with no framework runtime. It also draws
 the line between this plain-HTML trio and the separate Web Components
-catalogs (`<lily-*>` tags, a 547/582 headless slice), pointing to
+catalogs (`<lily-*>` tags, a 572/607 headless slice), pointing to
 [`lily-design-system-web-components-skill`](../lily-design-system-web-components-skill/)
 for that pair.
 
 ## Structure
 
-- [`SKILL.md`](SKILL.md) — the skill itself: the three-subproject map, the
+- [`SKILL.md`](SKILL.md) — the skill itself: the three-layer map, the
   example app's own contract (routes, NHS UK styling, running it, helper
   vendoring), the conventions that span all three, and the Web Components
   distinction.

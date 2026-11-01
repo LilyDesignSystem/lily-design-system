@@ -1,0 +1,39 @@
+{
+  "slug": "uruguay-cedula-de-identidad-view",
+  "name": "UruguayCedulaDeIdentidadView",
+  "description": "a read-only display of Uruguay's Cedula de Identidad Number",
+  "htmlTag": "span",
+  "category": "national",
+  "baseClass": ".uruguay-cedula-de-identidad-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow",
+  "aria": [
+    "`aria-label` provides accessible name from label prop"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`value`: string (default: \"\") — the identifier to display",
+    "`label`: string (required) — accessible name via `aria-label`",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "uruguay-cedula-de-identidad-input",
+    "summary-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/uruguay-cedula-de-identidad-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/UruguayCedulaDeIdentidadView/UruguayCedulaDeIdentidadView.svelte",
+    "react": "lily-design-system-react-headless/components/UruguayCedulaDeIdentidadView.tsx",
+    "vue": "lily-design-system-vue-headless/components/UruguayCedulaDeIdentidadView.vue",
+    "angular": "lily-design-system-angular-headless/components/UruguayCedulaDeIdentidadView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/uruguay-cedula-de-identidad-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/uruguay-cedula-de-identidad-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/uruguay-cedula-de-identidad-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/UruguayCedulaDeIdentidadView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/uruguay-cedula-de-identidad-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/uruguay-cedula-de-identidad-view/AGENTS.md"
+}

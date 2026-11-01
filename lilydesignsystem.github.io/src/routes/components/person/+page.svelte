@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<article class=\"person\"><h3>Jane Doe</h3><p>Lead Designer</p></article>";
   const svelteSource: string = "// In your Svelte component:\nimport Person from \"lily-design-system-svelte-headless/components/Person/Person.svelte\";\n\n<Person>\n  <!-- content -->\n</Person>\n";
-  const usageCode: string = "<Person label=\"Dr Sarah Chen, Consultant Cardiologist\">\n  <AvatarImage src=\"/photos/sarah-chen.jpg\" label=\"Dr Sarah Chen\" />\n  <h3>Dr Sarah Chen</h3>\n  <p>Consultant Cardiologist</p>\n  <p>Cardiology Department, St James's Hospital</p>\n  <EmailLink href=\"mailto:s.chen@stjames.nhs.uk\">s.chen@stjames.nhs.uk</EmailLink>\n  <TelLink href=\"tel:+442071234567\">020 7123 4567</TelLink>\n</Person>\n";
+  const usageCode: string = "<Person label=\"Dr Sarah Chen, Consultant Cardiologist\">\n  <AvatarImage\n    src=\"/photos/sarah-chen.jpg\"\n    label=\"Dr Sarah Chen\"\n  />\n  <h3>Dr Sarah Chen</h3>\n  <p>Consultant Cardiologist</p>\n  <p>Cardiology Department, St James's Hospital</p>\n  <EmailLink href=\"mailto:s.chen@stjames.nhs.uk\">s.chen@stjames.nhs.uk</EmailLink>\n  <TelLink href=\"tel:+442071234567\">020 7123 4567</TelLink>\n</Person>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

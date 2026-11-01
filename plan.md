@@ -9,8 +9,9 @@ Companion checklist: [tasks.md](tasks.md).
 > initiative to be executed by an AI coding agent in phased work
 > sessions. As work lands, fold outcomes back into `spec/index.md`
 > §11–§14 and `CHANGELOG.md`. This revision (2026-08-26) supersedes the
-> 2026-07-11 plan: completed work is recorded below, still-open items
-> are carried forward, and new phases are grounded in fresh research of
+> 2026-07-11 plan: completed work is recorded in
+> [spec/history](spec/history/index.md#improvement-plan-phases-completed-moved-from-planmd-on-2026-10-30), still-open
+> items are carried forward, and new phases are grounded in fresh research of
 > the monorepo and of the GOV.UK, NHS, USWDS, and design-tokens
 > ecosystems.
 
@@ -30,48 +31,6 @@ Companion checklist: [tasks.md](tasks.md).
   `*-select` names are obsolete and must not reappear.
 - Keep commits small and per-task; note completed task IDs in commit
   messages.
-
-## Completed since the 2026-07-11 plan
-
-Recorded so the delta is auditable; details in
-[CHANGELOG.md](CHANGELOG.md) and [NEWS.md](NEWS.md).
-
-- **Helpers**: renamed to `*-picker` at full depth; `share-picker` and
-  `date-time-picker` added (five helpers × seven catalogs = 35
-  packages); two accessibility-hardening sweeps; pointer-close made
-  part of the contract; idempotent apply; 1,847 tests across the seven
-  catalogs. All 30 JS helper packages published to npm at 0.1.0.
-- **Headless publishing (was Phase 3)**: svelte, react, and vue
-  headless published at 0.3.0 with real `dist/`, barrel exports,
-  types, and `sideEffects: false` — after discovering 0.2.0 was
-  unusable (declared a `main` that was never built). Verified by
-  installing packed tarballs into scratch consumers.
-- **Special files (new work)**: the repo root and all 22 subprojects
-  (then published as subtree repositories) now carry the 16-file public-repo set (LICENSE,
-  CITATION.cff, NEWS, COMPARISONS, BENCHMARKS, INSTALL, CONTRIBUTING,
-  CODEOWNERS, MAINTAINERS, CHANGELOG, AI_STATEMENT, GOVERNANCE,
-  SECURITY, CODE_OF_CONDUCT, RFC, README), propagated by
-  `bin/sync-special-files` with link rewriting and per-repo generated
-  CITATION/INSTALL, gated by `bin/test`. Spec topic:
-  [spec/special-files-for-public-repos/](spec/special-files-for-public-repos/index.md).
-- **Licensing**: the `CC BY-NC-SA` / MIT / ISC contradiction resolved
-  to one SPDX menu (`MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only
-OR BSD-3-Clause`) across `LICENSE.md`, spec §14, all 50 JS manifests
-  and 5 `.csproj` files. "WCAG 2.2 AAA compliant" corrected to
-  "Targets WCAG 2.2 AAA" in package descriptions. Wrong npm repository
-  URLs (react/vue pointed at `github.com/lily`, an unrelated account)
-  fixed in-tree; **the live registry copies stay wrong until a patch
-  release** (P1).
-- **`CONTRIBUTING.md`** exists (time / code / money), plus
-  `GOVERNANCE.md`, `SECURITY.md`, `AI_STATEMENT.md`, `RFC.md` (twelve
-  open questions), `.github/FUNDING.yml`.
-- **Promotion plan**: [help/outreach/index.md](help/outreach/index.md)
-  — audiences, channels, readiness gates. Its Gate 1 (license) is
-  closed; Gate 2 (publish all frameworks) is this plan's P2.
-- **Site**: `lilydesignsystem.github.io` gained per-framework
-  tutorials, theming and helpers tutorials, help, why, about,
-  comparisons — and a placeholder `lily-figma` route (P5 decides its
-  fate).
 
 ## Current state (verified 2026-10-25)
 
@@ -122,43 +81,6 @@ Earlier snapshots are kept in `CHANGELOG.md` and `spec/history/`.
   unreleased items; the `engines.node` range for published packages (decided 2026-10-18: `>=26`).
   Security-posture settings, GitHub topics and README screenshots were **not re-verified**.
 
-## Research findings (2026-08)
-
-What the systems Lily learns from are doing, and what it implies here.
-
-1. **GOV.UK Frontend is at v6** (v6.0.0 breaking: new Sass
-   architecture, **updated type scale, updated colours**; v6.1.0
-   2026-03). **NHS.UK frontend is at a v10.0.0 pre-release** (v9.x
-   added task-list and panel components). Lily's GDS and NHS reference
-   themes were authored against the earlier visual languages, and
-   nothing records which upstream version each theme tracks. →
-   _Theme provenance pinning and a refresh pass_ (P3).
-2. **GOV.UK's professional apparatus** — a public roadmap, a
-   "what's new" page, a published accessibility strategy, disciplined
-   versioned releases with migration notes, and explicit contribution
-   criteria — is the visible difference between a maintained system
-   and a repository. Lily now has the repo-side files; the site lacks
-   the roadmap/news surfaces and the release discipline lacks tags. →
-   P2 (release engineering) and P5 (site surfaces).
-3. **Component maturity labels.** GOV.UK/USWDS mark components as
-   experimental/stable and say what evidence backs them. Lily's 491
-   components are uniformly presented, but their depth varies —
-   honest labelling is the cheap, high-trust move that matches this
-   project's stated ethos. → P4.
-4. **Design tokens standardised.** The DTCG Design Tokens spec
-   reached its **first stable version (2025.10)**; Style Dictionary
-   v4, Figma Variables, Tokens Studio, Penpot and Sketch support it;
-   adoption hit ~84% of surveyed teams in 2026. Lily's `--theme-*`
-   flat-token convention predates this. A DTCG-format token source
-   that _generates_ the custom properties would cost little, make the
-   45 themes machine-consumable, and give the placeholder `lily-figma`
-   page something real to say. → P3/P5, and RFC.md §RFC 6.
-5. **Patterns, not just components.** NHS and GOV.UK ship
-   task-oriented _patterns_ ("ask users for…", multi-page flows) above
-   the component layer. Lily has composition patterns in AGENTS but no
-   pattern-level guidance; the flagship scenario route (P6) is the
-   first step and should be written up as a pattern doc, not only code.
-
 ## Research findings (2026-10-11): bref-ui
 
 [bref-ui](https://github.com/feuersteiner/bref-ui) (MIT, Svelte 5) was read at commit `3333552` (2026-10-11). It is a
@@ -206,161 +128,6 @@ not its headless layer. The Material Symbols font dependency — Lily bundles no
 `aria-pressed` buttons rather than a listbox, and a tree view that is a group of buttons rather than a tree — Lily's
 existing `select` and `tree-*` semantics are the stronger choice. Its "seekable" progress bar that becomes a range
 input — Lily keeps `progress` and `slider` separate.
-
----
-
-## Phase 1 — Truth, hygiene, and registry cleanup
-
-Goal: every live claim is true — in the spec _and on npm_.
-
-1. **Reconcile catalog counts** (carried): identify the 491st
-   component, verify full propagation, fix spec §11.4/§14 and any
-   other stale 490s that state present-tense facts (point-in-time
-   snapshot labels may stand with their dates).
-2. **npm registry hygiene**: `npm deprecate` the three broken 0.2.0
-   headless packages with an upgrade message; publish patch releases
-   of svelte/react/vue headless so the corrected metadata (SPDX
-   license menu, right repository URLs, "targets" wording) is what the
-   registry serves.
-3. **Angular examples Playwright e2e** (carried).
-4. **Analog SSG**: file the drafted upstream issue; prototype the
-   `@angular/build:application` prerender fallback (carried).
-5. **Svelte dual-mirror specs** for the 80 national identifiers
-   (carried).
-6. **Fresh verification sweep**: re-run every suite in spec
-   §11.4–§11.7; restamp tables (carried).
-7. **Repo presentation**: GitHub topics + descriptions on all 23
-   repos; two screenshots in the root README (styled example app vs
-   the same markup unstyled); confirm/enable the SECURITY.md posture
-   table (secret scanning, push protection, private vulnerability
-   reporting) and record what is actually on.
-
-## Phase 2 — Release engineering
-
-Goal: every advertised artifact is installable, and releases are real
-events with tags, notes, and provenance.
-
-1. **Publish the remaining headless libraries**: html, angular,
-   nunjucks to npm; blazor headless to NuGet — same verified-tarball
-   discipline as 0.3.0. Push the five built blazor helper `.nupkg`
-   files to NuGet.
-2. **`bin/publish-headless`** (or extend `bin/publish-helpers`),
-   dry-run by default (carried).
-3. **Tags and GitHub Releases**: annotated tag per release, release
-   notes generated from CHANGELOG sections, applied retroactively to
-   0.2.0–0.6.0 where commits are identifiable.
-4. **Supply-chain posture**: npm 2FA confirmed, `--provenance` on
-   publishes from CI, tag-gated dry-run-default publish workflow
-   (carried, extended). Optional: Zenodo DOI wired to CITATION.cff.
-5. **Consumer smoke tests in CI**: install each published tarball into
-   a scratch project and import/render 3 components — the check that
-   would have caught the 0.2.0 breakage (carried).
-6. **Versioning & release policy doc** `docs/releasing.md` (carried).
-
-## Phase 3 — Themes live + tokens
-
-Goal: the 45 themes become a user-visible capability with a
-standards-based token layer underneath.
-
-1. **Wire `theme-picker` into all 7 example app shells** (SvelteKit
-   canonical first), curated list, localStorage persistence, e2e
-   coverage (carried; renamed).
-2. **Mount `locale-picker` and `text-size-picker`** in the shells too;
-   consider `share-picker` on component-detail pages (carried,
-   extended to the five-helper reality).
-3. **`prefers-color-scheme` first-visit default** for theme-picker
-   (opt-in prop; canonical then 6 ports) (carried).
-4. **`bin/check-theme` conformance script** (carried).
-5. **DTCG token source** (new): `themes/tokens/*.json` in Design
-   Tokens 2025.10 format for the core `--theme-*` set; a generator
-   emits the custom-property blocks the themes consume; drift between
-   generated and committed CSS fails `bin/test`. Update RFC.md §RFC 6
-   with the outcome.
-6. **Theme provenance + refresh** (new): record the upstream version
-   each reference theme tracks (GOV.UK Frontend v6.x, NHS.UK frontend
-   v9/v10, USWDS, Spectrum, Protocol); refresh the GDS theme against
-   v6's updated type scale and colours; document the deltas.
-7. **Dark/high-contrast coverage audit** (carried).
-
-## Phase 4 — Accessibility assurance
-
-Goal: move from "targets WCAG 2.2 AAA" toward _demonstrated_ claims,
-per-component and per-app.
-
-1. **Full-catalog axe sweep**: all 491 `/components/{slug}` routes in
-   the SvelteKit app; fix findings; record the baseline (carried).
-2. **Accessibility statement + WCAG mapping** (new): a published doc
-   in the GOV.UK accessibility-strategy mould — what is tested by
-   what (axe AA rule sets, unit ARIA assertions, keyboard contracts),
-   what is not, known gaps, and the audit intention already named in
-   CONTRIBUTING.
-3. **Component maturity labels** (new): `status` column
-   (`experimental` / `beta` / `stable`) in the catalog metadata,
-   surfaced in per-component docs and on the site; initial assignment
-   rubric documented (test depth, screen-reader evidence, production
-   use).
-4. **Screen-reader testing matrix** (new): VoiceOver/NVDA/JAWS ×
-   representative components; results recorded per component; the
-   scarce-input ask in CONTRIBUTING becomes a structured intake.
-5. **External audit readiness pack** (new): scope, environments, and
-   the component list an auditor would need — so funding, if it
-   arrives, converts to an audit without delay.
-
-## Phase 5 — Documentation and site surfaces
-
-Goal: the site carries the living surfaces a maintained system shows.
-
-1. **News/what's-new route** on the site fed from NEWS.md; **roadmap
-   route** fed from this plan (GOV.UK pattern; also closes the
-   outreach plan's blog-route gate).
-2. **Developer on-ramp in CONTRIBUTING**: dev setup, the copy-pattern,
-   add-a-component walkthrough across all 14 subprojects + registries
-   - CSS hook (the July P4-T1 content the current file lacks).
-3. **`bin/generate-api-docs`**: per-component reference pages
-   generated from `components/{slug}/AGENTS.md` into the site;
-   idempotent; drift fails `bin/test` (carried).
-4. **Migration guides**: NHS UK frontend → Lily and GOV.UK Frontend v6
-   → Lily slug-mapping tables with gaps noted (carried, version
-   -pinned).
-5. **`lily-figma` decision** (new): either a community Figma library
-   seeded from the P3 DTCG tokens, or replace the placeholder with an
-   honest "not planned, here's why + RFC link". No "coming soon" left
-   standing.
-6. **Tutorials gain runnable end states**: each site tutorial's
-   finished code exists in-repo (fixture or example-app route) and is
-   verified (carried, reshaped — the tutorials now exist; the runnable
-   artifacts do not).
-7. **Doc quality gates in CI**: link check already runs; add spell
-   check over docs and the site content (carried).
-
-## Phase 6 — Examples deepening
-
-Goal: examples demonstrate the system, not just the components.
-
-1. **Composed-page parity matrix + backfill**, including first
-   composed pages for nunjucks-eleventy (carried).
-2. **Flagship "book an appointment" scenario** — SvelteKit first, then
-   ports; ~30 components; Playwright + axe; written up as Lily's first
-   _pattern_ doc (carried, extended per research finding 5).
-3. **RTL demo route** per app (carried).
-4. **`/components` search upgrade**: category + suffix filters
-   (carried).
-
-## Phase 7 — Tooling, CI, and stretch
-
-1. **CI completeness** (new): headless unit suites (7), blazor helpers
-   (`dotnet test`), one example-app Playwright smoke, and the P2
-   consumer smoke — matrixed, cached, and green.
-2. **`bin/test` profiling** (new): ~63 s today; find the hot loop
-   (per-component file checks are the likely cost), target < 20 s
-   without weakening any check.
-3. **`bin/new-component` end-to-end generator** (carried).
-4. **`bin/check-coverage` drift matrix** (carried).
-5. **Visual regression baseline** (stretch, carried).
-6. **Web Components headless library** (stretch, carried; also
-   RFC-relevant — it would make Lily usable with zero framework).
-7. **`motion-picker` helper** (stretch, carried; renamed from
-   `motion-select`; follows the five-helper contract).
 
 ## Research findings (2026-10-21): capabilities and code quality
 
@@ -473,35 +240,125 @@ source, because they were scoped from the docs. The new components follow the ex
 other seven libraries. These are lower priority than Phase 12's guards (the plan's own advice: defer new components until
 the static checks and keyboard-test work land).
 
+## Research findings (2026-10-29): competitive position
+
+A review of the seven rows in COMPARE.md §"Where the alternatives are stronger". Each row was checked against what the
+named competitors ship in October 2026 and against the tree on 2026-10-29. Detail, sources and the full per-row table:
+[spec/competitive-position](spec/competitive-position/index.md).
+
+### Assessment
+
+**The seven rows share one root cause: competitors win on evidence, and Lily wins on breadth.** Base UI (1.0 in
+December 2025), Ark UI and React Aria are trusted because their behaviour has years of exercise and because they
+publish how they test it. React Aria names its screen-reader and browser matrix. Carbon and USWDS publish conformance
+material. shadcn made copying a tool. Lily has 582 components × 8 frameworks, so every unit of proof costs it more than
+it costs them. Adding breadth widens the gap. Making proof cheaper and concentrating it closes the gap.
+
+What the research found, in brief:
+
+1. **COMPARE.md is partly out of date.**
+   - Ark UI now ships Svelte, so it covers React, Solid, Vue and Svelte through one Zag.js state machine per component.
+   - "Nothing else spans this range" holds only because Web Awesome, whose custom elements run in every framework, is
+     not in the matrix.
+   - Radix and React Aria are recommended in the prose but have no matrix column, and Base UI is absent.
+2. **Behaviour is ported by hand eight times.** Angular reached the 23 keyboard components on 2026-10-22, and RFC 3
+   records shipped defects in exactly that code. `shared/` holds navigation helpers but no popup or composite state
+   machines.
+3. **The platform has caught up, and Lily barely uses it.**
+   - Popover API is Baseline 2025, anchor positioning Baseline 2026, and command invokers were in Interop 2025.
+   - In Svelte, 14 components use `popover` and none uses `commandfor`.
+   - Native primitives are behaviour the browser vendors already test.
+4. **The copy path can use shadcn's tooling as it stands.** shadcn CLI 3 installs from any namespaced registry. Lily's
+   `/r/{slug}.json` uses its own schema, so `npx shadcn add` cannot read it.
+5. **The tokens are almost standard.** `color` and `dimension` follow DTCG 2025.10. The 114 `fluidDimension` tokens use
+   a type the spec does not define, so strict parsers reject them. There is no Resolver document.
+6. **Proof Lily could have today is missing.** All 20 rows of the screen-reader matrix are empty, there is no ACR, and
+   151 of 582 components are `stable`.
+7. **Support is undefined rather than absent.** There is no published support or deprecation policy and no second
+   publisher.
+
+### Advice, in priority order
+
+1. **Fix what COMPARE.md says** (P16-T1) and **fill the screen-reader matrix** (P16-T9). Both are cheap, and they are
+   the evidence everything else cites.
+2. **Use the platform and the standard** (P16-T4 native primitives, P16-T6 strict DTCG). These are mechanical changes,
+   and each one lowers future proof cost.
+3. **Concentrate proof on a named Core tier** (P16-T2), and **write the behaviour once** (P16-T3, which is how P12-T10
+   would be delivered). Claims outside Core say "beta", which answers RFC 1 without cutting the catalog.
+4. **Adopt shadcn's registry schema** rather than building `lily add` (P16-T5, which resolves P10-T6).
+5. **After Core exists**: a self-assessed ACR (P16-T7) and a funded external audit (P16-T8).
+6. **At any time**: a support policy and a second publisher (P16-T10), and public-sector reference versions (P16-T11).
+
+Not adopted: a Figma component library (P5-T5 stands), Zag.js as a dependency (it has no Angular, Blazor, Nunjucks or
+Alpine adapter), shadow DOM, and a default visual design.
+
+## Phase 16 — Competitive position (2026-10-29)
+
+Goal: make Lily's claims as strong as its competitors' by making proof cheaper and concentrating it, without adding
+breadth. Tasks P16-T1 to P16-T11 in [tasks.md](tasks.md); rationale in
+[spec/competitive-position](spec/competitive-position/index.md).
+
+1. **Truth**: COMPARE.md corrected and the matrix widened (T1).
+2. **Evidence**: the screen-reader matrix filled (T9), and a Core tier with a generated quality page (T2).
+3. **Cheaper proof**: one behaviour core with thin adapters (T3), and native primitives first (T4).
+4. **Standards, not rivals**: a shadcn-compatible registry (T5), and strict DTCG 2025.10 with a Resolver document (T6).
+5. **Assurance**: a self-assessed ACR (T7) and an audit funding application (T8).
+6. **Sustainability**: a support policy and a second publisher (T10), and public-sector reference versions (T11).
+
+Status 2026-10-29:
+
+- **Done:** T1, T2, T6, T7 and T11. Core has 0 of 40 candidates, because the evidence does not exist yet.
+- **Partly done:** T3 (the listbox machine, Svelte and React only), T4 (the audit, plus a `<select>` prototype in Svelte
+  only), T5 (React only; its CI job has not yet run on GitHub) and T10 (no second publisher yet).
+- **Open:** T8 and T9.
+  - T8: the NGI Zero Commons Fund closed, and NLnet's 2026-10 AI policy bars AI-written proposals.
+  - T9: needs a human screen-reader session.
+- **New findings to schedule:**
+  - five components claim `aria-modal` without trapping focus;
+  - no component uses the Popover API;
+  - the NHS England and NHS Scotland themes reference nhsuk-frontend 9.x, against 10.7.1 current;
+  - every Playwright config runs Chromium only.
+
+## Phase 20 — Investigate a SolidJS port (2026-10-30)
+
+Goal: decide, with evidence, whether Lily gains a SolidJS family as a peer of Svelte, React, Vue, Angular, Blazor,
+Nunjucks, HTML, Web Components and Alpine: a headless library, the helper packages and an example app. Investigation
+only; no port starts before the decision. Task P20-T1 in [tasks.md](tasks.md).
+
+1. **Fit**: Solid's JSX and fine-grained signals against Lily's contracts: rest-props (`splitProps`, never destructured
+   props), class hooks (`class`, not `className`), bindable open state, SSR with SolidStart, the Popover API and
+   `showModal()` paths, and whether the shared modules (`shared/listbox-machine.ts`, grid navigation) drop in unchanged.
+2. **Cost**: a spike porting a sample (one container, one form control, `Listbox`, `Dialog`, `DataTable` parts, one
+   picker) from the React headless library, measuring how mechanical the translation is; tests with
+   `@solidjs/testing-library` and Vitest; Storybook and docs-site support; the recurring cost of a tenth framework in
+   `bin/check-coverage`, `bin/check-class-names`, `bin/check-port-parity`, publishing, skills and the label-pack loaders.
+3. **Alternatives**: Solid renders custom elements well, so the Web Components catalog may already serve Solid users;
+   measure what they lose (typed props, SSR, events) before choosing a full port.
+4. **Decision**: port (all 583 components, the 20 helpers, a SolidStart example app), a partial port, or decline
+   with Web Components as the documented route, recorded in `spec/frameworks`.
+
 ## Sequencing and dependencies
 
-- Phase 1 first — registry hygiene and true claims before anything is
-  amplified; it also closes outreach Gates 2–4 prerequisites.
-- Phase 2 before any promotion push (help/outreach Gate 2).
-- Phase 3 before Phases 5–6 (site and examples reference the live
-  switcher and tokens).
-- Phase 4 can interleave with 3; its maturity labels feed Phase 5's
-  generated reference pages.
-- Phase 7 items 1–2 can land any time and are cheap wins.
+Finished phases (1 to 7 and 18), their sequencing notes and the original definition of done are in
+[spec/history](spec/history/index.md#improvement-plan-phases-completed-moved-from-planmd-on-2026-10-30).
+
 - Phase 13 is unscheduled and lower priority than Phase 12; see its own sequencing note.
+- Phase 16 has no hard dependency on Phase 12 except T3, which needs the P12-T10 decision.
+  - Do T1 and T9 first.
+  - T7 needs T2, and T2 needs T9.
+  - T5 resolves P10-T6.
+  - T4's `<select>` prototype is the evidence RFC 3 asks for.
+- Phase 20 is an investigation with no dependency; the spike reuses the React headless library as its source and
+  should follow the P12-T10 shared-core decision if that lands first.
 - Phase 12: static checks and frozen lockfiles first (they protect everything after), then behaviour tests, then
   the duplication work; P12-T8 and P12-T10 need a maintainer decision before any code.
 
-## Definition of done (whole plan)
+## Definition of done
 
-- `bin/test` and `bin/check-links` pass; spec §11 tables restamped.
-- All 7 headless libraries + all 35 helpers installable from a
-  registry; broken versions deprecated; tags and GitHub Releases
-  exist; consumer smoke tests run in CI.
-- Theme switching live in all 7 example apps; DTCG token source
-  generating the `--theme-*` layer; theme provenance recorded.
-- Accessibility statement published; maturity labels on all 491
-  components; full-catalog axe baseline recorded.
-- Site has news + roadmap routes; api-docs generated from canonical
-  metadata; migration guides published; no placeholder pages.
-- Flagship scenario live in all 7 apps with its pattern doc.
-- Outcomes folded back into `spec/index.md`, `CHANGELOG.md`, NEWS.md,
-  and RFC.md where a question is answered.
+- Each open phase is done when every one of its tasks in [tasks.md](tasks.md) is checked and its Verify line passes.
+- `bin/test` and `bin/check-links` pass.
+- Outcomes are folded back into `spec/` (the topic the phase changes), `CHANGELOG.md`, and `NEWS.md` where users see
+  them; a finished phase moves to [spec/history](spec/history/index.md#improvement-plan-phases-completed-moved-from-planmd-on-2026-10-30).
 
 ---
 

@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<tr class=\"kanban-table-row\"><td class=\"kanban-table-td\">Task 1</td></tr>";
   const svelteSource: string = "// In your Svelte component:\nimport KanbanTableRow from \"lily-design-system-svelte-headless/components/KanbanTableRow/KanbanTableRow.svelte\";\n\n<KanbanTableRow>\n  <!-- KanbanTableRow content -->\n</KanbanTableRow>\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import KanbanTableRow from \"./KanbanTableRow.svelte\";\n    import KanbanTableTD from \"../KanbanTableTD/KanbanTableTD.svelte\";\n<\/script>\n\n<KanbanTableRow>\n    <KanbanTableTD>Task A</KanbanTableTD>\n    <KanbanTableTD>Task B</KanbanTableTD>\n    <KanbanTableTD>Task C</KanbanTableTD>\n</KanbanTableRow>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import KanbanTableRow from \"./KanbanTableRow.svelte\";\n  import KanbanTableTD from \"../KanbanTableTD/KanbanTableTD.svelte\";\n<\/script>\n\n<KanbanTableRow>\n  <KanbanTableTD>Task A</KanbanTableTD>\n  <KanbanTableTD>Task B</KanbanTableTD>\n  <KanbanTableTD>Task C</KanbanTableTD>\n</KanbanTableRow>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

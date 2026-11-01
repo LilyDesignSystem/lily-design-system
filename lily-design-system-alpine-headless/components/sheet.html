@@ -2,14 +2,14 @@
 <!-- Sheet component (Alpine.js) -->
 <!--
   Description: a panel that slides in from a screen edge as an overlay
-  HTML tag: <div>
+  HTML tag: <dialog>
   CSS class: sheet
-  Keyboard: Escape closes and returns focus to the trigger; focus moves in on open
-  Accessibility: role="dialog" with aria-label, aria-modal="true"; tabindex -1 so it can take focus; data-side is for consumer CSS
+  Keyboard: focus moves in on open; Tab stays inside (showModal()); Escape or the native cancel event closes and returns focus to the trigger
+  Accessibility: native <dialog> opened with showModal() (open-attribute fallback where it is missing); aria-label names it; aria-modal="true" (true: the page behind is inert); tabindex -1 so it can take focus; data-side is for consumer CSS
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
-<div x-data="lilyOverlay(false)">
+<div x-data="lilyModalSurface(false)">
   <button
     class="sheet-trigger"
     x-bind="trigger"
@@ -17,11 +17,9 @@
   >
     <!-- Consumer provides trigger label -->
   </button>
-  <div
+  <dialog
     class="sheet"
     id="sheet-1"
-    role="dialog"
-    aria-modal="true"
     aria-label=""
     tabindex="-1"
     data-side="bottom"
@@ -34,5 +32,5 @@
     >
       <!-- Consumer provides close label -->
     </button>
-  </div>
+  </dialog>
 </div>

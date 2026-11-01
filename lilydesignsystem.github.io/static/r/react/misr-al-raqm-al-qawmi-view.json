@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "misr-al-raqm-al-qawmi-view",
+  "type": "registry:component",
+  "title": "MisrAlRaqmAlQawmiView",
+  "description": "A read-only display of Egypt's National Number.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/MisrAlRaqmAlQawmiView.tsx",
+      "content": "import React from \"react\";\n\n// MisrAlRaqmAlQawmiView component\n//\n// A headless display component for showing Egypt's\n// National Number (الرقم القومي) in a read-only format.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". The identifier string to display.\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <MisrAlRaqmAlQawmiView label=\"National Number (الرقم القومي)\" value={value} />\n//\n// Accessibility:\n//   - aria-label provides the accessible name so screen readers announce the purpose\n//\n// References:\n//   - https://en.wikipedia.org/wiki/Egyptian_National_Identity_Card\n\nexport interface MisrAlRaqmAlQawmiViewProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The identifier to display */\n    value?: string;\n    [key: string]: unknown;\n}\n\nexport default function MisrAlRaqmAlQawmiView({\n    className = \"\",\n    label,\n    value = \"\",\n    ...restProps\n}: MisrAlRaqmAlQawmiViewProps) {\n    return (\n        <span\n            className={`misr-al-raqm-al-qawmi-view ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {value}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/MisrAlRaqmAlQawmiView.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/misr-al-raqm-al-qawmi-view/"
+}

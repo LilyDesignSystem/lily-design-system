@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "affix",
+  "type": "registry:component",
+  "title": "Affix",
+  "description": "A wrapper that pins its content to a viewport position while the page scrolls.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Affix.tsx",
+      "content": "import React from \"react\";\n\n// Affix component\n//\n// A wrapper that pins its content to a viewport position while the page\n// scrolls. Uses CSS `position: sticky` as the headless behavior. Either\n// `offsetTop` or `offsetBottom` can be supplied (defaults to top: 0 if\n// neither is given). The values are also exposed as `data-offset-top` and\n// `data-offset-bottom` for consumer CSS hooks.\n//\n// Props:\n//   className     — string, optional. CSS class name.\n//   offsetTop     — number (px), optional. Distance from top edge when affixed.\n//   offsetBottom  — number (px), optional. Distance from bottom edge when affixed.\n//   children      — ReactNode, required. The pinned content.\n//   ...restProps  — additional HTML attributes spread onto the <div>.\n//\n// Syntax:\n//   <Affix offsetTop={16}>\n//     <nav>…</nav>\n//   </Affix>\n//\n// Examples:\n//\n//   <Affix offsetTop={0}>\n//     <header>Sticky header</header>\n//   </Affix>\n//\n//   <Affix offsetBottom={16}>\n//     <button>Back to top</button>\n//   </Affix>\n//\n// Accessibility:\n//   - Purely structural; does not add ARIA semantics.\n//\n// Internationalization:\n//   - No user-facing strings.\n//\n// Claude rules:\n//   - Headless: no CSS classes beyond the base + consumer className.\n//   - Inline `style` only for documented behavior (position: sticky).\n//\n// References:\n//   - Ant Design Affix: https://ant.design/components/affix\n//   - MDN position: sticky: https://developer.mozilla.org/en-US/docs/Web/CSS/position#sticky_positioning\n\nexport interface AffixProps {\n    className?: string;\n    /** Distance from top edge when affixed (px) */\n    offsetTop?: number;\n    /** Distance from bottom edge when affixed (px) */\n    offsetBottom?: number;\n    /** The pinned content */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Affix({\n    className = \"\",\n    offsetTop = undefined,\n    offsetBottom = undefined,\n    children,\n    ...restProps\n}: AffixProps) {\n    const hasTop: boolean = typeof offsetTop === \"number\";\n    const hasBottom: boolean = typeof offsetBottom === \"number\";\n    const style: React.CSSProperties = { position: \"sticky\" };\n    if (hasTop) {\n        style.top = `${offsetTop}px`;\n    } else if (hasBottom) {\n        style.bottom = `${offsetBottom}px`;\n    } else {\n        style.top = \"0\";\n    }\n    return (\n        <div\n            className={`affix ${className}`}\n            style={style}\n            data-offset-top={hasTop ? offsetTop : undefined}\n            data-offset-bottom={hasBottom ? offsetBottom : undefined}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Affix.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/affix/"
+}

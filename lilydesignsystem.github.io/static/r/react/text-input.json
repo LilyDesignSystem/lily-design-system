@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "text-input",
+  "type": "registry:component",
+  "title": "TextInput",
+  "description": "A single-line text input field <input type=\"text\">.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/TextInput.tsx",
+      "content": "import React from \"react\";\n\n// TextInput component\n//\n// A headless single-line text input that wraps the native HTML <input type=\"text\">\n// element. Used for entering short text values such as names, titles, or other\n// brief textual data. The component supports accessible labeling via aria-label\n// and two-way data binding through a bindable value prop.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name via aria-label.\n//   value — string, default \"\". Bindable text value; supports value + onChange.\n//   required — boolean, default false. Whether the field is required.\n//   disabled — boolean, default false. Whether the field is disabled.\n//   ...restProps — additional HTML attributes spread onto the <input>.\n//\n// Syntax:\n//   <TextInput label=\"Full name\" value={value} onChange={setValue} />\n//\n// Examples:\n//\n//   <TextInput label=\"Email\" value={email} onChange={setEmail} required />\n//\n//\n//   <TextInput label=\"Notes\" value={notes} onChange={setNotes} disabled />\n//\n// Keyboard:\n//   - None beyond native input behavior -- standard text editing keys\n//\n// Accessibility:\n//   - aria-label={label} provides an accessible name since no visible <label> is included\n//\n// Internationalization:\n//   - The label prop accepts any translated string\n//   - No hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles -- consumer provides all styling\n//   - Uses controlled for two-way data binding on value\n//   - Consumer can add placeholder, maxlength, pattern via restProps\n//\n// References:\n//   - MDN input type=\"text\": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text\n\nexport interface TextInputProps {\n    className?: string;\n    /** Accessible label. */\n    label: string;\n    /** Current value. Bindable. */\n    value?: string;\n    /** Whether required. */\n    required?: boolean;\n    /** Whether disabled. */\n    disabled?: boolean;\n    /** Callback when value changes. */\n    onChange?: (value: string) => void;\n    [key: string]: unknown;\n}\n\nexport default function TextInput({\n    className = \"\",\n    label,\n    value = \"\",\n    required = false,\n    disabled = false,\n    onChange,\n    ...restProps\n}: TextInputProps) {\n    return (\n        <input\n            className={`text-input ${className}`}\n            type=\"text\"\n            aria-label={label}\n            value={value}\n            onChange={(e) => onChange?.(e.target.value)}\n            required={required}\n            disabled={disabled}\n            {...restProps}\n        />\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/TextInput.tsx"
+    }
+  ],
+  "categories": [
+    "forms"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/text-input/"
+}

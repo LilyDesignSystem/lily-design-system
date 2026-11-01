@@ -29,7 +29,7 @@ public sealed record CriticalPathOptions
     /// <summary>What a dependency's lag counts. Default <see cref="CriticalPathLagUnit.Days"/>.</summary>
     public CriticalPathLagUnit LagUnit { get; init; } = CriticalPathLagUnit.Days;
 
-    /// <summary>Working days only: the weekdays nobody works, 0 = Sunday … 6 = Saturday. Default Saturday and Sunday.</summary>
+    /// <summary>Working days only: the weekdays nobody works, 0 = Sunday … 6 = Saturday. Required with <c>WorkingDays</c> (never defaulted; empty = no weekend); omitting it throws <see cref="ArgumentException"/>.</summary>
     public IReadOnlyList<int>? Weekends { get; init; }
 
     /// <summary>Working days only: dated closures (holidays, leave).</summary>
@@ -66,7 +66,9 @@ public static class CriticalPath
     {
         if (options is null || options.LagUnit != CriticalPathLagUnit.WorkingDays)
             return ((day, n) => day + n, _ => true);
-        var weekend = new HashSet<int>(options.Weekends ?? new[] { 0, 6 });
+        if (options.Weekends is null)
+            throw new ArgumentException("CriticalPath: LagUnit WorkingDays requires Weekends (weekday numbers, 0 = Sunday … 6 = Saturday; empty for none). It is never defaulted: weekends differ by country.", nameof(options));
+        var weekend = new HashSet<int>(options.Weekends);
         var closed = new HashSet<long>();
         foreach (var range in options.Unavailable ?? Array.Empty<CriticalPathClosure>())
         {

@@ -2,7 +2,7 @@
   "slug": "united-kingdom-national-health-service-number-view",
   "name": "UnitedKingdomNationalHealthServiceNumberView",
   "description": "a read-only display of a UK NHS number",
-  "htmlTag": "div",
+  "htmlTag": "span",
   "category": "national",
   "baseClass": ".united-kingdom-national-health-service-number-view",
   "subClasses": [],

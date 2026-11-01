@@ -2,14 +2,69 @@
 
 @*
     DateTimeNowInput component
-    an input for entering a date and time and "now" button <input type="date"><input type="time"><button type="button">
+    A labelled <div role="group"> holding an <input type="date">, an <input type="time"> and a
+    <button type="button"> that sets both to the current local date and time. DateValue (YYYY-MM-DD)
+    and TimeValue (HH:mm) are bindable (@bind-DateValue, @bind-TimeValue).
+
+    DateLabel, TimeLabel and NowLabel have no default (no English from us): a missing one leaves its
+    control unnamed. LocaleTranslations.DateTimeNowInputLabels(locale) in
+    LilyDesignSystem.Blazor.LocaleTranslations gives all three in 64 locales.
 *@
 
-<div class="@($"date-time-now-input {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"date-time-now-input {CssClass}".Trim())" role="group" aria-label="@Label" @attributes="AdditionalAttributes">
+    <input type="date"
+           aria-label="@DateLabel"
+           value="@DateValue"
+           @oninput="e => SetDate((string?)e.Value ?? string.Empty)"
+           required="@Required"
+           disabled="@Disabled" />
+    <input type="time"
+           aria-label="@TimeLabel"
+           value="@TimeValue"
+           @oninput="e => SetTime((string?)e.Value ?? string.Empty)"
+           required="@Required"
+           disabled="@Disabled" />
+    <button type="button" aria-label="@NowLabel" disabled="@Disabled" @onclick="SetNow">@NowLabel</button>
+</div>
 
 @code {
+    /// <summary>Accessible name of the group.</summary>
     [Parameter, EditorRequired] public string Label { get; set; } = "";
-    [Parameter] public RenderFragment? ChildContent { get; set; }
+    /// <summary>Accessible name of the date input (from a locale pack).</summary>
+    [Parameter, EditorRequired] public string? DateLabel { get; set; }
+    /// <summary>Accessible name of the time input (from a locale pack).</summary>
+    [Parameter, EditorRequired] public string? TimeLabel { get; set; }
+    /// <summary>Text and accessible name of the Now button (from a locale pack).</summary>
+    [Parameter, EditorRequired] public string? NowLabel { get; set; }
+    /// <summary>The date, YYYY-MM-DD.</summary>
+    [Parameter] public string DateValue { get; set; } = "";
+    [Parameter] public EventCallback<string> DateValueChanged { get; set; }
+    /// <summary>The time, HH:mm.</summary>
+    [Parameter] public string TimeValue { get; set; } = "";
+    [Parameter] public EventCallback<string> TimeValueChanged { get; set; }
+    /// <summary>Whether both inputs are required for form submission.</summary>
+    [Parameter] public bool Required { get; set; }
+    /// <summary>Disables both inputs and the button.</summary>
+    [Parameter] public bool Disabled { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private async Task SetDate(string value)
+    {
+        DateValue = value;
+        await DateValueChanged.InvokeAsync(value);
+    }
+
+    private async Task SetTime(string value)
+    {
+        TimeValue = value;
+        await TimeValueChanged.InvokeAsync(value);
+    }
+
+    private async Task SetNow()
+    {
+        var now = DateTime.Now;
+        await SetDate(now.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture));
+        await SetTime(now.ToString("HH:mm", System.Globalization.CultureInfo.InvariantCulture));
+    }
 }

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "multi-select-with-extras",
+  "type": "registry:component",
+  "title": "MultiSelectWithExtras",
+  "description": "A multiple-choice select with additional features like search, groups, or selected-value chips.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "registryDependencies": [
+    "@lily/form-reset-utils"
+  ],
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/MultiSelectWithExtras.tsx",
+      "content": "\"use client\";\n\n// MultiSelectWithExtras component\n//\n// A wrapper <div> with optional before/after content around a native\n// <select multiple>. The accessible name sits on the select, not the wrapper.\n//\n// Props:\n//   className -- string, optional. CSS class name (wrapper).\n//   label -- string, required. aria-label on the <select>.\n//   value -- string[], default []. Selected values; onChange receives the array.\n//   size -- number, optional. Visible rows.\n//   required, disabled -- standard form props (on the select).\n//   before, after -- ReactNode, optional. Content around the select.\n//   children -- Option elements.\n//   ...restProps -- spread onto the wrapper <div>.\n//\n// Keyboard: native <select multiple>.\n\nimport React, { useEffect, useRef, useState } from \"react\";\nimport { useFormReset } from \"./form-reset\";\n\nexport interface MultiSelectWithExtrasProps {\n    className?: string;\n    /** Accessible label (on the select). */\n    label: string;\n    /** Selected values. Bindable. */\n    value?: string[];\n    /** Visible rows. */\n    size?: number;\n    /** Whether required. */\n    required?: boolean;\n    /** Whether disabled. */\n    disabled?: boolean;\n    /** Option elements. */\n    children?: React.ReactNode;\n    /** Content before the select. */\n    before?: React.ReactNode;\n    /** Content after the select. */\n    after?: React.ReactNode;\n    /** Callback when the selection changes. */\n    onChange?: (value: string[]) => void;\n    [key: string]: unknown;\n}\n\nexport default function MultiSelectWithExtras({\n    className = \"\",\n    label,\n    value: valueProp = [],\n    size = undefined,\n    required = false,\n    disabled = false,\n    before,\n    after,\n    onChange,\n    children,\n    ...restProps\n}: MultiSelectWithExtrasProps) {\n    const [value, setValue] = useState<string[]>(valueProp);\n    const key = valueProp.join(\"\\u0000\");\n    const selectRef = useRef<HTMLSelectElement>(null);\n    const initialValue = useRef(valueProp);\n\n    // Form reset: restore the initial selection and tell the consumer.\n    useFormReset(selectRef, () => {\n        setValue(initialValue.current);\n        onChange?.(initialValue.current);\n    });\n    useEffect(() => {\n        setValue(valueProp);\n        // eslint-disable-next-line react-hooks/exhaustive-deps\n    }, [key]);\n\n    return (\n        <div\n            className={`multi-select-with-extras ${className}`}\n            {...restProps}\n        >\n            {before && before}\n            <select\n                ref={selectRef}\n                multiple\n                aria-label={label}\n                size={size}\n                value={value}\n                onChange={(e) => {\n                    const next = Array.from(e.target.selectedOptions).map((o) => o.value);\n                    setValue(next);\n                    onChange?.(next);\n                }}\n                required={required}\n                disabled={disabled}\n            >\n                {children}\n            </select>\n            {after && after}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/MultiSelectWithExtras.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/multi-select-with-extras/"
+}

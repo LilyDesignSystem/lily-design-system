@@ -79,7 +79,7 @@
 </script>
 
 <script lang="ts">
-    import { tick } from "svelte";
+    import { tick, untrack } from "svelte";
     import {
         EMPTY_FILTER,
         addNode,
@@ -121,6 +121,31 @@
         value = next;
         onChange?.(next);
     }
+
+    // Form reset (tasks.md P10-T9): inside a <form>, a reset rewrites every editor field's DOM to its empty default
+    // without telling this component, so the fields would show "" while `value` keeps the user's filter. Restore the
+    // filter it started with, one tick later (after the browser has reset the DOM) and not when the reset was
+    // cancelled, and re-create the editor (`resets` keys it) so every field, touched or not, is redrawn from the model.
+    const initialValue = untrack(() => value);
+    let resets = $state(0);
+    $effect(() => {
+        const form = rootEl?.closest("form");
+        if (!form) return;
+        let timer: ReturnType<typeof setTimeout> | undefined;
+        const onReset = (event: Event) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                if (event.defaultPrevented) return;
+                commit(initialValue);
+                resets += 1;
+            }, 0);
+        };
+        form.addEventListener("reset", onReset);
+        return () => {
+            clearTimeout(timer);
+            form.removeEventListener("reset", onReset);
+        };
+    });
 
     function announce(message: string | undefined): void {
         if (message) statusMessage = message;
@@ -422,7 +447,9 @@
     data-readonly={readonly ? "" : undefined}
     {...restProps}
 >
-    {@render groupView(value, 1, null)}
+    {#key resets}
+        {@render groupView(value, 1, null)}
+    {/key}
     {#if format && labels.output}
         <div
             class="filter-output"

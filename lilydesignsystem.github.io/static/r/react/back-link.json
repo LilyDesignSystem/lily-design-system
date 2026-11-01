@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "back-link",
+  "type": "registry:component",
+  "title": "BackLink",
+  "description": "A navigation link to return to a previous page.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/BackLink.tsx",
+      "content": "import React from \"react\";\n\n// BackLink component\n//\n// A headless navigation link for returning to a previous page or step.\n// Renders as a semantic <a> element with optional aria-label override.\n// Inspired by the GOV.UK back link pattern. Commonly placed at the top of\n// a page to let users return to the previous step in a multi-step flow,\n// or navigate up to a parent page.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   href     — string, required. The URL to navigate back to.\n//   label    — string, optional. Accessible label override via aria-label,\n//              for when visible link text is insufficient for screen readers.\n//   children — ReactNode, required. The link content (text or mixed content).\n//   ...restProps — additional HTML attributes spread onto <a>.\n//\n// Syntax:\n//   <BackLink href=\"/previous\">Back</BackLink>\n//\n// Examples:\n//\n//   <BackLink href=\"/previous-page\">Back to previous page</BackLink>\n//\n//\n//   <BackLink href=\"/dashboard\" label=\"Return to dashboard\">Back</BackLink>\n//\n//\n//   <BackLink href=\"/step-2\" data-step=\"3\">Go back</BackLink>\n//\n// Keyboard:\n//   - Tab: Focus the link (native browser behavior)\n//   - Enter: Activate the link (native browser behavior)\n//\n// Accessibility:\n//   - Implicit link role from the <a> element\n//   - aria-label provides screen reader override when visible text is brief\n//   - Place at the top of the page, before the main heading\n//\n// Internationalization:\n//   - Link text comes through children prop\n//   - Label override comes through label prop\n//   - No hardcoded strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Consumer adds back arrow icon or visual indicator\n//   - Always require href; do not use <a> without href\n//\n// References:\n//   - GOV.UK back link pattern: https://design-system.service.gov.uk/components/back-link/\n\nexport interface BackLinkProps {\n    className?: string;\n    /** The URL to navigate back to */\n    href: string;\n    /** Accessible label override for screen readers */\n    label?: string;\n    /** The link content */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function BackLink({\n    className = \"\",\n    href,\n    label = undefined,\n    children,\n    ...restProps\n}: BackLinkProps) {\n    return (\n        <a\n            className={`back-link ${className}`}\n            href={href}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </a>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/BackLink.tsx"
+    }
+  ],
+  "categories": [
+    "links"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/back-link/"
+}

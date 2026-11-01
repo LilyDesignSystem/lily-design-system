@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<article class=\"place\"><h3>London, UK</h3><p>Design headquarters.</p></article>";
   const svelteSource: string = "// In your Svelte component:\nimport Place from \"lily-design-system-svelte-headless/components/Place/Place.svelte\";\n\n<Place>\n  <!-- content -->\n</Place>\n";
-  const usageCode: string = "<Place label=\"Riverside Clinic, 42 Thames Road, London\">\n  <h3>Riverside Clinic</h3>\n  <address>42 Thames Road, London SE1 7PB</address>\n  <p>Walk-in clinic open Monday to Friday, 08:00 to 18:00.</p>\n  <TelLink href=\"tel:+442079876543\">020 7987 6543</TelLink>\n  <Image src=\"/maps/riverside-clinic.png\" label=\"Map showing Riverside Clinic location\" />\n</Place>\n";
+  const usageCode: string = "<Place label=\"Riverside Clinic, 42 Thames Road, London\">\n  <h3>Riverside Clinic</h3>\n  <address>42 Thames Road, London SE1 7PB</address>\n  <p>Walk-in clinic open Monday to Friday, 08:00 to 18:00.</p>\n  <TelLink href=\"tel:+442079876543\">020 7987 6543</TelLink>\n  <image\n    src=\"/maps/riverside-clinic.png\"\n    label=\"Map showing Riverside Clinic location\"\n  />\n</Place>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

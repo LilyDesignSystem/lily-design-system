@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "month-input",
+  "type": "registry:component",
+  "title": "MonthInput",
+  "description": "An input for selecting a month and year <input type=\"month\">.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/MonthInput.tsx",
+      "content": "import React from \"react\";\n\n// MonthInput component\n//\n// A headless month input that wraps a native <input type=\"month\"> element with\n// accessible labelling for selecting a month and year. It provides a bindable\n// value in YYYY-MM format and supports required and disabled states. Useful for\n// credit card expiration dates, report periods, billing cycles, or any date\n// selection at month granularity.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name for the input via aria-label.\n//   value — string, default \"\". Current month value in YYYY-MM format; bindable via controlled.\n//   required — boolean, default false. Whether the input is required.\n//   disabled — boolean, default false. Whether the input is disabled.\n//   ...restProps — additional HTML attributes spread onto the <input>.\n//\n// Syntax:\n//   <MonthInput label=\"Start month\" value={value} onChange={setValue} />\n//\n// Examples:\n//\n//   <MonthInput label=\"Start month\" value={value} onChange={setValue} />\n//\n//\n//   <MonthInput label=\"Expiration\" value={value} onChange={setValue} required min=\"2024-01\" max=\"2030-12\" />\n//\n// Keyboard:\n//   - Native browser month input keyboard behavior (varies by browser).\n//\n// Accessibility:\n//   - aria-label={label} provides an accessible name describing the input purpose\n//   - Supports required and disabled HTML states\n//\n// Internationalization:\n//   - The label prop accepts any translated string\n//   - No hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Value format is always YYYY-MM per the HTML spec\n//\n// References:\n//   - HTML month input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/month\n\nexport interface MonthInputProps {\n    className?: string;\n    label: string;\n    value?: string;\n    required?: boolean;\n    disabled?: boolean;\n    /** Callback when value changes. */\n    onChange?: (value: string) => void;\n    [key: string]: unknown;\n}\n\nexport default function MonthInput({\n    className = \"\",\n    label,\n    value = \"\",\n    required = false,\n    disabled = false,\n    onChange,\n    ...restProps\n}: MonthInputProps) {\n    return (\n        <input\n            className={`month-input ${className}`}\n            type=\"month\"\n            aria-label={label}\n            value={value}\n            onChange={(e) => onChange?.(e.target.value)}\n            required={required}\n            disabled={disabled}\n            {...restProps}\n        />\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/MonthInput.tsx"
+    }
+  ],
+  "categories": [
+    "forms"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/month-input/"
+}

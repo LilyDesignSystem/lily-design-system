@@ -49,7 +49,8 @@
 //   - ARIA Error Handling: https://www.w3.org/WAI/WCAG22/Techniques/aria/ARIA21
 //   - WAI Forms Tutorial: https://www.w3.org/WAI/tutorials/forms/
 
-import { computed, useId } from "vue";
+import { computed, useId, ref } from "vue";
+import { useFormReset } from "./form-reset";
 
 const props = withDefaults(
     defineProps<{
@@ -76,6 +77,8 @@ const props = withDefaults(
 );
 
 const modelValue = defineModel<string>({ default: "" });
+const field = ref<HTMLInputElement | HTMLTextAreaElement | null>(null);
+useFormReset(modelValue, field);
 
 const inputId = computed(() => props.id ?? generatedId);
 
@@ -94,6 +97,7 @@ const generatedId = `date-field-${useId()}`;
             class="date-input"
             :id="inputId"
             type="date"
+            ref="field"
             v-model="modelValue"
             :required="required"
             :disabled="disabled"

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "check-list",
+  "type": "registry:component",
+  "title": "CheckList",
+  "description": "An ordered list of check list item components.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/CheckList.tsx",
+      "content": "import React from \"react\";\n\n// CheckList component\n//\n// A headless semantic list container for CheckList items. Renders a <ul> with\n// role=\"list\" for tracking and managing tasks, options, or steps. Consumers\n// provide <li> children with checkboxes or other interactive controls. Commonly\n// used in to-do lists, onboarding flows, forms, and progress tracking interfaces.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, optional. Accessible name for the CheckList via aria-label.\n//   children — ReactNode, required. List items to render inside the <ul>.\n//   ...restProps — additional HTML attributes spread onto the <ul>.\n//\n// Syntax:\n//   <CheckList label=\"Tasks\">\n//     <CheckListItem>Task one</CheckListItem>\n//   </CheckList>\n//\n// Examples:\n//\n//   <CheckList label=\"Onboarding tasks\">\n//     <CheckListItem checked>Create account</CheckListItem>\n//     <CheckListItem>Set up profile</CheckListItem>\n//     <CheckListItem>Invite team members</CheckListItem>\n//   </CheckList>\n//\n// Keyboard:\n//   None — this is a passive container. Keyboard interactions are determined\n//   by the consumer-provided child elements (e.g., checkboxes respond to Space).\n//\n// Accessibility:\n//   - role=\"list\" ensures assistive technologies treat it as a list\n//   - aria-label provides an optional accessible name for the CheckList\n//\n// Internationalization:\n//   - Label text comes through the label prop; no hardcoded strings\n//   - Item content is provided by the consumer\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Compound component: parent container for CheckListItem children\n//\n// References:\n//   - WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/listbox/\n\nexport interface CheckListProps {\n    className?: string;\n    label?: string;\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function CheckList({\n    className = \"\",\n    label = undefined,\n    children,\n    ...restProps\n}: CheckListProps) {\n    return (\n        <ol\n            className={`check-list ${className}`}\n            role=\"list\"\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </ol>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/CheckList.tsx"
+    }
+  ],
+  "categories": [
+    "lists"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/check-list/"
+}

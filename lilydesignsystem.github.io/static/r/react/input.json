@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "input",
+  "type": "registry:component",
+  "title": "Input",
+  "description": "A generic HTML input element.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Input.tsx",
+      "content": "import React from \"react\";\n\n// Input component\n//\n// A foundational form input component for text entry with accessible labeling and\n// two-way value binding. Renders a native <input> element supporting various HTML\n// input types such as text, email, password, number, search, and more. Provides\n// required and disabled attributes and spreads additional props for full consumer control.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name applied via aria-label.\n//   value — string, default \"\". Bindable current input value via value + onChange.\n//   type — string, default \"text\". HTML input type attribute (e.g., \"text\", \"email\", \"password\", \"number\").\n//   required — boolean, default false. Whether the input is required for form submission.\n//   disabled — boolean, default false. Whether the input is disabled.\n//   ...restProps — additional HTML attributes spread onto the input element.\n//\n// Syntax:\n//   <Input label=\"Search\" value={value} onChange={setValue} />\n//\n// Examples:\n//\n//   <Input label=\"Search\" value={value} onChange={setValue} />\n//\n//\n//   <Input label=\"Name\" value={value} onChange={setValue} type=\"text\" required />\n//\n//\n//   <Input label=\"Email address\" value={value} onChange={setValue} type=\"email\" required disabled={isSubmitting} />\n//\n// Keyboard:\n//   - Tab: Focus the input (native browser behavior)\n//   - Standard text editing keys are supported natively\n//\n// Accessibility:\n//   - aria-label provides an accessible name since there is no built-in visible <label> element\n//   - Consumer can add aria-describedby for linked hint text\n//\n// Internationalization:\n//   - The label prop allows localized accessible names; no hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Uses controlled for two-way binding of the input text\n//   - Consumer can pass placeholder, maxlength, pattern, etc. via restProps\n//\n// References:\n//   - MDN Input element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input\n//   - WAI Forms Tutorial: https://www.w3.org/WAI/tutorials/forms/\n\nexport interface InputProps {\n    className?: string;\n    label: string;\n    value?: string;\n    type?: string;\n    required?: boolean;\n    disabled?: boolean;\n    /** Callback when value changes. */\n    onChange?: (value: string) => void;\n    [key: string]: unknown;\n}\n\nexport default function Input({\n    className = \"\",\n    label,\n    value = \"\",\n    type = \"text\",\n    required = false,\n    disabled = false,\n    onChange,\n    ...restProps\n}: InputProps) {\n    return (\n        <input\n            className={`input ${className}`}\n            type={type}\n            aria-label={label}\n            value={value}\n            onChange={(e) => onChange?.(e.target.value)}\n            required={required}\n            disabled={disabled}\n            {...restProps}\n        />\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Input.tsx"
+    }
+  ],
+  "categories": [
+    "forms"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/input/"
+}

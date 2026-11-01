@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<label class=\"label\" for=\"demo-input\">Label</label><input class=\"eesti-isikukood-input\" id=\"demo-input\" aria-label=\"an input for entering Estonia's Isikukood (IK)\" />";
   const svelteSource: string = "// In your Svelte component:\nimport EestiIsikukoodInput from \"lily-design-system-svelte-headless/components/EestiIsikukoodInput/EestiIsikukoodInput.svelte\";\n\n<EestiIsikukoodInput label=\"Label\" />\n";
-  const usageCode: string = "<Field label=\"Personal Identification Code\" required>\n  <EestiIsikukoodInput label=\"Personal Identification Code\" value={value} required />\n  <Hint>11 digits in the form GYYMMDDSSSC: G is sex and century (odd male, even female</Hint>\n  <ErrorMessage>Please enter a valid Personal Identification Code</ErrorMessage>\n</Field>\n";
+  const usageCode: string = "<Field\n  label=\"Personal Identification Code\"\n  required\n>\n  <EestiIsikukoodInput\n    label=\"Personal Identification Code\"\n    value=\"{value}\"\n    required\n  />\n  <Hint>11 digits in the form GYYMMDDSSSC: G is sex and century (odd male, even female</Hint>\n  <ErrorMessage>Please enter a valid Personal Identification Code</ErrorMessage>\n</Field>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

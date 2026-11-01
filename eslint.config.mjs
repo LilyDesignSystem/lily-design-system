@@ -1,6 +1,5 @@
 // Repo-level ESLint flat config. Errors fail; warnings are reported only.
-// Scope is set by the "lint" script in package.json (the Svelte, React and Vue
-// headless libraries); widen it there as other libraries are cleaned.
+// Scope is set by the "lint" script in package.json (every lily-design-system-* subproject plus shared/).
 import js from "@eslint/js";
 import ts from "typescript-eslint";
 import svelte from "eslint-plugin-svelte";
@@ -16,6 +15,20 @@ export default [
             "**/.svelte-kit/**",
             "**/build/**",
             "**/*.stories.*",
+            "**/.next/**",
+            "**/.nuxt/**",
+            "**/.output/**",
+            "**/.analog/**",
+            "**/.angular/**",
+            "**/_site/**",
+            "**/obj/**",
+            "**/coverage/**",
+            "**/playwright-report/**",
+            "**/test-results/**",
+            "**/*.d.ts",
+            // Prettier-ignored and not parseable by Svelte (duplicate attribute, deliberate).
+            "lily-design-system-svelte-locale-picker/examples/ssr-cookie.svelte",
+            "**/*.min.js",
         ],
     },
     { linterOptions: { reportUnusedDisableDirectives: "off" } },
@@ -35,6 +48,69 @@ export default [
             // effect, ref reads in render). Reported, not fatal, until each is reworked.
             "react-hooks/set-state-in-effect": "warn",
             "react-hooks/refs": "warn",
+            "react-hooks/immutability": "warn",
+            "react-hooks/use-memo": "warn",
+            "react-hooks/purity": "warn",
+        },
+    },
+    {
+        // Test globals (describe/it/expect/vi/beforeEach...) for any runner the libraries use.
+        files: ["**/*.{test,spec}.{js,mjs,cjs,ts,tsx}", "**/__tests__/**/*.{js,ts,tsx}"],
+        languageOptions: {
+            globals: {
+                ...globals.jest,
+                ...globals.vitest,
+                vi: "readonly",
+                vitest: "readonly",
+                // WebdriverIO (the HTML headless tests)
+                browser: "readonly",
+                driver: "readonly",
+                $: "readonly",
+                $$: "readonly",
+            },
+        },
+    },
+    {
+        // CommonJS libraries (HTML and Nunjucks headless): require() is how they import.
+        files: ["**/*.js", "**/*.cjs"],
+        rules: { "@typescript-eslint/no-require-imports": "off" },
+    },
+    {
+        // Nuxt auto-imports (useHead, useRoute, computed, ...).
+        files: [
+            "lily-design-system-vue-nuxt-examples/**/*.{vue,ts}",
+            "**/examples/nuxt-cookie/**/*.{vue,ts}",
+        ],
+        languageOptions: {
+            globals: Object.fromEntries(
+                [
+                    "useHead",
+                    "useRoute",
+                    "useRouter",
+                    "useNuxtApp",
+                    "useState",
+                    "useFetch",
+                    "createError",
+                    "computed",
+                    "ref",
+                    "reactive",
+                    "watch",
+                    "onMounted",
+                    "definePageMeta",
+                    "navigateTo",
+                ].map((n) => [n, "readonly"]),
+            ),
+        },
+    },
+    {
+        // Reported, not fatal, until each is reworked (see tasks.md P12-T3).
+        rules: {
+            "svelte/prefer-svelte-reactivity": "warn",
+            "svelte/no-at-html-tags": "warn",
+            "svelte/no-useless-mustaches": "warn",
+            "svelte/no-dom-manipulating": "warn",
+            "vue/no-dupe-keys": "warn",
+            "no-regex-spaces": "warn",
         },
     },
     {
@@ -50,6 +126,17 @@ export default [
                     caughtErrorsIgnorePattern: "^_",
                 },
             ],
+            // Export code strips control characters from cells on purpose.
+            "no-control-regex": "off",
+            "no-empty": ["error", { allowEmptyCatch: true }],
+            "no-irregular-whitespace": "warn",
+            "prefer-const": "warn",
+            "no-unused-private-class-members": "warn",
+            // `cond ? a() : b()` as a statement is how the Alpine plugin picks showModal / setAttribute.
+            "@typescript-eslint/no-unused-expressions": [
+                "error",
+                { allowTernary: true, allowShortCircuit: true },
+            ],
             // Component names are fixed by the catalog (Button, Card, ...).
             "vue/multi-word-component-names": "off",
             // Fixed-length lists (five stars, 0-10 scores) are keyed by position.
@@ -59,5 +146,18 @@ export default [
             // Headless links navigate with plain hrefs; routing is the consumer's.
             "svelte/no-navigation-without-resolve": "off",
         },
+    },
+    {
+        files: ["**/*.svelte"],
+        rules: {
+            // Svelte 5 runes and `$props` destructuring read as import assignments to this rule.
+            "no-import-assign": "off",
+            // Reported until each statement-expression is rewritten.
+            "@typescript-eslint/no-unused-expressions": "warn",
+        },
+    },
+    {
+        // Prettier owns line breaks; it can place a `[i]` access on the next line.
+        rules: { "no-unexpected-multiline": "off" },
     },
 ];

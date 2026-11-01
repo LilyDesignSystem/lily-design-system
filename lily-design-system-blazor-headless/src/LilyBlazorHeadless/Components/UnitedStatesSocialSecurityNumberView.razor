@@ -5,7 +5,7 @@
     a read-only display of a US Social Security number
 *@
 
-<div class="@($"united-states-social-security-number-view {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<span class="@($"united-states-social-security-number-view {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</span>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

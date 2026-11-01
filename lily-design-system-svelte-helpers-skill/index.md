@@ -3,8 +3,9 @@
 A Claude Skill ([`SKILL.md`](SKILL.md)) that explains
 [the Svelte helper packages](../spec/helpers/index.md#svelte-helper-packages),
 the **canonical** reference for Lily's helpers, one top-level
-subproject per package (the ten `*-picker` helpers, `picker-bar`, and the
-data-grid, kanban-board, gantt-chart and calendar packages): their
+subproject per package (the eleven `*-picker` helpers, `picker-bar`, the
+data-grid, kanban-board, gantt-chart, calendar and filter packages, the
+Markdown and Org editors, and `locale-translations`): their
 npm package names and install idiom, the shared icon-button-opens-popup
 contract, and the idempotent-apply rule
 that guards against a real Svelte `effect_update_depth_exceeded` freeze.
@@ -38,5 +39,5 @@ source of truth.
 Scaffolded to the same full-subproject bar as its siblings
 (`lily-design-system-skill`, `lily-design-system-maintainer-skill`,
 `lily-design-system-svelte-headless-skill`) — including the required
-`index.md`, `README.md` symlink, `AGENTS.md`, `CLAUDE.md`, `spec/index.md` — and lives only in this monorepo (its standalone subtree
+`index.md`, `README.md` symlink, `AGENTS.md`, `spec/index.md` — and lives only in this monorepo (its standalone subtree
 repository was deleted 2026-10-10).

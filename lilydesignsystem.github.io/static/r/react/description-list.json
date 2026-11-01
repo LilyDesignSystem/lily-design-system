@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "description-list",
+  "type": "registry:component",
+  "title": "DescriptionList",
+  "description": "A definition list displaying information in key-value format <dl>.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/DescriptionList.tsx",
+      "content": "export interface DescriptionListProps {\n    className?: string;\n    label?: string;\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function DescriptionList({\n    className = \"\",\n    label = undefined,\n    children,\n    ...restProps\n}: DescriptionListProps) {\n    return (\n        <dl\n            className={`description-list ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </dl>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/DescriptionList.tsx"
+    }
+  ],
+  "categories": [
+    "lists"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/description-list/"
+}

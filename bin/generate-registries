@@ -382,6 +382,146 @@ const htmlEntry = (c, indent) => {
   write(p, [...lines.slice(0, first), ...block, ...lines.slice(last + 1)].join("\n"));
 }
 
+// ---------- shadcn registry for React headless (P16-T5) ----------
+//
+// lilydesignsystem.github.io/static/r/react/registry.json and
+// /r/react/{slug}.json in shadcn's own registry schema
+// (https://ui.shadcn.com/schema/registry.json, registry-item.json), so
+// `npx shadcn add @lily/<slug>` copies a component into a project. These
+// sit beside, and never replace, Lily's own metadata manifests
+// /r/{slug}.json (bin/generate-api-docs).
+//
+// Each item inlines its file content, as `shadcn build` would emit. Every
+// file targets @components/lily/, one flat directory, so the components'
+// relative imports (./ScrollerBase, ./form-reset) keep working unchanged.
+// A sibling import becomes a registryDependency on @lily/<item>; a shared
+// helper module (*.ts) is its own registry:lib item, "<module>-utils",
+// since two helpers share a name with a component. A bare npm import other
+// than react becomes an npm dependency. Files that call a React hook get a
+// leading "use client" directive, the shadcn convention, so they work in a
+// Next.js App Router project; a hook-free component stays a server
+// component. The only other change to a file is where its header comment
+// sits (preserveHeader below).
+//
+// Skipped when the React headless library is absent (the golden fixture).
+
+{
+  const srcDir = "lily-design-system-react-headless/components";
+  const outDir = "lilydesignsystem.github.io/static/r/react";
+  if (fs.existsSync(path.join(top, srcDir))) {
+    const SITE = "https://lilydesignsystem.com";
+    const NS = "@lily";
+    const SCHEMA_ITEM = "https://ui.shadcn.com/schema/registry-item.json";
+    const helperName = (mod) => `${mod}-utils`;
+    const slugOfName = Object.fromEntries(components.map((c) => [c.name, c.slug]));
+    const imports = (src) =>
+      [...src.matchAll(/^\s*(?:import|export)\b[^'"]*?\bfrom\s+["']([^"']+)["']/gm)].map((m) => m[1]);
+    const usesHook = (src) => /\buse[A-Z]\w*\s*\(/.test(src);
+    // shadcn add (CLI 4.x) drops the comments that lead a file, which is
+    // where each Lily component documents its props, keyboard and ARIA. A
+    // comment that follows a statement survives, so the header goes after
+    // the "use client" directive, or else after the import block. A file
+    // with neither (an interface first) loses its header in the copy; its
+    // docs URL is in the item.
+    const preserveHeader = (src, client) => {
+      const header = (src.match(/^(?:[ \t]*\/\/[^\n]*\n|[ \t]*\n)+/) || [""])[0];
+      if (client) return `"use client";\n\n${src}`;
+      if (!header.trim()) return src;
+      const rest = src.slice(header.length);
+      const block = (rest.match(/^(?:import\b[^;]*?["'][^"']+["'];?[ \t]*\n|[ \t]*\n)+/) || [""])[0];
+      if (!block.trim()) return src;
+      return `${block.trimEnd()}\n\n${header.trimEnd()}\n\n${rest.slice(block.length).trimStart()}`;
+    };
+
+    const items = {}; // item name → registry item
+    const helpers = new Set();
+    const build = (name, title, description, file, type, categories) => {
+      const raw = read(`${srcDir}/${file}`);
+      const registryDependencies = [];
+      const dependencies = [];
+      for (const spec of imports(raw)) {
+        if (spec.startsWith("./")) {
+          const base = spec.slice(2).replace(/\.(tsx?|jsx?)$/, "");
+          if (base in slugOfName) registryDependencies.push(`${NS}/${slugOfName[base]}`);
+          else if (fs.existsSync(path.join(top, srcDir, `${base}.ts`))) {
+            helpers.add(base);
+            registryDependencies.push(`${NS}/${helperName(base)}`);
+          } else throw new Error(`${srcDir}/${file}: unresolved import ${spec}`);
+        } else if (spec.startsWith(".")) {
+          throw new Error(`${srcDir}/${file}: import ${spec} leaves the components directory`);
+        } else {
+          const pkg = spec.startsWith("@") ? spec.split("/").slice(0, 2).join("/") : spec.split("/")[0];
+          if (pkg !== "react" && pkg !== "react-dom" && !dependencies.includes(pkg)) dependencies.push(pkg);
+        }
+      }
+      const content = preserveHeader(raw, file.endsWith(".tsx") && usesHook(raw));
+      const item = {
+        $schema: SCHEMA_ITEM,
+        name,
+        type,
+        title,
+        description,
+        author: "Lily Design System <https://lilydesignsystem.com>",
+        ...(dependencies.length ? { dependencies: [...new Set(dependencies)].sort() } : {}),
+        ...(registryDependencies.length ? { registryDependencies: [...new Set(registryDependencies)].sort() } : {}),
+        files: [{ path: `${srcDir}/${file}`, content, type, target: `@components/lily/${file}` }],
+        ...(categories ? { categories } : {}),
+        docs: categories ? `Docs: ${SITE}/components/${name}/` : undefined,
+      };
+      items[name] = item;
+    };
+
+    for (const c of components) {
+      const file = `${c.name}.tsx`;
+      if (!fs.existsSync(path.join(top, srcDir, file))) throw new Error(`${srcDir}/${file} missing for ${c.slug}`);
+      const desc = c.description ? c.description[0].toUpperCase() + c.description.slice(1) + "." : c.name;
+      build(c.slug, c.name, desc, file, "registry:component", [c.category]);
+    }
+    for (const mod of [...helpers].sort()) {
+      if (helperName(mod) in items) throw new Error(`registry item name clash: ${helperName(mod)}`);
+      build(helperName(mod), `${mod}.ts`, `Shared helper module ${mod}.ts, used by Lily React headless components.`, `${mod}.ts`, "registry:lib", null);
+    }
+
+    const names = Object.keys(items).sort();
+    const wanted = {};
+    for (const n of names) wanted[`${n}.json`] = JSON.stringify(items[n], null, 2) + "\n";
+    wanted["registry.json"] =
+      JSON.stringify(
+        {
+          $schema: "https://ui.shadcn.com/schema/registry.json",
+          name: "lily",
+          homepage: `${SITE}/tutorials/shadcn/`,
+          items: names.map((n) => {
+            const { $schema, files, docs, ...rest } = items[n];
+            return { ...rest, files: files.map(({ content, ...f }) => f) };
+          }),
+        },
+        null,
+        2
+      ) + "\n";
+
+    const absOut = path.join(top, outDir);
+    if (!check) fs.mkdirSync(absOut, { recursive: true });
+    let changed = 0;
+    for (const [f, body] of Object.entries(wanted)) {
+      const p = path.join(absOut, f);
+      if (fs.existsSync(p) && fs.readFileSync(p, "utf-8") === body) continue;
+      changed++;
+      if (check) stale.push(`${outDir}/${f}`);
+      else fs.writeFileSync(p, body);
+    }
+    if (fs.existsSync(absOut)) {
+      for (const f of fs.readdirSync(absOut)) {
+        if (f in wanted) continue;
+        changed++;
+        if (check) stale.push(`${outDir}/${f} (no source; remove it)`);
+        else fs.rmSync(path.join(absOut, f));
+      }
+    }
+    if (!check) console.log(`wrote ${outDir}/ (${names.length} shadcn items, ${changed} changed)`);
+  }
+}
+
 if (check) {
   if (stale.length) {
     console.error(`generate-registries: ${stale.length} stale registr${stale.length === 1 ? "y" : "ies"}; run bin/generate-registries:`);

@@ -1,0 +1,42 @@
+{
+  "slug": "malaysia-kad-pengenalan-input",
+  "name": "MalaysiaKadPengenalanInput",
+  "description": "an input for entering Malaysia's MyKad Number (NRIC)",
+  "htmlTag": "input",
+  "category": "national",
+  "baseClass": ".malaysia-kad-pengenalan-input",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow",
+  "aria": [
+    "`aria-label` provides accessible name from label prop",
+    "`required` and `disabled` states conveyed to assistive technology"
+  ],
+  "keyboard": [
+    "Standard text input keyboard behavior"
+  ],
+  "props": [
+    "`label`: string (required) — accessible label via aria-label",
+    "`value`: string (default: \"\") — bindable input value",
+    "`required`: boolean (default: false) — form validation",
+    "`disabled`: boolean (default: false) — disabled state",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "malaysia-kad-pengenalan-view",
+    "text-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/malaysia-kad-pengenalan-input.html",
+    "svelte": "lily-design-system-svelte-headless/components/MalaysiaKadPengenalanInput/MalaysiaKadPengenalanInput.svelte",
+    "react": "lily-design-system-react-headless/components/MalaysiaKadPengenalanInput.tsx",
+    "vue": "lily-design-system-vue-headless/components/MalaysiaKadPengenalanInput.vue",
+    "angular": "lily-design-system-angular-headless/components/MalaysiaKadPengenalanInput.ts",
+    "web-components": "lily-design-system-web-components-headless/components/malaysia-kad-pengenalan-input.ts",
+    "alpine": "lily-design-system-alpine-headless/components/malaysia-kad-pengenalan-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/malaysia-kad-pengenalan-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MalaysiaKadPengenalanInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/malaysia-kad-pengenalan-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/malaysia-kad-pengenalan-input/AGENTS.md"
+}

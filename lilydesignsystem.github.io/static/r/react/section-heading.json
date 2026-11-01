@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "section-heading",
+  "type": "registry:component",
+  "title": "SectionHeading",
+  "description": "A styled heading introducing a major content section, with optional eyebrow and subtitle.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/SectionHeading.tsx",
+      "content": "import React from \"react\";\n\n// SectionHeading component\n//\n// A styled heading introducing a major content section, with optional\n// eyebrow and subtitle. Renders a semantic <header> wrapping an\n// <h{level}> and optional eyebrow/subtitle paragraphs.\n//\n// Props:\n//   className   — string, optional. CSS class name appended to root.\n//   heading     — string, REQUIRED. Main heading text.\n//   eyebrow     — string, optional. Eyebrow text rendered above the\n//                 heading.\n//   subtitle    — string, optional. Subtitle text below the heading.\n//   level       — 2 | 3 | 4 | 5 | 6, default 2. Heading level\n//                 (renders <h2>–<h6>).\n//   ...restProps — additional HTML attributes spread onto the root.\n//\n// Syntax:\n//   <SectionHeading\n//     eyebrow=\"Features\"\n//     heading=\"Why choose us\"\n//     subtitle=\"A short tagline.\"\n//     level={2}\n//   />\n//\n// Accessibility:\n//   - <header> landmark inside the section\n//   - Heading element provides hierarchical semantics\n//\n// Internationalization:\n//   - All user-facing strings are consumer-supplied\n//\n// Claude rules:\n//   - Headless: no CSS, no styles\n//   - heading is non-optional in the interface\n\nexport type SectionHeadingLevel = 2 | 3 | 4 | 5 | 6;\n\nexport interface SectionHeadingProps {\n    className?: string;\n    /** Main heading text */\n    heading: string;\n    /** Eyebrow text rendered above the heading */\n    eyebrow?: string;\n    /** Subtitle text rendered below the heading */\n    subtitle?: string;\n    /** Heading level (h2–h6) */\n    level?: SectionHeadingLevel;\n    [key: string]: unknown;\n}\n\nexport default function SectionHeading({\n    className = \"\",\n    heading,\n    eyebrow = undefined,\n    subtitle = undefined,\n    level = 2,\n    ...restProps\n}: SectionHeadingProps) {\n    const HeadingTag = `h${level}` as keyof React.JSX.IntrinsicElements;\n    return (\n        <header\n            className={`section-heading ${className}`}\n            {...restProps}\n        >\n            {eyebrow && <p className=\"section-heading-eyebrow\">{eyebrow}</p>}\n            <HeadingTag className=\"section-heading-heading\">{heading}</HeadingTag>\n            {subtitle && <p className=\"section-heading-subtitle\">{subtitle}</p>}\n        </header>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/SectionHeading.tsx"
+    }
+  ],
+  "categories": [
+    "navigation"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/section-heading/"
+}

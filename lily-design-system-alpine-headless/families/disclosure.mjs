@@ -1,5 +1,7 @@
 // Family: disclosure and dismissal. Reuses lilyCollapsible / lilyPopover and
 // adds lilyDismissible, lilyAccordion, lilyCheckboxAccordion, lilyHoverCard.
+import { popoverNotes, popoverTests, popoverTriggerAttributes } from "./shared/popover-api.mjs";
+
 export default {
     details: {
         tag: "details",
@@ -70,9 +72,13 @@ export default {
         tag: "div",
         keyboard: "Tab to the trigger, Enter or Space to open, Escape to close",
         aria: 'aria-haspopup="dialog", aria-expanded and aria-controls on the trigger; the panel is role="dialog"',
+        notes: [
+            ...popoverNotes("panel"),
+            `Text: the trigger's visible text (such as "?" or "؟") and its aria-label are the consumer's`,
+        ],
         markup: `<div class="contextual-help" x-data="lilyPopover(false)" x-bind="root">
-  <button class="contextual-help-trigger" x-bind="trigger" aria-label="" aria-controls="contextual-help-panel-1">?</button>
-  <div class="contextual-help-panel" id="contextual-help-panel-1" role="dialog" aria-label="" x-bind="panel">
+  <button class="contextual-help-trigger" x-bind="trigger" aria-label="" aria-controls="contextual-help-panel-1"${popoverTriggerAttributes("contextual-help-panel-1")}><!-- Consumer provides the trigger text, such as "?" --></button>
+  <div class="contextual-help-panel" id="contextual-help-panel-1" role="dialog" aria-label="" popover="auto" x-bind="panel">
     <!-- Consumer provides popover content -->
   </div>
 </div>`,
@@ -87,7 +93,7 @@ export default {
     p.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true })); await tick();
     expect(p.hidden).toBe(true);
     expect(document.activeElement).toBe(t);
-  });`,
+  });${popoverTests("contextual-help", ".contextual-help-trigger", ".contextual-help-panel")}`,
         sel: "div.contextual-help",
     },
     "medical-banner": {

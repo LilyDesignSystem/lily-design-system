@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "validation-list",
+  "type": "registry:component",
+  "title": "ValidationList",
+  "description": "A live-feedback list of input validation rules with pending, passed, and failed states.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ValidationList.tsx",
+      "content": "import React from \"react\";\n\n// ValidationList component\n//\n// A live-feedback list of input validation rules with pending, passed, and\n// failed states. Inspired by the USWDS Validation component. Renders a <ul>\n// with `aria-live=\"polite\"` so that when child rule statuses change, screen\n// readers announce the updated text. Each child is typically a\n// ValidationListItem.\n//\n// Props:\n//   className — string, optional. CSS class name appended to the root.\n//   label     — string, REQUIRED. aria-label for the list.\n//   children  — ReactNode, required. ValidationListItem children.\n//   ...restProps — additional HTML attributes spread onto the <ul>.\n//\n// Syntax:\n//   <ValidationList label=\"Password requirements\">\n//     <ValidationListItem status=\"passed\">At least 8 characters</ValidationListItem>\n//     <ValidationListItem status=\"pending\">Contains a number</ValidationListItem>\n//   </ValidationList>\n//\n// Accessibility:\n//   - The native <ul> provides list semantics\n//   - aria-label provides the accessible name\n//   - aria-live=\"polite\" announces status changes to screen readers\n//\n// Internationalization:\n//   - label is consumer-supplied for localized accessible names\n//\n// Claude rules:\n//   - Headless: no CSS, no styles\n//   - label is non-optional in the interface\n//   - aria-live=\"polite\" is the headless contract for live announcements\n//\n// References:\n//   - USWDS Validation: https://designsystem.digital.gov/components/validation/\n//   - WAI-ARIA aria-live: https://www.w3.org/TR/wai-aria-1.2/#aria-live\n\nexport interface ValidationListProps {\n    className?: string;\n    /** aria-label for the list (required) */\n    label: string;\n    /** ValidationListItem children */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function ValidationList({\n    className = \"\",\n    label,\n    children,\n    ...restProps\n}: ValidationListProps) {\n    return (\n        <ul\n            className={`validation-list ${className}`}\n            aria-label={label}\n            aria-live=\"polite\"\n            {...restProps}\n        >\n            {children}\n        </ul>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ValidationList.tsx"
+    }
+  ],
+  "categories": [
+    "lists"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/validation-list/"
+}

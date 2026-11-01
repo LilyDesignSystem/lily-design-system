@@ -11,8 +11,8 @@ of Lily's canonical, headless component catalog: unstyled Razor components
 shipping semantic HTML, ARIA, focus management, and keyboard behaviour — no
 CSS, no bundled fonts or icons, no hardcoded strings. It targets the same
 component catalog as the other six full-catalog headless libraries (HTML,
-Svelte, React, Vue, Angular, Nunjucks); the library's own `spec/index.md` most
-recently recorded 490/490 catalog parity, and its namespace is
+Svelte, React, Vue, Angular, Nunjucks); `bin/check-coverage` reports no drift against
+the 607-component catalog, and its namespace is
 `LilyBlazorHeadless.Components`.
 
 ## Install
@@ -98,16 +98,24 @@ restate them; a Blazor consumer applies the same slugs and PascalCase names,
 just as `Button`, `TextInput`, `BreadcrumbNav`, `DataTable`, etc. Razor
 components in `LilyBlazorHeadless.Components`.
 
+## Native dialogs and popovers (2026-10-30)
+
+Modal overlays (`dialog`, `alert-dialog`, `file-dialog`, `timeout-dialog`, `drawer`, `sheet`, `slide-out-drawer`) open a real
+`<dialog>` with `showModal()`: the page behind is inert, Tab stays inside, Escape closes, focus returns to the opener. Light-dismiss
+popups (`popover`, `popup`, `contextual-help`, `dropdown-menu`, `split-button`, `action-group`, `context-menu`) use the Popover API
+(`popover="auto"`, opened by `command="toggle-popover"` `commandfor`, with `popovertarget` as well), so the browser itself can close
+them on Escape or an outside click. Keep their open state two-way: listen for the change rather than assuming only your code closes
+them. Per-component decisions: each `components/{slug}/AGENTS.md` § "Native platform"; rule: `AGENTS/headless.md`.
+
 ## When this isn't the right skill
 
-- For the six `*-picker` helper packages (theme-picker, locale-picker,
-  text-size-picker, motion-picker, share-picker, date-time-picker) — the
+- For the helper packages (the eleven `*-picker` helpers, `picker-bar`, the grid-like helpers and the editors) — the
   opinionated, whole-interaction packages that sit _alongside_ this headless
   library — use
   [`lily-design-system-blazor-helpers-skill`](../lily-design-system-blazor-helpers-skill/)
   instead.
 - For framework-agnostic Lily concepts (what "headless" means, the
-  582-component catalog at large, naming conventions, cross-framework
+  607-component catalog at large, naming conventions, cross-framework
   composition patterns not specific to Blazor) use
   [`lily-design-system-skill`](../lily-design-system-skill/) instead — it
   doesn't restate Blazor's own idioms, and this skill doesn't restate its

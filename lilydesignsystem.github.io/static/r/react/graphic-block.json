@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "graphic-block",
+  "type": "registry:component",
+  "title": "GraphicBlock",
+  "description": "A wrapper for charts and graphics with title, description, notes, and ARIA description.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/GraphicBlock.tsx",
+      "content": "import React from \"react\";\n\n// GraphicBlock component\n//\n// A wrapper for charts and graphics that pairs the visual (in `children`)\n// with structural metadata: title, description, and notes/source. Renders a\n// <figure role=\"img\"> with an aria-label so the whole graphic announces as\n// a single image to assistive tech, and gathers the title + description +\n// notes inside a <figcaption> when any of them are present.\n//\n// Props:\n//   className   — string, optional. CSS class name.\n//   label       — string, required. Accessible label describing the graphic.\n//   title       — string, optional. Title displayed above the graphic.\n//   description — string, optional. Description text below the title.\n//   notes       — string, optional. Notes/source text below the graphic.\n//   children    — ReactNode, required. The graphic/chart content.\n//   ...restProps — additional HTML attributes spread onto the <figure>.\n//\n// Accessibility:\n//   - role=\"img\" + aria-label exposes the figure as a single labelled image\n//   - The visible title/description/notes give sighted users the same context\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n\nexport interface GraphicBlockProps {\n    className?: string;\n    /** Accessible label describing the graphic for screen readers. */\n    label: string;\n    /** Title displayed above the graphic. */\n    title?: string;\n    /** Description text below the title. */\n    description?: string;\n    /** Notes / source text below the graphic. */\n    notes?: string;\n    /** The graphic / chart content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function GraphicBlock({\n    className = \"\",\n    label,\n    title = undefined,\n    description = undefined,\n    notes = undefined,\n    children,\n    ...restProps\n}: GraphicBlockProps) {\n    const hasCaption = title !== undefined || description !== undefined || notes !== undefined;\n    return (\n        <figure\n            className={`graphic-block ${className}`}\n            role=\"img\"\n            aria-label={label}\n            {...restProps}\n        >\n            {hasCaption && (\n                <figcaption className=\"graphic-block-caption\">\n                    {title !== undefined && <div className=\"graphic-block-title\">{title}</div>}\n                    {description !== undefined && (\n                        <div className=\"graphic-block-description\">{description}</div>\n                    )}\n                    {notes !== undefined && <div className=\"graphic-block-notes\">{notes}</div>}\n                </figcaption>\n            )}\n            <div className=\"graphic-block-content\">{children}</div>\n        </figure>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/GraphicBlock.tsx"
+    }
+  ],
+  "categories": [
+    "media"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/graphic-block/"
+}

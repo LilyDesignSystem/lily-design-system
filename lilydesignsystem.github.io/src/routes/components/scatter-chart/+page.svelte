@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"scatter-chart\" aria-label=\"a scatter chart visualization using dots to display data\">ScatterChart</div>";
   const svelteSource: string = "// In your Svelte component:\nimport ScatterChart from \"lily-design-system-svelte-headless/components/ScatterChart/ScatterChart.svelte\";\n\n<ScatterChart>\n  <!-- content -->\n</ScatterChart>\n";
-  const usageCode: string = "<ScatterChart label=\"Height vs weight by age\" series={healthSeries} description=\"Height vs weight for participants, grouped by age cohort\" />\n";
+  const usageCode: string = "<ScatterChart\n  label=\"Height vs weight by age\"\n  series=\"{healthSeries}\"\n  description=\"Height vs weight for participants, grouped by age cohort\"\n/>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

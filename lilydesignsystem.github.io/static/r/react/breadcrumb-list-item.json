@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "breadcrumb-list-item",
+  "type": "registry:component",
+  "title": "BreadcrumbListItem",
+  "description": "One breadcrumb list item in the trail.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/BreadcrumbListItem.tsx",
+      "content": "import React from \"react\";\n\n// BreadcrumbListItem component\n//\n// A single step in a breadcrumb navigation trail. Renders as a semantic <li>\n// element designed to be placed inside a BreadcrumbList component. Supports\n// data-current to indicate the user's current location. Typically\n// contains a link for ancestor pages, or plain text for the current page.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   current — boolean, default false. Whether this item represents the current page.\n//   children — ReactNode, required. Breadcrumb content, typically an <a> link or plain text.\n//   ...restProps — additional HTML attributes spread onto the <li>.\n//\n// Syntax:\n//   <BreadcrumbListItem><a href=\"/\">Home</a></BreadcrumbListItem>\n//\n// Examples:\n//\n//   <BreadcrumbListItem><a href=\"/products\">Products</a></BreadcrumbListItem>\n//\n//\n//   <BreadcrumbListItem current>About</BreadcrumbListItem>\n//\n// Keyboard:\n//   None directly — keyboard interaction is handled by the contained links.\n//\n// Accessibility:\n//   - Implicit listitem role from the semantic <li> element\n//   - data-current set when current is true, indicating the user's location\n//\n// Internationalization:\n//   - All text comes through children prop; no hardcoded strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Compound component: must be used inside a BreadcrumbList\n//\n// References:\n//   - WAI-ARIA Breadcrumb Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/\n\nexport interface BreadcrumbListItemProps {\n    className?: string;\n    /** Whether this is the current page. */\n    current?: boolean;\n    /** Breadcrumb content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function BreadcrumbListItem({\n    className = \"\",\n    current = false,\n    children,\n    ...restProps\n}: BreadcrumbListItemProps) {\n    return (\n        <li\n            className={`breadcrumb-list-item ${className}`}\n            data-current={current ? \"\" : undefined}\n            {...restProps}\n        >\n            {children}\n        </li>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/BreadcrumbListItem.tsx"
+    }
+  ],
+  "categories": [
+    "lists"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/breadcrumb-list-item/"
+}

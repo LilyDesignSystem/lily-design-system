@@ -1,0 +1,23 @@
+---
+layout: layouts/component-demo.njk
+title: TaiwanGuominShenfenzhengTongyiBianhaoView
+description: a read-only display of Taiwan's National Identification Card Number
+---
+
+{% from "components/taiwan-guomin-shenfenzheng-tongyi-bianhao-view/macro.njk" import taiwanGuominShenfenzhengTongyiBianhaoView %}
+
+<h2>Default</h2>
+<p>{{ taiwanGuominShenfenzhengTongyiBianhaoView({ text: "TaiwanGuominShenfenzhengTongyiBianhaoView example", label: "TaiwanGuominShenfenzhengTongyiBianhaoView example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;SummaryList&gt;
+  &lt;SummaryListItem term="National Identification Card Number"&gt;
+    &lt;TaiwanGuominShenfenzhengTongyiBianhaoView
+      label="National Identification Card Number"
+      value="{value}"
+    /&gt;
+  &lt;/SummaryListItem&gt;
+&lt;/SummaryList&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

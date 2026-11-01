@@ -7,7 +7,7 @@
   "description": "Lily Design System Angular 20 Gantt chart: composes the headless GanttTable grid with two composed date-time-picker instances for keyboard-accessible date editing. Headless, SSR-safe, no CSS.",
   "dependencies": {
     "@lilydesignsystem/angular-date-time-picker": "^0.2.0",
-    "@lilydesignsystem/angular-headless": "^0.6.0"
+    "@lilydesignsystem/angular-headless": "^0.7.1"
   },
   "peerDependencies": {
     "@angular/common": ">=20.0.0 <23.0.0",

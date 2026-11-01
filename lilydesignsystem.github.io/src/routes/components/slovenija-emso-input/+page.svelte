@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<label class=\"label\" for=\"demo-input\">Label</label><input class=\"slovenija-emso-input\" id=\"demo-input\" aria-label=\"an input for entering Slovenia's Enotna Matična Številka Občana (EMŠO)\" />";
   const svelteSource: string = "// In your Svelte component:\nimport SlovenijaEmsoInput from \"lily-design-system-svelte-headless/components/SlovenijaEmsoInput/SlovenijaEmsoInput.svelte\";\n\n<SlovenijaEmsoInput label=\"Label\" />\n";
-  const usageCode: string = "<Field label=\"Unique Master Citizen Number\" required>\n  <SlovenijaEmsoInput label=\"Unique Master Citizen Number\" value={value} required />\n  <Hint>13 digits: the first 7 are the date of birth (DDMMYYY), digits 8-9 the register, 10-12 a sex-and-serial component (000-499 male, 500-999 female), 13 a check digit</Hint>\n  <ErrorMessage>Please enter a valid Unique Master Citizen Number</ErrorMessage>\n</Field>\n";
+  const usageCode: string = "<Field\n  label=\"Unique Master Citizen Number\"\n  required\n>\n  <SlovenijaEmsoInput\n    label=\"Unique Master Citizen Number\"\n    value=\"{value}\"\n    required\n  />\n  <Hint\n    >13 digits: the first 7 are the date of birth (DDMMYYY), digits 8-9 the register, 10-12 a\n    sex-and-serial component (000-499 male, 500-999 female), 13 a check digit</Hint\n  >\n  <ErrorMessage>Please enter a valid Unique Master Citizen Number</ErrorMessage>\n</Field>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

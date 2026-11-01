@@ -500,3 +500,13 @@ data-lily-theme-picker="{name}">` exists in `document.head` and
 ## Open state and disabled (2026-10-16)
 
 `v-model:open` (a `defineModel`, default `false`) and `disabled?: boolean`, ported from the Svelte canonical's `open`, `onOpenChange` and `disabled`. Idiom: `update:open` is the change notification, emitted once for each change the picker makes (the user's, or `disabled` closing it) and not for the initial value; with no `v-model` the picker keeps its own state. `disabled` is passed to the headless `IconButton` and an open popup closes when it becomes true. Tests: "open state and disabled".
+
+## Native select variant (2026-10-30, RFC 3 prototype; ported from Svelte)
+
+`variant?: "listbox" | "select"`, default `"listbox"`. With `"select"` the root is `<div class="theme-picker {class}" data-variant="select">` holding one
+`<select class="theme-picker-select" name="{name}" aria-label="{label}" disabled?>` and one
+`<option class="theme-picker-option" value="{slug}" selected?>{label for slug}</option>` per theme; no button,
+listbox, tooltip or hidden input. Initial value resolution (§5.2) and applying (§5.3) are unchanged. Each option carries `:selected`; a `change` calls the same `setTheme` as a listbox choice (`update:value`, then `change` once). `v-model:open` does not apply. Keyboard,
+typeahead and the mobile picker are the platform's: the component adds no key handlers. Styling with
+`appearance: base-select` belongs in theme CSS behind `@supports (appearance: base-select)` (see the Svelte package's
+`docs/styling.md`). Tests: `ThemePicker.test.ts`, 'variant="select"'.

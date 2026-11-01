@@ -4,19 +4,16 @@
   Description: a button with a slider that the user needs to slide to confirm
   HTML tag: <button>
   CSS class: slider-button
-  Keyboard: Tab to focus, Enter/Space to activate
-  Accessibility: role="slider", aria-label for accessible name
+  Keyboard: ArrowRight/ArrowLeft move the slider by step (default 10), Home returns it to 0, End/Enter/Space complete it; reaching 100 dispatches lily:confirm
+  Accessibility: role="slider" with aria-label, aria-valuenow (the position), aria-valuemin 0, aria-valuemax 100
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
 <button
   class="slider-button"
-  role="slider"
   aria-label=""
-  type="button"
-  aria-valuemin="0"
-  aria-valuemax="100"
-  aria-valuenow="0"
+  x-data="lilySliderButton(10)"
+  x-bind="button"
 >
-  <!-- Consumer provides content -->
+  <!-- Consumer provides the track and thumb; it hears lily:confirm -->
 </button>

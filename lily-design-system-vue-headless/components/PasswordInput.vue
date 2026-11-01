@@ -49,6 +49,9 @@
 // References:
 //   - MDN input type="password": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/password
 
+import { ref } from "vue";
+import { useFormReset } from "./form-reset";
+
 withDefaults(
     defineProps<{
         /** Accessible label. */
@@ -68,6 +71,8 @@ withDefaults(
 );
 
 const modelValue = defineModel<string>({ default: "" });
+const field = ref<HTMLInputElement | HTMLTextAreaElement | null>(null);
+useFormReset(modelValue, field);
 </script>
 
 <template>
@@ -76,6 +81,7 @@ const modelValue = defineModel<string>({ default: "" });
         class="password-input"
         type="password"
         :aria-label="label"
+        ref="field"
         v-model="modelValue"
         :autocomplete="autocomplete"
         :required="required"

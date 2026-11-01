@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "theme-view",
+  "type": "registry:component",
+  "title": "ThemeView",
+  "description": "A read-only display of the current theme.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ThemeView.tsx",
+      "content": "import React from \"react\";\n\n// ThemeView component\n//\n// A headless display component that shows the current theme name as inline\n// text. Renders the theme value in a <span> element with an accessible label.\n// Commonly paired with ThemeSelect in an Input/View pattern: ThemeSelect\n// allows selection while ThemeView displays the active theme. Useful in\n// settings panels, status bars, or anywhere the current theme needs to be\n// communicated visually and programmatically.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name for the display element via aria-label.\n//   value — string, required. The current theme name to display as text content.\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <ThemeView label=\"Current theme\" value=\"dark\" />\n//\n// Examples:\n//\n//   <ThemeView label=\"Active theme\" value={currentTheme} />\n//\n// Keyboard:\n//   - None -- passive display element with no interactive behavior\n//\n// Accessibility:\n//   - aria-label={label} provides an accessible name describing what the displayed value represents\n//\n// Internationalization:\n//   - The label prop accepts any translated string\n//   - The value prop should contain translated theme names\n//\n// Claude rules:\n//   - Headless: no CSS, no styles -- consumer provides all styling\n//   - Read-only display; pairs with ThemeSelect for editing\n//\n// References:\n//   - WAI-ARIA Accessible Name: https://www.w3.org/TR/accname-1.2/\n\nexport interface ThemeViewProps {\n    className?: string;\n    /** Accessible label. */\n    label: string;\n    /** Theme value to display. */\n    value: string;\n    [key: string]: unknown;\n}\n\nexport default function ThemeView({ className = \"\", label, value, ...restProps }: ThemeViewProps) {\n    return (\n        <span\n            className={`theme-view ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {value}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ThemeView.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/theme-view/"
+}

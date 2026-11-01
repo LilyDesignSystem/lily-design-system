@@ -35,7 +35,7 @@ export class RangeInput extends HTMLElement {
         input.className = rootClassName(this, "range-input");
         const label = this.getAttribute("label");
         if (label !== null) input.setAttribute("aria-label", label);
-        input.value = this.getAttribute("value") ?? "50";
+        input.defaultValue = this.getAttribute("value") ?? "50";
         input.min = this.getAttribute("min") ?? "0";
         input.max = this.getAttribute("max") ?? "100";
         input.step = this.getAttribute("step") ?? "1";

@@ -2,7 +2,7 @@
 
 A Claude Skill ([`SKILL.md`](SKILL.md)) that explains how to consume
 [`@lilydesignsystem/alpine-headless`](../lily-design-system-alpine-headless/):
-Lily's ninth headless catalog (added 2026-10-21), covering all 582 components
+Lily's ninth headless catalog (added 2026-10-21), covering all 607 components
 as annotated HTML snippets plus one Alpine.js plugin. It is the
 framework-specific counterpart, for this catalog, to the general
 [`lily-design-system-skill`](../lily-design-system-skill/), and follows the

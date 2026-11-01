@@ -12,6 +12,7 @@ It explicitly does **not** cover: visual styling of text (see [theme](../theme/i
 
 ## Principles and rules
 
+- **Worldwide equity.** The target is every country, region and federation, not just the United States or the United Kingdom. Any standard, protocol, convention, locale, identifier format, calendar, address or name shape, unit system, or the like that a component, helper, theme or example adopts must give countries, regions and federations worldwide equitable capabilities. A feature that works for one place's conventions only (a single postal-code or phone format, a Gregorian-only or Monday-first calendar, a given-name/family-name split, one currency or measurement system) is a defect to fix or a documented gap to schedule, not a default. When a standard is regional, say so in the component's docs and offer the equivalent for other regions or a neutral, consumer-supplied alternative.
 - **No hardcoded user-facing strings inside components.** Every label, description, placeholder, error message, action verb, and announcement is a prop / parameter / slot supplied by the consumer.
 - **Stable text-prop names across frameworks.** New components reuse the canonical names rather than inventing synonyms.
 - **Locale-aware components take the locale identifier as a prop.** Components that render dates, numbers, currencies, or measurements accept the relevant identifier (`currencyCode`, `locale`, etc.) and either pass it through to `Intl.*` formatters or expose it via a `data-*` attribute. Components do not pick a default locale.
@@ -120,7 +121,7 @@ the binding rules are:
   translated page only when it exists (otherwise it stays on the English page), and `bin/check-site-page-translations` applies the same
   structure, code-sample and not-English checks wherever one is present. `news`, `roadmap` and `locales` are **intro-only**: the translation
   covers the intro section, and what follows (the rendered NEWS.md and plan.md, and the list of languages from `LocaleList.svelte`) is
-  generated at build time — the NEWS.md and plan.md text stays English. Every language has all fourteen. Still English-only everywhere: the 582
+  generated at build time — the NEWS.md and plan.md text stays English. Every language has all fourteen. Still English-only everywhere: the 607
   component docs. The English page numbers are copied as written (the tutorials say "45 themes" where the repository now has 57).
 - **Labels are endonyms** — each language's own name (`Cymraeg`, `Français`, `العربية`) — except where a language has several
   regional locales: then the label adds the region after a dash (`English - Great Britain`, `Cymraeg - Prydain Fawr`), never an
@@ -159,6 +160,7 @@ the binding rules are:
 - [accessibility](../accessibility/index.md) — accessible names, live regions, and ARIA that text props feed
 - [theme](../theme/index.md) — the parallel rule that visual tokens, like strings, live outside the headless layer
 - [examples](../examples/index.md) — where concrete demo copy and `Intl.*` formatting are wired up
+- [worldwide-audit](worldwide-audit.md) — audit of single-region assumptions against the Worldwide equity rule (2026-10-29)
 
 ## Sources
 
@@ -167,6 +169,7 @@ the binding rules are:
 - [AGENTS/internationalization.md](../../AGENTS/internationalization.md)
 - [spec/index.md](../index.md) §4.3 Internationalisation
 - [AGENTS/accessibility.md](../../AGENTS/accessibility.md)
+- [worldwide-audit.md](worldwide-audit.md)
 
 ---
 

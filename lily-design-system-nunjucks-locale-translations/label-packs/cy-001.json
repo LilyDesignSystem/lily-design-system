@@ -283,5 +283,10 @@
     "small": "bach",
     "smaller": "llai",
     "smallest": "lleiaf"
+  },
+  "date-time-now-input": {
+    "date": "Dyddiad",
+    "time": "Amser",
+    "now": "Nawr"
   }
 }

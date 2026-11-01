@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "red-orange-yellow-green-blue-picker-button",
+  "type": "registry:component",
+  "title": "RedOrangeYellowGreenBluePickerButton",
+  "description": "A picker button for selecting a five-level color status.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/RedOrangeYellowGreenBluePickerButton.tsx",
+      "content": "import React from \"react\";\n\n// RedOrangeYellowGreenBluePickerButton component\n//\n// A headless button representing one Red/Orange/Yellow/Green/Blue status choice\n// within a ROYGB status picker. Renders a <button> with aria-pressed to indicate\n// the selected state and data-value for consumer CSS targeting. Used in multi-tier\n// alert systems, dashboards, and risk registers with five severity levels.\n//\n// Props:\n//   value — string, required. The status value (e.g. \"red\", \"orange\", \"yellow\", \"green\", \"blue\").\n//   label — string, required. Accessible name for the button via aria-label.\n//   selected — boolean, default false. Whether this status is currently selected.\n//   disabled — boolean, default false. Whether the button is disabled.\n//   onClick — (event: React.MouseEvent) => void, optional. Click handler.\n//   ...restProps — additional HTML attributes spread onto the <button>.\n//\n// Syntax:\n//   <RedOrangeYellowGreenBluePickerButton value=\"green\" label=\"Green\" onClick={handleSelect} />\n//\n// Examples:\n//\n//   <RedOrangeYellowGreenBluePickerButton value=\"red\" label=\"Red\" selected={true} onClick={handleSelect} />\n//\n//   <RedOrangeYellowGreenBluePickerButton value=\"yellow\" label=\"Yellow\" disabled={true} />\n//\n// Keyboard:\n//   - Tab: Move focus to the button\n//   - Enter: Activate the button (native button behavior)\n//   - Space: Activate the button (native button behavior)\n//\n// Accessibility:\n//   - aria-label provides an accessible name for the button\n//   - aria-pressed indicates whether the status is currently selected\n//   - data-value exposes the status value for consumer CSS selectors\n//\n// Internationalization:\n//   - The label prop provides the accessible name; no hardcoded strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Compound component: used as a child within RedOrangeYellowGreenBluePicker\n//   - Consumer can use [data-value] CSS selectors for status-based styling\n//\n// References:\n//   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/\n//   - Traffic Light Rating System: https://en.wikipedia.org/wiki/Traffic_light_rating_system\n\nexport interface RedOrangeYellowGreenBluePickerButtonProps {\n    className?: string;\n    /** The status value (e.g. \"red\", \"orange\", \"yellow\", \"green\", \"blue\"). */\n    value: string;\n    /** Accessible name for the button. */\n    label: string;\n    /** Whether this status is currently selected. */\n    selected?: boolean;\n    /** Whether the button is disabled. */\n    disabled?: boolean;\n    /** Click handler. */\n    onClick?: (event: React.MouseEvent) => void;\n    [key: string]: unknown;\n}\n\nexport default function RedOrangeYellowGreenBluePickerButton({\n    className = \"\",\n    value,\n    label,\n    selected = false,\n    disabled = false,\n    onClick = undefined,\n    ...restProps\n}: RedOrangeYellowGreenBluePickerButtonProps) {\n    return (\n        <button\n            className={`red-orange-yellow-green-blue-picker-button ${className}`}\n            type=\"button\"\n            aria-label={label}\n            aria-pressed={selected}\n            disabled={disabled}\n            data-value={value}\n            onClick={onClick}\n            {...restProps}\n        >\n            {label}\n        </button>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/RedOrangeYellowGreenBluePickerButton.tsx"
+    }
+  ],
+  "categories": [
+    "pickers"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/red-orange-yellow-green-blue-picker-button/"
+}

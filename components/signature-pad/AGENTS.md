@@ -6,7 +6,7 @@
 - PascalCase: SignaturePad
 - Description: a drawing area for capturing a handwritten signature
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
-- HTML tag: <canvas>
+- HTML tag: <div>
 - CSS class: .signature-pad
 - Interactive: no
 

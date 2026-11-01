@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "mentions-input",
+  "type": "registry:component",
+  "title": "MentionsInput",
+  "description": "A text input with at-mention autocomplete suggestions.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "registryDependencies": [
+    "@lily/popover"
+  ],
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/MentionsInput.tsx",
+      "content": "\"use client\";\n\n// MentionsInput component\n//\n// A text input with at-mention autocomplete suggestions. The component is a\n// `<div>` wrapping an `<input role=\"combobox\">` and a suggestions panel that\n// the consumer fills (typically with a Listbox of matching mentions).\n//\n// Props:\n//   className    — string, optional. CSS class name.\n//   label        — string, REQUIRED. aria-label for the input.\n//   value        — string, default \"\". Input value.\n//   triggerChar  — string, default \"@\". Character that opens the suggestions panel.\n//   expanded     — boolean, default false. Whether the suggestions panel is open.\n//   placeholder  — string, optional.\n//   disabled     — boolean, default false.\n//   onInput      — (event: React.FormEvent<HTMLInputElement>) => void, optional.\n//   children     — ReactNode, required. Suggestions panel content.\n//   ...restProps — additional HTML attributes spread onto the root <div>.\n//\n// Syntax:\n//   <MentionsInput label=\"Comment\" value={text} expanded={open} onInput={handle}>\n//     <Listbox>…</Listbox>\n//   </MentionsInput>\n//\n// Accessibility:\n//   - The inner input has role=\"combobox\", aria-haspopup=\"listbox\",\n//     aria-expanded, aria-autocomplete=\"list\", aria-controls (the panel's id).\n//\n// Internationalization:\n//   - All user-facing strings (label, placeholder) are consumer-supplied.\n//\n// Claude rules:\n//   - Headless: no CSS, no styles\n//   - label is non-optional\n//\n// References:\n//   - Ant Design Mentions: https://ant.design/components/mentions\n\nimport React, { useId } from \"react\";\nimport { usePopoverState } from \"./Popover\";\n\nexport interface MentionsInputProps {\n    className?: string;\n    /** aria-label for the input (required) */\n    label: string;\n    /** Input value */\n    value?: string;\n    /** Character that opens the suggestions panel */\n    triggerChar?: string;\n    /** Whether the suggestions panel is open */\n    expanded?: boolean;\n    /** Placeholder text */\n    placeholder?: string;\n    /** Whether the input is disabled */\n    disabled?: boolean;\n    /** Input event handler */\n    onInput?: (event: React.FormEvent<HTMLInputElement>) => void;\n    /** Suggestions panel content (typically a Listbox) */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function MentionsInput({\n    className = \"\",\n    label,\n    value = \"\",\n    triggerChar = \"@\",\n    expanded = false,\n    placeholder = undefined,\n    disabled = false,\n    onInput = undefined,\n    children,\n    ...restProps\n}: MentionsInputProps) {\n    const panelRef = React.useRef<HTMLDivElement>(null);\n    usePopoverState(panelRef, expanded);\n    const suggestionsId = `${useId()}-suggestions`;\n    return (\n        <div\n            className={`mentions-input ${className}`}\n            data-trigger-char={triggerChar}\n            {...restProps}\n        >\n            <input\n                className=\"mentions-input-control\"\n                type=\"text\"\n                role=\"combobox\"\n                aria-label={label}\n                aria-haspopup=\"listbox\"\n                aria-controls={suggestionsId}\n                aria-expanded={expanded}\n                aria-autocomplete=\"list\"\n                value={value}\n                placeholder={placeholder}\n                disabled={disabled}\n                onInput={onInput}\n                onChange={() => {}}\n            />\n            <div\n                className=\"mentions-input-suggestions\"\n                id={suggestionsId}\n                ref={panelRef}\n                popover=\"manual\"\n            >\n                {children}\n            </div>\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/MentionsInput.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/mentions-input/"
+}

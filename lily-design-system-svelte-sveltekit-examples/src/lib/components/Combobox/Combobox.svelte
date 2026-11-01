@@ -57,6 +57,8 @@
     const uid = $props.id();
     const listboxId = `combobox-listbox-${uid}`;
 
+    import { popoverState } from "../Popover/popover.js";
+
     let {
         class: className = "",
         label,
@@ -99,13 +101,13 @@
         bind:value
         {onkeydown}
     />
-    {#if open}
-        <div
-            role="listbox"
-            id={listboxId}
-            aria-label={label}
-        >
-            {@render children?.()}
-        </div>
-    {/if}
+    <div
+        role="listbox"
+        popover="manual"
+        use:popoverState={open}
+        id={listboxId}
+        aria-label={label}
+    >
+        {@render children?.()}
+    </div>
 </div>

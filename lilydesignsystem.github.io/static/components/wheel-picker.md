@@ -11,7 +11,7 @@ A vertical single-select listbox where the selection follows the cursor, in the 
 - The keys, the skipping of disabled options, the wrap rule and type-ahead are the pure `shared/wheel-picker.ts`
 - Centres the chosen option by setting the list's `scrollTop`: only the list scrolls, never the page, and never animated
 - The wheel look (scroll snapping, a fading edge, a 3-D tilt, momentum on touch) is the consumer's CSS. Dragging and touch inertia are plain scrolling of `.wheel-picker-list`
-- The 57 reference themes style it as a scroll-snapping list with the chosen option filled and bold
+- The 63 reference themes style it as a scroll-snapping list with the chosen option filled and bold
 
 ## Props
 
@@ -39,7 +39,7 @@ A vertical single-select listbox where the selection follows the cursor, in the 
 ```
 
 ```css
-/* consumer CSS: the 57 themes already do this */
+/* consumer CSS: the 63 themes already do this */
 .wheel-picker-list {
   max-block-size: 10em;
   overflow-y: auto;

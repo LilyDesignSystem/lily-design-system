@@ -1,6 +1,6 @@
 ## Components
 
-The canonical catalog of 582 components lives in [components.tsv](../components.tsv) — tab-separated rows of `slug	PascalCase	description`. Read that file for the full listing rather than maintaining a duplicate here.
+The canonical catalog of 607 components lives in [components.tsv](../components.tsv) — tab-separated rows of `slug	PascalCase	description`. Read that file for the full listing rather than maintaining a duplicate here.
 
 Use the bin tools to query the catalog programmatically:
 
@@ -165,7 +165,7 @@ Use the bin tools to query the catalog programmatically:
 
 ### Chart pattern: figure → graphic (+ data table)
 
-The sixteen chart components share one shape. The graphic is the only thing inside `role="img"`; the
+The seventeen chart components (every `*-chart` slug, plus `heatmap-chart-with-year-of-days`) share one shape. The graphic is the only thing inside `role="img"`; the
 accessible table is a **sibling**, because `role="img"` makes its descendants presentational.
 
 ```tsx
@@ -275,3 +275,30 @@ A labelled `<section aria-label>` holding a `dl` of consumer-supplied items (nam
   </DataTableBody>
 </DataTable>
 ```
+
+### Mobile bottom navigation pattern: NavigationMenu fixed to the bottom
+
+A composition on `navigation-menu`, not a component: on a narrow viewport the app's main navigation becomes a bar fixed to
+the bottom of the viewport. It is navigation, so its items are real links in a `<nav>`, not a `tab-bar` tablist; use
+`tab-bar` only when the items switch panels on the same page.
+
+```tsx
+<NavigationMenu label="Main navigation" class="bottom-navigation">
+  <ul>
+    <li><a href="/" aria-current="page">Home</a></li>
+    <li><a href="/appointments">Appointments</a></li>
+    <li><a href="/messages">Messages</a></li>
+    <li><a href="/account">Account</a></li>
+  </ul>
+</NavigationMenu>
+```
+
+- At most five items; move the rest to a "More" page or the page's own menu.
+- Every item has visible text, not an icon alone; an icon beside the text is decorative (`aria-hidden="true"`).
+- The current item's link carries `aria-current="page"`.
+- The consumer's CSS fixes the bar (`position: fixed; inset-block-end: 0`) only on narrow viewports, with a `rem` breakpoint,
+  and sets `--lily-fixed-bar-block-end` on the root (`:root` or `html`) to the bar's block size, so the themes' "Focus not
+  obscured" section turns it into `scroll-padding-block` and a focused control is never hidden behind the bar (WCAG 2.2 SC
+  2.4.11). Unset it where the bar is not fixed.
+- Targets are at least 24 by 24 CSS pixels (WCAG 2.5.8), and the bar respects `env(safe-area-inset-bottom)`.
+- Source: the DHCW Design System's mobile bottom navigation ([spec/dhcw-design-system-lessons](../spec/dhcw-design-system-lessons/index.md), catalog gaps).

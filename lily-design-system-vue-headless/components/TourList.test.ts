@@ -10,7 +10,7 @@ describe("TourList", () => {
             props: { label: "Getting started", active: true },
             slots: { default: "Welcome" },
         });
-        expect(screen.getByRole("dialog")).toBeTruthy();
+        expect(screen.getByRole("list")).toBeTruthy();
     });
 
     test("does not render when not active", () => {
@@ -18,7 +18,7 @@ describe("TourList", () => {
             props: { label: "Getting started", active: false },
             slots: { default: "Welcome" },
         });
-        expect(screen.queryByRole("dialog")).toBeNull();
+        expect(screen.queryByRole("list")).toBeNull();
     });
 
     test("has aria-label", () => {
@@ -29,14 +29,18 @@ describe("TourList", () => {
         expect(screen.getByLabelText("Onboarding tour")).toBeTruthy();
     });
 
-    test("has aria-modal true", () => {
+    test("is a plain ordered list: no role=dialog, no aria-modal (P18-T6)", () => {
         render(Subject, { props: { label: "Tour", active: true }, slots: { default: "content" } });
-        expect(screen.getByRole("dialog").getAttribute("aria-modal")).toBe("true");
+        const list = screen.getByRole("list");
+        expect(list.tagName).toBe("OL");
+        expect(list.hasAttribute("role")).toBe(false);
+        expect(list.hasAttribute("aria-modal")).toBe(false);
+        expect(screen.queryByRole("dialog")).toBeNull();
     });
 
     test("has tabindex -1 for keyboard events", () => {
         render(Subject, { props: { label: "Tour", active: true }, slots: { default: "content" } });
-        expect(screen.getByRole("dialog").getAttribute("tabindex")).toBe("-1");
+        expect(screen.getByRole("list").getAttribute("tabindex")).toBe("-1");
     });
 
     test("renders children content", () => {
@@ -50,11 +54,11 @@ describe("TourList", () => {
     test("closes on Escape key", async () => {
         const user = userEvent.setup();
         render(Subject, { props: { label: "Tour", active: true }, slots: { default: "content" } });
-        const dialog = screen.getByRole("dialog");
+        const dialog = screen.getByRole("list");
         dialog.focus();
         await user.keyboard("{Escape}");
         await vi.waitFor(() => {
-            expect(screen.queryByRole("dialog")).toBeNull();
+            expect(screen.queryByRole("list")).toBeNull();
         });
     });
 

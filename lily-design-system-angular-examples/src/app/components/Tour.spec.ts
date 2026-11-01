@@ -43,10 +43,11 @@ describe("Tour — dialog contract and Escape", () => {
         return { fixture, el: fixture.nativeElement.querySelector("div.tour") as HTMLElement };
     }
 
-    test("is a labelled modal dialog that can take focus", () => {
+    test("is a labelled non-modal dialog that can take focus", () => {
         const { el } = create();
         expect(el.getAttribute("role")).toBe("dialog");
-        expect(el.getAttribute("aria-modal")).toBe("true");
+        // Non-modal (tasks.md P18-T6): the page the tour points at stays usable.
+        expect(el.hasAttribute("aria-modal")).toBe(false);
         expect(el.getAttribute("aria-label")).toBe("Welcome tour");
         expect(el.getAttribute("tabindex")).toBe("-1");
     });

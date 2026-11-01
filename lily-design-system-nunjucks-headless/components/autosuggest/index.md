@@ -11,7 +11,7 @@ See [components/autosuggest/index.md](../../../components/autosuggest/index.md) 
 ```njk
 {% from "components/autosuggest/macro.njk" import autosuggest %}
 
-{{ autosuggest({ }) }}
+{{ autosuggest({ label: "Fruit", id: "fruit", suggestions: [{ value: "apple", label: "Apple" }] }) }}
 ```
 
 ## Files

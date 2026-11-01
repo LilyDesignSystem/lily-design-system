@@ -1,12 +1,15 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html = `<div
+const html = `<!-- Shown with the open attribute so the story is visible; the component opens it with showModal() -->
+<dialog
   class="drawer"
+  open
+  aria-modal="true"
   aria-label=""
   data-open="false"
 >
   <!-- Consumer provides content -->
-</div>
+</dialog>
 
 <script>
   // Drawer behavior

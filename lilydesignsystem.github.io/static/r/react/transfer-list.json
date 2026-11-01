@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "transfer-list",
+  "type": "registry:component",
+  "title": "TransferList",
+  "description": "A dual list box for moving items between two lists.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/TransferList.tsx",
+      "content": "import React from \"react\";\n\n// TransferList component\n//\n// A dual list box for moving items between two lists. The component is a\n// `role=\"group\"` container with two `<section>` regions (source and target)\n// and an optional actions slot between them. The consumer supplies the\n// actual list contents and the move-buttons.\n//\n// Props:\n//   className    — string, optional. CSS class name.\n//   label        — string, REQUIRED. aria-label for the group.\n//   sourceLabel  — string, REQUIRED. aria-label for the source section.\n//   targetLabel  — string, REQUIRED. aria-label for the target section.\n//   source       — ReactNode, REQUIRED. Source list content.\n//   target       — ReactNode, REQUIRED. Target list content.\n//   actions      — ReactNode, optional. Action buttons between the two lists.\n//   ...restProps — additional HTML attributes spread onto the root <div>.\n//\n// Syntax:\n//   <TransferList\n//     label=\"Permissions\"\n//     sourceLabel=\"Available\"\n//     targetLabel=\"Selected\"\n//     source={<Listbox>…</Listbox>}\n//     target={<Listbox>…</Listbox>}\n//     actions={\n//       <>\n//         <button onClick={moveRight}>→</button>\n//         <button onClick={moveLeft}>←</button>\n//       </>\n//     }\n//   />\n//\n// Accessibility:\n//   - role=\"group\" on the root container\n//   - Each list region is a <section> with its own aria-label\n//\n// Internationalization:\n//   - All user-facing strings are consumer-supplied.\n//\n// Claude rules:\n//   - Headless: no CSS, no styles\n//   - Required string and ReactNode props are non-optional in the interface\n//   - Source/target/actions are named slots (NOT children)\n//\n// References:\n//   - Ant Design Transfer: https://ant.design/components/transfer\n\nexport interface TransferListProps {\n    className?: string;\n    /** aria-label for the group (required) */\n    label: string;\n    /** aria-label for the source section (required) */\n    sourceLabel: string;\n    /** aria-label for the target section (required) */\n    targetLabel: string;\n    /** Source list content (required) */\n    source: React.ReactNode;\n    /** Target list content (required) */\n    target: React.ReactNode;\n    /** Action buttons between the two lists (optional) */\n    actions?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function TransferList({\n    className = \"\",\n    label,\n    sourceLabel,\n    targetLabel,\n    source,\n    target,\n    actions = undefined,\n    ...restProps\n}: TransferListProps) {\n    return (\n        <div\n            className={`transfer-list ${className}`}\n            role=\"group\"\n            aria-label={label}\n            {...restProps}\n        >\n            <section\n                className=\"transfer-list-source\"\n                aria-label={sourceLabel}\n            >\n                {source}\n            </section>\n            {actions !== undefined && actions !== null ? (\n                <div className=\"transfer-list-actions\">{actions}</div>\n            ) : null}\n            <section\n                className=\"transfer-list-target\"\n                aria-label={targetLabel}\n            >\n                {target}\n            </section>\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/TransferList.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/transfer-list/"
+}

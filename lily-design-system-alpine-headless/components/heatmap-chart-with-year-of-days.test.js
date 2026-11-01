@@ -16,7 +16,6 @@ describe("HeatmapChartWithYearOfDays", () => {
         await mount("heatmap-chart-with-year-of-days");
         expect(el().tagName.toLowerCase()).toBe("figure");
     });
-
     it("carries data-year and data-week-start", async () => {
         await mount("heatmap-chart-with-year-of-days");
         expect(el().getAttribute("data-year")).toBe("2026");

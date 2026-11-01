@@ -8,8 +8,9 @@ import {
     model,
     output,
 } from "@angular/core";
+import { initialListboxState, listboxKeydown } from "./listbox-machine";
 
-/** Navigation/focus model. Default `"roving-focus"` — currently inert (no keyboard handling), matching this component's pre-extension behaviour: nothing consumed it, so there was nothing to preserve beyond "does nothing." */
+/** Navigation/focus model. Default `"roving-focus"`: real focus moves between the options (inert before 2026-10-29, when the shared machine gave it the roving keys). */
 export type ListboxNavigation = "roving-focus" | "active-descendant";
 
 /**
@@ -82,8 +83,9 @@ export class Listbox {
 
     @ViewChild("root") private rootRef?: ElementRef<HTMLElement>;
 
-    private typeaheadBuffer = "";
-    private typeaheadTimer?: ReturnType<typeof setTimeout>;
+    // Every keyboard decision lives in the framework-free machine (shared/listbox-machine.ts, copied here by
+    // bin/sync-shared-modules); this component only reads the DOM and applies the transition it returns.
+    private typeaheadState = initialListboxState().typeahead;
 
     private options(): HTMLElement[] {
         return this.rootRef
@@ -105,87 +107,29 @@ export class Listbox {
         this.rootRef?.nativeElement.focus(options);
     }
 
-    private moveActive(delta: number): void {
-        const count = this.options().length;
-        if (count === 0) return;
-        const next = this.activeIndex() + delta;
-        this.activeIndex.set(
-            this.clamp()
-                ? Math.min(Math.max(next, 0), count - 1)
-                : ((next % count) + count) % count,
-        );
-    }
-
-    private runTypeahead(char: string): void {
-        const opts = this.options();
-        if (opts.length === 0) return;
-        const lower = char.toLowerCase();
-        const sameCharRun =
-            this.typeaheadBuffer === "" || [...this.typeaheadBuffer].every((c) => c === lower);
-        this.typeaheadBuffer += lower;
-        clearTimeout(this.typeaheadTimer);
-        this.typeaheadTimer = setTimeout(() => (this.typeaheadBuffer = ""), 500);
-        const query = sameCharRun ? lower : this.typeaheadBuffer;
-        const anchor = this.activeIndex() < 0 ? 0 : this.activeIndex();
-        const start = sameCharRun ? anchor + 1 : anchor;
-        for (let n = 0; n < opts.length; n++) {
-            const i = (start + n) % opts.length;
-            if ((opts[i].textContent ?? "").trim().toLowerCase().startsWith(query)) {
-                this.activeIndex.set(i);
-                return;
-            }
-        }
-    }
-
     protected onKeydown(event: KeyboardEvent): void {
-        if (this.navigation() !== "active-descendant") return;
-        switch (event.key) {
-            case "ArrowDown":
-                event.preventDefault();
-                this.moveActive(1);
-                break;
-            case "ArrowUp":
-                event.preventDefault();
-                this.moveActive(-1);
-                break;
-            case "Home":
-                event.preventDefault();
-                this.activeIndex.set(this.options().length ? 0 : -1);
-                break;
-            case "End":
-                event.preventDefault();
-                this.activeIndex.set(this.options().length - 1);
-                break;
-            case "PageDown":
-                event.preventDefault();
-                this.moveActive(this.pageSize());
-                break;
-            case "PageUp":
-                event.preventDefault();
-                this.moveActive(-this.pageSize());
-                break;
-            case "Enter":
-            case " ":
-                event.preventDefault();
-                if (this.activeIndex() >= 0) this.activate.emit(this.activeIndex());
-                break;
-            case "Escape":
-                event.preventDefault();
-                this.escape.emit();
-                break;
-            case "Tab":
-                this.tabOut.emit(event);
-                break;
-            default:
-                if (
-                    this.typeahead() &&
-                    event.key.length === 1 &&
-                    !event.ctrlKey &&
-                    !event.metaKey &&
-                    !event.altKey
-                ) {
-                    this.runTypeahead(event.key);
-                }
-        }
+        const opts = this.options();
+        const t = listboxKeydown(
+            { activeIndex: this.activeIndex(), typeahead: this.typeaheadState },
+            event,
+            {
+                labels: opts.map((option) => (option.textContent ?? "").trim()),
+                focusedIndex: opts.indexOf(document.activeElement as HTMLElement),
+                now: Date.now(),
+            },
+            {
+                navigation: this.navigation(),
+                clamp: this.clamp(),
+                typeahead: this.typeahead(),
+                pageSize: this.pageSize(),
+            },
+        );
+        this.typeaheadState = t.state.typeahead;
+        if (t.preventDefault) event.preventDefault();
+        if (t.focus !== undefined) opts[t.focus]?.focus();
+        if (t.setActiveIndex !== undefined) this.activeIndex.set(t.setActiveIndex);
+        if (t.activate !== undefined) this.activate.emit(t.activate);
+        if (t.escape) this.escape.emit();
+        if (t.tabOut) this.tabOut.emit(event); // never prevented: Tab proceeds from wherever the consumer leaves focus
     }
 }

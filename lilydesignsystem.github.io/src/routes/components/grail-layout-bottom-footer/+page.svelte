@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<footer class=\"grail-layout-bottom-footer\">Footer</footer>";
   const svelteSource: string = "// In your Svelte component:\nimport GrailLayoutBottomFooter from \"lily-design-system-svelte-headless/components/GrailLayoutBottomFooter/GrailLayoutBottomFooter.svelte\";\n\n<GrailLayoutBottomFooter>\n  <!-- content -->\n</GrailLayoutBottomFooter>\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import GrailLayoutBottomFooter from \"./GrailLayoutBottomFooter.svelte\";\n<\/script>\n\n<GrailLayoutBottomFooter>\n    <footer><small>Copyright 2026</small></footer>\n</GrailLayoutBottomFooter>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import GrailLayoutBottomFooter from \"./GrailLayoutBottomFooter.svelte\";\n<\/script>\n\n<GrailLayoutBottomFooter>\n  <footer><small>Copyright 2026</small></footer>\n</GrailLayoutBottomFooter>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

@@ -78,7 +78,7 @@ Write CSS against the hooks:
 .label { display: block; font-weight: 600; margin-bottom: 0.25rem; }
 ```
 
-Or skip hand-writing CSS entirely — link one of the 45 ready-made themes and the same markup lights up:
+Or skip hand-writing CSS entirely — link one of the 63 ready-made themes and the same markup lights up:
 
 ```
 <link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" />
@@ -88,7 +88,7 @@ Or skip hand-writing CSS entirely — link one of the 45 ready-made themes and t
 
 - The repo's tests run real browsers: `pnpm install && pnpm test` (WebDriverIO).
 - Storybook for every component: `pnpm run storybook`.
-- The [HTML+CSS+JS example app](https://lilydesignsystem.com/examples/) shows all 582 components styled, searchable, and demoed.
+- The [HTML+CSS+JS example app](https://lilydesignsystem.com/examples/) shows all 607 components styled, searchable, and demoed.
 
 ## Next steps
 

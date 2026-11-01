@@ -191,7 +191,9 @@ export class OrgEditor extends HTMLElement {
         const textarea = document.createElement("textarea");
         textarea.className = "org-editor-textarea";
         textarea.id = this.#id;
-        textarea.value = this.getAttribute("value") ?? "";
+        // defaultValue, not value: a form reset restores a textarea to its default, so the
+        // initial text must be it.
+        textarea.defaultValue = this.getAttribute("value") ?? "";
         textarea.addEventListener("input", () => this.#emit());
         textarea.addEventListener("keydown", (e) => this.#onTextKeydown(e));
 

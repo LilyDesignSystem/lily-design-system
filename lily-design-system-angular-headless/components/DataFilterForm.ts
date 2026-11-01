@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, input, output } from "@angular/core";
 
 /**
  * DataFilterForm — a form for filtering data by criteria
@@ -10,10 +10,17 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-data-filter-form",
     standalone: true,
-    template: `<div class="data-filter-form {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<form class="data-filter-form {{ className() }}" [attr.aria-label]="label() || null" (submit)="onSubmit($event)"><ng-content /></form>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DataFilterForm {
     readonly label = input<string>("");
     readonly className = input<string>("");
+    /** Emits the submit event; the native submission (a page navigation) is prevented. */
+    readonly submitted = output<SubmitEvent>();
+
+    onSubmit(event: Event): void {
+        event.preventDefault();
+        this.submitted.emit(event as SubmitEvent);
+    }
 }

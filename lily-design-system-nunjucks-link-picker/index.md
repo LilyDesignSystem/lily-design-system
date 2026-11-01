@@ -61,7 +61,7 @@ Ctrl/Cmd/Shift/Alt-click, middle-click and `newTab` links always stay native bro
 ## Styling
 
 Headless: no CSS ships. Hooks: `.link-picker`, `.link-picker-button`, `.link-picker-icon`, `.link-picker-tooltip`,
-`.link-picker-list` (carries `hidden` when closed), `.link-picker-list-item`, `.link-picker-link`. The monorepo's 45 `themes/`
+`.link-picker-list` (carries `hidden` when closed), `.link-picker-list-item`, `.link-picker-link`. The monorepo's 57 `themes/`
 style them all, including the popup placement.
 
 ## Examples

@@ -33,7 +33,8 @@
 // References:
 //   - components/action-group/index.md (canonical contract)
 
-import { applySelfClassName } from "../lib/dom-utils.js";
+import { applySelfClassName, nextId } from "../lib/dom-utils.js";
+import { popoverSupported, syncPopover, toggleOpened } from "./popover.js";
 
 export class ActionGroup extends HTMLElement {
     static get observedAttributes(): string[] {
@@ -43,6 +44,7 @@ export class ActionGroup extends HTMLElement {
     #built = false;
     #trigger: HTMLButtonElement | null = null;
     #panel: HTMLDivElement | null = null;
+    #panelId = nextId("lily-action-group-overflow-menu");
 
     connectedCallback(): void {
         if (this.#built) return;
@@ -58,10 +60,19 @@ export class ActionGroup extends HTMLElement {
             trigger.className = "action-group-overflow-trigger";
             trigger.setAttribute("aria-haspopup", "menu");
             trigger.textContent = "…";
+            // popover="auto" (tasks.md P18-T11): command="toggle-popover" opens and closes the menu and the toggle
+            // event writes `overflow-open` back. Without the API the click toggles it and syncPopover sets `hidden`.
+            trigger.setAttribute("aria-controls", this.#panelId);
+            trigger.setAttribute("command", "toggle-popover");
+            trigger.setAttribute("commandfor", this.#panelId);
+            trigger.setAttribute("popovertarget", this.#panelId);
             trigger.addEventListener("click", this.#onTriggerClick);
 
             const panel = document.createElement("div");
             panel.className = "action-group-overflow-menu";
+            panel.id = this.#panelId;
+            panel.setAttribute("popover", "auto");
+            panel.addEventListener("toggle", this.#onPopoverToggle);
             for (const child of overflowChildren) panel.appendChild(child);
 
             this.appendChild(trigger);
@@ -88,11 +99,20 @@ export class ActionGroup extends HTMLElement {
         if (overflowLabel !== null) trigger.setAttribute("aria-label", overflowLabel);
         const open = this.hasAttribute("overflow-open");
         trigger.setAttribute("aria-expanded", open ? "true" : "false");
-        panel.hidden = !open;
+        syncPopover(panel, open);
     }
 
     #onTriggerClick = (): void => {
-        const next = !this.hasAttribute("overflow-open");
+        if (this.#panel && popoverSupported(this.#panel)) return; // the browser toggles; #onPopoverToggle reports it
+        this.#setOpen(!this.hasAttribute("overflow-open"));
+    };
+
+    #onPopoverToggle = (event: Event): void => {
+        this.#setOpen(toggleOpened(event));
+    };
+
+    #setOpen(next: boolean): void {
+        if (next === this.hasAttribute("overflow-open")) return;
         this.toggleAttribute("overflow-open", next);
         this.dispatchEvent(
             new CustomEvent("lily-overflow-toggle", {
@@ -101,5 +121,5 @@ export class ActionGroup extends HTMLElement {
                 composed: true,
             }),
         );
-    };
+    }
 }

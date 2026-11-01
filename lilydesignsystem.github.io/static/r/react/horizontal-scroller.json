@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "horizontal-scroller",
+  "type": "registry:component",
+  "title": "HorizontalScroller",
+  "description": "A horizontally scrollable content container.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/HorizontalScroller.tsx",
+      "content": "import React, { useRef } from \"react\";\n\n// HorizontalScroller component\n//\n// A horizontally scrollable region. Renders a <div role=\"region\"> with\n// tabindex=0 so keyboard users can focus the area, and handles ArrowLeft /\n// ArrowRight to scroll horizontally inside it. Pointer / touch scrolling\n// is left to the browser's native overflow behaviour (which the consumer\n// enables via overflow-x: auto in CSS).\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label    — string, required. Accessible label for the scrollable region.\n//   step     — number, default 100. Pixels to scroll per Arrow key press.\n//   children — ReactNode, required. Horizontally arranged content.\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Accessibility:\n//   - role=\"region\" + aria-label exposes the area as a labelled landmark\n//   - tabindex=0 makes the scroll container focusable for keyboard users\n//   - Arrow keys scroll horizontally for users who can't drag\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//     (overflow-x: auto + a flex/inline-flex track inside)\n\nexport interface HorizontalScrollerProps {\n    className?: string;\n    /** Accessible label for the scrollable region. */\n    label: string;\n    /** Pixels to scroll per Arrow key press. */\n    step?: number;\n    /** Horizontally arranged content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function HorizontalScroller({\n    className = \"\",\n    label,\n    step = 100,\n    children,\n    ...restProps\n}: HorizontalScrollerProps) {\n    const ref = useRef<HTMLDivElement>(null);\n\n    const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {\n        if (event.key === \"ArrowRight\") {\n            event.preventDefault();\n            ref.current?.scrollBy({ left: step, behavior: \"smooth\" });\n        } else if (event.key === \"ArrowLeft\") {\n            event.preventDefault();\n            ref.current?.scrollBy({ left: -step, behavior: \"smooth\" });\n        } else if (event.key === \"Home\") {\n            event.preventDefault();\n            ref.current?.scrollTo({ left: 0, behavior: \"smooth\" });\n        } else if (event.key === \"End\") {\n            event.preventDefault();\n            const el = ref.current;\n            if (el) el.scrollTo({ left: el.scrollWidth, behavior: \"smooth\" });\n        }\n    };\n\n    return (\n        <div\n            ref={ref}\n            className={`horizontal-scroller ${className}`}\n            role=\"region\"\n            aria-label={label}\n            tabIndex={0}\n            onKeyDown={handleKeyDown}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/HorizontalScroller.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/horizontal-scroller/"
+}

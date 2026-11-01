@@ -42,6 +42,14 @@
 - `children`: slot -- menu item content
 - `...restProps`: Any additional HTML attributes spread onto the `<div>`
 
+## Native platform
+
+- Decision: hand-rolled because role="menuitem" has no native element
+- Uses: none (div role="menuitem" tabindex="-1")
+- Could use: none
+- Notes: Child of menu; a submenu would use popover="auto" like dropdown-menu.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
+
 ## Acceptance Criteria
 
 - [ ] Renders <div> element with class="menu-item"

@@ -1,23 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html = `<div
-  class="listbox"
-  role="listbox"
-  aria-label=""
->
-  <!-- Consumer provides content -->
-</div>
-
-<script>
-  // Listbox behavior
-  (function() {
-    'use strict';
-    // Listbox: consumer implements interactive behavior
-    document.querySelectorAll('.listbox').forEach(function(el) {
-      // Interactive behavior initialization
-    });
-  })();
-</script>`;
+const html = `<div class="listbox" role="listbox" aria-label="Fruits">
+  <div role="option" tabindex="0" aria-selected="true">Apple</div>
+  <div role="option" tabindex="-1" aria-selected="false">Banana</div>
+  <div role="option" tabindex="-1" aria-selected="false">Cherry</div>
+</div>`;
 
 const meta = {
     title: "Headless/Listbox",

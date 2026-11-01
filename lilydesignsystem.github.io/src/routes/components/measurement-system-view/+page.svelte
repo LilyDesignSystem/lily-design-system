@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<span class=\"measurement-system-view\">Metric</span>";
   const svelteSource: string = "// In your Svelte component:\nimport MeasurementSystemView from \"lily-design-system-svelte-headless/components/MeasurementSystemView/MeasurementSystemView.svelte\";\n\n<MeasurementSystemView label=\"Label\" value=\"Sample value\" />\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import MeasurementSystemView from \"./MeasurementSystemView.svelte\";\n<\/script>\n\n<MeasurementSystemView value=\"metric\" />\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import MeasurementSystemView from \"./MeasurementSystemView.svelte\";\n<\/script>\n\n<MeasurementSystemView value=\"metric\" />\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>
@@ -76,7 +76,7 @@
       <li>PascalCase: MeasurementSystemView</li>
       <li>Description: a read-only display of a measurement system</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
-      <li>HTML tag: &lt;div&gt;</li>
+      <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .measurement-system-view</li>
       <li>Interactive: no</li>
     </ul>

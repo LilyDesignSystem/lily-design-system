@@ -25,6 +25,9 @@
 //   - Headless: no CSS, no styles.
 //   - Uses defineModel() for the value.
 
+import { ref } from "vue";
+import { useFormReset } from "./form-reset";
+
 withDefaults(
     defineProps<{
         /** Accessible label. */
@@ -52,6 +55,8 @@ withDefaults(
 );
 
 const modelValue = defineModel<string>({ default: "" });
+const field = ref<HTMLInputElement | HTMLTextAreaElement | null>(null);
+useFormReset(modelValue, field);
 </script>
 
 <template>
@@ -68,6 +73,7 @@ const modelValue = defineModel<string>({ default: "" });
         :aria-label="label"
         :data-length="length"
         :name="name"
+        ref="field"
         v-model="modelValue"
         :required="required"
         :disabled="disabled"

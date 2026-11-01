@@ -21,3 +21,56 @@ describe("ToggleButton", function () {
         expect(label).not.toBeNull();
     });
 });
+
+// Keyboard behaviour (P12-T4): real key presses in a real browser.
+describe("ToggleButton keyboard", function () {
+    async function load(inner) {
+        await browser.url("file://" + path.resolve(__dirname, "toggle-button.html"));
+        if (inner !== undefined) {
+            await browser.execute(
+                (sel, html) => {
+                    document.querySelector(sel).insertAdjacentHTML("beforeend", html);
+                },
+                "body",
+                inner,
+            );
+        }
+    }
+    async function active() {
+        return browser.execute(() => document.activeElement && document.activeElement.id);
+    }
+    async function focus(id) {
+        await browser.execute((i) => document.getElementById(i).focus(), id);
+    }
+    async function attr(selector, name) {
+        return browser.execute((s, n) => document.querySelector(s).getAttribute(n), selector, name);
+    }
+
+    it("Space toggles aria-checked", async function () {
+        await load();
+        await browser.execute(() => document.querySelector(".toggle-button").focus());
+        expect(await attr(".toggle-button", "aria-checked")).toBe("false");
+        await browser.keys(" ");
+        expect(await attr(".toggle-button", "aria-checked")).toBe("true");
+        await browser.keys(" ");
+        expect(await attr(".toggle-button", "aria-checked")).toBe("false");
+    });
+    it("Enter toggles aria-checked", async function () {
+        await load();
+        await browser.execute(() => document.querySelector(".toggle-button").focus());
+        await browser.keys("Enter");
+        expect(await attr(".toggle-button", "aria-checked")).toBe("true");
+    });
+    it("has the switch role", async function () {
+        await load();
+        expect(await attr(".toggle-button", "role")).toBe("switch");
+    });
+    it("a disabled control does not toggle", async function () {
+        await load();
+        await browser.execute(() =>
+            document.querySelector(".toggle-button").setAttribute("disabled", ""),
+        );
+        await browser.execute(() => document.querySelector(".toggle-button").click());
+        expect(await attr(".toggle-button", "aria-checked")).toBe("false");
+    });
+});

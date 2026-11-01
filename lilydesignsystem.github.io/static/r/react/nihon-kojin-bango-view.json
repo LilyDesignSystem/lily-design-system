@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "nihon-kojin-bango-view",
+  "type": "registry:component",
+  "title": "NihonKojinBangoView",
+  "description": "A read-only display of Japan's Individual Number (My Number).",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/NihonKojinBangoView.tsx",
+      "content": "import React from \"react\";\n\n// NihonKojinBangoView component\n//\n// A headless display component for showing Japan's\n// Individual Number / My Number (マイナンバー) in a read-only format.\n// Format: Twelve digits, issued to every resident of Japan since 2016. The twelfth digit is a check digit: the first eleven digits are each multiplied by a position-dependent weight (6,5,4,3,2 for positions 1-5; 7,6,5,4,3,2 for positions 6-11), summed, taken Modulus-11, and the remainder subtracted from 11 (remainders of 0 or 1 both yield a check digit of 0).\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". The identifier string to display.\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <NihonKojinBangoView label=\"Individual Number / My Number (マイナンバー)\" value={value} />\n//\n// Accessibility:\n//   - aria-label provides the accessible name so screen readers announce the purpose\n//\n// References:\n//   - https://en.wikipedia.org/wiki/Individual_Number\n\nexport interface NihonKojinBangoViewProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The identifier to display */\n    value?: string;\n    [key: string]: unknown;\n}\n\nexport default function NihonKojinBangoView({\n    className = \"\",\n    label,\n    value = \"\",\n    ...restProps\n}: NihonKojinBangoViewProps) {\n    return (\n        <span\n            className={`nihon-kojin-bango-view ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {value}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/NihonKojinBangoView.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/nihon-kojin-bango-view/"
+}

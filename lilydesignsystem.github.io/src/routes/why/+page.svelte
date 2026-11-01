@@ -47,8 +47,8 @@
       locale as a prop, always explicitly.
     </li>
     <li>
-      <strong>One catalog, eight frameworks.</strong> The same 582 components
-      (547 as native Web Components) with the same class hooks and prop
+      <strong>One catalog, eight frameworks.</strong> The same 607 components
+      (548 as native Web Components) with the same class hooks and prop
       conventions in HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks, and
       Web Components. Your CSS and your team's knowledge transfer across
       stacks.
@@ -56,7 +56,7 @@
     <li>
       <strong>CSS-strategy agnostic.</strong> One stable kebab-case class per
       component root. Semantic CSS, Tailwind utilities, CSS-in-JS, or one of
-      the 57 ready-made themes — Lily welcomes them all and stays gracefully
+      the 63 ready-made themes — Lily welcomes them all and stays gracefully
       out of the way.
     </li>
     <li>
@@ -78,7 +78,7 @@
       callouts, summary lists, phase banners, skip links.
     </li>
     <li>
-      <strong>140 national personal identifier components</strong> covering
+      <strong>164 national personal identifier components</strong> covering
       healthcare, national-ID, tax, and passport identifiers across 50+
       countries, each documenting its format and validation algorithm.
     </li>
@@ -98,7 +98,7 @@
 
   <h2>Themes for the public sector, out of the box</h2>
   <p>
-    Lily ships 57 standalone reference themes that target its class hooks
+    Lily ships 63 standalone reference themes that target its class hooks
     directly: NHS England, NHS Scotland, and NHS Wales (each in
     patient-facing and practitioner-facing variants), GOV.UK, USWDS, Adobe
     Spectrum and Mozilla Protocol inspired palettes, and a set of

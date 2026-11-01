@@ -1,6 +1,6 @@
 # Lily Design System™ - Svelte Headless
 
-A headless Svelte 5 component library with 490 components. All components are headless (no built-in styles), fully accessible (WCAG 2.2 AAA), and use Svelte 5 runes.
+A headless Svelte 5 component library with 607 components. All components are headless (no built-in styles), fully accessible (WCAG 2.2 AAA), and use Svelte 5 runes.
 
 ## Components
 
@@ -433,7 +433,7 @@ No strings are hardcoded in any component. All user-facing text comes through pr
 
 ## Related Projects
 
-- [Lily Design System](https://github.com/LilyDesignSystem/lily) — Parent project
+- [Lily Design System](https://github.com/LilyDesignSystem/lily-design-system) — Parent project
 - [Svelte SvelteKit Examples](../lily-design-system-svelte-sveltekit-examples/) — Example app with simple styling
 - [React Headless](../lily-design-system-react-headless/) — React equivalent
 - [Vue Headless](../lily-design-system-vue-headless/) — Vue equivalent

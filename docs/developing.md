@@ -18,10 +18,12 @@ bin/test          # required files, catalog/registry consistency, themes
 bin/check-links   # every relative markdown link resolves
 ```
 
-Node 22+ with pnpm for the JavaScript subprojects (`pnpm install`
-per subproject — each is standalone); .NET 10 for the Blazor pair.
-There is no root-level install: the monorepo is a federation of
-standalone subtrees, not a workspace.
+Node 26+ with pnpm for the JavaScript subprojects (`pnpm install`
+per subproject — each is standalone; see
+[spec/node-current-version](../spec/node-current-version/index.md)); .NET 10 for the Blazor pair.
+There is no root-level install of the subprojects: the monorepo is a
+federation of standalone subprojects, not a workspace (the root
+`package.json` carries only the lint and format tooling).
 
 ## How the monorepo is put together
 
@@ -55,9 +57,17 @@ standalone subtrees, not a workspace.
 
 ## Add a component, start to finish
 
-Agree it exists first — open an issue; a component is work in 14
-subprojects ([CONTRIBUTING.md](../CONTRIBUTING.md) § Adding a
+Agree it exists first — open an issue; a component is work in the 9
+headless libraries and 8 example apps ([CONTRIBUTING.md](../CONTRIBUTING.md) § Adding a
 component). Then:
+
+Shortcut: `bin/new-component <slug>` (`--dry-run` lists the paths
+first) generates a generic, working placeholder across every layer
+`bin/test` checks — the catalog row, docs directory, CSS hook, the
+seven headless implementations with tests and stories, the SvelteKit and
+Eleventy pages, the site route and the registries. The steps below are
+what it does, and what you then replace with the real component (Web
+Components and Alpine.js are added by hand).
 
 **1. Catalog row.** Append to `components.tsv`:
 slug ⇥ PascalCase ⇥ one-sentence description (tab-separated).
@@ -110,10 +120,12 @@ example apps keep copies of their library's components, and `bin/test`
 fails if a copy differs. Never edit an example's copy directly. Follow the suffix→element mapping and a sibling component's
 idiom in each framework.
 
-> Honesty note: `bin/test` currently machine-gates the svelte,
-> sveltekit-copy, and nunjucks implementations; the other frameworks
-> are required by the parity contract but caught only in review — the
-> planned `bin/check-coverage` (plan P7-T4) closes that gap.
+> `bin/test` gates all seven full-catalog libraries through
+> `bin/check-coverage` (implementation, test and story per component;
+> since 2026-10-30 also a keyboard-test column whose known gaps are
+> allow-listed and may only shrink) and `bin/check-class-names` (all
+> eight, Web Components included). The Alpine.js library is not yet in
+> either check.
 
 **7. Gate.**
 

@@ -48,12 +48,17 @@
 //   - MDN select element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select
 //   - WCAG 1.4.12 Text Spacing: https://www.w3.org/WAI/WCAG22/Understanding/text-spacing.html
 
+import { ref } from "vue";
+import { useFormReset } from "./form-reset";
+
 defineProps<{
     /** Accessible label. */
     label: string;
 }>();
 
 const modelValue = defineModel<string>({ default: "" });
+const field = ref<HTMLSelectElement | null>(null);
+useFormReset(modelValue, field);
 </script>
 
 <template>
@@ -61,6 +66,7 @@ const modelValue = defineModel<string>({ default: "" });
     <select
         class="theme-select"
         :aria-label="label"
+        ref="field"
         v-model="modelValue"
     >
         <slot />

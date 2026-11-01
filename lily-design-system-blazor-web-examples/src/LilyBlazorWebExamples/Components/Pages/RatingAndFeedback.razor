@@ -25,34 +25,16 @@ else
     <Form Label="Feedback form" novalidate @onsubmit="HandleSubmit">
         <section class="section">
             <h2>Product Rating</h2>
-            <FiveStarRatingPicker Label="Product rating">
-                @for (var i = 1; i <= 5; i++)
-                {
-                    var n = i;
-                    <Label>
-                        <RadioInput id="@($"stars-{n}")" Label="@($"{n} star{(n == 1 ? "" : "s")}")" name="stars" value="@n.ToString()"
-                                    checked="@(stars == n)" @onchange="@(() => stars = n)" />
-                        @n star@(n == 1 ? "" : "s")
-                    </Label>
-                }
-            </FiveStarRatingPicker>
+            <FiveStarRatingPicker Label="Product rating" Name="stars" @bind-Value="stars"
+                                  StarLabel="@(n => $"{n} star{(n == 1 ? "" : "s")}")" />
         </section>
 
         <Separator />
 
         <section class="section">
             <h2>Service Satisfaction</h2>
-            <FiveFaceRatingPicker Label="Service satisfaction">
-                @for (var i = 1; i <= 5; i++)
-                {
-                    var n = i;
-                    <Label>
-                        <RadioInput id="@($"satisfaction-{n}")" Label="@FaceLabels[n - 1]" name="satisfaction" value="@n.ToString()"
-                                    checked="@(satisfaction == n)" @onchange="@(() => satisfaction = n)" />
-                        @FaceLabels[n - 1]
-                    </Label>
-                }
-            </FiveFaceRatingPicker>
+            <FiveFaceRatingPicker Label="Service satisfaction" Name="satisfaction" @bind-Value="satisfaction"
+                                  Labels="FaceLabels" />
         </section>
 
         <Separator />

@@ -45,14 +45,14 @@ export class DateRange extends HTMLElement {
         start.type = "date";
         const startLabel = this.getAttribute("start-label");
         if (startLabel !== null) start.setAttribute("aria-label", startLabel);
-        start.value = this.getAttribute("start") ?? "";
+        start.defaultValue = this.getAttribute("start") ?? "";
 
         const end = document.createElement("input");
         end.className = "date-input";
         end.type = "date";
         const endLabel = this.getAttribute("end-label");
         if (endLabel !== null) end.setAttribute("aria-label", endLabel);
-        end.value = this.getAttribute("end") ?? "";
+        end.defaultValue = this.getAttribute("end") ?? "";
 
         span.appendChild(start);
         span.appendChild(end);

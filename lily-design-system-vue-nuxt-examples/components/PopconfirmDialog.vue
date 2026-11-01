@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { shallowRef, toRef } from "vue";
+import { usePopoverState } from "./popover";
 // PopconfirmDialog component
 //
 // A popover dialog with confirm and cancel buttons. Uses
@@ -44,7 +46,7 @@
 //   - WAI-ARIA Alert Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/alertdialog/
 //   - Ant Design Popconfirm: https://ant.design/components/popconfirm
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
         /** Whether the dialog is open. */
         open?: boolean;
@@ -71,6 +73,8 @@ defineEmits<{
 const uid: string = Math.random().toString(36).slice(2, 9);
 const titleId: string = `popconfirm-dialog-title-${uid}`;
 const descId: string = `popconfirm-dialog-description-${uid}`;
+const panelEl = shallowRef<HTMLElement | null>(null);
+usePopoverState(panelEl, toRef(props, "open"));
 </script>
 
 <template>
@@ -81,7 +85,8 @@ const descId: string = `popconfirm-dialog-description-${uid}`;
         aria-modal="false"
         :aria-labelledby="titleId"
         :aria-describedby="description ? descId : undefined"
-        :hidden="!open"
+        ref="panelEl"
+        popover="manual"
     >
         <h2
             class="popconfirm-dialog-title"

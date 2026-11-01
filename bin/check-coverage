@@ -10,7 +10,7 @@
 // required by the parity contract in AGENTS/components.md but were,
 // until this tool, checked only in review.
 //
-// This is the tool that closes that gap: for every one of the 491
+// This is the tool that closes that gap: for every one of the 607
 // catalog rows, verify presence across six dimensions — the catalog
 // row itself, each of the 7 headless implementations, each headless
 // test file, each headless story file (blazor has none: it deliberately
@@ -19,17 +19,25 @@
 // non-zero if anything is missing, so it can gate CI the way bin/test
 // does.
 //
-// Deliberately scoped to the 7 HEADLESS catalogs, matching
+// Scoped to the HEADLESS catalogs (the 7 full-catalog ones plus Alpine since 2026-10-30; Web Components is checked
+// by its own spec, since it ships 572 of 607 by design), matching
 // AGENTS/components.md's "7 headless subprojects" framing and the
 // "implementations" language throughout plan.md — NOT the example
 // apps' own copies of components (a separate, adjacent concern; a real
 // gap was found there while building this tool and is logged as its
 // own backlog item, tasks.md P7-T15, rather than folded in here).
 //
-// Usage: bin/check-coverage [--quiet]
+// Keys (tasks.md P12-T5): a component whose AGENTS.md `## Keyboard` section names an APG key (an arrow,
+// Escape, Home, End, PageUp or PageDown) should have a test that sends a key, in every catalog. The "keys" column
+// counts the ones that do not. Today's gaps are listed, each with a reason, in bin/check-coverage.keys-allow.json:
+// an unlisted gap fails (a new keyboard contract without a key test), and so does a listed one that is no longer a
+// gap (remove it, so the list only shrinks).
+//
+// Usage: bin/check-coverage [--quiet] [--keys-baseline]
 //   (default) prints the full matrix + every gap, exits 1 on any gap
 //   --quiet    prints only a one-line summary per dimension + gaps,
 //              still exits 1 on any gap (for CI logs)
+//   --keys-baseline  prints a keys allow-list for the current gaps and exits
 
 const fs = require("fs");
 const path = require("path");
@@ -99,6 +107,15 @@ const FRAMEWORKS = [
     impl: (c) => `lily-design-system-nunjucks-headless/components/${c.slug}/macro.njk`,
     test: (c) => `lily-design-system-nunjucks-headless/components/${c.slug}/macro.test.js`,
     story: (c) => `lily-design-system-nunjucks-headless/components/${c.slug}/macro.stories.ts`,
+    // Markup only: the macros ship no script, so key behaviour is the consumer's and there is no key test to write.
+    keys: false,
+  },
+  {
+    id: "alpine",
+    label: "Alpine",
+    impl: (c) => `lily-design-system-alpine-headless/components/${c.slug}.html`,
+    test: (c) => `lily-design-system-alpine-headless/components/${c.slug}.test.js`,
+    story: (c) => `lily-design-system-alpine-headless/components/${c.slug}.stories.ts`,
   },
 ];
 
@@ -178,19 +195,68 @@ for (const fw of FRAMEWORKS) {
   };
 }
 
+// ---------- keys: a keyboard contract needs a test that sends a key ----------
+
+// The key names, and the same keys written as words ("arrow keys", "Left/Right arrow", "Up Arrow", "Arrow Right",
+// "Page Up").
+const APG_KEYS =
+  /\b(Arrow(Up|Down|Left|Right)|Escape|Home|End|PageUp|PageDown|Page (Up|Down))\b|\b[Aa]rrow keys?\b|\b(Left|Right|Up|Down)(\/(Left|Right|Up|Down))* [Aa]rrow\b|\b(Up|Down|Left|Right) Arrow\b|\bArrow (Up|Down|Left|Right)\b/;
+// What a test that sends a key looks like in each catalog's test style (testing-library, a raw KeyboardEvent,
+// wdio's browser.keys, Playwright's keyboard.press, bUnit's KeyDown).
+const SENDS_KEY = /key:\s*["'`]|KeyboardEvent|keyboard\.press|\.keyboard\(|browser\.keys|\.keys\(|KeyDown\(|\bpress\(|keydown/i;
+const keyContract = components.filter((c) => {
+  const file = `components/${c.slug}/AGENTS.md`;
+  if (!exists(file)) return false;
+  const section = read(file).match(/## Keyboard\n([\s\S]*?)(\n## |$)/);
+  return Boolean(section && APG_KEYS.test(section[1]));
+});
+const keysAllow = JSON.parse(read("bin/check-coverage.keys-allow.json"));
+const keysSeen = new Set();
+const keysBaseline = {};
+for (const fw of FRAMEWORKS) {
+  let keysMissing = 0;
+  if (fw.keys === false) {
+    perFrameworkCounts[fw.id].keysMissing = null;
+    continue;
+  }
+  for (const c of keyContract) {
+    const file = fw.test(c);
+    if (exists(file) && SENDS_KEY.test(read(file))) continue;
+    keysMissing++;
+    const key = `${fw.id}:${c.slug}`;
+    keysBaseline[key] = "keyboard contract, no test that sends a key yet (P12-T5 baseline, 2026-10-30)";
+    if (keysAllow[key]) keysSeen.add(key);
+    else gap(`${fw.id}:keys`, c.slug, `${file} sends no key event, but the AGENTS.md Keyboard section names APG keys`);
+  }
+  perFrameworkCounts[fw.id].keysMissing = keysMissing;
+}
+for (const key of Object.keys(keysAllow)) {
+  if (!keysSeen.has(key)) {
+    gap("keys:stale", key, "listed in bin/check-coverage.keys-allow.json but its test now sends a key; remove the entry");
+  }
+}
+if (process.argv.includes("--keys-baseline")) {
+  console.log(JSON.stringify(keysBaseline, Object.keys(keysBaseline).sort(), 2));
+  process.exit(0);
+}
+
 // ---------- report ----------
 
-const row = (label, implCell, testCell, storyCell) =>
-  `  ${label.padEnd(10)} ${implCell.padStart(12)} ${testCell.padStart(12)} ${storyCell.padStart(12)}`;
+const row = (label, implCell, testCell, storyCell, keysCell = "") =>
+  `  ${label.padEnd(10)} ${implCell.padStart(12)} ${testCell.padStart(12)} ${storyCell.padStart(12)} ${keysCell.padStart(12)}`;
 
 console.log(`bin/check-coverage: ${components.length} catalog components\n`);
 console.log("Drift matrix (missing / total):");
-console.log(row("catalog", "impl", "test", "story"));
+console.log(row("catalog", "impl", "test", "story", "keys"));
 for (const fw of FRAMEWORKS) {
   const r = perFrameworkCounts[fw.id];
   const storyCell = r.storyMissing === null ? "n/a" : `${r.storyMissing}/${r.total}`;
-  console.log(row(r.label, `${r.implMissing}/${r.total}`, `${r.testMissing}/${r.total}`, storyCell));
+  const keysCell = r.keysMissing === null ? "n/a" : `${r.keysMissing}/${keyContract.length}`;
+  console.log(row(r.label, `${r.implMissing}/${r.total}`, `${r.testMissing}/${r.total}`, storyCell, keysCell));
 }
+console.log(
+  `  (keys: components whose AGENTS.md Keyboard section names APG keys but whose test sends none; ${Object.keys(keysAllow).length} listed in bin/check-coverage.keys-allow.json)`,
+);
 console.log(`  ${"demo map".padEnd(10)} ${`${demoMissing}/${components.length}`.padStart(12)}`);
 console.log(
   `  ${"css hooks".padEnd(10)} ${`${cssMissing + cssDuplicate}/${components.length}`.padStart(12)}`

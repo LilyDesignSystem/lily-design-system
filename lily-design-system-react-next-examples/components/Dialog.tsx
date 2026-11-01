@@ -45,14 +45,52 @@
 //   - Headless: no CSS, no styles — consumer provides all styling
 //   - Uses controlled on open for two-way state binding
 //   - Dialog is removed from DOM entirely when open is false
-//   - Uses open HTML attribute directly, not .showModal()
+//   - A modal dialog is opened with .showModal() (useModalDialog): top layer, inert page, Tab trapped; a
+//     non-modal one (modal={false}) with the open attribute. The native cancel (Escape) and close events keep
+//     open in step, and focus returns to the opener on close.
 //
 // References:
 //   - WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
 //   - MDN dialog element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog
 //   - WAI-ARIA dialog role: https://www.w3.org/TR/wai-aria-1.2/#dialog
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+
+/**
+ * Open a `<dialog>` while `active`: with `showModal()` when `modal` (top layer, inert page behind, Tab trapped,
+ * Escape fires `cancel`), else with the `open` attribute. Where `showModal` is missing (jsdom) it falls back to the
+ * attribute. Focus moves in on open and returns, on close, to the element that had it (tasks.md P14-T4; the same
+ * logic as the Svelte catalog's Dialog/modal.ts and this catalog's Drawer).
+ */
+export function useModalDialog(
+    ref: React.RefObject<HTMLDialogElement | null>,
+    active: boolean,
+    modal = true,
+): void {
+    useEffect(() => {
+        const node = ref.current;
+        if (!active || !node) return;
+        const opener = document.activeElement as HTMLElement | null;
+        if (!node.open) {
+            if (modal && typeof node.showModal === "function") node.showModal();
+            else node.setAttribute("open", "");
+        }
+        // showModal() focuses the first focusable descendant itself; where it is missing do the same, else the dialog.
+        if (!node.contains(document.activeElement)) {
+            const first = node.querySelector<HTMLElement>(
+                'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+            );
+            (first ?? node).focus();
+        }
+        return () => {
+            if (node.open) {
+                if (typeof node.close === "function") node.close();
+                else node.removeAttribute("open");
+            }
+            if (opener && opener !== document.body && opener.isConnected) opener.focus();
+        };
+    }, [ref, active, modal]);
+}
 
 export interface DialogProps {
     className?: string;
@@ -79,30 +117,44 @@ export default function Dialog({
     ...restProps
 }: DialogProps) {
     const [open, setOpen] = useState(openProp);
+    const ref = useRef<HTMLDialogElement>(null);
 
     // Sync internal state when the prop changes externally.
     useEffect(() => {
         setOpen(openProp);
     }, [openProp]);
 
+    useModalDialog(ref, open, modal);
+
+    function dismiss() {
+        setOpen(false);
+        onChange?.(false);
+    }
+
     function handleKeyDown(event: React.KeyboardEvent) {
         if (event.key === "Escape") {
             event.preventDefault();
-            setOpen(false);
-            onChange?.(false);
+            dismiss();
         }
+    }
+
+    function handleCancel(event: React.SyntheticEvent) {
+        event.preventDefault();
+        dismiss();
     }
 
     return (
         <>
             {open && (
                 <dialog
+                    ref={ref}
                     className={`dialog ${className}`}
-                    open
                     tabIndex={-1}
                     aria-label={label}
                     aria-modal={modal || undefined}
                     onKeyDown={handleKeyDown}
+                    onCancel={handleCancel}
+                    onClose={dismiss}
                     {...restProps}
                 >
                     {children}

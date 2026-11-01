@@ -31,6 +31,7 @@
 //   - WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menu/
 
 import { applySelfClassName } from "../lib/dom-utils.js";
+import { syncPopover, toggleOpened } from "./popover.js";
 
 export class ContextMenu extends HTMLElement {
     static get observedAttributes(): string[] {
@@ -45,7 +46,12 @@ export class ContextMenu extends HTMLElement {
             this.#built = true;
             applySelfClassName(this, "context-menu");
             this.setAttribute("role", "menu");
+            // popover="auto" with no declarative trigger (a right-click or long-press opens it, tasks.md P18-T11):
+            // `open` shows it with showPopover() in the top layer; Escape and light dismiss come from the browser and
+            // the toggle event writes `open` back. Positioning at the pointer stays the consumer's CSS.
+            this.setAttribute("popover", "auto");
             this.addEventListener("keydown", this.#onKeydown);
+            this.addEventListener("toggle", this.#onPopoverToggle);
         }
         this.#sync();
     }
@@ -59,12 +65,17 @@ export class ContextMenu extends HTMLElement {
         const label = this.getAttribute("label");
         if (label !== null) this.setAttribute("aria-label", label);
         const open = this.hasAttribute("open");
-        this.hidden = !open;
+        syncPopover(this, open);
         if (open && !this.#wasOpen) {
             this.querySelector<HTMLElement>("[role='menuitem']")?.focus();
         }
         this.#wasOpen = open;
     }
+
+    #onPopoverToggle = (event: Event): void => {
+        // The menu's own items fire no toggle events, so this is the menu itself.
+        if (event.target === this) this.toggleAttribute("open", toggleOpened(event));
+    };
 
     #items(): HTMLElement[] {
         return Array.from(this.querySelectorAll<HTMLElement>("[role='menuitem']"));

@@ -3,8 +3,7 @@
 <section class="page-intro">
   <h1>設定ヘルパー</h1>
   <p class="page-intro-tagline">
-    各フレームワークに 7 つの小さなパッケージがあり、それぞれが 1 つのユーザーの用途を最初から最後まで受け持ちます。さらに、そのうち 5 つをまとめるバーもあります。すでに
-    <a href="/tutorials/theming/">theme-picker</a>は紹介しました。ここでは locale-picker、text-size-picker、motion-picker(設定)、share-picker、search-picker(アクション)、date-time-picker(フォームの値)、そして picker-bar を扱います。
+    各フレームワークに 11 個の小さなピッカーがあり、それぞれが 1 つのユーザーの用途を最初から最後まで受け持ちます。さらに、そのうち最大 7 つをまとめるバーもあります。すでに <a href="/tutorials/theming/">theme-picker</a>は紹介しました。ここでは locale-picker、text-size-picker、motion-picker(設定)、share-picker、search-picker(アクション)、date-time-picker(フォームの値)、そして picker-bar を扱います。
   </p>
 </section>
 
@@ -26,7 +25,7 @@
     <li>SSR 対応: DOM への書き込みはマウント/エフェクトのライフサイクル内だけで行われます。</li>
     <li>i18n に対応: ユーザーに見える文字列はすべてプロパティです。</li>
     <li>
-      Svelte(基準実装)、React、Vue、Angular、HTML カスタム要素、Nunjucks、Blazor で利用でき、どれも同じ契約です。
+      Svelte(基準実装)、React、Vue、Angular、HTML カスタム要素、Web Components、Nunjucks、Blazor で利用でき、どれも同じ契約です。
     </li>
   </ul>
   <p>
@@ -208,6 +207,7 @@
   <p>
     <code>picker-bar</code> 検索、テーマ、ロケール、テキストサイズ、共有を 1 行で描画し、参照テーマの全セットと 7 段階のテキストスケールがあらかじめ組み込まれています。アクセシブルな名前はすべて、必須の 1 つの
     <code>labels</code> オブジェクトで渡します。
+    リンクを渡すと link-picker を先頭に、タイムゾーンのラベルとロケールを渡すとロケールの後に time-zone-picker も描画します。
   </p>
   
   <pre tabindex="0"><code>&lt;script&gt;
@@ -264,7 +264,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker
 
   <h2>次のステップ</h2>
   <ul>
-    <li><a href="/components/">コンポーネントカタログ</a> — 582 コンポーネントの完全なリファレンス。</li>
+    <li><a href="/components/">コンポーネントカタログ</a> — 607 コンポーネントの完全なリファレンス。</li>
     <li><a href="/help/">ヘルプ</a> — トラブルシューティングと FAQ。</li>
     <li><a href="/why/">Lily を選ぶ理由</a> — そしてプロジェクトを支援する方法。</li>
   </ul>

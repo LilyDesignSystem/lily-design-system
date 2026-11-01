@@ -4,7 +4,8 @@
 // such as for sightseeing, or pathways, or demonstrations, or onboarding.
 // It wraps a TourList and its TourListItem children, providing
 // the dialog overlay and keyboard dismissal behavior. When active, it
-// renders as a modal dialog that traps focus and can be closed with Escape.
+// renders as a non-modal dialog (no aria-modal, no focus trap: the page it points
+// at must stay usable) that can be closed with Escape.
 //
 // Props:
 //   className — string, optional. CSS class name.
@@ -45,7 +46,7 @@
 //
 // Accessibility:
 //   - role="dialog" identifies the overlay as a dialog window
-//   - aria-modal="true" indicates the dialog is modal
+//   - no aria-modal: the tour is non-modal; it points at the live page, which must stay usable
 //   - aria-label={label} provides an accessible name for the tour
 //   - tabindex="-1" allows the dialog to receive focus for keyboard events
 //
@@ -97,7 +98,6 @@ export default function Tour({
                     <div
                         className={`tour ${className}`}
                         role="dialog"
-                        aria-modal="true"
                         aria-label={label}
                         tabIndex={-1}
                         onKeyDown={handleKeyDown}

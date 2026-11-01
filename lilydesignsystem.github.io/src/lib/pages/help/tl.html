@@ -155,7 +155,7 @@ pnpm run dev</code></pre>
   <h2>Mga handa nang tema</h2>
   <p>
     Ayaw mong magsulat ng CSS mula sa simula? May kasamang
-    <strong>57 standalone na reference na tema</strong> ang Lily sa direktoryong
+    <strong>63 standalone na reference na tema</strong> ang Lily sa direktoryong
     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
     . Bawat isa ay isang stylesheet na tumututok sa mga class hook ng Lily — i-link ito at may istilo ka na:
   </p>
@@ -179,11 +179,7 @@ pnpm run dev</code></pre>
 
 <section class="section prose" id="helpers" style="margin: 0 auto;">
   <h2>Mga preference helper</h2>
-  <p>
-    May walong maliliit na picker ang bawat framework, bawat isa ay nasa sarili nitong
-    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> package (at isang <code>picker-bar</code> na nag-aassemble sa kanila). Bawat isa ay headless na icon button na nagbubukas ng popup — listbox, listahan ng mga link, search form, o (para sa date-time-picker) date-picker dialog — hindi native na
-    <code>&lt;select&gt;</code>; ligtas sa SSR; at walang kasamang CSS:
-  </p>
+  <p>Ang bawat framework ay may labing-isang maliliit na picker, bawat isa sa sarili nitong <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> na package (at isang <code>picker-bar</code> na nagbubuo sa kanila). Bawat isa ay isang headless na icon button na nagbubukas ng popup — isang listbox, isang listahan ng mga link, isang search form, isang panel ng sarili mong nilalaman, o (para sa date-time-picker) isang dialog na pumipili ng petsa — hindi isang native na <code>&lt;select&gt;</code> (nag-aalok ang theme-picker ng isa bilang opsyonal na variant); ligtas ito sa SSR; at walang kasamang CSS. Bukod sa menu-picker, settings-picker at time-zone-picker, ang mga ito ay:</p>
   <ul>
     <li>
       <strong>theme-picker</strong> — naglo-load ng mga stylesheet ng tema sa runtime sa pamamagitan ng pagpapalit ng pinamamahalaang <code>&lt;link&gt;</code>, nagtatakda ng
@@ -294,7 +290,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
     <summary>Nagre-render ang isang component pero mukhang walang istilo</summary>
     <p>
       Iyan ang headless na gumagana ayon sa nilalayon — walang CSS na kasama ng component. Magsulat ng CSS laban sa kebab-case na klase ng component (ipinapakita sa bawat <a href="/components/">pahina ng catalog</a>) o mag-link ng isa sa
-      <a href="#themes">57 handa nang tema</a>.
+      <a href="#themes">63 handa nang tema</a>.
     </p>
   </details>
 
@@ -383,7 +379,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
   <details class="faq-item">
     <summary>Bakit headless sa halip na may istilo?</summary>
     <p>
-      Maginhawa ang mga naunang istilong component — hanggang hindi na tumugma sa brand mo. Medyo mas maraming trabaho sa simula ang mga headless na component pero binibigyan ka ng kumpletong kontrol sa visual na disenyo. Ipinapakita ng mga halimbawang app at ng 57 tema ang mga paraan para bigyan sila ng istilo; maaari mong kunin ang mga iyon o palitan nang buo. Ang mas mahabang argumento ay nasa <a href="/why/">Bakit Lily</a>.
+      Maginhawa ang mga naunang istilong component — hanggang hindi na tumugma sa brand mo. Medyo mas maraming trabaho sa simula ang mga headless na component pero binibigyan ka ng kumpletong kontrol sa visual na disenyo. Ipinapakita ng mga halimbawang app at ng 63 tema ang mga paraan para bigyan sila ng istilo; maaari mong kunin ang mga iyon o palitan nang buo. Ang mas mahabang argumento ay nasa <a href="/why/">Bakit Lily</a>.
     </p>
   </details>
 

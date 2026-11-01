@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "red-amber-green-view",
+  "type": "registry:component",
+  "title": "RedAmberGreenView",
+  "description": "A read-only display of a red/amber/green status.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/RedAmberGreenView.tsx",
+      "content": "import React from \"react\";\n\n// RedAmberGreenView component\n//\n// A headless RAG (Red/Amber/Green) status view that displays a traffic-light\n// status value as read-only text inside a <span> element. Used to present\n// previously captured RAG status data in dashboards, reports, and detail views\n// where the status is informational rather than editable.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". The RAG status value to display (e.g. \"red\", \"amber\", \"green\").\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <RedAmberGreenView label=\"Project status\" value=\"green\" />\n//\n// Examples:\n//\n//   <RedAmberGreenView label=\"Health check\" value={status} />\n//\n//\n//   <RedAmberGreenView label=\"Risk level\" value=\"amber\" data-testid=\"risk\" />\n//\n// Keyboard:\n//   - None — this is a passive informational display, not an interactive element.\n//\n// Accessibility:\n//   - aria-label on the <span> for screen reader context\n//   - Screen readers announce the label and displayed status value\n//   - WCAG 2.2 AAA: properly labeled for assistive technology\n//\n// Internationalization:\n//   - The label prop externalizes the accessible label string\n//   - The value is displayed as-is, allowing localized status names\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Read-only display component — not interactive, no controlled\n//   - Consumer can apply color-coded backgrounds or text colors via restProps\n//\n// References:\n//   - WAI-ARIA status role: https://www.w3.org/TR/wai-aria-1.2/#status\n//   - Traffic Light Rating System: https://en.wikipedia.org/wiki/Traffic_light_rating_system\n\nexport interface RedAmberGreenViewProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The RAG status value to display (e.g. \"red\", \"amber\", \"green\") */\n    value?: string;\n    [key: string]: unknown;\n}\n\nexport default function RedAmberGreenView({\n    className = \"\",\n    label,\n    value = \"\",\n    ...restProps\n}: RedAmberGreenViewProps) {\n    return (\n        <span\n            className={`red-amber-green-view ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {value}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/RedAmberGreenView.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/red-amber-green-view/"
+}

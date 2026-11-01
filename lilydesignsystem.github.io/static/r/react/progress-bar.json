@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "progress-bar",
+  "type": "registry:component",
+  "title": "ProgressBar",
+  "description": "A horizontal progress indicator.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ProgressBar.tsx",
+      "content": "import React from \"react\";\n\n// ProgressBar component\n// A horizontal progress indicator.\n\nexport interface ProgressBarProps {\n    className?: string;\n    label: string;\n    value: number;\n    min?: number;\n    max?: number;\n    [key: string]: unknown;\n}\n\nexport default function ProgressBar({\n    className = \"\",\n    label,\n    value,\n    min = 0,\n    max = 100,\n    ...restProps\n}: ProgressBarProps) {\n    return (\n        <div\n            className={`progress-bar ${className}`}\n            role=\"progressbar\"\n            aria-valuenow={value}\n            aria-valuemin={min}\n            aria-valuemax={max}\n            aria-label={label}\n            {...restProps}\n        />\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ProgressBar.tsx"
+    }
+  ],
+  "categories": [
+    "navigation"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/progress-bar/"
+}

@@ -2,7 +2,7 @@
 
 ## Status
 
-Initial scaffold landed 2026-05-28; the library has since been fully verified and published. As of 2026-10-06 it ships all 581 catalog components (581 `.ts` + `.spec.ts` + `.stories.ts` triplets plus docs), version 0.5.0 on npm as `@lilydesignsystem/angular-headless`, with a peer range of Angular `>=20 <23` (the example app runs Angular 22). The "Plan" and "Tasks" checklists below are the original scaffold-era ones, now updated to current state.
+Initial scaffold landed 2026-05-28; the library has since been fully verified and published. As of 2026-10-30 it ships all 607 catalog components (583 `.ts` + `.spec.ts` + `.stories.ts` triplets plus docs, `bin/check-coverage`); the latest npm release is 0.7.1 (2026-10-25) as `@lilydesignsystem/angular-headless`, with a peer range of Angular `>=20 <23` (the example app runs Angular 22). Unreleased since 0.7.1: the dialog family on `showModal()` (P14-T4), the menu group on `popover="auto"` with real `SplitButton` and `ActionGroup` (P18-T11), and `Listbox` on `shared/listbox-machine.ts` (P18-T10). (The 2026-10-06 status read 581 components and 0.5.0.) The "Plan" and "Tasks" checklists below are the original scaffold-era ones, now updated to current state.
 
 ## 2026-09-01 — wrapper-host attribute-selector migration (0.3.0, breaking)
 
@@ -60,7 +60,7 @@ Based on the Angular 2026 research summary:
 
 ```
 lily-design-system-angular-headless/
-├── components/                — 582 × 4 files (.ts, .spec.ts, .stories.ts, .md)
+├── components/                — 583 × 4 files (.ts, .spec.ts, .stories.ts, .md)
 │   ├── Accordion*.ts          — standalone component
 │   ├── Accordion*.spec.ts     — vitest + TestBed test
 │   ├── Accordion*.md          — per-component doc
@@ -79,7 +79,7 @@ lily-design-system-angular-headless/
 
 - [x] Decide on Angular version target — Angular 20 baseline (peer range extended to `<23`).
 - [x] Set up build infra (package.json, tsconfig, ng-package, vitest).
-- [x] Generate the component scaffold (now 582 components) from templates.
+- [x] Generate the component scaffold (now 607 components) from templates.
 - [x] Index barrel that re-exports every component.
 - [x] Run `pnpm install` end-to-end.
 - [x] Verify `vitest run` passes (every component has a spec; see `spec/testing` in the root spec for counts).

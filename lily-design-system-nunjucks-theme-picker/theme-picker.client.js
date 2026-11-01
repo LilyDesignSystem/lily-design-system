@@ -240,6 +240,9 @@ export function initThemePicker(root, opts = {}) {
     const noop = { setTheme: () => {}, destroy: () => {} };
     if (typeof document === "undefined" || !root) return noop;
 
+    const select = root.querySelector("[data-lily-theme-picker-select]");
+    if (select) return initSelectVariant(root, select, opts);
+
     const button = root.querySelector("[data-lily-theme-picker-button]");
     const list = root.querySelector("[data-lily-theme-picker-list]");
     const input = root.querySelector("[data-lily-theme-picker-input]");
@@ -435,37 +438,13 @@ export function initThemePicker(root, opts = {}) {
     // helper — including the canonical Svelte one — resolves value-first.
     // -----------------------------------------------------------------
 
-    let initial = "";
-
-    // 1. value prop — read from `data-lily-theme-picker-value`.
-    initial = valueAttr;
-
-    // 2. storage
-    const storedValue = storageKey ? safeStorageGet(storageKey) || "" : "";
-
-    // The precedence between these two reversed in 0.4.0, so a consumer
-    // who set both and relied on storage winning would otherwise change
-    // behaviour silently on upgrade. Warn once per select, and only when
-    // the two actually disagree — when they agree, or only one is set,
-    // the outcome is identical to 0.3.x and there is nothing to say.
-    if (valueAttr && storedValue && valueAttr !== storedValue) {
-        warnResolutionOrderChanged(root, valueAttr, storedValue);
-    }
-
-    if (!initial) initial = storedValue;
-
-    // 3. system colour-scheme preference
-    if (!initial && detectFromSystem) initial = matchSystemTheme(values);
-
-    // 4. default-value
-    if (!initial && defaultValue) initial = defaultValue;
-
-    // 5. "light" if present
-    if (!initial && values.includes("light")) initial = "light";
-
-    // 6. first option
-    if (!initial && values.length > 0) initial = values[0];
-
+    const initial = resolveInitialTheme(root, {
+        valueAttr,
+        storageKey,
+        detectFromSystem,
+        defaultValue,
+        values,
+    });
     if (initial) applyTheme(initial);
 
     const tooltipDestroy = wireTooltip(root, button, ".theme-picker-tooltip", list);
@@ -498,6 +477,101 @@ export function initThemePicker(root, opts = {}) {
             root.removeEventListener("focusout", onRootFocusOut);
             document.removeEventListener("click", onDocumentClick);
         },
+    };
+}
+
+/**
+ * §5.2 initial value resolution, shared by both variants:
+ * value attribute > storage > system > default > "light" > first.
+ *
+ * @returns {string} the slug to apply first, or "" when there are no themes.
+ */
+function resolveInitialTheme(
+    root,
+    { valueAttr, storageKey, detectFromSystem, defaultValue, values },
+) {
+    let initial = "";
+
+    // 1. value prop — read from `data-lily-theme-picker-value`.
+    initial = valueAttr;
+
+    // 2. storage
+    const storedValue = storageKey ? safeStorageGet(storageKey) || "" : "";
+
+    // The precedence between these two reversed in 0.4.0, so a consumer
+    // who set both and relied on storage winning would otherwise change
+    // behaviour silently on upgrade. Warn once per select, and only when
+    // the two actually disagree — when they agree, or only one is set,
+    // the outcome is identical to 0.3.x and there is nothing to say.
+    if (valueAttr && storedValue && valueAttr !== storedValue) {
+        warnResolutionOrderChanged(root, valueAttr, storedValue);
+    }
+
+    if (!initial) initial = storedValue;
+
+    // 3. system colour-scheme preference
+    if (!initial && detectFromSystem) initial = matchSystemTheme(values);
+
+    // 4. default-value
+    if (!initial && defaultValue) initial = defaultValue;
+
+    // 5. "light" if present
+    if (!initial && values.includes("light")) initial = "light";
+
+    // 6. first option
+    if (!initial && values.length > 0) initial = values[0];
+
+    return initial;
+}
+
+/**
+ * variant="select" (RFC 3 prototype; ported from the Svelte reference 2026-10-30): the platform's own select.
+ * Keyboard, typeahead, the mobile picker and the screen-reader announcement are the browser's; this only resolves
+ * the initial value (§5.2) and applies each change (§5.3: managed <link>, data-theme, optional storage, onChange once
+ * per change). There is no popup, so `isOpen` is always false and `setOpen` does nothing.
+ *
+ * @param {HTMLElement} root
+ * @param {HTMLSelectElement} select
+ * @param {{onChange?: (slug:string)=>void, target?: HTMLElement|null}} opts
+ */
+function initSelectVariant(root, select, opts) {
+    const values = Array.from(select.options).map((o) => o.value);
+    const name = root.getAttribute("data-lily-theme-picker-name") || "theme";
+    const themesUrl = root.getAttribute("data-lily-theme-picker-themes-url") || "";
+    const extension = root.getAttribute("data-lily-theme-picker-extension") || ".css";
+    const storageKey = root.getAttribute("data-lily-theme-picker-storage-key") || "";
+    let appliedValue = "";
+
+    function applyTheme(slug) {
+        if (!slug || slug === appliedValue) return;
+        appliedValue = slug;
+        getManagedLink(name).href = themeHref(themesUrl, slug, extension);
+        (opts.target || document.documentElement).setAttribute("data-theme", slug);
+        if (storageKey) safeStorageSet(storageKey, slug);
+        if (select.value !== slug) select.value = slug;
+        if (typeof opts.onChange === "function") opts.onChange(slug);
+    }
+
+    const onSelectChange = () => applyTheme(select.value);
+    select.addEventListener("change", onSelectChange);
+
+    const initial = resolveInitialTheme(root, {
+        valueAttr: root.getAttribute("data-lily-theme-picker-value") || "",
+        storageKey,
+        detectFromSystem: root.getAttribute("data-lily-theme-picker-detect-from-system") === "true",
+        defaultValue: root.getAttribute("data-lily-theme-picker-default-value") || "",
+        values,
+    });
+    if (initial) applyTheme(initial);
+
+    return {
+        isOpen: () => false,
+        setOpen: () => {},
+        setDisabled: (next) => {
+            select.disabled = !!next;
+        },
+        setTheme: applyTheme,
+        destroy: () => select.removeEventListener("change", onSelectChange),
     };
 }
 

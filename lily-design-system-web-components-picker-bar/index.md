@@ -67,13 +67,13 @@ spec) — objects and functions cannot be expressed as HTML attributes
 written directly in HTML, as shown above.
 
 That's a complete, working header row: site search (a search for
-`foo` goes to `/?foo`), 45 themes, four locales, the
+`foo` goes to `/?foo`), 63 themes, four locales, the
 seven-step text-size scale, and one share destination plus
 copy-to-URL if you add `bar.shareProps = { copyLabel: "Copy link" }`.
 
 ## Defaults
 
-- **`themes`** defaults to `DEFAULT_THEMES` — all 45 Lily reference
+- **`themes`** defaults to `DEFAULT_THEMES` — all 63 Lily reference
   theme slugs, alphabetical, with the 8 United Kingdom / United States
   government themes moved to their own alphabetical group at the
   bottom. Set `bar.themes = [...]` (or the `themes="a,b,c"` attribute)

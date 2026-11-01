@@ -22,10 +22,9 @@
 
 ## Overview
 
-A Claude Skill that ties together the three real Angular subprojects in
+A Claude Skill that ties together the three Angular layers in
 this monorepo — the headless component library
 [`@lilydesignsystem/angular-headless`](../lily-design-system-angular-headless/),
-the `*-picker` helpers catalog
 [the Angular helper packages](../spec/helpers/index.md#angular-helper-packages),
 and the styled example application
 [`lily-design-system-angular-examples`](../lily-design-system-angular-examples/)
@@ -39,8 +38,8 @@ It sits one level up from two more specific sibling skills:
 [`lily-design-system-angular-headless-skill`](../lily-design-system-angular-headless-skill/)
 (the headless library's own install/idiom/tag-selector contract) and
 [`lily-design-system-angular-helpers-skill`](../lily-design-system-angular-helpers-skill/)
-(the six helper packages' own contracts and Angular idiom). This skill
-maps all three subprojects and points into those two for their deep-dive
+(the helper packages' own contracts and Angular idiom). This skill
+maps all three layers and points into those two for their deep-dive
 content, and gives real coverage of the example app — the one Angular
 subproject neither sibling skill documents.
 
@@ -50,7 +49,7 @@ subproject neither sibling skill documents.
   real Angular subprojects, guidance on which one a given task needs, real
   coverage of the example app's routes and styling, and pointers into the
   two sibling skills for their own subject matter.
-- **Isn't**: the headless component library, the helpers catalog, or the
+- **Isn't**: the headless component library, the helper packages, or the
   example app themselves — it ships no components of its own. Isn't the
   general framework-agnostic Lily concepts skill (that's
   [`lily-design-system-skill`](../lily-design-system-skill/)). Isn't a

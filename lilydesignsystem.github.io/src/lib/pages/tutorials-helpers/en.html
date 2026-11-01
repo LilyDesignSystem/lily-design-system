@@ -3,8 +3,8 @@
 <section class="page-intro">
   <h1>Preference helpers</h1>
   <p class="page-intro-tagline">
-    Seven small packages per framework, each owning one user job end to end,
-    plus a bar that assembles five of them. You've met
+    Eleven small pickers per framework, each owning one user job end to end,
+    plus a bar that assembles up to seven of them. You've met
     <a href="/tutorials/theming/">theme-picker</a>; here are locale-picker,
     text-size-picker and motion-picker (preferences), share-picker and
     search-picker (actions), date-time-picker (a form value), and
@@ -35,7 +35,7 @@
     <li>i18n-clean: every user-facing string is a prop.</li>
     <li>
       Available for Svelte (canonical), React, Vue, Angular, HTML custom
-      element, Nunjucks, and Blazor — same contract in each.
+      element, Web Components, Nunjucks, and Blazor — same contract in each.
     </li>
   </ul>
   <p>
@@ -247,7 +247,8 @@
   <h2>picker-bar — the whole header row at once</h2>
   <p>
     <code>picker-bar</code> renders search, theme, locale, text-size and share
-    in one row, with the full set of reference themes and the seven-step text
+    in one row (plus link-picker first when you pass links, and time-zone-picker
+    after locale when you give it a time-zone label and locale), with the full set of reference themes and the seven-step text
     scale pre-wired. Every accessible name arrives in one required
     <code>labels</code> object.
   </p>
@@ -318,7 +319,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker
 
   <h2>Next steps</h2>
   <ul>
-    <li><a href="/components/">Component catalog</a> — the full 582-component reference.</li>
+    <li><a href="/components/">Component catalog</a> — the full 607-component reference.</li>
     <li><a href="/help/">Help</a> — troubleshooting and FAQ.</li>
     <li><a href="/why/">Why Lily</a> — and how to support the project.</li>
   </ul>

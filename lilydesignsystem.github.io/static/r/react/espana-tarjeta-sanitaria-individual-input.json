@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "espana-tarjeta-sanitaria-individual-input",
+  "type": "registry:component",
+  "title": "EspanaTarjetaSanitariaIndividualInput",
+  "description": "An input for entering an España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/EspanaTarjetaSanitariaIndividualInput.tsx",
+      "content": "import React from \"react\";\n\n// EspanaTarjetaSanitariaIndividualInput component\n//\n// A headless input for entering a España Tarjeta Sanitaria Individual (TSI),\n// the unique Spanish national healthcare identifier (CIP-SNS). The format\n// varies by Autonomous Community but typically starts with 4 region digits\n// followed by alphanumeric characters.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". Bindable input value; supports value + onChange.\n//   required — boolean, default false. Whether the input is required for form submission.\n//   disabled — boolean, default false. Whether the input is disabled.\n//   ...restProps — additional HTML attributes spread onto the <input>.\n//\n// Syntax:\n//   <EspanaTarjetaSanitariaIndividualInput label=\"TSI\" value={value} onChange={setValue} />\n//\n// Examples:\n//\n//   <EspanaTarjetaSanitariaIndividualInput label=\"TSI\" required />\n//\n//\n//   <EspanaTarjetaSanitariaIndividualInput label=\"TSI\" disabled />\n//\n// Keyboard:\n//   - Standard text input keyboard behavior\n//\n// Accessibility:\n//   - aria-label provides the accessible name for screen readers\n//   - autocomplete=\"off\" protects sensitive health identifiers\n//   - required and disabled states are conveyed to assistive technology\n//\n// Internationalization:\n//   - The label prop externalizes user-facing text for translation\n//   - No hardcoded strings in the component\n//\n// Claude rules:\n//   - Headless: no CSS, no styles -- consumer provides all styling\n//   - Uses controlled for two-way data binding on value\n//\n// References:\n//   - Ministerio de Sanidad: https://www.sanidad.gob.es/\n\nexport interface EspanaTarjetaSanitariaIndividualInputProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The current value of the input, bindable */\n    value?: string;\n    /** Whether the input is required for form submission */\n    required?: boolean;\n    /** Whether the input is disabled */\n    disabled?: boolean;\n    /** Additional HTML attributes */\n    /** Callback when value changes. */\n    onChange?: (value: string) => void;\n    [key: string]: unknown;\n}\n\nexport default function EspanaTarjetaSanitariaIndividualInput({\n    className = \"\",\n    label,\n    value = \"\",\n    required = false,\n    disabled = false,\n    onChange,\n    ...restProps\n}: EspanaTarjetaSanitariaIndividualInputProps) {\n    return (\n        <input\n            className={`espana-tarjeta-sanitaria-individual-input ${className}`}\n            type=\"text\"\n            aria-label={label}\n            autoComplete=\"off\"\n            value={value}\n            onChange={(e) => onChange?.(e.target.value)}\n            required={required}\n            disabled={disabled}\n            {...restProps}\n        />\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/EspanaTarjetaSanitariaIndividualInput.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/espana-tarjeta-sanitaria-individual-input/"
+}

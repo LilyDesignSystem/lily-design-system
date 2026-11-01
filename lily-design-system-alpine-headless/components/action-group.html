@@ -6,6 +6,9 @@
   CSS class: action-group
   Keyboard: Tab through the actions; the overflow trigger behaves as a dropdown-menu trigger
   Accessibility: role="group" with aria-label; overflow trigger: aria-haspopup="menu", aria-expanded, aria-controls
+  Popover API: the overflow menu is popover="auto" and the trigger names it with
+    command="toggle-popover" commandfor (and popovertarget), so it opens, and
+    closes on Escape and on a click outside, even before Alpine starts
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
@@ -22,6 +25,9 @@
     x-bind="trigger"
     aria-label=""
     aria-controls="action-group-overflow-1"
+    command="toggle-popover"
+    commandfor="action-group-overflow-1"
+    popovertarget="action-group-overflow-1"
   >
     …
   </button>
@@ -29,6 +35,7 @@
     class="action-group-overflow-menu"
     id="action-group-overflow-1"
     aria-label=""
+    popover="auto"
     x-bind="menu"
   >
     <button

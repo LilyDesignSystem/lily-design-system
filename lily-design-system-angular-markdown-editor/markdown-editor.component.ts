@@ -4,10 +4,13 @@
 // value is plain text, so it submits with a form, validates, and works
 // without JavaScript. Every name is consumer-supplied.
 import {
+    afterNextRender,
     ChangeDetectionStrategy,
     Component,
     computed,
+    DestroyRef,
     ElementRef,
+    inject,
     input,
     model,
     output,
@@ -147,6 +150,35 @@ export class MarkdownEditor {
     private readonly locked = computed(() => this.disabled() || this.readonly());
 
     private readonly textarea = viewChild.required<ElementRef<HTMLTextAreaElement>>("textarea");
+
+    constructor() {
+        // Form reset: the textarea shows `value()`, which the browser's own reset knows
+        // nothing about, so put back the text it started with one tick after the reset
+        // (not when a listener cancelled it) and tell the consumer, as typing would.
+        const destroyRef = inject(DestroyRef);
+        afterNextRender(() => {
+            const el = this.textarea().nativeElement;
+            const form = el.closest("form");
+            if (!form) return;
+            const initial = this.value();
+            let timer: ReturnType<typeof setTimeout> | undefined;
+            const onReset = (event: Event) => {
+                clearTimeout(timer);
+                timer = setTimeout(() => {
+                    if (event.defaultPrevented) return;
+                    const changed = this.value() !== initial;
+                    this.value.set(initial);
+                    el.value = initial;
+                    if (changed) this.changed.emit(initial);
+                }, 0);
+            };
+            form.addEventListener("reset", onReset);
+            destroyRef.onDestroy(() => {
+                clearTimeout(timer);
+                form.removeEventListener("reset", onReset);
+            });
+        });
+    }
     private readonly toolbar = viewChild.required<ElementRef<HTMLElement>>("toolbar");
 
     protected iconPath(tool: ToolId): string {

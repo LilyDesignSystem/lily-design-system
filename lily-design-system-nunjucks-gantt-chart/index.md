@@ -260,7 +260,7 @@ accessible dependency line as unsolved industry-wide.
 
 ### Weekend shading and dependency arrows (0.6.0)
 
-- **`weekends`** (weekdays, 0 = Sunday … 6 = Saturday, never defaulted) marks day columns `data-weekend` on the header and every cell; the 57 `themes/` tint them. Week and month columns are not marked.
+- **`weekends`** (weekdays, 0 = Sunday … 6 = Saturday, never defaulted) marks day columns `data-weekend` on the header and every cell; the 63 `themes/` tint them. Week and month columns are not marked.
 - **`dependencyArrows`** draws an `aria-hidden` SVG arrow (`.gantt-chart-dependency-arrow`, `data-from`, `data-to`, `data-dependency-type`) per dependency by its type (`e2s`, `s2s`, `s2e`, `e2e`), measured from the rendered cells; the text description (`labels.dependencySummary`) remains. See spec §17.
 
 ## Keyboard
@@ -337,7 +337,7 @@ Lily™ and Lily Design System™ are trademarks.
 
 The chart renders `critical` and `slack`; it computes nothing. `applyCriticalPath(tasks)` (or `criticalPath(tasks)` for the raw result) fills them in: a forward and backward pass over leaf tasks, all four dependency kinds (`e2s`, `s2s`, `e2e`, `s2e`) with lags and leads in calendar days. A task's own `start` is a floor, so dependencies only push tasks later; summary rows, unscheduled tasks and unknown ids are ignored; a dependency cycle is reported in `cycle` and left out. Show it with `labels.criticalLabel`.
 
-Lag is in calendar days by default. For schedules that count business days, pass `{ lagUnit: "working-days", weekends, unavailable }` (the same `weekends` and `unavailable` you give the chart for shading): a lag of N then moves N working days, skipping weekends (default Saturday and Sunday) and the listed holidays, and the backward pass keeps a predecessor off non-working days so a weekend is never reported as slack. Task spans stay as dated; only the gaps between tasks change.
+Lag is in calendar days by default. For schedules that count business days, pass `{ lagUnit: "working-days", weekends, unavailable }` (the same `weekends` and `unavailable` you give the chart for shading): a lag of N then moves N working days, skipping the `weekends` you pass (required, never defaulted: weekends differ by country; omitting it throws) and the listed holidays, and the backward pass keeps a predecessor off non-working days so a weekend is never reported as slack. Task spans stay as dated; only the gaps between tasks change.
 
 ```ts
 import { applyCriticalPath } from "@lilydesignsystem/nunjucks-gantt-chart";

@@ -326,23 +326,86 @@ export default function lily(Alpine) {
         },
     }));
 
-    // Popover: non-modal, closes on Escape and on an outside click.
-    Alpine.data("lilyPopover", (open = false) => ({
+    // The Popover API helpers lilyPopover, lilyDropdownMenu and lilyContextMenu share (tasks.md P18-T8, P18-T11).
+    function popoverNative() {
+        return (
+            typeof HTMLElement !== "undefined" &&
+            typeof HTMLElement.prototype.showPopover === "function"
+        );
+    }
+    function syncPopover(node, open, native) {
+        if (!node || !native) return;
+        try {
+            if (open) node.showPopover();
+            else node.hidePopover();
+        } catch {
+            // Already in that state (older engines throw): nothing to do.
+        }
+    }
+
+    // P16-T4: a popup that is popover="manual" (top layer) and shown from the component's `open`. With the Popover
+    // API the browser's UA style hides it while closed and the effect shows or hides it; without (jsdom, older
+    // engines) the popover attribute is dropped, which would otherwise keep it hidden, and `hidden` is bound.
+    function manualPopover(isOpen) {
+        return {
+            ":popover"() {
+                return popoverNative() ? "manual" : false;
+            },
+            ":hidden"() {
+                return !popoverNative() && !isOpen(this);
+            },
+            "x-effect"() {
+                syncPopover(this.$el, Boolean(isOpen(this)), popoverNative());
+            },
+        };
+    }
+
+    // Popover (popover, popup, contextual-help): non-modal. The panel is
+    // popover="auto" and the trigger names it with command="toggle-popover"
+    // commandfor (and popovertarget), so the browser opens it and closes it
+    // on Escape and on a click outside (light dismiss), with no script; the
+    // panel's `toggle` event keeps `open` in step. Where the Popover API is
+    // missing (jsdom, engines before Chrome 114, Firefox 125, Safari 17) the
+    // panel falls back to `hidden` (dropping `popover`, which jsdom's UA
+    // stylesheet would otherwise keep hidden), the trigger toggles it, and
+    // Escape and an outside click close it. `focus: true` moves focus into
+    // the panel on open (popup).
+    Alpine.data("lilyPopover", (open = false, { focus = false } = {}) => ({
         open,
+        init() {
+            // Native only: the fallback is the :hidden binding on the panel.
+            this.$nextTick(() => this.sync());
+            this.$watch("open", (value) => {
+                this.sync();
+                if (value && focus) this.$nextTick(() => this.focusIn());
+            });
+        },
+        native: popoverNative,
+        sync() {
+            syncPopover(this.$refs.panel, this.open, this.native());
+        },
+        focusIn() {
+            const panel = this.$refs.panel;
+            if (!panel) return;
+            (panel.querySelector(FOCUSABLE) || panel).focus();
+        },
+        close() {
+            this.open = false;
+            this.$refs.trigger?.focus();
+        },
         root: {
             ":data-open"() {
                 return String(this.open);
             },
             "@keydown.escape"() {
-                if (this.open) {
-                    this.open = false;
-                    this.$refs.trigger?.focus();
-                }
+                if (this.open) this.close();
             },
             // Not `.outside`: Alpine skips elements with no layout box, so it
-            // would never fire in a layout-less test DOM.
+            // would never fire in a layout-less test DOM. Fallback only: with
+            // the Popover API the browser light-dismisses.
             "@click.document"(event) {
-                if (this.open && !this.$el.contains(event.target)) this.open = false;
+                if (this.open && !this.native() && !this.$el.contains(event.target))
+                    this.open = false;
             },
         },
         trigger: {
@@ -352,13 +415,32 @@ export default function lily(Alpine) {
             ":aria-expanded"() {
                 return String(this.open);
             },
-            "@click"() {
-                this.open = !this.open;
+            "@click"(event) {
+                // With the Popover API the browser toggles the panel (command / popovertarget).
+                if (!event.defaultPrevented && !this.native()) this.open = !this.open;
             },
         },
         panel: {
+            "x-ref": "panel",
+            ":data-open"() {
+                return String(this.open);
+            },
+            // Without the Popover API: no popover attribute (jsdom's UA stylesheet hides any [popover] it cannot
+            // open) and `hidden` instead. With it, the browser's UA style hides the closed popover.
+            ":popover"() {
+                return this.native() ? "auto" : false;
+            },
             ":hidden"() {
-                return !this.open;
+                return !this.native() && !this.open;
+            },
+            "@toggle"(event) {
+                this.open = event.newState === "open";
+            },
+        },
+        closer: {
+            type: "button",
+            "@click"() {
+                this.close();
             },
         },
     }));
@@ -658,12 +740,77 @@ export default function lily(Alpine) {
             },
         },
         card: {
-            ":hidden"() {
-                return !this.open;
+            ...manualPopover((o) => o.open),
+        },
+    }));
+    // Modal surface (tasks.md P18-T6): drawer, sheet and slide-out drawer are a
+    // <dialog> opened with showModal(), so the browser traps Tab, makes the page
+    // inert and puts the panel in the top layer. Where showModal is missing
+    // (jsdom) it falls back to the open attribute. Focus moves in on open and
+    // returns to the opener on close; Escape, the native cancel event and a
+    // native close (form method="dialog") all set `open` to false.
+    Alpine.data("lilyModalSurface", (open = false) => ({
+        open,
+        opener: null,
+        init() {
+            this.$watch("open", (value) => this.sync(value));
+            if (open) this.$nextTick(() => this.sync(true));
+        },
+        sync(value) {
+            const dialog = this.$refs.surface;
+            if (!dialog) return;
+            if (value && !dialog.open) {
+                this.opener = document.activeElement;
+                typeof dialog.showModal === "function"
+                    ? dialog.showModal()
+                    : dialog.setAttribute("open", "");
+                if (!dialog.contains(document.activeElement)) {
+                    (dialog.querySelector(FOCUSABLE) || dialog).focus();
+                }
+            } else if (!value && dialog.open) {
+                typeof dialog.close === "function"
+                    ? dialog.close()
+                    : dialog.removeAttribute("open");
+                const back = this.opener || this.$refs.trigger;
+                this.opener = null;
+                if (back && back !== document.body && back.isConnected) back.focus();
+            }
+        },
+        trigger: {
+            type: "button",
+            "x-ref": "trigger",
+            "aria-haspopup": "dialog",
+            ":aria-expanded"() {
+                return String(this.open);
+            },
+            "@click"() {
+                this.open = true;
+            },
+        },
+        surface: {
+            "x-ref": "surface",
+            "aria-modal": "true",
+            ":data-open"() {
+                return String(this.open);
+            },
+            "@close"() {
+                this.open = false;
+            },
+            "@cancel.prevent"() {
+                this.open = false;
+            },
+            "@keydown.escape.prevent"() {
+                this.open = false;
+            },
+        },
+        closer: {
+            type: "button",
+            "@click"() {
+                this.open = false;
             },
         },
     }));
-    // Overlay: a dialog-role surface (drawer, sheet, slide-out drawer, popup)
+    // Overlay: a dialog-role surface (popup; overlay-container uses `container`)
     // opened by a trigger. Focus moves in on open and returns to the trigger on
     // close; Escape closes. `container` is the backdrop form (overlay-container).
     Alpine.data("lilyOverlay", (open = false) => ({
@@ -734,9 +881,7 @@ export default function lily(Alpine) {
     Alpine.data("lilyConfirm", (open = false) => ({
         open,
         root: {
-            ":hidden"() {
-                return !this.open;
-            },
+            ...manualPopover((o) => o.open),
             "@keydown.escape"() {
                 if (this.open) this.cancel();
             },
@@ -813,12 +958,26 @@ export default function lily(Alpine) {
     // menu and the action-group overflow). Focus moves to the first item on
     // open and back to the trigger on close; Escape and a selection close,
     // Tab and an outside click close without moving focus.
+    //
+    // The popup is popover="auto" (tasks.md P18-T11), as in lilyPopover: the
+    // trigger names it with command="toggle-popover" commandfor (and
+    // popovertarget), so the browser opens it and light-dismisses it with no
+    // script, and the `toggle` event keeps `open` in step. Where the Popover
+    // API is missing the popup falls back to `hidden` and the trigger and an
+    // outside click toggle it. The arrow-key focus code has no native
+    // equivalent and stays.
     Alpine.data("lilyDropdownMenu", (open = false) => ({
         open,
         init() {
+            this.$nextTick(() => this.sync());
             this.$watch("open", (value) => {
+                this.sync();
                 if (value) this.$nextTick(() => this.items()[0]?.focus());
             });
+        },
+        native: popoverNative,
+        sync() {
+            syncPopover(this.$refs.menu, this.open, this.native());
         },
         items() {
             return Array.from(this.$refs.menu?.querySelectorAll(MENU_ITEMS) ?? []);
@@ -831,8 +990,10 @@ export default function lily(Alpine) {
             ":data-open"() {
                 return String(this.open);
             },
+            // Fallback only: with the Popover API the browser light-dismisses.
             "@click.document"(event) {
-                if (this.open && !this.$el.contains(event.target)) this.open = false;
+                if (this.open && !this.native() && !this.$el.contains(event.target))
+                    this.open = false;
             },
         },
         trigger: {
@@ -842,8 +1003,9 @@ export default function lily(Alpine) {
             ":aria-expanded"() {
                 return String(this.open);
             },
-            "@click"() {
-                this.open = !this.open;
+            "@click"(event) {
+                // With the Popover API the browser toggles the popup (command / popovertarget).
+                if (!event.defaultPrevented && !this.native()) this.open = !this.open;
             },
             "@keydown.arrow-down.prevent"() {
                 this.open = true;
@@ -852,8 +1014,14 @@ export default function lily(Alpine) {
         menu: {
             role: "menu",
             "x-ref": "menu",
+            ":popover"() {
+                return this.native() ? "auto" : false;
+            },
             ":hidden"() {
-                return !this.open;
+                return !this.native() && !this.open;
+            },
+            "@toggle"(event) {
+                this.open = event.newState === "open";
             },
             "@keydown"(event) {
                 if (event.key === "Escape") return this.close();
@@ -882,14 +1050,25 @@ export default function lily(Alpine) {
     // ContextMenu: opens on the right button, or the ContextMenu key / Shift+F10
     // on the focusable target. The pointer position is exposed as the CSS
     // custom properties --context-menu-x / --context-menu-y.
+    //
+    // The menu is popover="auto" (tasks.md P18-T11): opening shows it with
+    // showPopover(), in the top layer, and the browser closes it on Escape and
+    // on a click outside; the `toggle` event keeps `open` in step. Where the
+    // Popover API is missing it falls back to `hidden` and an outside click.
     Alpine.data("lilyContextMenu", () => ({
         open: false,
         x: 0,
         y: 0,
         init() {
+            this.$nextTick(() => this.sync());
             this.$watch("open", (value) => {
+                this.sync();
                 if (value) this.$nextTick(() => this.items()[0]?.focus());
             });
+        },
+        native: popoverNative,
+        sync() {
+            syncPopover(this.$refs.menu, this.open, this.native());
         },
         items() {
             return Array.from(this.$refs.menu?.querySelectorAll(MENU_ITEMS) ?? []);
@@ -918,14 +1097,22 @@ export default function lily(Alpine) {
         menu: {
             role: "menu",
             "x-ref": "menu",
+            ":popover"() {
+                return this.native() ? "auto" : false;
+            },
             ":hidden"() {
-                return !this.open;
+                return !this.native() && !this.open;
+            },
+            "@toggle"(event) {
+                this.open = event.newState === "open";
             },
             ":style"() {
                 return { "--context-menu-x": `${this.x}px`, "--context-menu-y": `${this.y}px` };
             },
+            // Fallback only: with the Popover API the browser light-dismisses.
             "@click.document"(event) {
-                if (this.open && !this.$el.contains(event.target)) this.open = false;
+                if (this.open && !this.native() && !this.$el.contains(event.target))
+                    this.open = false;
             },
             "@keydown"(event) {
                 if (event.key === "Escape") return this.close();
@@ -1060,6 +1247,132 @@ export default function lily(Alpine) {
         },
     }));
 
+    // Autosuggest: a text input (role="combobox") proposing the consumer's
+    // suggestions in a role="listbox". The consumer listens for lily:input (or
+    // the input's own input event) and renders role="option" items into the
+    // x-ref="list" element; a MutationObserver keeps the open state, the
+    // option ids and the highlight in step. Choosing writes the option's
+    // data-value (else its text) into the input and dispatches lily:select.
+    Alpine.data("lilyAutosuggest", (value = "") => ({
+        value,
+        wanted: false,
+        active: -1,
+        count: 0,
+        get open() {
+            return this.wanted && this.count > 0;
+        },
+        init() {
+            const list = this.$refs.list;
+            this.refresh();
+            new MutationObserver(() => this.refresh()).observe(list, {
+                childList: true,
+                subtree: true,
+            });
+        },
+        options() {
+            return Array.from(this.$refs.list.querySelectorAll('[role="option"]'));
+        },
+        refresh() {
+            const options = this.options();
+            this.count = options.length;
+            if (this.active >= this.count) this.active = -1;
+            this.mark();
+        },
+        mark() {
+            const list = this.$refs.list;
+            this.options().forEach((el, i) => {
+                if (!el.id) el.id = `${list.id}-option-${i}`;
+                el.setAttribute("aria-selected", String(this.open && i === this.active));
+            });
+        },
+        move(active) {
+            this.active = active;
+            this.wanted = true;
+            this.mark();
+        },
+        close() {
+            this.wanted = false;
+            this.active = -1;
+            this.mark();
+        },
+        choose(el) {
+            const chosen = el.getAttribute("data-value") ?? el.textContent.trim();
+            this.value = chosen;
+            this.close();
+            this.$dispatch("lily:select", { value: chosen });
+        },
+        input: {
+            role: "combobox",
+            autocomplete: "off",
+            "aria-autocomplete": "list",
+            ":aria-expanded"() {
+                return String(this.open);
+            },
+            ":aria-activedescendant"() {
+                return this.open && this.active >= 0
+                    ? (this.options()[this.active]?.id ?? null)
+                    : null;
+            },
+            ":value"() {
+                return this.value;
+            },
+            "@input"(event) {
+                this.value = event.target.value;
+                this.wanted = true;
+                this.active = -1;
+                this.mark();
+                this.$dispatch("lily:input", { value: this.value });
+            },
+            "@keydown"(event) {
+                const count = this.count;
+                const open = this.open;
+                switch (event.key) {
+                    case "ArrowDown":
+                        if (count === 0) return;
+                        this.move(open ? (this.active + 1) % count : 0);
+                        break;
+                    case "ArrowUp":
+                        if (count === 0) return;
+                        this.move(open && this.active > 0 ? this.active - 1 : count - 1);
+                        break;
+                    case "Home":
+                        if (!open) return;
+                        this.move(0);
+                        break;
+                    case "End":
+                        if (!open) return;
+                        this.move(count - 1);
+                        break;
+                    case "Enter":
+                        if (!open || this.active < 0) return;
+                        this.choose(this.options()[this.active]);
+                        break;
+                    case "Escape":
+                        if (!open) return;
+                        this.close();
+                        break;
+                    default:
+                        return;
+                }
+                event.preventDefault();
+            },
+            "@blur"() {
+                this.close();
+            },
+        },
+        listbox: {
+            role: "listbox",
+            ":hidden"() {
+                return !this.open;
+            },
+            "@mousedown.prevent"() {},
+            "@click"(event) {
+                const el = event.target.closest('[role="option"]');
+                if (el) this.choose(el);
+            },
+        },
+    }));
+
     // Combobox: a text input driving a role="listbox" popup. The input keeps
     // DOM focus; the highlighted option is aria-activedescendant. Options are
     // filtered by the typed text (case-insensitive substring); ArrowDown/Up
@@ -1133,9 +1446,7 @@ export default function lily(Alpine) {
         },
         listbox: {
             role: "listbox",
-            ":hidden"() {
-                return !this.open;
-            },
+            ...manualPopover((o) => o.open),
         },
         option(id) {
             return {
@@ -1289,9 +1600,7 @@ export default function lily(Alpine) {
                 },
             },
             panel: {
-                ":hidden"() {
-                    return !this.open;
-                },
+                ...manualPopover((o) => o.open),
             },
             // aria-multiselectable is valid on the tree, not on the combobox root.
             tree: {
@@ -1480,11 +1789,13 @@ export default function lily(Alpine) {
     // CurrencyInput: a decimal text field that keeps only digits and one ".",
     // carries data-currency-code, and flags aria-invalid outside min / max.
     // Formatting (Intl.NumberFormat, locale) stays the consumer's.
-    Alpine.data("lilyCurrencyInput", (currencyCode = "", min = null, max = null) => ({
+    Alpine.data("lilyCurrencyInput", (currencyCode, min = null, max = null) => ({
         input: {
             type: "text",
             inputmode: "decimal",
-            "data-currency-code": currencyCode,
+            ":data-currency-code"() {
+                return currencyCode ?? null;
+            },
             "@input"() {
                 const [whole, ...rest] = this.$el.value.replace(/[^\d.]/g, "").split(".");
                 this.$el.value = rest.length ? `${whole}.${rest.join("")}` : whole;
@@ -1596,9 +1907,7 @@ export default function lily(Alpine) {
             },
         },
         panel: {
-            ":hidden"() {
-                return !this.open;
-            },
+            ...manualPopover((o) => o.open),
         },
         option(id) {
             return {
@@ -1862,6 +2171,175 @@ export default function lily(Alpine) {
         },
     }));
 
+    // ScrollBar: a focusable role="scrollbar" div. Up/Left lower and
+    // Down/Right raise by step, Page Up/Down by pageStep, Home/End jump to the
+    // bounds. The consumer scrolls its content on lily:change and sets value
+    // back as the content scrolls.
+    Alpine.data("lilyScrollBar", (value = 0, min = 0, max = 100, step = 1, pageStep = 10) => ({
+        value: Math.min(max, Math.max(min, value)),
+        min,
+        max,
+        step,
+        pageStep,
+        bar: {
+            role: "scrollbar",
+            tabindex: "0",
+            ":aria-valuenow"() {
+                return String(this.value);
+            },
+            ":aria-valuemin"() {
+                return String(this.min);
+            },
+            ":aria-valuemax"() {
+                return String(this.max);
+            },
+            "@keydown"(event) {
+                const moves = {
+                    ArrowUp: this.value - this.step,
+                    ArrowLeft: this.value - this.step,
+                    ArrowDown: this.value + this.step,
+                    ArrowRight: this.value + this.step,
+                    PageUp: this.value - this.pageStep,
+                    PageDown: this.value + this.pageStep,
+                    Home: this.min,
+                    End: this.max,
+                };
+                if (!(event.key in moves)) return;
+                event.preventDefault();
+                const next = Math.min(this.max, Math.max(this.min, moves[event.key]));
+                if (next === this.value) return;
+                this.value = next;
+                this.$dispatch("lily:change", { value: next });
+            },
+        },
+    }));
+
+    // SliderButton: a slide-to-confirm <button role="slider">, position 0-100 in
+    // aria-valuenow. ArrowRight/ArrowLeft move by `step`, Home returns to 0,
+    // End/Enter/Space complete it; reaching 100 dispatches lily:confirm and
+    // resets to 0. A disabled button ignores the keys.
+    Alpine.data("lilySliderButton", (step = 10) => ({
+        position: 0,
+        step,
+        button: {
+            type: "button",
+            role: "slider",
+            "aria-valuemin": "0",
+            "aria-valuemax": "100",
+            ":aria-valuenow"() {
+                return String(this.position);
+            },
+            "@keydown"(event) {
+                if (this.$el.disabled) return;
+                const targets = {
+                    ArrowRight: this.position + this.step,
+                    ArrowLeft: this.position - this.step,
+                    Home: 0,
+                    End: 100,
+                    Enter: 100,
+                    " ": 100,
+                };
+                if (!(event.key in targets)) return;
+                event.preventDefault();
+                const next = targets[event.key];
+                if (next >= 100) {
+                    this.position = 0;
+                    this.$dispatch("lily:confirm");
+                } else {
+                    this.position = Math.max(0, next);
+                }
+            },
+        },
+    }));
+
+    // ToolBar: an APG toolbar. ArrowRight/ArrowLeft move focus among its
+    // buttons and wrap, Home/End jump to the first and last; Tab enters and
+    // leaves. Disabled buttons are skipped (they cannot take focus).
+    Alpine.data("lilyToolBar", () => ({
+        bar: {
+            role: "toolbar",
+            "@keydown"(event) {
+                if (!["ArrowRight", "ArrowLeft", "Home", "End"].includes(event.key)) return;
+                const items = Array.from(
+                    this.$el.querySelectorAll(
+                        "button:not([disabled]), [role='button'], [tabindex]:not([tabindex='-1'])",
+                    ),
+                );
+                if (!items.length) return;
+                event.preventDefault();
+                const index = items.indexOf(document.activeElement);
+                const last = items.length - 1;
+                const next = {
+                    ArrowRight: index < last ? index + 1 : 0,
+                    ArrowLeft: index > 0 ? index - 1 : last,
+                    Home: 0,
+                    End: last,
+                }[event.key];
+                items[next].focus();
+            },
+        },
+    }));
+
+    // TourList: an ordered list of tour steps, shown while `active`. Escape
+    // inside it sets `active` to false and dispatches lily:close.
+    Alpine.data("lilyTourList", (active = true) => ({
+        active,
+        list: {
+            tabindex: "-1",
+            ":hidden"() {
+                return !this.active;
+            },
+            "@keydown.escape"() {
+                if (!this.active) return;
+                this.active = false;
+                this.$dispatch("lily:close");
+            },
+        },
+    }));
+
+    // TileMap: the [data-tile] children are focusable tiles. ArrowRight/Left
+    // step through them in order (stopping at the ends); ArrowDown/Up go to
+    // the nearest tile in a lower or higher row, by position on screen;
+    // Enter/Space dispatch a bubbling tile-activate on the focused tile;
+    // Escape blurs it.
+    Alpine.data("lilyTileMap", () => ({
+        map: {
+            "@keydown"(event) {
+                const tiles = Array.from(this.$el.querySelectorAll("[data-tile]"));
+                const focused = document.activeElement;
+                const index = tiles.indexOf(focused);
+                if (index === -1) return;
+                const key = event.key;
+                if (key === "ArrowRight" || key === "ArrowLeft") {
+                    event.preventDefault();
+                    const to = key === "ArrowRight" ? index + 1 : index - 1;
+                    tiles[Math.min(tiles.length - 1, Math.max(0, to))].focus();
+                } else if (key === "ArrowDown" || key === "ArrowUp") {
+                    event.preventDefault();
+                    const here = focused.getBoundingClientRect();
+                    const x = here.left + here.width / 2;
+                    const below = key === "ArrowDown";
+                    const next = tiles
+                        .filter((t) => t !== focused)
+                        .map((t) => ({ t, r: t.getBoundingClientRect() }))
+                        .filter(({ r }) => (below ? r.top > here.top : r.top < here.top))
+                        .map(({ t, r }) => ({
+                            t,
+                            score: Math.abs(r.left + r.width / 2 - x) + Math.abs(r.top - here.top),
+                        }))
+                        .sort((a, b) => a.score - b.score)[0]?.t;
+                    next?.focus();
+                } else if (key === "Enter" || key === " ") {
+                    event.preventDefault();
+                    focused.dispatchEvent(new CustomEvent("tile-activate", { bubbles: true }));
+                } else if (key === "Escape") {
+                    event.preventDefault();
+                    focused.blur();
+                }
+            },
+        },
+    }));
+
     // ColorPicker: a two-axis role="slider" over a 0–100 square. aria-valuenow
     // is x; data-x and data-y position the cursor. Up lowers y, Down raises it.
     Alpine.data("lilyColorPicker", (x = 0, y = 0, disabled = false) => ({
@@ -2068,7 +2546,10 @@ export default function lily(Alpine) {
             this.open = false;
             this.$dispatch(type);
         },
+        // A non-modal dialog, as in Svelte (tasks.md P18-T13): no aria-modal, the page it points at stays usable.
         root: {
+            role: "dialog",
+            tabindex: "-1",
             ":hidden"() {
                 return !this.open;
             },
@@ -2122,9 +2603,7 @@ export default function lily(Alpine) {
             this.$dispatch("lily:dismiss");
         },
         root: {
-            ":hidden"() {
-                return !this.open;
-            },
+            ...manualPopover((o) => o.open),
             "@keydown.escape"() {
                 if (this.open) this.dismiss();
             },

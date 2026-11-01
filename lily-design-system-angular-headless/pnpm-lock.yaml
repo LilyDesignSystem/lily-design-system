@@ -49,6 +49,12 @@ importers:
       '@storybook/angular':
         specifier: ^10.6.3
         version: 10.6.3(55a38d02388245ef2b7d571ebdc2daec)
+      '@testing-library/dom':
+        specifier: ^10.4.2
+        version: 10.4.2
+      '@testing-library/user-event':
+        specifier: ^14.6.8
+        version: 14.6.8(@testing-library/dom@10.4.2)
       '@types/node':
         specifier: ^26.6.5
         version: 26.6.5

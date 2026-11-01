@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<span class=\"five-star-rating-view\" role=\"img\" aria-label=\"3 out of 5 stars\">★★★☆☆</span>";
   const svelteSource: string = "// In your Svelte component:\nimport FiveStarRatingView from \"lily-design-system-svelte-headless/components/FiveStarRatingView/FiveStarRatingView.svelte\";\n\n<FiveStarRatingView label=\"Label\" value=\"Sample value\" />\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import FiveStarRatingView from \"./FiveStarRatingView.svelte\";\n<\/script>\n\n<FiveStarRatingView value={4} label=\"4 out of 5 stars\" />\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import FiveStarRatingView from \"./FiveStarRatingView.svelte\";\n<\/script>\n\n<FiveStarRatingView\n  value={4}\n  label=\"4 out of 5 stars\"\n/>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>
@@ -76,7 +76,7 @@
       <li>PascalCase: FiveStarRatingView</li>
       <li>Description: a read-only display of a five-star rating</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
-      <li>HTML tag: &lt;div&gt;</li>
+      <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .five-star-rating-view</li>
       <li>Interactive: no</li>
     </ul>

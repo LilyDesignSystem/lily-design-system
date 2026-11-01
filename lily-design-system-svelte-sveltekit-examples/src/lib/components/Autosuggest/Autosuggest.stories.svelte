@@ -14,7 +14,11 @@
 <Story
     name="Default"
     tags={["autodocs", "!dev"]}
-    args={{ label: "Autosuggest" }}
->
-    <span>Autosuggest</span>
-</Story>
+    args={{
+        label: "Fruit",
+        suggestions: [
+            { value: "apple", label: "Apple" },
+            { value: "apricot", label: "Apricot" },
+        ],
+    }}
+/>

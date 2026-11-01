@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-hero",
     standalone: true,
-    template: `<div class="hero {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<section class="hero {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></section>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Hero {

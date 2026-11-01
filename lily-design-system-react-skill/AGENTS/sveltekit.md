@@ -1,9 +1,9 @@
-## Svelte 5 + SvelteKit 2
+## Svelte 5 + SvelteKit 3
 
 ### Architecture
 
 - Svelte 5 with runes (`$state`, `$derived`, `$props`, `$bindable`, `$effect`)
-- SvelteKit 2 (used by the example subproject; the headless subproject ships components only and does NOT depend on SvelteKit)
+- SvelteKit 3 (used by the example subproject and the docs site; the headless subproject ships components only and does NOT depend on SvelteKit)
 - TypeScript everywhere
 - Vite as the build tool
 - pnpm (not npm)

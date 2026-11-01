@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "skip-link",
+  "type": "registry:component",
+  "title": "SkipLink",
+  "description": "A hidden link for keyboard users to skip to main content.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/SkipLink.tsx",
+      "content": "import React from \"react\";\n\n// SkipLink component\n//\n// A headless skip navigation link that allows keyboard users to bypass\n// repetitive content (navigation menus, headers) and jump directly to the main\n// content area. Should be the very first focusable element on a page. Typically\n// styled to be visually hidden until focused, then positioned prominently.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   href — string, default \"#content\". The anchor target that the link navigates to.\n//   label — string, default \"Skip to content\". The visible link text.\n//   ...restProps — additional HTML attributes spread onto the <a>.\n//\n// Syntax:\n//   <SkipLink />\n//\n// Examples:\n//\n//   <SkipLink href=\"#main\" label=\"Skip to main content\" />\n//\n//\n//   <SkipLink href=\"#content\" label=\"Skip navigation\" class=\"sr-only-focusable\" />\n//\n// Keyboard:\n//   - Tab: moves focus to the skip link (should be the first focusable element)\n//   - Enter: activates the link, moving focus to the target anchor element\n//\n// Accessibility:\n//   - Native <a> element with href is natively accessible as a link\n//   - The link text content (label prop) serves as the accessible name\n//   - No additional ARIA attributes needed\n//   - WCAG 2.1 Success Criterion 2.4.1: Bypass Blocks\n//\n// Internationalization:\n//   - The label prop externalizes the link text for localization\n//   - Default \"Skip to content\" should be overridden in non-English contexts\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Consumer must ensure the target element exists with a matching id attribute\n//   - Typically styled as visually hidden until :focus\n//\n// References:\n//   - WCAG 2.1 Bypass Blocks: https://www.w3.org/WAI/WCAG21/Understanding/bypass-blocks.html\n//   - WebAIM Skip Navigation Links: https://webaim.org/techniques/skipnav/\n\nexport interface SkipLinkProps {\n    className?: string;\n    /** Target anchor. */\n    href?: string;\n    /** Link text. */\n    label?: string;\n    [key: string]: unknown;\n}\n\nexport default function SkipLink({\n    className = \"\",\n    href = \"#content\",\n    label = \"Skip to content\",\n    ...restProps\n}: SkipLinkProps) {\n    return (\n        <a\n            className={`skip-link ${className}`}\n            href={href}\n            {...restProps}\n        >\n            {label}\n        </a>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/SkipLink.tsx"
+    }
+  ],
+  "categories": [
+    "links"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/skip-link/"
+}

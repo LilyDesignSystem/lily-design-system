@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "calendar-table-row",
+  "type": "registry:component",
+  "title": "CalendarTableRow",
+  "description": "A calendar table interactive grid row for managing dates, days, etc. <tr>.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/CalendarTableRow.tsx",
+      "content": "import React from \"react\";\n\n// CalendarTableRow component\n//\n// A single row within a CalendarTable grid. Renders as a <tr>,\n// containing CalendarTableTD cells for each day in the week.\n// Used inside CalendarTableHead, CalendarTableBody, or CalendarTableFoot.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   children — ReactNode, required. CalendarTableTD cells for each day in the row.\n//   ...restProps — additional HTML attributes spread onto the <tr>.\n//\n// Syntax:\n//   <CalendarTableRow>\n//     <CalendarTableTD>1</CalendarTableTD>\n//     <CalendarTableTD>2</CalendarTableTD>\n//   </CalendarTableRow>\n//\n// Keyboard:\n//   None built-in — keyboard navigation is handled at the CalendarTable grid level.\n//\n// Accessibility:\n//   - <tr> has implicit role=\"row\" within the grid (no explicit role needed)\n//\n// Internationalization:\n//   - All cell content comes through children prop; no hardcoded strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Must be used inside a CalendarTable component (which provides the <table>)\n//   - No internal state — purely a structural wrapper\n//\n// References:\n//   - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/\n\nexport interface CalendarTableRowProps {\n    className?: string;\n    /** CalendarTableTD cells for this row. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function CalendarTableRow({\n    className = \"\",\n    children,\n    ...restProps\n}: CalendarTableRowProps) {\n    return (\n        <tr\n            className={`calendar-table-row ${className}`}\n            {...restProps}\n        >\n            {children}\n        </tr>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/CalendarTableRow.tsx"
+    }
+  ],
+  "categories": [
+    "tables"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/calendar-table-row/"
+}

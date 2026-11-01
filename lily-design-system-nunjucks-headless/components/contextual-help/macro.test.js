@@ -19,8 +19,33 @@ describe("contextual-help", () => {
         expect(trigger.getAttribute("type")).toBe("button");
         expect(trigger.getAttribute("aria-label")).toBe("Help");
         expect(trigger.getAttribute("aria-haspopup")).toBe("dialog");
-        expect(trigger.getAttribute("aria-expanded")).toBe("false");
+        // No static aria-expanded: without script nothing would update it; the browser exposes a
+        // popovertarget trigger's expanded state itself.
+        expect(trigger.hasAttribute("aria-expanded")).toBe(false);
         expect(trigger.getAttribute("aria-controls")).toBe("field-help");
+    });
+
+    it("opens with no script: the trigger names the popover=auto panel", () => {
+        const { document } = render("contextual-help", {
+            id: "field-help",
+            label: "Help",
+            triggerLabel: "?",
+        });
+        const trigger = document.querySelector(".contextual-help-trigger");
+        const panel = document.querySelector(".contextual-help-panel");
+        expect(panel.getAttribute("popover")).toBe("auto");
+        expect(trigger.getAttribute("command")).toBe("toggle-popover");
+        expect(trigger.getAttribute("commandfor")).toBe("field-help");
+        expect(trigger.getAttribute("popovertarget")).toBe("field-help");
+    });
+
+    it("renders triggerLabel as the trigger text, with no default glyph", () => {
+        const { document: a } = render("contextual-help", { label: "Help", triggerLabel: "؟" });
+        expect(a.querySelector(".contextual-help-trigger").textContent.trim()).toBe("؟");
+        const { document: b } = render("contextual-help", { label: "Help" });
+        expect(b.querySelector(".contextual-help-trigger").textContent.trim()).toBe("");
+        const { document: c } = render("contextual-help", { label: "Help", triggerText: "?" });
+        expect(c.querySelector(".contextual-help-trigger").textContent.trim()).toBe("?");
     });
 
     it("renders aria-expanded='true' when expanded is true", () => {
@@ -44,19 +69,28 @@ describe("contextual-help", () => {
         expect(panel.getAttribute("id")).toBe("field-help");
     });
 
-    it("hides the panel when expanded is false (default)", () => {
+    it("closed by default: a popover the browser hides until the trigger opens it", () => {
         const { document } = render("contextual-help", {
             label: "Help",
         });
-        expect(document.querySelector(".contextual-help-panel").hasAttribute("hidden")).toBe(true);
+        const panel = document.querySelector(".contextual-help-panel");
+        expect(panel.getAttribute("popover")).toBe("auto");
+        expect(panel.hasAttribute("hidden")).toBe(false);
     });
 
-    it("does not hide the panel when expanded is true", () => {
+    it("expanded renders the panel shown in place, without popover", () => {
         const { document } = render("contextual-help", {
             label: "Help",
             expanded: true,
         });
-        expect(document.querySelector(".contextual-help-panel").hasAttribute("hidden")).toBe(false);
+        const panel = document.querySelector(".contextual-help-panel");
+        expect(panel.hasAttribute("popover")).toBe(false);
+        expect(panel.hasAttribute("hidden")).toBe(false);
+    });
+
+    it("contains no <script> tag", () => {
+        const { html } = render("contextual-help", { label: "Help" });
+        expect(html).not.toContain("<script");
     });
 
     it("renders the panel raw html content", () => {

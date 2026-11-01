@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { shallowRef, toRef } from "vue";
+import { usePopoverState } from "./popover";
 // HoverCard component
 //
 // A hover card that displays supplementary content when triggered, typically by a
@@ -50,17 +52,20 @@
 //   - WAI-ARIA tooltip role: https://www.w3.org/TR/wai-aria-1.2/#tooltip
 //   - WAI-ARIA Tooltip Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/
 
-defineProps<{
+const props = defineProps<{
     label: string;
 }>();
 
 const open = defineModel<boolean>("open", { default: false });
+const panelEl = shallowRef<HTMLElement | null>(null);
+usePopoverState(panelEl, toRef(props, "open"));
 </script>
 
 <template>
     <!-- HoverCard.vue -->
     <div
-        v-if="open"
+        ref="panelEl"
+        popover="manual"
         class="hover-card"
         role="tooltip"
         :aria-label="label"

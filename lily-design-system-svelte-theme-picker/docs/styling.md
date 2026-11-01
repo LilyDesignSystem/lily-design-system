@@ -199,6 +199,57 @@ Do not use `display: none` or `visibility: hidden` here: both remove
 the element from the accessibility tree, which silences the live region
 and defeats the point.
 
+## The native select variant (`variant="select"`)
+
+`variant="select"` (2026-10-29, the RFC 3 prototype) renders
+`<div class="theme-picker" data-variant="select"><select class="theme-picker-select">`
+with one `<option class="theme-picker-option">` per theme. It works
+unstyled in every browser, with the platform's keyboard, mobile picker
+and screen-reader behaviour. No positioning CSS is needed.
+
+| Selector                               | Element                 |
+| -------------------------------------- | ----------------------- |
+| `.theme-picker[data-variant="select"]` | The root `<div>`.       |
+| `.theme-picker-select`                 | The native `<select>`.  |
+| `.theme-picker-option`                 | Each native `<option>`. |
+
+A customizable select (`appearance: base-select`) is Chromium-only as
+of 2026-10-29, so treat it as progressive enhancement and keep it in
+theme CSS behind `@supports`. The helper does not ship this CSS (it is
+headless); copy it into your theme and use your own tokens:
+
+```css
+/* Theme CSS. Browsers without base-select ignore the whole block and
+   keep the ordinary native select. */
+@supports (appearance: base-select) {
+  .theme-picker-select,
+  .theme-picker-select::picker(select) {
+    appearance: base-select;
+  }
+
+  .theme-picker-select::picker(select) {
+    /* The picker is in the top layer and anchored to the select. */
+    position-area: block-end span-inline-end;
+    border: 1px solid var(--color-base-content);
+    background: var(--color-base-100);
+    color: var(--color-base-content);
+  }
+
+  .theme-picker-select option:checked {
+    font-weight: bold;
+  }
+
+  .theme-picker-select option:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: -2px;
+  }
+}
+```
+
+Keep the select's visible text. Shrinking a base-select to an icon only
+gives up the visible label that is one of the reasons to prefer the
+native control, so measure it with a screen reader before you do.
+
 ## Don'ts
 
 - Don't hide the button with `display: none`. It is the accessibility

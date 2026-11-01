@@ -35,6 +35,14 @@
 - `open`: boolean (default: false) -- whether the dialog is visible, two-way bindable via `open`
 - `children`: slot (required) -- dialog content
 
+## Native platform
+
+- Decision: native
+- Uses: <dialog> showModal() via modal.ts
+- Could use: command="show-modal"/"close"
+- Notes: As dialog. P14-T4 (2026-10-30): showModal() in all nine libraries; the Angular and Blazor stubs were ported from Svelte.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
+
 ## Acceptance Criteria
 
 - [ ] Renders <dialog> element with class="file-dialog"

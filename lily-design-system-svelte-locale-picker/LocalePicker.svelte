@@ -129,7 +129,9 @@
     function intlDisplayName(locale: string): string {
         try {
             const env =
-                typeof navigator !== "undefined" && navigator.language ? navigator.language : "en";
+                typeof navigator !== "undefined" && navigator.language
+                    ? navigator.language
+                    : bcp47LocaleTag(locale);
             const dn = new Intl.DisplayNames([env], { type: "language" });
             return dn.of(bcp47LocaleTag(locale)) ?? "";
         } catch {

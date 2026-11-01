@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
+import { restoreOnFormReset } from "./form-reset";
 
 /**
  * PilipinasPhilhealthIdentificationNumberInput — an input for entering the Philippines's PhilHealth Identification Number (PIN)
@@ -33,4 +34,8 @@ export class PilipinasPhilhealthIdentificationNumberInput {
     readonly required = input<boolean>(false);
     /** Whether the input is disabled. */
     readonly disabled = input<boolean>(false);
+
+    constructor() {
+        restoreOnFormReset(this.value);
+    }
 }

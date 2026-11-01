@@ -1,6 +1,6 @@
 ---
 name: lily-design-system-blazor-helpers-skill
-description: Explains how to install and use Lily Design System's Blazor *-picker helpers — theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, and date-time-picker — their NuGet package identities and publish status, and the Blazor-specific implementation pattern (partial-class {Pascal}.razor + {Pascal}.razor.cs, IJSRuntime DOM interop gated on OnAfterRenderAsync for SSR safety, EditorRequired parameters). Use when someone asks how to install or use Lily's Blazor picker helpers, how a helper stays safe under Blazor Server/WebAssembly/static SSR, what the icon-button-plus-listbox contract is, or wants the current NuGet publish status for the helper packages.
+description: Explains how to install and use Lily Design System's Blazor *-picker helpers — theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, search-picker, link-picker, menu-picker, settings-picker, time-zone-picker, date-time-picker, picker-bar, and the grid-like and editor packages — their NuGet package identities and publish status, and the Blazor-specific implementation pattern (partial-class {Pascal}.razor + {Pascal}.razor.cs, IJSRuntime DOM interop gated on OnAfterRenderAsync for SSR safety, EditorRequired parameters). Use when someone asks how to install or use Lily's Blazor picker helpers, how a helper stays safe under Blazor Server/WebAssembly/static SSR, what the icon-button-plus-listbox contract is, or wants the current NuGet publish status for the helper packages.
 license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 ---
 
@@ -22,11 +22,11 @@ reference; Blazor is a direct port with framework idioms swapped.
 
 | Helper             | Root markup                                                     | Applies                                                                                                                               | Persists                |
 | ------------------ | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
-| `theme-picker`     | Icon button (◑) + listbox                                       | Swaps a managed `<link>` href + `data-theme` on the document root                                                                     | Optional `localStorage` |
-| `locale-picker`    | Icon button (🌐) + listbox                                      | Sets `lang` + `dir` on the document root                                                                                              | Optional `localStorage` |
-| `text-size-picker` | Icon button ("A") + listbox                                     | Sets `data-text-size` on the document root                                                                                            | Optional `localStorage` |
-| `motion-picker`    | Icon button (⏸) + listbox                                       | Sets `data-motion` on the document root; defaults to the OS's own `(prefers-reduced-motion: reduce)` signal, checked via `IJSRuntime` | Optional `localStorage` |
-| `share-picker`     | Icon button (➤) + disclosure of real `<a>` links                | Nothing — opens the native share sheet, else lists consumer-supplied destinations + copy-to-clipboard                                 | None                    |
+| `theme-picker`     | Icon button (contrast SVG) + listbox                                 | Swaps a managed `<link>` href + `data-theme` on the document root                                                                     | Optional `localStorage` |
+| `locale-picker`    | Icon button (globe SVG) + listbox                                   | Sets `lang` + `dir` on the document root                                                                                              | Optional `localStorage` |
+| `text-size-picker` | Icon button ("A" SVG) + listbox                                     | Sets `data-text-size` on the document root                                                                                            | Optional `localStorage` |
+| `motion-picker`    | Icon button (pause SVG) + listbox                                    | Sets `data-motion` on the document root; defaults to the OS's own `(prefers-reduced-motion: reduce)` signal, checked via `IJSRuntime` | Optional `localStorage` |
+| `share-picker`     | Icon button (arrow SVG) + disclosure of real `<a>` links                | Nothing — opens the native share sheet, else lists consumer-supplied destinations + copy-to-clipboard                                 | None                    |
 | `date-time-picker` | Text field + icon button (📅) opening an APG date-picker dialog | Nothing — it holds a form value                                                                                                       | None                    |
 
 The first four are a **user preference**: selection, DOM application,
@@ -68,7 +68,7 @@ The four preference helpers (`theme-picker`, `locale-picker`,
 `text-size-picker`, `motion-picker`) share one markup shape: a root
 `<div class="{helper} {CssClass}">` containing a hidden input for form
 participation, a `<button class="{helper}-button" aria-haspopup="listbox" aria-expanded aria-controls>`
-whose only content is an `aria-hidden` glyph span, and a
+whose only content is an `aria-hidden` icon (a bundled inline SVG since 2026-09-16), and a
 `<ul class="{helper}-list" role="listbox" hidden>` of
 `<li role="option" aria-selected>` — the WAI-ARIA APG listbox keyboard
 pattern (ArrowDown/Up open and move, Home/End jump, typeahead, Enter/Space
@@ -126,8 +126,19 @@ Two helpers deliberately don't fit that shape:
 Also in the catalog, added after the six above (the contracts are in `spec/helpers/index.md`): `search-picker` (an icon button opening a
 disclosure that holds a `<form role="search">`; submitting navigates, GET, to `/?<text>`), `link-picker` (a home icon opening a disclosure of
 real `<a>` links the app defines), `menu-picker` and `settings-picker` (a hamburger and a cog icon opening a panel that holds whatever the
-app provides), and `picker-bar` (link, search, theme, locale, text-size and share pickers in one row, with the 57 themes and the seven
+app provides), and `picker-bar` (link, search, theme, locale, text-size and share pickers in one row, with the 63 themes and the seven
 text sizes pre-wired and one required `labels` object). Every picker has a hoverable, dismissable tooltip.
+
+## Packages added since the first six
+
+`bin/list-helper-packages blazor` is the authoritative list (20 packages, each `LilyDesignSystem.Blazor.<Package>` on NuGet). Beyond the pickers named above it holds:
+
+- `time-zone-picker` (2026-10-24): an icon button (clock) opening a listbox of IANA zones labelled `UTC±HH:MM – name`, names from Unicode
+  CLDR packs (`zoneNamesFrom(pack)`); sets `data-time-zone` on a target element; a `locale` is required.
+- `theme-picker` `variant="select"` (2026-10-30, opt-in): a native `<select class="theme-picker-select">` in place of the button and listbox.
+- `picker-bar` renders `time-zone-picker` after `locale-picker` when given `labels.timeZone` and a time-zone locale.
+- `markdown-editor` and `org-editor` (2026-10-24): a textarea with a toolbar of buttons that write Markdown or Emacs Org markup.
+- `locale-translations`: the 64 label packs and the CLDR zone-name packs, per locale.
 
 ## The grid-like helpers and label packs
 
@@ -142,12 +153,12 @@ pack for each of 64 locales (English plus 63 **unreviewed machine drafts**; have
 period titles) come from `Intl`. Full contract: `spec/label-packs/index.md`.
 
 The Gantt chart can render a critical path (`critical`, `slack`, `labels.criticalLabel`); the optional calculation (`criticalPath()`,
-with lag in calendar or working days) ships in the Svelte Gantt package.
+with lag in calendar or working days) ships in this catalog's own Gantt package too, ported from Svelte's.
 
 ## When this isn't the right skill
 
 - For the headless component catalog itself (`Button`, `TextInput`,
-  `BreadcrumbNav`, and the rest of the 582-component catalog) use
+  `BreadcrumbNav`, and the rest of the 607-component catalog) use
   [`lily-design-system-blazor-headless-skill`](../lily-design-system-blazor-headless-skill/)
   instead — these helpers are a separate, higher-level catalog that sits
   alongside it.

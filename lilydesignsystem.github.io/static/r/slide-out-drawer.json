@@ -2,26 +2,27 @@
   "slug": "slide-out-drawer",
   "name": "SlideOutDrawer",
   "description": "a drawer that slides out from the side of the page",
-  "htmlTag": "div",
-  "category": "content",
+  "htmlTag": "dialog",
+  "category": "overlays",
   "baseClass": ".slide-out-drawer",
   "subClasses": [],
   "interactive": true,
   "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
   "aria": [
-    "`role=\"dialog\"` for modal dialog semantics",
-    "`aria-label` from the label prop provides the accessible name",
-    "`aria-modal=\"true\"` indicates modal behavior (content behind the drawer is inert)",
-    "`tabindex=\"-1\"` for programmatic focus management"
+    "`role=\"dialog\"` -- implicit on the native `<dialog>` element (not repeated as an attribute)",
+    "`aria-label={label}` -- provides an accessible name for the dialog",
+    "`aria-modal=\"true\"` -- true: `showModal()` makes the page behind inert",
+    "`tabindex=\"-1\"` -- lets the dialog take focus"
   ],
   "keyboard": [
-    "Escape closes the drawer"
+    "Escape: closes it by setting `open` to `false`",
+    "Tab / Shift+Tab: move between focusable elements inside it; focus cannot leave while it is open"
   ],
   "props": [
     "`label`: string (required) -- accessible label for the dialog",
     "`open`: boolean (default: false) -- whether the drawer is visible, bindable",
     "`children`: slot (required) -- drawer content",
-    "`...restProps`: Any additional HTML attributes spread onto the `<div>`"
+    "`...restProps`: Any additional HTML attributes spread onto the `<dialog>`"
   ],
   "related": [
     "drawer",
@@ -39,5 +40,10 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SlideOutDrawer.razor"
   },
   "docs": "https://lilydesignsystem.com/components/slide-out-drawer/",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/slide-out-drawer/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/slide-out-drawer/AGENTS.md",
+  "nativePlatform": {
+    "decision": "native",
+    "uses": "<dialog> showModal() via Dialog/modal.ts (open-attribute fallback where showModal is missing)",
+    "could_use": "::backdrop; command=\"show-modal\"/\"close\" on consumer buttons"
+  }
 }

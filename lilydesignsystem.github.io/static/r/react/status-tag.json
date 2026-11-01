@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "status-tag",
+  "type": "registry:component",
+  "title": "StatusTag",
+  "description": "A tag showing the current status of a task.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/StatusTag.tsx",
+      "content": "export interface StatusTagProps {\n    className?: string;\n    label?: string;\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function StatusTag({\n    className = \"\",\n    label = undefined,\n    children,\n    ...restProps\n}: StatusTagProps) {\n    return (\n        <span\n            className={`status-tag ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/StatusTag.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/status-tag/"
+}

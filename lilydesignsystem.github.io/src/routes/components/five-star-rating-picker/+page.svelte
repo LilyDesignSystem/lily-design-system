@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"five-star-rating-picker\" role=\"radiogroup\" aria-label=\"Rating\"><button class=\"five-star-rating-picker-button\" role=\"radio\" aria-checked=\"false\">★</button><button class=\"five-star-rating-picker-button\" role=\"radio\" aria-checked=\"false\">★</button><button class=\"five-star-rating-picker-button\" role=\"radio\" aria-checked=\"true\">★</button><button class=\"five-star-rating-picker-button\" role=\"radio\" aria-checked=\"false\">★</button><button class=\"five-star-rating-picker-button\" role=\"radio\" aria-checked=\"false\">★</button></div>";
   const svelteSource: string = "// In your Svelte component:\nimport FiveStarRatingPicker from \"lily-design-system-svelte-headless/components/FiveStarRatingPicker/FiveStarRatingPicker.svelte\";\n\n<FiveStarRatingPicker label=\"Picker\" />\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import FiveStarRatingPicker from \"./FiveStarRatingPicker.svelte\";\n    let rating = $state(0);\n<\/script>\n\n<FiveStarRatingPicker label=\"Rate this product\" bind:value={rating} />\n<p>You selected: {rating}</p>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import FiveStarRatingPicker from \"./FiveStarRatingPicker.svelte\";\n  let rating = $state(0);\n<\/script>\n\n<FiveStarRatingPicker\n  label=\"Rate this product\"\n  bind:value={rating}\n/>\n<p>You selected: {rating}</p>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>
@@ -76,7 +76,8 @@
       <li>PascalCase: FiveStarRatingPicker</li>
       <li>Description: a picker for selecting a 1-5 star rating using radio buttons</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
-      <li>HTML tag: &lt;div&gt;</li>
+      <li>HTML tag: &lt;fieldset&gt;</li>
+      <li>Naming exception: a <code>-picker</code> root is a <code>&lt;div&gt;</code> by the suffix rule, but this one is a <code>&lt;fieldset role="radiogroup"&gt;</code> of native radios in every library, so the group gets its name from its legend and native radio keyboard behaviour (P10-T12)</li>
       <li>CSS class: .five-star-rating-picker</li>
       <li>Interactive: no</li>
     </ul>

@@ -1,9 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html = '<div class="convert-from-value-div">100 US dollars</div>';
+const html =
+    '<div\n  class="convert-from-value-div"\n>\n  <!-- Consumer provides content -->\n</div>';
 
 const meta = {
-    title: "Headless/ConvertFromValueDiv",
+    title: "Headless/Convert From Value Div",
     render: () => html,
     tags: ["autodocs"],
 } satisfies Meta;

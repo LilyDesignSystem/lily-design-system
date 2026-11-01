@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "yisrael-teudat-zehut-view",
+  "type": "registry:component",
+  "title": "YisraelTeudatZehutView",
+  "description": "A read-only display of Israel's Teudat Zehut identity number.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/YisraelTeudatZehutView.tsx",
+      "content": "import React from \"react\";\n\n// YisraelTeudatZehutView component\n//\n// A headless display component for showing Israel's\n// Teudat Zehut (תעודת זהות) in a read-only format.\n// Format: Nine digits (left-padded with zeros when shorter), with the ninth a Luhn (Modulus-10) check digit: digits alternate between weights of 1 and 2 from the left, any doubled product over 9 has its own two digits summed, and the total must be a multiple of 10.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". The identifier string to display.\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <YisraelTeudatZehutView label=\"Teudat Zehut (תעודת זהות)\" value={value} />\n//\n// Accessibility:\n//   - aria-label provides the accessible name so screen readers announce the purpose\n//\n// References:\n//   - https://en.wikipedia.org/wiki/Israeli_identity_card\n\nexport interface YisraelTeudatZehutViewProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The identifier to display */\n    value?: string;\n    [key: string]: unknown;\n}\n\nexport default function YisraelTeudatZehutView({\n    className = \"\",\n    label,\n    value = \"\",\n    ...restProps\n}: YisraelTeudatZehutViewProps) {\n    return (\n        <span\n            className={`yisrael-teudat-zehut-view ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {value}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/YisraelTeudatZehutView.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/yisrael-teudat-zehut-view/"
+}

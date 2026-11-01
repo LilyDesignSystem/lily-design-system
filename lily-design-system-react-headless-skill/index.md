@@ -9,7 +9,7 @@ composition rules that apply to it.
 
 It is one of two React-scoped skills, alongside
 [`lily-design-system-react-helpers-skill`](../lily-design-system-react-helpers-skill/),
-which covers the six `*-picker` helper packages instead of the
+which covers the helper packages instead of the
 headless catalog. Both are narrower siblings of the general
 [`lily-design-system-skill`](../lily-design-system-skill/), which
 explains Lily concepts independent of any one framework.

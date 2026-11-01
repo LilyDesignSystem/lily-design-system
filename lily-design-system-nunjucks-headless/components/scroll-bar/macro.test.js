@@ -11,6 +11,21 @@ describe("scroll-bar", () => {
         expect(el.getAttribute("aria-orientation")).toBe("vertical");
     });
 
+    it("takes its accessible name and range from params", () => {
+        const { document } = render("scroll-bar", {
+            label: "Chat scroll",
+            min: -20,
+            max: 150,
+            controls: "messages",
+        });
+        const el = document.querySelector("div.scroll-bar");
+        expect(el.getAttribute("aria-label")).toBe("Chat scroll");
+        expect(el.getAttribute("aria-valuemin")).toBe("-20");
+        expect(el.getAttribute("aria-valuemax")).toBe("150");
+        expect(el.getAttribute("aria-controls")).toBe("messages");
+        expect(el.getAttribute("tabindex")).toBe("0");
+    });
+
     it("contains no <style> or <script> tags", () => {
         const { html } = render("scroll-bar", {});
         expect(html).not.toContain("<style");

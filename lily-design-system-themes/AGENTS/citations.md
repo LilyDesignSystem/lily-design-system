@@ -33,3 +33,10 @@ Design systems and headless component libraries that Lily learns from. Each is a
 - [ONSdigital Design System](https://github.com/ONSdigital/design-system) — UK Office for National Statistics
 - [U.S. Web Design System (USWDS)](https://designsystem.digital.gov/) — maintained by 18F / GSA
 - [18F UI Library](https://designsystem.digital.gov/) — historically led USWDS development
+- [GC Design System](https://design-system.canada.ca/) — Government of Canada (MIT)
+- [Singapore Government Design System](https://www.designsystem.tech.gov.sg/) — GovTech Singapore (MIT)
+- [Digital Agency Design System](https://design.digital.go.jp/) — Digital Agency, Japan (MIT)
+- [Padrão Digital de Governo](https://www.gov.br/ds/) — Government of Brazil (MIT)
+- [Europa Component Library](https://ec.europa.eu/component-library/) — European Commission (EUPL-1.1)
+- [Agriculture Design System](https://design-system.agriculture.gov.au/) — Department of Agriculture, Australia (MIT)
+- Adopt-or-decline decisions and licence notes, including why France's DSFR is declined: [spec/theme](../spec/theme/index.md#public-sector-design-systems-beyond-the-uk-and-us-adopt-or-decline-2026-10-30-p17-t9)

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "table-row",
+  "type": "registry:component",
+  "title": "TableRow",
+  "description": "A table interactive grid row <tr>.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/TableRow.tsx",
+      "content": "import React from \"react\";\n\n// TableRow component\n//\n// A single row in a Table, rendered as a <tr> element. Contains TableTH or TableTD cells.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   children — ReactNode, required. TableTH or TableTD cells.\n//   ...restProps — additional HTML attributes spread onto the <tr>.\n//\n// Syntax:\n//   <TableRow><TableTD>Alice</TableTD><TableTD>alice@example.com</TableTD></TableRow>\n//\n// Keyboard:\n//   None — tables are non-interactive; consumers add interaction at the table level if needed.\n//\n// Accessibility:\n//   - <tr> provides native table-section semantics\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Must be used inside a Table\n//   - No internal state — purely a structural wrapper\n//\n// References:\n//   - HTML tr element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tr\n\nexport interface TableRowProps {\n    className?: string;\n    /** TableTH or TableTD cells. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function TableRow({ className = \"\", children, ...restProps }: TableRowProps) {\n    return (\n        <tr\n            className={`table-row ${className}`}\n            {...restProps}\n        >\n            {children}\n        </tr>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/TableRow.tsx"
+    }
+  ],
+  "categories": [
+    "tables"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/table-row/"
+}

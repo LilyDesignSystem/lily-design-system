@@ -87,6 +87,8 @@ export class DateField extends HTMLElement {
         this.#labelEl!.textContent = this.getAttribute("label") ?? "";
 
         const value = this.getAttribute("value");
+        // defaultValue too: a form reset restores an input to its default, so the initial value must be it.
+        if (value !== null) input.defaultValue = value;
         if (value !== null && input.value !== value) input.value = value;
 
         input.required = this.hasAttribute("required");

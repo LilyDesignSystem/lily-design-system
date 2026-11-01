@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<label class=\"label\" for=\"demo-input\">Label</label><input class=\"liechtenstein-national-identity-card-number-input\" id=\"demo-input\" aria-label=\"an input for entering Liechtenstein's Liechtenstein National Identity Card Number\" />";
   const svelteSource: string = "// In your Svelte component:\nimport LiechtensteinNationalIdentityCardNumberInput from \"lily-design-system-svelte-headless/components/LiechtensteinNationalIdentityCardNumberInput/LiechtensteinNationalIdentityCardNumberInput.svelte\";\n\n<LiechtensteinNationalIdentityCardNumberInput label=\"Label\" />\n";
-  const usageCode: string = "<Field label=\"Liechtenstein National Identity Card Number\" required>\n  <LiechtensteinNationalIdentityCardNumberInput label=\"Liechtenstein National Identity Card Number\" value={value} required />\n  <Hint>2 letters followed by 8 digits (e.g. ID022143586)</Hint>\n  <ErrorMessage>Please enter a valid Liechtenstein National Identity Card Number</ErrorMessage>\n</Field>\n";
+  const usageCode: string = "<Field\n  label=\"Liechtenstein National Identity Card Number\"\n  required\n>\n  <LiechtensteinNationalIdentityCardNumberInput\n    label=\"Liechtenstein National Identity Card Number\"\n    value=\"{value}\"\n    required\n  />\n  <Hint>2 letters followed by 8 digits (e.g. ID022143586)</Hint>\n  <ErrorMessage>Please enter a valid Liechtenstein National Identity Card Number</ErrorMessage>\n</Field>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

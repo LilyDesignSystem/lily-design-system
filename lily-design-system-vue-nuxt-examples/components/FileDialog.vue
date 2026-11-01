@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { modalDialogRef } from "./dialog";
 // FileDialog component
 //
 // A modal dialog for file-related operations such as opening, saving, or
@@ -52,6 +53,14 @@ const props = defineProps<{
 
 const open = defineModel<boolean>("open", { default: false });
 
+// A real modal (tasks.md P14-T4): showModal() makes the page behind inert and traps Tab; Escape fires `cancel`.
+const dialogRef = modalDialogRef();
+
+function oncancel(event: Event) {
+    event.preventDefault();
+    open.value = false;
+}
+
 function onkeydown(event: KeyboardEvent) {
     if (event.key === "Escape") {
         event.preventDefault();
@@ -64,11 +73,13 @@ function onkeydown(event: KeyboardEvent) {
     <!-- FileDialog.vue -->
     <dialog
         v-if="open"
+        :ref="dialogRef"
         class="file-dialog"
-        open
         tabindex="-1"
         :aria-label="label"
         @keydown="onkeydown"
+        @cancel="oncancel"
+        @close="open = false"
     >
         <slot />
     </dialog>

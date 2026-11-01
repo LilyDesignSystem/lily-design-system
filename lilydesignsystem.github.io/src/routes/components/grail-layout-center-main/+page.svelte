@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<main class=\"grail-layout-center-main\">Main content</main>";
   const svelteSource: string = "// In your Svelte component:\nimport GrailLayoutCenterMain from \"lily-design-system-svelte-headless/components/GrailLayoutCenterMain/GrailLayoutCenterMain.svelte\";\n\n<GrailLayoutCenterMain>\n  <!-- content -->\n</GrailLayoutCenterMain>\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import GrailLayoutCenterMain from \"./GrailLayoutCenterMain.svelte\";\n<\/script>\n\n<GrailLayoutCenterMain>\n    <main>\n        <h1>Welcome</h1>\n        <p>This is the primary content.</p>\n    </main>\n</GrailLayoutCenterMain>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import GrailLayoutCenterMain from \"./GrailLayoutCenterMain.svelte\";\n<\/script>\n\n<GrailLayoutCenterMain>\n  <main>\n    <h1>Welcome</h1>\n    <p>This is the primary content.</p>\n  </main>\n</GrailLayoutCenterMain>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

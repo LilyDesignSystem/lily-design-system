@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
+import { restoreOnFormReset } from "./form-reset";
 
 /**
  * ArgentinaCodigoUnicoDeIdentificacionLaboralInput — an input for entering Argentina's Código Único de Identificación Laboral (CUIL)
@@ -33,4 +34,8 @@ export class ArgentinaCodigoUnicoDeIdentificacionLaboralInput {
     readonly required = input<boolean>(false);
     /** Whether the input is disabled. */
     readonly disabled = input<boolean>(false);
+
+    constructor() {
+        restoreOnFormReset(this.value);
+    }
 }

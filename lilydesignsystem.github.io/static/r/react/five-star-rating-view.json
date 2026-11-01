@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "five-star-rating-view",
+  "type": "registry:component",
+  "title": "FiveStarRatingView",
+  "description": "A read-only display of a five-star rating.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/FiveStarRatingView.tsx",
+      "content": "import React from \"react\";\n\n// FiveStarRatingView component\n//\n// A read-only five-star rating display that renders filled and empty star characters\n// to visually represent a rating value from 0 to 5. This is the display-only companion\n// to FiveStarRatingPicker, used for showing ratings in product listings, review summaries,\n// and user profiles. Screen readers receive the full rating via aria-label.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   value — number, required. Rating value (0-5) to display.\n//   label — string, required. Accessible description via aria-label (e.g., \"4 out of 5 stars\").\n//   ...restProps — additional HTML attributes spread onto the outer span.\n//\n// Syntax:\n//   <FiveStarRatingView value={4} label=\"4 out of 5 stars\" />\n//\n// Examples:\n//\n//   <FiveStarRatingView value={4} label=\"4 out of 5 stars\" />\n//\n//\n//   <FiveStarRatingView value={0} label=\"No rating\" />\n//\n// Keyboard:\n//   - None — this is a passive, read-only display element\n//\n// Accessibility:\n//   - role=\"img\" on the outer span indicates it represents a visual/graphic element\n//   - aria-label provides the full rating description for screen readers\n//   - aria-hidden=\"true\" on inner star spans prevents reading individual characters\n//   - data-value and data-filled attributes enable consumer CSS styling\n//\n// Internationalization:\n//   - The label prop allows localized rating descriptions\n//   - Star characters are decorative; meaningful text is conveyed via aria-label\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Uses Unicode star characters for filled/empty display\n//   - Companion to FiveStarRatingPicker for the Input/View pattern\n//\n// References:\n//   - WAI-ARIA img role: https://www.w3.org/WAI/ARIA/apd/roles/img/\n\nexport interface FiveStarRatingViewProps {\n    className?: string;\n    /** Rating value (0-5). */\n    value: number;\n    /** Accessible description. */\n    label: string;\n    [key: string]: unknown;\n}\n\nexport default function FiveStarRatingView({\n    className = \"\",\n    value,\n    label,\n    ...restProps\n}: FiveStarRatingViewProps) {\n    return (\n        <span\n            className={`five-star-rating-view ${className}`}\n            role=\"img\"\n            aria-label={label}\n            data-value={value}\n            {...restProps}\n        >\n            {[1, 2, 3, 4, 5].map((star) => (\n                <span\n                    key={star}\n                    aria-hidden=\"true\"\n                    data-filled={value >= star}\n                >\n                    {value >= star ? \"\\u2605\" : \"\\u2606\"}\n                </span>\n            ))}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/FiveStarRatingView.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/five-star-rating-view/"
+}

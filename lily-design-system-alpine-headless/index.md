@@ -2,7 +2,7 @@
 
 Headless components for [Alpine.js](https://alpinejs.dev/): annotated, semantic HTML snippets that carry the ARIA, class hooks and Alpine directives, plus one small Alpine plugin that owns state and keyboard behaviour. Zero CSS, zero text, zero icons. Targets WCAG 2.2 AAA.
 
-**Status: 582 of the 582 catalog components** — every component that is pure markup (488) plus 83 with Alpine behaviour. The whole catalog is covered; the [example app](../lily-design-system-alpine-examples/) and four helpers ([data grid](../lily-design-system-alpine-data-grid/), [kanban board](../lily-design-system-alpine-kanban-board/), [calendar](../lily-design-system-alpine-calendar/), [Gantt chart](../lily-design-system-alpine-gantt-chart/)) exist; what is left (the other helpers, the publish pipeline) is in [spec/index.md](spec/index.md).
+**Status: 583 of the 607 catalog components** — every component that is pure markup (488) plus 83 with Alpine behaviour. The whole catalog is covered; the [example app](../lily-design-system-alpine-examples/) and four helpers ([data grid](../lily-design-system-alpine-data-grid/), [kanban board](../lily-design-system-alpine-kanban-board/), [calendar](../lily-design-system-alpine-calendar/), [Gantt chart](../lily-design-system-alpine-gantt-chart/)) exist; what is left (the other helpers, the publish pipeline) is in [spec/index.md](spec/index.md).
 
 ## How it works
 
@@ -33,7 +33,7 @@ The snippet fixes the element, the base class (first, as in every Lily catalog) 
 - **Static markup (488):** every html-headless snippet with no behaviour, e.g. `alert`, `badge`, `breadcrumb-nav`, `button`, `card`, `table`, the national identifiers. Their tests check the element, base class and ARIA role, not behaviour.
 - **Hand-written (83), by family** (the `families/*.mjs` modules, plus the first 12 in the generator):
   - _Toggles and disclosure:_ `toggle-button` (`lilyToggleButton`), `switch-button` (`lilySwitchButton`), `toggle-group` (`lilyToggleGroup`), `collapsible`, `expander`, `government-banner`, `hamburger-menu` (`lilyCollapsible`), `show-more` (`lilyShowMore`), `accordion-nav` (`lilyAccordion`), `accordion-checkbox` (`lilyCheckboxAccordion`), `medical-banner`, `sticky-promo-banner` (`lilyDismissible`), `hover-card` (`lilyHoverCard`), `tooltip` (`lilyTooltip`), `popover`, `contextual-help` (`lilyPopover`), `clipboard-copy-button` (`lilyClipboardCopy`), `tab-bar`, `tab-bar-button`, `tab-panel` (`lilyTabs`).
-  - _Overlays:_ `dialog`, `alert-dialog`, `file-dialog` (`lilyDialog`), `drawer`, `slide-out-drawer`, `sheet`, `popup`, `overlay-container` (`lilyOverlay`), `popconfirm-dialog` (`lilyConfirm`).
+  - _Overlays:_ `dialog`, `alert-dialog`, `file-dialog` (`lilyDialog`), `drawer`, `slide-out-drawer`, `sheet` (`lilyModalSurface`: a `<dialog>` opened with `showModal()`), `popup`, `overlay-container` (`lilyOverlay`), `popconfirm-dialog` (`lilyConfirm`).
   - _Menus:_ `menu`, `menu-bar` (`lilyMenu`), `dropdown-menu`, `split-button`, `action-group` (`lilyDropdownMenu`), `context-menu` (`lilyContextMenu`).
   - _Selection:_ `listbox` (`lilyListbox`), `segment-group` (`lilySegmentGroup`), `combobox` (`lilyCombobox`), `command` (`lilyCommand`); the five rating and status pickers are native radios and `<select>` bound with `x-model`.
   - _Trees:_ `tree-nav`, `tree-menu`, `file-tree` (`lilyTree`), `tree-select` (`lilyTreeSelect`), `cascader` (`lilyCascader`).

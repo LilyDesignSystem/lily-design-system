@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "container-with-fluid-width",
+  "type": "registry:component",
+  "title": "ContainerWithFluidWidth",
+  "description": "A full-width content wrapper with horizontal padding.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ContainerWithFluidWidth.tsx",
+      "content": "import React from \"react\";\n\n// ContainerWithFluidWidth component\n//\n// A headless full-width content wrapper that fills its parent's inline size\n// and applies a configurable horizontal padding. The padding value is set\n// inline and also exposed via a data-padding-inline attribute for consumer\n// CSS hooks.\n//\n// Props:\n//   className     — string, optional. CSS class name.\n//   paddingInline — string, default \"1rem\". Horizontal padding CSS value.\n//   children      — ReactNode, required. Content to display inside the container.\n//   ...restProps  — additional HTML attributes spread onto the <div>.\n//\n// Syntax:\n//   <ContainerWithFluidWidth paddingInline=\"2rem\">…</ContainerWithFluidWidth>\n//\n// Examples:\n//\n//   <ContainerWithFluidWidth>\n//     <p>Default 1rem horizontal padding.</p>\n//   </ContainerWithFluidWidth>\n//\n//\n//   <ContainerWithFluidWidth paddingInline=\"clamp(1rem, 4vw, 3rem)\">\n//     <main>Responsive padding.</main>\n//   </ContainerWithFluidWidth>\n//\n// Keyboard: None — layout container.\n//\n// Accessibility:\n//   - Purely structural; no ARIA role\n//\n// Internationalization:\n//   - No user-facing strings\n//\n// Claude rules:\n//   - Headless: only inline style is the functional layout (width + padding-inline)\n//\n// References:\n//   - CSS padding-inline: https://developer.mozilla.org/en-US/docs/Web/CSS/padding-inline\n\nexport interface ContainerWithFluidWidthProps {\n    className?: string;\n    /** Horizontal padding CSS value */\n    paddingInline?: string;\n    /** Content to display inside the container */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function ContainerWithFluidWidth({\n    className = \"\",\n    paddingInline = \"1rem\",\n    children,\n    ...restProps\n}: ContainerWithFluidWidthProps) {\n    return (\n        <div\n            className={`container-with-fluid-width ${className}`}\n            style={{ width: \"100%\", paddingInline }}\n            data-padding-inline={paddingInline}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ContainerWithFluidWidth.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/container-with-fluid-width/"
+}

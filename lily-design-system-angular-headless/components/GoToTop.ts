@@ -10,10 +10,12 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-go-to-top",
     standalone: true,
-    template: `<div class="go-to-top {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<a class="go-to-top {{ className() }}" [attr.href]="href()" [attr.aria-label]="label() || null"><ng-content /></a>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GoToTop {
     readonly label = input<string>("");
+    /** Link target; the page's top anchor by default. */
+    readonly href = input<string>("#top");
     readonly className = input<string>("");
 }

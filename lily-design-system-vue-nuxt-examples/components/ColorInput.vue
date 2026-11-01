@@ -38,6 +38,9 @@
 // References:
 //   - MDN <input type="color">: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color
 
+import { ref } from "vue";
+import { useFormReset } from "./form-reset";
+
 withDefaults(
     defineProps<{
         label: string;
@@ -53,12 +56,15 @@ withDefaults(
 );
 
 const modelValue = defineModel<string>({ default: "#000000" });
+const field = ref<HTMLInputElement | HTMLTextAreaElement | null>(null);
+useFormReset(modelValue, field);
 </script>
 
 <template>
     <input
         class="color-input"
         type="color"
+        ref="field"
         v-model="modelValue"
         :aria-label="label"
         :disabled="disabled"

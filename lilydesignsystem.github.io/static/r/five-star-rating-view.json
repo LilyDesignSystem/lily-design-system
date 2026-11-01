@@ -2,7 +2,7 @@
   "slug": "five-star-rating-view",
   "name": "FiveStarRatingView",
   "description": "a read-only display of a five-star rating",
-  "htmlTag": "div",
+  "htmlTag": "span",
   "category": "content",
   "baseClass": ".five-star-rating-view",
   "subClasses": [],

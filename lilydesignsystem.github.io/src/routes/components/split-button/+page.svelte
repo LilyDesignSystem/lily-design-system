@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"split-button\" aria-label=\"a button with a primary action and a dropdown for related actions\">SplitButton</div>";
   const svelteSource: string = "// In your Svelte component:\nimport SplitButton from \"lily-design-system-svelte-headless/components/SplitButton/SplitButton.svelte\";\n\n<SplitButton>SplitButton</SplitButton>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import SplitButton from './SplitButton.svelte';\n\n  let menuOpen = $state(false);\n\n  function save() { /* … */ }\n  function toggleMenu() { menuOpen = !menuOpen; }\n<\/script>\n\n<SplitButton\n  label=\"Save options\"\n  primaryLabel=\"Save\"\n  menuLabel=\"More save options\"\n  menuOpen={menuOpen}\n  onprimaryclick={save}\n  onmenutoggle={toggleMenu}\n>\n  <ul role=\"menu\">\n    <li role=\"menuitem\">Save as draft</li>\n    <li role=\"menuitem\">Save and close</li>\n  </ul>\n</SplitButton>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import SplitButton from \"./SplitButton.svelte\";\n\n  let menuOpen = $state(false);\n\n  function save() {\n    /* … */\n  }\n  function toggleMenu() {\n    menuOpen = !menuOpen;\n  }\n<\/script>\n\n<SplitButton\n  label=\"Save options\"\n  primaryLabel=\"Save\"\n  menuLabel=\"More save options\"\n  {menuOpen}\n  onprimaryclick={save}\n  onmenutoggle={toggleMenu}\n>\n  <ul role=\"menu\">\n    <li role=\"menuitem\">Save as draft</li>\n    <li role=\"menuitem\">Save and close</li>\n  </ul>\n</SplitButton>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>
@@ -92,8 +92,8 @@
     <ul>
       <li>Tab: focus primary, then trigger</li>
       <li>Enter / Space on primary: fires onPrimaryClick</li>
-      <li>Enter / Space on trigger: toggles onMenuToggle</li>
-      <li>Escape handled by consumer's menu component</li>
+      <li>Enter / Space on trigger: toggles the menu (and fires onMenuToggle)</li>
+      <li>Escape and a click outside close the menu (the browser's popover light dismiss)</li>
     </ul>
     <h3>Props</h3>
     <ul>

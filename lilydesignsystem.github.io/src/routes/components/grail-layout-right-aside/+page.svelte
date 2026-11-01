@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<aside class=\"grail-layout-right-aside\">Right sidebar</aside>";
   const svelteSource: string = "// In your Svelte component:\nimport GrailLayoutRightAside from \"lily-design-system-svelte-headless/components/GrailLayoutRightAside/GrailLayoutRightAside.svelte\";\n\n<GrailLayoutRightAside>\n  <!-- content -->\n</GrailLayoutRightAside>\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import GrailLayoutRightAside from \"./GrailLayoutRightAside.svelte\";\n<\/script>\n\n<GrailLayoutRightAside>\n    <aside aria-label=\"Related\">\n        <h2>Related</h2>\n        <ul><li><a href=\"/r1\">Related 1</a></li></ul>\n    </aside>\n</GrailLayoutRightAside>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import GrailLayoutRightAside from \"./GrailLayoutRightAside.svelte\";\n<\/script>\n\n<GrailLayoutRightAside>\n  <aside aria-label=\"Related\">\n    <h2>Related</h2>\n    <ul><li><a href=\"/r1\">Related 1</a></li></ul>\n  </aside>\n</GrailLayoutRightAside>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input",
+  "type": "registry:component",
+  "title": "UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput",
+  "description": "An input for entering Ukraine's Taxpayer Registration Card Number (RNOKPP).",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput.tsx",
+      "content": "import React from \"react\";\n\n// UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput component\n//\n// A headless input for entering Ukraine's Реєстраційний номер платника податків (РНОКПП).\n// Format: Ten digits. The first five encode date of birth as the number of days elapsed since 1 January 1900; the next four are a registration sequence number, whose own last digit's parity encodes sex (odd male, even female); the tenth digit is a check digit computed with a weighted-sum algorithm over the first nine digits.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". Bindable input value; supports value + onChange.\n//   required — boolean, default false. Whether the input is required for form submission.\n//   disabled — boolean, default false. Whether the input is disabled.\n//   ...restProps — additional HTML attributes spread onto the <input>.\n//\n// Syntax:\n//   <UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput label=\"Реєстраційний номер платника податків (РНОКПП)\" value={value} onChange={setValue} />\n//\n// Accessibility:\n//   - aria-label provides the accessible name for screen readers\n//   - autoComplete=\"off\" protects sensitive identifiers\n//   - required and disabled states are conveyed to assistive technology\n//\n// References:\n//   - https://en.wikipedia.org/wiki/Taxpayer_Identification_Number\n\nexport interface UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInputProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The current value of the input, bindable */\n    value?: string;\n    /** Whether the input is required for form submission */\n    required?: boolean;\n    /** Whether the input is disabled */\n    disabled?: boolean;\n    /** Callback when value changes. */\n    onChange?: (value: string) => void;\n    [key: string]: unknown;\n}\n\nexport default function UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput({\n    className = \"\",\n    label,\n    value = \"\",\n    required = false,\n    disabled = false,\n    onChange,\n    ...restProps\n}: UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInputProps) {\n    return (\n        <input\n            className={`ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input ${className}`}\n            type=\"text\"\n            aria-label={label}\n            autoComplete=\"off\"\n            value={value}\n            onChange={(e) => onChange?.(e.target.value)}\n            required={required}\n            disabled={disabled}\n            {...restProps}\n        />\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input/"
+}

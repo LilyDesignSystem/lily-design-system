@@ -1,7 +1,7 @@
 ## Responsive design principles rules
 
 Lily is headless: the components ship no CSS, so responsive behaviour is decided in the themes and in the consumer's
-CSS. These rules bind the 57 `themes/`, the example apps' stylesheets, and any CSS the maintainers write.
+CSS. These rules bind the 63 `themes/`, the example apps' stylesheets, and any CSS the maintainers write.
 Full topic: [spec/responsive/index.md](../spec/responsive/index.md).
 
 ### Rules
@@ -21,7 +21,7 @@ Full topic: [spec/responsive/index.md](../spec/responsive/index.md).
 - **Text does not shrink below `1rem`** and is never sized in `vw` alone. Fluid values are for spacing, not text.
 - **Text expansion.** Layouts must survive labels 30 percent longer than English (Welsh runs 20 to 30 percent longer); the sweep tests it at 320px.
 - **Touch and hover are queries, not guesses.** Use `(hover: none)` and `(pointer: coarse)`, never a viewport width, to
-  decide on target size or hover-only affordances.
+  decide on target size or hover-only affordances. The themes' shared "Coarse pointer targets" section does this: under `(pointer: coarse)` interactive hooks are at least 44 by 44 CSS pixels (WCAG 2.5.5), inline links in text excepted.
 
 ### Forbidden in the headless layer
 

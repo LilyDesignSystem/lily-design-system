@@ -6,7 +6,7 @@ development of this subproject. For project-wide rules, read the root
 [spec/index.md](../../spec/index.md) first.
 
 This file adds Eleventy-specific detail and tracks the example app's
-implementation status against the **490 canonical components**.
+implementation status against the **583 canonical components**.
 
 ---
 
@@ -88,14 +88,14 @@ lily-design-system-nunjucks-eleventy-examples/
 ├── src/
 │   ├── _data/
 │   │   ├── site.js                        ← site name, language, nav metadata
-│   │   └── components.js                  ← catalog inventory (490 entries)
+│   │   └── components.js                  ← catalog inventory (607 entries)
 │   ├── _includes/
 │   │   └── layouts/
 │   │       ├── base.njk                   ← global shell, skip-link, header,
 │   │       │                                footer, NHS CSS link
 │   │       ├── page.njk
 │   │       └── component-demo.njk         ← /components/{slug}/ template
-│   ├── components/{kebab-case}.njk        ← one file per canonical slug (490)
+│   ├── components/{kebab-case}.njk        ← one file per canonical slug (607)
 │   ├── contact-form.njk                   ← composed-page demos (12), flat
 │   ├── dashboard.njk                      ← files using layouts/page.njk
 │   └── …
@@ -168,14 +168,14 @@ pnpm exec playwright test            # e2e tests
 ### 9.1 Routes
 
 - [ ] `/` renders home with skip-link + standard landmarks.
-- [ ] `/components/` lists all 490 canonical components.
-- [ ] `/components/{slug}/` exists for all 490 canonical slugs with a live
+- [ ] `/components/` lists all 607 canonical components.
+- [ ] `/components/{slug}/` exists for all 607 canonical slugs with a live
       demo.
 - [x] All 12 composed-page demos exist.
 
 ### 9.2 Macro coverage
 
-- [ ] All 490 canonical components have a `src/components/{kebab-case}.njk`
+- [ ] All 583 canonical components have a `src/components/{kebab-case}.njk`
       page that imports the corresponding macro from the headless library.
 - [ ] No orphan slugs.
 
@@ -207,7 +207,7 @@ pnpm exec playwright test            # e2e tests
 - [x] `_data/site.js`, `_data/components.js`.
 - [x] Base layouts in `_includes/layouts/`.
 - [x] NHS CSS in `src/assets/css/`.
-- [x] `src/components/` has 490 + `index.njk` pages.
+- [x] `src/components/` has 583 + `index.njk` pages.
 - [x] Playwright e2e per slug.
 
 ### 10.2 Verified
@@ -249,6 +249,6 @@ pnpm exec playwright test            # e2e tests
 - Package manager: pnpm
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause
 - Contact: Joel Parker Henderson <joel@joelparkerhenderson.com>
-- Canonical catalog: [../components.tsv](../../components.tsv) — 490 components
+- Canonical catalog: [../components.tsv](../../components.tsv) — 607 components
 - Root spec: [../spec/index.md](../../spec/index.md)
 - Sibling headless library: [../lily-design-system-nunjucks-headless/](../../lily-design-system-nunjucks-headless/)

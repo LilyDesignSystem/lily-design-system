@@ -4,19 +4,30 @@ import { TestBed } from "@angular/core/testing";
 import { AvatarImage } from "./AvatarImage";
 
 describe("AvatarImage", () => {
-    test("renders the div root with the base class", () => {
+    function render(inputs: Record<string, unknown> = {}) {
         const fixture = TestBed.createComponent(AvatarImage);
+        for (const [k, v] of Object.entries(inputs)) fixture.componentRef.setInput(k, v);
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.avatar-image");
-        expect(el).toBeTruthy();
-    });
+        return fixture;
+    }
 
     test("appends the className input to the root class list", () => {
-        const fixture = TestBed.createComponent(AvatarImage);
-        fixture.componentRef.setInput("className", "extra");
-        fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.avatar-image");
+        const el = render({ className: "extra" }).nativeElement.querySelector("img.avatar-image");
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
+    });
+
+    test("renders an <img> with src and alt, hidden from assistive technology", () => {
+        const el = render({ src: "/a.png", alt: "Ada" }).nativeElement.querySelector(
+            "img.avatar-image",
+        );
+        expect(el.getAttribute("src")).toBe("/a.png");
+        expect(el.getAttribute("alt")).toBe("Ada");
+        expect(el.getAttribute("aria-hidden")).toBe("true");
+    });
+
+    test("keeps an empty alt by default", () => {
+        const el = render().nativeElement.querySelector("img.avatar-image");
+        expect(el.getAttribute("alt")).toBe("");
     });
 });

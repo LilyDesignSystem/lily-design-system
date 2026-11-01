@@ -66,6 +66,71 @@ ten-minute task rather than a research project:
    CONTRIBUTING.md's transparency paragraph and NEWS.md in the same
    commit (the acceptance criteria below hold that edit together).
 
+## Grants and public programmes (checked 2026-10-29)
+
+These are the grant routes for the audit (plan P16-T8,
+[competitive-position](../competitive-position/index.md) item 8). The
+draft and its sources are in
+[docs/funding/ngi-zero-commons-application.md](../../docs/funding/ngi-zero-commons-application.md).
+**No application has been submitted.**
+
+### NLnet
+
+| Programme                             | State on 2026-10-29                                                                                                                                                                  | Fit for an accessibility audit                                                                                                                 |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| NGI Zero Commons Fund                 | **Closed.** Its final call closed on 2026-06-01                                                                                                                                      | none: the fund has ended                                                                                                                       |
+| NGI Zero Review (support services)    | **Ended 2026-07-31.** Support services are "still available to NLnet grantees". The HAN University WCAG audit is still listed; security audits are marked as having reached capacity | only to grantees; whether new grantees can still get the audit is not stated                                                                   |
+| Restack (Horizon Europe 101299072)    | **Open.** Deadline 2026-11-03 12:00 CET; €5,000 to €50,000 for a first grant                                                                                                         | weak: its scope is the internet stack. It lists usability and inclusive design among eligible activities, and "accessibility scans" as support |
+| CodeSupply (Horizon Europe 101298846) | **Open**, with the same deadline and amounts                                                                                                                                         | none: its scope is software metadata                                                                                                           |
+
+From now on, deadlines fall on the third day of each odd month. Two rules
+affect Lily directly:
+
+- **The European dimension.** At least 60% of the funds normally go to
+  people from Horizon Europe eligible countries. The United Kingdom is
+  eligible.
+- **[GenAI policy 2.0](https://nlnet.nl/foundation/policies/generativeAI/2.0/)
+  (2026-10-20).** Proposals may not be written with generative AI, and
+  during funded work it may only be used read-only. Any significant amount
+  of AI-generated code already in the codebase must be disclosed. Lily's
+  [AI_STATEMENT.md](../../AI_STATEMENT.md) records ai-generated
+  implementations, so any proposal must disclose that. The maintainer must
+  write the proposal himself, and people must write the funded fixes.
+
+The 2025 post saying accessibility audits were withdrawn from NGI Zero
+Review was not found on nlnet.nl. A secondary search result mentioned an
+NGI Zero post saying security and accessibility audits are no longer
+available, but the post itself could not be read. Ask NLnet before relying
+on the HAN audit either way.
+
+### Sovereign Tech Agency
+
+| Programme                 | State on 2026-10-29                                                                                                                                        | Fit                                                                                                      |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| Sovereign Tech Fund       | Applications through its portal; no deadline stated. The minimum is €50,000; open digital base technologies; user-facing applications excluded "currently" | doubtful: a UI component library is not an obvious "base technology"; the minimum exceeds a Tier 1 audit |
+| Sovereign Tech Resilience | Applications reviewed on a rolling basis; security services only (audits, fuzzing, bug bounty)                                                             | none for accessibility; possible later for supply-chain review                                           |
+| Sovereign Tech Fellowship | **Closed.** The application period ended 2026-04-06                                                                                                        | none this round                                                                                          |
+| Sovereign Tech Standards  | Pilot; applications were taken in May 2026                                                                                                                 | none                                                                                                     |
+| Sovereign Tech Challenge  | **Closed** since 2023-07-06                                                                                                                                | none                                                                                                     |
+
+Sources, all accessed 2026-10-29:
+
+- NLnet: <https://nlnet.nl/commonsfund/>, <https://nlnet.nl/propose/>,
+  <https://nlnet.nl/restack/>, <https://nlnet.nl/restack/eligibility/>,
+  <https://nlnet.nl/codesupply/>, <https://nlnet.nl/NGI0/review/>,
+  <https://nlnet.nl/NGI0/services/>, <https://nlnet.nl/OIS/european-dimension/>,
+  <https://nlnet.nl/news/2026/20260612-NGIZero-stocktaking.html>,
+  <https://nlnet.nl/news/2026/20260803-phaseshift.html>,
+  <https://nlnet.nl/news/2026/20260903-call.html>
+- Sovereign Tech Agency: <https://www.sovereign.tech/programs>,
+  <https://www.sovereign.tech/programs/fund>,
+  <https://www.sovereign.tech/programs/resilience>,
+  <https://www.sovereign.tech/programs/fellowship>
+
+| Application | Submitted | Outcome |
+| ----------- | --------- | ------- |
+| none yet    | -         | -       |
+
 ## The files that must agree
 
 - [`.github/FUNDING.yml`](../../.github/FUNDING.yml) — `github:` live;

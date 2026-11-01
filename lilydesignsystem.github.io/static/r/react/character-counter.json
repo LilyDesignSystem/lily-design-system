@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "character-counter",
+  "type": "registry:component",
+  "title": "CharacterCounter",
+  "description": "A counter showing remaining or used characters in a text field.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/CharacterCounter.tsx",
+      "content": "import React from \"react\";\n\n// CharacterCounter component\n//\n// A headless character counter that displays real-time character count\n// information for a text input. Renders a <span> with role=\"status\" and\n// aria-live=\"polite\" so screen readers announce updates without interrupting\n// the user. Shows \"count / max\" when a maximum is provided, or just the count\n// otherwise. Used alongside text inputs with character limits such as tweets,\n// SMS fields, form fields, or bios.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   count — number, default 0. Current character count.\n//   max — number, optional. Maximum allowed characters; enables remaining/over-limit tracking.\n//   label — string, optional. Accessible label for the counter via aria-label.\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <CharacterCounter count={text.length} max={280} label=\"Characters\" />\n//\n// Examples:\n//\n//   <CharacterCounter count={text.length} max={280} label=\"Character count\" />\n//\n//\n//   <CharacterCounter count={text.length} label=\"Characters typed\" />\n//\n// Keyboard:\n//   None — this component is a passive status display.\n//\n// Accessibility:\n//   - role=\"status\" identifies the element as a live region for advisory information\n//   - aria-live=\"polite\" announces updates at the next convenient pause\n//   - aria-label provides context for what the counter represents\n//   - data-count, data-max, data-remaining, data-over-limit for CSS selectors\n//\n// Internationalization:\n//   - Label text comes through the label prop; no hardcoded strings\n//   - Display format is \"count / max\" — consumer can override via CSS or wrapper\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - data-over-limit attribute is only present when count exceeds max\n//   - Uses computed for computed remaining and overLimit values\n//\n// References:\n//   - WAI-ARIA Status Role: https://www.w3.org/TR/wai-aria-1.2/#status\n\nexport interface CharacterCounterProps {\n    className?: string;\n    /** Current character count */\n    count?: number;\n    /** Maximum allowed characters (optional) */\n    max?: number;\n    /** Accessible label for the counter */\n    label?: string;\n    [key: string]: unknown;\n}\n\nexport default function CharacterCounter({\n    className = \"\",\n    count = 0,\n    max = undefined,\n    label = undefined,\n    ...restProps\n}: CharacterCounterProps) {\n    const remaining = max != null ? max - count : undefined;\n\n    const overLimit = max != null && count > max;\n\n    const displayText = max != null ? `${count} / ${max}` : `${count}`;\n\n    return (\n        <span\n            className={`character-counter ${className}`}\n            role=\"status\"\n            aria-live=\"polite\"\n            aria-label={label}\n            data-count={count}\n            data-max={max}\n            data-remaining={remaining}\n            data-over-limit={overLimit || undefined}\n            {...restProps}\n        >\n            {displayText}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/CharacterCounter.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/character-counter/"
+}

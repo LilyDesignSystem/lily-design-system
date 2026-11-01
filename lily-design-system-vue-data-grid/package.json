@@ -28,7 +28,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@lilydesignsystem/vue-headless": "^0.5.1"
+    "@lilydesignsystem/vue-headless": "^0.6.0"
   },
   "peerDependencies": {
     "vue": "^3.0.0"

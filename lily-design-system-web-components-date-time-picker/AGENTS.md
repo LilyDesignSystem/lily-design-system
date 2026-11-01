@@ -42,7 +42,7 @@ data, not a preference.
   `parseIsoDate`, `toEpochDay`, `fromEpochDay`, `addDays`, `addMonths`,
   `weekdayOf`, `isoWeek`, `parseIsoTime`, `formatIsoTime`, `splitValue`,
   `joinValue`, `withinRange`, `firstDayOfWeekFor`, `monthMatrix`,
-  `monthNames`, `numericFieldOrder`, `parseDateInput`, `parseTimeInput`,
+  `monthNames`, `numericFieldOrder`, `parseDateInput`, `parseTimeInput`, `normalizeDigits`, `gregorian`,
   `nextDateTimePickerId`).
 - Type exports: `DateTimePickerProps`, `DateTimePickerLabels`,
   `DateTimePickerChangeDetail`, `DateTimePickerShortcutDetail`,

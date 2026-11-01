@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "red-orange-yellow-green-blue-picker",
+  "type": "registry:component",
+  "title": "RedOrangeYellowGreenBluePicker",
+  "description": "A picker for selecting a five-level color status.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/RedOrangeYellowGreenBluePicker.tsx",
+      "content": "import React from \"react\";\n\n// RedOrangeYellowGreenBluePicker component\n//\n// A headless ROYGB (Red/Orange/Yellow/Green/Blue) status input that renders\n// a native <select> element with five color-coded status options. Extends the\n// traditional RAG model with additional orange and blue levels for more granular\n// status reporting in risk registers, dashboards, and multi-tier alert systems.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for the select element.\n//   value — string, default \"\". Currently selected status value; bindable.\n//   ...restProps — additional HTML attributes spread onto the <select>.\n//\n// Syntax:\n//   <RedOrangeYellowGreenBluePicker label=\"Risk level\" value={level} onChange={setLevel} />\n//\n// Examples:\n//\n//   <RedOrangeYellowGreenBluePicker label=\"Alert status\" value=\"green\" />\n//\n//\n//   <RedOrangeYellowGreenBluePicker label=\"Project health\" value={level} onChange={setLevel} data-dashboard=\"main\" />\n//\n// Keyboard:\n//   - Arrow Up/Down: navigate options (native select behavior)\n//   - Enter/Space: open the dropdown (native select behavior)\n//   - Escape: close the dropdown (native select behavior)\n//\n// Accessibility:\n//   - aria-label on the <select> for screen reader context\n//   - Native <select> provides implicit combobox/listbox role\n//   - WCAG 2.2 AAA: properly labeled for assistive technology\n//\n// Internationalization:\n//   - The label prop externalizes the accessible label string\n//   - Option display text (\"Red\", \"Orange\", etc.) is hardcoded; wrap or fork to localize\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Value uses controlled for two-way binding with value + onChange\n//   - Options are fixed to five values: red, orange, yellow, green, blue\n//\n// References:\n//   - Traffic Light Rating System: https://en.wikipedia.org/wiki/Traffic_light_rating_system\n\nexport interface RedOrangeYellowGreenBluePickerProps {\n    className?: string;\n    /** Accessible label for the select element */\n    label: string;\n    /** Currently selected ROYGB status value, bindable */\n    value?: string;\n    /** Callback when value changes. */\n    onChange?: (value: string) => void;\n    [key: string]: unknown;\n}\n\nexport default function RedOrangeYellowGreenBluePicker({\n    className = \"\",\n    label,\n    value = \"\",\n    onChange,\n    ...restProps\n}: RedOrangeYellowGreenBluePickerProps) {\n    return (\n        <select\n            className={`red-orange-yellow-green-blue-picker ${className}`}\n            aria-label={label}\n            value={value}\n            onChange={(e) => onChange?.(e.target.value)}\n            {...restProps}\n        >\n            <option value=\"red\">Red</option>\n            <option value=\"orange\">Orange</option>\n            <option value=\"yellow\">Yellow</option>\n            <option value=\"green\">Green</option>\n            <option value=\"blue\">Blue</option>\n        </select>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/RedOrangeYellowGreenBluePicker.tsx"
+    }
+  ],
+  "categories": [
+    "pickers"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/red-orange-yellow-green-blue-picker/"
+}

@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-code-block",
     standalone: true,
-    template: `<div class="code-block {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<pre class="code-block {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></pre>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CodeBlock {

@@ -38,5 +38,10 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/FloatingPanel.razor"
   },
   "docs": "https://lilydesignsystem.com/components/floating-panel/",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/floating-panel/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/floating-panel/AGENTS.md",
+  "nativePlatform": {
+    "decision": "native",
+    "uses": "div role=\"region\" popover=\"manual\" shown from the open state",
+    "could_use": "CSS anchor positioning (consumer sets position-anchor)"
+  }
 }

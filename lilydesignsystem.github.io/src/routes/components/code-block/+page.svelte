@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<pre class=\"code-block\"><code>function hello() { return \"world\"; }</code></pre>";
   const svelteSource: string = "// In your Svelte component:\nimport CodeBlock from \"lily-design-system-svelte-headless/components/CodeBlock/CodeBlock.svelte\";\n\n<CodeBlock>\n  <!-- content -->\n</CodeBlock>\n";
-  const usageCode: string = "<p>Add the <Code>.button</Code> class to your element.</p>\n\n<CodeBlock label=\"Button markup example\" lineNumbers>\n  <code>&lt;button class=\"button\" type=\"submit\"&gt;\n  Save and continue\n&lt;/button&gt;</code>\n</CodeBlock>\n";
+  const usageCode: string = "<p>Add the <code>.button</code> class to your element.</p>\n\n<CodeBlock\n  label=\"Button markup example\"\n  lineNumbers\n>\n  <code>&lt;button class=\"button\" type=\"submit\"&gt; Save and continue &lt;/button&gt;</code>\n</CodeBlock>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

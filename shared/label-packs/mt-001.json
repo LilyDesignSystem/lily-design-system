@@ -283,5 +283,10 @@
     "small": "żgħir",
     "smaller": "iżgħar",
     "smallest": "l-iżgħar"
+  },
+  "date-time-now-input": {
+    "date": "Data",
+    "time": "Ħin",
+    "now": "Issa"
   }
 }

@@ -56,7 +56,7 @@ export class OneTimePasswordInput extends HTMLElement {
         if (label !== null) input.setAttribute("aria-label", label);
         const name = this.getAttribute("name");
         if (name !== null) input.name = name;
-        input.value = this.getAttribute("value") ?? "";
+        input.defaultValue = this.getAttribute("value") ?? "";
         if (this.hasAttribute("required")) input.required = true;
         if (this.hasAttribute("disabled")) input.disabled = true;
         passThroughAttributes(this, input, HANDLED);

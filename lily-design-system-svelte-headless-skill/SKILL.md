@@ -1,12 +1,12 @@
 ---
 name: lily-design-system-svelte-headless-skill
-description: Explains how to install and consume Lily Design System's Svelte headless component library — the npm package name, the Svelte 5 runes-specific usage idiom (the `class` prop convention, `$props()` with rest-props spread onto the root element, `$bindable()` for open/close state), and where the 582-component catalog and its naming/composition rules live. Use when someone asks how to install or import Lily's Svelte components, wants the Svelte 5 idiom for consuming a headless Lily component, asks what npm package to depend on, or asks how theming/class hooks work in the Svelte catalog.
+description: Explains how to install and consume Lily Design System's Svelte headless component library — the npm package name, the Svelte 5 runes-specific usage idiom (the `class` prop convention, `$props()` with rest-props spread onto the root element, `$bindable()` for open/close state), and where the 607-component catalog and its naming/composition rules live. Use when someone asks how to install or import Lily's Svelte components, wants the Svelte 5 idiom for consuming a headless Lily component, asks what npm package to depend on, or asks how theming/class hooks work in the Svelte catalog.
 license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 ---
 
 # Lily Design System™ — Svelte headless
 
-The Svelte 5 implementation of Lily's canonical 582-component catalog:
+The Svelte 5 implementation of Lily's canonical 607-component catalog:
 headless, unstyled, accessible components — semantic HTML, ARIA, focus
 management, and keyboard behaviour, and **no CSS**. Published to npm as
 [`@lilydesignsystem/svelte-headless`](https://www.npmjs.com/package/@lilydesignsystem/svelte-headless).
@@ -89,7 +89,7 @@ Theming works exactly the same way as every other Lily catalog: the
 headless component bakes in no colour, spacing, typography, or breakpoint
 literals — it only sets the kebab-case base class, ARIA, and `data-*`
 attributes. Visual decisions live entirely in consumer CSS or in one of
-the 45 ready-to-use reference stylesheets under the root `themes/`
+the 63 ready-to-use reference stylesheets under the root `themes/`
 directory, applied at runtime by the `theme-picker` helper (see
 `lily-design-system-svelte-helpers-skill`).
 
@@ -103,9 +103,18 @@ sub-elements, and more) are catalog-wide rules, not Svelte-specific —
 this skill does not restate them. See `AGENTS/components.md` at the
 repository root (loaded into this skill's own `AGENTS.md`) for the full
 mapping and the Form / Grail-layout / Navigation / Table composition
-templates. For the general Svelte 5 + SvelteKit 2 conventions this repo
+templates. For the general Svelte 5 + SvelteKit 3 conventions this repo
 follows (runes, testing-library, vitest-only matchers), see
 `AGENTS/sveltekit.md`.
+
+## Native dialogs and popovers (2026-10-30)
+
+Modal overlays (`dialog`, `alert-dialog`, `file-dialog`, `timeout-dialog`, `drawer`, `sheet`, `slide-out-drawer`) open a real
+`<dialog>` with `showModal()`: the page behind is inert, Tab stays inside, Escape closes, focus returns to the opener. Light-dismiss
+popups (`popover`, `popup`, `contextual-help`, `dropdown-menu`, `split-button`, `action-group`, `context-menu`) use the Popover API
+(`popover="auto"`, opened by `command="toggle-popover"` `commandfor`, with `popovertarget` as well), so the browser itself can close
+them on Escape or an outside click. Keep their open state two-way: listen for the change rather than assuming only your code closes
+them. Per-component decisions: each `components/{slug}/AGENTS.md` § "Native platform"; rule: `AGENTS/headless.md`.
 
 ## When NOT this skill
 

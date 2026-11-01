@@ -29,7 +29,7 @@ export class HiddenInput extends HTMLElement {
         input.className = rootClassName(this, "hidden-input");
         const name = this.getAttribute("name");
         if (name !== null) input.name = name;
-        input.value = this.getAttribute("value") ?? "";
+        input.defaultValue = this.getAttribute("value") ?? "";
         passThroughAttributes(this, input, HANDLED);
 
         this.appendChild(input);

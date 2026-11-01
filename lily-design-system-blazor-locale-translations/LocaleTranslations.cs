@@ -50,6 +50,18 @@ public static class LocaleTranslations
         return result;
     }
 
+    /// <summary>
+    /// The date-time-now-input's three names for its <c>DateLabel</c>, <c>TimeLabel</c> and <c>NowLabel</c>
+    /// parameters, for example <c>("Fecha", "Hora", "Ahora")</c>. A name the pack lacks is null, so that control stays
+    /// unnamed rather than showing another language's text.
+    /// </summary>
+    public static DateTimeNowInputLabels DateTimeNowInputLabels(string locale)
+    {
+        var section = Parse(locale)["date-time-now-input"] as JsonObject;
+        string? Read(string key) => (string?)section?[key] is { Length: > 0 } text ? text : null;
+        return new DateTimeNowInputLabels(Read("date"), Read("time"), Read("now"));
+    }
+
     // -----------------------------------------------------------------
     // Time zone names (Unicode CLDR). One pack per label-pack locale; see zone-names in index.md.
     // -----------------------------------------------------------------
@@ -108,3 +120,6 @@ public static class LocaleTranslations
 
     private static JsonObject ParseJson(string json) => JsonNode.Parse(json) as JsonObject ?? throw new FormatException("The pack is not a JSON object.");
 }
+
+/// <summary>The date-time-now-input's names from a pack; see <see cref="LocaleTranslations.DateTimeNowInputLabels"/>.</summary>
+public sealed record DateTimeNowInputLabels(string? Date, string? Time, string? Now);

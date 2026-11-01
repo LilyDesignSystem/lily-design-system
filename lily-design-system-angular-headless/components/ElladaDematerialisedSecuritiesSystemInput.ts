@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
+import { restoreOnFormReset } from "./form-reset";
 
 /**
  * ElladaDematerialisedSecuritiesSystemInput — an input for entering Greece's Dematerialised Securities System (DSS)
@@ -33,4 +34,8 @@ export class ElladaDematerialisedSecuritiesSystemInput {
     readonly required = input<boolean>(false);
     /** Whether the input is disabled. */
     readonly disabled = input<boolean>(false);
+
+    constructor() {
+        restoreOnFormReset(this.value);
+    }
 }

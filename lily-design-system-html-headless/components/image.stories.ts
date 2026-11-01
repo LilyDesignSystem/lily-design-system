@@ -1,10 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html = `<img
-  class="image"
-  src=""
-  alt=""
->`;
+const html = `<img class="image" src="" alt="Example" />`;
 
 const meta = {
     title: "Headless/Image",

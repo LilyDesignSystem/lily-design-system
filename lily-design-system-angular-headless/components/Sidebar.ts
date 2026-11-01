@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-sidebar",
     standalone: true,
-    template: `<div class="sidebar {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<aside class="sidebar {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></aside>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Sidebar {

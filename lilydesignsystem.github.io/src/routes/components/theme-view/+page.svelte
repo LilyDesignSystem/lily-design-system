@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<span class=\"theme-view\" role=\"img\" aria-label=\"Current theme: Light\">Light</span>";
   const svelteSource: string = "// In your Svelte component:\nimport ThemeView from \"lily-design-system-svelte-headless/components/ThemeView/ThemeView.svelte\";\n\n<ThemeView label=\"Label\" value=\"Sample value\" />\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import ThemeView from \"./ThemeView.svelte\";\n<\/script>\n\n<ThemeView label=\"Current theme\" value=\"dark\" />\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import ThemeView from \"./ThemeView.svelte\";\n<\/script>\n\n<ThemeView\n  label=\"Current theme\"\n  value=\"dark\"\n/>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>
@@ -76,7 +76,7 @@
       <li>PascalCase: ThemeView</li>
       <li>Description: a read-only display of the current theme</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
-      <li>HTML tag: &lt;div&gt;</li>
+      <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .theme-view</li>
       <li>Interactive: no</li>
     </ul>

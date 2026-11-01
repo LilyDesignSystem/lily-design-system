@@ -283,5 +283,10 @@
     "small": "નાનું",
     "smaller": "વધુ નાનું",
     "smallest": "સૌથી નાનું"
+  },
+  "date-time-now-input": {
+    "date": "તારીખ",
+    "time": "સમય",
+    "now": "હમણાં"
   }
 }

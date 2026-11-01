@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"dial-group\"><div class=\"dial\" role=\"slider\" aria-valuenow=\"30\" aria-label=\"Bass\">30</div><div class=\"dial\" role=\"slider\" aria-valuenow=\"70\" aria-label=\"Treble\">70</div></div>";
   const svelteSource: string = "// In your Svelte component:\nimport DialGroup from \"lily-design-system-svelte-headless/components/DialGroup/DialGroup.svelte\";\n\n<DialGroup>\n  <!-- list children -->\n</DialGroup>\n";
-  const usageCode: string = "<DialGroup label=\"Audio controls\">\n  <Dial label=\"Volume\" value={volume} min={0} max={100} />\n  <Dial label=\"Bass\" value={bass} min={0} max={100} />\n  <Dial label=\"Treble\" value={treble} min={0} max={100} />\n</DialGroup>\n";
+  const usageCode: string = "<DialGroup label=\"Audio controls\">\n  <Dial\n    label=\"Volume\"\n    value=\"{volume}\"\n    min=\"{0}\"\n    max=\"{100}\"\n  />\n  <Dial\n    label=\"Bass\"\n    value=\"{bass}\"\n    min=\"{0}\"\n    max=\"{100}\"\n  />\n  <Dial\n    label=\"Treble\"\n    value=\"{treble}\"\n    min=\"{0}\"\n    max=\"{100}\"\n  />\n</DialGroup>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

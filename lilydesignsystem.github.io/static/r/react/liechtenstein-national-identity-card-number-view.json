@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "liechtenstein-national-identity-card-number-view",
+  "type": "registry:component",
+  "title": "LiechtensteinNationalIdentityCardNumberView",
+  "description": "A read-only display of Liechtenstein's Liechtenstein National Identity Card Number.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/LiechtensteinNationalIdentityCardNumberView.tsx",
+      "content": "import React from \"react\";\n\n// LiechtensteinNationalIdentityCardNumberView component\n//\n// A headless display component for showing Liechtenstein's\n// Liechtenstein National Identity Card Number in a read-only format.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". The identifier string to display.\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <LiechtensteinNationalIdentityCardNumberView label=\"Liechtenstein National Identity Card Number\" value={value} />\n//\n// Accessibility:\n//   - aria-label provides the accessible name so screen readers announce the purpose\n//\n// References:\n//   - https://en.wikipedia.org/wiki/National_identity_card\n\nexport interface LiechtensteinNationalIdentityCardNumberViewProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The identifier to display */\n    value?: string;\n    [key: string]: unknown;\n}\n\nexport default function LiechtensteinNationalIdentityCardNumberView({\n    className = \"\",\n    label,\n    value = \"\",\n    ...restProps\n}: LiechtensteinNationalIdentityCardNumberViewProps) {\n    return (\n        <span\n            className={`liechtenstein-national-identity-card-number-view ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {value}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/LiechtensteinNationalIdentityCardNumberView.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/liechtenstein-national-identity-card-number-view/"
+}

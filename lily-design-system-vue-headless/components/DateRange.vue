@@ -48,6 +48,9 @@
 //   - MDN input type="date": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date
 //   - MDN fieldset element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/fieldset
 
+import { ref } from "vue";
+import { useFormReset } from "./form-reset";
+
 defineProps<{
     /** Accessible group label. */
     label: string;
@@ -58,8 +61,12 @@ defineProps<{
 }>();
 
 const start = defineModel<string>("start", { default: "" });
+const startField = ref<HTMLInputElement | HTMLTextAreaElement | null>(null);
+useFormReset(start, startField);
 
 const end = defineModel<string>("end", { default: "" });
+const endField = ref<HTMLInputElement | HTMLTextAreaElement | null>(null);
+useFormReset(end, endField);
 </script>
 
 <template>
@@ -72,12 +79,14 @@ const end = defineModel<string>("end", { default: "" });
             class="date-input"
             type="date"
             :aria-label="startLabel"
+            ref="startField"
             v-model="start"
         />
         <input
             class="date-input"
             type="date"
             :aria-label="endLabel"
+            ref="endField"
             v-model="end"
         />
     </fieldset>

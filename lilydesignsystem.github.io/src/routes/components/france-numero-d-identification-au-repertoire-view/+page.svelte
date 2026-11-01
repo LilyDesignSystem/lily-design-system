@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<span class=\"france-numero-d-identification-au-repertoire-view\" aria-label=\"a read-only display of a France numéro d'identification au répertoire (NIR) unique national healthcare identifier\">FranceNumeroDIdentificationAuRepertoireView</span>";
   const svelteSource: string = "// In your Svelte component:\nimport FranceNumeroDIdentificationAuRepertoireView from \"lily-design-system-svelte-headless/components/FranceNumeroDIdentificationAuRepertoireView/FranceNumeroDIdentificationAuRepertoireView.svelte\";\n\n<FranceNumeroDIdentificationAuRepertoireView label=\"Label\" value=\"Sample value\" />\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import FranceNumeroDIdentificationAuRepertoireView from \"./FranceNumeroDIdentificationAuRepertoireView.svelte\";\n<\/script>\n\n<FranceNumeroDIdentificationAuRepertoireView\n    label=\"Numéro de sécurité sociale\"\n    value=\"1 85 05 75 012 345 67\"\n/>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import FranceNumeroDIdentificationAuRepertoireView from \"./FranceNumeroDIdentificationAuRepertoireView.svelte\";\n<\/script>\n\n<FranceNumeroDIdentificationAuRepertoireView\n  label=\"Numéro de sécurité sociale\"\n  value=\"1 85 05 75 012 345 67\"\n/>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

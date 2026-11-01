@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"avatar-group\"><div class=\"avatar\">AB</div><div class=\"avatar\">CD</div><div class=\"avatar\">EF</div></div>";
   const svelteSource: string = "// In your Svelte component:\nimport AvatarGroup from \"lily-design-system-svelte-headless/components/AvatarGroup/AvatarGroup.svelte\";\n\n<AvatarGroup>\n  <!-- list children -->\n</AvatarGroup>\n";
-  const usageCode: string = "<AvatarGroup label=\"Care team\">\n  <Avatar src=\"/photos/sarah-mitchell.jpg\" alt=\"Dr Sarah Mitchell\" initials=\"SM\" />\n  <Avatar alt=\"Nurse James Lee\" initials=\"JL\" />\n  <Avatar alt=\"Dr Priya Sharma\" initials=\"PS\" />\n</AvatarGroup>\n";
+  const usageCode: string = "<AvatarGroup label=\"Care team\">\n  <Avatar\n    src=\"/photos/sarah-mitchell.jpg\"\n    alt=\"Dr Sarah Mitchell\"\n    initials=\"SM\"\n  />\n  <Avatar\n    alt=\"Nurse James Lee\"\n    initials=\"JL\"\n  />\n  <Avatar\n    alt=\"Dr Priya Sharma\"\n    initials=\"PS\"\n  />\n</AvatarGroup>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

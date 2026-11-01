@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"red-orange-yellow-green-blue-picker\" role=\"radiogroup\" aria-label=\"Rating\"><button class=\"red-orange-yellow-green-blue-picker-button\" role=\"radio\" aria-checked=\"false\">Red</button><button class=\"red-orange-yellow-green-blue-picker-button\" role=\"radio\" aria-checked=\"false\">Orange</button><button class=\"red-orange-yellow-green-blue-picker-button\" role=\"radio\" aria-checked=\"false\">Yellow</button><button class=\"red-orange-yellow-green-blue-picker-button\" role=\"radio\" aria-checked=\"true\">Green</button><button class=\"red-orange-yellow-green-blue-picker-button\" role=\"radio\" aria-checked=\"false\">Blue</button></div>";
   const svelteSource: string = "// In your Svelte component:\nimport RedOrangeYellowGreenBluePicker from \"lily-design-system-svelte-headless/components/RedOrangeYellowGreenBluePicker/RedOrangeYellowGreenBluePicker.svelte\";\n\n<RedOrangeYellowGreenBluePicker label=\"Picker\" />\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import RedOrangeYellowGreenBluePicker from './RedOrangeYellowGreenBluePicker.svelte';\n<\/script>\n\n<RedOrangeYellowGreenBluePicker label=\"Alert status\" value=\"green\" />\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import RedOrangeYellowGreenBluePicker from \"./RedOrangeYellowGreenBluePicker.svelte\";\n<\/script>\n\n<RedOrangeYellowGreenBluePicker\n  label=\"Alert status\"\n  value=\"green\"\n/>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

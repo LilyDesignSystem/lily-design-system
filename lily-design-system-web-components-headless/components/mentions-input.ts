@@ -26,6 +26,7 @@
 //   - Ant Design Mentions: https://ant.design/components/mentions
 
 import { applySelfClassName, moveChildrenInto, nextId } from "../lib/dom-utils.js";
+import { syncManualPopover } from "./popover.js";
 
 export class MentionsInput extends HTMLElement {
     static get observedAttributes(): string[] {
@@ -82,6 +83,8 @@ export class MentionsInput extends HTMLElement {
         if (label !== null) input.setAttribute("aria-label", label);
 
         const value = this.getAttribute("value");
+        // defaultValue too: a form reset restores an input to its default, so the initial value must be it.
+        if (value !== null) input.defaultValue = value;
         if (value !== null && input.value !== value) input.value = value;
 
         const triggerChar = this.getAttribute("trigger-char") ?? "@";
@@ -95,6 +98,6 @@ export class MentionsInput extends HTMLElement {
 
         const expanded = this.hasAttribute("expanded");
         input.setAttribute("aria-expanded", expanded ? "true" : "false");
-        suggestions.hidden = !expanded;
+        syncManualPopover(suggestions, expanded);
     }
 }

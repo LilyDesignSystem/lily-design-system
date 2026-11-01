@@ -59,7 +59,7 @@ export class ChatComposer extends HTMLElement {
 
         const textarea = document.createElement("textarea");
         textarea.className = "chat-composer-input";
-        textarea.value = this.getAttribute("value") ?? "";
+        textarea.defaultValue = this.getAttribute("value") ?? "";
         const button = document.createElement("button");
         button.className = "chat-composer-button";
         const label = document.createElement("span");

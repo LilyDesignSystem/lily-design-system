@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "avatar-image",
+  "type": "registry:component",
+  "title": "AvatarImage",
+  "description": "An avatar indicator inside image such as a user photo.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/AvatarImage.tsx",
+      "content": "import React from \"react\";\n\n// AvatarImage component\n//\n// The image element within an Avatar. Renders a native <img> element\n// for displaying a user's profile photo. Must be used inside an Avatar\n// container.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   src — string, required. URL of the avatar image.\n//   alt — string, required. Accessible description for the image.\n//   ...restProps — additional HTML attributes spread onto the <img>.\n//\n// Syntax:\n//   <AvatarImage src=\"/photo.jpg\" alt=\"Jane Doe\" />\n//\n// Examples:\n//\n//   <Avatar alt=\"Jane Doe\">\n//     <AvatarImage src=\"/photos/jane.jpg\" alt=\"Jane Doe\" />\n//   </Avatar>\n//\n// Keyboard: None — display-only element.\n//\n// Accessibility:\n//   - Native <img> with alt text provides image accessibility\n//   - aria-hidden=\"true\" prevents duplicate announcements since the\n//     parent Avatar already has aria-label\n//\n// Internationalization:\n//   - alt text comes through props\n//   - No hardcoded strings\n//\n// Claude rules:\n//   - Compound component — must be used inside an Avatar\n//   - Headless: no CSS, no styles — consumer provides all styling\n//\n// References:\n//   - HTML img element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img\n\nexport interface AvatarImageProps {\n    className?: string;\n    /** URL of the avatar image. */\n    src: string;\n    /** Accessible description for the image. */\n    alt: string;\n    [key: string]: unknown;\n}\n\nexport default function AvatarImage({ className = \"\", src, alt, ...restProps }: AvatarImageProps) {\n    return (\n        <img\n            className={`avatar-image ${className}`}\n            src={src}\n            alt={alt}\n            aria-hidden=\"true\"\n            {...restProps}\n        />\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/AvatarImage.tsx"
+    }
+  ],
+  "categories": [
+    "media"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/avatar-image/"
+}

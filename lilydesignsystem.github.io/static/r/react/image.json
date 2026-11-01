@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "image",
+  "type": "registry:component",
+  "title": "Image",
+  "description": "An image element with alt text.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Image.tsx",
+      "content": "import React from \"react\";\n\n// Image component\n//\n// An image component that displays visual content with proper accessibility through\n// required alt text and optional caption support. When a caption is provided, it renders\n// a <figure> containing the <img> and a <figcaption> for semantic association. Without\n// a caption, it renders a plain <img> element. Supports native lazy loading.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   src — string, required. The image source URL.\n//   alt — string, required. Alternative text describing the image for screen readers.\n//   caption — string, default undefined. When provided, wraps the image in a figure/figcaption.\n//   loading — \"lazy\" | \"eager\", default undefined. Controls native browser loading behavior.\n//   ...restProps — additional HTML attributes spread onto the root element (img or figure).\n//\n// Syntax:\n//   <Image src=\"/photo.jpg\" alt=\"Description\" />\n//\n// Examples:\n//\n//   <Image src=\"/photo.jpg\" alt=\"A sunset over the ocean\" />\n//\n//\n//   <Image src=\"/photo.jpg\" alt=\"A sunset over the ocean\" caption=\"Photo by Jane Doe\" />\n//\n//\n//   <Image src=\"/large-photo.jpg\" alt=\"Landscape\" loading=\"lazy\" />\n//\n// Keyboard:\n//   - None — images are not interactive by default\n//\n// Accessibility:\n//   - alt attribute provides the accessible name for the image (required)\n//   - <figure> and <figcaption> semantically associate the caption with the image\n//   - Screen readers announce the alt text when encountering the image\n//\n// Internationalization:\n//   - The alt and caption props allow localized text; no hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - restProps spread onto <img> when no caption, onto <figure> when caption is present\n//   - alt prop is required to enforce accessibility\n//\n// References:\n//   - WAI Images Tutorial: https://www.w3.org/WAI/tutorials/images/\n//   - HTML figure element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figure\n\nexport interface ImageProps {\n    className?: string;\n    src: string;\n    alt: string;\n    caption?: string;\n    loading?: \"lazy\" | \"eager\";\n    [key: string]: unknown;\n}\n\nexport default function Image({\n    className = \"\",\n    src,\n    alt,\n    caption = undefined,\n    loading = undefined,\n    ...restProps\n}: ImageProps) {\n    return (\n        <>\n            {caption ? (\n                <>\n                    <figure\n                        className={`image ${className}`}\n                        {...restProps}\n                    >\n                        <img\n                            src={src}\n                            alt={alt}\n                            loading={loading}\n                        />\n                        <figcaption>{caption}</figcaption>\n                    </figure>\n                </>\n            ) : (\n                <>\n                    <img\n                        className={`image ${className}`}\n                        src={src}\n                        alt={alt}\n                        loading={loading}\n                        {...restProps}\n                    />\n                </>\n            )}\n        </>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Image.tsx"
+    }
+  ],
+  "categories": [
+    "media"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/image/"
+}

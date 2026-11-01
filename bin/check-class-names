@@ -3,7 +3,7 @@
 //
 // Audit that every headless implementation of every catalog component carries its canonical
 // kebab-case base class (the component's slug) in its markup — the one styling contract
-// AGENTS/headless.md says consumer CSS may rely on. For each of the 8 headless libraries and
+// AGENTS/headless.md says consumer CSS may rely on. For each of the 9 headless libraries (Alpine since 2026-10-30) and
 // each component the implementation file must, after stripping comments, contain the slug as a
 // whole class token on a line that sets a class (class=, class:, className, CssClass, classes).
 //
@@ -40,6 +40,7 @@ const FRAMEWORKS = [
   { id: "blazor", impl: (c) => `lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/${c.name}.razor` },
   { id: "nunjucks", impl: (c) => `lily-design-system-nunjucks-headless/components/${c.slug}/macro.njk` },
   { id: "web-components", impl: (c) => `lily-design-system-web-components-headless/components/${c.slug}.ts`, optional: true },
+  { id: "alpine", impl: (c) => `lily-design-system-alpine-headless/components/${c.slug}.html` },
 ];
 
 // slug -> reason, applied to every library. Fill only with a documented reason.

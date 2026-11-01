@@ -1,16 +1,16 @@
 # Popup
 
-A popup is a UI component that temporarily appears over the main content to convey information, prompt user actions, or display additional options without navigating away from the current screen. The Popup component provides a headless conditional dialog overlay that renders its content only when the `open` state is true, using proper dialog semantics for assistive technology.
+A popup is a UI component that temporarily appears over the main content to convey information, prompt user actions, or display additional options without navigating away from the current screen. The Popup component is a headless `popover="auto"` dialog overlay that the browser's Popover API opens and closes, using proper dialog semantics for assistive technology.
 
-The component is similar to Popover but is designed as a general-purpose overlay dialog. It supports controlled component usage for the `open` prop, so parent components can control visibility. The consumer provides trigger elements, open/close logic, and all content.
+The component is similar to Popover but is designed as a general-purpose overlay dialog. It supports controlled component usage for the `open` prop, so parent components can control visibility. The consumer provides the trigger (`command="toggle-popover" commandfor="{id}"`, no script needed) and all content.
 
 ## Implementation Notes
 
-- Conditionally renders a `<div>` with `role="dialog"` only when `open` is true
+- Always renders a `<div popover="auto" role="dialog">`: the native Popover API shows it in the top layer and closes it on Escape or a click outside (light dismiss); `open` follows the element's `toggle` event, with a `hidden` fallback where `showPopover` is missing
 - Supports controlled component usage for the `open` prop
 - The `label` prop is required and provides the dialog's accessible name via `aria-label`
 - Rest props are spread onto the `<div>` element
-- The consumer must provide their own trigger element and manage open/close behavior
+- The consumer provides the trigger: `command="toggle-popover" commandfor="{id}"` (plus `popovertarget` for older engines)
 - Content is provided via the `children` snippet
 
 ## Props

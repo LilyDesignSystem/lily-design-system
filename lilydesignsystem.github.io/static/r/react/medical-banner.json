@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "medical-banner",
+  "type": "registry:component",
+  "title": "MedicalBanner",
+  "description": "A prominent message bar across the top of a page, with medical information.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/MedicalBanner.tsx",
+      "content": "\"use client\";\n\n// MedicalBanner component\n//\n// A headless medical banner for displaying prominent medical information\n// messages at the top of a page. Renders as a <div role=\"region\"> with\n// aria-live=\"polite\", data-type for variants, and data-context=\"medical\".\n// Supports optional dismiss functionality.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name via aria-label.\n//   type — \"info\" | \"success\" | \"warning\" | \"error\", default \"info\".\n//   dismissible — boolean, default false.\n//   onClose — () => void, optional. Callback when dismissed.\n//   closeLabel — string, optional. Accessible label for dismiss button.\n//   children — ReactNode, required. The banner content.\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Syntax:\n//   <MedicalBanner label=\"Patient alerts\">content</MedicalBanner>\n//\n// Keyboard:\n//   - Tab: Focus dismiss button (when dismissible)\n//   - Enter/Space: Dismiss the banner\n//\n// Accessibility:\n//   - role=\"region\" for landmark identification\n//   - aria-live=\"polite\" for announcing content changes\n//   - data-context=\"medical\" for medical context\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n\nimport React, { useState } from \"react\";\n\nexport interface MedicalBannerProps {\n    className?: string;\n    /** Accessible name for the banner */\n    label: string;\n    /** Banner variant for semantic meaning */\n    type?: \"info\" | \"success\" | \"warning\" | \"error\";\n    /** Whether the banner can be dismissed */\n    dismissible?: boolean;\n    /** Callback when the banner is dismissed */\n    onClose?: () => void;\n    /** Accessible label for the dismiss button */\n    closeLabel?: string;\n    /** The banner content */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function MedicalBanner({\n    className = \"\",\n    label,\n    type = \"info\",\n    dismissible = false,\n    onClose = undefined,\n    closeLabel = undefined,\n    children,\n    ...restProps\n}: MedicalBannerProps) {\n    const [visible, setVisible] = useState(true);\n\n    function dismiss() {\n        setVisible(false);\n        onClose?.();\n    }\n\n    return (\n        <>\n            {visible && (\n                <>\n                    <div\n                        className={`medical-banner ${className}`}\n                        role=\"region\"\n                        aria-live=\"polite\"\n                        aria-label={label}\n                        data-type={type}\n                        data-context=\"medical\"\n                        {...restProps}\n                    >\n                        {children}\n                        {dismissible && (\n                            <>\n                                <button\n                                    type=\"button\"\n                                    aria-label={closeLabel}\n                                    onClick={dismiss}\n                                ></button>\n                            </>\n                        )}\n                    </div>\n                </>\n            )}\n        </>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/MedicalBanner.tsx"
+    }
+  ],
+  "categories": [
+    "overlays"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/medical-banner/"
+}

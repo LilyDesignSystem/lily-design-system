@@ -309,12 +309,32 @@ default to the title-cased slug (e.g. `"light"` → `"Light"`,
 as `themeName(slug)`, so you can render a theme's display name outside
 the control without re-deriving it.
 
+## The native select variant
+
+`variant="select"` (opt-in; ported from the Svelte reference 2026-10-30, the prototype for RFC 3 in the
+repository's `RFC.md`) renders a native `<select class="theme-picker-select" aria-label="{label}">` of
+`<option class="theme-picker-option">` elements inside the same root, with `data-variant="select"` on the root.
+Keyboard, typeahead, the mobile picker and the screen-reader announcement are then the platform's; choosing an option
+applies the theme exactly as the listbox does (managed `<link>`, `data-theme`, optional `localStorage`, one change
+notification). There is no button, listbox, tooltip or hidden input: the select carries `name`. `open` does not apply, because a
+native select's popup state is not observable. Styling it with `appearance: base-select` is theme CSS behind
+`@supports`. The default (`"listbox"`) is unchanged.
+
+```njk
+{{ themePicker({
+    variant: "select",
+    label: "Colour theme",
+    themesUrl: "/assets/themes/",
+    themes: ["light", "dark", "abyss"]
+}) }}
+```
+
 ## Macro parameters
 
 Full table in [spec/index.md §4.1](./spec/index.md#41-macro-parameters).
 Required: `label`, `themesUrl`, `themes`. Optional: `value`,
 `defaultValue`, `storageKey`, `name`, `extension`, `themeLabels`,
-`id`, `classes`, `attributes`.
+`id`, `open`, `disabled`, `variant`, `classes`, `attributes`.
 
 `id` is the id prefix for the listbox (`{id}-list`) and its options
 (`{id}-option-{index}`). It defaults to `"theme-picker-{name}"`, so

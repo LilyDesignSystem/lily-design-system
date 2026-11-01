@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<button\n  class="menu-bar-button"\n  role="menuitem"\n  aria-label=""\n>\n  <!-- Consumer provides button content -->\n</button>';
+    '<button\n  class="menu-bar-button"\n  role="menuitem"\n  tabindex="-1"\n  aria-label=""\n>\n  <!-- Consumer provides button content -->\n</button>';
 
 const meta = {
     title: "Headless/Menu Bar Button",

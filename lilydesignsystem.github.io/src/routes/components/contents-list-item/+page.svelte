@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<ol class=\"contents-list\"><li class=\"contents-list-item\"><a class=\"contents-link\" href=\"#section\">Section</a></li></ol>";
   const svelteSource: string = "// In your Svelte component:\nimport ContentsListItem from \"lily-design-system-svelte-headless/components/ContentsListItem/ContentsListItem.svelte\";\n\n<ContentsListItem>\n  <!-- ContentsListItem content -->\n</ContentsListItem>\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import ContentsNav from \"../ContentsNav/ContentsNav.svelte\";\n    import ContentsList from \"../ContentsList/ContentsList.svelte\";\n    import ContentsListItem from \"./ContentsListItem.svelte\";\n<\/script>\n\n<ContentsNav label=\"On this page\">\n    <ContentsList>\n        <ContentsListItem><a href=\"#intro\">Introduction</a></ContentsListItem>\n        <ContentsListItem><a href=\"#usage\">Usage</a></ContentsListItem>\n    </ContentsList>\n</ContentsNav>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import ContentsNav from \"../ContentsNav/ContentsNav.svelte\";\n  import ContentsList from \"../ContentsList/ContentsList.svelte\";\n  import ContentsListItem from \"./ContentsListItem.svelte\";\n<\/script>\n\n<ContentsNav label=\"On this page\">\n  <ContentsList>\n    <ContentsListItem><a href=\"#intro\">Introduction</a></ContentsListItem>\n    <ContentsListItem><a href=\"#usage\">Usage</a></ContentsListItem>\n  </ContentsList>\n</ContentsNav>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

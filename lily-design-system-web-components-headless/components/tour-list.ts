@@ -1,13 +1,14 @@
 // TourList component
 //
-// A guided-walkthrough overlay: an <ol role="dialog"> of TourListItem
-// steps, shown/hidden via its own `active` attribute (bindable —
+// A guided-walkthrough list: a plain <ol> of TourListItem steps (no
+// role="dialog", which would hide the list semantics, and no aria-modal:
+// it is not modal — tasks.md P18-T6), shown/hidden via its own `active` attribute (bindable —
 // `el.toggleAttribute("active")` works both ways, matching Dialog's `open`
 // idiom in this catalog). Stateless about which step is current; the
 // consumer drives that via its TourListItem children.
 //
 // Attributes:
-//   label — REQUIRED. Accessible name for the tour dialog, via aria-label.
+//   label — REQUIRED. Accessible name for the list of steps, via aria-label.
 //   active — presence-based boolean; bindable. Absent by default (the tour
 //     starts hidden).
 //   ...rest — spread onto the <ol>.
@@ -35,8 +36,6 @@ export class TourList extends HTMLElement {
 
         const ol = document.createElement("ol");
         ol.className = rootClassName(this, "tour-list");
-        ol.setAttribute("role", "dialog");
-        ol.setAttribute("aria-modal", "true");
         ol.tabIndex = -1;
         passThroughAttributes(this, ol, HANDLED);
         ol.addEventListener("keydown", this.#onKeydown);

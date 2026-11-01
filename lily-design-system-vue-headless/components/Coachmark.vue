@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { shallowRef, toRef } from "vue";
+import { usePopoverState } from "./popover";
 // Coachmark component
 //
 // An anchored popover that spotlights and explains a single feature.
@@ -34,7 +36,7 @@
 const titleId = `coachmark-title-${Math.random().toString(36).slice(2, 9)}`;
 const descId = `coachmark-desc-${Math.random().toString(36).slice(2, 9)}`;
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
         /** Whether the coachmark is visible. */
         open?: boolean;
@@ -54,6 +56,8 @@ withDefaults(
 defineEmits<{
     (e: "dismiss", event: MouseEvent): void;
 }>();
+const panelEl = shallowRef<HTMLElement | null>(null);
+usePopoverState(panelEl, toRef(props, "open"));
 </script>
 
 <template>
@@ -64,7 +68,8 @@ defineEmits<{
         aria-modal="false"
         :aria-labelledby="titleId"
         :aria-describedby="description ? descId : undefined"
-        :hidden="!open"
+        ref="panelEl"
+        popover="manual"
     >
         <h2
             class="coachmark-title"

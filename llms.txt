@@ -1,6 +1,6 @@
 # Lily Design System™
 
-> Free, open-source, headless design system: a canonical catalog of 582
+> Free, open-source, headless design system: a canonical catalog of 607
 > accessible components implemented across seven frameworks (HTML, Svelte,
 > React, Vue, Angular, Blazor, Nunjucks) plus Web Components and Alpine.js catalogs, paired
 > with fully styled example apps that demonstrate the same catalog end to end.
@@ -18,7 +18,7 @@ searchable component catalog: https://lilydesignsystem.com/.
 - [AGENTS.md](AGENTS.md): binding design-principle rules; loads every file
   under `AGENTS/`.
 - [README.md](README.md): human-readable project overview.
-- [components.tsv](components.tsv): the canonical 582-component catalog —
+- [components.tsv](components.tsv): the canonical 607-component catalog —
   one row per component: slug, PascalCase name, description.
 - [CHANGELOG.md](CHANGELOG.md): full change history, with the reasoning
   behind each change.
@@ -32,29 +32,31 @@ searchable component catalog: https://lilydesignsystem.com/.
 - [AGENTS/internationalization.md](AGENTS/internationalization.md): no
   hardcoded user-facing strings, stable text-prop names.
 - [AGENTS/theme.md](AGENTS/theme.md): token shape, the headless
-  forbidden-literal list, the 57 reference theme stylesheets.
+  forbidden-literal list, the 63 reference theme stylesheets.
 - [AGENTS/responsive.md](AGENTS/responsive.md): mobile first, intrinsic
   sizing, `rem` breakpoints, reflow at 320px and 400% zoom.
 - [AGENTS/components.md](AGENTS/components.md): suffix-to-HTML-element
   mapping, compound name-family patterns, composition templates.
 - [AGENTS/helpers.md](AGENTS/helpers.md): the eleven picker helpers
-  (theme, locale, text-size, motion, share, search, link, menu, settings, date-time), picker-bar,
+  (theme, locale, text-size, motion, share, search, link, menu, settings, time-zone, date-time), picker-bar,
   the tooltip contract, the label packs and the grid-like helper rules.
 - [AGENTS/citations.md](AGENTS/citations.md): design systems and headless
   libraries Lily learns from.
-- [AGENTS/lily.md](AGENTS/lily.md): the full subproject list (8
-  headless, 8 example, 167 helper packages) and the `bin/` tool reference.
+- [AGENTS/lily.md](AGENTS/lily.md): the full subproject list (9
+  headless, 8 example, 167 helper packages), the Generated files table and
+  the `bin/` tool reference.
 
 ## Specification topics (spec/)
 
 - [spec/architecture/index.md](spec/architecture/index.md): monorepo
-  layout, the git-subtree model, required files per subproject/component.
-- [spec/components/index.md](spec/components/index.md): the 582-component
+  layout, the 184 implementation subprojects, required files per
+  subproject/component.
+- [spec/components/index.md](spec/components/index.md): the 607-component
   catalog in depth, per-component documentation requirements.
 - [spec/testing/index.md](spec/testing/index.md): per-framework test
   suites, Storybook coverage, Playwright e2e, axe, responsive sweep.
 - [spec/national-identifiers/index.md](spec/national-identifiers/index.md):
-  the 140 national personal identifier components, validation algorithms.
+  the 164 national personal identifier components, validation algorithms.
 - [spec/helpers/index.md](spec/helpers/index.md): the eleven `*-picker`
   helper contracts in full, picker-bar, the tooltip contract, and the data-grid,
   kanban-board, gantt-chart, calendar and filter contracts.
@@ -62,7 +64,9 @@ searchable component catalog: https://lilydesignsystem.com/.
   `labels` packs (English plus 63 unreviewed drafts), their loaders for every
   catalog and the checks that keep them in step.
 - [spec/frameworks/index.md](spec/frameworks/index.md): the seven
-  framework pairs, per-framework file shapes, the copy-pattern.
+  framework pairs (and the unpaired Web Components catalog), per-framework
+  file shapes, the copy-pattern; Alpine.js is documented in its own
+  subproject's `spec/index.md`.
 - [spec/agent-skills/index.md](spec/agent-skills/index.md): the 27 Claude
   Skills (end-user, maintainer, eight framework umbrellas, sixteen
   headless/helpers skills, and the Alpine.js headless skill).
@@ -81,10 +85,12 @@ searchable component catalog: https://lilydesignsystem.com/.
   fully styled reference app for the same catalog.
 - [Svelte helper packages](spec/helpers/index.md#svelte-helper-packages):
   the canonical helpers, one top-level subproject each — the eleven pickers,
-  picker-bar, data-grid, kanban-board, gantt-chart, calendar, filter.
-- The remaining headless, example and helper subprojects (React, Vue,
-  Angular, Blazor, HTML, Nunjucks, Web Components) follow the same
-  shape — see [AGENTS/lily.md](AGENTS/lily.md) for the full list.
+  picker-bar, data-grid, kanban-board, gantt-chart, calendar, filter, markdown-editor, org-editor, locale-translations (20 packages).
+- [@lilydesignsystem/alpine-headless](lily-design-system-alpine-headless/index.md):
+  all 607 components as Alpine.js snippets plus one plugin.
+- The other headless, example and helper subprojects (184 in all, for
+  React, Vue, Angular, Blazor, HTML, Nunjucks, Web Components and
+  Alpine.js) follow the same shape — see [AGENTS/lily.md](AGENTS/lily.md) for the full list.
 - [lily-design-system-skill](lily-design-system-skill/SKILL.md): general-purpose Claude Skill
   explaining Lily concepts and usage to people building *with* the system.
 - [lily-design-system-maintainer-skill](lily-design-system-maintainer-skill/SKILL.md):
@@ -97,7 +103,7 @@ searchable component catalog: https://lilydesignsystem.com/.
   HTML tag and category (content, forms, navigation, tables, …).
 - [css-style-sheet-template.css](css-style-sheet-template.css): one CSS
   class hook declared per catalog component.
-- [themes/](themes/): 57 ready-to-use reference theme stylesheets (NHS
+- [themes/](themes/): 63 ready-to-use reference theme stylesheets (NHS
   England/Scotland/Wales, GOV.UK, USWDS, Adobe Spectrum, Mozilla Protocol, Ant Design, Atlassian, Excel, Fluent, GitHub Primer, IBM Carbon, Linear, Notion, Salesforce, SAP Fiori, Vercel).
 - [component-variants.json](component-variants.json): hand-curated extra demo
   states rendered on every demonstration page (`bin/generate-examples`).

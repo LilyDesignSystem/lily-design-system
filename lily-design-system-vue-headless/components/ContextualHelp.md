@@ -6,12 +6,14 @@ A help button that opens a popover with explanatory content.
 
 - Headless: no CSS
 - Trigger button has `aria-haspopup="dialog"`, `aria-expanded`, and `aria-controls`
-- Panel has `role="dialog"` and is toggled with the native `hidden` attribute
+- Panel has `role="dialog"` and `popover="auto"`; the trigger opens it with `command="toggle-popover"` `commandfor` (and `popovertarget`); `hidden` only where `showPopover` is missing
 - Panel id is generated for ARIA wiring
 
 ## Props
 
 - `label`: string (**required**) — aria-label for the trigger
+- `triggerLabel`: string (**required**, no default) — the trigger's visible text, such as `?`
+- `v-model:expanded` — two-way open state
 - `expanded`: boolean (default `false`)
 - default slot — popover content
 
@@ -31,7 +33,7 @@ A help button that opens a popover with explanatory content.
 
 - Trigger: `aria-label`, `aria-haspopup="dialog"`, `aria-expanded`, `aria-controls`
 - Panel: `role="dialog"`, has the id referenced by `aria-controls`
-- Visibility: native `hidden` attribute when `expanded` is `false`
+- Visibility: the Popover API (`hidden` fallback where it is missing)
 
 ## When to Use
 
@@ -51,7 +53,7 @@ Renders semantic HTML and ARIA only. Consumers supply CSS for placement and styl
 - Verify root `contextual-help` class
 - Verify the trigger has the correct ARIA attributes
 - Verify `aria-controls` matches the panel id
-- Verify the panel toggles via the `hidden` attribute
+- Verify the panel is `popover="auto"` and the `hidden` fallback toggles
 - Verify `click` event fires on the trigger
 
 ## References

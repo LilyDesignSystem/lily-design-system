@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "section-list",
+  "type": "registry:component",
+  "title": "SectionList",
+  "description": "A list of section navigation items.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/SectionList.tsx",
+      "content": "export interface SectionListProps {\n    className?: string;\n    label?: string;\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function SectionList({\n    className = \"\",\n    label = undefined,\n    children,\n    ...restProps\n}: SectionListProps) {\n    return (\n        <ul\n            className={`section-list ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </ul>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/SectionList.tsx"
+    }
+  ],
+  "categories": [
+    "lists"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/section-list/"
+}

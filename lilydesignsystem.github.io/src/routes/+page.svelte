@@ -207,12 +207,12 @@
 
 <section class="section">
   <header class="section-heading">
-    <h2>Seven styled example apps, yours to explore and adjust</h2>
+    <h2>Eight styled example apps, yours to explore and adjust</h2>
   </header>
 
   <div class="prose" style="margin: 0 auto;">
     <p>
-      Curious what Lily looks like fully dressed? Seven complete example apps
+      Curious what Lily looks like fully dressed? Eight complete example apps
       show every one of the {LILY_COMPONENTS.length} components live and
       styled — one app per framework: plain HTML+CSS+JS, SvelteKit, Next.js,
       Nuxt, Angular + Analog, Blazor Web, and Nunjucks + Eleventy.
@@ -231,7 +231,7 @@
 cd lily-design-system/lily-design-system-svelte-sveltekit-examples
 pnpm install && pnpm run dev`}</code></pre>
     <p style="text-align: center; margin-top: 2rem;">
-      <a class="button button-secondary" href="/examples/">Explore all seven example apps →</a>
+      <a class="button button-secondary" href="/examples/">Explore all eight example apps →</a>
     </p>
   </div>
 </section>
@@ -269,11 +269,11 @@ pnpm install && pnpm run dev`}</code></pre>
     <a class="card" href="/skills/">
       <h3 class="card-heading">Claude Skills</h3>
       <p class="card-description">
-        Give Claude Code a curated entry point into Lily: 26 skills — general,
+        Give Claude Code a curated entry point into Lily: 27 skills — general,
         per-framework, and per-subproject — so an agent loads exactly the
         context it needs.
       </p>
-      <p class="card-meta">26 skills, 8 frameworks</p>
+      <p class="card-meta">27 skills, 8 frameworks</p>
     </a>
     <a class="card" href="/help/">
       <h3 class="card-heading">Help</h3>
@@ -298,7 +298,7 @@ pnpm install && pnpm run dev`}</code></pre>
       <p class="card-description">
         Every font, color, spacing, and breakpoint decision belongs to you —
         your CSS is the design system's look from day one. Hand-written
-        styles, Tailwind utilities, or one of Lily's 57 reference themes all
+        styles, Tailwind utilities, or one of Lily's 63 reference themes all
         work beautifully.
       </p>
     </div>
@@ -355,7 +355,7 @@ pnpm install && pnpm run dev`}</code></pre>
     <p>
       Yes — and that's the gift: everything you write applies directly, and
       every visual decision is yours. Style the class hooks yourself, or link
-      one of the 57 ready-made themes and be fully styled in one line. (This
+      one of the 63 ready-made themes and be fully styled in one line. (This
       accordion is a native <code>&lt;details&gt;</code>, styled exactly that
       way.)
     </p>

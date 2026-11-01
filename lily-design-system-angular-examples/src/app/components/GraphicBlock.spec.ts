@@ -4,10 +4,10 @@ import { TestBed } from "@angular/core/testing";
 import { GraphicBlock } from "./GraphicBlock";
 
 describe("GraphicBlock", () => {
-    test("renders the div root with the base class", () => {
+    test("renders the <figure> root with the base class", () => {
         const fixture = TestBed.createComponent(GraphicBlock);
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.graphic-block");
+        const el = fixture.nativeElement.querySelector("figure.graphic-block");
         expect(el).toBeTruthy();
     });
 
@@ -15,7 +15,7 @@ describe("GraphicBlock", () => {
         const fixture = TestBed.createComponent(GraphicBlock);
         fixture.componentRef.setInput("className", "extra");
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.graphic-block");
+        const el = fixture.nativeElement.querySelector("figure.graphic-block");
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });

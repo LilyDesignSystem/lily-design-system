@@ -100,6 +100,8 @@ export class Command extends HTMLElement {
         if (placeholder !== null) input.placeholder = placeholder;
 
         const value = this.getAttribute("value");
+        // defaultValue too: a form reset restores an input to its default, so the initial value must be it.
+        if (value !== null) input.defaultValue = value;
         if (value !== null && input.value !== value) input.value = value;
     }
 

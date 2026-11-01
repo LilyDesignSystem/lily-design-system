@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "product-card",
+  "type": "registry:component",
+  "title": "ProductCard",
+  "description": "A specialized card for displaying a product with image, title, price, and actions.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ProductCard.tsx",
+      "content": "import React from \"react\";\n\n// ProductCard component\n//\n// A headless specialized card for displaying a product. Renders a semantic\n// <article> with optional image, a header containing the product name and\n// pre-formatted price, then any additional consumer content (description,\n// actions) as children. Pre-formatted price is required so the consumer\n// retains control over locale-specific currency formatting.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   name      — string, required. Product name.\n//   price     — string, required. Pre-formatted price text.\n//   imageUrl  — string, optional. Product image src.\n//   imageAlt  — string, optional. Product image alt text.\n//   label     — string, optional. aria-label override (defaults to name).\n//   children  — ReactNode, optional. Additional content (description, actions).\n//   ...restProps — additional HTML attributes spread onto the <article>.\n//\n// Syntax:\n//   <ProductCard name=\"Lamp\" price=\"$49.00\" imageUrl=\"/lamp.jpg\" imageAlt=\"Lamp\" />\n//\n// Examples:\n//\n//   <ProductCard\n//     name=\"Reading Lamp\"\n//     price=\"$49.00\"\n//     imageUrl=\"/lamp.jpg\"\n//     imageAlt=\"Brass reading lamp on a desk\"\n//   >\n//     <p>Adjustable brass reading lamp.</p>\n//     <button>Add to cart</button>\n//   </ProductCard>\n//\n// Keyboard: None at the card level; child controls handle their own.\n//\n// Accessibility:\n//   - Semantic <article> landmark\n//   - aria-label set from `label` or fallback to `name`\n//   - Hook classes: product-card-image, product-card-header, product-card-name, product-card-price\n//\n// Internationalization:\n//   - All text consumer-supplied; price already formatted for locale\n//\n// Claude rules:\n//   - Headless: no CSS, no styles\n//   - Hook classes are exposed for consumer styling\n//\n// References:\n//   - HTML <article>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article\n\nexport interface ProductCardProps {\n    className?: string;\n    /** Product name (required) */\n    name: string;\n    /** Pre-formatted price text (required, consumer formats currency) */\n    price: string;\n    /** Image src */\n    imageUrl?: string;\n    /** Image alt text */\n    imageAlt?: string;\n    /** aria-label override; defaults to name */\n    label?: string;\n    /** Additional content (description, actions) */\n    children?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function ProductCard({\n    className = \"\",\n    name,\n    price,\n    imageUrl = undefined,\n    imageAlt = undefined,\n    label = undefined,\n    children = undefined,\n    ...restProps\n}: ProductCardProps) {\n    return (\n        <article\n            className={`product-card ${className}`}\n            aria-label={label ?? name}\n            {...restProps}\n        >\n            {imageUrl !== undefined ? (\n                <img\n                    className=\"product-card-image\"\n                    src={imageUrl}\n                    alt={imageAlt ?? \"\"}\n                />\n            ) : null}\n            <header className=\"product-card-header\">\n                <h3 className=\"product-card-name\">{name}</h3>\n                <p className=\"product-card-price\">{price}</p>\n            </header>\n            {children}\n        </article>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ProductCard.tsx"
+    }
+  ],
+  "categories": [
+    "navigation"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/product-card/"
+}

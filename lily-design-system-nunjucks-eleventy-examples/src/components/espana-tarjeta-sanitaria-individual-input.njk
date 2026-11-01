@@ -30,8 +30,15 @@ description: an input for entering a Tarjeta Sanitaria Individual (TSI) code
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>
-<pre tabindex="0"><code>{% raw %}&lt;Field label="Tarjeta Sanitaria Individual" required&gt;
-  &lt;EspanaTarjetaSanitariaIndividualInput label="TSI" value={tsi} required /&gt;
+<pre tabindex="0"><code>{% raw %}&lt;Field
+  label="Tarjeta Sanitaria Individual"
+  required
+&gt;
+  &lt;EspanaTarjetaSanitariaIndividualInput
+    label="TSI"
+    value="{tsi}"
+    required
+  /&gt;
   &lt;Hint&gt;Enter your CIP-SNS code from your health card&lt;/Hint&gt;
   &lt;ErrorMessage&gt;Please enter a valid TSI number&lt;/ErrorMessage&gt;
 &lt;/Field&gt;

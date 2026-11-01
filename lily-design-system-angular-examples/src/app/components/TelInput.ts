@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
+import { restoreOnFormReset } from "./form-reset";
 
 /**
  * TelInput — an input for entering a telephone number <input type="tel">
@@ -33,4 +34,8 @@ export class TelInput {
     readonly required = input<boolean>(false);
     /** Whether the input is disabled. */
     readonly disabled = input<boolean>(false);
+
+    constructor() {
+        restoreOnFormReset(this.value);
+    }
 }

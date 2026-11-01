@@ -4,6 +4,10 @@ The strings a grid-like helper's `labels` object needs, one file per locale: `da
 `gantt-chart` and `filter`, about 185 strings each. Lily ships no English defaults, so every app used to write and translate
 these itself; a pack is that work done once.
 
+Two smaller sections serve headless components and pickers that also ship no English: `text-size` (the text-size-picker's
+seven size names, `textSizeLabels(pack)`) and `date-time-now-input` (its date, time and Now names,
+`dateTimeNowInputLabels(pack)`, ready to spread onto the component).
+
 ```ts
 import { labelsFor } from "./label-pack"; // shared/label-pack.ts, single-sourced like the other shared modules
 import ta from "./label-packs/ta-001.json";

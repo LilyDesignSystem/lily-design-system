@@ -5,10 +5,10 @@ import { TestBed } from "@angular/core/testing";
 import { NavigationMenu } from "./NavigationMenu";
 
 describe("NavigationMenu", () => {
-    test("renders the div root with the base class", () => {
+    test("renders the <nav> root with the base class", () => {
         const fixture = TestBed.createComponent(NavigationMenu);
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.navigation-menu");
+        const el = fixture.nativeElement.querySelector("nav.navigation-menu");
         expect(el).toBeTruthy();
     });
 
@@ -16,7 +16,7 @@ describe("NavigationMenu", () => {
         const fixture = TestBed.createComponent(NavigationMenu);
         fixture.componentRef.setInput("className", "extra");
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.navigation-menu");
+        const el = fixture.nativeElement.querySelector("nav.navigation-menu");
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });

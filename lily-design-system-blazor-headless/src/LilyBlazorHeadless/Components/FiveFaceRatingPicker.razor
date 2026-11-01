@@ -3,13 +3,39 @@
 @*
     FiveFaceRatingPicker component
     a picker for selecting a 1-5 satisfaction rating using face labels
+
+    A <fieldset role="radiogroup"> of five native radios (values 1 to 5) sharing Name. The radios give the keys natively:
+    Tab focuses the checked radio, the arrow keys move and check, Space checks. Value / ValueChanged is two-way
+    (@bind-Value; 0 = none). Disabled disables the whole group. The option text is the consumer's (the numbers by default,
+    no English). Unmatched attributes spread onto the <fieldset>.
 *@
 
-<div class="@($"five-face-rating-picker {CssClass}".Trim())" role="radiogroup" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<fieldset class="@($"five-face-rating-picker {CssClass}".Trim())" role="radiogroup" aria-label="@Label" disabled="@Disabled" @attributes="AdditionalAttributes">
+    @for (var n = 1; n <= 5; n++)
+    {
+        var option = n;
+        <label><input type="radio" name="@Name" value="@option" checked="@(Value == option)" @onchange="() => Choose(option)" /> @(option <= Labels.Count ? Labels[option - 1] : option.ToString(System.Globalization.CultureInfo.InvariantCulture))</label>
+    }
+</fieldset>
 
 @code {
+    /// <summary>Accessible name for the rating group via aria-label.</summary>
     [Parameter, EditorRequired] public string Label { get; set; } = "";
-    [Parameter] public RenderFragment? ChildContent { get; set; }
+    /// <summary>Current rating (1-5, 0 = none).</summary>
+    [Parameter] public int Value { get; set; }
+    [Parameter] public EventCallback<int> ValueChanged { get; set; }
+    /// <summary>Radio group name for form submission.</summary>
+    [Parameter] public string Name { get; set; } = "face-rating";
+    /// <summary>Labels for each face (five strings); the numbers by default.</summary>
+    [Parameter] public IReadOnlyList<string> Labels { get; set; } = ["1", "2", "3", "4", "5"];
+    /// <summary>Whether the entire group is disabled.</summary>
+    [Parameter] public bool Disabled { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private async Task Choose(int option)
+    {
+        Value = option;
+        await ValueChanged.InvokeAsync(option);
+    }
 }

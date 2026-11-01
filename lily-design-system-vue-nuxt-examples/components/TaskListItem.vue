@@ -53,6 +53,9 @@
 //   - MDN checkbox input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox
 //   - WAI checkbox pattern: https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/
 
+import { ref } from "vue";
+import { useFormReset } from "./form-reset";
+
 withDefaults(
     defineProps<{
         /** The task description text. */
@@ -66,6 +69,8 @@ withDefaults(
 );
 
 const checked = defineModel<boolean>("checked", { default: false });
+const field = ref<HTMLInputElement | null>(null);
+useFormReset(checked, field);
 </script>
 
 <template>
@@ -78,6 +83,7 @@ const checked = defineModel<boolean>("checked", { default: false });
         <label>
             <input
                 type="checkbox"
+                ref="field"
                 v-model="checked"
                 :disabled="disabled"
             />

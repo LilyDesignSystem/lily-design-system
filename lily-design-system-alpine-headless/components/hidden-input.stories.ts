@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html =
-    '<input\n  class="hidden-input"\n  aria-label="Example"\n>\n  <!-- Consumer provides content -->\n</input>';
+const html = '<input\n  class="hidden-input"\n  type="hidden"\n  name=""\n  value=""\n/>';
 
 const meta = {
     title: "Headless/Hidden Input",

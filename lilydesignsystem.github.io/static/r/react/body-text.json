@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "body-text",
+  "type": "registry:component",
+  "title": "BodyText",
+  "description": "A rendered text block within a content width container.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/BodyText.tsx",
+      "content": "import React from \"react\";\n\n// BodyText component\n//\n// BodyText for the Reuters-graphics-style article layout family. Renders a\n// <div> that consumers style; this component is a structural\n// wrapper only.\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Sets the body-text class as the styling hook\n\nexport interface BodyTextProps {\n    className?: string;\n    /** Component content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function BodyText({ className = \"\", children, ...restProps }: BodyTextProps) {\n    return (\n        <div\n            className={`body-text ${className}`}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/BodyText.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/body-text/"
+}

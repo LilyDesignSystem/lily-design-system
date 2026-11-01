@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "malaysia-kad-pengenalan-input",
+  "type": "registry:component",
+  "title": "MalaysiaKadPengenalanInput",
+  "description": "An input for entering Malaysia's MyKad Number (NRIC).",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/MalaysiaKadPengenalanInput.tsx",
+      "content": "import React from \"react\";\n\n// MalaysiaKadPengenalanInput component\n//\n// A headless input for entering Malaysia's MyKad Number (NRIC).\n// Format: Twelve digits, usually written YYMMDD-PB-NNNG: the date of birth (year, month, day), a two-digit code for the place of birth (a state or a country), and a four-digit serial whose last digit is odd for a male and even for a female. There is no check digit.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". Bindable input value; supports value + onChange.\n//   required — boolean, default false. Whether the input is required for form submission.\n//   disabled — boolean, default false. Whether the input is disabled.\n//   ...restProps — additional HTML attributes spread onto the <input>.\n//\n// Syntax:\n//   <MalaysiaKadPengenalanInput label=\"MyKad Number (NRIC)\" value={value} onChange={setValue} />\n//\n// Accessibility:\n//   - aria-label provides the accessible name for screen readers\n//   - autoComplete=\"off\" protects sensitive identifiers\n//   - required and disabled states are conveyed to assistive technology\n//\n// References:\n//   - https://en.wikipedia.org/wiki/MyKad\n\nexport interface MalaysiaKadPengenalanInputProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The current value of the input, bindable */\n    value?: string;\n    /** Whether the input is required for form submission */\n    required?: boolean;\n    /** Whether the input is disabled */\n    disabled?: boolean;\n    /** Callback when value changes. */\n    onChange?: (value: string) => void;\n    [key: string]: unknown;\n}\n\nexport default function MalaysiaKadPengenalanInput({\n    className = \"\",\n    label,\n    value = \"\",\n    required = false,\n    disabled = false,\n    onChange,\n    ...restProps\n}: MalaysiaKadPengenalanInputProps) {\n    return (\n        <input\n            className={`malaysia-kad-pengenalan-input ${className}`}\n            type=\"text\"\n            aria-label={label}\n            autoComplete=\"off\"\n            value={value}\n            onChange={(e) => onChange?.(e.target.value)}\n            required={required}\n            disabled={disabled}\n            {...restProps}\n        />\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/MalaysiaKadPengenalanInput.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/malaysia-kad-pengenalan-input/"
+}

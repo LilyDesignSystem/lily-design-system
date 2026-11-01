@@ -155,7 +155,7 @@ pnpm run dev</code></pre>
   <h2>Färdiga teman</h2>
   <p>
     Vill du inte skriva CSS från grunden? Lily levereras med
-    <strong>57 fristående referensteman</strong> i katalogen
+    <strong>63 fristående referensteman</strong> i katalogen
     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
     . Varje tema är en formatmall som riktar sig mot Lilys klasskrokar – länka den så är du formgiven:
   </p>
@@ -179,11 +179,7 @@ pnpm run dev</code></pre>
 
 <section class="section prose" id="helpers" style="margin: 0 auto;">
   <h2>Inställningshjälpare</h2>
-  <p>
-    Varje ramverk har åtta små väljare, var och en sitt eget
-    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> -paket (och en <code>picker-bar</code> som sätter ihop dem). Var och en är en huvudlös ikonknapp som öppnar en popup – en listruta, en lista med länkar, ett sökformulär eller (för date-time-picker) en datumväljardialog – inte en inbyggd
-    <code>&lt;select&gt;</code>; är SSR-säker; och levereras utan CSS:
-  </p>
+  <p>Varje ramverk har elva små väljare, var och en i sitt eget <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code>-paket (och en <code>picker-bar</code> som sätter ihop dem). Var och en är en headless ikonknapp som öppnar en popup — en listruta, en lista med länkar, ett sökformulär, en panel med ditt eget innehåll eller (för date-time-picker) en datumväljardialog — inte en inbyggd <code>&lt;select&gt;</code> (theme-picker erbjuder en som valfri variant); den är SSR-säker och levererar ingen CSS. Utöver menu-picker, settings-picker och time-zone-picker är de:</p>
   <ul>
     <li>
       <strong>theme-picker</strong> – läser in temaformatmallar vid körning genom att byta en hanterad <code>&lt;link&gt;</code>, sätter
@@ -294,7 +290,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
     <summary>En komponent renderas men ser oformgiven ut</summary>
     <p>
       Det är huvudlöst som det är tänkt – ingen CSS följer med komponenten. Skriv antingen CSS mot komponentens klass i kebab-case (visas på varje <a href="/components/">katalogsida</a>) eller länka ett av de
-      <a href="#themes">57 färdiga temana</a>.
+      <a href="#themes">63 färdiga temana</a>.
     </p>
   </details>
 
@@ -383,7 +379,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
   <details class="faq-item">
     <summary>Varför huvudlöst i stället för formgivet?</summary>
     <p>
-      Färdigformgivna komponenter är bekväma – tills de inte matchar ditt varumärke. Huvudlösa komponenter kräver lite mer arbete i början men ger dig full kontroll över den visuella designen. Exempelapparna och de 57 temana visar sätt att formge dem; du kan ta dem eller ersätta dem helt. Det längre resonemanget finns på <a href="/why/">Varför Lily</a>.
+      Färdigformgivna komponenter är bekväma – tills de inte matchar ditt varumärke. Huvudlösa komponenter kräver lite mer arbete i början men ger dig full kontroll över den visuella designen. Exempelapparna och de 63 temana visar sätt att formge dem; du kan ta dem eller ersätta dem helt. Det längre resonemanget finns på <a href="/why/">Varför Lily</a>.
     </p>
   </details>
 

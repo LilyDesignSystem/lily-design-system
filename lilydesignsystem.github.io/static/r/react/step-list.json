@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "step-list",
+  "type": "registry:component",
+  "title": "StepList",
+  "description": "An ordered list of step items showing progress through a multi-step process.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/StepList.tsx",
+      "content": "import React from \"react\";\n\n// StepList component\n//\n// An ordered list of step items showing progress through a multi-step\n// process. Renders an `<ol>` with optional `aria-label` and `data-current`\n// hooks. Children are typically `StepListItem` components.\n//\n// Props:\n//   className    — string, optional. CSS class name.\n//   label        — string, optional. aria-label for the list.\n//   current      — number, optional. Index of the current step (0-based) for `data-current`.\n//   children     — ReactNode, required. step-list-item children.\n//   ...restProps — additional HTML attributes spread onto the <ol>.\n//\n// Syntax:\n//   <StepList label=\"Sign up\" current={1}>\n//     <StepListItem status=\"finished\">Account</StepListItem>\n//     <StepListItem status=\"in-progress\" current>Profile</StepListItem>\n//     <StepListItem status=\"waiting\">Confirm</StepListItem>\n//   </StepList>\n//\n// Accessibility:\n//   - <ol> provides list semantics\n//   - aria-label is optional\n//\n// Internationalization:\n//   - label is consumer-supplied\n//\n// Claude rules:\n//   - Headless: no CSS, no styles\n//\n// References:\n//   - Ant Design Steps: https://ant.design/components/steps\n\nexport interface StepListProps {\n    className?: string;\n    /** aria-label for the list */\n    label?: string;\n    /** Index of the current step (0-based) */\n    current?: number;\n    /** step-list-item children */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function StepList({\n    className = \"\",\n    label = undefined,\n    current = undefined,\n    children,\n    ...restProps\n}: StepListProps) {\n    return (\n        <ol\n            className={`step-list ${className}`}\n            aria-label={label}\n            data-current={typeof current === \"number\" ? current : undefined}\n            {...restProps}\n        >\n            {children}\n        </ol>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/StepList.tsx"
+    }
+  ],
+  "categories": [
+    "lists"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/step-list/"
+}

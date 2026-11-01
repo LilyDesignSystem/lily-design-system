@@ -4,10 +4,10 @@ import { TestBed } from "@angular/core/testing";
 import { CodeBlock } from "./CodeBlock";
 
 describe("CodeBlock", () => {
-    test("renders the div root with the base class", () => {
+    test("renders the <pre> root with the base class", () => {
         const fixture = TestBed.createComponent(CodeBlock);
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.code-block");
+        const el = fixture.nativeElement.querySelector("pre.code-block");
         expect(el).toBeTruthy();
     });
 
@@ -15,7 +15,7 @@ describe("CodeBlock", () => {
         const fixture = TestBed.createComponent(CodeBlock);
         fixture.componentRef.setInput("className", "extra");
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.code-block");
+        const el = fixture.nativeElement.querySelector("pre.code-block");
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });

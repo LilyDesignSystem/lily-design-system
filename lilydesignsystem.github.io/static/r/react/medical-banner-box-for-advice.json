@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "medical-banner-box-for-advice",
+  "type": "registry:component",
+  "title": "MedicalBannerBoxForAdvice",
+  "description": "A medical record banner box for advice information e.g. contacts, contexts, plans, etc..",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/MedicalBannerBoxForAdvice.tsx",
+      "content": "import React from \"react\";\n\n// MedicalBannerBoxForAdvice component\n//\n// A headless component for displaying routine medical record advice information\n// such as contacts, contexts, care plans, and other advice-level clinical data.\n// Renders a <div> with role=\"region\", aria-label, and data-type=\"advice\".\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name via aria-label.\n//   children — ReactNode, required. The advice banner box content.\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Syntax:\n//   <MedicalBannerBoxForAdvice label=\"Care contacts\">content</MedicalBannerBoxForAdvice>\n//\n// Keyboard:\n//   - None (passive layout element)\n//\n// Accessibility:\n//   - role=\"region\" for landmark identification\n//   - aria-label provides accessible name\n//   - data-type=\"advice\" for consumer CSS targeting\n//\n// Internationalization:\n//   - label prop is the only user-facing string; no hardcoded strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n\nexport interface MedicalBannerBoxForAdviceProps {\n    className?: string;\n    /** Accessible name for the advice box */\n    label: string;\n    /** The advice banner box content */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function MedicalBannerBoxForAdvice({\n    className = \"\",\n    label,\n    children,\n    ...restProps\n}: MedicalBannerBoxForAdviceProps) {\n    return (\n        <div\n            className={`medical-banner-box-for-advice ${className}`}\n            role=\"region\"\n            aria-label={label}\n            data-type=\"advice\"\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/MedicalBannerBoxForAdvice.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/medical-banner-box-for-advice/"
+}

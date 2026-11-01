@@ -32,7 +32,7 @@ export class AddressInput extends HTMLElement {
         input.className = rootClassName(this, "address-input");
         const label = this.getAttribute("label");
         if (label !== null) input.setAttribute("aria-label", label);
-        input.value = this.getAttribute("value") ?? "";
+        input.defaultValue = this.getAttribute("value") ?? "";
         input.setAttribute("autocomplete", this.getAttribute("autocomplete") ?? "street-address");
         if (this.hasAttribute("required")) input.required = true;
         if (this.hasAttribute("disabled")) input.disabled = true;

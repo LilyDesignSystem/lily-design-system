@@ -7,6 +7,9 @@
 // References:
 //   - https://hu.wikipedia.org/wiki/T%C3%A1rsadalombiztos%C3%ADt%C3%A1si_azonos%C3%ADt%C3%B3_jel
 
+import { ref } from "vue";
+import { useFormReset } from "./form-reset";
+
 withDefaults(
     defineProps<{
         label: string;
@@ -20,6 +23,8 @@ withDefaults(
 );
 
 const modelValue = defineModel<string>({ default: "" });
+const field = ref<HTMLInputElement | HTMLTextAreaElement | null>(null);
+useFormReset(modelValue, field);
 </script>
 
 <template>
@@ -29,6 +34,7 @@ const modelValue = defineModel<string>({ default: "" });
         type="text"
         :aria-label="label"
         autocomplete="off"
+        ref="field"
         v-model="modelValue"
         :required="required"
         :disabled="disabled"

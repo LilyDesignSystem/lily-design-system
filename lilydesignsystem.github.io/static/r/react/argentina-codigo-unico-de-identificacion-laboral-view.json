@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "argentina-codigo-unico-de-identificacion-laboral-view",
+  "type": "registry:component",
+  "title": "ArgentinaCodigoUnicoDeIdentificacionLaboralView",
+  "description": "A read-only display of Argentina's Codigo Unico de Identificacion Laboral (CUIL).",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ArgentinaCodigoUnicoDeIdentificacionLaboralView.tsx",
+      "content": "import React from \"react\";\n\n// ArgentinaCodigoUnicoDeIdentificacionLaboralView component\n//\n// A headless display component for showing Argentina's\n// Código Único de Identificación Laboral (CUIL) in a read-only format.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". The identifier string to display.\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <ArgentinaCodigoUnicoDeIdentificacionLaboralView label=\"Código Único de Identificación Laboral (CUIL)\" value={value} />\n//\n// Accessibility:\n//   - aria-label provides the accessible name so screen readers announce the purpose\n//\n// References:\n//   - https://en.wikipedia.org/wiki/C%C3%B3digo_%C3%9Anico_de_Identificaci%C3%B3n_Laboral\n\nexport interface ArgentinaCodigoUnicoDeIdentificacionLaboralViewProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The identifier to display */\n    value?: string;\n    [key: string]: unknown;\n}\n\nexport default function ArgentinaCodigoUnicoDeIdentificacionLaboralView({\n    className = \"\",\n    label,\n    value = \"\",\n    ...restProps\n}: ArgentinaCodigoUnicoDeIdentificacionLaboralViewProps) {\n    return (\n        <span\n            className={`argentina-codigo-unico-de-identificacion-laboral-view ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {value}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ArgentinaCodigoUnicoDeIdentificacionLaboralView.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/argentina-codigo-unico-de-identificacion-laboral-view/"
+}

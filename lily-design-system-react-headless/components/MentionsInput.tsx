@@ -36,6 +36,7 @@
 //   - Ant Design Mentions: https://ant.design/components/mentions
 
 import React, { useId } from "react";
+import { usePopoverState } from "./Popover";
 
 export interface MentionsInputProps {
     className?: string;
@@ -70,6 +71,8 @@ export default function MentionsInput({
     children,
     ...restProps
 }: MentionsInputProps) {
+    const panelRef = React.useRef<HTMLDivElement>(null);
+    usePopoverState(panelRef, expanded);
     const suggestionsId = `${useId()}-suggestions`;
     return (
         <div
@@ -95,7 +98,8 @@ export default function MentionsInput({
             <div
                 className="mentions-input-suggestions"
                 id={suggestionsId}
-                hidden={!expanded}
+                ref={panelRef}
+                popover="manual"
             >
                 {children}
             </div>

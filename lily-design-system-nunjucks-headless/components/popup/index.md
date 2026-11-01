@@ -11,7 +11,11 @@ See [components/popup/index.md](../../../components/popup/index.md) for the full
 ```njk
 {% from "components/popup/macro.njk" import popup %}
 
-{{ popup({ }) }}
+<button type="button" aria-haspopup="dialog" aria-controls="confirm"
+        command="toggle-popover" commandfor="confirm" popovertarget="confirm">Delete</button>
+{% call popup({ id: "confirm", label: "Confirm deletion" }) %}
+  <p>Delete this item?</p>
+{% endcall %}
 ```
 
 ## Files

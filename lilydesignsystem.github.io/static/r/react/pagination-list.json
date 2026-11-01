@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "pagination-list",
+  "type": "registry:component",
+  "title": "PaginationList",
+  "description": "An ordered list of pagination list items.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/PaginationList.tsx",
+      "content": "import React from \"react\";\n\n// PaginationList component\n//\n// A headless ordered list of pagination items, intended to live inside a\n// PaginationNav landmark. Renders an <ol> element. Commonly used in search\n// results, product listings, data tables, and any interface with paginated\n// content.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, optional. Accessible name for the list via aria-label.\n//                Usually omitted, since PaginationNav already supplies the\n//                navigation landmark label.\n//   children — ReactNode, required. PaginationListItem elements.\n//   ...restProps — additional HTML attributes spread onto the <ol>.\n//\n// Syntax:\n//   <PaginationNav label=\"Pagination\">\n//     <PaginationList>\n//       <PaginationListItem>...</PaginationListItem>\n//     </PaginationList>\n//   </PaginationNav>\n//\n// Examples:\n//   <PaginationList>\n//     <PaginationListItem><a href=\"/page/1\">1</a></PaginationListItem>\n//     <PaginationListItem><a href=\"/page/2\" aria-current=\"page\">2</a></PaginationListItem>\n//     <PaginationListItem><a href=\"/page/3\">3</a></PaginationListItem>\n//   </PaginationList>\n//\n// Keyboard:\n//   - Tab: moves focus between pagination links/buttons in the list\n//   - Enter: activates the focused link or button to navigate to that page\n//\n// Accessibility:\n//   - <ol> conveys ordered-list semantics\n//   - Consumer should apply aria-current=\"page\" on the link for the active page\n//   - Compound component; see PaginationNav for the navigation landmark and\n//     PaginationListItem for individual page items\n//\n// Internationalization:\n//   - The optional label prop accepts any translated string\n//   - All page link text comes through children\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - This is a compound component child; use inside PaginationNav with\n//     PaginationListItem children\n//\n// References:\n//   - HTML ol element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol\n\nexport interface PaginationListProps {\n    className?: string;\n    /** Optional accessible label for the list. */\n    label?: string;\n    /** PaginationListItem elements. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function PaginationList({\n    className = \"\",\n    label = undefined,\n    children,\n    ...restProps\n}: PaginationListProps) {\n    return (\n        <ol\n            className={`pagination-list ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </ol>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/PaginationList.tsx"
+    }
+  ],
+  "categories": [
+    "lists"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/pagination-list/"
+}

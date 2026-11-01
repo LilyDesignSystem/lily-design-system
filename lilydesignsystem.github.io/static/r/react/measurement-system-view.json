@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "measurement-system-view",
+  "type": "registry:component",
+  "title": "MeasurementSystemView",
+  "description": "A read-only display of a measurement system.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/MeasurementSystemView.tsx",
+      "content": "import React from \"react\";\n\n// MeasurementSystemView component\n//\n// A headless display component that shows a measurement system name in a\n// <span> element. A measurement system is a collection of units and rules for\n// measuring physical quantities, such as \"metric\", \"imperial\", or \"SI\". This\n// is a read-only display component, part of the Input/View pattern for\n// measurement data.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   value — string, required. The measurement system name to display.\n//   label — string, optional. Accessible name via aria-label for additional context.\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <MeasurementSystemView value=\"metric\" />\n//\n// Examples:\n//\n//   <MeasurementSystemView value=\"metric\" />\n//\n//\n//   <MeasurementSystemView value=\"SI\" label=\"International System of Units\" />\n//\n// Keyboard:\n//   - None — this is a display-only component with no interactive behavior.\n//\n// Accessibility:\n//   - aria-label optionally provides additional context beyond the displayed name\n//   - Text content is inherently accessible to screen readers\n//\n// Internationalization:\n//   - All text comes through the value and label props\n//   - No hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Part of the Input/View pattern; pairs with MeasurementSystemInput\n//\n// References:\n//   - HTML span element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span\n\nexport interface MeasurementSystemViewProps {\n    className?: string;\n    /** The measurement system name to display */\n    value: string;\n    /** Optional accessible name */\n    label?: string;\n    [key: string]: unknown;\n}\n\nexport default function MeasurementSystemView({\n    className = \"\",\n    value,\n    label = undefined,\n    ...restProps\n}: MeasurementSystemViewProps) {\n    return (\n        <span\n            className={`measurement-system-view ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {value}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/MeasurementSystemView.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/measurement-system-view/"
+}

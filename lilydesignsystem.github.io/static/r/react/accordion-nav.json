@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "accordion-nav",
+  "type": "registry:component",
+  "title": "AccordionNav",
+  "description": "An accordion navigation area for collapsible accordion information.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/AccordionNav.tsx",
+      "content": "import React from \"react\";\n\n// AccordionNav component\n//\n// A headless navigation container for an accordion, rendered as a <nav>\n// element with an accessible label. Serves as the outermost wrapper for\n// collapsible accordion content. Contains an AccordionList which holds\n// AccordionListItem children. Commonly used for FAQs, settings panels,\n// filter groups, and mobile navigation menus.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name via aria-label.\n//   children — ReactNode, required. AccordionList element.\n//   ...restProps — additional HTML attributes spread onto the <nav>.\n//\n// Syntax:\n//   <AccordionNav label=\"FAQ\">\n//     <AccordionList>...</AccordionList>\n//   </AccordionNav>\n//\n// Examples:\n//\n//   <AccordionNav label=\"Frequently Asked Questions\">\n//     <AccordionList>\n//       <AccordionListItem>\n//         <summary>What is this?</summary>\n//         <p>A design system.</p>\n//       </AccordionListItem>\n//     </AccordionList>\n//   </AccordionNav>\n//\n// Keyboard: None — this is a passive container. Keyboard interactions\n// are handled by AccordionListItem children (Enter/Space to toggle).\n//\n// Accessibility:\n//   - <nav> element provides navigation landmark semantics\n//   - aria-label provides the accessible name for screen readers\n//\n// Internationalization:\n//   - The label prop is the only user-facing string\n//   - No hardcoded text; all content comes through props and children\n//\n// Claude rules:\n//   - Compound component — use with AccordionList and AccordionListItem\n//   - Headless: no CSS, no styles — consumer provides all styling\n//\n// References:\n//   - WAI-ARIA Accordion Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/accordion/\n//   - HTML nav element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav\n\nexport interface AccordionNavProps {\n    className?: string;\n    /** Accessible label. */\n    label: string;\n    /** AccordionList element. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function AccordionNav({\n    className = \"\",\n    label,\n    children,\n    ...restProps\n}: AccordionNavProps) {\n    return (\n        <nav\n            className={`accordion-nav ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </nav>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/AccordionNav.tsx"
+    }
+  ],
+  "categories": [
+    "navigation"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/accordion-nav/"
+}

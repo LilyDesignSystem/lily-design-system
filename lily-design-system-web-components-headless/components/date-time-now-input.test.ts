@@ -26,7 +26,7 @@ describe("DateTimeNowInput", () => {
         expect(host.getAttribute("aria-label")).toBe("Event time");
     });
 
-    test("contains a date input, a time input, and a Now button with default labels", () => {
+    test("has no English default: without labels the controls carry no name or text", () => {
         const host = render(
             '<lily-date-time-now-input label="Event time"></lily-date-time-now-input>',
         );
@@ -35,10 +35,10 @@ describe("DateTimeNowInput", () => {
         const timeInput = host.querySelector('input[type="time"]') as HTMLInputElement;
         const button = host.querySelector("button") as HTMLButtonElement;
 
-        expect(dateInput.getAttribute("aria-label")).toBe("Date");
-        expect(timeInput.getAttribute("aria-label")).toBe("Time");
-        expect(button.getAttribute("aria-label")).toBe("Now");
-        expect(button.textContent).toBe("Now");
+        expect(dateInput.hasAttribute("aria-label")).toBe(false);
+        expect(timeInput.hasAttribute("aria-label")).toBe(false);
+        expect(button.hasAttribute("aria-label")).toBe(false);
+        expect(button.textContent).toBe("");
     });
 
     test("uses custom labels when provided", () => {
@@ -49,6 +49,7 @@ describe("DateTimeNowInput", () => {
         expect(host.querySelector('input[type="date"]')!.getAttribute("aria-label")).toBe("Date");
         expect(host.querySelector('input[type="time"]')!.getAttribute("aria-label")).toBe("Heure");
         expect(host.querySelector("button")!.textContent).toBe("Maintenant");
+        expect(host.querySelector("button")!.getAttribute("aria-label")).toBe("Maintenant");
     });
 
     test("the Now button sets both inputs to the current date and time and dispatches lily-change", () => {

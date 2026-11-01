@@ -104,7 +104,7 @@ each of which fixes a defect rather than adding taste, are in §9.
 | `firstDayOfWeek`   | `number`                           | no       | from `locale`                        | 0 = Sunday … 6 = Saturday.                                                                     |
 | `minuteStep`       | `number`                           | no       | `1`                                  | Granularity of the minute select.                                                              |
 | `hour12`           | `boolean`                          | no       | from `locale`                        | 12-hour clock.                                                                                 |
-| `showWeekNumbers`  | `boolean`                          | no       | `false`                              | Render an ISO-8601 week column.                                                                |
+| `showWeekNumbers`  | `boolean`                          | no       | `false`                              | Render an ISO-8601 week column. ISO 8601 only; see Known limitations.                          |
 | `shortcuts`        | `DateTimeShortcut[]`               | no       | `[]`                                 | Quick-pick buttons.                                                                            |
 | `confirmOnSelect`  | `boolean`                          | no       | `mode === "date"`                    | Commit and close on day click.                                                                 |
 | `name`             | `string`                           | no       | `"date-time"`                        | `name` of the hidden input.                                                                    |
@@ -802,12 +802,16 @@ carries its clause number.
 
 ### Locale (mirrors §5.6)
 
-| Clause | Test asserts                                                     |
-| ------ | ---------------------------------------------------------------- |
-| §7.45  | Weekday headings start on Monday for en-GB and Sunday for en-US. |
-| §7.46  | `firstDayOfWeek` overrides the locale.                           |
-| §7.47  | Month names and day `aria-label`s follow `locale`.               |
-| §7.48  | `showWeekNumbers` renders a week column with ISO week numbers.   |
+| Clause | Test asserts                                                                                                                                                  |
+| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| §7.45  | Weekday headings start on Monday for en-GB and Sunday for en-US.                                                                                              |
+| §7.46  | `firstDayOfWeek` overrides the locale.                                                                                                                        |
+| §7.47  | Month names and day `aria-label`s follow `locale`.                                                                                                            |
+| §7.48  | `showWeekNumbers` renders a week column with ISO week numbers.                                                                                                |
+| §7.90  | The heading and day labels are Gregorian in every locale (the grid is Gregorian), so `fa-IR`, `th-TH` and Japanese-era locales name the month the grid shows. |
+| §7.91  | Typed dates accept native digits (Arabic-Indic, Persian, Devanagari, Bengali, Thai, ...), via `normalizeDigits`.                                              |
+| §7.92  | Typed times accept native digits and the locale's own day-period words, as well as `am`/`pm`.                                                                 |
+| §7.93  | In a right-to-left layout the grid's ArrowLeft and ArrowRight swap (`logicalKey`).                                                                            |
 
 ### Assistive technology (mirrors §4.3, §5.3, §5.4, §6.2)
 
@@ -916,3 +920,8 @@ Each fixes a defect. None is a matter of taste.
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause (or
   contact for other terms)
 - Contact: Joel Parker Henderson &lt;joel@joelparkerhenderson.com&gt;
+
+## Known limitations
+
+- **Week numbers are ISO 8601 only.** `showWeekNumbers` numbers weeks the ISO 8601 way: weeks start on Monday and week 1 is the week containing the year's first Thursday. Other systems are not available yet: the US, Canada and Japan number from a Sunday-first week containing 1 January, and some countries use a Saturday-first week. This is a documented gap against the worldwide target, not a decision; it is planned as `weekNumbering: "iso" | "us" | "locale"` (tasks.md P17-T4, worldwide audit (`spec/internationalization/worldwide-audit.md` in the monorepo) finding 4). Until then, leave week numbers off for an audience that does not use ISO weeks, or compute them yourself and show them in your own markup.
+- **The column header is yours.** The visible header (`labels.week`) and any accessible name for a week number are supplied by the app, never English defaults, so you can label the column "Wk", "KW" or "Week (ISO)" and make it clear which system is shown.

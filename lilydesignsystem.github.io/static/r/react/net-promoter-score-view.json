@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "net-promoter-score-view",
+  "type": "registry:component",
+  "title": "NetPromoterScoreView",
+  "description": "A read-only display of a Net Promoter Score.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/NetPromoterScoreView.tsx",
+      "content": "import React from \"react\";\n\n// NetPromoterScoreView component\n//\n// A headless Net Promoter Score (NPS) rating view that displays an NPS score\n// value as read-only text within a <span> element. Used to show previously\n// captured NPS data in dashboards, reports, or detail views. NPS scores range\n// from 0 to 10, with respondents classified as Detractors (0-6), Passives (7-8),\n// or Promoters (9-10).\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". The NPS score value to display.\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <NetPromoterScoreView label=\"NPS Score\" value=\"8\" />\n//\n// Examples:\n//\n//   <NetPromoterScoreView label=\"NPS Score\" value=\"8\" />\n//\n//\n//   <NetPromoterScoreView label=\"Customer rating\" value={score} />\n//\n// Keyboard:\n//   - None — this is a passive informational display, not interactive.\n//\n// Accessibility:\n//   - aria-label provides the accessible name so screen readers announce context\n//   - Screen readers announce both the label and the displayed value\n//\n// Internationalization:\n//   - The label prop accepts any translated string\n//   - The value is displayed as-is, allowing localized formatting\n//   - No hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - No score validation or classification logic; consumer handles categorization\n//   - Part of the Input/View pattern; pairs with NetPromoterScorePicker\n//\n// References:\n//   - Net Promoter Score: https://en.wikipedia.org/wiki/Net_promoter_score\n\nexport interface NetPromoterScoreViewProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The NPS score value to display */\n    value?: string;\n    [key: string]: unknown;\n}\n\nexport default function NetPromoterScoreView({\n    className = \"\",\n    label,\n    value = \"\",\n    ...restProps\n}: NetPromoterScoreViewProps) {\n    return (\n        <span\n            className={`net-promoter-score-view ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {value}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/NetPromoterScoreView.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/net-promoter-score-view/"
+}

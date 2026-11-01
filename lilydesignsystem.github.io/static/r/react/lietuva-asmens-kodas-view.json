@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "lietuva-asmens-kodas-view",
+  "type": "registry:component",
+  "title": "LietuvaAsmensKodasView",
+  "description": "A read-only display of Lithuania's Asmens kodas.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/LietuvaAsmensKodasView.tsx",
+      "content": "import React from \"react\";\n\n// LietuvaAsmensKodasView component\n//\n// A headless display component for showing Lithuania's\n// Asmens kodas in a read-only format.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". The identifier string to display.\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <LietuvaAsmensKodasView label=\"Personal Code\" value={value} />\n//\n// Accessibility:\n//   - aria-label provides the accessible name so screen readers announce the purpose\n//\n// References:\n//   - https://en.wikipedia.org/wiki/National_identification_number#Lithuania\n\nexport interface LietuvaAsmensKodasViewProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The identifier to display */\n    value?: string;\n    [key: string]: unknown;\n}\n\nexport default function LietuvaAsmensKodasView({\n    className = \"\",\n    label,\n    value = \"\",\n    ...restProps\n}: LietuvaAsmensKodasViewProps) {\n    return (\n        <span\n            className={`lietuva-asmens-kodas-view ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {value}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/LietuvaAsmensKodasView.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/lietuva-asmens-kodas-view/"
+}

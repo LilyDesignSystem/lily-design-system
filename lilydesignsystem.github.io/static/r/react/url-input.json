@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "url-input",
+  "type": "registry:component",
+  "title": "UrlInput",
+  "description": "An input for entering a URL <input type=\"url\">.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/UrlInput.tsx",
+      "content": "import React from \"react\";\n\n// UrlInput component\n//\n// A headless URL input using the native HTML <input type=\"url\"> element, which\n// provides built-in URL validation and may trigger URL-specific keyboard layouts\n// on mobile devices. Commonly used in profile forms, link submission pages, and\n// any context where users need to enter a valid web address. The browser's\n// built-in validation ensures the entered value matches URL format.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name via aria-label.\n//   value — string, default \"\". Bindable URL value; supports value + onChange.\n//   required — boolean, default false. Whether the field is required.\n//   disabled — boolean, default false. Whether the field is disabled.\n//   ...restProps — additional HTML attributes spread onto the <input>.\n//\n// Syntax:\n//   <UrlInput label=\"Website URL\" value={value} onChange={setValue} />\n//\n// Examples:\n//\n//   <UrlInput label=\"Portfolio link\" value={portfolioUrl} onChange={setPortfolioUrl} required />\n//\n// Keyboard:\n//   - None beyond native text input behavior\n//\n// Accessibility:\n//   - aria-label={label} provides the accessible name since no visible label is associated\n//\n// Internationalization:\n//   - The label prop accepts any translated string\n//   - No hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles -- consumer provides all styling\n//   - Uses controlled for two-way data binding on value\n//   - Browser validates URL format including protocol on form submission\n//\n// References:\n//   - MDN input type=\"url\": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/url\n\nexport interface UrlInputProps {\n    className?: string;\n    /** Accessible label. */\n    label: string;\n    /** Current value. Bindable. */\n    value?: string;\n    /** Whether required. */\n    required?: boolean;\n    /** Whether disabled. */\n    disabled?: boolean;\n    /** Callback when value changes. */\n    onChange?: (value: string) => void;\n    [key: string]: unknown;\n}\n\nexport default function UrlInput({\n    className = \"\",\n    label,\n    value = \"\",\n    required = false,\n    disabled = false,\n    onChange,\n    ...restProps\n}: UrlInputProps) {\n    return (\n        <input\n            className={`url-input ${className}`}\n            type=\"url\"\n            aria-label={label}\n            value={value}\n            onChange={(e) => onChange?.(e.target.value)}\n            required={required}\n            disabled={disabled}\n            {...restProps}\n        />\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/UrlInput.tsx"
+    }
+  ],
+  "categories": [
+    "forms"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/url-input/"
+}

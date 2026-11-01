@@ -80,7 +80,7 @@ links stay native browser behaviour.
 ## Styling
 
 Headless: no CSS ships. Target `.link-picker`, `.link-picker-button`, `.link-picker-icon`, `.link-picker-tooltip`,
-`.link-picker-list`, `.link-picker-list-item`, `.link-picker-link`. The 45 reference themes in the monorepo's `themes/`
+`.link-picker-list`, `.link-picker-list-item`, `.link-picker-link`. The 63 reference themes in the monorepo's `themes/`
 style all of them, including the popup placement.
 
 ## Examples

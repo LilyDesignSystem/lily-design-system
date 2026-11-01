@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "measurement-unit-view",
+  "type": "registry:component",
+  "title": "MeasurementUnitView",
+  "description": "A read-only display of a measurement unit.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/MeasurementUnitView.tsx",
+      "content": "import React from \"react\";\n\n// MeasurementUnitView component\n//\n// A headless display component that shows a measurement unit in a <span>\n// element. A measurement unit is a standard quantity used to express a\n// physical measurement, such as \"kg\", \"lb\", \"cm\", or \"inch\". This is a\n// read-only display component, part of the Input/View pattern for measurement\n// data.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   value — string, required. The measurement unit to display.\n//   label — string, optional. Accessible name via aria-label for additional context.\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <MeasurementUnitView value=\"kg\" />\n//\n// Examples:\n//\n//   <MeasurementUnitView value=\"kg\" />\n//\n//\n//   <MeasurementUnitView value=\"lb\" label=\"Pounds\" />\n//\n// Keyboard:\n//   - None — this is a display-only component with no interactive behavior.\n//\n// Accessibility:\n//   - aria-label optionally provides additional context beyond the displayed unit\n//   - Text content is inherently accessible to screen readers\n//\n// Internationalization:\n//   - All text comes through the value and label props\n//   - No hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Part of the Input/View pattern; pairs with MeasurementUnitInput\n//\n// References:\n//   - HTML span element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span\n\nexport interface MeasurementUnitViewProps {\n    className?: string;\n    /** The measurement unit to display */\n    value: string;\n    /** Optional accessible name */\n    label?: string;\n    [key: string]: unknown;\n}\n\nexport default function MeasurementUnitView({\n    className = \"\",\n    value,\n    label = undefined,\n    ...restProps\n}: MeasurementUnitViewProps) {\n    return (\n        <span\n            className={`measurement-unit-view ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {value}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/MeasurementUnitView.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/measurement-unit-view/"
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "radio-group",
+  "type": "registry:component",
+  "title": "RadioGroup",
+  "description": "A group of radio buttons for selecting one option.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/RadioGroup.tsx",
+      "content": "import React from \"react\";\n\n// RadioGroup component\n//\n// A headless fieldset container that groups related radio buttons under the ARIA\n// radiogroup role. It renders a <fieldset> with role=\"radiogroup\" and an accessible\n// label, enabling screen readers to communicate the relationship between individual\n// radio options. Used when a set of mutually exclusive options is needed, such as\n// selecting a size, choosing a shipping method, or picking a preference.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for the radio group via aria-label.\n//   children — ReactNode, required. Radio button elements to render inside the fieldset.\n//   ...restProps — additional HTML attributes spread onto the <fieldset>.\n//\n// Syntax:\n//   <RadioGroup label=\"Size\">{children}</RadioGroup>\n//\n// Examples:\n//\n//   <RadioGroup label=\"Size\">\n//     <label><input type=\"radio\" name=\"size\" value=\"s\" /> Small</label>\n//     <label><input type=\"radio\" name=\"size\" value=\"m\" /> Medium</label>\n//     <label><input type=\"radio\" name=\"size\" value=\"l\" /> Large</label>\n//   </RadioGroup>\n//\n// Keyboard:\n//   - Tab: moves focus into the radio group (to selected or first option)\n//   - Arrow Up / Arrow Down: moves selection between radio buttons (native behavior)\n//   - Space: selects the focused radio button (native behavior)\n//\n// Accessibility:\n//   - role=\"radiogroup\" identifies the fieldset as a group of radio buttons\n//   - aria-label provides an accessible name so screen readers announce the group purpose\n//   - Native <fieldset> provides semantic grouping\n//\n// Internationalization:\n//   - The label prop is the only text; all option labels come through children\n//   - No hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - No internal state management; radio selection handled by native radio behavior\n//   - Consumer provides radio inputs as children, typically wrapped in <label> elements\n//\n// References:\n//   - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radiobutton/\n//   - WAI-ARIA Authoring Practices - Radio Group: https://www.w3.org/WAI/ARIA/apg/patterns/radio/\n\nexport interface RadioGroupProps {\n    className?: string;\n    /** Accessible label for the group. */\n    label: string;\n    /** Radio button elements. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function RadioGroup({\n    className = \"\",\n    label,\n    children,\n    ...restProps\n}: RadioGroupProps) {\n    return (\n        <fieldset\n            className={`radio-group ${className}`}\n            role=\"radiogroup\"\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </fieldset>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/RadioGroup.tsx"
+    }
+  ],
+  "categories": [
+    "forms"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/radio-group/"
+}

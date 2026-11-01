@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"dropdown-menu\" role=\"menu\"><div role=\"menuitem\">Option 1</div><div role=\"menuitem\">Option 2</div></div>";
   const svelteSource: string = "// In your Svelte component:\nimport DropdownMenu from \"lily-design-system-svelte-headless/components/DropdownMenu/DropdownMenu.svelte\";\n\n<DropdownMenu>\n  <!-- list children -->\n</DropdownMenu>\n";
-  const usageCode: string = "<DropdownMenu label=\"Options\" bind:open>\n    <li role=\"menuitem\" tabindex=\"-1\">Edit</li>\n    <li role=\"menuitem\" tabindex=\"-1\">Duplicate</li>\n    <li role=\"menuitem\" tabindex=\"-1\">Delete</li>\n</DropdownMenu>\n";
+  const usageCode: string = "<DropdownMenu\n  label=\"Options\"\n  bind:open\n>\n  <li\n    role=\"menuitem\"\n    tabindex=\"-1\"\n  >\n    Edit\n  </li>\n  <li\n    role=\"menuitem\"\n    tabindex=\"-1\"\n  >\n    Duplicate\n  </li>\n  <li\n    role=\"menuitem\"\n    tabindex=\"-1\"\n  >\n    Delete\n  </li>\n</DropdownMenu>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

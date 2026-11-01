@@ -95,7 +95,7 @@ cd lily-design-system/lily-design-system-html-headless`}</code></pre>
 }
 .label { display: block; font-weight: 600; margin-bottom: 0.25rem; }`}</code></pre>
   <p>
-    Or skip hand-writing CSS entirely — link one of the 45 ready-made themes
+    Or skip hand-writing CSS entirely — link one of the 63 ready-made themes
     and the same markup lights up:
   </p>
   <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
@@ -106,7 +106,7 @@ cd lily-design-system/lily-design-system-html-headless`}</code></pre>
     <li>The repo's tests run real browsers: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
     <li>Storybook for every component: <code>pnpm run storybook</code>.</li>
     <li>
-      The <a href="/examples/">HTML+CSS+JS example app</a> shows all 582
+      The <a href="/examples/">HTML+CSS+JS example app</a> shows all 607
       components styled, searchable, and demoed.
     </li>
   </ul>

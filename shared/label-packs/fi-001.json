@@ -283,5 +283,10 @@
     "small": "pieni",
     "smaller": "pienempi",
     "smallest": "pienin"
+  },
+  "date-time-now-input": {
+    "date": "Päivämäärä",
+    "time": "Kellonaika",
+    "now": "Nyt"
   }
 }

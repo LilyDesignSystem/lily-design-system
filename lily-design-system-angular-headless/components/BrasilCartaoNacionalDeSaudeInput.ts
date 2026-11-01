@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
+import { restoreOnFormReset } from "./form-reset";
 
 /**
  * BrasilCartaoNacionalDeSaudeInput — an input for entering Brazil's Cartão Nacional de Saúde (CNS)
@@ -33,4 +34,8 @@ export class BrasilCartaoNacionalDeSaudeInput {
     readonly required = input<boolean>(false);
     /** Whether the input is disabled. */
     readonly disabled = input<boolean>(false);
+
+    constructor() {
+        restoreOnFormReset(this.value);
+    }
 }

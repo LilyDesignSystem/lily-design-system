@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "date-time-view",
+  "type": "registry:component",
+  "title": "DateTimeView",
+  "description": "A read-only display of a formatted date and time.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/DateTimeView.tsx",
+      "content": "import React from \"react\";\n\n// DateTimeView component\n//\n// A headless read-only display of a formatted date and time. Renders a\n// semantic <time> element with the machine-readable ISO 8601 value in the\n// dateTime attribute. The visible text falls back: children → format → value.\n// The component does NOT localize — consumers are responsible for formatting\n// the display string in the user's locale and passing it via `format` or\n// children.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   value     — string, required. ISO 8601 datetime string (machine-readable).\n//   format    — string, optional. Pre-formatted display text.\n//   label     — string, optional. aria-label override.\n//   children  — ReactNode, optional. Custom display content (overrides format).\n//   ...restProps — additional HTML attributes spread onto the <time>.\n//\n// Syntax:\n//   <DateTimeView value=\"2026-01-15T09:30:00Z\" format=\"Jan 15, 2026, 9:30 AM\" />\n//\n// Examples:\n//\n//   <DateTimeView value=\"2026-01-15T09:30:00Z\" format=\"January 15, 2026\" />\n//\n//\n//   <DateTimeView value=\"2026-01-15T09:30:00Z\">\n//     <strong>Jan 15</strong>, 2026\n//   </DateTimeView>\n//\n// Keyboard: None — read-only display.\n//\n// Accessibility:\n//   - Semantic <time> element with ISO 8601 dateTime attribute\n//   - Optional aria-label override via label prop\n//\n// Internationalization:\n//   - Consumer formats the display string for the user's locale\n//   - The dateTime attribute always carries the machine-readable ISO value\n//\n// Claude rules:\n//   - Headless: no CSS, no styles\n//   - The <time dateTime={value}> attribute uses React camelCase dateTime\n//\n// References:\n//   - HTML <time>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time\n\nexport interface DateTimeViewProps {\n    className?: string;\n    /** ISO 8601 datetime string (required, machine-readable) */\n    value: string;\n    /** Pre-formatted display text (consumer formats; component does not localize) */\n    format?: string;\n    /** aria-label override */\n    label?: string;\n    /** Optional custom display content (overrides format) */\n    children?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function DateTimeView({\n    className = \"\",\n    value,\n    format = undefined,\n    label = undefined,\n    children = undefined,\n    ...restProps\n}: DateTimeViewProps) {\n    const display: React.ReactNode = children ?? format ?? value;\n    return (\n        <time\n            className={`date-time-view ${className}`}\n            dateTime={value}\n            aria-label={label}\n            {...restProps}\n        >\n            {display}\n        </time>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/DateTimeView.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/date-time-view/"
+}

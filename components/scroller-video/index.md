@@ -84,7 +84,7 @@ This component provides a `<div>` element with scroll-driven video playback and 
 
 ## Reduced motion
 
-Reduced motion changes how content appears, never whether it does. Apply it in consumer CSS under `@media (prefers-reduced-motion: reduce)` and under the `motion-picker`'s `[data-motion="reduce"]` on the document root (the 57 reference themes already honour both for the preference hooks they style). For a scroll-linked video:
+Reduced motion changes how content appears, never whether it does. Apply it in consumer CSS under `@media (prefers-reduced-motion: reduce)` and under the `motion-picker`'s `[data-motion="reduce"]` on the document root (the 63 reference themes already honour both for the preference hooks they style). For a scroll-linked video:
 
 - **Suppress:** scrubbing and autoplay. Show the poster or a still frame for each step, and start no video until the reader asks.
 - **Keep:** the step text and the video's controls (play, pause), and a text description of what the video shows. A video that plays at all must be pausable (WCAG 2.2.2).

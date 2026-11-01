@@ -22,8 +22,8 @@
   "keyboard": [
     "Tab: focus primary, then trigger",
     "Enter / Space on primary: fires onPrimaryClick",
-    "Enter / Space on trigger: toggles onMenuToggle",
-    "Escape handled by consumer's menu component"
+    "Enter / Space on trigger: toggles the menu (and fires onMenuToggle)",
+    "Escape and a click outside close the menu (the browser's popover light dismiss)"
   ],
   "props": [
     "`label`: string (required) -- aria-label for the group",
@@ -53,5 +53,10 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SplitButton.razor"
   },
   "docs": "https://lilydesignsystem.com/components/split-button/",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/split-button/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/split-button/AGENTS.md",
+  "nativePlatform": {
+    "decision": "native",
+    "uses": "popover=\"auto\" menu opened by command=\"toggle-popover\" commandfor (and popovertarget) on the menu trigger; bindable menuOpen synced from the toggle event",
+    "could_use": "CSS anchor positioning"
+  }
 }

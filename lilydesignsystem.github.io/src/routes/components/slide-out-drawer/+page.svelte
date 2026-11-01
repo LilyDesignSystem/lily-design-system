@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"slide-out-drawer\" role=\"dialog\" aria-label=\"Drawer\"><p>Slide-out drawer</p></div>";
   const svelteSource: string = "// In your Svelte component:\nimport SlideOutDrawer from \"lily-design-system-svelte-headless/components/SlideOutDrawer/SlideOutDrawer.svelte\";\n\n<SlideOutDrawer>\n  <!-- content -->\n</SlideOutDrawer>\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import SlideOutDrawer from \"./SlideOutDrawer.svelte\";\n    let open = $state(false);\n<\/script>\n\n<button onclick={() => (open = true)}>Menu</button>\n<SlideOutDrawer label=\"Navigation menu\" bind:open>\n    <nav>\n        <ul><li><a href=\"/\">Home</a></li></ul>\n    </nav>\n    <button onclick={() => (open = false)}>Close</button>\n</SlideOutDrawer>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import SlideOutDrawer from \"./SlideOutDrawer.svelte\";\n  let open = $state(false);\n<\/script>\n\n<button onclick={() => (open = true)}>Menu</button>\n<SlideOutDrawer\n  label=\"Navigation menu\"\n  bind:open\n>\n  <nav>\n    <ul><li><a href=\"/\">Home</a></li></ul>\n  </nav>\n  <button onclick={() => (open = false)}>Close</button>\n</SlideOutDrawer>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>
@@ -76,27 +76,28 @@
       <li>PascalCase: SlideOutDrawer</li>
       <li>Description: a drawer that slides out from the side of the page</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
-      <li>HTML tag: &lt;div&gt;</li>
+      <li>HTML tag: &lt;dialog&gt;</li>
       <li>CSS class: .slide-out-drawer</li>
       <li>Interactive: yes</li>
     </ul>
     <h3>ARIA</h3>
     <ul>
-      <li><code>role="dialog"</code> for modal dialog semantics</li>
-      <li><code>aria-label</code> from the label prop provides the accessible name</li>
-      <li><code>aria-modal="true"</code> indicates modal behavior (content behind the drawer is inert)</li>
-      <li><code>tabindex="-1"</code> for programmatic focus management</li>
+      <li><code>role="dialog"</code> -- implicit on the native <code>&lt;dialog&gt;</code> element (not repeated as an attribute)</li>
+      <li><code>aria-label=&#123;label&#125;</code> -- provides an accessible name for the dialog</li>
+      <li><code>aria-modal="true"</code> -- true: <code>showModal()</code> makes the page behind inert</li>
+      <li><code>tabindex="-1"</code> -- lets the dialog take focus</li>
     </ul>
     <h3>Keyboard</h3>
     <ul>
-      <li>Escape closes the drawer</li>
+      <li>Escape: closes it by setting <code>open</code> to <code>false</code></li>
+      <li>Tab / Shift+Tab: move between focusable elements inside it; focus cannot leave while it is open</li>
     </ul>
     <h3>Props</h3>
     <ul>
       <li><code>label</code>: string (required) -- accessible label for the dialog</li>
       <li><code>open</code>: boolean (default: false) -- whether the drawer is visible, bindable</li>
       <li><code>children</code>: slot (required) -- drawer content</li>
-      <li><code>...restProps</code>: Any additional HTML attributes spread onto the <code>&lt;div&gt;</code></li>
+      <li><code>...restProps</code>: Any additional HTML attributes spread onto the <code>&lt;dialog&gt;</code></li>
     </ul>
 </section>
 <!-- END generated: canonical contract -->

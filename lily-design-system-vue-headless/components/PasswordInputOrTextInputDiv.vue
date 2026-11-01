@@ -54,6 +54,7 @@
 //   - WAI-ARIA Button Pattern (toggle): https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
 import { ref } from "vue";
+import { useFormReset } from "./form-reset";
 
 withDefaults(
     defineProps<{
@@ -72,6 +73,8 @@ withDefaults(
 );
 
 const modelValue = defineModel<string>({ default: "" });
+const field = ref<HTMLInputElement | HTMLTextAreaElement | null>(null);
+useFormReset(modelValue, field);
 
 const visible = ref(false);
 </script>
@@ -82,6 +85,7 @@ const visible = ref(false);
         <input
             :type="visible ? 'text' : 'password'"
             :aria-label="label"
+            ref="field"
             v-model="modelValue"
             :required="required"
             :disabled="disabled"

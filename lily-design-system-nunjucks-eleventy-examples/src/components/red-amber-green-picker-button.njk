@@ -15,9 +15,22 @@ description: one option button inside a red-amber-green picker
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>
 <pre tabindex="0"><code>{% raw %}&lt;RedAmberGreenPicker label="Project status"&gt;
-  &lt;RedAmberGreenPickerButton value="red" label="Red - Critical" onclick={handleSelect} /&gt;
-  &lt;RedAmberGreenPickerButton value="amber" label="Amber - Caution" selected onclick={handleSelect} /&gt;
-  &lt;RedAmberGreenPickerButton value="green" label="Green - On track" onclick={handleSelect} /&gt;
+  &lt;RedAmberGreenPickerButton
+    value="red"
+    label="Red - Critical"
+    onclick="{handleSelect}"
+  /&gt;
+  &lt;RedAmberGreenPickerButton
+    value="amber"
+    label="Amber - Caution"
+    selected
+    onclick="{handleSelect}"
+  /&gt;
+  &lt;RedAmberGreenPickerButton
+    value="green"
+    label="Green - On track"
+    onclick="{handleSelect}"
+  /&gt;
 &lt;/RedAmberGreenPicker&gt;
 {% endraw %}</code></pre>
 {# END generated: examples #}

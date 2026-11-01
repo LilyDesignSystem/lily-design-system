@@ -8,38 +8,42 @@ How Lily Design System™ relates to the other systems in its neighbourhood, wha
 it does that they do not, and — more usefully — what they do that it does not.
 
 The per-component matrix lives in [compare/index.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/compare/index.md),
-generated from [compare/compare.tsv](https://github.com/LilyDesignSystem/lily-design-system/blob/main/compare/compare.tsv): 428
-component rows across 19 systems (`bin/generate-comparisons` writes the matrix and prints the counts below).
+generated from [compare/compare.tsv](https://github.com/LilyDesignSystem/lily-design-system/blob/main/compare/compare.tsv): 429
+component rows across 23 systems (`bin/generate-comparisons` writes the matrix and prints the counts below).
 
 ## Read the matrix carefully
 
 The matrix answers one question per cell: _does this system ship a component that
-matches this Lily row?_ The rows are Lily's catalog, so **Lily scores 428/428 by
+matches this Lily row?_ The rows are Lily's catalog, so **Lily scores 429/429 by
 construction**. That is a property of how the table was built, not evidence of
 superiority, and anyone using this table to evaluate Lily should discount it
 accordingly.
 
-| System           | Rows matched (of 428)            |
-| ---------------- | -------------------------------- |
-| Lily             | 428 _(tautological — see above)_ |
-| DaisyUI          | 194                              |
-| Flowbite         | 188                              |
-| Ant Design       | 187                              |
-| shadcn/ui        | 152                              |
-| Adobe Spectrum   | 152                              |
-| ONS Digital      | 142                              |
-| IBM Carbon       | 131                              |
-| Ark UI           | 126                              |
-| USWDS            | 123                              |
-| Wonderflow Wanda | 110                              |
-| DHCW             | 52 _(added 2026-10-28)_          |
-| Skeleton         | 103                              |
-| Bits UI          | 102                              |
-| NHS UK           | 95                               |
-| Melt UI          | 80                               |
-| GOV.UK           | 76                               |
-| Mozilla Protocol | 30                               |
-| 18F              | not surveyed                     |
+| System           | Rows matched (of 429)                          |
+| ---------------- | ---------------------------------------------- |
+| Lily             | 429 _(tautological — see above)_               |
+| DaisyUI          | 194                                            |
+| Flowbite         | 188                                            |
+| Ant Design       | 187                                            |
+| shadcn/ui        | 152                                            |
+| Adobe Spectrum   | 152                                            |
+| ONS Digital      | 143                                            |
+| IBM Carbon       | 131                                            |
+| React Aria       | 128 _(added 2026-10-29)_                       |
+| Ark UI           | 126                                            |
+| USWDS            | 123                                            |
+| Web Awesome      | 118 _(added 2026-10-29; free components only)_ |
+| Wonderflow Wanda | 110                                            |
+| Skeleton         | 103                                            |
+| Bits UI          | 102                                            |
+| NHS UK           | 95                                             |
+| Melt UI          | 80                                             |
+| GOV.UK           | 77                                             |
+| Base UI          | 71 _(added 2026-10-29)_                        |
+| Radix            | 59 _(added 2026-10-29)_                        |
+| DHCW             | 53 _(added 2026-10-28)_                        |
+| Mozilla Protocol | 30                                             |
+| 18F              | not surveyed                                   |
 
 The honest reading: a mature system with 100–200 components has usually earned
 each one through production use. Lily has more entries; it has not yet had the
@@ -55,14 +59,21 @@ keyboard contract, and the same kebab-case class hook, in HTML, Svelte, React,
 Vue, Angular, Blazor, Nunjucks, and Web Components (plus Alpine.js as annotated
 snippets and one plugin). An organisation running React on one product
 and Blazor on another can share a single stylesheet and a single set of component
-docs. Ark UI is multi-framework (React, Vue, Solid); nothing else in the table
-spans this range, and nothing else includes Blazor or Nunjucks.
+docs.
+
+Range alone is not the difference. Ark UI covers React, Solid, Vue and Svelte,
+and Web Awesome's custom elements work in any framework that renders HTML. What
+differs is that Lily's components are framework-native rather than wrapped custom
+elements: each framework gets its own component, with no shadow DOM between your
+stylesheet and the markup; the Nunjucks and Blazor versions render on the server
+and need no client-side hydration; and one class contract holds across all of
+them. Nothing else in the table includes Blazor or Nunjucks.
 
 **2. Headless _and_ fully worked examples.**
-Most systems pick one side. Radix, Bits, Melt, and Ark ship behaviour and leave
+Most systems pick one side. Radix, Base UI, React Aria, Bits, Melt, and Ark ship behaviour and leave
 you the visuals. DaisyUI, Flowbite, Ant, Carbon, and Spectrum ship the visuals
 and their opinions with them. Lily ships an unstyled layer with zero CSS, plus
-seven complete styled applications and 57 theme stylesheets, so you can see the
+seven complete styled applications and 63 theme stylesheets, so you can see the
 end state before adopting the primitives.
 
 **3. Internationalisation as a hard rule, not a feature.**
@@ -72,8 +83,8 @@ and gender logic belongs to the consumer. Most component libraries ship English
 defaults and a translation mechanism bolted on afterwards.
 
 **4. Public-sector reference coverage.**
-57 themes covering NHS England, Scotland and Wales in patient and practitioner
-variants, GOV.UK GDS, and USWDS, plus 140 national personal identifier components
+63 themes covering NHS England, Scotland and Wales in patient and practitioner
+variants, GOV.UK GDS, and USWDS, plus 164 national personal identifier components
 across 30+ countries with normalization and validation. Nothing else in the table
 addresses this, and it is the one area where Lily's breadth is not just breadth.
 
@@ -81,15 +92,15 @@ addresses this, and it is the one area where Lily's breadth is not just breadth.
 
 Written for someone deciding, not someone already convinced.
 
-| If you need                                          | Use                                                    | Because                                                                                                                                          |
-| ---------------------------------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Production-proven behaviour with years of edge cases | **Radix**, **Ark UI**, **Bits UI**, **React Aria**     | Lily is new. Their combobox has met more browsers, screen readers, and users than Lily's has                                                     |
-| To ship a good-looking app this week                 | **DaisyUI**, **Flowbite**, **shadcn/ui**, **Skeleton** | They hand you the design. Lily deliberately does not                                                                                             |
-| A design language your team can adopt wholesale      | **IBM Carbon**, **Adobe Spectrum**, **Ant Design**     | Full token systems, Figma kits, and design guidance. Lily's `themes/` are references, not a language                                             |
-| Actual GOV.UK or NHS compliance                      | **govuk-frontend**, **nhsuk-frontend**                 | Those are the real thing, maintained by the organisations, and audited. Lily's themes take _visual reference_ from them and carry no endorsement |
-| A vendor relationship, SLA, or support contract      | any commercial system                                  | Lily is one unpaid person; see [MAINTAINERS.md](MAINTAINERS.md)                                                                                  |
-| An accessibility conformance statement or VPAT       | **Carbon**, **Spectrum**, **USWDS**                    | Lily _targets_ WCAG 2.2 AAA and runs automated AA checks. It has never been audited                                                              |
-| Copy-paste ownership of the source                   | **shadcn/ui**                                          | Its model is deliberate and excellent. Lily supports copying too, but shadcn's tooling for it is better                                          |
+| If you need                                          | Use                                                             | Because                                                                                                                                          |
+| ---------------------------------------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Production-proven behaviour with years of edge cases | **Radix**, **Base UI**, **Ark UI**, **Bits UI**, **React Aria** | Lily is new. Their combobox has met more browsers, screen readers, and users than Lily's has                                                     |
+| To ship a good-looking app this week                 | **DaisyUI**, **Flowbite**, **shadcn/ui**, **Skeleton**          | They hand you the design. Lily deliberately does not                                                                                             |
+| A design language your team can adopt wholesale      | **IBM Carbon**, **Adobe Spectrum**, **Ant Design**              | Full token systems, Figma kits, and design guidance. Lily's `themes/` are references, not a language                                             |
+| Actual GOV.UK or NHS compliance                      | **govuk-frontend**, **nhsuk-frontend**                          | Those are the real thing, maintained by the organisations, and audited. Lily's themes take _visual reference_ from them and carry no endorsement |
+| A vendor relationship, SLA, or support contract      | any commercial system                                           | Lily is one unpaid person; see [MAINTAINERS.md](MAINTAINERS.md)                                                                                  |
+| An accessibility conformance statement or VPAT       | **Carbon**, **Spectrum**, **USWDS**                             | Lily _targets_ WCAG 2.2 AAA and runs automated AA checks. It has never been audited                                                              |
+| Copy-paste ownership of the source                   | **shadcn/ui**                                                   | Its model is deliberate and excellent. Lily supports copying too, but shadcn's tooling for it is better                                          |
 
 ## Honest limitations
 

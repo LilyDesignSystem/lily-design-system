@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "section-link",
+  "type": "registry:component",
+  "title": "SectionLink",
+  "description": "One section link in the navigation.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/SectionLink.tsx",
+      "content": "export interface SectionLinkProps {\n    className?: string;\n    label?: string;\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function SectionLink({\n    className = \"\",\n    label = undefined,\n    children,\n    ...restProps\n}: SectionLinkProps) {\n    return (\n        <a\n            className={`section-link ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </a>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/SectionLink.tsx"
+    }
+  ],
+  "categories": [
+    "links"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/section-link/"
+}

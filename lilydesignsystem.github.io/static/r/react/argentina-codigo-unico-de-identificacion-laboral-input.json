@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "argentina-codigo-unico-de-identificacion-laboral-input",
+  "type": "registry:component",
+  "title": "ArgentinaCodigoUnicoDeIdentificacionLaboralInput",
+  "description": "An input for entering Argentina's Codigo Unico de Identificacion Laboral (CUIL).",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ArgentinaCodigoUnicoDeIdentificacionLaboralInput.tsx",
+      "content": "import React from \"react\";\n\n// ArgentinaCodigoUnicoDeIdentificacionLaboralInput component\n//\n// A headless input for entering Argentina's Código Único de Identificación Laboral (CUIL).\n// Format: Displayed as XX-NNNNNNNN-X: a two-digit prefix denoting registration type/sex (historically 20 male, 27 female, though this classification was discontinued in 2012), the eight-digit DNI (national identity document) number, and a Modulus-11 check digit computed over the ten preceding digits.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". Bindable input value; supports value + onChange.\n//   required — boolean, default false. Whether the input is required for form submission.\n//   disabled — boolean, default false. Whether the input is disabled.\n//   ...restProps — additional HTML attributes spread onto the <input>.\n//\n// Syntax:\n//   <ArgentinaCodigoUnicoDeIdentificacionLaboralInput label=\"Código Único de Identificación Laboral (CUIL)\" value={value} onChange={setValue} />\n//\n// Accessibility:\n//   - aria-label provides the accessible name for screen readers\n//   - autoComplete=\"off\" protects sensitive identifiers\n//   - required and disabled states are conveyed to assistive technology\n//\n// References:\n//   - https://en.wikipedia.org/wiki/C%C3%B3digo_%C3%9Anico_de_Identificaci%C3%B3n_Laboral\n\nexport interface ArgentinaCodigoUnicoDeIdentificacionLaboralInputProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The current value of the input, bindable */\n    value?: string;\n    /** Whether the input is required for form submission */\n    required?: boolean;\n    /** Whether the input is disabled */\n    disabled?: boolean;\n    /** Callback when value changes. */\n    onChange?: (value: string) => void;\n    [key: string]: unknown;\n}\n\nexport default function ArgentinaCodigoUnicoDeIdentificacionLaboralInput({\n    className = \"\",\n    label,\n    value = \"\",\n    required = false,\n    disabled = false,\n    onChange,\n    ...restProps\n}: ArgentinaCodigoUnicoDeIdentificacionLaboralInputProps) {\n    return (\n        <input\n            className={`argentina-codigo-unico-de-identificacion-laboral-input ${className}`}\n            type=\"text\"\n            aria-label={label}\n            autoComplete=\"off\"\n            value={value}\n            onChange={(e) => onChange?.(e.target.value)}\n            required={required}\n            disabled={disabled}\n            {...restProps}\n        />\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ArgentinaCodigoUnicoDeIdentificacionLaboralInput.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/argentina-codigo-unico-de-identificacion-laboral-input/"
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "gantt-table",
+  "type": "registry:component",
+  "title": "GanttTable",
+  "description": "A Gantt chart table interactive grid for planning schedule visualization <table>.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/GanttTable.tsx",
+      "content": "import React from \"react\";\n\n// GanttTable component\n//\n// An interactive Gantt table that displays project tasks and their timelines\n// as a structured grid widget. Renders a <table> element with role=\"grid\" and\n// an accessible label. Supports an optional visible caption. Commonly used in\n// project management tools and resource planning applications.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name describing the Gantt table content.\n//   caption — string, optional. Visible caption text displayed above the table.\n//   children — ReactNode, required. GanttTableHead, GanttTableBody, GanttTableTfoot elements.\n//   ...restProps — additional HTML attributes spread onto the <table>.\n//\n// Syntax:\n//   <GanttTable label=\"Project timeline\">\n//     <GanttTableHead>\n//       <GanttTableTr>\n//         <th>Task</th><th>Week 1</th><th>Week 2</th><th>Week 3</th>\n//       </GanttTableTr>\n//     </GanttTableHead>\n//     <GanttTableBody>\n//       <GanttTableTr>\n//         <th>Design</th>\n//         <GanttTableTD active>---</GanttTableTD>\n//         <GanttTableTD />\n//         <GanttTableTD />\n//       </GanttTableTr>\n//     </GanttTableBody>\n//   </GanttTable>\n//\n// Keyboard:\n//   None built-in — consumer should implement grid keyboard navigation\n//   (arrow keys for cell movement, Enter/Space for selection).\n//\n// Accessibility:\n//   - role=\"grid\" identifies the table as an interactive grid widget\n//   - aria-label provides an accessible name describing the Gantt table\n//   - <caption> provides a visible accessible name when the caption prop is set\n//\n// Internationalization:\n//   - The label and caption props provide all text; no hardcoded strings\n//   - All content comes through the children prop\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Compound component: use with GanttTableHead, GanttTableBody, GanttTableTfoot,\n//     GanttTableTr, GanttTableTD, and GanttTableTH\n//\n// References:\n//   - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/\n\nexport interface GanttTableProps {\n    className?: string;\n    /** Accessible name describing the Gantt table content. */\n    label: string;\n    /** Visible caption for the table. */\n    caption?: string;\n    /** GanttTableHead, GanttTableBody, GanttTableTfoot elements. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function GanttTable({\n    className = \"\",\n    label,\n    caption = undefined,\n    children,\n    ...restProps\n}: GanttTableProps) {\n    return (\n        <table\n            className={`gantt-table ${className}`}\n            role=\"grid\"\n            aria-label={label}\n            {...restProps}\n        >\n            {caption && (\n                <>\n                    <caption>{caption}</caption>\n                </>\n            )}\n            {children}\n        </table>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/GanttTable.tsx"
+    }
+  ],
+  "categories": [
+    "tables"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/gantt-table/"
+}

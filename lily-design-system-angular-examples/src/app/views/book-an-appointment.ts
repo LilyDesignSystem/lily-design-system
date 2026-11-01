@@ -246,8 +246,7 @@ function todayIso(): string {
             are confirmed within 2 working days.
           </lily-inset-text>
 
-          <lily-details label="What happens at your appointment">
-            <p><strong>What happens at your appointment</strong></p>
+          <lily-details summary="What happens at your appointment">
             <p>
               A clinician will review the reason you gave for the appointment and
               may ask follow-up questions. Bring a list of any medicines you are

@@ -41,7 +41,10 @@
 // References:
 //   - MDN checkbox: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox
 
-withDefaults(
+import { ref } from "vue";
+import { useFormResetToProp } from "./form-reset";
+
+const props = withDefaults(
     defineProps<{
         /** Whether the checkbox is checked. */
         checked?: boolean;
@@ -53,6 +56,9 @@ withDefaults(
         disabled: false,
     },
 );
+
+const field = ref<HTMLInputElement | null>(null);
+useFormResetToProp(field, () => props.checked);
 </script>
 
 <template>
@@ -61,6 +67,7 @@ withDefaults(
         <label>
             <input
                 type="checkbox"
+                ref="field"
                 :checked="checked"
                 :disabled="disabled"
             />

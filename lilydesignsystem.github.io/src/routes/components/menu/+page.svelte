@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"menu\" role=\"menu\"><div class=\"menu-item\" role=\"menuitem\">Action 1</div><div class=\"menu-item\" role=\"menuitem\">Action 2</div></div>";
   const svelteSource: string = "// In your Svelte component:\nimport Menu from \"lily-design-system-svelte-headless/components/Menu/Menu.svelte\";\n\n<Menu>\n  <!-- list children -->\n</Menu>\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import Menu from \"./Menu.svelte\";\n    import MenuItem from \"../MenuItem/MenuItem.svelte\";\n<\/script>\n\n<Menu label=\"Actions\">\n    <MenuItem onclick={() => console.log(\"Cut\")}>Cut</MenuItem>\n    <MenuItem onclick={() => console.log(\"Copy\")}>Copy</MenuItem>\n    <MenuItem onclick={() => console.log(\"Paste\")}>Paste</MenuItem>\n    <MenuItem onclick={() => console.log(\"Delete\")}>Delete</MenuItem>\n</Menu>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import Menu from \"./Menu.svelte\";\n  import MenuItem from \"../MenuItem/MenuItem.svelte\";\n<\/script>\n\n<Menu label=\"Actions\">\n  <MenuItem onclick={() => console.log(\"Cut\")}>Cut</MenuItem>\n  <MenuItem onclick={() => console.log(\"Copy\")}>Copy</MenuItem>\n  <MenuItem onclick={() => console.log(\"Paste\")}>Paste</MenuItem>\n  <MenuItem onclick={() => console.log(\"Delete\")}>Delete</MenuItem>\n</Menu>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

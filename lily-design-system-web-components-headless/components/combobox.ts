@@ -42,6 +42,7 @@
 //   - WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
 
 import { applySelfClassName, moveChildrenInto, nextId } from "../lib/dom-utils.js";
+import { syncManualPopover } from "./popover.js";
 
 export class Combobox extends HTMLElement {
     static get observedAttributes(): string[] {
@@ -115,11 +116,13 @@ export class Combobox extends HTMLElement {
         }
 
         const value = this.getAttribute("value");
+        // defaultValue too: a form reset restores an input to its default, so the initial value must be it.
+        if (value !== null) input.defaultValue = value;
         if (value !== null && input.value !== value) input.value = value;
 
         const open = this.hasAttribute("open");
         input.setAttribute("aria-expanded", String(open));
-        listbox.hidden = !open;
+        syncManualPopover(listbox, open);
         if (!open) this.#setActive(null);
     }
 

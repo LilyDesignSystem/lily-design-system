@@ -41,5 +41,10 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Listbox.razor"
   },
   "docs": "https://lilydesignsystem.com/components/listbox/",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/listbox/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/listbox/AGENTS.md",
+  "nativePlatform": {
+    "decision": "hand-rolled because the APG listbox needs aria-activedescendant mode, typeahead and rich option content, and the helpers compose it inside a popup; <select size> renders only text options",
+    "uses": "none (svelte:element role=\"listbox\"; roving tabindex or aria-activedescendant)",
+    "could_use": "<select size> / <select multiple>"
+  }
 }

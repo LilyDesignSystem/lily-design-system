@@ -152,7 +152,7 @@ These are suggestions, not requirements. Replace them with your own brand palett
 
 ## Ready-made themes
 
-Don't want to write CSS from scratch? Lily ships **57 standalone reference themes** in the [themes/](https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes) directory. Each is one stylesheet targeting the Lily class hooks — link it and you're styled:
+Don't want to write CSS from scratch? Lily ships **63 standalone reference themes** in the [themes/](https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes) directory. Each is one stylesheet targeting the Lily class hooks — link it and you're styled:
 
 ```
 <link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" />
@@ -168,7 +168,7 @@ Theme selectors use `:where(...)`, so your own CSS always wins on specificity. P
 
 ## Preference helpers
 
-Each framework has eight small pickers, each its own `lily-design-system-&#123;framework&#125;-&#123;package&#125;` package (and a `picker-bar` that assembles them). Each is a headless icon-button that opens a popup — a listbox, a list of links, a search form, or (for date-time-picker) a date-picker dialog — not a native `<select>`; is SSR-safe; and ships no CSS:
+Each framework has eleven small pickers, each its own `lily-design-system-&#123;framework&#125;-&#123;package&#125;` package (and a `picker-bar` that assembles them). Each is a headless icon-button that opens a popup — a listbox, a list of links, a search form, a panel of your own content, or (for date-time-picker) a date-picker dialog — not a native `<select>` (theme-picker offers one as an opt-in variant); is SSR-safe; and ships no CSS. Besides menu-picker, settings-picker and time-zone-picker, they are:
 
 - **theme-picker** — loads theme stylesheets at runtime by swapping a managed `<link>`, sets `data-theme` on the document, and optionally persists to `localStorage`.
 - **locale-picker** — sets `lang` and `dir` (with automatic RTL detection) so your i18n library can follow; performs no translation itself.
@@ -232,7 +232,7 @@ The canonical monorepo additionally ships two [Claude Skills](https://code.claud
 
 A component renders but looks unstyled
 
-That's headless working as intended — no CSS ships with the component. Either write CSS against the component's kebab-case class (shown on every [catalog page](https://lilydesignsystem.com/components/)) or link one of the [57 ready-made themes](#themes).
+That's headless working as intended — no CSS ships with the component. Either write CSS against the component's kebab-case class (shown on every [catalog page](https://lilydesignsystem.com/components/)) or link one of the [63 ready-made themes](#themes).
 
 My CSS doesn't seem to apply over a theme
 
@@ -278,7 +278,7 @@ Open issues and PRs at [github.com/LilyDesignSystem/lily-design-system](https://
 
 Why headless instead of styled?
 
-Pre-styled components are convenient — until they don't match your brand. Headless components are slightly more work up front but give you total control over the visual design. The example apps and the 57 themes show ways to style them; you can take those or replace them entirely. The longer argument is on [Why Lily](https://lilydesignsystem.com/why/).
+Pre-styled components are convenient — until they don't match your brand. Headless components are slightly more work up front but give you total control over the visual design. The example apps and the 63 themes show ways to style them; you can take those or replace them entirely. The longer argument is on [Why Lily](https://lilydesignsystem.com/why/).
 
 Why so many components?
 

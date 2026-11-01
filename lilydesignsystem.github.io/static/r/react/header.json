@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "header",
+  "type": "registry:component",
+  "title": "Header",
+  "description": "A page or section header area.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Header.tsx",
+      "content": "import React from \"react\";\n\n// Header component\n//\n// A semantic page header landmark that renders a native <header> element for introductory\n// or navigational content. Typically positioned at the top of a page or section, it contains\n// elements like headings, navigation links, branding, search controls, or call-to-action\n// buttons. The <header> element is automatically recognized by assistive technologies as\n// the banner landmark role when it is a direct child of <body>.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, default undefined. Optional accessible name via aria-label, useful for distinguishing multiple headers.\n//   children — ReactNode, required. Content rendered inside the header element.\n//   ...restProps — additional HTML attributes spread onto the header element.\n//\n// Syntax:\n//   <Header label=\"Site header\">{children}</Header>\n//\n// Examples:\n//\n//   <Header label=\"Site header\">\n//     <h1>My Site</h1>\n//   </Header>\n//\n//\n//   <Header>\n//     <h1>Page Title</h1>\n//     <nav>\n//       <a href=\"/\">Home</a>\n//       <a href=\"/about\">About</a>\n//     </nav>\n//   </Header>\n//\n// Keyboard:\n//   - None — this is a passive container; keyboard interactions are determined by child elements\n//\n// Accessibility:\n//   - The <header> element implicitly has role=\"banner\" when a direct child of <body>\n//   - aria-label optionally provides an accessible name to distinguish multiple headers on a page\n//   - Screen reader users can navigate directly to the header via landmark navigation\n//\n// Internationalization:\n//   - The label prop allows localized accessible names; no hardcoded user-facing strings\n//   - All content comes through the children prop\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Uses semantic <header> element instead of div with role\n//\n// References:\n//   - MDN header element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/header\n//   - WAI-ARIA Banner Landmark: https://www.w3.org/WAI/ARIA/apd/practices/landmark-regions/\n\nexport interface HeaderProps {\n    className?: string;\n    label?: string;\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Header({\n    className = \"\",\n    label = undefined,\n    children,\n    ...restProps\n}: HeaderProps) {\n    return (\n        <header\n            className={`header ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </header>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Header.tsx"
+    }
+  ],
+  "categories": [
+    "navigation"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/header/"
+}

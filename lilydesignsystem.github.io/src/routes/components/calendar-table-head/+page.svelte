@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<thead class=\"calendar-table-head\"><tr class=\"calendar-table-row\"><th class=\"calendar-table-th\">Day</th></tr></thead>";
   const svelteSource: string = "// In your Svelte component:\nimport CalendarTableHead from \"lily-design-system-svelte-headless/components/CalendarTableHead/CalendarTableHead.svelte\";\n\n<CalendarTableHead>\n  <!-- CalendarTableHead content -->\n</CalendarTableHead>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import CalendarTable from '../CalendarTable/CalendarTable.svelte';\n  import CalendarTableHead from './CalendarTableHead.svelte';\n  import CalendarTableRow from '../CalendarTableRow/CalendarTableRow.svelte';\n<\/script>\n\n<CalendarTable label=\"January 2025\">\n  <CalendarTableHead>\n    <CalendarTableRow>\n      <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th>\n    </CalendarTableRow>\n  </CalendarTableHead>\n</CalendarTable>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import CalendarTable from \"../CalendarTable/CalendarTable.svelte\";\n  import CalendarTableHead from \"./CalendarTableHead.svelte\";\n  import CalendarTableRow from \"../CalendarTableRow/CalendarTableRow.svelte\";\n<\/script>\n\n<CalendarTable label=\"January 2025\">\n  <CalendarTableHead>\n    <CalendarTableRow>\n      <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th>\n    </CalendarTableRow>\n  </CalendarTableHead>\n</CalendarTable>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

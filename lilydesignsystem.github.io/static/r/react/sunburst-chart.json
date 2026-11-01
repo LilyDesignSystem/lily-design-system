@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sunburst-chart",
+  "type": "registry:component",
+  "title": "SunburstChart",
+  "description": "A radial chart showing a hierarchy as concentric rings of arcs.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/SunburstChart.tsx",
+      "content": "import React from \"react\";\n\n// SunburstChart component\n//\n// A headless wrapper for a radial chart showing a hierarchy as concentric rings of arcs. Renders a <figure> holding a\n// role=\"img\" graphic wrapper around the consumer-supplied inline <svg>. No\n// drawing happens here.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, optional. Accessible name of the chart image.\n//   children — ReactNode, required. The inline <svg> (and any extra markup).\n//   dataTable — ReactNode, optional. The accessible table alternative, rendered\n//     in <div class=\"sunburst-chart-data-table\">, a SIBLING of the role=\"img\" graphic\n//     wrapper: role=\"img\" makes descendants presentational, so a table inside\n//     it would be invisible to assistive technology.\n//   ...restProps — additional HTML attributes spread onto the <figure>\n//\n// Markup: <figure class=\"sunburst-chart\"><div class=\"sunburst-chart-graphic\" role=\"img\" aria-label>…svg…</div>[<div class=\"sunburst-chart-data-table\">…</div>]</figure>\n//\n// Keyboard:\n//   None on the graphic; the data table follows native table behaviour.\n\nexport interface SunburstChartProps {\n    className?: string;\n    /** Accessible name for the chart. */\n    label?: string;\n    /** The consumer-supplied inline svg. */\n    children: React.ReactNode;\n    /** Optional accessible data table alternative. */\n    dataTable?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function SunburstChart({\n    className = \"\",\n    label = undefined,\n    children,\n    dataTable,\n    ...restProps\n}: SunburstChartProps) {\n    return (\n        <figure\n            className={`sunburst-chart ${className}`}\n            {...restProps}\n        >\n            <div\n                className=\"sunburst-chart-graphic\"\n                role=\"img\"\n                aria-label={label}\n            >\n                {children}\n            </div>\n            {dataTable !== undefined && dataTable !== null && (\n                <div className=\"sunburst-chart-data-table\">{dataTable}</div>\n            )}\n        </figure>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/SunburstChart.tsx"
+    }
+  ],
+  "categories": [
+    "data-viz"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/sunburst-chart/"
+}

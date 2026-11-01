@@ -155,7 +155,7 @@ pnpm run dev</code></pre>
   <h2>Giao diện làm sẵn</h2>
   <p>
     Không muốn viết CSS từ đầu? Lily cung cấp
-    <strong>57 giao diện tham chiếu độc lập</strong> trong thư mục
+    <strong>63 giao diện tham chiếu độc lập</strong> trong thư mục
     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
     . Mỗi giao diện là một stylesheet nhắm vào các móc lớp của Lily — liên kết nó và bạn đã có kiểu:
   </p>
@@ -179,11 +179,7 @@ pnpm run dev</code></pre>
 
 <section class="section prose" id="helpers" style="margin: 0 auto;">
   <h2>Trợ thủ tùy chọn</h2>
-  <p>
-    Mỗi framework có tám bộ chọn nhỏ, mỗi bộ là một gói
-    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> riêng (và một <code>picker-bar</code> để lắp ráp chúng). Mỗi bộ là một nút biểu tượng headless mở ra một cửa sổ bật lên — hộp danh sách, danh sách liên kết, biểu mẫu tìm kiếm hoặc (với date-time-picker) hộp thoại chọn ngày — không phải
-    <code>&lt;select&gt;</code>gốc; an toàn SSR; và không kèm CSS:
-  </p>
+  <p>Mỗi framework có mười một bộ chọn nhỏ, mỗi bộ nằm trong gói riêng <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> (và một <code>picker-bar</code> ghép chúng lại). Mỗi bộ là một nút biểu tượng headless mở ra cửa sổ bật lên — hộp danh sách, danh sách liên kết, biểu mẫu tìm kiếm, bảng chứa nội dung của riêng bạn, hoặc (với date-time-picker) hộp thoại chọn ngày — không phải <code>&lt;select&gt;</code> gốc (theme-picker cung cấp một biến thể tùy chọn như vậy); an toàn với SSR; và không kèm CSS. Ngoài menu-picker, settings-picker và time-zone-picker, chúng là:</p>
   <ul>
     <li>
       <strong>theme-picker</strong> — tải stylesheet giao diện lúc chạy bằng cách đổi một <code>&lt;link&gt;</code>được quản lý, đặt
@@ -294,7 +290,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
     <summary>Một thành phần hiển thị nhưng trông không có kiểu</summary>
     <p>
       Đó là headless hoạt động đúng như dự định — không có CSS đi kèm thành phần. Hãy viết CSS cho lớp kebab-case của thành phần (hiển thị trên mọi <a href="/components/">trang danh mục</a>) hoặc liên kết một trong
-      <a href="#themes">57 giao diện làm sẵn</a>.
+      <a href="#themes">63 giao diện làm sẵn</a>.
     </p>
   </details>
 
@@ -383,7 +379,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
   <details class="faq-item">
     <summary>Vì sao headless chứ không phải có kiểu sẵn?</summary>
     <p>
-      Thành phần có kiểu sẵn thì tiện — cho đến khi chúng không hợp với thương hiệu của bạn. Thành phần headless đòi hỏi thêm chút công sức ban đầu nhưng trao cho bạn toàn quyền kiểm soát thiết kế hình ảnh. Các ứng dụng ví dụ và 57 giao diện cho thấy cách tạo kiểu cho chúng; bạn có thể dùng chúng hoặc thay hoàn toàn. Lập luận đầy đủ hơn nằm ở <a href="/why/">Vì sao chọn Lily</a>.
+      Thành phần có kiểu sẵn thì tiện — cho đến khi chúng không hợp với thương hiệu của bạn. Thành phần headless đòi hỏi thêm chút công sức ban đầu nhưng trao cho bạn toàn quyền kiểm soát thiết kế hình ảnh. Các ứng dụng ví dụ và 63 giao diện cho thấy cách tạo kiểu cho chúng; bạn có thể dùng chúng hoặc thay hoàn toàn. Lập luận đầy đủ hơn nằm ở <a href="/why/">Vì sao chọn Lily</a>.
     </p>
   </details>
 

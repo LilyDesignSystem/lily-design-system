@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "content-block",
+  "type": "registry:component",
+  "title": "ContentBlock",
+  "description": "A content width constraint container with named column widths.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ContentBlock.tsx",
+      "content": "import React from \"react\";\n\n// ContentBlock component\n//\n// ContentBlock for the Reuters-graphics-style article layout family. Renders a\n// <div> that consumers style; this component is a structural\n// wrapper only. Sets data-width based on the width prop so consumer CSS can target presets.\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Sets the content-block class as the styling hook\n\nexport interface ContentBlockProps {\n    className?: string;\n    /** Content width preset. */\n    width?: \"narrower\" | \"narrow\" | \"normal\" | \"wide\" | \"wider\" | \"widest\" | \"fluid\";\n    /** Component content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function ContentBlock({\n    className = \"\",\n    width = \"normal\",\n    children,\n    ...restProps\n}: ContentBlockProps) {\n    return (\n        <div\n            className={`content-block ${className}`}\n            data-width={width}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ContentBlock.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/content-block/"
+}

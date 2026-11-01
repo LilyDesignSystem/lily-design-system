@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "input-with-mask",
+  "type": "registry:component",
+  "title": "InputWithMask",
+  "description": "An input displaying a format mask placeholder for the user to fill in.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/InputWithMask.tsx",
+      "content": "import React from \"react\";\n\n// InputWithMask component\n//\n// A text input that displays a format mask placeholder (such as\n// \"(___) ___-____\" for a phone number) which the user fills in. The mask\n// is rendered as a decorative <span aria-hidden> next to the input so it\n// can be visually overlaid by consumer CSS. Accessibility relies on the\n// input's required aria-label; the mask is not part of the accessible name.\n//\n// Props:\n//   className   — string, optional. CSS class name appended to the root.\n//   label       — string, REQUIRED. aria-label for the input.\n//   mask        — string, REQUIRED. Format mask (e.g., \"(___) ___-____\").\n//   value       — string, default \"\". Input value.\n//   placeholder — string, optional. HTML placeholder.\n//   disabled    — boolean, default false.\n//   onInput     — (event: React.FormEvent<HTMLInputElement>) => void, optional.\n//   ...restProps — additional HTML attributes spread onto the root <div>.\n//\n// Syntax:\n//   <InputWithMask\n//     label=\"Phone number\"\n//     mask=\"(___) ___-____\"\n//     value={phone}\n//     onInput={(e) => setPhone((e.target as HTMLInputElement).value)}\n//   />\n//\n// Accessibility:\n//   - aria-label on the <input> is the accessible name (REQUIRED)\n//   - The mask span is decorative (aria-hidden=\"true\")\n//   - The mask is also exposed as a data-mask attribute on the root for consumer styling/JS\n//\n// Internationalization:\n//   - label is consumer-supplied for localized accessible names\n//   - mask string itself is consumer-supplied (varies by locale)\n//\n// Claude rules:\n//   - Headless: no CSS, no styles\n//   - label and mask are non-optional in the interface\n//   - The mask display is via a hidden span; consumer overlays it via CSS\n//\n// References:\n//   - USWDS Input mask: https://designsystem.digital.gov/components/input-mask/\n\nexport interface InputWithMaskProps {\n    className?: string;\n    /** aria-label for the input (required for accessibility) */\n    label: string;\n    /** Format mask, e.g. \"(___) ___-____\" */\n    mask: string;\n    /** Input value */\n    value?: string;\n    /** HTML placeholder */\n    placeholder?: string;\n    /** Whether the input is disabled */\n    disabled?: boolean;\n    /** Input change handler */\n    onInput?: (event: React.FormEvent<HTMLInputElement>) => void;\n    [key: string]: unknown;\n}\n\nexport default function InputWithMask({\n    className = \"\",\n    label,\n    mask,\n    value = \"\",\n    placeholder,\n    disabled = false,\n    onInput,\n    ...restProps\n}: InputWithMaskProps) {\n    return (\n        <div\n            className={`input-with-mask ${className}`}\n            data-mask={mask}\n            {...restProps}\n        >\n            <span\n                className=\"input-with-mask-display\"\n                aria-hidden=\"true\"\n            >\n                {mask}\n            </span>\n            <input\n                className=\"input-with-mask-control\"\n                type=\"text\"\n                aria-label={label}\n                value={value}\n                placeholder={placeholder}\n                disabled={disabled}\n                onInput={onInput}\n                onChange={() => {\n                    /* React requires onChange when value is provided */\n                }}\n            />\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/InputWithMask.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/input-with-mask/"
+}

@@ -45,6 +45,9 @@
 // References:
 //   - MDN datetime-local input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/datetime-local
 
+import { ref } from "vue";
+import { useFormReset } from "./form-reset";
+
 withDefaults(
     defineProps<{
         /** Accessible label for the input. */
@@ -67,6 +70,8 @@ withDefaults(
 );
 
 const modelValue = defineModel<string>({ default: "" });
+const field = ref<HTMLInputElement | HTMLTextAreaElement | null>(null);
+useFormReset(modelValue, field);
 </script>
 
 <template>
@@ -75,6 +80,7 @@ const modelValue = defineModel<string>({ default: "" });
         class="date-time-local-input"
         type="datetime-local"
         :aria-label="label"
+        ref="field"
         v-model="modelValue"
         :min="min"
         :max="max"

@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<dialog class=\"file-dialog\" open><p>Select a file</p></dialog>";
   const svelteSource: string = "// In your Svelte component:\nimport FileDialog from \"lily-design-system-svelte-headless/components/FileDialog/FileDialog.svelte\";\n\n<FileDialog label=\"Dialog\" open>\n  <!-- dialog content -->\n</FileDialog>\n";
-  const usageCode: string = "<FileDialog label=\"Open file\" bind:open>\n    <ul>\n        {#each files as f}<li>{f.name}</li>{/each}\n    </ul>\n    <button type=\"button\" onclick={() => open = false}>Cancel</button>\n</FileDialog>\n";
+  const usageCode: string = "<FileDialog\n  label=\"Open file\"\n  bind:open\n>\n  <ul>\n    {#each files as f}<li>{f.name}</li>{/each}\n  </ul>\n  <button\n    type=\"button\"\n    onclick={() => (open = false)}>Cancel</button\n  >\n</FileDialog>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

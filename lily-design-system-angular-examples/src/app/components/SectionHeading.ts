@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-section-heading",
     standalone: true,
-    template: `<div class="section-heading {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<header class="section-heading {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></header>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SectionHeading {

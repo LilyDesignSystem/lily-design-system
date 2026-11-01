@@ -41,6 +41,14 @@
 | `children`     | `slot`          | (required) | Detail content rendered when expanded                              |
 | `...restProps` | HTML attributes |            | Additional attributes passed to the `<details>` element            |
 
+## Native platform
+
+- Decision: native
+- Uses: <details>
+- Could use: name attribute
+- Notes: As details.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
+
 ## Acceptance Criteria
 
 - [ ] Renders <li> element with class="accordion-list-item"

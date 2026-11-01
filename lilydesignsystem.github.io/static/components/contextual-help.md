@@ -13,17 +13,20 @@ default and revealed only when the user requests it.
 ## Implementation Notes
 
 - Uses a `<div>` wrapper with class `contextual-help`
-- The trigger is a `<button class="contextual-help-trigger" type="button">` with `aria-haspopup="dialog"`
-- `expanded` reflects open state on the trigger via `aria-expanded`
-- The trigger references the panel via `aria-controls={panelId}`
-- The panel is a `<div class="contextual-help-panel" role="dialog">` and is hidden via the `hidden` attribute when closed
-- The panel id is generated stably via `useId`, `crypto.randomUUID`, or a Math.random helper
+- The trigger is a `<button class="contextual-help-trigger" type="button">` with `aria-haspopup="dialog"`, named by `label` (`aria-label`) and showing `triggerLabel` as its visible text
+- The panel is a `<div class="contextual-help-panel" role="dialog" popover="auto">`: the browser shows it in the top layer and closes it on Escape or a click outside (light dismiss)
+- The trigger opens it natively with `command="toggle-popover" commandfor={panelId}` (Chrome 135, Firefox 144, Safari 26.2) and `popovertarget={panelId}` (Chrome 114, Firefox 125, Safari 17), so the HTML and Nunjucks versions open with no script
+- `expanded` is two-way bound and reflected on the trigger via `aria-expanded`; the panel's `toggle` event keeps it in step
+- Where `showPopover` is missing (jsdom, older engines) the trigger's click toggles `expanded` and the panel's `hidden` attribute
+- The trigger references the panel via `aria-controls={panelId}`; the panel id is generated stably (`useId`, `$props.id()`, a counter)
+- Nunjucks and HTML render no static `aria-expanded` on a closed trigger, since nothing would update it without script; the browser exposes a `popovertarget` trigger's expanded state itself
 
 ## Props
 
-- `label`: string (**required**) -- aria-label for the help trigger button
-- `expanded`: boolean (default `false`) -- whether the popover is open
-- `onClick` / `onclick`: callback (optional) -- trigger click handler
+- `label`: string (**required**) -- aria-label for the help trigger button (its accessible name)
+- `triggerLabel`: string (**required**, no default) -- the trigger's visible text, such as `?` or `؟`; pass `""` when CSS draws an icon. Web Components: `trigger-label`; Blazor: `TriggerLabel`; Nunjucks also takes raw `triggerHtml`
+- `expanded`: boolean (default `false`, bindable) -- whether the popover is open
+- `onClick` / `onclick`: callback (optional) -- trigger click handler; `preventDefault()` stops the toggle
 - `children`: slot -- popover content
 - `...restProps`: any additional HTML attributes
 
@@ -32,8 +35,8 @@ default and revealed only when the user requests it.
 ```html
 <ContextualHelp
   label="Help for username"
-  expanded="{open}"
-  onClick="{handleToggle}"
+  triggerLabel="?"
+  bind:expanded={open}
 >
   <h3>Username</h3>
   <p>Use 3-20 characters. Letters, numbers, and underscores only.</p>
@@ -43,13 +46,13 @@ default and revealed only when the user requests it.
 ## Keyboard Interactions
 
 - Tab / Shift+Tab: Move focus into and out of the trigger and panel
-- Enter / Space: Activate the trigger to toggle the popover
-- Escape: (Consumer-provided) close the popover when open
+- Enter / Space: Activate the trigger to toggle the popover (the browser, through `command` / `commandfor`)
+- Escape: Close the popover (the browser, through the Popover API)
 
 ## ARIA
 
 - Trigger: `aria-label`, `aria-haspopup="dialog"`, `aria-expanded`, `aria-controls={panelId}`
-- Panel: `role="dialog"`, `id={panelId}`, `hidden` when closed
+- Panel: `role="dialog"`, `id={panelId}`, `popover="auto"`
 
 ## When to Use
 
@@ -65,9 +68,9 @@ default and revealed only when the user requests it.
 
 ## Headless
 
-Renders a `<button>` trigger and a `<div role="dialog">` panel linked by
-`aria-controls`. Open/close state, positioning relative to the trigger,
-animation, and visual treatment are entirely the consumer's responsibility.
+Renders a `<button>` trigger and a `<div role="dialog" popover="auto">` panel linked by `aria-controls` and
+`commandfor`. The browser owns open, Escape and light dismiss. Positioning relative to the trigger (CSS anchor
+positioning works well), animation, the trigger glyph and all visual treatment are the consumer's.
 
 ## Styles
 
@@ -78,17 +81,16 @@ indicator on the trigger and ensure the panel is reachable by keyboard.
 ## Testing
 
 - Verify the wrapper renders a `<div>` with class `contextual-help`
-- Verify the trigger renders a `<button>` with `aria-label={label}`
-- Verify the trigger has `aria-haspopup="dialog"`
-- Verify `aria-expanded` on the trigger reflects `expanded`
-- Verify `aria-controls` on the trigger matches the panel id
-- Verify the panel renders with `role="dialog"` and the matching id
-- Verify the panel uses `hidden` when `expanded` is `false`
+- Verify the trigger renders a `<button>` with `aria-label={label}` and the text `triggerLabel`
+- Verify the trigger has `aria-haspopup="dialog"`, `aria-controls`, `command="toggle-popover"`, `commandfor` and `popovertarget` naming the panel
+- Verify `aria-expanded` on the trigger reflects `expanded`, and follows the panel's `toggle` event
+- Verify the panel renders with `role="dialog"`, `popover="auto"` and the matching id
+- Verify the `hidden` fallback where the Popover API is missing
 - Verify the panel id is stable
 
 ## Advice
 
-- **Designers**: Use a recognizable help affordance (e.g., a question mark in a circle); do not rely on color alone.
+- **Designers**: Use a recognizable help affordance (e.g., a question mark in a circle, written in the reader's script: `؟` in Arabic); do not rely on color alone.
 - **Developers**: Generate panel ids server-side or with `useId` to remain hydration-stable.
 
 ## Related components

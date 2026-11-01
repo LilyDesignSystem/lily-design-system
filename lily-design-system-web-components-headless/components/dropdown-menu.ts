@@ -32,7 +32,8 @@
 //   - WAI-ARIA menu role: https://www.w3.org/TR/wai-aria-1.2/#menu
 //   - WAI-ARIA menuitem role: https://www.w3.org/TR/wai-aria-1.2/#menuitem
 
-import { applySelfClassName, moveChildrenInto } from "../lib/dom-utils.js";
+import { applySelfClassName, moveChildrenInto, nextId } from "../lib/dom-utils.js";
+import { popoverSupported, syncPopover, toggleOpened } from "./popover.js";
 
 export class DropdownMenu extends HTMLElement {
     static get observedAttributes(): string[] {
@@ -43,6 +44,7 @@ export class DropdownMenu extends HTMLElement {
     #wasOpen = false;
     #button: HTMLButtonElement | null = null;
     #menu: HTMLDivElement | null = null;
+    #menuId = nextId("lily-dropdown-menu");
 
     connectedCallback(): void {
         if (!this.#built) {
@@ -51,11 +53,21 @@ export class DropdownMenu extends HTMLElement {
 
             const button = document.createElement("button");
             button.type = "button";
+            // popover="auto" (tasks.md P18-T11): command="toggle-popover" opens and closes the menu, Escape and light
+            // dismiss come from the browser, and the toggle event writes `open` back. Without the API the click
+            // toggles `open` and syncPopover sets `hidden`.
+            button.setAttribute("aria-controls", this.#menuId);
+            button.setAttribute("command", "toggle-popover");
+            button.setAttribute("commandfor", this.#menuId);
+            button.setAttribute("popovertarget", this.#menuId);
             button.addEventListener("click", this.#onToggle);
 
             const menu = document.createElement("div");
+            menu.id = this.#menuId;
             menu.setAttribute("role", "menu");
+            menu.setAttribute("popover", "auto");
             menu.addEventListener("keydown", this.#onKeydown);
+            menu.addEventListener("toggle", this.#onPopoverToggle);
 
             moveChildrenInto(this, menu);
             this.appendChild(button);
@@ -83,7 +95,7 @@ export class DropdownMenu extends HTMLElement {
 
         const open = this.hasAttribute("open");
         button.setAttribute("aria-expanded", open ? "true" : "false");
-        menu.hidden = !open;
+        syncPopover(menu, open);
 
         if (open && !this.#wasOpen) {
             menu.querySelector<HTMLElement>("[role='menuitem']")?.focus();
@@ -96,7 +108,11 @@ export class DropdownMenu extends HTMLElement {
     }
 
     #onToggle = (): void => {
-        this.toggleAttribute("open");
+        if (this.#menu && !popoverSupported(this.#menu)) this.toggleAttribute("open");
+    };
+
+    #onPopoverToggle = (event: Event): void => {
+        this.toggleAttribute("open", toggleOpened(event));
     };
 
     #onKeydown = (event: KeyboardEvent): void => {

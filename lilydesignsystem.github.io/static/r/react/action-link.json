@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "action-link",
+  "type": "registry:component",
+  "title": "ActionLink",
+  "description": "A hyperlink styled as an action trigger.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ActionLink.tsx",
+      "content": "import React from \"react\";\n\n// ActionLink component\n//\n// A headless action link that renders a semantic <a> element for prominent\n// navigation actions. Inspired by the NHS England action link pattern.\n// Use when you want to draw attention to a key navigational step, such as\n// \"Continue to next step\", \"Find a service near you\", or \"Start application\",\n// distinguishing these from standard inline text links.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   href     — string, required. The URL the link points to.\n//   label    — string, optional. Accessible label override via aria-label\n//              for when visible link text is insufficient for screen readers.\n//   children — ReactNode, required. The link content (text or mixed content).\n//   ...restProps — additional HTML anchor attributes spread onto <a>.\n//\n// Syntax:\n//   <ActionLink href=\"/path\">Link text</ActionLink>\n//\n// Examples:\n//\n//   <ActionLink href=\"/next-step\">Continue to next step</ActionLink>\n//\n//\n//   <ActionLink href=\"/find\" label=\"Find a GP surgery near you\">\n//     Find a GP\n//   </ActionLink>\n//\n//\n//   <ActionLink href=\"/apply\" data-track=\"apply-cta\">\n//     Start your application\n//   </ActionLink>\n//\n// Keyboard:\n//   - Tab: Focus the link (native browser behavior)\n//   - Enter: Activate the link (native browser behavior)\n//\n// Accessibility:\n//   - Implicit link role from the <a> element\n//   - aria-label provides screen reader override when link text is insufficient\n//   - Ensure link text clearly describes the destination or action\n//\n// Internationalization:\n//   - All text content comes through children prop and label prop\n//   - No hardcoded strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Always require href prop; do not use <a> without href\n//   - Do not add icons or visual indicators; consumer provides those\n//\n// References:\n//   - NHS England action link pattern\n//   - WAI-ARIA link role: https://www.w3.org/TR/wai-aria-1.2/#link\n\nexport interface ActionLinkProps {\n    className?: string;\n    /** The URL the link points to */\n    href: string;\n    /** Accessible label override for screen readers */\n    label?: string;\n    /** The link content (text, icons, etc.) */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function ActionLink({\n    className = \"\",\n    href,\n    label = undefined,\n    children,\n    ...restProps\n}: ActionLinkProps) {\n    return (\n        <a\n            className={`action-link ${className}`}\n            href={href}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </a>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ActionLink.tsx"
+    }
+  ],
+  "categories": [
+    "links"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/action-link/"
+}

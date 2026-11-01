@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-info-state",
     standalone: true,
-    template: `<div class="info-state {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<section class="info-state {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></section>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InfoState {

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "go-to-top",
+  "type": "registry:component",
+  "title": "GoToTop",
+  "description": "A link that returns users to the top of a long page.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/GoToTop.tsx",
+      "content": "export interface GoToTopProps {\n    className?: string;\n    label?: string;\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function GoToTop({\n    className = \"\",\n    label = undefined,\n    children,\n    ...restProps\n}: GoToTopProps) {\n    return (\n        <a\n            className={`go-to-top ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </a>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/GoToTop.tsx"
+    }
+  ],
+  "categories": [
+    "links"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/go-to-top/"
+}

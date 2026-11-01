@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"section-heading\" aria-label=\"a styled heading introducing a major content section, with optional eyebrow and subtitle\">SectionHeading</div>";
   const svelteSource: string = "// In your Svelte component:\nimport SectionHeading from \"lily-design-system-svelte-headless/components/SectionHeading/SectionHeading.svelte\";\n\n<SectionHeading>\n  <!-- content -->\n</SectionHeading>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import SectionHeading from './SectionHeading.svelte';\n<\/script>\n\n<SectionHeading\n  eyebrow=\"Updates\"\n  heading=\"Latest news\"\n  subtitle=\"What we shipped this week\"\n  level={2}\n/>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import SectionHeading from \"./SectionHeading.svelte\";\n<\/script>\n\n<SectionHeading\n  eyebrow=\"Updates\"\n  heading=\"Latest news\"\n  subtitle=\"What we shipped this week\"\n  level={2}\n/>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

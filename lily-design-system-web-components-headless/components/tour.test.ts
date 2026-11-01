@@ -28,11 +28,38 @@ describe("Tour", () => {
         expect(host.getAttribute("aria-label")).toBe("Patient record system walkthrough");
     });
 
-    test("does not set role=dialog or aria-modal (owned by TourList, not Tour)", () => {
+    test("is a non-modal role=dialog with tabindex -1, like Svelte (no aria-modal)", () => {
+        const host = render('<lily-tour label="Getting started" active></lily-tour>');
+
+        expect(host.getAttribute("role")).toBe("dialog");
+        expect(host.hasAttribute("aria-modal")).toBe(false);
+        expect(host.tabIndex).toBe(-1);
+    });
+
+    test("is hidden until active, and shown while active", () => {
         const host = render('<lily-tour label="Getting started"></lily-tour>');
 
-        expect(host.hasAttribute("role")).toBe(false);
-        expect(host.hasAttribute("aria-modal")).toBe(false);
+        expect(host.hidden).toBe(true);
+        host.setAttribute("active", "");
+        expect(host.hidden).toBe(false);
+    });
+
+    test("Escape removes active and dispatches lily-close", () => {
+        const host = render(
+            '<lily-tour label="Getting started" active><button>Next</button></lily-tour>',
+        );
+        let closed = 0;
+        host.addEventListener("lily-close", () => closed++);
+
+        host.querySelector("button")!.dispatchEvent(
+            new KeyboardEvent("keydown", { key: "Escape", bubbles: true }),
+        );
+
+        expect(host.hasAttribute("active")).toBe(false);
+        expect(host.hidden).toBe(true);
+        expect(closed).toBe(1);
+        host.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+        expect(closed).toBe(1);
     });
 
     test("preserves consumer-supplied children (typically a TourList)", () => {

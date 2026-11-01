@@ -39,6 +39,14 @@
 - `children`: slot (required) -- listbox content, typically option or command items
 - `...restProps`: any additional HTML attributes spread onto the outer `<div>`
 
+## Native platform
+
+- Decision: hand-rolled because a filtered listbox driven from a search input has no native element
+- Uses: native <input> in div role="search"; div role="listbox"
+- Could use: <dialog> showModal() around it for a Ctrl+K palette
+- Notes: Not an overlay; compose with dialog for the palette case.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
+
 ## Acceptance Criteria
 
 - [ ] Renders <div> element with class="command"

@@ -42,7 +42,7 @@ import {
 } from "@lilydesignsystem/nunjucks-share-picker";
 
 /**
- * All 57 Lily reference theme slugs, in the same order as
+ * All 63 Lily reference theme slugs, in the same order as
  * `DEFAULT_THEMES` in picker-bar.njk. A Nunjucks macro cannot import a
  * JS constant, so the two copies are held in agreement by a test
  * rather than by delegation — the same pattern this catalog already
@@ -56,10 +56,13 @@ export const DEFAULT_THEMES = [
     "ant-design",
     "aqua",
     "atlassian",
+    "australia-agriculture-design-system",
     "autumn",
     "black",
+    "brazil-padrao-digital-de-governo",
     "bumblebee",
     "business",
+    "canada-government-of-canada-design-system",
     "cappuccino",
     "caramellatte",
     "cmyk",
@@ -71,6 +74,7 @@ export const DEFAULT_THEMES = [
     "dim",
     "dracula",
     "emerald",
+    "european-union-europa-component-library",
     "excel",
     "fantasy",
     "fluent",
@@ -79,6 +83,7 @@ export const DEFAULT_THEMES = [
     "github-primer",
     "halloween",
     "ibm-carbon",
+    "japan-digital-agency-design-system",
     "lemonade",
     "light",
     "linear",
@@ -93,6 +98,7 @@ export const DEFAULT_THEMES = [
     "salesforce",
     "sap-fiori",
     "silk",
+    "singapore-government-design-system",
     "sunset",
     "synthwave",
     "valentine",

@@ -24,7 +24,7 @@
 
 A Claude Skill explaining how to consume the
 [the Angular helper packages](../spec/helpers/index.md#angular-helper-packages)
-catalog: six opinionated Angular packages
+packages: 20 opinionated Angular packages
 (`@lilydesignsystem/angular-theme-picker`,
 `-locale-picker`, `-text-size-picker`, `-motion-picker`, `-share-picker`,
 `-date-time-picker`) that each own one complete interaction end to end,
@@ -45,7 +45,7 @@ requires in place of a parenthesised TypeScript cast.
 ## What this subproject is, and isn't
 
 - **Is**: a distributable skill scoped to _consuming_
-  `lily-design-system-angular-helpers` — installing each of the six
+  `lily-design-system-angular-helpers` — installing each of the
   packages, their shared and individual contracts, the Angular
   standalone-component/signal idiom, and SSR/idempotent-apply behaviour —
   portable to any Angular project that depends on Lily even outside this

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tag-group",
+  "type": "registry:component",
+  "title": "TagGroup",
+  "description": "A group of tag elements.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/TagGroup.tsx",
+      "content": "import React from \"react\";\n\n// TagGroup component\n//\n// A headless container for a collection of related tags. Renders a <div>\n// with the ARIA group role and an accessible label to semantically associate\n// tag elements, making the collection understandable to assistive technologies.\n// Useful for displaying categories, skills, technologies, or any set of labels\n// that belong together.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name for the group via aria-label.\n//   children — ReactNode, required. Tag elements to render inside the group.\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Syntax:\n//   <TagGroup label=\"Technologies\">...</TagGroup>\n//\n// Examples:\n//\n//   <TagGroup label=\"Technologies\">\n//     <Tag label=\"Technology\">React</Tag>\n//     <Tag label=\"Technology\">TypeScript</Tag>\n//   </TagGroup>\n//\n// Keyboard:\n//   - None -- passive container; keyboard behavior depends on child elements\n//\n// Accessibility:\n//   - role=\"group\" identifies the container as a semantic grouping of related elements\n//   - aria-label={label} provides an accessible name describing the tag collection\n//\n// Internationalization:\n//   - The label prop accepts any translated string\n//   - No hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles -- consumer provides all styling\n//   - Consumer provides individual Tag elements as children\n//\n// References:\n//   - WAI-ARIA group role: https://www.w3.org/TR/wai-aria-1.2/#group\n\nexport interface TagGroupProps {\n    className?: string;\n    /** Accessible label. */\n    label: string;\n    /** Tag elements. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function TagGroup({ className = \"\", label, children, ...restProps }: TagGroupProps) {\n    return (\n        <div\n            className={`tag-group ${className}`}\n            role=\"group\"\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/TagGroup.tsx"
+    }
+  ],
+  "categories": [
+    "forms"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/tag-group/"
+}

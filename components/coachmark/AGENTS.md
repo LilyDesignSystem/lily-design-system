@@ -17,7 +17,7 @@
 - Renders description (optional) in <p class="coachmark-description"> and links via aria-describedby
 - Generates stable ids for title and description (useId / crypto.randomUUID / Math.random)
 - Renders a dismiss button with aria-label={dismissLabel}
-- Sets the hidden attribute on the container when `open` is false
+- The container is `popover="manual"`, shown while `open` (the hidden attribute where the Popover API is missing)
 - Calls `onDismiss` when the dismiss button is activated
 
 ## ARIA
@@ -26,7 +26,7 @@
 - `aria-modal="false"` (non-blocking)
 - `aria-labelledby` referencing the title id
 - `aria-describedby` referencing the description id, only when description is provided
-- `hidden` attribute reflects `!open`
+- `popover="manual"` shown while `open`; `hidden` where the Popover API is missing
 - Dismiss button has `aria-label` via `dismissLabel`
 
 ## Keyboard
@@ -43,6 +43,14 @@
 - `dismissLabel`: string (REQUIRED)
 - `onDismiss` / `ondismiss`: callback (optional)
 - `...restProps`: any additional HTML attributes
+
+## Native platform
+
+- Decision: native
+- Uses: div role="dialog" aria-modal="false" popover="manual" shown from the open state
+- Could use: CSS anchor positioning to the spotlighted feature (consumer sets position-anchor)
+- Notes: P16-T4 (2026-10-31): in Svelte, React, Vue, HTML, Alpine and Web Components, and Angular and Blazor where the component has the state (Angular: combobox, mentions-input, popconfirm-dialog, tree-select; Blazor: combobox; the rest are static stubs), always rendered with popover="manual". Nunjucks keeps the hidden attribute: its macros render the state on the server and have no script to call showPopover(), and a manual popover cannot be open in server-rendered HTML. Always rendered with popover="manual" and opened by the state through Popover/popover.ts, with the hidden attribute where the Popover API is missing (jsdom, older engines). Top layer removes z-index and overflow clipping; Escape and light dismiss stay the consumer's. manual, not auto: an onboarding step must not close on a stray click. Placement belongs in theme CSS (position-anchor).
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
 
 ## Acceptance Criteria
 

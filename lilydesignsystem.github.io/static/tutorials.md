@@ -22,7 +22,7 @@ New to headless components? You're in the right place — each tutorial explains
 
 1. **Your first component** (~5 minutes) — pick your framework below, get the code, and render a Button.
 2. **Compose and style** (~5 minutes) — build a labelled form and style it against the kebab-case class hooks (part of each framework tutorial).
-3. **Theme it** (~15 minutes) — swap your hand-written CSS for one of the 57 ready-made themes, then let users switch at runtime: [theming tutorial](https://lilydesignsystem.com/tutorials/theming/).
+3. **Theme it** (~15 minutes) — swap your hand-written CSS for one of the 63 ready-made themes, then let users switch at runtime: [theming tutorial](https://lilydesignsystem.com/tutorials/theming/).
 4. **Respect preferences** (~15 minutes) — add language and text-size selection with the preference helpers: [helpers tutorial](https://lilydesignsystem.com/tutorials/helpers/).
 
 ## Pick your framework
@@ -93,7 +93,7 @@ Torn between them? Start with [HTML](https://lilydesignsystem.com/tutorials/html
 
 ### Theming
 
-Link one of 57 ready-made themes — NHS, GOV.UK, USWDS, light, dark, and more — override it with your own CSS, and add runtime theme switching with the theme-picker helper.
+Link one of 63 ready-made themes — NHS, GOV.UK, USWDS, light, dark, and more — override it with your own CSS, and add runtime theme switching with the theme-picker helper.
 
 ~15 minutes
 
@@ -110,5 +110,5 @@ Give users control of theme, language, text size, motion, search, page links, sh
 ## After the tutorials
 
 - Browse the [component catalog](https://lilydesignsystem.com/components/) — every component documents its props, ARIA contract, and keyboard behaviour.
-- Clone an [example app](https://lilydesignsystem.com/examples/) to see all 582 components styled and working together — the CSS targets the same class hooks you just used, so copy any of it into your project and adjust it as you wish.
+- Clone an [example app](https://lilydesignsystem.com/examples/) to see all 607 components styled and working together — the CSS targets the same class hooks you just used, so copy any of it into your project and adjust it as you wish.
 - Questions? The [help page](https://lilydesignsystem.com/help/) has answers, an FAQ, and ways to reach a friendly human. And if a tutorial could be clearer, [tell us](https://github.com/LilyDesignSystem) — we'll gladly improve it.

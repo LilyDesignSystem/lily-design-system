@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
+import { restoreOnFormReset } from "./form-reset";
 
 /**
  * AustraliaIndividualHealthcareIdentifierInput — an input for entering Australia's Individual Healthcare Identifier (IHI)
@@ -33,4 +34,8 @@ export class AustraliaIndividualHealthcareIdentifierInput {
     readonly required = input<boolean>(false);
     /** Whether the input is disabled. */
     readonly disabled = input<boolean>(false);
+
+    constructor() {
+        restoreOnFormReset(this.value);
+    }
 }

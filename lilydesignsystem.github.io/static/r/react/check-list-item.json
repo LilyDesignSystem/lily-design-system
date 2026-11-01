@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "check-list-item",
+  "type": "registry:component",
+  "title": "CheckListItem",
+  "description": "One check list item component with a checkbox.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/CheckListItem.tsx",
+      "content": "import React from \"react\";\n\n// CheckListItem component\n//\n// A single item within a CheckList. Renders as an <li> containing a\n// checkbox <input> and a <label> for the item text. Supports checked\n// and disabled states. Designed for use inside a CheckList <ol>.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   checked — boolean, default false. Whether the checkbox is checked.\n//   disabled — boolean, default false. Whether the checkbox is disabled.\n//   children — ReactNode, required. The label content for this item.\n//   ...restProps — additional HTML attributes spread onto the <li>.\n//\n// Syntax:\n//   <CheckListItem>Task one</CheckListItem>\n//\n// Examples:\n//\n//   <CheckListItem checked>Create account</CheckListItem>\n//\n//\n//   <CheckListItem disabled>Locked step</CheckListItem>\n//\n// Keyboard:\n//   - Space: toggles the checkbox when focused\n//   - Tab: moves focus to the next focusable element\n//\n// Accessibility:\n//   - Native <input type=\"checkbox\"> provides built-in accessibility\n//   - <label> wraps the checkbox and text for a larger click target\n//   - disabled attribute prevents interaction when set\n//\n// Internationalization:\n//   - Item text comes through children prop; no hardcoded strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Must be used inside a CheckList component (which provides the <ol>)\n//\n// References:\n//   - MDN checkbox: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox\n\nexport interface CheckListItemProps {\n    className?: string;\n    /** Whether the checkbox is checked. */\n    checked?: boolean;\n    /** Whether the checkbox is disabled. */\n    disabled?: boolean;\n    /** Item label content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function CheckListItem({\n    className = \"\",\n    checked = false,\n    disabled = false,\n    children,\n    ...restProps\n}: CheckListItemProps) {\n    return (\n        <li\n            className={`check-list-item ${className}`}\n            {...restProps}\n        >\n            <label>\n                <input\n                    type=\"checkbox\"\n                    checked={checked}\n                    disabled={disabled}\n                    readOnly\n                />\n                {children}\n            </label>\n        </li>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/CheckListItem.tsx"
+    }
+  ],
+  "categories": [
+    "lists"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/check-list-item/"
+}

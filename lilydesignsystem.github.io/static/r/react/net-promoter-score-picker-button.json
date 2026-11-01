@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "net-promoter-score-picker-button",
+  "type": "registry:component",
+  "title": "NetPromoterScorePickerButton",
+  "description": "A picker button for selecting a 0-10 Net Promoter Score.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/NetPromoterScorePickerButton.tsx",
+      "content": "import React from \"react\";\n\n// NetPromoterScorePickerButton component\n//\n// A headless button representing one score in a Net Promoter Score picker.\n// Renders a <button> with aria-pressed to indicate the selected state and\n// data-value for consumer CSS targeting. Each button represents a score (0-10)\n// in the NPS scale. Commonly used in customer loyalty surveys and feedback forms.\n//\n// Props:\n//   value — number, required. The NPS score value (0-10).\n//   label — string, required. Accessible name for the button.\n//   selected — boolean, default false. Whether this score is currently selected.\n//   disabled — boolean, default false. Whether the button is disabled.\n//   onClick — (event: React.MouseEvent) => void, optional. Click handler.\n//   ...restProps — additional HTML attributes spread onto the <button>.\n//\n// Syntax:\n//   <NetPromoterScorePickerButton value={9} label=\"9\" onClick={handleSelect} />\n//\n// Examples:\n//\n//   <NetPromoterScorePickerButton value={10} label=\"10\" selected={true} onClick={handleSelect} />\n//\n//   <NetPromoterScorePickerButton value={0} label=\"0\" disabled={true} />\n//\n// Keyboard:\n//   - Tab: Move focus to the button\n//   - Enter: Activate the button (native button behavior)\n//   - Space: Activate the button (native button behavior)\n//\n// Accessibility:\n//   - aria-label provides an accessible name for the button\n//   - aria-pressed indicates whether the score is currently selected\n//   - data-value exposes the score for consumer CSS selectors\n//\n// Internationalization:\n//   - The label prop provides the accessible name; no hardcoded strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Compound component: used as a child within NetPromoterScorePicker\n//   - Consumer can use [data-value] CSS selectors for score-based styling\n//\n// References:\n//   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/\n//   - Net Promoter Score: https://en.wikipedia.org/wiki/Net_promoter_score\n\nexport interface NetPromoterScorePickerButtonProps {\n    className?: string;\n    /** The NPS score value (0-10). */\n    value: number;\n    /** Accessible name for the button. */\n    label: string;\n    /** Whether this score is currently selected. */\n    selected?: boolean;\n    /** Whether the button is disabled. */\n    disabled?: boolean;\n    /** Click handler. */\n    onClick?: (event: React.MouseEvent) => void;\n    [key: string]: unknown;\n}\n\nexport default function NetPromoterScorePickerButton({\n    className = \"\",\n    value,\n    label,\n    selected = false,\n    disabled = false,\n    onClick = undefined,\n    ...restProps\n}: NetPromoterScorePickerButtonProps) {\n    return (\n        <button\n            className={`net-promoter-score-picker-button ${className}`}\n            type=\"button\"\n            aria-label={label}\n            aria-pressed={selected}\n            disabled={disabled}\n            data-value={value}\n            onClick={onClick}\n            {...restProps}\n        >\n            {label}\n        </button>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/NetPromoterScorePickerButton.tsx"
+    }
+  ],
+  "categories": [
+    "pickers"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/net-promoter-score-picker-button/"
+}

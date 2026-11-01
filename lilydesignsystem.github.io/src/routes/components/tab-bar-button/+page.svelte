@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div role=\"tablist\" aria-label=\"Sections\"><button class=\"tab-bar-button\" role=\"tab\" aria-selected=\"true\">Tab</button></div>";
   const svelteSource: string = "// In your Svelte component:\nimport TabBarButton from \"lily-design-system-svelte-headless/components/TabBarButton/TabBarButton.svelte\";\n\n<TabBarButton>TabBarButton</TabBarButton>\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import TabBar from \"../TabBar/TabBar.svelte\";\n    import TabBarButton from \"./TabBarButton.svelte\";\n    let active = $state(\"general\");\n<\/script>\n\n<TabBar label=\"Settings\">\n    <TabBarButton\n        selected={active === \"general\"}\n        controls=\"panel-general\"\n        onclick={() => (active = \"general\")}\n    >General</TabBarButton>\n    <TabBarButton\n        selected={active === \"advanced\"}\n        controls=\"panel-advanced\"\n        onclick={() => (active = \"advanced\")}\n    >Advanced</TabBarButton>\n</TabBar>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import TabBar from \"../TabBar/TabBar.svelte\";\n  import TabBarButton from \"./TabBarButton.svelte\";\n  let active = $state(\"general\");\n<\/script>\n\n<TabBar label=\"Settings\">\n  <TabBarButton\n    selected={active === \"general\"}\n    controls=\"panel-general\"\n    onclick={() => (active = \"general\")}>General</TabBarButton\n  >\n  <TabBarButton\n    selected={active === \"advanced\"}\n    controls=\"panel-advanced\"\n    onclick={() => (active = \"advanced\")}>Advanced</TabBarButton\n  >\n</TabBar>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

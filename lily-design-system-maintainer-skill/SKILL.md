@@ -14,19 +14,21 @@ the canonical monorepo with `spec/index.md` as the living specification and
 
 ## Repository shape
 
-- **144 implementation subprojects**: 8 headless libraries (HTML, Svelte, React, Vue, Angular,
-  Blazor, Nunjucks and Web Components), 7 example apps and 129 helper packages, one top-level
-  subproject each (`bin/list-helper-packages <framework>` lists a framework's, in build order). Packages
+- **184 implementation subprojects**: 9 headless libraries (HTML, Svelte, React, Vue, Angular,
+  Blazor and Nunjucks at 607/607, Web Components at 572/607, Alpine.js at 607/607), 8 example apps
+  (one per framework except Web Components) and 167 helper packages (20 per framework, 21 in
+  Nunjucks, 6 in Alpine), one top-level subproject each (`bin/list-helper-packages <framework>` lists a framework's, in build order). Packages
   publish from this monorepo; the per-subproject subtree mirrors were deleted 2026-10-10 and only the docs
   site is still pushed to its own repository (`make github-pages`). Directory names all start with the
   `lily-design-system-` prefix, which is exactly what `bin/list-implementations` and
-  `bin/sync-special-files` scope on. Beside them: 27 Claude Skills, `lily-design-system-themes` and
-  `lilydesignsystem.github.io` (172 subprojects in all).
-- **582 component directories** under `components/{slug}/`.
+  `bin/sync-special-files` scope on. Beside them: 27 Claude Skills, `lily-design-system-themes`,
+  `lily-design-system-locale-translations` and `lilydesignsystem.github.io`
+  (`bin/list-implementations` prints the 213 `lily-design-system-*` directories).
+- **607 component directories** under `components/{slug}/`.
 - **Root canon**: `components.tsv` (the catalog), `css-style-sheet-template.css`
   (one class hook per component), `AGENTS/*.md` (design-principle rules,
   loaded into every subproject's own `AGENTS.md` via `@AGENTS/{file}.md`),
-  `themes/` (57 reference stylesheets), `spec/` (the specification, entered
+  `themes/` (63 reference stylesheets), `spec/` (the specification, entered
   via `spec/index.md`).
 
 ## Required files, and how to get them right the first time
@@ -36,17 +38,17 @@ Don't hand-write these — scaffold, then fill in content.
 **Per subproject** (`bin/create-implementation-directory {name}`):
 `index.md`, `README.md` (symlink → `index.md`), `AGENTS.md`, `spec/index.md`.
 (`CLAUDE.md` was retired 2026-09-19; `AGENTS.md` is the single AI-instruction file.) Then the 14 "special
-files" a public project needs — LICENSE.md, CITATION.cff, NEWS.md,
-COMPARE.md, BENCHMARKS.md, INSTALL.md, CONTRIBUTING.md, CODEOWNERS,
-MAINTAINERS.md, CHANGELOG.md, AI_STATEMENT.md, GOVERNANCE.md, SECURITY.md,
-CODE_OF_CONDUCT.md, RFC.md — propagated by `bin/sync-special-files`, which
+files" a public project needs — 12 copied (LICENSE.md, NEWS.md, COMPARE.md, BENCHMARKS.md,
+CONTRIBUTING.md, CODEOWNERS, MAINTAINERS.md, AI_STATEMENT.md, GOVERNANCE.md, SECURITY.md,
+CODE_OF_CONDUCT.md, RFC.md) and 2 generated per subproject (CITATION.cff, INSTALL.md) — propagated by `bin/sync-special-files`, which
 auto-discovers any dir matching `lily-design-system-*`. Run it after
 scaffolding a new subproject; it's idempotent, so running it again later is
-always safe. Full contract: [spec/special-files-for-public-repos/index.md](../spec/special-files-for-public-repos/index.md).
+always safe. Each subproject keeps its own CHANGELOG.md. Full contract: [spec/special-files-for-public-repos/index.md](../spec/special-files-for-public-repos/index.md).
 
 **Per component** (`bin/create-component-directory {slug}`): `index.md`
-(When to Use / When Not to Use / Usage / Props / ARIA / Keyboard /
-References, in that order — see `spec/index.md §8`), `README.md` (symlink),
+(title and description, then Implementation Notes, Props, Usage, Keyboard Interactions, ARIA,
+When to Use, When Not to Use, Headless, Styles, Testing, Advice, Related components, References —
+the order in `spec/index.md §8`), `README.md` (symlink),
 `AGENTS.md` (canonical machine-readable metadata: HTML tag, ARIA, keyboard,
 props — the single source of truth the headless implementations conform
 to), `spec/index.md`.
@@ -58,7 +60,7 @@ directory.
 ## Adding a component to the catalog
 
 The fast path is `bin/new-component {slug} "description"`: it adds the `components.tsv` row, the
-docs directory, the CSS hook, a **placeholder** in all seven scaffolded headless libraries (plus
+docs directory, the CSS hook, a **placeholder** in the seven full-catalog headless libraries (plus
 tests and stories), the two example apps `bin/test` verifies, and the docs-site route, then runs
 `bin/generate-component-categories`, `bin/generate-registries`, `bin/generate-examples`,
 `bin/generate-site-pages` and `bin/generate-api-docs`. Then replace the placeholders:
@@ -67,7 +69,7 @@ tests and stories), the two example apps `bin/test` verifies, and the docs-site 
    standards (framework-agnostic guidance, a named Lily alternative in "When Not to Use",
    semantic-HTML + ARIA in the usage example, no hardcoded strings). `index.md`'s `## Usage` block
    is what the demonstration pages show, so make it a real example.
-2. Implement in all 8 headless libraries, following [`AGENTS/headless.md`](../AGENTS/headless.md):
+2. Implement in all 9 headless libraries (Alpine is a snippet in `lily-design-system-alpine-headless/components/{slug}.html`), following [`AGENTS/headless.md`](../AGENTS/headless.md):
    most-specific semantic element first, kebab-case base class + consumer class hook as the first
    root attribute, rest-props spread on the root, zero CSS, ARIA/keyboard baked in per the
    component's `AGENTS.md` contract. Svelte is canonical (`components/` in the headless library, plus the SvelteKit examples
@@ -79,7 +81,7 @@ tests and stories), the two example apps `bin/test` verifies, and the docs-site 
    `component-variants.json` where the component has meaningful ones (avoid element ids); re-run
    `bin/generate-registries`, `bin/generate-examples`, `bin/generate-site-pages`,
    `bin/generate-api-docs`.
-5. Style it in the 45 themes (one block before the tooltip marker, `:where(...)` selectors) if the
+5. Style it in the 63 themes (one block before the tooltip marker, `:where(...)` selectors) if the
    component needs more than the browser default; `bin/check-theme` must stay green.
 6. Update the pinned counts that a new component moves: `bin/smoke-packages` (three), `spec/index.md`
    §5, the Web Components `index.test.ts`, and add a CHANGELOG entry.
@@ -98,17 +100,17 @@ tests and stories), the two example apps `bin/test` verifies, and the docs-site 
 | `test`                                                           | Verify required files + catalog consistency + per-framework coverage across the whole repo. Exits non-zero on failure. Run this before every commit.                                                                 |
 | `sync`                                                           | rsync shared root files (`AGENTS.md`, `AGENTS/*.md`, …) into every subproject — not symlinks, because a copy stays correct when a subproject is packaged or copied out on its own                                    |
 | `sync-special-files`                                             | Propagate the 12 copied + 2 generated (`CITATION.cff`, `INSTALL.md`) special files into every `lily-design-system-*` subproject. Idempotent.                                                                         |
-| `update`                                                         | Update shared files.                                                                                                                                                                                                 |
+| `update`                                                         | Start Claude Code with a standing "update, upgrade, fix, harmonize, audit, test" prompt over every subproject.                                                                                                      |
 | `generate-registries`                                            | Regenerate every example app's component registry from `components.tsv` + the canonical demo map.                                                                                                                    |
 | `generate-storybook-stories.mjs`                                 | Generate Storybook stories for a headless library.                                                                                                                                                                   |
 | `check-links`                                                    | Verify relative markdown links resolve.                                                                                                                                                                              |
-| `check-theme`                                                    | Conformance checks for the 57 reference themes (class hooks, zero specificity, tokens, data-theme guard, shared sections, provenance, no filled current-day cell).                                                   |
+| `check-theme`                                                    | Conformance checks for the 63 reference themes (class hooks, zero specificity, tokens, data-theme guard, shared sections, provenance, no filled current-day cell).                                                   |
 | `check-class-names`                                              | Audit that every implementation in all 8 headless libraries carries its slug as the base class (first token of a class list); part of `bin/test`.                                                                    |
 | `check-helper-docs`                                              | The Svelte grid-like helpers document every prop and list no shipped feature as a non-goal; part of `bin/test`.                                                                                                      |
 | `check-label-packs`                                              | The 64 label packs in `shared/label-packs/` match the English pack, and the Svelte and TypeScript-port helpers still have every key they hold; part of `bin/test`.                                                   |
 | `sync-shared-modules`                                            | One source (`shared/`) for the pure modules the grid-like helpers copy; `--check` fails on drift. Edit `shared/`, never a package's copy.                                                                            |
 | `verify-published`                                               | After `publish-helpers`: is every helper package's local version on npm / nuget.org? `--wait 900` polls through registry lag.                                                                                        |
-| `check-coverage`                                                 | Coverage drift matrix: per-component file presence across all 7 headless libraries (beyond `bin/test`'s 3).                                                                                                          |
+| `check-coverage`                                                 | Coverage drift matrix across the 7 full-catalog headless libraries, plus a keys column (an APG-key contract needs a key test, or a reason in `check-coverage.keys-allow.json`); part of `bin/test`.               |
 | `generate-theme-tokens`                                          | DTCG token source under `themes/tokens/` — extract, generate, drift-check.                                                                                                                                           |
 | `generate-component-categories`                                  | Regenerate `components-categories.tsv` (per-component HTML tag + category) from `components.tsv`.                                                                                                                    |
 | `generate-api-docs`                                              | Regenerate the site's canonical-contract sections from `components/*/AGENTS.md`; drift-checked.                                                                                                                      |
@@ -117,8 +119,11 @@ tests and stories), the two example apps `bin/test` verifies, and the docs-site 
 | `generate-sitemap`                                               | Regenerate the docs site's `sitemap.xml` from its route tree; `--check` fails on drift.                                                                                                                              |
 | `generate-site-pages`                                            | Docs-site component pages: rebuild placeholders from `index.md`, refresh every Example section, write missing Playwright specs.                                                                                      |
 | `smoke-packages`                                                 | Pack + install each published headless tarball into a scratch consumer and render it — catches `main`-never-built breakage.                                                                                          |
-| `publish-headless`                                               | Build + publish the 7 npm headless libraries and pack the Blazor one (NuGet publishes only through the `publish.yml` OIDC workflow).                                                                                 |
+| `publish-headless`                                               | Build + publish the npm headless libraries (Svelte, React, Vue, HTML, Nunjucks, Web Components, Angular from `dist/`) and pack the Blazor one (NuGet publishes only through the `publish.yml` OIDC workflow). Not Alpine. |
 | `publish-helpers`                                                | Build + publish every helper package (npm / NuGet).                                                                                                                                                                  |
+| `check-worldwide`                                                | No single-region default (currency, weekend, English locale) in shipped package code; part of `bin/test`.                                                                                                          |
+| `check-native-primitives` / `check-dtcg-tokens` / `generate-core --check` / `check-port-parity` / `test-generators` / `check-generated-files` | Further `bin/test` gates: native-platform decisions, strict DTCG tokens, the Lily Core tier, port drift, generator goldens, the Generated files table. Full list with one line each: `AGENTS/lily.md` § Tools. |
+| `check-theme-references`                                         | Report only: public-sector themes whose upstream has a newer major release.                                                                                                                                         |
 | `make-github-pages`                                              | Push the docs site to its own repository (the one remaining subtree; `make github-pages`). Every other subproject lives only in the monorepo, and packages publish from it (`check-package-metadata` enforces that). |
 
 ## Design-principle rules to check before writing headless code

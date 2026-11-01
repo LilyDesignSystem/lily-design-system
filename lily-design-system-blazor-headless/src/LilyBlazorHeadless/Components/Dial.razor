@@ -1,15 +1,71 @@
 @namespace LilyBlazorHeadless.Components
+@using System.Globalization
 
 @*
     Dial component
     a rotary dial control for selecting a value
+
+    A focusable <div role="slider">. Value / ValueChanged is two-way (@bind-Value), reflected in aria-valuenow. The keys
+    move the value: ArrowRight/ArrowUp raise and ArrowLeft/ArrowDown lower it by Step (ten steps with Shift), Home/End
+    set Min/Max, clamped. Disabled: aria-disabled, out of the tab order, keys ignored. The consumer draws the dial.
+
+    Deviation from the Svelte canonical (Blazor here uses no JS interop): an event handler cannot call preventDefault for
+    only some keys, so the keys may also scroll the page behind the dial.
+    Unmatched attributes spread onto the root <div>.
 *@
 
-<div class="@($"dial {CssClass}".Trim())" role="slider" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"dial {CssClass}".Trim())"
+     role="slider"
+     tabindex="@(Disabled ? "-1" : "0")"
+     aria-label="@Label"
+     aria-valuenow="@Value.ToString(CultureInfo.InvariantCulture)"
+     aria-valuemin="@Min.ToString(CultureInfo.InvariantCulture)"
+     aria-valuemax="@Max.ToString(CultureInfo.InvariantCulture)"
+     aria-disabled="@(Disabled ? "true" : null)"
+     @onkeydown="OnKeyDown"
+     @attributes="AdditionalAttributes">@ChildContent</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+    /// <summary>The current value. Bindable.</summary>
+    [Parameter] public double Value { get; set; }
+    [Parameter] public EventCallback<double> ValueChanged { get; set; }
+    [Parameter] public double Min { get; set; }
+    [Parameter] public double Max { get; set; } = 100;
+    /// <summary>Increment per key press (Shift: ten of them).</summary>
+    [Parameter] public double Step { get; set; } = 1;
+    [Parameter] public bool Disabled { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private async Task OnKeyDown(KeyboardEventArgs e)
+    {
+        if (Disabled) return;
+        var step = Step * (e.ShiftKey ? 10 : 1);
+        double next;
+        switch (e.Key)
+        {
+            case "ArrowRight":
+            case "ArrowUp":
+                next = Value + step;
+                break;
+            case "ArrowLeft":
+            case "ArrowDown":
+                next = Value - step;
+                break;
+            case "Home":
+                next = Min;
+                break;
+            case "End":
+                next = Max;
+                break;
+            default:
+                return;
+        }
+        next = Math.Min(Max, Math.Max(Min, next));
+        if (next == Value) return;
+        Value = next;
+        await ValueChanged.InvokeAsync(next);
+    }
 }

@@ -43,6 +43,14 @@
 | `children`     | `slot`          | (required) | `<option>` elements representing available themes         |
 | `...restProps` | HTML attributes |            | Additional attributes spread onto the `<select>` element  |
 
+## Native platform
+
+- Decision: native
+- Uses: native <select>
+- Could use: appearance: base-select in theme CSS under @supports
+- Notes: As select.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
+
 ## Acceptance Criteria
 
 - [ ] Renders <select> element with class="theme-select"

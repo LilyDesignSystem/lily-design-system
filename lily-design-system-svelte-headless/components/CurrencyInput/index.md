@@ -13,7 +13,11 @@ See [components/currency-input/index.md](../../../components/currency-input/inde
   import CurrencyInput from "./CurrencyInput.svelte";
 </script>
 
-<CurrencyInput />
+<CurrencyInput
+  label="Amount"
+  currencyCode="EUR"
+  bind:value
+/>
 ```
 
 ## Files

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Theme picker: native select — Lily Design System</title>
+  <link rel="stylesheet" href="/assets/css/app-shell.css">
+  <script src="/assets/js/theme-boot.js"></script>
+  <!--
+    The consumer's theme CSS for the native select variant (tasks.md P18-T11/T12), copied from the theme-picker
+    package's docs/styling.md. A customizable select (appearance: base-select) is progressive enhancement: browsers
+    without it ignore the whole @supports block and keep the ordinary native select. e2e/theme-select.spec.ts checks
+    both paths.
+  -->
+  <style>
+    @supports (appearance: base-select) {
+      .theme-picker-select,
+      .theme-picker-select::picker(select) {
+        appearance: base-select;
+      }
+
+      .theme-picker-select::picker(select) {
+        position-area: block-end span-inline-end;
+        border: 1px solid var(--color-base-content);
+        background: var(--color-base-100);
+        color: var(--color-base-content);
+      }
+
+      .theme-picker-select option:checked {
+        font-weight: bold;
+      }
+
+      .theme-picker-select option:focus-visible {
+        outline: 2px solid currentColor;
+        outline-offset: -2px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="header" aria-label="Site header">
+    <a class="header-logo" href="/">Lily Design System</a>
+  </header>
+
+  <main id="main-content" class="page-wrapper">
+    <h1>Theme picker: native select</h1>
+    <p>
+      The theme picker below uses <code>variant="select"</code>: a native <code>&lt;select&gt;</code> whose
+      keyboard, typeahead and mobile picker are the browser's. Where the browser supports
+      <code>appearance: base-select</code>, the page's CSS styles its picker; elsewhere it stays the ordinary select.
+    </p>
+    <theme-picker
+      variant="select"
+      label="Choose a theme"
+      themes-url="/themes/"
+      themes="united-kingdom-national-health-service-england-for-patients,light,dark"
+      theme-labels="{&quot;united-kingdom-national-health-service-england-for-patients&quot;: &quot;NHS England (patients)&quot;, &quot;light&quot;: &quot;Light&quot;, &quot;dark&quot;: &quot;Dark&quot;}"
+      default-value="united-kingdom-national-health-service-england-for-patients"
+      storage-key="lily-theme"
+    ></theme-picker>
+  </main>
+
+  <footer class="footer" aria-label="Site footer">
+    <p class="footer-trademark">Lily™ and Lily Design System™ are trademarks.</p>
+  </footer>
+
+  <script type="module" src="/assets/js/theme-picker.js"></script>
+</body>
+</html>

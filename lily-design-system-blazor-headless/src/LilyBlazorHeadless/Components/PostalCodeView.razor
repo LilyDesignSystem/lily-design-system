@@ -5,7 +5,7 @@
     a read-only display of a postal or ZIP code
 *@
 
-<div class="@($"postal-code-view {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<span class="@($"postal-code-view {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</span>
 
 @code {
     [Parameter] public string Label { get; set; } = "";

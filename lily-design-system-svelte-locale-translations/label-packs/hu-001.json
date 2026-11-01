@@ -283,5 +283,10 @@
     "small": "kicsi",
     "smaller": "kisebb",
     "smallest": "legkisebb"
+  },
+  "date-time-now-input": {
+    "date": "Dátum",
+    "time": "Időpont",
+    "now": "Most"
   }
 }

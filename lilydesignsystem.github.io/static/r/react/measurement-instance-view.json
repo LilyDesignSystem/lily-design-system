@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "measurement-instance-view",
+  "type": "registry:component",
+  "title": "MeasurementInstanceView",
+  "description": "A read-only display of a measurement value and unit.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/MeasurementInstanceView.tsx",
+      "content": "import React from \"react\";\n\n// MeasurementInstanceView component\n//\n// A headless display component that shows a specific measurement instance\n// value in a <span> element. A measurement instance is a concrete data point\n// such as \"72 kg\", \"98.6 F\", or \"120/80 mmHg\". This is a read-only display\n// component, part of the Input/View pattern for measurement data.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   value — string, required. The measurement instance value to display.\n//   label — string, optional. Accessible name via aria-label for additional context.\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <MeasurementInstanceView value=\"72 kg\" />\n//\n// Examples:\n//\n//   <MeasurementInstanceView value=\"72 kg\" />\n//\n//\n//   <MeasurementInstanceView value=\"98.6 F\" label=\"Body temperature\" />\n//\n// Keyboard:\n//   - None — this is a display-only component with no interactive behavior.\n//\n// Accessibility:\n//   - aria-label optionally provides additional context beyond the displayed value\n//   - Text content is inherently accessible to screen readers\n//\n// Internationalization:\n//   - All text comes through the value and label props\n//   - No hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Part of the Input/View pattern; pairs with MeasurementInstanceInput\n//\n// References:\n//   - HTML span element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span\n\nexport interface MeasurementInstanceViewProps {\n    className?: string;\n    /** The measurement instance value to display */\n    value: string;\n    /** Optional accessible name */\n    label?: string;\n    [key: string]: unknown;\n}\n\nexport default function MeasurementInstanceView({\n    className = \"\",\n    value,\n    label = undefined,\n    ...restProps\n}: MeasurementInstanceViewProps) {\n    return (\n        <span\n            className={`measurement-instance-view ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {value}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/MeasurementInstanceView.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/measurement-instance-view/"
+}

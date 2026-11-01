@@ -31,8 +31,8 @@
 
 ## Keyboard
 
-- Escape: Closes the dialog (consumer must implement via onkeydown)
-- Tab: Focus should be trapped within the dialog (consumer responsibility)
+- Escape: closes the dialog. It opens with `showModal()`, so the browser fires `cancel` and the component sets `open` to false.
+- Tab: stays inside the dialog; the browser keeps it there while the dialog is modal.
 
 ## Props
 
@@ -41,6 +41,14 @@
 - `description`: string (optional) -- dialog message, referenced by aria-describedby
 - `children`: slot -- action buttons and additional content
 - `...restProps`: Any additional HTML attributes
+
+## Native platform
+
+- Decision: native
+- Uses: <dialog> showModal() via Dialog/modal.ts
+- Could use: command="show-modal"/"close" on consumer buttons
+- Notes: Top layer, inert background, focus trap and focus return come from the browser. commandfor cannot target it from outside today because the <dialog> is only mounted while open is true. P14-T4 (2026-10-30): showModal() in all nine libraries; the Angular and Blazor stubs (label, no alertdialog contract) were ported from Svelte.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
 
 ## Acceptance Criteria
 

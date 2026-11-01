@@ -33,6 +33,9 @@
 // Claude rules:
 //   - Headless: no CSS, no styles — consumer provides all styling
 
+import { ref } from "vue";
+import { useFormReset } from "./form-reset";
+
 const props = withDefaults(
     defineProps<{
         label: string;
@@ -53,6 +56,8 @@ const props = withDefaults(
 );
 
 const modelValue = defineModel<string>({ default: "" });
+const field = ref<HTMLInputElement | HTMLTextAreaElement | null>(null);
+useFormReset(modelValue, field);
 
 function handleSearch() {
     props.onsearch?.(modelValue.value);
@@ -76,6 +81,7 @@ function handleKeydown(e: KeyboardEvent) {
         <input
             type="text"
             :aria-label="inputLabel"
+            ref="field"
             v-model="modelValue"
             :placeholder="placeholder"
             :required="required"

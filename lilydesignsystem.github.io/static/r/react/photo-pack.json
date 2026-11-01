@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "photo-pack",
+  "type": "registry:component",
+  "title": "PhotoPack",
+  "description": "A collection of photos displayed together as a group.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/PhotoPack.tsx",
+      "content": "import React from \"react\";\n\n// PhotoPack component\n//\n// PhotoPack for the Reuters-graphics-style article layout family. Renders a\n// <div> (with role=\"group\") that consumers style; this component is a structural\n// wrapper only.\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Sets the photo-pack class as the styling hook\n\nexport interface PhotoPackProps {\n    className?: string;\n    /** Accessible label set on aria-label. */\n    label: string;\n    /** Component content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function PhotoPack({\n    className = \"\",\n    label,\n    children,\n    ...restProps\n}: PhotoPackProps) {\n    return (\n        <div\n            className={`photo-pack ${className}`}\n            role=\"group\"\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/PhotoPack.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/photo-pack/"
+}

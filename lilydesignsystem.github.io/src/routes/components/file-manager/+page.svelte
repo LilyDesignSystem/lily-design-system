@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"file-manager\"><ul><li>📁 Documents</li><li>📁 Images</li><li>📄 readme.txt</li></ul></div>";
   const svelteSource: string = "// In your Svelte component:\nimport FileManager from \"lily-design-system-svelte-headless/components/FileManager/FileManager.svelte\";\n\n<FileManager>\n  <!-- content -->\n</FileManager>\n";
-  const usageCode: string = "<FileManager label=\"Project files\">\n    <ul>\n        <li>document.pdf</li>\n        <li>image.png</li>\n        <li>data.csv</li>\n    </ul>\n</FileManager>\n";
+  const usageCode: string = "<FileManager label=\"Project files\">\n  <ul>\n    <li>document.pdf</li>\n    <li>image.png</li>\n    <li>data.csv</li>\n  </ul>\n</FileManager>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

@@ -239,5 +239,10 @@
     "small": "wee",
     "smaller": "weer",
     "smallest": "weest"
+  },
+  "date-time-now-input": {
+    "date": "Date",
+    "time": "Time",
+    "now": "Nou"
   }
 }

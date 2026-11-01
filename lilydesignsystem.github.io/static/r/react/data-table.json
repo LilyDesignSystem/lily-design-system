@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "data-table",
+  "type": "registry:component",
+  "title": "DataTable",
+  "description": "A data table interactive grid for displaying and sorting tabular data <table>.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/DataTable.tsx",
+      "content": "import React from \"react\";\n\n// DataTable component\n//\n// An interactive data table that displays structured information in rows and\n// columns as a grid widget. Renders a <table> element with role=\"grid\" and an\n// accessible label. Supports an optional visible caption. Commonly used for\n// sortable tables, editable spreadsheets, and interactive data grids.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name describing the table content.\n//   caption — string, optional. Visible caption text displayed above the table.\n//   children — ReactNode, required. DataTableHead, DataTableBody, DataTableFoot elements.\n//   ...restProps — additional HTML attributes spread onto the <table>.\n//\n// Syntax:\n//   <DataTable label=\"User accounts\">\n//     <DataTableHead><DataTableRow><th scope=\"col\">Name</th></DataTableRow></DataTableHead>\n//     <DataTableBody><DataTableRow><DataTableTD>Alice</DataTableTD></DataTableRow></DataTableBody>\n//   </DataTable>\n//\n// Examples:\n//\n//   <DataTable label=\"Sales data\" caption=\"Quarterly sales\">\n//     <DataTableHead>\n//       <DataTableRow><th scope=\"col\">Month</th><th scope=\"col\">Revenue</th></DataTableRow>\n//     </DataTableHead>\n//     <DataTableBody>\n//       <DataTableRow><DataTableTD>January</DataTableTD><DataTableTD>$10,000</DataTableTD></DataTableRow>\n//     </DataTableBody>\n//   </DataTable>\n//\n// Keyboard:\n//   None built-in — consumer should implement grid keyboard navigation\n//   (arrow keys for cell movement, Enter/Space for selection).\n//\n// Accessibility:\n//   - role=\"grid\" identifies the table as an interactive grid widget\n//   - aria-label provides an accessible name describing the table content\n//   - <caption> provides a visible accessible name when the caption prop is set\n//\n// Internationalization:\n//   - The label and caption props provide all text; no hardcoded strings\n//   - All cell content is provided by consumers through children\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Compound component: use with DataTableHead, DataTableBody, DataTableFoot,\n//     DataTableRow, DataTableTD, and DataTableTD\n//\n// References:\n//   - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/\n\nexport interface DataTableProps {\n    className?: string;\n    /** Accessible name describing the table content. */\n    label: string;\n    /** Visible caption for the table. */\n    caption?: string;\n    /** Table content (DataTableHead, DataTableBody, etc.). */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function DataTable({\n    className = \"\",\n    label,\n    caption = undefined,\n    children,\n    ...restProps\n}: DataTableProps) {\n    return (\n        <table\n            className={`data-table ${className}`}\n            role=\"grid\"\n            aria-label={label}\n            {...restProps}\n        >\n            {caption && (\n                <>\n                    <caption>{caption}</caption>\n                </>\n            )}\n            {children}\n        </table>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/DataTable.tsx"
+    }
+  ],
+  "categories": [
+    "tables"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/data-table/"
+}

@@ -33,5 +33,10 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/AccordionListItem.razor"
   },
   "docs": "https://lilydesignsystem.com/components/accordion-list-item/",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/accordion-list-item/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/accordion-list-item/AGENTS.md",
+  "nativePlatform": {
+    "decision": "native",
+    "uses": "<details>",
+    "could_use": "name attribute"
+  }
 }

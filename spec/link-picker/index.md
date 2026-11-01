@@ -95,7 +95,7 @@ List:
   `preventScroll`. A click outside, or focus leaving the picker, closes the list (Blazor: focus only, no document listener).
 - **Tooltip** (the picker-wide contract): hoverable, dismissable with Escape, never shown while the list is open, not linked with
   `aria-describedby`.
-- **Placement** is the theme's: the 57 `themes/` anchor the popup to the button and flip it at the window edge (see
+- **Placement** is the theme's: the 63 `themes/` anchor the popup to the button and flip it at the window edge (see
   [theme](../theme/index.md#picker-popups)).
 - **In `picker-bar`** it is the **leftmost** icon, rendered only when the app supplies `links` and `labels.link`
   ([helpers § picker-bar contract](../helpers/index.md)).
@@ -106,6 +106,17 @@ List:
 (Web Components tag `<lily-link-picker>`, HTML tag `<link-picker>`, Angular selector `lily-link-picker`). The Svelte package's
 `spec/index.md` is canonical (24 acceptance clauses); each port has one test per clause. All first-released at 0.1.0 on
 2026-10-07.
+
+## Acceptance criteria
+
+- [x] Shipped as its own package in all eight frameworks: `bin/list-helper-packages <framework>` lists `<framework>-link-picker` for
+      svelte, react, vue, angular, html, web-components, nunjucks and blazor (checked 2026-10-30).
+- [x] The HTML and Web Components packages carry the same class hooks, events and observed attributes (`bin/check-port-parity`,
+      in `bin/test`).
+- [x] The page-header rules in [AGENTS/helpers.md](../../AGENTS/helpers.md) apply: no English default text, the icon is
+      decorative (`aria-hidden`), and the accessible name is the consumer's `label`.
+- [ ] Verified in a real browser in Chromium, Firefox and WebKit for every framework (today: unit tests per package, and the
+      example apps' own e2e where they use this picker).
 
 ## Related
 

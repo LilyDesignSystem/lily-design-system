@@ -3,8 +3,7 @@
 <section class="page-intro">
   <h1>Asistentes de preferencias</h1>
   <p class="page-intro-tagline">
-    Siete paquetes pequeños por framework, cada uno dueño de una tarea del usuario de principio a fin, más una barra que reúne cinco de ellos. Ya conociste
-    <a href="/tutorials/theming/">theme-picker</a>; aquí están locale-picker, text-size-picker y motion-picker (preferencias), share-picker y search-picker (acciones), date-time-picker (un valor de formulario) y picker-bar.
+    Once pequeños selectores por framework, cada uno responsable de una tarea del usuario de principio a fin, más una barra que reúne hasta siete de ellos. Ya conoces <a href="/tutorials/theming/">theme-picker</a>; aquí están locale-picker, text-size-picker y motion-picker (preferencias), share-picker y search-picker (acciones), date-time-picker (un valor de formulario) y picker-bar.
   </p>
 </section>
 
@@ -26,7 +25,7 @@
     <li>Seguro para SSR: las escrituras en el DOM ocurren solo en el ciclo de vida mount/effect.</li>
     <li>Limpio para i18n: toda cadena visible para el usuario es una prop.</li>
     <li>
-      Disponible para Svelte (canónico), React, Vue, Angular, elemento personalizado HTML, Nunjucks y Blazor, con el mismo contrato en cada uno.
+      Disponible para Svelte (canónico), React, Vue, Angular, elemento personalizado HTML, Web Components, Nunjucks y Blazor, con el mismo contrato en cada uno.
     </li>
   </ul>
   <p>
@@ -208,6 +207,7 @@
   <p>
     <code>picker-bar</code> renderiza búsqueda, tema, configuración regional, tamaño de texto y compartir en una fila, con el conjunto completo de temas de referencia y la escala de texto de siete pasos ya cableados. Cada nombre accesible llega en un único objeto
     <code>labels</code> obligatorio.
+    También muestra link-picker en primer lugar cuando le pasas enlaces, y time-zone-picker después de la configuración regional cuando le das una etiqueta de zona horaria y una configuración regional.
   </p>
   
   <pre tabindex="0"><code>&lt;script&gt;
@@ -264,7 +264,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker
 
   <h2>Próximos pasos</h2>
   <ul>
-    <li><a href="/components/">Catálogo de componentes</a> : la referencia completa de los 582 componentes.</li>
+    <li><a href="/components/">Catálogo de componentes</a> : la referencia completa de los 607 componentes.</li>
     <li><a href="/help/">Ayuda</a> : solución de problemas y preguntas frecuentes.</li>
     <li><a href="/why/">Por qué Lily</a> y cómo apoyar el proyecto.</li>
   </ul>

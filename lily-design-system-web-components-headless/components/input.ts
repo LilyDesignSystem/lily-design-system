@@ -29,7 +29,7 @@ export class Input extends HTMLElement {
         input.className = rootClassName(this, "input");
         const label = this.getAttribute("label");
         if (label !== null) input.setAttribute("aria-label", label);
-        input.value = this.getAttribute("value") ?? "";
+        input.defaultValue = this.getAttribute("value") ?? "";
         if (this.hasAttribute("required")) input.required = true;
         if (this.hasAttribute("disabled")) input.disabled = true;
         passThroughAttributes(this, input, HANDLED);

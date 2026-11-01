@@ -1,0 +1,40 @@
+@page "/demos/menu-popover"
+<PageTitle>Menu popovers — Lily Blazor examples</PageTitle>
+
+@*
+    Menu popover demo (plan P18-T11). Renders the real DropdownMenu and
+    ContextMenu, whose menus are popover="auto" and whose APG focus code
+    (first item on open, ArrowDown/ArrowUp/Home/End) lives in the collocated
+    Popover.razor.js, loaded through JS interop after the first interactive
+    render. e2e/menu-popover.spec.ts checks both in a browser.
+
+    The context menu is opened from a right-click on the region below (the
+    consumer's contextmenu handler sets Open); positioning at the pointer is
+    left to CSS, as the component documents.
+*@
+
+<h1>Menu popovers</h1>
+
+<DropdownMenu Label="Record actions" @bind-Open="_dropdownOpen" data-testid="dropdown">
+    <div role="menuitem" tabindex="-1">Edit</div>
+    <div role="menuitem" tabindex="-1">Duplicate</div>
+    <div role="menuitem" tabindex="-1">Delete</div>
+</DropdownMenu>
+<p data-testid="dropdown-state">Dropdown open: @(_dropdownOpen ? "yes" : "no")</p>
+
+<div data-testid="context-target" tabindex="0" @oncontextmenu="OpenContextMenu" @oncontextmenu:preventDefault="true">
+    Right-click here for the context menu.
+</div>
+<ContextMenu Label="Text actions" @bind-Open="_contextOpen" data-testid="context">
+    <div role="menuitem" tabindex="-1">Cut</div>
+    <div role="menuitem" tabindex="-1">Copy</div>
+    <div role="menuitem" tabindex="-1">Paste</div>
+</ContextMenu>
+<p data-testid="context-state">Context menu open: @(_contextOpen ? "yes" : "no")</p>
+
+@code {
+    private bool _dropdownOpen;
+    private bool _contextOpen;
+
+    private void OpenContextMenu() => _contextOpen = true;
+}

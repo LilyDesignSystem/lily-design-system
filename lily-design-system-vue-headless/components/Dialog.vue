@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { modalDialogRef } from "./dialog";
 // Dialog component
 //
 // A modal or non-modal dialog that overlays the main interface to communicate
@@ -46,7 +47,8 @@
 //   - Headless: no CSS, no styles — consumer provides all styling
 //   - Uses defineModel() on open for two-way state binding
 //   - Dialog is removed from DOM entirely when open is false
-//   - Uses open HTML attribute directly, not .showModal()
+//   - A modal dialog is opened with .showModal() (dialog.ts): top layer, inert page, Tab trapped; a non-modal one
+//     with the open attribute. The native cancel (Escape) and close events keep open in step; focus returns on close.
 //
 // References:
 //   - WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
@@ -67,6 +69,13 @@ const props = withDefaults(
 
 const open = defineModel<boolean>("open", { default: false });
 
+const dialogRef = modalDialogRef(() => props.modal);
+
+function oncancel(event: Event) {
+    event.preventDefault();
+    open.value = false;
+}
+
 function onkeydown(event: KeyboardEvent) {
     if (event.key === "Escape") {
         event.preventDefault();
@@ -79,12 +88,14 @@ function onkeydown(event: KeyboardEvent) {
     <!-- Dialog.vue -->
     <dialog
         v-if="open"
+        :ref="dialogRef"
         class="dialog"
-        open
         tabindex="-1"
         :aria-label="label"
         :aria-modal="modal || undefined"
         @keydown="onkeydown"
+        @cancel="oncancel"
+        @close="open = false"
     >
         <slot />
     </dialog>

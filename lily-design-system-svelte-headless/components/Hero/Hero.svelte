@@ -13,10 +13,10 @@
 </script>
 
 <!-- Hero.svelte -->
-<div
+<section
     class={`hero ${className}`}
     aria-label={label}
     {...restProps}
 >
     {@render children?.()}
-</div>
+</section>

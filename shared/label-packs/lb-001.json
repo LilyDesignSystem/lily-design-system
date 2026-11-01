@@ -239,5 +239,10 @@
     "small": "kleng",
     "smaller": "méi kleng",
     "smallest": "am klengsten"
+  },
+  "date-time-now-input": {
+    "date": "Datum",
+    "time": "Zäit",
+    "now": "Elo"
   }
 }

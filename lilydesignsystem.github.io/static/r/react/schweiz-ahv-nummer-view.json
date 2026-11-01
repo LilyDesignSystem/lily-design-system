@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "schweiz-ahv-nummer-view",
+  "type": "registry:component",
+  "title": "SchweizAhvNummerView",
+  "description": "A read-only display of Switzerland's AHV-Nummer / Numero AVS.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/SchweizAhvNummerView.tsx",
+      "content": "import React from \"react\";\n\n// SchweizAhvNummerView component\n//\n// A headless display component for showing Switzerland's\n// AHV-Nummer / Numéro AVS in a read-only format.\n// Format: Thirteen digits, displayed as 756.NNNN.NNNN.NN, always beginning with the country prefix 756. It is a valid EAN-13 barcode number: the final digit is an EAN-13 check digit computed over the twelve preceding digits (alternating-position weights of 1 and 3). Replaced the old 11-digit AHV card number on 1 July 2008.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". The identifier string to display.\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <SchweizAhvNummerView label=\"AHV-Nummer / Numéro AVS\" value={value} />\n//\n// Accessibility:\n//   - aria-label provides the accessible name so screen readers announce the purpose\n//\n// References:\n//   - https://en.wikipedia.org/wiki/Data_codes_for_Switzerland\n\nexport interface SchweizAhvNummerViewProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The identifier to display */\n    value?: string;\n    [key: string]: unknown;\n}\n\nexport default function SchweizAhvNummerView({\n    className = \"\",\n    label,\n    value = \"\",\n    ...restProps\n}: SchweizAhvNummerViewProps) {\n    return (\n        <span\n            className={`schweiz-ahv-nummer-view ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {value}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/SchweizAhvNummerView.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/schweiz-ahv-nummer-view/"
+}

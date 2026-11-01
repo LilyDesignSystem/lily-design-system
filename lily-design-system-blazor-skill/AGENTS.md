@@ -22,7 +22,7 @@
 
 ## Overview
 
-A Claude Skill that maps the three real Blazor subprojects in this
+A Claude Skill that maps the three Blazor layers in this
 monorepo — [`lily-design-system-blazor-headless`](../lily-design-system-blazor-headless/),
 [the Blazor helper packages](../spec/helpers/index.md#blazor-helper-packages),
 and [`lily-design-system-blazor-web-examples`](../lily-design-system-blazor-web-examples/) —
@@ -37,15 +37,15 @@ subprojects is grounded in the same rules each of them is held to.
 
 ## What this subproject is, and isn't
 
-- **Is**: the Blazor umbrella/entry-point skill — a map of the three real
-  Blazor subprojects, guidance on which one a task needs, full coverage of
+- **Is**: the Blazor umbrella/entry-point skill — a map of the three
+  Blazor layers, guidance on which one a task needs, full coverage of
   the one subproject (the example app) that neither sibling skill covers,
   and pointers into the two sibling skills for the other two subprojects'
   deep-dive contracts.
 - **Isn't**: the Blazor headless component library itself (that's
   [`lily-design-system-blazor-headless`](../lily-design-system-blazor-headless/) —
   this subproject ships no `.razor` components).
-- **Isn't**: the Blazor `*-picker` helpers catalog itself (that's
+- **Isn't**: the Blazor helper packages itself (that's
   [the Blazor helper packages](../spec/helpers/index.md#blazor-helper-packages)).
 - **Isn't**: the Blazor Web example app itself (that's
   [`lily-design-system-blazor-web-examples`](../lily-design-system-blazor-web-examples/) —

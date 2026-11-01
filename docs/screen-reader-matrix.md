@@ -25,8 +25,11 @@ or a PR editing this file. You do not need to be an expert.
 
 **Environment note format:** screen reader + version, browser +
 version, OS + version (e.g. `VoiceOver / Safari 19 / macOS 15.6`).
-Results are per _combination_; a second combination gets a second
-entry in the same cell.
+Results are per _combination_, one column each: the six that
+[Lily Core](core.md) requires (NVDA with Firefox and with Chrome, JAWS
+with Chrome, VoiceOver with Safari on macOS, VoiceOver on iOS, TalkBack
+with Chrome on Android). A second version of the same combination gets a
+second entry in the same cell.
 
 ## The representative twenty
 
@@ -34,28 +37,28 @@ Chosen to match [audit-readiness tier 1](audit-readiness.md): the
 hand-rolled interaction patterns first, then the form family, then
 structural landmarks.
 
-| #   | Component / package                | Demo                                    | VoiceOver | NVDA | JAWS |
-| --- | ---------------------------------- | --------------------------------------- | --------- | ---- | ---- |
-| 1   | theme-picker (helper)              | any example app header                  |           |      |      |
-| 2   | locale-picker (helper)             | any example app header                  |           |      |      |
-| 3   | date-time-picker (helper)          | helper docs/examples                    |           |      |      |
-| 4   | share-picker (helper)              | helper docs/examples                    |           |      |      |
-| 5   | `dialog`                           | `/components/dialog`                    |           |      |      |
-| 6   | `alert-dialog`                     | `/components/alert-dialog`              |           |      |      |
-| 7   | `tab-bar`                          | `/components/tab-bar`                   |           |      |      |
-| 8   | `accordion-nav`                    | `/components/accordion-nav`             |           |      |      |
-| 9   | `menu`                             | `/components/menu`                      |           |      |      |
-| 10  | `tree-nav`                         | `/components/tree-nav`                  |           |      |      |
-| 11  | `form` + `field` + `error-summary` | `/contact-form` composed flow           |           |      |      |
-| 12  | `text-input`                       | `/components/text-input`                |           |      |      |
-| 13  | `select`                           | `/components/select`                    |           |      |      |
-| 14  | `checkbox-input` / `radio-input`   | `/components/checkbox-input`            |           |      |      |
-| 15  | `date-input`                       | `/components/date-input`                |           |      |      |
-| 16  | `data-table` (sortable)            | `/components/data-table`                |           |      |      |
-| 17  | `pagination-nav`                   | `/components/pagination-nav`            |           |      |      |
-| 18  | `breadcrumb-nav`                   | `/components/breadcrumb-nav`            |           |      |      |
-| 19  | `skip-link` + landmarks            | any example app page                    |           |      |      |
-| 20  | `net-promoter-score-picker`        | `/components/net-promoter-score-picker` |           |      |      |
+| #   | Component / package                | Demo                                    | NVDA + Firefox | NVDA + Chrome | JAWS + Chrome | VoiceOver + Safari (macOS) | VoiceOver (iOS) | TalkBack + Chrome (Android) |
+| --- | ---------------------------------- | --------------------------------------- | -------------- | ------------- | ------------- | -------------------------- | --------------- | --------------------------- |
+| 1   | theme-picker (helper)              | any example app header                  |                |               |               |                            |                 |                             |
+| 2   | locale-picker (helper)             | any example app header                  |                |               |               |                            |                 |                             |
+| 3   | date-time-picker (helper)          | helper docs/examples                    |                |               |               |                            |                 |                             |
+| 4   | share-picker (helper)              | helper docs/examples                    |                |               |               |                            |                 |                             |
+| 5   | `dialog`                           | `/components/dialog`                    |                |               |               |                            |                 |                             |
+| 6   | `alert-dialog`                     | `/components/alert-dialog`              |                |               |               |                            |                 |                             |
+| 7   | `tab-bar`                          | `/components/tab-bar`                   |                |               |               |                            |                 |                             |
+| 8   | `accordion-nav`                    | `/components/accordion-nav`             |                |               |               |                            |                 |                             |
+| 9   | `menu`                             | `/components/menu`                      |                |               |               |                            |                 |                             |
+| 10  | `tree-nav`                         | `/components/tree-nav`                  |                |               |               |                            |                 |                             |
+| 11  | `form` + `field` + `error-summary` | `/contact-form` composed flow           |                |               |               |                            |                 |                             |
+| 12  | `text-input`                       | `/components/text-input`                |                |               |               |                            |                 |                             |
+| 13  | `select`                           | `/components/select`                    |                |               |               |                            |                 |                             |
+| 14  | `checkbox-input` / `radio-input`   | `/components/checkbox-input`            |                |               |               |                            |                 |                             |
+| 15  | `date-input`                       | `/components/date-input`                |                |               |               |                            |                 |                             |
+| 16  | `data-table` (sortable)            | `/components/data-table`                |                |               |               |                            |                 |                             |
+| 17  | `pagination-nav`                   | `/components/pagination-nav`            |                |               |               |                            |                 |                             |
+| 18  | `breadcrumb-nav`                   | `/components/breadcrumb-nav`            |                |               |               |                            |                 |                             |
+| 19  | `skip-link` + landmarks            | any example app page                    |                |               |               |                            |                 |                             |
+| 20  | `net-promoter-score-picker`        | `/components/net-promoter-score-picker` |                |               |               |                            |                 |                             |
 
 ## Recorded sessions
 

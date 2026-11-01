@@ -13,10 +13,10 @@
 </script>
 
 <!-- Person.svelte -->
-<div
+<article
     class={`person ${className}`}
     aria-label={label}
     {...restProps}
 >
     {@render children?.()}
-</div>
+</article>

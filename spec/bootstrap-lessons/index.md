@@ -25,7 +25,7 @@ The ten items below, each with a deliverable, a source of truth and a check.
   and the headless layer ships no CSS. Consumers who want utilities use
   Tailwind or their own.
 - A built-in grid system, Sass sources, or a Sass-variable theming API: Lily
-  themes are plain CSS custom properties (the 57 `themes/`).
+  themes are plain CSS custom properties (the 63 `themes/`).
 - Bootstrap's tooltip/popover HTML sanitizer: Lily components take slots and
   strings, not HTML option strings, so there is nothing to sanitize.
 - jQuery plugin registration.
@@ -41,7 +41,7 @@ cite 5.3 for anything behavioural.
 
 ## What Lily already matches
 
-So these are not proposed again: every one of the 57 themes sets
+So these are not proposed again: every one of the 63 themes sets
 `color-scheme` and uses logical (inline-start/end) properties for RTL; themes
 already expose a `--lily-focus-ring` token; `data-theme` switches modes;
 `screen-reader-span`, `skip-link`, `aspect-ratio-container`, `flex-stack`,
@@ -87,9 +87,9 @@ to avoid a flash.
   catalog; the Nunjucks and HTML catalogs are the likely gaps.
 - **Deliverable (b):** scoped modes and a light/dark _mode_ axis separate from
   the theme slug. Today every theme selects `:root[data-theme="x"]`, so a
-  theme can only apply to the whole document, and each of the 57 files carries
+  theme can only apply to the whole document, and each of the 63 files carries
   the same ~3,700 lines of component rules (verified 2026-10-21: the component
-  sections of all 57 are byte-identical). The enabling change is in
+  sections of all 63 are byte-identical). The enabling change is in
   [daisyui-lessons](../daisyui-lessons/index.md) item 1 (token-only themes on
   `[data-theme]`); decide the mode axis after that lands.
 - **Check:** (a) an e2e test that loads a page with a stored dark theme and
@@ -237,7 +237,7 @@ version switcher (v6 alpha, 5.3, 4.6, …), and an "Optimize" page.
 
 - **Deliverable (a):** one **minimal starter** per framework family (about ten
   files: the headless package, one theme, a layout with a skip link and the
-  picker bar) distinct from the 582-page example apps, so a new project does
+  picker bar) distinct from the 607-page example apps, so a new project does
   not begin by deleting an example.
 - **Deliverable (b):** a docs-site version switcher once the first 1.0 is cut;
   until then, state the version on every page. Not before 1.0.

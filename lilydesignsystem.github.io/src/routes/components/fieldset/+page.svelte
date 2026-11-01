@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<fieldset class=\"fieldset\"><legend>Group label</legend><div class=\"field\"><label class=\"label\"><input type=\"checkbox\" /> Option A</label></div></fieldset>";
   const svelteSource: string = "// In your Svelte component:\nimport Fieldset from \"lily-design-system-svelte-headless/components/Fieldset/Fieldset.svelte\";\n\n<Fieldset>\n  <!-- content -->\n</Fieldset>\n";
-  const usageCode: string = "<Fieldset legend=\"Contact info\">\n    <Field label=\"Email\"><EmailInput label=\"Email\" /></Field>\n    <Field label=\"Phone\"><TelInput label=\"Phone\" /></Field>\n</Fieldset>\n";
+  const usageCode: string = "<Fieldset legend=\"Contact info\">\n  <Field label=\"Email\"><EmailInput label=\"Email\" /></Field>\n  <Field label=\"Phone\"><TelInput label=\"Phone\" /></Field>\n</Fieldset>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

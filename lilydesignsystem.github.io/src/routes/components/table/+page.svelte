@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<table class=\"table\" aria-label=\"Table\"><thead class=\"table-head\"><tr class=\"table-row\"><th class=\"table-th\">Name</th><th class=\"table-th\">Value</th></tr></thead><tbody class=\"table-body\"><tr class=\"table-row\"><td class=\"table-td\">Item 1</td><td class=\"table-td\">100</td></tr></tbody></table>";
   const svelteSource: string = "// In your Svelte component:\nimport Table from \"lily-design-system-svelte-headless/components/Table/Table.svelte\";\n\n<Table label=\"Table\">\n  <!-- thead, tbody, tfoot -->\n</Table>\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import Table from \"./Table.svelte\";\n<\/script>\n\n<Table label=\"User accounts\">\n    <thead>\n        <tr><th scope=\"col\">Name</th><th scope=\"col\">Email</th></tr>\n    </thead>\n    <tbody>\n        <tr><td>Alice</td><td>alice@example.com</td></tr>\n        <tr><td>Bob</td><td>bob@example.com</td></tr>\n    </tbody>\n</Table>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import Table from \"./Table.svelte\";\n<\/script>\n\n<Table label=\"User accounts\">\n  <thead>\n    <tr><th scope=\"col\">Name</th><th scope=\"col\">Email</th></tr>\n  </thead>\n  <tbody>\n    <tr><td>Alice</td><td>alice@example.com</td></tr>\n    <tr><td>Bob</td><td>bob@example.com</td></tr>\n  </tbody>\n</Table>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

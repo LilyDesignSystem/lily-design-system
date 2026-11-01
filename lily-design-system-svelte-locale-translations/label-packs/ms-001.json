@@ -239,5 +239,10 @@
     "small": "kecil",
     "smaller": "lebih kecil",
     "smallest": "terkecil"
+  },
+  "date-time-now-input": {
+    "date": "Tarikh",
+    "time": "Masa",
+    "now": "Sekarang"
   }
 }

@@ -14,7 +14,7 @@
     name="Default"
     tags={["autodocs", "!dev"]}
 >
-    <PaginationLink label="PaginationLink example">
+    <PaginationLink href="#example">
         <span>PaginationLink example</span>
     </PaginationLink>
 </Story>

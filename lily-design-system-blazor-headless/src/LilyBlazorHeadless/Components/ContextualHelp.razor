@@ -1,15 +1,107 @@
 @namespace LilyBlazorHeadless.Components
+@using Microsoft.JSInterop
+@implements IAsyncDisposable
+@inject IJSRuntime JS
 
 @*
     ContextualHelp component
     a help button that opens a popover with explanatory content
+
+    Renders <div class="contextual-help"> with a <button class="contextual-help-trigger">
+    (aria-haspopup="dialog", aria-expanded, aria-controls) and a
+    <div class="contextual-help-panel" role="dialog" popover="auto">. The trigger
+    names the panel with command="toggle-popover" commandfor (and popovertarget,
+    for engines before command/commandfor), so the browser opens it, and closes it
+    on Escape and on a click outside it (light dismiss), with no script — also
+    under static SSR.
+
+    Parameters:
+        Label — string, required. aria-label of the trigger (its accessible name).
+        TriggerLabel — string, required. Visible text of the trigger, such as "?"
+            or "؟". No default; pass "" when CSS draws an icon.
+        Expanded / ExpandedChanged — two-way (@bind-Expanded).
+        OnClick — EventCallback<MouseEventArgs>, the trigger's click.
+        ChildContent — the panel content. CssClass, AdditionalAttributes (root).
+
+    Blazor deviation: the toggle event and opening from Expanded go through
+    Popover.razor.js, loaded after first render (skipped during prerender); where
+    the Popover API is missing it toggles the hidden attribute on click.
 *@
 
-<div class="@($"contextual-help {CssClass}".Trim())" role="dialog" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"contextual-help {CssClass}".Trim())" @attributes="AdditionalAttributes">
+    <button class="contextual-help-trigger"
+            type="button"
+            aria-label="@Label"
+            aria-haspopup="dialog"
+            aria-expanded="@(Expanded ? "true" : "false")"
+            aria-controls="@_panelId"
+            command="toggle-popover"
+            commandfor="@_panelId"
+            popovertarget="@_panelId"
+            @ref="_trigger"
+            @onclick="HandleClick">@TriggerLabel</button>
+    <div class="contextual-help-panel" id="@_panelId" role="dialog" popover="auto" @ref="_panel">@ChildContent</div>
+</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter, EditorRequired] public string TriggerLabel { get; set; } = "";
+    [Parameter] public bool Expanded { get; set; }
+    [Parameter] public EventCallback<bool> ExpandedChanged { get; set; }
+    [Parameter] public EventCallback<Microsoft.AspNetCore.Components.Web.MouseEventArgs> OnClick { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private readonly string _panelId = $"contextual-help-panel-{Guid.NewGuid():N}";
+    private ElementReference _trigger;
+    private ElementReference _panel;
+    private IJSObjectReference? _module;
+    private IJSObjectReference? _handle;
+    private DotNetObjectReference<ContextualHelp>? _self;
+    private bool _synced;
+
+    private Task HandleClick(Microsoft.AspNetCore.Components.Web.MouseEventArgs args) => OnClick.InvokeAsync(args);
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _self = DotNetObjectReference.Create(this);
+            _module = await JS.InvokeAsync<IJSObjectReference>("import", Popover.ModulePath);
+            _handle = await _module.InvokeAsync<IJSObjectReference>("attach", _panel, _self, Expanded, _trigger);
+            _synced = Expanded;
+        }
+        else if (_handle is not null && _synced != Expanded)
+        {
+            _synced = Expanded;
+            await _handle.InvokeVoidAsync("set", Expanded);
+        }
+    }
+
+    /// <summary>Called from the panel's toggle event (trigger, Escape, light dismiss) or the no-API fallback.</summary>
+    [JSInvokable]
+    public async Task OnPopoverToggle(bool open)
+    {
+        _synced = open;
+        if (Expanded == open) return;
+        Expanded = open;
+        await ExpandedChanged.InvokeAsync(open);
+        StateHasChanged();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        try
+        {
+            if (_handle is not null)
+            {
+                await _handle.InvokeVoidAsync("dispose");
+                await _handle.DisposeAsync();
+            }
+            if (_module is not null) await _module.DisposeAsync();
+        }
+        catch (JSDisconnectedException) { }
+        _self?.Dispose();
+    }
 }

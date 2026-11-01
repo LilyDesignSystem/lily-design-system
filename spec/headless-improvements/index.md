@@ -63,14 +63,14 @@ Adoption needs checking against each helper's accessibility behaviour; where a h
 ## Risks
 
 - A core package is a new published dependency for every helper and a new thing to version; the alternative (keep copying, add a drift check) works but scales with frameworks × packages.
-- Tier 1 changes headless attributes: additive, but the example apps and 57 themes select on some of them — verify with `bin/check-theme` and the axe sweeps.
+- Tier 1 changes headless attributes: additive, but the example apps and 63 themes select on some of them — verify with `bin/check-theme` and the axe sweeps.
 - The keyboard primitive must keep each helper's quirks (kanban's Alt+Arrow move, the Gantt's `s` select shortcut, the data grid's header row at index −1); expose hooks rather than one rigid handler.
 
 ## Status
 
 - **Done 2026-10-17 — one source for the copied modules.** `shared/` holds the pure modules and their tests; `bin/sync-shared-modules` copies each into every package that has a file of that name, and `--check` runs in `bin/test`. The first run fixed 60 stale copies (23 packages had an old `export-data.ts`, 18 an old `typed-fields.ts`). This is the note's "keep copying, add a drift check" alternative: it needs no new published package. The `@lilydesignsystem/core` package remains open as the longer-term option.
 - **Done 2026-10-17 — the grid keyboard primitive (Tier 2.1), as a pure function.** `shared/grid-navigation.ts` (`gridMove`, `pageStepFor`) owns the arrows, Home / End (Ctrl or Cmd for the corners), PageUp / PageDown, clamping and the right-to-left swap; the Svelte data grid, kanban board and Gantt chart, and the React data grid, call it and keep only their own keys (Enter, F2, Alt+Arrow, `s`, undo, type-ahead) — about 70 lines removed. It is a function, not an action / hook / directive per framework: the movement is the shared part; focusing and roving tabindex differ per framework and stay in each helper. The calendar navigates by date, not by row and column, so it does not use it. The other frameworks adopt it as their helpers are ported.
-- **Done 2026-10-17 (Svelte) — `Mark` and `SearchInput` adopted.** The data grid, kanban board, Gantt chart and calendar render their search field with the headless `SearchInput` and a highlighted match with `Mark`. The `search-input` and `mark` base classes join the existing `*-search` / `*-match` hooks; all 57 themes already style them, so the helpers' search fields now match the rest of the system. The other seven frameworks adopt them as their helpers are ported.
+- **Done 2026-10-17 (Svelte) — `Mark` and `SearchInput` adopted.** The data grid, kanban board, Gantt chart and calendar render their search field with the headless `SearchInput` and a highlighted match with `Mark`. The `search-input` and `mark` base classes join the existing `*-search` / `*-match` hooks; all 63 themes already style them, so the helpers' search fields now match the rest of the system. The other seven frameworks adopt them as their helpers are ported.
 - **Done 2026-10-17 — `PaginationNav` adopted in the data grid (Svelte, React).** With `labels.pagination` the pager is a labelled `<nav>` landmark (it was an unnamed `<div>`); optional, so existing bundles are unaffected.
 - **Checked and held back — each needs the headless component improved first, as the note warned:**
   - `Tooltip` renders nothing until `visible`; the eleven pickers keep a `hidden` sibling in the DOM (the documented contract, and what the themes and tests rely on). `Tooltip` needs a mode that renders hidden before a picker can use it.
@@ -78,3 +78,20 @@ Adoption needs checking against each helper's accessibility behaviour; where a h
   - `Editable` is plain text only: no IME guard (Enter confirming a candidate would commit), no `validate` / `aria-invalid`, no commit on blur, no typed editors — the data grid's cell editor does all of these, so `Editable` needs them first.
   - `DataFilterForm` is a `<form role="search">` wrapper; the `svelte-filter` builder is a `role="group"` with many buttons, and a `<form>` would make any button without `type="button"` submit. Adopting it means deciding the builder is a search form, which is a design call, not a swap.
 - Open: the held-back Tier 3 components above, after improving each in the headless libraries.
+
+## Acceptance criteria
+
+- [x] One source for the copied pure modules: `shared/` plus `bin/sync-shared-modules --check` in `bin/test` (2026-10-17).
+- [x] The grid keyboard primitive as a pure function, `shared/grid-navigation.ts` (Tier 2.1, 2026-10-17).
+- [x] `Mark` and `SearchInput` adopted by the Svelte grid-like helpers; `PaginationNav` by the Svelte and React data grids.
+- [x] One listbox machine, `shared/listbox-machine.ts`, behind the Svelte, React, Vue, Angular, HTML and Web Components `Listbox`
+      (P16-T3, P18-T10).
+- [ ] Tier 1: the additive table-part props (`sort`, row and column counts and indexes, `selected`, the day kinds, `pinned`,
+      `dropAllowed`) in the headless table parts; not built.
+- [ ] Tier 2.2: `@lilydesignsystem/core`, a decision (tasks.md P12-T10); today the copying model stands.
+- [ ] Tier 2.3 and 2.4: a windowing helper and a live-region primitive; not built.
+- [ ] Tier 3: `Tooltip`, `EmptyState`, `Editable` and `DataFilterForm` adopted, after each is improved in the headless libraries.
+
+## Related topics
+
+[helpers](../helpers/index.md) · [headless](../headless/index.md) · [competitive-position](../competitive-position/index.md)

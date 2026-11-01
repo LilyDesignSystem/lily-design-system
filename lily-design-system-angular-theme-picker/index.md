@@ -275,24 +275,45 @@ See [docs/styling.md](./docs/styling.md) for the positioning recipe,
 and [docs/accessibility.md](./docs/accessibility.md) for the tradeoffs
 and how to surface the active theme name.
 
+## The native select variant
+
+`variant="select"` (opt-in; ported from the Svelte reference 2026-10-30, the prototype for RFC 3 in the
+repository's `RFC.md`) renders a native `<select class="theme-picker-select" aria-label="{label}">` of
+`<option class="theme-picker-option">` elements inside the same root, with `data-variant="select"` on the root.
+Keyboard, typeahead, the mobile picker and the screen-reader announcement are then the platform's; choosing an option
+applies the theme exactly as the listbox does (managed `<link>`, `data-theme`, optional `localStorage`, one change
+notification). There is no button, listbox, tooltip or hidden input: the select carries `name`. `open` does not apply, because a
+native select's popup state is not observable. Styling it with `appearance: base-select` is theme CSS behind
+`@supports`. The default (`"listbox"`) is unchanged.
+
+```html
+<lily-theme-picker
+  variant="select"
+  label="Colour theme"
+  themesUrl="/assets/themes/"
+  [themes]="['light', 'dark', 'abyss']"
+/>
+```
+
 ## Inputs
 
 The complete table is in [spec/index.md §4.1](./spec/index.md#41-inputs--outputs).
 Highlights:
 
-| Input          | Type                     | Required | Notes                                                                                 |
-| -------------- | ------------------------ | -------- | ------------------------------------------------------------------------------------- |
-| `label`        | `string`                 | yes      | `aria-label` on both the button and the listbox. The button's entire accessible name. |
-| `themesUrl`    | `string`                 | yes      | Trailing `/` is auto-added.                                                           |
-| `themes`       | `string[]`               | yes      | Available slugs.                                                                      |
-| `value`        | `string` (`model`)       | no       | Two-way bind for the current slug.                                                    |
-| `defaultValue` | `string`                 | no       | Initial when nothing else applies.                                                    |
-| `storageKey`   | `string`                 | no       | `localStorage` persistence.                                                           |
-| `name`         | `string`                 | no       | Hidden-input `name` **and** managed-`<link>` discriminator; defaults to `"theme"`.    |
-| `extension`    | `string`                 | no       | Defaults to `".css"`.                                                                 |
-| `target`       | `HTMLElement \| null`    | no       | `data-theme` target; defaults to `<html>`.                                            |
-| `themeLabels`  | `Record<string, string>` | no       | Per-slug display label override; also what the typeahead matches.                     |
-| `className`    | `string`                 | no       | Extra class on the root `<div>`.                                                      |
+| Input          | Type                     | Required | Notes                                                                                                        |
+| -------------- | ------------------------ | -------- | ------------------------------------------------------------------------------------------------------------ |
+| `label`        | `string`                 | yes      | `aria-label` on both the button and the listbox. The button's entire accessible name.                        |
+| `themesUrl`    | `string`                 | yes      | Trailing `/` is auto-added.                                                                                  |
+| `themes`       | `string[]`               | yes      | Available slugs.                                                                                             |
+| `value`        | `string` (`model`)       | no       | Two-way bind for the current slug.                                                                           |
+| `defaultValue` | `string`                 | no       | Initial when nothing else applies.                                                                           |
+| `storageKey`   | `string`                 | no       | `localStorage` persistence.                                                                                  |
+| `name`         | `string`                 | no       | Hidden-input `name` **and** managed-`<link>` discriminator; defaults to `"theme"`.                           |
+| `variant`      | `"listbox" \| "select"`  | no       | `"select"` renders a native `<select>` instead; see [The native select variant](#the-native-select-variant). |
+| `extension`    | `string`                 | no       | Defaults to `".css"`.                                                                                        |
+| `target`       | `HTMLElement \| null`    | no       | `data-theme` target; defaults to `<html>`.                                                                   |
+| `themeLabels`  | `Record<string, string>` | no       | Per-slug display label override; also what the typeahead matches.                                            |
+| `className`    | `string`                 | no       | Extra class on the root `<div>`.                                                                             |
 
 See [docs/props-reference.md](./docs/props-reference.md) for a
 field-by-field reference.

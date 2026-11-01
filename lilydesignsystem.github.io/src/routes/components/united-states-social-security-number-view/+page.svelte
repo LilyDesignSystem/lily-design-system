@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<span class=\"united-states-social-security-number-view\">123-45-6789</span>";
   const svelteSource: string = "// In your Svelte component:\nimport UnitedStatesSocialSecurityNumberView from \"lily-design-system-svelte-headless/components/UnitedStatesSocialSecurityNumberView/UnitedStatesSocialSecurityNumberView.svelte\";\n\n<UnitedStatesSocialSecurityNumberView label=\"Label\" value=\"Sample value\" />\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import UnitedStatesSocialSecurityNumberView from \"./UnitedStatesSocialSecurityNumberView.svelte\";\n\n    let ssn = $state(\"123-45-6789\");\n<\/script>\n\n<UnitedStatesSocialSecurityNumberView\n    label=\"Social Security Number\"\n    value={ssn}\n/>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import UnitedStatesSocialSecurityNumberView from \"./UnitedStatesSocialSecurityNumberView.svelte\";\n\n  let ssn = $state(\"123-45-6789\");\n<\/script>\n\n<UnitedStatesSocialSecurityNumberView\n  label=\"Social Security Number\"\n  value={ssn}\n/>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>
@@ -76,7 +76,7 @@
       <li>PascalCase: UnitedStatesSocialSecurityNumberView</li>
       <li>Description: a read-only display of a US Social Security number</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
-      <li>HTML tag: &lt;div&gt;</li>
+      <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .united-states-social-security-number-view</li>
       <li>Interactive: no</li>
     </ul>

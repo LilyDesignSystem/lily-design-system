@@ -50,5 +50,10 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Cascader.razor"
   },
   "docs": "https://lilydesignsystem.com/components/cascader/",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/cascader/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/cascader/AGENTS.md",
+  "nativePlatform": {
+    "decision": "native",
+    "uses": "native <button> trigger; panel div popover=\"manual\" shown from the expanded state",
+    "could_use": "CSS anchor positioning to the trigger (theme)"
+  }
 }

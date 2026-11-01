@@ -56,7 +56,11 @@ describe("split-button", () => {
         expect(trigger).toBeTruthy();
         expect(trigger.getAttribute("type")).toBe("button");
         expect(trigger.getAttribute("aria-haspopup")).toBe("menu");
-        expect(trigger.getAttribute("aria-expanded")).toBe("false");
+        // Closed: no static aria-expanded (nothing would update it without script); the trigger names the popover.
+        expect(trigger.hasAttribute("aria-expanded")).toBe(false);
+        expect(trigger.getAttribute("command")).toBe("toggle-popover");
+        expect(trigger.getAttribute("commandfor")).toBe("split-button-menu");
+        expect(trigger.getAttribute("popovertarget")).toBe("split-button-menu");
         expect(trigger.getAttribute("aria-label")).toBe("More save options");
     });
 
@@ -74,13 +78,16 @@ describe("split-button", () => {
         ).toBe("true");
     });
 
-    it("hides the menu container by default", () => {
+    it("renders the menu container as a closed popover=auto by default", () => {
         const { document } = render("split-button", {
             label: "Save options",
             primaryLabel: "Save",
             menuLabel: "More",
         });
-        expect(document.querySelector("div.split-button-menu").hasAttribute("hidden")).toBe(true);
+        const menu = document.querySelector("div.split-button-menu");
+        expect(menu.getAttribute("popover")).toBe("auto");
+        expect(menu.id).toBe("split-button-menu");
+        expect(menu.hasAttribute("hidden")).toBe(false);
     });
 
     it("shows the menu container when menuOpen is true", () => {
@@ -91,6 +98,7 @@ describe("split-button", () => {
             menuOpen: true,
         });
         expect(document.querySelector("div.split-button-menu").hasAttribute("hidden")).toBe(false);
+        expect(document.querySelector("div.split-button-menu").hasAttribute("popover")).toBe(false);
     });
 
     it("renders caller block as menu content", () => {

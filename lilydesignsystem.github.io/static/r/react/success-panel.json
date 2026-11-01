@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "success-panel",
+  "type": "registry:component",
+  "title": "SuccessPanel",
+  "description": "A panel confirming a task has been completed.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/SuccessPanel.tsx",
+      "content": "export interface SuccessPanelProps {\n    className?: string;\n    label?: string;\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function SuccessPanel({\n    className = \"\",\n    label = undefined,\n    children,\n    ...restProps\n}: SuccessPanelProps) {\n    return (\n        <div\n            className={`success-panel ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/SuccessPanel.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/success-panel/"
+}

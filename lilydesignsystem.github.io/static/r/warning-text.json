@@ -1,0 +1,48 @@
+{
+  "slug": "warning-text",
+  "name": "WarningText",
+  "description": "a short warning shown as an icon and a bold line of text, with a visually hidden prefix supplied by the consumer",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".warning-text",
+  "subClasses": [
+    "warning-text-icon",
+    "warning-text-text"
+  ],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all eight headless libraries; not yet exercised in composed flows",
+  "aria": [
+    "None added on the root: it is a plain `<div>` with no role, so do not give it `aria-label` (a generic element cannot be named)",
+    "`aria-hidden=\"true\"` on the icon wrapper, so a glyph such as \"!\" is not read",
+    "The hidden prefix gives screen reader users the kind of message before its text"
+  ],
+  "keyboard": [
+    "None. The component is not focusable"
+  ],
+  "props": [
+    "`class`: string (default: `\"\"`) -- appended to the base class",
+    "`icon`: slot (optional) -- the decorative icon; rendered inside the `aria-hidden` wrapper",
+    "`children`: slot (required) -- the visually hidden prefix, then the warning text",
+    "`...restProps`: HTML attributes -- spread onto the root `<div>`"
+  ],
+  "related": [
+    "warning-callout",
+    "inset-text",
+    "alert",
+    "notification",
+    "error-message"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/warning-text.html",
+    "svelte": "lily-design-system-svelte-headless/components/WarningText/WarningText.svelte",
+    "react": "lily-design-system-react-headless/components/WarningText.tsx",
+    "vue": "lily-design-system-vue-headless/components/WarningText.vue",
+    "angular": "lily-design-system-angular-headless/components/WarningText.ts",
+    "web-components": "lily-design-system-web-components-headless/components/warning-text.ts",
+    "alpine": "lily-design-system-alpine-headless/components/warning-text.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/warning-text/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/WarningText.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/warning-text/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/warning-text/AGENTS.md"
+}

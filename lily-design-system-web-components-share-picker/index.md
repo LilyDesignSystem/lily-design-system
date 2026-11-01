@@ -63,6 +63,8 @@ That is deliberate. Which networks exist is an editorial and privacy
 decision that belongs to you, share URLs change, and networks die. You
 supply `targets`; the package supplies the interaction.
 
+Choose destinations for your audience, not one region's: WhatsApp and Telegram are the common choice across much of the world, LINE in Japan, Taiwan and Thailand, KakaoTalk in Korea, VK in Russia. WeChat has no web share URL; the native share sheet the picker opens first reaches it on phones.
+
 There is also **no default copy label**. A default would be a hardcoded
 English string, which
 [`AGENTS/internationalization.md`](../AGENTS/internationalization.md)

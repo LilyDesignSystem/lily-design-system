@@ -5,7 +5,7 @@
     a read-only display of a red/amber/green status
 *@
 
-<div class="@($"red-amber-green-view {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<span class="@($"red-amber-green-view {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</span>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

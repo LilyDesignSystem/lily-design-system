@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-status-tag",
     standalone: true,
-    template: `<div class="status-tag {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<span class="status-tag {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></span>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StatusTag {

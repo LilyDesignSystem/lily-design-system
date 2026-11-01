@@ -52,6 +52,8 @@
 
 import React, { useRef } from "react";
 
+import { usePopoverState } from "./Popover";
+
 export interface ContextMenuProps {
     className?: string;
     /** Accessible name for the context menu. */
@@ -74,6 +76,10 @@ export default function ContextMenu({
     ...restProps
 }: ContextMenuProps) {
     const menuRef = useRef<HTMLDivElement>(null);
+    // popover="auto" with no declarative trigger (a right-click or long-press opens it): `open` shows it with
+    // showPopover() in the top layer; Escape and light dismiss come from the browser and are reported through
+    // onChange. Positioning at the pointer stays the consumer's CSS.
+    usePopoverState(menuRef, open, onChange);
 
     function handleKeyDown(event: React.KeyboardEvent) {
         if (!menuRef.current) return;
@@ -115,21 +121,16 @@ export default function ContextMenu({
     }
 
     return (
-        <>
-            {open && (
-                <>
-                    <div
-                        className={`context-menu ${className}`}
-                        role="menu"
-                        aria-label={label}
-                        ref={menuRef}
-                        onKeyDown={handleKeyDown}
-                        {...restProps}
-                    >
-                        {children}
-                    </div>
-                </>
-            )}
-        </>
+        <div
+            className={`context-menu ${className}`}
+            role="menu"
+            aria-label={label}
+            popover="auto"
+            ref={menuRef}
+            onKeyDown={handleKeyDown}
+            {...restProps}
+        >
+            {children}
+        </div>
     );
 }

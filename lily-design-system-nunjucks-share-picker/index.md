@@ -114,6 +114,8 @@ editorial and privacy decision belonging to you; share URLs change
 without notice; and networks die. You supply `targets`; the package
 supplies the control.
 
+Choose destinations for your audience, not one region's: WhatsApp and Telegram are the common choice across much of the world, LINE in Japan, Taiwan and Thailand, KakaoTalk in Korea, VK in Russia. WeChat has no web share URL; the native share sheet the picker opens first reaches it on phones.
+
 ## Macro parameters
 
 | Key               | Type                               | Required | Default               | Purpose                                                                         |

@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<option class=\"theme-select-option\" value=\"light\">Light</option>";
   const svelteSource: string = "// In your Svelte component:\nimport ThemeSelectOption from \"lily-design-system-svelte-headless/components/ThemeSelectOption/ThemeSelectOption.svelte\";\n\n<ThemeSelectOption>\n  <!-- content -->\n</ThemeSelectOption>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import ThemeSelect from \"../ThemeSelect/ThemeSelect.svelte\";\n  import ThemeSelectOption from \"./ThemeSelectOption.svelte\";\n\n  let theme = $state(\"\");\n<\/script>\n\n<ThemeSelect label=\"Theme\" bind:value={theme}>\n  <ThemeSelectOption value=\"light\">Light</ThemeSelectOption>\n  <ThemeSelectOption value=\"dark\">Dark</ThemeSelectOption>\n</ThemeSelect>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import ThemeSelect from \"../ThemeSelect/ThemeSelect.svelte\";\n  import ThemeSelectOption from \"./ThemeSelectOption.svelte\";\n\n  let theme = $state(\"\");\n<\/script>\n\n<ThemeSelect\n  label=\"Theme\"\n  bind:value={theme}\n>\n  <ThemeSelectOption value=\"light\">Light</ThemeSelectOption>\n  <ThemeSelectOption value=\"dark\">Dark</ThemeSelectOption>\n</ThemeSelect>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

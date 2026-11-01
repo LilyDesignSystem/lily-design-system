@@ -67,7 +67,7 @@ The shown period is announced (`labels.periodAnnouncement`) whenever it changes,
 
 - **Marked ranges** (`ranges`: `{ start, end, kind?, label? }`, already there for holidays, closures and terms) now carry their `label` as real text: shown beside the day number (and the agenda date) when there is no `day` snippet, and read as the cell's description (`aria-describedby` a hidden span, several labels joined with ", "), so a screen reader hears why a day is marked and the day is never colour-only. A range without a label marks the day and adds no text. A `day` snippet still receives `ranges` and renders its own.
 - **Weekends**: the weekday header cells now carry `data-weekend` like the day cells (`weekendDays`, never defaulted).
-- **Shading** is CSS and ships in the 57 reference themes: weekend cells are tinted; a day inside a range is tinted and striped.
+- **Shading** is CSS and ships in the 63 reference themes: weekend cells are tinted; a day inside a range is tinted and striped.
 
 ## Narrow screens, agenda dates, today and direction (0.6.0)
 
@@ -80,3 +80,8 @@ The shown period is announced (`labels.periodAnnouncement`) whenever it changes,
 ## Search (0.6.0)
 
 `search` (a property; the field renders when `labels.search` names it) narrows the events: every word must appear, in any order, ignoring case and diacritics. New: the calendar had no search. Only matching events show, in every view (week, four-week, month, agenda); the default text is the event title and every field's text (`searchText` replaces it). The agenda wraps matches in `<mark class="calendar-view-match">`; `labels.searchAnnouncement(matches, total)` is announced; Escape clears. Exports hold what the search leaves. See spec §17.
+
+## Known limitations
+
+- **Week numbers are ISO 8601 only.** `show-week-numbers` numbers weeks the ISO 8601 way: weeks start on Monday and week 1 is the week containing the year's first Thursday. Other systems are not available yet: the US, Canada and Japan number from a Sunday-first week containing 1 January, and some countries use a Saturday-first week. This is a documented gap against the worldwide target, not a decision; it is planned as `weekNumbering: "iso" | "us" | "locale"` (tasks.md P17-T4, worldwide audit (`spec/internationalization/worldwide-audit.md` in the monorepo) finding 4). Until then, leave week numbers off for an audience that does not use ISO weeks, or compute them yourself and show them in your own markup.
+- **The column header is yours.** The visible header (`labels.weekNumberHeader`) and any accessible name for a week number are supplied by the app, never English defaults, so you can label the column "Wk", "KW" or "Week (ISO)" and make it clear which system is shown.

@@ -43,7 +43,7 @@ export class TextInputWithSearch extends HTMLElement {
         input.type = "text";
         const inputLabel = this.getAttribute("input-label") ?? "Search";
         input.setAttribute("aria-label", inputLabel);
-        input.value = this.getAttribute("value") ?? "";
+        input.defaultValue = this.getAttribute("value") ?? "";
         const placeholder = this.getAttribute("placeholder");
         if (placeholder !== null) input.placeholder = placeholder;
         if (this.hasAttribute("required")) input.required = true;

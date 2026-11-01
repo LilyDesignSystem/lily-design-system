@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<dialog\n  class="timeout-dialog"\n  aria-label=""\n>\n  <!-- Consumer provides content -->\n</dialog>';
+    '<dialog\n  class="timeout-dialog"\n  role="alertdialog"\n  aria-label=""\n>\n  <!-- Consumer provides content -->\n</dialog>';
 
 const meta = {
     title: "Headless/Timeout Dialog",

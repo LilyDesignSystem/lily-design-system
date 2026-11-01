@@ -34,6 +34,9 @@ export class AccordionCheckbox extends HTMLElement {
     #built = false;
     #input: HTMLInputElement | null = null;
     #panel: HTMLDivElement | null = null;
+    #initialChecked = false;
+    #form: HTMLFormElement | null = null;
+    #resetTimer: ReturnType<typeof setTimeout> | undefined;
 
     connectedCallback(): void {
         if (!this.#built) {
@@ -72,9 +75,31 @@ export class AccordionCheckbox extends HTMLElement {
 
             this.#input = input;
             this.#panel = panel;
+            this.#initialChecked = this.hasAttribute("checked");
+            // defaultChecked, not checked: a form reset restores the checkbox to its default.
+            input.defaultChecked = this.#initialChecked;
         }
+        // Form reset: the browser restores the checkbox but not the host's `checked`
+        // attribute or the panel, so put both back one tick later (not when cancelled).
+        this.#form = this.closest("form");
+        this.#form?.addEventListener("reset", this.#onReset);
         this.#sync();
     }
+
+    disconnectedCallback(): void {
+        clearTimeout(this.#resetTimer);
+        this.#form?.removeEventListener("reset", this.#onReset);
+        this.#form = null;
+    }
+
+    #onReset = (event: Event): void => {
+        clearTimeout(this.#resetTimer);
+        this.#resetTimer = setTimeout(() => {
+            if (event.defaultPrevented) return;
+            this.toggleAttribute("checked", this.#initialChecked);
+            this.#sync();
+        }, 0);
+    };
 
     attributeChangedCallback(): void {
         this.#sync();

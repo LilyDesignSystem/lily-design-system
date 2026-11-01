@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "convert-div",
+  "type": "registry:component",
+  "title": "ConvertDiv",
+  "description": "A group that converts a value from one unit into another, such as dollars into euros or miles into kilometres.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ConvertDiv.tsx",
+      "content": "import React from \"react\";\n\n// ConvertDiv component\n//\n// A headless part of ConvertDiv: a group that converts a value from one unit into another, such as dollars into euros or miles into kilometres.\n// Contract: a plain <div> with the base class and children; role=\"group\" named by `label`.\n// Converts nothing and carries no strings of its own.\n//\n// Props:\n//   className    -- string, optional. CSS class name.\n//   label        -- string, required. Accessible name of the group (aria-label).\n//   children     -- ReactNode, optional. The content.\n//   ...restProps -- additional HTML attributes spread onto the root.\n\nexport interface ConvertDivProps {\n    className?: string;\n    /** Accessible name of the group. */\n    label: string;\n    /** The content. */\n    children?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function ConvertDiv({\n    className = \"\",\n    label,\n    children,\n    ...restProps\n}: ConvertDivProps) {\n    return (\n        <div\n            className={`convert-div ${className}`}\n            role=\"group\"\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ConvertDiv.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/convert-div/"
+}

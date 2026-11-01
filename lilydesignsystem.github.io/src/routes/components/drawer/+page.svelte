@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"drawer\" role=\"dialog\" aria-label=\"Drawer\"><p>Drawer content</p></div>";
   const svelteSource: string = "// In your Svelte component:\nimport Drawer from \"lily-design-system-svelte-headless/components/Drawer/Drawer.svelte\";\n\n<Drawer>\n  <!-- content -->\n</Drawer>\n";
-  const usageCode: string = "<Drawer label=\"Navigation\" bind:open side=\"left\">\n    <nav aria-label=\"Main\">…</nav>\n</Drawer>\n";
+  const usageCode: string = "<Drawer\n  label=\"Navigation\"\n  bind:open\n  side=\"left\"\n>\n  <nav aria-label=\"Main\">…</nav>\n</Drawer>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>
@@ -76,20 +76,22 @@
       <li>PascalCase: Drawer</li>
       <li>Description: a panel that slides in from the edge of the screen</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
-      <li>HTML tag: &lt;div&gt;</li>
+      <li>HTML tag: &lt;dialog&gt;</li>
       <li>CSS class: .drawer</li>
       <li>Interactive: yes</li>
     </ul>
     <h3>ARIA</h3>
     <ul>
-      <li><code>role="dialog"</code> -- identifies the drawer as a dialog for assistive technology</li>
+      <li><code>role="dialog"</code> -- implicit on the native <code>&lt;dialog&gt;</code> element (not repeated as an attribute)</li>
       <li><code>aria-label=&#123;label&#125;</code> -- provides an accessible name for the dialog</li>
-      <li><code>aria-modal="true"</code> -- indicates the drawer is modal, restricting interaction to its contents</li>
-      <li><code>data-side=&#123;side&#125;</code> -- data attribute for consumer CSS styling based on drawer position</li>
+      <li><code>aria-modal="true"</code> -- true: <code>showModal()</code> makes the page behind inert</li>
+      <li><code>tabindex="-1"</code> -- lets the dialog take focus</li>
+      <li><code>data-side=&#123;side&#125;</code> -- data attribute for consumer CSS styling based on position</li>
     </ul>
     <h3>Keyboard</h3>
     <ul>
-      <li>Escape: closes the drawer by setting <code>open</code> to <code>false</code></li>
+      <li>Escape: closes it by setting <code>open</code> to <code>false</code></li>
+      <li>Tab / Shift+Tab: move between focusable elements inside it; focus cannot leave while it is open</li>
     </ul>
     <h3>Props</h3>
     <ul>

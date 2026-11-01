@@ -104,8 +104,12 @@ export function localeEndonym(locale: string): string {
 /** Opportunistic Intl.DisplayNames lookup; never throws. */
 function intlDisplayName(locale: string): string {
     try {
+        // Where there is no navigator (server rendering), name the language in itself (its endonym), not in English
+        // (tasks.md P17-T12: no single-region default).
         const env =
-            typeof navigator !== "undefined" && navigator.language ? navigator.language : "en";
+            typeof navigator !== "undefined" && navigator.language
+                ? navigator.language
+                : bcp47LocaleTag(locale);
         const dn = new Intl.DisplayNames([env], { type: "language" });
         return dn.of(bcp47LocaleTag(locale)) ?? "";
     } catch {

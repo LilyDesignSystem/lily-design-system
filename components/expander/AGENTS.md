@@ -40,6 +40,14 @@
 - `children`: slot (required) -- expandable content rendered when expanded is true
 - `...restProps`: unknown -- additional attributes spread onto the outer `<div>` wrapper
 
+## Native platform
+
+- Decision: hand-rolled because the panel is a labelled region removed from the DOM while closed and the trigger is a plain <button>; use details for the native version
+- Uses: native <button aria-expanded aria-controls>; panel unmounted when closed
+- Could use: <details>/<summary>
+- Notes: Documented sibling of details.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
+
 ## Acceptance Criteria
 
 - [ ] Renders <div> element with class="expander"

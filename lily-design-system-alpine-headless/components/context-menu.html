@@ -6,6 +6,8 @@
   CSS class: context-menu
   Keyboard: Right click, ContextMenu key or Shift+F10 opens; arrows move; Escape closes
   Accessibility: role="menu" with aria-label; items: role="menuitem"; position is exposed as --context-menu-x / --context-menu-y
+  Popover API: the menu is popover="auto"; opening shows it with showPopover(),
+    in the top layer, and the browser closes it on Escape and on a click outside
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
@@ -20,6 +22,7 @@
   <div
     class="context-menu"
     aria-label=""
+    popover="auto"
     x-bind="menu"
   >
     <button

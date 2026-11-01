@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "skeleton",
+  "type": "registry:component",
+  "title": "Skeleton",
+  "description": "A placeholder loading animation for content.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Skeleton.tsx",
+      "content": "import React from \"react\";\n\n// Skeleton component\n//\n// A headless loading placeholder that indicates content is in the process of\n// loading. Shows the approximate layout of content before it arrives, reducing\n// perceived loading time and preventing layout shift. Hidden from screen readers\n// with aria-hidden=\"true\" and signals loading state with aria-busy=\"true\".\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   children — ReactNode, optional. Placeholder content such as skeleton line shapes.\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Syntax:\n//   <Skeleton />\n//\n// Examples:\n//\n//   <Skeleton>\n//     <div class=\"skeleton-line\"></div>\n//     <div class=\"skeleton-line\"></div>\n//   </Skeleton>\n//\n//\n//   <Skeleton style=\"width:200px; height:20px;\" />\n//\n// Keyboard:\n//   - None — this is a passive placeholder hidden from interaction.\n//\n// Accessibility:\n//   - aria-hidden=\"true\" hides the placeholder entirely from screen readers\n//   - aria-busy=\"true\" signals that this region is in a loading state\n//   - Content will be replaced when loading completes\n//\n// Internationalization:\n//   - No user-facing text — purely a visual placeholder\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Children are optional — renders an empty div when no shapes are provided\n//   - Consumer applies skeleton animation and sizing via CSS\n//\n// References:\n//   - WAI-ARIA aria-busy: https://www.w3.org/WAI/ARIA/apd/states/aria-busy/\n//   - MDN aria-hidden: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-hidden\n\nexport interface SkeletonProps {\n    className?: string;\n    /** Optional placeholder content. */\n    children?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Skeleton({ className = \"\", children, ...restProps }: SkeletonProps) {\n    return (\n        <div\n            className={`skeleton ${className}`}\n            aria-hidden=\"true\"\n            aria-busy=\"true\"\n            {...restProps}\n        >\n            {children && <>{children}</>}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Skeleton.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/skeleton/"
+}

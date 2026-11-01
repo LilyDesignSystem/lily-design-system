@@ -16,7 +16,6 @@ describe("ConvertFromUnitDiv", () => {
         await mount("convert-from-unit-div");
         expect(el().tagName.toLowerCase()).toBe("div");
     });
-
     it("has no role and no aria-label", async () => {
         await mount("convert-from-unit-div");
         expect(el().getAttribute("role")).toBeNull();

@@ -34,7 +34,10 @@
 // References:
 //   - USWDS Input mask: https://designsystem.digital.gov/components/input-mask/
 
-withDefaults(
+import { ref } from "vue";
+import { useFormResetToProp } from "./form-reset";
+
+const props = withDefaults(
     defineProps<{
         /** Accessible label (REQUIRED). */
         label: string;
@@ -53,6 +56,9 @@ withDefaults(
         disabled: false,
     },
 );
+
+const field = ref<HTMLInputElement | null>(null);
+useFormResetToProp(field, () => props.value);
 
 defineEmits<{
     (e: "input", event: Event): void;
@@ -74,6 +80,7 @@ defineEmits<{
             class="input-with-mask-control"
             type="text"
             :aria-label="label"
+            ref="field"
             :value="value"
             :placeholder="placeholder"
             :disabled="disabled"

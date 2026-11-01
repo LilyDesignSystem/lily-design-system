@@ -1161,3 +1161,96 @@ describe("<theme-picker> — open state and disabled", () => {
         expect(button(other).getAttribute("aria-expanded")).toBe("false");
     });
 });
+
+describe('ThemePicker — variant="select" (§select, RFC 3 prototype; ported from Svelte)', () => {
+    const base = {
+        label: "Colour theme",
+        "themes-url": URL_TRAILING,
+        themes: THEMES.join(","),
+        variant: "select",
+    };
+    const select = () => document.querySelector("theme-picker select") as HTMLSelectElement;
+
+    test("renders one native <select> named by label, and no button, listbox, tooltip or hidden input", () => {
+        mount(base);
+        const el = select();
+        expect(el.classList.contains("theme-picker-select")).toBe(true);
+        expect(el.getAttribute("aria-label")).toBe("Colour theme");
+        expect(el.name).toBe("theme");
+        expect(el.closest(".theme-picker")?.getAttribute("data-variant")).toBe("select");
+        expect(document.querySelector("theme-picker button")).toBeNull();
+        expect(document.querySelector('theme-picker [role="listbox"]')).toBeNull();
+        expect(document.querySelector(".theme-picker-tooltip")).toBeNull();
+        expect(document.querySelector('theme-picker input[type="hidden"]')).toBeNull();
+    });
+
+    test("labels are attributes: option text comes from theme-labels or the title-cased slug, never built-in English", () => {
+        mount({ ...base, label: "Thème", "theme-labels": JSON.stringify({ dark: "Sombre" }) });
+        expect(select().getAttribute("aria-label")).toBe("Thème");
+        const opts = [
+            ...document.querySelectorAll<HTMLOptionElement>("option.theme-picker-option"),
+        ];
+        expect(opts.map((o) => o.value)).toEqual(THEMES);
+        expect(opts.map((o) => o.textContent?.trim())).toEqual(["Light", "Sombre", "Abyss"]);
+        expect(document.body.textContent).not.toMatch(/default/i);
+    });
+
+    test("the resolved initial value is the selected option and is applied", async () => {
+        mount(base);
+        await flush();
+        expect(select().value).toBe("light");
+        expect(document.documentElement.getAttribute("data-theme")).toBe("light");
+        expect(getManagedLink()?.getAttribute("href")).toBe("/assets/themes/light.css");
+    });
+
+    test("choosing an option applies the theme, persists it and fires themechange once", async () => {
+        const el = mount({ ...base, "storage-key": "lily-theme" });
+        await flush();
+        const changes: string[] = [];
+        el.addEventListener("themechange", (e) => changes.push((e as CustomEvent).detail.theme));
+        select().value = "abyss";
+        select().dispatchEvent(new Event("change", { bubbles: true }));
+        await flush();
+        expect(el.value).toBe("abyss");
+        expect(document.documentElement.getAttribute("data-theme")).toBe("abyss");
+        expect(getManagedLink()?.getAttribute("href")).toBe("/assets/themes/abyss.css");
+        expect(localStorage.getItem("lily-theme")).toBe("abyss");
+        expect(changes).toEqual(["abyss"]);
+    });
+
+    test("keyboard is the platform's: the element adds no key handling, and open does nothing", async () => {
+        const el = mount(base);
+        await flush();
+        const event = new KeyboardEvent("keydown", {
+            key: "ArrowDown",
+            bubbles: true,
+            cancelable: true,
+        });
+        select().dispatchEvent(event);
+        expect(event.defaultPrevented).toBe(false);
+        expect(() => (el.open = true)).not.toThrow();
+        expect(document.querySelector('theme-picker [role="listbox"]')).toBeNull();
+    });
+
+    test("disabled disables the select, also when set later", () => {
+        const el = mount({ ...base, disabled: "" });
+        expect(select().disabled).toBe(true);
+        el.disabled = false;
+        expect(select().disabled).toBe(false);
+    });
+
+    test("a value set by the parent selects that option", async () => {
+        const el = mount({ ...base, value: "dark" });
+        await flush();
+        expect(select().value).toBe("dark");
+        el.value = "abyss";
+        await flush();
+        expect(select().value).toBe("abyss");
+        expect(document.documentElement.getAttribute("data-theme")).toBe("abyss");
+    });
+
+    test("the extra class is appended to the root", () => {
+        mount({ ...base, class: "header-theme" });
+        expect(select().closest(".theme-picker")?.className).toBe("theme-picker header-theme");
+    });
+});

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "switch-button",
+  "type": "registry:component",
+  "title": "SwitchButton",
+  "description": "A toggle switch for turning a setting on or off.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/SwitchButton.tsx",
+      "content": "\"use client\";\n\n// SwitchButton component\n//\n// A headless toggle switch that provides a binary on/off control using\n// role=\"switch\" with aria-checked. It renders as a <button> element and\n// supports both click and keyboard (Space key) activation. Commonly used\n// for settings, preferences, and feature toggles where users need to\n// enable or disable a single option without submitting a form.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name via aria-label.\n//   checked — boolean, default false. Whether the switch is on; controlled via checked + onChange.\n//   disabled — boolean, default false. Whether the switch is disabled.\n//   ...restProps — additional HTML attributes spread onto the <button>.\n//\n// Syntax:\n//   <SwitchButton label=\"Enable notifications\" checked={checked} onChange={setChecked} />\n//\n// Examples:\n//\n//   <SwitchButton label=\"Dark mode\" checked={darkMode} onChange={setDarkMode} disabled={locked} />\n//\n// Keyboard:\n//   - Space: toggles the switch between on and off states (custom handler with preventDefault)\n//   - Enter: activates the button (native button behavior)\n//\n// Accessibility:\n//   - role=\"switch\" identifies the element as a two-state toggle switch\n//   - aria-checked={checked} communicates whether the switch is on or off\n//   - aria-label={label} provides the accessible name for the switch control\n//\n// Internationalization:\n//   - The label prop accepts any translated string\n//   - No hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles -- consumer provides all styling\n//   - Uses controlled for two-way data binding on checked prop\n//   - type=\"button\" prevents accidental form submission\n//\n// References:\n//   - WAI-ARIA Switch Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/switch/\n//   - WAI-ARIA Switch Role: https://www.w3.org/TR/wai-aria-1.2/#switch\n\nimport React, { useEffect, useState } from \"react\";\n\nexport interface SwitchButtonProps {\n    className?: string;\n    /** Accessible label. */\n    label: string;\n    /** Whether the switch is on. Bindable. */\n    checked?: boolean;\n    /** Whether disabled. */\n    disabled?: boolean;\n    /** Callback when checked changes. */\n    onChange?: (value: boolean) => void;\n    [key: string]: unknown;\n}\n\nexport default function SwitchButton({\n    className = \"\",\n    label,\n    checked: checkedProp = false,\n    disabled = false,\n    onChange,\n    ...restProps\n}: SwitchButtonProps) {\n    const [checked, setChecked] = useState(checkedProp);\n\n    // Sync internal state when the prop changes externally.\n    useEffect(() => {\n        setChecked(checkedProp);\n    }, [checkedProp]);\n\n    function toggle() {\n        if (!disabled) {\n            const next = !checked;\n            setChecked(next);\n            onChange?.(next);\n        }\n    }\n\n    function handleKeydown(event: React.KeyboardEvent) {\n        if (event.key === \" \" && !disabled) {\n            event.preventDefault();\n            toggle();\n        }\n    }\n\n    return (\n        <button\n            className={`switch-button ${className}`}\n            type=\"button\"\n            role=\"switch\"\n            aria-checked={checked}\n            aria-label={label}\n            disabled={disabled}\n            onClick={toggle}\n            onKeyDown={handleKeydown}\n            {...restProps}\n        ></button>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/SwitchButton.tsx"
+    }
+  ],
+  "categories": [
+    "buttons"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/switch-button/"
+}

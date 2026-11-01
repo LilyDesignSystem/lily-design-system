@@ -4,34 +4,69 @@ using Xunit;
 
 namespace LilyBlazorHeadless.Tests.Components;
 
+// The arrow keys are the native radio group's, which bUnit cannot drive; the html-headless wdio test proves them in a
+// browser. These tests prove what the keys depend on: five radios sharing one name, checked from Value.
 public class FiveStarRatingPickerTests : TestContext
 {
     [Fact]
-    public void Renders_with_kebab_base_class()
+    public void Renders_a_labelled_fieldset_radiogroup()
     {
         var cut = RenderComponent<FiveStarRatingPicker>(p => p
-            .AddChildContent("body"));
-        var root = cut.Find(".five-star-rating-picker");
-        Assert.NotNull(root);
-    }
-
-    [Fact]
-    public void CssClass_is_appended_to_kebab_base_class()
-    {
-        var cut = RenderComponent<FiveStarRatingPicker>(p => p
-            .AddChildContent("body")
-            .Add(x => x.CssClass, "extra"));
-        var root = cut.Find(".five-star-rating-picker");
-        Assert.Contains("extra", root.GetAttribute("class"));
-    }
-
-    [Fact]
-    public void AdditionalAttributes_pass_through_to_root()
-    {
-        var cut = RenderComponent<FiveStarRatingPicker>(p => p
-            .AddChildContent("body")
+            .Add(x => x.Label, "Rating")
+            .Add(x => x.CssClass, "extra")
             .AddUnmatched("data-test", "value"));
-        var root = cut.Find(".five-star-rating-picker");
+        var root = cut.Find("fieldset.five-star-rating-picker");
+        Assert.Contains("extra", root.GetAttribute("class"));
+        Assert.Equal("radiogroup", root.GetAttribute("role"));
+        Assert.Equal("Rating", root.GetAttribute("aria-label"));
         Assert.Equal("value", root.GetAttribute("data-test"));
+        Assert.False(root.HasAttribute("disabled"));
+    }
+
+    [Fact]
+    public void Holds_five_radios_valued_1_to_5_sharing_one_name()
+    {
+        var cut = RenderComponent<FiveStarRatingPicker>(p => p.Add(x => x.Label, "Rating"));
+        var radios = cut.FindAll("input[type=radio]");
+        Assert.Equal(["1", "2", "3", "4", "5"], radios.Select(r => r.GetAttribute("value")));
+        Assert.All(radios, r => Assert.Equal("rating", r.GetAttribute("name")));
+        var named = RenderComponent<FiveStarRatingPicker>(p => p.Add(x => x.Label, "Rating").Add(x => x.Name, "q1"));
+        Assert.All(named.FindAll("input[type=radio]"), r => Assert.Equal("q1", r.GetAttribute("name")));
+    }
+
+    [Fact]
+    public void Labels_the_options_with_the_numbers_by_default()
+    {
+        var cut = RenderComponent<FiveStarRatingPicker>(p => p.Add(x => x.Label, "Rating"));
+        Assert.Equal(["1", "2", "3", "4", "5"], cut.FindAll("label").Select(l => l.TextContent.Trim()));
+    }
+
+    [Fact]
+    public void Labels_the_options_with_the_consumer_text()
+    {
+        var cut = RenderComponent<FiveStarRatingPicker>(p => p.Add(x => x.Label, "Rating").Add(x => x.StarLabel, n => $"{n} of 5"));
+        Assert.Equal(new[] { "1 of 5", "2 of 5", "3 of 5", "4 of 5", "5 of 5" }, cut.FindAll("label").Select(l => l.TextContent.Trim()));
+    }
+
+    [Fact]
+    public void Checks_the_radio_for_Value_and_reports_a_change()
+    {
+        int? reported = null;
+        var cut = RenderComponent<FiveStarRatingPicker>(p => p
+            .Add(x => x.Label, "Rating")
+            .Add(x => x.Value, 2)
+            .Add(x => x.ValueChanged, (int v) => reported = v));
+        var radios = cut.FindAll("input[type=radio]");
+        Assert.Equal([false, true, false, false, false], radios.Select(r => r.HasAttribute("checked")));
+        radios[3].Change(true);
+        Assert.Equal(4, reported);
+        Assert.True(cut.FindAll("input[type=radio]")[3].HasAttribute("checked"));
+    }
+
+    [Fact]
+    public void Disabled_disables_the_whole_group()
+    {
+        var cut = RenderComponent<FiveStarRatingPicker>(p => p.Add(x => x.Label, "Rating").Add(x => x.Disabled, true));
+        Assert.True(cut.Find("fieldset").HasAttribute("disabled"));
     }
 }

@@ -31,13 +31,14 @@ describe("CurrencyInput", () => {
         expect(host.querySelector("input")!.getAttribute("aria-label")).toBe("Price");
     });
 
-    test("defaults currency-code to USD, reflected as data-currency-code", () => {
+    test("never defaults currency-code: without it no data-currency-code is rendered", () => {
         const host = render('<lily-currency-input label="Price"></lily-currency-input>');
 
-        expect(host.querySelector("input")!.getAttribute("data-currency-code")).toBe("USD");
+        expect(host.querySelector("input")!.hasAttribute("data-currency-code")).toBe(false);
+        expect(host.innerHTML).not.toContain("USD");
     });
 
-    test("currency-code attribute overrides the default", () => {
+    test("currency-code attribute is reflected as data-currency-code", () => {
         const host = render(
             '<lily-currency-input label="Price" currency-code="GBP"></lily-currency-input>',
         );

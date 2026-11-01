@@ -1,6 +1,6 @@
 # Lily Design System™ - Blazor Web Examples
 
-Blazor Web App (.NET 10) example application demonstrating headless components from the [Lily Design System](https://github.com/LilyDesignSystem/lily) Blazor headless component library, styled with [NHS UK design system](https://service-manual.nhs.uk/design-system) colors, typography, spacing, and focus states.
+Blazor Web App (.NET 10) example application demonstrating headless components from the [Lily Design System](https://github.com/LilyDesignSystem/lily-design-system) Blazor headless component library, styled with [NHS UK design system](https://service-manual.nhs.uk/design-system) colors, typography, spacing, and focus states.
 
 ## Features
 
@@ -83,7 +83,7 @@ lily-design-system-blazor-web-examples/
 | Route                   | Description                                             |
 | ----------------------- | ------------------------------------------------------- |
 | `/`                     | Home page with links to all examples                    |
-| `/components`           | Lists all 490 components with links to individual demos |
+| `/components`           | Lists all 607 components with links to individual demos |
 | `/components/{slug}`    | Demonstrates one component with a live interactive demo |
 | `/contact-form`         | Contact form example page                               |
 | `/dashboard`            | Dashboard example page                                  |
@@ -151,7 +151,7 @@ Components are headless (unstyled) by default. Each component renders a semantic
 
 ## Related Projects
 
-- [Lily Design System](https://github.com/LilyDesignSystem/lily) - Parent project
+- [Lily Design System](https://github.com/LilyDesignSystem/lily-design-system) - Parent project
 - [Blazor Headless](../lily-design-system-blazor-headless/) - Blazor headless components
 - [React Next.js Examples](../lily-design-system-react-next-examples/) - React equivalent
 - [Svelte SvelteKit Examples](../lily-design-system-svelte-sveltekit-examples/) - Svelte equivalent

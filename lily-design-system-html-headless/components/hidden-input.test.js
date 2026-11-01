@@ -15,9 +15,11 @@ describe("HiddenInput", function () {
         expect(className).toContain("hidden-input");
     });
 
-    it("should have an aria-label attribute", async function () {
+    it("is a hidden input with a name and a value, and no label", async function () {
         const el = await $("input.hidden-input");
-        const label = await el.getAttribute("aria-label");
-        expect(label).not.toBeNull();
+        expect(await el.getAttribute("type")).toBe("hidden");
+        expect(await el.getAttribute("name")).not.toBeNull();
+        expect(await el.getAttribute("value")).not.toBeNull();
+        expect(await el.getAttribute("aria-label")).toBeNull();
     });
 });

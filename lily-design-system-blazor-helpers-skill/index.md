@@ -2,8 +2,7 @@
 
 A Claude Skill ([`SKILL.md`](SKILL.md)) that explains how to install and use
 [the Blazor helper packages](../spec/helpers/index.md#blazor-helper-packages):
-the six `*-picker` helper packages (theme-picker, locale-picker,
-text-size-picker, motion-picker, share-picker, date-time-picker), their NuGet
+the helper packages (the eleven `*-picker` helpers, `picker-bar`, the grid-like helpers and the editors), their NuGet
 package identities and publish status, the shared icon-button-plus-listbox
 contract and its two deliberate exceptions (`share-picker`'s disclosure,
 `date-time-picker`'s form-field-plus-dialog shape), and the Blazor-specific
@@ -31,7 +30,7 @@ source stays the single source of truth.
 
 ## Structure
 
-- [`SKILL.md`](SKILL.md) — the skill itself: the six helpers' contracts,
+- [`SKILL.md`](SKILL.md) — the skill itself: the helpers' contracts,
   NuGet package identities and publish status, the shared listbox contract
   and its two exceptions, and the Blazor-specific implementation pattern.
 

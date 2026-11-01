@@ -1,0 +1,29 @@
+---
+layout: layouts/component-demo.njk
+title: AustraliaTaxFileNumberInput
+description: an input for entering Australia's Tax File Number (TFN)
+---
+
+{% from "components/australia-tax-file-number-input/macro.njk" import australiaTaxFileNumberInput %}
+
+<h2>Default</h2>
+<p>{{ australiaTaxFileNumberInput({ text: "AustraliaTaxFileNumberInput example", label: "AustraliaTaxFileNumberInput example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field
+  label="Tax File Number (TFN)"
+  required
+&gt;
+  &lt;AustraliaTaxFileNumberInput
+    label="Tax File Number (TFN)"
+    value="{value}"
+    required
+  /&gt;
+  &lt;Hint
+    &gt;Nine digits, written 123 456 782 (older numbers have eight). The digits are multiplied by the weights 1,4,3,7,5,8,6,9,10 and summed, and the sum must be a multiple of 11.&lt;/Hint
+  &gt;
+  &lt;ErrorMessage&gt;Please enter a valid Tax File Number (TFN)&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

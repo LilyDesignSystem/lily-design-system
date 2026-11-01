@@ -76,8 +76,14 @@ test.describe("rating and feedback", () => {
     test("picks ratings, writes a comment, and submits", async ({ page }) => {
         await gotoReady(page, "/rating-and-feedback");
 
-        await page.locator("#stars-4").check();
-        await page.locator("#satisfaction-5").check();
+        await page
+            .getByRole("radiogroup", { name: "Product rating" })
+            .getByRole("radio", { name: "4 stars" })
+            .check();
+        await page
+            .getByRole("radiogroup", { name: "Service satisfaction" })
+            .getByRole("radio", { name: "Very satisfied" })
+            .check();
         await page.locator("#nps-9").check();
         await page.locator("#comment").fill("Great service overall.");
         await page.getByRole("button", { name: "Submit Feedback" }).click();

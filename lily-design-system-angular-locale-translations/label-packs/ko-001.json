@@ -283,5 +283,10 @@
     "small": "작게",
     "smaller": "더 작게",
     "smallest": "가장 작게"
+  },
+  "date-time-now-input": {
+    "date": "날짜",
+    "time": "시간",
+    "now": "지금"
   }
 }

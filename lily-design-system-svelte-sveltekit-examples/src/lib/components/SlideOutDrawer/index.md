@@ -4,17 +4,17 @@ A headless modal dialog that slides out from the side of the screen. Conditional
 
 ## What it is
 
-A Svelte 5 headless component that, when `open` is `true`, renders `<div class="slide-out-drawer ...">` with `role="dialog"`, `aria-label`, `aria-modal="true"`, and `tabindex="-1"`. When `open` is `false`, the component renders nothing.
+A Svelte 5 headless component that, when `open` is `true`, renders a modal `<dialog class="slide-out-drawer ...">` opened with `showModal()` (see `../Dialog/modal.ts`), with `aria-label`, `aria-modal="true"`, and `tabindex="-1"`. When `open` is `false`, the component renders nothing.
 
 ## What it does
 
 - Conditionally mounts based on the `open` binding.
-- Declares modal dialog semantics (`role="dialog"`, `aria-modal="true"`).
+- Is a real modal (`<dialog>` + `showModal()`, `aria-modal="true"`): the page behind is inert, Tab stays inside, focus returns to the opener.
 - Attaches a keydown handler that closes the drawer on Escape (setting `open = false`).
 - Renders `children` inside.
-- Spreads `...restProps` onto the `<div>`.
+- Spreads `...restProps` onto the `<dialog>`.
 
-Slide direction, overlay backdrop, focus trap, and animations are implementation details left to the consumer.
+Slide direction, `::backdrop` styling and animations are left to the consumer; the focus trap comes from `showModal()`.
 
 ## When to use it
 
@@ -34,7 +34,7 @@ Slide direction, overlay backdrop, focus trap, and animations are implementation
 2. Provide a translated `label`.
 3. Bind `open` via `bind:open`.
 4. Implement the trigger (button) that sets `open = true`.
-5. Add focus trapping and slide-in animation via CSS/consumer code.
+5. Add the slide-in animation via CSS.
 
 ## Props
 
@@ -42,7 +42,7 @@ Slide direction, overlay backdrop, focus trap, and animations are implementation
 - `label` (string, required) - accessible name via `aria-label`.
 - `open` (boolean, optional, default `false`, bindable).
 - `children` (Snippet, required) - drawer content.
-- `...restProps` - spread onto the `<div>`.
+- `...restProps` - spread onto the `<dialog>`.
 
 ## Usage
 
@@ -135,13 +135,10 @@ Inline close:
 
 ## Accessibility
 
-- `role="dialog"` + `aria-modal="true"` + `aria-label` form a conformant modal dialog.
+- `<dialog>` opened with `showModal()` + `aria-modal="true"` + `aria-label` form a conformant modal dialog.
 - `tabindex="-1"` makes the dialog container programmatically focusable.
 - Escape is wired to close.
-- The consumer must:
-  - Move focus to the dialog on open.
-  - Trap focus inside while open.
-  - Restore focus to the trigger on close.
+- Focus moves into the drawer on open, stays inside while open, and returns to the trigger on close.
 
 References:
 

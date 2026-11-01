@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sverige-personnummer-view",
+  "type": "registry:component",
+  "title": "SverigePersonnummerView",
+  "description": "A read-only display of Sweden's Personnummer.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/SverigePersonnummerView.tsx",
+      "content": "import React from \"react\";\n\n// SverigePersonnummerView component\n//\n// A headless display component for showing Sweden's\n// Personnummer in a read-only format.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". The identifier string to display.\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <SverigePersonnummerView label=\"Personal Identity Number\" value={value} />\n//\n// Accessibility:\n//   - aria-label provides the accessible name so screen readers announce the purpose\n//\n// References:\n//   - https://en.wikipedia.org/wiki/Personal_identity_number_(Sweden)\n\nexport interface SverigePersonnummerViewProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The identifier to display */\n    value?: string;\n    [key: string]: unknown;\n}\n\nexport default function SverigePersonnummerView({\n    className = \"\",\n    label,\n    value = \"\",\n    ...restProps\n}: SverigePersonnummerViewProps) {\n    return (\n        <span\n            className={`sverige-personnummer-view ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {value}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/SverigePersonnummerView.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/sverige-personnummer-view/"
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "overlay-container",
+  "type": "registry:component",
+  "title": "OverlayContainer",
+  "description": "A full-viewport overlay backdrop for modals and sheets.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/OverlayContainer.tsx",
+      "content": "import React from \"react\";\n\n// OverlayContainer component\n//\n// A headless overlay backdrop for modals and sheets. Renders a presentational\n// <div role=\"presentation\"> that is hidden when `open` is false (via the\n// HTML `hidden` attribute and aria-hidden). The component does not provide\n// any visual styling itself — consumer CSS is responsible for the backdrop\n// fill and positioning. The contained dialog/sheet/menu provides its own\n// role (e.g. role=\"dialog\").\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   open      — boolean, default false. Whether the overlay is visible.\n//   label     — string, optional. aria-label.\n//   onClick   — (event: React.MouseEvent) => void, optional. Click handler (typically backdrop-close).\n//   children  — ReactNode, optional. Overlay content.\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Syntax:\n//   <OverlayContainer open={isOpen} onClick={handleBackdropClick}>\n//     <Dialog>…</Dialog>\n//   </OverlayContainer>\n//\n// Examples:\n//\n//   <OverlayContainer open={open} onClick={() => setOpen(false)}>\n//     <div role=\"dialog\" aria-modal=\"true\">…</div>\n//   </OverlayContainer>\n//\n// Keyboard: None on the overlay itself; the contained dialog handles keys.\n//\n// Accessibility:\n//   - role=\"presentation\" — the overlay is decorative; the actual dialog has role=dialog\n//   - aria-hidden mirrors the inverse of `open`\n//   - hidden attribute applied when not open\n//\n// Internationalization:\n//   - Optional label is consumer-supplied\n//\n// Claude rules:\n//   - Headless: no CSS, no styles\n//   - When closed, the element renders with `hidden` attribute and aria-hidden=true\n//\n// References:\n//   - WAI-ARIA Modal Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/\n\nexport interface OverlayContainerProps {\n    className?: string;\n    /** Whether the overlay is open (visible) */\n    open?: boolean;\n    /** aria-label for the overlay */\n    label?: string;\n    /** Click handler (typically backdrop-close) */\n    onClick?: (event: React.MouseEvent) => void;\n    /** Overlay content */\n    children?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function OverlayContainer({\n    className = \"\",\n    open = false,\n    label = undefined,\n    onClick = undefined,\n    children = undefined,\n    ...restProps\n}: OverlayContainerProps) {\n    return (\n        <div\n            className={`overlay-container ${className}`}\n            role=\"presentation\"\n            aria-hidden={!open}\n            data-open={open}\n            hidden={!open}\n            aria-label={label}\n            onClick={onClick}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/OverlayContainer.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/overlay-container/"
+}

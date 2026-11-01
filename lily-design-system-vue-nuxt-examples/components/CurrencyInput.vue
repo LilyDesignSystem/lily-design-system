@@ -12,7 +12,7 @@
 // Props:
 //   label        — string, required. Accessible name via aria-label.
 //   modelValue   — number | undefined. Current numeric value (v-model).
-//   currencyCode — string, default "USD". ISO 4217 currency code.
+//   currencyCode — string, required, no default. ISO 4217 currency code.
 //   min, max     — number, optional. Constraints; not enforced clamping.
 //   required     — boolean, default false.
 //   disabled     — boolean, default false.
@@ -29,14 +29,17 @@
 //   - Headless: no CSS, no styles — consumer provides all styling
 //   - No locale formatting baked in — consumer chooses how to display
 
-withDefaults(
+import { ref } from "vue";
+import { useFormResetToProp } from "./form-reset";
+
+const props = withDefaults(
     defineProps<{
         /** Accessible name via aria-label. */
         label: string;
         /** Current numeric value (v-model). */
         modelValue?: number;
-        /** ISO 4217 currency code. */
-        currencyCode?: string;
+        /** ISO 4217 currency code (required; never defaulted). */
+        currencyCode: string;
         /** Minimum allowed value. */
         min?: number;
         /** Maximum allowed value. */
@@ -48,11 +51,13 @@ withDefaults(
     }>(),
     {
         modelValue: undefined,
-        currencyCode: "USD",
         required: false,
         disabled: false,
     },
 );
+
+const field = ref<HTMLInputElement | null>(null);
+useFormResetToProp(field, () => props.modelValue);
 
 const emit = defineEmits<{
     (e: "update:modelValue", value: number | undefined): void;
@@ -77,6 +82,7 @@ function onInput(event: Event) {
         class="currency-input"
         :aria-label="label"
         :data-currency-code="currencyCode"
+        ref="field"
         :value="modelValue === undefined ? '' : String(modelValue)"
         :min="min"
         :max="max"

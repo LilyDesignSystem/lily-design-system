@@ -10,11 +10,19 @@ describe("context-menu", () => {
         expect(el.getAttribute("aria-label")).toBe("X");
     });
 
-    it("defaults aria-label to 'Context menu'", () => {
+    it("has no English default label", () => {
         const { document } = render("context-menu", {});
-        expect(document.querySelector("ul.context-menu").getAttribute("aria-label")).toBe(
-            "Context menu",
+        expect(document.querySelector("ul.context-menu").hasAttribute("aria-label")).toBe(false);
+    });
+
+    it("is a popover=auto for the consumer's showPopover(), or shown in place when open", () => {
+        const closed = render("context-menu", { label: "X" }).document.querySelector("ul");
+        expect(closed.getAttribute("popover")).toBe("auto");
+        expect(closed.hasAttribute("hidden")).toBe(false);
+        const open = render("context-menu", { label: "X", open: true }).document.querySelector(
+            "ul",
         );
+        expect(open.hasAttribute("popover")).toBe(false);
     });
 
     it("prefers labelledBy over label", () => {

@@ -58,11 +58,55 @@ returns them as the picker's `sizeLabels` (Blazor: `LocaleTranslations.TextSizeL
 pack lacks is omitted, never filled from another language. Like the rest of the pack they are unreviewed machine drafts
 (English excepted), and Cornish, Scots and Bhojpuri are lowest confidence.
 
+## Date-time-now-input names
+
+Every pack also has a `date-time-now-input` section: the headless `date-time-now-input`'s three control names (`date`,
+`time`, `now`), e.g. Spanish `Fecha`, `Hora`, `Ahora`. The component has no English default, so take them from here:
+`dateTimeNowInputLabels(pack)` returns `{ dateLabel, timeLabel, nowLabel }`, ready to spread onto the component (Blazor:
+`LocaleTranslations.DateTimeNowInputLabels(locale)` gives `Date`, `Time` and `Now` for `DateLabel`, `TimeLabel` and
+`NowLabel`). A name a pack lacks is omitted, so that control stays unnamed rather than in another language. Unreviewed
+machine drafts like the rest (English excepted).
+
 ## Locales
 
 `ar bg bh bn cs cy da de el en es et eu fa fi fr ga gu ha hi hr hu id it ja jv ko lt lv mr mt nl pa pl pt ro ru sk sl sv ta te tr ur vi zh`,
 each as `<code>-001`. `bh-001` follows the requested tag; Bhojpuri's ISO code is `bho`. Right-to-left packs (`ar`, `fa`, `ur`) keep their
 placeholders in logical order.
+
+## Regional variants (policy, 2026-10-31, P17-T8)
+
+The pack tag is `<language>-001` (001 = the world region): one pack per language, written to be intelligible wherever the
+language is read. A regional pack is added only when a region's usage differs enough in the strings the helpers show that
+the language-level pack would be wrong or awkward there, and only with a native reviewer from that region.
+
+- **Name.** `<language>-<region>` with the region as UN M.49 or ISO 3166 (`pt-BR`, `fr-CA`, `es-419`), and the script
+  subtag where the language has two (`zh-Hant` for Traditional, with `zh-TW` or `zh-HK` only when a place's wording
+  differs from it).
+- **Fall back to the language pack, never to English.** A region with no pack uses its language pack (`pt-BR` before
+  review loads `pt-001`); a key a regional pack lacks stays unset, as for any pack. A regional pack holds only the keys
+  that differ, and `bin/check-label-packs` must be extended to accept that before the first one is added.
+- **Candidates, in order of need.** `pt-BR` (the larger Portuguese-reading population; `pt-001` follows neither
+  variety consistently), `es-419` (Latin America, with `es-MX` only if its wording differs from `es-419`), `zh-Hant`
+  (Traditional script; `zh-001` is Simplified), `fr-CA`, `en-IN`, `en-ZA` and `en-NG` (English wording and date habits
+  differ little in these strings, so these are the last to add), and Arabic and Swahili regionals only on request.
+- **Not variants.** Spelling-only differences (colour/color) in English: `en-001` already uses neutral wording, and the
+  consumer's `Intl` handles dates and numbers.
+
+## Missing languages (priority list, 2026-10-31, P17-T8)
+
+The 64 packs are 53 percent European by count. Add languages in this order, by speakers (approximate, first and second
+language) and by how little of the region's reading population the existing packs reach. Each new pack is an unreviewed
+draft until a native speaker checks it.
+
+| Order | Languages                                                          | Why                                                                                  |
+| ----- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
+| 1     | Amharic, Yoruba, Igbo, Zulu, Xhosa, Somali                         | Sub-Saharan Africa has three packs (Hausa, Swahili, Nigerian Pidgin) for 1.2 billion |
+| 2     | Nepali, Sinhala, Burmese, Malayalam, Odia, Pashto                  | South Asia and Myanmar, tens of millions of speakers each                            |
+| 3     | Kazakh, Uzbek, Azerbaijani, Georgian, Armenian, Mongolian, Kurdish | Central Asia and the Caucasus                                                        |
+| 4     | Afrikaans, Catalan, Maori, Quechua                                 | Large or officially supported communities with no pack                               |
+
+Adding one is: create `<code>-001.json` from `en-001`, run `bin/check-label-packs`, and list it under Locales.
+The list is a plan, not a commitment; a funded native reviewer moves a language up.
 
 ## Acceptance criteria
 

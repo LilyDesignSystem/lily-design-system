@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "separator",
+  "type": "registry:component",
+  "title": "Separator",
+  "description": "A horizontal or vertical divider between content sections.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Separator.tsx",
+      "content": "import React from \"react\";\n\n// Separator component\n//\n// A headless visual and semantic divider that renders an <hr> element with\n// an explicit role=\"separator\". Used between sections of a page, groups of\n// menu items, or distinct areas of a form to organize content into logical\n// groups and improve visual hierarchy.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, default undefined. Optional accessible label describing the separation.\n//   ...restProps — additional HTML attributes spread onto the <hr>.\n//\n// Syntax:\n//   <Separator />\n//\n// Examples:\n//\n//   <Separator label=\"End of introduction\" />\n//\n//\n//   <Separator label=\"Section break\" data-section=\"divider\" />\n//\n// Keyboard:\n//   - None — the <hr> element is not focusable and does not receive keyboard input.\n//\n// Accessibility:\n//   - role=\"separator\" explicitly identifies the element as a section divider\n//   - aria-label provides optional descriptive context for screen readers\n//\n// Internationalization:\n//   - The optional label prop externalizes the separator description for localization\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - The <hr> is a void element — no children or closing tag\n//   - Label is optional; when undefined, aria-label is not rendered\n//\n// References:\n//   - WAI-ARIA Separator Role: https://www.w3.org/TR/wai-aria-1.2/#separator\n//   - MDN hr element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/hr\n\nexport interface SeparatorProps {\n    className?: string;\n    /** Optional accessible label. */\n    label?: string;\n    [key: string]: unknown;\n}\n\nexport default function Separator({\n    className = \"\",\n    label = undefined,\n    ...restProps\n}: SeparatorProps) {\n    return (\n        <hr\n            className={`separator ${className}`}\n            role=\"separator\"\n            aria-label={label}\n            {...restProps}\n        />\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Separator.tsx"
+    }
+  ],
+  "categories": [
+    "navigation"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/separator/"
+}

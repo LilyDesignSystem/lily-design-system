@@ -1,10 +1,10 @@
 # Lily Design System™ - Vue Headless
 
-A headless Vue 3 component library with 490 components. All components are headless (no built-in styles), fully accessible (WCAG 2.2 AAA), and use Vue 3 Composition API with `<script setup lang="ts">`.
+A headless Vue 3 component library with 607 components. All components are headless (no built-in styles), fully accessible (WCAG 2.2 AAA), and use Vue 3 Composition API with `<script setup lang="ts">`.
 
 ## Features
 
-- 490 headless Vue components
+- 583 headless Vue components
 - TypeScript with full type definitions
 - WCAG 2.2 AAA accessibility compliance
 - Native keyboard operation from semantic elements; custom key handling (arrows, Home/End, Escape, type-ahead) in about 35 components, listed in each component's `AGENTS.md`
@@ -176,7 +176,7 @@ Component names follow a suffix-based pattern that indicates the root HTML eleme
   - **calendar-table-td**: a calendar table interactive grid data cell for managing dates, days, etc.
 - ...and 200+ more components
 
-See the [parent project](https://github.com/LilyDesignSystem/lily) for the full component list.
+See the [parent project](https://github.com/LilyDesignSystem/lily-design-system) for the full component list.
 
 ## Component Name Patterns
 
@@ -218,7 +218,7 @@ No strings are hardcoded in any component. All user-facing text comes through pr
 
 ## Related Projects
 
-- [Lily Design System](https://github.com/LilyDesignSystem/lily) — Parent project
+- [Lily Design System](https://github.com/LilyDesignSystem/lily-design-system) — Parent project
 - [Vue Nuxt Examples](../lily-design-system-vue-nuxt-examples/) — Example app with simple styling
 - [Svelte Headless](../lily-design-system-svelte-headless/) — Svelte equivalent
 - [React Headless](../lily-design-system-react-headless/) — React equivalent

@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<span class=\"measurement-instance-view\">100 cm</span>";
   const svelteSource: string = "// In your Svelte component:\nimport MeasurementInstanceView from \"lily-design-system-svelte-headless/components/MeasurementInstanceView/MeasurementInstanceView.svelte\";\n\n<MeasurementInstanceView label=\"Label\" value=\"Sample value\" />\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import MeasurementInstanceView from \"./MeasurementInstanceView.svelte\";\n<\/script>\n\n<MeasurementInstanceView value=\"72 kg\" />\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import MeasurementInstanceView from \"./MeasurementInstanceView.svelte\";\n<\/script>\n\n<MeasurementInstanceView value=\"72 kg\" />\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>
@@ -76,7 +76,7 @@
       <li>PascalCase: MeasurementInstanceView</li>
       <li>Description: a read-only display of a measurement value and unit</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
-      <li>HTML tag: &lt;div&gt;</li>
+      <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .measurement-instance-view</li>
       <li>Interactive: no</li>
     </ul>

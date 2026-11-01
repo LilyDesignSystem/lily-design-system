@@ -15,6 +15,8 @@ const meta: Meta = {
     render: (args) => h("lily-tour", args as Record<string, string | boolean>, SLOT),
     args: {
         label: "Patient record system walkthrough",
+        // The tour is hidden until active (a non-modal dialog, as in Svelte).
+        active: true,
     },
 };
 

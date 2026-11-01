@@ -87,8 +87,8 @@ Simple acknowledgment without description:
 
 ## Keyboard Interactions
 
-- Escape: Closes the dialog (consumer must implement via onkeydown)
-- Tab: Focus should be trapped within the dialog (consumer responsibility)
+- Escape: closes the dialog. It opens with `showModal()`, so the browser fires `cancel` and the component sets `open` to false.
+- Tab: stays inside the dialog; the browser keeps it there while the dialog is modal.
 
 ## ARIA
 
@@ -129,7 +129,7 @@ The consumer provides all CSS styling. The component renders with a `.alert-dial
 ## Advice
 
 - **Designers**: Ensure the dialog has a clear title, a concise description of the action, and distinguishable confirm/cancel buttons with appropriate visual weight (e.g., a destructive action button should appear more prominent and cautionary).
-- **Developers**: The consumer must implement focus trapping and Escape key handling. Set initial focus on the least destructive action button (e.g., "Cancel") to prevent accidental confirmations.
+- **Developers**: The dialog opens with `showModal()`, so the browser traps focus and handles Escape; to keep the warning up until an action is chosen, prevent the `cancel` event. Set initial focus on the least destructive action button (e.g., "Cancel") to prevent accidental confirmations.
 
 ## Related components
 

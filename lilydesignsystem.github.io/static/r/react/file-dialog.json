@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "file-dialog",
+  "type": "registry:component",
+  "title": "FileDialog",
+  "description": "A dialog for browsing and selecting files.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "registryDependencies": [
+    "@lily/dialog"
+  ],
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/FileDialog.tsx",
+      "content": "\"use client\";\n\n// FileDialog component\n//\n// A modal dialog for file-related operations such as opening, saving, or\n// managing files. Renders a native <dialog> element conditionally based on\n// the open state, with accessible labeling and Escape key dismissal. Useful\n// in file managers, document editors, and content management systems where\n// the consumer provides file lists, action buttons, and navigation as children.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name for the dialog.\n//   open — boolean, default false. Whether the dialog is visible; bindable.\n//   children — ReactNode, required. Dialog content.\n//   ...restProps — additional HTML attributes spread onto the <dialog> element.\n//\n// Syntax:\n//   <FileDialog label=\"Open file\" open={open} onChange={setOpen}>Content</FileDialog>\n//\n// Examples:\n//\n//   <FileDialog label=\"Open file\" open={open} onChange={setOpen}>\n//     <ul>\n//       <li>document.txt</li>\n//       <li>image.png</li>\n//     </ul>\n//     <button onClick={() => setOpen(false)}>Cancel</button>\n//   </FileDialog>\n//\n// Keyboard:\n//   - Escape: closes the dialog by setting open to false\n//\n// Accessibility:\n//   - aria-label provides the accessible name\n//   - Native <dialog> element provides implicit role=\"dialog\"\n//   - tabindex=\"-1\" allows programmatic focus management\n//\n// Internationalization:\n//   - The label prop accepts any string; consumers provide localized text\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Dialog removed from DOM when open is false\n//   - Uses controlled on open for two-way state binding\n//\n// References:\n//   - WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/\n//   - MDN dialog element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog\n\nimport React, { useRef } from \"react\";\n\nimport { useModalDialog } from \"./Dialog\";\n\nexport interface FileDialogProps {\n    className?: string;\n    label: string;\n    open?: boolean;\n    children: React.ReactNode;\n    /** Callback when open changes. */\n    onChange?: (value: boolean) => void;\n    [key: string]: unknown;\n}\n\nexport default function FileDialog({\n    className = \"\",\n    label,\n    open = false,\n    onChange,\n    children,\n    ...restProps\n}: FileDialogProps) {\n    const ref = useRef<HTMLDialogElement>(null);\n\n    // A real modal (tasks.md P14-T4): showModal() makes the page behind inert and traps Tab; Escape fires `cancel`.\n    useModalDialog(ref, open);\n\n    function handleCancel(event: React.SyntheticEvent) {\n        event.preventDefault();\n        onChange?.(false);\n    }\n\n    function handleKeyDown(event: React.KeyboardEvent) {\n        if (event.key === \"Escape\") {\n            event.preventDefault();\n            onChange?.(false);\n        }\n    }\n\n    return (\n        <>\n            {open && (\n                <>\n                    <dialog\n                        ref={ref}\n                        className={`file-dialog ${className}`}\n                        tabIndex={-1}\n                        aria-label={label}\n                        onKeyDown={handleKeyDown}\n                        onCancel={handleCancel}\n                        onClose={() => onChange?.(false)}\n                        {...restProps}\n                    >\n                        {children}\n                    </dialog>\n                </>\n            )}\n        </>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/FileDialog.tsx"
+    }
+  ],
+  "categories": [
+    "overlays"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/file-dialog/"
+}

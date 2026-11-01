@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "email-link",
+  "type": "registry:component",
+  "title": "EmailLink",
+  "description": "A mailto hyperlink for an email address.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/EmailLink.tsx",
+      "content": "import React from \"react\";\n\n// EmailLink component\n//\n// Displays an email address as a clickable mailto link. When clicked, it opens\n// the user's default email client with the address pre-filled. Used for\n// displaying email addresses in profiles, contact lists, or user cards.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   email — string, required. The email address to display and link to.\n//   label — string, default undefined. Optional accessible label override via aria-label.\n//   ...restProps — additional HTML attributes spread onto the <a> element.\n//\n// Syntax:\n//   <EmailLink email=\"alice@example.com\" />\n//\n// Examples:\n//\n//   <EmailLink email=\"alice@example.com\" />\n//\n//\n//   <EmailLink email=\"support@example.com\" label=\"Contact support team\" />\n//\n// Keyboard:\n//   - None custom — Tab to focus, Enter to activate (native <a> link behavior)\n//\n// Accessibility:\n//   - aria-label optionally overrides the accessible name when email text alone is insufficient\n//   - Native <a> element provides built-in link semantics\n//\n// Internationalization:\n//   - The label prop accepts any string; consumers provide localized text\n//   - Email address display is inherently locale-independent\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//\n// References:\n//   - MDN mailto links: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#linking_to_an_email_address\n\nexport interface EmailLinkProps {\n    className?: string;\n    /** Email address to display. */\n    email: string;\n    /** Optional accessible label override. */\n    label?: string;\n    [key: string]: unknown;\n}\n\nexport default function EmailLink({\n    className = \"\",\n    email,\n    label = undefined,\n    ...restProps\n}: EmailLinkProps) {\n    return (\n        <a\n            className={`email-link ${className}`}\n            href={`mailto:${email}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {email}\n        </a>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/EmailLink.tsx"
+    }
+  ],
+  "categories": [
+    "links"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/email-link/"
+}

@@ -1,0 +1,21 @@
+{#
+  IranKodEMelliView macro -- a read-only display of National Code (Kod-e Melli).
+
+  HTML tag: <span>
+  CSS class: iran-kod-e-melli-view
+
+  Params:
+    value, label, id, classes, attributes.
+
+  Usage:
+    {% from "components/iran-kod-e-melli-view/macro.njk" import iranKodEMelliView %}
+    {{ iranKodEMelliView({ value: "sample", label: "National Code (Kod-e Melli)" }) }}
+#}
+{%- macro iranKodEMelliView(params) -%}
+<span
+  class="iran-kod-e-melli-view{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>{{ params.value | default("") }}</span>
+{%- endmacro -%}

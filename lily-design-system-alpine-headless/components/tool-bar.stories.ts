@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<div\n  class="tool-bar"\n  role="toolbar"\n  aria-label=""\n>\n  <!-- Consumer provides content -->\n</div>';
+    '<div class="tool-bar" aria-label="" x-data="lilyToolBar()" x-bind="bar">\n  <!-- Consumer provides tool-bar-button buttons -->\n</div>';
 
 const meta = {
     title: "Headless/Tool Bar",

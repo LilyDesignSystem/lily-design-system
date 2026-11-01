@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "end-notes",
+  "type": "registry:component",
+  "title": "EndNotes",
+  "description": "A section of titled endnote items at the end of an article.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/EndNotes.tsx",
+      "content": "import React from \"react\";\n\n// EndNotes component\n//\n// EndNotes for the Reuters-graphics-style article layout family. Renders a\n// <section> that consumers style; this component is a structural\n// wrapper only.\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Sets the end-notes class as the styling hook\n\nexport interface EndNotesProps {\n    className?: string;\n    /** Optional accessible label set on aria-label. Defaults to 'End notes'. */\n    label?: string;\n    /** Component content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function EndNotes({\n    className = \"\",\n    label = \"End notes\",\n    children,\n    ...restProps\n}: EndNotesProps) {\n    return (\n        <section\n            className={`end-notes ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </section>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/EndNotes.tsx"
+    }
+  ],
+  "categories": [
+    "navigation"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/end-notes/"
+}

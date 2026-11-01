@@ -50,6 +50,12 @@ export type Props = {
     themeLabels?: Record<string, string>;
     /** Disables the button; an open popup closes. The popup's open state is `v-model:open`. */
     disabled?: boolean;
+    /**
+     * `"select"` renders a native `<select>` instead of the button and listbox (RFC 3 prototype; ported from the
+     * Svelte reference 2026-10-30). Keyboard, typeahead and the mobile picker are the platform's; `v-model:open`
+     * does not apply. Default `"listbox"`.
+     */
+    variant?: "listbox" | "select";
     /** Extra CSS class on the root element. */
     class?: string;
 };
@@ -106,6 +112,7 @@ import { IconButton, Listbox } from "@lilydesignsystem/vue-headless";
 
 const props = withDefaults(defineProps<Props>(), {
     disabled: false,
+    variant: "listbox",
     value: "",
     defaultValue: undefined,
     storageKey: undefined,
@@ -396,6 +403,33 @@ onBeforeUnmount(() => {
 
 <template>
     <div
+        v-if="variant === 'select'"
+        :class="`theme-picker ${props.class}`.trim()"
+        data-variant="select"
+    >
+        <!-- RFC 3 prototype: the platform's own select. Keyboard, typeahead, the mobile picker and the screen-reader
+             announcement are the browser's; the component only applies the chosen theme. `selected` on each option
+             keeps server-rendered markup correct before hydration. -->
+        <select
+            class="theme-picker-select"
+            :name="name"
+            :aria-label="label"
+            :disabled="disabled"
+            @change="setTheme(($event.target as HTMLSelectElement).value)"
+        >
+            <option
+                v-for="theme in themes"
+                :key="theme"
+                class="theme-picker-option"
+                :value="theme"
+                :selected="theme === current"
+            >
+                {{ labelFor(theme) }}
+            </option>
+        </select>
+    </div>
+    <div
+        v-else
         ref="rootEl"
         :class="`theme-picker ${props.class}`.trim()"
         @focusout="onRootFocusOut"

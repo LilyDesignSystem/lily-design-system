@@ -16,7 +16,8 @@
 // Accessibility: native listbox role; aria-label={label}.
 // Internationalization: label is consumer-supplied.
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useFormReset } from "./form-reset";
 
 export interface MultiSelectProps {
     className?: string;
@@ -50,6 +51,14 @@ export default function MultiSelect({
 }: MultiSelectProps) {
     const [value, setValue] = useState<string[]>(valueProp);
     const key = valueProp.join("\u0000");
+    const selectRef = useRef<HTMLSelectElement>(null);
+    const initialValue = useRef(valueProp);
+
+    // Form reset: restore the initial selection and tell the consumer.
+    useFormReset(selectRef, () => {
+        setValue(initialValue.current);
+        onChange?.(initialValue.current);
+    });
     useEffect(() => {
         setValue(valueProp);
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -57,6 +66,7 @@ export default function MultiSelect({
 
     return (
         <select
+            ref={selectRef}
             className={`multi-select ${className}`}
             multiple
             aria-label={label}

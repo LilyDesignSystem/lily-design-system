@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<label class=\"label\" for=\"demo-input\">Label</label><input class=\"italia-codice-fiscale-input\" id=\"demo-input\" aria-label=\"an input for entering Italy's Codice fiscale (CF)\" />";
   const svelteSource: string = "// In your Svelte component:\nimport ItaliaCodiceFiscaleInput from \"lily-design-system-svelte-headless/components/ItaliaCodiceFiscaleInput/ItaliaCodiceFiscaleInput.svelte\";\n\n<ItaliaCodiceFiscaleInput label=\"Label\" />\n";
-  const usageCode: string = "<Field label=\"Italian Fiscal Code\" required>\n  <ItaliaCodiceFiscaleInput label=\"Italian Fiscal Code\" value={value} required />\n  <Hint>16 alphanumeric characters: 3 from the surname, 3 from the given name, 5 encoding date of birth and sex, 4 encoding place of birth, and 1 check character</Hint>\n  <ErrorMessage>Please enter a valid Italian Fiscal Code</ErrorMessage>\n</Field>\n";
+  const usageCode: string = "<Field\n  label=\"Italian Fiscal Code\"\n  required\n>\n  <ItaliaCodiceFiscaleInput\n    label=\"Italian Fiscal Code\"\n    value=\"{value}\"\n    required\n  />\n  <Hint\n    >16 alphanumeric characters: 3 from the surname, 3 from the given name, 5 encoding date of birth\n    and sex, 4 encoding place of birth, and 1 check character</Hint\n  >\n  <ErrorMessage>Please enter a valid Italian Fiscal Code</ErrorMessage>\n</Field>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

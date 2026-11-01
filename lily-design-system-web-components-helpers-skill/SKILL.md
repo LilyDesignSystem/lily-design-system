@@ -1,6 +1,6 @@
 ---
 name: lily-design-system-web-components-helpers-skill
-description: Explains Lily Design System's Web Components `*-picker` helpers catalog — six vanilla custom elements (`<lily-theme-picker>`, `<lily-locale-picker>`, `<lily-text-size-picker>`, `<lily-motion-picker>`, `<lily-share-picker>`, `<lily-date-time-picker>`) that each own one whole interaction end to end. Use when someone asks how to use Lily's `<lily-*-picker>` web-component pickers, what a picker's markup or keyboard contract is, how the icon-button-plus-listbox shape differs from share-picker's disclosure or date-time-picker's field+dialog, or how this catalog relates to the HTML helpers catalog it was copied from.
+description: Explains Lily Design System's Web Components `*-picker` helpers catalog — vanilla custom elements, one package each (`<lily-theme-picker>`, `<lily-locale-picker>`, `<lily-text-size-picker>`, `<lily-motion-picker>`, `<lily-share-picker>`, `<lily-date-time-picker>`, the other pickers, `picker-bar`, and the grid-like and editor packages) that each own one whole interaction end to end. Use when someone asks how to use Lily's `<lily-*-picker>` web-component pickers, what a picker's markup or keyboard contract is, how the icon-button-plus-listbox shape differs from share-picker's disclosure or date-time-picker's field+dialog, or how this catalog relates to the HTML helpers catalog it was copied from.
 license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 ---
 
@@ -20,7 +20,7 @@ action for `share-picker`; a form value for `date-time-picker`.
 **Provenance, stated precisely.** This catalog is a maintainer-directed
 (2026-09-03) **independent copy** of
 [the HTML helper packages](../spec/helpers/index.md#html-helper-packages) —
-which is itself already six vanilla custom elements. It differs only in
+which are themselves vanilla custom elements. It differs only in
 tag prefix (`<lily-theme-picker>` rather than bare `<theme-picker>`,
 matching the Web Components headless catalog's `lily-{slug}` convention)
 and in package naming. **Nothing ports between the two catalogs
@@ -64,7 +64,7 @@ though the custom-element tag carries the `lily-` prefix).
   `<div class="{helper} {class}">` containing a hidden `<input>` for form
   participation, a `<button type="button" class="{helper}-button"
 aria-label aria-haspopup="listbox" aria-expanded aria-controls>` whose
-  only content is an `aria-hidden` glyph span, and a `<ul role="listbox"
+  only content is an `aria-hidden` icon (a bundled inline SVG since 2026-09-16), and a `<ul role="listbox"
 tabindex="-1" hidden>` of `<li role="option" aria-selected>`. Keyboard
   follows the WAI-ARIA APG listbox pattern (Arrow keys to move, Home/End to
   jump, typeahead, Enter/Space/pointer-click select **and close**, Escape
@@ -113,8 +113,19 @@ shipped with it.
 Also in the catalog, added after the six above (the contracts are in `spec/helpers/index.md`): `search-picker` (an icon button opening a
 disclosure that holds a `<form role="search">`; submitting navigates, GET, to `/?<text>`), `link-picker` (a home icon opening a disclosure of
 real `<a>` links the app defines), `menu-picker` and `settings-picker` (a hamburger and a cog icon opening a panel that holds whatever the
-app provides), and `picker-bar` (link, search, theme, locale, text-size and share pickers in one row, with the 57 themes and the seven
+app provides), and `picker-bar` (link, search, theme, locale, text-size and share pickers in one row, with the 63 themes and the seven
 text sizes pre-wired and one required `labels` object). Every picker has a hoverable, dismissable tooltip.
+
+## Packages added since the first six
+
+`bin/list-helper-packages web-components` is the authoritative list (20 packages, each `@lilydesignsystem/web-components-<package>`). Beyond the pickers named above it holds:
+
+- `time-zone-picker` (2026-10-24): an icon button (clock) opening a listbox of IANA zones labelled `UTC±HH:MM – name`, names from Unicode
+  CLDR packs (`zoneNamesFrom(pack)`); sets `data-time-zone` on a target element; a `locale` is required.
+- `theme-picker` `variant="select"` (2026-10-30, opt-in): a native `<select class="theme-picker-select">` in place of the button and listbox.
+- `picker-bar` renders `time-zone-picker` after `locale-picker` when given `labels.timeZone` and a time-zone locale.
+- `markdown-editor` and `org-editor` (2026-10-24): a textarea with a toolbar of buttons that write Markdown or Emacs Org markup.
+- `locale-translations`: the 64 label packs and the CLDR zone-name packs, per locale.
 
 ## The grid-like helpers and label packs
 
@@ -129,12 +140,12 @@ pack for each of 64 locales (English plus 63 **unreviewed machine drafts**; have
 period titles) come from `Intl`. Full contract: `spec/label-packs/index.md`.
 
 The Gantt chart can render a critical path (`critical`, `slack`, `labels.criticalLabel`); the optional calculation (`criticalPath()`,
-with lag in calendar or working days) ships in the Svelte Gantt package.
+with lag in calendar or working days) ships in this catalog's own Gantt package too, ported from Svelte's.
 
 ## When this isn't the right skill
 
 - **The headless component catalog these helpers sit alongside** (the
-  Web Components headless catalog, 547/582, its full achievable scope) — use
+  Web Components headless catalog, 572/607, its full achievable scope) — use
   [`lily-design-system-web-components-headless-skill`](../lily-design-system-web-components-headless-skill/).
 - **The bare-tag HTML helpers catalog this one was copied from**
   (`<theme-picker>` rather than `<lily-theme-picker>`, a separately

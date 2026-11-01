@@ -4,10 +4,10 @@ import { TestBed } from "@angular/core/testing";
 import { GovernmentBanner } from "./GovernmentBanner";
 
 describe("GovernmentBanner", () => {
-    test("renders the div root with the base class", () => {
+    test("renders the <aside> root with the base class", () => {
         const fixture = TestBed.createComponent(GovernmentBanner);
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.government-banner");
+        const el = fixture.nativeElement.querySelector("aside.government-banner");
         expect(el).toBeTruthy();
     });
 
@@ -15,7 +15,7 @@ describe("GovernmentBanner", () => {
         const fixture = TestBed.createComponent(GovernmentBanner);
         fixture.componentRef.setInput("className", "extra");
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.government-banner");
+        const el = fixture.nativeElement.querySelector("aside.government-banner");
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });

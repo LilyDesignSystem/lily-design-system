@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<ol class=\"breadcrumb-list\"><li class=\"breadcrumb-list-item\">Example list item</li></ol>";
   const svelteSource: string = "// In your Svelte component:\nimport BreadcrumbListItem from \"lily-design-system-svelte-headless/components/BreadcrumbListItem/BreadcrumbListItem.svelte\";\n\n<BreadcrumbListItem>\n  <!-- BreadcrumbListItem content -->\n</BreadcrumbListItem>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import BreadcrumbListItem from './BreadcrumbListItem.svelte';\n<\/script>\n\n<BreadcrumbListItem><a href=\"/products\">Products</a></BreadcrumbListItem>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import BreadcrumbListItem from \"./BreadcrumbListItem.svelte\";\n<\/script>\n\n<BreadcrumbListItem><a href=\"/products\">Products</a></BreadcrumbListItem>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

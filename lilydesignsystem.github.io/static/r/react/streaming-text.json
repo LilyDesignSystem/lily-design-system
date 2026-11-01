@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "streaming-text",
+  "type": "registry:component",
+  "title": "StreamingText",
+  "description": "Text that arrives in chunks, as an AI answer streams in, announced once to screen readers when complete.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/StreamingText.tsx",
+      "content": "import React from \"react\";\n\n// StreamingText component\n//\n// A polite live region for text that grows over time. While `streaming` is true the region is marked busy (`aria-busy=\"true\"`, `data-streaming=\"true\"`) so assistive technology waits instead of announcing every chunk; when it flips to false the finished text is announced once (`role=\"status\"`, `aria-live=\"polite\"`, `aria-atomic=\"true\"`). The component never splits, times, reveals or animates the text: the consumer appends chunks to the children, and owns any caret or reduced-motion CSS.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, optional. Accessible name of the status region.\n//   streaming — boolean, default false. True while chunks are still arriving.\n//   children — ReactNode. The text so far.\n//   ...restProps — additional HTML attributes spread onto the root <div>.\n//\n// Keyboard: none.\n\nexport interface StreamingTextProps {\n    className?: string;\n    /** Accessible name of the region. */\n    label?: string;\n    /** Whether text is still arriving. */\n    streaming?: boolean;\n    /** The text so far. */\n    children?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function StreamingText({\n    className = \"\",\n    label = undefined,\n    streaming = false,\n    children,\n    ...restProps\n}: StreamingTextProps) {\n    return (\n        <div\n            className={`streaming-text ${className}`}\n            role=\"status\"\n            aria-live=\"polite\"\n            aria-atomic=\"true\"\n            aria-label={label}\n            aria-busy={streaming ? \"true\" : undefined}\n            data-streaming={streaming ? \"true\" : undefined}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/StreamingText.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/streaming-text/"
+}

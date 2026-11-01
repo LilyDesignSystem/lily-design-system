@@ -31,9 +31,9 @@ single identifier from the list where the packaging format does not accept a
 disjunction. You do not need permission to pick one: choose whichever member of
 the list suits your project and comply with that one.
 
-This applies to the whole repository — the component catalog, the seven headless
-libraries, the seven example applications, the seven helper catalogs, the
-`themes/` stylesheets, the `bin/` tooling, and the documentation.
+This applies to the whole repository — the component catalog, the headless
+libraries, the example applications, the helper packages, the `themes/`
+stylesheets, the `bin/` tooling, and the documentation.
 
 ## Scope note
 

@@ -31,38 +31,38 @@ coding agents.
 | Topic                                                                     | What it covers                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | ------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [overview](overview/index.md)                                             | Vision, scope, the headless vs. example layers, key facts.                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| [architecture](architecture/index.md)                                     | Monorepo layout, the 184 implementation subprojects (7 full-catalog headless + 1 at its full achievable scope + 1 Alpine.js headless (all 582 components) + 8 examples + 167 top-level helper packages), `themes/`, source hosting, required files.                                                                                                                                                                                                                                                  |
+| [architecture](architecture/index.md)                                     | Monorepo layout, the 184 implementation subprojects (7 full-catalog headless + 1 at its full achievable scope + 1 Alpine.js headless (all 607 components) + 8 examples + 167 top-level helper packages), `themes/`, source hosting, required files.                                                                                                                                                                                                                                                  |
 | [headless](headless/index.md)                                             | Headless design rules: semantic markup, class hooks, rest-props, behaviour boundaries, zero CSS.                                                                                                                                                                                                                                                                                                                                                                                                     |
 | [accessibility](accessibility/index.md)                                   | WCAG 2.2 AAA target, WAI-ARIA APG patterns, ARIA reference table, axe-core baselines.                                                                                                                                                                                                                                                                                                                                                                                                                |
 | [internationalization](internationalization/index.md)                     | No hardcoded strings, stable text-prop names, locale-aware props, RTL/bidi, and the docs site's locale routes (`<language>-<region>` directories, browser-language redirect).                                                                                                                                                                                                                                                                                                                        |
 | [theme](theme/index.md)                                                   | Token shape, `--theme-*` custom properties, `data-theme` variants, the headless forbidden-list.                                                                                                                                                                                                                                                                                                                                                                                                      |
-| [components](components/index.md)                                         | The 491-component catalog, suffix→element mapping, name patterns, composition, per-component docs.                                                                                                                                                                                                                                                                                                                                                                                                   |
+| [components](components/index.md)                                         | The 607-component catalog, suffix→element mapping, name patterns, composition, per-component docs.                                                                                                                                                                                                                                                                                                                                                                                                   |
 | [examples](examples/index.md)                                             | Example apps, the three required routes, NHS reference styling, demo render mechanisms.                                                                                                                                                                                                                                                                                                                                                                                                              |
 | [tooling](tooling/index.md)                                               | The `bin/` scripts, the rsync sync model, `bin/test` verification.                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | [monorepo-github-pages](monorepo-github-pages/index.md)                   | Publishing the docs site via git subtree to a read-only sibling export repo (the one subtree left).                                                                                                                                                                                                                                                                                                                                                                                                  |
 | [testing](testing/index.md)                                               | Per-framework test suites, Storybook coverage, Playwright e2e, axe, responsive sweep.                                                                                                                                                                                                                                                                                                                                                                                                                |
 | [frameworks](frameworks/index.md)                                         | The seven framework pairs (plus the unpaired, Web Components catalog), per-framework file shapes and idioms, the copy-pattern.                                                                                                                                                                                                                                                                                                                                                                       |
 | [headless-improvements](headless-improvements/index.md)                   | Research note: what the helpers gained that the `*-headless` libraries should own — table-part props, a grid keyboard primitive, a shared core, unused headless components.                                                                                                                                                                                                                                                                                                                          |
-| [helpers](helpers/index.md)                                               | The helper packages (one top-level subproject each): the 10 pickers and `picker-bar`, their contracts, manifests, tooltips, and publish pipeline.                                                                                                                                                                                                                                                                                                                                                    |
+| [helpers](helpers/index.md)                                               | The helper packages (one top-level subproject each): the 11 pickers and `picker-bar`, the grid-like helpers and editors, their contracts, manifests, tooltips, and publish pipeline.                                                                                                                                                                                                                                                                                                                 |
 | [link-picker](link-picker/index.md)                                       | The link-picker button / disclosure-of-links HTML contract: a home icon opening the page links the app defines; leftmost in `picker-bar`.                                                                                                                                                                                                                                                                                                                                                            |
 | [menu-picker](menu-picker/index.md)                                       | The menu-picker button / disclosure-panel HTML contract: a hamburger icon opening a dropdown of whatever the app provides.                                                                                                                                                                                                                                                                                                                                                                           |
 | [settings-picker](settings-picker/index.md)                               | The settings-picker contract: the same control with a cog icon.                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| [theme-picker](theme-picker/index.md)                                     | The theme-picker button / listbox / option HTML contract, one page, bare glyph ◑.                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| [locale-picker](locale-picker/index.md)                                   | The locale-picker button / listbox / option HTML contract, bare glyph 🌐︎.                                                                                                                                                                                                                                                                                                                                                                                                                            |
-| [text-size-picker](text-size-picker/index.md)                             | The text-size-picker button / listbox / option HTML contract, glyph "A", the seven-step size scale.                                                                                                                                                                                                                                                                                                                                                                                                  |
-| [motion-picker](motion-picker/index.md)                                   | The motion-picker button / listbox / option HTML contract, bare glyph ⏸︎, the unconditional `prefers-reduced-motion` default.                                                                                                                                                                                                                                                                                                                                                                         |
-| [share-picker](share-picker/index.md)                                     | The share-picker button / disclosure-of-links HTML contract, bare glyph ➤, no `aria-haspopup`.                                                                                                                                                                                                                                                                                                                                                                                                       |
+| [theme-picker](theme-picker/index.md)                                     | The theme-picker button / listbox / option HTML contract, contrast SVG icon, tooltip; `variant="select"` opt-in.                                                                                                                                                                                                                                                                                                                                                                                     |
+| [locale-picker](locale-picker/index.md)                                   | The locale-picker button / listbox / option HTML contract, globe SVG icon, tooltip.                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| [text-size-picker](text-size-picker/index.md)                             | The text-size-picker button / listbox / option HTML contract, "A" SVG icon, the seven-step size scale.                                                                                                                                                                                                                                                                                                                                                                                               |
+| [motion-picker](motion-picker/index.md)                                   | The motion-picker button / listbox / option HTML contract, pause SVG icon, the unconditional `prefers-reduced-motion` default.                                                                                                                                                                                                                                                                                                                                                                       |
+| [share-picker](share-picker/index.md)                                     | The share-picker button / disclosure-of-links HTML contract, arrow SVG icon, no `aria-haspopup`.                                                                                                                                                                                                                                                                                                                                                                                                     |
 | [search-picker](search-picker/index.md)                                   | The search-picker button / search-form disclosure HTML contract: magnifying-glass icon, ⏎ submit, GET to `/?<text>`.                                                                                                                                                                                                                                                                                                                                                                                 |
 | [date-time-picker](date-time-picker/index.md)                             | The date-time-picker field + trigger + APG dialog HTML contract, bare glyph 📅︎ — the one picker that is a form control.                                                                                                                                                                                                                                                                                                                                                                              |
 | [label-packs](label-packs/index.md)                                       | The 64 per-locale label packs for the data grid, kanban, calendar, Gantt and filter, their loaders (TypeScript, Nunjucks, Blazor) and the checks.                                                                                                                                                                                                                                                                                                                                                    |
 | [zone-names](zone-names/index.md)                                         | The Unicode CLDR time zone names, one pack per label-pack locale (64), their loaders in every catalog, and how the pickers use them.                                                                                                                                                                                                                                                                                                                                                                 |
-| [national-identifiers](national-identifiers/index.md)                     | The 140 national personal identifier components, normalization, validation algorithms.                                                                                                                                                                                                                                                                                                                                                                                                               |
+| [national-identifiers](national-identifiers/index.md)                     | The 164 national personal identifier components, normalization, validation algorithms.                                                                                                                                                                                                                                                                                                                                                                                                               |
 | [trusted-publishing](trusted-publishing/index.md)                         | OIDC publishing to npm/NuGet: the adoption position, readiness table, checklist.                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | [free-open-source-funding](free-open-source-funding/index.md)             | Funding channels (GitHub Sponsors live, Open Collective planned), terms, and the files that must agree.                                                                                                                                                                                                                                                                                                                                                                                              |
 | [special-files-for-public-repos](special-files-for-public-repos/index.md) | The top-level files every subproject carries, copy-vs-generate, the sync tooling.                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | [dependabot](dependabot/index.md)                                         | Repo-level security updates: the grouped-weekly-PR `.github/dependabot.yml`, 40 entries.                                                                                                                                                                                                                                                                                                                                                                                                             |
 | [node-current-version](node-current-version/index.md)                     | The Node 26 requirement: `engines.node` across all `package.json` files and `deploy.yml`.                                                                                                                                                                                                                                                                                                                                                                                                            |
-| [agent-skills](agent-skills/index.md)                                     | The `lily-design-system-skill` (end-user) and `lily-design-system-maintainer-skill` (maintainer) Claude Skills, what each covers, and the naming-split retirement.                                                                                                                                                                                                                                                                                                                                   |
+| [agent-skills](agent-skills/index.md)                                     | The 27 Claude Skills: `lily-design-system-skill` (end-user), `lily-design-system-maintainer-skill` (maintainer), eight framework umbrellas, sixteen headless/helpers skills and the Alpine headless skill.                                                                                                                                                                                                                                                                                           |
 | [llms-json-and-llms-txt](llms-json-and-llms-txt/index.md)                 | The root and docs-site `llms.txt`/`llms.json` AI guidance files, the llms.txt convention, and why the two pairs' links differ.                                                                                                                                                                                                                                                                                                                                                                       |
 | [coss-ui-lessons](coss-ui-lessons/index.md)                               | Planned work from a review of coss ui-svelte: a recipes layer, per-component JSON manifests, Copy Markdown, skill registries, validity patterns, a chat page, layer naming, an LLM-readability principle.                                                                                                                                                                                                                                                                                            |
 | [shardsui-lessons](shardsui-lessons/index.md)                             | Planned work from a review of ShardsUI: a state data-attribute vocabulary, missing menu parts, documented behaviour defaults, published positioning variables, and open questions on animation hooks and submenus.                                                                                                                                                                                                                                                                                   |
@@ -72,6 +72,7 @@ coding agents.
 | [responsive](responsive/index.md)                                         | Responsive CSS rules: mobile first, intrinsic sizing before breakpoints, `rem` breakpoints, logical properties, reflow at 320px and 400% zoom; the themes' current state and how each rule is checked.                                                                                                                                                                                                                                                                                               |
 | [stephcraft-lessons](stephcraft-lessons/index.md)                         | Planned work from a review of Stephcraft's "Responsive CSS" guide: a responsive rules file and spec topic, container queries and a documented breakpoint table in the themes, a `minColumnWidth` mode for `grid`, a `picture` component, scoped overflow rules, a `grail-layout` collapse contract, 320px and 400%-zoom sweep cases, fluid spacing tokens; and what is not adopted (text that shrinks below 1rem, `display: contents` lists, a checkbox menu).                                       |
 | [dhcw-design-system-lessons](dhcw-design-system-lessons/index.md)         | Planned work from a review of the DHCW Design System (private beta, 2026-10-23): re-baseline the Wales themes' link colours, an overflow navigation mode, a patient banner composition, summary-card rules, Focus Not Obscured for fixed bars, a Welsh text-expansion sweep, callout limits; and what is not adopted.                                                                                                                                                                                |
+| [competitive-position](competitive-position/index.md)                     | Planned work answering COMPARE.md's "where the alternatives are stronger": correct and widen the matrix, a proven Core tier, one behaviour core with thin adapters, native popover/anchor/invokers, a shadcn-compatible registry, strict DTCG 2025.10 tokens, a self-assessed ACR, audit funding, the screen-reader matrix, a support policy, public-sector reference versions.                                                                                                                      |
 | [citations](citations/index.md)                                           | Design systems Lily learns from, the NHS UK reference, Reuters Graphics influence.                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | [history](history/index.md)                                               | The dated, per-event record of releases and fixes (moved out of this file 2026-10-06 to keep it loadable).                                                                                                                                                                                                                                                                                                                                                                                           |
 | [trademarks](trademarks.md)                                               | The Lily™ / Lily Design System™ marks, the first-occurrence ™ convention, the standard footer.                                                                                                                                                                                                                                                                                                                                                                                                       |
@@ -102,6 +103,7 @@ committing.
 - **Composable**: small components snap together into navigation, table, form, layout
   patterns.
 - **Internationalisable**: every user-facing string is supplied by the consumer.
+- **Worldwide, not national**: the target is every country, region and federation, not just the United States or the United Kingdom. Any standard, protocol, convention, locale or the like Lily adopts must offer equitable capabilities for countries, regions and federations worldwide. The NHS UK reference styling is a default visual reference, never a scope limit.
 - **Framework-plural**: same catalog implemented across HTML, Svelte, React, Vue,
   Angular, Blazor, and Nunjucks.
 - **CSS-strategy-agnostic**: works with semantic CSS, utility CSS (Tailwind), or
@@ -111,10 +113,11 @@ committing.
 
 ### In scope
 
-- A canonical catalog of 491 components (`components.tsv`).
-- Seven full-catalog headless component libraries: HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks — plus an 8th, native-custom-element one (Web Components, added 2026-09-03) at its full achievable scope since 2026-09-06: 456 of 491, the remaining 35 permanently excluded by a real architectural limitation, not backlog.
+- A canonical catalog of 607 components (`components.tsv`).
+- Seven full-catalog headless component libraries: HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks — plus an 8th, native-custom-element one (Web Components, added 2026-09-03) at its full achievable scope since 2026-09-06: 572 of 607, the remaining 35 permanently excluded by a real architectural limitation, not backlog.
 - Seven example applications: HTML+CSS+JS, SvelteKit, Next.js, Nuxt.js,
-  Angular Analog, Blazor Web, Nunjucks Eleventy.
+  Angular Analog, Blazor Web, Nunjucks Eleventy — plus an eighth, the Alpine.js
+  example app (`lily-design-system-alpine-examples`, 2026-10-21).
 - A CSS style-sheet template (`css-style-sheet-template.css`) declaring every
   component class hook.
 - Component documentation per component (`components/{slug}/index.md`,
@@ -124,7 +127,7 @@ committing.
   `theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`,
   `share-picker`, `search-picker`, `link-picker`, `menu-picker`, `settings-picker`, `time-zone-picker`, and `date-time-picker` helper packages —
   88 `*-picker` packages in all.
-- A `themes/` directory of 57 ready-to-use reference theme stylesheets.
+- A `themes/` directory of 63 ready-to-use reference theme stylesheets.
 - Tooling for listing, scaffolding, syncing, and testing components across
   subprojects (`bin/`).
 - Modular project documentation in `AGENTS/*.md`.
@@ -145,8 +148,8 @@ The repository root holds the canonical catalog and tools
 (`components.tsv`, `css-style-sheet-template.css`, `bin/`, `spec/`,
 `AGENTS/*.md`, `themes/`); 184 implementation subprojects hang off it —
 7 full-catalog headless libraries, 1 headless library at its full
-achievable scope (Web Components, 547/582), 1 Alpine.js headless library
-(582/582 as markup snippets plus one plugin; added 2026-10-21), 8 example apps and
+achievable scope (Web Components, 572/607), 1 Alpine.js headless library
+(607/607 as markup snippets plus one plugin; added 2026-10-21), 8 example apps and
 167 helper packages, one top-level
 subproject each (the per-framework catalogs were dissolved into them 2026-10-10;
 `bin/list-helper-packages <framework>`). Packages publish from this
@@ -158,8 +161,8 @@ multi-forge source hosting: [spec/architecture/](architecture/index.md).
 ### The three subproject layers
 
 - **Headless** (7 full-catalog subprojects + 1 at its full achievable
-  scope) — framework libraries mirroring the full 582-component catalog
-  (Web Components mirrors 456 of it): unstyled, accessible, zero CSS.
+  scope) — framework libraries mirroring the full 607-component catalog
+  (Web Components mirrors 572 of it): unstyled, accessible, zero CSS.
 - **Examples** (8 subprojects) — complete styled reference applications
   demonstrating every component with the NHS UK visual reference.
 - **Helpers** (167 top-level packages) — opinionated packages,
@@ -215,9 +218,9 @@ Themes live in example CSS and the optional `ThemeProvider` (flat token
 object → `--theme-{path}` custom properties; variants via `data-theme`).
 The headless layer bakes in no colour, spacing, typography, or
 breakpoints — the forbidden-literal list is in the AGENTS file. The
-root [`themes/`](../themes/) directory ships 57 ready-to-use reference
+root [`themes/`](../themes/) directory ships 63 ready-to-use reference
 stylesheets (NHS England/Scotland/Wales patient + practitioner
-variants, GOV.UK GDS, USWDS, Adobe Spectrum, Mozilla Protocol, Ant Design, Atlassian, Excel, Fluent, GitHub Primer, IBM Carbon, Linear, Notion, Salesforce, SAP Fiori, Vercel, and
+variants, GOV.UK GDS, USWDS, the GC Design System (Canada), SGDS (Singapore), the Digital Agency (Japan), gov.br (Brazil), ECL (European Commission), AgDS (Australia), Adobe Spectrum, Mozilla Protocol, Ant Design, Atlassian, Excel, Fluent, GitHub Primer, IBM Carbon, Linear, Notion, Salesforce, SAP Fiori, Vercel, and
 general-purpose themes) that the `theme-picker` helper loads at runtime
 by swapping a managed `<link>` and setting `data-theme`.
 
@@ -240,13 +243,13 @@ tab-separated columns: slug, PascalCase name, description. Mirrored by
 implementations; the example-app registries are regenerated from it by
 `bin/generate-registries`.
 
-**Current count: 582 components** (491 + 24 national-identifier types × 2, added 2026-09-22 in two same-day rounds — see `spec/national-identifiers/index.md` — + 16 added 2026-10-05, triaged from a survey of Baby UI: `one-time-password-input`, `multi-select`, `multi-select-with-extras`, `empty-state`, `show-more`, `kbd-shortcut`, `calendar-year-table`, `calendar-month-table`, `calendar-week-table`, `calendar-day-table`, `thinking`, `gauge-chart`, `heatmap-chart`, `radar-chart`, `sankey-chart`, `file-tree` — + 7 charts added 2026-10-05 from the same Baby UI survey: `pie-chart`, `ring-chart`, `funnel-chart`, `candlestick-chart`, `composed-chart`, `choropleth-chart`, `sunburst-chart` — + `streaming-text` (2026-10-05, deliberately narrow: a busy-aware status region, no sources/citations/actions) + `tool-call` with its five inner parts `tool-call-name`, `tool-call-status`, `tool-call-input`, `tool-call-output`, `tool-call-error` + `mark` (2026-10-05, a Lily idea prompted by the Baby UI survey, not a Baby UI component) + `chat-composer` (2026-10-05, Baby UI's chat input built narrowly: no model picker, menus or thread) + `heatmap-chart-with-year-of-days`, `middle-truncation` and `wheel-picker` (2026-10-23) + the `convert-div` family of seven (`convert-div`, `convert-from-div`, `convert-from-value-div`, `convert-from-unit-div`, `convert-into-div`, `convert-into-value-div`, `convert-into-unit-div`; 2026-10-24) + `picture` (2026-10-28: the native `<picture>` wrapper, from the Stephcraft responsive-CSS review); catalog-registered and fully implemented in all 8 headless catalogs, including Web Components).
+**Current count: 607 components** (491 + 24 national-identifier types × 2, added 2026-09-22 in two same-day rounds — see `spec/national-identifiers/index.md` — + 16 added 2026-10-05, triaged from a survey of Baby UI: `one-time-password-input`, `multi-select`, `multi-select-with-extras`, `empty-state`, `show-more`, `kbd-shortcut`, `calendar-year-table`, `calendar-month-table`, `calendar-week-table`, `calendar-day-table`, `thinking`, `gauge-chart`, `heatmap-chart`, `radar-chart`, `sankey-chart`, `file-tree` — + 7 charts added 2026-10-05 from the same Baby UI survey: `pie-chart`, `ring-chart`, `funnel-chart`, `candlestick-chart`, `composed-chart`, `choropleth-chart`, `sunburst-chart` — + `streaming-text` (2026-10-05, deliberately narrow: a busy-aware status region, no sources/citations/actions) + `tool-call` with its five inner parts `tool-call-name`, `tool-call-status`, `tool-call-input`, `tool-call-output`, `tool-call-error` + `mark` (2026-10-05, a Lily idea prompted by the Baby UI survey, not a Baby UI component) + `chat-composer` (2026-10-05, Baby UI's chat input built narrowly: no model picker, menus or thread) + `heatmap-chart-with-year-of-days`, `middle-truncation` and `wheel-picker` (2026-10-23) + the `convert-div` family of seven (`convert-div`, `convert-from-div`, `convert-from-value-div`, `convert-from-unit-div`, `convert-into-div`, `convert-into-value-div`, `convert-into-unit-div`; 2026-10-24) + `picture` (2026-10-28: the native `<picture>` wrapper, from the Stephcraft responsive-CSS review); catalog-registered and fully implemented in all 8 headless catalogs, including Web Components).
 
 The catalog spans forms, navigation, tables, layout, editorial /
 scrollytelling, data visualisation, media, overlays, pickers and
 ratings, semantic entities, and — grouped in their own "Special-Purpose
 Identifiers" section, apart from the general-purpose components above —
-140 national personal identifier components (70 identifier types ×
+164 national personal identifier components (82 identifier types ×
 `-input` + `-view` across 50+ countries). The full category walkthrough
 lives in [spec/components/](components/index.md); the national
 identifiers in [spec/national-identifiers/](national-identifiers/index.md).
@@ -329,7 +332,7 @@ different, shorter file with its own structure, not a mirror of the above.
 - Code examples use semantic HTML with proper ARIA.
 - No hardcoded user-facing strings in examples — use realistic placeholder
   content.
-- Consistent voice across all 582 components.
+- Consistent voice across all 607 components.
 
 ### 8.2 Component demo strategy (example subprojects)
 
@@ -345,40 +348,55 @@ the usage-selection rules: [spec/examples/](examples/index.md#demonstration-page
 
 Scripts live in `bin/`:
 
-| Script                                | Purpose                                                                                                                                                                                  |
-| ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `bin/list-components-as-kebab-case`   | List all component slugs (one per line).                                                                                                                                                 |
-| `bin/list-components-as-pascal-case`  | List all component PascalCase names.                                                                                                                                                     |
-| `bin/list-implementations`            | List implementation subprojects.                                                                                                                                                         |
-| `bin/list-helper-packages`            | One framework's top-level helper packages, in build order.                                                                                                                               |
-| `bin/check-package-metadata`          | Every published package names the monorepo as its source (monorepo publishing).                                                                                                          |
-| `bin/create-component-directory`      | Scaffold one component directory.                                                                                                                                                        |
-| `bin/create-implementation-directory` | Scaffold one implementation directory.                                                                                                                                                   |
-| `bin/test`                            | Verify required files across repo + all subprojects.                                                                                                                                     |
-| `bin/sync`                            | Sync shared files across subprojects (rsync).                                                                                                                                            |
-| `bin/sync-special-files`              | Propagate the top-level special files into every subproject.                                                                                                                             |
-| `bin/update`                          | Update shared files.                                                                                                                                                                     |
-| `bin/generate-storybook-stories.mjs`  | Generate Storybook stories.                                                                                                                                                              |
-| `bin/publish-helpers`                 | Build + publish every helper package (npm / NuGet): the `*-picker`s, `picker-bar`, and the gantt / kanban / calendar packages, and the standalone `lily-design-system-svelte-data-grid`. |
-| `bin/publish-headless`                | Build + publish the 7 headless libraries (npm / NuGet).                                                                                                                                  |
-| `bin/generate-registries`             | Regenerate example-app registries from the catalog.                                                                                                                                      |
-| `bin/check-links`                     | Verify relative markdown links resolve.                                                                                                                                                  |
-| `bin/check-helper-docs`               | Every Svelte grid-like helper documents each prop and lists no shipped feature as a non-goal.                                                                                            |
-| `bin/check-label-packs`               | The 64 label packs match the English pack; the helpers still take every key a pack holds.                                                                                                |
-| `bin/verify-published`                | After a publish: is every helper package's local version on npm / nuget.org? `--wait` polls through registry lag.                                                                        |
-| `bin/check-theme`                     | Conformance checks for the 57 reference themes; `--contrast` reports token-pair contrast (report only).                                                                                  |
-| `bin/generate-theme-tokens`           | DTCG token source: extract / generate / drift-check.                                                                                                                                     |
-| `bin/generate-api-docs`               | Site canonical-contract sections, the `/r/{slug}.json` manifests and the `/components/{slug}.md` copies, from AGENTS metadata; drift-checked.                                            |
-| `bin/check-class-names`               | Every implementation in all 8 headless libraries carries its slug as the first token of a class list.                                                                                    |
-| `bin/sync-example-components`         | Mirror each headless library's components into its example app's copy (`--check` in `bin/test`).                                                                                         |
-| `bin/check-coverage`                  | Coverage drift matrix: per-component file presence across all 7 headless libraries.                                                                                                      |
-| `bin/generate-component-categories`   | Regenerate `components-categories.tsv` (per-component HTML tag + category) from `components.tsv`.                                                                                        |
-| `bin/new-component`                   | End-to-end scaffolder for one new placeholder component.                                                                                                                                 |
-| `bin/generate-examples`               | Per-component usage examples (from the docs) and rendered variants (`component-variants.json`) for every demonstration page.                                                             |
-| `bin/generate-site-pages`             | Docs-site component pages: rebuilds placeholders from `index.md`, refreshes every Example section.                                                                                       |
-| `bin/generate-sitemap`                | Docs-site `sitemap.xml` from the SvelteKit route tree (`--check` for drift).                                                                                                             |
-| `bin/smoke-packages`                  | Pack + install every headless + npm helper tarball into a scratch consumer and render it.                                                                                                |
-| `bin/make-github-pages`               | Push the docs site subtree to its `github-pages` remote; invoked by `make github-pages`.                                                                                                 |
+| Script                                                                                                                  | Purpose                                                                                                                                                                                  |
+| ----------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `bin/list-components-as-kebab-case`                                                                                     | List all component slugs (one per line).                                                                                                                                                 |
+| `bin/list-components-as-pascal-case`                                                                                    | List all component PascalCase names.                                                                                                                                                     |
+| `bin/list-implementations`                                                                                              | List implementation subprojects.                                                                                                                                                         |
+| `bin/list-helper-packages`                                                                                              | One framework's top-level helper packages, in build order.                                                                                                                               |
+| `bin/check-package-metadata`                                                                                            | Every published package names the monorepo as its source (monorepo publishing).                                                                                                          |
+| `bin/create-component-directory`                                                                                        | Scaffold one component directory.                                                                                                                                                        |
+| `bin/create-implementation-directory`                                                                                   | Scaffold one implementation directory.                                                                                                                                                   |
+| `bin/test`                                                                                                              | Verify required files across repo + all subprojects.                                                                                                                                     |
+| `bin/sync`                                                                                                              | Sync shared files across subprojects (rsync).                                                                                                                                            |
+| `bin/sync-special-files`                                                                                                | Propagate the top-level special files into every subproject.                                                                                                                             |
+| `bin/update`                                                                                                            | Update shared files.                                                                                                                                                                     |
+| `bin/generate-storybook-stories.mjs`                                                                                    | Generate Storybook stories.                                                                                                                                                              |
+| `bin/publish-helpers`                                                                                                   | Build + publish every helper package (npm / NuGet): the `*-picker`s, `picker-bar`, and the gantt / kanban / calendar packages, and the standalone `lily-design-system-svelte-data-grid`. |
+| `bin/publish-headless`                                                                                                  | Build + publish the 7 headless libraries (npm / NuGet).                                                                                                                                  |
+| `bin/generate-registries`                                                                                               | Regenerate example-app registries from the catalog.                                                                                                                                      |
+| `bin/check-links`                                                                                                       | Verify relative markdown links resolve.                                                                                                                                                  |
+| `bin/check-helper-docs`                                                                                                 | Every Svelte grid-like helper documents each prop and lists no shipped feature as a non-goal.                                                                                            |
+| `bin/check-label-packs`                                                                                                 | The 64 label packs match the English pack; the helpers still take every key a pack holds.                                                                                                |
+| `bin/verify-published`                                                                                                  | After a publish: is every helper package's local version on npm / nuget.org? `--wait` polls through registry lag.                                                                        |
+| `bin/check-theme`                                                                                                       | Conformance checks for the 63 reference themes; `--contrast` reports token-pair contrast (report only).                                                                                  |
+| `bin/generate-theme-tokens`                                                                                             | DTCG token source: extract / generate / drift-check.                                                                                                                                     |
+| `bin/generate-api-docs`                                                                                                 | Site canonical-contract sections, the `/r/{slug}.json` manifests and the `/components/{slug}.md` copies, from AGENTS metadata; drift-checked.                                            |
+| `bin/check-class-names`                                                                                                 | Every implementation in all 8 headless libraries carries its slug as the first token of a class list.                                                                                    |
+| `bin/check-html-tags`                                                                                                   | Every implementation's root element is its contract's "HTML tag", or is allow-listed with a reason (the list may only shrink).                                                           |
+| `bin/sync-example-components`                                                                                           | Mirror each headless library's components into its example app's copy (`--check` in `bin/test`).                                                                                         |
+| `bin/check-coverage`                                                                                                    | Coverage drift matrix across the 7 full-catalog headless libraries, plus a keys column (keyboard contracts whose test sends no key; allow-listed gaps may only shrink).                  |
+| `bin/generate-component-categories`                                                                                     | Regenerate `components-categories.tsv` (per-component HTML tag + category) from `components.tsv`.                                                                                        |
+| `bin/new-component`                                                                                                     | End-to-end scaffolder for one new placeholder component.                                                                                                                                 |
+| `bin/generate-examples`                                                                                                 | Per-component usage examples (from the docs) and rendered variants (`component-variants.json`) for every demonstration page.                                                             |
+| `bin/generate-site-pages`                                                                                               | Docs-site component pages: rebuilds placeholders from `index.md`, refreshes every Example section.                                                                                       |
+| `bin/generate-sitemap`                                                                                                  | Docs-site `sitemap.xml` from the SvelteKit route tree (`--check` for drift).                                                                                                             |
+| `bin/smoke-packages`                                                                                                    | Pack + install every headless + npm helper tarball into a scratch consumer and render it.                                                                                                |
+| `bin/make-github-pages`                                                                                                 | Push the docs site subtree to its `github-pages` remote; invoked by `make github-pages`.                                                                                                 |
+| `bin/check-native-primitives`                                                                                           | Every Svelte overlay or popup component records its native-platform decision, in step with `spec/competitive-position/native-primitives.tsv`.                                            |
+| `bin/check-worldwide`                                                                                                   | Fails on a currency, weekend or English-locale default in shipped code; prints identifier and label-pack coverage.                                                                       |
+| `bin/check-port-parity`                                                                                                 | Web Components helpers vs HTML, Alpine vs Svelte: public names missing from the port, unless allow-listed.                                                                               |
+| `bin/check-dtcg-tokens`                                                                                                 | `themes/tokens/*.json` and the resolver are strict DTCG 2025.10.                                                                                                                         |
+| `bin/check-theme-references`                                                                                            | Report public-sector themes whose upstream has a newer major release.                                                                                                                    |
+| `bin/check-generated-files`                                                                                             | The Generated files table in `AGENTS/lily.md` matches `bin/`.                                                                                                                            |
+| `bin/generate-core`                                                                                                     | Lily Core, `docs/core.md`, the self-assessed ACR and the `/quality` page from the evidence (`--check`).                                                                                  |
+| `bin/generate-comparisons`                                                                                              | The component matrix in `compare/index.md` from `compare/compare.tsv` (`--check`).                                                                                                       |
+| `bin/sync-shared-modules`                                                                                               | Copy the pure modules in `shared/` into every package that uses them (`--check`).                                                                                                        |
+| `bin/generate-zone-names`                                                                                               | CLDR time zone name packs in `shared/zone-names/` (`--check`).                                                                                                                           |
+| `bin/test-generators`                                                                                                   | Golden tests for four generators on a three-component fixture.                                                                                                                           |
+| `bin/generate-page-markdown`, `bin/extract-site-pages`, `bin/generate-locale-pages`, `bin/check-site-page-translations` | The docs site's `.md` twins, translation sources, locale routes and translation checks.                                                                                                  |
+
+Which of these `bin/test` runs as a gate, and the complete list with flags: [spec/tooling](tooling/index.md).
 
 A root `Makefile`'s `github-pages` target wraps `bin/make-github-pages`
 as a memorable entry point. See
@@ -427,11 +445,11 @@ checked is considered live work; anything unchecked is queued in §12.
 
 ### 11.1 Catalog & docs
 
-- [x] Canonical component list defined (582 components in `components.tsv`).
+- [x] Canonical component list defined (607 components in `components.tsv`).
 - [x] CSS style sheet template covers every component class hook.
-- [x] All 582 components have a directory in `components/` with `index.md`,
+- [x] All 607 components have a directory in `components/` with `index.md`,
       `README.md` (symlink), `AGENTS.md`, `spec/index.md`.
-- [x] All 582 components have separate "When to Use" and "When Not to Use"
+- [x] All 607 components have separate "When to Use" and "When Not to Use"
       sections (not combined).
 - [x] All "When Not to Use" sections name specific Lily component alternatives.
 - [x] All 37 NHS-equivalent components enhanced with NHS-researched guidance.
@@ -447,7 +465,7 @@ checked is considered live work; anything unchecked is queued in §12.
 - [x] All 7 headless subprojects exist (HTML, Svelte, React, Vue,
       Angular, Blazor, Nunjucks), each fully verified. Per-framework
       npm/NuGet publish status: [CHANGELOG.md](../CHANGELOG.md).
-- [x] All 7 example subprojects exist (HTML+CSS+JS, SvelteKit, Next.js,
+- [x] All 7 example subprojects exist, plus the Alpine.js example app (8 in all) (HTML+CSS+JS, SvelteKit, Next.js,
       Nuxt.js, Angular + Analog.js, Blazor Web, Nunjucks Eleventy).
 - [x] Helpers exist for all 8 frameworks, one top-level subproject per
       package (Svelte canonical; React, Vue, Angular, HTML, Nunjucks, Blazor and
@@ -490,7 +508,7 @@ checked is considered live work; anything unchecked is queued in §12.
       a class hook; 3 additional documented sub-element hooks
       (`accordion-checkbox-input`, `accordion-checkbox-label`,
       `accordion-checkbox-panel`).
-- [x] All 7 headless and 7 example subprojects implement all 491
+- [x] All 7 headless and 7 example subprojects implement all 607
       canonical components in the same canonical layout, including the
       national personal identifier components (Phase 2 per-subproject
       implementation, spec §11.8) and the Angular pair (angular-headless
@@ -501,8 +519,8 @@ checked is considered live work; anything unchecked is queued in §12.
 - [x] Per-framework unit test suites cover every component in every
       headless subproject and helper catalog (re-verified 2026-09-02,
       all passing) — counts and runners: [spec/testing/index.md](testing/index.md).
-- [x] Per-framework CSS class-name audit: `bin/check-class-names` (2026-10-25) — all 582
-      components in each of the 7 full-catalog headless libraries, and 547 of 547 in Web
+- [x] Per-framework CSS class-name audit: `bin/check-class-names` (2026-10-25) — all 607
+      components in each of the 7 full-catalog headless libraries, and 572 of 572 in Web
       Components, carry their canonical kebab-case base class as the first token of a class
       list; part of `bin/test` and CI.
 - [x] Storybook story coverage: 491 / 491 in svelte, react, vue, html,
@@ -538,9 +556,9 @@ shapes and the exact viewport sizes: [spec/testing/index.md](testing/index.md).
 
 ### 11.7 Storybook coverage
 
-491 / 491 stories in svelte, react, vue, html, nunjucks, angular (6
+607 / 607 stories in svelte, react, vue, html, nunjucks, angular (6
 of 7 full-catalog headless libraries, and the Web Components
-catalog ships 456/456, its full achievable scope); Blazor deliberately
+catalog ships 572/572, its full achievable scope); Blazor deliberately
 has none — there is no
 idiomatic `@storybook/blazor`, and bUnit + `dotnet watch` covers the
 same exploration use case. Angular uses the webpack-based
@@ -567,7 +585,7 @@ The full release-by-release record lives in
 [CHANGELOG.md](../CHANGELOG.md) (and §14.1 highlights). Summary of the
 completed epochs:
 
-- **Catalog & infrastructure** — canonical list (now 491), CSS
+- **Catalog & infrastructure** — canonical list (now 607), CSS
   class-hook template, `bin/` toolchain, modular AGENTS docs, all 7
   headless + 7 example + 7 helper subprojects.
 - **Per-component docs** — all components carry `index.md` with
@@ -585,15 +603,16 @@ completed epochs:
 
 ### 12.2 Open backlog
 
-Backlog items live in §11.8 and are not duplicated here. New work items added
-during ongoing development should be appended there (or to the appropriate
-section), not into a separate `tasks.md`.
+Backlog items live in [tasks.md](../tasks.md) (see §11.8) and are not duplicated here. New work
+items go there as a numbered task with a Verify line; the spec topic that motivates a task links to it.
 
 ## 13. Roadmap
 
-Near-term focus: the open Phase 9 items in [tasks.md](../tasks.md) (the CSS class-name audit for all
-582 components, the deferred Baby UI ideas);
-expand composed-page demos beyond the required routes.
+Near-term focus (2026-10-30), from the open items in [tasks.md](../tasks.md): proof before breadth —
+fill the screen-reader matrix (P16-T9) so Lily Core can have members, decide the 9 remaining native-platform
+candidates (P16-T4), and the open worldwide-equity items (P17-T7 to P17-T11). The keyboard-test gaps are closed
+(P12-T5a: every key contract has a key test or a recorded reason), and so is the CSS class-name audit
+(`bin/check-class-names`, P9-T11).
 
 Long-term: versioned releases per subproject npm/NuGet package
 (started — see §14.1); contributor onboarding documentation
@@ -604,13 +623,13 @@ Long-term: versioned releases per subproject npm/NuGet package
 - Package: lily
 - Version: 0.9.0
 - Created: 2025-08-09
-- Updated: 2026-10-06
+- Updated: 2026-10-30
 - License: `MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause`
   (SPDX expression; or contact for other terms). See
   [LICENSE.md](../LICENSE.md) — it is the single source of truth, and every
   package manifest carries the same expression.
 - Contact: Joel Parker Henderson <joel@joelparkerhenderson.com>
-- Canonical catalog: [components.tsv](../components.tsv) (582 rows, tab-separated:
+- Canonical catalog: [components.tsv](../components.tsv) (607 rows, tab-separated:
   slug, name, description)
 - Companion docs: [AGENTS.md](../AGENTS.md), [AGENTS/*.md](../AGENTS/),
   [index.md](../index.md), [CHANGELOG.md](../CHANGELOG.md)
@@ -621,6 +640,20 @@ Long-term: versioned releases per subproject npm/NuGet package
 The dated, per-event narrative moved to [history](history/index.md) on 2026-10-06 (it had
 grown to more than half of this file). [CHANGELOG.md](../CHANGELOG.md) remains the
 canonical release record. Most recent events, newest first:
+
+- **Modal dialogs, menus on the Popover API, form reset (2026-10-30)** — `dialog`, `alert-dialog`, `file-dialog` and
+  `timeout-dialog` open with `showModal()` in every catalog; `dropdown-menu`, `split-button`, `action-group` and
+  `context-menu` are `popover="auto"` in all nine libraries; the theme-picker's `variant="select"` in all eight
+  catalogs; form reset restores the Markdown and Org editors and `filter`. See
+  [competitive-position](competitive-position/index.md).
+- **Proof and worldwide equity (2026-10-29)** — `warning-text` (catalog 583); the shared listbox machine in six
+  libraries; Lily Core and the self-assessed ACR (`bin/generate-core`, 0 members while the screen-reader matrix is
+  empty); strict DTCG 2025.10 tokens; Firefox and WebKit in every example app's e2e; `bin/check-worldwide` and the
+  Gregorian, digit, RTL and currency fixes from the [worldwide audit](internationalization/worldwide-audit.md).
+- **Responsive rules and `picture` (2026-10-28)** — `AGENTS/responsive.md`, container queries and scoped overflow in
+  the 63 themes, `grid` `minColumnWidth`, `picture` (catalog 582). See [responsive](responsive/index.md).
+- **Editors and time zones (2026-10-24)** — `markdown-editor` and `org-editor` in all nine catalogs;
+  `time-zone-picker` with CLDR names in 64 languages. See [zone-names](zone-names/index.md).
 
 - **Label packs, critical path and parity (2026-10-18)** — 64 per-locale `labels` packs (63 unreviewed drafts) with loaders for every catalog; the optional Gantt critical-path helper (calendar or working-day lag); the Gantt `criticalLabel` and kanban title editing in all eight catalogs; `bin/check-helper-docs`, `bin/check-label-packs`, `bin/verify-published`. See [label-packs](label-packs/index.md).
 - **`menu-picker` and `settings-picker` (2026-10-08)** — two more `*-picker`s: a hamburger and a cog icon button opening a

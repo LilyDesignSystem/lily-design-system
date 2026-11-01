@@ -9,14 +9,15 @@ description: a floating content box anchored to a trigger element
 
 <h2>Popover via the native Popover API</h2>
 <p>The macro uses the HTML <code>popover</code> attribute; a
-  trigger element declares <code>popovertarget</code> to open it.
+  trigger button declares <code>command="toggle-popover"</code> and
+  <code>commandfor</code> (with <code>popovertarget</code> for older engines) to open it.
   The browser handles open/close state, including Escape to close
   and light-dismiss on outside click.</p>
 
 <p>
   {{ button({
     text: "Show details",
-    attributes: { popovertarget: "pop-info" }
+    attributes: { "aria-haspopup": "dialog", "aria-controls": "pop-info", command: "toggle-popover", commandfor: "pop-info", popovertarget: "pop-info" }
   }) }}
 </p>
 
@@ -48,10 +49,29 @@ description: a floating content box anchored to a trigger element
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>
-<pre tabindex="0"><code>{% raw %}&lt;button onclick={() =&gt; showPopover = !showPopover}&gt;Toggle info&lt;/button&gt;
-&lt;Popover label="Additional information" open={showPopover}&gt;
+<pre tabindex="0"><code>{% raw %}&lt;button
+  type="button"
+  aria-haspopup="dialog"
+  aria-controls="info"
+  command="toggle-popover"
+  commandfor="info"
+  popovertarget="info"
+&gt;
+  Toggle info
+&lt;/button&gt;
+&lt;Popover
+  id="info"
+  label="Additional information"
+  bind:open={showInfo}
+&gt;
   &lt;p&gt;Here is some contextual information.&lt;/p&gt;
-  &lt;button onclick={() =&gt; showPopover = false}&gt;Close&lt;/button&gt;
+  &lt;button
+    type="button"
+    command="hide-popover"
+    commandfor="info"
+  &gt;
+    Close
+  &lt;/button&gt;
 &lt;/Popover&gt;
 {% endraw %}</code></pre>
 {# END generated: examples #}

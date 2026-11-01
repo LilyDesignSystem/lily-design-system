@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "carousel",
+  "type": "registry:component",
+  "title": "Carousel",
+  "description": "A slideshow for cycling through content items.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Carousel.tsx",
+      "content": "import React from \"react\";\n\n// Carousel component\n//\n// A headless carousel container for cycling through slides or content items.\n// Renders a <div> with role=\"region\" and aria-roledescription=\"carousel\" so\n// assistive technologies announce it properly. Used for image galleries, product\n// showcases, testimonial rotators, and featured content. The consumer provides\n// all slide content, navigation controls, and autoplay logic.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name for the carousel region.\n//   children — ReactNode, required. Slide content to render inside the carousel container.\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Syntax:\n//   <Carousel label=\"Photo gallery\">\n//     <div role=\"group\" aria-label=\"Slide 1\">...</div>\n//   </Carousel>\n//\n// Examples:\n//\n//   <Carousel label=\"Featured products\">\n//     {slides.map((slide, i) => (\n//       <div role=\"group\" aria-roledescription=\"slide\" aria-label={`Slide ${i + 1} of ${slides.length}`}>\n//         {slide.content}\n//       </div>\n//     ))}\n//   </Carousel>\n//\n// Keyboard:\n//   None built-in — the consumer should implement navigation controls\n//   (previous/next buttons, arrow keys for slide navigation).\n//\n// Accessibility:\n//   - role=\"region\" identifies the carousel as a landmark\n//   - aria-roledescription=\"carousel\" overrides the default \"region\" announcement\n//   - aria-label provides an accessible name describing the carousel content\n//\n// Internationalization:\n//   - Label text comes through the label prop; no hardcoded strings\n//   - Slide content and navigation labels are provided by the consumer\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - No internal state for active slide; consumer manages slide state externally\n//\n// References:\n//   - WAI-ARIA Carousel Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/carousel/\n//   - WAI-ARIA Authoring Practices Carousel: https://www.w3.org/WAI/tutorials/carousels/\n\nexport interface CarouselProps {\n    className?: string;\n    /** Accessible label. */\n    label: string;\n    /** Slide elements. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Carousel({ className = \"\", label, children, ...restProps }: CarouselProps) {\n    return (\n        <div\n            className={`carousel ${className}`}\n            role=\"region\"\n            aria-label={label}\n            aria-roledescription=\"carousel\"\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Carousel.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/carousel/"
+}

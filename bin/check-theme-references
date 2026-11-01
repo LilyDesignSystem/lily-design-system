@@ -1,0 +1,166 @@
+#!/usr/bin/env python3
+"""bin/check-theme-references — report how far each public-sector theme is from
+its upstream (plan P16-T11, spec/competitive-position item 11).
+
+Reads themes/references.tsv, which records for each public-sector theme the
+upstream package and the version its visual reference was taken from. Then it
+asks the npm registry (`npm view <package> version`) for each package's latest
+version, and prints every theme whose upstream has a newer major release.
+
+This is a report, not a gate. Upstream releases must never break Lily's build,
+so the script exits 0 in every case except one: a malformed references.tsv
+(exit 1). If the registry cannot be reached, it says so and exits 0.
+
+TSV columns (tab-separated, header row required):
+
+  theme                 theme file stem in themes/ (themes/{theme}.css)
+  upstream              human name of the upstream design system
+  package               npm package name, or "-" when there is none
+  recorded_version      e.g. "6.x", "6.0.0", "unknown", or a non-semver label
+                        such as "private-beta-2026-10-23" when the upstream has
+                        no version numbers
+  recorded_on           YYYY-MM-DD the reference was recorded
+  latest_when_recorded  upstream latest on that date, from `npm view <package>
+                        time --json`, or "-"
+  source                where the recorded version comes from
+  notes                 caveats; "unknown" with its reason where a fact could
+                        not be established
+
+Usage: bin/check-theme-references [--offline]
+  --offline   skip the registry and print only the recorded table
+"""
+
+import csv
+import os
+import re
+import shutil
+import subprocess
+import sys
+
+TOP = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+TSV = os.path.join(TOP, "themes", "references.tsv")
+COLUMNS = ["theme", "upstream", "package", "recorded_version", "recorded_on",
+           "latest_when_recorded", "source", "notes"]
+DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+MAJOR = re.compile(r"^(\d+)(?:\.(?:\d+|x))*$")
+PUBLIC_SECTOR = re.compile(r"^united-")
+
+
+def malformed(msg):
+    print(f"check-theme-references: malformed {os.path.relpath(TSV, TOP)}: {msg}",
+          file=sys.stderr)
+    sys.exit(1)
+
+
+def load():
+    if not os.path.isfile(TSV):
+        malformed("file not found")
+    with open(TSV, newline="", encoding="utf-8") as f:
+        rows = list(csv.reader(f, delimiter="\t", quoting=csv.QUOTE_NONE))
+    if not rows or rows[0] != COLUMNS:
+        malformed(f"header must be: {' '.join(COLUMNS)}")
+    out, seen = [], set()
+    for n, row in enumerate(rows[1:], start=2):
+        if not any(c.strip() for c in row):
+            continue
+        if len(row) != len(COLUMNS):
+            malformed(f"line {n}: {len(row)} columns, expected {len(COLUMNS)}")
+        r = dict(zip(COLUMNS, row))
+        if any(not r[c].strip() for c in COLUMNS):
+            malformed(f"line {n}: empty field (write 'unknown' or '-' instead)")
+        if r["theme"] in seen:
+            malformed(f"line {n}: duplicate theme {r['theme']}")
+        seen.add(r["theme"])
+        if not os.path.isfile(os.path.join(TOP, "themes", r["theme"] + ".css")):
+            malformed(f"line {n}: no themes/{r['theme']}.css")
+        if not DATE.match(r["recorded_on"]):
+            malformed(f"line {n}: recorded_on must be YYYY-MM-DD")
+        out.append(r)
+    return out
+
+
+def major(version):
+    m = MAJOR.match(version.strip().lstrip("v"))
+    return int(m.group(1)) if m else None
+
+
+def latest(package):
+    """Latest version on npm, or None if the registry could not be reached."""
+    try:
+        p = subprocess.run(["npm", "view", package, "version"],
+                           capture_output=True, text=True, timeout=30)
+    except (OSError, subprocess.TimeoutExpired):
+        return None
+    v = p.stdout.strip()
+    return v if p.returncode == 0 and v else None
+
+
+def main():
+    offline = "--offline" in sys.argv[1:]
+    rows = load()
+
+    themes = sorted(f[:-4] for f in os.listdir(os.path.join(TOP, "themes"))
+                    if f.endswith(".css") and PUBLIC_SECTOR.match(f))
+    missing = [t for t in themes if t not in {r["theme"] for r in rows}]
+
+    print("Recorded public-sector theme references:")
+    w = max(len(r["theme"]) for r in rows)
+    for r in rows:
+        pkg = r["package"] if r["package"] != "-" else "(no package)"
+        print(f"  {r['theme']:<{w}}  {pkg:<16} {r['recorded_version']:<24} "
+              f"recorded {r['recorded_on']}")
+    for t in missing:
+        print(f"  WARNING: themes/{t}.css has no row in themes/references.tsv")
+
+    if offline:
+        print("check-theme-references: --offline, registry not queried")
+        return 0
+    if shutil.which("npm") is None:
+        print("check-theme-references: could not reach registry (npm not found); "
+              "report skipped")
+        return 0
+
+    packages = sorted({r["package"] for r in rows if r["package"] != "-"})
+    current = {p: latest(p) for p in packages}
+    if packages and all(v is None for v in current.values()):
+        print("check-theme-references: could not reach registry; report skipped")
+        return 0
+
+    print()
+    print("Upstream latest versions:")
+    for p in packages:
+        print(f"  {p:<16} {current[p] or 'could not reach registry'}")
+
+    newer, unchecked = [], []
+    for r in rows:
+        if r["package"] == "-":
+            unchecked.append((r, "no registry package; check the upstream site by hand"))
+            continue
+        now = current.get(r["package"])
+        rec = major(r["recorded_version"])
+        if now is None:
+            unchecked.append((r, "could not reach registry"))
+        elif rec is None:
+            unchecked.append((r, f"recorded version '{r['recorded_version']}' has no major"))
+        elif major(now) is not None and major(now) > rec:
+            newer.append((r, now))
+
+    print()
+    if newer:
+        print("Themes whose upstream has a newer major release:")
+        for r, now in newer:
+            print(f"  {r['theme']:<{w}}  {r['package']} {r['recorded_version']} -> {now}")
+    else:
+        print("No theme's upstream has a newer major release.")
+    if unchecked:
+        print()
+        print("Not checked against the registry:")
+        for r, why in unchecked:
+            print(f"  {r['theme']:<{w}}  {why}")
+    print()
+    print("check-theme-references: report only; never fails on upstream releases")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

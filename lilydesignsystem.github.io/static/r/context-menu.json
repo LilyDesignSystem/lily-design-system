@@ -39,5 +39,10 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ContextMenu.razor"
   },
   "docs": "https://lilydesignsystem.com/components/context-menu/",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/context-menu/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/context-menu/AGENTS.md",
+  "nativePlatform": {
+    "decision": "native",
+    "uses": "popover=\"auto\" on an always-rendered div role=\"menu\", shown with showPopover() from open; bindable open synced from the toggle event; APG arrow-key focus hand-rolled",
+    "could_use": "CSS anchor positioning (positioning at the pointer stays consumer CSS)"
+  }
 }

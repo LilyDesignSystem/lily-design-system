@@ -94,6 +94,7 @@
     // effects, headings, tasks, priorities, planning, properties, drawers and contacts.
     // The value is plain text, so it submits with a form, validates, and works without
     // JavaScript. Every name is consumer-supplied.
+    import { untrack } from "svelte";
     import { applyTool, TOOL_GROUPS, type ToolId as Tool } from "./org-format.js";
 
     let {
@@ -123,6 +124,30 @@
     }: Props = $props();
 
     let textarea: HTMLTextAreaElement | undefined = $state(undefined);
+
+    // Form reset (tasks.md P10-T9): the textarea's value is one-way (`{value}` plus `oninput`), so a reset puts the
+    // textarea back to its empty default text without telling this component, and `value` would keep text the field
+    // no longer shows. Restore the text it started with instead, one tick later, after the browser has reset the DOM,
+    // and not when the reset was cancelled.
+    const initialValue = untrack(() => value);
+    $effect(() => {
+        const form = textarea?.closest("form");
+        if (!form) return;
+        let timer: ReturnType<typeof setTimeout> | undefined;
+        const onReset = (event: Event) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                if (event.defaultPrevented) return;
+                if (textarea) textarea.value = initialValue;
+                commit(initialValue);
+            }, 0);
+        };
+        form.addEventListener("reset", onReset);
+        return () => {
+            clearTimeout(timer);
+            form.removeEventListener("reset", onReset);
+        };
+    });
     let toolbar: HTMLElement | undefined = $state(undefined);
     let active = $state(0);
 

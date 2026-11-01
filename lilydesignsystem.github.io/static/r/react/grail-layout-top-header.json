@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "grail-layout-top-header",
+  "type": "registry:component",
+  "title": "GrailLayoutTopHeader",
+  "description": "Grail layout top header full width with <header> tag.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/GrailLayoutTopHeader.tsx",
+      "content": "import React from \"react\";\n\n// GrailLayoutTopHeader component\n//\n// A headless container for the top header section of a GrailLayout. It spans\n// the full width of the layout and typically contains site branding, navigation,\n// or a top bar.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   children — ReactNode, required. Content to render inside the top header section.\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Syntax:\n//   <GrailLayoutTopHeader>{children}</GrailLayoutTopHeader>\n//\n// Examples:\n//   <GrailLayoutTopHeader><header>Site Header</header></GrailLayoutTopHeader>\n//\n// Keyboard:\n//   - None. Structural layout component with no interactive behavior.\n//\n// Accessibility:\n//   - No explicit ARIA attributes; consumers use semantic landmarks within sections\n//\n// Internationalization:\n//   - No hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n\nexport interface GrailLayoutTopHeaderProps {\n    className?: string;\n    /** Content to render inside the top header section. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function GrailLayoutTopHeader({\n    className = \"\",\n    children,\n    ...restProps\n}: GrailLayoutTopHeaderProps) {\n    return (\n        <header\n            className={`grail-layout-top-header ${className}`}\n            {...restProps}\n        >\n            {children}\n        </header>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/GrailLayoutTopHeader.tsx"
+    }
+  ],
+  "categories": [
+    "navigation"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/grail-layout-top-header/"
+}

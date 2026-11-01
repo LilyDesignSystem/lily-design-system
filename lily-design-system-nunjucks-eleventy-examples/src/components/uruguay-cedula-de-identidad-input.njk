@@ -1,0 +1,29 @@
+---
+layout: layouts/component-demo.njk
+title: UruguayCedulaDeIdentidadInput
+description: an input for entering Uruguay's Cedula de Identidad Number
+---
+
+{% from "components/uruguay-cedula-de-identidad-input/macro.njk" import uruguayCedulaDeIdentidadInput %}
+
+<h2>Default</h2>
+<p>{{ uruguayCedulaDeIdentidadInput({ text: "UruguayCedulaDeIdentidadInput example", label: "UruguayCedulaDeIdentidadInput example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field
+  label="Cedula de Identidad Number"
+  required
+&gt;
+  &lt;UruguayCedulaDeIdentidadInput
+    label="Cedula de Identidad Number"
+    value="{value}"
+    required
+  /&gt;
+  &lt;Hint
+    &gt;Six or seven digits plus a trailing check digit, written 1.234.567-2. The body is left-padded with zeros to seven digits, multiplied by the weights 2,9,8,7,6,3,4 and summed, and the check digit is the amount that brings the sum to the next multiple of 10 (0 when it already is one).&lt;/Hint
+  &gt;
+  &lt;ErrorMessage&gt;Please enter a valid Cedula de Identidad Number&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

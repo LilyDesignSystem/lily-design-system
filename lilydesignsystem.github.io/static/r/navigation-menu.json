@@ -46,5 +46,10 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/NavigationMenu.razor"
   },
   "docs": "https://lilydesignsystem.com/components/navigation-menu/",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/navigation-menu/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/navigation-menu/AGENTS.md",
+  "nativePlatform": {
+    "decision": "hand-rolled because the More list is an APG disclosure-navigation list in normal flow and degrades to wrapped links without JS",
+    "uses": "<nav>; ResizeObserver overflow into a \"More\" disclosure",
+    "could_use": "popover=\"auto\" for the More list; anchor positioning"
+  }
 }

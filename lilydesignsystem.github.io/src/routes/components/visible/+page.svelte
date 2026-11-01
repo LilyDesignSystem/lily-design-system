@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"visible\" aria-label=\"an IntersectionObserver wrapper that exposes element visibility state\">Visible</div>";
   const svelteSource: string = "// In your Svelte component:\nimport Visible from \"lily-design-system-svelte-headless/components/Visible/Visible.svelte\";\n\n<Visible>\n  <!-- content -->\n</Visible>\n";
-  const usageCode: string = "<Visible once threshold={0.5}>\n  {(isVisible) => isVisible\n    ? <img src=\"photo.jpg\" alt=\"Lazy loaded photo\" />\n    : <div class=\"placeholder\" />\n  }\n</Visible>\n";
+  const usageCode: string = "<Visible\n  once\n  threshold=\"{0.5}\"\n>\n  {(isVisible) => isVisible ?\n  <img\n    src=\"photo.jpg\"\n    alt=\"Lazy loaded photo\"\n  />\n  :\n  <div class=\"placeholder\" />\n  }\n</Visible>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

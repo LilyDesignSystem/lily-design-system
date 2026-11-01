@@ -42,5 +42,10 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TimeoutDialog.razor"
   },
   "docs": "https://lilydesignsystem.com/components/timeout-dialog/",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/timeout-dialog/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/timeout-dialog/AGENTS.md",
+  "nativePlatform": {
+    "decision": "native",
+    "uses": "<dialog> showModal() (always mounted, shown while open)",
+    "could_use": "command=\"close\" on its buttons"
+  }
 }

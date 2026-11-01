@@ -12,9 +12,9 @@ Adobe Spectrum is a design language with visuals, tokens and Adobe-maintained Re
 
 Spectrum's home page calls it "the system behind Adobe experiences, a shared language for turning ideas into products", and says it offers foundations, tokens, patterns and guidance. Its code page covers typography for Spectrum Web, iOS and Android. The decisions are visual as well as structural: hierarchy, type styles, scales and colour.
 
-Lily makes no visual decisions in its headless layer. It ships semantic HTML, ARIA, focus and keyboard behaviour, and a kebab-case class hook per component. Lily does include a theme called `adobe-spectrum.css` among the 57 stylesheets in its `themes/` directory. That is a reference stylesheet aimed at Lily's class hooks. It is not Spectrum, it carries no endorsement from Adobe, and it is not a substitute for Spectrum's guidance.
+Lily makes no visual decisions in its headless layer. It ships semantic HTML, ARIA, focus and keyboard behaviour, and a kebab-case class hook per component. Lily does include a theme called `adobe-spectrum.css` among the 63 stylesheets in its `themes/` directory. That is a reference stylesheet aimed at Lily's class hooks. It is not Spectrum, it carries no endorsement from Adobe, and it is not a substitute for Spectrum's guidance.
 
-Lily's own survey (428 rows, `compare/compare.tsv`) marks 152 rows as matching an Adobe component. Lily is 428 of 428 by construction, because the survey is built from Lily's catalog (582 rows in `components.tsv`). Read the 152 as overlap, not as a score for Spectrum.
+Lily's own survey (429 rows, `compare/compare.tsv`) marks 152 rows as matching an Adobe component. Lily is 429 of 429 by construction, because the survey is built from Lily's catalog (607 rows in `components.tsv`). Read the 152 as overlap, not as a score for Spectrum.
 
 ## Implementations and who maintains them
 
@@ -28,7 +28,7 @@ The practical difference: Spectrum has a corporate team behind two web implement
 
 In Spectrum Web Components, an `sp-theme` element supplies design tokens to its DOM scope; the docs say "these tokens are made available as CSS Custom Properties". It takes a scale (`medium` or `large`), a colour (`light` or `dark`) and a system (`spectrum`, `express` or `spectrum-two`). So theming changes within Adobe's own language, and the component styling comes with the package.
 
-Lily's headless components carry no styles. Its theming is a flat token object that becomes `--theme-*` custom properties through an optional `ThemeProvider`, plus `data-theme` variants. Its 57 reference stylesheets target the class hooks, and the `theme-picker` helper swaps them at runtime. You write or adapt the stylesheet. If you want a finished, consistent look, Spectrum gives you more; if you need a look that is not Adobe's, Lily gets in the way less.
+Lily's headless components carry no styles. Its theming is a flat token object that becomes `--theme-*` custom properties through an optional `ThemeProvider`, plus `data-theme` variants. Its 63 reference stylesheets target the class hooks, and the `theme-picker` helper swaps them at runtime. You write or adapt the stylesheet. If you want a finished, consistent look, Spectrum gives you more; if you need a look that is not Adobe's, Lily gets in the way less.
 
 ## Accessibility and internationalisation
 
@@ -38,7 +38,7 @@ Lily targets WCAG 2.2 AAA and follows the APG patterns, with automated axe check
 
 ## Scope, maturity and licence
 
-Spectrum's pages I read list beta areas for React and Web Components, and the Web Components docs list 91 navigation entries under Components, some of which may be utilities. The Web Components migration guide is dated "2024/10/31 (v1.0.0)". The spectrum.adobe.com home page gives no component count. Lily lists 582 components in its catalog, a wider surface than a typical design system, but each is newer and less proven in real use.
+Spectrum's pages I read list beta areas for React and Web Components, and the Web Components docs list 91 navigation entries under Components, some of which may be utilities. The Web Components migration guide is dated "2024/10/31 (v1.0.0)". The spectrum.adobe.com home page gives no component count. Lily lists 607 components in its catalog, a wider surface than a typical design system, but each is newer and less proven in real use.
 
 Both Spectrum code repositories I checked show Apache-2.0. Lily's licence is a choice among several, expressed as `MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause`. The Spectrum design language itself (foundations, guidance) has no licence stated on the pages I read, so check Adobe's terms before reusing anything beyond the code.
 

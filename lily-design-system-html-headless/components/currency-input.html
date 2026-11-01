@@ -7,14 +7,16 @@
   Keyboard: None (passive element)
   Accessibility: aria-label for accessible name
   Usage:
-    <div class="currency-input" aria-label="Example">
+    <div class="currency-input" aria-label="Example" data-currency-code="EUR">
       ...
     </div>
 -->
 
+<!-- data-currency-code is REQUIRED: the consumer supplies the ISO 4217 code. It is never defaulted. -->
 <div
   class="currency-input"
   aria-label=""
+  data-currency-code=""
 >
   <!-- Consumer provides content -->
 </div>

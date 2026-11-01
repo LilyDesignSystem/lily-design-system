@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "viet-nam-can-cuoc-cong-dan-view",
+  "type": "registry:component",
+  "title": "VietNamCanCuocCongDanView",
+  "description": "A read-only display of Viet Nam's Citizen Identification Number (CCCD).",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/VietNamCanCuocCongDanView.tsx",
+      "content": "import React from \"react\";\n\n// VietNamCanCuocCongDanView component\n//\n// A headless display component for showing Viet Nam's\n// Citizen Identification Number (CCCD) in a read-only format.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". The identifier string to display.\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <VietNamCanCuocCongDanView label=\"Citizen Identification Number (CCCD)\" value={value} />\n//\n// Accessibility:\n//   - aria-label provides the accessible name so screen readers announce the purpose\n//\n// References:\n//   - https://en.wikipedia.org/wiki/Vietnamese_identity_card\n\nexport interface VietNamCanCuocCongDanViewProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The identifier to display */\n    value?: string;\n    [key: string]: unknown;\n}\n\nexport default function VietNamCanCuocCongDanView({\n    className = \"\",\n    label,\n    value = \"\",\n    ...restProps\n}: VietNamCanCuocCongDanViewProps) {\n    return (\n        <span\n            className={`viet-nam-can-cuoc-cong-dan-view ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {value}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/VietNamCanCuocCongDanView.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/viet-nam-can-cuoc-cong-dan-view/"
+}

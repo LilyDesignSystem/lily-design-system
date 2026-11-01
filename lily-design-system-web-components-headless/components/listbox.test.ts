@@ -89,6 +89,21 @@ describe("Listbox", () => {
         expect(document.activeElement).toBe(opts[0]);
     });
 
+    test("prevents the default for the keys it handles, and only those", () => {
+        const host = render(`<lily-listbox label="Select priority">${OPTIONS_HTML}</lily-listbox>`);
+        options(host)[0].focus();
+        const press = (key: string) => {
+            const event = new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true });
+            host.dispatchEvent(event);
+            return event.defaultPrevented;
+        };
+
+        expect(press("ArrowDown")).toBe(true);
+        expect(press("End")).toBe(true);
+        expect(press("Tab")).toBe(false);
+        expect(press("a")).toBe(false);
+    });
+
     test("appends the consumer's class hook to the base class", () => {
         const host = render(
             `<lily-listbox label="Select priority" class="settings-list">${OPTIONS_HTML}</lily-listbox>`,

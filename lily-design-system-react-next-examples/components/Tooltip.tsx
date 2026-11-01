@@ -46,6 +46,7 @@
 //   - MDN aria-describedby: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-describedby
 
 import React from "react";
+import { usePopoverState } from "./Popover";
 
 export interface TooltipProps {
     className?: string;
@@ -65,20 +66,18 @@ export default function Tooltip({
     id = undefined,
     ...restProps
 }: TooltipProps) {
+    const panelRef = React.useRef<HTMLDivElement>(null);
+    usePopoverState(panelRef, visible);
     return (
-        <>
-            {visible && (
-                <>
-                    <div
-                        className={`tooltip ${className}`}
-                        role="tooltip"
-                        id={id}
-                        {...restProps}
-                    >
-                        {label}
-                    </div>
-                </>
-            )}
-        </>
+        <div
+            className={`tooltip ${className}`}
+            ref={panelRef}
+            role="tooltip"
+            popover="manual"
+            id={id}
+            {...restProps}
+        >
+            {label}
+        </div>
     );
 }

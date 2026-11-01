@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<button class=\"timer-button\">Auto-click in 5s</button>";
   const svelteSource: string = "// In your Svelte component:\nimport TimerButton from \"lily-design-system-svelte-headless/components/TimerButton/TimerButton.svelte\";\n\n<TimerButton>TimerButton</TimerButton>\n";
-  const usageCode: string = "<TimerButton duration={10} label=\"Undo delete\" onclick={handleUndo}>\n  Undo deletion (10s remaining)\n</TimerButton>\n";
+  const usageCode: string = "<TimerButton\n  duration=\"{10}\"\n  label=\"Undo delete\"\n  onclick=\"{handleUndo}\"\n>\n  Undo deletion (10s remaining)\n</TimerButton>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

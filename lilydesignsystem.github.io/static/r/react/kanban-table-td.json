@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "kanban-table-td",
+  "type": "registry:component",
+  "title": "KanbanTableTD",
+  "description": "Kanban board table interactive grid data cell for organizing items by status <td>.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/KanbanTableTD.tsx",
+      "content": "import React from \"react\";\n\n// KanbanTableTD component\n//\n// A single cell within a KanbanTableRow, rendered as a <td> with role=\"gridcell\".\n// Represents a task card or content area within a workflow column. Supports an\n// optional accessible label for screen reader identification.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   active — boolean, optional. Marks the cell as the roving tab stop.\n//   label — string, optional. Accessible name for the cell via aria-label.\n//   children — ReactNode, optional. Cell content such as task cards or text.\n//   ...restProps — additional HTML attributes spread onto the <td>.\n//\n// Syntax:\n//   <KanbanTableTD>Task content</KanbanTableTD>\n//   <KanbanTableTD active label=\"Design task\">...</KanbanTableTD>\n//\n// Examples:\n//   <KanbanTableRow>\n//     <KanbanTableTD label=\"Fix login bug\">Fix login bug</KanbanTableTD>\n//     <KanbanTableTD />\n//     <KanbanTableTD />\n//   </KanbanTableRow>\n//\n// Keyboard:\n//   None built-in — keyboard navigation handled at the KanbanTable grid level.\n//\n// Accessibility:\n//   - role=\"gridcell\" identifies the cell as part of a grid\n//   - `active` is the roving tab stop only: it never sets aria-selected, because focus is not selection (a grid with real selection passes aria-selected itself)\n//   - tabindex enables roving tabindex (0 when active, -1 otherwise)\n//   - aria-label optionally provides an accessible name for the cell\n//\n// Internationalization:\n//   - Cell content comes through children prop; no hardcoded strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Must be used inside a KanbanTableRow\n//   - Children are optional — empty cells represent empty workflow slots\n//\n// References:\n//   - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/\n\nexport interface KanbanTableTDProps {\n    className?: string;\n    /** Marks the cell as the roving tab stop (tabindex=\"0\"). Never sets aria-selected. */\n    active?: boolean;\n    /** Accessible name for the cell. */\n    label?: string;\n    /** Cell content such as task cards or text. */\n    children?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function KanbanTableTD({\n    className = \"\",\n    active = false,\n    label,\n    children,\n    ...restProps\n}: KanbanTableTDProps) {\n    return (\n        <td\n            className={`kanban-table-td ${className}`}\n            role=\"gridcell\"\n            tabIndex={active ? 0 : -1}\n            aria-label={label}\n            {...restProps}\n        >\n            {children && <>{children}</>}\n        </td>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/KanbanTableTD.tsx"
+    }
+  ],
+  "categories": [
+    "tables"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/kanban-table-td/"
+}

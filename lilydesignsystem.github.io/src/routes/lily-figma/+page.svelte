@@ -2,7 +2,7 @@
   <title>Lily + Figma — Lily Design System</title>
   <meta
     name="description"
-    content="There is no maintained Lily Figma library or plugin. The 57 reference themes' design tokens are published in DTCG format and can be imported into Figma today with an existing community plugin."
+    content="There is no maintained Lily Figma library or plugin. The 63 reference themes' design tokens are published in DTCG format and can be imported into Figma today with an existing community plugin."
   />
 </svelte:head>
 
@@ -27,8 +27,8 @@
 
   <h2>What exists today</h2>
   <p>
-    Each of the 57 reference themes has its design-token primitives —
-    colour, radius, size, border — published in
+    Each of the 63 reference themes has its design-token primitives —
+    colour, radius, size, border, fluid spacing — published as strict
     <a href="https://www.w3.org/community/design-tokens/2025/10/28/design-tokens-specification-reaches-first-stable-version/"
       >DTCG 2025.10 format</a
     >
@@ -36,9 +36,15 @@
     <a
       href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes/tokens"
       ><code>themes/tokens/*.json</code></a
-    >. That format is exactly what modern token tooling reads. You can pull a
-    Lily theme's palette into Figma yourself, right now, with no plugin from
-    this project:
+    >, using only the standard colour, dimension and number types (checked by
+    bin/check-dtcg-tokens on every test run), plus a resolver
+    document that lists all 63 themes as the contexts of one theme modifier.
+    What Lily needs beyond the standard sits under the
+    com.lilydesignsystem extensions key, which other tools
+    ignore: the two fluid spacing tokens are plain rem dimensions holding
+    their 1rem floor, and their clamp() parameters ride in the extension, so a
+    design tool sees a fixed 1rem gap. You can try to pull a Lily theme's
+    palette into Figma yourself, with no plugin from this project:
   </p>
   <ol>
     <li>
@@ -53,14 +59,20 @@
       <code>united-kingdom-national-health-service-england-for-patients.json</code>.
     </li>
     <li>
-      Tokens Studio creates Figma variables from the DTCG values, which you
-      can then apply to your own components.
+      Tokens Studio should create Figma variables from the DTCG values, which
+      you can then apply to your own components. Penpot, the open-source
+      design tool, imports token JSON natively and is a second path.
     </li>
   </ol>
   <p>
-    This gets you Lily's colours and shape tokens in Figma. It does not get
-    you Lily's actual components as Figma components — nobody has built
-    that, and this page will not pretend otherwise.
+    Neither path has been tested: nobody has yet imported these files into
+    Figma through Tokens Studio or into Penpot and checked the result, so
+    treat the steps above as untested. What was checked, on 2026-10-29, is
+    that two token tools load the files with no errors or warnings: Terrazzo
+    reads all 63 and the resolver, and Style Dictionary 5 reads all 63. Even when the import works,
+    it gets you Lily's colours and shape tokens, not Lily's actual components
+    as Figma components — nobody has built that, and this page will not
+    pretend otherwise.
   </p>
 
   <h2>Is a real Figma library planned?</h2>

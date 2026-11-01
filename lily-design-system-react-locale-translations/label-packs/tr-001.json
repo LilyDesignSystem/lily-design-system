@@ -283,5 +283,10 @@
     "small": "küçük",
     "smaller": "daha küçük",
     "smallest": "en küçük"
+  },
+  "date-time-now-input": {
+    "date": "Tarih",
+    "time": "Saat",
+    "now": "Şimdi"
   }
 }

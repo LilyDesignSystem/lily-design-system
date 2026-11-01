@@ -22,8 +22,15 @@ description: an input for entering Iceland's Kennitala
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>
-<pre tabindex="0"><code>{% raw %}&lt;Field label="Personal Identity Code" required&gt;
-  &lt;IslandKennitalaInput label="Personal Identity Code" value={value} required /&gt;
+<pre tabindex="0"><code>{% raw %}&lt;Field
+  label="Personal Identity Code"
+  required
+&gt;
+  &lt;IslandKennitalaInput
+    label="Personal Identity Code"
+    value="{value}"
+    required
+  /&gt;
   &lt;Hint&gt;10 digits where the first 6 are the date of birth (DDMMYY)&lt;/Hint&gt;
   &lt;ErrorMessage&gt;Please enter a valid Personal Identity Code&lt;/ErrorMessage&gt;
 &lt;/Field&gt;

@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<span class=\"sparkline\" role=\"img\" aria-label=\"Trend: increasing\">▁▂▃▅▇</span>";
   const svelteSource: string = "// In your Svelte component:\nimport Sparkline from \"lily-design-system-svelte-headless/components/Sparkline/Sparkline.svelte\";\n\n<Sparkline>\n  <!-- content -->\n</Sparkline>\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import Sparkline from \"./Sparkline.svelte\";\n<\/script>\n\n<Sparkline label=\"Revenue trend over past 7 days\">\n    <svg viewBox=\"0 0 100 20\"><polyline points=\"0,20 20,10 40,15 60,5 80,12 100,2\" fill=\"none\" stroke=\"currentColor\" /></svg>\n</Sparkline>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import Sparkline from \"./Sparkline.svelte\";\n<\/script>\n\n<Sparkline label=\"Revenue trend over past 7 days\">\n  <svg viewBox=\"0 0 100 20\"\n    ><polyline\n      points=\"0,20 20,10 40,15 60,5 80,12 100,2\"\n      fill=\"none\"\n      stroke=\"currentColor\"\n    /></svg\n  >\n</Sparkline>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

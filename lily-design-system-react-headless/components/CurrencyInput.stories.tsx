@@ -10,4 +10,4 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof CurrencyInput>;
 
-export const Default: Story = {};
+export const Default: Story = { args: { label: "Amount", currencyCode: "EUR" } };

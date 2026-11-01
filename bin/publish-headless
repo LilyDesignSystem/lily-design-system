@@ -103,8 +103,8 @@ publish_npm_package() {
 
 if [ -z "$NUGET_ONLY" ]; then
   echo "== npm headless packages =="
-  # web-components-headless is the 8th, partial catalog (30/491, plan
-  # P7-T6 / P8-T6). Its prepublishOnly runs build.mjs, so it publishes
+  # web-components-headless is the 8th catalog, at its full achievable scope
+  # (572/607; the other 35 are excluded by design, see its spec/index.md). Its prepublishOnly runs build.mjs, so it publishes
   # from the package root like svelte/react/vue.
   for d in "$ROOT"/lily-design-system-svelte-headless \
            "$ROOT"/lily-design-system-react-headless \

@@ -239,5 +239,10 @@
     "small": "ಚಿಕ್ಕ",
     "smaller": "ಇನ್ನಷ್ಟು ಚಿಕ್ಕ",
     "smallest": "ಅತಿ ಚಿಕ್ಕ"
+  },
+  "date-time-now-input": {
+    "date": "ದಿನಾಂಕ",
+    "time": "ಸಮಯ",
+    "now": "ಈಗ"
   }
 }

@@ -283,5 +283,10 @@
     "small": "cilik",
     "smaller": "luwih cilik",
     "smallest": "paling cilik"
+  },
+  "date-time-now-input": {
+    "date": "Tanggal",
+    "time": "Wektu",
+    "now": "Saiki"
   }
 }

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "cesko-cestovni-pas-view",
+  "type": "registry:component",
+  "title": "CeskoCestovniPasView",
+  "description": "A read-only display of Czech Republic's Cestovní pas.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/CeskoCestovniPasView.tsx",
+      "content": "import React from \"react\";\n\n// CeskoCestovniPasView component\n//\n// A headless display component for showing Czech Republic's\n// Cestovní pas in a read-only format.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". The identifier string to display.\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <CeskoCestovniPasView label=\"Czech Passport\" value={value} />\n//\n// Accessibility:\n//   - aria-label provides the accessible name so screen readers announce the purpose\n//\n// References:\n//   - https://en.wikipedia.org/wiki/Czech_passport\n\nexport interface CeskoCestovniPasViewProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The identifier to display */\n    value?: string;\n    [key: string]: unknown;\n}\n\nexport default function CeskoCestovniPasView({\n    className = \"\",\n    label,\n    value = \"\",\n    ...restProps\n}: CeskoCestovniPasViewProps) {\n    return (\n        <span\n            className={`cesko-cestovni-pas-view ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {value}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/CeskoCestovniPasView.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/cesko-cestovni-pas-view/"
+}

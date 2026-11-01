@@ -6,7 +6,7 @@ this subproject. For project-wide rules, read the root [spec/index.md](../../spe
 first.
 
 This file adds Nuxt-specific detail and tracks the example app's
-implementation status against the **490 canonical components**.
+implementation status against the **583 canonical components**.
 
 ---
 
@@ -31,7 +31,7 @@ The app ships:
 
 - A Nuxt 3 app with file-based routing.
 - A `/components/[slug]` route that renders a live demo per component for all
-  490 components (via `data/component-demos.ts`).
+  607 components (via `data/component-demos.ts`).
 - 12 composed-page demos.
 - A complete NHS-aligned CSS stylesheet (`assets/css/nhs.css`).
 - Playwright e2e tests for each `/components/[slug]` route.
@@ -79,10 +79,10 @@ lily-design-system-vue-nuxt-examples/
 │   ├── contact-form.vue                   ← composed-page demos (12)
 │   ├── dashboard.vue
 │   └── …
-├── components/{PascalCase}.vue            ← 490 wrappers re-exporting headless
+├── components/{PascalCase}.vue            ← 583 wrappers re-exporting headless
 ├── data/
-│   ├── component-demos.ts                 ← slug → demo-HTML (490 entries)
-│   └── components.ts                      ← catalog metadata (490 entries)
+│   ├── component-demos.ts                 ← slug → demo-HTML (607 entries)
+│   └── components.ts                      ← catalog metadata (607 entries)
 ├── assets/css/nhs.css                     ← NHS-aligned stylesheet
 ├── tests/components/{PascalCase}.test.ts  ← vitest spec per component
 ├── e2e/components/{kebab-case}.spec.ts    ← Playwright e2e per slug
@@ -100,7 +100,7 @@ lily-design-system-vue-nuxt-examples/
 | `/components/[slug]` | Per-component detail — live demo + metadata         |
 
 `/components/[slug]` renders the demo HTML from `data/component-demos.ts`
-using `v-html`. Demo data contains **490 entries** (one per canonical slug).
+using `v-html`. Demo data contains **607 entries** (one per canonical slug).
 
 ## 5. Composed-page demos
 
@@ -144,14 +144,14 @@ pnpm run storybook                   # run Storybook
 ### 9.1 Routes
 
 - [ ] `/` renders home with skip-link + standard landmarks.
-- [ ] `/components` lists all 490 canonical components.
-- [ ] `/components/[slug]` renders a live demo for all 490 slugs.
+- [ ] `/components` lists all 607 canonical components.
+- [ ] `/components/[slug]` renders a live demo for all 607 slugs.
 - [ ] All 12 composed-page demos exist.
 
 ### 9.2 Demo registry
 
-- [ ] `data/component-demos.ts` exports a 490-entry map.
-- [ ] `data/components.ts` exports a 490-entry catalog (no orphan slugs).
+- [ ] `data/component-demos.ts` exports a 583-entry map.
+- [ ] `data/components.ts` exports a 583-entry catalog (no orphan slugs).
 - [ ] Each demo's class hook matches the canonical kebab-case base class.
 
 ### 9.3 Styling
@@ -184,10 +184,10 @@ pnpm run storybook                   # run Storybook
 - [x] `/components` catalog index.
 - [x] `/components/[slug]` per-component detail with live demo via `v-html`.
 - [x] All 12 composed-page demos.
-- [x] Per-component test suite in `tests/components/` (490 specs).
+- [x] Per-component test suite in `tests/components/` (490 specs when written; 264 files on 2026-10-30, so not one per component).
 - [x] Playwright e2e per slug.
 - [x] Storybook integration (commit `7a51013b`).
-- [x] Demo registry backfill: `component-demos.ts` covers all 490 canonical
+- [x] Demo registry backfill: `component-demos.ts` covers all 607 canonical
       slugs (per commit `1f1772e1`).
 - [x] Catalog metadata cleaned: orphan `medical-record-red-box` removed.
 - [x] TabGroup removal (canonical pattern is TabBar + TabBarButton + TabPanel).
@@ -222,6 +222,6 @@ pnpm run storybook                   # run Storybook
 - Package manager: pnpm
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause
 - Contact: Joel Parker Henderson <joel@joelparkerhenderson.com>
-- Canonical catalog: [../components.tsv](../../components.tsv) — 490 components
+- Canonical catalog: [../components.tsv](../../components.tsv) — 607 components
 - Root spec: [../spec/index.md](../../spec/index.md)
 - Sibling headless library: [../lily-design-system-vue-headless/](../../lily-design-system-vue-headless/)

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "details",
+  "type": "registry:component",
+  "title": "Details",
+  "description": "A disclosure widget that shows and hides content.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Details.tsx",
+      "content": "\"use client\";\n\n// Details component\n//\n// A disclosure widget that reveals or hides additional content on demand.\n// Built on the native HTML <details> and <summary> elements, it provides\n// progressive disclosure with built-in browser accessibility. Common use\n// cases include FAQs, collapsible sections, and supplementary explanations.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   summary — string, required. Text displayed in the clickable summary toggle.\n//   open — boolean, default false. Whether the details section is expanded; bindable.\n//   children — ReactNode, required. Content revealed when expanded.\n//   ...restProps — additional HTML attributes spread onto the <details> element.\n//\n// Syntax:\n//   <Details summary=\"More info\">Content here</Details>\n//\n// Examples:\n//\n//   <Details summary=\"More information\">\n//     <p>Additional details shown when expanded.</p>\n//   </Details>\n//\n//\n//   <Details summary=\"Advanced options\" open={showAdvanced} onChange={setShowAdvanced}>\n//     <p>Configure advanced settings here.</p>\n//   </Details>\n//\n// Keyboard:\n//   - Enter: toggles the disclosure open/closed when <summary> is focused\n//   - Space: toggles the disclosure open/closed when <summary> is focused\n//\n// Accessibility:\n//   - Native <details>/<summary> provide built-in ARIA semantics\n//   - Browser automatically exposes expanded/collapsed state to assistive technology\n//   - No additional ARIA attributes needed\n//\n// Internationalization:\n//   - The summary prop accepts any string; consumers provide localized text\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Uses controlled on open for two-way state synchronization\n//   - Similar to Collapsible but uses a standards-based API\n//\n// References:\n//   - MDN details element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details\n//   - MDN summary element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/summary\n//   - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/\n\nimport React, { useState } from \"react\";\n\nexport interface DetailsProps {\n    className?: string;\n    /** Text for the summary toggle. */\n    summary: string;\n    /** Whether the details are expanded. Bindable. */\n    open?: boolean;\n    /** Content shown when expanded. */\n    children: React.ReactNode;\n    /** Callback when open changes. */\n    onChange?: (value: boolean) => void;\n    [key: string]: unknown;\n}\n\nexport default function Details({\n    className = \"\",\n    summary,\n    open: openProp = false,\n    onChange,\n    children,\n    ...restProps\n}: DetailsProps) {\n    const [open, setOpen] = useState(openProp);\n\n    const handleToggle = (e: React.SyntheticEvent<HTMLDetailsElement>) => {\n        const newOpen = (e.currentTarget as HTMLDetailsElement).open;\n        setOpen(newOpen);\n        onChange?.(newOpen);\n    };\n\n    return (\n        <details\n            className={`details ${className}`}\n            open={open}\n            onToggle={handleToggle}\n            {...restProps}\n        >\n            <summary>{summary}</summary>\n            {children}\n        </details>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Details.tsx"
+    }
+  ],
+  "categories": [
+    "navigation"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/details/"
+}

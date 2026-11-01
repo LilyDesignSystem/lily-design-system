@@ -1,0 +1,39 @@
+{
+  "slug": "iran-kod-e-melli-view",
+  "name": "IranKodEMelliView",
+  "description": "a read-only display of Iran's National Code (Kod-e Melli)",
+  "htmlTag": "span",
+  "category": "national",
+  "baseClass": ".iran-kod-e-melli-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow",
+  "aria": [
+    "`aria-label` provides accessible name from label prop"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`value`: string (default: \"\") — the identifier to display",
+    "`label`: string (required) — accessible name via `aria-label`",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "iran-kod-e-melli-input",
+    "summary-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/iran-kod-e-melli-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/IranKodEMelliView/IranKodEMelliView.svelte",
+    "react": "lily-design-system-react-headless/components/IranKodEMelliView.tsx",
+    "vue": "lily-design-system-vue-headless/components/IranKodEMelliView.vue",
+    "angular": "lily-design-system-angular-headless/components/IranKodEMelliView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/iran-kod-e-melli-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/iran-kod-e-melli-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/iran-kod-e-melli-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/IranKodEMelliView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/iran-kod-e-melli-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/iran-kod-e-melli-view/AGENTS.md"
+}

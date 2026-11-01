@@ -41,7 +41,7 @@ export function nextMarkdownEditorId(): string {
 //
 // Slots: `icon` (scoped: { tool }) replaces a tool's icon.
 // Emits: `update:modelValue` and `change`, both with the new value.
-import { computed, ref, watch } from "vue";
+import { computed, ref, watch, onBeforeUnmount, onMounted } from "vue";
 import { applyTool, TOOL_IDS } from "./markdown-format";
 
 const ICONS: Record<ToolId, string> = {
@@ -95,6 +95,34 @@ function commit(next: string): void {
     emit("update:modelValue", next);
     emit("change", next);
 }
+
+// Form reset: the textarea shows `text`, which the browser's own reset knows nothing
+// about, so put back the text it started with one tick after the reset (not when a
+// listener cancelled it) and tell the consumer, as typing would.
+const initialText = props.modelValue;
+let resetForm: HTMLFormElement | null = null;
+let resetTimer: ReturnType<typeof setTimeout> | undefined;
+function onFormReset(event: Event): void {
+    clearTimeout(resetTimer);
+    resetTimer = setTimeout(() => {
+        if (event.defaultPrevented) return;
+        const changed = text.value !== initialText;
+        text.value = initialText;
+        if (textarea.value) textarea.value.value = initialText;
+        if (changed) {
+            emit("update:modelValue", initialText);
+            emit("change", initialText);
+        }
+    }, 0);
+}
+onMounted(() => {
+    resetForm = textarea.value?.closest("form") ?? null;
+    resetForm?.addEventListener("reset", onFormReset);
+});
+onBeforeUnmount(() => {
+    clearTimeout(resetTimer);
+    resetForm?.removeEventListener("reset", onFormReset);
+});
 
 function run(tool: ToolId): void {
     const el = textarea.value;

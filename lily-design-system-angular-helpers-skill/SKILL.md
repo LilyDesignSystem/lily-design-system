@@ -1,6 +1,6 @@
 ---
 name: lily-design-system-angular-helpers-skill
-description: Use when someone asks how to install or import Lily Design System's Angular picker helpers (theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker), wants the Angular-specific usage idiom (standalone components, signal inputs/model, `$any($event.target).value` template casts), or needs to know how the six helpers differ from plain Angular headless catalog components.
+description: Use when someone asks how to install or import Lily Design System's Angular picker helpers (theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, search-picker, link-picker, menu-picker, settings-picker, time-zone-picker, date-time-picker, picker-bar, and the grid-like and editor packages), wants the Angular-specific usage idiom (standalone components, signal inputs/model, `$any($event.target).value` template casts), or needs to know how the helpers differ from plain Angular headless catalog components.
 license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 ---
 
@@ -47,7 +47,7 @@ document nor persists anything.
   opens a WAI-ARIA APG listbox. Root `<div class="{helper} {class}">`
   containing a hidden input for form participation, a
   `<button class="{helper}-button" aria-haspopup="listbox" aria-expanded
-aria-controls>` whose only content is an `aria-hidden` glyph span, and a
+aria-controls>` whose only content is an `aria-hidden` icon (a bundled inline SVG since 2026-09-16), and a
   `<ul class="{helper}-list" role="listbox" hidden>` of
   `<li role="option" aria-selected>` options.
 - **`share-picker`** is a disclosure of real `<a>` links plus a copy
@@ -107,8 +107,19 @@ into the same signal it read would loop.
 Also in the catalog, added after the six above (the contracts are in `spec/helpers/index.md`): `search-picker` (an icon button opening a
 disclosure that holds a `<form role="search">`; submitting navigates, GET, to `/?<text>`), `link-picker` (a home icon opening a disclosure of
 real `<a>` links the app defines), `menu-picker` and `settings-picker` (a hamburger and a cog icon opening a panel that holds whatever the
-app provides), and `picker-bar` (link, search, theme, locale, text-size and share pickers in one row, with the 57 themes and the seven
+app provides), and `picker-bar` (link, search, theme, locale, text-size and share pickers in one row, with the 63 themes and the seven
 text sizes pre-wired and one required `labels` object). Every picker has a hoverable, dismissable tooltip.
+
+## Packages added since the first six
+
+`bin/list-helper-packages angular` is the authoritative list (20 packages, each `@lilydesignsystem/angular-<package>`). Beyond the pickers named above it holds:
+
+- `time-zone-picker` (2026-10-24): an icon button (clock) opening a listbox of IANA zones labelled `UTC±HH:MM – name`, names from Unicode
+  CLDR packs (`zoneNamesFrom(pack)`); sets `data-time-zone` on a target element; a `locale` is required.
+- `theme-picker` `variant="select"` (2026-10-30, opt-in): a native `<select class="theme-picker-select">` in place of the button and listbox.
+- `picker-bar` renders `time-zone-picker` after `locale-picker` when given `labels.timeZone` and a time-zone locale.
+- `markdown-editor` and `org-editor` (2026-10-24): a textarea with a toolbar of buttons that write Markdown or Emacs Org markup.
+- `locale-translations`: the 64 label packs and the CLDR zone-name packs, per locale.
 
 ## The grid-like helpers and label packs
 
@@ -123,11 +134,11 @@ pack for each of 64 locales (English plus 63 **unreviewed machine drafts**; have
 period titles) come from `Intl`. Full contract: `spec/label-packs/index.md`.
 
 The Gantt chart can render a critical path (`critical`, `slack`, `labels.criticalLabel`); the optional calculation (`criticalPath()`,
-with lag in calendar or working days) ships in the Svelte Gantt package.
+with lag in calendar or working days) ships in this catalog's own Gantt package too, ported from Svelte's.
 
 ## When NOT this skill
 
-- For the Angular headless component library itself (the full 582-component
+- For the Angular headless component library itself (the full 607-component
   catalog, the element-selector and tag+attribute-selector conventions) —
   use `lily-design-system-angular-headless-skill` instead.
 - For framework-agnostic Lily concepts, terminology, or the shared

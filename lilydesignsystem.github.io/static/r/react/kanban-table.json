@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "kanban-table",
+  "type": "registry:component",
+  "title": "KanbanTable",
+  "description": "A kanban board table interactive grid for organizing items by status <table>.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/KanbanTable.tsx",
+      "content": "import React from \"react\";\n\n// KanbanTable component\n//\n// A headless Kanban board that organizes work items into columns representing\n// different workflow stages such as \"To Do\", \"In Progress\", and \"Done\". Renders\n// as a <table> element with role=\"grid\" and an accessible label. Commonly used\n// in project management tools, agile development platforms, and task tracking.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name describing the board via aria-label.\n//   caption — string, optional. Visible caption text displayed above the table.\n//   children — ReactNode, required. KanbanTableHead, KanbanTableBody, KanbanTableFoot elements.\n//   ...restProps — additional HTML attributes spread onto the <table>.\n//\n// Syntax:\n//   <KanbanTable label=\"Sprint 5 board\">...</KanbanTable>\n//\n// Examples:\n//   <KanbanTable label=\"Sprint 5 board\">\n//     <KanbanTableHead>\n//       <KanbanTableRow>\n//         <th>To Do</th><th>In Progress</th><th>Done</th>\n//       </KanbanTableRow>\n//     </KanbanTableHead>\n//     <KanbanTableBody>\n//       <KanbanTableRow>\n//         <KanbanTableTD>Task A</KanbanTableTD>\n//         <KanbanTableTD>Task B</KanbanTableTD>\n//         <KanbanTableTD>Task C</KanbanTableTD>\n//       </KanbanTableRow>\n//     </KanbanTableBody>\n//   </KanbanTable>\n//\n// Keyboard:\n//   None built-in — consumer should implement grid keyboard navigation\n//   (arrow keys for cell movement, Enter/Space for selection).\n//\n// Accessibility:\n//   - role=\"grid\" identifies the table as an interactive grid widget\n//   - aria-label provides an accessible name for the kanban board\n//\n// Internationalization:\n//   - The label prop accepts any translated string\n//   - No hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Compound component: use with KanbanTableHead, KanbanTableBody, KanbanTableFoot,\n//     KanbanTableRow, KanbanTableTD, and KanbanTableTD\n//   - No internal state — purely a structural wrapper\n//\n// References:\n//   - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/\n\nexport interface KanbanTableProps {\n    className?: string;\n    /** Accessible name describing the kanban board. */\n    label: string;\n    /** Visible caption for the table. */\n    caption?: string;\n    /** KanbanTableHead, KanbanTableBody, KanbanTableFoot elements. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function KanbanTable({\n    className = \"\",\n    label,\n    caption = undefined,\n    children,\n    ...restProps\n}: KanbanTableProps) {\n    return (\n        <table\n            className={`kanban-table ${className}`}\n            role=\"grid\"\n            aria-label={label}\n            {...restProps}\n        >\n            {caption && (\n                <>\n                    <caption>{caption}</caption>\n                </>\n            )}\n            {children}\n        </table>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/KanbanTable.tsx"
+    }
+  ],
+  "categories": [
+    "tables"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/kanban-table/"
+}

@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-chat-message",
     standalone: true,
-    template: `<div class="chat-message {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<article class="chat-message {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></article>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChatMessage {

@@ -2,7 +2,7 @@
   "slug": "measurement-instance-view",
   "name": "MeasurementInstanceView",
   "description": "a read-only display of a measurement value and unit",
-  "htmlTag": "div",
+  "htmlTag": "span",
   "category": "content",
   "baseClass": ".measurement-instance-view",
   "subClasses": [],

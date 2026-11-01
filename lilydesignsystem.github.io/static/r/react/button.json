@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "button",
+  "type": "registry:component",
+  "title": "Button",
+  "description": "A generic clickable button element.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Button.tsx",
+      "content": "import React from \"react\";\n\n// Button component\n//\n// A headless button for triggering actions, built on the native HTML <button>\n// element for inherent accessibility and keyboard support. Supports action\n// buttons, submit/reset buttons, and toggle buttons via the pressed prop.\n// Commonly used for form submissions, dialogs, menus, and toolbar actions.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   type — \"button\" | \"submit\" | \"reset\", default \"button\". HTML button type.\n//   disabled — boolean, default false. Whether the button is disabled.\n//   pressed — boolean | undefined, default undefined. Toggle button state; when provided, aria-pressed is rendered.\n//   label — string, optional. Accessible label override via aria-label.\n//   onClick — (event: React.MouseEvent) => void, optional. Click event handler.\n//   children — ReactNode, required. The button content.\n//   ...restProps — additional HTML attributes spread onto the <button>.\n//\n// Syntax:\n//   <Button onClick={handleClick}>Click me</Button>\n//\n// Examples:\n//\n//   <Button type=\"submit\" disabled={isSubmitting}>Submit</Button>\n//\n//\n//   <Button pressed={isBold} onClick={() => setIsBold(!isBold)}>Bold</Button>\n//\n//\n//   <Button label=\"Close dialog\" onClick={handleClose}>X</Button>\n//\n// Keyboard:\n//   - Tab: Focus the button\n//   - Enter: Activate the button\n//   - Space: Activate the button\n//\n// Accessibility:\n//   - Implicit button role from <button> element\n//   - aria-pressed for toggle button state (only when pressed prop is provided)\n//   - aria-label for screen reader text override\n//   - Native disabled attribute prevents clicks and signals aria-disabled\n//\n// Internationalization:\n//   - Button text comes through children prop; no hardcoded strings\n//   - Label override comes through label prop\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Defaults to type=\"button\" to prevent accidental form submissions\n//   - aria-pressed is only rendered when pressed prop is explicitly provided\n//\n// References:\n//   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/\n\nexport interface ButtonProps {\n    className?: string;\n    /** HTML button type */\n    type?: \"button\" | \"submit\" | \"reset\";\n    /** Whether the button is disabled */\n    disabled?: boolean;\n    /** Toggle button pressed state (undefined = not a toggle button) */\n    pressed?: boolean;\n    /** Accessible label override */\n    label?: string;\n    /** Click event handler */\n    onClick?: (event: React.MouseEvent) => void;\n    /** The button content */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Button({\n    className = \"\",\n    type = \"button\",\n    disabled = false,\n    pressed = undefined,\n    label = undefined,\n    onClick = undefined,\n    children,\n    ...restProps\n}: ButtonProps) {\n    return (\n        <button\n            className={`button ${className}`}\n            type={type}\n            disabled={disabled}\n            aria-pressed={pressed}\n            aria-label={label}\n            onClick={onClick}\n            {...restProps}\n        >\n            {children}\n        </button>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Button.tsx"
+    }
+  ],
+  "categories": [
+    "buttons"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/button/"
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "segment-group-item",
+  "type": "registry:component",
+  "title": "SegmentGroupItem",
+  "description": "One selectable segment in a segment group.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/SegmentGroupItem.tsx",
+      "content": "import React from \"react\";\n\n// SegmentGroupItem component\n//\n// A single segment option within a SegmentGroup (role=\"radiogroup\"). Renders\n// as a <button> with role=\"radio\" and aria-checked to indicate selection state.\n// Uses roving tabindex so only the checked item receives tab focus. Used inside\n// SegmentGroup to build custom segmented controls like view mode toggles.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   checked — boolean, default false. Whether this segment is currently selected.\n//   value — string, default \"\". Value associated with this segment, exposed as data-value.\n//   disabled — boolean, default false. Whether the segment is disabled.\n//   children — ReactNode, required. Label content to render inside the button.\n//   ...restProps — additional HTML attributes spread onto the <button>.\n//\n// Syntax:\n//   <SegmentGroupItem checked={true} value=\"grid\">Grid</SegmentGroupItem>\n//\n// Examples:\n//\n//   <SegmentGroup label=\"View\">\n//     <SegmentGroupItem checked={mode === 'grid'} value=\"grid\" onClick={() => setMode('grid')}>Grid</SegmentGroupItem>\n//     <SegmentGroupItem checked={mode === 'list'} value=\"list\" onClick={() => setMode('list')}>List</SegmentGroupItem>\n//   </SegmentGroup>\n//\n// Keyboard:\n//   - Tab: focus moves to the checked segment (roving tabindex)\n//   - Space/Enter: activates the focused segment (native button behavior)\n//   - Arrow Left/Right: consumer should implement on the parent SegmentGroup\n//\n// Accessibility:\n//   - role=\"radio\" identifies this button as a radio-like option within a radiogroup\n//   - aria-checked indicates whether this segment is selected (true/false)\n//   - Roving tabindex: checked item has tabindex=\"0\", others have tabindex=\"-1\"\n//   - data-value exposes the segment value for CSS or JS queries\n//\n// Internationalization:\n//   - Label content comes through the children prop for localization\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Compound component: must be used inside a SegmentGroup\n//   - Consumer manages selection state and click/keyboard handlers\n//\n// References:\n//   - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radio/\n\nexport interface SegmentGroupItemProps {\n    className?: string;\n    /** Whether this segment is selected. */\n    checked?: boolean;\n    /** Value associated with this segment. */\n    value?: string;\n    /** Whether this segment is disabled. */\n    disabled?: boolean;\n    /** Label content for the segment. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function SegmentGroupItem({\n    className = \"\",\n    checked = false,\n    value = \"\",\n    disabled = false,\n    children,\n    ...restProps\n}: SegmentGroupItemProps) {\n    return (\n        <button\n            className={`segment-group-item ${className}`}\n            role=\"radio\"\n            aria-checked={checked}\n            data-value={value}\n            tabIndex={checked ? 0 : -1}\n            disabled={disabled}\n            {...restProps}\n        >\n            {children}\n        </button>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/SegmentGroupItem.tsx"
+    }
+  ],
+  "categories": [
+    "forms"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/segment-group-item/"
+}

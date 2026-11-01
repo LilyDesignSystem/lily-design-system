@@ -17,7 +17,7 @@
     "`aria-modal=\"false\"` (non-blocking)",
     "`aria-labelledby` referencing the title id",
     "`aria-describedby` referencing the description id, only when description is provided",
-    "`hidden` attribute reflects `!open`",
+    "`popover=\"manual\"` shown while `open`; `hidden` where the Popover API is missing",
     "Dismiss button has `aria-label` via `dismissLabel`"
   ],
   "keyboard": [
@@ -50,5 +50,10 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Coachmark.razor"
   },
   "docs": "https://lilydesignsystem.com/components/coachmark/",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/coachmark/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/coachmark/AGENTS.md",
+  "nativePlatform": {
+    "decision": "native",
+    "uses": "div role=\"dialog\" aria-modal=\"false\" popover=\"manual\" shown from the open state",
+    "could_use": "CSS anchor positioning to the spotlighted feature (consumer sets position-anchor)"
+  }
 }

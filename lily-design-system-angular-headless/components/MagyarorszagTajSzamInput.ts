@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
+import { restoreOnFormReset } from "./form-reset";
 
 /**
  * MagyarorszagTajSzamInput — an input for entering Hungary's Társadalombiztosítási Azonosító Jel (TAJ)
@@ -33,4 +34,8 @@ export class MagyarorszagTajSzamInput {
     readonly required = input<boolean>(false);
     /** Whether the input is disabled. */
     readonly disabled = input<boolean>(false);
+
+    constructor() {
+        restoreOnFormReset(this.value);
+    }
 }

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "data-filter-form",
+  "type": "registry:component",
+  "title": "DataFilterForm",
+  "description": "A form for filtering data by criteria.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/DataFilterForm.tsx",
+      "content": "import React from \"react\";\n\n// DataFilterForm component\n//\n// A headless data filter container that wraps filter controls in a semantic <form>\n// with role=\"search\" and accessible labelling. It prevents default form submission,\n// allowing the consumer's onSubmit callback to handle filter application\n// programmatically. Suitable for client-side filtering, AJAX-based search, or any\n// scenario where a full page reload is undesirable.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name for the filter region via aria-label.\n//   onSubmit — (event: React.FormEvent) => void, default undefined. Called when the form is submitted.\n//   onReset — (event: React.FormEvent) => void, default undefined. Called when the form is reset.\n//   children — ReactNode, required. Filter controls rendered inside the form.\n//   ...restProps — additional HTML attributes spread onto the <form>.\n//\n// Syntax:\n//   <DataFilterForm label=\"Filter results\" onSubmit={applyFilters}>\n//     <button type=\"submit\">Apply</button>\n//   </DataFilterForm>\n//\n// Examples:\n//\n//   <DataFilterForm label=\"Filter results\" onSubmit={applyFilters} onReset={clearFilters}>\n//     <label>Category <select>...</select></label>\n//     <button type=\"submit\">Apply</button>\n//     <button type=\"reset\">Clear</button>\n//   </DataFilterForm>\n//\n// Keyboard:\n//   - None — passive container; keyboard behavior is determined by consumer-provided form controls\n//\n// Accessibility:\n//   - role=\"search\" identifies the form as a search landmark for assistive technology\n//   - aria-label provides an accessible name for the search region\n//\n// Internationalization:\n//   - The label prop provides the accessible name; no hardcoded strings\n//   - All filter controls and button text are provided by consumers\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Form submission is prevented by default; consumer handles logic in onSubmit\n//\n// References:\n//   - WAI-ARIA Landmark Roles: https://www.w3.org/WAI/ARIA/apd/practices/landmark-regions/\n//   - ARIA search role: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/search_role\n\nexport interface DataFilterFormProps {\n    className?: string;\n    /** Accessible name for the filter region. */\n    label: string;\n    /** Called when the filter form is submitted. */\n    onSubmit?: (event: React.FormEvent<HTMLFormElement>) => void;\n    /** Called when the filter form is reset. */\n    onReset?: (event: React.FormEvent<HTMLFormElement>) => void;\n    /** Filter controls rendered inside the form. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function DataFilterForm({\n    className = \"\",\n    label,\n    onSubmit = undefined,\n    onReset = undefined,\n    children,\n    ...restProps\n}: DataFilterFormProps) {\n    function handleSubmit(event: React.FormEvent<HTMLFormElement>) {\n        event.preventDefault();\n        onSubmit?.(event);\n    }\n\n    return (\n        <form\n            className={`data-filter-form ${className}`}\n            role=\"search\"\n            aria-label={label}\n            onSubmit={handleSubmit}\n            onReset={onReset}\n            {...restProps}\n        >\n            {children}\n        </form>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/DataFilterForm.tsx"
+    }
+  ],
+  "categories": [
+    "forms"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/data-filter-form/"
+}

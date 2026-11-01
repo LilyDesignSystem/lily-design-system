@@ -29,7 +29,7 @@ export class TextAreaInput extends HTMLElement {
         textarea.className = rootClassName(this, "text-area-input");
         const label = this.getAttribute("label");
         if (label !== null) textarea.setAttribute("aria-label", label);
-        textarea.value = this.getAttribute("value") ?? "";
+        textarea.defaultValue = this.getAttribute("value") ?? "";
         const rows = this.getAttribute("rows");
         if (rows !== null) textarea.rows = Number(rows);
         if (this.hasAttribute("required")) textarea.required = true;

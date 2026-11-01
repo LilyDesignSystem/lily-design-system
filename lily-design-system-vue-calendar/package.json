@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@lilydesignsystem/vue-date-time-picker": "^0.2.0",
-    "@lilydesignsystem/vue-headless": "^0.5.1"
+    "@lilydesignsystem/vue-headless": "^0.6.0"
   },
   "peerDependencies": {
     "vue": "^3.0.0"

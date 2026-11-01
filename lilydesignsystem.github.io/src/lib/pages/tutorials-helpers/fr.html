@@ -3,8 +3,7 @@
 <section class="page-intro">
   <h1>Assistants de préférences</h1>
   <p class="page-intro-tagline">
-    Sept petits paquets par framework, chacun responsable d'une tâche utilisateur de bout en bout, plus une barre qui en assemble cinq. Vous avez déjà rencontré
-    <a href="/tutorials/theming/">theme-picker</a>; voici locale-picker, text-size-picker et motion-picker (préférences), share-picker et search-picker (actions), date-time-picker (une valeur de formulaire) et picker-bar.
+    Onze petits sélecteurs par framework, chacun responsable d'une tâche utilisateur de bout en bout, plus une barre qui en assemble jusqu'à sept. Vous avez déjà rencontré <a href="/tutorials/theming/">theme-picker</a> ; voici locale-picker, text-size-picker et motion-picker (préférences), share-picker et search-picker (actions), date-time-picker (une valeur de formulaire) et picker-bar.
   </p>
 </section>
 
@@ -26,7 +25,7 @@
     <li>Sûr pour le SSR : les écritures dans le DOM n'ont lieu que dans le cycle de vie mount/effect.</li>
     <li>Propre pour l'i18n : chaque chaîne visible par l'utilisateur est une prop.</li>
     <li>
-      Disponible pour Svelte (canonique), React, Vue, Angular, élément personnalisé HTML, Nunjucks et Blazor — le même contrat dans chacun.
+      Disponible pour Svelte (canonique), React, Vue, Angular, élément personnalisé HTML, Web Components, Nunjucks et Blazor — le même contrat dans chacun.
     </li>
   </ul>
   <p>
@@ -208,6 +207,7 @@
   <p>
     <code>picker-bar</code> rend la recherche, le thème, la locale, la taille du texte et le partage sur une ligne, avec l'ensemble complet des thèmes de référence et l'échelle de texte à sept pas déjà câblés. Chaque nom accessible arrive dans un seul objet
     <code>labels</code> obligatoire.
+    Elle affiche aussi link-picker en premier quand vous lui passez des liens, et time-zone-picker après la locale quand vous lui donnez un libellé de fuseau horaire et une locale.
   </p>
   
   <pre tabindex="0"><code>&lt;script&gt;
@@ -264,7 +264,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker
 
   <h2>Étapes suivantes</h2>
   <ul>
-    <li><a href="/components/">Catalogue de composants</a> — la référence complète des 582 composants.</li>
+    <li><a href="/components/">Catalogue de composants</a> — la référence complète des 607 composants.</li>
     <li><a href="/help/">Aide</a> — dépannage et FAQ.</li>
     <li><a href="/why/">Pourquoi Lily</a> — et comment soutenir le projet.</li>
   </ul>

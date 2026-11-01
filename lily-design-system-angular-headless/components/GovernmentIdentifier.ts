@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-government-identifier",
     standalone: true,
-    template: `<div class="government-identifier {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<section class="government-identifier {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></section>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GovernmentIdentifier {

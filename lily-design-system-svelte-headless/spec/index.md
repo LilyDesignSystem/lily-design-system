@@ -8,7 +8,7 @@ and implementation status.
 
 For project-wide rules, read the root [spec/index.md](../../spec/index.md) first. This file
 adds Svelte-specific detail and tracks the implementation status of the
-**490 canonical components** in this framework.
+**583 canonical components** in this framework.
 
 ---
 
@@ -27,7 +27,7 @@ work in any Svelte 5 host (SvelteKit, plain Vite + Svelte, Astro, Storybook).
 
 ### In scope
 
-- Svelte 5 implementation of all 490 components from `components.tsv`.
+- Svelte 5 implementation of all 607 components from `components.tsv`.
 - TypeScript types for every component's props.
 - A vitest test file per component asserting ARIA, keyboard, and structural
   contract.
@@ -212,7 +212,7 @@ pnpm run storybook                   # run Storybook
 
 ### 7.1 Catalog parity
 
-- [ ] All 490 canonical components from [../components.tsv](../../components.tsv)
+- [ ] All 583 canonical components from [../components.tsv](../../components.tsv)
       have a directory in `components/{PascalCase}/`.
 - [ ] Each directory has the 10 required files (see §4).
 - [ ] Every component implements the HTML tag specified in its
@@ -273,13 +273,13 @@ pnpm run storybook                   # run Storybook
 
 ### 8.2 Verified
 
-- [x] All 490 canonical components compile cleanly.
+- [x] All 583 canonical components compile cleanly.
 - [x] `components/` ↔ `src/lib/components/` 1:1 mirror verified
       (815 test files = 2 × 490 + 1). Superseded 2026-10-11: the mirror was removed.
 - [x] `pnpm exec vitest run` passes: **4,016 / 4,016 tests, zero failures**.
-- [x] CSS class-name audit: **490 / 490** components reference their canonical
+- [x] CSS class-name audit: **607 / 607** components reference their canonical
       kebab-case base class.
-- [x] Storybook story coverage: **490 / 490** components have a
+- [x] Storybook story coverage: **607 / 607** components have a
       `*.stories.svelte` file.
 
 ### 8.3 Open backlog
@@ -309,6 +309,6 @@ pnpm run storybook                   # run Storybook
 - Package manager: pnpm
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause
 - Contact: Joel Parker Henderson <joel@joelparkerhenderson.com>
-- Canonical catalog: [../components.tsv](../../components.tsv) — 490 components
+- Canonical catalog: [../components.tsv](../../components.tsv) — 607 components
 - Root spec: [../spec/index.md](../../spec/index.md)
 - Sibling example app: [../lily-design-system-svelte-sveltekit-examples/](../../lily-design-system-svelte-sveltekit-examples/)

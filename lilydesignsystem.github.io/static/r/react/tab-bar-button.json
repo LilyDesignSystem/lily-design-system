@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tab-bar-button",
+  "type": "registry:component",
+  "title": "TabBarButton",
+  "description": "One tab button in a tab group.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/TabBarButton.tsx",
+      "content": "import React from \"react\";\n\n// TabBarButton component\n//\n// A headless tab button for use within a tabbed interface. Renders a <button>\n// with role=\"tab\" and appropriate ARIA attributes for tab selection and panel\n// association. It follows the roving tabindex pattern where only the selected\n// tab participates in the tab order. Designed to be placed inside a TabBar\n// container with role=\"tablist\".\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   selected — boolean, default false. Whether this tab is currently active.\n//   controls — string, required. The id of the associated tabpanel element.\n//   children — ReactNode, required. Tab label content.\n//   ...restProps — additional HTML attributes spread onto the <button>.\n//\n// Syntax:\n//   <TabBarButton selected={true} controls=\"panel-1\">Label</TabBarButton>\n//\n// Examples:\n//\n//   <TabBar label=\"Settings\">\n//     <TabBarButton selected={activeTab === \"general\"} controls=\"panel-general\"\n//       onClick={() => setActiveTab(\"general\")}>General</TabBarButton>\n//     <TabBarButton selected={activeTab === \"advanced\"} controls=\"panel-advanced\"\n//       onClick={() => setActiveTab(\"advanced\")}>Advanced</TabBarButton>\n//   </TabBar>\n//\n// Keyboard:\n//   - Tab: moves focus to the selected tab in the tablist\n//   - ArrowLeft/ArrowRight: moves between tabs (handled by parent tablist)\n//   - Enter/Space: activates the tab (native button behavior)\n//\n// Accessibility:\n//   - role=\"tab\" identifies this element as a tab in a tabbed interface\n//   - aria-selected communicates the selection state to screen readers\n//   - aria-controls links the tab to its panel for assistive technology\n//   - Roving tabindex: selected tab has tabindex=0, others have tabindex=-1\n//   - Compound component: must be placed inside a TabBar container\n//\n// Internationalization:\n//   - All visible text is provided through the children prop\n//   - No hardcoded strings in the component\n//\n// Claude rules:\n//   - Headless: no CSS, no styles -- consumer provides all styling\n//   - Compound component: must be used inside a TabBar container\n//   - Consumers manage selection state and panel visibility\n//\n// References:\n//   - WAI-ARIA Tabs Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/tabs/\n//   - WAI-ARIA Tab Role: https://www.w3.org/TR/wai-aria-1.2/#tab\n\nexport interface TabBarButtonProps {\n    className?: string;\n    /** Whether this tab is currently active */\n    selected?: boolean;\n    /** The id of the associated tabpanel element */\n    controls: string;\n    /** Tab label content */\n    children: React.ReactNode;\n    /** Additional HTML attributes */\n    [key: string]: unknown;\n}\n\nexport default function TabBarButton({\n    className = \"\",\n    selected = false,\n    controls,\n    children,\n    ...restProps\n}: TabBarButtonProps) {\n    return (\n        <button\n            className={`tab-bar-button ${className}`}\n            role=\"tab\"\n            aria-selected={selected}\n            aria-controls={controls}\n            tabIndex={selected ? 0 : -1}\n            {...restProps}\n        >\n            {children}\n        </button>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/TabBarButton.tsx"
+    }
+  ],
+  "categories": [
+    "navigation"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/tab-bar-button/"
+}

@@ -130,6 +130,33 @@ export default function OrgEditor({
     const [inner, setInner] = React.useState(defaultValue);
     const text = value ?? inner;
 
+    // Form reset: the textarea is controlled, so a reset changes nothing (React keeps
+    // a controlled field's default in step with its value). Put back the text it
+    // started with one tick after the reset (not when a listener cancelled it) and
+    // tell the consumer, as typing would.
+    const initialText = React.useRef(value ?? defaultValue);
+    const latest = React.useRef({ text, onChange });
+    latest.current = { text, onChange };
+    React.useEffect(() => {
+        const form = textarea.current?.closest("form");
+        if (!form) return;
+        let timer: ReturnType<typeof setTimeout> | undefined;
+        const onReset = (event: Event) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                if (event.defaultPrevented) return;
+                setInner(initialText.current);
+                if (latest.current.text !== initialText.current)
+                    latest.current.onChange?.(initialText.current);
+            }, 0);
+        };
+        form.addEventListener("reset", onReset);
+        return () => {
+            clearTimeout(timer);
+            form.removeEventListener("reset", onReset);
+        };
+    }, []);
+
     const shown = tools.filter((t) => labels[t]);
     const locked = disabled || readOnly;
 

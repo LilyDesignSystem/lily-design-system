@@ -54,5 +54,10 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/WheelPicker.razor"
   },
   "docs": "https://lilydesignsystem.com/components/wheel-picker/",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/wheel-picker/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/wheel-picker/AGENTS.md",
+  "nativePlatform": {
+    "decision": "hand-rolled because it is an always-open inline wheel; native <select> only offers a closed control on desktop",
+    "uses": "none (div role=\"listbox\" aria-activedescendant) + hidden input",
+    "could_use": "<select> (mobile browsers already render it as a wheel)"
+  }
 }

@@ -11,8 +11,8 @@
 //   label — REQUIRED. Accessible name, via aria-label.
 //   value — numeric string; also exposed as a live numeric `value`
 //     property (undefined when empty) that proxies to the inner <input>.
-//   currency-code — ISO 4217 code, default "USD"; reflected as
-//     data-currency-code.
+//   currency-code — REQUIRED ISO 4217 code, never defaulted; reflected as
+//     data-currency-code. When absent, no data-currency-code is rendered.
 //   min, max — optional numeric constraints.
 //   required, disabled — presence-based booleans.
 //   ...rest — spread onto the <input> (id, name, placeholder, …).
@@ -39,8 +39,9 @@ export class CurrencyInput extends HTMLElement {
         const label = this.getAttribute("label");
         if (label !== null) input.setAttribute("aria-label", label);
         const value = this.getAttribute("value");
-        if (value !== null) input.value = value;
-        input.setAttribute("data-currency-code", this.getAttribute("currency-code") ?? "USD");
+        if (value !== null) input.defaultValue = value;
+        const currencyCode = this.getAttribute("currency-code");
+        if (currencyCode !== null) input.setAttribute("data-currency-code", currencyCode);
         const min = this.getAttribute("min");
         if (min !== null) input.min = min;
         const max = this.getAttribute("max");

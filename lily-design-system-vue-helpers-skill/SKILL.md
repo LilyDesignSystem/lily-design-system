@@ -1,6 +1,6 @@
 ---
 name: lily-design-system-vue-helpers-skill
-description: Use when someone asks how to install or import one of Lily Design System's Vue `*-picker` helper packages (theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker), wants the Vue 3 SFC-specific usage idiom for them (`v-model`, `v-bind="$attrs"`, `defineModel`), needs an individual helper's npm package name (`@lilydesignsystem/vue-theme-picker` and siblings), or wants to know the icon-button-plus-listbox vs. disclosure-of-links vs. field-plus-dialog contract each helper follows.
+description: Use when someone asks how to install or import one of Lily Design System's Vue `*-picker` helper packages (theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, search-picker, link-picker, menu-picker, settings-picker, time-zone-picker, date-time-picker, picker-bar, and the grid-like and editor packages), wants the Vue 3 SFC-specific usage idiom for them (`v-model`, `v-bind="$attrs"`, `defineModel`), needs an individual helper's npm package name (`@lilydesignsystem/vue-theme-picker` and siblings), or wants to know the icon-button-plus-listbox vs. disclosure-of-links vs. field-plus-dialog contract each helper follows.
 license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 ---
 
@@ -53,7 +53,7 @@ this skill to restate it.
   `text-size-picker`, `motion-picker`) share one shape: an icon button
   (`aria-haspopup="listbox"`) opening a `role="listbox"` of
   `role="option"` items, following the WAI-ARIA APG listbox pattern. A
-  single glyph is the whole visible surface of the button; the glyph is
+  single icon (a bundled inline SVG) is the whole visible surface of the button; the icon is
   `aria-hidden`, and the accessible name comes from the button's
   `aria-label`.
 - **`share-picker`** opens a disclosure of real `<a>` destinations (plus a
@@ -95,8 +95,19 @@ this skill to restate it.
 Also in the catalog, added after the six above (the contracts are in `spec/helpers/index.md`): `search-picker` (an icon button opening a
 disclosure that holds a `<form role="search">`; submitting navigates, GET, to `/?<text>`), `link-picker` (a home icon opening a disclosure of
 real `<a>` links the app defines), `menu-picker` and `settings-picker` (a hamburger and a cog icon opening a panel that holds whatever the
-app provides), and `picker-bar` (link, search, theme, locale, text-size and share pickers in one row, with the 57 themes and the seven
+app provides), and `picker-bar` (link, search, theme, locale, text-size and share pickers in one row, with the 63 themes and the seven
 text sizes pre-wired and one required `labels` object). Every picker has a hoverable, dismissable tooltip.
+
+## Packages added since the first six
+
+`bin/list-helper-packages vue` is the authoritative list (20 packages, each `@lilydesignsystem/vue-<package>`). Beyond the pickers named above it holds:
+
+- `time-zone-picker` (2026-10-24): an icon button (clock) opening a listbox of IANA zones labelled `UTC±HH:MM – name`, names from Unicode
+  CLDR packs (`zoneNamesFrom(pack)`); sets `data-time-zone` on a target element; a `locale` is required.
+- `theme-picker` `variant="select"` (2026-10-30, opt-in): a native `<select class="theme-picker-select">` in place of the button and listbox.
+- `picker-bar` renders `time-zone-picker` after `locale-picker` when given `labels.timeZone` and a time-zone locale.
+- `markdown-editor` and `org-editor` (2026-10-24): a textarea with a toolbar of buttons that write Markdown or Emacs Org markup.
+- `locale-translations`: the 64 label packs and the CLDR zone-name packs, per locale.
 
 ## The grid-like helpers and label packs
 
@@ -111,12 +122,12 @@ pack for each of 64 locales (English plus 63 **unreviewed machine drafts**; have
 period titles) come from `Intl`. Full contract: `spec/label-packs/index.md`.
 
 The Gantt chart can render a critical path (`critical`, `slack`, `labels.criticalLabel`); the optional calculation (`criticalPath()`,
-with lag in calendar or working days) ships in the Svelte Gantt package.
+with lag in calendar or working days) ships in this catalog's own Gantt package too, ported from Svelte's.
 
 ## When NOT this skill
 
 - For the headless component catalog itself in Vue (`Button`, `TextInput`,
-  `BreadcrumbNav`, and the rest of the 582), use
+  `BreadcrumbNav`, and the rest of the 607), use
   `lily-design-system-vue-headless-skill` instead.
 - For framework-agnostic Lily concepts — what a helper is as opposed to a
   plain catalog component, the shared contract every catalog's helpers

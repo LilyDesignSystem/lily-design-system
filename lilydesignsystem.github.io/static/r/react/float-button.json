@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "float-button",
+  "type": "registry:component",
+  "title": "FloatButton",
+  "description": "A floating action button anchored to a viewport corner.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/FloatButton.tsx",
+      "content": "import React from \"react\";\n\n// FloatButton component\n//\n// A floating action button anchored to a viewport corner. Inline `style` is\n// `position: fixed` plus the corner offsets (1rem from each edge of the\n// chosen corner). The corner is also exposed as `data-position` for consumer\n// CSS hooks.\n//\n// Props:\n//   className    — string, optional. CSS class name.\n//   label        — string, REQUIRED. aria-label (button has icon-only content).\n//   position     — \"top-left\" | \"top-right\" | \"bottom-left\" | \"bottom-right\",\n//                  default \"bottom-right\". Viewport corner anchor.\n//   disabled     — boolean, default false.\n//   type         — \"button\" | \"submit\" | \"reset\", default \"button\".\n//   onClick      — (event: React.MouseEvent) => void, optional.\n//   children     — ReactNode, required. Icon content.\n//   ...restProps — additional HTML attributes spread onto the <button>.\n//\n// Syntax:\n//   <FloatButton label=\"Scroll to top\" position=\"bottom-right\" onClick={onTop}>\n//     <ArrowUp />\n//   </FloatButton>\n//\n// Accessibility:\n//   - aria-label is REQUIRED (icon-only)\n//   - implicit button role\n//\n// Internationalization:\n//   - The label prop is the only user-facing string and is consumer-supplied\n//\n// Claude rules:\n//   - Headless: no CSS classes beyond the base + consumer className.\n//   - Inline `style` only for documented behavior (position: fixed + offsets).\n//\n// References:\n//   - Ant Design FloatButton: https://ant.design/components/float-button\n\nexport type FloatButtonPosition = \"top-left\" | \"top-right\" | \"bottom-left\" | \"bottom-right\";\n\nexport interface FloatButtonProps {\n    className?: string;\n    /** aria-label for the icon-only button (required) */\n    label: string;\n    /** Viewport corner anchor */\n    position?: FloatButtonPosition;\n    /** Whether the button is disabled */\n    disabled?: boolean;\n    /** HTML button type */\n    type?: \"button\" | \"submit\" | \"reset\";\n    /** Click event handler */\n    onClick?: (event: React.MouseEvent) => void;\n    /** Icon content */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nfunction cornerStyle(position: FloatButtonPosition): React.CSSProperties {\n    const style: React.CSSProperties = { position: \"fixed\" };\n    if (position === \"top-left\") {\n        style.top = \"1rem\";\n        style.left = \"1rem\";\n    } else if (position === \"top-right\") {\n        style.top = \"1rem\";\n        style.right = \"1rem\";\n    } else if (position === \"bottom-left\") {\n        style.bottom = \"1rem\";\n        style.left = \"1rem\";\n    } else {\n        style.bottom = \"1rem\";\n        style.right = \"1rem\";\n    }\n    return style;\n}\n\nexport default function FloatButton({\n    className = \"\",\n    label,\n    position = \"bottom-right\",\n    disabled = false,\n    type = \"button\",\n    onClick = undefined,\n    children,\n    ...restProps\n}: FloatButtonProps) {\n    return (\n        <button\n            className={`float-button ${className}`}\n            type={type}\n            disabled={disabled}\n            aria-label={label}\n            data-position={position}\n            style={cornerStyle(position)}\n            onClick={onClick}\n            {...restProps}\n        >\n            {children}\n        </button>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/FloatButton.tsx"
+    }
+  ],
+  "categories": [
+    "buttons"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/float-button/"
+}

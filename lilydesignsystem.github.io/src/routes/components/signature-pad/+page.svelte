@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"signature-pad\" role=\"img\" aria-label=\"Signature area\" style=\"border:1px solid #d1d5db;height:100px;display:flex;align-items:center;justify-content:center;\">Sign here</div>";
   const svelteSource: string = "// In your Svelte component:\nimport SignaturePad from \"lily-design-system-svelte-headless/components/SignaturePad/SignaturePad.svelte\";\n\n<SignaturePad>\n  <!-- content -->\n</SignaturePad>\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import SignaturePad from \"./SignaturePad.svelte\";\n<\/script>\n\n<SignaturePad label=\"Sign here\">\n    <canvas width=\"400\" height=\"200\"></canvas>\n</SignaturePad>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import SignaturePad from \"./SignaturePad.svelte\";\n<\/script>\n\n<SignaturePad label=\"Sign here\">\n  <canvas\n    width=\"400\"\n    height=\"200\"\n  ></canvas>\n</SignaturePad>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>
@@ -76,7 +76,7 @@
       <li>PascalCase: SignaturePad</li>
       <li>Description: a drawing area for capturing a handwritten signature</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
-      <li>HTML tag: &lt;canvas&gt;</li>
+      <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .signature-pad</li>
       <li>Interactive: no</li>
     </ul>

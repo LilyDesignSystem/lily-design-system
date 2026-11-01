@@ -40,6 +40,9 @@
 // References:
 //   - WAI-ARIA textbox role: https://www.w3.org/TR/wai-aria-1.2/#textbox
 
+import { ref } from "vue";
+import { useFormReset } from "./form-reset";
+
 const props = withDefaults(
     defineProps<{
         /** Accessible label. */
@@ -55,6 +58,8 @@ const props = withDefaults(
 const emit = defineEmits<{ add: [value: string] }>();
 
 const modelValue = defineModel<string>({ default: "" });
+const field = ref<HTMLInputElement | HTMLTextAreaElement | null>(null);
+useFormReset(modelValue, field);
 
 function onkeydown(event: KeyboardEvent) {
     if (event.key === "Enter" && modelValue.value.trim()) {
@@ -71,6 +76,7 @@ function onkeydown(event: KeyboardEvent) {
         class="tag-input"
         type="text"
         :aria-label="label"
+        ref="field"
         v-model="modelValue"
         @keydown="onkeydown"
         :disabled="disabled"

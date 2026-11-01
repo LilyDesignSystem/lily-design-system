@@ -7,7 +7,7 @@ a review of [daisyUI](https://daisyui.com/) (v5.7.50): a free Tailwind CSS
 plugin of semantic component classes (`btn`, `card`, `toggle`), 68 components,
 35 built-in themes made of CSS variables, and a strong AI surface (per-page
 Markdown, a skill file, an official MCP server). daisyUI is not just an
-inspiration: **Lily's themes descend from it**. 35 of the 57 `themes/` are
+inspiration: **Lily's themes descend from it**. 35 of the 63 `themes/` are
 daisyUI-derived (credited in each file's header, see
 [CHANGELOG](../../CHANGELOG.md)), and Lily already uses its token set. The
 useful question is therefore what Lily has _not_ taken. Nothing here is built
@@ -55,12 +55,12 @@ daisyUI themes are _only_ variables: `data-theme="x"` works on `<html>` or
 **any element**, and themes nest, so a section can be forced to another
 theme. Lily's themes are not: each file carries its token block and then the
 component rules for the whole catalog. Measured 2026-10-21: every one of the
-57 files is 134 KB (about 29 KB gzipped) and the component section is
-**byte-identical across all 57** (one md5). Each theme also selects
+63 files is 134 KB (about 29 KB gzipped) and the component section is
+**byte-identical across all 63** (one md5). Each theme also selects
 `:root[data-theme="x"]`, so it can only apply to the whole document.
 
 - **Deliverable:** split into one shared `themes/lily-components.css`
-  (component rules, reading only tokens) and 57 token-only theme files of
+  (component rules, reading only tokens) and 63 token-only theme files of
   about 100 lines each, selecting `[data-theme="x"]` (plus `:root` for the
   default) so a theme can be scoped to any subtree and two themes can coexist
   on one page.
@@ -123,7 +123,7 @@ variants are whatever the example app invents.
   `success`, `warning`, `error`), `data-size` (`xs` … `xl`), `data-variant`
   (`solid`, `outline`, `soft`, `ghost`, `link`), plus per-component modifiers
   documented in a **Variants** table in each component's `AGENTS.md`.
-- **Themes:** all 57 style the attributes (`[data-color="primary"]`).
+- **Themes:** all 63 style the attributes (`[data-color="primary"]`).
 - **Overlap:** state attributes are item 1 of
   [shardsui-lessons](../shardsui-lessons/index.md); agree one naming rule for
   both (`data-` plus a lower-case word) so they cannot collide.
@@ -137,7 +137,7 @@ script. Bootstrap needs `.was-validated` to avoid showing required fields as
 invalid on load. The platform now solves that: `:user-invalid` /
 `:user-valid` match only after the user has interacted.
 
-- **Deliverable:** in `field`, `error-message` and the 57 themes, style
+- **Deliverable:** in `field`, `error-message` and the 63 themes, style
   invalid state with `:user-invalid` and `[aria-invalid="true"]` (the latter for
   server-rendered errors), and show the linked error text with
   `:has(:user-invalid)`. This replaces the `data-validated` form hook proposed
@@ -182,7 +182,7 @@ Lily's `llms.txt` is a curated link map by design
   files: `llms-rules.md` (the assistant-facing rules: base class first, text
   is a prop, never hard-code strings, prefer the most specific element, use
   the suffix table, `data-color` once-per-page guidance, no inline styles)
-  and one `llms-components-{category}.md` per category, because 582 entries
+  and one `llms-components-{category}.md` per category, because 607 entries
   will not fit in one file the way daisyUI's 68 do. Each entry: summary, tag,
   base class, props, required ARIA, a one-line **Use when** and **Not when**
   (from the existing When to Use / When Not to Use bullets), and a placeholder
@@ -249,7 +249,7 @@ checkbox styled as a button needs an `aria-label`.
 ### 11. Integrations, and a playground
 
 daisyUI lists about 40 install guides (Next.js, Vite, Vue, Laravel, Rails, …)
-and has a Playground. Lily has nine per-framework tutorials and the 582-page
+and has a Playground. Lily has nine per-framework tutorials and the 607-page
 example apps.
 
 - **Deliverable (a):** short install guides for the server-rendered hosts that
@@ -293,7 +293,7 @@ alone. Each needs a real ARIA contract to qualify, per the root spec:
 - [ ] 1. Themes are token-only on `[data-theme]` with one shared component sheet; scoped and side-by-side themes work; the standalone build still ships for one minor release.
 - [ ] 2. `bin/build-css` slices the shared sheet by component, screenshot-identical to the full sheet.
 - [ ] 3. The theme generator page exports a contrast-checked theme.
-- [ ] 4. The `data-color` / `data-size` / `data-variant` vocabulary is documented, styled by all 57 themes and allow-list checked.
+- [ ] 4. The `data-color` / `data-size` / `data-variant` vocabulary is documented, styled by all 63 themes and allow-list checked.
 - [ ] 5. Invalid styling uses `:user-invalid` and `aria-invalid`; the bootstrap and coss validation items are updated to match.
 - [ ] 6. Component pages carry Copy Markdown, Open in Claude / ChatGPT and View source links.
 - [ ] 7. `llms-rules.md` and the per-category component files are generated and drift-checked; the llms-full decision is recorded.
@@ -317,5 +317,5 @@ alone. Each needs a real ARIA contract to qualify, per the root spec:
 ## Sources
 
 - [daisyUI](https://daisyui.com/) (v5.7.50 home page; read 2026-10-21), [themes](https://daisyui.com/docs/themes/), [colors](https://daisyui.com/docs/colors/), [components](https://daisyui.com/components/), [Button](https://daisyui.com/components/button/), [llms.txt](https://daisyui.com/llms.txt).
-- Lily's own state, measured 2026-10-21: [themes/](../../themes/) (57 files, 134 KB each, identical component sections), [CHANGELOG.md](../../CHANGELOG.md) (35 of 57 themes daisyUI-derived), [bin/check-theme](../../bin/check-theme).
+- Lily's own state, measured 2026-10-21: [themes/](../../themes/) (63 files, 134 KB each, identical component sections), [CHANGELOG.md](../../CHANGELOG.md) (35 of 63 themes daisyUI-derived), [bin/check-theme](../../bin/check-theme).
 - [MDN: :user-invalid](https://developer.mozilla.org/en-US/docs/Web/CSS/:user-invalid) for item 5's support floor.

@@ -1,0 +1,22 @@
+<!-- warning-text.html -->
+<!-- WarningText component (Alpine.js) -->
+<!--
+  Description: a short warning shown as an icon and a bold line of text, with a visually hidden prefix supplied by the consumer
+  HTML tag: <div>
+  CSS class: warning-text
+  Keyboard: None (passive element)
+  Accessibility: the icon span is aria-hidden; the visually hidden prefix is the consumer's text, in the consumer's language
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<div class="warning-text">
+  <span
+    class="warning-text-icon"
+    aria-hidden="true"
+    >!</span
+  >
+  <strong class="warning-text-text">
+    <span class="visually-hidden">Warning</span>
+    You can be fined up to £5,000 if you do not register.
+  </strong>
+</div>

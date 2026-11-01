@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div role=\"radiogroup\" aria-label=\"Score\"><button class=\"net-promoter-score-picker-button\" role=\"radio\" aria-checked=\"false\">7</button></div>";
   const svelteSource: string = "// In your Svelte component:\nimport NetPromoterScorePickerButton from \"lily-design-system-svelte-headless/components/NetPromoterScorePickerButton/NetPromoterScorePickerButton.svelte\";\n\n<NetPromoterScorePickerButton>NetPromoterScorePickerButton</NetPromoterScorePickerButton>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import NetPromoterScorePickerButton from './NetPromoterScorePickerButton.svelte';\n\n  let nps = $state<number | undefined>(undefined);\n<\/script>\n\n<NetPromoterScorePickerButton\n  value={9}\n  label=\"9\"\n  selected={nps === 9}\n  onclick={() => (nps = 9)}\n/>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import NetPromoterScorePickerButton from \"./NetPromoterScorePickerButton.svelte\";\n\n  let nps = $state<number | undefined>(undefined);\n<\/script>\n\n<NetPromoterScorePickerButton\n  value={9}\n  label=\"9\"\n  selected={nps === 9}\n  onclick={() => (nps = 9)}\n/>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

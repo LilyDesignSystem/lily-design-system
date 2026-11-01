@@ -1,18 +1,40 @@
 {#
-  Popup macro — dialog overlay.
+  Popup macro — a temporary overlay that appears above page content.
 
   HTML tag: <div role="dialog">
   CSS class: popup
+  Popover API: renders popover="auto", so the browser opens and closes it
+    with no script: top layer while open, Escape and a click outside close
+    it (light dismiss). A trigger button names it with
+    command="toggle-popover" commandfor="{id}" and popovertarget="{id}"
+    (the fallback for engines before command/commandfor).
 
-  Params: label (required), open (default false), id, classes, attributes. Caller provides content.
+  Params:
+    label       string   REQUIRED. Accessible name (aria-label). No default.
+    id          string   Element id, so a trigger can name it.
+    open        boolean  Default false. true renders the popup shown in
+                         place, without the popover attribute: a popover
+                         cannot start open without script.
+    popover     string   "auto" (default) | "manual".
+    classes     string
+    attributes  object
+  Caller (or params.html) provides content.
+
+  Usage:
+    {% from "components/popup/macro.njk" import popup %}
+    <button type="button" aria-haspopup="dialog" aria-controls="confirm"
+            command="toggle-popover" commandfor="confirm" popovertarget="confirm">Delete</button>
+    {% call popup({ id: "confirm", label: "Confirm deletion" }) %}
+      <p>Delete this item?</p>
+    {% endcall %}
 #}
 {%- macro popup(params) -%}
 {%- set p = params | default({}) -%}
 <div
   class="popup{% if p.classes %} {{ p.classes }}{% endif %}"
   role="dialog"
-  aria-label="{{ p.label | default('Popup') }}"
-  {%- if not p.open %} hidden{% endif %}
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if not p.open %} popover="{{ p.popover | default('auto') }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >

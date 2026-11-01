@@ -11,6 +11,10 @@ description: a locale-aware currency input
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>
-<pre tabindex="0"><code>{% raw %}&lt;label class="label" for="demo-currency"&gt;Amount&lt;/label&gt;&lt;input class="currency-input" type="text" id="demo-currency" value="$1,234.56" /&gt;
+<pre tabindex="0"><code>{% raw %}&lt;CurrencyInput
+  label="Price"
+  value="{amount}"
+  currencyCode="USD"
+/&gt;
 {% endraw %}</code></pre>
 {# END generated: examples #}

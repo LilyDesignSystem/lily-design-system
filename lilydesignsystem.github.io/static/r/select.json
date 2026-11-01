@@ -46,5 +46,10 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Select.razor"
   },
   "docs": "https://lilydesignsystem.com/components/select/",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/select/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/select/AGENTS.md",
+  "nativePlatform": {
+    "decision": "native",
+    "uses": "native <select>",
+    "could_use": "appearance: base-select in theme CSS under @supports"
+  }
 }

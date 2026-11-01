@@ -13,7 +13,7 @@ A headless Svelte 5 component rendering a `<dialog>` only while `open` is true. 
 - Emits `aria-describedby` pointing to the description paragraph only when `description` is provided (also a per-instance id).
 - `open` prop is `$bindable(false)` so consumers can close it via `bind:open`.
 - Renders the title as `<p><strong>{title}</strong></p>` (not a heading element, to leave outline control to the consumer) and the optional description as a `<p>`. Action buttons come from children.
-- Known limitation: the consumer is responsible for focus trapping and Escape-key handling.
+- The dialog opens with `showModal()`: the browser traps focus and fires `cancel` on Escape, which closes it.
 
 ## When to use it
 

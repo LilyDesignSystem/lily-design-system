@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"tag-group\"><span class=\"tag\">Design</span><span class=\"tag\">Development</span><span class=\"tag\">Testing</span></div>";
   const svelteSource: string = "// In your Svelte component:\nimport TagGroup from \"lily-design-system-svelte-headless/components/TagGroup/TagGroup.svelte\";\n\n<TagGroup>\n  <!-- list children -->\n</TagGroup>\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import TagGroup from \"./TagGroup.svelte\";\n    import Tag from \"../Tag/Tag.svelte\";\n<\/script>\n\n<TagGroup label=\"Technologies\">\n    <Tag label=\"Technology\">Svelte</Tag>\n    <Tag label=\"Technology\">TypeScript</Tag>\n    <Tag label=\"Technology\">Vite</Tag>\n</TagGroup>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import TagGroup from \"./TagGroup.svelte\";\n  import Tag from \"../Tag/Tag.svelte\";\n<\/script>\n\n<TagGroup label=\"Technologies\">\n  <Tag label=\"Technology\">Svelte</Tag>\n  <Tag label=\"Technology\">TypeScript</Tag>\n  <Tag label=\"Technology\">Vite</Tag>\n</TagGroup>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

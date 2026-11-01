@@ -2,7 +2,7 @@
 
 A reference application demonstrating every component in the Lily Design System using headless Angular components (copied from `@lilydesignsystem/angular-headless`) plus the NHS UK visual reference styling.
 
-Built on **Angular 20 + Analog.js v1** with file-based routing, signal-driven state, OnPush change detection, and full SSG prerendering.
+Built on **Angular 22 + Analog.js v2** with file-based routing, signal-driven state, OnPush change detection, and full SSG prerendering.
 
 ## Sibling apps
 
@@ -26,7 +26,7 @@ pnpm test:e2e   # Playwright accessibility + responsive specs
 ## Required routes
 
 - `/` — home page linking to every composed-page demo plus the components catalog
-- `/components` — searchable index of all 490 components
+- `/components` — searchable index of all 607 components
 - `/components/[slug]` — per-component detail page rendering the headless library's HTML output via `[innerHTML]` + `DomSanitizer`
 - 12 composed pages (`/contact-form`, `/dashboard`, …, `/timeline-and-cards`)
 

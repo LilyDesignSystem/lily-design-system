@@ -155,7 +155,7 @@ pnpm run dev</code></pre>
   <h2>Ready-made themes</h2>
   <p>
     You no wan write CSS from scratch? Lily ship
-    <strong>57 standalone reference themes</strong> for di
+    <strong>63 standalone reference themes</strong> for di
     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
     directory. Each one na one stylesheet wey target di Lily class hooks — link am and you don dey styled:
   </p>
@@ -179,11 +179,7 @@ pnpm run dev</code></pre>
 
 <section class="section prose" id="helpers" style="margin: 0 auto;">
   <h2>Preference helpers</h2>
-  <p>
-    Each framework get eight small pickers, each one inside im own
-    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> package (and <code>picker-bar</code> wey put dem together). Each one na headless icon-button wey open popup — listbox, list of links, search form, or (for date-time-picker) date-picker dialog — no be native
-    <code>&lt;select&gt;</code>; e dey SSR-safe; and e ship without CSS:
-  </p>
+  <p>Every framework get eleven small pickers, each one for im own <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> package (plus one <code>picker-bar</code> wey join dem together). Each one na headless icon button wey dey open popup — listbox, list of links, search form, panel wey get your own content, or (for date-time-picker) date-picker dialog — no be native <code>&lt;select&gt;</code> (theme-picker dey give one as option wey you fit choose); e safe for SSR; and e no dey carry CSS. Apart from menu-picker, settings-picker and time-zone-picker, na dem be dis:</p>
   <ul>
     <li>
       <strong>theme-picker</strong> — e dey load theme stylesheets for runtime by swapping managed <code>&lt;link&gt;</code>, e set
@@ -294,7 +290,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
     <summary>Component render but e look unstyled</summary>
     <p>
       Na headless dey work as e suppose — no CSS ship with di component. Either write CSS against di component kebab-case class (wey show for every <a href="/components/">catalog page</a>) or link one of di
-      <a href="#themes">57 ready-made themes</a>.
+      <a href="#themes">63 ready-made themes</a>.
     </p>
   </details>
 
@@ -383,7 +379,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
   <details class="faq-item">
     <summary>Why headless instead of styled?</summary>
     <p>
-      Pre-styled components dey convenient — until dem no match your brand. Headless components na small extra work at first but dem give you total control of di visual design. Di example apps and di 57 themes show ways to style dem; you fit take those or replace dem completely. Di longer argument dey for <a href="/why/">Why Lily</a>.
+      Pre-styled components dey convenient — until dem no match your brand. Headless components na small extra work at first but dem give you total control of di visual design. Di example apps and di 63 themes show ways to style dem; you fit take those or replace dem completely. Di longer argument dey for <a href="/why/">Why Lily</a>.
     </p>
   </details>
 

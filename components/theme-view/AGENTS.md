@@ -6,7 +6,7 @@
 - PascalCase: ThemeView
 - Description: a read-only display of the current theme
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
-- HTML tag: <div>
+- HTML tag: <span>
 - CSS class: .theme-view
 - Interactive: no
 

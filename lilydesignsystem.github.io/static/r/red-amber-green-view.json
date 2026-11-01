@@ -2,7 +2,7 @@
   "slug": "red-amber-green-view",
   "name": "RedAmberGreenView",
   "description": "a read-only display of a red/amber/green status",
-  "htmlTag": "div",
+  "htmlTag": "span",
   "category": "content",
   "baseClass": ".red-amber-green-view",
   "subClasses": [],

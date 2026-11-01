@@ -1,0 +1,39 @@
+{
+  "slug": "malaysia-kad-pengenalan-view",
+  "name": "MalaysiaKadPengenalanView",
+  "description": "a read-only display of Malaysia's MyKad Number (NRIC)",
+  "htmlTag": "span",
+  "category": "national",
+  "baseClass": ".malaysia-kad-pengenalan-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow",
+  "aria": [
+    "`aria-label` provides accessible name from label prop"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`value`: string (default: \"\") — the identifier to display",
+    "`label`: string (required) — accessible name via `aria-label`",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "malaysia-kad-pengenalan-input",
+    "summary-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/malaysia-kad-pengenalan-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/MalaysiaKadPengenalanView/MalaysiaKadPengenalanView.svelte",
+    "react": "lily-design-system-react-headless/components/MalaysiaKadPengenalanView.tsx",
+    "vue": "lily-design-system-vue-headless/components/MalaysiaKadPengenalanView.vue",
+    "angular": "lily-design-system-angular-headless/components/MalaysiaKadPengenalanView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/malaysia-kad-pengenalan-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/malaysia-kad-pengenalan-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/malaysia-kad-pengenalan-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MalaysiaKadPengenalanView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/malaysia-kad-pengenalan-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/malaysia-kad-pengenalan-view/AGENTS.md"
+}

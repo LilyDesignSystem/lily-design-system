@@ -1105,3 +1105,151 @@ describe("ThemePicker — open state and disabled", () => {
         );
     });
 });
+
+describe('ThemePicker — variant="select" (§select, RFC 3 prototype; ported from Svelte)', () => {
+    const base = {
+        label: "Colour theme",
+        themesUrl: URL_TRAILING,
+        themes: THEMES,
+        variant: "select" as const,
+    };
+
+    test("renders one native <select> named by label, and no button, listbox, tooltip or hidden input", () => {
+        render(<ThemePicker {...base} />);
+        const select = screen.getByRole("combobox", { name: "Colour theme" });
+        expect(select.tagName).toBe("SELECT");
+        expect(select.classList.contains("theme-picker-select")).toBe(true);
+        expect(select.getAttribute("name")).toBe("theme");
+        const root = select.closest(".theme-picker") as HTMLElement;
+        expect(root.getAttribute("data-variant")).toBe("select");
+        expect(screen.queryByRole("button")).toBeNull();
+        expect(screen.queryByRole("listbox")).toBeNull();
+        expect(document.querySelector(".theme-picker-tooltip")).toBeNull();
+        expect(document.querySelector('input[type="hidden"]')).toBeNull();
+    });
+
+    test("labels are props: option text comes from themeLabels or the title-cased slug, never built-in English", () => {
+        render(
+            <ThemePicker
+                {...base}
+                label="Thème"
+                themeLabels={{ dark: "Sombre" }}
+            />,
+        );
+        expect(screen.getByRole("combobox", { name: "Thème" })).toBeTruthy();
+        const options = [
+            ...document.querySelectorAll<HTMLOptionElement>("option.theme-picker-option"),
+        ];
+        expect(options.map((o) => o.value)).toEqual(THEMES);
+        expect(options.map((o) => o.textContent?.trim())).toEqual(["Light", "Sombre", "Abyss"]);
+        expect(document.body.textContent).not.toMatch(/default/i);
+    });
+
+    test("the resolved initial value is the selected option and is applied", async () => {
+        render(<ThemePicker {...base} />);
+        await flush();
+        const select = screen.getByRole("combobox") as HTMLSelectElement;
+        expect(select.value).toBe("light");
+        expect(document.documentElement.getAttribute("data-theme")).toBe("light");
+        expect(getManagedLink()?.getAttribute("href")).toBe("/assets/themes/light.css");
+    });
+
+    test("choosing an option applies the theme, persists it and fires onChange once", async () => {
+        const onChange = vi.fn();
+        render(
+            <ThemePicker
+                {...base}
+                storageKey="lily-theme"
+                onChange={onChange}
+            />,
+        );
+        await flush();
+        onChange.mockClear();
+        const select = screen.getByRole("combobox") as HTMLSelectElement;
+        fireEvent.change(select, { target: { value: "abyss" } });
+        await flush();
+        expect(select.value).toBe("abyss");
+        expect(document.documentElement.getAttribute("data-theme")).toBe("abyss");
+        expect(getManagedLink()?.getAttribute("href")).toBe("/assets/themes/abyss.css");
+        expect(localStorage.getItem("lily-theme")).toBe("abyss");
+        expect(onChange).toHaveBeenCalledTimes(1);
+        expect(onChange).toHaveBeenCalledWith("abyss");
+    });
+
+    test("keyboard is the platform's: the select is one Tab stop, and the component adds no key handling", async () => {
+        const { default: userEvent } = await import("@testing-library/user-event");
+        const user = userEvent.setup();
+        render(<ThemePicker {...base} />);
+        await flush();
+        const select = screen.getByRole("combobox") as HTMLSelectElement;
+        await user.tab();
+        expect(document.activeElement).toBe(select);
+        const event = new KeyboardEvent("keydown", {
+            key: "ArrowDown",
+            bubbles: true,
+            cancelable: true,
+        });
+        select.dispatchEvent(event);
+        expect(event.defaultPrevented).toBe(false);
+        expect(screen.queryByRole("listbox")).toBeNull();
+        await user.selectOptions(select, "dark");
+        await flush();
+        expect(select.value).toBe("dark");
+        expect(document.documentElement.getAttribute("data-theme")).toBe("dark");
+        await user.tab();
+        expect(document.activeElement).not.toBe(select);
+    });
+
+    test("disabled disables the select", () => {
+        render(
+            <ThemePicker
+                {...base}
+                disabled
+            />,
+        );
+        expect((screen.getByRole("combobox") as HTMLSelectElement).disabled).toBe(true);
+    });
+
+    test("a value set by the parent selects that option", async () => {
+        const { rerender } = render(
+            <ThemePicker
+                {...base}
+                value="dark"
+            />,
+        );
+        await flush();
+        const select = screen.getByRole("combobox") as HTMLSelectElement;
+        expect(select.value).toBe("dark");
+        rerender(
+            <ThemePicker
+                {...base}
+                value="abyss"
+            />,
+        );
+        await flush();
+        expect(select.value).toBe("abyss");
+        expect(document.documentElement.getAttribute("data-theme")).toBe("abyss");
+    });
+
+    test("rest props spread onto the root and className is appended", () => {
+        render(
+            <ThemePicker
+                {...base}
+                className="header-theme"
+                data-testid="tp"
+            />,
+        );
+        expect(screen.getByTestId("tp").className).toBe("theme-picker header-theme");
+    });
+
+    test("server-rendered markup marks the resolved option selected", async () => {
+        const { renderToString } = await import("react-dom/server");
+        const html = renderToString(
+            <ThemePicker
+                {...base}
+                value="dark"
+            />,
+        );
+        expect(html).toMatch(/<option[^>]*value="dark"[^>]*selected/);
+    });
+});

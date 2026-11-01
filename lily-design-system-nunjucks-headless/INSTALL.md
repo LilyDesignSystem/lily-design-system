@@ -1,6 +1,6 @@
 # Install
 
-This is the Nunjucks headless component library: all 582 catalog components, unstyled and accessible.
+This is the Nunjucks headless component library: all 607 catalog components, unstyled and accessible.
 
 Its source is the `lily-design-system-nunjucks-headless/` directory of the canonical Lily Design System™
 monorepo at <https://github.com/LilyDesignSystem/lily-design-system>. Issues and pull requests are handled there.

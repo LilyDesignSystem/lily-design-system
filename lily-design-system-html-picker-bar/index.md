@@ -88,7 +88,7 @@ same pattern elsewhere in this catalog.
 
 ## Defaults
 
-- **`themes`** defaults to `DEFAULT_THEMES` — all 45 Lily reference
+- **`themes`** defaults to `DEFAULT_THEMES` — all 63 Lily reference
   theme slugs, alphabetical, with the 8 United Kingdom / United States
   government themes moved to their own alphabetical group at the
   bottom. Set your own `themes` attribute (comma-separated) or

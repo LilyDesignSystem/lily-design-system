@@ -5,10 +5,14 @@
   CSS class: context-menu
   Accessibility:
     - Intended to be anchored to an element via JavaScript.
-    - Consumers control show/hide; this macro only emits the markup.
+    - popover="auto" (tasks.md P18-T11): there is no declarative trigger
+      (a right-click or long-press opens it), so the consumer's script
+      calls showPopover() on it; the browser then puts it in the top layer
+      and closes it on Escape and on a click outside it. `open: true`
+      renders it shown in place, without the popover attribute.
 
   Params:
-    label       string   Accessible name. Default "Context menu".
+    label       string   Accessible name (no default: the consumer's, in their language).
     labelledBy  string
     open        boolean  Whether the menu is visible. Default false.
     id          string
@@ -22,8 +26,8 @@
 <ul
   class="context-menu{% if p.classes %} {{ p.classes }}{% endif %}"
   role="menu"
-  {%- if not p.open %} hidden{% endif %}
-  {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"{% else %} aria-label="{{ p.label | default('Context menu') }}"{% endif %}
+  {%- if not p.open %} popover="auto"{% endif %}
+  {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"{% elif p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >

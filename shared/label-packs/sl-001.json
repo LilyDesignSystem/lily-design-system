@@ -283,5 +283,10 @@
     "small": "majhen",
     "smaller": "manjši",
     "smallest": "najmanjši"
+  },
+  "date-time-now-input": {
+    "date": "Datum",
+    "time": "Čas",
+    "now": "Zdaj"
   }
 }

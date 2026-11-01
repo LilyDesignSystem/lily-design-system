@@ -1,0 +1,23 @@
+---
+layout: layouts/component-demo.njk
+title: ColombiaCedulaDeCiudadaniaView
+description: a read-only display of Colombia's Cedula de Ciudadania Number
+---
+
+{% from "components/colombia-cedula-de-ciudadania-view/macro.njk" import colombiaCedulaDeCiudadaniaView %}
+
+<h2>Default</h2>
+<p>{{ colombiaCedulaDeCiudadaniaView({ text: "ColombiaCedulaDeCiudadaniaView example", label: "ColombiaCedulaDeCiudadaniaView example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;SummaryList&gt;
+  &lt;SummaryListItem term="Cedula de Ciudadania Number"&gt;
+    &lt;ColombiaCedulaDeCiudadaniaView
+      label="Cedula de Ciudadania Number"
+      value="{value}"
+    /&gt;
+  &lt;/SummaryListItem&gt;
+&lt;/SummaryList&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

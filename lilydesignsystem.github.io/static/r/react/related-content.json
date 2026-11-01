@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "related-content",
+  "type": "registry:component",
+  "title": "RelatedContent",
+  "description": "A section providing links to related or supporting information.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/RelatedContent.tsx",
+      "content": "export interface RelatedContentProps {\n    className?: string;\n    label?: string;\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function RelatedContent({\n    className = \"\",\n    label = undefined,\n    children,\n    ...restProps\n}: RelatedContentProps) {\n    return (\n        <aside\n            className={`related-content ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </aside>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/RelatedContent.tsx"
+    }
+  ],
+  "categories": [
+    "navigation"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/related-content/"
+}

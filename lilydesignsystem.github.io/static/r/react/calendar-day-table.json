@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "calendar-day-table",
+  "type": "registry:component",
+  "title": "CalendarDayTable",
+  "description": "A calendar grid showing the time slots of one day.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/CalendarDayTable.tsx",
+      "content": "import React from \"react\";\n\n// CalendarDayTable component\n//\n// A calendar grid for a grid of the time slots of one day: one row per slot. A structural wrapper like CalendarTable:\n// a <table> with role=\"grid\" and data-view=\"day\"; the consumer supplies the\n// head, body and rows by reusing the CalendarTable* sub-elements.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name describing the period shown (e.g. \"Monday 6 January 2025\").\n//   caption — string, optional. Visible caption text displayed above the table.\n//   children — ReactNode, required. CalendarTableHead, CalendarTableBody, CalendarTableFoot elements.\n//   ...restProps — additional HTML attributes spread onto the <table>.\n//\n// Syntax:\n//   <CalendarDayTable label=\"Monday 6 January 2025\">\n//     <CalendarTableBody>...</CalendarTableBody>\n//   </CalendarDayTable>\n//\n// Keyboard:\n//   None built-in — consumer implements grid keyboard navigation\n//   (arrow keys for cell movement, Enter/Space for selection).\n//\n// Accessibility:\n//   - role=\"grid\" identifies the table as an interactive grid widget\n//   - aria-label provides an accessible name describing the period\n//   - data-view=\"day\" lets consumer CSS and JS key on the view\n//\n// Internationalization:\n//   - label and caption supply all text; locale formatting (Intl) and cell\n//     content are the consumer's concern\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Reuse the CalendarTable* sub-elements; there are no CalendarDayTable* sub-elements\n//\n// References:\n//   - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/\n\nexport interface CalendarDayTableProps {\n    className?: string;\n    /** Accessible name describing the period shown. */\n    label: string;\n    /** Visible caption for the table. */\n    caption?: string;\n    /** CalendarTableHead, CalendarTableBody, CalendarTableFoot elements. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function CalendarDayTable({\n    className = \"\",\n    label,\n    caption = undefined,\n    children,\n    ...restProps\n}: CalendarDayTableProps) {\n    return (\n        <table\n            className={`calendar-day-table ${className}`}\n            role=\"grid\"\n            aria-label={label}\n            data-view=\"day\"\n            {...restProps}\n        >\n            {caption && <caption>{caption}</caption>}\n            {children}\n        </table>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/CalendarDayTable.tsx"
+    }
+  ],
+  "categories": [
+    "tables"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/calendar-day-table/"
+}

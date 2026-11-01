@@ -6,6 +6,9 @@ import { ChangeDetectionStrategy, Component, input, model } from "@angular/core"
  * Headless Angular component. Renders the semantic HTML root with the
  * kebab-case class hook `tour` and the consumer-provided `className`.
  * Ships zero CSS; the consumer styles via the class hook.
+ *
+ * Non-modal (tasks.md P18-T6): a tour points at parts of the real page and often asks the user to try them, so
+ * the page stays usable; `role="dialog"` without `aria-modal`, no focus trap. Escape ends it.
  */
 @Component({
     selector: "lily-tour",
@@ -14,7 +17,6 @@ import { ChangeDetectionStrategy, Component, input, model } from "@angular/core"
     <div
       class="tour {{ className() }}"
       role="dialog"
-      aria-modal="true"
       tabindex="-1"
       [attr.aria-label]="label() || null"
       (keydown)="onKeydown($event)"

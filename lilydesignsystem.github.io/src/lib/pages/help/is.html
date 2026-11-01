@@ -155,7 +155,7 @@ pnpm run dev</code></pre>
   <h2>Tilbúin þemu</h2>
   <p>
     Viltu ekki skrifa CSS frá grunni? Lily inniheldur
-    <strong>57 sjálfstæð viðmiðunarþemu</strong> í möppunni
+    <strong>63 sjálfstæð viðmiðunarþemu</strong> í möppunni
     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
     . Hvert er eitt stílblað sem miðar á Lily-klasakrókana — tengdu það og þú ert stíluð(ur):
   </p>
@@ -179,11 +179,7 @@ pnpm run dev</code></pre>
 
 <section class="section prose" id="helpers" style="margin: 0 auto;">
   <h2>Stillingahjálpartæki</h2>
-  <p>
-    Hver rammi er með átta litla veljara, hver sinn eigin
-    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> pakka (og <code>picker-bar</code> sem setur þá saman). Hver er höfuðlaus táknhnappur sem opnar sprettglugga — valmöguleikalista, tengla, leitarform eða (fyrir date-time-picker) dagsetningarvalsglugga — ekki innbyggt
-    <code>&lt;select&gt;</code>; er SSR-öruggur; og kemur án CSS:
-  </p>
+  <p>Hvert rammaverk hefur ellefu litla velja, hvern í sínum eigin <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> pakka (og <code>picker-bar</code> sem raðar þeim saman). Hver er headless táknhnappur sem opnar sprettiglugga — listabox, lista yfir tengla, leitarform, spjald með þínu eigin efni eða (fyrir date-time-picker) dagsetningarvalsglugga — ekki innbyggt <code>&lt;select&gt;</code> (theme-picker býður upp á það sem valfrjálst afbrigði); er öruggur fyrir SSR; og sendir enga CSS. Fyrir utan menu-picker, settings-picker og time-zone-picker eru þeir:</p>
   <ul>
     <li>
       <strong>theme-picker</strong> — hleður þemastílblöðum á keyrslutíma með því að skipta um stýrt <code>&lt;link&gt;</code>, setur
@@ -294,7 +290,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
     <summary>Íhlutur birtist en lítur óstílaður út</summary>
     <p>
       Það er höfuðleysið að virka eins og til er ætlast — ekkert CSS fylgir íhlutnum. Skrifaðu annaðhvort CSS gegn kebab-case klasa íhlutarins (sýndur á hverri <a href="/components/">safnsíðu</a>) eða tengdu eitt af
-      <a href="#themes">57 tilbúnu þemunum</a>.
+      <a href="#themes">63 tilbúnu þemunum</a>.
     </p>
   </details>
 
@@ -383,7 +379,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
   <details class="faq-item">
     <summary>Af hverju höfuðlaust frekar en stílað?</summary>
     <p>
-      Forstíluð íhlutasöfn eru þægileg — þar til þau passa ekki við vörumerkið þitt. Höfuðlausir íhlutir kosta örlítið meiri vinnu í upphafi en veita þér fulla stjórn á sjónrænni hönnun. Dæmaforritin og 57 þemun sýna leiðir til að stíla þá; þú getur tekið þær eða skipt þeim alveg út. Lengri rökin eru á <a href="/why/">Af hverju Lily</a>.
+      Forstíluð íhlutasöfn eru þægileg — þar til þau passa ekki við vörumerkið þitt. Höfuðlausir íhlutir kosta örlítið meiri vinnu í upphafi en veita þér fulla stjórn á sjónrænni hönnun. Dæmaforritin og 63 þemun sýna leiðir til að stíla þá; þú getur tekið þær eða skipt þeim alveg út. Lengri rökin eru á <a href="/why/">Af hverju Lily</a>.
     </p>
   </details>
 

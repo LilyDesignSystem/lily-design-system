@@ -33,4 +33,17 @@ describe("chat-list-item", () => {
         expect(html).not.toContain("<style");
         expect(html).not.toContain("<script");
     });
+
+    it("adds aria-current only when current", () => {
+        expect(
+            render("chat-list-item", { text: "Hi" })
+                .document.querySelector("li")
+                .hasAttribute("aria-current"),
+        ).toBe(false);
+        expect(
+            render("chat-list-item", { text: "Hi", current: true })
+                .document.querySelector("li")
+                .getAttribute("aria-current"),
+        ).toBe("true");
+    });
 });

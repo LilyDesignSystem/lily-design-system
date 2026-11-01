@@ -6,7 +6,7 @@
 - PascalCase: MeasurementInstanceView
 - Description: a read-only display of a measurement value and unit
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
-- HTML tag: <div>
+- HTML tag: <span>
 - CSS class: .measurement-instance-view
 - Interactive: no
 

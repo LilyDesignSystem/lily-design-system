@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div role=\"menubar\" aria-label=\"Application\"><button class=\"menu-bar-button\" role=\"menuitem\">File</button></div>";
   const svelteSource: string = "// In your Svelte component:\nimport MenuBarButton from \"lily-design-system-svelte-headless/components/MenuBarButton/MenuBarButton.svelte\";\n\n<MenuBarButton>MenuBarButton</MenuBarButton>\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import MenuBar from \"../MenuBar/MenuBar.svelte\";\n    import MenuBarButton from \"./MenuBarButton.svelte\";\n<\/script>\n\n<MenuBar label=\"Main menu\">\n    <MenuBarButton>File</MenuBarButton>\n    <MenuBarButton>Edit</MenuBarButton>\n    <MenuBarButton>View</MenuBarButton>\n</MenuBar>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import MenuBar from \"../MenuBar/MenuBar.svelte\";\n  import MenuBarButton from \"./MenuBarButton.svelte\";\n<\/script>\n\n<MenuBar label=\"Main menu\">\n  <MenuBarButton>File</MenuBarButton>\n  <MenuBarButton>Edit</MenuBarButton>\n  <MenuBarButton>View</MenuBarButton>\n</MenuBar>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

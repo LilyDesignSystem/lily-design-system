@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"byline\" aria-label=\"an author attribution with publish and update timestamps\">Byline</div>";
   const svelteSource: string = "// In your Svelte component:\nimport Byline from \"lily-design-system-svelte-headless/components/Byline/Byline.svelte\";\n\n<Byline>\n  <!-- content -->\n</Byline>\n";
-  const usageCode: string = "<Byline>\n  <a href=\"/author/jane-smith\" rel=\"author\">Jane Smith</a>\n  <time slot=\"published\" datetime=\"2026-04-15\">April 15, 2026</time>\n  <time slot=\"updated\" datetime=\"2026-04-15\">Updated April 15, 2026</time>\n</Byline>\n";
+  const usageCode: string = "<Byline>\n  <a\n    href=\"/author/jane-smith\"\n    rel=\"author\"\n    >Jane Smith</a\n  >\n  <time\n    slot=\"published\"\n    datetime=\"2026-04-15\"\n    >April 15, 2026</time\n  >\n  <time\n    slot=\"updated\"\n    datetime=\"2026-04-15\"\n    >Updated April 15, 2026</time\n  >\n</Byline>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

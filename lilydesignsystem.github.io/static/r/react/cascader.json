@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "cascader",
+  "type": "registry:component",
+  "title": "Cascader",
+  "description": "A multi-level dropdown for selecting a value from a hierarchy.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "registryDependencies": [
+    "@lily/popover"
+  ],
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Cascader.tsx",
+      "content": "\"use client\";\n\n// Cascader component\n//\n// A multi-level dropdown for selecting a value from a hierarchy. The\n// component is a `role=\"combobox\"` container with a trigger button and a\n// panel that holds nested option lists supplied by the consumer.\n//\n// Props:\n//   className    — string, optional. CSS class name.\n//   label        — string, REQUIRED. aria-label for the combobox.\n//   expanded     — boolean, default false. Whether the panel is open.\n//   disabled     — boolean, default false. Disables the trigger button.\n//   placeholder  — string, optional. Placeholder shown on the trigger when no value.\n//   value        — string, optional. Display value on the trigger.\n//   onClick      — (event: React.MouseEvent) => void, optional. Trigger click handler.\n//   children     — ReactNode, required. Panel content (typically nested option lists).\n//   ...restProps — additional HTML attributes spread onto the root <div>.\n//\n// Syntax:\n//   <Cascader label=\"Region\" expanded={open} value={selected} onClick={toggle}>\n//     <ul>…</ul>\n//   </Cascader>\n//\n// Examples:\n//\n//   <Cascader label=\"Region\" placeholder=\"Select…\" expanded={false}>\n//     <ul role=\"tree\">…</ul>\n//   </Cascader>\n//\n// Keyboard:\n//   - Tab: focus the trigger\n//   - Enter / Space on trigger: opens the panel (consumer toggles `expanded`)\n//\n// Accessibility:\n//   - role=\"combobox\", aria-haspopup=\"tree\", aria-expanded, aria-label\n//\n// Internationalization:\n//   - label, placeholder, value are all consumer-supplied\n//\n// Claude rules:\n//   - Headless: no CSS, no styles\n//   - label is non-optional in the interface\n//\n// References:\n//   - Ant Design Cascader: https://ant.design/components/cascader\n\nimport React from \"react\";\nimport { usePopoverState } from \"./Popover\";\n\nexport interface CascaderProps {\n    className?: string;\n    /** aria-label for the combobox (required) */\n    label: string;\n    /** Whether the panel is open */\n    expanded?: boolean;\n    /** Whether the trigger is disabled */\n    disabled?: boolean;\n    /** Placeholder shown on the trigger when no value */\n    placeholder?: string;\n    /** Display value on the trigger */\n    value?: string;\n    /** Trigger click handler */\n    onClick?: (event: React.MouseEvent) => void;\n    /** Panel content (typically nested option lists) */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Cascader({\n    className = \"\",\n    label,\n    expanded = false,\n    disabled = false,\n    placeholder = undefined,\n    value = undefined,\n    onClick = undefined,\n    children,\n    ...restProps\n}: CascaderProps) {\n    const panelRef = React.useRef<HTMLDivElement>(null);\n    usePopoverState(panelRef, expanded);\n    return (\n        <div\n            className={`cascader ${className}`}\n            role=\"combobox\"\n            aria-haspopup=\"tree\"\n            aria-expanded={expanded}\n            aria-label={label}\n            {...restProps}\n        >\n            <button\n                className=\"cascader-trigger\"\n                type=\"button\"\n                disabled={disabled}\n                onClick={onClick}\n            >\n                {value || placeholder}\n            </button>\n            <div\n                className=\"cascader-panel\"\n                ref={panelRef}\n                popover=\"manual\"\n            >\n                {children}\n            </div>\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Cascader.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/cascader/"
+}

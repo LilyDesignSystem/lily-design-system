@@ -16,20 +16,20 @@ function render(html: string): HTMLElement {
 }
 
 describe("TourList", () => {
-    test("renders a native ordered list with role=dialog, hidden by default", () => {
+    test("renders a plain ordered list (no role=dialog), hidden by default", () => {
         const host = render('<lily-tour-list label="Getting started"></lily-tour-list>');
 
         const ol = host.querySelector("ol.tour-list") as HTMLOListElement;
         expect(ol).toBeTruthy();
-        expect(ol.getAttribute("role")).toBe("dialog");
+        expect(ol.hasAttribute("role")).toBe(false);
         expect(ol.hidden).toBe(true);
     });
 
-    test("aria-modal is true and tabindex is -1", () => {
+    test("no aria-modal (not modal, tasks.md P18-T6) and tabindex is -1", () => {
         const host = render('<lily-tour-list label="Getting started"></lily-tour-list>');
 
         const ol = host.querySelector("ol")!;
-        expect(ol.getAttribute("aria-modal")).toBe("true");
+        expect(ol.hasAttribute("aria-modal")).toBe(false);
         expect(ol.tabIndex).toBe(-1);
     });
 

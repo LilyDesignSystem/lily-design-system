@@ -16,7 +16,15 @@
                             the overflow trigger button and the
                             overflow panel are both rendered.
     overflowId     string   Optional id for the overflow panel; the
-                            trigger references it via aria-controls.
+                            trigger references it via aria-controls and
+                            commandfor. Default "action-group-overflow".
+
+  No script (tasks.md P18-T11): the overflow menu is popover="auto" and the
+  trigger names it with command="toggle-popover" commandfor (and
+  popovertarget), so the browser opens and closes it, and closes it on
+  Escape and on a click outside it. Closed, the trigger carries no static
+  aria-expanded (nothing would update it without script). `overflowOpen:
+  true` renders the menu shown in place, without the popover attribute.
     text           string   Plain text content (escaped).
     html           string   Raw HTML content (rendered via `| safe`).
                             Typically the visible action buttons.
@@ -36,6 +44,7 @@
 #}
 {%- macro actionGroup(params) -%}
 {%- set p = params | default({}) -%}
+{%- set overflowId = p.overflowId | default('action-group-overflow') -%}
 <div
   class="action-group{% if p.classes %} {{ p.classes }}{% endif %}"
   role="group"
@@ -52,14 +61,15 @@
     class="action-group-overflow-trigger"
     type="button"
     aria-haspopup="menu"
-    aria-expanded="{{ 'true' if p.overflowOpen else 'false' }}"
     {%- if p.overflowLabel %} aria-label="{{ p.overflowLabel }}"{% endif %}
-    {%- if p.overflowId %} aria-controls="{{ p.overflowId }}"{% endif %}
+    aria-controls="{{ overflowId }}"
+    {%- if p.overflowOpen %} aria-expanded="true"
+    {%- else %} command="toggle-popover" commandfor="{{ overflowId }}" popovertarget="{{ overflowId }}"{% endif %}
   >&hellip;</button>
   <div
     class="action-group-overflow-menu"
-    {%- if p.overflowId %} id="{{ p.overflowId }}"{% endif %}
-    {%- if not p.overflowOpen %} hidden{% endif %}
+    id="{{ overflowId }}"
+    {%- if not p.overflowOpen %} popover="auto"{% endif %}
   >{{ p.overflowHtml | safe }}</div>
   {%- endif %}
 </div>

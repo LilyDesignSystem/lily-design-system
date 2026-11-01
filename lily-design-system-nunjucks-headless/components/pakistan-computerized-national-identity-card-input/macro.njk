@@ -1,0 +1,35 @@
+{#
+  PakistanComputerizedNationalIdentityCardInput macro -- an input for entering Computerized National Identity Card Number (CNIC).
+
+  HTML tag: <input type="text">
+  CSS class: pakistan-computerized-national-identity-card-input
+  Format: Thirteen digits, written 12345-1234567-1: a five-digit locality code (province, division, district and tehsil), a seven-digit family number, and a final digit that is odd for a male and even for a female. There is no check digit.
+  Accessibility: autocomplete="off", spellcheck suppressed.
+
+  Params:
+    id, name, value, label, describedBy, errormessage, invalid,
+    required, disabled, readonly, classes, attributes.
+
+  Usage:
+    {% from "components/pakistan-computerized-national-identity-card-input/macro.njk" import pakistanComputerizedNationalIdentityCardInput %}
+    {{ pakistanComputerizedNationalIdentityCardInput({ id: "field-id", label: "Computerized National Identity Card Number (CNIC)" }) }}
+#}
+{%- macro pakistanComputerizedNationalIdentityCardInput(params) -%}
+<input
+  class="pakistan-computerized-national-identity-card-input{% if params.classes %} {{ params.classes }}{% endif %}"
+  type="text"
+  id="{{ params.id }}"
+  name="{{ params.name | default(params.id) }}"
+  value="{{ params.value | default('') }}"
+  autocomplete="off"
+  spellcheck="false"
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.describedBy %} aria-describedby="{{ params.describedBy }}"{% endif %}
+  {%- if params.errormessage %} aria-errormessage="{{ params.errormessage }}"{% endif %}
+  {%- if params.invalid %} aria-invalid="true"{% endif %}
+  {%- if params.required %} required{% endif %}
+  {%- if params.disabled %} disabled{% endif %}
+  {%- if params.readonly %} readonly{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+{%- endmacro -%}

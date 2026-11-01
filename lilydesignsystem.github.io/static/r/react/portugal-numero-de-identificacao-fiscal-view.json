@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "portugal-numero-de-identificacao-fiscal-view",
+  "type": "registry:component",
+  "title": "PortugalNumeroDeIdentificacaoFiscalView",
+  "description": "A read-only display of Portugal's Número de Identificação Fiscal (NIF).",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/PortugalNumeroDeIdentificacaoFiscalView.tsx",
+      "content": "import React from \"react\";\n\n// PortugalNumeroDeIdentificacaoFiscalView component\n//\n// A headless display component for showing Portugal's\n// Número de Identificação Fiscal (NIF) in a read-only format.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". The identifier string to display.\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <PortugalNumeroDeIdentificacaoFiscalView label=\"Tax Identification Number\" value={value} />\n//\n// Accessibility:\n//   - aria-label provides the accessible name so screen readers announce the purpose\n//\n// References:\n//   - https://en.wikipedia.org/wiki/Personal_identification_number_(Portugal)\n\nexport interface PortugalNumeroDeIdentificacaoFiscalViewProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The identifier to display */\n    value?: string;\n    [key: string]: unknown;\n}\n\nexport default function PortugalNumeroDeIdentificacaoFiscalView({\n    className = \"\",\n    label,\n    value = \"\",\n    ...restProps\n}: PortugalNumeroDeIdentificacaoFiscalViewProps) {\n    return (\n        <span\n            className={`portugal-numero-de-identificacao-fiscal-view ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {value}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/PortugalNumeroDeIdentificacaoFiscalView.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/portugal-numero-de-identificacao-fiscal-view/"
+}

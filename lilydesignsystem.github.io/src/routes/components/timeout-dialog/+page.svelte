@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"timeout-dialog\" aria-label=\"a modal dialog warning users before session timeout\">TimeoutDialog</div>";
   const svelteSource: string = "// In your Svelte component:\nimport TimeoutDialog from \"lily-design-system-svelte-headless/components/TimeoutDialog/TimeoutDialog.svelte\";\n\n<TimeoutDialog label=\"Dialog\" open>\n  <!-- dialog content -->\n</TimeoutDialog>\n";
-  const usageCode: string = "<TimeoutDialog title=\"You are about to be signed out\" open={isOpen} remainingSeconds={120}\n  onExtend={extendSession} onSignOut={signOutNow} />\n";
+  const usageCode: string = "<TimeoutDialog\n  title=\"You are about to be signed out\"\n  open=\"{isOpen}\"\n  remainingSeconds=\"{120}\"\n  onExtend=\"{extendSession}\"\n  onSignOut=\"{signOutNow}\"\n/>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

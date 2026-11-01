@@ -155,7 +155,7 @@ pnpm run dev</code></pre>
   <h2>Kész témák</h2>
   <p>
     Nem akarsz CSS-t írni a nulláról? A Lily
-    <strong>57 önálló referenciatémát</strong> szállít a
+    <strong>63 önálló referenciatémát</strong> szállít a
     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
     könyvtárban. Mindegyik egy-egy stíluslap, amely a Lily osztályhorgait célozza – linkeld be, és már stílusozott vagy:
   </p>
@@ -179,11 +179,7 @@ pnpm run dev</code></pre>
 
 <section class="section prose" id="helpers" style="margin: 0 auto;">
   <h2>Beállítássegédek</h2>
-  <p>
-    Minden keretrendszernek nyolc kis választója van, mindegyik saját
-    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> csomag (és egy <code>picker-bar</code> , amely összeállítja őket). Mindegyik egy fej nélküli ikongomb, amely előugró ablakot nyit – listadobozt, linklistát, keresőűrlapot vagy (a date-time-picker esetében) dátumválasztó párbeszédpanelt –, nem natív
-    <code>&lt;select&gt;</code>; SSR-biztos; és nem szállít CSS-t:
-  </p>
+  <p>Minden keretrendszernek tizenegy kis választója van, mindegyik a saját <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> csomagjában (és egy <code>picker-bar</code>, amely összeállítja őket). Mindegyik egy headless ikongomb, amely felugró elemet nyit meg — listamezőt, hivatkozáslistát, keresőűrlapot, a saját tartalmát tartalmazó panelt vagy (a date-time-pickernél) dátumválasztó párbeszédablakot —, nem natív <code>&lt;select&gt;</code> elemet (a theme-picker választható változatként kínál ilyet); SSR-biztos, és nem szállít CSS-t. A menu-picker, a settings-picker és a time-zone-picker mellett ezek:</p>
   <ul>
     <li>
       <strong>theme-picker</strong> – futásidőben tölti be a témák stíluslapjait egy kezelt <code>&lt;link&gt;</code>cseréjével, beállítja a
@@ -294,7 +290,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
     <summary>Egy komponens megjelenik, de stílustalannak tűnik</summary>
     <p>
       Ez a fej nélküli működés a tervezett módon – a komponenshez nem tartozik CSS. Vagy írj CSS-t a komponens kebab-case osztályára (minden <a href="/components/">katalógusoldalon látható</a>), vagy linkeld be az
-      <a href="#themes">57 kész téma</a>.
+      <a href="#themes">63 kész téma</a>.
     </p>
   </details>
 
@@ -383,7 +379,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
   <details class="faq-item">
     <summary>Miért fej nélküli a stílusozott helyett?</summary>
     <p>
-      Az előre stílusozott komponensek kényelmesek – amíg nem illenek a márkádhoz. A fej nélküli komponensek eleinte kicsit több munkát igényelnek, de teljes kontrollt adnak a vizuális tervezés fölött. A példaalkalmazások és az 57 téma megmutatja a stílusozás módjait; átveheted őket, vagy teljesen lecserélheted. A hosszabb érvelés itt található: <a href="/why/">Miért a Lily</a>.
+      Az előre stílusozott komponensek kényelmesek – amíg nem illenek a márkádhoz. A fej nélküli komponensek eleinte kicsit több munkát igényelnek, de teljes kontrollt adnak a vizuális tervezés fölött. A példaalkalmazások és az 63 téma megmutatja a stílusozás módjait; átveheted őket, vagy teljesen lecserélheted. A hosszabb érvelés itt található: <a href="/why/">Miért a Lily</a>.
     </p>
   </details>
 

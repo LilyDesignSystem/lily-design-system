@@ -18,7 +18,7 @@
 - Supports `min` and `max` value constraints
 - Supports `required` and `disabled` boolean states
 - Spreads `restProps` onto the input for consumer customization (e.g., `id`, `name`, `placeholder`)
-- The `currencyCode` prop accepts ISO 4217 currency codes (e.g., "USD", "EUR", "GBP", "JPY")
+- The `currencyCode` prop is required, with no default; it accepts ISO 4217 currency codes (e.g., "USD", "EUR", "GBP", "JPY")
 - Formatting is handled by the consumer or by using the Intl.NumberFormat API
 - pattern: `two-way binding` for the value prop
 
@@ -35,7 +35,7 @@
 
 - `label`: string (required) -- accessible name for the input via `aria-label`
 - `value`: number | undefined (default: `undefined`) -- current numeric value; bindable with two-way binding
-- `currencyCode`: string (default: `"USD"`) -- ISO 4217 currency code for formatting
+- `currencyCode`: string (required, no default) -- ISO 4217 currency code for formatting; the component never assumes a currency, so a missing code is a defect in the caller
 - `min`: number (optional) -- minimum allowed value
 - `max`: number (optional) -- maximum allowed value
 - `required`: boolean (default: `false`) -- whether the input is required

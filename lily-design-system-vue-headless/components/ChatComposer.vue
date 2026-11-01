@@ -7,7 +7,8 @@
 // busy, disabled. v-model: the text. Emits: send(value), stop. Default slot: before the textarea.
 // Keyboard: Enter sends; Shift+Enter inserts a line break; Enter during IME composition is ignored.
 
-import { computed } from "vue";
+import { computed, ref } from "vue";
+import { useFormReset } from "./form-reset";
 
 const props = withDefaults(
     defineProps<{
@@ -37,6 +38,8 @@ const props = withDefaults(
 
 const emit = defineEmits<{ send: [value: string]; stop: [] }>();
 const value = defineModel<string>({ default: "" });
+const valueField = ref<HTMLInputElement | HTMLTextAreaElement | null>(null);
+useFormReset(value, valueField);
 
 const empty = computed(() => value.value.trim() === "");
 const rows = computed(() =>
@@ -68,6 +71,7 @@ function onKeydown(event: KeyboardEvent): void {
         <textarea
             class="chat-composer-input"
             :aria-label="label"
+            ref="valueField"
             v-model="value"
             :rows="rows"
             :placeholder="placeholder"

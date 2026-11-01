@@ -40,19 +40,37 @@ description: a modal or non-modal dialog window
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>
-<pre tabindex="0"><code>{% raw %}&lt;button onclick={() =&gt; showDialog = true}&gt;Edit profile&lt;/button&gt;
+<pre tabindex="0"><code>{% raw %}&lt;button
+  onclick="{()"
+  =""
+&gt;
+  showDialog = true}&gt;Edit profile
+&lt;/button&gt;
 
-&lt;Dialog label="Edit profile" open={showDialog}&gt;
+&lt;dialog
+  label="Edit profile"
+  open="{showDialog}"
+&gt;
   &lt;form&gt;
     &lt;label for="display-name"&gt;Display name&lt;/label&gt;
-    &lt;input id="display-name" type="text" value={displayName} /&gt;
+    &lt;input
+      id="display-name"
+      type="text"
+      value="{displayName}"
+    /&gt;
 
     &lt;label for="bio"&gt;Bio&lt;/label&gt;
     &lt;textarea id="bio"&gt;{bio}&lt;/textarea&gt;
 
-    &lt;button type="button" onclick={() =&gt; showDialog = false}&gt;Cancel&lt;/button&gt;
+    &lt;button
+      type="button"
+      onclick="{()"
+      =""
+    &gt;
+      showDialog = false}&gt;Cancel
+    &lt;/button&gt;
     &lt;button type="submit"&gt;Save&lt;/button&gt;
   &lt;/form&gt;
-&lt;/Dialog&gt;
+&lt;/dialog&gt;
 {% endraw %}</code></pre>
 {# END generated: examples #}

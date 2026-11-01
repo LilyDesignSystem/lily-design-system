@@ -8,11 +8,17 @@
     - <button class="split-button-primary"> with primaryLabel text
     - <button class="split-button-menu-trigger" aria-haspopup="menu"
       aria-expanded={menuOpen} aria-label={menuLabel}>
-  Plus a menu container <div class="split-button-menu" hidden={!menuOpen}>
+  Plus a menu container <div class="split-button-menu" popover="auto">
   whose contents are the caller block / params.html (typically a Menu).
 
-  This is a server-side template; click handlers and menu open/close
-  behavior are wired by the consumer.
+  No script (tasks.md P18-T11): the menu is popover="auto" and the trigger
+  names it with command="toggle-popover" commandfor (and popovertarget), so
+  the browser opens and closes it, and closes it on Escape and on a click
+  outside it. Closed, the trigger carries no static aria-expanded: nothing
+  would update it without script, and the browser exposes the expanded state
+  of a popovertarget trigger itself. `menuOpen: true` renders the menu shown
+  in place, without the popover attribute, and the trigger with
+  aria-expanded="true".
 
   Params:
     label          string   aria-label for the group. Required.
@@ -29,7 +35,8 @@
                             content (e.g. a chevron icon).
     primaryId      string   id for the primary button.
     triggerId      string   id for the trigger button.
-    menuId         string   id for the menu container.
+    menuId         string   id for the menu container. Default
+                            "split-button-menu" (the trigger needs it).
     text           string   Optional text body for the menu container.
     html           string   Optional raw HTML body for the menu
                             container.
@@ -50,6 +57,7 @@
 #}
 {%- macro splitButton(params) -%}
 {%- set menuOpen = params.menuOpen | default(false) -%}
+{%- set menuId = params.menuId | default('split-button-menu') -%}
 <div
   class="split-button{% if params.classes %} {{ params.classes }}{% endif %}"
   role="group"
@@ -71,9 +79,10 @@
     class="split-button-menu-trigger"
     type="button"
     aria-haspopup="menu"
-    aria-expanded="{{ 'true' if menuOpen else 'false' }}"
     {%- if params.menuLabel %} aria-label="{{ params.menuLabel }}"{% endif %}
-    {%- if params.menuId %} aria-controls="{{ params.menuId }}"{% endif %}
+    aria-controls="{{ menuId }}"
+    {%- if menuOpen %} aria-expanded="true"
+    {%- else %} command="toggle-popover" commandfor="{{ menuId }}" popovertarget="{{ menuId }}"{% endif %}
     {%- if params.triggerId %} id="{{ params.triggerId }}"{% endif %}
     {%- if params.disabled %} disabled{% endif %}
   >
@@ -81,8 +90,8 @@
   </button>
   <div
     class="split-button-menu"
-    {%- if params.menuId %} id="{{ params.menuId }}"{% endif %}
-    {%- if not menuOpen %} hidden{% endif %}
+    id="{{ menuId }}"
+    {%- if not menuOpen %} popover="auto"{% endif %}
   >
     {%- if params.html -%}{{ params.html | safe }}
     {%- elif params.text -%}{{ params.text }}

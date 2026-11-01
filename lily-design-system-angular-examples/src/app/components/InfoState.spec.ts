@@ -4,10 +4,10 @@ import { TestBed } from "@angular/core/testing";
 import { InfoState } from "./InfoState";
 
 describe("InfoState", () => {
-    test("renders the div root with the base class", () => {
+    test("renders the <section> root with the base class", () => {
         const fixture = TestBed.createComponent(InfoState);
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.info-state");
+        const el = fixture.nativeElement.querySelector("section.info-state");
         expect(el).toBeTruthy();
     });
 
@@ -15,7 +15,7 @@ describe("InfoState", () => {
         const fixture = TestBed.createComponent(InfoState);
         fixture.componentRef.setInput("className", "extra");
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.info-state");
+        const el = fixture.nativeElement.querySelector("section.info-state");
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });

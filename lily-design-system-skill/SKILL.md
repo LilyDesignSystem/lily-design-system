@@ -1,13 +1,14 @@
 ---
 name: lily-design-system-skill
-description: Explains Lily Design System™ concepts, terminology, and usage patterns for people building with it — the headless-vs-example layers, the 582-component catalog, naming conventions, composition patterns, theming, and the seven supported frameworks. Use when someone asks what Lily Design System is, what a Lily term means (headless, class hook, slug, helper, theme), how to compose a Lily pattern (a form, a nav, a table, a page shell), or wants a working example in a given framework.
+description: Explains Lily Design System™ concepts, terminology, and usage patterns for people building with it — the headless-vs-example layers, the 607-component catalog, naming conventions, composition patterns, theming, and the supported frameworks (seven framework pairs plus Web Components and Alpine.js). Use when someone asks what Lily Design System is, what a Lily term means (headless, class hook, slug, helper, theme), how to compose a Lily pattern (a form, a nav, a table, a page shell), or wants a working example in a given framework.
 license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 ---
 
 # Lily Design System™ — concepts & usage
 
 Lily is a free, open-source, **headless** design system: a canonical catalog
-of 582 accessible components, implemented across seven frameworks, that ship
+of 607 accessible components, implemented in seven frameworks in full (plus
+Web Components at 548 and Alpine.js snippets at 583), that ship
 semantic HTML, ARIA, focus management, and keyboard behaviour — and **no
 CSS**. A paired set of **example** apps shows the same catalog fully styled
 (the current visual reference is NHS UK) so adopters can see it working
@@ -19,12 +20,12 @@ Docs and searchable catalog: <https://lilydesignsystem.com/>.
 ## The two layers
 
 - **Headless** — the library you actually depend on. One package per
-  framework (HTML/Web Components, Svelte, React, Vue, Angular, Blazor,
-  Nunjucks). Every component picks the most specific HTML element for the
+  framework (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks, Web
+  Components, Alpine.js). Every component picks the most specific HTML element for the
   job, wires up ARIA and keyboard behaviour, and puts a stable kebab-case
   class on its root element — that class is the _only_ styling contract.
   Nothing else about visual appearance is decided for you.
-- **Example** — a full reference app per framework, styled end to end, that
+- **Example** — a full reference app per framework (none yet for Web Components), styled end to end, that
   demonstrates every component and several composed pages (a contact form, a
   dashboard, a settings page, and more). Read the example's CSS as a working
   answer to "how would I style this component," not as something you import.
@@ -40,9 +41,9 @@ the headless layer.
 | **Component**  | One entry in the catalog — a slug, a PascalCase name, an HTML tag, an ARIA/keyboard contract. E.g. `breadcrumb-nav` / `BreadcrumbNav` / `<nav>`.                                                                                                                                                                                  |
 | **Slug**       | The kebab-case identifier for a component, also its CSS class hook (`.breadcrumb-nav`).                                                                                                                                                                                                                                           |
 | **Class hook** | The one stable CSS class every component's root element carries. Consumer CSS targets it; nothing else is a contract to rely on unless the component's docs name a sub-class.                                                                                                                                                     |
-| **Helper**     | A small opinionated package (`theme-picker`, `locale-picker`, `text-size-picker`, `share-picker`, `date-time-picker`) that owns one whole interaction — not just markup, but the popup, the keyboard behaviour, and (for the first three) applying + persisting a preference. Helpers are a layer above plain catalog components. |
+| **Helper**     | A small opinionated package (`theme-picker`, `locale-picker`, `share-picker`, `date-time-picker`, `data-grid`, …) that owns one whole interaction — not just markup, but the popup, the keyboard behaviour, and (for the preference pickers) applying + persisting a preference. Helpers are a layer above plain catalog components. |
 | **Theme**      | A ready-to-use stylesheet (57 of them, under `themes/`) targeting the class hooks — NHS England/Scotland/Wales, GOV.UK, USWDS, Adobe Spectrum, Mozilla Protocol, and general-purpose light/dark. The `theme-picker` helper swaps between them at runtime.                                                                         |
-| **Subproject** | One implementation of the whole catalog for one framework and one layer, e.g. `@lilydesignsystem/react-headless`. Published as its own git subtree/repo.                                                                                                                                                                          |
+| **Subproject** | One top-level directory of the monorepo: a headless library or example app for one framework (e.g. `@lilydesignsystem/react-headless`), or one helper package. All publish from the one monorepo.                                                                                                                                |
 
 ## Naming conventions
 
@@ -63,26 +64,31 @@ several frameworks: [reference/composition-patterns.md](reference/composition-pa
 
 ## The catalog at a glance
 
-582 components across content (161), national personal identifiers (140,
-70 identifier types × input/view across 50+ countries), forms (57),
-navigation (55), tables (40), lists (40), data visualisation (18), links (16),
-pickers (14), overlays (14), media (8), and buttons (8). Full
+607 components across content (165), national personal identifiers (140,
+82 identifier types × input/view across 50+ countries), forms (60),
+navigation (55), tables (40), lists (40), data visualisation (19), overlays (17),
+links (16), pickers (15), media (8), and buttons (8) — the categories in
+`components-categories.tsv`. Full
 listing: `components.tsv` in the canonical repo, or browse it at
 <https://lilydesignsystem.com/components/>.
 
 ## Picking a framework
 
-Each of the seven frameworks ships a matched headless + example pair:
-HTML/Web Components, Svelte 5, React, Vue 3, Angular 20, Blazor, Nunjucks.
-All seven implement the full 582-component catalog with the same slugs,
-props, and ARIA/keyboard contracts — pick whichever matches your stack, the
-concepts and naming transfer directly.
+Seven frameworks ship a matched headless + example pair, each implementing
+the full 607-component catalog: HTML, Svelte 5, React 19, Vue 3, Angular
+(20–22), Blazor (.NET 10), Nunjucks. Two more catalogs: Web Components
+(native custom elements, 572 of 607 — table sub-elements and interactive
+list items cannot be autonomous custom elements; no example app) and
+Alpine.js (all 607 as annotated snippets plus one plugin, with an example
+app). Slugs, props and ARIA/keyboard contracts are the same everywhere —
+pick whichever matches your stack.
 
 ## Helpers and label packs
 
 Above the headless catalog sit the **helper packages**, one top-level package each: ten icon-button pickers (theme, locale, text size,
-motion, share, search, link, menu, settings, and the date-time field), `picker-bar`, and the grid-like `data-grid`, `kanban-board`,
-`gantt-chart`, `calendar` and `filter`, in all eight catalogs. The grid-like helpers take a large `labels` object and ship no English; the
+motion, share, search, link, menu, settings, time zone) plus the `date-time-picker` form field, `picker-bar`, the grid-like `data-grid`,
+`kanban-board`, `gantt-chart`, `calendar` and `filter`, the `markdown-editor` and `org-editor`, and `locale-translations`, in all eight
+framework catalogs (Alpine has the grid-like four and the two editors). The grid-like helpers take a large `labels` object and ship no English; the
 repository's `shared/label-packs/` holds that object ready-made for 64 locales (English reviewed, 63 machine drafts awaiting native-speaker
 review). Ask for `spec/label-packs/index.md` before writing labels by hand.
 

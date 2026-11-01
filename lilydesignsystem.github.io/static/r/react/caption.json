@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "caption",
+  "type": "registry:component",
+  "title": "Caption",
+  "description": "A caption for a table or figure element.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Caption.tsx",
+      "content": "import React from \"react\";\n\n// Caption component\n//\n// A headless caption for providing supplementary text alongside images, videos,\n// charts, or other media. Renders as a semantic <figcaption> element, which\n// provides an implicit association with a parent <figure> element. Commonly used\n// in galleries, product pages, data visualizations, and educational content.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   children — ReactNode, required. The caption text or content to display.\n//   ...restProps — additional HTML attributes spread onto the <figcaption>.\n//\n// Syntax:\n//   <Caption>Photo of a sunset over the ocean.</Caption>\n//\n// Examples:\n//\n//   <Caption id=\"chart-caption\">Figure 1: Revenue growth over time.</Caption>\n//\n//\n//   <figure>\n//     <img src=\"sunset.jpg\" alt=\"Sunset over the ocean\" />\n//     <Caption>Photo taken at Malibu beach.</Caption>\n//   </figure>\n//\n// Keyboard:\n//   None — this component is a passive container for descriptive text.\n//\n// Accessibility:\n//   - Implicit semantics from <figcaption> — automatically associated with parent <figure>\n//   - Can be referenced via id and aria-describedby from other elements\n//\n// Internationalization:\n//   - All text comes through children prop; no hardcoded strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Should be placed inside a <figure> for proper semantic association\n//\n// References:\n//   - MDN figcaption: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figcaption\n\nexport interface CaptionProps {\n    className?: string;\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Caption({ className = \"\", children, ...restProps }: CaptionProps) {\n    return (\n        <figcaption\n            className={`caption ${className}`}\n            {...restProps}\n        >\n            {children}\n        </figcaption>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Caption.tsx"
+    }
+  ],
+  "categories": [
+    "tables"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/caption/"
+}

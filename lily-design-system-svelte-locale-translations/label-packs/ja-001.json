@@ -283,5 +283,10 @@
     "small": "小",
     "smaller": "より小さい",
     "smallest": "最小"
+  },
+  "date-time-now-input": {
+    "date": "日付",
+    "time": "時刻",
+    "now": "現在"
   }
 }

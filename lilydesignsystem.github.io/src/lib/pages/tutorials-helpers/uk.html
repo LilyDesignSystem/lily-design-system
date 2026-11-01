@@ -3,8 +3,7 @@
 <section class="page-intro">
   <h1>Допоміжні засоби налаштувань</h1>
   <p class="page-intro-tagline">
-    Сім невеликих пакетів на фреймворк, кожен повністю відповідає за одне завдання користувача, плюс панель, що збирає п’ять із них. Ви вже знайомі з
-    <a href="/tutorials/theming/">theme-picker</a>; ось locale-picker, text-size-picker і motion-picker (налаштування), share-picker і search-picker (дії), date-time-picker (значення форми) та picker-bar.
+    Одинадцять невеликих селекторів у кожному фреймворку, кожен відповідає за одне завдання користувача від початку до кінця, плюс панель, що збирає до семи з них. З <a href="/tutorials/theming/">theme-picker</a> ви вже знайомі; ось locale-picker, text-size-picker і motion-picker (уподобання), share-picker і search-picker (дії), date-time-picker (значення форми) і picker-bar.
   </p>
 </section>
 
@@ -26,7 +25,7 @@
     <li>Безпечно для SSR: записи в DOM відбуваються лише в життєвому циклі mount/effect.</li>
     <li>Чисто щодо i18n: кожен рядок, який бачить користувач, є властивістю.</li>
     <li>
-      Доступно для Svelte (канонічно), React, Vue, Angular, кастомного елемента HTML, Nunjucks і Blazor — той самий контракт у кожному.
+      Доступно для Svelte (канонічно), React, Vue, Angular, кастомного елемента HTML, Web Components, Nunjucks і Blazor — той самий контракт у кожному.
     </li>
   </ul>
   <p>
@@ -208,6 +207,7 @@
   <p>
     <code>picker-bar</code> рендерить пошук, тему, локаль, розмір тексту й поширення в одному рядку з повним набором еталонних тем і семикроковою шкалою тексту, налаштованими наперед. Усі доступні назви надходять в одному обов’язковому
     <code>labels</code> об’єкті.
+    Вона також показує link-picker першим, коли ви передаєте посилання, і time-zone-picker після локалі, коли ви даєте їй підпис часового поясу й локаль.
   </p>
   
   <pre tabindex="0"><code>&lt;script&gt;
@@ -264,7 +264,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker
 
   <h2>Наступні кроки</h2>
   <ul>
-    <li><a href="/components/">Каталог компонентів</a> — повний довідник усіх 582 компонентів.</li>
+    <li><a href="/components/">Каталог компонентів</a> — повний довідник усіх 607 компонентів.</li>
     <li><a href="/help/">Допомога</a> — усунення несправностей і поширені запитання.</li>
     <li><a href="/why/">Чому Lily</a> — і як підтримати проєкт.</li>
   </ul>

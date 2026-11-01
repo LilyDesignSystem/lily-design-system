@@ -44,5 +44,10 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Combobox.razor"
   },
   "docs": "https://lilydesignsystem.com/components/combobox/",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/combobox/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/combobox/AGENTS.md",
+  "nativePlatform": {
+    "decision": "native",
+    "uses": "native <input role=\"combobox\">; listbox div popover=\"manual\" shown from the open state",
+    "could_use": "CSS anchor positioning to the input (theme)"
+  }
 }

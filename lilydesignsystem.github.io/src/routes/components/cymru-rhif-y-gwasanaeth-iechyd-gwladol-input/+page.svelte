@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<label class=\"label\" for=\"demo-input\">Label</label><input class=\"cymru-rhif-y-gwasanaeth-iechyd-gwladol-input\" id=\"demo-input\" aria-label=\"an input for entering Wales's Rhif y Gwasanaeth Iechyd Gwladol (Rhif GIG)\" />";
   const svelteSource: string = "// In your Svelte component:\nimport CymruRhifYGwasanaethIechydGwladolInput from \"lily-design-system-svelte-headless/components/CymruRhifYGwasanaethIechydGwladolInput/CymruRhifYGwasanaethIechydGwladolInput.svelte\";\n\n<CymruRhifYGwasanaethIechydGwladolInput label=\"Label\" />\n";
-  const usageCode: string = "<Field label=\"National Health Service Number\" required>\n  <CymruRhifYGwasanaethIechydGwladolInput label=\"National Health Service Number\" value={value} required />\n  <Hint>10 digits in 3-3-4 format with a Modulus-11 check digit (shared with England and the Isle of Man)</Hint>\n  <ErrorMessage>Please enter a valid National Health Service Number</ErrorMessage>\n</Field>\n";
+  const usageCode: string = "<Field\n  label=\"National Health Service Number\"\n  required\n>\n  <CymruRhifYGwasanaethIechydGwladolInput\n    label=\"National Health Service Number\"\n    value=\"{value}\"\n    required\n  />\n  <Hint\n    >10 digits in 3-3-4 format with a Modulus-11 check digit (shared with England and the Isle of\n    Man)</Hint\n  >\n  <ErrorMessage>Please enter a valid National Health Service Number</ErrorMessage>\n</Field>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

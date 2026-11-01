@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "kbd",
+  "type": "registry:component",
+  "title": "Kbd",
+  "description": "Show keyboard shortcuts and key combinations in a styled inline element.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Kbd.tsx",
+      "content": "import React from \"react\";\n\n// Kbd component\n//\n// An inline element for keyboard shortcuts and key combinations.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label    — string, optional. Accessible label via aria-label.\n//   children — ReactNode, required. Component content.\n//   ...restProps — additional HTML attributes spread onto the <kbd>.\n//\n// Accessibility:\n//   - native <kbd> semantics\n//   - aria-label exposes a screen-reader name when label is provided\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//\n// References:\n//   - HTML kbd element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/kbd\n\nexport interface KbdProps {\n    className?: string;\n    /** Optional accessible label set on aria-label. */\n    label?: string;\n    /** Component content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Kbd({\n    className = \"\",\n    label = undefined,\n    children,\n    ...restProps\n}: KbdProps) {\n    return (\n        <kbd\n            className={`kbd ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </kbd>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Kbd.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/kbd/"
+}

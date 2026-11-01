@@ -12,6 +12,20 @@ public class LocaleTranslationsTests
     }
 
     [Fact]
+    public void DateTimeNowInputLabels_names_all_three_controls_in_every_pack()
+    {
+        Assert.Equal(new DateTimeNowInputLabels("Fecha", "Hora", "Ahora"), LocaleTranslations.DateTimeNowInputLabels("es-001"));
+        Assert.Equal(new DateTimeNowInputLabels("Date", "Time", "Now"), LocaleTranslations.DateTimeNowInputLabels("en-001"));
+        Assert.All(LocaleTranslations.Locales, l =>
+        {
+            var labels = LocaleTranslations.DateTimeNowInputLabels(l);
+            Assert.False(string.IsNullOrEmpty(labels.Date));
+            Assert.False(string.IsNullOrEmpty(labels.Time));
+            Assert.False(string.IsNullOrEmpty(labels.Now));
+        });
+    }
+
+    [Fact]
     public void Embeds_all_64_packs() => Assert.Equal(64, LocaleTranslations.Locales.Count);
 
     [Fact]

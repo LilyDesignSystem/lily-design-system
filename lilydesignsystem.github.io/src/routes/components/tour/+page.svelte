@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"tour\" role=\"dialog\" aria-label=\"Tour\"><p>Welcome! Let me show you around.</p><button class=\"button\">Next</button></div>";
   const svelteSource: string = "// In your Svelte component:\nimport Tour from \"lily-design-system-svelte-headless/components/Tour/Tour.svelte\";\n\n<Tour>\n  <!-- content -->\n</Tour>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import Tour from \"./Tour.svelte\";\n  import TourList from \"../TourList/TourList.svelte\";\n  import TourListItem from \"../TourListItem/TourListItem.svelte\";\n\n  let active = $state(true);\n  let step = $state(0);\n<\/script>\n\n<Tour label=\"Getting started\" bind:active>\n  <TourList label=\"Steps\" active>\n    <TourListItem label=\"Welcome\" current={step === 0} stepNumber={1} totalSteps={2}>\n      <p>Welcome!</p>\n      <button type=\"button\" onclick={() => step++}>Next</button>\n    </TourListItem>\n    <TourListItem label=\"Finish\" current={step === 1} stepNumber={2} totalSteps={2}>\n      <p>You're all set.</p>\n      <button type=\"button\" onclick={() => (active = false)}>Done</button>\n    </TourListItem>\n  </TourList>\n</Tour>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import Tour from \"./Tour.svelte\";\n  import TourList from \"../TourList/TourList.svelte\";\n  import TourListItem from \"../TourListItem/TourListItem.svelte\";\n\n  let active = $state(true);\n  let step = $state(0);\n<\/script>\n\n<Tour\n  label=\"Getting started\"\n  bind:active\n>\n  <TourList\n    label=\"Steps\"\n    active\n  >\n    <TourListItem\n      label=\"Welcome\"\n      current={step === 0}\n      stepNumber={1}\n      totalSteps={2}\n    >\n      <p>Welcome!</p>\n      <button\n        type=\"button\"\n        onclick={() => step++}>Next</button\n      >\n    </TourListItem>\n    <TourListItem\n      label=\"Finish\"\n      current={step === 1}\n      stepNumber={2}\n      totalSteps={2}\n    >\n      <p>You're all set.</p>\n      <button\n        type=\"button\"\n        onclick={() => (active = false)}>Done</button\n      >\n    </TourListItem>\n  </TourList>\n</Tour>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>
@@ -82,10 +82,15 @@
     </ul>
     <h3>ARIA</h3>
     <ul>
+      <li><code>role="dialog"</code> -- a non-modal dialog</li>
       <li><code>aria-label=&#123;label&#125;</code> -- provides an accessible name for the tour container</li>
+      <li>no <code>aria-modal</code> -- the tour is non-modal (see Modality)</li>
     </ul>
     <h3>Keyboard</h3>
-    <p>Standard keyboard interactions provided by child components. The Tour container itself is not interactive.</p>
+    <ul>
+      <li>Escape: ends the tour by setting <code>active</code> to <code>false</code></li>
+      <li>Tab: moves normally between the tour's controls and the rest of the page; the tour does not trap focus</li>
+    </ul>
     <h3>Props</h3>
     <ul>
       <li><code>label</code>: string (required) -- accessible name for the tour via <code>aria-label</code></li>

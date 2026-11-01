@@ -1,0 +1,23 @@
+---
+layout: layouts/component-demo.njk
+title: MalaysiaKadPengenalanView
+description: a read-only display of Malaysia's MyKad Number (NRIC)
+---
+
+{% from "components/malaysia-kad-pengenalan-view/macro.njk" import malaysiaKadPengenalanView %}
+
+<h2>Default</h2>
+<p>{{ malaysiaKadPengenalanView({ text: "MalaysiaKadPengenalanView example", label: "MalaysiaKadPengenalanView example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;SummaryList&gt;
+  &lt;SummaryListItem term="MyKad Number (NRIC)"&gt;
+    &lt;MalaysiaKadPengenalanView
+      label="MyKad Number (NRIC)"
+      value="{value}"
+    /&gt;
+  &lt;/SummaryListItem&gt;
+&lt;/SummaryList&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

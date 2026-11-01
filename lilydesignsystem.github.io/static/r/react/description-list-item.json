@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "description-list-item",
+  "type": "registry:component",
+  "title": "DescriptionListItem",
+  "description": "One key-value pair in a description list using dt and dd elements.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/DescriptionListItem.tsx",
+      "content": "export interface DescriptionListItemProps {\n    className?: string;\n    label?: string;\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function DescriptionListItem({\n    className = \"\",\n    label = undefined,\n    children,\n    ...restProps\n}: DescriptionListItemProps) {\n    return (\n        <div\n            className={`description-list-item ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/DescriptionListItem.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/description-list-item/"
+}

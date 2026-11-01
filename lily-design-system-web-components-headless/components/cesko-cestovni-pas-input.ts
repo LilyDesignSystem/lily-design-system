@@ -30,7 +30,7 @@ export class CeskoCestovniPasInput extends HTMLElement {
         input.className = rootClassName(this, "cesko-cestovni-pas-input");
         const label = this.getAttribute("label");
         if (label !== null) input.setAttribute("aria-label", label);
-        input.value = this.getAttribute("value") ?? "";
+        input.defaultValue = this.getAttribute("value") ?? "";
         if (this.hasAttribute("required")) input.required = true;
         if (this.hasAttribute("disabled")) input.disabled = true;
         input.setAttribute("autocomplete", "off");

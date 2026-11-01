@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<label class=\"label\" for=\"demo-input\">Label</label><input class=\"address-input\" id=\"demo-input\" aria-label=\"an input for searching or manually entering an address\" />";
   const svelteSource: string = "// In your Svelte component:\nimport AddressInput from \"lily-design-system-svelte-headless/components/AddressInput/AddressInput.svelte\";\n\n<AddressInput label=\"Label\" />\n";
-  const usageCode: string = "<AddressInput label=\"Postal address\" value=\"\" autocomplete=\"street-address\" />\n";
+  const usageCode: string = "<AddressInput\n  label=\"Postal address\"\n  value=\"\"\n  autocomplete=\"street-address\"\n/>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

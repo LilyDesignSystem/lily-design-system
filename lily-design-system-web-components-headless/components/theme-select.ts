@@ -50,6 +50,9 @@ export class ThemeSelect extends HTMLElement {
             select.value = value;
             queueMicrotask(() => {
                 select.value = value;
+                // A form reset restores a <select> to its defaultSelected options.
+                for (const option of Array.from(select.options))
+                    option.defaultSelected = option.selected;
             });
         }
 

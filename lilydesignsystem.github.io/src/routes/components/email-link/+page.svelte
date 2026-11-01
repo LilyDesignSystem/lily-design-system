@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<a class=\"email-link\" href=\"mailto:example@example.com\">example@example.com</a>";
   const svelteSource: string = "// In your Svelte component:\nimport EmailLink from \"lily-design-system-svelte-headless/components/EmailLink/EmailLink.svelte\";\n\n<EmailLink>EmailLink</EmailLink>\n";
-  const usageCode: string = "<EmailLink email=\"support@example.com\" label=\"Email our support team\" />\n";
+  const usageCode: string = "<EmailLink\n  email=\"support@example.com\"\n  label=\"Email our support team\"\n/>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

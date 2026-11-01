@@ -30,7 +30,7 @@ export class SubmitInput extends HTMLElement {
         const input = document.createElement("input");
         input.type = "submit";
         input.className = rootClassName(this, "submit-input");
-        input.value = this.getAttribute("value") ?? "Submit";
+        input.defaultValue = this.getAttribute("value") ?? "Submit";
         if (this.hasAttribute("disabled")) input.disabled = true;
         passThroughAttributes(this, input, HANDLED);
 

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { shallowRef, toRef } from "vue";
+import { usePopoverState } from "./popover";
 // FloatingPanel component
 //
 // A floating panel container that overlays page content, typically used for tooltips,
@@ -45,7 +47,7 @@
 // References:
 //   - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
         /** Whether the panel is visible. */
         open?: boolean;
@@ -56,12 +58,15 @@ withDefaults(
         open: false,
     },
 );
+const panelEl = shallowRef<HTMLElement | null>(null);
+usePopoverState(panelEl, toRef(props, "open"));
 </script>
 
 <template>
     <!-- FloatingPanel.vue -->
     <div
-        v-if="open"
+        ref="panelEl"
+        popover="manual"
         class="floating-panel"
         role="region"
         :aria-label="label"

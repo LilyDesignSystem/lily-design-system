@@ -1,10 +1,10 @@
 #!/bin/sh
 # Consumer smoke test for the published npm packages.
 #
-# Packs each headless library plus all six helper pickers
+# Packs each headless library plus nine helper pickers
 # (theme-picker, locale-picker, text-size-picker, motion-picker,
 # link-picker, menu-picker, settings-picker, share-picker, date-time-picker) in each of the six npm-published
-# helper catalogs (svelte, react, vue, angular, html, nunjucks — 36
+# framework families (svelte, react, vue, angular, html, nunjucks — 54
 # packages), installs
 # the tarballs into a scratch consumer project, and imports/renders
 # components the way a consumer would, in each framework's own idiom:

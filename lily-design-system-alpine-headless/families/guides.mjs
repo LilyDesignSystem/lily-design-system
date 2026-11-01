@@ -1,4 +1,4 @@
-// Family: guided and composite widgets. carousel, tour, coachmark, file-upload,
+// Family: guided and composite widgets. carousel, tour, tour-list, coachmark, file-upload,
 // and four containers whose contract is a role plus a name and nothing more
 // (calendar-range-picker, emoji-character-picker, image-cropper, signature-pad).
 
@@ -80,7 +80,7 @@ const next = () => document.querySelector(".carousel-next");`,
     tour: {
         tag: "div",
         keyboard: "Tab to previous, next and close; Escape ends the tour",
-        aria: 'aria-label names the tour; each step is a list item with aria-roledescription="step" (no role="group": axe rejects it inside an ol); the current step has aria-current="step", the others are hidden and aria-hidden',
+        aria: 'a non-modal role="dialog" (no aria-modal) with tabindex -1; aria-label names the tour; each step is a list item with aria-roledescription="step" (no role="group": axe rejects it inside an ol); the current step has aria-current="step", the others are hidden and aria-hidden',
         markup: `<div class="tour" aria-label="" x-data="lilyTour(0)" x-bind="root">
   <ol class="tour-list">
 ${Array.from({ length: 3 }, (_, i) => `    <li class="tour-list-item" x-bind="item(${i})"><!-- Consumer provides step content --></li>`).join("\n")}
@@ -93,6 +93,14 @@ ${Array.from({ length: 3 }, (_, i) => `    <li class="tour-list-item" x-bind="it
         extra: `${press}\nconst steps = () => [...document.querySelectorAll(".tour-list-item")];
 const button = (name) => document.querySelector(".tour-" + name);`,
         test: `
+  // P18-T6 / P18-T13: the tour is a non-modal dialog (the page it points at stays usable), as in Svelte.
+  it("is a non-modal dialog: role=dialog, tabindex -1, no aria-modal, and the list keeps its list semantics", async () => {
+    await mount("tour");
+    expect(el().getAttribute("role")).toBe("dialog");
+    expect(el().getAttribute("tabindex")).toBe("-1");
+    expect(el().hasAttribute("aria-modal")).toBe(false);
+    expect(el().querySelector(".tour-list").hasAttribute("role")).toBe(false);
+  });
   it("shows the first step as current and hides the rest from everyone", async () => {
     await mount("tour");
     expect(steps().map((s) => s.getAttribute("aria-roledescription"))).toEqual(["step", "step", "step"]);
@@ -133,6 +141,42 @@ const button = (name) => document.querySelector(".tour-" + name);`,
     await press(button("next"), "Escape");
     expect(el().hidden).toBe(true);
     expect(closed).toHaveBeenCalledTimes(2);
+  });`,
+    },
+
+    "tour-list": {
+        tag: "ol",
+        keyboard: "Escape closes the tour (sets active to false)",
+        aria: "an <ol> (a list, not a dialog) with aria-label; tabindex -1 so it can take focus; hidden while inactive",
+        markup: `<ol class="tour-list" aria-label="" x-data="lilyTourList(true)" x-bind="list">
+  <!-- Consumer provides tour-list-item steps; it hears lily:close -->
+</ol>`,
+        sel: "ol.tour-list",
+        extra: press,
+        test: `
+  it("is a focusable, shown list while active", async () => {
+    await mount("tour-list");
+    expect(el().tagName).toBe("OL");
+    expect(el().hasAttribute("role")).toBe(false);
+    expect(el().getAttribute("tabindex")).toBe("-1");
+    expect(el().hidden).toBe(false);
+  });
+  it("Escape inside the list closes it and dispatches lily:close", async () => {
+    await mount("tour-list");
+    const closed = vi.fn();
+    el().addEventListener("lily:close", closed);
+    el().innerHTML = '<li class="tour-list-item"><button>Next</button></li>';
+    await press(el().querySelector("button"), "Escape");
+    expect(el().hidden).toBe(true);
+    expect(closed).toHaveBeenCalledTimes(1);
+    await press(el(), "Escape");
+    expect(closed).toHaveBeenCalledTimes(1);
+  });
+  it("other keys leave it open", async () => {
+    await mount("tour-list");
+    await press(el(), "Enter");
+    await press(el(), "Tab");
+    expect(el().hidden).toBe(false);
   });`,
     },
 

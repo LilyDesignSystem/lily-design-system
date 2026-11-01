@@ -39,6 +39,14 @@
 - `children`: slot (required) -- content of the menu bar item
 - `...restProps`: Any additional HTML attributes passed to the `<div>` element
 
+## Native platform
+
+- Decision: hand-rolled because role="menuitem" has no native element
+- Uses: native <button> with role="menuitem"
+- Could use: none
+- Notes: Uses <button> for activation; the role is ARIA.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
+
 ## Acceptance Criteria
 
 - [ ] Renders <button> element with class="menu-bar-button"

@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"qr-code-image\" role=\"img\" aria-label=\"QR Code\">▣ QR Code ▣</div>";
   const svelteSource: string = "// In your Svelte component:\nimport QrCodeImage from \"lily-design-system-svelte-headless/components/QrCodeImage/QrCodeImage.svelte\";\n\n<QrCodeImage>\n  <!-- content -->\n</QrCodeImage>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import QrCodeImage from './QrCodeImage.svelte';\n<\/script>\n\n<QrCodeImage label=\"Scan to visit example.com\">\n  <svg viewBox=\"0 0 29 29\" width=\"160\" height=\"160\" aria-hidden=\"true\">\n    <!-- QR code paths supplied by a library -->\n  </svg>\n</QrCodeImage>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import QrCodeImage from \"./QrCodeImage.svelte\";\n<\/script>\n\n<QrCodeImage label=\"Scan to visit example.com\">\n  <svg\n    viewBox=\"0 0 29 29\"\n    width=\"160\"\n    height=\"160\"\n    aria-hidden=\"true\"\n  >\n    <!-- QR code paths supplied by a library -->\n  </svg>\n</QrCodeImage>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

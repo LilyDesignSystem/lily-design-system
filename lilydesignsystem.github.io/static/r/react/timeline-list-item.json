@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "timeline-list-item",
+  "type": "registry:component",
+  "title": "TimelineListItem",
+  "description": "One event in a timeline list.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/TimelineListItem.tsx",
+      "content": "import React from \"react\";\n\n// TimelineListItem component\n//\n// A single event entry within a TimelineList ordered list. Renders a semantic\n// <li> element containing an optional <time> element for machine-readable dates\n// and an optional heading, followed by descriptive content via children. Used\n// for project milestones, activity feeds, order histories, or any chronological\n// sequence of events.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   datetime — string, optional. ISO date/time string for the <time> element.\n//   heading — string, optional. Visible date/time text rendered inside the <time> element.\n//   children — ReactNode, required. Event description content.\n//   ...restProps — additional HTML attributes spread onto the <li>.\n//\n// Syntax:\n//   <TimelineListItem datetime=\"2024-01-15\" heading=\"Jan 15\">Event description</TimelineListItem>\n//\n// Examples:\n//\n//   <TimelineList label=\"Order history\">\n//     <TimelineListItem datetime=\"2024-01-15\" heading=\"January 15, 2024\">\n//       Order placed\n//     </TimelineListItem>\n//     <TimelineListItem datetime=\"2024-01-16\" heading=\"January 16, 2024\">\n//       Order shipped\n//     </TimelineListItem>\n//     <TimelineListItem datetime=\"2024-01-19\" heading=\"January 19, 2024\">\n//       Order delivered\n//     </TimelineListItem>\n//   </TimelineList>\n//\n//\n//   <TimelineListItem>Status pending review</TimelineListItem>\n//\n// Keyboard:\n//   - None directly -- standard list item with no interactive behavior\n//\n// Accessibility:\n//   - Semantic <li> element provides list item semantics within the parent <ol>\n//   - <time> element with datetime attribute provides machine-readable date\n//   - Screen readers announce list position (e.g. \"2 of 4\") from the parent <ol>\n//\n// Internationalization:\n//   - The heading prop accepts any translated date/time string\n//   - All content is provided through the children prop\n//   - No hardcoded strings in the component\n//\n// Claude rules:\n//   - Headless: no CSS, no styles -- consumer provides all styling\n//   - Compound component: must be used inside a TimelineList\n//   - Consumer can target <time> or data attributes for visual styling\n//\n// References:\n//   - HTML <time> element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time\n//   - WAI-ARIA listitem role: https://www.w3.org/TR/wai-aria-1.2/#listitem\n\nexport interface TimelineListItemProps {\n    className?: string;\n    /** ISO date/time string for the <time> element. */\n    datetime?: string;\n    /** Visible date/time text for the <time> element. */\n    heading?: string;\n    /** Event description content. */\n    children: React.ReactNode;\n    /** Additional HTML attributes spread onto the <li>. */\n    [key: string]: unknown;\n}\n\nexport default function TimelineListItem({\n    className = \"\",\n    datetime = \"\",\n    heading = \"\",\n    children,\n    ...restProps\n}: TimelineListItemProps) {\n    return (\n        <li\n            className={`timeline-list-item ${className}`}\n            {...restProps}\n        >\n            {(datetime || heading) && <time dateTime={datetime || undefined}>{heading}</time>}\n            {children}\n        </li>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/TimelineListItem.tsx"
+    }
+  ],
+  "categories": [
+    "lists"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/timeline-list-item/"
+}

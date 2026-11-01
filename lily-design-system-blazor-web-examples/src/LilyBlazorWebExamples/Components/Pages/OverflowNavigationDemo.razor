@@ -1,0 +1,50 @@
+@page "/demos/overflow-navigation"
+<PageTitle>Overflow navigation — Lily Blazor examples</PageTitle>
+
+@*
+    Overflow navigation demo (plan P18-T3), the Blazor port of the SvelteKit
+    route /demos/overflow-navigation. Renders the real NavigationMenu with
+    Overflow, so its collocated JS module (NavigationMenu.razor.js, loaded
+    through JS interop after the first interactive render) measures the list
+    in a browser. e2e/overflow-navigation.spec.ts checks it at 1200, 420 and
+    320 CSS pixels, and with JavaScript disabled (the prerendered HTML: the
+    links wrap and the More item stays hidden).
+
+    The paragraph after the navigation is the "content below": opening the
+    More list must push it down (normal flow), never cover it (WCAG 2.4.11).
+    The items are fixed: the module moves them in the DOM behind Blazor's
+    back, so they must not change while the component is rendered.
+*@
+
+<h1>Overflow navigation</h1>
+<p>
+    The navigation menu below is in overflow mode: the links that do not fit on one row move
+    into a "More" list. Without JavaScript the links wrap.
+</p>
+
+<NavigationMenu Label="Main navigation" Overflow="true" MoreLabel="More" data-testid="overflow-nav">
+    @foreach (var item in Items)
+    {
+        <li><a href="@item.Href" aria-current="@(item.Current ? "page" : null)">@item.Text</a></li>
+    }
+</NavigationMenu>
+
+<p data-testid="content-below">
+    This paragraph follows the navigation. Opening the More list pushes it down.
+</p>
+
+@code {
+    private sealed record NavItem(string Href, string Text, bool Current = false);
+
+    private static readonly NavItem[] Items =
+    [
+        new("#home", "Home", true),
+        new("#appointments", "Appointments"),
+        new("#prescriptions", "Prescriptions"),
+        new("#test-results", "Test results"),
+        new("#messages", "Messages"),
+        new("#health-record", "Health record"),
+        new("#settings", "Settings"),
+        new("#help", "Help"),
+    ];
+}

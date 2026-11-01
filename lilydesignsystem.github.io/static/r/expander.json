@@ -42,5 +42,10 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Expander.razor"
   },
   "docs": "https://lilydesignsystem.com/components/expander/",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/expander/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/expander/AGENTS.md",
+  "nativePlatform": {
+    "decision": "hand-rolled because the panel is a labelled region removed from the DOM while closed and the trigger is a plain <button>; use details for the native version",
+    "uses": "native <button aria-expanded aria-controls>; panel unmounted when closed",
+    "could_use": "<details>/<summary>"
+  }
 }

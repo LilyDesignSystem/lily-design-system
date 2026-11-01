@@ -39,5 +39,10 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Tooltip.razor"
   },
   "docs": "https://lilydesignsystem.com/components/tooltip/",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tooltip/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tooltip/AGENTS.md",
+  "nativePlatform": {
+    "decision": "native",
+    "uses": "div role=\"tooltip\" popover=\"manual\" shown from the visible state",
+    "could_use": "CSS anchor positioning (consumer sets position-anchor); popover=\"hint\" and interestfor later"
+  }
 }

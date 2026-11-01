@@ -76,7 +76,7 @@
       <li>PascalCase: UnitedKingdomNationalHealthServiceNumberView</li>
       <li>Description: a read-only display of a UK NHS number</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
-      <li>HTML tag: &lt;div&gt;</li>
+      <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .united-kingdom-national-health-service-number-view</li>
       <li>Interactive: no</li>
     </ul>

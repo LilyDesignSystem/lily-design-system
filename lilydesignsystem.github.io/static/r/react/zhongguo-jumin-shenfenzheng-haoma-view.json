@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "zhongguo-jumin-shenfenzheng-haoma-view",
+  "type": "registry:component",
+  "title": "ZhongguoJuminShenfenzhengHaomaView",
+  "description": "A read-only display of China's Resident Identity Card Number.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ZhongguoJuminShenfenzhengHaomaView.tsx",
+      "content": "import React from \"react\";\n\n// ZhongguoJuminShenfenzhengHaomaView component\n//\n// A headless display component for showing China's\n// Resident Identity Card Number (居民身份证号码) in a read-only format.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". The identifier string to display.\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <ZhongguoJuminShenfenzhengHaomaView label=\"Resident Identity Card Number (居民身份证号码)\" value={value} />\n//\n// Accessibility:\n//   - aria-label provides the accessible name so screen readers announce the purpose\n//\n// References:\n//   - https://en.wikipedia.org/wiki/Resident_Identity_Card\n\nexport interface ZhongguoJuminShenfenzhengHaomaViewProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The identifier to display */\n    value?: string;\n    [key: string]: unknown;\n}\n\nexport default function ZhongguoJuminShenfenzhengHaomaView({\n    className = \"\",\n    label,\n    value = \"\",\n    ...restProps\n}: ZhongguoJuminShenfenzhengHaomaViewProps) {\n    return (\n        <span\n            className={`zhongguo-jumin-shenfenzheng-haoma-view ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {value}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ZhongguoJuminShenfenzhengHaomaView.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/zhongguo-jumin-shenfenzheng-haoma-view/"
+}

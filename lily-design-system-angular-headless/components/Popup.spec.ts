@@ -3,6 +3,7 @@ import { TestBed } from "@angular/core/testing";
 
 import { Popup } from "./Popup";
 
+// The Popover API path is covered for both components in Popover.spec.ts.
 describe("Popup", () => {
     test("renders the div root with the base class", () => {
         const fixture = TestBed.createComponent(Popup);
@@ -16,7 +17,6 @@ describe("Popup", () => {
         fixture.componentRef.setInput("className", "extra");
         fixture.detectChanges();
         const el = fixture.nativeElement.querySelector("div.popup");
-        expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
 });

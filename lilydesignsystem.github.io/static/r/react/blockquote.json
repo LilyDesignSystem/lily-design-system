@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "blockquote",
+  "type": "registry:component",
+  "title": "Blockquote",
+  "description": "A block-level quotation with optional source citation.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Blockquote.tsx",
+      "content": "import React from \"react\";\n\n// Blockquote component\n//\n// A block-level quotation with an optional source citation. Renders a\n// semantic <blockquote> element with an optional cite URL and an optional\n// visible citation footer.\n//\n// Props:\n//   className    — string, optional. CSS class name appended to the root.\n//   cite         — string, optional. URL of the source (rendered as the\n//                  cite attribute on the <blockquote>).\n//   citationText — string, optional. Visible attribution text rendered\n//                  inside a <footer> (e.g., \"— Author Name, Source\").\n//   label        — string, optional. aria-label override.\n//   children     — ReactNode, optional. The quotation content.\n//   ...restProps — additional HTML attributes spread onto the root.\n//\n// Syntax:\n//   <Blockquote\n//     cite=\"https://example.com/source\"\n//     citationText=\"— Jane Doe, The Source\"\n//   >\n//     Quotation content here.\n//   </Blockquote>\n//\n// Accessibility:\n//   - Uses a semantic <blockquote> element\n//   - Optional aria-label overrides the implicit accessible name\n//\n// Internationalization:\n//   - All visible text (children, citationText, label) is consumer-supplied\n//\n// Claude rules:\n//   - Headless: no CSS, no styles\n//\n// References:\n//   - MDN <blockquote>: https://developer.mozilla.org/docs/Web/HTML/Element/blockquote\n\nexport interface BlockquoteProps {\n    className?: string;\n    /** URL of the source (rendered as the cite attribute on the blockquote) */\n    cite?: string;\n    /** Visible attribution text */\n    citationText?: string;\n    /** aria-label override */\n    label?: string;\n    /** Quotation content */\n    children?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Blockquote({\n    className = \"\",\n    cite = undefined,\n    citationText = undefined,\n    label = undefined,\n    children,\n    ...restProps\n}: BlockquoteProps) {\n    return (\n        <blockquote\n            className={`blockquote ${className}`}\n            cite={cite}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n            {citationText && <footer className=\"blockquote-citation\">{citationText}</footer>}\n        </blockquote>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Blockquote.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/blockquote/"
+}

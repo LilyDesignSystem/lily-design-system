@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<img class=\"avatar-image\" alt=\"User photo\" src=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Ccircle cx='20' cy='20' r='20' fill='%23005eb8'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='white' font-size='16'%3EJD%3C/text%3E%3C/svg%3E\" />";
   const svelteSource: string = "// In your Svelte component:\nimport AvatarImage from \"lily-design-system-svelte-headless/components/AvatarImage/AvatarImage.svelte\";\n\n<AvatarImage>\n  <!-- content -->\n</AvatarImage>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import Avatar from '../Avatar/Avatar.svelte';\n  import AvatarImage from './AvatarImage.svelte';\n<\/script>\n\n<Avatar alt=\"Jane Doe\">\n  <AvatarImage src=\"/photos/jane.jpg\" alt=\"Jane Doe\" />\n</Avatar>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import Avatar from \"../Avatar/Avatar.svelte\";\n  import AvatarImage from \"./AvatarImage.svelte\";\n<\/script>\n\n<Avatar alt=\"Jane Doe\">\n  <AvatarImage\n    src=\"/photos/jane.jpg\"\n    alt=\"Jane Doe\"\n  />\n</Avatar>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

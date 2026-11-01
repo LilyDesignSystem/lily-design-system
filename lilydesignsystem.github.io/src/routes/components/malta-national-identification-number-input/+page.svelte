@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<label class=\"label\" for=\"demo-input\">Label</label><input class=\"malta-national-identification-number-input\" id=\"demo-input\" aria-label=\"an input for entering Malta's Malta National Identification Number\" />";
   const svelteSource: string = "// In your Svelte component:\nimport MaltaNationalIdentificationNumberInput from \"lily-design-system-svelte-headless/components/MaltaNationalIdentificationNumberInput/MaltaNationalIdentificationNumberInput.svelte\";\n\n<MaltaNationalIdentificationNumberInput label=\"Label\" />\n";
-  const usageCode: string = "<Field label=\"Malta National Identification Number\" required>\n  <MaltaNationalIdentificationNumberInput label=\"Malta National Identification Number\" value={value} required />\n  <Hint>8 characters: 7 digits and a letter (A, B, G, H, L, M, P, or Z) that encodes geographic origin and registration era</Hint>\n  <ErrorMessage>Please enter a valid Malta National Identification Number</ErrorMessage>\n</Field>\n";
+  const usageCode: string = "<Field\n  label=\"Malta National Identification Number\"\n  required\n>\n  <MaltaNationalIdentificationNumberInput\n    label=\"Malta National Identification Number\"\n    value=\"{value}\"\n    required\n  />\n  <Hint\n    >8 characters: 7 digits and a letter (A, B, G, H, L, M, P, or Z) that encodes geographic origin\n    and registration era</Hint\n  >\n  <ErrorMessage>Please enter a valid Malta National Identification Number</ErrorMessage>\n</Field>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

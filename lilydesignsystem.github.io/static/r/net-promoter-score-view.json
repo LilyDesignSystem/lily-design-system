@@ -2,7 +2,7 @@
   "slug": "net-promoter-score-view",
   "name": "NetPromoterScoreView",
   "description": "a read-only display of a Net Promoter Score",
-  "htmlTag": "div",
+  "htmlTag": "span",
   "category": "content",
   "baseClass": ".net-promoter-score-view",
   "subClasses": [],

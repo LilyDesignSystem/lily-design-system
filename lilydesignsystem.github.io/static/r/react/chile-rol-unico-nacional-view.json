@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "chile-rol-unico-nacional-view",
+  "type": "registry:component",
+  "title": "ChileRolUnicoNacionalView",
+  "description": "A read-only display of Chile's Rol Unico Nacional (RUN).",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ChileRolUnicoNacionalView.tsx",
+      "content": "import React from \"react\";\n\n// ChileRolUnicoNacionalView component\n//\n// A headless display component for showing Chile's\n// Rol Único Nacional (RUN) in a read-only format.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". The identifier string to display.\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <ChileRolUnicoNacionalView label=\"Rol Único Nacional (RUN)\" value={value} />\n//\n// Accessibility:\n//   - aria-label provides the accessible name so screen readers announce the purpose\n//\n// References:\n//   - https://en.wikipedia.org/wiki/RUT\n\nexport interface ChileRolUnicoNacionalViewProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The identifier to display */\n    value?: string;\n    [key: string]: unknown;\n}\n\nexport default function ChileRolUnicoNacionalView({\n    className = \"\",\n    label,\n    value = \"\",\n    ...restProps\n}: ChileRolUnicoNacionalViewProps) {\n    return (\n        <span\n            className={`chile-rol-unico-nacional-view ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {value}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ChileRolUnicoNacionalView.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/chile-rol-unico-nacional-view/"
+}

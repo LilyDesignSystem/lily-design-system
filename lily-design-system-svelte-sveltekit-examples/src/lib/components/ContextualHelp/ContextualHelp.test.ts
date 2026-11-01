@@ -9,6 +9,7 @@ describe("ContextualHelp", () => {
         const { container } = render(Subject, {
             props: {
                 label: "Help",
+                triggerLabel: "?",
             },
         });
 
@@ -20,6 +21,7 @@ describe("ContextualHelp", () => {
         const { container } = render(Subject, {
             props: {
                 label: "Help with this field",
+                triggerLabel: "?",
                 expanded: false,
             },
         });
@@ -38,6 +40,7 @@ describe("ContextualHelp", () => {
         const { container } = render(Subject, {
             props: {
                 label: "Help",
+                triggerLabel: "?",
                 expanded: false,
             },
         });
@@ -51,6 +54,7 @@ describe("ContextualHelp", () => {
         const { container } = render(Subject, {
             props: {
                 label: "Help",
+                triggerLabel: "?",
                 expanded: true,
             },
         });
@@ -68,6 +72,7 @@ describe("ContextualHelp", () => {
         render(Subject, {
             props: {
                 label: "Help",
+                triggerLabel: "?",
                 onclick: handle,
             },
         });
@@ -76,10 +81,74 @@ describe("ContextualHelp", () => {
         expect(handle).toHaveBeenCalledOnce();
     });
 
+    test("renders triggerLabel as the trigger's visible text", () => {
+        const { container } = render(Subject, {
+            props: {
+                label: "Help",
+                triggerLabel: "؟",
+            },
+        });
+
+        const trigger = container.querySelector(".contextual-help-trigger") as HTMLElement;
+        expect(trigger.textContent).toBe("؟");
+        // The accessible name stays the label, not the glyph.
+        expect(screen.getByRole("button", { name: "Help" })).toBe(trigger);
+    });
+
+    test("trigger opens the panel natively with command/commandfor and popovertarget", () => {
+        const { container } = render(Subject, {
+            props: {
+                label: "Help",
+                triggerLabel: "?",
+            },
+        });
+
+        const trigger = container.querySelector(".contextual-help-trigger") as HTMLElement;
+        const panel = container.querySelector(".contextual-help-panel") as HTMLElement;
+        expect(trigger.getAttribute("command")).toBe("toggle-popover");
+        expect(trigger.getAttribute("commandfor")).toBe(panel.id);
+        expect(trigger.getAttribute("popovertarget")).toBe(panel.id);
+    });
+
+    test("without the Popover API, clicking the trigger toggles the panel", async () => {
+        const user: UserEvent = userEvent.setup();
+        const { container } = render(Subject, {
+            props: {
+                label: "Help",
+                triggerLabel: "?",
+            },
+        });
+
+        const trigger = screen.getByRole("button", { name: "Help" });
+        const panel = container.querySelector(".contextual-help-panel") as HTMLElement;
+        await user.click(trigger);
+        expect(trigger.getAttribute("aria-expanded")).toBe("true");
+        expect(panel.hasAttribute("hidden")).toBe(false);
+        await user.click(trigger);
+        expect(trigger.getAttribute("aria-expanded")).toBe("false");
+        expect(panel.hasAttribute("hidden")).toBe(true);
+    });
+
+    test("onclick calling preventDefault stops the toggle", async () => {
+        const user: UserEvent = userEvent.setup();
+        render(Subject, {
+            props: {
+                label: "Help",
+                triggerLabel: "?",
+                onclick: (event: MouseEvent) => event.preventDefault(),
+            },
+        });
+
+        const trigger = screen.getByRole("button", { name: "Help" });
+        await user.click(trigger);
+        expect(trigger.getAttribute("aria-expanded")).toBe("false");
+    });
+
     test("appends consumer class to base class", () => {
         const { container } = render(Subject, {
             props: {
                 label: "Help",
+                triggerLabel: "?",
                 class: "extra",
             },
         });

@@ -1,26 +1,26 @@
 ---
 name: lily-design-system-react-skill
-description: Explains what's available for React in Lily Design System and which of the three real React subprojects to reach for — the headless component library, the six *-picker helpers, or the Next.js example app. Use when someone asks what React support Lily Design System has, which React package they need, wants to see Lily's React components styled and running, or asks about the Next.js example app's routes, NHS UK styling, or App Router setup.
+description: Explains what's available for React in Lily Design System and which of the three layers (headless library, helper packages, example app) to reach for — the headless component library, the helper packages (eleven *-picker helpers, picker-bar, grid-like helpers, editors), or the Next.js example app. Use when someone asks what React support Lily Design System has, which React package they need, wants to see Lily's React components styled and running, or asks about the Next.js example app's routes, NHS UK styling, or App Router setup.
 license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 ---
 
 # Lily Design System™ — React
 
-Three real, independent React subprojects exist in this monorepo. This
-skill is the umbrella: it maps the three, tells you which one you need,
+Three React layers exist in this monorepo: the headless library, 20 helper packages (one subproject each) and the example app. This
+skill is the umbrella: it maps the three layers, tells you which one you need,
 and points at the two sibling skills that go deep on the first two. It
 does not restate their content.
 
 | Subproject                                                                             | What it is                                                                                                                                                                                                                      | Reach for it when                                                                                                                           |
 | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`@lilydesignsystem/react-headless`](../lily-design-system-react-headless/)            | An npm package: the 490-component headless catalog as React 19 function components. Zero CSS.                                                                                                                                   | You're building your own app and want the library you actually `pnpm install` and depend on.                                                |
-| [the React helper packages](../spec/helpers/index.md#react-helper-packages)            | Small npm packages, one top-level subproject each (the ten `*-picker` helpers, `picker-bar`, `kanban-board`, `gantt-chart`) that each own one whole page-header interaction — selection, DOM application, optional persistence. | You need a ready-made preference control or share action rather than building one from catalog primitives.                                  |
-| [`lily-design-system-react-next-examples`](../lily-design-system-react-next-examples/) | A React 19 + Next.js 15 App Router application: every headless component fully styled and wired up, plus 12 composed-page demos. Not a package you install.                                                                     | You want to see a component working end-to-end, copy its CSS, or run a live reference before wiring the headless library into your own app. |
+| [`@lilydesignsystem/react-headless`](../lily-design-system-react-headless/)            | An npm package: the 607-component headless catalog as React 19 function components. Zero CSS.                                                                                                                                   | You're building your own app and want the library you actually `pnpm install` and depend on.                                                |
+| [the React helper packages](../spec/helpers/index.md#react-helper-packages)            | Small npm packages: 20 packages, one subproject each: eleven `*-picker` helpers (theme, locale, text-size, motion, time-zone, share, search, link, menu, settings, date-time), `picker-bar`, the grid-like `data-grid`, `kanban-board`, `calendar`, `gantt-chart` and `filter`, the `markdown-editor` and `org-editor`, and `locale-translations`. Each owns one whole interaction. | You need a ready-made preference control or share action rather than building one from catalog primitives.                                  |
+| [`lily-design-system-react-next-examples`](../lily-design-system-react-next-examples/) | A React 19 + Next.js 16 App Router application: every headless component fully styled and wired up, plus 12 composed-page demos. Not a package you install.                                                                     | You want to see a component working end-to-end, copy its CSS, or run a live reference before wiring the headless library into your own app. |
 
 ## Deep-dive skills for the first two
 
 - [`lily-design-system-react-headless-skill`](../lily-design-system-react-headless-skill/) — install command, import shape, the `className` + rest-props convention, controlled-prop patterns (`value`/`onChange`, `open`/`onChange`), and documented component-level gotchas (`BreadcrumbListItem`, `Alert`, `Dialog`, `ErrorSummary`, `TabBarButton`, `RadioInput`, `FileUpload`). Use it, not this skill, for anything about consuming the headless library itself.
-- [`lily-design-system-react-helpers-skill`](../lily-design-system-react-helpers-skill/) — the six helper packages' names and shapes, the render-prop `children` convention, `"use client"` SSR boundaries, and why the idempotent-apply guard matters specifically in React (a controlled value applies once when set and again when your own `onChange` writes it back). Use it, not this skill, for anything about consuming the helper packages.
+- [`lily-design-system-react-helpers-skill`](../lily-design-system-react-helpers-skill/) — the helper packages' names and shapes, the render-prop `children` convention, `"use client"` SSR boundaries, and why the idempotent-apply guard matters specifically in React (a controlled value applies once when set and again when your own `onChange` writes it back). Use it, not this skill, for anything about consuming the helper packages.
 
 This skill's job is the map and the routing decision above — it does not
 restate either sibling's install commands, prop conventions, or gotchas.
@@ -30,7 +30,7 @@ restate either sibling's install commands, prop conventions, or gotchas.
 Neither sibling skill covers this subproject — it's the one place this
 skill gives real, not just pointer-level, coverage.
 
-- **Stack**: React 19 + Next.js 15, **App Router**. Every example page
+- **Stack**: React 19 + Next.js 16, **App Router**. Every example page
   carries the `"use client"` directive, because the demos are
   interactive and the headless components manage their own state.
   `typescript.ignoreBuildErrors: true` is set in `next.config.ts`
@@ -90,7 +90,7 @@ skill gives real, not just pointer-level, coverage.
 ## Framework-agnostic Lily concepts
 
 For what "headless" means in general, what a class hook or slug is, the
-582-component catalog at a glance, naming conventions, and composition
+607-component catalog at a glance, naming conventions, and composition
 patterns that aren't React-specific, use
 [`lily-design-system-skill`](../lily-design-system-skill/) instead —
 this skill assumes that grounding and only adds the React layer on top.

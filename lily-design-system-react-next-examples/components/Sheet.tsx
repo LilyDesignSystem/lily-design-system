@@ -1,7 +1,7 @@
 // Sheet component
 //
 // A headless sliding panel overlay that appears from an edge of the viewport,
-// functioning as a modal dialog. Conditionally rendered based on the open state,
+// functioning as a modal dialog (a native <dialog> opened with showModal()). Conditionally rendered based on the open state,
 // with Escape key to dismiss. Commonly used for navigation menus, settings panels,
 // detail views, or filter interfaces that slide in from the top, right, bottom, or left.
 //
@@ -11,7 +11,7 @@
 //   open — boolean, default false. Whether the sheet is visible; controlled via open + onChange.
 //   side — "left" | "right" | "top" | "bottom", default "right". Which edge the sheet appears from.
 //   children — ReactNode, required. Content to render inside the sheet.
-//   ...restProps — additional HTML attributes spread onto the <div>.
+//   ...restProps — additional HTML attributes spread onto the <dialog>.
 //
 // Syntax:
 //   <Sheet label="Settings" open={open} onChange={setOpen} side="right">
@@ -31,13 +31,14 @@
 //   </Sheet>
 //
 // Keyboard:
-//   - Escape: closes the sheet by setting open to false
-//   - Tab: moves focus between focusable elements within the sheet
+//   - Escape: closes the sheet (keydown or the native cancel event)
+//   - Tab: stays inside while open (showModal())
 //
 // Accessibility:
-//   - role="dialog" identifies the sheet as a dialog window
+//   - role="dialog" provided natively by the <dialog> element
 //   - aria-label provides an accessible name for the dialog
-//   - aria-modal="true" indicates the dialog is modal (content behind is inert)
+//   - aria-modal="true" is true: showModal() makes the page behind inert and traps Tab
+//   - focus moves inside on open and returns to the opener on close
 //   - tabindex="-1" allows programmatic focus on the dialog container
 //   - data-side attribute exposes the side for CSS targeting
 //
@@ -47,23 +48,24 @@
 // Claude rules:
 //   - Headless: no CSS, no styles — consumer provides all styling
 //   - Open uses controlled state via open + onChange
-//   - Consumer implements focus trapping and slide-in animations via CSS
+//   - Focus trapping comes from showModal() (open-attribute fallback where it is missing, e.g. jsdom);
+//     consumer implements slide-in animations via CSS
 //   - Completely removed from DOM when closed ({open && ...})
 //
 // References:
 //   - WAI-ARIA Dialog (Modal) Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 export interface SheetProps {
     className?: string;
-    /** Accessible label. */
+    /** Accessible label for the dialog. */
     label: string;
-    /** Whether the sheet is open. Bindable. */
+    /** Whether the panel is open. Bindable. */
     open?: boolean;
-    /** Edge from which the sheet appears. */
+    /** Edge the panel enters from. */
     side?: "left" | "right" | "top" | "bottom";
-    /** Sheet content. */
+    /** Panel content. */
     children: React.ReactNode;
     /** Callback when open changes. */
     onChange?: (value: boolean) => void;
@@ -80,30 +82,68 @@ export default function Sheet({
     ...restProps
 }: SheetProps) {
     const [open, setOpen] = useState(openProp);
+    const ref = useRef<HTMLDialogElement>(null);
+
+    // Sync internal state when the prop changes externally.
+    useEffect(() => {
+        setOpen(openProp);
+    }, [openProp]);
+
+    // A real modal: showModal() puts the <dialog> in the top layer, makes the page behind it inert and traps Tab.
+    // Where showModal is missing (jsdom) fall back to the open attribute. Focus moves inside on open and returns to
+    // the element that had it when the panel opened, once it closes.
+    useEffect(() => {
+        const node = ref.current;
+        if (!open || !node) return;
+        const opener = document.activeElement as HTMLElement | null;
+        if (!node.open) {
+            if (typeof node.showModal === "function") node.showModal();
+            else node.setAttribute("open", "");
+        }
+        if (!node.contains(document.activeElement)) node.focus();
+        return () => {
+            if (node.open) {
+                if (typeof node.close === "function") node.close();
+                else node.removeAttribute("open");
+            }
+            if (opener && opener !== document.body && opener.isConnected) opener.focus();
+        };
+    }, [open]);
+
+    function dismiss() {
+        setOpen(false);
+        onChange?.(false);
+    }
 
     function handleKeyDown(event: React.KeyboardEvent) {
         if (event.key === "Escape") {
             event.preventDefault();
-            setOpen(false);
-            onChange?.(false);
+            dismiss();
         }
+    }
+
+    function handleCancel(event: React.SyntheticEvent) {
+        event.preventDefault();
+        dismiss();
     }
 
     return (
         <>
             {open && (
-                <div
+                <dialog
+                    ref={ref}
                     className={`sheet ${className}`}
-                    role="dialog"
                     aria-label={label}
                     aria-modal="true"
                     tabIndex={-1}
                     data-side={side}
                     onKeyDown={handleKeyDown}
+                    onCancel={handleCancel}
+                    onClose={dismiss}
                     {...restProps}
                 >
                     {children}
-                </div>
+                </dialog>
             )}
         </>
     );

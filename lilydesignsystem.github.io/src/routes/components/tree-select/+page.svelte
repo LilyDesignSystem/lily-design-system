@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"tree-select\" aria-label=\"a select dropdown showing a tree of hierarchical options\">TreeSelect</div>";
   const svelteSource: string = "// In your Svelte component:\nimport TreeSelect from \"lily-design-system-svelte-headless/components/TreeSelect/TreeSelect.svelte\";\n\n<TreeSelect>\n  <!-- content -->\n</TreeSelect>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import TreeSelect from './TreeSelect.svelte';\n\n  let open = $state(false);\n  let value = $state('');\n<\/script>\n\n<TreeSelect\n  label=\"Category\"\n  placeholder=\"Choose a category\"\n  expanded={open}\n  value={value}\n  multiple\n  onclick={() => (open = !open)}\n>\n  <ul role=\"tree\" aria-label=\"Categories\">…</ul>\n</TreeSelect>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import TreeSelect from \"./TreeSelect.svelte\";\n\n  let open = $state(false);\n  let value = $state(\"\");\n<\/script>\n\n<TreeSelect\n  label=\"Category\"\n  placeholder=\"Choose a category\"\n  expanded={open}\n  {value}\n  multiple\n  onclick={() => (open = !open)}\n>\n  <ul\n    role=\"tree\"\n    aria-label=\"Categories\"\n  >\n    …\n  </ul>\n</TreeSelect>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

@@ -47,8 +47,8 @@ function renderBar(extraProps: Record<string, unknown> = {}) {
 }
 
 describe("PickerBar — DEFAULT_THEMES (§3, §5.1)", () => {
-    test("has all 57 Lily reference theme slugs", () => {
-        expect(DEFAULT_THEMES).toHaveLength(57);
+    test("has all 63 Lily reference theme slugs", () => {
+        expect(DEFAULT_THEMES).toHaveLength(63);
     });
 
     test("is alphabetical, with the UK & US themes moved to the bottom as one alphabetical group", () => {
@@ -121,9 +121,9 @@ describe("PickerBar — theme-picker wiring (§5.1, §7.3, §7.6)", () => {
         renderBar();
         await fireEvent.click(screen.getByRole("button", { name: "Theme" }));
         const options = document.querySelectorAll(".theme-picker-option");
-        expect(options).toHaveLength(57);
+        expect(options).toHaveLength(63);
         expect(options[0].textContent).toBe("Abyss");
-        expect(options[49].textContent).toBe("United Kingdom Government Digital Service");
+        expect(options[55].textContent).toBe("United Kingdom Government Digital Service");
     });
 
     test("§7.6 an explicit `themes` prop overrides the default", async () => {

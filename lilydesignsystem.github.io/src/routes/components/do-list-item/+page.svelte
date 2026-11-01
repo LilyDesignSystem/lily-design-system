@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<ul class=\"do-list\"><li class=\"do-list-item\">Do use semantic HTML</li></ul>";
   const svelteSource: string = "// In your Svelte component:\nimport DoListItem from \"lily-design-system-svelte-headless/components/DoListItem/DoListItem.svelte\";\n\n<DoListItem>\n  <!-- DoListItem content -->\n</DoListItem>\n";
-  const usageCode: string = "<DoList>\n    <DoListItem>Write clear labels</DoListItem>\n    <DoListItem>Use semantic HTML</DoListItem>\n</DoList>\n";
+  const usageCode: string = "<DoList>\n  <DoListItem>Write clear labels</DoListItem>\n  <DoListItem>Use semantic HTML</DoListItem>\n</DoList>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

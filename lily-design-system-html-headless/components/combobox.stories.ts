@@ -1,23 +1,19 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html = `<div
-  class="combobox"
-  role="combobox"
-  aria-label=""
->
-  <!-- Consumer provides content -->
-</div>
-
-<script>
-  // Combobox behavior
-  (function() {
-    'use strict';
-    // Combobox: consumer implements interactive behavior
-    document.querySelectorAll('.combobox').forEach(function(el) {
-      // Interactive behavior initialization
-    });
-  })();
-</script>`;
+const html = `<div class="combobox">
+  <input
+    type="text"
+    role="combobox"
+    aria-label="Fruit"
+    aria-expanded="false"
+    aria-controls="combobox-listbox"
+    aria-autocomplete="list"
+  />
+  <div role="listbox" id="combobox-listbox" aria-label="Fruit" hidden>
+    <div role="option">Apple</div>
+    <div role="option">Banana</div>
+  </div>
+</div>`;
 
 const meta = {
     title: "Headless/Combobox",

@@ -10,16 +10,19 @@
   "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
   "aria": [
     "`role=\"dialog\"` -- identifies the popup as a dialog overlay for assistive technology",
-    "`aria-label=\"...\"` -- provides the accessible name for the dialog"
+    "`aria-label=\"...\"` -- provides the accessible name for the dialog",
+    "The trigger (consumer's) should carry `aria-haspopup=\"dialog\"` and `aria-controls`; the browser exposes a `popovertarget` trigger's expanded state"
   ],
   "keyboard": [
-    "Escape: Consumer should implement closing the popup by setting `open` to false",
-    "Tab: Should trap focus within the popup when open (consumer responsibility)"
+    "Enter / Space on the trigger: the browser toggles the popup (command / popovertarget)",
+    "Escape: the browser closes it (Popover API); `open` becomes false",
+    "Tab: not trapped -- a popover is non-modal"
   ],
   "props": [
     "`label`: string (required) -- accessible name for the popup dialog via `aria-label`",
-    "`open`: boolean (default: false, bindable) -- controls whether the popup is visible; supports two-way binding",
-    "`children`: slot (required) -- the popup content rendered inside the dialog",
+    "`open`: boolean (default: false, bindable) -- whether the popup is shown; follows the browser's toggles",
+    "`id`: string (rest prop) -- lets a trigger name it with `commandfor` / `popovertarget`",
+    "`children`: slot (required) -- the popup content",
     "`...restProps`: unknown -- additional attributes spread onto the `<div>` element"
   ],
   "related": [
@@ -39,5 +42,10 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Popup.razor"
   },
   "docs": "https://lilydesignsystem.com/components/popup/",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/popup/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/popup/AGENTS.md",
+  "nativePlatform": {
+    "decision": "native",
+    "uses": "popover=\"auto\" on an always-rendered div role=\"dialog\"; bindable open synced from the toggle event; command=\"toggle-popover\" commandfor trigger",
+    "could_use": "CSS anchor positioning"
+  }
 }

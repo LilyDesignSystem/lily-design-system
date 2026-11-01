@@ -22,11 +22,11 @@
 
 ## Overview
 
-A Claude Skill that ties together the three real plain-HTML subprojects in
+A Claude Skill that ties together the three plain-HTML layers in
 this monorepo — [`@lilydesignsystem/html-headless`](../lily-design-system-html-headless/)
-(the full-catalog, 582/582 headless component library and reference
+(the full-catalog, 607/607 headless component library and reference
 implementation), [the HTML helper packages](../spec/helpers/index.md#html-helper-packages)
-(the six `*-picker` custom elements), and
+(the `*-picker` custom elements and the other helper packages), and
 [`lily-design-system-html-css-js-examples`](../lily-design-system-html-css-js-examples/)
 (the styled, NHS-UK-themed reference application) — and helps an agent
 decide which one a given request actually needs. The skill itself is
@@ -45,12 +45,12 @@ gives the example application real coverage.
 ## What this subproject is, and isn't
 
 - **Is**: the plain-HTML umbrella and entry-point skill — a map of the
-  three real HTML subprojects, a decision guide for which one to reach for,
+  three HTML layers, a decision guide for which one to reach for,
   real coverage of the example app (routes, NHS UK visual reference,
   running it, helper vendoring), and pointers into the two sibling skills
   and into the general Lily concepts skill rather than a restatement of any
   of them.
-- **Isn't**: the HTML headless library, the HTML helpers catalog, or the
+- **Isn't**: the HTML headless library, the HTML helper packages, or the
   HTML example application themselves — it ships no components, no custom
   elements, no example pages of its own. Isn't the general Lily concepts
   skill (that's [`lily-design-system-skill`](../lily-design-system-skill/)).
@@ -59,7 +59,7 @@ gives the example application real coverage.
   or [`lily-design-system-html-helpers-skill`](../lily-design-system-html-helpers-skill/) —
   it points at both rather than restating their contracts. Isn't the skill
   for the separate Web Components catalogs (native custom elements, a
-  547/582 headless slice, its own `lily-design-system-web-components-skill`
+  572/607 headless slice, its own `lily-design-system-web-components-skill`
   and its own `-headless-skill` / `-helpers-skill` siblings).
 
 ## Internationalization

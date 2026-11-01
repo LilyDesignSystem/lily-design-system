@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"government-identifier\" aria-label=\"an identifier section with a parent agency logo, agency name, and required government links\">GovernmentIdentifier</div>";
   const svelteSource: string = "// In your Svelte component:\nimport GovernmentIdentifier from \"lily-design-system-svelte-headless/components/GovernmentIdentifier/GovernmentIdentifier.svelte\";\n\n<GovernmentIdentifier>\n  <!-- content -->\n</GovernmentIdentifier>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import GovernmentIdentifier from './GovernmentIdentifier.svelte';\n<\/script>\n\n<GovernmentIdentifier\n  label=\"Agency identifier\"\n  agencyName=\"U.S. Department of Example\"\n  agencyHref=\"https://example.gov\"\n  description=\"An official website of the U.S. Department of Example\"\n>\n  <a href=\"/about\">About</a>\n  <a href=\"/accessibility\">Accessibility</a>\n  <a href=\"/foia\">FOIA requests</a>\n</GovernmentIdentifier>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import GovernmentIdentifier from \"./GovernmentIdentifier.svelte\";\n<\/script>\n\n<GovernmentIdentifier\n  label=\"Agency identifier\"\n  agencyName=\"U.S. Department of Example\"\n  agencyHref=\"https://example.gov\"\n  description=\"An official website of the U.S. Department of Example\"\n>\n  <a href=\"/about\">About</a>\n  <a href=\"/accessibility\">Accessibility</a>\n  <a href=\"/foia\">FOIA requests</a>\n</GovernmentIdentifier>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

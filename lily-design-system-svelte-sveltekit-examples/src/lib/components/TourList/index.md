@@ -1,6 +1,6 @@
 # TourList
 
-A conditionally rendered ordered list acting as a modal dialog overlay for guided walkthrough steps, rendered as `<ol role="dialog" aria-modal="true">` and dismissed on `Escape`.
+A conditionally rendered ordered list of guided walkthrough steps, rendered as a plain `<ol>` (no `role="dialog"`, no `aria-modal`) and dismissed on `Escape`.
 
 ## What it is
 
@@ -8,7 +8,7 @@ A conditionally rendered ordered list acting as a modal dialog overlay for guide
 
 ## What it does
 
-- When `active` is true, renders `<ol class="tour-list {className}" role="dialog" aria-modal="true" aria-label={label} tabindex="-1">`.
+- When `active` is true, renders `<ol class="tour-list {className}" aria-label={label} tabindex="-1">`.
 - When `active` is false, renders nothing.
 - Listens for `Escape` and sets `active = false`.
 - Binds `active` via `$bindable`.
@@ -197,15 +197,14 @@ Import and place inside `Tour` (or use standalone with your own trigger), passin
 
 ## Accessibility
 
-- `role="dialog"` + `aria-modal="true"` identify the overlay as a modal.
+- The native `<ol>` keeps its list semantics, so the step count and position are announced. It has no `role="dialog"` and no `aria-modal` (tasks.md P18-T6): dialog semantics belong to `Tour`, which is non-modal.
 - `aria-label` provides the accessible name.
 - `tabindex="-1"` allows programmatic focus.
 - `Escape` dismisses by flipping `active` to `false`.
-- Note that using `role="dialog"` on an `<ol>` is an ARIA override; consumers should ensure the inner steps use `role="group"` with `aria-roledescription="step"` (as `TourListItem` does).
 
 ## Related components
 
-- `Tour` — outer container providing the same dialog semantics at the `<div>` level.
+- `Tour` — outer container providing the (non-modal) dialog semantics at the `<div>` level.
 - `TourListItem` — step child components.
 - `TaskList` / `TimelineList` — ordered lists for non-tour contexts.
 - `Dialog` — general-purpose dialog component.

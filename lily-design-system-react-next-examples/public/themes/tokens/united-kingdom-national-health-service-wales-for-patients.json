@@ -59,7 +59,7 @@
           0.0
         ]
       },
-      "$description": "-------------------------------------------------------------------- * Base surfaces * * Taken from the DHCW greys rather than the NHS Identity greys. DHCW * ships `$nhsw-colour-background-grey: #F0F4F5` and * `$nhsw-colour-border-grey: #D8DDE0`, both a shade cooler and lighter * than NHS Pale Grey #E8EDEE. The difference is small in isolation but * visible when a DHCW-styled panel sits next to an England-styled one, * and matching the published value is what makes a Wales service look * like a Wales service. * ------------------------------------------------------------------ */ /* #FFFFFF — pure white, NHS Identity primary surface (`$nhsw-colour-background-white`)"
+      "$description": "----------------------------------------------------------- --------- * Base surfaces * * Taken from the DHCW greys rather than the NHS Identity greys. DHCW * ships `$nhsw- colour-background-grey: #F0F4F5` and * `$nhsw-colour- border-grey: #D8DDE0`, both a shade cooler and lighter * than NHS Pale Grey #E8EDEE. The difference is small in isolation but * visible when a DHCW-styled panel sits next to an England-styled one, * and matching the published value is what makes a Wales service look * like a Wales service. * ------------------------------------------------ ------------------ */ /* #FFFFFF — pure white, NHS Identity primary surface (`$nhsw-colour-background-white`)"
     },
     "base-200": {
       "$type": "color",
@@ -71,7 +71,7 @@
           214.0
         ]
       },
-      "$description": "#F0F4F5 — DHCW background grey (`$nhsw-colour-background-grey`) — card backs, panel fills, alternating table rows"
+      "$description": "#F0F4F5 — DHCW background grey (`$nhsw-colour-background- grey`) — card backs, panel fills, alternating table rows"
     },
     "base-300": {
       "$type": "color",
@@ -107,7 +107,7 @@
           258.0
         ]
       },
-      "$description": "-------------------------------------------------------------------- * Primary — DHCW Navy (#1B365D) * * `$nhsw-colour-button-primary` and `$nhsw-colour-text-blue` in the * NHSW component library. This is the colour of the thing you click on * a DHCW page, and it is *not* NHS Blue. * * The choice is defensible on contrast grounds alone. NHS Blue on white * is 6.4:1 — fine for large text, short of AAA for a button label at * body size. Navy is 12.1:1, which clears AAA at any size. NHS England * solved the same problem by going green; DHCW went dark. * * Used for: primary buttons, action surfaces, headings that need * emphasis, the practitioner header band. * ------------------------------------------------------------------"
+      "$description": "----------------------------------------------------------- --------- * Primary — DHCW Navy (#1B365D) * * `$nhsw- colour-button-primary` and `$nhsw-colour-text-blue` in the * NHSW component library. This is the colour of the thing you click on * a DHCW page, and it is *not* NHS Blue. * * The choice is defensible on contrast grounds alone. NHS Blue on white * is 6.4:1 — fine for large text, short of AAA for a button label at * body size. Navy is 12.1:1, which clears AAA at any size. NHS England * solved the same problem by going green; DHCW went dark. * * Used for: primary buttons, action surfaces, headings that need * emphasis, the practitioner header band. * ----------------- -------------------------------------------------"
     },
     "primary-content": {
       "$type": "color",
@@ -130,7 +130,7 @@
           255.0
         ]
       },
-      "$description": "-------------------------------------------------------------------- * Secondary — NHS Blue (#005EB8 / Pantone 300) * * Demoted from primary, but not diminished. Research cited in the NHS * Identity Guidelines reports that 87% of UK adults spontaneously * associate \"blue and white\" with the NHS, and the GIG Cymru lozenge is * the same NHS Blue as the NHS England lozenge. DHCW keeps it for the * site header band (`$nhsw-colour-site-header-background`) and for * links (`$nhsw-colour-link`) — the two places a citizen reads * \"this is the NHS\" without being asked to act. * * Used for: links, the site header band, brand chrome, hovered * primary surfaces. * ------------------------------------------------------------------"
+      "$description": "----------------------------------------------------------- --------- * Secondary — NHS Blue (#005EB8 / Pantone 300) * * Demoted from primary, but not diminished. Research cited in the NHS * Identity Guidelines reports that 87% of UK adults spontaneously * associate \"blue and white\" with the NHS, and the GIG Cymru lozenge is * the same NHS Blue as the NHS England lozenge. DHCW keeps it for the * site header band (`$nhsw-colour-site-header-background`) and for * links (`$nhsw-colour-link`) — the two places a citizen reads * \"this is the NHS\" without being asked to act. * * Used for: links, the site header band, brand chrome, hovered * primary surfaces. * ----------------------------- -------------------------------------"
     },
     "secondary-content": {
       "$type": "color",
@@ -153,7 +153,7 @@
           85.0
         ]
       },
-      "$description": "-------------------------------------------------------------------- * Accent — DHCW Gold (#AA8630) * * `$nhsw-colour-border-gold`. The only hue DHCW introduces that is not * in the NHS Identity palette, which makes it the genuine Wales * signature. In the published library it rails the inset-text component * and tops the mobile bottom-nav bar — both times as a *border*, never * as a fill or a text colour. * * This theme honours that constraint rather than generalising the * colour. Gold is 3.4:1 on white: legal as a non-text graphical * boundary, illegal as body copy. --color-accent-content is set to NHS * Black so that any component which does fill with the accent at least * pairs it with the darkest available text (4.2:1 — AA large only), and * the components that would otherwise put small text on gold are * redirected to --lily-accent-deep below. * ------------------------------------------------------------------"
+      "$description": "----------------------------------------------------------- --------- * Accent — DHCW Gold (#AA8630) * * `$nhsw-colour- border-gold`. The only hue DHCW introduces that is not * in the NHS Identity palette, which makes it the genuine Wales * signature. In the published library it rails the inset- text component * and tops the mobile bottom-nav bar — both times as a *border*, never * as a fill or a text colour. * * This theme honours that constraint rather than generalising the * colour. Gold is 3.4:1 on white: legal as a non-text graphical * boundary, illegal as body copy. --color-accent-content is set to NHS * Black so that any component which does fill with the accent at least * pairs it with the darkest available text (4.2:1 — AA large only), and * the components that would otherwise put small text on gold are * redirected to --lily-accent-deep below. * ------ ----------------------------------------------------------- -"
     },
     "accent-content": {
       "$type": "color",
@@ -176,7 +176,7 @@
           240.0
         ]
       },
-      "$description": "-------------------------------------------------------------------- * Neutral — DHCW text secondary (#4C6272) * * `$nhsw-colour-text-secondary` and `$nhsw-colour-border-secondary` — * DHCW uses one slate for both muted text and strong borders, which is * why the secondary button in the published library is a white fill * with a #4C6272 border and a #4C6272 shadow. * * Used for: muted UI chrome, secondary nav, breadcrumb separators, * secondary-button borders, input borders. 6.4:1 on white — AA body, * AAA large. Do not use it for body copy at small sizes. * ------------------------------------------------------------------"
+      "$description": "----------------------------------------------------------- --------- * Neutral — DHCW text secondary (#4C6272) * * `$nhsw-colour-text-secondary` and `$nhsw-colour-border- secondary` — * DHCW uses one slate for both muted text and strong borders, which is * why the secondary button in the published library is a white fill * with a #4C6272 border and a #4C6272 shadow. * * Used for: muted UI chrome, secondary nav, breadcrumb separators, * secondary-button borders, input borders. 6.4:1 on white — AA body, * AAA large. Do not use it for body copy at small sizes. * ------ ----------------------------------------------------------- -"
     },
     "neutral-content": {
       "$type": "color",
@@ -199,7 +199,7 @@
           248.0
         ]
       },
-      "$description": "-------------------------------------------------------------------- * Info — NHS Bright Blue (#0072CE / Pantone 285) * * Retained from the NHS Identity rather than taken from DHCW, because * DHCW has no distinct info colour: its notification banner reuses the * link blue #005EB8, which this theme has already spent on * --color-secondary. Giving info its own brighter blue keeps an info * banner distinguishable from a link-coloured header band on the same * page — a distinction DHCW's own preview pages struggle to make. * ------------------------------------------------------------------"
+      "$description": "----------------------------------------------------------- --------- * Info — NHS Bright Blue (#0072CE / Pantone 285) * * Retained from the NHS Identity rather than taken from DHCW, because * DHCW has no distinct info colour: its notification banner reuses the * link blue #005EB8, which this theme has already spent on * --color-secondary. Giving info its own brighter blue keeps an info * banner distinguishable from a link-coloured header band on the same * page — a distinction DHCW's own preview pages struggle to make. * --------------------------------------- ---------------------------"
     },
     "info-content": {
       "$type": "color",
@@ -222,7 +222,7 @@
           154.0
         ]
       },
-      "$description": "-------------------------------------------------------------------- * Success — DHCW notification success (#00703C) * * `$nhsw-colour-notification-success`. Darker than NHS Green #009639 * (which this theme previously used), and that is the point: NHS Green * with white text is roughly 3.3:1, which fails AA for the banner * labels it was being asked to carry. #00703C is 6.2:1 with white. * * Used for: confirmation banners, form-success ticks, \"appointment * confirmed\" states. * ------------------------------------------------------------------"
+      "$description": "----------------------------------------------------------- --------- * Success — DHCW notification success (#00703C) * * `$nhsw-colour-notification-success`. Darker than NHS Green #009639 * (which this theme previously used), and that is the point: NHS Green * with white text is roughly 3.3:1, which fails AA for the banner * labels it was being asked to carry. #00703C is 6.2:1 with white. * * Used for: confirmation banners, form-success ticks, \"appointment * confirmed\" states. * -------------------------------------- ----------------------------"
     },
     "success-content": {
       "$type": "color",
@@ -245,7 +245,7 @@
           92.0
         ]
       },
-      "$description": "-------------------------------------------------------------------- * Warning — DHCW warning yellow (#FACC15) * * `$nhsw-colour-warning-callout-heading`. A cooler, more lemon yellow * than NHS Warm Yellow #FFB81C, and noticeably brighter. DHCW pairs it * with a very pale #FEF9C3 panel fill rather than tinting the panel * with the heading colour, which is why --lily-warning-surface is * declared separately below instead of being mixed from this token. * * Content colour is DHCW text-primary, never white: yellow this bright * cannot carry white text at any size. * ------------------------------------------------------------------"
+      "$description": "----------------------------------------------------------- --------- * Warning — DHCW warning yellow (#FACC15) * * `$nhsw-colour-warning-callout-heading`. A cooler, more lemon yellow * than NHS Warm Yellow #FFB81C, and noticeably brighter. DHCW pairs it * with a very pale #FEF9C3 panel fill rather than tinting the panel * with the heading colour, which is why --lily-warning-surface is * declared separately below instead of being mixed from this token. * * Content colour is DHCW text-primary, never white: yellow this bright * cannot carry white text at any size. * ------ ----------------------------------------------------------- -"
     },
     "warning-content": {
       "$type": "color",
@@ -268,7 +268,7 @@
           30.0
         ]
       },
-      "$description": "-------------------------------------------------------------------- * Error — DHCW delete red (#D5281B) * * `$nhsw-colour-button-delete`, also the DHCW invalid-input colour. It * sits a half-step darker than NHS Emergency Services Red #DA291C * (Pantone 485), which this theme previously used, and buys a real * accessibility improvement: 5.1:1 with white rather than 4.6:1. * * The Welsh resonance survives the swap. Pantone 485 is the red of Y * Ddraig Goch on the national flag, and #D5281B is within a couple of * ΔE of it — close enough that no one reads the destructive button as * a different red, far enough that the label is legible. * * Used for: error summaries, destructive-action buttons, validation * messages, invalid input borders. * ------------------------------------------------------------------"
+      "$description": "----------------------------------------------------------- --------- * Error — DHCW delete red (#D5281B) * * `$nhsw- colour-button-delete`, also the DHCW invalid-input colour. It * sits a half-step darker than NHS Emergency Services Red #DA291C * (Pantone 485), which this theme previously used, and buys a real * accessibility improvement: 5.1:1 with white rather than 4.6:1. * * The Welsh resonance survives the swap. Pantone 485 is the red of Y * Ddraig Goch on the national flag, and #D5281B is within a couple of * ΔE of it — close enough that no one reads the destructive button as * a different red, far enough that the label is legible. * * Used for: error summaries, destructive-action buttons, validation * messages, invalid input borders. * ------------------------------------------ ------------------------"
     },
     "error-content": {
       "$type": "color",
@@ -293,7 +293,7 @@
           102.0
         ]
       },
-      "$description": "-------------------------------------------------------------------- * DHCW supporting colours * * Values the published NHSW library needs that have no slot in the * upstream `--color-*` contract. They are declared here rather than * inline in the component rules so a consumer can retheme a DHCW * service by overriding tokens alone. * ------------------------------------------------------------------ */ /* #FFEB3B — `$nhsw-colour-focus`. The GDS-lineage focus block."
+      "$description": "----------------------------------------------------------- --------- * DHCW supporting colours * * Values the published NHSW library needs that have no slot in the * upstream `--color-*` contract. They are declared here rather than * inline in the component rules so a consumer can retheme a DHCW * service by overriding tokens alone. * ----------------------------------------------------------- ------- */ /* #FFEB3B — `$nhsw-colour-focus`. The GDS- lineage focus block."
     },
     "focus-text": {
       "$type": "color",
@@ -329,7 +329,7 @@
           75.0
         ]
       },
-      "$description": "#F5BB66 — `$nhsw-colour-button-exceptional-light`. DHCW's \"exceptional\" button: a warm gold fill with dark text, used for the one action on a page that is neither primary nor destructive but still must be found. 8.4:1 with text-primary."
+      "$description": "#F5BB66 — `$nhsw-colour-button-exceptional-light`. DHCW's \"exceptional\" button: a warm gold fill with dark text, used for the one action on a page that is neither primary nor destructive but still must be found. 8.4:1 with text- primary."
     },
     "warning-surface": {
       "$type": "color",
@@ -431,7 +431,7 @@
         "value": 0.25,
         "unit": "rem"
       },
-      "$description": "-------------------------------------------------------------------- * Geometry * * NHS digital surfaces are restrained: small radii, single-pixel * borders, no drop shadows, no surface noise. This matches the NHS * digital service manual examples and keeps the theme professional / * institutional rather than consumer-product. * * Selector radius is 0.25rem here (the England theme uses 0rem). The * slightly softer corner on checkbox / radio surfaces nudges the NHS * Wales theme toward a marginally warmer feel — consistent with the * aqua-green accent shift above — without departing from NHS norms. * ------------------------------------------------------------------"
+      "$description": "----------------------------------------------------------- --------- * Geometry * * NHS digital surfaces are restrained: small radii, single-pixel * borders, no drop shadows, no surface noise. This matches the NHS * digital service manual examples and keeps the theme professional / * institutional rather than consumer-product. * * Selector radius is 0.25rem here (the England theme uses 0rem). The * slightly softer corner on checkbox / radio surfaces nudges the NHS * Wales theme toward a marginally warmer feel — consistent with the * aqua-green accent shift above — without departing from NHS norms. * ----------------------- -------------------------------------------"
     },
     "field": {
       "$type": "dimension",
@@ -487,48 +487,64 @@
   },
   "space": {
     "fluid-gutter": {
-      "$type": "fluidDimension",
+      "$type": "dimension",
       "$value": {
-        "floor": {
-          "value": 1,
-          "unit": "rem"
-        },
-        "base": {
-          "value": 0.5,
-          "unit": "rem"
-        },
-        "grow": {
-          "value": 2,
-          "unit": "vw"
-        },
-        "ceiling": {
-          "value": 2,
-          "unit": "rem"
-        }
+        "value": 1.0,
+        "unit": "rem"
       },
-      "$description": "Fluid inline gutter for page containers and the main region: grows with the viewport from a 1rem floor to a 2rem ceiling. Spacing only, never text."
+      "$description": "Fluid inline gutter for page containers and the main region: grows with the viewport from a 1rem floor to a 2rem ceiling. Spacing only, never text.",
+      "$extensions": {
+        "com.lilydesignsystem": {
+          "fluid": {
+            "floor": {
+              "value": 1.0,
+              "unit": "rem"
+            },
+            "base": {
+              "value": 0.5,
+              "unit": "rem"
+            },
+            "grow": {
+              "value": 2.0,
+              "unit": "vw"
+            },
+            "ceiling": {
+              "value": 2.0,
+              "unit": "rem"
+            }
+          }
+        }
+      }
     },
     "fluid-section": {
-      "$type": "fluidDimension",
+      "$type": "dimension",
       "$value": {
-        "floor": {
-          "value": 1,
-          "unit": "rem"
-        },
-        "base": {
-          "value": 0.75,
-          "unit": "rem"
-        },
-        "grow": {
-          "value": 1,
-          "unit": "vw"
-        },
-        "ceiling": {
-          "value": 2,
-          "unit": "rem"
-        }
+        "value": 1.0,
+        "unit": "rem"
       },
-      "$description": "Fluid gap between sections (stacks and grids): grows with the viewport from a 1rem floor to a 2rem ceiling. Spacing only, never text."
+      "$description": "Fluid gap between sections (stacks and grids): grows with the viewport from a 1rem floor to a 2rem ceiling. Spacing only, never text.",
+      "$extensions": {
+        "com.lilydesignsystem": {
+          "fluid": {
+            "floor": {
+              "value": 1.0,
+              "unit": "rem"
+            },
+            "base": {
+              "value": 0.75,
+              "unit": "rem"
+            },
+            "grow": {
+              "value": 1.0,
+              "unit": "vw"
+            },
+            "ceiling": {
+              "value": 2.0,
+              "unit": "rem"
+            }
+          }
+        }
+      }
     }
   }
 }

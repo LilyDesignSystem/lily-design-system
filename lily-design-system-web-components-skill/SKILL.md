@@ -1,13 +1,13 @@
 ---
 name: lily-design-system-web-components-skill
-description: Explains what's available as native Web Components in Lily Design System and which of the two real Web Components subprojects to reach for — the (547/582, full achievable scope as of 2026-10-25) headless custom-element catalog, or the six `<lily-*-picker>` helpers catalog. Use when someone asks what Lily offers as native Web Components, which Web Components subproject they need, how the Web Components headless catalog relates to the Web Components helpers catalog, or asks whether there's a Web Components example application (there isn't one yet).
+description: Explains what's available as native Web Components in Lily Design System and which of the two layers (headless catalog, helper packages) to reach for — the (572/607, full achievable scope as of 2026-10-25) headless custom-element catalog, or the `<lily-*>` helper packages. Use when someone asks what Lily offers as native Web Components, which Web Components subproject they need, how the Web Components headless catalog relates to the Web Components helpers catalog, or asks whether there's a Web Components example application (there isn't one yet).
 license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 ---
 
 # Lily Design System™ — Web Components umbrella
 
-Native Web Components in Lily Design System means exactly two real
-subprojects, not seven or three like the framework-paired catalogs. This
+Native Web Components in Lily Design System means two layers — the
+headless catalog and 20 helper packages — and no example app. This
 skill is the entry point: it maps the two, tells you which one answers a
 given question, and states plainly the one thing that does **not** exist
 yet — a Web Components example application.
@@ -16,14 +16,14 @@ Root of the ecosystem: [../spec/index.md](../spec/index.md). General Lily
 concepts (headless, class hook, slug, helper, theme — none of it specific
 to the native-custom-element idiom): [`lily-design-system-skill`](../lily-design-system-skill/).
 
-## The two real subprojects
+## The two layers
 
 - **[`@lilydesignsystem/web-components-headless`](../lily-design-system-web-components-headless/)**
-  — a headless catalog at its **full achievable scope**: 547 of the canonical 582 (as of 2026-10-25; 456 of 491 at 2026-09-06)
+  — a headless catalog at its **full achievable scope**: 548 of the canonical 583 (as of 2026-10-29; 456 of 491 at 2026-09-06)
   components as native custom elements (`class X extends HTMLElement`,
   `customElements.define("lily-{slug}", X)`), no framework runtime, no
   build step to consume. It spans every major category rather than
-  clustering in one; it is **not** a 582/582 peer of the seven
+  clustering in one; it is **not** a 607/607 peer of the seven
   full-catalog headless libraries (HTML, Svelte, React, Vue, Angular,
   Blazor, Nunjucks) and never will be — the remaining 35 are permanently
   excluded by a real architectural limitation, not backlog. Deep dive, the exact
@@ -31,19 +31,17 @@ to the native-custom-element idiom): [`lily-design-system-skill`](../lily-design
   custom elements over customized built-ins; light-DOM-only):
   [`lily-design-system-web-components-headless-skill`](../lily-design-system-web-components-headless-skill/).
 - **[the Web Components helper packages](../spec/helpers/index.md#web-components-helper-packages)**
-  — the full six-helper `*-picker` catalog (`theme-picker`, `locale-picker`,
-  `text-size-picker`, `motion-picker`, `share-picker`, `date-time-picker`),
-  each a `<lily-*-picker>` custom element. It is a maintainer-directed
-  **independent copy** of the HTML helper packages (then the `lily-design-system-html-helpers` catalog) (itself already
-  six vanilla custom elements), differing only in tag prefix
+  — 20 packages, one subproject each: eleven `*-picker` helpers (theme, locale, text-size, motion, time-zone, share, search, link, menu, settings, date-time), `picker-bar`, the grid-like `data-grid`, `kanban-board`, `calendar`, `gantt-chart` and `filter`, the `markdown-editor` and `org-editor`, and `locale-translations`, each a `<lily-*>` custom element. It is a maintainer-directed
+  **independent copy** of the HTML helper packages (themselves vanilla
+  custom elements), differing only in tag prefix
   (`<lily-theme-picker>` rather than bare `<theme-picker>`) and package
-  naming — nothing ports between the two catalogs automatically. Deep dive
+  naming — nothing ports between the two automatically; `bin/check-port-parity` reports drift. Deep dive
   and the precise provenance statement:
   [`lily-design-system-web-components-helpers-skill`](../lily-design-system-web-components-helpers-skill/).
 
 **This skill does not restate either sibling's content.** The current
 scope, the architecture decisions, and the full component list live in the
-headless skill; the six helpers, their markup shapes, and the provenance
+headless skill; the helper packages, their markup shapes, and the provenance
 relationship live in the helpers skill. Go there for the
 contract; come here only to decide which one you need.
 
@@ -51,8 +49,9 @@ contract; come here only to decide which one you need.
 
 Unlike every other framework family in this monorepo, Web Components has
 **no example application**. `AGENTS/lily.md`'s "Subprojects for web app
-examples" list has exactly seven entries — HTML+CSS+JS, Svelte SvelteKit,
-React Next.js, Vue Nuxt.js, Angular Analog, Blazor Web, Nunjucks Eleventy —
+examples" list has eight entries — HTML+CSS+JS, Svelte SvelteKit,
+React Next.js, Vue Nuxt.js, Angular Analog, Blazor Web, Nunjucks Eleventy,
+Alpine.js —
 and there is no `lily-design-system-web-components-*-examples` directory at
 the repository root. If someone asks to see a Web Components component
 styled and running end to end, or asks for a `/components/{slug}` demo
@@ -60,24 +59,24 @@ page in this idiom, the honest answer is that it does not exist yet. A
 maintainer could add one later, but as of this writing none has. Do not
 invent routes, a package name, or a directory for it, and do not imply the
 gap is filled by the headless catalog's own Storybook stories or the
-helpers catalog's `examples/*.html` files — those are dev-only, not a
+helper packages' `examples/*.html` files — those are dev-only, not a
 styled reference application with the three required routes every other
 framework's example app carries.
 
 ## How this differs from the plain-HTML catalogs
 
 Both plain HTML and Web Components ship helpers as custom elements — the
-Web Components helpers catalog is in fact copied from the HTML helpers
-catalog. But the two headless catalogs are not the same thing:
+Web Components helper packages are in fact copied from the HTML helper
+packages. But the two headless catalogs are not the same thing:
 `@lilydesignsystem/html-headless` is one of the seven full-catalog
-(582/582) headless libraries, targeting plain HTML with no custom-element
+(607/607) headless libraries, targeting plain HTML with no custom-element
 registration; `@lilydesignsystem/web-components-headless` is a separate,
-later project at its full achievable scope (547/582) built on the native
+later project at its full achievable scope (572/607) built on the native
 `customElements` platform API, with its own light-DOM-only and
 autonomous-custom-element architecture decisions. Don't conflate the two
 when answering a scope question — see
 [`lily-design-system-html-skill`](../lily-design-system-html-skill/) for
-the plain-HTML side's own three-subproject map (headless, helpers,
+the plain-HTML side's own three-layer map (headless, helpers,
 example app).
 
 ## When this isn't the right skill

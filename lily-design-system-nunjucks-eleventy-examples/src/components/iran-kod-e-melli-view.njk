@@ -1,0 +1,23 @@
+---
+layout: layouts/component-demo.njk
+title: IranKodEMelliView
+description: a read-only display of Iran's National Code (Kod-e Melli)
+---
+
+{% from "components/iran-kod-e-melli-view/macro.njk" import iranKodEMelliView %}
+
+<h2>Default</h2>
+<p>{{ iranKodEMelliView({ text: "IranKodEMelliView example", label: "IranKodEMelliView example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;SummaryList&gt;
+  &lt;SummaryListItem term="National Code (Kod-e Melli)"&gt;
+    &lt;IranKodEMelliView
+      label="National Code (Kod-e Melli)"
+      value="{value}"
+    /&gt;
+  &lt;/SummaryListItem&gt;
+&lt;/SummaryList&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

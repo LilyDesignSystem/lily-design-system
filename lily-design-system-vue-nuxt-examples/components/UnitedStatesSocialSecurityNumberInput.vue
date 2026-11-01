@@ -49,6 +49,9 @@
 // References:
 //   - Social Security Number format: https://www.ssa.gov/employer/randomization.html
 
+import { ref } from "vue";
+import { useFormReset } from "./form-reset";
+
 withDefaults(
     defineProps<{
         /** Accessible label for screen readers */
@@ -65,6 +68,8 @@ withDefaults(
 );
 
 const modelValue = defineModel<string>({ default: "" });
+const field = ref<HTMLInputElement | HTMLTextAreaElement | null>(null);
+useFormReset(modelValue, field);
 
 const ssnPattern = "[0-9]{3}-[0-9]{2}-[0-9]{4}";
 </script>
@@ -78,6 +83,7 @@ const ssnPattern = "[0-9]{3}-[0-9]{2}-[0-9]{4}";
         inputmode="numeric"
         :pattern="ssnPattern"
         autocomplete="off"
+        ref="field"
         v-model="modelValue"
         :required="required"
         :disabled="disabled"

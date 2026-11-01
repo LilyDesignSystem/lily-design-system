@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "color-input",
+  "type": "registry:component",
+  "title": "ColorInput",
+  "description": "An input for selecting a color value <input type=\"color\">.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ColorInput.tsx",
+      "content": "import React from \"react\";\n\n// ColorInput component\n//\n// A headless color input wrapping the native HTML <input type=\"color\"> element.\n// It provides a browser-native color picker with accessible labelling via aria-label.\n// The value is always a hex color string (e.g., \"#ff0000\"). Useful in settings panels,\n// theme editors, or any interface where users need to select a color.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   value — string, default \"#000000\". Current hex color string; bindable via value + onChange.\n//   label — string, required. Accessible name via aria-label.\n//   disabled — boolean, default false. Whether the input is disabled.\n//   name — string, default undefined. Form field name.\n//   id — string, default undefined. Element ID.\n//   ...restProps — additional HTML attributes spread onto the <input>.\n//\n// Syntax:\n//   <ColorInput label=\"Background color\" value={color} onChange={setColor} />\n//\n// Examples:\n//\n//   <ColorInput label=\"Text color\" value={textColor} onChange={setTextColor} disabled name=\"text_color\" />\n//\n// Keyboard:\n//   - None — keyboard behavior is provided by the browser-native color input\n//\n// Accessibility:\n//   - aria-label provides an accessible name since native color inputs have no visible label\n//\n// Internationalization:\n//   - The label prop provides the accessible name; no hardcoded strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Renders a bare <input type=\"color\"> with no wrapper element\n//\n// References:\n//   - MDN <input type=\"color\">: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color\n\nexport interface ColorInputProps {\n    className?: string;\n    value?: string;\n    label: string;\n    disabled?: boolean;\n    name?: string;\n    id?: string;\n    /** Callback when value changes. */\n    onChange?: (value: string) => void;\n    [key: string]: unknown;\n}\n\nexport default function ColorInput({\n    className = \"\",\n    value = \"#000000\",\n    label,\n    disabled = false,\n    name = undefined,\n    id = undefined,\n    onChange,\n    ...restProps\n}: ColorInputProps) {\n    return (\n        <input\n            className={`color-input ${className}`}\n            type=\"color\"\n            value={value}\n            onChange={(e) => onChange?.(e.target.value)}\n            aria-label={label}\n            disabled={disabled}\n            name={name}\n            id={id}\n            {...restProps}\n        />\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ColorInput.tsx"
+    }
+  ],
+  "categories": [
+    "forms"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/color-input/"
+}

@@ -1,7 +1,7 @@
 # Lily Design System™ — Angular Skill
 
-A Claude Skill ([`SKILL.md`](SKILL.md)) that ties together the three real
-Angular subprojects in this monorepo — the headless component library
+A Claude Skill ([`SKILL.md`](SKILL.md)) that ties together the three
+Angular layers in this monorepo — the headless component library
 (`@lilydesignsystem/angular-headless`), the helper packages (one
 top-level `lily-design-system-angular-*` subproject each), and the styled example application
 (`lily-design-system-angular-examples`) — and helps an agent decide which
@@ -22,12 +22,12 @@ Load this skill when someone asks what's available for Angular in Lily
 Design System, which of the three Angular subprojects they need, or wants
 to see Lily's Angular components styled and running (routes, the NHS UK
 visual reference, composed-page demos, how to run the app). For the
-headless library's or the helpers catalog's own consumption details, this
+headless library's or the helper packages' own consumption details, this
 skill points at its sibling skill rather than restating it.
 
 ## Structure
 
-- [`SKILL.md`](SKILL.md) — the skill itself: the three-subproject map, the
+- [`SKILL.md`](SKILL.md) — the skill itself: the three-layer map, the
   example app's routes/styling/how-to-run, pointers to the two sibling
   skills, and the Angular-wide conventions verified across all three.
 

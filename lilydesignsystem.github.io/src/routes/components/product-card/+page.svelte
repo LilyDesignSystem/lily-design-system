@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"product-card\" aria-label=\"a specialized card for displaying a product with image, title, price, and actions\">ProductCard</div>";
   const svelteSource: string = "// In your Svelte component:\nimport ProductCard from \"lily-design-system-svelte-headless/components/ProductCard/ProductCard.svelte\";\n\n<ProductCard>\n  <!-- content -->\n</ProductCard>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import ProductCard from './ProductCard.svelte';\n  import Button from '../Button/Button.svelte';\n\n  const price = new Intl.NumberFormat('en-US', {\n    style: 'currency',\n    currency: 'USD',\n  }).format(24);\n<\/script>\n\n<ProductCard name=\"Linen Pillow\" price={price} imageUrl=\"/pillow.jpg\" imageAlt=\"Linen pillow on a bed\">\n  <p>Soft and breathable linen pillow.</p>\n  <Button>Add to cart</Button>\n</ProductCard>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import ProductCard from \"./ProductCard.svelte\";\n  import Button from \"../Button/Button.svelte\";\n\n  const price = new Intl.NumberFormat(\"en-US\", {\n    style: \"currency\",\n    currency: \"USD\",\n  }).format(24);\n<\/script>\n\n<ProductCard\n  name=\"Linen Pillow\"\n  {price}\n  imageUrl=\"/pillow.jpg\"\n  imageAlt=\"Linen pillow on a bed\"\n>\n  <p>Soft and breathable linen pillow.</p>\n  <Button>Add to cart</Button>\n</ProductCard>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

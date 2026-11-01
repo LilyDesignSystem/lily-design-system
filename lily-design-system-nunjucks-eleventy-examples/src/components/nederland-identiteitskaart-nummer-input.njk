@@ -22,8 +22,15 @@ description: an input for entering Netherlands's Identiteitskaart Nummer
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>
-<pre tabindex="0"><code>{% raw %}&lt;Field label="Dutch National Identity Card Number" required&gt;
-  &lt;NederlandIdentiteitskaartNummerInput label="Dutch National Identity Card Number" value={value} required /&gt;
+<pre tabindex="0"><code>{% raw %}&lt;Field
+  label="Dutch National Identity Card Number"
+  required
+&gt;
+  &lt;NederlandIdentiteitskaartNummerInput
+    label="Dutch National Identity Card Number"
+    value="{value}"
+    required
+  /&gt;
   &lt;Hint&gt;9 characters following the same format as the passport number&lt;/Hint&gt;
   &lt;ErrorMessage&gt;Please enter a valid Dutch National Identity Card Number&lt;/ErrorMessage&gt;
 &lt;/Field&gt;

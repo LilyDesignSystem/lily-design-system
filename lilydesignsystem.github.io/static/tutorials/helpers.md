@@ -6,7 +6,7 @@ Description: Add user language and text-size preferences with Lily's locale-pick
 
 # Preference helpers
 
-Seven small packages per framework, each owning one user job end to end, plus a bar that assembles five of them. You've met [theme-picker](https://lilydesignsystem.com/tutorials/theming/); here are locale-picker, text-size-picker and motion-picker (preferences), share-picker and search-picker (actions), date-time-picker (a form value), and picker-bar.
+Eleven small pickers per framework, each owning one user job end to end, plus a bar that assembles up to seven of them. You've met [theme-picker](https://lilydesignsystem.com/tutorials/theming/); here are locale-picker, text-size-picker and motion-picker (preferences), share-picker and search-picker (actions), date-time-picker (a form value), and picker-bar.
 
 ## What you'll build
 
@@ -22,7 +22,7 @@ Finish the [framework tutorial](https://lilydesignsystem.com/tutorials/) for you
 - One class hook per package (`.locale-picker`, `.text-size-picker`, `.share-picker`, `.date-time-picker`), zero CSS shipped.
 - SSR-safe: DOM writes happen only in the mount/effect lifecycle.
 - i18n-clean: every user-facing string is a prop.
-- Available for Svelte (canonical), React, Vue, Angular, HTML custom element, Nunjucks, and Blazor — same contract in each.
+- Available for Svelte (canonical), React, Vue, Angular, HTML custom element, Web Components, Nunjucks, and Blazor — same contract in each.
 
 theme-picker, locale-picker, and text-size-picker each own one user *preference* end to end (selection, DOM application, optional `localStorage` persistence via a `storageKey` prop). share-picker and date-time-picker are different in kind: share-picker owns an *action* — it applies nothing to the document and persists nothing — and date-time-picker owns a *form value*, since a date in a form is data rather than a preference.
 
@@ -181,7 +181,7 @@ An icon button that opens a search field. Pressing Return, or the &#9166; button
 
 ## picker-bar — the whole header row at once
 
-`picker-bar` renders search, theme, locale, text-size and share in one row, with the full set of reference themes and the seven-step text scale pre-wired. Every accessible name arrives in one required `labels` object.
+`picker-bar` renders search, theme, locale, text-size and share in one row (plus link-picker first when you pass links, and time-zone-picker after locale when you give it a time-zone label and locale), with the full set of reference themes and the seven-step text scale pre-wired. Every accessible name arrives in one required `labels` object.
 
 ```
 <script>
@@ -234,7 +234,7 @@ Each package has its own spec, tests mapped to the spec clauses, runnable exampl
 
 ## Next steps
 
-- [Component catalog](https://lilydesignsystem.com/components/) — the full 582-component reference.
+- [Component catalog](https://lilydesignsystem.com/components/) — the full 607-component reference.
 - [Help](https://lilydesignsystem.com/help/) — troubleshooting and FAQ.
 - [Why Lily](https://lilydesignsystem.com/why/) — and how to support the project.
 

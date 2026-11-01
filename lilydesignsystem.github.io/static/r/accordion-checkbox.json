@@ -43,5 +43,10 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/AccordionCheckbox.razor"
   },
   "docs": "https://lilydesignsystem.com/components/accordion-checkbox/",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/accordion-checkbox/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/accordion-checkbox/AGENTS.md",
+  "nativePlatform": {
+    "decision": "native",
+    "uses": "<input type=\"checkbox\"> + panel hidden",
+    "could_use": "<details>"
+  }
 }

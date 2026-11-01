@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
+import { restoreOnFormReset } from "./form-reset";
 
 /**
  * MexicoClaveUnicaDeRegistroDePoblacionInput — an input for entering Mexico's Clave Única de Registro de Población (CURP)
@@ -33,4 +34,8 @@ export class MexicoClaveUnicaDeRegistroDePoblacionInput {
     readonly required = input<boolean>(false);
     /** Whether the input is disabled. */
     readonly disabled = input<boolean>(false);
+
+    constructor() {
+        restoreOnFormReset(this.value);
+    }
 }

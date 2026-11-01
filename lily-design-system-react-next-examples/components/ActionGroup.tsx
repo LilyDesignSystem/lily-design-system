@@ -25,7 +25,9 @@
 // References:
 //   - Adobe Spectrum ActionGroup: https://spectrum.adobe.com/page/action-group/
 
-import React from "react";
+import React, { useEffect, useId, useRef, useState } from "react";
+
+import { popoverSupported, usePopoverState } from "./Popover";
 
 export interface ActionGroupProps {
     className?: string;
@@ -35,8 +37,10 @@ export interface ActionGroupProps {
     overflowOpen?: boolean;
     /** aria-label for the overflow trigger button */
     overflowLabel?: string;
-    /** Overflow trigger click handler */
+    /** Overflow trigger click handler; call preventDefault() to keep the menu as it is */
     onOverflowToggle?: (event: React.MouseEvent) => void;
+    /** Called when the overflow menu opens or closes, including Escape and light dismiss */
+    onChange?: (value: boolean) => void;
     /** The visible action buttons */
     children?: React.ReactNode;
     /** Content for the overflow menu */
@@ -50,11 +54,31 @@ export default function ActionGroup({
     overflowOpen = false,
     overflowLabel = undefined,
     onOverflowToggle = undefined,
+    onChange = undefined,
     children = undefined,
     overflow = undefined,
     ...restProps
 }: ActionGroupProps) {
     const showOverflow = overflow !== undefined;
+    const reactId = useId();
+    const menuId = `action-group-${reactId}-overflow-menu`;
+    const menu = useRef<HTMLDivElement>(null);
+    const [open, setOpen] = useState(overflowOpen);
+    useEffect(() => setOpen(overflowOpen), [overflowOpen]);
+
+    function change(value: boolean) {
+        setOpen(value);
+        onChange?.(value);
+    }
+    // popover="auto": the trigger's command="toggle-popover" opens and closes the menu; without the API the click
+    // toggles and `hidden` shows or hides it.
+    usePopoverState(menu, open, change);
+
+    function handleToggle(event: React.MouseEvent) {
+        onOverflowToggle?.(event);
+        if (event.defaultPrevented) return;
+        if (menu.current && !popoverSupported(menu.current)) change(!open);
+    }
     return (
         <div
             className={`action-group ${className}`}
@@ -69,15 +93,20 @@ export default function ActionGroup({
                         className="action-group-overflow-trigger"
                         type="button"
                         aria-haspopup="menu"
-                        aria-expanded={overflowOpen}
+                        aria-expanded={open}
                         aria-label={overflowLabel}
-                        onClick={onOverflowToggle}
+                        aria-controls={menuId}
+                        popoverTarget={menuId}
+                        {...{ command: "toggle-popover", commandfor: menuId }}
+                        onClick={handleToggle}
                     >
                         …
                     </button>
                     <div
+                        ref={menu}
                         className="action-group-overflow-menu"
-                        hidden={!overflowOpen}
+                        id={menuId}
+                        popover="auto"
                     >
                         {overflow}
                     </div>

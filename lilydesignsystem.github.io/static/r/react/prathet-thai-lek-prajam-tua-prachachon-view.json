@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "prathet-thai-lek-prajam-tua-prachachon-view",
+  "type": "registry:component",
+  "title": "PrathetThaiLekPrajamTuaPrachachonView",
+  "description": "A read-only display of Thailand's National Identification Number.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/PrathetThaiLekPrajamTuaPrachachonView.tsx",
+      "content": "import React from \"react\";\n\n// PrathetThaiLekPrajamTuaPrachachonView component\n//\n// A headless display component for showing Thailand's\n// National Identification Number (เลขประจำตัวประชาชน) in a read-only format.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". The identifier string to display.\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <PrathetThaiLekPrajamTuaPrachachonView label=\"National Identification Number (เลขประจำตัวประชาชน)\" value={value} />\n//\n// Accessibility:\n//   - aria-label provides the accessible name so screen readers announce the purpose\n//\n// References:\n//   - https://en.wikipedia.org/wiki/Thai_identity_card\n\nexport interface PrathetThaiLekPrajamTuaPrachachonViewProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The identifier to display */\n    value?: string;\n    [key: string]: unknown;\n}\n\nexport default function PrathetThaiLekPrajamTuaPrachachonView({\n    className = \"\",\n    label,\n    value = \"\",\n    ...restProps\n}: PrathetThaiLekPrajamTuaPrachachonViewProps) {\n    return (\n        <span\n            className={`prathet-thai-lek-prajam-tua-prachachon-view ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {value}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/PrathetThaiLekPrajamTuaPrachachonView.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/prathet-thai-lek-prajam-tua-prachachon-view/"
+}

@@ -27,6 +27,10 @@ description: an input for selecting a month and year
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>
-<pre tabindex="0"><code>{% raw %}&lt;label class="label" for="demo-input"&gt;Label&lt;/label&gt;&lt;input class="month-input" type="month" id="demo-input" aria-label="MonthInput" /&gt;
+<pre tabindex="0"><code>{% raw %}&lt;MonthInput
+  label="Card expiry"
+  value="{expiryMonth}"
+  required
+/&gt;
 {% endraw %}</code></pre>
 {# END generated: examples #}

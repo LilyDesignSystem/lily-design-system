@@ -19,84 +19,138 @@ const OPTIONS =
     '<li role="option" data-value="uk">United Kingdom</li><li role="option" data-value="us">United States</li>';
 
 describe("Autosuggest", () => {
-    test("the custom element itself is the combobox wrapper (self-is-the-wrapper)", () => {
-        const host = render(`<lily-autosuggest label="Country">${OPTIONS}</lily-autosuggest>`);
+    const input = (host: HTMLElement) => host.querySelector("input") as HTMLInputElement;
+    const list = (host: HTMLElement) => host.querySelector("[role='listbox']") as HTMLElement;
+    const options = (host: HTMLElement) =>
+        Array.from(host.querySelectorAll<HTMLElement>("[role='option']"));
+    const active = (host: HTMLElement) =>
+        options(host).findIndex((o) => o.id === input(host).getAttribute("aria-activedescendant"));
+    function press(host: HTMLElement, key: string) {
+        const event = new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true });
+        input(host).dispatchEvent(event);
+        return event;
+    }
+    function type(host: HTMLElement, text: string) {
+        input(host).value = text;
+        input(host).dispatchEvent(new Event("input", { bubbles: true }));
+    }
+    const THREE =
+        '<li role="option" data-value="fr">France</li><li role="option" data-value="de">Germany</li><li role="option" data-value="it">Italy</li>';
 
-        expect(host.className).toBe("autosuggest");
-        expect(host.getAttribute("role")).toBe("combobox");
-        expect(host.getAttribute("aria-haspopup")).toBe("listbox");
+    test("the custom element itself is the wrapper; the input is the labelled combobox", () => {
+        const host = render(
+            `<lily-autosuggest label="Country" class="extra">${OPTIONS}</lily-autosuggest>`,
+        );
+
+        expect(host.className).toBe("autosuggest extra");
+        expect(host.hasAttribute("role")).toBe(false);
+        expect(input(host).getAttribute("role")).toBe("combobox");
+        expect(input(host).getAttribute("aria-label")).toBe("Country");
+        expect(input(host).getAttribute("aria-autocomplete")).toBe("list");
+        expect(input(host).getAttribute("aria-expanded")).toBe("false");
+        expect(input(host).getAttribute("aria-controls")).toBe(list(host).id);
+        expect(input(host).hasAttribute("aria-activedescendant")).toBe(false);
     });
 
-    test("uses label as the accessible name", () => {
+    test("renders a hidden listbox from the moved children", () => {
         const host = render(`<lily-autosuggest label="Country">${OPTIONS}</lily-autosuggest>`);
 
-        expect(host.getAttribute("aria-label")).toBe("Country");
+        expect(list(host).hidden).toBe(true);
+        expect(list(host).getAttribute("aria-label")).toBe("Country");
+        expect(options(host).map((o) => o.getAttribute("aria-selected"))).toEqual([
+            "false",
+            "false",
+        ]);
     });
 
-    test("renders an input and a hidden listbox from the moved children", () => {
-        const host = render(`<lily-autosuggest label="Country">${OPTIONS}</lily-autosuggest>`);
+    test("typing fires lily-input and opens the list; replaced options keep it in step", async () => {
+        const host = render(`<lily-autosuggest label="Country"></lily-autosuggest>`);
+        const handler = vi.fn();
+        host.addEventListener("lily-input", handler);
 
-        const input = host.querySelector("input") as HTMLInputElement;
-        const list = host.querySelector("ul.autosuggest-list") as HTMLUListElement;
-        expect(input).toBeTruthy();
-        expect(list.hidden).toBe(true);
-        expect(host.getAttribute("aria-expanded")).toBe("false");
-
-        const options = list.querySelectorAll("[role='option']");
-        expect(options.length).toBe(2);
-        expect(input.getAttribute("aria-controls")).toBe(list.id);
+        type(host, "Un");
+        expect((handler.mock.calls[0][0] as CustomEvent).detail).toEqual({ value: "Un" });
+        expect(input(host).getAttribute("aria-expanded")).toBe("false");
+        list(host).innerHTML = OPTIONS;
+        await Promise.resolve();
+        expect(input(host).getAttribute("aria-expanded")).toBe("true");
+        expect(list(host).hidden).toBe(false);
+        list(host).innerHTML = "";
+        await Promise.resolve();
+        expect(input(host).getAttribute("aria-expanded")).toBe("false");
     });
 
-    test("ArrowDown opens the listbox and highlights the first option", () => {
-        const host = render(`<lily-autosuggest label="Country">${OPTIONS}</lily-autosuggest>`);
-        const input = host.querySelector("input") as HTMLInputElement;
+    test("ArrowDown and ArrowUp move the highlight, wrapping", () => {
+        const host = render(`<lily-autosuggest label="Country">${THREE}</lily-autosuggest>`);
 
-        input.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true }));
-
-        expect(host.getAttribute("aria-expanded")).toBe("true");
-        const first = host.querySelectorAll("[role='option']")[0];
-        expect(first.getAttribute("aria-selected")).toBe("true");
-        expect(input.getAttribute("aria-activedescendant")).toBe(first.id);
+        expect(press(host, "ArrowDown").defaultPrevented).toBe(true);
+        expect(input(host).getAttribute("aria-expanded")).toBe("true");
+        expect(active(host)).toBe(0);
+        expect(options(host)[0].getAttribute("aria-selected")).toBe("true");
+        press(host, "ArrowDown");
+        expect(active(host)).toBe(1);
+        press(host, "ArrowUp");
+        press(host, "ArrowUp");
+        expect(active(host)).toBe(2);
+        press(host, "ArrowDown");
+        expect(active(host)).toBe(0);
     });
 
-    test("Enter selects the highlighted option, sets value, and closes", () => {
-        const host = render(`<lily-autosuggest label="Country">${OPTIONS}</lily-autosuggest>`);
-        const input = host.querySelector("input") as HTMLInputElement;
+    test("Home and End jump to the first and last option", () => {
+        const host = render(`<lily-autosuggest label="Country">${THREE}</lily-autosuggest>`);
+
+        press(host, "ArrowDown");
+        press(host, "End");
+        expect(active(host)).toBe(2);
+        press(host, "Home");
+        expect(active(host)).toBe(0);
+    });
+
+    test("Enter chooses the highlighted option, sets value, closes and fires lily-select", () => {
+        const host = render(
+            `<lily-autosuggest label="Country">${THREE}</lily-autosuggest>`,
+        ) as Autosuggest;
         const handler = vi.fn();
         host.addEventListener("lily-select", handler);
 
-        input.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true }));
-        input.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true }));
+        press(host, "ArrowDown");
+        press(host, "ArrowDown");
+        press(host, "Enter");
 
-        expect(input.value).toBe("uk");
-        expect(host.getAttribute("aria-expanded")).toBe("false");
-        expect(handler).toHaveBeenCalled();
-        expect((handler.mock.calls[0][0] as CustomEvent).detail).toEqual({ value: "uk" });
+        expect((handler.mock.calls[0][0] as CustomEvent).detail).toEqual({ value: "de" });
+        expect(host.value).toBe("de");
+        expect(input(host).getAttribute("aria-expanded")).toBe("false");
+        expect(input(host).hasAttribute("aria-activedescendant")).toBe(false);
     });
 
     test("Escape closes the listbox without changing the value", () => {
         const host = render(
-            `<lily-autosuggest label="Country" value="Can">${OPTIONS}</lily-autosuggest>`,
+            `<lily-autosuggest label="Country" value="Fr">${THREE}</lily-autosuggest>`,
         );
-        const input = host.querySelector("input") as HTMLInputElement;
+        const handler = vi.fn();
+        host.addEventListener("lily-select", handler);
 
-        input.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true }));
-        input.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+        press(host, "ArrowDown");
+        press(host, "Escape");
 
-        expect(host.getAttribute("aria-expanded")).toBe("false");
-        expect(input.value).toBe("Can");
+        expect(input(host).getAttribute("aria-expanded")).toBe("false");
+        expect(handler).not.toHaveBeenCalled();
+        expect(input(host).value).toBe("Fr");
     });
 
-    test("typing fires lily-input with the current value", () => {
-        const host = render(`<lily-autosuggest label="Country">${OPTIONS}</lily-autosuggest>`);
-        const input = host.querySelector("input") as HTMLInputElement;
-        const handler = vi.fn();
-        host.addEventListener("lily-input", handler);
+    test("pressing an option keeps focus; clicking chooses it; blur closes", () => {
+        const host = render(`<lily-autosuggest label="Country">${THREE}</lily-autosuggest>`);
 
-        input.value = "Un";
-        input.dispatchEvent(new Event("input", { bubbles: true }));
-
-        expect((handler.mock.calls[0][0] as CustomEvent).detail).toEqual({ value: "Un" });
+        type(host, "a");
+        const down = new MouseEvent("mousedown", { bubbles: true, cancelable: true });
+        options(host)[2].dispatchEvent(down);
+        expect(down.defaultPrevented).toBe(true);
+        options(host)[2].click();
+        expect(input(host).value).toBe("it");
+        type(host, "i");
+        expect(input(host).getAttribute("aria-expanded")).toBe("true");
+        input(host).dispatchEvent(new Event("blur"));
+        expect(input(host).getAttribute("aria-expanded")).toBe("false");
     });
 
     test("value property proxies the inner input", () => {

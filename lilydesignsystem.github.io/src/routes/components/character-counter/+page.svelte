@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<span class=\"character-counter\">42/100</span>";
   const svelteSource: string = "// In your Svelte component:\nimport CharacterCounter from \"lily-design-system-svelte-headless/components/CharacterCounter/CharacterCounter.svelte\";\n\n<CharacterCounter>\n  <!-- content -->\n</CharacterCounter>\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import CharacterCounter from \"./CharacterCounter.svelte\";\n\n    let text = $state(\"\");\n<\/script>\n\n<textarea bind:value={text} maxlength={280}></textarea>\n<CharacterCounter count={text.length} max={280} label=\"Characters\" />\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import CharacterCounter from \"./CharacterCounter.svelte\";\n\n  let text = $state(\"\");\n<\/script>\n\n<textarea\n  bind:value={text}\n  maxlength={280}></textarea>\n<CharacterCounter\n  count={text.length}\n  max={280}\n  label=\"Characters\"\n/>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

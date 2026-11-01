@@ -158,7 +158,7 @@ pnpm run dev</code></pre>
 <section class="section prose" id="themes" style="margin: 0 auto;">
   <h2>すぐに使えるテーマ</h2>
   <p>
-    CSS をゼロから書きたくありませんか？Lily には、<strong>57 種類の独立したリファレンステーマ</strong>が
+    CSS をゼロから書きたくありませんか？Lily には、<strong>63 種類の独立したリファレンステーマ</strong>が
     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
     ディレクトリに付属します。それぞれが Lily のクラスフックを対象とする 1 つのスタイルシートで、
     リンクするだけでスタイルが付きます。
@@ -185,12 +185,7 @@ pnpm run dev</code></pre>
 
 <section class="section prose" id="helpers" style="margin: 0 auto;">
   <h2>設定ヘルパー</h2>
-  <p>
-    各フレームワークには、8 つの小さなピッカーがあり、それぞれが独自の
-    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> パッケージです（それらをまとめる <code>picker-bar</code> もあります）。それぞれが、
-    ポップアップ（リストボックス、リンクの一覧、検索フォーム、date-time-picker の場合は日付選択ダイアログ）を開くヘッドレスのアイコンボタンで、ネイティブの
-    <code>&lt;select&gt;</code> ではなく、SSR に対応し、CSS は含みません。
-  </p>
+  <p>各フレームワークには 11 個の小さなピッカーがあり、それぞれが独自の <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> パッケージです（そしてそれらをまとめる <code>picker-bar</code> もあります）。どれも headless のアイコンボタンで、ポップアップを開きます — リストボックス、リンクの一覧、検索フォーム、独自のコンテンツのパネル、または（date-time-picker では）日付選択ダイアログ — ネイティブの <code>&lt;select&gt;</code> ではありません（theme-picker はオプションのバリアントとして提供します）。SSR に安全で、CSS は同梱しません。menu-picker、settings-picker、time-zone-picker のほかには、次のとおりです:</p>
   <ul>
     <li>
       <strong>theme-picker</strong> — 管理対象の <code>&lt;link&gt;</code> を差し替えることで実行時にテーマのスタイルシートを読み込み、ドキュメントに
@@ -312,7 +307,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
     <p>
       それはヘッドレスの意図どおりの動作です。コンポーネントに CSS は付属しません。
       コンポーネントのケバブケースのクラス（<a href="/components/">カタログの各ページ</a>に表示されています）に対して CSS を書くか、
-      <a href="#themes">すぐに使える 57 種類のテーマ</a>のどれかをリンクしてください。
+      <a href="#themes">すぐに使える 63 種類のテーマ</a>のどれかをリンクしてください。
     </p>
   </details>
 
@@ -408,7 +403,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
     <summary>なぜスタイル付きではなくヘッドレスなのですか？</summary>
     <p>
       スタイル付きのコンポーネントは便利ですが、ブランドに合わなくなるまでの話です。
-      ヘッドレスコンポーネントは最初の手間がやや増えますが、見た目を完全に自分で決められます。サンプルアプリと 57 種類のテーマがスタイルの付け方を示していますので、
+      ヘッドレスコンポーネントは最初の手間がやや増えますが、見た目を完全に自分で決められます。サンプルアプリと 63 種類のテーマがスタイルの付け方を示していますので、
       それを使っても、まったく置き換えても構いません。
       詳しい議論は<a href="/why/">Lily を選ぶ理由</a>にあります。
     </p>

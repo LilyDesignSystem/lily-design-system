@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<label class=\"label\" for=\"demo-input\">Label</label><input class=\"latvija-personas-kods-input\" id=\"demo-input\" aria-label=\"an input for entering Latvia's Personas kods\" />";
   const svelteSource: string = "// In your Svelte component:\nimport LatvijaPersonasKodsInput from \"lily-design-system-svelte-headless/components/LatvijaPersonasKodsInput/LatvijaPersonasKodsInput.svelte\";\n\n<LatvijaPersonasKodsInput label=\"Label\" />\n";
-  const usageCode: string = "<Field label=\"Personal Code\" required>\n  <LatvijaPersonasKodsInput label=\"Personal Code\" value={value} required />\n  <Hint>11 digits in the form DDMMYY-CZZZZ where the first 6 are the date of birth (DDMMYY) and C encodes the century (0 = 19th, 1 = 20th, 2 = 21st)</Hint>\n  <ErrorMessage>Please enter a valid Personal Code</ErrorMessage>\n</Field>\n";
+  const usageCode: string = "<Field\n  label=\"Personal Code\"\n  required\n>\n  <LatvijaPersonasKodsInput\n    label=\"Personal Code\"\n    value=\"{value}\"\n    required\n  />\n  <Hint\n    >11 digits in the form DDMMYY-CZZZZ where the first 6 are the date of birth (DDMMYY) and C\n    encodes the century (0 = 19th, 1 = 20th, 2 = 21st)</Hint\n  >\n  <ErrorMessage>Please enter a valid Personal Code</ErrorMessage>\n</Field>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

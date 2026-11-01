@@ -6,7 +6,7 @@
 - PascalCase: FiveFaceRatingView
 - Description: a read-only display of a five-face satisfaction rating
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
-- HTML tag: <div>
+- HTML tag: <span>
 - CSS class: .five-face-rating-view
 - Interactive: no
 

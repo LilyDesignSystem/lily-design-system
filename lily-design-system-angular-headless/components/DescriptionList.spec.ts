@@ -4,10 +4,10 @@ import { TestBed } from "@angular/core/testing";
 import { DescriptionList } from "./DescriptionList";
 
 describe("DescriptionList", () => {
-    test("renders the ol root with the base class", () => {
+    test("renders the <dl> root with the base class", () => {
         const fixture = TestBed.createComponent(DescriptionList);
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("ol.description-list");
+        const el = fixture.nativeElement.querySelector("dl.description-list");
         expect(el).toBeTruthy();
     });
 
@@ -15,7 +15,7 @@ describe("DescriptionList", () => {
         const fixture = TestBed.createComponent(DescriptionList);
         fixture.componentRef.setInput("className", "extra");
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("ol.description-list");
+        const el = fixture.nativeElement.querySelector("dl.description-list");
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });

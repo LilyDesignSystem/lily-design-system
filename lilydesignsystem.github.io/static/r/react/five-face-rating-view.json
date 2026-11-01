@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "five-face-rating-view",
+  "type": "registry:component",
+  "title": "FiveFaceRatingView",
+  "description": "A read-only display of a five-face satisfaction rating.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/FiveFaceRatingView.tsx",
+      "content": "import React from \"react\";\n\n// FiveFaceRatingView component\n//\n// A read-only five-face rating display that shows a text label corresponding to a\n// rating value from 1 to 5. This is the display-only companion to FiveFaceRatingPicker,\n// used for showing previously submitted ratings in summaries, review lists, or\n// dashboard displays. Renders a span with role=\"img\" and the face label text.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   value — number, required. Rating value (1-5) to display.\n//   label — string, required. Accessible description via aria-label.\n//   labels — string[], default [\"1\", \"2\", \"3\", \"4\", \"5\"] (no English default; pass words, e.g. [\"Very bad\", …, \"Very good\"]). Text labels for each face.\n//   ...restProps — additional HTML attributes spread onto the span.\n//\n// Syntax:\n//   <FiveFaceRatingView value={4} label=\"Good rating\" />\n//\n// Examples:\n//\n//   <FiveFaceRatingView value={3} label=\"Okay rating\" />\n//\n//\n//   <FiveFaceRatingView value={5} label=\"Excellent\" labels={[\"Terrible\", \"Poor\", \"Fair\", \"Great\", \"Excellent\"]} />\n//\n// Keyboard:\n//   - None — this is a passive, read-only display element\n//\n// Accessibility:\n//   - role=\"img\" indicates the span represents a visual/graphic element (the face rating)\n//   - aria-label provides the full rating description for screen readers\n//   - data-value attribute exposes the numeric value for consumer CSS or testing\n//\n// Internationalization:\n//   - All text content comes through the labels and label props; no hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Uses computed to look up the face label from the labels array based on value\n//   - Companion to FiveFaceRatingPicker for the Input/View pattern\n//\n// References:\n//   - WAI-ARIA img role: https://www.w3.org/WAI/ARIA/apd/roles/img/\n\nexport interface FiveFaceRatingViewProps {\n    className?: string;\n    /** Rating value (1-5). */\n    value: number;\n    /** Accessible description. */\n    label: string;\n    /** Labels for each face. */\n    labels?: string[];\n    [key: string]: unknown;\n}\n\nexport default function FiveFaceRatingView({\n    className = \"\",\n    value,\n    label,\n    // The numbers, not English words: the words are the consumer's to supply.\n    labels = [\"1\", \"2\", \"3\", \"4\", \"5\"],\n    ...restProps\n}: FiveFaceRatingViewProps) {\n    const faceLabel = labels[value - 1] ?? \"\";\n\n    return (\n        <span\n            className={`five-face-rating-view ${className}`}\n            role=\"img\"\n            aria-label={label}\n            data-value={value}\n            {...restProps}\n        >\n            {faceLabel}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/FiveFaceRatingView.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/five-face-rating-view/"
+}

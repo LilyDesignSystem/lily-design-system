@@ -40,6 +40,14 @@
 - `children`: slot (required) -- menu item content (text, icon, shortcut hint, etc.)
 - `...restProps`: any -- additional HTML attributes spread onto the div
 
+## Native platform
+
+- Decision: hand-rolled because role="menuitem" has no native element
+- Uses: none (div role="menuitem")
+- Could use: none
+- Notes: Child of context-menu.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
+
 ## Acceptance Criteria
 
 - [ ] Renders <div> element with class="context-menu-item"

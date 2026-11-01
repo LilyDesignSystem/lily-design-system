@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "hanguk-jumin-deungnok-beonho-view",
+  "type": "registry:component",
+  "title": "HangukJuminDeungnokBeonhoView",
+  "description": "A read-only display of South Korea's Resident Registration Number.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/HangukJuminDeungnokBeonhoView.tsx",
+      "content": "import React from \"react\";\n\n// HangukJuminDeungnokBeonhoView component\n//\n// A headless display component for showing South Korea's\n// Resident Registration Number (주민등록번호) in a read-only format.\n// Format: Thirteen digits, displayed as NNNNNN-NNNNNNN. The first six digits encode date of birth (YYMMDD); the seventh digit encodes sex and birth century; digits eight through eleven encode place of registration; the twelfth is a sequence number; the thirteenth is a Modulus-11 check digit over the preceding twelve.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". The identifier string to display.\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <HangukJuminDeungnokBeonhoView label=\"Resident Registration Number (주민등록번호)\" value={value} />\n//\n// Accessibility:\n//   - aria-label provides the accessible name so screen readers announce the purpose\n//\n// References:\n//   - https://en.wikipedia.org/wiki/Resident_registration_number\n\nexport interface HangukJuminDeungnokBeonhoViewProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The identifier to display */\n    value?: string;\n    [key: string]: unknown;\n}\n\nexport default function HangukJuminDeungnokBeonhoView({\n    className = \"\",\n    label,\n    value = \"\",\n    ...restProps\n}: HangukJuminDeungnokBeonhoViewProps) {\n    return (\n        <span\n            className={`hanguk-jumin-deungnok-beonho-view ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {value}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/HangukJuminDeungnokBeonhoView.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/hanguk-jumin-deungnok-beonho-view/"
+}

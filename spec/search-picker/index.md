@@ -89,3 +89,18 @@ native GET form always sends `name=value` pairs (`/?q=foo`), and the
 contract is the bare query (`/?foo`).
 
 In `picker-bar`, search is the first picker in the row.
+
+## Acceptance criteria
+
+- [x] Shipped as its own package in all eight frameworks: `bin/list-helper-packages <framework>` lists `<framework>-search-picker` for
+      svelte, react, vue, angular, html, web-components, nunjucks and blazor (checked 2026-10-30).
+- [x] The HTML and Web Components packages carry the same class hooks, events and observed attributes (`bin/check-port-parity`,
+      in `bin/test`).
+- [x] The page-header rules in [AGENTS/helpers.md](../../AGENTS/helpers.md) apply: no English default text, the icon is
+      decorative (`aria-hidden`), and the accessible name is the consumer's `label`.
+- [ ] Verified in a real browser in Chromium, Firefox and WebKit for every framework (today: unit tests per package, and the
+      example apps' own e2e where they use this picker).
+
+## Related topics
+
+[helpers](../helpers/index.md) · [link-picker](../link-picker/index.md) · [share-picker](../share-picker/index.md)

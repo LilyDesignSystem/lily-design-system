@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "grail-layout-left-aside",
+  "type": "registry:component",
+  "title": "GrailLayoutLeftAside",
+  "description": "Grail layout left aside sidebar with <aside> tag.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/GrailLayoutLeftAside.tsx",
+      "content": "import React from \"react\";\n\n// GrailLayoutLeftAside component\n//\n// A headless container for the left aside section of a GrailLayout. It\n// typically contains navigation menus, filters, or supplementary content.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   children — ReactNode, required. Content to render inside the left aside.\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Syntax:\n//   <GrailLayoutLeftAside>{children}</GrailLayoutLeftAside>\n//\n// Examples:\n//   <GrailLayoutLeftAside><nav>Navigation menu</nav></GrailLayoutLeftAside>\n//\n// Keyboard:\n//   - None. Structural layout component with no interactive behavior.\n//\n// Accessibility:\n//   - No explicit ARIA attributes; consumers use semantic landmarks within sections\n//\n// Internationalization:\n//   - No hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n\nexport interface GrailLayoutLeftAsideProps {\n    className?: string;\n    /** Content to render inside the left aside. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function GrailLayoutLeftAside({\n    className = \"\",\n    children,\n    ...restProps\n}: GrailLayoutLeftAsideProps) {\n    return (\n        <aside\n            className={`grail-layout-left-aside ${className}`}\n            {...restProps}\n        >\n            {children}\n        </aside>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/GrailLayoutLeftAside.tsx"
+    }
+  ],
+  "categories": [
+    "navigation"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/grail-layout-left-aside/"
+}

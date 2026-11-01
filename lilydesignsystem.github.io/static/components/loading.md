@@ -79,7 +79,7 @@ This component provides `role="status"` with `aria-live="polite"` for accessible
 
 ## Reduced motion
 
-Reduced motion changes how content appears, never whether it does. Apply it in consumer CSS under `@media (prefers-reduced-motion: reduce)` and under the `motion-picker`'s `[data-motion="reduce"]` on the document root (the 57 reference themes already honour both for the preference hooks they style). For a loading indicator:
+Reduced motion changes how content appears, never whether it does. Apply it in consumer CSS under `@media (prefers-reduced-motion: reduce)` and under the `motion-picker`'s `[data-motion="reduce"]` on the document root (the 63 reference themes already honour both for the preference hooks they style). For a loading indicator:
 
 - **Suppress:** spinning, bouncing and looping animation. Show a static glyph, or none.
 - **Keep:** the visible text (`Loading…` in the reader's language, supplied by the consumer) and `role="status"`, so the busy state is read and seen without any motion.

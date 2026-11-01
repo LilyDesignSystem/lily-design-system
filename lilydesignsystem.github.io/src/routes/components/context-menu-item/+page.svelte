@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div role=\"menu\" aria-label=\"Context actions\"><div class=\"context-menu-item\" role=\"menuitem\">Menu action</div></div>";
   const svelteSource: string = "// In your Svelte component:\nimport ContextMenuItem from \"lily-design-system-svelte-headless/components/ContextMenuItem/ContextMenuItem.svelte\";\n\n<ContextMenuItem>\n  <!-- content -->\n</ContextMenuItem>\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import ContextMenu from \"../ContextMenu/ContextMenu.svelte\";\n    import ContextMenuItem from \"./ContextMenuItem.svelte\";\n\n    let open = $state(false);\n<\/script>\n\n<ContextMenu label=\"Actions\" bind:open>\n    <ContextMenuItem>Cut</ContextMenuItem>\n    <ContextMenuItem>Copy</ContextMenuItem>\n    <ContextMenuItem>Paste</ContextMenuItem>\n</ContextMenu>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import ContextMenu from \"../ContextMenu/ContextMenu.svelte\";\n  import ContextMenuItem from \"./ContextMenuItem.svelte\";\n\n  let open = $state(false);\n<\/script>\n\n<ContextMenu\n  label=\"Actions\"\n  bind:open\n>\n  <ContextMenuItem>Cut</ContextMenuItem>\n  <ContextMenuItem>Copy</ContextMenuItem>\n  <ContextMenuItem>Paste</ContextMenuItem>\n</ContextMenu>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

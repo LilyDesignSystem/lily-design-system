@@ -283,5 +283,10 @@
     "small": "malen",
     "smaller": "manji",
     "smallest": "najmanji"
+  },
+  "date-time-now-input": {
+    "date": "Datum",
+    "time": "Vrijeme",
+    "now": "Sada"
   }
 }

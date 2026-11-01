@@ -296,29 +296,49 @@ The select never displays the word `"default"`. Option labels default
 to each hyphen-separated word of the slug, title-cased
 (e.g. `"light"` → `"Light"`); override with `ThemeLabels`.
 
+## The native select variant
+
+`variant="select"` (opt-in; ported from the Svelte reference 2026-10-30, the prototype for RFC 3 in the
+repository's `RFC.md`) renders a native `<select class="theme-picker-select" aria-label="{label}">` of
+`<option class="theme-picker-option">` elements inside the same root, with `data-variant="select"` on the root.
+Keyboard, typeahead, the mobile picker and the screen-reader announcement are then the platform's; choosing an option
+applies the theme exactly as the listbox does (managed `<link>`, `data-theme`, optional `localStorage`, one change
+notification). There is no button, listbox, tooltip or hidden input: the select carries `name`. `Open` does not apply, because a
+native select's popup state is not observable. Styling it with `appearance: base-select` is theme CSS behind
+`@supports`. The default (`"listbox"`) is unchanged.
+
+```razor
+<ThemePicker Variant="select"
+             Label="Colour theme"
+             ThemesUrl="/assets/themes/"
+             Themes="@(new[] { "light", "dark", "abyss" })" />
+```
+
 ## Parameters
 
 The complete table is in [spec/index.md §4.1](./spec/index.md#41-parameters). Highlights:
 
-| Parameter              | Type                                  | Required | Notes                                                                                                                     |
-| ---------------------- | ------------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------- |
-| `Label`                | `string`                              | yes      | `aria-label` on the button AND the listbox. The button is icon-only, so this is its entire accessible name.               |
-| `ThemesUrl`            | `string`                              | yes      | Trailing `/` is auto-added.                                                                                               |
-| `Themes`               | `IReadOnlyList<string>`               | yes      | Available slugs.                                                                                                          |
-| `Value`                | `string` (`@bind-Value`)              | no       | Two-way bind for the current slug.                                                                                        |
-| `DefaultValue`         | `string?`                             | no       | Initial when nothing else applies.                                                                                        |
-| `StorageKey`           | `string?`                             | no       | `localStorage` persistence.                                                                                               |
-| `DetectFromSystem`     | `bool`                                | no       | Follow OS `prefers-color-scheme` on first visit; off by default.                                                          |
-| `Name`                 | `string`                              | no       | `name` on the hidden input AND the `data-lily-theme-picker` discriminator on the managed `<link>`; defaults to `"theme"`. |
-| `Extension`            | `string`                              | no       | Defaults to `".css"`.                                                                                                     |
-| `ThemeLabels`          | `IReadOnlyDictionary<string,string>`  | no       | Per-slug display label override.                                                                                          |
-| `OnChange`             | `EventCallback<string>`               | no       | Callback fired after apply.                                                                                               |
-| `ChildContent`         | `RenderFragment<ThemePickerContext>?` | no       | Replaces the default SVG icon inside the button. It does not render options.                                              |
-| `CssClass`             | `string`                              | no       | Extra CSS class merged into the root `<div>`.                                                                             |
-| `AdditionalAttributes` | `Dictionary<string,object>?`          | no       | Unmatched attributes; spread onto the root `<div>`.                                                                       |
+| Parameter              | Type                                  | Required | Notes                                                                                                                                 |
+| ---------------------- | ------------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `Label`                | `string`                              | yes      | `aria-label` on the button AND the listbox. The button is icon-only, so this is its entire accessible name.                           |
+| `ThemesUrl`            | `string`                              | yes      | Trailing `/` is auto-added.                                                                                                           |
+| `Themes`               | `IReadOnlyList<string>`               | yes      | Available slugs.                                                                                                                      |
+| `Value`                | `string` (`@bind-Value`)              | no       | Two-way bind for the current slug.                                                                                                    |
+| `DefaultValue`         | `string?`                             | no       | Initial when nothing else applies.                                                                                                    |
+| `StorageKey`           | `string?`                             | no       | `localStorage` persistence.                                                                                                           |
+| `DetectFromSystem`     | `bool`                                | no       | Follow OS `prefers-color-scheme` on first visit; off by default.                                                                      |
+| `Name`                 | `string`                              | no       | `name` on the hidden input AND the `data-lily-theme-picker` discriminator on the managed `<link>`; defaults to `"theme"`.             |
+| `Variant`              | `string`                              | no       | `"select"` renders a native `<select>` instead; see [The native select variant](#the-native-select-variant). Defaults to `"listbox"`. |
+| `Extension`            | `string`                              | no       | Defaults to `".css"`.                                                                                                                 |
+| `ThemeLabels`          | `IReadOnlyDictionary<string,string>`  | no       | Per-slug display label override.                                                                                                      |
+| `OnChange`             | `EventCallback<string>`               | no       | Callback fired after apply.                                                                                                           |
+| `ChildContent`         | `RenderFragment<ThemePickerContext>?` | no       | Replaces the default SVG icon inside the button. It does not render options.                                                          |
+| `CssClass`             | `string`                              | no       | Extra CSS class merged into the root `<div>`.                                                                                         |
+| `AdditionalAttributes` | `Dictionary<string,object>?`          | no       | Unmatched attributes; spread onto the root `<div>`.                                                                                   |
 
-There is **no `Placeholder` parameter**. It existed only to pin a native
-`<select>`'s closed display, and there is no `<select>` any more.
+There is **no `Placeholder` parameter**. It existed only to pin the old
+native `<select>`'s closed display. The opt-in `Variant="select"` renders
+a native `<select>` again, but always with a theme selected, so it needs none.
 
 See [docs/parameters-reference.md](./docs/parameters-reference.md)
 for a field-by-field reference.

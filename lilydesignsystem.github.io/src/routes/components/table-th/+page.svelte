@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<th class=\"table-th\">Column heading</th>";
   const svelteSource: string = "// In your Svelte component:\nimport TableTH from \"lily-design-system-svelte-headless/components/TableTH/TableTH.svelte\";\n\n<TableTH>\n  <!-- TableTH content -->\n</TableTH>\n";
-  const usageCode: string = "<Table label=\"Users\">\n  <TableHead>\n    <TableRow>\n      <TableTH>Name</TableTH>\n      <TableTH>Email</TableTH>\n    </TableRow>\n  </TableHead>\n  <TableBody>\n    <TableRow>\n      <TableTD>Alice</TableTD>\n      <TableTD>alice@example.com</TableTD>\n    </TableRow>\n  </TableBody>\n</Table>\n";
+  const usageCode: string = "<table label=\"Users\">\n  <TableHead>\n    <TableRow>\n      <TableTH>Name</TableTH>\n      <TableTH>Email</TableTH>\n    </TableRow>\n  </TableHead>\n  <TableBody>\n    <TableRow>\n      <TableTD>Alice</TableTD>\n      <TableTD>alice@example.com</TableTD>\n    </TableRow>\n  </TableBody>\n</table>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

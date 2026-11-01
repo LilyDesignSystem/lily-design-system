@@ -4,10 +4,10 @@ import { TestBed } from "@angular/core/testing";
 import { GovernmentIdentifier } from "./GovernmentIdentifier";
 
 describe("GovernmentIdentifier", () => {
-    test("renders the div root with the base class", () => {
+    test("renders the <section> root with the base class", () => {
         const fixture = TestBed.createComponent(GovernmentIdentifier);
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.government-identifier");
+        const el = fixture.nativeElement.querySelector("section.government-identifier");
         expect(el).toBeTruthy();
     });
 
@@ -15,7 +15,7 @@ describe("GovernmentIdentifier", () => {
         const fixture = TestBed.createComponent(GovernmentIdentifier);
         fixture.componentRef.setInput("className", "extra");
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.government-identifier");
+        const el = fixture.nativeElement.querySelector("section.government-identifier");
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });

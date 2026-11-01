@@ -42,5 +42,10 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Command.razor"
   },
   "docs": "https://lilydesignsystem.com/components/command/",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/command/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/command/AGENTS.md",
+  "nativePlatform": {
+    "decision": "hand-rolled because a filtered listbox driven from a search input has no native element",
+    "uses": "native <input> in div role=\"search\"; div role=\"listbox\"",
+    "could_use": "<dialog> showModal() around it for a Ctrl+K palette"
+  }
 }

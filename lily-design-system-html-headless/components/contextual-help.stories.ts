@@ -1,24 +1,22 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html = `</div>
-    </div>
--->
-
-<div class="contextual-help">
+const html = `<div class="contextual-help">
   <button
     class="contextual-help-trigger"
     type="button"
     aria-label=""
     aria-haspopup="dialog"
-    aria-expanded="false"
     aria-controls="contextual-help-panel-1"
-  >?</button>
+    command="toggle-popover"
+    commandfor="contextual-help-panel-1"
+    popovertarget="contextual-help-panel-1"
+  ><!-- Consumer provides the trigger text, such as "?" --></button>
 
   <div
     class="contextual-help-panel"
     id="contextual-help-panel-1"
     role="dialog"
-    hidden
+    popover="auto"
   >
     <!-- Consumer provides popover content -->
   </div>
@@ -26,39 +24,61 @@ const html = `</div>
 
 <script>
   // ContextualHelp behavior
-  // Wires each trigger to toggle aria-expanded on itself and the \`hidden\`
-  // attribute on the referenced panel. Pure vanilla JavaScript.
+  // Opening, closing, Escape and light dismiss are the browser's: popover="auto"
+  // and a trigger with command="toggle-popover" commandfor (or popovertarget)
+  // need no script. This script only (1) keeps aria-expanded on each trigger in
+  // step with the panel's toggle event and (2) where the Popover API is missing
+  // (browsers before Chrome 114, Firefox 125, Safari 17) falls back to the
+  // hidden attribute, a click toggle and Escape. Pure vanilla JavaScript.
   (function () {
     "use strict";
 
-    var roots = document.querySelectorAll('div.contextual-help');
+    var native = typeof HTMLElement.prototype.showPopover === "function";
 
-    roots.forEach(function (root) {
-      var trigger = root.querySelector('.contextual-help-trigger');
-      if (!trigger) return;
+    document.querySelectorAll("div.contextual-help-panel").forEach(function (panel) {
+      if (!panel.id) return;
+      var triggers = Array.prototype.slice.call(
+        document.querySelectorAll(
+          '[commandfor="' + panel.id + '"], [popovertarget="' + panel.id + '"]'
+        )
+      ).filter(function (t) {
+        var command = t.getAttribute("command");
+        return !command || command === "toggle-popover";
+      });
 
-      var panel = null;
-      var controlsId = trigger.getAttribute('aria-controls');
-      if (controlsId) {
-        panel = root.querySelector('#' + controlsId) ||
-                document.getElementById(controlsId);
+      function setExpanded(open) {
+        triggers.forEach(function (t) {
+          t.setAttribute("aria-expanded", open ? "true" : "false");
+        });
       }
-      if (!panel) {
-        panel = root.querySelector('.contextual-help-panel');
+
+      if (native) {
+        setExpanded(panel.matches(":popover-open"));
+        panel.addEventListener("toggle", function (event) {
+          setExpanded(event.newState === "open");
+        });
+        return;
       }
-      if (!panel) return;
 
-      trigger.addEventListener('click', function () {
-        if (trigger.disabled) return;
-
-        var expanded = trigger.getAttribute('aria-expanded') === 'true';
-        var next = !expanded;
-        trigger.setAttribute('aria-expanded', next ? 'true' : 'false');
-
-        if (next) {
-          panel.removeAttribute('hidden');
-        } else {
-          panel.setAttribute('hidden', '');
+      // Fallback: no Popover API.
+      panel.removeAttribute("popover");
+      panel.setAttribute("hidden", "");
+      setExpanded(false);
+      function show(open) {
+        if (open) panel.removeAttribute("hidden");
+        else panel.setAttribute("hidden", "");
+        setExpanded(open);
+      }
+      triggers.forEach(function (t) {
+        t.addEventListener("click", function () {
+          if (t.disabled) return;
+          show(panel.hasAttribute("hidden"));
+        });
+      });
+      panel.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && !panel.hasAttribute("hidden")) {
+          show(false);
+          if (triggers[0]) triggers[0].focus();
         }
       });
     });

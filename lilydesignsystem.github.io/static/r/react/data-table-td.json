@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "data-table-td",
+  "type": "registry:component",
+  "title": "DataTableTD",
+  "description": "A data table interactive grid data cell for displaying and sorting tabular data <td>.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/DataTableTD.tsx",
+      "content": "import React from \"react\";\n\n// DataTableTD component\n//\n// A single data cell within a DataTableRow. Renders as a <td> with\n// role=\"gridcell\". Supports an active state marking the grid's single roving tab\n// stop (tabindex=\"0\"); it does not set aria-selected.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   active — boolean, default false. Whether this cell is the roving tab stop.\n//   children — ReactNode, required. Cell content.\n//   ...restProps — additional HTML attributes spread onto the <td>.\n//\n// Syntax:\n//   <DataTableTD>Alice</DataTableTD>\n//   <DataTableTD active>Bob</DataTableTD>\n//\n// Keyboard:\n//   None built-in — keyboard navigation handled at the DataTable grid level.\n//\n// Accessibility:\n//   - role=\"gridcell\" identifies the cell as part of an interactive grid\n//   - `active` is the roving tab stop only: it never sets aria-selected, because focus is not selection (a grid with real selection passes aria-selected itself)\n//   - Roving tabindex: tabindex=\"0\" when active, \"-1\" otherwise\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Must be used inside a DataTableRow\n//\n// References:\n//   - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/\n\nexport interface DataTableTDProps {\n    className?: string;\n    /** Whether this cell is the roving tab stop (tabindex=\"0\"). Never sets aria-selected. */\n    active?: boolean;\n    /** Cell content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function DataTableTD({\n    className = \"\",\n    active = false,\n    children,\n    ...restProps\n}: DataTableTDProps) {\n    return (\n        <td\n            className={`data-table-td ${className}`}\n            role=\"gridcell\"\n            tabIndex={active ? 0 : -1}\n            {...restProps}\n        >\n            {children}\n        </td>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/DataTableTD.tsx"
+    }
+  ],
+  "categories": [
+    "tables"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/data-table-td/"
+}

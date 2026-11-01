@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"collection-list\" aria-label=\"a compact list of multiple related items such as articles or events\">CollectionList</div>";
   const svelteSource: string = "// In your Svelte component:\nimport CollectionList from \"lily-design-system-svelte-headless/components/CollectionList/CollectionList.svelte\";\n\n<CollectionList>\n  <!-- list children -->\n</CollectionList>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import CollectionList from './CollectionList.svelte';\n  import CollectionListItem from '../CollectionListItem/CollectionListItem.svelte';\n<\/script>\n\n<CollectionList label=\"Latest articles\">\n  <CollectionListItem heading=\"Article one\" href=\"/a/1\" />\n  <CollectionListItem heading=\"Article two\" href=\"/a/2\" />\n</CollectionList>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import CollectionList from \"./CollectionList.svelte\";\n  import CollectionListItem from \"../CollectionListItem/CollectionListItem.svelte\";\n<\/script>\n\n<CollectionList label=\"Latest articles\">\n  <CollectionListItem\n    heading=\"Article one\"\n    href=\"/a/1\"\n  />\n  <CollectionListItem\n    heading=\"Article two\"\n    href=\"/a/2\"\n  />\n</CollectionList>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

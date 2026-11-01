@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"container-with-fixed-width\" aria-label=\"a centered content wrapper with a fixed max-width breakpoint\">ContainerWithFixedWidth</div>";
   const svelteSource: string = "// In your Svelte component:\nimport ContainerWithFixedWidth from \"lily-design-system-svelte-headless/components/ContainerWithFixedWidth/ContainerWithFixedWidth.svelte\";\n\n<ContainerWithFixedWidth>\n  <!-- content -->\n</ContainerWithFixedWidth>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import ContainerWithFixedWidth from './ContainerWithFixedWidth.svelte';\n<\/script>\n\n<ContainerWithFixedWidth maxWidth=\"960px\">\n  <article>Article content here.</article>\n</ContainerWithFixedWidth>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import ContainerWithFixedWidth from \"./ContainerWithFixedWidth.svelte\";\n<\/script>\n\n<ContainerWithFixedWidth maxWidth=\"960px\">\n  <article>Article content here.</article>\n</ContainerWithFixedWidth>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-collection-list",
     standalone: true,
-    template: `<ol class="collection-list {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></ol>`,
+    template: `<ul class="collection-list {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></ul>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CollectionList {

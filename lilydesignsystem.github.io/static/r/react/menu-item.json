@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "menu-item",
+  "type": "registry:component",
+  "title": "MenuItem",
+  "description": "One item in a menu.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/MenuItem.tsx",
+      "content": "import React from \"react\";\n\n// MenuItem component\n//\n// A headless menu item representing a single action or option within a menu,\n// dropdown menu, or navigation menu. It renders a <div> with role=\"menuitem\"\n// and tabindex=\"-1\" for proper menu keyboard navigation. The parent menu\n// component manages focus between items with ArrowUp/ArrowDown keys.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   children — ReactNode, required. Menu item content (text, shortcut hint, etc.).\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Syntax:\n//   <MenuItem>New File</MenuItem>\n//\n// Examples:\n//\n//   <Menu label=\"File\">\n//     <MenuItem>New File</MenuItem>\n//     <MenuItem>Open File</MenuItem>\n//     <MenuItem>Save</MenuItem>\n//   </Menu>\n//\n//\n//   <MenuItem onClick={() => handleNew()}>New File</MenuItem>\n//\n//\n//   <MenuItem aria-disabled=\"true\">Paste</MenuItem>\n//\n//\n//   <MenuItem aria-haspopup=\"true\" aria-expanded={submenuOpen}>Recent Files</MenuItem>\n//\n// Keyboard:\n//   - ArrowUp/ArrowDown: focus movement managed by parent Menu\n//   - Enter/Space: activate the menu item (consumer-provided handler)\n//   - Home/End: move to first/last item (handled by parent Menu)\n//\n// Accessibility:\n//   - role=\"menuitem\" identifies this as a menu item\n//   - tabindex=\"-1\" for roving focus management by the parent menu\n//   - Supports aria-disabled for disabled state\n//   - Supports aria-haspopup and aria-expanded for submenu triggers\n//   - Must be placed within a role=\"menu\" or role=\"menubar\" container\n//\n// Internationalization:\n//   - All visible content is provided through the children prop\n//   - No hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Must be placed inside a Menu or MenuBar container\n//\n// References:\n//   - WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menu/\n//   - WAI-ARIA menuitem role: https://www.w3.org/TR/wai-aria-1.2/#menuitem\n\nexport interface MenuItemProps {\n    className?: string;\n    /** Menu item content (text, icon, shortcut hint, etc.) */\n    children: React.ReactNode;\n    /** Additional HTML attributes */\n    [key: string]: unknown;\n}\n\nexport default function MenuItem({ className = \"\", children, ...restProps }: MenuItemProps) {\n    return (\n        <div\n            className={`menu-item ${className}`}\n            role=\"menuitem\"\n            tabIndex={-1}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/MenuItem.tsx"
+    }
+  ],
+  "categories": [
+    "navigation"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/menu-item/"
+}

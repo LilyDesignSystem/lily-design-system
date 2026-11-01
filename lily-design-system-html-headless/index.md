@@ -1,12 +1,12 @@
 # Lily Design System™ - HTML Headless
 
-A headless plain HTML component library with 490 components. All components are headless (no built-in styles), fully accessible (WCAG 2.2 AAA), and use vanilla JavaScript for interactivity.
+A headless plain HTML component library with 607 components. All components are headless (no built-in styles), fully accessible (WCAG 2.2 AAA), and use vanilla JavaScript for interactivity.
 
 **Headless** means zero CSS, zero styles, zero opinions about appearance. You provide all styling. Components provide structure, semantics, accessibility, and behavior.
 
 ## Features
 
-- 490 headless HTML components
+- 583 headless HTML components
 - Plain HTML and vanilla JavaScript — no frameworks required
 - WCAG 2.2 AAA accessibility compliance
 - Native keyboard operation from semantic elements (`<button>`, `<dialog>`, `<details>`, …); custom key handling only in the few components that ship a script (see Accessibility below)
@@ -586,7 +586,7 @@ All components follow WCAG 2.2 AAA guidelines:
 
 - **Semantic HTML**: Proper element usage (`<button>`, `<nav>`, `<dialog>`, etc.)
 - **ARIA attributes**: Roles, labels, states, and properties
-- **Keyboard**: native elements are keyboard-operable by default. Roving-tabindex, arrow-key and type-ahead patterns (APG) are not implemented in most HTML components — a consumer needing them adds the script (P12-T4 tracks this)
+- **Keyboard**: native elements are keyboard-operable by default. Arrow-key, Home/End, Escape and similar patterns (APG) ship as an embedded script in the 23 components whose `AGENTS.md` names them (`color-picker`, `context-menu`, `dial`, `dialog`, `drawer`, `dropdown-menu`, `editable`, `editable-form`, `horizontal-scroller`, `menu`, `menu-bar`, `pin-input-div`, `sheet`, `slide-out-drawer`, `switch-button`, `tab-bar`, `task-bar`, `tile-map`, `toggle-button`, `tool-bar`, `tour`, `tour-list`, `tree-list`), each with real-key tests; other components rely on native element behaviour (type-ahead is not implemented outside the `*-picker` helpers)
 - **Screen readers**: Proper announcements via aria-live, role="alert", etc.
 - **Focus management**: Logical focus order and visible focus indicators
 
@@ -596,7 +596,7 @@ No strings are hardcoded in any component. All user-facing text comes through HT
 
 ## Related Projects
 
-- [Lily Design System](https://github.com/LilyDesignSystem/lily) — Parent project
+- [Lily Design System](https://github.com/LilyDesignSystem/lily-design-system) — Parent project
 - [Svelte Headless](../lily-design-system-svelte-headless/) — Svelte equivalent
 - [React Headless](../lily-design-system-react-headless/) — React equivalent
 - [Vue Headless](../lily-design-system-vue-headless/) — Vue equivalent

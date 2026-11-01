@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "article-layout",
+  "type": "registry:component",
+  "title": "ArticleLayout",
+  "description": "A top-level article wrapper that sets CSS custom properties for content column widths.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ArticleLayout.tsx",
+      "content": "import React from \"react\";\n\n// ArticleLayout component\n//\n// ArticleLayout for the Reuters-graphics-style article layout family. Renders a\n// <article> that consumers style; this component is a structural\n// wrapper only.\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Sets the article-layout class as the styling hook\n\nexport interface ArticleLayoutProps {\n    className?: string;\n    /** Optional accessible label set on aria-label. */\n    label?: string;\n    /** Component content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function ArticleLayout({\n    className = \"\",\n    label = undefined,\n    children,\n    ...restProps\n}: ArticleLayoutProps) {\n    return (\n        <article\n            className={`article-layout ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </article>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ArticleLayout.tsx"
+    }
+  ],
+  "categories": [
+    "navigation"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/article-layout/"
+}

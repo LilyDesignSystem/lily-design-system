@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "emoji",
+  "type": "registry:component",
+  "title": "Emoji",
+  "description": "A single emoji character with accessible name.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Emoji.tsx",
+      "content": "import React from \"react\";\n\n// Emoji component\n//\n// Wraps an emoji character with proper accessibility semantics so that screen\n// readers announce a meaningful description instead of the raw Unicode character.\n// Renders a <span> with role=\"img\" and a required aria-label. Use for any emoji\n// that conveys meaning; decorative emoji should be hidden from assistive technology.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   emoji — string, required. The emoji character(s) to display.\n//   label — string, required. Accessible name describing the emoji for screen readers.\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <Emoji emoji=\"👍\" label=\"Thumbs up\" />\n//\n// Examples:\n//\n//   <Emoji emoji=\"👍\" label=\"Thumbs up\" />\n//\n//\n//   <Emoji emoji=\"⚠️\" label=\"Warning\" />\n//\n// Keyboard:\n//   - None — passive inline display element\n//\n// Accessibility:\n//   - role=\"img\" identifies the emoji as an image for assistive technologies\n//   - aria-label provides a textual description of the emoji character\n//\n// Internationalization:\n//   - The label prop accepts any string; consumers provide localized descriptions\n//   - Emoji characters are locale-independent\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Always require a label for meaningful emoji\n//\n// References:\n//   - WAI-ARIA img role: https://www.w3.org/TR/wai-aria-1.2/#img\n\nexport interface EmojiProps {\n    className?: string;\n    /** The emoji character(s). */\n    emoji: string;\n    /** Accessible name for the emoji. */\n    label: string;\n    [key: string]: unknown;\n}\n\nexport default function Emoji({ className = \"\", emoji, label, ...restProps }: EmojiProps) {\n    return (\n        <span\n            className={`emoji ${className}`}\n            role=\"img\"\n            aria-label={label}\n            {...restProps}\n        >\n            {emoji}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Emoji.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/emoji/"
+}

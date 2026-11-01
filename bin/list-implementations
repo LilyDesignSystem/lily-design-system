@@ -7,4 +7,6 @@ top="$(git rev-parse --show-toplevel)"
 # full required-files bar, which is also the prefix bin/sync-special-files
 # scopes on. A top-level 'lily-*' dir outside that family (deliberately
 # outside full-subproject treatment) is not swept in here.
-find "$top" -type d -depth 1 -name 'lily-design-system-*' -exec basename {} \; | sort
+# -mindepth/-maxdepth, not -depth 1: BSD find's `-depth 1` only filters, so it still walked every node_modules
+# below the root (38 s a call; tasks.md P12-T7).
+find "$top" -mindepth 1 -maxdepth 1 -type d -name 'lily-design-system-*' -exec basename {} \; | sort

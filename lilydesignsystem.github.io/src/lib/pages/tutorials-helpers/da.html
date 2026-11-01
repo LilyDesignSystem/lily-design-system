@@ -3,8 +3,7 @@
 <section class="page-intro">
   <h1>Indstillingshjælpere</h1>
   <p class="page-intro-tagline">
-    Syv små pakker pr. framework, som hver ejer én brugeropgave fra ende til anden, plus en bjælke, der samler fem af dem. Du har allerede mødt
-    <a href="/tutorials/theming/">theme-picker</a>; her er locale-picker, text-size-picker og motion-picker (indstillinger), share-picker og search-picker (handlinger), date-time-picker (en formularværdi) og picker-bar.
+    Elleve små vælgere pr. framework, hver med ansvar for én brugeropgave fra start til slut, plus en bjælke, der samler op til syv af dem. Du har allerede mødt <a href="/tutorials/theming/">theme-picker</a>; her er locale-picker, text-size-picker og motion-picker (præferencer), share-picker og search-picker (handlinger), date-time-picker (en formularværdi) og picker-bar.
   </p>
 </section>
 
@@ -26,7 +25,7 @@
     <li>SSR-sikker: DOM-skrivninger sker kun i mount-/effect-livscyklussen.</li>
     <li>i18n-ren: hver streng, brugeren ser, er en prop.</li>
     <li>
-      Findes til Svelte (kanonisk), React, Vue, Angular, HTML-tilpasset element, Nunjucks og Blazor — samme kontrakt i hver.
+      Findes til Svelte (kanonisk), React, Vue, Angular, HTML-tilpasset element, Web Components, Nunjucks og Blazor — samme kontrakt i hver.
     </li>
   </ul>
   <p>
@@ -208,6 +207,7 @@
   <p>
     <code>picker-bar</code> gengiver søgning, tema, sprog, tekststørrelse og deling i én række, med hele sættet af referencetemaer og den syvtrins tekstskala forbundet på forhånd. Hvert tilgængeligt navn kommer i ét påkrævet
     <code>labels</code> -objekt.
+    Den viser også link-picker først, når du sender links, og time-zone-picker efter locale, når du giver den en tidszoneetiket og en locale.
   </p>
   
   <pre tabindex="0"><code>&lt;script&gt;
@@ -264,7 +264,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker
 
   <h2>Næste skridt</h2>
   <ul>
-    <li><a href="/components/">Komponentkatalog</a> — den fulde reference for de 582 komponenter.</li>
+    <li><a href="/components/">Komponentkatalog</a> — den fulde reference for de 607 komponenter.</li>
     <li><a href="/help/">Hjælp</a> — fejlfinding og ofte stillede spørgsmål.</li>
     <li><a href="/why/">Hvorfor Lily</a> — og hvordan du støtter projektet.</li>
   </ul>

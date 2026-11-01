@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "task-bar-button",
+  "type": "registry:component",
+  "title": "TaskBarButton",
+  "description": "One item in a task bar.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/TaskBarButton.tsx",
+      "content": "import React from \"react\";\n\n// TaskBarButton component\n//\n// A single button item within a TaskBar. Renders as a native <button> element\n// with type=\"button\" for proper keyboard and screen reader support. The\n// component avoids unintended form submissions and supports the disabled\n// attribute for disabling interaction. Content is provided through the\n// children prop.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   disabled — boolean, default false. Whether the button is disabled.\n//   children — ReactNode, required. Button content.\n//   ...restProps — additional HTML attributes spread onto the <button>.\n//\n// Syntax:\n//   <TaskBarButton>New Task</TaskBarButton>\n//\n// Examples:\n//\n//   <TaskBarButton disabled>Delete</TaskBarButton>\n//\n// Keyboard:\n//   - Tab: focus the button\n//   - Enter/Space: activate the button (native behavior)\n//   - Button is skipped in tab order when disabled\n//\n// Accessibility:\n//   - Implicit button role from the <button> element\n//   - disabled attribute communicates disabled state to assistive technology\n//\n// Internationalization:\n//   - All text is provided through the children prop\n//   - No hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles -- consumer provides all styling\n//   - Designed to be placed inside a TaskBar container\n//   - type=\"button\" prevents accidental form submission\n//\n// References:\n//   - WAI-ARIA Toolbar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/\n\nexport interface TaskBarButtonProps {\n    className?: string;\n    /** Whether disabled. */\n    disabled?: boolean;\n    /** Button content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function TaskBarButton({\n    className = \"\",\n    disabled = false,\n    children,\n    ...restProps\n}: TaskBarButtonProps) {\n    return (\n        <button\n            className={`task-bar-button ${className}`}\n            type=\"button\"\n            disabled={disabled}\n            {...restProps}\n        >\n            {children}\n        </button>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/TaskBarButton.tsx"
+    }
+  ],
+  "categories": [
+    "navigation"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/task-bar-button/"
+}

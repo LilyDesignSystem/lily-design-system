@@ -49,6 +49,9 @@
 //   - MDN checkbox input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox
 //   - WAI-ARIA Checkbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/
 
+import { ref } from "vue";
+import { useFormReset } from "./form-reset";
+
 withDefaults(
     defineProps<{
         label: string;
@@ -68,6 +71,8 @@ withDefaults(
 );
 
 const checked = defineModel<boolean>("checked", { default: false });
+const field = ref<HTMLInputElement | null>(null);
+useFormReset(checked, field);
 </script>
 
 <template>
@@ -75,6 +80,7 @@ const checked = defineModel<boolean>("checked", { default: false });
     <input
         class="checkbox-input"
         type="checkbox"
+        ref="field"
         v-model="checked"
         :aria-label="label"
         :disabled="disabled"

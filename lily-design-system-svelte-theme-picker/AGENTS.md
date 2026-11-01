@@ -132,6 +132,12 @@ receives `{ value, open, labelFor }` — it no longer renders options.
 The hidden input carries form participation; its `name` also
 discriminates the managed `<link>`.
 
+`variant="select"` (opt-in, 2026-10-29, RFC 3 prototype) renders a
+native `<select class="theme-picker-select" aria-label="{label}" name="{name}">`
+of `<option class="theme-picker-option">` inside the root
+(`data-variant="select"`) instead of the button, tooltip, listbox and
+hidden input. See [spec/index.md](./spec/index.md) "Native select variant".
+
 ## Keyboard (WAI-ARIA APG listbox)
 
 Button: `ArrowDown` / `Enter` / `Space` open with the selected option

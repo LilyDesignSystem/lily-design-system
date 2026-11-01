@@ -29,6 +29,14 @@
 - `children`: slot -- The error message
 - `...restProps`: HTML attributes -- Spread onto the root `<div>`
 
+## Native platform
+
+- Decision: native
+- Uses: <details>/<summary>
+- Could use: none
+- Notes: AI disclosure.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
+
 ## Acceptance Criteria
 
 - [ ] Renders <div> with class="tool-call-error"

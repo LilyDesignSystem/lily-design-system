@@ -27,7 +27,7 @@ see the modular specification docs under [spec/](spec/index.md).
 
 ## How the pieces fit
 
-Lily is a stack of layers, each owning one job: the **catalog** (582 named components, `components.tsv`), **headless** libraries (the catalog as unstyled, accessible components in nine frameworks), **helpers** (packages that own a whole interaction: pickers, data grid, kanban board, calendar, Gantt chart, filter), **themes** (57 stylesheets), **examples** (styled apps, one per framework) and **skills** (instructions for AI agents). Which one to reach for: the site page [How the pieces fit](https://lilydesignsystem.com/how-the-pieces-fit/).
+Lily is a stack of layers, each owning one job: the **catalog** (583 named components, `components.tsv`), **headless** libraries (the catalog as unstyled, accessible components in nine frameworks), **helpers** (packages that own a whole interaction: pickers, data grid, kanban board, calendar, Gantt chart, filter), **themes** (63 stylesheets), **examples** (styled apps, one per framework) and **skills** (instructions for AI agents). Which one to reach for: the site page [How the pieces fit](https://lilydesignsystem.com/how-the-pieces-fit/).
 
 ## AI agent support
 
@@ -43,9 +43,10 @@ subprojects and point down into the more specific skills, and sixteen
 framework-specific skills — one `{framework}-headless-skill` and one
 `{framework}-helpers-skill` per framework family (angular, blazor, html,
 nunjucks, react, svelte, vue, web-components) — each scoped to exactly
-the one real subproject it covers. All 26 are individually cloneable
-GitHub repos under [LilyDesignSystem](https://github.com/LilyDesignSystem)
-as well as living at this monorepo's root. See
+the one real subproject it covers, plus
+[lily-design-system-alpine-headless-skill](lily-design-system-alpine-headless-skill)
+for the Alpine.js catalog. All 27 live at this monorepo's root (their
+standalone mirror repositories were retired on 2026-10-10). See
 [spec/agent-skills/](spec/agent-skills/index.md) for the full list, or
 the docs site's [Lily + Claude Code](https://lilydesignsystem.com/skills/)
 page for a guided tour.
@@ -73,6 +74,7 @@ Batteries-included web examples that demonstrate components in real apps:
 - [Angular Analog examples](lily-design-system-angular-examples)
 - [Blazor Web examples](lily-design-system-blazor-web-examples)
 - [Nunjucks Eleventy examples](lily-design-system-nunjucks-eleventy-examples)
+- [Alpine.js examples](lily-design-system-alpine-examples)
 
 Headless versions if you want to use components with all your own styles:
 
@@ -83,19 +85,20 @@ Headless versions if you want to use components with all your own styles:
 - [Angular headless](lily-design-system-angular-headless)
 - [Blazor headless](lily-design-system-blazor-headless)
 - [Nunjucks headless](lily-design-system-nunjucks-headless)
-- [Web Components headless](lily-design-system-web-components-headless) — an 8th catalog at its full achievable scope (547 of 582; the remaining 35 are permanently excluded, not backlog)
-- [Alpine.js headless](lily-design-system-alpine-headless) — a 9th catalog, added 2026-10-21: all 582 components as annotated HTML snippets plus one Alpine plugin (`@lilydesignsystem/alpine-headless`, not yet published), with its own [example app](lily-design-system-alpine-examples) and four helpers: the data grid, kanban board, calendar and Gantt chart
+- [Web Components headless](lily-design-system-web-components-headless) — an 8th catalog at its full achievable scope (572 of 607; the remaining 35 are permanently excluded, not backlog)
+- [Alpine.js headless](lily-design-system-alpine-headless) — a 9th catalog, added 2026-10-21: all 607 components as annotated HTML snippets plus one Alpine plugin (`@lilydesignsystem/alpine-headless`, not yet published), with its own [example app](lily-design-system-alpine-examples) and six helpers: the data grid, kanban board, calendar, Gantt chart, Markdown editor and Org editor
 
 ## Helpers
 
 Small, opinionated helper packages for every framework, one top-level
 subproject each.
-Each framework ships eleven `*-picker` helpers — 88 packages in all — plus `picker-bar` and the grid-like `data-grid`, `kanban-board`,
-`gantt-chart`, `calendar` and `filter` (167 helper packages in all; the Alpine.js ones cover the data grid, kanban board, calendar and Gantt chart), and each owns one complete interaction end to end:
+Each of the eight frameworks ships eleven `*-picker` helpers — 88 packages in all — plus `picker-bar`, the grid-like `data-grid`, `kanban-board`,
+`gantt-chart`, `calendar` and `filter`, the `markdown-editor` and `org-editor`, and `locale-translations` (20 per framework; with
+`nunjucks-listbox-behavior` and the six Alpine.js packages, 167 helper packages in all), and each owns one complete interaction end to end:
 
 - **theme-picker**, **locale-picker**, **text-size-picker**, **motion-picker**
-  own a user preference: selection, DOM application (`data-theme`,
-  `lang`/`dir`, `data-text-size`, `data-motion`), and optional
+  and **time-zone-picker** own a user preference: selection, DOM application (`data-theme`,
+  `lang`/`dir`, `data-text-size`, `data-motion`, `data-time-zone`), and optional
   `localStorage` persistence. Each is an icon button opening a WAI-ARIA
   APG listbox; motion-picker's initial value defers to the platform's
   own `(prefers-reduced-motion: reduce)` signal.
@@ -105,6 +108,8 @@ Each framework ships eleven `*-picker` helpers — 88 packages in all — plus `
 - **search-picker** owns an action too: a magnifying-glass icon opening
   a search field and a `⏎` submit button; a search for `foo` performs a
   GET to `/?foo`. Applies nothing, persists nothing.
+- **link-picker** owns an action: a home icon opening a disclosure of the page links the app
+  defines. Applies nothing, persists nothing.
 - **menu-picker** and **settings-picker** own an interaction with no content of their own: a
   hamburger or a cog icon opening a dropdown of whatever the app provides (links, buttons, a form).
   Applies nothing, persists nothing.
@@ -121,15 +126,18 @@ Each framework ships eleven `*-picker` helpers — 88 packages in all — plus `
   - [`kanban-board`](lily-design-system-html-kanban-board)
   - [`link-picker`](lily-design-system-html-link-picker)
   - [`locale-picker`](lily-design-system-html-locale-picker)
+  - [`locale-translations`](lily-design-system-html-locale-translations)
+  - [`markdown-editor`](lily-design-system-html-markdown-editor)
   - [`menu-picker`](lily-design-system-html-menu-picker)
   - [`motion-picker`](lily-design-system-html-motion-picker)
+  - [`org-editor`](lily-design-system-html-org-editor)
   - [`picker-bar`](lily-design-system-html-picker-bar)
   - [`search-picker`](lily-design-system-html-search-picker)
   - [`settings-picker`](lily-design-system-html-settings-picker)
   - [`share-picker`](lily-design-system-html-share-picker)
   - [`text-size-picker`](lily-design-system-html-text-size-picker)
-  - [`time-zone-picker`](lily-design-system-html-time-zone-picker)
   - [`theme-picker`](lily-design-system-html-theme-picker)
+  - [`time-zone-picker`](lily-design-system-html-time-zone-picker)
 - Svelte helpers (canonical reference), one top-level subproject per package:
   - [`calendar`](lily-design-system-svelte-calendar)
   - [`data-grid`](lily-design-system-svelte-data-grid)
@@ -139,15 +147,18 @@ Each framework ships eleven `*-picker` helpers — 88 packages in all — plus `
   - [`kanban-board`](lily-design-system-svelte-kanban-board)
   - [`link-picker`](lily-design-system-svelte-link-picker)
   - [`locale-picker`](lily-design-system-svelte-locale-picker)
+  - [`locale-translations`](lily-design-system-svelte-locale-translations)
+  - [`markdown-editor`](lily-design-system-svelte-markdown-editor)
   - [`menu-picker`](lily-design-system-svelte-menu-picker)
   - [`motion-picker`](lily-design-system-svelte-motion-picker)
+  - [`org-editor`](lily-design-system-svelte-org-editor)
   - [`picker-bar`](lily-design-system-svelte-picker-bar)
   - [`search-picker`](lily-design-system-svelte-search-picker)
   - [`settings-picker`](lily-design-system-svelte-settings-picker)
   - [`share-picker`](lily-design-system-svelte-share-picker)
   - [`text-size-picker`](lily-design-system-svelte-text-size-picker)
-  - [`time-zone-picker`](lily-design-system-svelte-time-zone-picker)
   - [`theme-picker`](lily-design-system-svelte-theme-picker)
+  - [`time-zone-picker`](lily-design-system-svelte-time-zone-picker)
 - React helpers, one top-level subproject per package:
   - [`calendar`](lily-design-system-react-calendar)
   - [`data-grid`](lily-design-system-react-data-grid)
@@ -157,15 +168,18 @@ Each framework ships eleven `*-picker` helpers — 88 packages in all — plus `
   - [`kanban-board`](lily-design-system-react-kanban-board)
   - [`link-picker`](lily-design-system-react-link-picker)
   - [`locale-picker`](lily-design-system-react-locale-picker)
+  - [`locale-translations`](lily-design-system-react-locale-translations)
+  - [`markdown-editor`](lily-design-system-react-markdown-editor)
   - [`menu-picker`](lily-design-system-react-menu-picker)
   - [`motion-picker`](lily-design-system-react-motion-picker)
+  - [`org-editor`](lily-design-system-react-org-editor)
   - [`picker-bar`](lily-design-system-react-picker-bar)
   - [`search-picker`](lily-design-system-react-search-picker)
   - [`settings-picker`](lily-design-system-react-settings-picker)
   - [`share-picker`](lily-design-system-react-share-picker)
   - [`text-size-picker`](lily-design-system-react-text-size-picker)
-  - [`time-zone-picker`](lily-design-system-react-time-zone-picker)
   - [`theme-picker`](lily-design-system-react-theme-picker)
+  - [`time-zone-picker`](lily-design-system-react-time-zone-picker)
 - Vue helpers, one top-level subproject per package:
   - [`calendar`](lily-design-system-vue-calendar)
   - [`data-grid`](lily-design-system-vue-data-grid)
@@ -175,15 +189,18 @@ Each framework ships eleven `*-picker` helpers — 88 packages in all — plus `
   - [`kanban-board`](lily-design-system-vue-kanban-board)
   - [`link-picker`](lily-design-system-vue-link-picker)
   - [`locale-picker`](lily-design-system-vue-locale-picker)
+  - [`locale-translations`](lily-design-system-vue-locale-translations)
+  - [`markdown-editor`](lily-design-system-vue-markdown-editor)
   - [`menu-picker`](lily-design-system-vue-menu-picker)
   - [`motion-picker`](lily-design-system-vue-motion-picker)
+  - [`org-editor`](lily-design-system-vue-org-editor)
   - [`picker-bar`](lily-design-system-vue-picker-bar)
   - [`search-picker`](lily-design-system-vue-search-picker)
   - [`settings-picker`](lily-design-system-vue-settings-picker)
   - [`share-picker`](lily-design-system-vue-share-picker)
   - [`text-size-picker`](lily-design-system-vue-text-size-picker)
-  - [`time-zone-picker`](lily-design-system-vue-time-zone-picker)
   - [`theme-picker`](lily-design-system-vue-theme-picker)
+  - [`time-zone-picker`](lily-design-system-vue-time-zone-picker)
 - Angular helpers, one top-level subproject per package:
   - [`calendar`](lily-design-system-angular-calendar)
   - [`data-grid`](lily-design-system-angular-data-grid)
@@ -193,15 +210,18 @@ Each framework ships eleven `*-picker` helpers — 88 packages in all — plus `
   - [`kanban-board`](lily-design-system-angular-kanban-board)
   - [`link-picker`](lily-design-system-angular-link-picker)
   - [`locale-picker`](lily-design-system-angular-locale-picker)
+  - [`locale-translations`](lily-design-system-angular-locale-translations)
+  - [`markdown-editor`](lily-design-system-angular-markdown-editor)
   - [`menu-picker`](lily-design-system-angular-menu-picker)
   - [`motion-picker`](lily-design-system-angular-motion-picker)
+  - [`org-editor`](lily-design-system-angular-org-editor)
   - [`picker-bar`](lily-design-system-angular-picker-bar)
   - [`search-picker`](lily-design-system-angular-search-picker)
   - [`settings-picker`](lily-design-system-angular-settings-picker)
   - [`share-picker`](lily-design-system-angular-share-picker)
   - [`text-size-picker`](lily-design-system-angular-text-size-picker)
-  - [`time-zone-picker`](lily-design-system-angular-time-zone-picker)
   - [`theme-picker`](lily-design-system-angular-theme-picker)
+  - [`time-zone-picker`](lily-design-system-angular-time-zone-picker)
 - Blazor helpers, one top-level subproject per package:
   - [`calendar`](lily-design-system-blazor-calendar)
   - [`data-grid`](lily-design-system-blazor-data-grid)
@@ -211,15 +231,18 @@ Each framework ships eleven `*-picker` helpers — 88 packages in all — plus `
   - [`kanban-board`](lily-design-system-blazor-kanban-board)
   - [`link-picker`](lily-design-system-blazor-link-picker)
   - [`locale-picker`](lily-design-system-blazor-locale-picker)
+  - [`locale-translations`](lily-design-system-blazor-locale-translations)
+  - [`markdown-editor`](lily-design-system-blazor-markdown-editor)
   - [`menu-picker`](lily-design-system-blazor-menu-picker)
   - [`motion-picker`](lily-design-system-blazor-motion-picker)
+  - [`org-editor`](lily-design-system-blazor-org-editor)
   - [`picker-bar`](lily-design-system-blazor-picker-bar)
   - [`search-picker`](lily-design-system-blazor-search-picker)
   - [`settings-picker`](lily-design-system-blazor-settings-picker)
   - [`share-picker`](lily-design-system-blazor-share-picker)
   - [`text-size-picker`](lily-design-system-blazor-text-size-picker)
-  - [`time-zone-picker`](lily-design-system-blazor-time-zone-picker)
   - [`theme-picker`](lily-design-system-blazor-theme-picker)
+  - [`time-zone-picker`](lily-design-system-blazor-time-zone-picker)
 - Nunjucks helpers, one top-level subproject per package:
   - [`calendar`](lily-design-system-nunjucks-calendar)
   - [`data-grid`](lily-design-system-nunjucks-data-grid)
@@ -230,15 +253,18 @@ Each framework ships eleven `*-picker` helpers — 88 packages in all — plus `
   - [`link-picker`](lily-design-system-nunjucks-link-picker)
   - [`listbox-behavior`](lily-design-system-nunjucks-listbox-behavior)
   - [`locale-picker`](lily-design-system-nunjucks-locale-picker)
+  - [`locale-translations`](lily-design-system-nunjucks-locale-translations)
+  - [`markdown-editor`](lily-design-system-nunjucks-markdown-editor)
   - [`menu-picker`](lily-design-system-nunjucks-menu-picker)
   - [`motion-picker`](lily-design-system-nunjucks-motion-picker)
+  - [`org-editor`](lily-design-system-nunjucks-org-editor)
   - [`picker-bar`](lily-design-system-nunjucks-picker-bar)
   - [`search-picker`](lily-design-system-nunjucks-search-picker)
   - [`settings-picker`](lily-design-system-nunjucks-settings-picker)
   - [`share-picker`](lily-design-system-nunjucks-share-picker)
   - [`text-size-picker`](lily-design-system-nunjucks-text-size-picker)
-  - [`time-zone-picker`](lily-design-system-nunjucks-time-zone-picker)
   - [`theme-picker`](lily-design-system-nunjucks-theme-picker)
+  - [`time-zone-picker`](lily-design-system-nunjucks-time-zone-picker)
 - Web Components helpers — an independent copy of the HTML helpers with `lily-*` tags, one top-level subproject per package:
   - [`calendar`](lily-design-system-web-components-calendar)
   - [`data-grid`](lily-design-system-web-components-data-grid)
@@ -248,19 +274,29 @@ Each framework ships eleven `*-picker` helpers — 88 packages in all — plus `
   - [`kanban-board`](lily-design-system-web-components-kanban-board)
   - [`link-picker`](lily-design-system-web-components-link-picker)
   - [`locale-picker`](lily-design-system-web-components-locale-picker)
+  - [`locale-translations`](lily-design-system-web-components-locale-translations)
+  - [`markdown-editor`](lily-design-system-web-components-markdown-editor)
   - [`menu-picker`](lily-design-system-web-components-menu-picker)
   - [`motion-picker`](lily-design-system-web-components-motion-picker)
+  - [`org-editor`](lily-design-system-web-components-org-editor)
   - [`picker-bar`](lily-design-system-web-components-picker-bar)
   - [`search-picker`](lily-design-system-web-components-search-picker)
   - [`settings-picker`](lily-design-system-web-components-settings-picker)
   - [`share-picker`](lily-design-system-web-components-share-picker)
   - [`text-size-picker`](lily-design-system-web-components-text-size-picker)
-  - [`time-zone-picker`](lily-design-system-web-components-time-zone-picker)
   - [`theme-picker`](lily-design-system-web-components-theme-picker)
+  - [`time-zone-picker`](lily-design-system-web-components-time-zone-picker)
+- Alpine.js helpers, one top-level subproject per package (unpublished; each a subset of its Svelte reference):
+  - [`calendar`](lily-design-system-alpine-calendar)
+  - [`data-grid`](lily-design-system-alpine-data-grid)
+  - [`gantt-chart`](lily-design-system-alpine-gantt-chart)
+  - [`kanban-board`](lily-design-system-alpine-kanban-board)
+  - [`markdown-editor`](lily-design-system-alpine-markdown-editor)
+  - [`org-editor`](lily-design-system-alpine-org-editor)
 
 ## Themes
 
-The [themes/](themes) directory ships 57 standalone reference theme
+The [themes/](themes) directory ships 63 standalone reference theme
 stylesheets that target the Lily™ class hooks — NHS England, NHS Scotland,
 and NHS Wales (patient and practitioner variants), GOV.UK GDS, USWDS,
 Adobe Spectrum, Mozilla Protocol, Ant Design, Atlassian, Excel, Fluent, GitHub Primer, IBM Carbon, Linear, Notion, Salesforce, SAP Fiori, Vercel, and general-purpose light/dark themes.
@@ -268,7 +304,7 @@ The theme-picker helper loads them at runtime.
 
 ## Components
 
-The canonical catalog is [components.tsv](components.tsv) — 539 components. Each
+The canonical catalog is [components.tsv](components.tsv) — 607 components. Each
 slug below links to the per-component documentation.
 
 - [accordion-checkbox](components/accordion-checkbox): a checkbox option that reveals an accordion panel when checked
@@ -713,6 +749,7 @@ slug below links to the per-component documentation.
 - [convert-into-value-div](components/convert-into-value-div): the converted value, such as a text input showing the number of euros
 - [convert-into-unit-div](components/convert-into-unit-div): the unit to convert into, such as a select box of currencies or lengths
 - [picture](components/picture): a responsive image wrapper that lets the browser choose among several sources, using the native picture element
+- [warning-text](components/warning-text): a short warning shown as an icon and a bold line of text, with a visually hidden prefix supplied by the consumer
 
 ## Special-Purpose Identifiers
 
@@ -728,8 +765,12 @@ full contract.
 - [aotearoa-national-health-index-view](components/aotearoa-national-health-index-view): a read-only display of New Zealand's National Health Index (NHI) Number
 - [argentina-codigo-unico-de-identificacion-laboral-input](components/argentina-codigo-unico-de-identificacion-laboral-input): an input for entering Argentina's Codigo Unico de Identificacion Laboral (CUIL)
 - [argentina-codigo-unico-de-identificacion-laboral-view](components/argentina-codigo-unico-de-identificacion-laboral-view): a read-only display of Argentina's Codigo Unico de Identificacion Laboral (CUIL)
+- [as-saudiyah-raqm-al-huwiyah-al-wataniyah-input](components/as-saudiyah-raqm-al-huwiyah-al-wataniyah-input): an input for entering Saudi Arabia's National Identification Number
+- [as-saudiyah-raqm-al-huwiyah-al-wataniyah-view](components/as-saudiyah-raqm-al-huwiyah-al-wataniyah-view): a read-only display of Saudi Arabia's National Identification Number
 - [australia-individual-healthcare-identifier-input](components/australia-individual-healthcare-identifier-input): an input for entering Australia's Individual Healthcare Identifier (IHI)
 - [australia-individual-healthcare-identifier-view](components/australia-individual-healthcare-identifier-view): a read-only display of Australia's Individual Healthcare Identifier (IHI)
+- [australia-tax-file-number-input](components/australia-tax-file-number-input): an input for entering Australia's Tax File Number (TFN)
+- [australia-tax-file-number-view](components/australia-tax-file-number-view): a read-only display of Australia's Tax File Number (TFN)
 - [belgique-numero-de-registre-national-input](components/belgique-numero-de-registre-national-input): an input for entering Belgium's Numéro de Registre National / Rijksregisternummer (NRN)
 - [belgique-numero-de-registre-national-view](components/belgique-numero-de-registre-national-view): a read-only display of Belgium's Numéro de Registre National / Rijksregisternummer (NRN)
 - [bharat-aadhaar-input](components/bharat-aadhaar-input): an input for entering India's Aadhaar number
@@ -746,12 +787,16 @@ full contract.
 - [cesko-rodne-cislo-view](components/cesko-rodne-cislo-view): a read-only display of Czech Republic's Rodné číslo (RČ)
 - [chile-rol-unico-nacional-input](components/chile-rol-unico-nacional-input): an input for entering Chile's Rol Unico Nacional (RUN)
 - [chile-rol-unico-nacional-view](components/chile-rol-unico-nacional-view): a read-only display of Chile's Rol Unico Nacional (RUN)
+- [colombia-cedula-de-ciudadania-input](components/colombia-cedula-de-ciudadania-input): an input for entering Colombia's Cedula de Ciudadania Number
+- [colombia-cedula-de-ciudadania-view](components/colombia-cedula-de-ciudadania-view): a read-only display of Colombia's Cedula de Ciudadania Number
 - [cymru-rhif-y-gwasanaeth-iechyd-gwladol-input](components/cymru-rhif-y-gwasanaeth-iechyd-gwladol-input): an input for entering Wales's Rhif y Gwasanaeth Iechyd Gwladol (Rhif GIG)
 - [cymru-rhif-y-gwasanaeth-iechyd-gwladol-view](components/cymru-rhif-y-gwasanaeth-iechyd-gwladol-view): a read-only display of Wales's Rhif y Gwasanaeth Iechyd Gwladol (Rhif GIG)
 - [danmark-personnummer-input](components/danmark-personnummer-input): an input for entering Denmark's Personnummer (CPR-nummer) (CPR)
 - [danmark-personnummer-view](components/danmark-personnummer-view): a read-only display of Denmark's Personnummer (CPR-nummer) (CPR)
 - [deutschland-krankenversichertennummer-input](components/deutschland-krankenversichertennummer-input): an input for entering Germany's Krankenversichertennummer (KVNR)
 - [deutschland-krankenversichertennummer-view](components/deutschland-krankenversichertennummer-view): a read-only display of Germany's Krankenversichertennummer (KVNR)
+- [ecuador-cedula-de-identidad-input](components/ecuador-cedula-de-identidad-input): an input for entering Ecuador's Cedula de Identidad Number
+- [ecuador-cedula-de-identidad-view](components/ecuador-cedula-de-identidad-view): a read-only display of Ecuador's Cedula de Identidad Number
 - [eesti-isikukood-input](components/eesti-isikukood-input): an input for entering Estonia's Isikukood (IK)
 - [eesti-isikukood-view](components/eesti-isikukood-view): a read-only display of Estonia's Isikukood (IK)
 - [eire-individual-health-identifier-input](components/eire-individual-health-identifier-input): an input for entering Eire Individual Health Identifier (IHI) unique national healthcare identifier
@@ -768,10 +813,14 @@ full contract.
 - [france-numero-d-identification-au-repertoire-view](components/france-numero-d-identification-au-repertoire-view): a read-only display of a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
 - [hanguk-jumin-deungnok-beonho-input](components/hanguk-jumin-deungnok-beonho-input): an input for entering South Korea's Resident Registration Number
 - [hanguk-jumin-deungnok-beonho-view](components/hanguk-jumin-deungnok-beonho-view): a read-only display of South Korea's Resident Registration Number
+- [hong-kong-identity-card-input](components/hong-kong-identity-card-input): an input for entering Hong Kong's Identity Card Number
+- [hong-kong-identity-card-view](components/hong-kong-identity-card-view): a read-only display of Hong Kong's Identity Card Number
 - [hrvatska-osobni-identifikacijski-broj-input](components/hrvatska-osobni-identifikacijski-broj-input): an input for entering Croatia's Osobni identifikacijski broj (OIB)
 - [hrvatska-osobni-identifikacijski-broj-view](components/hrvatska-osobni-identifikacijski-broj-view): a read-only display of Croatia's Osobni identifikacijski broj (OIB)
 - [indonesia-nomor-induk-kependudukan-input](components/indonesia-nomor-induk-kependudukan-input): an input for entering Indonesia's Nomor Induk Kependudukan (NIK)
 - [indonesia-nomor-induk-kependudukan-view](components/indonesia-nomor-induk-kependudukan-view): a read-only display of Indonesia's Nomor Induk Kependudukan (NIK)
+- [iran-kod-e-melli-input](components/iran-kod-e-melli-input): an input for entering Iran's National Code (Kod-e Melli)
+- [iran-kod-e-melli-view](components/iran-kod-e-melli-view): a read-only display of Iran's National Code (Kod-e Melli)
 - [island-kennitala-input](components/island-kennitala-input): an input for entering Iceland's Kennitala
 - [island-kennitala-view](components/island-kennitala-view): a read-only display of Iceland's Kennitala
 - [italia-codice-fiscale-input](components/italia-codice-fiscale-input): an input for entering Italy's Codice fiscale (CF)
@@ -792,6 +841,8 @@ full contract.
 - [luxembourg-matricule-view](components/luxembourg-matricule-view): a read-only display of Luxembourg's Numero d'Identification Nationale (Matricule)
 - [magyarorszag-taj-szam-input](components/magyarorszag-taj-szam-input): an input for entering Hungary's Tarsadalombiztositasi Azonosito Jel (TAJ)
 - [magyarorszag-taj-szam-view](components/magyarorszag-taj-szam-view): a read-only display of Hungary's Tarsadalombiztositasi Azonosito Jel (TAJ)
+- [malaysia-kad-pengenalan-input](components/malaysia-kad-pengenalan-input): an input for entering Malaysia's MyKad Number (NRIC)
+- [malaysia-kad-pengenalan-view](components/malaysia-kad-pengenalan-view): a read-only display of Malaysia's MyKad Number (NRIC)
 - [malta-national-identification-number-input](components/malta-national-identification-number-input): an input for entering Malta's Malta National Identification Number
 - [malta-national-identification-number-view](components/malta-national-identification-number-view): a read-only display of Malta's Malta National Identification Number
 - [malta-passport-number-input](components/malta-passport-number-input): an input for entering Malta's Malta Passport Number
@@ -806,12 +857,16 @@ full contract.
 - [nederland-identiteitskaart-nummer-view](components/nederland-identiteitskaart-nummer-view): a read-only display of Netherlands's Identiteitskaart Nummer
 - [nederland-paspoort-nummer-input](components/nederland-paspoort-nummer-input): an input for entering Netherlands's Paspoort Nummer
 - [nederland-paspoort-nummer-view](components/nederland-paspoort-nummer-view): a read-only display of Netherlands's Paspoort Nummer
+- [nigeria-national-identification-number-input](components/nigeria-national-identification-number-input): an input for entering Nigeria's National Identification Number (NIN)
+- [nigeria-national-identification-number-view](components/nigeria-national-identification-number-view): a read-only display of Nigeria's National Identification Number (NIN)
 - [nihon-kojin-bango-input](components/nihon-kojin-bango-input): an input for entering Japan's Individual Number (My Number)
 - [nihon-kojin-bango-view](components/nihon-kojin-bango-view): a read-only display of Japan's Individual Number (My Number)
 - [norge-fodselsnummer-input](components/norge-fodselsnummer-input): an input for entering Norway's Fødselsnummer
 - [norge-fodselsnummer-view](components/norge-fodselsnummer-view): a read-only display of Norway's Fødselsnummer
 - [osterreich-sozialversicherungsnummer-input](components/osterreich-sozialversicherungsnummer-input): an input for entering Austria's Sozialversicherungsnummer (SVNR)
 - [osterreich-sozialversicherungsnummer-view](components/osterreich-sozialversicherungsnummer-view): a read-only display of Austria's Sozialversicherungsnummer (SVNR)
+- [pakistan-computerized-national-identity-card-input](components/pakistan-computerized-national-identity-card-input): an input for entering Pakistan's Computerized National Identity Card Number (CNIC)
+- [pakistan-computerized-national-identity-card-view](components/pakistan-computerized-national-identity-card-view): a read-only display of Pakistan's Computerized National Identity Card Number (CNIC)
 - [pilipinas-philhealth-identification-number-input](components/pilipinas-philhealth-identification-number-input): an input for entering the Philippines' PhilHealth Identification Number (PIN)
 - [pilipinas-philhealth-identification-number-view](components/pilipinas-philhealth-identification-number-view): a read-only display of the Philippines' PhilHealth Identification Number (PIN)
 - [polska-numer-identyfikacji-podatkowej-input](components/polska-numer-identyfikacji-podatkowej-input): an input for entering Poland's Numer Identyfikacji Podatkowej (NIP)
@@ -846,6 +901,8 @@ full contract.
 - [suomi-henkilotunnus-view](components/suomi-henkilotunnus-view): a read-only display of Finland's Henkilötunnus (HETU)
 - [sverige-personnummer-input](components/sverige-personnummer-input): an input for entering Sweden's Personnummer
 - [sverige-personnummer-view](components/sverige-personnummer-view): a read-only display of Sweden's Personnummer
+- [taiwan-guomin-shenfenzheng-tongyi-bianhao-input](components/taiwan-guomin-shenfenzheng-tongyi-bianhao-input): an input for entering Taiwan's National Identification Card Number
+- [taiwan-guomin-shenfenzheng-tongyi-bianhao-view](components/taiwan-guomin-shenfenzheng-tongyi-bianhao-view): a read-only display of Taiwan's National Identification Card Number
 - [tuaisceart-eireann-health-and-care-number-input](components/tuaisceart-eireann-health-and-care-number-input): an input for entering Tuaisceart Eireann Health and Care (H&C) Number unique national healthcare identifier
 - [tuaisceart-eireann-health-and-care-number-view](components/tuaisceart-eireann-health-and-care-number-view): a read-only display of Tuaisceart Eireann Health and Care (H&C) Number unique national healthcare identifier
 - [turkiye-tc-kimlik-numarasi-input](components/turkiye-tc-kimlik-numarasi-input): an input for entering Turkey's T.C. Kimlik Numarasi
@@ -858,6 +915,10 @@ full contract.
 - [united-kingdom-national-insurance-number-view](components/united-kingdom-national-insurance-number-view): a read-only display of United Kingdom's National Insurance Number (NINO)
 - [united-states-social-security-number-input](components/united-states-social-security-number-input): an input for entering a US Social Security number
 - [united-states-social-security-number-view](components/united-states-social-security-number-view): a read-only display of a US Social Security number
+- [uruguay-cedula-de-identidad-input](components/uruguay-cedula-de-identidad-input): an input for entering Uruguay's Cedula de Identidad Number
+- [uruguay-cedula-de-identidad-view](components/uruguay-cedula-de-identidad-view): a read-only display of Uruguay's Cedula de Identidad Number
+- [viet-nam-can-cuoc-cong-dan-input](components/viet-nam-can-cuoc-cong-dan-input): an input for entering Viet Nam's Citizen Identification Number (CCCD)
+- [viet-nam-can-cuoc-cong-dan-view](components/viet-nam-can-cuoc-cong-dan-view): a read-only display of Viet Nam's Citizen Identification Number (CCCD)
 - [yisrael-teudat-zehut-input](components/yisrael-teudat-zehut-input): an input for entering Israel's Teudat Zehut identity number
 - [yisrael-teudat-zehut-view](components/yisrael-teudat-zehut-view): a read-only display of Israel's Teudat Zehut identity number
 - [zhongguo-jumin-shenfenzheng-haoma-input](components/zhongguo-jumin-shenfenzheng-haoma-input): an input for entering China's Resident Identity Card Number
@@ -868,7 +929,7 @@ full contract.
 - **Accessible**: Semantic HTML elements, ARIA roles and attributes, and keyboard navigation built in. Targets WCAG 2.2 AAA.
 - **Composable**: Compound components (e.g., Nav + List + ListItem, Table + Head + Body + Row + Data) snap together cleanly.
 - **Internationalizable**: All user-facing text comes through props or parameters — no hardcoded strings — so consumers can localize.
-- **Batteries-included examples**: We provide complete styled examples for HTML, Svelte, React, Vue, Angular, Blazor, and Nunjucks.
+- **Batteries-included examples**: We provide complete styled examples for HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks and Alpine.js.
 - **Semantic-CSS friendly**: If you like semantic CSS classes (e.g., DaisyUI), you can target each component by its kebab-case class name.
 - **Tailwind friendly**: If you like utility CSS classes (e.g., Tailwind), you can layer them on top of the headless components.
 - **Headless friendly**: If you bring your own styles, the headless versions give you semantic HTML and ARIA with no visual styling.
@@ -935,10 +996,10 @@ full contract.
 ## Tracking
 
 - Package: lily
-- Version: 0.3.0
+- Version: 0.9.0 (monorepo tag `v0.9.0`; packages are versioned separately)
 - Created: 2025-08-09T21:09:52Z
-- Updated: 2026-05-30T00:00:00Z
-- License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause or contact us for more
+- Updated: 2026-10-30T00:00:00Z
+- License: `MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause`, or contact us for other terms (see [LICENSE.md](LICENSE.md))
 - Contact: Joel Parker Henderson (joel@joelparkerhenderson.com)
 
 ---

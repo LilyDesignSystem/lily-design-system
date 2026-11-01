@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sonner",
+  "type": "registry:component",
+  "title": "Sonner",
+  "description": "A toast notification manager.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Sonner.tsx",
+      "content": "import React from \"react\";\n\n// Sonner component\n//\n// A headless toast notification region that provides a designated area where\n// brief, non-intrusive messages appear to inform users of events, confirmations,\n// or status updates. Renders a <div> with role=\"region\" and aria-live=\"polite\"\n// so screen readers announce new notifications without interrupting current output.\n// Used for success confirmations, error alerts, progress updates, and system messages.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name identifying the notification area via aria-label.\n//   children — ReactNode, required. The toast notification content.\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Syntax:\n//   <Sonner label=\"Notifications\">\n//     <div role=\"status\">Message here.</div>\n//   </Sonner>\n//\n// Examples:\n//\n//   <Sonner label=\"Notifications\">\n//     <div role=\"status\">File saved successfully.</div>\n//   </Sonner>\n//\n//\n//   <Sonner label=\"Alerts\">\n//     {toasts.map((toast) => (\n//       <div role=\"status\">{toast.message}</div>\n//     ))}\n//   </Sonner>\n//\n// Keyboard:\n//   - None built-in — consumer should implement Escape to dismiss and navigation between toasts.\n//\n// Accessibility:\n//   - role=\"region\" defines the notification area as a named landmark\n//   - aria-label identifies the notification area\n//   - aria-live=\"polite\" ensures new content is announced after current screen reader output\n//\n// Internationalization:\n//   - The label prop externalizes the region name for localization\n//   - Toast content comes through children prop for localization\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - No internal state — purely a structural wrapper\n//   - Consumer manages toast lifecycle (appearance, auto-dismiss, manual dismiss)\n//\n// References:\n//   - WAI-ARIA Live Regions: https://www.w3.org/TR/wai-aria-1.2/#aria-live\n//   - WAI-ARIA region role: https://www.w3.org/TR/wai-aria-1.2/#region\n\nexport interface SonnerProps {\n    className?: string;\n    /** Accessible label */\n    label?: string;\n    /** The component content */\n    children?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Sonner({ className = \"\", label, children, ...restProps }: SonnerProps) {\n    return (\n        <div\n            className={`sonner ${className}`}\n            role=\"region\"\n            aria-label={label}\n            aria-live=\"polite\"\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Sonner.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/sonner/"
+}

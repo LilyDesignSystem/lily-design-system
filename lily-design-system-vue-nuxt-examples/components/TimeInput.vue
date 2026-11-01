@@ -40,6 +40,9 @@
 // References:
 //   - MDN input type="time": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time
 
+import { ref } from "vue";
+import { useFormReset } from "./form-reset";
+
 withDefaults(
     defineProps<{
         /** Accessible label. */
@@ -56,6 +59,8 @@ withDefaults(
 );
 
 const modelValue = defineModel<string>({ default: "" });
+const field = ref<HTMLInputElement | HTMLTextAreaElement | null>(null);
+useFormReset(modelValue, field);
 </script>
 
 <template>
@@ -64,6 +69,7 @@ const modelValue = defineModel<string>({ default: "" });
         class="time-input"
         type="time"
         :aria-label="label"
+        ref="field"
         v-model="modelValue"
         :required="required"
         :disabled="disabled"

@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"content-block\" aria-label=\"a content width constraint container with named column widths\">ContentBlock</div>";
   const svelteSource: string = "// In your Svelte component:\nimport ContentBlock from \"lily-design-system-svelte-headless/components/ContentBlock/ContentBlock.svelte\";\n\n<ContentBlock>\n  <!-- content -->\n</ContentBlock>\n";
-  const usageCode: string = "<ContentBlock width=\"narrow\">\n  <p>Narrow column text content.</p>\n</ContentBlock>\n<ContentBlock width=\"wide\">\n  <img src=\"chart.png\" alt=\"Data visualization\" />\n</ContentBlock>\n";
+  const usageCode: string = "<ContentBlock width=\"narrow\">\n  <p>Narrow column text content.</p>\n</ContentBlock>\n<ContentBlock width=\"wide\">\n  <img\n    src=\"chart.png\"\n    alt=\"Data visualization\"\n  />\n</ContentBlock>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

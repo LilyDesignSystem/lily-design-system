@@ -1,0 +1,29 @@
+---
+layout: layouts/component-demo.njk
+title: EcuadorCedulaDeIdentidadInput
+description: an input for entering Ecuador's Cedula de Identidad Number
+---
+
+{% from "components/ecuador-cedula-de-identidad-input/macro.njk" import ecuadorCedulaDeIdentidadInput %}
+
+<h2>Default</h2>
+<p>{{ ecuadorCedulaDeIdentidadInput({ text: "EcuadorCedulaDeIdentidadInput example", label: "EcuadorCedulaDeIdentidadInput example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field
+  label="Cedula de Identidad Number"
+  required
+&gt;
+  &lt;EcuadorCedulaDeIdentidadInput
+    label="Cedula de Identidad Number"
+    value="{value}"
+    required
+  /&gt;
+  &lt;Hint
+    &gt;Ten digits: a two-digit province code (01 to 24, or 30 for those born abroad), a third digit below 6 for a natural person, six more digits, and a check digit. The first nine digits are multiplied alternately by 2 and 1 (starting with 2), subtracting 9 from any product above 9, and the check digit brings the sum to the next multiple of 10.&lt;/Hint
+  &gt;
+  &lt;ErrorMessage&gt;Please enter a valid Cedula de Identidad Number&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

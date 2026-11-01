@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "validation-list-item",
+  "type": "registry:component",
+  "title": "ValidationListItem",
+  "description": "One validation rule in a validation list with a status of pending, passed, or failed.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ValidationListItem.tsx",
+      "content": "import React from \"react\";\n\n// ValidationListItem component\n//\n// One validation rule in a ValidationList with a status of \"pending\",\n// \"passed\", or \"failed\". The status is exposed via a data-status attribute\n// for consumer styling and for assistive technology to detect via custom\n// patterns. Inspired by the USWDS Validation component.\n//\n// Props:\n//   className — string, optional. CSS class name appended to the root.\n//   status    — \"pending\" | \"passed\" | \"failed\", default \"pending\". Rule status.\n//   label     — string, optional. aria-label override.\n//   children  — ReactNode, required. Rule text.\n//   ...restProps — additional HTML attributes spread onto the <li>.\n//\n// Syntax:\n//   <ValidationListItem status=\"passed\">At least 8 characters</ValidationListItem>\n//\n// Accessibility:\n//   - The native <li> provides list-item semantics\n//   - data-status conveys state for consumer styling\n//   - aria-label optionally overrides the accessible name\n//\n// Internationalization:\n//   - All user-facing text is consumer-supplied via children\n//\n// Claude rules:\n//   - Headless: no CSS, no styles\n//   - status defaults to \"pending\"\n//\n// References:\n//   - USWDS Validation: https://designsystem.digital.gov/components/validation/\n\nexport type ValidationListItemStatus = \"pending\" | \"passed\" | \"failed\";\n\nexport interface ValidationListItemProps {\n    className?: string;\n    /** Rule status; rendered as data-status */\n    status?: ValidationListItemStatus;\n    /** Optional aria-label override */\n    label?: string;\n    /** Rule text */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function ValidationListItem({\n    className = \"\",\n    status = \"pending\",\n    label,\n    children,\n    ...restProps\n}: ValidationListItemProps) {\n    return (\n        <li\n            className={`validation-list-item ${className}`}\n            data-status={status}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </li>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ValidationListItem.tsx"
+    }
+  ],
+  "categories": [
+    "lists"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/validation-list-item/"
+}

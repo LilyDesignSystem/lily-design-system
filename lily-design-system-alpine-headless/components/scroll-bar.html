@@ -4,14 +4,17 @@
   Description: a custom scrollbar element
   HTML tag: <div>
   CSS class: scroll-bar
-  Keyboard: None (passive element)
-  Accessibility: aria-label for accessible name
+  Keyboard: Up/Left lower and Down/Right raise by one step, Page Up/Down move ten steps, Home and End jump to the bounds
+  Accessibility: role="scrollbar" with aria-label, aria-orientation, aria-controls (the scrolled element), aria-valuenow/min/max; tabindex 0
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
 <div
   class="scroll-bar"
   aria-label=""
+  aria-orientation="vertical"
+  x-data="lilyScrollBar(50, 0, 100, 1, 10)"
+  x-bind="bar"
 >
-  <!-- Consumer provides content -->
+  <!-- Consumer provides the thumb; it scrolls its content on lily:change -->
 </div>

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "dont-list",
+  "type": "registry:component",
+  "title": "DontList",
+  "description": "A guideline list of discouraged dont-list-item components.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/DontList.tsx",
+      "content": "import React from \"react\";\n\n// DontList component\n//\n// A list of discouraged actions or practices to avoid. Renders as a <ol> with\n// role=\"list\" and an accessible label. Used in design system documentation,\n// guidelines, and instructional content to communicate what users should not do.\n// Paired with DoList to create do/don't guidance patterns.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, default \"Don't\". Accessible name for the list.\n//   children — ReactNode, required. List items, each should be an <li> element.\n//   ...restProps — additional HTML attributes spread onto the <ol> element.\n//\n// Syntax:\n//   <DontList><li>Avoid this</li></DontList>\n//\n// Examples:\n//\n//   <DontList>\n//     <li>Skip alt text</li>\n//     <li>Use only color for meaning</li>\n//   </DontList>\n//\n//\n//   <DontList label=\"Avoid\">\n//     <li>Hard-code user-facing strings</li>\n//     <li>Rely on placeholder text as labels</li>\n//   </DontList>\n//\n// Keyboard:\n//   - None — passive container for list items\n//\n// Accessibility:\n//   - role=\"list\" preserves list semantics even when CSS removes default styling\n//   - aria-label provides an accessible name (defaults to \"Don't\")\n//\n// Internationalization:\n//   - The label prop defaults to \"Don't\" but can be overridden for any locale\n//   - All list item text comes through consumer-provided children\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Companion to DoList; typically used together\n//\n// References:\n//   - MDN ul element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ul\n//   - WAI list role: https://www.w3.org/WAI/ARIA/apd/roles/list/\n\nexport interface DontListProps {\n    className?: string;\n    /** Accessible name for the list. */\n    label?: string;\n    /** List items. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function DontList({\n    className = \"\",\n    label = \"Don't\",\n    children,\n    ...restProps\n}: DontListProps) {\n    return (\n        <ul\n            className={`dont-list ${className}`}\n            role=\"list\"\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </ul>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/DontList.tsx"
+    }
+  ],
+  "categories": [
+    "lists"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/dont-list/"
+}

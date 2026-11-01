@@ -4,10 +4,10 @@ import { TestBed } from "@angular/core/testing";
 import { Emoji } from "./Emoji";
 
 describe("Emoji", () => {
-    test("renders the div root with the base class", () => {
+    test("renders the <span> root with the base class", () => {
         const fixture = TestBed.createComponent(Emoji);
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.emoji");
+        const el = fixture.nativeElement.querySelector("span.emoji");
         expect(el).toBeTruthy();
     });
 
@@ -15,7 +15,7 @@ describe("Emoji", () => {
         const fixture = TestBed.createComponent(Emoji);
         fixture.componentRef.setInput("className", "extra");
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.emoji");
+        const el = fixture.nativeElement.querySelector("span.emoji");
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });

@@ -44,12 +44,17 @@
 // References:
 //   - Traffic Light Rating System: https://en.wikipedia.org/wiki/Traffic_light_rating_system
 
+import { ref } from "vue";
+import { useFormReset } from "./form-reset";
+
 defineProps<{
     /** Accessible label for the select element */
     label: string;
 }>();
 
 const modelValue = defineModel<string>({ default: "" });
+const field = ref<HTMLSelectElement | null>(null);
+useFormReset(modelValue, field);
 </script>
 
 <template>
@@ -57,6 +62,7 @@ const modelValue = defineModel<string>({ default: "" });
     <select
         class="red-orange-yellow-green-blue-picker"
         :aria-label="label"
+        ref="field"
         v-model="modelValue"
     >
         <option value="red">Red</option>

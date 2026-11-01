@@ -1,0 +1,26 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    WarningText component
+    A short warning: an optional decorative Icon (aria-hidden; Lily bundles none) and one bold line
+    of text, the GOV.UK and DHCW warning-text pattern. The visually hidden prefix, such as
+    "Warning", is part of the consumer's ChildContent, in the consumer's language; there is no
+    parameter or default for it. Unmatched attributes spread onto the root.
+*@
+
+<div class="@($"warning-text {CssClass}".Trim())" @attributes="AdditionalAttributes">
+    @if (Icon is not null)
+    {
+        <span class="warning-text-icon" aria-hidden="true">@Icon</span>
+    }
+    <strong class="warning-text-text">@ChildContent</strong>
+</div>
+
+@code {
+    /// <summary>Optional decorative icon, rendered inside an aria-hidden span.</summary>
+    [Parameter] public RenderFragment? Icon { get; set; }
+    /// <summary>The visually hidden prefix, then the warning text.</summary>
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

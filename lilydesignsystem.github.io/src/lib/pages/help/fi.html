@@ -155,7 +155,7 @@ pnpm run dev</code></pre>
   <h2>Valmiit teemat</h2>
   <p>
     Etkö halua kirjoittaa CSS:ää alusta alkaen? Lily toimittaa
-    <strong>57 itsenäistä viiteteemaa</strong> hakemistossa
+    <strong>63 itsenäistä viiteteemaa</strong> hakemistossa
     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
     . Jokainen on yksi tyylitiedosto, joka kohdistuu Lilyn luokkakoukkuihin – linkitä se, ja olet tyylitelty:
   </p>
@@ -179,11 +179,7 @@ pnpm run dev</code></pre>
 
 <section class="section prose" id="helpers" style="margin: 0 auto;">
   <h2>Asetusapurit</h2>
-  <p>
-    Jokaisella kehyksellä on kahdeksan pientä valitsinta, kukin omana
-    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> -pakettinaan (ja <code>picker-bar</code> , joka kokoaa ne yhteen). Jokainen on päätön kuvakepainike, joka avaa ponnahdusikkunan – luettelon, linkkiluettelon, hakulomakkeen tai (date-time-pickerin tapauksessa) päivämäärävalintaikkunan – ei natiivi
-    <code>&lt;select&gt;</code>; on SSR-turvallinen; eikä sisällä CSS:ää:
-  </p>
+  <p>Jokaisessa kehyksessä on yksitoista pientä valitsinta, kukin omana <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code>-pakettinaan (ja <code>picker-bar</code>, joka kokoaa ne). Kukin on headless-kuvakepainike, joka avaa ponnahdusikkunan — luetteloruudun, linkkiluettelon, hakulomakkeen, oman sisältösi paneelin tai (date-time-pickerissä) päivämäärävalitsimen valintaikkunan — ei natiivia <code>&lt;select&gt;</code>-elementtiä (theme-picker tarjoaa sellaisen valinnaisena muunnelmana); se on SSR-turvallinen eikä tuo mukanaan CSS:ää. menu-pickerin, settings-pickerin ja time-zone-pickerin lisäksi ne ovat:</p>
   <ul>
     <li>
       <strong>theme-picker</strong> – lataa teemojen tyylitiedostot ajon aikana vaihtamalla hallittua <code>&lt;link&gt;</code>:ia, asettaa
@@ -294,7 +290,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
     <summary>Komponentti renderöityy mutta näyttää tyylittelemättömältä</summary>
     <p>
       Päätön toimii tarkoitetulla tavalla – komponentin mukana ei tule CSS:ää. Kirjoita CSS komponentin kebab-case-luokalle (näkyy jokaisella <a href="/components/">luettelosivulla</a>) tai linkitä yksi
-      <a href="#themes">57 valmiista teemasta</a>.
+      <a href="#themes">63 valmiista teemasta</a>.
     </p>
   </details>
 
@@ -383,7 +379,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
   <details class="faq-item">
     <summary>Miksi päätön eikä tyylitelty?</summary>
     <p>
-      Valmiiksi tyylitellyt komponentit ovat käteviä – kunnes ne eivät sovi brändiisi. Päättömät komponentit vaativat hieman enemmän työtä alussa, mutta antavat täyden hallinnan visuaaliseen suunnitteluun. Esimerkkisovellukset ja 57 teemaa näyttävät tapoja tyylitellä ne; voit ottaa ne käyttöösi tai korvata ne kokonaan. Pidempi perustelu on sivulla <a href="/why/">Miksi Lily</a>.
+      Valmiiksi tyylitellyt komponentit ovat käteviä – kunnes ne eivät sovi brändiisi. Päättömät komponentit vaativat hieman enemmän työtä alussa, mutta antavat täyden hallinnan visuaaliseen suunnitteluun. Esimerkkisovellukset ja 63 teemaa näyttävät tapoja tyylitellä ne; voit ottaa ne käyttöösi tai korvata ne kokonaan. Pidempi perustelu on sivulla <a href="/why/">Miksi Lily</a>.
     </p>
   </details>
 

@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"avatar\" role=\"img\" aria-label=\"User avatar\">JD</div>";
   const svelteSource: string = "// In your Svelte component:\nimport Avatar from \"lily-design-system-svelte-headless/components/Avatar/Avatar.svelte\";\n\n<Avatar>\n  <!-- content -->\n</Avatar>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import Avatar from './Avatar.svelte';\n  import AvatarImage from '../AvatarImage/AvatarImage.svelte';\n<\/script>\n\n<Avatar alt=\"Jane Doe\">\n  <AvatarImage src=\"/photos/jane.jpg\" alt=\"Jane Doe\" />\n</Avatar>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import Avatar from \"./Avatar.svelte\";\n  import AvatarImage from \"../AvatarImage/AvatarImage.svelte\";\n<\/script>\n\n<Avatar alt=\"Jane Doe\">\n  <AvatarImage\n    src=\"/photos/jane.jpg\"\n    alt=\"Jane Doe\"\n  />\n</Avatar>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

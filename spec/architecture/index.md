@@ -2,11 +2,11 @@
 
 > Lily Design System™ specification — topic doc. All topics: [spec index](../index.md).
 
-**Summary.** Lily™ is a monorepo holding a canonical 582-component catalog and tools, plus 184 implementation subprojects — 9 headless libraries (7 full-catalog, Web Components at its full achievable scope, Alpine.js), 8 example apps and 167 helper packages (one top-level subproject each) — together with the `@lilydesignsystem/themes` package, the `lilydesignsystem.github.io` docs site, and 27 Claude Skill packages. Packages publish from this monorepo; only the docs site is pushed to its own repository.
+**Summary.** Lily™ is a monorepo holding a canonical 607-component catalog and tools, plus 184 implementation subprojects — 9 headless libraries (7 full-catalog, Web Components at its full achievable scope, Alpine.js), 8 example apps and 167 helper packages (one top-level subproject each) — together with the `@lilydesignsystem/themes` package, the `lilydesignsystem.github.io` docs site, and 27 Claude Skill packages. Packages publish from this monorepo; only the docs site is pushed to its own repository.
 
 ## Scope
 
-This topic covers the monorepo directory layout, the 184 implementation subprojects, the themes package, docs site and skills, the git-subtree publishing model and multi-forge remote fan-out, and the required files per subproject and per component directory.
+This topic covers the monorepo directory layout, the 184 implementation subprojects, the themes package, the locale-translations package, docs site and skills, the monorepo publishing model (the subtree mirrors were retired 2026-10-10) and multi-forge remote fan-out, and the required files per subproject and per component directory.
 
 It does not cover the vision or scope split (see [overview](../overview/index.md)), the catalog contents and naming (see [components](../components/index.md)), or the listing/scaffold/sync/test scripts in detail (see [tooling](../tooling/index.md)).
 
@@ -23,15 +23,15 @@ It does not cover the vision or scope split (see [overview](../overview/index.md
 ```
 lily-design-system/                              ← canonical catalog + tools
 ├── AGENTS.md, AGENTS/*.md                       ← modular reference docs (AGENTS.md is the single AI file; CLAUDE.md was retired 2026-09-19)
-├── components.tsv                               ← canonical 582-component list
-├── components/{slug}/                           ← per-component docs (582 dirs: index.md, README.md → index.md, AGENTS.md, spec/index.md)
+├── components.tsv                               ← canonical 607-component list
+├── components/{slug}/                           ← per-component docs (607 dirs: index.md, README.md → index.md, AGENTS.md, spec/index.md)
 ├── component-variants.json                      ← curated extra demo states (bin/generate-examples)
 ├── css-style-sheet-template.css                 ← class-hook stylesheet template
-├── themes/                                      ← 57 reference theme stylesheets (+ tokens/)
+├── themes/                                      ← 63 reference theme stylesheets (+ tokens/)
 ├── bin/                                         ← scaffolding, listing, sync, generators, test, publish
 ├── spec/index.md, spec/{topic}/index.md         ← spec + modular topic docs
 ├── lily-design-system-{framework}-headless/     ← 9 headless libraries: html, svelte, react, vue, angular, blazor, nunjucks, web-components, alpine
-├── lily-design-system-{framework}-{package}/ ← 167 helper packages, one subproject each (bin/list-helper-packages <framework>)
+├── lily-design-system-{framework}-{package}/    ← 167 helper packages, one subproject each (bin/list-helper-packages <framework>)
 ├── lily-design-system-html-css-js-examples/     ← examples: vanilla HTML+CSS+JS
 ├── lily-design-system-svelte-sveltekit-examples/ ← examples: SvelteKit
 ├── lily-design-system-react-next-examples/      ← examples: Next.js
@@ -39,8 +39,10 @@ lily-design-system/                              ← canonical catalog + tools
 ├── lily-design-system-angular-examples/         ← examples: Angular + Analog.js
 ├── lily-design-system-blazor-web-examples/      ← examples: Blazor Web
 ├── lily-design-system-nunjucks-eleventy-examples/ ← examples: Nunjucks + Eleventy
+├── lily-design-system-alpine-examples/          ← examples: Alpine.js (static site)
 ├── lily-design-system-themes/                   ← @lilydesignsystem/themes (npm): packages the root themes/
-├── lily-design-system-*-skill/                  ← 26 Claude Skill packages (see agent-skills)
+├── lily-design-system-locale-translations/      ← @lilydesignsystem/locale-translations (npm): label packs, zone names, locale data
+├── lily-design-system-*-skill/                  ← 27 Claude Skill packages (see agent-skills)
 └── lilydesignsystem.github.io/                  ← the docs site (SvelteKit, GitHub Pages)
 ```
 
@@ -59,17 +61,30 @@ lily-design-system/                              ← canonical catalog + tools
 
 Headless libraries ship unstyled, accessible components; example apps demonstrate them with a full stylesheet and the three required routes (see [examples](../examples/index.md)).
 
-An 8th headless library sits outside the pairs: `@lilydesignsystem/web-components-headless` (added 2026-09-03, reached its full achievable scope 2026-09-06) ships 547 of the 582 components as native custom elements with no framework runtime and no example app — the other 35 (30 table sub-elements and 5 interactive `*ListItem` families) are permanently excluded by a real architectural limitation, not open backlog. Its own `spec/index.md` records the architecture decisions (autonomous custom elements over customized built-ins, light-DOM-only) and the exact scope.
+An 8th headless library sits outside the pairs: `@lilydesignsystem/web-components-headless` (added 2026-09-03, reached its full achievable scope 2026-09-06) ships 572 of the 607 components as native custom elements with no framework runtime and no example app — the other 35 (30 table sub-elements and 5 interactive `*ListItem` families) are permanently excluded by a real architectural limitation, not open backlog. Its own `spec/index.md` records the architecture decisions (autonomous custom elements over customized built-ins, light-DOM-only) and the exact scope.
 
-A 9th headless library, `@lilydesignsystem/alpine-headless` (added 2026-10-21, unpublished), ships all 582 components as annotated HTML snippets (`components/{slug}.html`) plus one Alpine.js plugin that owns state and keyboard behaviour: 488 are static markup and 83 have hand-written `Alpine.data` behaviour. It has its own example app, `lily-design-system-alpine-examples` (a static site: every component with a live demo, plus a page per helper), and four helpers, `alpine-data-grid`, `alpine-kanban-board`, `alpine-calendar` and `alpine-gantt-chart`, each a subset of its Svelte reference (its `spec/index.md` lists what is built and what is not). There are no Alpine pickers or other helpers yet, and the package is not yet wired into `bin/check-coverage`, `bin/check-class-names`, `bin/publish-headless` or `bin/smoke-packages`.
+A 9th headless library, `@lilydesignsystem/alpine-headless` (added 2026-10-21, unpublished), ships all 607 components as annotated HTML snippets (`components/{slug}.html`) plus one Alpine.js plugin that owns state and keyboard behaviour: 488 are static markup and 83 have hand-written `Alpine.data` behaviour. It has its own example app, `lily-design-system-alpine-examples` (a static site: every component with a live demo, plus a page per helper), and six helpers, `alpine-data-grid`, `alpine-kanban-board`, `alpine-calendar`, `alpine-gantt-chart`, `alpine-markdown-editor` and `alpine-org-editor`, each a subset of its Svelte reference (its `spec/index.md` lists what is built and what is not); `bin/check-port-parity` compares them with Svelte. There are no Alpine pickers yet, and the headless package is not yet wired into `bin/check-coverage`, `bin/check-class-names`, `bin/publish-headless` or `bin/smoke-packages`.
 
 ## Helper packages
 
-Every framework's helpers are top-level subprojects, one per package (`lily-design-system-{framework}-{package}`), and carry the seven framework-specific `*-picker` helper packages — theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, search-picker and date-time-picker (56 packages in all) — plus `picker-bar`, which composes five of them, and the gantt-chart and kanban-board packages. Svelte's helpers add data-grid and calendar; Nunjucks' add the shared listbox-behavior package. Every framework also ships `markdown-editor` (added 2026-10-24): a textarea with a toolbar of rich-text buttons that write Markdown; Svelte is canonical and the Alpine.js catalog has one too, as a snippet plus plugin. Every framework (Alpine.js included) also has `org-editor` (added 2026-10-24): the same toolbar idea for Emacs Org mode text, with tools for tasks, priorities, planning dates, property drawers and contacts. See [helpers](../helpers/index.md).
+Every framework's helpers are top-level subprojects, one per package (`lily-design-system-{framework}-{package}`). Each
+of the eight frameworks (Svelte, React, Vue, Angular, HTML, Web Components, Nunjucks, Blazor) ships the same 20 packages
+(2026-10-30, `bin/list-helper-packages <framework>`):
+
+- the eleven `*-picker` helpers: theme, locale, text-size, motion, share, search, link, menu, settings, time-zone and
+  date-time (88 packages in all);
+- `picker-bar`, which composes link, search, theme, locale, the optional time-zone, text-size and share pickers;
+- the grid-like helpers `data-grid`, `kanban-board`, `calendar` and `gantt-chart`, and `filter` (a filter builder);
+- `markdown-editor` and `org-editor` (added 2026-10-24): a textarea with a toolbar that writes Markdown or Emacs Org text;
+- `locale-translations`: the label packs, CLDR zone names and locale data for that framework.
+
+That is 160 packages; Nunjucks adds `nunjucks-listbox-behavior` (161), and Alpine.js ships six (167). The
+framework-neutral `lily-design-system-locale-translations` and `lily-design-system-themes` packages are counted
+separately. See [helpers](../helpers/index.md).
 
 Every framework's helpers are one top-level subproject per package instead of one catalog (Svelte first, the other seven the same day, 2026-10-10; see [helpers](../helpers/index.md#where-the-helpers-live)). For Svelte: `lily-design-system-svelte-data-grid` moved out of `lily-design-system-svelte-helpers` on 2026-10-09, the other fourteen on 2026-10-10, and the catalog was deleted ([list](../helpers/index.md#svelte-helper-packages)). Each has its own `package.json` devDependencies, `pnpm-lock.yaml`, vite/vitest config, `build.js` and `AGENTS/`; depends on `@lilydesignsystem/svelte-headless` and, for `picker-bar`, `gantt-chart` and `calendar`, on sibling packages, all resolved in local dev/test from their built `dist/`; is built in the order `bin/list-helper-packages svelte` prints; and is published by `bin/publish-helpers` and tested by the CI `helper-packages` job.
 
-The root `themes/` directory ships 57 reference theme stylesheets (NHS England/Scotland/Wales patient and practitioner variants, GOV.UK GDS, USWDS, Adobe Spectrum, Mozilla Protocol, Ant Design, Atlassian, Excel, Fluent, GitHub Primer, IBM Carbon, Linear, Notion, Salesforce, SAP Fiori, Vercel, and general-purpose light/dark themes) that target the Lily class hooks and pair with the theme-select helper. See [theme](../theme/index.md).
+The root `themes/` directory ships 63 reference theme stylesheets (NHS England/Scotland/Wales patient and practitioner variants, GOV.UK GDS, USWDS, Adobe Spectrum, Mozilla Protocol, Ant Design, Atlassian, Excel, Fluent, GitHub Primer, IBM Carbon, Linear, Notion, Salesforce, SAP Fiori, Vercel, and general-purpose light/dark themes) that target the Lily class hooks and pair with the `theme-picker` helper. See [theme](../theme/index.md).
 
 ## Source hosting
 
@@ -95,7 +110,7 @@ Packages are published from this repository to npm and NuGet; see [trusted-publi
 
 ## Required files per component directory
 
-Every `components/{slug}/` directory (582 of them) carries:
+Every `components/{slug}/` directory (607 of them) carries:
 
 | File            | Purpose                                                                                                   |
 | --------------- | --------------------------------------------------------------------------------------------------------- |
@@ -106,10 +121,10 @@ Every `components/{slug}/` directory (582 of them) carries:
 
 ## Acceptance criteria
 
-- [x] All 7 headless and 7 example subprojects exist at the documented paths.
-- [x] `@lilydesignsystem/web-components-headless` exists at the documented path and its `spec/index.md` states its final (2026-09-06: 456/491; 547/582 as of 2026-10-25 — the full achievable scope) accounting.
+- [x] All 9 headless libraries and 8 example apps exist at the documented paths.
+- [x] `@lilydesignsystem/web-components-headless` exists at the documented path and its `spec/index.md` states its final (2026-09-06: 456/491; 572/607 as of 2026-10-25 — the full achievable scope) accounting.
 - [x] Helper packages exist for all eight frameworks, one top-level subproject each (167 in all; the per-framework catalogs were dissolved into them 2026-10-10).
-- [x] All 582 component directories carry the required component files (`index.md`, `README.md` symlink, `AGENTS.md`, `spec/index.md`; `CLAUDE.md` was retired 2026-09-19).
+- [x] All 607 component directories carry the required component files (`index.md`, `README.md` symlink, `AGENTS.md`, `spec/index.md`; `CLAUDE.md` was retired 2026-09-19).
 - [x] Every subproject carries `index.md`, `README.md` symlink, `AGENTS.md`, and spec/plan/tasks.
 - [x] `AGENTS.md` / `AGENTS/*.md` are canonical at the root and rsynced (not symlinked) into subprojects.
 - [x] Retired 2026-10-10: subprojects are no longer pushed to standalone repositories; the mirrors were deleted and `bin/git-subtree-push` removed. Only the docs site is still a subtree, pushed by `make github-pages`.
@@ -119,7 +134,7 @@ Every `components/{slug}/` directory (582 of them) carries:
 ## Related topics
 
 - [overview](../overview/index.md) — vision, layers, scope, key facts
-- [tooling](../tooling/index.md) — listing, scaffolding, sync, test, subtree-push scripts
+- [tooling](../tooling/index.md) — listing, scaffolding, generator, sync, check and publish scripts
 - [components](../components/index.md) — the canonical catalog and naming conventions
 - [helpers](../helpers/index.md) — the helper packages, one top-level subproject each
 - [frameworks](../frameworks/index.md) — per-framework implementation notes

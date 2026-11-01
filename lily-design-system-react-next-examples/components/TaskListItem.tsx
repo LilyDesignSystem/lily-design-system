@@ -52,7 +52,8 @@
 //   - MDN checkbox input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox
 //   - WAI checkbox pattern: https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/
 
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
+import { useFormReset } from "./form-reset";
 
 export interface TaskListItemProps {
     className?: string;
@@ -76,6 +77,14 @@ export default function TaskListItem({
     ...restProps
 }: TaskListItemProps) {
     const [checked, setChecked] = useState(checkedProp);
+    const itemRef = useRef<HTMLLIElement>(null);
+    const initialChecked = useRef(checkedProp);
+
+    // Form reset: restore the initial state and tell the consumer.
+    useFormReset(itemRef, () => {
+        setChecked(initialChecked.current);
+        onChange?.(initialChecked.current);
+    });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newChecked = e.target.checked;
@@ -85,6 +94,7 @@ export default function TaskListItem({
 
     return (
         <li
+            ref={itemRef}
             className={`task-list-item ${className}`}
             data-checked={checked}
             data-disabled={disabled || undefined}

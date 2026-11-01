@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "form",
+  "type": "registry:component",
+  "title": "Form",
+  "description": "A form element for collecting and submitting user data.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Form.tsx",
+      "content": "import React from \"react\";\n\n// Form component\n//\n// A form wrapper that wraps a native HTML <form> element with accessible labeling,\n// automatic submit default prevention, and reset support. It simplifies form handling\n// by intercepting the submit event and calling preventDefault() before passing it to\n// the consumer's callback, which is the most common pattern in single-page applications.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name for the form via aria-label.\n//   onSubmit — function, default undefined. Callback receiving FormEvent (default already prevented).\n//   onReset — function, default undefined. Callback receiving Event on form reset.\n//   children — ReactNode, required. Form content (inputs, buttons, etc.).\n//   ...restProps — additional HTML attributes spread onto the form element.\n//\n// Syntax:\n//   <Form label=\"Login\" onSubmit={handleLogin}>{children}</Form>\n//\n// Examples:\n//\n//   <Form label=\"Login\" onSubmit={handleLogin}>\n//     <input name=\"email\" />\n//     <button type=\"submit\">Sign in</button>\n//   </Form>\n//\n//\n//   <Form label=\"Search filters\" onSubmit={applyFilters} onReset={clearFilters}>\n//     <input name=\"query\" />\n//     <button type=\"submit\">Apply</button>\n//     <button type=\"reset\">Clear</button>\n//   </Form>\n//\n// Keyboard:\n//   - Enter: Submits the form when a text input is focused (native browser behavior)\n//\n// Accessibility:\n//   - aria-label provides an accessible name for the form, helping screen readers identify its purpose\n//\n// Internationalization:\n//   - The label prop allows localized accessible names; no hardcoded user-facing strings\n//   - All content comes through the children prop\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Automatically calls event.preventDefault() on submit before invoking onSubmit\n//   - The onReset callback is passed directly without default prevention\n//\n// References:\n//   - MDN form element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form\n//   - WAI Forms Tutorial: https://www.w3.org/WAI/tutorials/forms/\n\nexport interface FormProps {\n    className?: string;\n    /** Accessible name. */\n    label: string;\n    /** Submit callback. */\n    onSubmit?: (event: React.FormEvent<HTMLFormElement>) => void;\n    /** Reset callback. */\n    onReset?: (event: React.FormEvent<HTMLFormElement>) => void;\n    /** Form content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Form({\n    className = \"\",\n    label,\n    onSubmit = undefined,\n    onReset = undefined,\n    children,\n    ...restProps\n}: FormProps) {\n    function handleSubmit(event: React.FormEvent<HTMLFormElement>) {\n        event.preventDefault();\n        onSubmit?.(event);\n    }\n\n    return (\n        <form\n            className={`form ${className}`}\n            aria-label={label}\n            onSubmit={handleSubmit}\n            onReset={onReset}\n            {...restProps}\n        >\n            {children}\n        </form>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Form.tsx"
+    }
+  ],
+  "categories": [
+    "forms"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/form/"
+}

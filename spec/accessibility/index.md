@@ -20,7 +20,7 @@ It does **not** cover: the headless markup and behaviour-boundary rules (see [he
 - **Accessible name.** Every interactive element has a name visible to assistive technology — via visible text content, `aria-label`, or `aria-labelledby`. Required `label` props enforce this where text alone is insufficient (e.g. `IconButton`, `ChatNav`, `Hero`, `TileMap`).
 - **No colour-only meaning.** Status, validity, and selection are conveyed through text, icons, ARIA state, or position — never colour alone (WCAG 1.4.1).
 - **Live regions are deliberate.** `role="alert"` and `aria-live` are reserved for dynamic content the user must hear; static labels stay static.
-- **Focus not obscured (WCAG 2.2 SC 2.4.11).** A focused control is never entirely hidden by author-created content such as a fixed or sticky bar. Whatever fixes a bar to the viewport (`sticky-promo-banner`, a theme's or app's own fixed header, a bottom navigation) sets `--lily-fixed-bar-block-start` / `--lily-fixed-bar-block-end` on the root to the bar's height. The shared "Focus not obscured" section, appended to all 57 themes and pinned by `bin/check-theme`, turns them into `:where(html) { scroll-padding-block: … }` (zero specificity, `0px` defaults), so the browser scrolls a focused control clear of the bar (the page also needs end padding equal to a bottom bar, since scroll-padding cannot scroll past the document end). Each example app's `e2e/focus-obscured.spec.ts` injects a fixed bottom bar, sets the property, tabs to the last focusable element and asserts its bounding box ends above the bar.
+- **Focus not obscured (WCAG 2.2 SC 2.4.11).** A focused control is never entirely hidden by author-created content such as a fixed or sticky bar. Whatever fixes a bar to the viewport (`sticky-promo-banner`, a theme's or app's own fixed header, a bottom navigation) sets `--lily-fixed-bar-block-start` / `--lily-fixed-bar-block-end` on the root to the bar's height. The shared "Focus not obscured" section, appended to all 63 themes and pinned by `bin/check-theme`, turns them into `:where(html) { scroll-padding-block: … }` (zero specificity, `0px` defaults), so the browser scrolls a focused control clear of the bar (the page also needs end padding equal to a bottom bar, since scroll-padding cannot scroll past the document end). Each example app's `e2e/focus-obscured.spec.ts` injects a fixed bottom bar, sets the property, tabs to the last focusable element and asserts its bounding box ends above the bar.
 - **Reduced motion.** Headless components do not auto-animate; consumers respect `prefers-reduced-motion` in their CSS.
 
 ## Common ARIA patterns
@@ -61,21 +61,23 @@ let button transitions settle, or axe samples mid-transition colours.
 
 ### axe-core baseline (Playwright, spec §11.5)
 
-axe-core / Playwright integration ships across all seven example apps. Rule set: **WCAG 2.0 A+AA, 2.1 A+AA, 2.2 AA**. Per-app baseline (axe-clean routes / total checked), re-verified 2026-09-02 (plan P1-T6) — see [testing](../testing/index.md) for the authoritative, live-maintained table:
+axe-core / Playwright integration ships across all seven example apps. Rule set: **WCAG 2.0 A+AA, 2.1 A+AA, 2.2 AA**. Per-app baseline (axe-clean routes / total checked), re-verified 2026-09-02 (plan P1-T6), and since 2026-10-29 run in Chromium, Firefox and WebKit (P18-T1) — see [testing](../testing/index.md) for the authoritative, live-maintained table:
 
-| App                        | Clean | Status                                                    |
-| -------------------------- | ----- | --------------------------------------------------------- |
-| svelte-sveltekit-examples  | 31/31 | ✅ full pass (plus a separate 571/571 full-catalog sweep) |
-| react-next-examples        | 31/31 | ✅ full pass                                              |
-| vue-nuxt-examples          | 31/31 | ✅ full pass                                              |
-| blazor-web-examples        | 31/31 | ✅ full pass                                              |
-| html-css-js-examples       | 29/29 | ✅ full pass                                              |
-| nunjucks-eleventy-examples | 31/31 | ✅ full pass                                              |
-| angular-examples           | 31/31 | ✅ full pass                                              |
+| App                        | Clean | Status                                                                                      |
+| -------------------------- | ----- | ------------------------------------------------------------------------------------------- |
+| svelte-sveltekit-examples  | 31/31 | ✅ full pass (plus a separate full-catalog sweep, 582 pages in three engines on 2026-10-29) |
+| react-next-examples        | 31/31 | ✅ full pass                                                                                |
+| vue-nuxt-examples          | 31/31 | ✅ full pass                                                                                |
+| blazor-web-examples        | 31/31 | ✅ full pass                                                                                |
+| html-css-js-examples       | 29/29 | ✅ full pass                                                                                |
+| nunjucks-eleventy-examples | 31/31 | ✅ full pass                                                                                |
+| angular-examples           | 31/31 | ✅ full pass                                                                                |
 
 ## Acceptance criteria
 
-- [x] Every interactive component is reachable and operable via `Tab`, `Shift+Tab`, `Enter`, `Space`, arrow keys, `Home`, `End`, and `Escape` as appropriate, with the contract documented in `components/{slug}/AGENTS.md`.
+- [x] Every interactive component's keyboard contract is documented in `components/{slug}/AGENTS.md`.
+- [ ] Every documented keyboard contract is proved by a test in every library: of the 65 components whose Keyboard section names an APG key, 260 library-component pairs have no key test (`bin/check-coverage` keys column; P12-T5a).
+- [ ] The screen-reader matrix (`docs/screen-reader-matrix.md`) has results: 0 of 120 cells filled on 2026-10-30, so Lily Core has no members (`bin/generate-core`; P16-T9).
 - [x] Every interactive element has an accessible name via visible text, `aria-label`, or `aria-labelledby`.
 - [x] No component suppresses focus rings; `:focus`, `:focus-visible`, and `tabindex` are correct.
 - [x] No status, validity, or selection is conveyed by colour alone (WCAG 1.4.1).

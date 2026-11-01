@@ -1,0 +1,39 @@
+{
+  "slug": "nigeria-national-identification-number-view",
+  "name": "NigeriaNationalIdentificationNumberView",
+  "description": "a read-only display of Nigeria's National Identification Number (NIN)",
+  "htmlTag": "span",
+  "category": "national",
+  "baseClass": ".nigeria-national-identification-number-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow",
+  "aria": [
+    "`aria-label` provides accessible name from label prop"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`value`: string (default: \"\") — the identifier to display",
+    "`label`: string (required) — accessible name via `aria-label`",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "nigeria-national-identification-number-input",
+    "summary-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/nigeria-national-identification-number-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/NigeriaNationalIdentificationNumberView/NigeriaNationalIdentificationNumberView.svelte",
+    "react": "lily-design-system-react-headless/components/NigeriaNationalIdentificationNumberView.tsx",
+    "vue": "lily-design-system-vue-headless/components/NigeriaNationalIdentificationNumberView.vue",
+    "angular": "lily-design-system-angular-headless/components/NigeriaNationalIdentificationNumberView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/nigeria-national-identification-number-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/nigeria-national-identification-number-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/nigeria-national-identification-number-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/NigeriaNationalIdentificationNumberView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/nigeria-national-identification-number-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/nigeria-national-identification-number-view/AGENTS.md"
+}

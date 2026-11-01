@@ -154,6 +154,7 @@ public class ComponentSmokeTests : TestContext
     [Fact]
     public void TileMap_applies_role_img_and_aria_roledescription()
     {
+        JSInterop.SetupModule(TileMap.ModulePath).SetupModule("attach", _ => true);
         var cut = RenderComponent<TileMap>(p => p.Add(x => x.Label, "USA").AddChildContent("x"));
         var root = cut.Find("div.tile-map");
         Assert.Equal("img", root.GetAttribute("role"));

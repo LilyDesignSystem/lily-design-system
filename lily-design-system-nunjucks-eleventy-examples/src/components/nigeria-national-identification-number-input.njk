@@ -1,0 +1,29 @@
+---
+layout: layouts/component-demo.njk
+title: NigeriaNationalIdentificationNumberInput
+description: an input for entering Nigeria's National Identification Number (NIN)
+---
+
+{% from "components/nigeria-national-identification-number-input/macro.njk" import nigeriaNationalIdentificationNumberInput %}
+
+<h2>Default</h2>
+<p>{{ nigeriaNationalIdentificationNumberInput({ text: "NigeriaNationalIdentificationNumberInput example", label: "NigeriaNationalIdentificationNumberInput example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field
+  label="National Identification Number (NIN)"
+  required
+&gt;
+  &lt;NigeriaNationalIdentificationNumberInput
+    label="National Identification Number (NIN)"
+    value="{value}"
+    required
+  /&gt;
+  &lt;Hint
+    &gt;Eleven digits issued by the National Identity Management Commission (NIMC). No check-digit algorithm is published, so only the length and digits can be checked.&lt;/Hint
+  &gt;
+  &lt;ErrorMessage&gt;Please enter a valid National Identification Number (NIN)&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

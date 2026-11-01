@@ -27,7 +27,7 @@
     //   - role="dialog" with aria-modal="false" (non-modal popover dialog)
     //   - aria-labelledby points at the heading
     //   - aria-describedby points at the description (when provided)
-    //   - hidden attribute removes the closed coachmark from the AT tree
+    //   - closed, it is display: none (popover="manual", or the hidden attribute where the Popover API is missing), so out of the AT tree
     //
     // Internationalization:
     //   - All user-facing strings via props
@@ -42,6 +42,8 @@
         }
         return `${prefix}-${Math.random().toString(36).slice(2, 11)}`;
     }
+
+    import { popoverState } from "../Popover/popover.js";
 
     let {
         class: className = "",
@@ -77,7 +79,8 @@
     aria-modal="false"
     aria-labelledby={titleId}
     aria-describedby={description ? descId : undefined}
-    hidden={!open}
+    popover="manual"
+    use:popoverState={open}
     {...restProps}
 >
     <h2

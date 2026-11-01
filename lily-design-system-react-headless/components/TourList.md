@@ -6,7 +6,7 @@ This component is useful for onboarding flows, feature tutorials, or contextual 
 
 ## Implementation Notes
 
-- Conditionally renders a `<div>` with `role="dialog"` and `aria-modal="true"` when `active` is true
+- Conditionally renders an `<ol>` when `active` is true, with no `role="dialog"` (it would remove the list semantics) and no `aria-modal` (it is not modal); dialog semantics belong to the enclosing Tour, which is non-modal
 - Uses `aria-label` for an accessible name describing the tour
 - Sets `tabindex="-1"` on the dialog to enable keyboard event capture
 - Handles Escape key via an `onKeyDown` handler that sets `active` to false
@@ -19,7 +19,7 @@ This component is useful for onboarding flows, feature tutorials, or contextual 
 - `label`: string (required) -- accessible name for the tour dialog via `aria-label`
 - `active`: boolean (default: `false`) -- whether the tour is currently visible; controlled
 - `children`: ReactNode (required) -- TourListItem elements
-- `...restProps`: unknown -- additional attributes spread onto the dialog `<div>`
+- `...restProps`: unknown -- additional attributes spread onto the `<ol>`
 
 ## Usage
 
@@ -66,8 +66,7 @@ This component is useful for onboarding flows, feature tutorials, or contextual 
 
 ## ARIA
 
-- `role="dialog"` -- identifies the tour overlay as a dialog window
-- `aria-modal="true"` -- indicates the dialog is modal and content behind it is inert
+- native `<ol>` list semantics (no `role="dialog"`, no `aria-modal`)
 - `aria-label={label}` -- provides an accessible name describing the tour
 - `tabindex="-1"` -- allows the dialog element to receive focus for keyboard event handling
 

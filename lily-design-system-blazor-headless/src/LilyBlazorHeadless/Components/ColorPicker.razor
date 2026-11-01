@@ -1,15 +1,72 @@
 @namespace LilyBlazorHeadless.Components
+@using System.Globalization
 
 @*
     ColorPicker component
-    a two-dimensional board for picking colors by hue and saturation
+    a two-axis colour area: X and Y, each 0 to 100
+
+    A focusable <div role="slider"> whose aria-valuenow is X; data-x and data-y carry both axes for the consumer's CSS.
+    X / XChanged and Y / YChanged are two-way (@bind-X, @bind-Y). ArrowRight/ArrowLeft move X, ArrowDown/ArrowUp move Y
+    (Up lowers it), by 1 or 10 with Shift, clamped to 0..100; Home/End set X to 0/100. Disabled: aria-disabled, out of
+    the tab order, keys ignored. The consumer draws the area and maps X/Y to a colour.
+
+    Deviation from the Svelte canonical (Blazor here uses no JS interop): an event handler cannot call preventDefault for
+    only some keys, so the keys may also scroll the page behind the picker.
+    Unmatched attributes spread onto the root <div>.
 *@
 
-<div class="@($"color-picker {CssClass}".Trim())" role="slider" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"color-picker {CssClass}".Trim())"
+     role="slider"
+     tabindex="@(Disabled ? "-1" : "0")"
+     aria-label="@Label"
+     aria-valuenow="@X.ToString(CultureInfo.InvariantCulture)"
+     aria-valuemin="0"
+     aria-valuemax="100"
+     aria-disabled="@(Disabled ? "true" : null)"
+     data-x="@X.ToString(CultureInfo.InvariantCulture)"
+     data-y="@Y.ToString(CultureInfo.InvariantCulture)"
+     @onkeydown="OnKeyDown"
+     @attributes="AdditionalAttributes">@ChildContent</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+    /// <summary>Horizontal position, 0 to 100. Bindable.</summary>
+    [Parameter] public double X { get; set; }
+    [Parameter] public EventCallback<double> XChanged { get; set; }
+    /// <summary>Vertical position, 0 (top) to 100. Bindable.</summary>
+    [Parameter] public double Y { get; set; }
+    [Parameter] public EventCallback<double> YChanged { get; set; }
+    [Parameter] public bool Disabled { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private static double Clamp(double v) => Math.Min(100, Math.Max(0, v));
+
+    private async Task OnKeyDown(KeyboardEventArgs e)
+    {
+        if (Disabled) return;
+        var step = e.ShiftKey ? 10 : 1;
+        double x = X, y = Y;
+        switch (e.Key)
+        {
+            case "ArrowRight": x = Clamp(X + step); break;
+            case "ArrowLeft": x = Clamp(X - step); break;
+            case "ArrowUp": y = Clamp(Y - step); break;
+            case "ArrowDown": y = Clamp(Y + step); break;
+            case "Home": x = 0; break;
+            case "End": x = 100; break;
+            default: return;
+        }
+        if (x != X)
+        {
+            X = x;
+            await XChanged.InvokeAsync(x);
+        }
+        if (y != Y)
+        {
+            Y = y;
+            await YChanged.InvokeAsync(y);
+        }
+    }
 }

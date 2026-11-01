@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
+import { restoreOnFormReset } from "./form-reset";
 
 /**
  * MisrAlRaqmAlQawmiInput — an input for entering Egypt's الرقم القومي (National Number)
@@ -33,4 +34,8 @@ export class MisrAlRaqmAlQawmiInput {
     readonly required = input<boolean>(false);
     /** Whether the input is disabled. */
     readonly disabled = input<boolean>(false);
+
+    constructor() {
+        restoreOnFormReset(this.value);
+    }
 }

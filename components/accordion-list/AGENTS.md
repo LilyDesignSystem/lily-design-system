@@ -39,6 +39,14 @@
 | `children`     | `slot`          | (required) | AccordionListItem elements to render inside the list |
 | `...restProps` | HTML attributes |            | Additional attributes spread onto the `<ol>` element |
 
+## Native platform
+
+- Decision: native
+- Uses: div role="group" of accordion-list-item <details>
+- Could use: <details name> for single-open accordions
+- Notes: Each item is a <details>; an exclusive mode could use the name attribute instead of script.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
+
 ## Acceptance Criteria
 
 - [ ] Renders <ol> element with class="accordion-list"

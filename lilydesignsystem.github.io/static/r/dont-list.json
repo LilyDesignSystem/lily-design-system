@@ -2,7 +2,7 @@
   "slug": "dont-list",
   "name": "DontList",
   "description": "a guideline list of discouraged dont-list-item components",
-  "htmlTag": "ol",
+  "htmlTag": "ul",
   "category": "lists",
   "baseClass": ".dont-list",
   "subClasses": [],

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "convert-into-div",
+  "type": "registry:component",
+  "title": "ConvertIntoDiv",
+  "description": "The target side of a conversion, holding the value and unit to convert into.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ConvertIntoDiv.tsx",
+      "content": "import React from \"react\";\n\n// ConvertIntoDiv component\n//\n// A headless part of ConvertDiv: the target side of a conversion, holding the value and unit to convert into.\n// Contract: a plain <div> with the base class and children.\n// Converts nothing and carries no strings of its own.\n//\n// Props:\n//   className    -- string, optional. CSS class name.\n//   children     -- ReactNode, optional. The content.\n//   ...restProps -- additional HTML attributes spread onto the root.\n\nexport interface ConvertIntoDivProps {\n    className?: string;\n    /** The content. */\n    children?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function ConvertIntoDiv({\n    className = \"\",\n    children,\n    ...restProps\n}: ConvertIntoDivProps) {\n    return (\n        <div\n            className={`convert-into-div ${className}`}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ConvertIntoDiv.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/convert-into-div/"
+}

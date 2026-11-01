@@ -155,7 +155,7 @@ pnpm run dev</code></pre>
   <h2>Hotové témy</h2>
   <p>
     Nechcete písať CSS od nuly? Lily dodáva
-    <strong>57 samostatných referenčných tém</strong> v adresári
+    <strong>63 samostatných referenčných tém</strong> v adresári
     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
     . Každá je jeden štýlový hárok cieliaci na háčiky tried Lily — prepojte ho a ste naštýlovaní:
   </p>
@@ -179,11 +179,7 @@ pnpm run dev</code></pre>
 
 <section class="section prose" id="helpers" style="margin: 0 auto;">
   <h2>Pomocníci pre predvoľby</h2>
-  <p>
-    Každý framework má osem malých výberov, každý je samostatný balíček
-    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> (a <code>picker-bar</code> , ktorý ich zostavuje). Každý je bezhlavé tlačidlo s ikonou, ktoré otvára vyskakovacie okno — zoznam, zoznam odkazov, vyhľadávací formulár alebo (pri date-time-picker) dialóg výberu dátumu — nie natívne
-    <code>&lt;select&gt;</code>; je bezpečný pre SSR; a nedodáva žiadne CSS:
-  </p>
+  <p>Každý framework má jedenásť malých výberov, každý vo vlastnom balíku <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> (a <code>picker-bar</code>, ktorý ich skladá). Každý je headless tlačidlo s ikonou, ktoré otvára vyskakovací prvok — zoznam možností, zoznam odkazov, vyhľadávací formulár, panel s vaším vlastným obsahom alebo (pri date-time-picker) dialóg na výber dátumu — nie natívny <code>&lt;select&gt;</code> (theme-picker ho ponúka ako voliteľný variant); je bezpečný pre SSR a nedodáva žiadne CSS. Okrem menu-picker, settings-picker a time-zone-picker sú to:</p>
   <ul>
     <li>
       <strong>theme-picker</strong> — načítava štýlové hárky tém za behu výmenou spravovaného <code>&lt;link&gt;</code>, nastavuje
@@ -294,7 +290,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
     <summary>Komponent sa vykreslí, ale vyzerá nenaštýlovane</summary>
     <p>
       To je bezhlavosť fungujúca tak, ako má — s komponentom neprichádza žiadne CSS. Buď napíšte CSS pre triedu komponentu v kebab-case (zobrazenú na každej <a href="/components/">stránke katalógu</a>) alebo prepojte jednu z
-      <a href="#themes">57 hotových tém</a>.
+      <a href="#themes">63 hotových tém</a>.
     </p>
   </details>
 
@@ -383,7 +379,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
   <details class="faq-item">
     <summary>Prečo bezhlavé, a nie naštýlované?</summary>
     <p>
-      Predštýlované komponenty sú pohodlné — kým nesedia k vašej značke. Bezhlavé komponenty vyžadujú spočiatku trochu viac práce, ale dávajú vám plnú kontrolu nad vizuálnym dizajnom. Ukážkové aplikácie a 57 tém ukazujú spôsoby, ako ich štýlovať; môžete ich prevziať, alebo úplne nahradiť. Dlhší argument je na <a href="/why/">Prečo Lily</a>.
+      Predštýlované komponenty sú pohodlné — kým nesedia k vašej značke. Bezhlavé komponenty vyžadujú spočiatku trochu viac práce, ale dávajú vám plnú kontrolu nad vizuálnym dizajnom. Ukážkové aplikácie a 63 tém ukazujú spôsoby, ako ich štýlovať; môžete ich prevziať, alebo úplne nahradiť. Dlhší argument je na <a href="/why/">Prečo Lily</a>.
     </p>
   </details>
 

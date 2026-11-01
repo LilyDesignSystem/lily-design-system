@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "code-block",
+  "type": "registry:component",
+  "title": "CodeBlock",
+  "description": "A block of formatted code with optional line numbers and line highlighting.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/CodeBlock.tsx",
+      "content": "import React from \"react\";\n\n// CodeBlock component\n//\n// A block of formatted code with optional line numbers and line highlighting.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label    — string, optional. Accessible label via aria-label.\n//   children — ReactNode, required. Component content.\n//   ...restProps — additional HTML attributes spread onto the <pre>.\n//\n// Accessibility:\n//   - native <pre> semantics\n//   - aria-label exposes a screen-reader name when label is provided\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//\n// References:\n//   - HTML pre element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/pre\n\nexport interface CodeBlockProps {\n    className?: string;\n    /** Optional accessible label set on aria-label. */\n    label?: string;\n    /** Component content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function CodeBlock({\n    className = \"\",\n    label = undefined,\n    children,\n    ...restProps\n}: CodeBlockProps) {\n    return (\n        <pre\n            className={`code-block ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </pre>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/CodeBlock.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/code-block/"
+}

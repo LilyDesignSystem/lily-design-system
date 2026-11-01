@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-government-banner",
     standalone: true,
-    template: `<div class="government-banner {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<aside class="government-banner {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></aside>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GovernmentBanner {

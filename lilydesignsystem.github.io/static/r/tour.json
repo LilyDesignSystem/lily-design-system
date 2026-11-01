@@ -9,9 +9,14 @@
   "interactive": false,
   "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
   "aria": [
-    "`aria-label={label}` -- provides an accessible name for the tour container"
+    "`role=\"dialog\"` -- a non-modal dialog",
+    "`aria-label={label}` -- provides an accessible name for the tour container",
+    "no `aria-modal` -- the tour is non-modal (see Modality)"
   ],
-  "keyboard": [],
+  "keyboard": [
+    "Escape: ends the tour by setting `active` to `false`",
+    "Tab: moves normally between the tour's controls and the rest of the page; the tour does not trap focus"
+  ],
   "props": [
     "`label`: string (required) -- accessible name for the tour via `aria-label`",
     "`className`: string (default: `\"\"`) -- CSS class name for the container",
@@ -35,5 +40,10 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Tour.razor"
   },
   "docs": "https://lilydesignsystem.com/components/tour/",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tour/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tour/AGENTS.md",
+  "nativePlatform": {
+    "decision": "hand-rolled because a tour points at the live page and often asks the user to try it, so it must stay non-modal; a <div role=\"dialog\"> without aria-modal says that",
+    "uses": "none (div role=\"dialog\", non-modal, no aria-modal)",
+    "could_use": "<dialog> show() (non-modal)"
+  }
 }

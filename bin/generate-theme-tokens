@@ -1,18 +1,31 @@
 #!/usr/bin/env python3
-"""bin/generate-theme-tokens — DTCG token source for the 57 themes.
+"""bin/generate-theme-tokens — DTCG token source for the 63 themes.
 
 The per-theme design primitives (the token block each theme declares on
 `:root` / `:root[data-theme=...]`) live as Design Tokens Community Group
 format files under themes/tokens/*.json (DTCG 2025.10: $type/$value,
 structured color values, dimension objects, $description carrying the
-token commentary). This script is the bridge (plan P3-T6):
+token commentary). Only standard 2025.10 types are written (color,
+dimension, number); bin/check-dtcg-tokens validates them strictly. A fluid
+value (a `clamp()`) is a standard `dimension` token whose $value is its rem
+floor, so a strict tool reads a usable size; the fluid parameters ride in
+`$extensions["com.lilydesignsystem"].fluid` ({floor, base, grow, ceiling}),
+and this script emits `clamp()` from them (plan P16-T6). This script is the
+bridge (plan P3-T6):
 
   --extract   bootstrap/backfill: parse each theme's current token block
               into its tokens JSON (comments become $description).
   (default)   generate: rewrite each theme's token block from its JSON,
               in the one canonical emission format.
   --check     regenerate in memory and fail if any theme's block differs
-              from what its JSON produces (wired into bin/test).
+              from what its JSON produces, or the resolver is stale
+              (wired into bin/test).
+
+It also writes themes/tokens/lily.resolver.json, a DTCG 2025.10 Resolver
+document: one `theme` modifier whose contexts are the 63 theme files
+(each file is a complete token set, so the themes are alternatives, not
+layers), with the families (patient / practitioner pairs) and the light /
+dark colour schemes recorded under the modifier's $extensions.
 
 Only the primitives are sourced from JSON. The derived `--lily-*` layer
 (var()/color-mix() over these) and the component body remain CSS — they
@@ -29,6 +42,7 @@ import textwrap
 TOP = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 THEMES = os.path.join(TOP, "themes")
 TOKENS = os.path.join(THEMES, "tokens")
+LILY_EXT = "com.lilydesignsystem"  # this project's reverse-domain $extensions key
 
 GUARD_RE = re.compile(
     r":where\(\s*:root,\s*:root\[data-theme=\"(?P<slug>[a-z0-9-]+)\"\]\s*\)\s*\{"
@@ -50,27 +64,46 @@ def parse_value(v):
     m = OKLCH_RE.match(v)
     if m:
         L, C, H = (float(x) for x in m.groups())
-        return "color", {"colorSpace": "oklch", "components": [round(L / 100, 4), C, H]}
+        return "color", {"colorSpace": "oklch", "components": [round(L / 100, 4), C, H]}, None
     if HEX_RE.match(v):
         r, g, b = (int(v[i:i + 2], 16) / 255 for i in (1, 3, 5))
         return "color", {"colorSpace": "srgb",
                          "components": [round(r, 4), round(g, 4), round(b, 4)],
-                         "hex": v.lower()}
+                         "hex": v.lower()}, None
     m = FLUID_RE.match(v)
     if m:
         fl, ba, gr, ce = (float(x) for x in m.groups())
-        return "fluidDimension", {
+        return "dimension", {"value": fl, "unit": "rem"}, {"fluid": {
             "floor": {"value": fl, "unit": "rem"},
             "base": {"value": ba, "unit": "rem"},
             "grow": {"value": gr, "unit": "vw"},
             "ceiling": {"value": ce, "unit": "rem"},
-        }
+        }}
     m = DIM_RE.match(v)
     if m:
-        return "dimension", {"value": float(m.group(1)), "unit": m.group(2)}
+        return "dimension", {"value": float(m.group(1)), "unit": m.group(2)}, None
     if NUM_RE.match(v):
-        return "number", float(v)
+        return "number", float(v), None
     raise ValueError(f"unhandled token value: {v!r}")
+
+
+def fluid_of(tok):
+    """The token's fluid parameters, or None for a fixed value."""
+    return tok.get("$extensions", {}).get(LILY_EXT, {}).get("fluid")
+
+
+def emit_token(tok):
+    fluid = fluid_of(tok)
+    if fluid is not None:
+        if tok["$type"] != "dimension" or tok["$value"] != fluid["floor"]:
+            raise ValueError(f"fluid token's $value must be a dimension equal to its floor: {tok}")
+        # clamp(floor, base + grow, ceiling): grows with the viewport, never
+        # below a rem floor (bin/check-theme enforces the floor). For spacing,
+        # not text (spec/responsive).
+        d = lambda x: f"{x['value']:g}{x['unit']}"
+        return (f"clamp({d(fluid['floor'])}, {d(fluid['base'])} + {d(fluid['grow'])}, "
+                f"{d(fluid['ceiling'])})")
+    return emit_value(tok["$type"], tok["$value"])
 
 
 def emit_value(typ, val):
@@ -86,12 +119,6 @@ def emit_value(typ, val):
         raise ValueError(f"unhandled color: {val}")
     if typ == "dimension":
         return f"{val['value']:g}{val['unit']}"
-    if typ == "fluidDimension":
-        # clamp(floor, base + grow, ceiling): grows with the viewport, never
-        # below a rem floor (bin/check-theme enforces the floor). For spacing,
-        # not text (spec/responsive).
-        d = lambda x: f"{x['value']:g}{x['unit']}"
-        return f"clamp({d(val['floor'])}, {d(val['base'])} + {d(val['grow'])}, {d(val['ceiling'])})"
     if typ == "number":
         return f"{val:g}"
     raise ValueError(typ)
@@ -110,26 +137,28 @@ def extract_one(css, slug):
         raise SystemExit(f"{slug}: token guard block not found or slug mismatch")
     body = m.group("body")
     scheme = (re.search(r"color-scheme:\s*(\w+)", body) or [None, "light"])[1]
-    doc = {"$extensions": {"com.lilydesignsystem": {"colorScheme": scheme}}}
+    doc = {"$extensions": {LILY_EXT: {"colorScheme": scheme}}}
     # walk (comment, decl) pairs in order
     order = []
     for cm, decl_name, decl_val in re.findall(
         r"(?:/\*(.*?)\*/\s*)?(--[a-z0-9-]+)\s*:\s*([^;]+);", body, re.S
     ):
-        typ, val = parse_value(decl_val)
+        typ, val, ext = parse_value(decl_val)
         g, leaf = group_of(decl_name)
         tok = {"$type": typ, "$value": val}
         desc = " ".join(cm.split())
         if desc:
             tok["$description"] = desc
+        if ext:
+            tok["$extensions"] = {LILY_EXT: ext}
         doc.setdefault(g, {})[leaf] = tok
         order.append(decl_name)
-    doc["$extensions"]["com.lilydesignsystem"]["order"] = order
+    doc["$extensions"][LILY_EXT]["order"] = order
     return doc
 
 
 def generate_block(slug, doc):
-    ext = doc["$extensions"]["com.lilydesignsystem"]
+    ext = doc["$extensions"][LILY_EXT]
     lines = [f':where(:root, :root[data-theme="{slug}"]) {{',
              f"    color-scheme: {ext['colorScheme']};", ""]
     for name in ext["order"]:
@@ -141,15 +170,60 @@ def generate_block(slug, doc):
                                    subsequent_indent="       "):
                 lines.append(w)
             lines[-1] += " */"
-        lines.append(f"    {name}: {emit_value(tok['$type'], tok['$value'])};")
+        lines.append(f"    {name}: {emit_token(tok)};")
     lines.append("}")
     return "\n".join(lines)
+
+
+RESOLVER = os.path.join(TOKENS, "lily.resolver.json")
+AUDIENCES = ("for-patients", "for-practitioners")
+
+
+def build_resolver(docs):
+    """The Resolver document for {slug: token doc}, as JSON text."""
+    slugs = sorted(docs)
+    families = {}
+    for slug in slugs:
+        for aud in AUDIENCES:
+            if slug.endswith("-" + aud):
+                families.setdefault(slug[:-len(aud) - 1], {})[aud.split("-", 1)[1]] = slug
+    schemes = {}
+    for slug in slugs:
+        schemes.setdefault(docs[slug]["$extensions"][LILY_EXT]["colorScheme"], []).append(slug)
+    doc = {
+        "$schema": "https://www.designtokens.org/schemas/2025.10/resolver.json",
+        "name": "Lily Design System reference themes",
+        "version": "2025.10",
+        "description": (
+            "The reference themes as one DTCG 2025.10 resolver. Each theme file is a complete, "
+            "self-contained token set, so the themes are the contexts of a single theme modifier: "
+            "pick one with the input {\"theme\": \"<slug>\"}. Generated by bin/generate-theme-tokens."
+        ),
+        "modifiers": {
+            "theme": {
+                "description": (
+                    "The reference theme, named by its data-theme slug. The patient and practitioner "
+                    "variants of a national theme are separate contexts; their pairing and each theme's "
+                    "light or dark colour scheme are listed under $extensions."
+                ),
+                "contexts": {slug: [{"$ref": slug + ".json"}] for slug in slugs},
+                "default": "light",
+                "$extensions": {LILY_EXT: {
+                    "families": families,
+                    "colorScheme": {k: schemes[k] for k in sorted(schemes)},
+                }},
+            }
+        },
+        "resolutionOrder": [{"$ref": "#/modifiers/theme"}],
+    }
+    return json.dumps(doc, indent=2, ensure_ascii=False) + "\n"
 
 
 def main():
     mode = sys.argv[1] if len(sys.argv) > 1 else "generate"
     files = sorted(glob.glob(os.path.join(THEMES, "*.css")))
     changed = drift = 0
+    docs = {}
     for f in files:
         slug = os.path.basename(f)[:-4]
         css = open(f).read()
@@ -158,8 +232,10 @@ def main():
             doc = extract_one(css, slug)
             json.dump(doc, open(jpath, "w"), indent=2, ensure_ascii=False)
             open(jpath, "a").write("\n")
+            docs[slug] = doc
             continue
         doc = json.load(open(jpath))
+        docs[slug] = doc
         block = generate_block(slug, doc)
         m = GUARD_RE.search(css)
         if not m:
@@ -174,13 +250,23 @@ def main():
             if new_css != css:
                 open(f, "w").write(new_css)
                 changed += 1
+    resolver = build_resolver(docs)
+    old = open(RESOLVER).read() if os.path.exists(RESOLVER) else None
+    if mode == "--check":
+        if old != resolver:
+            print("Error: tokens/lily.resolver.json is stale; run bin/generate-theme-tokens",
+                  file=sys.stderr)
+            drift += 1
+    elif old != resolver:
+        open(RESOLVER, "w").write(resolver)
+        print("generated: tokens/lily.resolver.json updated")
     if mode == "--extract":
         print(f"extracted {len(files)} token files")
     elif mode == "--check":
         if drift:
             print(f"generate-theme-tokens: FAILED ({drift} drifting)", file=sys.stderr)
             return 1
-        print(f"generate-theme-tokens: OK ({len(files)} themes)")
+        print(f"generate-theme-tokens: OK ({len(files)} themes and the resolver)")
     else:
         print(f"generated: {changed} updated, {len(files) - changed} already canonical")
     return 0

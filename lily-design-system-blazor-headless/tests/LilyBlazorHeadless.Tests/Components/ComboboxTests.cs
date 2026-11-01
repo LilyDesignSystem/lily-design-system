@@ -7,6 +7,11 @@ namespace LilyBlazorHeadless.Tests.Components;
 
 public class ComboboxTests : TestContext
 {
+    public ComboboxTests()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+    }
+
     [Fact]
     public void Renders_with_kebab_base_class()
     {
@@ -70,18 +75,19 @@ public class ComboboxTests : TestContext
     }
 
     [Fact]
-    public void Listbox_is_absent_when_closed_and_present_when_open()
+    public void Listbox_is_a_manual_popover_that_follows_the_Open_state()
     {
         var closed = RenderComponent<Combobox>(p => p
             .Add(x => x.Open, false)
             .AddChildContent("<div role=\"option\">A</div>"));
-        Assert.Empty(closed.FindAll("[role=listbox]"));
+        Assert.Equal("manual", closed.Find("[role=listbox]").GetAttribute("popover"));
+        Assert.Equal("false", closed.Find("input").GetAttribute("aria-expanded"));
 
         var open = RenderComponent<Combobox>(p => p
             .Add(x => x.Open, true)
             .AddChildContent("<div role=\"option\">A</div>"));
-        var listbox = open.Find("[role=listbox]");
-        Assert.NotNull(listbox);
+        Assert.Equal("manual", open.Find("[role=listbox]").GetAttribute("popover"));
+        Assert.Equal("true", open.Find("input").GetAttribute("aria-expanded"));
     }
 
     [Fact]

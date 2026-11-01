@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"sheet\" role=\"dialog\" aria-label=\"Sheet\"><p>Sheet panel content</p></div>";
   const svelteSource: string = "// In your Svelte component:\nimport Sheet from \"lily-design-system-svelte-headless/components/Sheet/Sheet.svelte\";\n\n<Sheet>\n  <!-- content -->\n</Sheet>\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import Sheet from \"./Sheet.svelte\";\n    let open = $state(false);\n<\/script>\n\n<button onclick={() => (open = true)}>Open</button>\n<Sheet label=\"Settings\" bind:open side=\"right\">\n    <h2>Settings</h2>\n    <button onclick={() => (open = false)}>Close</button>\n</Sheet>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import Sheet from \"./Sheet.svelte\";\n  let open = $state(false);\n<\/script>\n\n<button onclick={() => (open = true)}>Open</button>\n<Sheet\n  label=\"Settings\"\n  bind:open\n  side=\"right\"\n>\n  <h2>Settings</h2>\n  <button onclick={() => (open = false)}>Close</button>\n</Sheet>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>
@@ -76,20 +76,22 @@
       <li>PascalCase: Sheet</li>
       <li>Description: a panel that slides in from a screen edge as an overlay</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
-      <li>HTML tag: &lt;div&gt;</li>
+      <li>HTML tag: &lt;dialog&gt;</li>
       <li>CSS class: .sheet</li>
       <li>Interactive: yes</li>
     </ul>
     <h3>ARIA</h3>
     <ul>
-      <li><code>role="dialog"</code> -- identifies the sheet as a dialog window</li>
+      <li><code>role="dialog"</code> -- implicit on the native <code>&lt;dialog&gt;</code> element (not repeated as an attribute)</li>
       <li><code>aria-label=&#123;label&#125;</code> -- provides an accessible name for the dialog</li>
-      <li><code>aria-modal="true"</code> -- indicates the dialog is modal, meaning content behind it is inert</li>
+      <li><code>aria-modal="true"</code> -- true: <code>showModal()</code> makes the page behind inert</li>
+      <li><code>tabindex="-1"</code> -- lets the dialog take focus</li>
+      <li><code>data-side=&#123;side&#125;</code> -- data attribute for consumer CSS styling based on position</li>
     </ul>
     <h3>Keyboard</h3>
     <ul>
-      <li>Escape: Closes the sheet by setting <code>open</code> to <code>false</code></li>
-      <li>Tab: Moves focus between focusable elements within the sheet (consumer should implement focus trapping)</li>
+      <li>Escape: closes it by setting <code>open</code> to <code>false</code></li>
+      <li>Tab / Shift+Tab: move between focusable elements inside it; focus cannot leave while it is open</li>
     </ul>
     <h3>Props</h3>
     <ul>
@@ -97,7 +99,7 @@
       <li><code>open</code>: boolean (default: <code>false</code>) -- whether the sheet is visible; two-way bindable via <code>open</code></li>
       <li><code>side</code>: <code>"left" | "right" | "top" | "bottom"</code> (default: <code>"right"</code>) -- which edge the sheet appears from</li>
       <li><code>children</code>: slot (required) -- content to render inside the sheet</li>
-      <li><code>...restProps</code>: unknown -- additional attributes spread onto the <code>&lt;div&gt;</code> element</li>
+      <li><code>...restProps</code>: unknown -- additional attributes spread onto the <code>&lt;dialog&gt;</code> element</li>
     </ul>
 </section>
 <!-- END generated: canonical contract -->

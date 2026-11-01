@@ -32,4 +32,22 @@ describe("ChatListItem", () => {
         const { container } = render(<Subject data-testid="subject">content</Subject>);
         expect(container.querySelector("[data-testid='subject']")).toBeTruthy();
     });
+
+    test("aria-current only when current", () => {
+        const { container, rerender } = render(<Subject label="Ana">x</Subject>);
+        expect(container.querySelector("li.chat-list-item")!.hasAttribute("aria-current")).toBe(
+            false,
+        );
+        rerender(
+            <Subject
+                label="Ana"
+                current
+            >
+                x
+            </Subject>,
+        );
+        expect(container.querySelector("li.chat-list-item")!.getAttribute("aria-current")).toBe(
+            "true",
+        );
+    });
 });

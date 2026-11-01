@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
+import { restoreOnFormReset } from "./form-reset";
 
 /**
  * Select — a dropdown select element for choosing one option
@@ -17,4 +18,7 @@ export class Select {
     readonly label = input<string>("");
     readonly className = input<string>("");
     readonly value = model<string>("");
+    constructor() {
+        restoreOnFormReset(this.value);
+    }
 }

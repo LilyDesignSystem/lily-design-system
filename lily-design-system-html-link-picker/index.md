@@ -50,7 +50,7 @@ Modified clicks (Ctrl/Cmd/Shift/Alt, middle button) and `newTab` links are never
 ## Styling
 
 No CSS ships. Hooks: `.link-picker`, `.link-picker-button`, `.link-picker-icon`, `.link-picker-tooltip`, `.link-picker-list`
-(carries `hidden` when closed), `.link-picker-list-item`, `.link-picker-link`. The monorepo's 45 `themes/` style them all.
+(carries `hidden` when closed), `.link-picker-list-item`, `.link-picker-link`. The monorepo's 57 `themes/` style them all.
 See [docs/styling.md](./docs/styling.md).
 
 ## Examples

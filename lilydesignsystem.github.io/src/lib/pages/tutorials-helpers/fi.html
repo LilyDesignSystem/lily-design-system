@@ -3,8 +3,7 @@
 <section class="page-intro">
   <h1>Asetusapuvälineet</h1>
   <p class="page-intro-tagline">
-    Seitsemän pientä pakettia kehystä kohden, joista kukin omistaa yhden käyttäjän tehtävän alusta loppuun, sekä palkki, joka kokoaa viisi niistä. Olet jo tavannut
-    <a href="/tutorials/theming/">theme-picker</a>:in; tässä ovat locale-picker, text-size-picker ja motion-picker (asetukset), share-picker ja search-picker (toiminnot), date-time-picker (lomakkeen arvo) sekä picker-bar.
+    Yksitoista pientä valitsinta kehystä kohden, kukin vastaa yhdestä käyttäjän tehtävästä alusta loppuun, sekä palkki, joka kokoaa niistä enintään seitsemän. <a href="/tutorials/theming/">theme-picker</a> on jo tuttu; tässä ovat locale-picker, text-size-picker ja motion-picker (asetukset), share-picker ja search-picker (toiminnot), date-time-picker (lomakkeen arvo) ja picker-bar.
   </p>
 </section>
 
@@ -26,7 +25,7 @@
     <li>SSR-turvallinen: DOM-kirjoitukset tapahtuvat vain mount-/effect-elinkaaressa.</li>
     <li>i18n-puhdas: jokainen käyttäjälle näkyvä merkkijono on prop.</li>
     <li>
-      Saatavilla Sveltelle (kanoninen), Reactille, Vuelle, Angularille, HTML-mukautetulle elementille, Nunjucksille ja Blazorille — sama sopimus jokaisessa.
+      Saatavilla Sveltelle (kanoninen), Reactille, Vuelle, Angularille, HTML-mukautetulle elementille, Web Componentslle, Nunjucksille ja Blazorille — sama sopimus jokaisessa.
     </li>
   </ul>
   <p>
@@ -208,6 +207,7 @@
   <p>
     <code>picker-bar</code> renderöi haun, teeman, kielen, tekstikoon ja jaon yhdelle riville, ja täysi viiteteemojen joukko sekä seitsenportainen tekstiasteikko on valmiiksi kytketty. Jokainen saavutettava nimi tulee yhdessä pakollisessa
     <code>labels</code> -oliossa.
+    Se näyttää myös link-pickerin ensimmäisenä, kun annat linkit, ja time-zone-pickerin kieliasetuksen jälkeen, kun annat sille aikavyöhykkeen nimen ja kieliasetuksen.
   </p>
   
   <pre tabindex="0"><code>&lt;script&gt;
@@ -264,7 +264,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker
 
   <h2>Seuraavat askeleet</h2>
   <ul>
-    <li><a href="/components/">Komponenttiluettelo</a> — kaikkien 582 komponentin täysi viite.</li>
+    <li><a href="/components/">Komponenttiluettelo</a> — kaikkien 607 komponentin täysi viite.</li>
     <li><a href="/help/">Ohje</a> — vianmääritys ja usein kysytyt kysymykset.</li>
     <li><a href="/why/">Miksi Lily</a> — ja miten tuet projektia.</li>
   </ul>

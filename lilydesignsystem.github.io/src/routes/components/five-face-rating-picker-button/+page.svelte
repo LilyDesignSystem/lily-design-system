@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<button class=\"five-face-rating-picker-button\" role=\"radio\" aria-checked=\"false\">😊</button>";
   const svelteSource: string = "// In your Svelte component:\nimport FiveFaceRatingPickerButton from \"lily-design-system-svelte-headless/components/FiveFaceRatingPickerButton/FiveFaceRatingPickerButton.svelte\";\n\n<FiveFaceRatingPickerButton>FiveFaceRatingPickerButton</FiveFaceRatingPickerButton>\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import FiveFaceRatingPickerButton from \"./FiveFaceRatingPickerButton.svelte\";\n    let rating = $state(0);\n    const labels = [\"Very bad\", \"Bad\", \"Okay\", \"Good\", \"Very good\"];\n<\/script>\n\n<div role=\"group\" aria-label=\"Experience\">\n    {#each labels as label, i}\n        <FiveFaceRatingPickerButton\n            value={i + 1}\n            {label}\n            selected={rating === i + 1}\n            onclick={() => rating = i + 1}\n        />\n    {/each}\n</div>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import FiveFaceRatingPickerButton from \"./FiveFaceRatingPickerButton.svelte\";\n  let rating = $state(0);\n  const labels = [\"Very bad\", \"Bad\", \"Okay\", \"Good\", \"Very good\"];\n<\/script>\n\n<div\n  role=\"group\"\n  aria-label=\"Experience\"\n>\n  {#each labels as label, i}\n    <FiveFaceRatingPickerButton\n      value={i + 1}\n      {label}\n      selected={rating === i + 1}\n      onclick={() => (rating = i + 1)}\n    />\n  {/each}\n</div>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

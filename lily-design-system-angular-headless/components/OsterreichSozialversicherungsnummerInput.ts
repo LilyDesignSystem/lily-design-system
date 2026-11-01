@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
+import { restoreOnFormReset } from "./form-reset";
 
 /**
  * OsterreichSozialversicherungsnummerInput — an input for entering Austria's Sozialversicherungsnummer (SVNR)
@@ -33,4 +34,8 @@ export class OsterreichSozialversicherungsnummerInput {
     readonly required = input<boolean>(false);
     /** Whether the input is disabled. */
     readonly disabled = input<boolean>(false);
+
+    constructor() {
+        restoreOnFormReset(this.value);
+    }
 }

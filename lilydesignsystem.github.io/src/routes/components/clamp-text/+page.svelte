@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"clamp-text\" aria-label=\"a text container that truncates content to a maximum number of lines\">ClampText</div>";
   const svelteSource: string = "// In your Svelte component:\nimport ClampText from \"lily-design-system-svelte-headless/components/ClampText/ClampText.svelte\";\n\n<ClampText>\n  <!-- content -->\n</ClampText>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import ClampText from './ClampText.svelte';\n<\/script>\n\n<ClampText lines={3}>\n  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor\n  incididunt ut labore et dolore magna aliqua.\n</ClampText>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import ClampText from \"./ClampText.svelte\";\n<\/script>\n\n<ClampText lines={3}>\n  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut\n  labore et dolore magna aliqua.\n</ClampText>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

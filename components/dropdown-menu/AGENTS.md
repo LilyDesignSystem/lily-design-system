@@ -12,7 +12,7 @@
 
 ## Key Behaviors
 
-- Renders a wrapper `<div>` containing a `<button>` trigger and a conditionally rendered menu `<div>`
+- Renders a wrapper `<div>` containing a `<button>` trigger and an always-rendered menu `<div popover="auto">`; the trigger names it with `command="toggle-popover"` `commandfor` (and `popovertarget`), so the browser opens and closes it, closes it on Escape and on a click outside, and puts it in the top layer; the `toggle` event writes `open` back. Where the Popover API is missing the click toggles `open` and the menu falls back to `hidden` (P18-T11)
 - Supports two-way binding on the `open` prop with the parent
 - Uses reactive state to track the `menuRef` DOM reference for querying menu items
 - Uses `$effect()` to auto-focus the first `[role="menuitem"]` element when the menu opens
@@ -45,6 +45,14 @@
 - `label`: string (required) -- accessible name for the menu button, also displayed as button text
 - `open`: boolean (default: false) -- whether the menu is visible; bindable
 - `children`: slot (required) -- menu items, each should have `role="menuitem"` and `tabindex="-1"`
+
+## Native platform
+
+- Decision: native
+- Uses: popover="auto" menu toggled by command="toggle-popover" commandfor (and popovertarget) on its trigger; bindable open synced from the toggle event; APG arrow-key focus hand-rolled
+- Could use: CSS anchor positioning
+- Notes: Open, Escape, light dismiss and top layer with no script (verified with JavaScript disabled in Chromium and WebKit for HTML and Nunjucks); Arrow/Home/End focus over menuitems has no native equivalent and stays. Fallback where showPopover is missing: hidden and a click toggle. Blazor was a bare stub, ported from Svelte (P18-T11, 2026-10-30).
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
 
 ## Acceptance Criteria
 

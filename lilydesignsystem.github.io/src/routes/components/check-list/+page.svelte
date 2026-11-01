@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<ol class=\"check-list\"><li class=\"check-list-item\"><label><input type=\"checkbox\" /> Task 1</label></li><li class=\"check-list-item\"><label><input type=\"checkbox\" checked /> Task 2</label></li></ol>";
   const svelteSource: string = "// In your Svelte component:\nimport CheckList from \"lily-design-system-svelte-headless/components/CheckList/CheckList.svelte\";\n\n<CheckList>\n  <!-- list children -->\n</CheckList>\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import CheckList from \"./CheckList.svelte\";\n    import CheckListItem from \"../CheckListItem/CheckListItem.svelte\";\n<\/script>\n\n<CheckList label=\"Onboarding tasks\">\n    <CheckListItem checked>Create account</CheckListItem>\n    <CheckListItem>Set up profile</CheckListItem>\n    <CheckListItem>Invite team members</CheckListItem>\n</CheckList>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import CheckList from \"./CheckList.svelte\";\n  import CheckListItem from \"../CheckListItem/CheckListItem.svelte\";\n<\/script>\n\n<CheckList label=\"Onboarding tasks\">\n  <CheckListItem checked>Create account</CheckListItem>\n  <CheckListItem>Set up profile</CheckListItem>\n  <CheckListItem>Invite team members</CheckListItem>\n</CheckList>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

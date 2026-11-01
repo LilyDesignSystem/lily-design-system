@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tool-call-status",
+  "type": "registry:component",
+  "title": "ToolCallStatus",
+  "description": "The status of a tool call as a word, such as pending, running, done or error.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ToolCallStatus.tsx",
+      "content": "import React from \"react\";\n\n// ToolCallStatus component\n//\n// A headless inner part of ToolCall: the status of a tool call as a word, such as pending, running, done or error. Contract: `status` (optional) sets `data-status`; the visible status word is the children (consumer text, never colour alone).\n// Draws nothing and carries no strings of its own; the consumer supplies the text.\n\nexport interface ToolCallStatusProps {\n    className?: string;\n    /** Status: pending, running, done or error. */\n    status?: string;\n    /** The content. */\n    children?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function ToolCallStatus({\n    className = \"\",\n    status = undefined,\n    children,\n    ...restProps\n}: ToolCallStatusProps) {\n    return (\n        <span\n            className={`tool-call-status ${className}`}\n            data-status={status}\n            {...restProps}\n        >\n            {children}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ToolCallStatus.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/tool-call-status/"
+}

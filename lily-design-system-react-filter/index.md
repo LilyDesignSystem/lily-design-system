@@ -128,3 +128,9 @@ const labels: FilterLabels = {
 ## Non-goals
 
 Saved filters and persistence, a server round trip, free-text query parsing, locale-aware number and date entry (the consumer's input), and drawing — all the consumer's.
+
+## Form reset
+
+Inside a `<form>`, a reset puts the filter back to the one it started with, one tick after the browser has reset
+the fields, and redraws every field from it; a cancelled reset (`preventDefault()` on the `reset` event) changes nothing
+(added 2026-10-30, tasks.md P10-T9).

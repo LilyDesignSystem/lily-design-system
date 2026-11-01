@@ -38,6 +38,15 @@
     open          — boolean. Render the popup open (aria-expanded and no `hidden`);
                     ignored when `disabled`. The client reads it as the initial state.
     disabled      — boolean. Render the button `disabled`; the popup stays closed.
+    variant       — "listbox" (default) or "select". "select" renders a
+                    native <select class="theme-picker-select"> with one
+                    <option class="theme-picker-option"> per theme, the
+                    resolved one `selected`, and data-variant="select" on
+                    the root: no button, listbox, tooltip or hidden input.
+                    It works with no script (the form field is real);
+                    theme-picker.client.js applies each change. Keyboard is
+                    the platform's. (RFC 3 prototype; ported from the Svelte
+                    reference 2026-10-30.)
     classes       — string. Extra CSS classes on the root <div>.
     attributes    — object. Extra HTML attributes spread onto the root.
 
@@ -83,6 +92,33 @@
     one option aria-selected. -#}
 {%- set fallback = "light" if "light" in opts.themes else opts.themes[0] -%}
 {%- set selected = value or defaultValue or fallback -%}
+{%- if opts.variant == "select" -%}
+<div
+  class="theme-picker{% if opts.classes %} {{ opts.classes }}{% endif %}"
+  data-variant="select"
+  data-lily-theme-picker-root
+  data-lily-theme-picker-name="{{ name }}"
+  data-lily-theme-picker-themes-url="{{ opts.themesUrl }}"
+  data-lily-theme-picker-extension="{{ extension }}"
+  data-lily-theme-picker-storage-key="{{ storageKey }}"
+  data-lily-theme-picker-default-value="{{ defaultValue }}"
+  data-lily-theme-picker-detect-from-system="{{ 'true' if detectFromSystem else 'false' }}"
+  {%- if value %} data-lily-theme-picker-value="{{ value }}"{% endif %}
+  {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+<select class="theme-picker-select" name="{{ name }}" aria-label="{{ opts.label }}" data-lily-theme-picker-select{% if disabled %} disabled{% endif %}>
+{%- for slug in opts.themes -%}
+  <option class="theme-picker-option" value="{{ slug }}"{% if slug == selected %} selected{% endif %}>
+    {%- if themeLabels[slug] -%}
+      {{ themeLabels[slug] }}
+    {%- else -%}
+      {{ slug | replace(r/-/g, " ") | title }}
+    {%- endif -%}
+  </option>
+{%- endfor -%}
+</select>
+</div>
+{%- else -%}
 <div
   class="theme-picker{% if opts.classes %} {{ opts.classes }}{% endif %}"
   data-lily-theme-picker-root
@@ -112,4 +148,5 @@
 {%- endfor -%}
 </ul>
 </div>
+{%- endif -%}
 {%- endmacro -%}

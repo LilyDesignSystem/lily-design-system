@@ -1,0 +1,716 @@
+#!/usr/bin/env node
+// bin/generate-core — tasks.md P16-T2 and P16-T7 (spec/competitive-position items 2 and 7).
+//
+// Builds the "Lily Core" tier from evidence found in the tree, and the documents that publish it:
+//
+//   spec/competitive-position/core.json                    the data: candidates, per-criterion evidence, Core members
+//   docs/core.md                                           the same, readable, with every evidence path linked
+//   docs/accessibility-conformance-report.md               a self-assessed ACR (VPAT 2.5 WCAG edition) for the candidates
+//   lilydesignsystem.github.io/src/routes/quality/+page.svelte   the site's /quality page
+//
+// A component is a Core *candidate* when it is in the CANDIDATES list below (enumerated from
+// docs/audit-readiness.md tier 1). It is a Core *member* only when all three entry criteria hold:
+//
+//   (a) keyboard and ARIA-state tests in all eight libraries (svelte, react, vue, angular, html,
+//       web-components, nunjucks, blazor). Heuristic, per library, over the component's own test
+//       file(s): the file sends a key event (KEY_RE / BLAZOR_KEY_RE) AND has a line that names an
+//       aria-* attribute together with an assertion or query (ARIA_LINE_RE + ASSERT_RE). The key
+//       half is waived only when the component's components/<slug>/AGENTS.md "## Keyboard" section
+//       says "No keyboard interactions". File-level, not test-level: the key event and the ARIA
+//       assertion may be in different tests, and a skipped test still counts. It is a floor, not proof.
+//   (b) e2e in Chromium, Firefox and WebKit: some Playwright spec that covers the component (its
+//       e2e/components/<slug>.spec.ts, or another spec naming its route or class hook) runs in an
+//       app whose playwright.config.* has a project for that browser; all three browsers needed.
+//   (c) its row of docs/screen-reader-matrix.md filled, with a pass or minor mark, in all six
+//       combination columns (MATRIX_COLUMNS). An empty cell, a fail, or no row at all fails (c).
+//
+// No evidence is invented: every status is computed from files, and a cell that is not observed is "missing".
+//
+//   bin/generate-core                      write the four outputs
+//   bin/generate-core --check              exit 1 if an output is stale, or if a component recorded as
+//                                          Core in core.json no longer meets every criterion
+//   bin/generate-core --allow-demotion     write even though a recorded Core member lost evidence
+//
+// The report date in the ACR and core.json is kept unless something else in the output changes.
+
+const fs = require("fs");
+const path = require("path");
+
+const top = process.env.LILY_ROOT || path.join(__dirname, "..");
+const abs = (p) => path.resolve(top, p);
+const exists = (p) => fs.existsSync(abs(p));
+const read = (p) => fs.readFileSync(abs(p), "utf8");
+const check = process.argv.includes("--check");
+const allowDemotion = process.argv.includes("--allow-demotion");
+const today = new Date().toISOString().slice(0, 10);
+const REPO = "https://github.com/LilyDesignSystem/lily-design-system/blob/main/";
+
+const OUT = {
+  json: process.env.LILY_CORE_JSON || "spec/competitive-position/core.json",
+  md: "docs/core.md",
+  acr: "docs/accessibility-conformance-report.md",
+  page: "lilydesignsystem.github.io/src/routes/quality/+page.svelte",
+};
+
+// ---------- the candidates (docs/audit-readiness.md tier 1, enumerated) ----------
+
+// group: the tier-1 phrase it comes from. helper: a separate helper package, not a catalog component.
+// row: its row number in docs/screen-reader-matrix.md, or null when the matrix has no row for it.
+const CANDIDATES = [
+  ["form", "form family", 11],
+  ["field", "form family", 11],
+  ["label", "form family", null],
+  ["hint", "form family", null],
+  ["error-message", "form family", null],
+  ["error-summary", "form family", 11],
+  ["fieldset", "form family", null],
+  ["button", "form family", null],
+  ["text-input", "form family", 12],
+  ["email-input", "form family", null],
+  ["password-input", "form family", null],
+  ["number-input", "form family", null],
+  ["text-area-input", "form family", null],
+  ["date-input", "form family", 15],
+  ["select", "form family", 13],
+  ["checkbox-input", "form family", 14],
+  ["checkbox-group", "form family", null],
+  ["radio-input", "form family", 14],
+  ["radio-group", "form family", null],
+  ["net-promoter-score-picker", "form family", 20],
+  ["theme-picker", "helper packages", 1, true],
+  ["locale-picker", "helper packages", 2, true],
+  ["text-size-picker", "helper packages", null, true],
+  ["share-picker", "helper packages", 4, true],
+  ["date-time-picker", "helper packages", 3, true],
+  ["dialog", "dialogs", 5],
+  ["alert-dialog", "dialogs", 6],
+  ["tab-bar", "tabs", 7],
+  ["tab-bar-button", "tabs", null],
+  ["tab-panel", "tabs", null],
+  ["menu", "menus", 9],
+  ["menu-bar", "menus", null],
+  ["dropdown-menu", "menus", null],
+  ["context-menu", "menus", null],
+  ["accordion-nav", "accordion", 8],
+  ["tree-nav", "navigation", 10],
+  ["breadcrumb-nav", "navigation", 18],
+  ["pagination-nav", "pagination", 17],
+  ["data-table", "tables with sorting", 16],
+  ["skip-link", "skip link", 19],
+].map(([slug, group, row, helper]) => ({ slug, group, row, helper: !!helper }));
+
+const NAMES = Object.fromEntries(
+  read("components.tsv")
+    .split("\n")
+    .filter((l) => l.trim())
+    .map((l) => l.split("\t").slice(0, 2))
+);
+const pascal = (slug) => NAMES[slug] || slug.split("-").map((w) => w[0].toUpperCase() + w.slice(1)).join("");
+
+// ---------- (a) keyboard and ARIA-state tests ----------
+
+const LIBRARIES = ["svelte", "react", "vue", "angular", "html", "web-components", "nunjucks", "blazor"];
+const LIBRARY_LABEL = {
+  svelte: "Svelte", react: "React", vue: "Vue", angular: "Angular", html: "HTML",
+  "web-components": "Web Components", nunjucks: "Nunjucks", blazor: "Blazor",
+};
+
+// Key events as each runner sends them: DOM KeyboardEvent, Testing Library fireEvent/user-event, Vue Test Utils
+// trigger, Angular triggerEventHandler, WebdriverIO browser.keys, Playwright press.
+const KEY_RE = /new KeyboardEvent\(|fireEvent\.key(?:Down|Up|Press)\b|\.keyboard\(|browser\.keys\(|\.trigger\(\s*["'`]key(?:down|up|press)|triggerEventHandler\(\s*["'`]key(?:down|up|press)|\.press\(\s*["'`]|\.tab\(\s*\)/;
+const BLAZOR_KEY_RE = /\.KeyDown\(|\.KeyUp\(|\.KeyPress\(|new KeyboardEventArgs/;
+const ARIA_LINE_RE = /aria-[a-z]+/;
+const ASSERT_RE = /expect\(|Assert\.|assert\.|getAttribute\(|GetAttribute\(|toHaveAttribute\(|hasAttribute\(|attributes\(|querySelector|\.Find\(|FindAll\(/;
+
+function walkTests(dir, acc = []) {
+  if (!exists(dir)) return acc;
+  for (const e of fs.readdirSync(abs(dir), { withFileTypes: true })) {
+    if (["node_modules", "dist", "obj", "bin", ".svelte-kit", "e2e", "build"].includes(e.name)) continue;
+    const rel = `${dir}/${e.name}`;
+    if (e.isDirectory()) walkTests(rel, acc);
+    else if (/\.(test|spec)\.(ts|tsx|js|mjs)$|Tests\.cs$/.test(e.name)) acc.push(rel);
+  }
+  return acc.sort();
+}
+
+function siblingTests(dir, re) {
+  if (!exists(dir)) return [];
+  return fs.readdirSync(abs(dir)).filter((f) => re.test(f)).sort().map((f) => `${dir}/${f}`);
+}
+const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+function testFiles(c, lib) {
+  if (c.helper) return walkTests(`lily-design-system-${lib}-${c.slug}`);
+  const N = esc(pascal(c.slug));
+  const s = esc(c.slug);
+  const base = `lily-design-system-${lib}-headless`;
+  switch (lib) {
+    case "svelte": return siblingTests(`${base}/components/${pascal(c.slug)}`, /\.test\.ts$/);
+    case "react": return siblingTests(`${base}/components`, new RegExp(`^${N}(\\.[\\w-]+)?\\.test\\.tsx$`));
+    case "vue": return siblingTests(`${base}/components`, new RegExp(`^${N}(\\.[\\w-]+)?\\.test\\.ts$`));
+    case "angular": return siblingTests(`${base}/components`, new RegExp(`^${N}(\\.[\\w-]+)?\\.spec\\.ts$`));
+    case "html": return siblingTests(`${base}/components`, new RegExp(`^${s}(\\.[\\w-]+)?\\.test\\.js$`));
+    case "web-components": return siblingTests(`${base}/components`, new RegExp(`^${s}(\\.[\\w-]+)?\\.test\\.ts$`));
+    case "nunjucks": return siblingTests(`${base}/components/${c.slug}`, /\.test\.js$/);
+    case "blazor": return siblingTests(`${base}/tests/LilyBlazorHeadless.Tests/Components`, new RegExp(`^${N}Tests\\.cs$`));
+  }
+  return [];
+}
+
+function keyboardContract(c) {
+  if (c.helper) return "keys"; // hand-rolled listbox / disclosure / dialog patterns
+  const p = `components/${c.slug}/AGENTS.md`;
+  if (!exists(p)) return "keys";
+  const m = read(p).match(/^## Keyboard\n([\s\S]*?)(?=^## |(?![\s\S]))/m);
+  return m && /No keyboard interactions/i.test(m[1]) ? "none" : "keys";
+}
+
+function criterionA(c) {
+  const contract = keyboardContract(c);
+  const libs = {};
+  for (const lib of LIBRARIES) {
+    const files = testFiles(c, lib);
+    let keyFile = null, ariaFile = null;
+    for (const f of files) {
+      const src = read(f);
+      if (!keyFile && (lib === "blazor" ? BLAZOR_KEY_RE : KEY_RE).test(src)) keyFile = f;
+      if (!ariaFile && src.split("\n").some((l) => ARIA_LINE_RE.test(l) && ASSERT_RE.test(l))) ariaFile = f;
+    }
+    const keyOk = contract === "none" || !!keyFile;
+    libs[lib] = {
+      status: files.length === 0 ? "no test file" : keyOk && ariaFile ? "met" : !keyOk && !ariaFile ? "no key event, no ARIA assertion" : !keyOk ? "no key event" : "no ARIA assertion",
+      met: files.length > 0 && keyOk && !!ariaFile,
+      testFiles: files,
+      keyEvent: contract === "none" ? "not required (AGENTS.md: no keyboard interactions)" : keyFile,
+      ariaAssertion: ariaFile,
+    };
+  }
+  const metCount = LIBRARIES.filter((l) => libs[l].met).length;
+  return { met: metCount === LIBRARIES.length, metCount, keyboardContract: contract, libraries: libs };
+}
+
+// ---------- (b) e2e in Chromium, Firefox and WebKit ----------
+
+const E2E_APPS = [
+  "lily-design-system-svelte-sveltekit-examples",
+  "lily-design-system-react-next-examples",
+  "lily-design-system-vue-nuxt-examples",
+  "lily-design-system-angular-examples",
+  "lily-design-system-html-css-js-examples",
+  "lily-design-system-nunjucks-eleventy-examples",
+  "lily-design-system-blazor-web-examples",
+  "lily-design-system-alpine-examples",
+  "lilydesignsystem.github.io",
+];
+const BROWSERS = ["chromium", "firefox", "webkit"];
+
+function appBrowsers(app) {
+  const cfg = ["playwright.config.ts", "playwright.config.js", "playwright.config.mjs"].map((f) => `${app}/${f}`).find(exists);
+  if (!cfg) return { config: null, browsers: [] };
+  const src = read(cfg);
+  const found = new Set();
+  for (const m of src.matchAll(/name:\s*["'](chromium|firefox|webkit)["']/g)) found.add(m[1]);
+  if (/devices\[\s*["']Desktop Chrome/.test(src)) found.add("chromium");
+  if (/devices\[\s*["']Desktop Firefox/.test(src)) found.add("firefox");
+  if (/devices\[\s*["']Desktop Safari/.test(src)) found.add("webkit");
+  for (const m of src.matchAll(/browserName:\s*["'](chromium|firefox|webkit)["']/g)) found.add(m[1]);
+  return { config: cfg, browsers: BROWSERS.filter((b) => found.has(b)) };
+}
+
+function specFiles(dir, acc = []) {
+  if (!exists(dir)) return acc;
+  for (const e of fs.readdirSync(abs(dir), { withFileTypes: true })) {
+    const rel = `${dir}/${e.name}`;
+    if (e.isDirectory()) { if (!e.name.endsWith("-snapshots")) specFiles(rel, acc); }
+    else if (/\.spec\.(ts|js)$/.test(e.name)) acc.push(rel);
+  }
+  return acc.sort();
+}
+
+const APP_INFO = E2E_APPS.filter(exists).map((app) => {
+  const dir = app === "lilydesignsystem.github.io" ? `${app}/tests` : `${app}/e2e`;
+  return { app, ...appBrowsers(app), specs: specFiles(dir).map((f) => ({ file: f, src: read(f) })) };
+});
+
+function criterionB(c) {
+  const s = esc(c.slug);
+  // Helper slugs are distinctive (theme-picker, ...) and the app shells mount them without a route, so any
+  // hyphen-aware mention counts; a catalog slug (form, menu, select) must appear as a route or a class hook.
+  const mention = c.helper
+    ? new RegExp(`(?<![\\w-])${s}(?![\\w-])`)
+    : new RegExp(`/components/${s}(?![\\w-])|["'\` >]\\.${s}(?![\\w-])`);
+  const specs = [];
+  for (const a of APP_INFO) {
+    for (const sp of a.specs) {
+      const own = path.basename(sp.file) === `${c.slug}.spec.ts` || path.basename(sp.file) === `${c.slug}.spec.js`;
+      if (own || mention.test(sp.src)) specs.push({ spec: sp.file, config: a.config, browsers: a.browsers });
+    }
+  }
+  const covered = BROWSERS.filter((b) => specs.some((x) => x.browsers.includes(b)));
+  return { met: covered.length === BROWSERS.length, browsers: covered, specs };
+}
+
+// ---------- (c) the screen-reader matrix ----------
+
+const MATRIX = "docs/screen-reader-matrix.md";
+const MATRIX_COLUMNS = [
+  "NVDA + Firefox",
+  "NVDA + Chrome",
+  "JAWS + Chrome",
+  "VoiceOver + Safari (macOS)",
+  "VoiceOver (iOS)",
+  "TalkBack + Chrome (Android)",
+];
+
+function parseMatrix() {
+  const src = read(MATRIX);
+  const sec = src.match(/^## The representative twenty\n([\s\S]*?)(?=^## )/m);
+  if (!sec) throw new Error(`${MATRIX}: no "## The representative twenty" section`);
+  const lines = sec[1].split("\n").filter((l) => l.startsWith("|"));
+  const cells = (l) => l.trim().replace(/^\||\|$/g, "").split("|").map((x) => x.trim());
+  const head = cells(lines[0]);
+  const missing = MATRIX_COLUMNS.filter((col) => !head.includes(col));
+  if (missing.length) throw new Error(`${MATRIX}: missing column(s): ${missing.join(", ")}`);
+  const rows = {};
+  for (const l of lines.slice(2)) {
+    const r = cells(l);
+    const n = parseInt(r[0], 10);
+    if (!n) continue;
+    rows[n] = { label: r[1], cells: Object.fromEntries(MATRIX_COLUMNS.map((col) => [col, r[head.indexOf(col)] || ""])) };
+  }
+  return rows;
+}
+const MATRIX_ROWS = parseMatrix();
+
+// A filled cell holds pass (#N) or minor (#N); a fail is recorded but does not meet (c).
+const cellResult = (v) => (!v ? "empty" : /^pass\b/i.test(v) ? "pass" : /^minor\b/i.test(v) ? "minor" : /^fail\b/i.test(v) ? "fail" : "unrecognised");
+
+function criterionC(c) {
+  if (c.row === null || !MATRIX_ROWS[c.row]) {
+    return { met: false, row: null, filled: 0, cells: {}, note: "no row in the matrix" };
+  }
+  const row = MATRIX_ROWS[c.row];
+  const cells = Object.fromEntries(MATRIX_COLUMNS.map((col) => [col, { value: row.cells[col], result: cellResult(row.cells[col]) }]));
+  const filled = MATRIX_COLUMNS.filter((col) => ["pass", "minor"].includes(cells[col].result)).length;
+  return { met: filled === MATRIX_COLUMNS.length, row: c.row, rowLabel: row.label, filled, cells };
+}
+
+// ---------- assemble ----------
+
+const candidates = CANDIDATES.map((c) => {
+  const a = criterionA(c), b = criterionB(c), cc = criterionC(c);
+  return { slug: c.slug, group: c.group, helper: c.helper, keyboard: a, e2e: b, screenReader: cc, core: a.met && b.met && cc.met };
+});
+const core = candidates.filter((c) => c.core).map((c) => c.slug);
+
+const counts = {
+  candidates: candidates.length,
+  keyboard: candidates.filter((c) => c.keyboard.met).length,
+  e2e: candidates.filter((c) => c.e2e.met).length,
+  screenReader: candidates.filter((c) => c.screenReader.met).length,
+  core: core.length,
+  keyboardPerLibrary: Object.fromEntries(LIBRARIES.map((l) => [l, candidates.filter((c) => c.keyboard.libraries[l].met).length])),
+  matrixRows: candidates.filter((c) => c.screenReader.row !== null).length,
+  matrixCellsFilled: Object.values(MATRIX_ROWS).reduce((n, r) => n + MATRIX_COLUMNS.filter((col) => r.cells[col]).length, 0),
+  matrixCells: Object.keys(MATRIX_ROWS).length * MATRIX_COLUMNS.length,
+  e2eBrowsersRun: BROWSERS.filter((b) => APP_INFO.some((a) => a.browsers.includes(b))),
+};
+
+// ---------- the Core-loss gate ----------
+
+let previous = null;
+if (exists(OUT.json)) {
+  try { previous = JSON.parse(read(OUT.json)); } catch (e) { previous = null; }
+}
+const lost = [];
+for (const slug of (previous && previous.core) || []) {
+  const c = candidates.find((x) => x.slug === slug);
+  if (!c) { lost.push(`${slug}: recorded as Core but no longer a candidate`); continue; }
+  const why = [];
+  if (!c.keyboard.met) why.push(`(a) keyboard/ARIA tests in ${c.keyboard.metCount} of 8 libraries (${LIBRARIES.filter((l) => !c.keyboard.libraries[l].met).join(", ")} missing)`);
+  if (!c.e2e.met) why.push(`(b) e2e browsers: ${browserList(c.e2e.browsers)}`);
+  if (!c.screenReader.met) why.push(`(c) screen-reader cells filled: ${c.screenReader.filled} of ${MATRIX_COLUMNS.length}`);
+  if (why.length) lost.push(`${slug}: in Core but lost evidence: ${why.join("; ")}`);
+}
+
+// ---------- renderers ----------
+
+const BROWSER_LABEL = { chromium: "Chromium", firefox: "Firefox", webkit: "WebKit" };
+const browserList = (bs) => bs.map((b) => BROWSER_LABEL[b]).join(", ") || "none";
+
+// Why no candidate is in Core, from the counts (so the sentence changes when the evidence does).
+function whyNone() {
+  const r = [];
+  if (counts.matrixCellsFilled === 0) r.push("the screen-reader matrix has no recorded results, so criterion (c) fails for every candidate");
+  else if (counts.screenReader === 0) r.push("no candidate has a full screen-reader row, so criterion (c) fails for every candidate");
+  const unrun = BROWSERS.filter((b) => !counts.e2eBrowsersRun.includes(b));
+  if (unrun.length) r.push(`no e2e suite runs in ${unrun.map((b) => BROWSER_LABEL[b]).join(" or ")}, so criterion (b) fails for every candidate`);
+  else if (counts.e2e === 0) r.push("no candidate has e2e coverage in all three browsers");
+  if (counts.keyboard === 0) r.push("no candidate has keyboard and ARIA-state tests in all eight libraries");
+  return r.length ? r.join("; and ") : "each candidate lacks at least one criterion";
+}
+const cap = (s) => s[0].toUpperCase() + s.slice(1);
+
+const yes = (b) => (b ? "met" : "not met");
+const relFromDocs = (p) => `../${p}`;
+const link = (p) => `[${p}](${relFromDocs(p)})`;
+
+function renderJson(date) {
+  return JSON.stringify({
+    $comment: "Generated by bin/generate-core from the tree; do not edit. Core lists only components meeting all three criteria.",
+    reportDate: date,
+    criteria: {
+      a: "keyboard and ARIA-state tests in all eight libraries (heuristic: a test file sends a key event and asserts an aria-* attribute; the key half is waived when AGENTS.md declares no keyboard interactions)",
+      b: "e2e coverage in Chromium, Firefox and WebKit (a covering Playwright spec in an app whose config runs that browser)",
+      c: `screen-reader matrix row filled with pass or minor in all of: ${MATRIX_COLUMNS.join("; ")}`,
+    },
+    libraries: LIBRARIES,
+    matrixColumns: MATRIX_COLUMNS,
+    e2eApps: APP_INFO.map((a) => ({ app: a.app, config: a.config, browsers: a.browsers })),
+    counts,
+    core,
+    candidates: candidates.map((c) => ({
+      ...c,
+      e2e: { ...c.e2e, specs: c.e2e.specs.map((s) => s.spec) },
+    })),
+  }, null, 2) + "\n";
+}
+
+function renderCoreMd(date) {
+  const L = [];
+  L.push("# Lily Core — candidates and evidence");
+  L.push("");
+  L.push(`_Generated by \`bin/generate-core\` from the tree on ${date}; do not edit. Data: [core.json](../spec/competitive-position/core.json). Plan: [spec/competitive-position](../spec/competitive-position/index.md) item 2._`);
+  L.push("");
+  L.push(`**Core members: ${core.length ? core.join(", ") : "none"}.**${core.length ? "" : ` No component meets all three entry criteria yet: ${whyNone()}.`}`);
+  L.push("");
+  L.push("## Entry criteria");
+  L.push("");
+  L.push("A candidate enters Core only when all three hold:");
+  L.push("");
+  L.push("- **(a) Keyboard and ARIA-state tests in all eight libraries** (" + LIBRARIES.map((l) => LIBRARY_LABEL[l]).join(", ") + "). Heuristic: the component's own test file(s) in that library send a key event (a `KeyboardEvent`, `fireEvent.keyDown`, `user.keyboard`, `trigger(\"keydown\")`, `browser.keys`, Playwright `press`, or bUnit `KeyDown`) **and** contain a line that names an `aria-*` attribute together with an assertion or query. The key half is waived when the component's `AGENTS.md` says it has no keyboard interactions. File level, not test level, so it is a floor, not proof.");
+  L.push("- **(b) e2e in Chromium, Firefox and WebKit.** A Playwright spec that covers the component (its `e2e/components/<slug>.spec.ts`, or a spec naming its route or class hook) runs in an app whose config has a project for each browser.");
+  L.push(`- **(c) Its row of the [screen-reader matrix](screen-reader-matrix.md) filled** with \`pass\` or \`minor\` in all six combinations: ${MATRIX_COLUMNS.join(", ")}. An empty cell, a \`fail\`, or no row fails (c).`);
+  L.push("");
+  L.push("## Counts");
+  L.push("");
+  L.push("| Criterion | Candidates meeting it |");
+  L.push("| --- | --- |");
+  L.push(`| (a) keyboard and ARIA-state tests, all eight libraries | ${counts.keyboard} of ${counts.candidates} |`);
+  L.push(`| (b) e2e in Chromium, Firefox and WebKit | ${counts.e2e} of ${counts.candidates} |`);
+  L.push(`| (c) screen-reader row filled, six combinations | ${counts.screenReader} of ${counts.candidates} |`);
+  L.push(`| All three (Core) | ${counts.core} of ${counts.candidates} |`);
+  L.push("");
+  L.push("Per library, candidates meeting (a): " + LIBRARIES.map((l) => `${LIBRARY_LABEL[l]} ${counts.keyboardPerLibrary[l]}`).join(", ") + ".");
+  L.push("");
+  L.push(`Browsers any e2e app runs: ${browserList(counts.e2eBrowsersRun)}. Screen-reader matrix cells with any result: ${counts.matrixCellsFilled} of ${counts.matrixCells}. Candidates with a matrix row: ${counts.matrixRows} of ${counts.candidates}.`);
+  L.push("");
+  L.push("## Candidates");
+  L.push("");
+  L.push("| Candidate | Group | (a) libraries met | (b) browsers | (c) cells filled | Core |");
+  L.push("| --- | --- | --- | --- | --- | --- |");
+  for (const c of candidates) {
+    L.push(`| [${c.slug}](#${c.slug}) | ${c.group} | ${c.keyboard.metCount} of 8 | ${browserList(c.e2e.browsers)} | ${c.screenReader.row === null ? "no row" : `${c.screenReader.filled} of 6 (row ${c.screenReader.row})`} | ${c.core ? "yes" : "no"} |`);
+  }
+  L.push("");
+  L.push("## Evidence per candidate");
+  for (const c of candidates) {
+    L.push("");
+    L.push(`### ${c.slug}`);
+    L.push("");
+    L.push(`${c.helper ? "Helper package" : "Catalog component"}; keyboard contract: ${c.keyboard.keyboardContract === "none" ? "none declared in AGENTS.md" : "keys named"}.`);
+    L.push("");
+    L.push(`- (a) ${yes(c.keyboard.met)}, ${c.keyboard.metCount} of 8 libraries:`);
+    for (const l of LIBRARIES) {
+      const e = c.keyboard.libraries[l];
+      const files = e.testFiles.length ? e.testFiles.map(link).join(", ") : "no test file found";
+      L.push(`  - ${LIBRARY_LABEL[l]}: ${e.status}. ${files}`);
+    }
+    L.push(`- (b) ${yes(c.e2e.met)}; browsers: ${browserList(c.e2e.browsers)}; ${c.e2e.specs.length} covering spec(s)${c.e2e.specs.length ? ":" : "."}`);
+    for (const s of c.e2e.specs) L.push(`  - ${link(s.spec)} (${s.browsers.length ? browserList(s.browsers) : "no browser project found"})`);
+    if (c.screenReader.row === null) {
+      L.push("- (c) not met: the matrix has no row for this component.");
+    } else {
+      L.push(`- (c) ${yes(c.screenReader.met)}: [row ${c.screenReader.row}](screen-reader-matrix.md#the-representative-twenty) (${c.screenReader.rowLabel}), ${c.screenReader.filled} of 6 cells with pass or minor.`);
+    }
+  }
+  L.push("");
+  L.push("---");
+  L.push("");
+  L.push("Lily™ and Lily Design System™ are trademarks.");
+  return L.join("\n") + "\n";
+}
+
+// ---------- the ACR (VPAT 2.5 WCAG edition) ----------
+
+const LABEL = "Self-assessed — not an independent audit";
+
+const WCAG = {
+  A: [
+    ["1.1.1", "Non-text Content"], ["1.2.1", "Audio-only and Video-only (Prerecorded)"], ["1.2.2", "Captions (Prerecorded)"],
+    ["1.2.3", "Audio Description or Media Alternative (Prerecorded)"], ["1.3.1", "Info and Relationships"], ["1.3.2", "Meaningful Sequence"],
+    ["1.3.3", "Sensory Characteristics"], ["1.4.1", "Use of Color"], ["1.4.2", "Audio Control"], ["2.1.1", "Keyboard"],
+    ["2.1.2", "No Keyboard Trap"], ["2.1.4", "Character Key Shortcuts"], ["2.2.1", "Timing Adjustable"], ["2.2.2", "Pause, Stop, Hide"],
+    ["2.3.1", "Three Flashes or Below Threshold"], ["2.4.1", "Bypass Blocks"], ["2.4.2", "Page Titled"], ["2.4.3", "Focus Order"],
+    ["2.4.4", "Link Purpose (In Context)"], ["2.5.1", "Pointer Gestures"], ["2.5.2", "Pointer Cancellation"], ["2.5.3", "Label in Name"],
+    ["2.5.4", "Motion Actuation"], ["3.1.1", "Language of Page"], ["3.2.1", "On Focus"], ["3.2.2", "On Input"], ["3.2.6", "Consistent Help"],
+    ["3.3.1", "Error Identification"], ["3.3.2", "Labels or Instructions"], ["3.3.7", "Redundant Entry"], ["4.1.2", "Name, Role, Value"],
+  ],
+  AA: [
+    ["1.2.4", "Captions (Live)"], ["1.2.5", "Audio Description (Prerecorded)"], ["1.3.4", "Orientation"], ["1.3.5", "Identify Input Purpose"],
+    ["1.4.3", "Contrast (Minimum)"], ["1.4.4", "Resize Text"], ["1.4.5", "Images of Text"], ["1.4.10", "Reflow"], ["1.4.11", "Non-text Contrast"],
+    ["1.4.12", "Text Spacing"], ["1.4.13", "Content on Hover or Focus"], ["2.4.5", "Multiple Ways"], ["2.4.6", "Headings and Labels"],
+    ["2.4.7", "Focus Visible"], ["2.4.11", "Focus Not Obscured (Minimum)"], ["2.5.7", "Dragging Movements"], ["2.5.8", "Target Size (Minimum)"],
+    ["3.1.2", "Language of Parts"], ["3.2.3", "Consistent Navigation"], ["3.2.4", "Consistent Identification"], ["3.3.3", "Error Suggestion"],
+    ["3.3.4", "Error Prevention (Legal, Financial, Data)"], ["3.3.8", "Accessible Authentication (Minimum)"], ["4.1.3", "Status Messages"],
+  ],
+  AAA: [
+    ["1.2.6", "Sign Language (Prerecorded)"], ["1.2.7", "Extended Audio Description (Prerecorded)"], ["1.2.8", "Media Alternative (Prerecorded)"],
+    ["1.2.9", "Audio-only (Live)"], ["1.3.6", "Identify Purpose"], ["1.4.6", "Contrast (Enhanced)"], ["1.4.7", "Low or No Background Audio"],
+    ["1.4.8", "Visual Presentation"], ["1.4.9", "Images of Text (No Exception)"], ["2.1.3", "Keyboard (No Exception)"], ["2.2.3", "No Timing"],
+    ["2.2.4", "Interruptions"], ["2.2.5", "Re-authenticating"], ["2.2.6", "Timeouts"], ["2.3.2", "Three Flashes"],
+    ["2.3.3", "Animation from Interactions"], ["2.4.8", "Location"], ["2.4.9", "Link Purpose (Link Only)"], ["2.4.10", "Section Headings"],
+    ["2.4.12", "Focus Not Obscured (Enhanced)"], ["2.4.13", "Focus Appearance"], ["2.5.5", "Target Size (Enhanced)"],
+    ["2.5.6", "Concurrent Input Mechanisms"], ["3.1.3", "Unusual Words"], ["3.1.4", "Abbreviations"], ["3.1.5", "Reading Level"],
+    ["3.1.6", "Pronunciation"], ["3.2.5", "Change on Request"], ["3.3.5", "Help"], ["3.3.6", "Error Prevention (All)"],
+    ["3.3.9", "Accessible Authentication (Enhanced)"],
+  ],
+};
+
+// Success criteria whose evidence this generator can read, and which evidence. A criterion is "Supports" only when
+// EVERY candidate has all of its evidence kinds; "Does Not Support" / "Partially Supports" only from a recorded
+// screen-reader `fail`; otherwise "Not Evaluated", with any partial automated evidence named in the remarks.
+const SC_EVIDENCE = {
+  "2.1.1": ["a"],
+  "2.1.2": ["a"],
+  "1.3.1": ["c"],
+  "4.1.2": ["a", "c"],
+};
+// Media criteria: none of the candidates renders audio or video (by inspection of the candidate list).
+const NOT_APPLICABLE = new Set(["1.2.1", "1.2.2", "1.2.3", "1.2.4", "1.2.5", "1.2.6", "1.2.7", "1.2.8", "1.2.9", "1.4.2", "1.4.7"]);
+const MEDIA_REMARK = "None of the candidate components plays audio or video, so this criterion does not apply to them. Assessed by inspection of the candidate list, not by a test.";
+
+const has = (c, kind) => (kind === "a" ? c.keyboard.met : kind === "c" ? c.screenReader.met : false);
+
+// The W3C "Understanding" page slug: "Contrast (Minimum)" -> "contrast-minimum".
+const understanding = (name) => name.toLowerCase().replace(/[(),]/g, "").trim().replace(/\s+/g, "-");
+
+function acrRow(id, name) {
+  if (NOT_APPLICABLE.has(id)) return { level: "Not Applicable", remarks: MEDIA_REMARK };
+  const kinds = SC_EVIDENCE[id];
+  if (!kinds) return { level: "Not Evaluated", remarks: "Not evaluated. No test or matrix entry in this repository evaluates this criterion for the candidates." };
+  const all = candidates.every((c) => kinds.every((k) => has(c, k)));
+  const fails = kinds.includes("c") ? candidates.filter((c) => Object.values(c.screenReader.cells || {}).some((x) => x.result === "fail")) : [];
+  const parts = [];
+  if (kinds.includes("a")) parts.push(`keyboard and ARIA-state tests in all eight libraries for ${counts.keyboard} of ${counts.candidates} candidates ([evidence](core.md#candidates))`);
+  if (kinds.includes("c")) parts.push(`screen-reader matrix rows filled for ${counts.screenReader} of ${counts.candidates} candidates ([matrix](screen-reader-matrix.md#the-representative-twenty))`);
+  if (all) return { level: "Supports", remarks: `Every candidate has: ${parts.join("; ")}.` };
+  if (fails.length) {
+    return {
+      level: fails.length === candidates.length ? "Does Not Support" : "Partially Supports",
+      remarks: `Recorded screen-reader failures for ${fails.map((c) => `[${c.slug}](core.md#${c.slug})`).join(", ")} ([matrix](screen-reader-matrix.md#the-representative-twenty)). Automated evidence: ${parts.join("; ")}.`,
+    };
+  }
+  return { level: "Not Evaluated", remarks: `Not evaluated. Partial automated evidence only, which is not an evaluation: ${parts.join("; ")}.` };
+}
+
+function renderAcr(date) {
+  const L = [];
+  const banner = `> **${LABEL}.** This report was written by the project about its own components, generated by \`bin/generate-core\` from the tests and the screen-reader matrix in this repository. No independent party has audited it.`;
+  L.push("# Lily Design System™ Accessibility Conformance Report");
+  L.push("");
+  L.push("## WCAG Edition — VPAT® Version 2.5Rev (based on the ITI VPAT 2.5 WCAG template)");
+  L.push("");
+  L.push(banner);
+  L.push("");
+  L.push(`_Generated from [core.json](../spec/competitive-position/core.json); do not edit. Plan: [spec/competitive-position](../spec/competitive-position/index.md) item 7._`);
+  L.push("");
+  L.push("**Name of Product/Version:** Lily Design System headless component libraries (Svelte, React, Vue, Angular, HTML, Web Components, Nunjucks, Blazor) and the five helper packages, at the commit this report was generated from; each package's version is in its own manifest.");
+  L.push("");
+  L.push(`**Report Date:** ${date}`);
+  L.push("");
+  L.push("**Product Description:** Headless (unstyled) UI components with a shared contract per component (`components/<slug>/AGENTS.md`). This report covers only the Lily Core candidates listed below, not the whole catalog.");
+  L.push("");
+  L.push("**Contact Information:** <joel@joelparkerhenderson.com>, or an issue at <https://github.com/LilyDesignSystem/lily-design-system/>.");
+  L.push("");
+  L.push("**Notes:**");
+  L.push("");
+  L.push(`- ${LABEL}. Lily has never had a conformance audit; see the [accessibility statement](accessibility-statement.md).`);
+  L.push(`- Scope: the ${counts.candidates} Core candidates: ${candidates.map((c) => c.slug).join(", ")}. Core members today: ${core.length ? core.join(", ") : "none"}. Evidence per candidate: [docs/core.md](core.md).`);
+  L.push("- Headless components are evaluated as rendered by the example apps; colour, contrast, spacing and focus styling come from the consumer's theme, so criteria that depend on presentation hold only for the theme they were evaluated in.");
+  L.push("- A cell reads \"Supports\" only when every candidate has the linked evidence for that criterion; it reads \"Partially Supports\" or \"Does Not Support\" only from a recorded screen-reader failure. Everything else reads \"Not Evaluated\", even where partial automated evidence exists, because automated tests evaluate a minority of any success criterion.");
+  L.push("- WCAG 2.2 removed 4.1.1 Parsing as obsolete, so it is not reported.");
+  L.push("");
+  L.push("**Evaluation Methods Used:** Automated only, so far. Per-library unit suites (keyboard and ARIA-state tests, found by the heuristic in [docs/core.md](core.md#entry-criteria)); Playwright e2e in the example apps (Chromium only); an axe-core sweep of every component demo page in the SvelteKit app (`e2e/axe-catalog.spec.ts`, WCAG 2.0/2.1 A+AA and 2.2 AA rule sets), which is not used as evidence for any cell below because an axe pass shows the absence of the defects axe detects, not conformance. The [screen-reader matrix](screen-reader-matrix.md) has no results recorded.");
+  L.push("");
+  L.push("## Applicable Standards/Guidelines");
+  L.push("");
+  L.push("This report covers the degree of conformance for the following accessibility standard/guidelines:");
+  L.push("");
+  L.push("| Standard/Guideline | Included In Report |");
+  L.push("| --- | --- |");
+  L.push("| [Web Content Accessibility Guidelines 2.0](https://www.w3.org/TR/2008/REC-WCAG20-20081211) | No |");
+  L.push("| [Web Content Accessibility Guidelines 2.1](https://www.w3.org/TR/WCAG21) | No |");
+  L.push("| [Web Content Accessibility Guidelines 2.2](https://www.w3.org/TR/WCAG22) | Level A (Yes), Level AA (Yes), Level AAA (Yes) |");
+  L.push("");
+  L.push("## Terms");
+  L.push("");
+  L.push("The terms used in the Conformance Level information are defined as follows:");
+  L.push("");
+  L.push("- **Supports:** The functionality of the product has at least one method that meets the criterion without known defects or meets with equivalent facilitation.");
+  L.push("- **Partially Supports:** Some functionality of the product does not meet the criterion.");
+  L.push("- **Does Not Support:** The majority of product functionality does not meet the criterion.");
+  L.push("- **Not Applicable:** The criterion is not relevant to the product.");
+  L.push("- **Not Evaluated:** The product has not been evaluated against the criterion. This can only be used in WCAG Level AAA criteria. _Lily departs from the template here: it uses Not Evaluated at every level, because a self-assessment must not report a level it has not evaluated._");
+  L.push("");
+  L.push("## WCAG 2.2 Report");
+  L.push("");
+  L.push(banner);
+  const tally = {};
+  for (const [lvl, title] of [["A", "Table 1: Success Criteria, Level A"], ["AA", "Table 2: Success Criteria, Level AA"], ["AAA", "Table 3: Success Criteria, Level AAA"]]) {
+    L.push("");
+    L.push(`### ${title}`);
+    L.push("");
+    L.push(`_${title} — ${LABEL}._`);
+    L.push("");
+    L.push("| Criteria | Conformance Level | Remarks and Explanations |");
+    L.push("| --- | --- | --- |");
+    for (const [id, name] of WCAG[lvl]) {
+      const r = acrRow(id, name);
+      tally[r.level] = (tally[r.level] || 0) + 1;
+      L.push(`| [${id} ${name}](https://www.w3.org/WAI/WCAG22/Understanding/${understanding(name)}.html) (Level ${lvl}) | ${r.level} | ${r.remarks} |`);
+    }
+  }
+  L.push("");
+  L.push("## Summary");
+  L.push("");
+  L.push(`_${LABEL}._ ` + ["Supports", "Partially Supports", "Does Not Support", "Not Applicable", "Not Evaluated"].map((k) => `${k}: ${tally[k] || 0}`).join("; ") + ".");
+  L.push("");
+  L.push("## Legal Disclaimer (Lily Design System)");
+  L.push("");
+  L.push("This report is a self-assessment published for information. It is not a certification, it is not the result of an independent audit, and it makes no claim of WCAG conformance. It describes the evidence in this repository at the report date and is regenerated whenever that evidence changes.");
+  L.push("");
+  L.push("“Voluntary Product Accessibility Template” and “VPAT” are registered service marks of the Information Technology Industry Council (ITI).");
+  L.push("");
+  L.push("---");
+  L.push("");
+  L.push("Lily™ and Lily Design System™ are trademarks.");
+  return { text: L.join("\n") + "\n", tally };
+}
+
+// ---------- the /quality site page ----------
+
+const h = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+
+function renderPage() {
+  const L = [];
+  L.push("<svelte:head>");
+  L.push("  <title>Quality — Lily Design System</title>");
+  L.push('  <meta name="description" content="Lily Core: the components Lily is prepared to call proven, the evidence each must show, and where every candidate stands today. No component has met the criteria yet." />');
+  L.push("</svelte:head>");
+  L.push("");
+  L.push("<!-- Generated by bin/generate-core from spec/competitive-position/core.json; do not edit. -->");
+  L.push('<section class="page-intro">');
+  L.push('  <h1 id="quality-title">Quality: Lily Core</h1>');
+  L.push(`  <p class="page-intro-tagline">Lily Core is the set of components Lily is prepared to call proven. A component enters Core only when its evidence is in the repository. <strong>Today Core has ${core.length ? core.length + " member(s): " + h(core.join(", ")) : "no members"}.</strong> ${core.length ? "" : `No candidate meets the criteria yet: ${h(whyNone())}.`}</p>`);
+  L.push("</section>");
+  L.push("");
+  L.push('<section class="prose">');
+  L.push("  <h2>What Core means</h2>");
+  L.push(`  <p>Core is drawn from the ${counts.candidates} interactive components an external audit would look at first: the form family, the five helper pickers, dialogs, tabs, menus, accordion, navigation, pagination, tables and the skip link. These are the candidates. A candidate becomes a member only when all three criteria below hold, and only Core members may be called proven.</p>`);
+  L.push("  <h2>The criteria</h2>");
+  L.push("  <ol>");
+  L.push(`    <li><strong>Keyboard and ARIA-state tests in all eight libraries</strong> (${LIBRARIES.map((l) => LIBRARY_LABEL[l]).join(", ")}). A test file counts when it sends a key event and asserts an <code>aria-*</code> attribute; the key event is waived for a component whose contract names no keys.</li>`);
+  L.push("    <li><strong>End-to-end tests in Chromium, Firefox and WebKit.</strong></li>");
+  L.push(`    <li><strong>A filled screen-reader row</strong> with a pass or minor result for each of: ${MATRIX_COLUMNS.map(h).join(", ")}.</li>`);
+  L.push("  </ol>");
+  L.push("  <h2>Where the candidates stand</h2>");
+  L.push(`  <p>Keyboard and ARIA-state tests in all eight libraries: ${counts.keyboard} of ${counts.candidates}. End-to-end in all three browsers: ${counts.e2e} of ${counts.candidates}. Screen-reader row filled: ${counts.screenReader} of ${counts.candidates}. All three: ${counts.core}.</p>`);
+  const srWhy = counts.matrixCellsFilled === 0 ? ", because no one has yet run the components with a screen reader and recorded the result, and this project does not record results it has not observed" : "";
+  const noRow = counts.matrixRows < counts.candidates ? ` ${counts.candidates - counts.matrixRows} candidates have no row in the matrix yet.` : "";
+  L.push(`  <p>${core.length ? "Screen-reader evidence" : "Why none has met them"}: the <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/screen-reader-matrix.md">screen-reader matrix</a> has ${counts.matrixCellsFilled} of ${counts.matrixCells} cells filled${srWhy}.${noRow} The end-to-end suites run in ${h(browserList(counts.e2eBrowsersRun))}${counts.e2eBrowsersRun.length < BROWSERS.length ? " only" : ""}.</p>`);
+  L.push("</section>");
+  L.push("");
+  L.push("<!-- svelte-ignore a11y_no_noninteractive_tabindex -->");
+  L.push('<section class="section prose" style="margin: 0 auto; max-width: 64rem; overflow-x: auto;" aria-labelledby="quality-candidates" tabindex="0">');
+  L.push('  <h2 id="quality-candidates">Candidates</h2>');
+  L.push('  <table style="min-inline-size: 44rem;">');
+  L.push("    <thead>");
+  L.push("      <tr>");
+  L.push("        <th>Candidate</th>");
+  L.push("        <th>Keyboard and ARIA tests</th>");
+  L.push("        <th>End-to-end browsers</th>");
+  L.push("        <th>Screen-reader row</th>");
+  L.push("        <th>Core</th>");
+  L.push("      </tr>");
+  L.push("    </thead>");
+  L.push("    <tbody>");
+  for (const c of candidates) {
+    L.push("      <tr>");
+    L.push(`        <td><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#${h(c.slug)}">${h(c.slug)}</a></td>`);
+    L.push(`        <td>${c.keyboard.metCount} of 8 libraries</td>`);
+    L.push(`        <td>${h(browserList(c.e2e.browsers))}</td>`);
+    L.push(`        <td>${c.screenReader.row === null ? "no row yet" : `${c.screenReader.filled} of 6 filled`}</td>`);
+    L.push(`        <td>${c.core ? "yes" : "no"}</td>`);
+    L.push("      </tr>");
+  }
+  L.push("    </tbody>");
+  L.push("  </table>");
+  L.push("</section>");
+  L.push("");
+  L.push('<section class="prose">');
+  L.push("  <h2>Read the evidence</h2>");
+  L.push("  <ul>");
+  L.push('    <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md">docs/core.md</a>: every test file and spec behind each number above.</li>');
+  L.push('    <li><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/accessibility-conformance-report.md">Accessibility conformance report</a>: VPAT 2.5, WCAG 2.2 edition, self-assessed and not an independent audit.</li>');
+  L.push('    <li><a href="/accessibility/">Accessibility statement</a>: what is verified, and what is not verified by anything.</li>');
+  L.push("  </ul>");
+  L.push("  <p>The page is generated by the same script that checks the evidence, and the project's test run fails if a Core member loses any of it.</p>");
+  L.push("</section>");
+  return L.join("\n") + "\n";
+}
+
+// ---------- write or check ----------
+
+const DATE_RE = /("reportDate": ")\d{4}-\d{2}-\d{2}|(\*\*Report Date:\*\* )\d{4}-\d{2}-\d{2}|(from the tree on )\d{4}-\d{2}-\d{2}/g;
+const normalise = (s) => (s === null ? null : s.replace(DATE_RE, (m, a, b, c) => (a || b || c) + "DATE"));
+const prevDate = previous && /^\d{4}-\d{2}-\d{2}$/.test(previous.reportDate || "") ? previous.reportDate : null;
+
+function build(date) {
+  const acr = renderAcr(date);
+  return { [OUT.json]: renderJson(date), [OUT.md]: renderCoreMd(date), [OUT.acr]: acr.text, [OUT.page]: renderPage(), tally: acr.tally };
+}
+
+const files = [OUT.json, OUT.md, OUT.acr, OUT.page];
+const have = Object.fromEntries(files.map((f) => [f, exists(f) ? read(f) : null]));
+const candidateDate = prevDate || today;
+let out = build(candidateDate);
+const stale = files.filter((f) => normalise(have[f]) !== normalise(out[f]));
+const anyChange = stale.length > 0;
+if (!check && anyChange && candidateDate !== today) out = build(today);
+
+const summary = `generate-core: ${counts.candidates} candidates; (a) ${counts.keyboard}, (b) ${counts.e2e}, (c) ${counts.screenReader}; Core ${counts.core}` +
+  `; ACR ${Object.entries(out.tally).map(([k, v]) => `${k} ${v}`).join(", ")}`;
+
+if (check) {
+  let bad = 0;
+  for (const m of lost) { console.error(`Error: ${m}`); bad++; }
+  for (const f of stale) { console.error(`Error: ${f} ${have[f] === null ? "is missing" : "is stale"}; run bin/generate-core`); bad++; }
+  console.log(bad ? `generate-core: FAILED (${bad})` : `${summary}: OK`);
+  process.exit(bad ? 1 : 0);
+}
+
+if (lost.length && !allowDemotion) {
+  for (const m of lost) console.error(`Error: ${m}`);
+  console.error("generate-core: refusing to drop a Core member; restore the evidence, or rerun with --allow-demotion");
+  process.exit(1);
+}
+let wrote = 0;
+for (const f of files) {
+  if (have[f] === out[f]) continue;
+  fs.mkdirSync(path.dirname(abs(f)), { recursive: true });
+  fs.writeFileSync(abs(f), out[f]);
+  wrote++;
+}
+console.log(`${summary}; ${wrote} file(s) written`);
+if (have[OUT.page] !== out[OUT.page]) console.log("generate-core: the /quality page changed; now run bin/extract-site-pages, then bin/generate-page-markdown");

@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
+import { restoreOnFormReset } from "./form-reset";
 
 /**
  * UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput — an input for entering Ukraine's Реєстраційний номер облікової картки платника податків (РНОКПП)
@@ -33,4 +34,8 @@ export class UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput {
     readonly required = input<boolean>(false);
     /** Whether the input is disabled. */
     readonly disabled = input<boolean>(false);
+
+    constructor() {
+        restoreOnFormReset(this.value);
+    }
 }

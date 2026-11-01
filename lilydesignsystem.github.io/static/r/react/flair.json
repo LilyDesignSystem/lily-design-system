@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "flair",
+  "type": "registry:component",
+  "title": "Flair",
+  "description": "A decorative highlight or emphasis element.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Flair.tsx",
+      "content": "import React from \"react\";\n\n// Flair component\n//\n// A small inline element used to add visual emphasis, categorization, or status\n// labeling to elements within an interface. Commonly used as tags, badges, or labels\n// in forums, social platforms, or dashboards to indicate user roles, content types,\n// statuses, or categories (e.g., \"Moderator\", \"Urgent\", \"New\").\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, default undefined. Accessible label; omit for decorative flair, provide for meaningful flair.\n//   children — ReactNode, required. Flair content text.\n//   ...restProps — additional HTML attributes spread onto the span.\n//\n// Syntax:\n//   <Flair>New</Flair>\n//\n// Examples:\n//\n//   <Flair>New</Flair>\n//\n//\n//   <Flair label=\"Status: new\">New</Flair>\n//\n// Keyboard:\n//   - None — this is a passive inline display element\n//\n// Accessibility:\n//   - aria-hidden=\"true\" applied when no label is provided, marking the flair as decorative\n//   - aria-label applied when label is provided, giving the flair an accessible name\n//\n// Internationalization:\n//   - All text content comes through the children prop and label prop; no hardcoded strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - When no label is provided, the flair is treated as decorative via aria-hidden\n//   - When label is provided, aria-hidden is removed and the flair becomes meaningful\n\nexport interface FlairProps {\n    className?: string;\n    /** Accessible label (omit for decorative). */\n    label?: string;\n    /** Flair content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Flair({\n    className = \"\",\n    label = undefined,\n    children,\n    ...restProps\n}: FlairProps) {\n    return (\n        <span\n            className={`flair ${className}`}\n            aria-label={label}\n            aria-hidden={label ? undefined : \"true\"}\n            {...restProps}\n        >\n            {children}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Flair.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/flair/"
+}

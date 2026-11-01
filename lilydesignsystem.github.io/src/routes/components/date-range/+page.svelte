@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<fieldset class=\"date-range\" aria-label=\"Project dates\"><input class=\"date-input\" type=\"date\" aria-label=\"Start date\" value=\"2026-01-01\"><input class=\"date-input\" type=\"date\" aria-label=\"End date\" value=\"2026-12-31\"></fieldset>";
   const svelteSource: string = "// In your Svelte component:\nimport DateRange from \"lily-design-system-svelte-headless/components/DateRange/DateRange.svelte\";\n\n<DateRange>\n  <!-- content -->\n</DateRange>\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import DateRange from \"./DateRange.svelte\";\n\n    let start = $state(\"\");\n    let end = $state(\"\");\n<\/script>\n\n<DateRange\n    label=\"Trip dates\"\n    startLabel=\"Departure\"\n    endLabel=\"Return\"\n    bind:start\n    bind:end\n/>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import DateRange from \"./DateRange.svelte\";\n\n  let start = $state(\"\");\n  let end = $state(\"\");\n<\/script>\n\n<DateRange\n  label=\"Trip dates\"\n  startLabel=\"Departure\"\n  endLabel=\"Return\"\n  bind:start\n  bind:end\n/>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

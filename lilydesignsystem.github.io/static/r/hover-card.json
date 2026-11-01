@@ -38,5 +38,10 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/HoverCard.razor"
   },
   "docs": "https://lilydesignsystem.com/components/hover-card/",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/hover-card/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/hover-card/AGENTS.md",
+  "nativePlatform": {
+    "decision": "native",
+    "uses": "div role=\"tooltip\" popover=\"manual\" shown from the open state",
+    "could_use": "CSS anchor positioning (consumer sets position-anchor)"
+  }
 }

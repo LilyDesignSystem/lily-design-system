@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "magyarorszag-taj-szam-view",
+  "type": "registry:component",
+  "title": "MagyarorszagTajSzamView",
+  "description": "A read-only display of Hungary's Tarsadalombiztositasi Azonosito Jel (TAJ).",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/MagyarorszagTajSzamView.tsx",
+      "content": "import React from \"react\";\n\n// MagyarorszagTajSzamView component\n//\n// A headless display component for showing Hungary's\n// Társadalombiztosítási Azonosító Jel (TAJ) in a read-only format.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". The identifier string to display.\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <MagyarorszagTajSzamView label=\"Társadalombiztosítási Azonosító Jel (TAJ)\" value={value} />\n//\n// Accessibility:\n//   - aria-label provides the accessible name so screen readers announce the purpose\n//\n// References:\n//   - https://hu.wikipedia.org/wiki/T%C3%A1rsadalombiztos%C3%ADt%C3%A1si_azonos%C3%ADt%C3%B3_jel\n\nexport interface MagyarorszagTajSzamViewProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The identifier to display */\n    value?: string;\n    [key: string]: unknown;\n}\n\nexport default function MagyarorszagTajSzamView({\n    className = \"\",\n    label,\n    value = \"\",\n    ...restProps\n}: MagyarorszagTajSzamViewProps) {\n    return (\n        <span\n            className={`magyarorszag-taj-szam-view ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {value}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/MagyarorszagTajSzamView.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/magyarorszag-taj-szam-view/"
+}

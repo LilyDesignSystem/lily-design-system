@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "text-area-input",
+  "type": "registry:component",
+  "title": "TextAreaInput",
+  "description": "A multi-line text input area.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/TextAreaInput.tsx",
+      "content": "import React from \"react\";\n\n// TextAreaInput component\n//\n// A headless multi-line text input that wraps the native HTML <textarea>\n// element. Used for comments, messages, descriptions, feedback, code input,\n// and any scenario where users need to enter extended text content. Unlike\n// a single-line TextInput, TextAreaInput provides a larger, scrollable text area\n// that supports multiple lines.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name via aria-label.\n//   value — string, default \"\". Bindable text content; supports value + onChange.\n//   rows — number, default undefined. Number of visible text rows.\n//   required — boolean, default false. Whether the text-area-input is required.\n//   disabled — boolean, default false. Whether the text-area-input is disabled.\n//   ...restProps — additional HTML attributes spread onto the <textarea>.\n//\n// Syntax:\n//   <TextAreaInput label=\"Comments\" value={value} onChange={setValue} rows={5} />\n//\n// Examples:\n//\n//   <TextAreaInput label=\"Description\" value={description} onChange={setDescription} required />\n//\n//\n//   <TextAreaInput label=\"Notes\" value={value} onChange={setValue} disabled={isReadOnly} />\n//\n// Keyboard:\n//   - Tab: moves focus to and from the text-area-input (native behavior)\n//   - Enter: inserts a new line (does not submit forms)\n//   - All standard text editing keys function normally\n//\n// Accessibility:\n//   - aria-label={label} provides an accessible name since no visible <label> is included\n//\n// Internationalization:\n//   - The label prop accepts any translated string\n//   - No hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles -- consumer provides all styling\n//   - Uses controlled for two-way data binding on value\n//   - Consumer can wrap with their own visible <label> element\n//\n// References:\n//   - MDN text-area-input element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/text-area-input\n\nexport interface TextAreaInputProps {\n    className?: string;\n    /** Accessible label. */\n    label: string;\n    /** Current value. Bindable. */\n    value?: string;\n    /** Number of visible rows. */\n    rows?: number;\n    /** Whether required. */\n    required?: boolean;\n    /** Whether disabled. */\n    disabled?: boolean;\n    /** Callback when value changes. */\n    onChange?: (value: string) => void;\n    [key: string]: unknown;\n}\n\nexport default function TextAreaInput({\n    className = \"\",\n    label,\n    value = \"\",\n    rows = undefined,\n    required = false,\n    disabled = false,\n    onChange,\n    ...restProps\n}: TextAreaInputProps) {\n    return (\n        <textarea\n            className={`text-area-input ${className}`}\n            aria-label={label}\n            value={value}\n            onChange={(e) => onChange?.(e.target.value)}\n            rows={rows}\n            required={required}\n            disabled={disabled}\n            {...restProps}\n        ></textarea>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/TextAreaInput.tsx"
+    }
+  ],
+  "categories": [
+    "forms"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/text-area-input/"
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "feature-photo",
+  "type": "registry:component",
+  "title": "FeaturePhoto",
+  "description": "A responsive photo with lazy loading and alt text validation.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/FeaturePhoto.tsx",
+      "content": "import React from \"react\";\n\n// FeaturePhoto component\n//\n// A responsive feature photo with required alt text and optional caption /\n// credit. Renders a <figure> containing an <img> plus a <figcaption> when\n// caption or credit is supplied. Defaults to lazy loading; consumers can\n// override to \"eager\" for above-the-fold hero images. Width/height are\n// passed through to the <img> so browsers can reserve the slot and avoid\n// CLS.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   src      — string, required. Image source URL.\n//   alt      — string, required. Alt text describing the image.\n//   caption  — ReactNode, optional. Caption rendered inside <figcaption>.\n//   credit   — ReactNode, optional. Photographer / source credit.\n//   loading  — \"lazy\" | \"eager\", default \"lazy\".\n//   width    — number, optional. Intrinsic image width for aspect ratio.\n//   height   — number, optional. Intrinsic image height for aspect ratio.\n//   ...restProps — additional HTML attributes spread onto the <figure>.\n//\n// Accessibility:\n//   - alt is required; if the photo is purely decorative, pass alt=\"\"\n//   - caption + credit live inside a single <figcaption>\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n\nexport interface FeaturePhotoProps {\n    className?: string;\n    /** Image source URL. */\n    src: string;\n    /** Alt text describing the image (use \"\" for decorative photos). */\n    alt: string;\n    /** Caption rendered inside <figcaption>. */\n    caption?: React.ReactNode;\n    /** Photographer / source credit. */\n    credit?: React.ReactNode;\n    /** Image loading strategy. */\n    loading?: \"lazy\" | \"eager\";\n    /** Intrinsic image width. */\n    width?: number;\n    /** Intrinsic image height. */\n    height?: number;\n    [key: string]: unknown;\n}\n\nexport default function FeaturePhoto({\n    className = \"\",\n    src,\n    alt,\n    caption = undefined,\n    credit = undefined,\n    loading = \"lazy\",\n    width,\n    height,\n    ...restProps\n}: FeaturePhotoProps) {\n    const hasCaption = caption !== undefined || credit !== undefined;\n    return (\n        <figure\n            className={`feature-photo ${className}`}\n            {...restProps}\n        >\n            <img\n                className=\"feature-photo-image\"\n                src={src}\n                alt={alt}\n                loading={loading}\n                width={width}\n                height={height}\n            />\n            {hasCaption && (\n                <figcaption className=\"feature-photo-caption\">\n                    {caption !== undefined && (\n                        <span className=\"feature-photo-caption-text\">{caption}</span>\n                    )}\n                    {credit !== undefined && <span className=\"feature-photo-credit\">{credit}</span>}\n                </figcaption>\n            )}\n        </figure>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/FeaturePhoto.tsx"
+    }
+  ],
+  "categories": [
+    "media"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/feature-photo/"
+}

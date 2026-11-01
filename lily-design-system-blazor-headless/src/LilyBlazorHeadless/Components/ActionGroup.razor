@@ -1,15 +1,117 @@
 @namespace LilyBlazorHeadless.Components
+@using Microsoft.JSInterop
+@implements IAsyncDisposable
+@inject IJSRuntime JS
 
 @*
     ActionGroup component
     a group of action buttons that can collapse to an overflow menu when space is constrained
+
+    Renders <div class="action-group" role="group" aria-label> holding ChildContent
+    (the visible actions) and, when Overflow is given, a
+    <button class="action-group-overflow-trigger"> (aria-haspopup="menu",
+    aria-expanded, aria-controls, aria-label) and a
+    <div class="action-group-overflow-menu" popover="auto"> holding Overflow.
+
+    Parameters:
+        Label — string, required. aria-label of the group.
+        OverflowLabel — string. aria-label of the overflow trigger.
+        OverflowOpen / OverflowOpenChanged — two-way (@bind-OverflowOpen).
+        Overflow — RenderFragment, the overflow menu content.
+        TriggerContent — optional RenderFragment for the trigger (an icon); the
+            "…" glyph, as in the Svelte reference, when it is not given.
+        ChildContent — the visible action buttons. CssClass, AdditionalAttributes (root).
+
+    The menu is popover="auto" (tasks.md P18-T11): the trigger names it with command="toggle-popover"
+    commandfor (and popovertarget), so the browser opens and closes it, the browser closes it
+    on Escape and on a click outside it (light dismiss) and puts it in the top
+    layer, with no script, also under static SSR. Ported from the Svelte
+    reference on 2026-10-30; it was a bare <div> stub before.
+
+    Blazor deviation: the toggle event, opening from OverflowOpen, and the APG menu
+    focus code (opening focuses the first role="menuitem"; ArrowDown/ArrowUp
+    wrap, Home/End jump) go through Popover.razor.js with { menu: true },
+    loaded after first render (skipped during prerender); where the Popover
+    API is missing it toggles the hidden attribute on click, and Escape closes.
 *@
 
-<div class="@($"action-group {CssClass}".Trim())" role="group" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"action-group {CssClass}".Trim())" role="group" aria-label="@Label" @attributes="AdditionalAttributes">
+    @ChildContent
+    @if (Overflow is not null)
+    {
+        <button class="action-group-overflow-trigger"
+                type="button"
+                aria-haspopup="menu"
+                aria-expanded="@(OverflowOpen ? "true" : "false")"
+                aria-label="@OverflowLabel"
+                aria-controls="@_menuId"
+                command="toggle-popover"
+                commandfor="@_menuId"
+                popovertarget="@_menuId"
+                @ref="_trigger">@if (TriggerContent is not null) { @TriggerContent } else { <text>…</text> }</button>
+        <div class="action-group-overflow-menu" id="@_menuId" popover="auto" @ref="_menu">@Overflow</div>
+    }
+</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public string? OverflowLabel { get; set; }
+    [Parameter] public bool OverflowOpen { get; set; }
+    [Parameter] public EventCallback<bool> OverflowOpenChanged { get; set; }
+    [Parameter] public RenderFragment? Overflow { get; set; }
+    [Parameter] public RenderFragment? TriggerContent { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private readonly string _menuId = $"action-group-overflow-menu-{Guid.NewGuid():N}";
+    private ElementReference _trigger;
+    private ElementReference _menu;
+    private IJSObjectReference? _module;
+    private IJSObjectReference? _handle;
+    private DotNetObjectReference<ActionGroup>? _self;
+    private bool _synced;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (Overflow is null) return; // no menu rendered, nothing to attach
+        if (_self is null)
+        {
+            _self = DotNetObjectReference.Create(this);
+            _module = await JS.InvokeAsync<IJSObjectReference>("import", Popover.ModulePath);
+            _handle = await _module.InvokeAsync<IJSObjectReference>("attach", _menu, _self, OverflowOpen, _trigger, new { menu = true });
+            _synced = OverflowOpen;
+        }
+        else if (_handle is not null && _synced != OverflowOpen)
+        {
+            _synced = OverflowOpen;
+            await _handle.InvokeVoidAsync("set", OverflowOpen);
+        }
+    }
+
+    /// <summary>Called from the menu's toggle event (trigger, Escape, light dismiss) or the no-API fallback.</summary>
+    [JSInvokable]
+    public async Task OnPopoverToggle(bool open)
+    {
+        _synced = open;
+        if (OverflowOpen == open) return;
+        OverflowOpen = open;
+        await OverflowOpenChanged.InvokeAsync(open);
+        StateHasChanged();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        try
+        {
+            if (_handle is not null)
+            {
+                await _handle.InvokeVoidAsync("dispose");
+                await _handle.DisposeAsync();
+            }
+            if (_module is not null) await _module.DisposeAsync();
+        }
+        catch (JSDisconnectedException) { }
+        _self?.Dispose();
+    }
 }

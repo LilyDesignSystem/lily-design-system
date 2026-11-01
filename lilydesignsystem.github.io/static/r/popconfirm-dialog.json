@@ -51,5 +51,10 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/PopconfirmDialog.razor"
   },
   "docs": "https://lilydesignsystem.com/components/popconfirm-dialog/",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/popconfirm-dialog/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/popconfirm-dialog/AGENTS.md",
+  "nativePlatform": {
+    "decision": "native",
+    "uses": "div role=\"alertdialog\" aria-modal=\"false\" popover=\"manual\" shown from the open state",
+    "could_use": "CSS anchor positioning to the trigger (consumer sets position-anchor)"
+  }
 }

@@ -160,6 +160,7 @@
         <TreeList label="Hospital">
             <li
                 role="treeitem"
+                aria-selected="true"
                 aria-expanded="true"
                 tabindex="0"
             >
@@ -167,18 +168,21 @@
                 <TreeList label="Medicine departments">
                     <li
                         role="treeitem"
+                        aria-selected="false"
                         tabindex="-1"
                     >
                         Cardiology
                     </li>
                     <li
                         role="treeitem"
+                        aria-selected="false"
                         tabindex="-1"
                     >
                         Neurology
                     </li>
                     <li
                         role="treeitem"
+                        aria-selected="false"
                         tabindex="-1"
                     >
                         Gastroenterology
@@ -187,6 +191,7 @@
             </li>
             <li
                 role="treeitem"
+                aria-selected="false"
                 aria-expanded="true"
                 tabindex="-1"
             >
@@ -194,18 +199,21 @@
                 <TreeList label="Surgery departments">
                     <li
                         role="treeitem"
+                        aria-selected="false"
                         tabindex="-1"
                     >
                         General Surgery
                     </li>
                     <li
                         role="treeitem"
+                        aria-selected="false"
                         tabindex="-1"
                     >
                         Orthopaedics
                     </li>
                     <li
                         role="treeitem"
+                        aria-selected="false"
                         tabindex="-1"
                     >
                         Urology
@@ -214,6 +222,7 @@
             </li>
             <li
                 role="treeitem"
+                aria-selected="false"
                 aria-expanded="true"
                 tabindex="-1"
             >
@@ -221,12 +230,14 @@
                 <TreeList label="Diagnostics departments">
                     <li
                         role="treeitem"
+                        aria-selected="false"
                         tabindex="-1"
                     >
                         Radiology
                     </li>
                     <li
                         role="treeitem"
+                        aria-selected="false"
                         tabindex="-1"
                     >
                         Pathology
@@ -239,26 +250,28 @@
     <Separator />
 
     <h2>Toggle Group</h2>
-    <ToggleGroup label="Text formatting">
-        <ToggleButton
-            label="Bold"
-            bind:pressed={boldPressed}
-        >
-            <strong>B</strong>
-        </ToggleButton>
-        <ToggleButton
-            label="Italic"
-            bind:pressed={italicPressed}
-        >
-            <em>I</em>
-        </ToggleButton>
-        <ToggleButton
-            label="Underline"
-            bind:pressed={underlinePressed}
-        >
-            <u>U</u>
-        </ToggleButton>
-    </ToggleGroup>
+    <div class="text-formatting">
+        <ToggleGroup label="Text formatting">
+            <ToggleButton
+                label="Bold"
+                bind:pressed={boldPressed}
+            >
+                <strong>B</strong>
+            </ToggleButton>
+            <ToggleButton
+                label="Italic"
+                bind:pressed={italicPressed}
+            >
+                <em>I</em>
+            </ToggleButton>
+            <ToggleButton
+                label="Underline"
+                bind:pressed={underlinePressed}
+            >
+                <u>U</u>
+            </ToggleButton>
+        </ToggleGroup>
+    </div>
 
     <p style="margin-top: var(--nhs-space-3);">
         Preview:
@@ -277,3 +290,13 @@
         <p>Lily Design System — Tabbed Interface Example</p>
     </div>
 </Footer>
+
+<style>
+    /* The one-letter B, I and U toggles are narrower than 24 CSS px; Firefox's
+       tighter spacing fails axe target-size (WCAG 2.5.8), so give each target the
+       minimum size in every engine. */
+    .text-formatting :global(.toggle-button) {
+        min-inline-size: 24px;
+        min-block-size: 24px;
+    }
+</style>

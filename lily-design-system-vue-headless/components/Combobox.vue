@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { shallowRef, toRef } from "vue";
+import { usePopoverState } from "./popover";
 // Combobox component
 //
 // A headless combobox combining a text input with a dropdown listbox of
@@ -52,7 +54,8 @@
 // References:
 //   - WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
 
-import { useId } from "vue";
+import { useId, ref } from "vue";
+import { useFormReset } from "./form-reset";
 
 const props = defineProps<{
     /** Accessible label. */
@@ -60,6 +63,8 @@ const props = defineProps<{
 }>();
 
 const modelValue = defineModel<string>({ default: "" });
+const field = ref<HTMLInputElement | HTMLTextAreaElement | null>(null);
+useFormReset(modelValue, field);
 
 const open = defineModel<boolean>("open", { default: false });
 
@@ -71,6 +76,8 @@ function onkeydown(event: KeyboardEvent) {
         open.value = false;
     }
 }
+const panelEl = shallowRef<HTMLElement | null>(null);
+usePopoverState(panelEl, toRef(props, "open"));
 </script>
 
 <template>
@@ -83,11 +90,13 @@ function onkeydown(event: KeyboardEvent) {
             :aria-expanded="open"
             :aria-controls="listboxId"
             aria-autocomplete="list"
+            ref="field"
             v-model="modelValue"
             @keydown="onkeydown"
         />
         <div
-            v-if="open"
+            ref="panelEl"
+            popover="manual"
             role="listbox"
             :id="listboxId"
             :aria-label="label"

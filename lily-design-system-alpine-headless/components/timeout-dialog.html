@@ -2,15 +2,16 @@
 <!-- TimeoutDialog component (Alpine.js) -->
 <!--
   Description: a modal dialog warning users before session timeout
-  HTML tag: <>
+  HTML tag: <dialog>
   CSS class: timeout-dialog
-  Keyboard: 
-  Accessibility: 
+  Keyboard: Tab cycles focus within the dialog (showModal()); Escape closes it unless the consumer prevents cancel
+  Accessibility: role="alertdialog" (the warning needs a response), aria-label for the accessible name
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
 <dialog
   class="timeout-dialog"
+  role="alertdialog"
   aria-label=""
 >
   <!-- Consumer provides content -->

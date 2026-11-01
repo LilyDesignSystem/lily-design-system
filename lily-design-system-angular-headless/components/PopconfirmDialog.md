@@ -8,7 +8,15 @@ in the canonical repo root for the cross-framework documentation.
 ## Selector
 
 ```html
-<lily-popconfirm-dialog></lily-popconfirm-dialog>
+<lily-popconfirm-dialog
+  [open]="confirming"
+  title="Delete this file?"
+  description="This cannot be undone."
+  confirmLabel="Delete"
+  cancelLabel="Keep"
+  (confirmed)="delete()"
+  (cancelled)="confirming = false"
+></lily-popconfirm-dialog>
 ```
 
 ## Files

@@ -4,6 +4,11 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+- `variant="select"` renders a native `<select>` instead of the icon button and listbox (RFC 3 prototype, ported from
+  the Svelte reference 2026-10-30). Opt-in; the default is unchanged. See `spec/index.md`, "Native select variant".
+
 ## 0.3.0 — 2026-10-16
 
 - Added `[(open)]` (a `model`, with `openChange`) and `disabled`, ported from the Svelte package's `open`, `onOpenChange` and `disabled` (spec "Open state and disabled"). `openChange` fires once for each change, by the user or from outside, and not for the initial value; `disabled` disables the button and closes an open popup.

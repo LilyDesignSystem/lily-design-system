@@ -1,49 +1,43 @@
 // Autosuggest component
 //
-// A text input that proposes matching options as users type, implementing
-// the WAI-ARIA Combobox pattern atop a text <input>. The canonical HTML tag
-// is <div>, and the custom element stands in for that wrapper div directly
-// (see lib/dom-utils.applySelfClassName): a real <input> and a
+// A text input that proposes matching options as users type: the WAI-ARIA
+// combobox pattern with list autocomplete. The canonical HTML tag is <div>,
+// and the custom element stands in for that wrapper div directly (see
+// lib/dom-utils.applySelfClassName); a real <input role="combobox"> and a
 // <ul role="listbox"> are built as constructed children.
 //
-// FLAGGED DEVIATION FROM THE MAJORITY: svelte-headless and react-headless
-// both ship this component as a passive stub (a bare aria-labelled div with
-// no input, no listbox, no keyboard handling at all) — the AGENTS.md
-// contract they claim to implement is not actually built in either
-// canonical catalog. Implemented the real, documented WAI-ARIA Combobox
-// contract here per this batch's explicit instruction to treat autosuggest
-// as a real interactive widget rather than copy the stub majority.
-//
-// Suggestions are supplied as light-DOM `<li role="option">` children
-// (this catalog's native-element idiom for consumer-supplied list data —
-// see Select's `<option>` children) rather than a framework `onInput`
-// callback. A `MutationObserver` re-scans the listbox whenever the
-// consumer adds/removes/edits option children after connect, so
-// suggestions can be swapped in response to typing.
+// Suggestions are supplied as light-DOM `<li role="option">` children (this
+// catalog's native-element idiom for consumer-supplied list data — see
+// Select's `<option>` children) rather than a framework `onInput` callback;
+// the host's initial children move into the listbox. A `MutationObserver`
+// re-scans the listbox whenever the consumer swaps the options, typically in
+// a "lily-input" listener, and reopens or closes it to match.
 //
 // Attributes:
-//   label — REQUIRED. Accessible name for the combobox, via aria-label.
+//   label — REQUIRED. Accessible name of the input and the listbox, via aria-label.
 //   value — initial input value; also a live `value` property.
 //   placeholder — placeholder text for the input.
+//   name — form field name of the input.
 //
 // Fires:
 //   "lily-input" — CustomEvent<{ value: string }> on every input change;
 //     the consumer recomputes suggestions and updates the option children.
-//   "lily-select" — CustomEvent<{ value: string }> when the user selects a
-//     suggestion (Enter or pointer selection).
+//   "lily-select" — CustomEvent<{ value: string }> when the user chooses a
+//     suggestion (Enter or click); the option's data-value (else its text)
+//     fills the input.
 //
 // ARIA:
-//   role="combobox" + aria-haspopup="listbox" + aria-expanded on the host.
-//   aria-controls + aria-autocomplete="list" + aria-activedescendant on the
-//   input. role="listbox" on the list; role="option" + aria-selected on
-//   each option.
+//   role="combobox" + aria-autocomplete="list" + aria-expanded +
+//   aria-controls + aria-activedescendant (only while an option is
+//   highlighted) on the input. role="listbox" on the list, hidden while
+//   closed; role="option" + aria-selected on each option.
 //
 // Keyboard:
-//   ArrowDown — open the listbox / move highlight to the next option.
-//   ArrowUp — move highlight to the previous option (listbox open only).
-//   Enter — select the highlighted option.
-//   Escape — close the listbox without selecting.
+//   ArrowDown / ArrowUp — open the listbox / move the highlight (wrapping).
 //   Home / End — jump to the first / last option (listbox open only).
+//   Enter — choose the highlighted option.
+//   Escape — close the listbox without choosing.
+//   Blur closes; pressing an option keeps focus in the input so a click can choose it.
 //
 // References:
 //   - components/autosuggest/index.md (canonical contract)
@@ -53,22 +47,20 @@ import { applySelfClassName, nextId } from "../lib/dom-utils.js";
 
 export class Autosuggest extends HTMLElement {
     static get observedAttributes(): string[] {
-        return ["label", "placeholder"];
+        return ["label", "placeholder", "name"];
     }
 
     #built = false;
     #input: HTMLInputElement | null = null;
     #list: HTMLUListElement | null = null;
     #observer: MutationObserver | null = null;
-    #activeIndex = -1;
+    #wanted = false;
+    #active = -1;
 
     connectedCallback(): void {
         if (!this.#built) {
             this.#built = true;
             applySelfClassName(this, "autosuggest");
-            this.setAttribute("role", "combobox");
-            this.setAttribute("aria-haspopup", "listbox");
-            this.setAttribute("aria-expanded", "false");
 
             const listboxId = nextId("autosuggest-listbox");
 
@@ -76,11 +68,14 @@ export class Autosuggest extends HTMLElement {
             const optionChildren = Array.from(this.childNodes);
 
             const input = document.createElement("input");
+            input.className = "autosuggest-input";
             input.type = "text";
+            input.autocomplete = "off";
+            input.setAttribute("role", "combobox");
             input.setAttribute("aria-autocomplete", "list");
+            input.setAttribute("aria-expanded", "false");
             input.setAttribute("aria-controls", listboxId);
-            input.setAttribute("aria-activedescendant", "");
-            input.value = this.getAttribute("value") ?? "";
+            input.defaultValue = this.getAttribute("value") ?? "";
             input.addEventListener("input", this.#onInput);
             input.addEventListener("keydown", this.#onKeydown);
             input.addEventListener("blur", this.#close);
@@ -90,6 +85,8 @@ export class Autosuggest extends HTMLElement {
             list.id = listboxId;
             list.setAttribute("role", "listbox");
             list.hidden = true;
+            list.addEventListener("mousedown", (event) => event.preventDefault());
+            list.addEventListener("click", this.#onListClick);
             for (const node of optionChildren) list.appendChild(node);
 
             this.appendChild(input);
@@ -97,15 +94,16 @@ export class Autosuggest extends HTMLElement {
             this.#input = input;
             this.#list = list;
 
-            this.#observer = new MutationObserver(this.#refreshOptions);
-            this.#observer.observe(list, { childList: true });
+            this.#observer = new MutationObserver(this.#render);
+            this.#observer.observe(list, { childList: true, subtree: true });
         }
-        this.#refreshOptions();
         this.#sync();
+        this.#render();
     }
 
     disconnectedCallback(): void {
         this.#observer?.disconnect();
+        this.#observer = null;
     }
 
     attributeChangedCallback(): void {
@@ -113,32 +111,47 @@ export class Autosuggest extends HTMLElement {
     }
 
     #sync(): void {
-        if (!this.#built || !this.#input) return;
+        if (!this.#built || !this.#input || !this.#list) return;
         const label = this.getAttribute("label");
-        if (label !== null) this.setAttribute("aria-label", label);
+        if (label !== null) {
+            this.#input.setAttribute("aria-label", label);
+            this.#list.setAttribute("aria-label", label);
+        }
         const placeholder = this.getAttribute("placeholder");
         if (placeholder !== null) this.#input.placeholder = placeholder;
+        const name = this.getAttribute("name");
+        if (name !== null) this.#input.name = name;
     }
 
     #options(): HTMLElement[] {
-        return Array.from(
-            this.#list?.querySelectorAll<HTMLElement>(":scope > [role='option']") ?? [],
-        );
+        return Array.from(this.#list?.querySelectorAll<HTMLElement>("[role='option']") ?? []);
     }
 
-    #refreshOptions = (): void => {
+    #isOpen(): boolean {
+        return this.#input?.getAttribute("aria-expanded") === "true";
+    }
+
+    // Writes the open state, the option ids and the highlight to the DOM.
+    #render = (): void => {
+        if (!this.#input || !this.#list) return;
         const options = this.#options();
-        for (const option of options) {
-            option.setAttribute("role", "option");
+        if (this.#active >= options.length) this.#active = -1;
+        const open = this.#wanted && options.length > 0;
+        this.#input.setAttribute("aria-expanded", String(open));
+        this.#list.hidden = !open;
+        options.forEach((option, index) => {
             if (!option.id) option.id = nextId("autosuggest-option");
-            if (!option.hasAttribute("aria-selected"))
-                option.setAttribute("aria-selected", "false");
-            option.addEventListener("mousedown", this.#onOptionMousedown);
-        }
-        if (this.#activeIndex >= options.length) this.#activeIndex = options.length - 1;
+            option.setAttribute("aria-selected", String(open && index === this.#active));
+        });
+        const active = open ? options[this.#active] : undefined;
+        if (active) this.#input.setAttribute("aria-activedescendant", active.id);
+        else this.#input.removeAttribute("aria-activedescendant");
     };
 
     #onInput = (): void => {
+        this.#wanted = true;
+        this.#active = -1;
+        this.#render();
         this.dispatchEvent(
             new CustomEvent("lily-input", {
                 detail: { value: this.#input?.value ?? "" },
@@ -146,38 +159,17 @@ export class Autosuggest extends HTMLElement {
                 composed: true,
             }),
         );
-        this.#activeIndex = -1;
-        this.#highlight();
     };
-
-    #open(): void {
-        if (!this.#list) return;
-        this.setAttribute("aria-expanded", "true");
-        this.#list.hidden = false;
-    }
 
     #close = (): void => {
-        if (!this.#list) return;
-        this.setAttribute("aria-expanded", "false");
-        this.#list.hidden = true;
-        this.#activeIndex = -1;
-        this.#highlight();
+        this.#wanted = false;
+        this.#active = -1;
+        this.#render();
     };
 
-    #highlight(): void {
-        const options = this.#options();
-        options.forEach((option, index) => {
-            option.setAttribute("aria-selected", index === this.#activeIndex ? "true" : "false");
-        });
-        const active = options[this.#activeIndex];
-        this.#input?.setAttribute("aria-activedescendant", active?.id ?? "");
-    }
-
-    #select(index: number): void {
-        const options = this.#options();
-        const option = options[index];
-        if (!option || !this.#input) return;
-        const value = option.getAttribute("data-value") ?? option.textContent ?? "";
+    #choose(option: HTMLElement): void {
+        if (!this.#input) return;
+        const value = option.getAttribute("data-value") ?? option.textContent?.trim() ?? "";
         this.#input.value = value;
         this.#close();
         this.dispatchEvent(
@@ -185,63 +177,49 @@ export class Autosuggest extends HTMLElement {
         );
     }
 
-    #onOptionMousedown = (event: MouseEvent): void => {
-        event.preventDefault();
-        const options = this.#options();
-        const index = options.indexOf(event.currentTarget as HTMLElement);
-        if (index >= 0) this.#select(index);
+    #onListClick = (event: MouseEvent): void => {
+        const option = (event.target as Element).closest<HTMLElement>("[role='option']");
+        if (option && this.#list?.contains(option)) this.#choose(option);
     };
 
     #onKeydown = (event: KeyboardEvent): void => {
         const options = this.#options();
-        const isOpen = this.getAttribute("aria-expanded") === "true";
+        const count = options.length;
+        const open = this.#isOpen();
         switch (event.key) {
-            case "ArrowDown": {
-                event.preventDefault();
-                if (!isOpen) {
-                    if (options.length === 0) break;
-                    this.#open();
-                    this.#activeIndex = 0;
-                } else {
-                    this.#activeIndex = Math.min(this.#activeIndex + 1, options.length - 1);
-                }
-                this.#highlight();
+            case "ArrowDown":
+                if (count === 0) return;
+                this.#active = open ? (this.#active + 1) % count : 0;
+                this.#wanted = true;
                 break;
-            }
-            case "ArrowUp": {
-                if (!isOpen) break;
-                event.preventDefault();
-                this.#activeIndex = Math.max(this.#activeIndex - 1, 0);
-                this.#highlight();
+            case "ArrowUp":
+                if (count === 0) return;
+                this.#active = open && this.#active > 0 ? this.#active - 1 : count - 1;
+                this.#wanted = true;
                 break;
-            }
-            case "Home": {
-                if (!isOpen) break;
-                event.preventDefault();
-                this.#activeIndex = 0;
-                this.#highlight();
+            case "Home":
+                if (!open) return;
+                this.#active = 0;
                 break;
-            }
-            case "End": {
-                if (!isOpen) break;
-                event.preventDefault();
-                this.#activeIndex = options.length - 1;
-                this.#highlight();
+            case "End":
+                if (!open) return;
+                this.#active = count - 1;
                 break;
-            }
-            case "Enter": {
-                if (!isOpen || this.#activeIndex < 0) break;
+            case "Enter":
+                if (!open || this.#active < 0) return;
                 event.preventDefault();
-                this.#select(this.#activeIndex);
+                this.#choose(options[this.#active]);
+                return;
+            case "Escape":
+                if (!open) return;
+                this.#wanted = false;
+                this.#active = -1;
                 break;
-            }
-            case "Escape": {
-                if (!isOpen) break;
-                event.preventDefault();
-                this.#close();
-                break;
-            }
+            default:
+                return;
         }
+        event.preventDefault();
+        this.#render();
     };
 
     get value(): string {

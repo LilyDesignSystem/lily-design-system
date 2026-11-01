@@ -239,5 +239,10 @@
     "small": "maliit",
     "smaller": "mas maliit",
     "smallest": "pinakamaliit"
+  },
+  "date-time-now-input": {
+    "date": "Petsa",
+    "time": "Oras",
+    "now": "Ngayon"
   }
 }

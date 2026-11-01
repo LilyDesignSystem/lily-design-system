@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
+import { restoreOnFormReset } from "./form-reset";
 
 /**
  * HangukJuminDeungnokBeonhoInput — an input for entering South Korea's Resident Registration Number (주민등록번호)
@@ -33,4 +34,8 @@ export class HangukJuminDeungnokBeonhoInput {
     readonly required = input<boolean>(false);
     /** Whether the input is disabled. */
     readonly disabled = input<boolean>(false);
+
+    constructor() {
+        restoreOnFormReset(this.value);
+    }
 }

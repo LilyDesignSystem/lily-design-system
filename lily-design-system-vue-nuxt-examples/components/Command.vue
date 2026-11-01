@@ -51,6 +51,9 @@
 //   - WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/listbox/
 //   - WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
 
+import { ref } from "vue";
+import { useFormReset } from "./form-reset";
+
 withDefaults(
     defineProps<{
         label: string;
@@ -62,6 +65,8 @@ withDefaults(
 );
 
 const modelValue = defineModel<string>({ default: "" });
+const field = ref<HTMLInputElement | HTMLTextAreaElement | null>(null);
+useFormReset(modelValue, field);
 </script>
 
 <template>
@@ -73,6 +78,7 @@ const modelValue = defineModel<string>({ default: "" });
     >
         <input
             type="search"
+            ref="field"
             v-model="modelValue"
             :aria-label="label"
             :placeholder="placeholder"

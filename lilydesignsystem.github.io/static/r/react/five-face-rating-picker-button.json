@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "five-face-rating-picker-button",
+  "type": "registry:component",
+  "title": "FiveFaceRatingPickerButton",
+  "description": "A picker button for selecting a 1-5 satisfaction rating using face labels.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/FiveFaceRatingPickerButton.tsx",
+      "content": "import React from \"react\";\n\n// FiveFaceRatingPickerButton component\n//\n// A headless button representing one face in a five-face rating picker. Renders\n// a <button> with aria-pressed to indicate the selected state and data-value for\n// consumer CSS targeting. Each button represents a satisfaction level (1-5) with\n// a descriptive label (e.g. \"Very bad\", \"Good\"). Commonly used in satisfaction\n// surveys, feedback forms, and experience ratings.\n//\n// Props:\n//   value — number, required. The rating value (1-5).\n//   label — string, required. Accessible name for the button (e.g. \"Very bad\", \"Good\").\n//   selected — boolean, default false. Whether this face is currently selected.\n//   disabled — boolean, default false. Whether the button is disabled.\n//   onClick — (event: React.MouseEvent) => void, optional. Click handler.\n//   ...restProps — additional HTML attributes spread onto the <button>.\n//\n// Syntax:\n//   <FiveFaceRatingPickerButton value={3} label=\"Okay\" onClick={handleSelect} />\n//\n// Examples:\n//\n//   <FiveFaceRatingPickerButton value={4} label=\"Good\" selected={true} onClick={handleSelect} />\n//\n//   <FiveFaceRatingPickerButton value={1} label=\"Very bad\" disabled={true} />\n//\n// Keyboard:\n//   - Tab: Move focus to the button\n//   - Enter: Activate the button (native button behavior)\n//   - Space: Activate the button (native button behavior)\n//\n// Accessibility:\n//   - aria-label provides an accessible name describing the face level\n//   - aria-pressed indicates whether the face is currently selected\n//   - data-value exposes the rating value for consumer CSS selectors\n//\n// Internationalization:\n//   - The label prop provides the accessible name; no hardcoded strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Compound component: used as a child within FiveFaceRatingPicker\n//   - Consumer can use [data-value] CSS selectors for value-based styling\n//\n// References:\n//   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/\n\nexport interface FiveFaceRatingPickerButtonProps {\n    className?: string;\n    /** The rating value (1-5). */\n    value: number;\n    /** Accessible name for the button (e.g. \"Very bad\", \"Good\"). */\n    label: string;\n    /** Whether this face is currently selected. */\n    selected?: boolean;\n    /** Whether the button is disabled. */\n    disabled?: boolean;\n    /** Click handler. */\n    onClick?: (event: React.MouseEvent) => void;\n    [key: string]: unknown;\n}\n\nexport default function FiveFaceRatingPickerButton({\n    className = \"\",\n    value,\n    label,\n    selected = false,\n    disabled = false,\n    onClick = undefined,\n    ...restProps\n}: FiveFaceRatingPickerButtonProps) {\n    return (\n        <button\n            className={`five-face-rating-picker-button ${className}`}\n            type=\"button\"\n            aria-label={label}\n            aria-pressed={selected}\n            disabled={disabled}\n            data-value={value}\n            onClick={onClick}\n            {...restProps}\n        >\n            {label}\n        </button>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/FiveFaceRatingPickerButton.tsx"
+    }
+  ],
+  "categories": [
+    "pickers"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/five-face-rating-picker-button/"
+}

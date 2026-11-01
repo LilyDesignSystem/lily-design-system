@@ -155,7 +155,7 @@ pnpm run dev</code></pre>
   <h2>Gotowe motywy</h2>
   <p>
     Nie chcesz pisać CSS od zera? Lily dostarcza
-    <strong>57 samodzielnych motywów referencyjnych</strong> w katalogu
+    <strong>63 samodzielnych motywów referencyjnych</strong> w katalogu
     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
     . Każdy to jeden arkusz stylów celujący w haki klas Lily — podlinkuj go, a masz stylizację:
   </p>
@@ -179,11 +179,7 @@ pnpm run dev</code></pre>
 
 <section class="section prose" id="helpers" style="margin: 0 auto;">
   <h2>Pomocnicy preferencji</h2>
-  <p>
-    Każdy framework ma osiem małych selektorów, każdy to osobny pakiet
-    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> (oraz <code>picker-bar</code> , który je składa). Każdy to bezgłowy przycisk z ikoną otwierający okienko — listę wyboru, listę linków, formularz wyszukiwania lub (w przypadku date-time-picker) okno wyboru daty — nie natywny
-    <code>&lt;select&gt;</code>; jest bezpieczny dla SSR; i nie zawiera CSS:
-  </p>
+  <p>Każdy framework ma jedenaście małych selektorów, każdy we własnym pakiecie <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> (oraz <code>picker-bar</code>, który je składa). Każdy to headless przycisk z ikoną, który otwiera wyskakujące okienko — pole listy, listę linków, formularz wyszukiwania, panel z Twoją własną treścią lub (w przypadku date-time-picker) okno dialogowe wyboru daty — a nie natywny <code>&lt;select&gt;</code> (theme-picker oferuje go jako opcjonalny wariant); jest bezpieczny dla SSR i nie dostarcza CSS. Oprócz menu-picker, settings-picker i time-zone-picker są to:</p>
   <ul>
     <li>
       <strong>theme-picker</strong> — ładuje arkusze stylów motywów w czasie działania, podmieniając zarządzany <code>&lt;link&gt;</code>, ustawia
@@ -294,7 +290,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
     <summary>Komponent się renderuje, ale wygląda na nieostylowany</summary>
     <p>
       To bezgłowość działająca zgodnie z założeniem — z komponentem nie jest dostarczany żaden CSS. Napisz CSS dla klasy komponentu w kebab-case (pokazanej na każdej <a href="/components/">stronie katalogu</a>) albo podlinkuj jeden z
-      <a href="#themes">57 gotowych motywów</a>.
+      <a href="#themes">63 gotowych motywów</a>.
     </p>
   </details>
 
@@ -383,7 +379,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
   <details class="faq-item">
     <summary>Dlaczego bezgłowe, a nie ostylowane?</summary>
     <p>
-      Wstępnie ostylowane komponenty są wygodne — dopóki nie pasują do twojej marki. Komponenty bezgłowe wymagają na początku nieco więcej pracy, ale dają pełną kontrolę nad projektem wizualnym. Aplikacje przykładowe i 57 motywów pokazują sposoby ich stylizacji; możesz z nich skorzystać albo zastąpić je całkowicie. Dłuższy argument znajdziesz na stronie <a href="/why/">Dlaczego Lily</a>.
+      Wstępnie ostylowane komponenty są wygodne — dopóki nie pasują do twojej marki. Komponenty bezgłowe wymagają na początku nieco więcej pracy, ale dają pełną kontrolę nad projektem wizualnym. Aplikacje przykładowe i 63 motywów pokazują sposoby ich stylizacji; możesz z nich skorzystać albo zastąpić je całkowicie. Dłuższy argument znajdziesz na stronie <a href="/why/">Dlaczego Lily</a>.
     </p>
   </details>
 

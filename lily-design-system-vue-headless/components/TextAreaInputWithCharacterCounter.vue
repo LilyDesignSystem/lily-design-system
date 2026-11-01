@@ -36,7 +36,8 @@
 // Claude rules:
 //   - Headless: no CSS, no styles — consumer provides all styling
 
-import { computed, useId } from "vue";
+import { computed, useId, ref } from "vue";
+import { useFormReset } from "./form-reset";
 
 const props = withDefaults(
     defineProps<{
@@ -58,6 +59,8 @@ const props = withDefaults(
 );
 
 const modelValue = defineModel<string>({ default: "" });
+const field = ref<HTMLInputElement | HTMLTextAreaElement | null>(null);
+useFormReset(modelValue, field);
 
 const counterId = `counter-${useId()}`;
 
@@ -74,6 +77,7 @@ const counterText = computed(() =>
         <textarea
             :aria-label="label"
             :aria-describedby="counterId"
+            ref="field"
             v-model="modelValue"
             :maxlength="maxLength"
             :rows="rows"

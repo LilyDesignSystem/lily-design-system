@@ -1,6 +1,6 @@
 ---
 name: lily-design-system-svelte-helpers-skill
-description: Explains Lily Design System's Svelte helper packages — the canonical reference every other framework's helpers port from, one top-level subproject per package — covering the ten *-picker helpers (theme, locale, text-size, motion, share, search, link, menu, settings, date-time), picker-bar, and the data-grid, kanban-board, gantt-chart and calendar packages; their npm package names and install idiom; the shared icon-button-opens-popup contract; and the idempotent-apply rule that exists because a re-entrant $effect once froze a picker mid-open. Use when someone asks how to install or use a Lily Svelte helper, wants the Svelte 5 idiom for one, asks why applying a preference must be idempotent, or asks which helpers are canonical when frameworks disagree.
+description: Explains Lily Design System's Svelte helper packages — the canonical reference every other framework's helpers port from, one top-level subproject per package — covering the eleven *-picker helpers (theme, locale, text-size, motion, share, search, link, menu, settings, time-zone, date-time), picker-bar, and the data-grid, kanban-board, gantt-chart and calendar packages; their npm package names and install idiom; the shared icon-button-opens-popup contract; and the idempotent-apply rule that exists because a re-entrant $effect once froze a picker mid-open. Use when someone asks how to install or use a Lily Svelte helper, wants the Svelte 5 idiom for one, asks why applying a preference must be idempotent, or asks which helpers are canonical when frameworks disagree.
 license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 ---
 
@@ -15,7 +15,7 @@ and when a framework disagrees with Svelte, Svelte wins.
 
 Each package is its own top-level subproject of the monorepo,
 `lily-design-system-svelte-{package}/`, with its own toolchain, spec,
-tests and published repository (since 2026-10-10; before that they lived
+tests and npm package, published from the monorepo (since 2026-10-10; before that they lived
 together in a `lily-design-system-svelte-helpers` catalog, now deleted).
 `bin/list-helper-packages svelte` lists them in build order. The list,
 with links: `spec/helpers/index.md` § "Svelte helper packages".
@@ -33,15 +33,19 @@ with links: `spec/helpers/index.md` § "Svelte helper packages".
 | `link-picker`      | an **action** (the app's page links)                                   | home icon button + disclosure of real `<a>` links                   |
 | `menu-picker`      | whatever the app provides                                              | hamburger icon button + disclosure panel                            |
 | `settings-picker`  | whatever the app provides                                              | cog icon button + disclosure panel                                  |
+| `time-zone-picker` | a **preference** (`data-time-zone`, an IANA id)                        | clock icon button + listbox of zones by UTC offset (CLDR names)     |
 | `date-time-picker` | a **form value**                                                       | typeable field + icon button opening an APG date-picker dialog      |
-| `picker-bar`       | a composition                                                          | link, search, theme, locale, text-size and share pickers in one row |
+| `picker-bar`       | a composition                                                          | link, search, theme, locale, (time-zone), text-size, share in a row |
 | `data-grid`        | grid state and behaviour                                               | over the headless `DataTable` family                                |
 | `kanban-board`     | board state and keyboard moves                                         | over the headless `KanbanTable` family                              |
 | `gantt-chart`      | schedule state and editing                                             | over the headless `GanttTable` family + `date-time-picker`          |
 | `calendar`         | day / week / four-week / month / agenda browsing                       | over the headless `CalendarTable` family + `date-time-picker`       |
 | `filter`           | a filter tree (conditions and groups)                                  | outputs JSON, SQL, MongoDB, OData or a predicate                    |
+| `markdown-editor`  | a form value (Markdown text)                                           | textarea + toolbar of buttons that write Markdown                   |
+| `org-editor`       | a form value (Emacs Org text)                                          | textarea + toolbar for effects, tasks, planning, drawers            |
+| `locale-translations` | data: the 64 label packs and CLDR zone-name packs                   | per-locale exports, no markup                                       |
 
-The four preference pickers share one contract: root
+The five preference pickers (theme, locale, text-size, motion, time-zone) share one contract (`theme-picker` also has an opt-in native `<select>`, `variant="select"`): root
 `<div class="{helper} {class}">` with a hidden input for form
 participation, a `<button class="{helper}-button" aria-haspopup="listbox"
 aria-expanded aria-controls>` whose only content is an `aria-hidden`
@@ -99,8 +103,19 @@ framework-specific reasons.
 Same runes-based shape as the headless catalog (`class` prop, `$props()`
 with rest-props, `$bindable()`, `Snippet` children, no `<style>` blocks)
 — see `lily-design-system-svelte-headless-skill` for the idiom itself,
-and `AGENTS/sveltekit.md` for the general Svelte 5 + SvelteKit 2
+and `AGENTS/sveltekit.md` for the general Svelte 5 + SvelteKit 3
 conventions this repository follows.
+
+## Recent additions (2026-10-24 onward)
+
+`bin/list-helper-packages svelte` is the authoritative list (20 packages, each `@lilydesignsystem/svelte-<package>`). Beyond what the sections above describe, it holds:
+
+- `time-zone-picker` (2026-10-24): an icon button (clock) opening a listbox of IANA zones labelled `UTC±HH:MM – name`, names from Unicode
+  CLDR packs (`zoneNamesFrom(pack)`); sets `data-time-zone` on a target element; a `locale` is required.
+- `theme-picker` `variant="select"` (2026-10-30, opt-in): a native `<select class="theme-picker-select">` in place of the button and listbox.
+- `picker-bar` renders `time-zone-picker` after `locale-picker` when given `labels.timeZone` and a time-zone locale.
+- `markdown-editor` and `org-editor` (2026-10-24): a textarea with a toolbar of buttons that write Markdown or Emacs Org markup.
+- `locale-translations`: the 64 label packs and the CLDR zone-name packs, per locale.
 
 ## The grid-like helpers and label packs
 
@@ -115,7 +130,7 @@ pack for each of 64 locales (English plus 63 **unreviewed machine drafts**; have
 period titles) come from `Intl`. Full contract: `spec/label-packs/index.md`.
 
 The Gantt chart can render a critical path (`critical`, `slack`, `labels.criticalLabel`); the optional calculation (`criticalPath()`,
-with lag in calendar or working days) ships in the Svelte Gantt package.
+with lag in calendar or working days) ships in the Svelte Gantt package (the pure module is `shared/critical-path.ts`), and every other catalog's Gantt package ports it.
 
 ## When NOT this skill
 

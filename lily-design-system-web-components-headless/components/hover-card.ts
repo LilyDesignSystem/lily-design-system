@@ -23,6 +23,7 @@
 //   - WAI-ARIA Tooltip Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/
 
 import { applySelfClassName } from "../lib/dom-utils.js";
+import { syncManualPopover } from "./popover.js";
 
 export class HoverCard extends HTMLElement {
     static get observedAttributes(): string[] {
@@ -46,7 +47,7 @@ export class HoverCard extends HTMLElement {
     #sync(): void {
         if (!this.#built) return;
         const open = this.hasAttribute("open");
-        this.hidden = !open;
+        syncManualPopover(this, open);
         if (open) {
             this.setAttribute("role", "tooltip");
             const label = this.getAttribute("label");

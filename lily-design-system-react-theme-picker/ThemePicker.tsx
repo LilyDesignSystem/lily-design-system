@@ -64,6 +64,12 @@ export type Props = Omit<
     onOpenChange?: (open: boolean) => void;
     /** Disables the button; an open popup closes. */
     disabled?: boolean;
+    /**
+     * `"select"` renders a native `<select>` instead of the button and listbox (RFC 3 prototype; ported from the
+     * Svelte reference 2026-10-30). Keyboard, typeahead and the mobile picker are the platform's; `open` and
+     * `onOpenChange` do not apply. Default `"listbox"`.
+     */
+    variant?: "listbox" | "select";
     /** Extra CSS class on the root. */
     className?: string;
 };
@@ -211,6 +217,7 @@ export function ThemePicker({
     defaultOpen = false,
     onOpenChange,
     disabled = false,
+    variant = "listbox",
     ...restProps
 }: Props): React.ReactElement {
     const isControlled = value !== undefined;
@@ -455,6 +462,38 @@ export function ThemePicker({
     }, [currentValue]);
 
     const tip = usePickerTooltip(buttonRef, open);
+
+    if (variant === "select") {
+        // The platform's own select: keyboard, typeahead, the mobile picker and the screen-reader announcement are
+        // the browser's; the component only applies the chosen theme. React marks the matching option `selected`
+        // in server-rendered markup from the select's value.
+        return (
+            <div
+                className={`theme-picker ${className}`.trim()}
+                data-variant="select"
+                {...restProps}
+            >
+                <select
+                    className="theme-picker-select"
+                    name={name}
+                    aria-label={label}
+                    disabled={disabled}
+                    value={currentValue ?? ""}
+                    onChange={(event) => setTheme(event.currentTarget.value)}
+                >
+                    {themes.map((theme) => (
+                        <option
+                            key={theme}
+                            className="theme-picker-option"
+                            value={theme}
+                        >
+                            {labelFor(theme)}
+                        </option>
+                    ))}
+                </select>
+            </div>
+        );
+    }
 
     return (
         <div

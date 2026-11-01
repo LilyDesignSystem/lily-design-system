@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "kanban-table-head",
+  "type": "registry:component",
+  "title": "KanbanTableHead",
+  "description": "A kanban board table interactive grid thead for organizing items by status <thead>.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/KanbanTableHead.tsx",
+      "content": "import React from \"react\";\n\n// KanbanTableHead component\n//\n// The header section of a KanbanTable, rendered as a <thead> element.\n// Contains KanbanTableRow elements with column headers for workflow stages.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   children — ReactNode, required. KanbanTableRow elements with header cells.\n//   ...restProps — additional HTML attributes spread onto the <thead>.\n//\n// Syntax:\n//   <KanbanTableHead>\n//     <KanbanTableRow><th>To Do</th><th>In Progress</th><th>Done</th></KanbanTableRow>\n//   </KanbanTableHead>\n//\n// Keyboard:\n//   None built-in — keyboard navigation handled at the KanbanTable grid level.\n//\n// Accessibility:\n//   - <thead> provides structural header semantics for the table\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Must be used inside a KanbanTable\n//   - No internal state — purely a structural wrapper\n//\n// References:\n//   - HTML thead element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/thead\n\nexport interface KanbanTableHeadProps {\n    className?: string;\n    /** KanbanTableRow elements with header cells. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function KanbanTableHead({\n    className = \"\",\n    children,\n    ...restProps\n}: KanbanTableHeadProps) {\n    return (\n        <thead\n            className={`kanban-table-head ${className}`}\n            {...restProps}\n        >\n            {children}\n        </thead>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/KanbanTableHead.tsx"
+    }
+  ],
+  "categories": [
+    "tables"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/kanban-table-head/"
+}

@@ -4,9 +4,9 @@ const html = `<div
   class="date-time-now-input"
   role="group"
   aria-label=""
-  data-date-label="Date"
-  data-time-label="Time"
-  data-now-label="Now"
+  data-date-label=""
+  data-time-label=""
+  data-now-label=""
 >
   <!-- Consumer provides content via JavaScript initialization -->
 </div>
@@ -16,16 +16,17 @@ const html = `<div
   (function() {
     'use strict';
     document.querySelectorAll('.date-time-now-input').forEach(function(el) {
-      var dateLabel = el.getAttribute('data-date-label') || 'Date';
-      var timeLabel = el.getAttribute('data-time-label') || 'Time';
-      var nowLabel = el.getAttribute('data-now-label') || 'Now';
+      // No English defaults: a missing label leaves its control unnamed.
+      var dateLabel = el.getAttribute('data-date-label') || '';
+      var timeLabel = el.getAttribute('data-time-label') || '';
+      var nowLabel = el.getAttribute('data-now-label') || '';
 
       // Create date input
       var dateInput = el.querySelector('input[type="date"]');
       if (!dateInput) {
         dateInput = document.createElement('input');
         dateInput.type = 'date';
-        dateInput.setAttribute('aria-label', dateLabel);
+        if (dateLabel) dateInput.setAttribute('aria-label', dateLabel);
         el.appendChild(dateInput);
       }
 
@@ -34,7 +35,7 @@ const html = `<div
       if (!timeInput) {
         timeInput = document.createElement('input');
         timeInput.type = 'time';
-        timeInput.setAttribute('aria-label', timeLabel);
+        if (timeLabel) timeInput.setAttribute('aria-label', timeLabel);
         el.appendChild(timeInput);
       }
 
@@ -43,7 +44,7 @@ const html = `<div
       if (!nowButton) {
         nowButton = document.createElement('button');
         nowButton.type = 'button';
-        nowButton.setAttribute('aria-label', nowLabel);
+        if (nowLabel) nowButton.setAttribute('aria-label', nowLabel);
         nowButton.textContent = nowLabel;
         el.appendChild(nowButton);
       }

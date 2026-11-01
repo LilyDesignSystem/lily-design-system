@@ -1,5 +1,5 @@
 /*
-    Example 9 — All 57 Lily reference themes.
+    Example 9 — All 63 Lily reference themes.
 
     This is the full catalog shipped in `../../themes/`. Drop them
     all into `src/assets/themes/` and the select will swap between
@@ -30,10 +30,13 @@ export class LilyThemesExample {
         "ant-design",
         "aqua",
         "atlassian",
+        "australia-agriculture-design-system",
         "autumn",
         "black",
+        "brazil-padrao-digital-de-governo",
         "bumblebee",
         "business",
+        "canada-government-of-canada-design-system",
         "cappuccino",
         "caramellatte",
         "cmyk",
@@ -45,6 +48,7 @@ export class LilyThemesExample {
         "dim",
         "dracula",
         "emerald",
+        "european-union-europa-component-library",
         "excel",
         "fantasy",
         "fluent",
@@ -53,6 +57,7 @@ export class LilyThemesExample {
         "github-primer",
         "halloween",
         "ibm-carbon",
+        "japan-digital-agency-design-system",
         "lemonade",
         "light",
         "linear",
@@ -67,6 +72,7 @@ export class LilyThemesExample {
         "salesforce",
         "sap-fiori",
         "silk",
+        "singapore-government-design-system",
         "sunset",
         "synthwave",
         "valentine",

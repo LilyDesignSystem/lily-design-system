@@ -155,7 +155,7 @@ pnpm run dev</code></pre>
   <h2>Gotove teme</h2>
   <p>
     Ne želite pisati CSS od nule? Lily isporučuje
-    <strong>57 samostalnih referentnih tema</strong> u direktoriju
+    <strong>63 samostalnih referentnih tema</strong> u direktoriju
     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
     . Svaka je jedan stilski list koji cilja kuke klasa Lilyja — povežite ga i stilizirani ste:
   </p>
@@ -179,11 +179,7 @@ pnpm run dev</code></pre>
 
 <section class="section prose" id="helpers" style="margin: 0 auto;">
   <h2>Pomoćnici za postavke</h2>
-  <p>
-    Svaki framework ima osam malih birača, svaki je zaseban paket
-    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> (i jedan <code>picker-bar</code> koji ih sastavlja). Svaki je bezglavi gumb s ikonom koji otvara skočni prozor — popis, popis poveznica, obrazac za pretraživanje ili (za date-time-picker) dijalog za odabir datuma — ne nativni
-    <code>&lt;select&gt;</code>; siguran je za SSR; i ne isporučuje CSS:
-  </p>
+  <p>Svaki okvir ima jedanaest malih birača, svaki u vlastitom paketu <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> (i <code>picker-bar</code> koji ih sastavlja). Svaki je headless gumb s ikonom koji otvara skočni prozor — okvir s popisom, popis poveznica, obrazac za pretraživanje, ploču s vašim vlastitim sadržajem ili (za date-time-picker) dijalog za odabir datuma — a ne izvorni <code>&lt;select&gt;</code> (theme-picker ga nudi kao neobaveznu varijantu); siguran je za SSR i ne isporučuje CSS. Osim menu-picker, settings-picker i time-zone-picker, to su:</p>
   <ul>
     <li>
       <strong>theme-picker</strong> — učitava stilske listove tema tijekom izvođenja zamjenom upravljanog <code>&lt;link&gt;</code>, postavlja
@@ -294,7 +290,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
     <summary>Komponenta se renderira, ali izgleda nestilizirano</summary>
     <p>
       To je bezglavost koja radi kako je zamišljeno — uz komponentu ne dolazi nikakav CSS. Ili napišite CSS za klasu komponente u kebab-caseu (prikazanu na svakoj <a href="/components/">stranici kataloga</a>) ili povežite jednu od
-      <a href="#themes">57 gotovih tema</a>.
+      <a href="#themes">63 gotovih tema</a>.
     </p>
   </details>
 
@@ -383,7 +379,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
   <details class="faq-item">
     <summary>Zašto bezglavo umjesto stilizirano?</summary>
     <p>
-      Unaprijed stilizirane komponente su praktične — dok ne odgovaraju vašem brendu. Bezglave komponente traže malo više posla na početku, ali vam daju potpunu kontrolu nad vizualnim dizajnom. Primjerne aplikacije i 57 tema pokazuju načine stiliziranja; možete ih preuzeti ili u potpunosti zamijeniti. Dulji argument je na <a href="/why/">Zašto Lily</a>.
+      Unaprijed stilizirane komponente su praktične — dok ne odgovaraju vašem brendu. Bezglave komponente traže malo više posla na početku, ali vam daju potpunu kontrolu nad vizualnim dizajnom. Primjerne aplikacije i 63 tema pokazuju načine stiliziranja; možete ih preuzeti ili u potpunosti zamijeniti. Dulji argument je na <a href="/why/">Zašto Lily</a>.
     </p>
   </details>
 

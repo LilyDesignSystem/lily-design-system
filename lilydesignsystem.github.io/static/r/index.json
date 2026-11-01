@@ -1,5 +1,5 @@
 {
-  "count": 582,
+  "count": 607,
   "components": [
     {
       "slug": "accordion-checkbox",
@@ -158,6 +158,18 @@
       "manifest": "https://lilydesignsystem.com/r/article-layout.json"
     },
     {
+      "slug": "as-saudiyah-raqm-al-huwiyah-al-wataniyah-input",
+      "name": "AsSaudiyahRaqmAlHuwiyahAlWataniyahInput",
+      "description": "an input for entering Saudi Arabia's National Identification Number",
+      "manifest": "https://lilydesignsystem.com/r/as-saudiyah-raqm-al-huwiyah-al-wataniyah-input.json"
+    },
+    {
+      "slug": "as-saudiyah-raqm-al-huwiyah-al-wataniyah-view",
+      "name": "AsSaudiyahRaqmAlHuwiyahAlWataniyahView",
+      "description": "a read-only display of Saudi Arabia's National Identification Number",
+      "manifest": "https://lilydesignsystem.com/r/as-saudiyah-raqm-al-huwiyah-al-wataniyah-view.json"
+    },
+    {
       "slug": "aspect-ratio-container",
       "name": "AspectRatioContainer",
       "description": "a container that maintains a fixed aspect ratio",
@@ -174,6 +186,18 @@
       "name": "AustraliaIndividualHealthcareIdentifierView",
       "description": "a read-only display of Australia's Individual Healthcare Identifier (IHI)",
       "manifest": "https://lilydesignsystem.com/r/australia-individual-healthcare-identifier-view.json"
+    },
+    {
+      "slug": "australia-tax-file-number-input",
+      "name": "AustraliaTaxFileNumberInput",
+      "description": "an input for entering Australia's Tax File Number (TFN)",
+      "manifest": "https://lilydesignsystem.com/r/australia-tax-file-number-input.json"
+    },
+    {
+      "slug": "australia-tax-file-number-view",
+      "name": "AustraliaTaxFileNumberView",
+      "description": "a read-only display of Australia's Tax File Number (TFN)",
+      "manifest": "https://lilydesignsystem.com/r/australia-tax-file-number-view.json"
     },
     {
       "slug": "autosuggest",
@@ -644,6 +668,18 @@
       "manifest": "https://lilydesignsystem.com/r/collection-list-item.json"
     },
     {
+      "slug": "colombia-cedula-de-ciudadania-input",
+      "name": "ColombiaCedulaDeCiudadaniaInput",
+      "description": "an input for entering Colombia's Cedula de Ciudadania Number",
+      "manifest": "https://lilydesignsystem.com/r/colombia-cedula-de-ciudadania-input.json"
+    },
+    {
+      "slug": "colombia-cedula-de-ciudadania-view",
+      "name": "ColombiaCedulaDeCiudadaniaView",
+      "description": "a read-only display of Colombia's Cedula de Ciudadania Number",
+      "manifest": "https://lilydesignsystem.com/r/colombia-cedula-de-ciudadania-view.json"
+    },
+    {
       "slug": "color-input",
       "name": "ColorInput",
       "description": "an input for selecting a color value <input type=\"color\">",
@@ -1032,6 +1068,18 @@
       "name": "DropdownMenu",
       "description": "a menu that opens below a trigger button",
       "manifest": "https://lilydesignsystem.com/r/dropdown-menu.json"
+    },
+    {
+      "slug": "ecuador-cedula-de-identidad-input",
+      "name": "EcuadorCedulaDeIdentidadInput",
+      "description": "an input for entering Ecuador's Cedula de Identidad Number",
+      "manifest": "https://lilydesignsystem.com/r/ecuador-cedula-de-identidad-input.json"
+    },
+    {
+      "slug": "ecuador-cedula-de-identidad-view",
+      "name": "EcuadorCedulaDeIdentidadView",
+      "description": "a read-only display of Ecuador's Cedula de Identidad Number",
+      "manifest": "https://lilydesignsystem.com/r/ecuador-cedula-de-identidad-view.json"
     },
     {
       "slug": "editable",
@@ -1532,6 +1580,18 @@
       "manifest": "https://lilydesignsystem.com/r/hint.json"
     },
     {
+      "slug": "hong-kong-identity-card-input",
+      "name": "HongKongIdentityCardInput",
+      "description": "an input for entering Hong Kong's Identity Card Number",
+      "manifest": "https://lilydesignsystem.com/r/hong-kong-identity-card-input.json"
+    },
+    {
+      "slug": "hong-kong-identity-card-view",
+      "name": "HongKongIdentityCardView",
+      "description": "a read-only display of Hong Kong's Identity Card Number",
+      "manifest": "https://lilydesignsystem.com/r/hong-kong-identity-card-view.json"
+    },
+    {
       "slug": "horizontal-scroller",
       "name": "HorizontalScroller",
       "description": "a horizontally scrollable content container",
@@ -1650,6 +1710,18 @@
       "name": "InsetText",
       "description": "indented text to distinguish it from surrounding content",
       "manifest": "https://lilydesignsystem.com/r/inset-text.json"
+    },
+    {
+      "slug": "iran-kod-e-melli-input",
+      "name": "IranKodEMelliInput",
+      "description": "an input for entering Iran's National Code (Kod-e Melli)",
+      "manifest": "https://lilydesignsystem.com/r/iran-kod-e-melli-input.json"
+    },
+    {
+      "slug": "iran-kod-e-melli-view",
+      "name": "IranKodEMelliView",
+      "description": "a read-only display of Iran's National Code (Kod-e Melli)",
+      "manifest": "https://lilydesignsystem.com/r/iran-kod-e-melli-view.json"
     },
     {
       "slug": "island-kennitala-input",
@@ -1848,6 +1920,18 @@
       "name": "MagyarorszagTajSzamView",
       "description": "a read-only display of Hungary's Tarsadalombiztositasi Azonosito Jel (TAJ)",
       "manifest": "https://lilydesignsystem.com/r/magyarorszag-taj-szam-view.json"
+    },
+    {
+      "slug": "malaysia-kad-pengenalan-input",
+      "name": "MalaysiaKadPengenalanInput",
+      "description": "an input for entering Malaysia's MyKad Number (NRIC)",
+      "manifest": "https://lilydesignsystem.com/r/malaysia-kad-pengenalan-input.json"
+    },
+    {
+      "slug": "malaysia-kad-pengenalan-view",
+      "name": "MalaysiaKadPengenalanView",
+      "description": "a read-only display of Malaysia's MyKad Number (NRIC)",
+      "manifest": "https://lilydesignsystem.com/r/malaysia-kad-pengenalan-view.json"
     },
     {
       "slug": "malta-national-identification-number-input",
@@ -2162,6 +2246,18 @@
       "manifest": "https://lilydesignsystem.com/r/newsletter-signup.json"
     },
     {
+      "slug": "nigeria-national-identification-number-input",
+      "name": "NigeriaNationalIdentificationNumberInput",
+      "description": "an input for entering Nigeria's National Identification Number (NIN)",
+      "manifest": "https://lilydesignsystem.com/r/nigeria-national-identification-number-input.json"
+    },
+    {
+      "slug": "nigeria-national-identification-number-view",
+      "name": "NigeriaNationalIdentificationNumberView",
+      "description": "a read-only display of Nigeria's National Identification Number (NIN)",
+      "manifest": "https://lilydesignsystem.com/r/nigeria-national-identification-number-view.json"
+    },
+    {
       "slug": "nihon-kojin-bango-input",
       "name": "NihonKojinBangoInput",
       "description": "an input for entering Japan's Individual Number (My Number)",
@@ -2262,6 +2358,18 @@
       "name": "PaginationNav",
       "description": "an ordered list of page navigation links",
       "manifest": "https://lilydesignsystem.com/r/pagination-nav.json"
+    },
+    {
+      "slug": "pakistan-computerized-national-identity-card-input",
+      "name": "PakistanComputerizedNationalIdentityCardInput",
+      "description": "an input for entering Pakistan's Computerized National Identity Card Number (CNIC)",
+      "manifest": "https://lilydesignsystem.com/r/pakistan-computerized-national-identity-card-input.json"
+    },
+    {
+      "slug": "pakistan-computerized-national-identity-card-view",
+      "name": "PakistanComputerizedNationalIdentityCardView",
+      "description": "a read-only display of Pakistan's Computerized National Identity Card Number (CNIC)",
+      "manifest": "https://lilydesignsystem.com/r/pakistan-computerized-national-identity-card-view.json"
     },
     {
       "slug": "panel",
@@ -3068,6 +3176,18 @@
       "manifest": "https://lilydesignsystem.com/r/tag-input.json"
     },
     {
+      "slug": "taiwan-guomin-shenfenzheng-tongyi-bianhao-input",
+      "name": "TaiwanGuominShenfenzhengTongyiBianhaoInput",
+      "description": "an input for entering Taiwan's National Identification Card Number",
+      "manifest": "https://lilydesignsystem.com/r/taiwan-guomin-shenfenzheng-tongyi-bianhao-input.json"
+    },
+    {
+      "slug": "taiwan-guomin-shenfenzheng-tongyi-bianhao-view",
+      "name": "TaiwanGuominShenfenzhengTongyiBianhaoView",
+      "description": "a read-only display of Taiwan's National Identification Card Number",
+      "manifest": "https://lilydesignsystem.com/r/taiwan-guomin-shenfenzheng-tongyi-bianhao-view.json"
+    },
+    {
       "slug": "task-bar",
       "name": "TaskBar",
       "description": "a horizontal bar of task shortcuts or actions",
@@ -3422,6 +3542,18 @@
       "manifest": "https://lilydesignsystem.com/r/url-input.json"
     },
     {
+      "slug": "uruguay-cedula-de-identidad-input",
+      "name": "UruguayCedulaDeIdentidadInput",
+      "description": "an input for entering Uruguay's Cedula de Identidad Number",
+      "manifest": "https://lilydesignsystem.com/r/uruguay-cedula-de-identidad-input.json"
+    },
+    {
+      "slug": "uruguay-cedula-de-identidad-view",
+      "name": "UruguayCedulaDeIdentidadView",
+      "description": "a read-only display of Uruguay's Cedula de Identidad Number",
+      "manifest": "https://lilydesignsystem.com/r/uruguay-cedula-de-identidad-view.json"
+    },
+    {
       "slug": "validation-list",
       "name": "ValidationList",
       "description": "a live-feedback list of input validation rules with pending, passed, and failed states",
@@ -3440,6 +3572,18 @@
       "manifest": "https://lilydesignsystem.com/r/video-player.json"
     },
     {
+      "slug": "viet-nam-can-cuoc-cong-dan-input",
+      "name": "VietNamCanCuocCongDanInput",
+      "description": "an input for entering Viet Nam's Citizen Identification Number (CCCD)",
+      "manifest": "https://lilydesignsystem.com/r/viet-nam-can-cuoc-cong-dan-input.json"
+    },
+    {
+      "slug": "viet-nam-can-cuoc-cong-dan-view",
+      "name": "VietNamCanCuocCongDanView",
+      "description": "a read-only display of Viet Nam's Citizen Identification Number (CCCD)",
+      "manifest": "https://lilydesignsystem.com/r/viet-nam-can-cuoc-cong-dan-view.json"
+    },
+    {
       "slug": "visible",
       "name": "Visible",
       "description": "an IntersectionObserver wrapper that exposes element visibility state",
@@ -3450,6 +3594,12 @@
       "name": "WarningCallout",
       "description": "a callout box highlighting a warning message",
       "manifest": "https://lilydesignsystem.com/r/warning-callout.json"
+    },
+    {
+      "slug": "warning-text",
+      "name": "WarningText",
+      "description": "a short warning shown as an icon and a bold line of text, with a visually hidden prefix supplied by the consumer",
+      "manifest": "https://lilydesignsystem.com/r/warning-text.json"
     },
     {
       "slug": "watermark",

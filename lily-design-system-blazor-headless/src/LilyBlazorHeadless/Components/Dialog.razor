@@ -1,15 +1,36 @@
 @namespace LilyBlazorHeadless.Components
+@inherits ModalDialogBase
 
 @*
     Dialog component
     a modal or non-modal dialog window
+
+    Renders a <dialog class="dialog" tabindex="-1" aria-label> while Open, opened with showModal() when Modal (the
+    default; ModalDialogBase, tasks.md P14-T4): top layer, inert page, Tab trapped, focus returned to the opener on
+    close. Modal="false" opens it with the open attribute instead. Escape and the native cancel and close events set
+    Open false and raise OpenChanged. Ported from the Svelte reference on 2026-10-30; it was a stub before.
+
+    Parameters: Label (required), Open / OpenChanged (@bind-Open), Modal (default true), ChildContent, CssClass,
+    AdditionalAttributes.
 *@
 
-<dialog class="@($"dialog {CssClass}".Trim())" role="dialog" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</dialog>
+@if (Open)
+{
+    <dialog class="@($"dialog {CssClass}".Trim())" tabindex="-1" aria-label="@Label" aria-modal="@(Modal ? "true" : null)" @ref="DialogElement" @onkeydown="OnKeyDown" @oncancel="CloseAsync" @oncancel:preventDefault @onclose="CloseAsync" @attributes="AdditionalAttributes">@ChildContent</dialog>
+}
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+    /// <summary>Whether the dialog is modal (showModal() and aria-modal). Default true.</summary>
+    [Parameter] public bool Modal { get; set; } = true;
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    protected override bool IsModal => Modal;
+
+    private async Task OnKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Escape") await CloseAsync();
+    }
 }

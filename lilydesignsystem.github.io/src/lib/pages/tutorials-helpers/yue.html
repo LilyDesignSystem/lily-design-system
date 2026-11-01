@@ -3,8 +3,7 @@
 <section class="page-intro">
   <h1>偏好輔助工具</h1>
   <p class="page-intro-tagline">
-    每個框架七個細套件,各自由頭到尾負責一個使用者工作,另外有一條組合其中五個嘅工具列。你已經認識
-    <a href="/tutorials/theming/">theme-picker</a>;呢度係 locale-picker、text-size-picker 同 motion-picker(偏好)、share-picker 同 search-picker(動作)、date-time-picker(表單值),以及 picker-bar。
+    每個框架有十一個細選擇器，每個由頭到尾負責一樣用戶嘅工作，另外仲有一條列，最多將其中七個砌埋一齊。你已經見過 <a href="/tutorials/theming/">theme-picker</a>；下面係 locale-picker、text-size-picker 同 motion-picker（偏好）、share-picker 同 search-picker（動作）、date-time-picker（表單值），仲有 picker-bar。
   </p>
 </section>
 
@@ -26,7 +25,7 @@
     <li>SSR 安全:DOM 寫入只喺 mount/effect 生命週期入面發生。</li>
     <li>對 i18n 乾淨:每個使用者睇到嘅字串都係屬性。</li>
     <li>
-      適用於 Svelte(標準)、React、Vue、Angular、HTML 自訂元素、Nunjucks 同 Blazor — 每個都係同一個合約。
+      適用於 Svelte(標準)、React、Vue、Angular、HTML 自訂元素、Web Components、Nunjucks 同 Blazor — 每個都係同一個合約。
     </li>
   </ul>
   <p>
@@ -208,6 +207,7 @@
   <p>
     <code>picker-bar</code> 喺一行入面渲染搜尋、主題、地區設定、文字大細同分享,預先接駁好完整嘅參考主題同七級文字比例。每個無障礙名稱都喺一個必需嘅
     <code>labels</code> 物件入面傳入。
+    你傳入連結嗰陣，佢會將 link-picker 放喺最前；你俾佢時區標籤同地區設定嗰陣，佢會將 time-zone-picker 放喺地區設定後面。
   </p>
   
   <pre tabindex="0"><code>&lt;script&gt;
@@ -264,7 +264,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker
 
   <h2>下一步</h2>
   <ul>
-    <li><a href="/components/">元件目錄</a> — 完整嘅 582 個元件參考。</li>
+    <li><a href="/components/">元件目錄</a> — 完整嘅 607 個元件參考。</li>
     <li><a href="/help/">幫助</a> — 疑難排解同常見問題。</li>
     <li><a href="/why/">點解揀 Lily</a> — 同埋點樣支持呢個項目。</li>
   </ul>

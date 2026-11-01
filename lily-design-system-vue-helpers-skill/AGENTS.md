@@ -22,7 +22,7 @@
 
 ## Overview
 
-A Claude Skill scoped to consuming the six packages in
+A Claude Skill scoped to consuming the helper packages in
 [the Vue helper packages](../spec/helpers/index.md#vue-helper-packages):
 `theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`,
 `share-picker`, `date-time-picker`. Covers each package's npm name and
@@ -50,7 +50,7 @@ same rules the packages themselves are held to.
   [`lily-design-system-skill`](../lily-design-system-skill/)).
 - **Isn't**: the Vue headless component skill (that's
   [`lily-design-system-vue-headless-skill`](../lily-design-system-vue-headless-skill/)
-  — the 582-component catalog, a separate npm package with a separate
+  — the 607-component catalog, a separate npm package with a separate
   contract).
 
 ## Internationalization

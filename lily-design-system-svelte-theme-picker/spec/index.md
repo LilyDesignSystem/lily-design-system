@@ -107,6 +107,7 @@ Give a Svelte 5 application a drop-in, headless theme select that:
 | `themeLabels`      | `Record<string, string>`  | no       | `{}`                                              | Optional pretty labels per slug.                                                                |
 | `children`         | `Snippet<[ChildArgs]>`    | no       | the default SVG icon                              | **Replaces the icon inside the button.** It does not render options.                            |
 | `onChange`         | `(theme: string) => void` | no       | `undefined`                                       | Fires after the select applies a new theme.                                                     |
+| `variant`          | `"listbox" \| "select"`   | no       | `"listbox"`                                       | `"select"` renders a native `<select>` instead of the button and listbox; see §select.          |
 | `class`            | `string`                  | no       | `""`                                              | Extra CSS class on the root `<div>`.                                                            |
 | `...restProps`     | any HTML attributes       | no       | —                                                 | Spread onto the root `<div>`.                                                                   |
 
@@ -594,3 +595,27 @@ builds the href from both forms.
 ## Open state and disabled (2026-10-16)
 
 `open?: boolean` (bindable, default `false`), `onOpenChange?: (open: boolean) => void` and `disabled?: boolean` — the same three props `menu-picker` and `settings-picker` already had. `open` is the popup's state: the trigger's click, the keys, Escape, a selection and an outside click all write it, and so can the parent. `onOpenChange` is called once for each change from any source and not for the initial value. `disabled` is passed to the headless `IconButton` (a native `disabled`), so the button leaves the tab order and cannot be clicked, and an open popup is closed when it becomes true. Opening from outside does not move focus; the keys and the pointer still do. Tests: "open state and disabled".
+
+## Native select variant (2026-10-29, RFC 3 prototype)
+
+`variant?: "listbox" | "select"`, default `"listbox"`. With `"select"` the
+root is `<div class="theme-picker {class}" data-variant="select" ...restProps>`
+holding one `<select class="theme-picker-select" name="{name}" aria-label="{label}" disabled?>`
+and one `<option class="theme-picker-option" value="{slug}" selected?>{labelFor(slug)}</option>`
+per theme. No button, listbox, tooltip or hidden input is rendered. A
+`change` sets `value`, and the existing apply path runs unchanged
+(§5.3: managed `<link>`, `data-theme`, optional storage, `onChange` once
+per change). Initial value resolution (§5.2) is unchanged and is
+reflected as the `selected` option, so server-rendered markup is
+already correct. `open` / `onOpenChange` do not apply (a native
+select's popup state is not observable). Keyboard is the platform's:
+the component adds no key handlers. Styling with
+`appearance: base-select` belongs in theme CSS behind
+`@supports (appearance: base-select)` (Chromium-only on 2026-10-29); the
+snippet is in `docs/styling.md`, not shipped. Tests: 'variant="select"'
+(markup and naming, labels as props, initial value applied, change
+applies and persists, platform keyboard and Tab stop, disabled, parent
+value, rest props). Ported to the other seven catalogs on 2026-10-30
+(tasks.md P18-T12); the HTML example's `/demos/theme-select.html` and
+`e2e/theme-select.spec.ts` check it in a browser, with and without
+`appearance: base-select`.

@@ -283,5 +283,10 @@
     "small": "pequeno",
     "smaller": "menor",
     "smallest": "o menor"
+  },
+  "date-time-now-input": {
+    "date": "Data",
+    "time": "Hora",
+    "now": "Agora"
   }
 }

@@ -2,7 +2,7 @@
 
 A Claude Skill ([`SKILL.md`](SKILL.md)) that explains
 [the Web Components helper packages](../spec/helpers/index.md#web-components-helper-packages):
-the catalog of six opinionated, reusable Web Components (custom elements)
+the 20 opinionated, reusable Web Components (custom elements)
 — `<lily-theme-picker>`, `<lily-locale-picker>`, `<lily-text-size-picker>`,
 `<lily-motion-picker>`, `<lily-share-picker>`, `<lily-date-time-picker>` —
 that sit alongside the Web Components headless catalog, each owning one
@@ -19,7 +19,7 @@ It is the framework-specific counterpart, for the Web Components helpers
 catalog, to the general
 [`lily-design-system-skill`](../lily-design-system-skill/), and sits beside
 [`lily-design-system-web-components-headless-skill`](../lily-design-system-web-components-headless-skill/),
-which covers the neighbouring (547/582, its full achievable scope) headless component
+which covers the neighbouring (572/607, its full achievable scope) headless component
 library instead. It follows the `lily-design-system-` prefix that marks
 the monorepo's implementation subprojects, because it is fully bound to
 this repository's own catalog and conventions, not a portable
@@ -39,7 +39,7 @@ of truth.
 
 ## Structure
 
-- [`SKILL.md`](SKILL.md) — the skill itself: the six helpers and what each
+- [`SKILL.md`](SKILL.md) — the skill itself: the helpers and what each
   owns, the three markup shapes (preference listbox, share disclosure,
   date-time field+dialog), the attribute/property/event contract, the
   install-and-consume idiom, and the precise provenance relationship to the

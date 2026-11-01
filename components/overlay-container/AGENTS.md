@@ -38,6 +38,14 @@
 - `children`: slot -- overlay content
 - `...restProps`: any additional HTML attributes
 
+## Native platform
+
+- Decision: hand-rolled because it is a generic backdrop wrapper for consumer content that is not itself a <dialog>
+- Uses: none (div role="presentation" hidden)
+- Could use: <dialog>::backdrop
+- Notes: New modal code should prefer dialog, whose showModal() supplies ::backdrop and inertness natively.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
+
 ## Acceptance Criteria
 
 - [ ] Renders <div> element with class="overlay-container"

@@ -121,7 +121,7 @@ Full rationale: [spec/index.md §3.4](./spec/index.md).
 | `firstDayOfWeek`                     | number                       | no       | from `locale`                        | 0 = Sunday … 6 = Saturday.                                                                   |
 | `minuteStep`                         | number                       | no       | `1`                                  | Granularity of the minute select.                                                            |
 | `hour12`                             | boolean                      | no       | resolved from `locale` (client)      | 12-hour clock.                                                                               |
-| `showWeekNumbers`                    | boolean                      | no       | `false`                              | ISO-8601 week column.                                                                        |
+| `showWeekNumbers`                    | boolean                      | no       | `false`                              | ISO-8601 week column. ISO 8601 only; see Known limitations.                                  |
 | `shortcuts`                          | array                        | no       | `[]`                                 | `{id, label, days?, months?, date?}`.                                                        |
 | `confirmOnSelect`                    | boolean                      | no       | `mode === "date"`                    | Commit and close on day click.                                                               |
 | `name`                               | string                       | no       | `"date-time"`                        | `name` of the hidden input; also drives ids.                                                 |
@@ -222,6 +222,11 @@ Returns `{open, close, commit, clear, getValue, destroy}`.
 ```
 
 Full API: [spec/index.md §4](./spec/index.md).
+
+## Known limitations
+
+- **Week numbers are ISO 8601 only.** `showWeekNumbers` numbers weeks the ISO 8601 way: weeks start on Monday and week 1 is the week containing the year's first Thursday. Other systems are not available yet: the US, Canada and Japan number from a Sunday-first week containing 1 January, and some countries use a Saturday-first week. This is a documented gap against the worldwide target, not a decision; it is planned as `weekNumbering: "iso" | "us" | "locale"` (tasks.md P17-T4, worldwide audit (`spec/internationalization/worldwide-audit.md` in the monorepo) finding 4). Until then, leave week numbers off for an audience that does not use ISO weeks, or compute them yourself and show them in your own markup.
+- **The column header is yours.** The visible header (`labels.week`) and any accessible name for a week number are supplied by the app, never English defaults, so you can label the column "Wk", "KW" or "Week (ISO)" and make it clear which system is shown.
 
 ---
 

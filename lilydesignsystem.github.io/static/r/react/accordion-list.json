@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "accordion-list",
+  "type": "registry:component",
+  "title": "AccordionList",
+  "description": "An accordion ordered list of list item components.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/AccordionList.tsx",
+      "content": "import React from \"react\";\n\n// AccordionList component\n//\n// AccordionList elements within an AccordionNav. Provides an optional\n// accessible label for the list.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, optional. Accessible name for the group via aria-label.\n//   children — ReactNode, required. AccordionListItem elements.\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Syntax:\n//   <AccordionNav>\n//     <AccordionList>\n//       <AccordionListItem>...</AccordionListItem>\n//     </AccordionList>\n//   </AccordionNav>\n//\n// Examples:\n//   <AccordionNav label=\"My Nav\">\n//     <AccordionList label=\"Questions\">\n//       <AccordionListItem>\n//         <summary>What is this?</summary>\n//         <p>A design system.</p>\n//       </AccordionListItem>\n//     </AccordionList>\n//  </AccordionNav>\n//\n// Keyboard: None — passive container. Keyboard interactions are handled\n// by AccordionListItem children.\n//\n// Accessibility:\n//   - aria-label optionally provides an accessible name for the group\n//\n// Internationalization:\n//   - The label prop accepts any translated string\n//   - No hardcoded text\n//\n// Claude rules:\n//   - Compound component — used inside AccordionNav, contains AccordionListItem children\n//   - Headless: no CSS, no styles — consumer provides all styling\n//\n// References:\n//   - WAI-ARIA group role: https://www.w3.org/TR/wai-aria-1.2/#group\n\nexport interface AccordionListProps {\n    className?: string;\n    /** Optional accessible label for the group. */\n    label?: string;\n    /** AccordionListItem elements. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function AccordionList({\n    className = \"\",\n    label = \"\",\n    children,\n    ...restProps\n}: AccordionListProps) {\n    return (\n        <div\n            className={`accordion-list ${className}`}\n            role=\"group\"\n            aria-label={label || undefined}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/AccordionList.tsx"
+    }
+  ],
+  "categories": [
+    "lists"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/accordion-list/"
+}

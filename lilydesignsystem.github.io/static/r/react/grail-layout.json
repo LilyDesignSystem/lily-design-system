@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "grail-layout",
+  "type": "registry:component",
+  "title": "GrailLayout",
+  "description": "A responsive web design structure with header, left aside, center main, right aside, footer.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/GrailLayout.tsx",
+      "content": "import React from \"react\";\n\n// GrailLayout component\n//\n// A headless container that provides the classic \"holy grail\" web design structure\n// with five sections: a full-width top header, a left sidebar, a center content\n// area, a right sidebar, and a full-width bottom footer. Renders a <div> with no\n// layout styles, allowing consumers to apply CSS Grid, Flexbox, or any layout system.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   children — ReactNode, required. Layout section elements to render.\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Syntax:\n//   <GrailLayout>{children}</GrailLayout>\n//\n// Examples:\n//\n//   <GrailLayout>\n//     <GrailLayoutTop>Header</GrailLayoutTop>\n//     <GrailLayoutLeft>Left sidebar</GrailLayoutLeft>\n//     <GrailLayoutCenter>Main content</GrailLayoutCenter>\n//     <GrailLayoutRight>Right sidebar</GrailLayoutRight>\n//     <GrailLayoutBottom>Footer</GrailLayoutBottom>\n//   </GrailLayout>\n//\n// Keyboard:\n//   - None. Structural layout component with no interactive behavior.\n//\n// Accessibility:\n//   - No explicit ARIA attributes; consumers use semantic landmarks within sections\n//\n// Internationalization:\n//   - No hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - No layout styles applied; consumer provides CSS Grid or Flexbox\n//\n// References:\n//   - CSS Grid Layout: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout\n\nexport interface GrailLayoutProps {\n    className?: string;\n    /** Layout section elements. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function GrailLayout({ className = \"\", children, ...restProps }: GrailLayoutProps) {\n    return (\n        <div\n            className={`grail-layout ${className}`}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/GrailLayout.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/grail-layout/"
+}

@@ -244,6 +244,31 @@ The hidden input keeps the control working inside a `<form>`. Its
 `name` also discriminates the managed `<link>`, so two selects on one
 page need two distinct `name`s.
 
+### The native select variant
+
+`variant="select"` (opt-in, 2026-10-29) renders a native
+`<select class="theme-picker-select" aria-label="{label}">` of
+`<option class="theme-picker-option">` elements inside the same root,
+with `data-variant="select"` on the root. Keyboard, typeahead, the
+mobile picker and the screen-reader announcement are then the
+platform's; choosing an option applies the theme exactly as the listbox
+does (managed `<link>`, `data-theme`, optional `localStorage`,
+`onChange` once). There is no button, listbox, tooltip or hidden input:
+the select carries `name`. `open` and `onOpenChange` do not apply,
+because a native select's popup state is not observable. Styling it
+with `appearance: base-select` is theme CSS behind `@supports`; see
+[docs/styling.md](./docs/styling.md#the-native-select-variant-variantselect).
+It is the prototype for RFC 3 in the repository's `RFC.md`.
+
+```svelte
+<ThemePicker
+  variant="select"
+  label="Colour theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "abyss"]}
+/>
+```
+
 ## Keyboard
 
 Follows the WAI-ARIA APG
@@ -331,6 +356,7 @@ The complete table is in [spec/index.md §4.1](./spec/index.md#41-props). Highli
 | `themeLabels`      | `Record<string, string>` | no       | Per-slug display label override.                                                      |
 | `onChange`         | `(slug) => void`         | no       | Callback fired after apply.                                                           |
 | `children`         | `Snippet<[ChildArgs]>`   | no       | Replaces the button's glyph.                                                          |
+| `variant`          | `"listbox" \| "select"`  | no       | `"select"` renders a native `<select>` instead (opt-in prototype, see below).         |
 
 **There is no `placeholder` prop.** It was removed along with the
 native `<select>` it belonged to.

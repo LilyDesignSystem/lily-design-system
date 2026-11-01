@@ -1,0 +1,46 @@
+{#
+  WarningText macro -- a short warning shown as an icon and a bold line of text, with a visually hidden prefix supplied by the consumer.
+
+  The GOV.UK and DHCW warning-text pattern, headless. The icon is the consumer's (Lily bundles
+  none) and renders inside an aria-hidden span, only when supplied. The visually hidden prefix,
+  such as "Warning", is part of the consumer's text or html, in the consumer's language; there is
+  no param or default for it.
+
+  HTML tag: <div>
+  CSS class: warning-text (sub-classes warning-text-icon, warning-text-text)
+
+  Params:
+
+    id           string   Element id.
+    classes      string   Consumer-provided extra CSS classes.
+    attributes   object   Extra HTML attributes as key/value pairs.
+    iconText     string   Icon as plain text, such as "!" (escaped).
+    iconHtml     string   Icon as raw HTML, such as an inline svg (rendered via | safe).
+    html         string   Raw HTML content: the hidden prefix, then the text.
+    text         string   Plain text content (escaped); use html to include the hidden prefix.
+
+  Usage:
+    {% from "components/warning-text/macro.njk" import warningText %}
+    {{ warningText({
+      iconText: "!",
+      html: '<span class="visually-hidden">Warning</span> You can be fined if you do not register.'
+    }) }}
+#}
+{%- macro warningText(params) -%}
+{%- set p = params | default({}) -%}
+<div
+  class="warning-text{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.iconHtml or p.iconText -%}
+  <span class="warning-text-icon" aria-hidden="true">{% if p.iconHtml %}{{ p.iconHtml | safe }}{% else %}{{ p.iconText }}{% endif %}</span>
+  {%- endif -%}
+  <strong class="warning-text-text">
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif p.text -%}{{ p.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+  </strong>
+</div>
+{%- endmacro -%}

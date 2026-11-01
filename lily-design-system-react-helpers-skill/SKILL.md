@@ -1,6 +1,6 @@
 ---
 name: lily-design-system-react-helpers-skill
-description: Explains how to install and use Lily Design System's React *-picker helper packages — theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, and date-time-picker — their icon-button-plus-listbox / disclosure-of-links / field-plus-dialog shapes, npm package names, and the idempotent-apply guard React consumers need to know about. Use when someone asks how to install or use Lily Design System's React theme/locale/text-size/motion/share/date-time picker, wants the React-specific helper idiom (controlled value/onChange, render-prop children, SSR/"use client" boundaries), or hits a re-entrant apply / infinite-loop bug wiring a picker's onChange back into its own value.
+description: Explains how to install and use Lily Design System's React *-picker helper packages — theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, search-picker, link-picker, menu-picker, settings-picker, time-zone-picker, date-time-picker, picker-bar, and the grid-like and editor packages — their icon-button-plus-listbox / disclosure-of-links / field-plus-dialog shapes, npm package names, and the idempotent-apply guard React consumers need to know about. Use when someone asks how to install or use Lily Design System's React theme/locale/text-size/motion/share/date-time picker, wants the React-specific helper idiom (controlled value/onChange, render-prop children, SSR/"use client" boundaries), or hits a re-entrant apply / infinite-loop bug wiring a picker's onChange back into its own value.
 license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 ---
 
@@ -39,10 +39,11 @@ pnpm install @lilydesignsystem/react-theme-picker
 aria-expanded aria-controls>` whose only content is an
   `aria-hidden` glyph span, and a `<ul class="{helper}-list"
 role="listbox" hidden>` of `<li role="option">`. Keyboard follows
-  the WAI-ARIA APG listbox pattern. A single glyph keeps a
-  page-header control's footprint small: ◑ for theme, 🌐 for locale,
-  "A" for text-size, ⏸ for motion — each wrapped `aria-hidden`, with
-  the accessible name coming from the button's `aria-label`.
+  the WAI-ARIA APG listbox pattern. A single icon keeps a
+  page-header control's footprint small: a contrast circle for theme, a
+  globe for locale, an "A" for text-size, pause bars for motion — each
+  wrapped `aria-hidden`, with the accessible name coming from the
+  button's `aria-label`.
 - **Disclosure of real links (`share-picker`).** Its destinations are
   navigation, so they render as real `<a>` elements (not
   `role="menuitem"`, which would strip middle-click and
@@ -109,8 +110,19 @@ idempotent" rule for the full cross-framework rationale.
 Also in the catalog, added after the six above (the contracts are in `spec/helpers/index.md`): `search-picker` (an icon button opening a
 disclosure that holds a `<form role="search">`; submitting navigates, GET, to `/?<text>`), `link-picker` (a home icon opening a disclosure of
 real `<a>` links the app defines), `menu-picker` and `settings-picker` (a hamburger and a cog icon opening a panel that holds whatever the
-app provides), and `picker-bar` (link, search, theme, locale, text-size and share pickers in one row, with the 57 themes and the seven
+app provides), and `picker-bar` (link, search, theme, locale, text-size and share pickers in one row, with the 63 themes and the seven
 text sizes pre-wired and one required `labels` object). Every picker has a hoverable, dismissable tooltip.
+
+## Packages added since the first six
+
+`bin/list-helper-packages react` is the authoritative list (20 packages, each `@lilydesignsystem/react-<package>`). Beyond the pickers named above it holds:
+
+- `time-zone-picker` (2026-10-24): an icon button (clock) opening a listbox of IANA zones labelled `UTC±HH:MM – name`, names from Unicode
+  CLDR packs (`zoneNamesFrom(pack)`); sets `data-time-zone` on a target element; a `locale` is required.
+- `theme-picker` `variant="select"` (2026-10-30, opt-in): a native `<select class="theme-picker-select">` in place of the button and listbox.
+- `picker-bar` renders `time-zone-picker` after `locale-picker` when given `labels.timeZone` and a time-zone locale.
+- `markdown-editor` and `org-editor` (2026-10-24): a textarea with a toolbar of buttons that write Markdown or Emacs Org markup.
+- `locale-translations`: the 64 label packs and the CLDR zone-name packs, per locale.
 
 ## The grid-like helpers and label packs
 
@@ -125,11 +137,11 @@ pack for each of 64 locales (English plus 63 **unreviewed machine drafts**; have
 period titles) come from `Intl`. Full contract: `spec/label-packs/index.md`.
 
 The Gantt chart can render a critical path (`critical`, `slack`, `labels.criticalLabel`); the optional calculation (`criticalPath()`,
-with lag in calendar or working days) ships in the Svelte Gantt package.
+with lag in calendar or working days) ships in this catalog's own Gantt package too, ported from Svelte's.
 
 ## When NOT this skill
 
-- For the headless component library itself — the 582-component
+- For the headless component library itself — the 607-component
   catalog, JSX usage, `className`, controlled-prop patterns for
   ordinary components — use `lily-design-system-react-headless-skill`
   instead.

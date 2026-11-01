@@ -2,7 +2,7 @@
 
 Title: Theming tutorial — Lily Design System
 
-Description: Theme Lily three ways: link one of 45 ready-made themes, override it with your CSS, and add runtime theme switching with the theme-picker helper.
+Description: Theme Lily three ways: link one of 63 ready-made themes, override it with your CSS, and add runtime theme switching with the theme-picker helper.
 
 # Theming
 
@@ -18,7 +18,7 @@ Finish the [framework tutorial](https://lilydesignsystem.com/tutorials/) for you
 
 ## Step 1 — Link a ready-made theme
 
-The [themes/](https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes) directory ships 45 standalone stylesheets. Copy them into your app's static assets and link one:
+The [themes/](https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes) directory ships 63 standalone stylesheets. Copy them into your app's static assets and link one:
 
 ```
 <link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" />

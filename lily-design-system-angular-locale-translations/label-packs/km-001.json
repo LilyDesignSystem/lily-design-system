@@ -239,5 +239,10 @@
     "small": "តូច",
     "smaller": "តូចជាង",
     "smallest": "តូចបំផុត"
+  },
+  "date-time-now-input": {
+    "date": "កាលបរិច្ឆេទ",
+    "time": "ម៉ោង",
+    "now": "ឥឡូវនេះ"
   }
 }

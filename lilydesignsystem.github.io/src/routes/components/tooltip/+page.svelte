@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"tooltip\" role=\"tooltip\">Helpful tip text</div>";
   const svelteSource: string = "// In your Svelte component:\nimport Tooltip from \"lily-design-system-svelte-headless/components/Tooltip/Tooltip.svelte\";\n\n<Tooltip>\n  <!-- content -->\n</Tooltip>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import Tooltip from \"./Tooltip.svelte\";\n\n  let show = $state(false);\n<\/script>\n\n<button\n  type=\"button\"\n  aria-describedby=\"tip\"\n  onmouseenter={() => (show = true)}\n  onmouseleave={() => (show = false)}\n  onfocus={() => (show = true)}\n  onblur={() => (show = false)}\n>\n  Save\n</button>\n<Tooltip id=\"tip\" label=\"Save your changes\" bind:visible={show} />\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import Tooltip from \"./Tooltip.svelte\";\n\n  let show = $state(false);\n<\/script>\n\n<button\n  type=\"button\"\n  aria-describedby=\"tip\"\n  onmouseenter={() => (show = true)}\n  onmouseleave={() => (show = false)}\n  onfocus={() => (show = true)}\n  onblur={() => (show = false)}\n>\n  Save\n</button>\n<Tooltip\n  id=\"tip\"\n  label=\"Save your changes\"\n  bind:visible={show}\n/>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

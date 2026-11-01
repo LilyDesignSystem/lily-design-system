@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"popover\" role=\"dialog\"><p>Popover content</p></div>";
   const svelteSource: string = "// In your Svelte component:\nimport Popover from \"lily-design-system-svelte-headless/components/Popover/Popover.svelte\";\n\n<Popover>\n  <!-- content -->\n</Popover>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import Popover from './Popover.svelte';\n\n  let open = $state(false);\n<\/script>\n\n<button type=\"button\" onclick={() => (open = !open)}>Toggle info</button>\n<Popover label=\"Additional information\" bind:open>\n  <p>Here is some contextual information.</p>\n  <button type=\"button\" onclick={() => (open = false)}>Close</button>\n</Popover>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import Popover from \"./Popover.svelte\";\n\n  let open = $state(false);\n<\/script>\n\n<button\n  type=\"button\"\n  onclick={() => (open = !open)}>Toggle info</button\n>\n<Popover\n  label=\"Additional information\"\n  bind:open\n>\n  <p>Here is some contextual information.</p>\n  <button\n    type=\"button\"\n    onclick={() => (open = false)}>Close</button\n  >\n</Popover>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>
@@ -84,16 +84,19 @@
     <ul>
       <li><code>role="dialog"</code> -- identifies the popover as a dialog overlay for assistive technology</li>
       <li><code>aria-label="..."</code> -- provides the accessible name for the dialog</li>
+      <li>The trigger (consumer's) should carry <code>aria-haspopup="dialog"</code> and <code>aria-controls</code>; the browser exposes a <code>popovertarget</code> trigger's expanded state</li>
     </ul>
     <h3>Keyboard</h3>
     <ul>
-      <li>Escape: Consumer should implement closing the popover by setting <code>open</code> to false</li>
-      <li>Tab: Should trap focus within the popover when open (consumer responsibility)</li>
+      <li>Enter / Space on the trigger: the browser toggles the popover (command / popovertarget)</li>
+      <li>Escape: the browser closes it (Popover API); <code>open</code> becomes false</li>
+      <li>Tab: not trapped -- a popover is non-modal</li>
     </ul>
     <h3>Props</h3>
     <ul>
       <li><code>label</code>: string (required) -- accessible name for the popover dialog via <code>aria-label</code></li>
-      <li><code>open</code>: boolean (default: false, bindable) -- controls whether the popover is visible; supports two-way binding</li>
+      <li><code>open</code>: boolean (default: false, bindable) -- whether the popover is shown; follows the browser's toggles</li>
+      <li><code>id</code>: string (rest prop) -- lets a trigger name it with <code>commandfor</code> / <code>popovertarget</code></li>
       <li><code>children</code>: slot (required) -- the popover content</li>
       <li><code>...restProps</code>: unknown -- additional attributes spread onto the <code>&lt;div&gt;</code> element</li>
     </ul>

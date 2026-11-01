@@ -28,7 +28,7 @@ export class ColorInput extends HTMLElement {
         input.className = rootClassName(this, "color-input");
         const label = this.getAttribute("label");
         if (label !== null) input.setAttribute("aria-label", label);
-        input.value = this.getAttribute("value") ?? "#000000";
+        input.defaultValue = this.getAttribute("value") ?? "#000000";
         if (this.hasAttribute("disabled")) input.disabled = true;
         passThroughAttributes(this, input, HANDLED);
 

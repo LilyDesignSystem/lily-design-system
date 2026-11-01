@@ -1,16 +1,16 @@
 # Popover
 
-A popover is a UI component that displays contextual information or actions in an overlay that appears near the element that triggered it. The Popover component provides a headless conditional dialog container that renders its content only when the `open` state is true, with proper dialog semantics for accessibility.
+A popover is a UI component that displays contextual information or actions in an overlay that appears near the element that triggered it. The Popover component is a headless `popover="auto"` dialog that the browser's Popover API opens and closes, with proper dialog semantics for accessibility.
 
-Unlike tooltips, popovers can contain rich interactive content such as text, forms, buttons, or other controls. The component supports controlled component usage for the `open` prop, allowing parent components to control visibility. The consumer is responsible for providing trigger elements and managing open/close logic.
+Unlike tooltips, popovers can contain rich interactive content such as text, forms, buttons, or other controls. The component supports controlled component usage for the `open` prop, allowing parent components to control visibility. The consumer provides the trigger: `<button command="toggle-popover" commandfor="{id}">` opens it with no script.
 
 ## Implementation Notes
 
-- Conditionally renders a `<div>` with `role="dialog"` only when `open` is true
+- Always renders a `<div popover="auto" role="dialog">`: the native Popover API shows it in the top layer and closes it on Escape or a click outside (light dismiss); `open` follows the element's `toggle` event, with a `hidden` fallback where `showPopover` is missing
 - Supports controlled component usage for the `open` prop
 - The `label` prop provides the dialog's accessible name via `aria-label`
 - Rest props are spread onto the `<div>` element
-- The consumer must provide their own trigger element and open/close logic
+- The consumer provides the trigger: `command="toggle-popover" commandfor="{id}"` (plus `popovertarget` for older engines)
 - Content is provided via the `children` snippet
 
 ## Props

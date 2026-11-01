@@ -283,5 +283,10 @@
     "small": "کوچک",
     "smaller": "کوچک‌تر",
     "smallest": "کوچک‌ترین"
+  },
+  "date-time-now-input": {
+    "date": "تاریخ",
+    "time": "زمان",
+    "now": "اکنون"
   }
 }

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "aspect-ratio-container",
+  "type": "registry:component",
+  "title": "AspectRatioContainer",
+  "description": "A container that maintains a fixed aspect ratio.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/AspectRatioContainer.tsx",
+      "content": "import React from \"react\";\n\n// AspectRatioContainer component\n//\n// A headless layout container that maintains a specific width-to-height\n// aspect ratio for its content. Sets CSS aspect-ratio-container via a style attribute\n// and exposes a data-aspect-ratio-container attribute for consumer styling hooks.\n// Useful for responsive images, videos, cards, and any content that must\n// maintain consistent proportions across screen sizes.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   ratio    — number, default 1. Aspect ratio as width/height.\n//              Common values: 16/9, 4/3, 1 (square), 21/9 (ultrawide).\n//   children — ReactNode, required. Content to display inside the container.\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Syntax:\n//   <AspectRatioContainer ratio={16/9}>content</AspectRatioContainer>\n//\n// Examples:\n//\n//   <AspectRatioContainer ratio={16/9}>\n//     <video src=\"video.mp4\"></video>\n//   </AspectRatioContainer>\n//\n//\n//   <AspectRatioContainer ratio={1}>\n//     <img src=\"avatar.jpg\" alt=\"User avatar\" />\n//   </AspectRatioContainer>\n//\n//\n//   <AspectRatioContainer ratio={4/3} data-testid=\"card-frame\">\n//     <p>Card content</p>\n//   </AspectRatioContainer>\n//\n// Keyboard: None — this is a layout utility, not an interactive element.\n//\n// Accessibility:\n//   - No specific ARIA role needed; this is a layout utility\n//   - Content within maintains its own accessibility semantics\n//   - data-aspect-ratio-container attribute exposed for consumer CSS queries\n//\n// Internationalization:\n//   - No user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles beyond the inline aspect-ratio-container\n//   - Uses CSS aspect-ratio-container property (not padding-bottom hack)\n//   - Do not add overflow: hidden — consumer handles clipping\n//\n// References:\n//   - CSS aspect-ratio-container: https://developer.mozilla.org/en-US/docs/Web/CSS/aspect-ratio-container\n\nexport interface AspectRatioContainerProps {\n    className?: string;\n    /** The aspect ratio as a number (width / height), e.g. 16/9 */\n    ratio?: number;\n    /** The content to display within the aspect ratio container */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function AspectRatioContainer({\n    className = \"\",\n    ratio = 1,\n    children,\n    ...restProps\n}: AspectRatioContainerProps) {\n    return (\n        <div\n            className={`aspect-ratio-container ${className}`}\n            style={{ aspectRatio: ratio }}\n            data-aspect-ratio-container={ratio}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/AspectRatioContainer.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/aspect-ratio-container/"
+}

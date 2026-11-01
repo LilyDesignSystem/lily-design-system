@@ -1,6 +1,6 @@
 # Drawer
 
-A drawer is a panel that slides in from an edge of the viewport, typically used for navigation menus, filters, or supplementary content. It overlays the main content and can be dismissed by the user. The component renders conditionally based on its `open` state and uses `role="dialog"` with `aria-modal="true"` for proper screen reader behavior.
+A drawer is a panel that slides in from an edge of the viewport, typically used for navigation menus, filters, or supplementary content. It overlays the main content and can be dismissed by the user. The component renders conditionally based on its `open` state and renders a native `<dialog>` opened with `showModal()`, so it is a real modal: the page behind it is inert, Tab stays inside it, Escape closes it and focus returns to the element that opened it.
 
 **Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
 
@@ -8,12 +8,13 @@ The `side` prop indicates which edge the drawer enters from via a `data-side` at
 
 ## Implementation Notes
 
-- Conditionally renders a `<div>` with `role="dialog"` only when `open` is true
+- Conditionally renders a native `<dialog>` only when `open` is true, opened with `showModal()` (falls back to the `open` attribute where `showModal` is missing, for example jsdom)
 - Supports two-way binding on the `open` prop for two-way state binding
-- Sets `aria-modal="true"` to indicate the drawer is a modal dialog
+- Is modal, so `aria-modal="true"` is true: the page behind is inert and Tab cannot leave
+- Moves focus inside on open and returns it to the opener on close
 - Exposes `data-side` attribute for consumer CSS positioning (left, right, top, bottom)
 - Sets `tabindex="-1"` to allow the drawer to receive focus programmatically
-- Escape key handler sets `open` to `false`
+- Escape (keydown or the native `cancel` event) and the native `close` event set `open` to `false`
 
 ## Props
 
@@ -82,12 +83,13 @@ Filter panel sliding in from the right:
 ## Keyboard Interactions
 
 - Escape: closes the drawer by setting `open` to `false`
+- Tab / Shift+Tab: move between the drawer's controls; focus cannot leave while it is open
 
 ## ARIA
 
-- `role="dialog"` -- identifies the drawer as a dialog for assistive technology
+- `role="dialog"` -- implicit on the native `<dialog>` element
 - `aria-label={label}` -- provides an accessible name for the dialog
-- `aria-modal="true"` -- indicates the drawer is modal, restricting interaction to its contents
+- `aria-modal="true"` -- true: `showModal()` makes the page behind inert
 - `data-side={side}` -- data attribute for consumer CSS styling based on drawer position
 
 ## When to Use
@@ -106,7 +108,7 @@ Filter panel sliding in from the right:
 
 ## Headless
 
-This headless component provides a `<div>` with `role="dialog"`, `aria-modal="true"`, accessible labeling via `aria-label`, a `data-side` attribute for positioning, keyboard dismissal via Escape, and two-way binding on `open`. The consumer provides all visual styling, animations, backdrop, and positioning CSS.
+This headless component provides a modal `<dialog>` opened with `showModal()` (top layer, inert page, Tab trap, focus return), `aria-modal="true"`, accessible labeling via `aria-label`, a `data-side` attribute for positioning, keyboard dismissal via Escape, and two-way binding on `open`. The consumer provides all visual styling, animations, the `::backdrop`, and positioning CSS (reset the user-agent `<dialog>` margin, inset and max-height for an edge-docked panel).
 
 ## Styles
 
@@ -114,7 +116,8 @@ The consumer provides all CSS styling. The component renders with a `.drawer` cl
 
 ## Testing
 
-- Verify the component renders a `<div>` element with class `drawer`
+- Verify the component renders a `<dialog>` element with class `drawer`, opened with `showModal()`
+- Verify focus moves inside on open, stays inside while open, and returns to the trigger on close
 - Verify role="dialog"` -- identifies the drawer as a dialog for assistive technology
 - Verify aria-label={label}` -- provides an accessible name for the dialog
 - Verify keyboard interactions work correctly
@@ -123,7 +126,7 @@ The consumer provides all CSS styling. The component renders with a `.drawer` cl
 ## Advice
 
 - **Designers**: Include a visible close button and consider adding a semi-transparent backdrop to indicate the main content is temporarily inaccessible. Animate the slide-in transition for a smooth experience.
-- **Developers**: Trap focus within the drawer when it is open and return focus to the trigger element on close. Use the `data-side` attribute to apply directional CSS transitions.
+- **Developers**: Focus trapping and focus return come from `showModal()`; open the drawer from a button so focus has somewhere to return to. Use the `data-side` attribute to apply directional CSS transitions.
 
 ## Related components
 

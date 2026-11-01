@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, test, vi } from "vitest";
 
 import { Filter, type FilterLabels } from "./Filter";
@@ -572,5 +572,46 @@ describe("Filter — another language and right-to-left (§8.26–§8.29)", () =
                 ),
             ),
         ).toEqual([]);
+    });
+});
+
+// P10-T9: inside a <form>, a reset puts the filter back to the one it started with (as the Svelte reference does).
+// The fields are controlled, so without this the browser's reset changes nothing.
+describe("Filter form reset", () => {
+    const afterReset = () => act(() => new Promise((r) => setTimeout(r, 0)));
+
+    function inForm(onChange = vi.fn()) {
+        const { container } = render(
+            <form>
+                <Filter
+                    {...base}
+                    defaultValue={start(rule("name", "contains", "a"), rule("age", "gt", 3))}
+                    onChange={onChange}
+                />
+            </form>,
+        );
+        const form = container.querySelector("form")!;
+        const fields = () => [...form.querySelectorAll<HTMLInputElement>("input.filter-value")];
+        return { form, fields, onChange };
+    }
+
+    test("restores the initial filter and tells the consumer", async () => {
+        const { form, fields, onChange } = inForm();
+        fireEvent.change(fields()[0], { target: { value: "typed" } });
+        expect(fields().map((f) => f.value)).toEqual(["typed", "3"]);
+        form.reset();
+        await afterReset();
+        expect(fields().map((f) => f.value)).toEqual(["a", "3"]);
+        const last = onChange.mock.calls.at(-1)?.[0] as FilterGroup;
+        expect(last.children.map((c) => (c as FilterRule).value)).toEqual(["a", 3]);
+    });
+
+    test("a cancelled reset changes nothing", async () => {
+        const { form, fields } = inForm();
+        fireEvent.change(fields()[0], { target: { value: "typed" } });
+        form.addEventListener("reset", (event) => event.preventDefault());
+        form.reset();
+        await afterReset();
+        expect(fields()[0].value).toBe("typed");
     });
 });

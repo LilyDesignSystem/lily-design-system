@@ -1,15 +1,168 @@
 @namespace LilyBlazorHeadless.Components
+@using Microsoft.JSInterop
+@implements IAsyncDisposable
+@inject IJSRuntime JS
 
 @*
     Autosuggest component
     a text input that proposes matching options as users type
+
+    The WAI-ARIA combobox pattern with list autocomplete: the input is the combobox, the suggestions a listbox of options.
+    The consumer computes Suggestions in OnInput (filtering, fetching); the component owns the open state, the highlight,
+    the keys and the selection. Value / ValueChanged is two-way (@bind-Value). Choosing writes the suggestion's Value into
+    the input, raises OnSelect and closes.
+
+    Keyboard (C#): ArrowDown / ArrowUp open the list and move the highlight (wrapping), Home / End jump while open, Enter
+    chooses, Escape closes; blur closes. Autosuggest.razor.js only cancels those keys' default actions while the list is
+    open (so Enter does not submit a form and Home / End do not move the caret), which a C# handler cannot do per key.
+    Unmatched attributes spread onto the root <div>.
 *@
 
-<div class="@($"autosuggest {CssClass}".Trim())" role="combobox" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"autosuggest {CssClass}".Trim())" @attributes="AdditionalAttributes">
+    <input @ref="_input"
+           class="autosuggest-input"
+           type="text"
+           role="combobox"
+           autocomplete="off"
+           aria-label="@Label"
+           aria-autocomplete="list"
+           aria-expanded="@(Open ? "true" : "false")"
+           aria-controls="@_listId"
+           aria-activedescendant="@(Open && _active >= 0 ? OptionId(_active) : null)"
+           placeholder="@Placeholder"
+           name="@Name"
+           value="@Value"
+           @oninput="OnInputChanged"
+           @onkeydown="OnKeyDown"
+           @onblur="Close" />
+    <ul class="autosuggest-list"
+        role="listbox"
+        id="@_listId"
+        aria-label="@Label"
+        hidden="@(!Open)"
+        @onmousedown:preventDefault>
+        @for (var i = 0; i < Suggestions.Count; i++)
+        {
+            var index = i;
+            var suggestion = Suggestions[i];
+            <li class="autosuggest-option"
+                role="option"
+                id="@OptionId(index)"
+                aria-selected="@(index == _active ? "true" : "false")"
+                data-value="@suggestion.Value"
+                @onclick="() => Choose(index)">@suggestion.Label</li>
+        }
+    </ul>
+</div>
 
 @code {
+    private static int _count;
+    private readonly string _listId = $"autosuggest-list-{Interlocked.Increment(ref _count)}";
+    private bool _wanted;
+    private int _active = -1;
+
+    /// <summary>Accessible name of the input and the listbox.</summary>
     [Parameter, EditorRequired] public string Label { get; set; } = "";
-    [Parameter] public RenderFragment? ChildContent { get; set; }
+    /// <summary>The input's text.</summary>
+    [Parameter] public string Value { get; set; } = "";
+    [Parameter] public EventCallback<string> ValueChanged { get; set; }
+    /// <summary>The suggestions to show.</summary>
+    [Parameter] public IReadOnlyList<AutosuggestSuggestion> Suggestions { get; set; } = [];
+    /// <summary>Raised with the typed text; recompute Suggestions here.</summary>
+    [Parameter] public EventCallback<string> OnInput { get; set; }
+    /// <summary>Raised with the chosen suggestion's value.</summary>
+    [Parameter] public EventCallback<string> OnSelect { get; set; }
+    [Parameter] public string? Placeholder { get; set; }
+    /// <summary>Form field name of the input.</summary>
+    [Parameter] public string? Name { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>Module path, relative to the app base (static web asset of this library).</summary>
+    public const string ModulePath = "./_content/LilyDesignSystem.Blazor.Headless/Components/Autosuggest.razor.js";
+
+    private ElementReference _input;
+    private IJSObjectReference? _module;
+    private IJSObjectReference? _handle;
+
+    private bool Open => _wanted && Suggestions.Count > 0;
+
+    private string OptionId(int index) => $"{_listId}-option-{index}";
+
+    private void Close()
+    {
+        _wanted = false;
+        _active = -1;
+    }
+
+    private async Task Choose(int index)
+    {
+        if (index < 0 || index >= Suggestions.Count) return;
+        var value = Suggestions[index].Value;
+        Value = value;
+        Close();
+        await ValueChanged.InvokeAsync(value);
+        await OnSelect.InvokeAsync(value);
+    }
+
+    private async Task OnInputChanged(ChangeEventArgs e)
+    {
+        Value = e.Value?.ToString() ?? "";
+        _wanted = true;
+        _active = -1;
+        await ValueChanged.InvokeAsync(Value);
+        await OnInput.InvokeAsync(Value);
+    }
+
+    private async Task OnKeyDown(KeyboardEventArgs e)
+    {
+        var count = Suggestions.Count;
+        var open = Open;
+        switch (e.Key)
+        {
+            case "ArrowDown":
+                if (count == 0) return;
+                _active = open ? (_active + 1) % count : 0;
+                _wanted = true;
+                break;
+            case "ArrowUp":
+                if (count == 0) return;
+                _active = open && _active > 0 ? _active - 1 : count - 1;
+                _wanted = true;
+                break;
+            case "Home":
+                if (open) _active = 0;
+                break;
+            case "End":
+                if (open) _active = count - 1;
+                break;
+            case "Enter":
+                if (open && _active >= 0) await Choose(_active);
+                break;
+            case "Escape":
+                if (open) Close();
+                break;
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+        _module = await JS.InvokeAsync<IJSObjectReference>("import", ModulePath);
+        _handle = await _module.InvokeAsync<IJSObjectReference>("attach", _input);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        try
+        {
+            if (_handle is not null)
+            {
+                await _handle.InvokeVoidAsync("dispose");
+                await _handle.DisposeAsync();
+            }
+            if (_module is not null) await _module.DisposeAsync();
+        }
+        catch (JSDisconnectedException) { }
+    }
 }

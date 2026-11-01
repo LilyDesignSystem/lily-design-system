@@ -22,7 +22,7 @@ export type Props = {
 </script>
 
 <script setup lang="ts">
-import { computed, nextTick, provide, ref } from "vue";
+import { computed, nextTick, onBeforeUnmount, onMounted, provide, ref } from "vue";
 import FilterGroupView from "./FilterGroupView.vue";
 import { FILTER_CONTEXT } from "./filter-context";
 import {
@@ -77,6 +77,29 @@ function commit(next: FilterGroup): void {
     value.value = next;
     emit("change", next);
 }
+
+// Form reset (tasks.md P10-T9): inside a <form>, a reset puts every editor field back to the value Vue rendered first
+// (Vue writes `value` as an attribute too, so the browser's reset restores it) without telling this component, so the
+// fields would show the initial filter while `value` keeps the user's edits. Restore the filter it started with, one
+// tick later (after the browser has reset the DOM) and not when the reset was cancelled. Same as the Svelte reference.
+const initialValue = value.value;
+let resetForm: HTMLFormElement | null = null;
+let resetTimer: ReturnType<typeof setTimeout> | undefined;
+function onFormReset(event: Event): void {
+    clearTimeout(resetTimer);
+    resetTimer = setTimeout(() => {
+        if (event.defaultPrevented) return;
+        commit(initialValue);
+    }, 0);
+}
+onMounted(() => {
+    resetForm = rootEl.value?.closest("form") ?? null;
+    resetForm?.addEventListener("reset", onFormReset);
+});
+onBeforeUnmount(() => {
+    clearTimeout(resetTimer);
+    resetForm?.removeEventListener("reset", onFormReset);
+});
 
 function announce(message: string | undefined): void {
     if (message) status.value = message;

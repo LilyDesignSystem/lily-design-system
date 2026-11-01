@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "segment-group",
+  "type": "registry:component",
+  "title": "SegmentGroup",
+  "description": "A group of mutually exclusive segment options.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/SegmentGroup.tsx",
+      "content": "import React from \"react\";\n\n// SegmentGroup component\n//\n// A headless segmented control group that uses the ARIA radiogroup role to\n// contain a set of mutually exclusive options. Renders a <div> with\n// role=\"radiogroup\" and expects children to be SegmentGroupItem buttons\n// (or buttons with role=\"radio\" and aria-checked). Used for view mode toggles,\n// filter selections, display density controls, and similar single-select UIs.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name for the segment group via aria-label.\n//   children — ReactNode, required. Segment button elements to render inside the group.\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Syntax:\n//   <SegmentGroup label=\"View\">\n//     <button role=\"radio\" aria-checked=\"true\">Grid</button>\n//     <button role=\"radio\" aria-checked=\"false\">List</button>\n//   </SegmentGroup>\n//\n// Examples:\n//\n//   <SegmentGroup label=\"Display mode\">\n//     <SegmentGroupItem checked={mode === 'grid'} value=\"grid\">Grid</SegmentGroupItem>\n//     <SegmentGroupItem checked={mode === 'list'} value=\"list\">List</SegmentGroupItem>\n//   </SegmentGroup>\n//\n// Keyboard:\n//   - Tab: moves focus into the segment group\n//   - Arrow Left/Right: consumer should implement navigation between segments\n//   - Space/Enter: consumer should implement activation of the focused segment\n//\n// Accessibility:\n//   - role=\"radiogroup\" identifies the container as mutually exclusive radio-like options\n//   - aria-label provides an accessible name for the group\n//   - Children should use role=\"radio\" and aria-checked attributes\n//\n// Internationalization:\n//   - The label prop externalizes the accessible label string\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Consumer manages selection state (toggling aria-checked on children)\n//   - Compound component: use with SegmentGroupItem\n//\n// References:\n//   - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radio/\n\nexport interface SegmentGroupProps {\n    className?: string;\n    /** Accessible label. */\n    label: string;\n    /** Segment elements. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function SegmentGroup({\n    className = \"\",\n    label,\n    children,\n    ...restProps\n}: SegmentGroupProps) {\n    return (\n        <div\n            className={`segment-group ${className}`}\n            role=\"radiogroup\"\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/SegmentGroup.tsx"
+    }
+  ],
+  "categories": [
+    "forms"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/segment-group/"
+}

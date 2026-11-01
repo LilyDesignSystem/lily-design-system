@@ -239,5 +239,10 @@
     "small": "เล็ก",
     "smaller": "เล็กกว่า",
     "smallest": "เล็กที่สุด"
+  },
+  "date-time-now-input": {
+    "date": "วันที่",
+    "time": "เวลา",
+    "now": "ตอนนี้"
   }
 }

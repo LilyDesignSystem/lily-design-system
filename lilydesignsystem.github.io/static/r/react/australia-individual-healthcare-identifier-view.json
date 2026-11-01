@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "australia-individual-healthcare-identifier-view",
+  "type": "registry:component",
+  "title": "AustraliaIndividualHealthcareIdentifierView",
+  "description": "A read-only display of Australia's Individual Healthcare Identifier (IHI).",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/AustraliaIndividualHealthcareIdentifierView.tsx",
+      "content": "import React from \"react\";\n\n// AustraliaIndividualHealthcareIdentifierView component\n//\n// A headless display component for showing Australia's\n// Individual Healthcare Identifier (IHI) in a read-only format.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". The identifier string to display.\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <AustraliaIndividualHealthcareIdentifierView label=\"Individual Healthcare Identifier\" value={value} />\n//\n// Accessibility:\n//   - aria-label provides the accessible name so screen readers announce the purpose\n//\n// References:\n//   - https://en.wikipedia.org/wiki/My_Health_Record\n\nexport interface AustraliaIndividualHealthcareIdentifierViewProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The identifier to display */\n    value?: string;\n    [key: string]: unknown;\n}\n\nexport default function AustraliaIndividualHealthcareIdentifierView({\n    className = \"\",\n    label,\n    value = \"\",\n    ...restProps\n}: AustraliaIndividualHealthcareIdentifierViewProps) {\n    return (\n        <span\n            className={`australia-individual-healthcare-identifier-view ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {value}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/AustraliaIndividualHealthcareIdentifierView.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/australia-individual-healthcare-identifier-view/"
+}

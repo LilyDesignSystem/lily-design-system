@@ -1,10 +1,10 @@
 # Lily Design System™ - React Next.js Examples
 
-React 19 + Next.js 15 example application demonstrating all 490 components from the [Lily Design System](https://github.com/LilyDesignSystem/lily) headless component library, styled with [NHS UK design system](https://service-manual.nhs.uk/design-system) colors, typography, spacing, and focus states.
+React 19 + Next.js 16 example application demonstrating all 607 components from the [Lily Design System](https://github.com/LilyDesignSystem/lily-design-system) headless component library, styled with [NHS UK design system](https://service-manual.nhs.uk/design-system) colors, typography, spacing, and focus states.
 
 ## Features
 
-- 490 components imported from the headless library
+- 607 components imported from the headless library
 - 13 interactive example pages demonstrating realistic usage patterns
 - NHS UK design system styling via CSS custom properties
 - WCAG 2.2 AAA accessibility compliance
@@ -49,7 +49,7 @@ lily-design-system-react-next-examples/
 │   ├── tabbed-interface/       # Tabs, accordion, badges
 │   ├── task-management/        # Task list, progress
 │   └── timeline-and-cards/     # Timeline, cards, summaries
-├── components/                 # 490 wrapper components (re-exports)
+├── components/                 # 583 wrapper components (re-exports)
 ├── assets/css/
 │   └── nhs.css                 # NHS UK design tokens & component styles
 ├── tests/
@@ -84,7 +84,7 @@ lily-design-system-react-next-examples/
 | Route                   | Description                                             |
 | ----------------------- | ------------------------------------------------------- |
 | `/`                     | Home page with links to all examples                    |
-| `/components`           | Lists all 490 components with links to individual demos |
+| `/components`           | Lists all 607 components with links to individual demos |
 | `/components/{slug}`    | Demonstrates one component with a live interactive demo |
 | `/contact-form`         | Contact form example page                               |
 | `/dashboard`            | Dashboard example page                                  |
@@ -121,7 +121,7 @@ All visual styling comes from `assets/css/nhs.css`, which provides:
 - **Typography**: Frutiger W01 font family with 8-point size scale
 - **Spacing**: 10-point spacing scale (0-9)
 - **Focus states**: Yellow outline (#ffeb3b) with black text for WCAG contrast
-- **Component styles**: All 490 component CSS classes with NHS-appropriate styling
+- **Component styles**: All 607 component CSS classes with NHS-appropriate styling
 
 Components are headless (unstyled) by default. Each component renders a semantic CSS class (e.g., `button`, `alert`, `badge`) that the NHS stylesheet targets.
 
@@ -192,15 +192,15 @@ pnpm exec vitest run tests/components # Run component tests only
 ## Tech Stack
 
 - **React 19** with TypeScript
-- **Next.js 15** App Router
+- **Next.js 16** App Router
 - **Vitest** for testing
 - **React Testing Library** for component tests
 - **jsdom** for DOM environment
 
 ## Related Projects
 
-- [Lily Design System](https://github.com/LilyDesignSystem/lily) - Parent project
-- [React Headless](../lily-design-system-react-headless/) - 490 headless React components
+- [Lily Design System](https://github.com/LilyDesignSystem/lily-design-system) - Parent project
+- [React Headless](../lily-design-system-react-headless/) - 583 headless React components
 - [Blazor Web Examples](../lily-design-system-blazor-web-examples/) - Blazor equivalent
 - [Svelte SvelteKit Examples](../lily-design-system-svelte-sveltekit-examples/) - Svelte equivalent
 - [Vue Nuxt Examples](../lily-design-system-vue-nuxt-examples/) - Vue equivalent

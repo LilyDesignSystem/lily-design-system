@@ -24,6 +24,15 @@ returns them as the picker's `sizeLabels` (Blazor: `LocaleTranslations.TextSizeL
 pack lacks is omitted, never filled from another language. Like the rest of the pack they are unreviewed machine drafts
 (English excepted), and Cornish, Scots and Bhojpuri are lowest confidence.
 
+## Date-time-now-input names
+
+Every pack also has a `date-time-now-input` section: the headless `date-time-now-input`'s three control names (`date`,
+`time`, `now`), e.g. Spanish `Fecha`, `Hora`, `Ahora`. The component has no English default, so take them from here:
+`dateTimeNowInputLabels(pack)` returns `{ dateLabel, timeLabel, nowLabel }`, ready to spread onto the component (Blazor:
+`LocaleTranslations.DateTimeNowInputLabels(locale)` gives `Date`, `Time` and `Now` for `DateLabel`, `TimeLabel` and
+`NowLabel`). A name a pack lacks is omitted, so that control stays unnamed rather than in another language. Unreviewed
+machine drafts like the rest (English excepted).
+
 ## Time zone names (Unicode CLDR)
 
 The localized display names of IANA time zones, one pack per locale (all 64), for `TimeZonePicker`:

@@ -56,7 +56,7 @@
     </Dialog>
 
     <AlertDialog
-        label="Confirm deletion"
+        title="Confirm deletion"
         bind:open={showAlert}
     >
         <h2>Are you sure?</h2>

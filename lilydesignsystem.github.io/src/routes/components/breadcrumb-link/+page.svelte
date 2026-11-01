@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<a class=\"breadcrumb-link\" href=\"#\">Breadcrumb link</a>";
   const svelteSource: string = "// In your Svelte component:\nimport BreadcrumbLink from \"lily-design-system-svelte-headless/components/BreadcrumbLink/BreadcrumbLink.svelte\";\n\n<BreadcrumbLink>BreadcrumbLink</BreadcrumbLink>\n";
-  const usageCode: string = "<BreadcrumbNav label=\"Breadcrumb\">\n  <BreadcrumbList>\n    <BreadcrumbListItem>\n      <BreadcrumbLink href=\"/\">Home</BreadcrumbLink>\n    </BreadcrumbListItem>\n    <BreadcrumbListItem>\n      <BreadcrumbLink href=\"/health-a-z\">Health A to Z</BreadcrumbLink>\n    </BreadcrumbListItem>\n    <BreadcrumbListItem aria-current=\"page\">\n      Diabetes\n    </BreadcrumbListItem>\n  </BreadcrumbList>\n</BreadcrumbNav>\n";
+  const usageCode: string = "<BreadcrumbNav label=\"Breadcrumb\">\n  <BreadcrumbList>\n    <BreadcrumbListItem>\n      <BreadcrumbLink href=\"/\">Home</BreadcrumbLink>\n    </BreadcrumbListItem>\n    <BreadcrumbListItem>\n      <BreadcrumbLink href=\"/health-a-z\">Health A to Z</BreadcrumbLink>\n    </BreadcrumbListItem>\n    <BreadcrumbListItem aria-current=\"page\"> Diabetes </BreadcrumbListItem>\n  </BreadcrumbList>\n</BreadcrumbNav>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

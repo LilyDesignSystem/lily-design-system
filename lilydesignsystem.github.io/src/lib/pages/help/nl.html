@@ -155,7 +155,7 @@ pnpm run dev</code></pre>
   <h2>Kant-en-klare thema's</h2>
   <p>
     Wil je CSS niet vanaf nul schrijven? Lily levert
-    <strong>57 zelfstandige referentiethema's</strong> in de map
+    <strong>63 zelfstandige referentiethema's</strong> in de map
     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
     . Elk is één stylesheet die de klassenhaken van Lily target – koppel het en je bent opgemaakt:
   </p>
@@ -179,11 +179,7 @@ pnpm run dev</code></pre>
 
 <section class="section prose" id="helpers" style="margin: 0 auto;">
   <h2>Voorkeurshelpers</h2>
-  <p>
-    Elk framework heeft acht kleine kiezers, elk een eigen
-    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> -pakket (en een <code>picker-bar</code> die ze samenvoegt). Elk is een headless pictogramknop die een pop-up opent – een keuzelijst, een lijst met links, een zoekformulier of (voor date-time-picker) een datumkiezerdialoog – geen native
-    <code>&lt;select&gt;</code>; is SSR-veilig; en bevat geen CSS:
-  </p>
+  <p>Elk framework heeft elf kleine kiezers, elk in een eigen <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code>-pakket (en een <code>picker-bar</code> die ze samenvoegt). Elk is een headless pictogramknop die een pop-up opent — een keuzelijst, een lijst met links, een zoekformulier, een paneel met je eigen inhoud of (voor date-time-picker) een dialoogvenster om een datum te kiezen — geen native <code>&lt;select&gt;</code> (theme-picker biedt er een aan als optionele variant); het is SSR-veilig en levert geen CSS. Naast menu-picker, settings-picker en time-zone-picker zijn dat:</p>
   <ul>
     <li>
       <strong>theme-picker</strong> – laadt themastylesheets tijdens runtime door een beheerde <code>&lt;link&gt;</code>te verwisselen, zet
@@ -294,7 +290,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
     <summary>Een component rendert maar ziet er niet opgemaakt uit</summary>
     <p>
       Dat is headless zoals bedoeld – er wordt geen CSS met de component meegeleverd. Schrijf CSS voor de kebab-case klasse van de component (te zien op elke <a href="/components/">cataloguspagina</a>) of koppel een van de
-      <a href="#themes">57 kant-en-klare thema's</a>.
+      <a href="#themes">63 kant-en-klare thema's</a>.
     </p>
   </details>
 
@@ -383,7 +379,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
   <details class="faq-item">
     <summary>Waarom headless in plaats van opgemaakt?</summary>
     <p>
-      Vooraf opgemaakte componenten zijn handig – totdat ze niet bij je merk passen. Headless componenten vragen vooraf iets meer werk, maar geven je totale controle over het visuele ontwerp. De voorbeeldapps en de 57 thema's laten manieren zien om ze op te maken; je kunt die overnemen of helemaal vervangen. Het langere betoog staat op <a href="/why/">Waarom Lily</a>.
+      Vooraf opgemaakte componenten zijn handig – totdat ze niet bij je merk passen. Headless componenten vragen vooraf iets meer werk, maar geven je totale controle over het visuele ontwerp. De voorbeeldapps en de 63 thema's laten manieren zien om ze op te maken; je kunt die overnemen of helemaal vervangen. Het langere betoog staat op <a href="/why/">Waarom Lily</a>.
     </p>
   </details>
 

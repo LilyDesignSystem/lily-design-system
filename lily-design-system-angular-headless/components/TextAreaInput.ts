@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
+import { restoreOnFormReset } from "./form-reset";
 
 /**
  * TextAreaInput — a multi-line text input area
@@ -10,16 +11,15 @@ import { ChangeDetectionStrategy, Component, input, model } from "@angular/core"
 @Component({
     selector: "lily-text-area-input",
     standalone: true,
-    template: `<input
+    template: `<textarea
       class="text-area-input {{ className() }}"
-      type="text"
       [attr.aria-label]="label() || null"
-      autocomplete="off"
+      [attr.rows]="rows()"
       [value]="value()"
       (input)="value.set($any($event.target).value)"
       [disabled]="disabled()"
       [required]="required()"
-    />`,
+    ></textarea>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TextAreaInput {
@@ -29,8 +29,14 @@ export class TextAreaInput {
     readonly className = input<string>("");
     /** Bindable input value. */
     readonly value = model<string>("");
+    /** Visible rows; the browser default when unset. */
+    readonly rows = input<number | null>(null);
     /** Whether the input is required for form submission. */
     readonly required = input<boolean>(false);
     /** Whether the input is disabled. */
     readonly disabled = input<boolean>(false);
+
+    constructor() {
+        restoreOnFormReset(this.value);
+    }
 }

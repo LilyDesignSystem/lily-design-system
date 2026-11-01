@@ -41,6 +41,14 @@
 - `children`: slot (required) -- `<option>` elements to render inside the select
 - `...restProps`: unknown -- additional attributes spread onto the select element
 
+## Native platform
+
+- Decision: native
+- Uses: native <select>
+- Could use: appearance: base-select in theme CSS under @supports
+- Notes: base-select is Chromium-only, so any styling is progressive enhancement in themes, never in the headless.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
+
 ## Acceptance Criteria
 
 - [ ] Renders <select> element with class="select"

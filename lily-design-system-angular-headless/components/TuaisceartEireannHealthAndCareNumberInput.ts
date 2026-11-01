@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
+import { restoreOnFormReset } from "./form-reset";
 
 /**
  * TuaisceartEireannHealthAndCareNumberInput — an input for entering Tuaisceart Eireann Health and Care (H&C) Number unique national healthcare identifier
@@ -33,4 +34,8 @@ export class TuaisceartEireannHealthAndCareNumberInput {
     readonly required = input<boolean>(false);
     /** Whether the input is disabled. */
     readonly disabled = input<boolean>(false);
+
+    constructor() {
+        restoreOnFormReset(this.value);
+    }
 }

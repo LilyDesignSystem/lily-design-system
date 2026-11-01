@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<ul class=\"dont-list\"><li class=\"dont-list-item\">Don't use div for buttons</li></ul>";
   const svelteSource: string = "// In your Svelte component:\nimport DontListItem from \"lily-design-system-svelte-headless/components/DontListItem/DontListItem.svelte\";\n\n<DontListItem>\n  <!-- DontListItem content -->\n</DontListItem>\n";
-  const usageCode: string = "<DontList>\n    <DontListItem>Skip alt text</DontListItem>\n    <DontListItem>Use only color for meaning</DontListItem>\n</DontList>\n";
+  const usageCode: string = "<DontList>\n  <DontListItem>Skip alt text</DontListItem>\n  <DontListItem>Use only color for meaning</DontListItem>\n</DontList>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

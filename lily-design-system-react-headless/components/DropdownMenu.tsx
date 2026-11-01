@@ -61,7 +61,9 @@
 //   - WAI-ARIA menu role: https://www.w3.org/TR/wai-aria-1.2/#menu
 //   - WAI-ARIA menuitem role: https://www.w3.org/TR/wai-aria-1.2/#menuitem
 
-import React, { useState, useRef } from "react";
+import React, { useEffect, useId, useRef, useState } from "react";
+
+import { popoverSupported, usePopoverState } from "./Popover";
 
 export interface DropdownMenuProps {
     className?: string;
@@ -84,13 +86,23 @@ export default function DropdownMenu({
     children,
     ...restProps
 }: DropdownMenuProps) {
+    const reactId = useId();
+    const menuId = `dropdown-menu-${reactId}`;
     const [open, setOpen] = useState(openProp);
+    useEffect(() => setOpen(openProp), [openProp]);
     const menuRef = useRef<HTMLDivElement>(null);
 
+    function change(value: boolean) {
+        setOpen(value);
+        onChange?.(value);
+    }
+    // popover="auto": the trigger's command="toggle-popover" opens and closes the menu, and Escape and light dismiss
+    // come from the browser; the toggle event reports each change. Without the API the click toggles and `hidden`
+    // shows or hides the menu.
+    usePopoverState(menuRef, open, change);
+
     function toggleMenu() {
-        const newOpen = !open;
-        setOpen(newOpen);
-        onChange?.(newOpen);
+        if (menuRef.current && !popoverSupported(menuRef.current)) change(!open);
     }
 
     function onMenuKeydown(event: React.KeyboardEvent) {
@@ -126,8 +138,7 @@ export default function DropdownMenu({
             }
             case "Escape": {
                 event.preventDefault();
-                setOpen(false);
-                onChange?.(false);
+                change(false);
                 break;
             }
         }
@@ -143,21 +154,24 @@ export default function DropdownMenu({
                 aria-haspopup="true"
                 aria-expanded={open}
                 aria-label={label}
+                aria-controls={menuId}
+                popoverTarget={menuId}
+                {...{ command: "toggle-popover", commandfor: menuId }}
                 onClick={toggleMenu}
             >
                 {label}
             </button>
-            {open && (
-                <div
-                    role="menu"
-                    aria-label={label}
-                    tabIndex={-1}
-                    ref={menuRef}
-                    onKeyDown={onMenuKeydown}
-                >
-                    {children}
-                </div>
-            )}
+            <div
+                id={menuId}
+                role="menu"
+                aria-label={label}
+                tabIndex={-1}
+                popover="auto"
+                ref={menuRef}
+                onKeyDown={onMenuKeydown}
+            >
+                {children}
+            </div>
         </div>
     );
 }

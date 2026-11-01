@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "dial-group",
+  "type": "registry:component",
+  "title": "DialGroup",
+  "description": "A group of dial components.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/DialGroup.tsx",
+      "content": "import React from \"react\";\n\n// DialGroup component\n//\n// A labelled group container for one or more Dial components. Renders a\n// <div role=\"group\"> with the kebab class so screen readers announce the\n// dials as a related set.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label    — string, required. Accessible label for the group.\n//   children — ReactNode, required. Dial components.\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Accessibility:\n//   - role=\"group\" + aria-label labels the dial group\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//\n// References:\n//   - WAI-ARIA group role: https://www.w3.org/TR/wai-aria-1.2/#group\n\nexport interface DialGroupProps {\n    className?: string;\n    /** Accessible label for the dial group. */\n    label: string;\n    /** Dial components. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function DialGroup({\n    className = \"\",\n    label,\n    children,\n    ...restProps\n}: DialGroupProps) {\n    return (\n        <div\n            className={`dial-group ${className}`}\n            role=\"group\"\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/DialGroup.tsx"
+    }
+  ],
+  "categories": [
+    "forms"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/dial-group/"
+}

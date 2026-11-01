@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"icon-button\" aria-label=\"a button containing only an icon with a required accessible label\">IconButton</div>";
   const svelteSource: string = "// In your Svelte component:\nimport IconButton from \"lily-design-system-svelte-headless/components/IconButton/IconButton.svelte\";\n\n<IconButton>IconButton</IconButton>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import IconButton from './IconButton.svelte';\n\n  function close() { /* … */ }\n<\/script>\n\n<IconButton label=\"Close dialog\" onclick={close}>\n  <span aria-hidden=\"true\">×</span>\n</IconButton>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import IconButton from \"./IconButton.svelte\";\n\n  function close() {\n    /* … */\n  }\n<\/script>\n\n<IconButton\n  label=\"Close dialog\"\n  onclick={close}\n>\n  <span aria-hidden=\"true\">×</span>\n</IconButton>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

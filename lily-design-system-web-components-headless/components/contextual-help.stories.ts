@@ -10,6 +10,7 @@ const meta: Meta = {
     render: (args) => h("lily-contextual-help", args as Record<string, string | boolean>, SLOT),
     args: {
         label: "What is this?",
+        "trigger-label": "?",
     },
 };
 

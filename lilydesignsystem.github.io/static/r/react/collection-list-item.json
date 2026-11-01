@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "collection-list-item",
+  "type": "registry:component",
+  "title": "CollectionListItem",
+  "description": "One item in a collection list with optional image, heading, meta, and description.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/CollectionListItem.tsx",
+      "content": "import React from \"react\";\n\n// CollectionListItem component\n//\n// One item in a CollectionList with a required heading and optional image,\n// meta, and description fields. When `href` is provided, the heading is\n// wrapped in an anchor; otherwise the heading is rendered as plain text.\n// Additional content can be supplied via children to extend or replace the\n// default body.\n//\n// Props:\n//   className   — string, optional. CSS class name appended to the root.\n//   heading     — string, REQUIRED. Item heading.\n//   meta        — string, optional. Meta line (e.g., date or category).\n//   description — string, optional. Body text.\n//   imageUrl    — string, optional. Thumbnail image src.\n//   imageAlt    — string, optional. Image alt text.\n//   href        — string, optional. When provided, heading is wrapped in <a>.\n//   label       — string, optional. aria-label override.\n//   children    — ReactNode, optional. Additional content rendered after defaults.\n//   ...restProps — additional HTML attributes spread onto the <li>.\n//\n// Syntax:\n//   <CollectionListItem\n//     heading=\"Article title\"\n//     meta=\"2026-04-27\"\n//     description=\"Lorem ipsum…\"\n//     href=\"/articles/1\"\n//   />\n//\n// Accessibility:\n//   - The native <li> provides list-item semantics\n//   - When href is provided the heading is a link\n//   - aria-label optionally overrides the accessible name\n//\n// Internationalization:\n//   - All user-facing text is consumer-supplied via props\n//\n// Claude rules:\n//   - Headless: no CSS, no styles\n//   - heading is non-optional in the interface\n//   - <a> renders only when href is provided\n//\n// References:\n//   - USWDS Collection: https://designsystem.digital.gov/components/collection/\n\nexport interface CollectionListItemProps {\n    className?: string;\n    /** Item heading (required) */\n    heading: string;\n    /** Optional meta line, e.g. date or category */\n    meta?: string;\n    /** Optional body text */\n    description?: string;\n    /** Optional thumbnail image src */\n    imageUrl?: string;\n    /** Optional image alt text */\n    imageAlt?: string;\n    /** When provided, heading is wrapped in <a> */\n    href?: string;\n    /** Optional aria-label override */\n    label?: string;\n    /** Additional content rendered after defaults */\n    children?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function CollectionListItem({\n    className = \"\",\n    heading,\n    meta,\n    description,\n    imageUrl,\n    imageAlt = \"\",\n    href,\n    label,\n    children,\n    ...restProps\n}: CollectionListItemProps) {\n    return (\n        <li\n            className={`collection-list-item ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {imageUrl && (\n                <img\n                    className=\"collection-list-item-image\"\n                    src={imageUrl}\n                    alt={imageAlt}\n                />\n            )}\n            <h3 className=\"collection-list-item-heading\">\n                {href ? <a href={href}>{heading}</a> : heading}\n            </h3>\n            {meta && <p className=\"collection-list-item-meta\">{meta}</p>}\n            {description && <p className=\"collection-list-item-description\">{description}</p>}\n            {children}\n        </li>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/CollectionListItem.tsx"
+    }
+  ],
+  "categories": [
+    "lists"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/collection-list-item/"
+}

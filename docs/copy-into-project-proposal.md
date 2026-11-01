@@ -1,6 +1,16 @@
 # Proposal: copy one component into a project (`lily add`)
 
-Status: **proposed 2026-10-11, awaiting a maintainer decision** (tasks.md P10-T6). Nothing below is built.
+Status: **superseded by P16-T5 pending maintainer confirmation** (2026-10-29; proposed 2026-10-11 as tasks.md P10-T6).
+Nothing below is built.
+
+Decision as recorded in [spec/competitive-position](../spec/competitive-position/index.md) item 5: copying goes through
+the shadcn CLI, not a Lily CLI. `bin/generate-registries` now writes a shadcn registry for the React headless library at
+`lilydesignsystem.github.io/static/r/react/` (`registry.json` plus one item per component and per shared helper module,
+file contents inlined), so `npx shadcn add @lily/<slug>` copies a component and the Lily components it imports into a
+project; CI runs it into a scratch Next.js app. Usage: the site's `/tutorials/shadcn/` page. Of this proposal, that
+replaces `lily add` and the generated manifests. `lily.json`, `lily outdated` and `lily diff` (point 3, the part that
+answers RFC 8) are not built; they would be built only on demand. Svelte and Vue are not yet published: shadcn-svelte
+and shadcn-vue use their own registry schemas and are untested against Lily.
 
 ## The problem
 

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "table-foot",
+  "type": "registry:component",
+  "title": "TableFoot",
+  "description": "A table interactive grid tfoot <tfoot>.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/TableFoot.tsx",
+      "content": "import React from \"react\";\n\n// TableFoot component\n//\n// The footer section of a Table, rendered as a <tfoot> element. Contains TableRow elements with summary or footer cells.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   children — ReactNode, required. TableRow elements with footer cells.\n//   ...restProps — additional HTML attributes spread onto the <tfoot>.\n//\n// Syntax:\n//   <TableFoot>\n//     <TableRow><TableTD colSpan={2}>Total: 2 users</TableTD></TableRow>\n//   </TableFoot>\n//\n// Keyboard:\n//   None — tables are non-interactive; consumers add interaction at the table level if needed.\n//\n// Accessibility:\n//   - <tfoot> provides native table-section semantics\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Must be used inside a Table\n//   - No internal state — purely a structural wrapper\n//\n// References:\n//   - HTML tfoot element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tfoot\n\nexport interface TableFootProps {\n    className?: string;\n    /** TableRow elements with footer cells. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function TableFoot({ className = \"\", children, ...restProps }: TableFootProps) {\n    return (\n        <tfoot\n            className={`table-foot ${className}`}\n            {...restProps}\n        >\n            {children}\n        </tfoot>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/TableFoot.tsx"
+    }
+  ],
+  "categories": [
+    "tables"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/table-foot/"
+}

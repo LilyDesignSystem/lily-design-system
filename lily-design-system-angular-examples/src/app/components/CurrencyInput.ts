@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
+import { restoreOnFormReset } from "./form-reset";
 
 /**
  * CurrencyInput — a locale-aware currency input with automatic formatting, symbols, separators
@@ -14,6 +15,7 @@ import { ChangeDetectionStrategy, Component, input, model } from "@angular/core"
       class="currency-input {{ className() }}"
       type="text"
       [attr.aria-label]="label() || null"
+      [attr.data-currency-code]="currencyCode()"
       autocomplete="off"
       [value]="value()"
       (input)="value.set($any($event.target).value)"
@@ -25,6 +27,8 @@ import { ChangeDetectionStrategy, Component, input, model } from "@angular/core"
 export class CurrencyInput {
     /** Accessible label, applied to aria-label. */
     readonly label = input<string>("");
+    /** ISO 4217 currency code. Required; never defaulted. */
+    readonly currencyCode = input.required<string>();
     /** Extra CSS classes appended to the base class. */
     readonly className = input<string>("");
     /** Bindable input value. */
@@ -33,4 +37,8 @@ export class CurrencyInput {
     readonly required = input<boolean>(false);
     /** Whether the input is disabled. */
     readonly disabled = input<boolean>(false);
+
+    constructor() {
+        restoreOnFormReset(this.value);
+    }
 }

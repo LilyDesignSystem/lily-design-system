@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "icon-list",
+  "type": "registry:component",
+  "title": "IconList",
+  "description": "An ordered list of icon list item components.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/IconList.tsx",
+      "content": "import React from \"react\";\n\n// IconList component\n//\n// An ordered list (rendered as <ul>) of icon list item components. Each child\n// should typically be an IconListItem with a leading icon slot and text.\n// Inspired by the USWDS Icon list component.\n//\n// Props:\n//   className — string, optional. CSS class name appended to the root.\n//   label     — string, optional. aria-label for the list.\n//   children  — ReactNode, required. IconListItem children.\n//   ...restProps — additional HTML attributes spread onto the <ul>.\n//\n// Syntax:\n//   <IconList label=\"Benefits\">\n//     <IconListItem icon={<Check />}>Easy to use</IconListItem>\n//   </IconList>\n//\n// Accessibility:\n//   - The native <ul> provides list semantics\n//   - aria-label provides an optional accessible name\n//\n// Internationalization:\n//   - All user-facing text is consumer-supplied via props\n//\n// Claude rules:\n//   - Headless: no CSS, no styles\n//   - label is optional\n//\n// References:\n//   - USWDS Icon list: https://designsystem.digital.gov/components/icon-list/\n\nexport interface IconListProps {\n    className?: string;\n    /** Optional aria-label for the list */\n    label?: string;\n    /** IconListItem children */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function IconList({ className = \"\", label, children, ...restProps }: IconListProps) {\n    return (\n        <ul\n            className={`icon-list ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </ul>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/IconList.tsx"
+    }
+  ],
+  "categories": [
+    "lists"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/icon-list/"
+}

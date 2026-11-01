@@ -145,3 +145,7 @@ The tag is `<markdown-editor>`; to use another name import the class from `markd
 
 [accessibility notes](./docs/accessibility.md) · [examples](./examples/README.md) ·
 the Svelte canonical package `lily-design-system-svelte-markdown-editor`
+
+## Form reset
+
+The textarea's starting text is written as its `defaultValue`, so a form reset restores it natively.

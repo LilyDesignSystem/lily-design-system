@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"step-list-item\" aria-label=\"one step in a step list with status of waiting, in progress, finished, or error\">StepListItem</div>";
   const svelteSource: string = "// In your Svelte component:\nimport StepListItem from \"lily-design-system-svelte-headless/components/StepListItem/StepListItem.svelte\";\n\n<StepListItem>\n  <!-- StepListItem content -->\n</StepListItem>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import StepList from '../StepList/StepList.svelte';\n  import StepListItem from './StepListItem.svelte';\n<\/script>\n\n<StepList label=\"Checkout\" current={1}>\n  <StepListItem status=\"finished\">Cart</StepListItem>\n  <StepListItem status=\"in-progress\" current label=\"Step 2 of 3: Shipping\">\n    Shipping\n  </StepListItem>\n  <StepListItem status=\"waiting\">Payment</StepListItem>\n</StepList>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import StepList from \"../StepList/StepList.svelte\";\n  import StepListItem from \"./StepListItem.svelte\";\n<\/script>\n\n<StepList\n  label=\"Checkout\"\n  current={1}\n>\n  <StepListItem status=\"finished\">Cart</StepListItem>\n  <StepListItem\n    status=\"in-progress\"\n    current\n    label=\"Step 2 of 3: Shipping\"\n  >\n    Shipping\n  </StepListItem>\n  <StepListItem status=\"waiting\">Payment</StepListItem>\n</StepList>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

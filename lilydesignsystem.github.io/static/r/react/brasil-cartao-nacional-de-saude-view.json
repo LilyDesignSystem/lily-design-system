@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "brasil-cartao-nacional-de-saude-view",
+  "type": "registry:component",
+  "title": "BrasilCartaoNacionalDeSaudeView",
+  "description": "A read-only display of Brazil's Cartao Nacional de Saude (CNS).",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/BrasilCartaoNacionalDeSaudeView.tsx",
+      "content": "import React from \"react\";\n\n// BrasilCartaoNacionalDeSaudeView component\n//\n// A headless display component for showing Brazil's\n// Cartão Nacional de Saúde (CNS) in a read-only format.\n// Format: Fifteen-digit number issued by Brazil's Sistema Único de Saúde (SUS), grouped as NNN NNNN NNNN NNNN. Numbers starting 1 or 2 are definitive (linked to the national civil registry); numbers starting 7, 8, or 9 are provisional. Both forms are validated with a weighted-sum Modulus-11 check across all 15 digits.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". The identifier string to display.\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <BrasilCartaoNacionalDeSaudeView label=\"Cartão Nacional de Saúde (CNS)\" value={value} />\n//\n// Accessibility:\n//   - aria-label provides the accessible name so screen readers announce the purpose\n//\n// References:\n//   - https://en.wikipedia.org/wiki/CPF_number\n\nexport interface BrasilCartaoNacionalDeSaudeViewProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The identifier to display */\n    value?: string;\n    [key: string]: unknown;\n}\n\nexport default function BrasilCartaoNacionalDeSaudeView({\n    className = \"\",\n    label,\n    value = \"\",\n    ...restProps\n}: BrasilCartaoNacionalDeSaudeViewProps) {\n    return (\n        <span\n            className={`brasil-cartao-nacional-de-saude-view ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {value}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/BrasilCartaoNacionalDeSaudeView.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/brasil-cartao-nacional-de-saude-view/"
+}

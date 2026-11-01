@@ -155,7 +155,10 @@
         end="2026-03-31"
     />
     <div style="margin-top: var(--nhs-space-3);">
-        <ReviewDate>Page last reviewed: 1 March 2026</ReviewDate>
+        <ReviewDate
+            label="Page last reviewed"
+            datetime="2026-03-01">Page last reviewed: 1 March 2026</ReviewDate
+        >
     </div>
 
     <Separator />
@@ -213,7 +216,7 @@
         <CharacterCounter>{noteText.length}/200 characters</CharacterCounter>
     </div>
 
-    <Footnote>
+    <Footnote id="footnote-1">
         <sup>1</sup> All patient data shown is fictional and for demonstration purposes only.
     </Footnote>
 
@@ -262,7 +265,7 @@
 
     <h2>Timer</h2>
     <p>Consultation timer:</p>
-    <Timer>15:00</Timer>
+    <Timer label="Consultation timer">15:00</Timer>
 </main>
 
 <Footer label="Site footer">

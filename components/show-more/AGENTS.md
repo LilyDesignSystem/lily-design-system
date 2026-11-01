@@ -36,6 +36,14 @@
 - `children`: slot -- the content
 - `...restProps`: unknown -- additional attributes spread onto the root
 
+## Native platform
+
+- Decision: hand-rolled because the content must stay in the accessibility tree while collapsed (a visual clamp); <details> would hide it
+- Uses: native <button>
+- Could use: <details>
+- Notes: By design, see its index.md.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
+
 ## Acceptance Criteria
 
 - [ ] Renders <div class="show-more"> with content and button

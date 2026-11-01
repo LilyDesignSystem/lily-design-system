@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tuaisceart-eireann-health-and-care-number-input",
+  "type": "registry:component",
+  "title": "TuaisceartEireannHealthAndCareNumberInput",
+  "description": "An input for entering Tuaisceart Eireann Health and Care (H&C) Number unique national healthcare identifier.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/TuaisceartEireannHealthAndCareNumberInput.tsx",
+      "content": "import React from \"react\";\n\n// TuaisceartEireannHealthAndCareNumberInput component\n//\n// A headless input for entering a Tuaisceart Eireann Health and Care (H&C)\n// Number, a 10-digit identifier displayed as XXX XXX XXXX, used by HSC\n// Tuaisceart Eireann to uniquely identify patients.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". Bindable input value; supports value + onChange.\n//   required — boolean, default false. Whether the input is required for form submission.\n//   disabled — boolean, default false. Whether the input is disabled.\n//   ...restProps — additional HTML attributes spread onto the <input>.\n//\n// Syntax:\n//   <TuaisceartEireannHealthAndCareNumberInput label=\"H&C Number\" value={value} onChange={setValue} />\n//\n// Examples:\n//\n//   <TuaisceartEireannHealthAndCareNumberInput label=\"H&C Number\" required />\n//\n//\n//   <TuaisceartEireannHealthAndCareNumberInput label=\"H&C Number\" disabled />\n//\n// Keyboard:\n//   - Standard text input keyboard behavior\n//\n// Accessibility:\n//   - aria-label provides the accessible name for screen readers\n//   - inputMode=\"numeric\" hints mobile devices to show numeric keyboard\n//   - pattern=\"[0-9]{3} [0-9]{3} [0-9]{4}\" validates 3-3-4 digit format\n//   - autoComplete=\"off\" protects sensitive health identifiers\n//   - required and disabled states are conveyed to assistive technology\n//\n// Internationalization:\n//   - The label prop externalizes user-facing text for translation\n//   - No hardcoded strings in the component\n//\n// Claude rules:\n//   - Headless: no CSS, no styles -- consumer provides all styling\n//   - Uses controlled for two-way data binding on value\n//\n// References:\n//   - HSC NI: https://online.hscni.net/\n\nexport interface TuaisceartEireannHealthAndCareNumberInputProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The current value of the input, bindable */\n    value?: string;\n    /** Whether the input is required for form submission */\n    required?: boolean;\n    /** Whether the input is disabled */\n    disabled?: boolean;\n    /** Additional HTML attributes */\n    /** Callback when value changes. */\n    onChange?: (value: string) => void;\n    [key: string]: unknown;\n}\n\nexport default function TuaisceartEireannHealthAndCareNumberInput({\n    className = \"\",\n    label,\n    value = \"\",\n    required = false,\n    disabled = false,\n    onChange,\n    ...restProps\n}: TuaisceartEireannHealthAndCareNumberInputProps) {\n    const hcPattern = \"[0-9]{3} [0-9]{3} [0-9]{4}\";\n\n    return (\n        <input\n            className={`tuaisceart-eireann-health-and-care-number-input ${className}`}\n            type=\"text\"\n            aria-label={label}\n            inputMode=\"numeric\"\n            pattern={hcPattern}\n            autoComplete=\"off\"\n            value={value}\n            onChange={(e) => onChange?.(e.target.value)}\n            required={required}\n            disabled={disabled}\n            {...restProps}\n        />\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/TuaisceartEireannHealthAndCareNumberInput.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/tuaisceart-eireann-health-and-care-number-input/"
+}

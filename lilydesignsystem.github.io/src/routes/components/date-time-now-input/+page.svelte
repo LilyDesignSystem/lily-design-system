@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"date-time-now-input\" role=\"group\" aria-label=\"Appointment date and time\"><label for=\"demo-dtn-date\">Date</label><input id=\"demo-dtn-date\" type=\"date\" /><label for=\"demo-dtn-time\">Time</label><input id=\"demo-dtn-time\" type=\"time\" /><button type=\"button\">Now</button></div>";
   const svelteSource: string = "// In your Svelte component:\nimport DateTimeNowInput from \"lily-design-system-svelte-headless/components/DateTimeNowInput/DateTimeNowInput.svelte\";\n\n<DateTimeNowInput label=\"Label\" />\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import DateTimeNowInput from \"./DateTimeNowInput.svelte\";\n    let dateValue = $state(\"\");\n    let timeValue = $state(\"\");\n<\/script>\n\n<DateTimeNowInput label=\"Event time\" bind:dateValue bind:timeValue />\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import DateTimeNowInput from \"./DateTimeNowInput.svelte\";\n  let dateValue = $state(\"\");\n  let timeValue = $state(\"\");\n<\/script>\n\n<DateTimeNowInput\n  label=\"Event time\"\n  {...labels}\n  bind:dateValue\n  bind:timeValue\n/>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>
@@ -95,9 +95,14 @@
     <h3>Props</h3>
     <ul>
       <li><code>label</code>: string (required) -- accessible name for the wrapper group via <code>aria-label</code></li>
-      <li><code>dateLabel</code>: string (default: "Date") -- accessible name for the date input via <code>aria-label</code></li>
-      <li><code>timeLabel</code>: string (default: "Time") -- accessible name for the time input via <code>aria-label</code></li>
-      <li><code>nowLabel</code>: string (default: "Now") -- accessible label and text for the "Now" button</li>
+      <li><code>dateLabel</code>: string (required, no default) -- accessible name for the date input via <code>aria-label</code></li>
+      <li><code>timeLabel</code>: string (required, no default) -- accessible name for the time input via <code>aria-label</code></li>
+      <li><code>nowLabel</code>: string (required, no default) -- accessible label and text for the "Now" button</li>
+      <li>The three names come from the locale-translations packs, never from an English default: <code>dateTimeNowInputLabels(pack)</code></li>
+    </ul>
+    <p>  in each catalog's <code>*-locale-translations</code> package returns <code>&#123; dateLabel, timeLabel, nowLabel &#125;</code> for 64 locales (Blazor:</p>
+    <p>  <code>LocaleTranslations.DateTimeNowInputLabels(locale)</code>). A missing name leaves its control unnamed rather than in another language.</p>
+    <ul>
       <li><code>dateValue</code>: string (default: "") -- bindable date string (format: YYYY-MM-DD)</li>
       <li><code>timeValue</code>: string (default: "") -- bindable time string (format: HH:mm)</li>
       <li><code>required</code>: boolean (default: false) -- whether the inputs are required for form submission</li>

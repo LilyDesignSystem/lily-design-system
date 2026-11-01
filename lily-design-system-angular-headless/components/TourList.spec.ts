@@ -43,10 +43,12 @@ describe("TourList — dialog contract and Escape", () => {
         return { fixture, el: fixture.nativeElement.querySelector("ol.tour-list") as HTMLElement };
     }
 
-    test("is a labelled modal dialog that can take focus", () => {
+    test("is a labelled list of steps that can take focus", () => {
         const { el } = create();
-        expect(el.getAttribute("role")).toBe("dialog");
-        expect(el.getAttribute("aria-modal")).toBe("true");
+        // A plain list of steps (tasks.md P18-T6): no role="dialog", no aria-modal.
+        expect(el.tagName).toBe("OL");
+        expect(el.hasAttribute("role")).toBe(false);
+        expect(el.hasAttribute("aria-modal")).toBe(false);
         expect(el.getAttribute("aria-label")).toBe("Welcome tour");
         expect(el.getAttribute("tabindex")).toBe("-1");
     });

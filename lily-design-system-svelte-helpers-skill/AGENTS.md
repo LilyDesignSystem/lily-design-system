@@ -25,13 +25,14 @@
 
 A Claude Skill explaining
 [the Svelte helper packages](../spec/helpers/index.md#svelte-helper-packages)
-— one top-level subproject per package: the ten `*-picker` helpers,
-`picker-bar`, data-grid, kanban-board, gantt-chart, calendar — and, per
+— one top-level subproject per package: the eleven `*-picker` helpers,
+`picker-bar`, data-grid, kanban-board, gantt-chart, calendar, filter,
+markdown-editor, org-editor, locale-translations — and, per
 `AGENTS/helpers.md`'s "Svelte is canonical" rule, **the reference
 contract every other framework's helpers port from**. The skill itself is
 [`SKILL.md`](SKILL.md); the `@AGENTS/*.md` files loaded above are the same
 binding design-principle rules every other subproject in this repository
-loads, plus `AGENTS/sveltekit.md` for the Svelte 5 + SvelteKit 2
+loads, plus `AGENTS/sveltekit.md` for the Svelte 5 + SvelteKit 3
 conventions specific to this framework pair, so an agent explaining the
 canonical helper contract is grounded in the same rules the Svelte
 helper packages themselves are held to.

@@ -230,7 +230,7 @@ See [AGENTS/helpers.md](AGENTS/helpers.md) and
 
 ## Themes
 
-The [`themes/`](themes/) directory holds 57 ready-made stylesheets — NHS England,
+The [`themes/`](themes/) directory holds 63 ready-made stylesheets — NHS England,
 Scotland and Wales in patient and practitioner variants, GOV.UK GDS, USWDS, Adobe Spectrum, Mozilla Protocol, Ant Design, Atlassian, Excel, Fluent, GitHub Primer, IBM Carbon, Linear, Notion, Salesforce, SAP Fiori, Vercel, and general-purpose light and dark themes. They target
 Lily's class hooks and use `:where(...)` selectors so your own rules always win.
 

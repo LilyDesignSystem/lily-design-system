@@ -1,8 +1,8 @@
 # Lily Design System™ — Blazor Skill
 
-A Claude Skill ([`SKILL.md`](SKILL.md)) that maps the three real Blazor
-subprojects in this monorepo — the headless component library, the
-`*-picker` helpers catalog, and the Blazor Web example app — and helps an
+A Claude Skill ([`SKILL.md`](SKILL.md)) that maps the three Blazor
+layers in this monorepo — the headless component library, the
+helper packages, and the Blazor Web example app — and helps an
 agent decide which one it needs.
 
 It is the Blazor **umbrella** skill: one level up from
@@ -26,10 +26,10 @@ framework-agnostic Lily concepts, it hands off to
 
 ## Structure
 
-- [`SKILL.md`](SKILL.md) — the skill itself: the three-subproject map,
+- [`SKILL.md`](SKILL.md) — the skill itself: the three-layer map,
   pointers to the two sibling skills, full example-app coverage (routes,
   NHS UK visual reference, how to run it, hosting model), and the
-  Blazor-wide conventions that span all three subprojects.
+  Blazor-wide conventions that span all three layers.
 
 Scaffolded to match the other implementation subprojects — including the
 special files — and lives only in this monorepo (its standalone subtree

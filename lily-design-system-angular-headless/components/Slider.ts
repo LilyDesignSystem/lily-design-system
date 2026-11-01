@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
+import { restoreOnFormReset } from "./form-reset";
 
 /**
  * Slider — a draggable control for selecting a value along a track
@@ -10,10 +11,24 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-slider",
     standalone: true,
-    template: `<div class="slider {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<input class="slider {{ className() }}" type="range" [attr.aria-label]="label() || null" [value]="value()" [min]="min()" [max]="max()" [step]="step()" [disabled]="disabled()" (input)="onInput($event)" />`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Slider {
     readonly label = input<string>("");
     readonly className = input<string>("");
+    /** Current value (two-way: [(value)]). */
+    readonly value = model<number>(0);
+    readonly min = input<number>(0);
+    readonly max = input<number>(100);
+    readonly step = input<number>(1);
+    readonly disabled = input<boolean>(false);
+
+    constructor() {
+        restoreOnFormReset(this.value);
+    }
+
+    onInput(event: Event): void {
+        this.value.set(Number((event.target as HTMLInputElement).value));
+    }
 }

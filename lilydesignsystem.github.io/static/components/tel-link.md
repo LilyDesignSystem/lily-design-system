@@ -46,6 +46,20 @@ Simple phone link in a user profile:
 <TelLink phone="+1-555-0199" />
 ```
 
+French and Australian numbers:
+
+```html
+<TelLink
+  phone="+33-1-99-00-12-34"
+  label="Appeler le service client"
+/>
+<TelLink phone="+61-491-570-156" />
+```
+
+Store and link the number in international form (E.164: `+` and the country code), and display it the way the
+country writes it. The examples use numbers each country reserves for fiction: `555-01xx` in North America,
+`020 7946 0xxx` in the UK, `01 99 00 xx xx` in France and `0491 570 xxx` in Australia.
+
 ## Keyboard Interactions
 
 None -- this component uses a native `<a>` element, which provides built-in keyboard support (Tab to focus, Enter to activate the link).

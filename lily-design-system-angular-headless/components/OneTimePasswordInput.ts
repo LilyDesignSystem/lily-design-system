@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
+import { restoreOnFormReset } from "./form-reset";
 
 /**
  * OneTimePasswordInput — a single one-time-password input with a numeric keypad, SMS autofill, and a fixed length
@@ -55,4 +56,8 @@ export class OneTimePasswordInput {
     readonly name = input<string | undefined>(undefined);
     readonly required = input<boolean>(false);
     readonly disabled = input<boolean>(false);
+
+    constructor() {
+        restoreOnFormReset(this.value);
+    }
 }

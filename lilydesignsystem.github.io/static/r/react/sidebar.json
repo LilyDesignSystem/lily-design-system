@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sidebar",
+  "type": "registry:component",
+  "title": "Sidebar",
+  "description": "A side panel for navigation or supplementary content.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Sidebar.tsx",
+      "content": "import React from \"react\";\n\n// Sidebar component\n//\n// A headless complementary region that uses the semantic <aside> element to\n// provide a labeled landmark for content tangentially related to the main\n// content. Commonly used for navigation menus, filters, related links, or\n// supplementary information alongside the primary page content.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for the sidebar region via aria-label.\n//   children — ReactNode, required. Content to render inside the sidebar.\n//   ...restProps — additional HTML attributes spread onto the <aside>.\n//\n// Syntax:\n//   <Sidebar label=\"Navigation\">\n//     <nav>...</nav>\n//   </Sidebar>\n//\n// Examples:\n//\n//   <Sidebar label=\"Filters\">\n//     <form>\n//       <select><option>Category</option></select>\n//     </form>\n//   </Sidebar>\n//\n//\n//   <Sidebar label=\"Related articles\">\n//     <ul><li><a href=\"/article-1\">Article 1</a></li></ul>\n//   </Sidebar>\n//\n// Keyboard:\n//   - None — this is a passive container. Keyboard navigation depends on interactive content inside.\n//\n// Accessibility:\n//   - <aside> element has implicit complementary landmark role\n//   - aria-label distinguishes this sidebar from other landmarks on the page\n//   - Screen readers announce it as a complementary landmark\n//\n// Internationalization:\n//   - The label prop externalizes the accessible label string\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - No internal state management — purely structural component\n//   - Layout, width, positioning are entirely the consumer's responsibility\n//\n// References:\n//   - WAI-ARIA Complementary Role: https://www.w3.org/TR/wai-aria-1.2/#complementary\n//   - WAI-ARIA Landmark Regions: https://www.w3.org/WAI/ARIA/apg/practices/landmark-regions/\n//   - HTML <aside> element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside\n\nexport interface SidebarProps {\n    className?: string;\n    /** Accessible label. */\n    label: string;\n    /** Sidebar content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Sidebar({ className = \"\", label, children, ...restProps }: SidebarProps) {\n    return (\n        <aside\n            className={`sidebar ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </aside>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Sidebar.tsx"
+    }
+  ],
+  "categories": [
+    "navigation"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/sidebar/"
+}

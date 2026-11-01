@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"action-bar\" aria-label=\"a contextual action bar that appears when items are selected, showing the selection count and bulk action buttons\">ActionBar</div>";
   const svelteSource: string = "// In your Svelte component:\nimport ActionBar from \"lily-design-system-svelte-headless/components/ActionBar/ActionBar.svelte\";\n\n<ActionBar>\n  <!-- list children -->\n</ActionBar>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import ActionBar from './ActionBar.svelte';\n  import ActionBarButton from '../ActionBarButton/ActionBarButton.svelte';\n\n  let count = $state(3);\n<\/script>\n\n<ActionBar\n  label=\"Bulk actions\"\n  selectedCount={count}\n  selectedCountLabel={`${count} selected`}\n  clearSelectionLabel=\"Clear selection\"\n  onClearSelection={() => (count = 0)}\n>\n  <ActionBarButton label=\"Delete\">Delete</ActionBarButton>\n  <ActionBarButton label=\"Archive\">Archive</ActionBarButton>\n</ActionBar>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import ActionBar from \"./ActionBar.svelte\";\n  import ActionBarButton from \"../ActionBarButton/ActionBarButton.svelte\";\n\n  let count = $state(3);\n<\/script>\n\n<ActionBar\n  label=\"Bulk actions\"\n  selectedCount={count}\n  selectedCountLabel={`${count} selected`}\n  clearSelectionLabel=\"Clear selection\"\n  onClearSelection={() => (count = 0)}\n>\n  <ActionBarButton label=\"Delete\">Delete</ActionBarButton>\n  <ActionBarButton label=\"Archive\">Archive</ActionBarButton>\n</ActionBar>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

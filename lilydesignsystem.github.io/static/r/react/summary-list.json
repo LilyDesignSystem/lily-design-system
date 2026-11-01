@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "summary-list",
+  "type": "registry:component",
+  "title": "SummaryList",
+  "description": "An ordered list of key-value summary pairs.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/SummaryList.tsx",
+      "content": "import React from \"react\";\n\n// SummaryList component\n//\n// A headless summary list that renders a semantic <dl> (description list)\n// element for presenting key-value pairs or summary information. Commonly\n// used for order summaries, account settings, form review data, or any\n// context requiring term-description pairs. The consumer provides content\n// through the children prop, typically <dt>/<dd> pairs or SummaryListItem components.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for the description list via aria-label.\n//   children — ReactNode, required. List content, typically <dt>/<dd> pairs.\n//   ...restProps — additional HTML attributes spread onto the <dl>.\n//\n// Syntax:\n//   <SummaryList label=\"Order summary\">...</SummaryList>\n//\n// Examples:\n//\n//   <SummaryList label=\"Order summary\">\n//     <dt>Product</dt><dd>Widget</dd>\n//     <dt>Quantity</dt><dd>3</dd>\n//     <dt>Total</dt><dd>$29.97</dd>\n//   </SummaryList>\n//\n// Keyboard:\n//   - None -- passive informational display, not interactive\n//\n// Accessibility:\n//   - Semantic <dl> element provides description list semantics\n//   - aria-label on the dl provides screen reader context\n//   - Screen readers announce the list and its term-description pairs\n//\n// Internationalization:\n//   - The label prop externalizes the accessible label string\n//   - The children prop allows localized content\n//   - No hardcoded strings in the component\n//\n// Claude rules:\n//   - Headless: no CSS, no styles -- consumer provides all styling\n//   - Uses React props rune for prop destructuring\n//\n// References:\n//   - MDN dl element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dl\n//   - WAI-ARIA landmark regions: https://www.w3.org/WAI/ARIA/apd/practices/landmark-regions/\n\nexport interface SummaryListProps {\n    className?: string;\n    /** Accessible label for the description list */\n    label: string;\n    /** The list content, typically dt/dd element pairs */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function SummaryList({\n    className = \"\",\n    label,\n    children,\n    ...restProps\n}: SummaryListProps) {\n    return (\n        <dl\n            className={`summary-list ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </dl>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/SummaryList.tsx"
+    }
+  ],
+  "categories": [
+    "lists"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/summary-list/"
+}

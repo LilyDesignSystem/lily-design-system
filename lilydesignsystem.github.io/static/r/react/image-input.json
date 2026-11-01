@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "image-input",
+  "type": "registry:component",
+  "title": "ImageInput",
+  "description": "A graphical submit button that displays an image <input type=\"image\">.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ImageInput.tsx",
+      "content": "import React from \"react\";\n\n// ImageInput component\n//\n// A headless image submit button using the native HTML <input type=\"image\">\n// element. It renders a clickable image that, when activated within a form,\n// triggers the form's submit event — functioning like a graphical submit\n// button. The component requires src and alt attributes for proper rendering\n// and accessibility. Optional width and height attributes control dimensions.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   src — string, required. URL of the image to display.\n//   alt — string, required. Alternative text describing the image button.\n//   width — number, optional. Width of the image in pixels.\n//   height — number, optional. Height of the image in pixels.\n//   disabled — boolean, default false. Whether the button is disabled.\n//   ...restProps — additional HTML attributes spread onto the <input>.\n//\n// Syntax:\n//   <ImageInput src=\"/submit.png\" alt=\"Submit\" />\n//\n// Examples:\n//\n//   <ImageInput src=\"/submit.png\" alt=\"Submit\" />\n//\n//\n//   <ImageInput src=\"/send.png\" alt=\"Send form\" width={100} height={40} />\n//\n//\n//   <ImageInput src=\"/save.png\" alt=\"Save changes\" disabled={!formValid} />\n//\n// Keyboard:\n//   - Enter: activates the image button (native behavior)\n//   - Space: activates the image button (native behavior)\n//\n// Accessibility:\n//   - The alt attribute provides the accessible name for the image button\n//   - Native <input type=\"image\"> has an implicit button role\n//   - No additional ARIA attributes needed beyond native semantics\n//\n// Internationalization:\n//   - The alt prop externalizes the accessible name for localization\n//   - Consumers should provide translated alt text for other locales\n//\n// Claude rules:\n//   - Headless: no CSS, no styles -- consumer provides all styling\n//   - No children prop -- uses alt attribute for accessible name\n//\n// References:\n//   - MDN input type=\"image\": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/image\n\nexport interface ImageInputProps {\n    className?: string;\n    /** URL of the image. */\n    src: string;\n    /** Alternative text for the image. */\n    alt: string;\n    /** Width of the image in pixels. */\n    width?: number;\n    /** Height of the image in pixels. */\n    height?: number;\n    /** Whether disabled. */\n    disabled?: boolean;\n    [key: string]: unknown;\n}\n\nexport default function ImageInput({\n    className = \"\",\n    src,\n    alt,\n    width,\n    height,\n    disabled = false,\n    ...restProps\n}: ImageInputProps) {\n    return (\n        <input\n            className={`image-input ${className}`}\n            type=\"image\"\n            src={src}\n            alt={alt}\n            width={width}\n            height={height}\n            disabled={disabled}\n            {...restProps}\n        />\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ImageInput.tsx"
+    }
+  ],
+  "categories": [
+    "forms"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/image-input/"
+}

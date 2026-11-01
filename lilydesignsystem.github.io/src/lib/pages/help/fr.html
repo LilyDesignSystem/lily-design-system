@@ -135,7 +135,7 @@ pnpm run dev</code></pre>
 
 <section class="section prose" id="themes" style="margin: 0 auto;">
   <h2>Thèmes prêts à l'emploi</h2>
-  <p>Vous ne voulez pas écrire du CSS de zéro ? Lily fournit <strong>57 thèmes de référence autonomes</strong> dans le répertoire <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>. Chacun est une feuille de style qui cible les classes d'accroche de Lily — liez-la et le tour est joué :</p>
+  <p>Vous ne voulez pas écrire du CSS de zéro ? Lily fournit <strong>63 thèmes de référence autonomes</strong> dans le répertoire <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>. Chacun est une feuille de style qui cible les classes d'accroche de Lily — liez-la et le tour est joué :</p>
   
   <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
   <p>L'ensemble couvre :</p>
@@ -149,7 +149,7 @@ pnpm run dev</code></pre>
 
 <section class="section prose" id="helpers" style="margin: 0 auto;">
   <h2>Assistants de préférences</h2>
-  <p>Chaque framework a huit petits sélecteurs, chacun dans son propre paquet <code>lily-design-system-{framework}-{package}</code> (et un <code>picker-bar</code> qui les assemble). Chacun est un bouton à icône headless qui ouvre une fenêtre contextuelle — une liste d'options, une liste de liens, un formulaire de recherche ou (pour date-time-picker) une boîte de dialogue de sélection de date — et non un <code>&lt;select&gt;</code> natif ; il est compatible SSR et ne livre aucun CSS :</p>
+  <p>Chaque framework a onze petits sélecteurs, chacun dans son propre paquet <code>lily-design-system-{framework}-{package}</code> (et un <code>picker-bar</code> qui les assemble). Chacun est un bouton à icône headless qui ouvre une fenêtre contextuelle — une liste d'options, une liste de liens, un formulaire de recherche, un panneau de votre propre contenu ou (pour date-time-picker) une boîte de dialogue de sélection de date — et non un <code>&lt;select&gt;</code> natif (theme-picker en propose un comme variante facultative) ; il est compatible SSR et ne livre aucun CSS. Outre menu-picker, settings-picker et time-zone-picker, ce sont :</p>
   <ul>
     <li><strong>theme-picker</strong> — charge les feuilles de style de thème à l'exécution en échangeant un <code>&lt;link&gt;</code> géré, définit <code>data-theme</code> sur le document et, en option, enregistre dans <code>localStorage</code>.</li>
     <li><strong>locale-picker</strong> — définit <code>lang</code> et <code>dir</code> (avec détection automatique de l'écriture de droite à gauche) pour que votre bibliothèque d'i18n puisse suivre ; ne traduit rien lui-même.</li>
@@ -214,7 +214,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
 
   <details class="faq-item">
     <summary>Un composant s'affiche mais semble sans style</summary>
-    <p>C'est le comportement headless attendu — aucun CSS n'est livré avec le composant. Écrivez du CSS pour la classe en kebab-case du composant (indiquée sur chaque <a href="/components/">page du catalogue</a>) ou liez l'un des <a href="#themes">57 thèmes prêts à l'emploi</a>.</p>
+    <p>C'est le comportement headless attendu — aucun CSS n'est livré avec le composant. Écrivez du CSS pour la classe en kebab-case du composant (indiquée sur chaque <a href="/components/">page du catalogue</a>) ou liez l'un des <a href="#themes">63 thèmes prêts à l'emploi</a>.</p>
   </details>
 
   <details class="faq-item">
@@ -272,7 +272,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
 
   <details class="faq-item">
     <summary>Pourquoi headless plutôt que stylé ?</summary>
-    <p>Les composants pré-stylés sont pratiques — jusqu'à ce qu'ils ne correspondent plus à votre marque. Les composants headless demandent un peu plus de travail au départ mais vous donnent un contrôle total sur le design visuel. Les applications d'exemple et les 57 thèmes montrent des façons de les styler ; vous pouvez les reprendre ou les remplacer entièrement. L'argumentaire complet est sur <a href="/why/">Pourquoi Lily</a>.</p>
+    <p>Les composants pré-stylés sont pratiques — jusqu'à ce qu'ils ne correspondent plus à votre marque. Les composants headless demandent un peu plus de travail au départ mais vous donnent un contrôle total sur le design visuel. Les applications d'exemple et les 63 thèmes montrent des façons de les styler ; vous pouvez les reprendre ou les remplacer entièrement. L'argumentaire complet est sur <a href="/why/">Pourquoi Lily</a>.</p>
   </details>
 
   <details class="faq-item">

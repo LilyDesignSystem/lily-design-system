@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<ol\n  class="tree-list"\n  role="tree"\n  aria-label=""\n>\n  <!-- Consumer provides list items -->\n</ol>';
+    '<ol class="tree-list" role="tree" aria-label="" x-data="lilyTree(true)" x-bind="tree">\n  <li role="treeitem" class="tree-list-item" x-bind="item(\'one\', true)">\n    <!-- Consumer provides label -->\n    <ul role="group" x-bind="group(\'one\')">\n      <li role="treeitem" class="tree-list-item" x-bind="item(\'one-a\')"><!-- Consumer provides label --></li>\n      <li role="treeitem" class="tree-list-item" x-bind="item(\'one-b\')"><!-- Consumer provides label --></li>\n    </ul>\n  </li>\n  <li role="treeitem" class="tree-list-item" x-bind="item(\'two\')"><!-- Consumer provides label --></li>\n  <li role="treeitem" class="tree-list-item" x-bind="item(\'three\', true)">\n    <!-- Consumer provides label -->\n    <ul role="group" x-bind="group(\'three\')">\n      <li role="treeitem" class="tree-list-item" x-bind="item(\'three-a\')"><!-- Consumer provides label --></li>\n    </ul>\n  </li>\n</ol>';
 
 const meta = {
     title: "Headless/Tree List",

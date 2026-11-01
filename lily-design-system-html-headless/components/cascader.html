@@ -23,7 +23,7 @@
   Usage:
     <div class="cascader" role="combobox" aria-haspopup="tree" aria-expanded="false" aria-label="Choose region">
       <button class="cascader-trigger" type="button">Select…</button>
-      <div class="cascader-panel" hidden>
+      <div class="cascader-panel" popover="manual">
         … nested option lists supplied by consumer …
       </div>
     </div>
@@ -42,7 +42,7 @@
   </button>
 
   <!-- Panel: holds the hierarchical option list. Hidden until expanded. -->
-  <div class="cascader-panel" hidden>
+  <div class="cascader-panel" popover="manual">
     <!-- Consumer provides the cascading option lists -->
   </div>
 </div>
@@ -52,6 +52,26 @@
   // Wires up the trigger button to toggle the panel and aria-expanded.
   (function () {
     "use strict";
+    // P16-T4: the popup is popover="manual" (top layer); open and close it with the Popover API, or with the
+    // hidden attribute where the API is missing (then the popover attribute is dropped, which does nothing there).
+    function setOpen(el, open) {
+      if (typeof el.showPopover !== "function") {
+        el.removeAttribute("popover");
+        el.hidden = !open;
+        return;
+      }
+      try {
+        if (open) el.showPopover();
+        else el.hidePopover();
+      } catch (e) {
+        // Already in that state: nothing to do.
+      }
+    }
+
+    document.querySelectorAll(".cascader-panel").forEach(function (el) {
+      if (typeof el.showPopover !== "function") setOpen(el, false);
+    });
+
 
     // Find every cascader on the page and attach behavior to each.
     var roots = document.querySelectorAll('div.cascader');
@@ -73,11 +93,11 @@
         // Update ARIA state on the combobox root.
         root.setAttribute('aria-expanded', next ? 'true' : 'false');
 
-        // Show/hide the panel via the hidden attribute.
+        // Show/hide the panel (popover="manual", or the hidden attribute without the Popover API).
         if (next) {
-          panel.removeAttribute('hidden');
+          setOpen(panel, true);
         } else {
-          panel.setAttribute('hidden', '');
+          setOpen(panel, false);
         }
       });
 
@@ -85,7 +105,7 @@
       trigger.addEventListener('keydown', function (e) {
         if (e.key === 'Escape' && root.getAttribute('aria-expanded') === 'true') {
           root.setAttribute('aria-expanded', 'false');
-          panel.setAttribute('hidden', '');
+          setOpen(panel, false);
         }
       });
     });

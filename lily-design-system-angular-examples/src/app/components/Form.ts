@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, input, output } from "@angular/core";
 
 /**
  * Form — a form element for collecting and submitting user data
@@ -10,10 +10,17 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-form",
     standalone: true,
-    template: `<div class="form {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<form class="form {{ className() }}" [attr.aria-label]="label() || null" (submit)="onSubmit($event)"><ng-content /></form>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Form {
     readonly label = input<string>("");
     readonly className = input<string>("");
+    /** Emits the submit event; the native submission (a page navigation) is prevented. */
+    readonly submitted = output<SubmitEvent>();
+
+    onSubmit(event: Event): void {
+        event.preventDefault();
+        this.submitted.emit(event as SubmitEvent);
+    }
 }

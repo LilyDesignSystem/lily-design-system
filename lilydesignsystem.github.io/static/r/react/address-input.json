@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "address-input",
+  "type": "registry:component",
+  "title": "AddressInput",
+  "description": "An input for searching or manually entering an address.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/AddressInput.tsx",
+      "content": "export interface AddressInputProps {\n    className?: string;\n    label?: string;\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function AddressInput({\n    className = \"\",\n    label = undefined,\n    children,\n    ...restProps\n}: AddressInputProps) {\n    return (\n        <div\n            className={`address-input ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/AddressInput.tsx"
+    }
+  ],
+  "categories": [
+    "forms"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/address-input/"
+}

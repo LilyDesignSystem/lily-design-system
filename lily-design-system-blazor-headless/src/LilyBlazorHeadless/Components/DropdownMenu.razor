@@ -1,15 +1,102 @@
 @namespace LilyBlazorHeadless.Components
+@using Microsoft.JSInterop
+@implements IAsyncDisposable
+@inject IJSRuntime JS
 
 @*
     DropdownMenu component
     a menu that opens below a trigger button
+
+    Renders <div class="dropdown-menu"> with a <button> trigger (aria-haspopup="true",
+    aria-expanded, aria-controls, aria-label; its text is Label) and a
+    <div role="menu" popover="auto"> holding the consumer's role="menuitem" items.
+
+    Parameters:
+        Label — string, required. The trigger's text and the accessible name of both.
+        Open / OpenChanged — two-way (@bind-Open).
+        ChildContent — the menu items. CssClass, AdditionalAttributes (root).
+
+    The menu is popover="auto" (tasks.md P18-T11): the trigger names it with command="toggle-popover"
+    commandfor (and popovertarget), so the browser opens and closes it, the browser closes it
+    on Escape and on a click outside it (light dismiss) and puts it in the top
+    layer, with no script, also under static SSR. Ported from the Svelte
+    reference on 2026-10-30; it was a bare <div> stub before.
+
+    Blazor deviation: the toggle event, opening from Open, and the APG menu
+    focus code (opening focuses the first role="menuitem"; ArrowDown/ArrowUp
+    wrap, Home/End jump) go through Popover.razor.js with { menu: true },
+    loaded after first render (skipped during prerender); where the Popover
+    API is missing it toggles the hidden attribute on click, and Escape closes.
 *@
 
-<div class="@($"dropdown-menu {CssClass}".Trim())" role="group" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"dropdown-menu {CssClass}".Trim())" @attributes="AdditionalAttributes">
+    <button type="button"
+            aria-haspopup="true"
+            aria-expanded="@(Open ? "true" : "false")"
+            aria-label="@Label"
+            aria-controls="@_menuId"
+            command="toggle-popover"
+            commandfor="@_menuId"
+            popovertarget="@_menuId"
+            @ref="_trigger">@Label</button>
+    <div id="@_menuId" role="menu" aria-label="@Label" popover="auto" @ref="_menu">@ChildContent</div>
+</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public bool Open { get; set; }
+    [Parameter] public EventCallback<bool> OpenChanged { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private readonly string _menuId = $"dropdown-menu-{Guid.NewGuid():N}";
+    private ElementReference _trigger;
+    private ElementReference _menu;
+    private IJSObjectReference? _module;
+    private IJSObjectReference? _handle;
+    private DotNetObjectReference<DropdownMenu>? _self;
+    private bool _synced;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (_self is null)
+        {
+            _self = DotNetObjectReference.Create(this);
+            _module = await JS.InvokeAsync<IJSObjectReference>("import", Popover.ModulePath);
+            _handle = await _module.InvokeAsync<IJSObjectReference>("attach", _menu, _self, Open, _trigger, new { menu = true });
+            _synced = Open;
+        }
+        else if (_handle is not null && _synced != Open)
+        {
+            _synced = Open;
+            await _handle.InvokeVoidAsync("set", Open);
+        }
+    }
+
+    /// <summary>Called from the menu's toggle event (trigger, Escape, light dismiss) or the no-API fallback.</summary>
+    [JSInvokable]
+    public async Task OnPopoverToggle(bool open)
+    {
+        _synced = open;
+        if (Open == open) return;
+        Open = open;
+        await OpenChanged.InvokeAsync(open);
+        StateHasChanged();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        try
+        {
+            if (_handle is not null)
+            {
+                await _handle.InvokeVoidAsync("dispose");
+                await _handle.DisposeAsync();
+            }
+            if (_module is not null) await _module.DisposeAsync();
+        }
+        catch (JSDisconnectedException) { }
+        _self?.Dispose();
+    }
 }

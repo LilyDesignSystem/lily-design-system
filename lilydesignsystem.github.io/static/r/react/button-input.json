@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "button-input",
+  "type": "registry:component",
+  "title": "ButtonInput",
+  "description": "An input element of type button for form actions <input type=\"button\">.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ButtonInput.tsx",
+      "content": "import React from \"react\";\n\n// ButtonInput component\n//\n// A headless component wrapping the native HTML <input type=\"button\"> element.\n// Unlike the Button component which uses <button> and can contain rich content\n// via children props, this component displays its label as the value attribute\n// (plain text only). Useful in form contexts where native input semantics are preferred.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   value — string, required. The button label text displayed on the input.\n//   disabled — boolean, default false. Whether the input is disabled.\n//   name — string, optional. Form field name for form submission.\n//   label — string, optional. Accessible label override via aria-label for screen readers.\n//   onClick — (event: React.MouseEvent) => void, optional. Click event handler.\n//   ...restProps — additional HTML attributes spread onto the <input>.\n//\n// Syntax:\n//   <ButtonInput value=\"Click me\" onClick={handleClick} />\n//\n// Examples:\n//\n//   <ButtonInput value=\"Submit\" disabled />\n//\n//\n//   <ButtonInput value=\"Save\" name=\"action\" label=\"Save changes\" />\n//\n// Keyboard:\n//   - Tab: Focus the button input\n//   - Enter: Activate the button (native behavior)\n//   - Space: Activate the button (native behavior)\n//\n// Accessibility:\n//   - Implicit button role from <input type=\"button\">\n//   - aria-label provides optional screen reader text override\n//   - Native disabled attribute prevents clicks and signals aria-disabled\n//\n// Internationalization:\n//   - Button label comes through the value prop; no hardcoded strings\n//   - Label override comes through label prop\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Plain text only — use Button component for rich content (icons, formatted text)\n//\n// References:\n//   - MDN input type=\"button\": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/button\n//   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/\n\nexport interface ButtonInputProps {\n    className?: string;\n    /** The button label text */\n    value: string;\n    /** Whether the input is disabled */\n    disabled?: boolean;\n    /** Form field name */\n    name?: string;\n    /** Accessible label override for screen readers */\n    label?: string;\n    /** Click event handler */\n    onClick?: (event: React.MouseEvent) => void;\n    [key: string]: unknown;\n}\n\nexport default function ButtonInput({\n    className = \"\",\n    value,\n    disabled = false,\n    name = undefined,\n    label = undefined,\n    onClick = undefined,\n    ...restProps\n}: ButtonInputProps) {\n    return (\n        <input\n            className={`button-input ${className}`}\n            type=\"button\"\n            value={value}\n            disabled={disabled}\n            name={name}\n            aria-label={label}\n            onClick={onClick}\n            {...restProps}\n        />\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ButtonInput.tsx"
+    }
+  ],
+  "categories": [
+    "forms"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/button-input/"
+}

@@ -1,15 +1,83 @@
 @namespace LilyBlazorHeadless.Components
+@using System.Globalization
 
 @*
     ScrollBar component
     a custom scrollbar element
+
+    A focusable <div role="scrollbar">. Value / ValueChanged is two-way (@bind-Value), reflected in aria-valuenow. The keys
+    move the value: ArrowUp/ArrowLeft and ArrowDown/ArrowRight by Step, PageUp/PageDown by PageStep, Home/End to Min/Max,
+    clamped. The consumer scrolls its content to the value, writes the value back as the content scrolls, and handles drag.
+
+    Deviation from the Svelte canonical (Blazor here uses no JS interop): an event handler cannot call preventDefault for
+    only some keys, so the keys may also scroll the page behind the scrollbar.
+    Unmatched attributes spread onto the root <div>.
 *@
 
-<div class="@($"scroll-bar {CssClass}".Trim())" role="scrollbar" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"scroll-bar {CssClass}".Trim())"
+     role="scrollbar"
+     tabindex="0"
+     aria-label="@Label"
+     aria-orientation="@Orientation"
+     aria-controls="@(string.IsNullOrEmpty(Controls) ? null : Controls)"
+     aria-valuenow="@Value.ToString(CultureInfo.InvariantCulture)"
+     aria-valuemin="@Min.ToString(CultureInfo.InvariantCulture)"
+     aria-valuemax="@Max.ToString(CultureInfo.InvariantCulture)"
+     @onkeydown="OnKeyDown"
+     @attributes="AdditionalAttributes">@ChildContent</div>
 
 @code {
+    /// <summary>Accessible name of the scrollbar.</summary>
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+    /// <summary>"vertical" or "horizontal".</summary>
+    [Parameter] public string Orientation { get; set; } = "vertical";
+    /// <summary>The scroll position.</summary>
+    [Parameter] public double Value { get; set; }
+    [Parameter] public EventCallback<double> ValueChanged { get; set; }
+    /// <summary>Start of the range.</summary>
+    [Parameter] public double Min { get; set; }
+    /// <summary>End of the range.</summary>
+    [Parameter] public double Max { get; set; } = 100;
+    /// <summary>Arrow-key increment.</summary>
+    [Parameter] public double Step { get; set; } = 1;
+    /// <summary>PageUp / PageDown increment.</summary>
+    [Parameter] public double PageStep { get; set; } = 10;
+    /// <summary>Id of the scrolled element, via aria-controls.</summary>
+    [Parameter] public string? Controls { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private async Task OnKeyDown(KeyboardEventArgs e)
+    {
+        double next;
+        switch (e.Key)
+        {
+            case "ArrowUp":
+            case "ArrowLeft":
+                next = Value - Step;
+                break;
+            case "ArrowDown":
+            case "ArrowRight":
+                next = Value + Step;
+                break;
+            case "PageUp":
+                next = Value - PageStep;
+                break;
+            case "PageDown":
+                next = Value + PageStep;
+                break;
+            case "Home":
+                next = Min;
+                break;
+            case "End":
+                next = Max;
+                break;
+            default:
+                return;
+        }
+        next = Math.Min(Max, Math.Max(Min, next));
+        Value = next;
+        await ValueChanged.InvokeAsync(next);
+    }
 }

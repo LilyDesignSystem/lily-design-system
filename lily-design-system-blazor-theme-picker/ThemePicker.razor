@@ -15,6 +15,22 @@
     so the component is SSR / prerender safe.
 *@
 
+@if (Variant == "select")
+{
+    @* RFC 3 prototype: the platform's own select. Keyboard, typeahead, the mobile picker and the screen-reader
+       announcement are the browser's; the component only applies the chosen theme. `selected` on each option keeps
+       the server-rendered markup correct before the circuit starts. *@
+    <div class="@RootClass" data-variant="select" @attributes="AdditionalAttributes">
+        <select class="theme-picker-select" name="@Name" aria-label="@Label" disabled="@Disabled" @onchange="OnSelectChangeAsync">
+            @foreach (var theme in Themes)
+            {
+                <option class="theme-picker-option" value="@theme" selected="@(theme == Value)">@LabelFor(theme)</option>
+            }
+        </select>
+    </div>
+}
+else
+{
 <div class="@RootClass"
      @onfocusout="OnRootFocusOutAsync"
      @onkeydown="OnTipRootKeyDown"
@@ -89,3 +105,4 @@
         }
     </Listbox>
 </div>
+}

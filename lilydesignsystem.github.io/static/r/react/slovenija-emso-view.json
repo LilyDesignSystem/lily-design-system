@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "slovenija-emso-view",
+  "type": "registry:component",
+  "title": "SlovenijaEmsoView",
+  "description": "A read-only display of Slovenia's Enotna Matična Številka Občana (EMŠO).",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/SlovenijaEmsoView.tsx",
+      "content": "import React from \"react\";\n\n// SlovenijaEmsoView component\n//\n// A headless display component for showing Slovenia's\n// Enotna Matična Številka Občana (EMŠO) in a read-only format.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". The identifier string to display.\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <SlovenijaEmsoView label=\"Unique Master Citizen Number\" value={value} />\n//\n// Accessibility:\n//   - aria-label provides the accessible name so screen readers announce the purpose\n//\n// References:\n//   - https://en.wikipedia.org/wiki/Unique_Master_Citizen_Number\n\nexport interface SlovenijaEmsoViewProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The identifier to display */\n    value?: string;\n    [key: string]: unknown;\n}\n\nexport default function SlovenijaEmsoView({\n    className = \"\",\n    label,\n    value = \"\",\n    ...restProps\n}: SlovenijaEmsoViewProps) {\n    return (\n        <span\n            className={`slovenija-emso-view ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {value}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/SlovenijaEmsoView.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/slovenija-emso-view/"
+}

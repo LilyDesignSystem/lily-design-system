@@ -958,9 +958,42 @@ public partial class DateTimePicker : ComponentBase, IAsyncDisposable
         await TimeZoneChanged.InvokeAsync(next);
     }
 
+    /// <summary>
+    /// Whether the grid runs right to left (P17-T3). Blazor has no JS interop here to read the computed direction, so the
+    /// choice is documented: a <c>dir</c> attribute passed to the component (it lands on the root element) wins, else the
+    /// locale's own script direction (<c>TextInfo.IsRightToLeft</c>). A <c>dir</c> on an ancestor is not seen.
+    /// </summary>
+    private bool IsRightToLeft
+    {
+        get
+        {
+            if (AdditionalAttributes is not null
+                && AdditionalAttributes.TryGetValue("dir", out var dir)
+                && dir is string text)
+            {
+                if (text.Equals("rtl", StringComparison.OrdinalIgnoreCase)) return true;
+                if (text.Equals("ltr", StringComparison.OrdinalIgnoreCase)) return false;
+            }
+            return ResolveCulture(Locale).TextInfo.IsRightToLeft;
+        }
+    }
+
+    /// <summary>The key to act on once reading direction is taken into account: in RTL, ArrowLeft and ArrowRight swap.</summary>
+    public static string LogicalKey(string key, bool rtl)
+    {
+        if (!rtl) return key;
+        return key switch
+        {
+            "ArrowLeft" => "ArrowRight",
+            "ArrowRight" => "ArrowLeft",
+            _ => key,
+        };
+    }
+
     private async Task OnGridKeyDownAsync(KeyboardEventArgs args)
     {
-        switch (args.Key)
+        // ArrowLeft and ArrowRight are visual: in a right-to-left layout the next day is on the left.
+        switch (LogicalKey(args.Key, IsRightToLeft))
         {
             case "ArrowLeft":
                 MoveCursor(AddDays(_cursor, -1));
@@ -1035,12 +1068,12 @@ public partial class DateTimePicker : ComponentBase, IAsyncDisposable
     /// <summary>Default text parsing, per mode.</summary>
     private string? ParseTypedForMode(string text)
     {
-        if (Mode == DateTimeMode.Time) return ParseTimeInput(text);
+        if (Mode == DateTimeMode.Time) return ParseTimeInput(text, Locale);
         if (Mode == DateTimeMode.Date) return ParseDateInput(text, Locale);
         var match = DateTimeSplitRegex.Match(text.Trim());
         if (!match.Success) return null;
         var date = ParseDateInput(match.Groups[1].Value, Locale);
-        var time = ParseTimeInput(match.Groups[2].Value);
+        var time = ParseTimeInput(match.Groups[2].Value, Locale);
         return date is not null && time is not null ? $"{date}T{time}" : null;
     }
 
@@ -1135,18 +1168,69 @@ public partial class DateTimePicker : ComponentBase, IAsyncDisposable
     // Formatting — every visible string comes from CultureInfo or a parameter.
     // -------------------------------------------------------------------
 
-    private static CultureInfo ResolveCulture(string? locale)
+    private static CultureInfo ResolveCulture(string? locale) => Gregorian(locale);
+
+    /// <summary>
+    /// The culture for <paramref name="locale"/> with the Gregorian calendar forced (P17-T1). The day grid is always
+    /// Gregorian, so a heading, day label or month name in the culture's own calendar (Buddhist years for th-TH, Hijri
+    /// for ar-SA, Persian for fa-IR) would name a different date than the cell the user is on. Mirrors the Svelte
+    /// <c>gregorian(locale)</c>; here it is a mutable culture clone, because .NET formats through the culture's calendar.
+    /// An unresolvable tag falls back to the invariant culture. A culture that cannot take the Gregorian calendar
+    /// keeps its own.
+    /// </summary>
+    public static CultureInfo Gregorian(string? locale)
     {
         if (string.IsNullOrEmpty(locale)) return CultureInfo.InvariantCulture;
         try
         {
-            return CultureInfo.GetCultureInfo(locale);
+            var culture = new CultureInfo(locale, useUserOverride: false);
+            if (culture.DateTimeFormat.Calendar is not GregorianCalendar)
+            {
+                try
+                {
+                    culture.DateTimeFormat.Calendar = new GregorianCalendar();
+                }
+                catch (ArgumentException)
+                {
+                    // Not one of this culture's optional calendars: leave it as it is.
+                }
+            }
+            return culture;
         }
         catch (CultureNotFoundException)
         {
             return CultureInfo.InvariantCulture;
         }
     }
+
+    /// <summary>
+    /// Typed text with native digits (Arabic-Indic, Persian, Devanagari, Bengali, Thai, ...) turned into ASCII digits:
+    /// every Unicode decimal digit (category Nd), by its numeric value. Mirrors the Svelte <c>normalizeDigits</c>.
+    /// </summary>
+    public static string NormalizeDigits(string text)
+    {
+        var sb = new StringBuilder(text.Length);
+        foreach (var rune in text.EnumerateRunes())
+        {
+            if (Rune.GetUnicodeCategory(rune) == UnicodeCategory.DecimalDigitNumber)
+                sb.Append((char)('0' + (int)Rune.GetNumericValue(rune)));
+            else
+                sb.Append(rune.ToString());
+        }
+        return sb.ToString();
+    }
+
+    /// <summary>The locale's own words for the morning and afternoon, lower-cased, without dots or spaces.</summary>
+    private static (string Am, string Pm)? DayPeriodWords(string? locale)
+    {
+        var dtfi = ResolveCulture(locale).DateTimeFormat;
+        var am = StripPeriodChars(dtfi.AMDesignator);
+        var pm = StripPeriodChars(dtfi.PMDesignator);
+        return am.Length > 0 && pm.Length > 0 && am != pm ? (am, pm) : null;
+    }
+
+    private static string StripPeriodChars(string s)
+        => Regex.Replace(s.ToLowerInvariant(), @"[.\s\u00a0\u202f]", "");
 
     /// <summary>Does this locale write times on a 12-hour clock?</summary>
     private static bool LocaleUsesHour12(string? locale)
@@ -1528,7 +1612,7 @@ public partial class DateTimePicker : ComponentBase, IAsyncDisposable
     /// </summary>
     public static string? ParseDateInput(string text, string? locale)
     {
-        var trimmed = text.Trim();
+        var trimmed = NormalizeDigits(text).Trim();
         if (trimmed.Length == 0) return null;
 
         var iso = ParseIsoDate(trimmed);
@@ -1591,9 +1675,18 @@ public partial class DateTimePicker : ComponentBase, IAsyncDisposable
     }
 
     /// <summary>Accepts <c>9:30</c>, <c>09:30</c>, <c>0930</c>, <c>9.30</c>, and a trailing am/pm.</summary>
-    public static string? ParseTimeInput(string text)
+    public static string? ParseTimeInput(string text, string? locale = null)
     {
-        var t = text.Trim().ToLowerInvariant();
+        var t = NormalizeDigits(text).Trim().ToLowerInvariant();
+        // The locale's own day-period words ("ص", "م", "pm", "午後") stand in for a/p, which stays accepted in every locale.
+        if (DayPeriodWords(locale) is { } words)
+        {
+            var compact = StripPeriodChars(t);
+            if (compact.EndsWith(words.Pm, StringComparison.Ordinal)) t = compact[..^words.Pm.Length] + " pm";
+            else if (compact.EndsWith(words.Am, StringComparison.Ordinal)) t = compact[..^words.Am.Length] + " am";
+            else if (compact.StartsWith(words.Pm, StringComparison.Ordinal)) t = compact[words.Pm.Length..] + " pm";
+            else if (compact.StartsWith(words.Am, StringComparison.Ordinal)) t = compact[words.Am.Length..] + " am";
+        }
         int hour, minute;
         string? meridiem = null;
 

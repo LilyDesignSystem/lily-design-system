@@ -1,6 +1,6 @@
 # Lily Design System™ — Themes
 
-`@lilydesignsystem/themes` packages the 57 reference theme stylesheets
+`@lilydesignsystem/themes` packages the 63 reference theme stylesheets
 that live at the canonical monorepo root
 ([`themes/`](https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes))
 as an installable npm package, so a consumer who wants Lily's default
@@ -9,7 +9,7 @@ look does not have to clone the monorepo or hand-copy CSS files.
 Each stylesheet targets the Lily headless components' kebab-case class
 hooks (see [css-style-sheet-template.css](https://github.com/LilyDesignSystem/lily-design-system/blob/main/css-style-sheet-template.css))
 directly — no build step, no CSS framework, no JavaScript runtime.
-This package is CSS only: 57 files, one per theme, unmodified from the
+This package is CSS only: 63 files, one per theme, unmodified from the
 canonical source.
 
 ## Install
@@ -49,7 +49,7 @@ app uses, via `bin/sync`):
 cp node_modules/@lilydesignsystem/themes/*.css public/themes/
 ```
 
-## The 57 themes
+## The 63 themes
 
 Alphabetical, with the UK/US government themes grouped at the end
 (matching `picker-bar`'s default ordering). Each theme has its own page

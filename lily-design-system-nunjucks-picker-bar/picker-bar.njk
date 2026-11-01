@@ -33,7 +33,7 @@
 {% from "lily-design-system-nunjucks-time-zone-picker/dist/time-zone-picker.njk" import timeZonePicker %}
 {% from "lily-design-system-nunjucks-share-picker/dist/share-picker.njk" import sharePicker %}
 {#
-  All 57 Lily reference theme slugs (see `themes/` at the repo root),
+  All 63 Lily reference theme slugs (see `themes/` at the repo root),
   sorted alphabetically except the United Kingdom and United States
   government/public-sector themes, which sort last as one alphabetical
   group of their own. Mirrors `theme-picker`'s own title-casing of each
@@ -44,16 +44,19 @@
   held in sync by assertion rather than by delegation.
 #}
 {%- set DEFAULT_THEMES = [
-  "abyss", "acid", "adobe-spectrum", "ant-design", "aqua",
-  "atlassian", "autumn", "black", "bumblebee", "business",
-  "cappuccino", "caramellatte", "cmyk", "coffee", "corporate",
-  "cupcake", "cyberpunk", "dark", "dim", "dracula", "emerald",
-  "excel", "fantasy", "fluent", "forest", "garden",
-  "github-primer", "halloween", "ibm-carbon", "lemonade", "light",
-  "linear", "lofi", "luxury", "mozilla-protocol", "night", "nord",
-  "notion", "pastel", "retro", "salesforce", "sap-fiori", "silk",
-  "sunset", "synthwave", "valentine", "vercel", "winter",
-  "wireframe",
+  "abyss", "acid", "adobe-spectrum", "ant-design", "aqua", "atlassian",
+  "australia-agriculture-design-system", "autumn", "black",
+  "brazil-padrao-digital-de-governo", "bumblebee", "business",
+  "canada-government-of-canada-design-system", "cappuccino",
+  "caramellatte", "cmyk", "coffee", "corporate", "cupcake",
+  "cyberpunk", "dark", "dim", "dracula", "emerald",
+  "european-union-europa-component-library", "excel", "fantasy",
+  "fluent", "forest", "garden", "github-primer", "halloween",
+  "ibm-carbon", "japan-digital-agency-design-system", "lemonade",
+  "light", "linear", "lofi", "luxury", "mozilla-protocol", "night",
+  "nord", "notion", "pastel", "retro", "salesforce", "sap-fiori",
+  "silk", "singapore-government-design-system", "sunset", "synthwave",
+  "valentine", "vercel", "winter", "wireframe",
   "united-kingdom-government-digital-service",
   "united-kingdom-national-health-service-england-for-patients",
   "united-kingdom-national-health-service-england-for-practitioners",

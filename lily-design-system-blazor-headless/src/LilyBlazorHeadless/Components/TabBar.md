@@ -18,3 +18,9 @@ See `components/tab-bar/index.md` for canonical documentation.
     Content
 </TabBar>
 ```
+
+## Keyboard
+
+ArrowRight / ArrowLeft move focus between the `role="tab"` tabs, wrapping at the ends; Home / End jump to the first and last. The keys are handled in `TabBar.razor.js`, a JavaScript module the component loads after its first
+interactive render (C# cannot move focus among the consumer's `ChildContent`); with static server rendering there is
+no keyboard handling.

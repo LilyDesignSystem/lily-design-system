@@ -8,7 +8,8 @@ in the canonical repo root for the cross-framework documentation.
 ## Selector
 
 ```html
-<lily-label></lily-label>
+<lily-label for="email">Email address</lily-label>
+<input id="email" type="email" />
 ```
 
 ## Files

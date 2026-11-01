@@ -79,7 +79,7 @@ description: a responsive web design structure with header, left aside, center m
 <h2>Usage</h2>
 <pre tabindex="0"><code>{% raw %}&lt;GrailLayout&gt;
   &lt;GrailLayoutTopHeader&gt;
-    &lt;Header label="Clinical Portal" /&gt;
+    &lt;header label="Clinical Portal" /&gt;
   &lt;/GrailLayoutTopHeader&gt;
   &lt;GrailLayoutLeftAside&gt;
     &lt;TreeNav label="Sections"&gt;...&lt;/TreeNav&gt;
@@ -90,10 +90,12 @@ description: a responsive web design structure with header, left aside, center m
   &lt;/GrailLayoutCenterMain&gt;
   &lt;GrailLayoutRightAside&gt;
     &lt;h2&gt;Quick links&lt;/h2&gt;
-    &lt;ul&gt;&lt;li&gt;&lt;a href="/help"&gt;Help&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href="/help"&gt;Help&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
   &lt;/GrailLayoutRightAside&gt;
   &lt;GrailLayoutBottomFooter&gt;
-    &lt;Footer /&gt;
+    &lt;footer /&gt;
   &lt;/GrailLayoutBottomFooter&gt;
 &lt;/GrailLayout&gt;
 {% endraw %}</code></pre>

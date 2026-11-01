@@ -283,5 +283,10 @@
     "small": "beag",
     "smaller": "níos lú",
     "smallest": "is lú"
+  },
+  "date-time-now-input": {
+    "date": "Dáta",
+    "time": "Am",
+    "now": "Anois"
   }
 }

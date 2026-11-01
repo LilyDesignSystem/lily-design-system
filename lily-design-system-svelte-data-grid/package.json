@@ -33,7 +33,7 @@
     "svelte": "^5.0.0"
   },
   "devDependencies": {
-    "@lilydesignsystem/svelte-headless": "^0.5.1",
+    "@lilydesignsystem/svelte-headless": "^0.6.1",
     "@playwright/test": "^1.64.1",
     "@sveltejs/package": "^3.0.1",
     "@sveltejs/vite-plugin-svelte": "^7.3.1",

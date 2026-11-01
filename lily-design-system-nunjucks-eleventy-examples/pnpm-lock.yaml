@@ -15,8 +15,8 @@ importers:
         specifier: ^3.1.7
         version: 3.1.7(supports-color@7.2.0)
       nunjucks:
-        specifier: ^3.2.4
-        version: 3.2.4
+        specifier: npm:@11ty/nunjucks@^3.3.0
+        version: '@11ty/nunjucks@3.3.0(@11ty/chokidar-with-glob-support@1.1.0)'
     devDependencies:
       '@axe-core/playwright':
         specifier: ^4.14.0
@@ -493,16 +493,6 @@ packages:
   normalize-path@3.0.0:
     resolution: {integrity: sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==}
     engines: {node: '>=0.10.0'}
-
-  nunjucks@3.2.4:
-    resolution: {integrity: sha512-26XRV6BhkgK0VOxfbU5cQI+ICFUtMLixv1noZn1tGU38kQH5A5nmmbk/O45xdyBhD1esk47nKrY0mvQpZIhRjQ==}
-    engines: {node: '>= 6.9.0'}
-    hasBin: true
-    peerDependencies:
-      chokidar: ^3.3.0
-    peerDependenciesMeta:
-      chokidar:
-        optional: true
 
   object-inspect@1.13.4:
     resolution: {integrity: sha512-W67iLl4J2EXEGTbfeHCffrjDfitvLANg0UlX3wFUUSTx92KXRFegMHUVgSqE+wvhAbi4WqjGg9czysTV2Epbew==}
@@ -1183,12 +1173,6 @@ snapshots:
       esm-import-transformer: 3.0.5
 
   normalize-path@3.0.0: {}
-
-  nunjucks@3.2.4:
-    dependencies:
-      a-sync-waterfall: 1.0.1
-      asap: 2.0.6
-      commander: 5.1.0
 
   object-inspect@1.13.4: {}
 

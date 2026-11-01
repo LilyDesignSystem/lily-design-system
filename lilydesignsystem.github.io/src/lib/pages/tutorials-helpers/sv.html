@@ -3,8 +3,7 @@
 <section class="page-intro">
   <h1>Inställningshjälpare</h1>
   <p class="page-intro-tagline">
-    Sju små paket per ramverk, vart och ett äger en användaruppgift från början till slut, plus ett fält som sätter ihop fem av dem. Du har redan träffat
-    <a href="/tutorials/theming/">theme-picker</a>; här är locale-picker, text-size-picker och motion-picker (inställningar), share-picker och search-picker (handlingar), date-time-picker (ett formulärvärde) och picker-bar.
+    Elva små väljare per ramverk, var och en ansvarig för en användaruppgift från början till slut, plus ett fält som sätter ihop upp till sju av dem. Du har redan träffat <a href="/tutorials/theming/">theme-picker</a>; här är locale-picker, text-size-picker och motion-picker (inställningar), share-picker och search-picker (åtgärder), date-time-picker (ett formulärvärde) och picker-bar.
   </p>
 </section>
 
@@ -26,7 +25,7 @@
     <li>SSR-säker: DOM-skrivningar sker bara i mount-/effect-livscykeln.</li>
     <li>i18n-rent: varje sträng som användaren ser är en prop.</li>
     <li>
-      Finns för Svelte (kanonisk), React, Vue, Angular, HTML-anpassat element, Nunjucks och Blazor — samma kontrakt i vart och ett.
+      Finns för Svelte (kanonisk), React, Vue, Angular, HTML-anpassat element, Web Components, Nunjucks och Blazor — samma kontrakt i vart och ett.
     </li>
   </ul>
   <p>
@@ -208,6 +207,7 @@
   <p>
     <code>picker-bar</code> renderar sök, tema, språk, textstorlek och delning på en rad, med hela uppsättningen referensteman och den sjustegiga textskalan förkopplade. Varje tillgängligt namn kommer i ett enda obligatoriskt
     <code>labels</code> -objekt.
+    Det visar också link-picker först när du skickar länkar, och time-zone-picker efter språkinställningen när du ger det en tidszonsetikett och en språkinställning.
   </p>
   
   <pre tabindex="0"><code>&lt;script&gt;
@@ -264,7 +264,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker
 
   <h2>Nästa steg</h2>
   <ul>
-    <li><a href="/components/">Komponentkatalog</a> — den fullständiga referensen för de 582 komponenterna.</li>
+    <li><a href="/components/">Komponentkatalog</a> — den fullständiga referensen för de 607 komponenterna.</li>
     <li><a href="/help/">Hjälp</a> — felsökning och vanliga frågor.</li>
     <li><a href="/why/">Varför Lily</a> — och hur du stöder projektet.</li>
   </ul>

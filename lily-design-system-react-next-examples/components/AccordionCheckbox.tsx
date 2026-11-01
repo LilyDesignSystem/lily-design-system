@@ -53,7 +53,8 @@
 //   - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
 //   - MDN input type=checkbox: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox
 
-import React, { useId, useState } from "react";
+import React, { useId, useRef, useState } from "react";
+import { useFormReset } from "./form-reset";
 
 export interface AccordionCheckboxProps {
     className?: string;
@@ -86,6 +87,14 @@ export default function AccordionCheckbox({
 
     const [internalChecked, setInternalChecked] = useState(checkedProp ?? false);
     const isControlled = checkedProp !== undefined;
+    const rootRef = useRef<HTMLDivElement>(null);
+    const initialChecked = useRef(checkedProp ?? false);
+
+    // Form reset: restore the initial state and tell the consumer.
+    useFormReset(rootRef, () => {
+        if (!isControlled) setInternalChecked(initialChecked.current);
+        onChange?.(initialChecked.current);
+    });
     const checked = isControlled ? checkedProp : internalChecked;
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -96,6 +105,7 @@ export default function AccordionCheckbox({
 
     return (
         <div
+            ref={rootRef}
             className={`accordion-checkbox ${className}`}
             {...restProps}
         >

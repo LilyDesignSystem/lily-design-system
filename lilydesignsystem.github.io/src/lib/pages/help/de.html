@@ -155,7 +155,7 @@ pnpm run dev</code></pre>
   <h2>Fertige Themes</h2>
   <p>
     Sie möchten CSS nicht von Grund auf schreiben? Lily liefert
-    <strong>57 eigenständige Referenz-Themes</strong> im Verzeichnis
+    <strong>63 eigenständige Referenz-Themes</strong> im Verzeichnis
     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
     aus. Jedes ist ein Stylesheet, das auf die Klassen-Hooks von Lily zielt – binden Sie es ein, und Sie sind gestaltet:
   </p>
@@ -179,11 +179,7 @@ pnpm run dev</code></pre>
 
 <section class="section prose" id="helpers" style="margin: 0 auto;">
   <h2>Einstellungshelfer</h2>
-  <p>
-    Jedes Framework hat acht kleine Picker, jeder ein eigenes
-    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> -Paket (und eine <code>picker-bar</code> , die sie zusammensetzt). Jeder ist eine Headless-Icon-Schaltfläche, die ein Popup öffnet – eine Listbox, eine Liste von Links, ein Suchformular oder (bei date-time-picker) einen Datumsauswahldialog – kein natives
-    <code>&lt;select&gt;</code>; er ist SSR-sicher und liefert kein CSS mit:
-  </p>
+  <p>Jedes Framework hat elf kleine Auswahlelemente, jedes als eigenes Paket <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> (und eine <code>picker-bar</code>, die sie zusammenfügt). Jedes ist ein headless Symbolschalter, der ein Popup öffnet — ein Listenfeld, eine Linkliste, ein Suchformular, ein Panel mit Ihren eigenen Inhalten oder (bei date-time-picker) einen Datumsauswahldialog — kein natives <code>&lt;select&gt;</code> (theme-picker bietet eines als optionale Variante); es ist SSR-sicher und liefert kein CSS. Neben menu-picker, settings-picker und time-zone-picker sind es:</p>
   <ul>
     <li>
       <strong>theme-picker</strong> – lädt Theme-Stylesheets zur Laufzeit, indem es ein verwaltetes <code>&lt;link&gt;</code>austauscht, setzt
@@ -294,7 +290,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
     <summary>Eine Komponente wird gerendert, sieht aber ungestaltet aus</summary>
     <p>
       Das ist Headless wie vorgesehen – mit der Komponente wird kein CSS ausgeliefert. Schreiben Sie entweder CSS gegen die Kebab-Case-Klasse der Komponente (auf jeder <a href="/components/">Katalogseite</a>angezeigt) oder binden Sie eines der
-      <a href="#themes">57 fertigen Themes</a>.
+      <a href="#themes">63 fertigen Themes</a>.
     </p>
   </details>
 
@@ -383,7 +379,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
   <details class="faq-item">
     <summary>Warum headless statt gestaltet?</summary>
     <p>
-      Vorgestaltete Komponenten sind bequem – bis sie nicht zu Ihrer Marke passen. Headless-Komponenten erfordern anfangs etwas mehr Arbeit, geben Ihnen aber die volle Kontrolle über das visuelle Design. Die Beispiel-Apps und die 57 Themes zeigen Wege, sie zu gestalten; Sie können sie übernehmen oder ganz ersetzen. Die ausführlichere Argumentation steht unter <a href="/why/">Warum Lily</a>.
+      Vorgestaltete Komponenten sind bequem – bis sie nicht zu Ihrer Marke passen. Headless-Komponenten erfordern anfangs etwas mehr Arbeit, geben Ihnen aber die volle Kontrolle über das visuelle Design. Die Beispiel-Apps und die 63 Themes zeigen Wege, sie zu gestalten; Sie können sie übernehmen oder ganz ersetzen. Die ausführlichere Argumentation steht unter <a href="/why/">Warum Lily</a>.
     </p>
   </details>
 

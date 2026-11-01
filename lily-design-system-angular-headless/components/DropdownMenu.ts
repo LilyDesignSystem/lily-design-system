@@ -1,5 +1,6 @@
 import {
     afterNextRender,
+    afterRenderEffect,
     ChangeDetectionStrategy,
     Component,
     effect,
@@ -10,6 +11,10 @@ import {
     model,
     viewChild,
 } from "@angular/core";
+
+import { popoverSupported, syncPopover, toggleOpened } from "./Popover";
+
+let nextId = 0;
 
 /**
  * DropdownMenu — a menu that opens below a trigger button
@@ -27,16 +32,21 @@ import {
       aria-haspopup="true"
       [attr.aria-expanded]="open()"
       [attr.aria-label]="label() || null"
-      (click)="open.set(!open())"
+      [attr.aria-controls]="menuId"
+      command="toggle-popover"
+      [attr.commandfor]="menuId"
+      [attr.popovertarget]="menuId"
+      (click)="onTriggerClick()"
     >{{ label() }}</button>
-    @if (open()) {
-      <div
-        #menu
-        role="menu"
-        [attr.aria-label]="label() || null"
-        (keydown)="onKeydown($event)"
-      ><ng-content /></div>
-    }
+    <div
+      #menu
+      [id]="menuId"
+      role="menu"
+      [attr.aria-label]="label() || null"
+      popover="auto"
+      (toggle)="open.set(toggled($event))"
+      (keydown)="onKeydown($event)"
+    ><ng-content /></div>
   </div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -46,9 +56,18 @@ export class DropdownMenu {
     readonly open = model<boolean>(false);
     readonly className = input<string>("");
 
+    protected readonly menuId = `dropdown-menu-${++nextId}`;
+    protected readonly toggled = toggleOpened;
     private readonly menu = viewChild<ElementRef<HTMLElement>>("menu");
 
     constructor() {
+        // popover="auto" (tasks.md P18-T11): the trigger's command="toggle-popover" opens and closes the menu, Escape
+        // and light dismiss come from the browser, and the toggle event writes `open` back. Without the API the click
+        // toggles `open` and syncPopover sets `hidden`.
+        afterRenderEffect(() => {
+            const menu = this.menu()?.nativeElement;
+            if (menu) syncPopover(menu, this.open());
+        });
         const injector = inject(Injector);
         effect(() => {
             if (this.open()) {
@@ -61,6 +80,11 @@ export class DropdownMenu {
                 );
             }
         });
+    }
+
+    protected onTriggerClick(): void {
+        const menu = this.menu()?.nativeElement;
+        if (menu && !popoverSupported(menu)) this.open.set(!this.open());
     }
 
     /** Roving focus over the `role="menuitem"` descendants (WAI-ARIA APG menu pattern). */

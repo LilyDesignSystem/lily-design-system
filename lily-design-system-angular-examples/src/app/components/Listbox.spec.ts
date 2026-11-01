@@ -169,3 +169,47 @@ describe("Listbox — active-descendant mode (opt-in, additive)", () => {
         fixture.nativeElement.remove();
     });
 });
+
+describe("Listbox — roving-focus mode (the default)", () => {
+    function createRoving(count: number) {
+        const fixture = TestBed.createComponent(Listbox);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("div") as HTMLElement;
+        el.innerHTML = Array.from(
+            { length: count },
+            (_, i) => `<div role="option" tabindex="-1" id="opt-${i}">Option ${i}</div>`,
+        ).join("");
+        document.body.appendChild(fixture.nativeElement);
+        const opts = Array.from(el.querySelectorAll<HTMLElement>("[role='option']"));
+        const press = (key: string) => {
+            const event = new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true });
+            document.activeElement!.dispatchEvent(event);
+            return event;
+        };
+        return { fixture, opts, press };
+    }
+
+    test("ArrowDown/ArrowUp move real focus between the options and wrap", () => {
+        const { fixture, opts, press } = createRoving(3);
+        opts[2].focus();
+        expect(press("ArrowDown").defaultPrevented).toBe(true);
+        expect(document.activeElement).toBe(opts[0]);
+        press("ArrowUp");
+        expect(document.activeElement).toBe(opts[2]);
+        fixture.nativeElement.remove();
+    });
+
+    test("Home/End jump to the first and last option; other keys pass through", () => {
+        const { fixture, opts, press } = createRoving(3);
+        opts[1].focus();
+        press("End");
+        expect(document.activeElement).toBe(opts[2]);
+        press("Home");
+        expect(document.activeElement).toBe(opts[0]);
+        expect(press("Enter").defaultPrevented).toBe(false);
+        expect(
+            fixture.nativeElement.querySelector("div").hasAttribute("aria-activedescendant"),
+        ).toBe(false);
+        fixture.nativeElement.remove();
+    });
+});

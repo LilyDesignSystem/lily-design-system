@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "file-input",
+  "type": "registry:component",
+  "title": "FileInput",
+  "description": "An input for selecting files from the file system <input type=\"file\">.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/FileInput.tsx",
+      "content": "import React from \"react\";\n\n// FileInput component\n//\n// A file input wrapping a native <input type=\"file\"> with accessible labeling.\n// Allows users to select one or more files from their device for upload. Supports\n// filtering by accepted file types, multiple file selection, and standard form\n// states. Used in upload forms, profile editors, and document management interfaces.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name via aria-label.\n//   accept — string, default undefined. Comma-separated accepted file types (MIME types or extensions).\n//   multiple — boolean, default false. Whether multiple files can be selected.\n//   required — boolean, default false. Whether a file selection is required.\n//   disabled — boolean, default false. Whether the file input is disabled.\n//   ...restProps — additional HTML attributes spread onto the <input>.\n//\n// Syntax:\n//   <FileInput label=\"Upload photo\" accept=\"image/*\" />\n//\n// Examples:\n//\n//   <FileInput label=\"Upload photo\" accept=\"image/*\" />\n//\n//\n//   <FileInput label=\"Attach documents\" accept=\".pdf,.doc,.docx\" multiple />\n//\n//\n//   <FileInput label=\"Profile picture\" accept=\"image/png,image/jpeg\" required />\n//\n// Keyboard:\n//   - Enter/Space: opens the file picker dialog (native browser behavior)\n//\n// Accessibility:\n//   - aria-label provides the accessible name since no visible <label> is included\n//\n// Internationalization:\n//   - The label prop accepts any string; consumers provide localized text\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - No bindable value; file inputs are read-only by security policy\n//\n// References:\n//   - MDN input type=\"file\": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file\n\nexport interface FileInputProps {\n    className?: string;\n    /** Accessible label. */\n    label: string;\n    /** Accepted file types. */\n    accept?: string;\n    /** Allow multiple files. */\n    multiple?: boolean;\n    /** Whether required. */\n    required?: boolean;\n    /** Whether disabled. */\n    disabled?: boolean;\n    [key: string]: unknown;\n}\n\nexport default function FileInput({\n    className = \"\",\n    label,\n    accept = undefined,\n    multiple = false,\n    required = false,\n    disabled = false,\n    ...restProps\n}: FileInputProps) {\n    return (\n        <input\n            className={`file-input ${className}`}\n            type=\"file\"\n            aria-label={label}\n            accept={accept}\n            multiple={multiple}\n            required={required}\n            disabled={disabled}\n            {...restProps}\n        />\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/FileInput.tsx"
+    }
+  ],
+  "categories": [
+    "forms"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/file-input/"
+}

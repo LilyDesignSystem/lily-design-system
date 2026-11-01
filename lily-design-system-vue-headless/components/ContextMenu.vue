@@ -52,6 +52,7 @@
 //   - WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menu/
 
 import { ref, watchEffect } from "vue";
+import { toggleOpened, usePopoverState } from "./popover";
 
 const props = defineProps<{
     /** Accessible name for the context menu. */
@@ -61,6 +62,11 @@ const props = defineProps<{
 const open = defineModel<boolean>("open", { default: false });
 
 const menuRef = ref<HTMLElement | undefined>(undefined);
+
+// popover="auto" with no declarative trigger (a right-click or long-press opens it): `open` shows it with
+// showPopover() in the top layer; Escape and light dismiss come from the browser and @toggle writes `open` back.
+// Positioning at the pointer stays the consumer's CSS.
+usePopoverState(menuRef, open);
 
 function onkeydown(event: KeyboardEvent) {
     if (!menuRef.value) return;
@@ -109,11 +115,12 @@ watchEffect(() => {
 
 <template>
     <div
-        v-if="open"
         class="context-menu"
         role="menu"
         :aria-label="label"
+        popover="auto"
         ref="menuRef"
+        @toggle="open = toggleOpened($event)"
         @keydown="onkeydown"
     >
         <slot />

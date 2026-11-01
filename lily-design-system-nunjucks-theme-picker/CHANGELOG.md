@@ -185,6 +185,9 @@ in force.
 
 ### Unreleased
 
+- `variant="select"` renders a native `<select>` instead of the icon button and listbox (RFC 3 prototype, ported from
+  the Svelte reference 2026-10-30). Opt-in; the default is unchanged. See `spec/index.md`, "Native select variant".
+
 #### Added
 
 - A one-time `console.warn` when `value` and a stored theme disagree,

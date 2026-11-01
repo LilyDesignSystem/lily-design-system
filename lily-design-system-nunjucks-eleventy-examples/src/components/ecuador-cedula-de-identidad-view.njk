@@ -1,0 +1,23 @@
+---
+layout: layouts/component-demo.njk
+title: EcuadorCedulaDeIdentidadView
+description: a read-only display of Ecuador's Cedula de Identidad Number
+---
+
+{% from "components/ecuador-cedula-de-identidad-view/macro.njk" import ecuadorCedulaDeIdentidadView %}
+
+<h2>Default</h2>
+<p>{{ ecuadorCedulaDeIdentidadView({ text: "EcuadorCedulaDeIdentidadView example", label: "EcuadorCedulaDeIdentidadView example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;SummaryList&gt;
+  &lt;SummaryListItem term="Cedula de Identidad Number"&gt;
+    &lt;EcuadorCedulaDeIdentidadView
+      label="Cedula de Identidad Number"
+      value="{value}"
+    /&gt;
+  &lt;/SummaryListItem&gt;
+&lt;/SummaryList&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

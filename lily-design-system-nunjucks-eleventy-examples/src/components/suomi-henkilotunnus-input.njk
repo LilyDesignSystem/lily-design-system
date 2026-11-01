@@ -22,9 +22,19 @@ description: an input for entering Finland's Henkilötunnus (HETU)
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>
-<pre tabindex="0"><code>{% raw %}&lt;Field label="Personal Identity Code" required&gt;
-  &lt;SuomiHenkilotunnusInput label="Personal Identity Code" value={value} required /&gt;
-  &lt;Hint&gt;11 characters in the format DDMMYYCZZZQ: DDMMYY is the date of birth, C is the century sign (+, -, or A), ZZZ is an individual number (odd male, even female), Q is the checksum&lt;/Hint&gt;
+<pre tabindex="0"><code>{% raw %}&lt;Field
+  label="Personal Identity Code"
+  required
+&gt;
+  &lt;SuomiHenkilotunnusInput
+    label="Personal Identity Code"
+    value="{value}"
+    required
+  /&gt;
+  &lt;Hint
+    &gt;11 characters in the format DDMMYYCZZZQ: DDMMYY is the date of birth, C is the century sign (+,
+    -, or A), ZZZ is an individual number (odd male, even female), Q is the checksum&lt;/Hint
+  &gt;
   &lt;ErrorMessage&gt;Please enter a valid Personal Identity Code&lt;/ErrorMessage&gt;
 &lt;/Field&gt;
 {% endraw %}</code></pre>

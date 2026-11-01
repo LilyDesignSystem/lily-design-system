@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<ul class=\"dont-list\"><li class=\"dont-list-item\">Don't use div for buttons</li><li class=\"dont-list-item\">Don't skip heading levels</li></ul>";
   const svelteSource: string = "// In your Svelte component:\nimport DontList from \"lily-design-system-svelte-headless/components/DontList/DontList.svelte\";\n\n<DontList>\n  <!-- list children -->\n</DontList>\n";
-  const usageCode: string = "<DontList>\n    <DontListItem>Skip alt text</DontListItem>\n    <DontListItem>Use only color for meaning</DontListItem>\n</DontList>\n";
+  const usageCode: string = "<DontList>\n  <DontListItem>Skip alt text</DontListItem>\n  <DontListItem>Use only color for meaning</DontListItem>\n</DontList>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>
@@ -76,7 +76,7 @@
       <li>PascalCase: DontList</li>
       <li>Description: a guideline list of discouraged dont-list-item components</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
-      <li>HTML tag: &lt;ol&gt;</li>
+      <li>HTML tag: &lt;ul&gt;</li>
       <li>CSS class: .dont-list</li>
       <li>Interactive: no</li>
     </ul>

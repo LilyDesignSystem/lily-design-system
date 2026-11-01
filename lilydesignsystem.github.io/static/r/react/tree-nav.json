@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tree-nav",
+  "type": "registry:component",
+  "title": "TreeNav",
+  "description": "A hierarchical navigation with expandable branches.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/TreeNav.tsx",
+      "content": "import React from \"react\";\n\n// TreeNav component\n//\n// A headless navigation landmark for hierarchical / tree-style navigation.\n// Renders a <nav> element with an accessible label. Wrap a TreeList inside\n// for the actual ARIA tree role and keyboard navigation.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name for the navigation landmark.\n//   children — ReactNode, required. Typically a TreeList.\n//   ...restProps — additional HTML attributes spread onto the <nav>.\n//\n// Syntax:\n//   <TreeNav label=\"Site map\">\n//     <TreeList label=\"Pages\">\n//       <TreeListItem>...</TreeListItem>\n//     </TreeList>\n//   </TreeNav>\n//\n// Examples:\n//   <TreeNav label=\"Documentation\">\n//     <TreeList label=\"Topics\">\n//       <li role=\"treeitem\" tabIndex={0}>Getting started</li>\n//       <li role=\"treeitem\" tabIndex={-1}>Components</li>\n//     </TreeList>\n//   </TreeNav>\n//\n// Keyboard:\n//   - Tab: Focus moves into and out of the navigation\n//   - Tree-item navigation is provided by the inner TreeList\n//\n// Accessibility:\n//   - <nav> with aria-label creates a navigation landmark\n//   - Tree semantics live on the inner TreeList (role=\"tree\" + role=\"treeitem\")\n//\n// Internationalization:\n//   - The label prop accepts any translated string\n//   - No hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles -- consumer provides all styling\n//   - This component provides the landmark only; tree-pattern keyboard\n//     navigation belongs on TreeList\n//\n// References:\n//   - WAI-ARIA Navigation role: https://www.w3.org/TR/wai-aria-1.2/#navigation\n//   - HTML nav element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav\n\nexport interface TreeNavProps {\n    className?: string;\n    /** Accessible label. */\n    label: string;\n    /** Tree content (typically a TreeList). */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function TreeNav({ className = \"\", label, children, ...restProps }: TreeNavProps) {\n    return (\n        <nav\n            className={`tree-nav ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </nav>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/TreeNav.tsx"
+    }
+  ],
+  "categories": [
+    "navigation"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/tree-nav/"
+}

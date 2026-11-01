@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<td class=\"calendar-table-td\">15</td>";
   const svelteSource: string = "// In your Svelte component:\nimport CalendarTableTD from \"lily-design-system-svelte-headless/components/CalendarTableTD/CalendarTableTD.svelte\";\n\n<CalendarTableTD>\n  <!-- CalendarTableTD content -->\n</CalendarTableTD>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import CalendarTableTD from './CalendarTableTD.svelte';\n<\/script>\n\n<CalendarTableTD>22</CalendarTableTD>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import CalendarTableTD from \"./CalendarTableTD.svelte\";\n<\/script>\n\n<CalendarTableTD>22</CalendarTableTD>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

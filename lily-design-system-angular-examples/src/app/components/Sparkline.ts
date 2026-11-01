@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-sparkline",
     standalone: true,
-    template: `<div class="sparkline {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<span class="sparkline {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></span>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Sparkline {

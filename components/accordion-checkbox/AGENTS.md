@@ -38,6 +38,14 @@
 - `id`: string (optional) — base id for the checkbox/panel link; auto-generated if not provided
 - `children`: slot (required) — content shown when the checkbox is checked
 
+## Native platform
+
+- Decision: native
+- Uses: <input type="checkbox"> + panel hidden
+- Could use: <details>
+- Notes: The checkbox is a form value, so a <details> toggle would lose form participation.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
+
 ## Acceptance Criteria
 
 - [ ] Renders a `<div>` element with class="accordion-checkbox"

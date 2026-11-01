@@ -7,7 +7,7 @@
 //
 // Props:
 //   label         — string, REQUIRED. aria-label for the group.
-//   overflowOpen  — boolean, default false. Whether the overflow menu is open.
+//   overflowOpen  — boolean, default false, v-model:overflowOpen. Whether the overflow menu (popover="auto") is open.
 //   overflowLabel — string, optional. aria-label for the overflow trigger.
 //   default slot  — the visible action buttons.
 //   overflow slot — optional content for the overflow menu.
@@ -26,7 +26,7 @@
 // Accessibility:
 //   - role="group" with aria-label
 //   - overflow trigger has aria-haspopup="menu", aria-expanded
-//   - overflow panel is hidden when overflowOpen is false
+//   - overflow panel is popover="auto"; where the Popover API is missing it is hidden when overflowOpen is false
 //
 // Internationalization:
 //   - All text content via props (label, overflowLabel)
@@ -36,26 +36,41 @@
 //   - label is required
 //   - overflow trigger renders only when the overflow slot is provided
 
-import { useSlots } from "vue";
+import { ref, useId, useSlots } from "vue";
+import { popoverSupported, toggleOpened, usePopoverState } from "./popover";
 
 withDefaults(
     defineProps<{
         /** Accessible label for the group (REQUIRED). */
         label: string;
-        /** Whether the overflow menu is open. */
-        overflowOpen?: boolean;
         /** Accessible label for the overflow trigger. */
         overflowLabel?: string;
     }>(),
     {
-        overflowOpen: false,
         overflowLabel: undefined,
     },
 );
 
-defineEmits<{
+const emit = defineEmits<{
     (e: "overflowToggle", event: MouseEvent): void;
 }>();
+
+/** Whether the overflow menu is open. v-model:overflowOpen: the browser opens and light-dismisses it. */
+const overflowOpen = defineModel<boolean>("overflowOpen", { default: false });
+
+const menuId = `action-group-overflow-menu-${useId()}`;
+const menu = ref<HTMLElement | null>(null);
+
+// popover="auto": the trigger's command="toggle-popover" opens and closes the menu and @toggle writes
+// `overflowOpen` back. Without the API the click toggles it (unless an overflowToggle listener prevents the
+// default) and `hidden` follows.
+usePopoverState(menu, overflowOpen);
+
+function onOverflowToggle(event: MouseEvent): void {
+    emit("overflowToggle", event);
+    if (event.defaultPrevented) return;
+    if (menu.value && !popoverSupported(menu.value)) overflowOpen.value = !overflowOpen.value;
+}
 
 const slots = useSlots();
 const hasOverflow = (): boolean => Boolean(slots.overflow);
@@ -76,13 +91,20 @@ const hasOverflow = (): boolean => Boolean(slots.overflow);
                 aria-haspopup="menu"
                 :aria-expanded="overflowOpen"
                 :aria-label="overflowLabel"
-                @click="$emit('overflowToggle', $event)"
+                :aria-controls="menuId"
+                command="toggle-popover"
+                :commandfor="menuId"
+                :popovertarget="menuId"
+                @click="onOverflowToggle"
             >
                 …
             </button>
             <div
+                ref="menu"
                 class="action-group-overflow-menu"
-                :hidden="!overflowOpen"
+                :id="menuId"
+                popover="auto"
+                @toggle="overflowOpen = toggleOpened($event)"
             >
                 <slot name="overflow" />
             </div>

@@ -3,11 +3,7 @@
 <section class="page-intro">
   <h1>偏好设置辅助包</h1>
   <p class="page-intro-tagline">
-    每种框架有七个小型包，每个包从头到尾负责一项用户任务，另有一个把其中五个组装起来的栏。你已经见过
-    <a href="/tutorials/theming/">theme-picker</a>；这里是 locale-picker、
-    text-size-picker 和 motion-picker（偏好设置），share-picker 和
-    search-picker（操作），date-time-picker（表单值），以及
-    picker-bar。
+    每个框架有十一个小型选择器，每个从头到尾负责一项用户任务，另有一个栏最多可将其中七个组合起来。您已经见过 <a href="/tutorials/theming/">theme-picker</a>；下面是 locale-picker、text-size-picker 和 motion-picker（偏好）、share-picker 和 search-picker（操作）、date-time-picker（表单值）以及 picker-bar。
   </p>
 </section>
 
@@ -29,7 +25,7 @@
     <li>SSR 安全：DOM 写入只发生在挂载/副作用生命周期中。</li>
     <li>国际化友好：每一条面向用户的字符串都是 prop。</li>
     <li>
-      提供 Svelte（规范版本）、React、Vue、Angular、HTML 自定义元素、Nunjucks 和 Blazor 版本——每个版本的契约相同。
+      提供 Svelte（规范版本）、React、Vue、Angular、HTML 自定义元素、Web Components、Nunjucks 和 Blazor 版本——每个版本的契约相同。
     </li>
   </ul>
   <p>
@@ -212,6 +208,7 @@
   <p>
     <code>picker-bar</code> 在一行中渲染搜索、主题、语言、文字大小和分享，并预先接好了全套参考主题和七级文字大小比例。所有可访问名称都通过一个必填的
     <code>labels</code> 对象传入。
+    传入链接时，它还会把 link-picker 放在最前面；提供时区标签和区域设置时，会在区域设置之后显示 time-zone-picker。
   </p>
   
   <pre tabindex="0"><code>&lt;script&gt;
@@ -270,7 +267,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker
 
   <h2>下一步</h2>
   <ul>
-    <li><a href="/components/">组件目录</a>——完整的 582 个组件参考。</li>
+    <li><a href="/components/">组件目录</a>——完整的 607 个组件参考。</li>
     <li><a href="/help/">帮助</a>——故障排除与常见问题。</li>
     <li><a href="/why/">为什么选择 Lily</a>——以及如何支持这个项目。</li>
   </ul>

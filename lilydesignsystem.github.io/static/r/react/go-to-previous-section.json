@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "go-to-previous-section",
+  "type": "registry:component",
+  "title": "GoToPreviousSection",
+  "description": "A link that takes users to the previous section of the current page.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/GoToPreviousSection.tsx",
+      "content": "import React from \"react\";\n\n// GoToPreviousSection component\n// A link that takes users to the previous section of the current page.\n\nexport interface GoToPreviousSectionProps {\n    className?: string;\n    label: string;\n    href: string;\n    [key: string]: unknown;\n}\n\nexport default function GoToPreviousSection({\n    className = \"\",\n    label,\n    href,\n    ...restProps\n}: GoToPreviousSectionProps) {\n    return (\n        <a\n            className={`go-to-previous-section ${className}`}\n            href={href}\n            aria-label={label}\n            {...restProps}\n        >\n            {label}\n        </a>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/GoToPreviousSection.tsx"
+    }
+  ],
+  "categories": [
+    "links"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/go-to-previous-section/"
+}

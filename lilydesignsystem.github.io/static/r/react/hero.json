@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "hero",
+  "type": "registry:component",
+  "title": "Hero",
+  "description": "A large box or image with a title and description.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Hero.tsx",
+      "content": "import React from \"react\";\n\n// Hero component\n//\n// A large box or image section with a title and description.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label    — string, required. Accessible label via aria-label.\n//   children — ReactNode, required. Component content.\n//   ...restProps — additional HTML attributes spread onto the <section>.\n//\n// Accessibility:\n//   - native <section> semantics\n//   - aria-label exposes a screen-reader name when label is provided\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//\n// References:\n//   - HTML section element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/section\n\nexport interface HeroProps {\n    className?: string;\n    /** Accessible label set on aria-label. */\n    label: string;\n    /** Component content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Hero({ className = \"\", label, children, ...restProps }: HeroProps) {\n    return (\n        <section\n            className={`hero ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </section>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Hero.tsx"
+    }
+  ],
+  "categories": [
+    "navigation"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/hero/"
+}

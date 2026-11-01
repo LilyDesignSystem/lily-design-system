@@ -4,10 +4,10 @@ import { TestBed } from "@angular/core/testing";
 import { ChatMessage } from "./ChatMessage";
 
 describe("ChatMessage", () => {
-    test("renders the div root with the base class", () => {
+    test("renders the <article> root with the base class", () => {
         const fixture = TestBed.createComponent(ChatMessage);
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.chat-message");
+        const el = fixture.nativeElement.querySelector("article.chat-message");
         expect(el).toBeTruthy();
     });
 
@@ -15,7 +15,7 @@ describe("ChatMessage", () => {
         const fixture = TestBed.createComponent(ChatMessage);
         fixture.componentRef.setInput("className", "extra");
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.chat-message");
+        const el = fixture.nativeElement.querySelector("article.chat-message");
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });

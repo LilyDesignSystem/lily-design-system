@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@11ty/eleventy": "^3.1.7",
-    "nunjucks": "^3.2.4"
+    "nunjucks": "npm:@11ty/nunjucks@^3.3.0"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.14.0",

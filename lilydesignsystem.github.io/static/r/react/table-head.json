@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "table-head",
+  "type": "registry:component",
+  "title": "TableHead",
+  "description": "A table interactive grid thead <thead>.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/TableHead.tsx",
+      "content": "import React from \"react\";\n\n// TableHead component\n//\n// The header section of a Table, rendered as a <thead> element. Contains\n// TableRow elements with column header cells.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   children — ReactNode, required. TableRow elements with header cells.\n//   ...restProps — additional HTML attributes spread onto the <thead>.\n//\n// Syntax:\n//   <TableHead>\n//     <TableRow><TableTH>Name</TableTH><TableTH>Email</TableTH></TableRow>\n//   </TableHead>\n//\n// Keyboard:\n//   None — tables are non-interactive; consumers add interaction at the table level if needed.\n//\n// Accessibility:\n//   - <thead> provides structural header semantics for the table\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Must be used inside a Table\n//   - No internal state — purely a structural wrapper\n//\n// References:\n//   - HTML thead element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/thead\n\nexport interface TableHeadProps {\n    className?: string;\n    /** TableRow elements with header cells. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function TableHead({ className = \"\", children, ...restProps }: TableHeadProps) {\n    return (\n        <thead\n            className={`table-head ${className}`}\n            {...restProps}\n        >\n            {children}\n        </thead>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/TableHead.tsx"
+    }
+  ],
+  "categories": [
+    "tables"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/table-head/"
+}

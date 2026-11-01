@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { shallowRef, toRef } from "vue";
+import { usePopoverState } from "./popover";
 // MentionsInput component
 //
 // A text input with at-mention autocomplete suggestions. Renders a wrapper
@@ -36,11 +38,12 @@
 //   - WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
 //   - Ant Design Mentions: https://ant.design/components/mentions
 
-import { useId } from "vue";
+import { useId, ref } from "vue";
+import { useFormResetToProp } from "./form-reset";
 
 const suggestionsId = `${useId()}-suggestions`;
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
         /** Accessible label (REQUIRED). */
         label: string;
@@ -64,9 +67,14 @@ withDefaults(
     },
 );
 
+const field = ref<HTMLInputElement | null>(null);
+useFormResetToProp(field, () => props.value);
+
 defineEmits<{
     (e: "input", event: Event): void;
 }>();
+const panelEl = shallowRef<HTMLElement | null>(null);
+usePopoverState(panelEl, toRef(props, "expanded"));
 </script>
 
 <template>
@@ -84,6 +92,7 @@ defineEmits<{
             :aria-controls="suggestionsId"
             :aria-expanded="expanded"
             aria-autocomplete="list"
+            ref="field"
             :value="value"
             :placeholder="placeholder"
             :disabled="disabled"
@@ -92,7 +101,8 @@ defineEmits<{
         <div
             class="mentions-input-suggestions"
             :id="suggestionsId"
-            :hidden="!expanded"
+            ref="panelEl"
+            popover="manual"
         >
             <slot />
         </div>

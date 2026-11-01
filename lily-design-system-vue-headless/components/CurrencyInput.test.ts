@@ -5,14 +5,14 @@ import Subject from "./CurrencyInput.vue";
 
 describe("CurrencyInput", () => {
     test("renders an input with class currency-input", () => {
-        const { container } = render(Subject, { props: { label: "Amount" } });
+        const { container } = render(Subject, { props: { label: "Amount", currencyCode: "EUR" } });
         const input = container.querySelector(".currency-input") as HTMLInputElement;
         expect(input).toBeTruthy();
         expect(input.tagName).toBe("INPUT");
     });
 
     test("uses type=text and inputmode=decimal", () => {
-        render(Subject, { props: { label: "Amount" } });
+        render(Subject, { props: { label: "Amount", currencyCode: "EUR" } });
         const input = screen.getByLabelText("Amount") as HTMLInputElement;
         expect(input.getAttribute("type")).toBe("text");
         expect(input.getAttribute("inputmode")).toBe("decimal");
@@ -25,13 +25,13 @@ describe("CurrencyInput", () => {
     });
 
     test("displays empty string when modelValue is undefined", () => {
-        render(Subject, { props: { label: "Amount" } });
+        render(Subject, { props: { label: "Amount", currencyCode: "EUR" } });
         const input = screen.getByLabelText("Amount") as HTMLInputElement;
         expect(input.value).toBe("");
     });
 
     test("emits update:modelValue with parsed number on input", async () => {
-        const { emitted } = render(Subject, { props: { label: "Amount" } });
+        const { emitted } = render(Subject, { props: { label: "Amount", currencyCode: "EUR" } });
         const input = screen.getByLabelText("Amount");
         await fireEvent.update(input, "5");
         const events = emitted()["update:modelValue"];
@@ -52,10 +52,12 @@ describe("CurrencyInput", () => {
         expect(input.getAttribute("data-currency-code")).toBe("EUR");
     });
 
-    test("defaults currencyCode to USD", () => {
+    test("never defaults currencyCode (no USD assumed)", () => {
+        // @ts-expect-error currencyCode is required
         render(Subject, { props: { label: "Amount" } });
         const input = screen.getByLabelText("Amount") as HTMLInputElement;
-        expect(input.getAttribute("data-currency-code")).toBe("USD");
+        expect(input.hasAttribute("data-currency-code")).toBe(false);
+        expect(input.outerHTML).not.toContain("USD");
     });
 
     test("applies disabled attribute", () => {

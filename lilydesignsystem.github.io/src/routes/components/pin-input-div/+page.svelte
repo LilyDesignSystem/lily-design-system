@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"pin-input-div\" role=\"group\" aria-label=\"PIN code\"><input type=\"text\" maxlength=\"1\" size=\"1\" aria-label=\"Digit 1\" /> <input type=\"text\" maxlength=\"1\" size=\"1\" aria-label=\"Digit 2\" /> <input type=\"text\" maxlength=\"1\" size=\"1\" aria-label=\"Digit 3\" /> <input type=\"text\" maxlength=\"1\" size=\"1\" aria-label=\"Digit 4\" /></div>";
   const svelteSource: string = "// In your Svelte component:\nimport PinInputDiv from \"lily-design-system-svelte-headless/components/PinInputDiv/PinInputDiv.svelte\";\n\n<PinInputDiv>\n  <!-- content -->\n</PinInputDiv>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import PinInputDiv from './PinInputDiv.svelte';\n\n  let pin = $state(\"\");\n<\/script>\n\n<PinInputDiv label=\"Enter PIN\" bind:value={pin} />\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import PinInputDiv from \"./PinInputDiv.svelte\";\n\n  let pin = $state(\"\");\n<\/script>\n\n<PinInputDiv\n  label=\"Enter PIN\"\n  bind:value={pin}\n/>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

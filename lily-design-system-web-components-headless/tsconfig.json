@@ -14,5 +14,5 @@
     "lib": ["ES2022", "DOM", "DOM.Iterable"]
   },
   "include": ["components/**/*.ts", "lib/**/*.ts", "index.ts"],
-  "exclude": ["node_modules", "dist", "components/**/*.test.ts", "components/**/*.stories.ts"]
+  "exclude": ["node_modules", "dist", "components/**/*.test.ts", "lib/**/*.test.ts", "components/**/*.stories.ts"]
 }

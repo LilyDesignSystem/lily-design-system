@@ -21,6 +21,7 @@
 //   - WAI-ARIA Practices - Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
 
 import { applySelfClassName } from "../lib/dom-utils.js";
+import { syncManualPopover } from "./popover.js";
 
 export class FloatingPanel extends HTMLElement {
     static get observedAttributes(): string[] {
@@ -44,7 +45,7 @@ export class FloatingPanel extends HTMLElement {
     #sync(): void {
         if (!this.#built) return;
         const open = this.hasAttribute("open");
-        this.hidden = !open;
+        syncManualPopover(this, open);
         if (open) {
             this.setAttribute("role", "region");
             const label = this.getAttribute("label");

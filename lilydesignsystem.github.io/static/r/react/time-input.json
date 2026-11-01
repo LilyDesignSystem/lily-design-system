@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "time-input",
+  "type": "registry:component",
+  "title": "TimeInput",
+  "description": "An input for entering a time value <input type=\"time\">.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/TimeInput.tsx",
+      "content": "import React from \"react\";\n\n// TimeInput component\n//\n// A headless time input using the native HTML <input type=\"time\"> element.\n// Renders a time picker control appropriate to the user's browser and OS,\n// allowing users to enter hours and minutes in a localized format. Commonly\n// used for scheduling interfaces, appointment forms, event planners, and any\n// form requiring time-of-day entry. The value uses HH:MM format (24-hour).\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name via aria-label.\n//   value — string, default \"\". Bindable time value in HH:MM format; supports value + onChange.\n//   required — boolean, default false. Whether the field is required.\n//   disabled — boolean, default false. Whether the field is disabled.\n//   ...restProps — additional HTML attributes spread onto the <input>.\n//\n// Syntax:\n//   <TimeInput label=\"Start time\" value={value} onChange={setValue} />\n//\n// Examples:\n//\n//   <TimeInput label=\"Deadline\" value={deadline} onChange={setDeadline} min=\"09:00\" max=\"17:00\" />\n//\n// Keyboard:\n//   - Arrow keys: adjust hours/minutes, Tab between segments (native behavior)\n//\n// Accessibility:\n//   - aria-label={label} provides an accessible name since no visible <label> is included\n//\n// Internationalization:\n//   - The label prop accepts any translated string\n//   - No hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles -- consumer provides all styling\n//   - Uses controlled for two-way data binding on value\n//   - Consumer can add min, max, step via restProps\n//\n// References:\n//   - MDN input type=\"time\": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time\n\nexport interface TimeInputProps {\n    className?: string;\n    /** Accessible label. */\n    label: string;\n    /** Current value. Bindable. */\n    value?: string;\n    /** Whether required. */\n    required?: boolean;\n    /** Whether disabled. */\n    disabled?: boolean;\n    /** Callback when value changes. */\n    onChange?: (value: string) => void;\n    [key: string]: unknown;\n}\n\nexport default function TimeInput({\n    className = \"\",\n    label,\n    value = \"\",\n    required = false,\n    disabled = false,\n    onChange,\n    ...restProps\n}: TimeInputProps) {\n    return (\n        <input\n            className={`time-input ${className}`}\n            type=\"time\"\n            aria-label={label}\n            value={value}\n            onChange={(e) => onChange?.(e.target.value)}\n            required={required}\n            disabled={disabled}\n            {...restProps}\n        />\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/TimeInput.tsx"
+    }
+  ],
+  "categories": [
+    "forms"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/time-input/"
+}

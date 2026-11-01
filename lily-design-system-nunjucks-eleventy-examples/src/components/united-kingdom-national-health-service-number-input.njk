@@ -40,8 +40,15 @@ description: an input for entering a UK NHS number
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>
-<pre tabindex="0"><code>{% raw %}&lt;Field label="NHS Number" required&gt;
-  &lt;UnitedKingdomNationalHealthServiceNumberInput label="NHS Number" value={nhsNumber} required /&gt;
+<pre tabindex="0"><code>{% raw %}&lt;Field
+  label="NHS Number"
+  required
+&gt;
+  &lt;UnitedKingdomNationalHealthServiceNumberInput
+    label="NHS Number"
+    value="{nhsNumber}"
+    required
+  /&gt;
   &lt;Hint&gt;Format: XXX XXX XXXX (10 digits from your NHS records)&lt;/Hint&gt;
   &lt;ErrorMessage&gt;Please enter a valid NHS number&lt;/ErrorMessage&gt;
 &lt;/Field&gt;

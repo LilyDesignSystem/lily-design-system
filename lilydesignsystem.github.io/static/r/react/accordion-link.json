@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "accordion-link",
+  "type": "registry:component",
+  "title": "AccordionLink",
+  "description": "An accordion link.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/AccordionLink.tsx",
+      "content": "import React from \"react\";\n\n// AccordionLink component\n//\n// An accordion link. Renders as a semantic <a> element with\n// optional aria-label override for descriptive screen reader text.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   href     — string, required. The URL to navigate to.\n//   label    — string, optional. Accessible label override via aria-label.\n//   children — ReactNode, required. The link content.\n//   ...restProps — additional HTML attributes spread onto <a>.\n//\n// Keyboard:\n//   - Tab: Focus the link (native browser behavior)\n//   - Enter: Activate the link (native browser behavior)\n//\n// Accessibility:\n//   - Implicit link role from the <a> element\n//   - aria-label provides a screen-reader override when the visible text is brief\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Always require href; do not render <a> without href\n//\n// References:\n//   - HTML a element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a\n\nexport interface AccordionLinkProps {\n    className?: string;\n    /** The URL to navigate to. */\n    href: string;\n    /** Accessible label override for screen readers. */\n    label?: string;\n    /** The link content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function AccordionLink({\n    className = \"\",\n    href,\n    label = undefined,\n    children,\n    ...restProps\n}: AccordionLinkProps) {\n    return (\n        <a\n            className={`accordion-link ${className}`}\n            href={href}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </a>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/AccordionLink.tsx"
+    }
+  ],
+  "categories": [
+    "links"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/accordion-link/"
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "inset-text",
+  "type": "registry:component",
+  "title": "InsetText",
+  "description": "Indented text to distinguish it from surrounding content.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/InsetText.tsx",
+      "content": "import React from \"react\";\n\n// InsetText component\n//\n// An inset text block used to distinguish content from the surrounding text, drawing\n// attention to important information that a user needs to know. Commonly used in\n// government and institutional design systems to highlight supplementary information,\n// processing times, eligibility criteria, or important notices. Renders a <div> with\n// role=\"note\" for semantic supplementary content indication.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   children — ReactNode, required. Content to display inside the inset text block.\n//   ...restProps — additional HTML attributes spread onto the container div.\n//\n// Syntax:\n//   <InsetText>It can take up to 8 weeks to process.</InsetText>\n//\n// Examples:\n//\n//   <InsetText>It can take up to 8 weeks to process.</InsetText>\n//\n//\n//   <InsetText>\n//     <p>You must apply before the deadline. Late applications will not be accepted.</p>\n//   </InsetText>\n//\n// Keyboard:\n//   - None — this is a passive container with no interactive behavior\n//\n// Accessibility:\n//   - role=\"note\" identifies the content as supplementary information\n//   - Screen readers announce it with appropriate context as a note\n//\n// Internationalization:\n//   - All content comes through the children prop; no hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling (e.g., border-left, indentation)\n//   - No internal state; purely a presentational container\n//   - Inspired by GOV.UK and NHS England \"inset text\" pattern\n//\n// References:\n//   - WAI-ARIA Note Role: https://www.w3.org/TR/wai-aria-1.2/#note\n//   - GOV.UK Inset Text: https://design-system.service.gov.uk/components/inset-text/\n//   - NHS England Inset Text: https://service-manual.nhs.uk/design-system/components/inset-text\n\nexport interface InsetTextProps {\n    className?: string;\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function InsetText({ className = \"\", children, ...restProps }: InsetTextProps) {\n    return (\n        <div\n            className={`inset-text ${className}`}\n            role=\"note\"\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/InsetText.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/inset-text/"
+}

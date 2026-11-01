@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "barcode-image",
+  "type": "registry:component",
+  "title": "BarcodeImage",
+  "description": "A visual machine-readable symbolic code image, such as for a scanner.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/BarcodeImage.tsx",
+      "content": "import React from \"react\";\n\n// BarcodeImage component\n//\n// A barcode-image rendered as an <img> element. The consumer supplies the image\n// source (typically a generated SVG, PNG, or data URL representing the\n// encoded barcode-image) and the required alt text describing what the barcode-image\n// encodes for screen-reader users.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   src — string, required. The barcode-image image source URL or data URL.\n//   alt — string, required. Alternative text describing the encoded value.\n//   loading — \"lazy\" | \"eager\", default undefined. Controls native browser loading behavior.\n//   ...restProps — additional HTML attributes spread onto the <img>.\n//\n// Syntax:\n//   <BarcodeImage src=\"/barcode-image.svg\" alt=\"Order number 12345\" />\n//\n// Accessibility:\n//   - alt attribute provides the accessible name for the barcode-image (required)\n//   - Screen readers announce the alt text when encountering the image\n//\n// Internationalization:\n//   - The alt prop allows localized text; no hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - alt prop is required to enforce accessibility\n\nexport interface BarcodeImageProps {\n    className?: string;\n    src: string;\n    alt: string;\n    loading?: \"lazy\" | \"eager\";\n    [key: string]: unknown;\n}\n\nexport default function BarcodeImage({\n    className = \"\",\n    src,\n    alt,\n    loading = undefined,\n    ...restProps\n}: BarcodeImageProps) {\n    return (\n        <img\n            className={`barcode-image ${className}`}\n            src={src}\n            alt={alt}\n            loading={loading}\n            {...restProps}\n        />\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/BarcodeImage.tsx"
+    }
+  ],
+  "categories": [
+    "media"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/barcode-image/"
+}

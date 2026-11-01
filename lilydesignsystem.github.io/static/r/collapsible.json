@@ -36,5 +36,10 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Collapsible.razor"
   },
   "docs": "https://lilydesignsystem.com/components/collapsible/",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/collapsible/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/collapsible/AGENTS.md",
+  "nativePlatform": {
+    "decision": "native",
+    "uses": "<details>/<summary>",
+    "could_use": "name attribute"
+  }
 }

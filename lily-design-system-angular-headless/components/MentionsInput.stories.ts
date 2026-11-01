@@ -10,4 +10,6 @@ const meta: Meta<MentionsInput> = {
 export default meta;
 type Story = StoryObj<MentionsInput>;
 
-export const Default: Story = {};
+export const Default: Story = {
+    args: { label: "Comment", placeholder: "Type @ to mention someone" },
+};

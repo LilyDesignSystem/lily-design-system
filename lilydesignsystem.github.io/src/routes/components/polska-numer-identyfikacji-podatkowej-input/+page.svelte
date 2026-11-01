@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<label class=\"label\" for=\"demo-input\">Label</label><input class=\"polska-numer-identyfikacji-podatkowej-input\" id=\"demo-input\" aria-label=\"an input for entering Poland's Numer Identyfikacji Podatkowej (NIP)\" />";
   const svelteSource: string = "// In your Svelte component:\nimport PolskaNumerIdentyfikacjiPodatkowejInput from \"lily-design-system-svelte-headless/components/PolskaNumerIdentyfikacjiPodatkowejInput/PolskaNumerIdentyfikacjiPodatkowejInput.svelte\";\n\n<PolskaNumerIdentyfikacjiPodatkowejInput label=\"Label\" />\n";
-  const usageCode: string = "<Field label=\"Tax Identification Number\" required>\n  <PolskaNumerIdentyfikacjiPodatkowejInput label=\"Tax Identification Number\" value={value} required />\n  <Hint>10 numeric digits used for tax identification</Hint>\n  <ErrorMessage>Please enter a valid Tax Identification Number</ErrorMessage>\n</Field>\n";
+  const usageCode: string = "<Field\n  label=\"Tax Identification Number\"\n  required\n>\n  <PolskaNumerIdentyfikacjiPodatkowejInput\n    label=\"Tax Identification Number\"\n    value=\"{value}\"\n    required\n  />\n  <Hint>10 numeric digits used for tax identification</Hint>\n  <ErrorMessage>Please enter a valid Tax Identification Number</ErrorMessage>\n</Field>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

@@ -1,8 +1,9 @@
 # Lily Design System™
 
-> Free, open-source, headless design system: a canonical catalog of 582
+> Free, open-source, headless design system: a canonical catalog of 607
 > accessible components implemented across seven frameworks (HTML, Svelte,
-> React, Vue, Angular, Blazor, Nunjucks), paired with fully styled example
+> React, Vue, Angular, Blazor, Nunjucks), plus Web Components (548 of the
+> 583) and Alpine.js markup snippets, paired with fully styled example
 > apps that demonstrate the same catalog end to end.
 
 This is the public documentation site. Every link below is a page on this
@@ -28,7 +29,7 @@ actually live.
 ## Components and examples
 
 - [Components](https://lilydesignsystem.com/components/): the full
-  searchable catalog of all 582 components, each linking to its own
+  searchable catalog of all 607 components, each linking to its own
   `/components/{slug}/` detail page (description, usage, props, ARIA,
   keyboard, references).
 - [Tutorials](https://lilydesignsystem.com/tutorials/): step-by-step
@@ -39,13 +40,22 @@ actually live.
   apps showing how to style Lily components in every supported framework.
 - [Compare](https://lilydesignsystem.com/compare/): how Lily
   compares with other design systems on headlessness, framework coverage,
-  accessibility, and license.
+  accessibility, and license, with a page per system under
+  `/compare/lily-design-system-and-{system}/`.
+- [How the pieces fit](https://lilydesignsystem.com/how-the-pieces-fit/): the
+  layers of Lily and what each owns — headless components, helpers, themes,
+  examples, and skills — and when to reach for each.
 
 ## Project status and policy
 
 - [Accessibility statement](https://lilydesignsystem.com/accessibility/):
   what targeting WCAG 2.2 AAA means here — what is verified, by what, what
   is not verified by anything, and how to report a problem.
+- [Quality](https://lilydesignsystem.com/quality/): Lily Core — the
+  components Lily is prepared to call proven, the evidence each must show,
+  and where every candidate stands today (no component has met it yet).
+- [Languages](https://lilydesignsystem.com/locales/): the languages this
+  site is published in, each at its own `/{language}-{region}/` route.
 - [News](https://lilydesignsystem.com/news/): announcements, release
   highlights, project status, and press contacts.
 - [Live demo (Svelte)](https://lilydesignsystem.com/demo/svelte/): a holy-grail application shell built from Lily components: header
@@ -59,13 +69,13 @@ actually live.
 - [Roadmap](https://lilydesignsystem.com/roadmap/): what the project
   is working on and planning next.
 - [Lily + Figma](https://lilydesignsystem.com/lily-figma/): there is
-  no maintained Lily Figma library or plugin; the 57 reference themes'
+  no maintained Lily Figma library or plugin; the 63 reference themes'
   design tokens are published in DTCG format and can be imported into
   Figma today with an existing community plugin.
 - [Lily + Claude Code](https://lilydesignsystem.com/skills/):
   27 Claude Skills — general, per-framework umbrella, and per-subproject
   headless/helpers — give Claude Code a curated, loadable entry point
-  into Lily; how to add one, and links to all 26.
+  into Lily; how to add one, and links to all 27.
 
 ## Source (GitHub)
 
@@ -75,7 +85,7 @@ actually live.
 - [AGENTS.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS.md):
   binding design-principle rules for AI coding agents.
 - [components.tsv](https://github.com/LilyDesignSystem/lily-design-system/blob/main/components.tsv):
-  the canonical 582-component catalog (slug, PascalCase name, description).
+  the canonical 607-component catalog (slug, PascalCase name, description).
 - [Canonical monorepo](https://github.com/LilyDesignSystem/lily-design-system):
   all 211 subprojects (184 implementation subprojects — 9 headless, 8 example, 167 helper packages — plus 27 Claude Skills),
   the `bin/` tooling, and full change history.
@@ -83,7 +93,7 @@ actually live.
 ## Optional
 
 - [Component manifests](https://lilydesignsystem.com/r/index.json): Machine-readable manifest of every component (HTML tag, base and sub-classes, ARIA, keyboard, props, related, per-framework file paths); one /r/{slug}.json each.
-- [Markdown pages](https://lilydesignsystem.com/about.md): every English text page has a `.md` twin next to its route (`/about.md`, `/why.md`, `/accessibility.md`, `/help.md`, `/compare.md`, `/tutorials.md`, `/tutorials/{name}.md`, `/examples.md`, `/skills.md`, `/news.md`, `/roadmap.md`, `/locales.md`), and every component has `/components/{slug}.md`.
+- [Markdown pages](https://lilydesignsystem.com/about.md): every English text page has a `.md` twin next to its route (`/about.md`, `/why.md`, `/accessibility.md`, `/help.md`, `/compare.md`, `/compare/{page}.md`, `/tutorials.md`, `/tutorials/{name}.md`, `/examples.md`, `/skills.md`, `/news.md`, `/roadmap.md`, `/locales.md`, `/quality.md`, `/lily-figma.md`), and every component has `/components/{slug}.md`.
 - [llms.json](https://lilydesignsystem.com/llms.json): this same
   curated map as structured JSON.
 

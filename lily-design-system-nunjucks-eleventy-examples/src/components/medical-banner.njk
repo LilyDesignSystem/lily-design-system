@@ -45,7 +45,9 @@ description: a prominent message bar carrying medical information
 <h2>Usage</h2>
 <pre tabindex="0"><code>{% raw %}&lt;MedicalBanner label="Patient summary"&gt;
   &lt;MedicalBannerBox&gt;
-    &lt;strong&gt;Sarah Mitchell&lt;/strong&gt; | NHS: 485 777 3456 | DOB: 15/03/1984
+    &lt;strong&gt;Sarah Mitchell&lt;/strong&gt; | NHS number:
+    &lt;EnglandNationalHealthServiceNumberView value="9434765919" /&gt; | Born:
+    &lt;time datetime="1984-03-15"&gt;15 March 1984&lt;/time&gt;
   &lt;/MedicalBannerBox&gt;
   &lt;MedicalBannerBoxForDanger label="Allergies and reactions"&gt;
     Allergies: Penicillin, Latex

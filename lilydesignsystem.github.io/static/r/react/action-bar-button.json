@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "action-bar-button",
+  "type": "registry:component",
+  "title": "ActionBarButton",
+  "description": "One action button inside an action bar.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ActionBarButton.tsx",
+      "content": "import React from \"react\";\n\n// ActionBarButton component\n//\n// One action button inside an ActionBar. The `label` prop is REQUIRED to\n// provide an accessible name via aria-label, since the button content is\n// often an icon or short glyph. Defaults to type=\"button\" to avoid\n// accidental form submissions.\n//\n// Props:\n//   className   — string, optional. CSS class name.\n//   label       — string, REQUIRED. aria-label for the button.\n//   type        — \"button\" | \"submit\" | \"reset\", default \"button\".\n//   disabled    — boolean, default false.\n//   onClick     — click handler.\n//   children    — ReactNode, optional. Button content (icon and/or text).\n//   ...restProps — additional HTML attributes spread onto the <button>.\n//\n// Headless rules:\n//   - No CSS, no inline styles\n//   - All user-facing strings are consumer-supplied (i18n)\n//\n// References:\n//   - Adobe Spectrum ActionBar: https://spectrum.adobe.com/page/action-bar/\n//   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/\n\nexport interface ActionBarButtonProps {\n    className?: string;\n    /** aria-label for the button (required) */\n    label: string;\n    /** HTML button type */\n    type?: \"button\" | \"submit\" | \"reset\";\n    /** Whether the button is disabled */\n    disabled?: boolean;\n    /** Click event handler */\n    onClick?: (event: React.MouseEvent) => void;\n    /** Button content */\n    children?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function ActionBarButton({\n    className = \"\",\n    label,\n    type = \"button\",\n    disabled = false,\n    onClick = undefined,\n    children = undefined,\n    ...restProps\n}: ActionBarButtonProps) {\n    return (\n        <button\n            className={`action-bar-button ${className}`}\n            type={type}\n            disabled={disabled}\n            aria-label={label}\n            onClick={onClick}\n            {...restProps}\n        >\n            {children}\n        </button>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ActionBarButton.tsx"
+    }
+  ],
+  "categories": [
+    "navigation"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/action-bar-button/"
+}

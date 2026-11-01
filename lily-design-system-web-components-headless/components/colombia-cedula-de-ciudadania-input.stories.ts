@@ -1,0 +1,24 @@
+import type { Meta, StoryObj } from "@storybook/web-components-vite";
+
+import "./colombia-cedula-de-ciudadania-input.js";
+import { h } from "../stories/render.js";
+
+const SLOT = "";
+
+const meta: Meta = {
+    title: "Special-Purpose Identifiers/ColombiaCedulaDeCiudadaniaInput",
+    render: (args) =>
+        h(
+            "lily-colombia-cedula-de-ciudadania-input",
+            args as Record<string, string | boolean>,
+            SLOT,
+        ),
+    args: {
+        label: "Cedula de Ciudadania Number",
+    },
+};
+
+export default meta;
+type Story = StoryObj;
+
+export const Default: Story = {};

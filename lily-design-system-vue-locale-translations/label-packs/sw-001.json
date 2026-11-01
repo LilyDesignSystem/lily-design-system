@@ -239,5 +239,10 @@
     "small": "ndogo",
     "smaller": "ndogo zaidi",
     "smallest": "ndogo kabisa"
+  },
+  "date-time-now-input": {
+    "date": "Tarehe",
+    "time": "Saa",
+    "now": "Sasa"
   }
 }

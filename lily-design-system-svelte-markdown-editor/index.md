@@ -146,3 +146,8 @@ entry in `labels` is not rendered: an unnamed button is worse than no button.
 ## Related
 
 [accessibility notes](./docs/accessibility.md) · [examples](./examples/README.md) · the catalog's `TextAreaInput` for a plain textarea
+
+## Form reset
+
+Inside a `<form>`, a reset puts the text back to the value the editor started with, one tick after the browser has reset
+the textarea; a cancelled reset changes nothing (added 2026-10-29/30, tasks.md P10-T9).

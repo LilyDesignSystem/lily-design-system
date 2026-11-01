@@ -10,7 +10,7 @@ does not yet say. The page's central advice (design mobile first, prefer fluid
 units to fixed breakpoints, use container queries for components, cap line
 length, stop overflow) is sound and mostly already true of Lily's markup. What
 Lily lacks is **a written responsive policy and the theme work that would
-carry it out**: there is no responsive topic under `spec/`, the 57
+carry it out**: there is no responsive topic under `spec/`, the 63
 `themes/` share one `@media (max-width: 48rem)` breakpoint and no container
 queries, and the layout components only say "consider making sidebars
 collapsible" in their advice. Nothing here is built yet: each item is an open
@@ -53,7 +53,7 @@ opened; its "Grid" reference link points to a Flexbox article.
 | Cap line length near 720px                            | `container-with-fixed-width` (a configurable maximum) and `container-with-fluid-width` (full width plus inline padding).                      |
 | Centre with `margin-inline: auto`                     | `container-with-fluid-width` sets `padding-inline`; centring is the consumer's CSS.                                                           |
 | Responsive grid without breakpoints                   | `grid` already accepts a string `columns`, so `repeat(auto-fit, minmax(min(150px, 100%), 1fr))` can be passed today (see item 4).             |
-| Respect the viewer's device (`(hover: none)`)         | P10-T3 plans coarse-pointer target sizes; all 57 themes carry `prefers-reduced-motion`.                                                       |
+| Respect the viewer's device (`(hover: none)`)         | P10-T3 plans coarse-pointer target sizes; all 63 themes carry `prefers-reduced-motion`.                                                       |
 | Breakpoints in `rem`, not `px`                        | The themes use `48rem` (Tailwind's `md`), so they already follow the viewer's font size.                                                      |
 | A responsive test sweep                               | Every example app runs a four-viewport sweep (mobile, tablet, desktop, 4K) asserting no horizontal overflow ([testing](../testing/index.md)). |
 
@@ -79,7 +79,7 @@ Check: `bin/check-links`; the new files appear in the AGENTS list in
 
 ### 2. Container queries in the reference themes
 
-The 57 themes answer every narrow-screen question with one viewport query, so a
+The 63 themes answer every narrow-screen question with one viewport query, so a
 component in a narrow sidebar on a wide screen gets the wide layout. The page's
 fix is `container-type: inline-size` plus `@container (min-width: …)`.
 
@@ -137,7 +137,7 @@ specs move together; `image`'s Advice section names the three CSS lines.
 
 The page uses `overflow-wrap: anywhere` and `<wbr>`. Lily has a good reason to
 care: national identifiers, email addresses and URLs have no break
-opportunities, and the 140 identifier components put them in narrow cells.
+opportunities, and the 164 identifier components put them in narrow cells.
 `middle-truncation` already covers the case where the consumer wants an ellipsis.
 
 Add to the themes, scoped (not on `body`): `overflow-wrap: anywhere` on table
@@ -232,5 +232,5 @@ fluid value has a `rem` floor.
 ## Sources
 
 - [Stephcraft: Responsive CSS](https://stephcraft.net/docs/responsive) (read 2026-10-28).
-- Lily's own state, measured 2026-10-28: the 57 [themes/](../../themes/) (`@media (max-width: 48rem)` in every file, one `40rem` query in NHS Wales for patients, no `@container`); [grid](../../components/grid/AGENTS.md); [grail-layout](../../components/grail-layout/index.md); [container-with-fixed-width](../../components/container-with-fixed-width/index.md).
+- Lily's own state, measured 2026-10-28: the 63 [themes/](../../themes/) (`@media (max-width: 48rem)` in every file, one `40rem` query in NHS Wales for patients, no `@container`); [grid](../../components/grid/AGENTS.md); [grail-layout](../../components/grail-layout/index.md); [container-with-fixed-width](../../components/container-with-fixed-width/index.md).
 - [WCAG 2.2: 1.4.4 Resize Text](https://www.w3.org/WAI/WCAG22/Understanding/resize-text.html) and [1.4.10 Reflow](https://www.w3.org/WAI/WCAG22/Understanding/reflow.html).

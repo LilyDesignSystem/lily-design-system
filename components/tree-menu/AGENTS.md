@@ -5,19 +5,18 @@
 - Component: tree-menu
 - PascalCase: TreeMenu
 - Description: a hierarchical tree menu with expandable branches
-- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
+- Status: beta — implemented with key tests in Svelte, React, Vue, Angular, HTML and Blazor (P12-T5a, 2026-10-30; it was a labelled container until then) and Alpine; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .tree-menu
 - Interactive: yes
 
 ## Key Behaviors
 
-- Renders a `<ul>` element with `role="tree"` for tree view semantics
-- Uses reactive state to track the tree element reference for keyboard navigation
+- Renders a `<div>` with `role="tree"` for tree view semantics (Alpine renders a `<ul>`; tasks.md P10-T12)
 - Queries `[role="treeitem"]` descendants to build the navigable item list
 - Arrow key navigation wraps around from last to first item and vice versa
 - Consumer provides `<li role="treeitem">` children with `tabindex="-1"` for focusability
-- Accepts `...restProps` for forwarding additional attributes to the list element
+- Accepts `...restProps` for forwarding additional attributes to the root element
 
 ## ARIA
 

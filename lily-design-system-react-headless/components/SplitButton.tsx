@@ -50,7 +50,9 @@
 // References:
 //   - WAI-ARIA Menu Button: https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/
 
-import React from "react";
+import React, { useEffect, useId, useRef, useState } from "react";
+
+import { popoverSupported, usePopoverState } from "./Popover";
 
 export interface SplitButtonProps {
     className?: string;
@@ -66,8 +68,10 @@ export interface SplitButtonProps {
     disabled?: boolean;
     /** Primary action click handler */
     onPrimaryClick?: (event: React.MouseEvent) => void;
-    /** Menu trigger click handler */
+    /** Menu trigger click handler; call preventDefault() to keep the menu as it is */
     onMenuToggle?: (event: React.MouseEvent) => void;
+    /** Called when the menu opens or closes, including Escape and light dismiss */
+    onChange?: (value: boolean) => void;
     /** The menu content */
     children?: React.ReactNode;
     [key: string]: unknown;
@@ -82,9 +86,30 @@ export default function SplitButton({
     disabled = false,
     onPrimaryClick = undefined,
     onMenuToggle = undefined,
+    onChange = undefined,
     children = undefined,
     ...restProps
 }: SplitButtonProps) {
+    const reactId = useId();
+    const menuId = `split-button-${reactId}-menu`;
+    const menu = useRef<HTMLDivElement>(null);
+    const [open, setOpen] = useState(menuOpen);
+    useEffect(() => setOpen(menuOpen), [menuOpen]);
+
+    function change(value: boolean) {
+        setOpen(value);
+        onChange?.(value);
+    }
+    // popover="auto": the trigger's command="toggle-popover" opens and closes the menu; without the API the click
+    // toggles and `hidden` shows or hides it.
+    usePopoverState(menu, open, change);
+
+    function handleToggle(event: React.MouseEvent) {
+        onMenuToggle?.(event);
+        if (event.defaultPrevented) return;
+        if (menu.current && !popoverSupported(menu.current)) change(!open);
+    }
+
     return (
         <div
             className={`split-button ${className}`}
@@ -105,13 +130,18 @@ export default function SplitButton({
                 type="button"
                 disabled={disabled}
                 aria-haspopup="menu"
-                aria-expanded={menuOpen}
+                aria-expanded={open}
                 aria-label={menuLabel}
-                onClick={onMenuToggle}
+                aria-controls={menuId}
+                popoverTarget={menuId}
+                {...{ command: "toggle-popover", commandfor: menuId }}
+                onClick={handleToggle}
             />
             <div
+                ref={menu}
                 className="split-button-menu"
-                hidden={!menuOpen}
+                id={menuId}
+                popover="auto"
             >
                 {children}
             </div>

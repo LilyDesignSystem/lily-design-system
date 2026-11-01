@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, input, model, output } from "@angular/core";
+import { restoreOnFormReset } from "./form-reset";
 
 /**
  * ChatComposer — a chat input form: a textarea that grows with its content, sends on Enter, and turns its
@@ -77,5 +78,9 @@ export class ChatComposer {
 
     protected onButtonClick(): void {
         if (this.busy()) this.stop.emit();
+    }
+
+    constructor() {
+        restoreOnFormReset(this.value);
     }
 }

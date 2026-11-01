@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"share-page\" aria-label=\"a component for sharing the page on social media\">SharePage</div>";
   const svelteSource: string = "// In your Svelte component:\nimport SharePage from \"lily-design-system-svelte-headless/components/SharePage/SharePage.svelte\";\n\n<SharePage>\n  <!-- content -->\n</SharePage>\n";
-  const usageCode: string = "<div class=\"share-page\" aria-label=\"a component for sharing the page on social media\">SharePage</div>\n";
+  const usageCode: string = "<SharePage\n  label=\"Share this page\"\n  url=\"{pageUrl}\"\n  title=\"{pageTitle}\"\n/>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

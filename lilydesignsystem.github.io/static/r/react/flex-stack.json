@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "flex-stack",
+  "type": "registry:component",
+  "title": "FlexStack",
+  "description": "A flex layout container for vertical or horizontal stacking with consistent gap.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/FlexStack.tsx",
+      "content": "import React from \"react\";\n\n// FlexStack component\n//\n// A headless flex layout container for vertical or horizontal stacking of\n// children with a consistent gap. Accepts optional align-items and\n// justify-content values for fine alignment.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   direction — \"row\" | \"column\", default \"column\".\n//   gap       — string, default \"1rem\". CSS gap value.\n//   align     — string, optional. align-items value.\n//   justify   — string, optional. justify-content value.\n//   children  — ReactNode, required. Items to stack.\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Syntax:\n//   <FlexStack direction=\"row\" gap=\"0.5rem\">…</FlexStack>\n//\n// Examples:\n//\n//   <FlexStack>\n//     <p>Vertically stacked items.</p>\n//     <p>With 1rem gap.</p>\n//   </FlexStack>\n//\n//\n//   <FlexStack direction=\"row\" gap=\"1rem\" align=\"center\" justify=\"space-between\">\n//     <span>Left</span>\n//     <span>Right</span>\n//   </FlexStack>\n//\n// Keyboard: None — layout container.\n//\n// Accessibility:\n//   - Purely structural; no ARIA role\n//\n// Internationalization:\n//   - No user-facing strings\n//\n// Claude rules:\n//   - Headless: only inline style is the functional flex layout\n//\n// References:\n//   - CSS Flexbox: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout\n\nexport interface FlexStackProps {\n    className?: string;\n    /** Flex direction */\n    direction?: \"row\" | \"column\";\n    /** Gap between items (CSS value) */\n    gap?: string;\n    /** align-items value */\n    align?: string;\n    /** justify-content value */\n    justify?: string;\n    /** Items to stack */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function FlexStack({\n    className = \"\",\n    direction = \"column\",\n    gap = \"1rem\",\n    align = undefined,\n    justify = undefined,\n    children,\n    ...restProps\n}: FlexStackProps) {\n    const style: React.CSSProperties = {\n        display: \"flex\",\n        flexDirection: direction,\n        gap,\n    };\n    if (align !== undefined) style.alignItems = align;\n    if (justify !== undefined) style.justifyContent = justify;\n    return (\n        <div\n            className={`flex-stack ${className}`}\n            data-direction={direction}\n            style={style}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/FlexStack.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/flex-stack/"
+}

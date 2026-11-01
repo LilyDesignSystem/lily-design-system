@@ -14,7 +14,8 @@
     name="Default"
     tags={["autodocs", "!dev"]}
 >
-    <CurrencyInput label="CurrencyInput example">
-        <span>CurrencyInput example</span>
-    </CurrencyInput>
+    <CurrencyInput
+        label="CurrencyInput example"
+        currencyCode="EUR"
+    />
 </Story>

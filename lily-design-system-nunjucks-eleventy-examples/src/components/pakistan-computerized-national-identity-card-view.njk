@@ -1,0 +1,23 @@
+---
+layout: layouts/component-demo.njk
+title: PakistanComputerizedNationalIdentityCardView
+description: a read-only display of Pakistan's Computerized National Identity Card Number (CNIC)
+---
+
+{% from "components/pakistan-computerized-national-identity-card-view/macro.njk" import pakistanComputerizedNationalIdentityCardView %}
+
+<h2>Default</h2>
+<p>{{ pakistanComputerizedNationalIdentityCardView({ text: "PakistanComputerizedNationalIdentityCardView example", label: "PakistanComputerizedNationalIdentityCardView example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;SummaryList&gt;
+  &lt;SummaryListItem term="Computerized National Identity Card Number (CNIC)"&gt;
+    &lt;PakistanComputerizedNationalIdentityCardView
+      label="Computerized National Identity Card Number (CNIC)"
+      value="{value}"
+    /&gt;
+  &lt;/SummaryListItem&gt;
+&lt;/SummaryList&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

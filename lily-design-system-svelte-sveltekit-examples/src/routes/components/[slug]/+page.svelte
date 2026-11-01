@@ -40,6 +40,7 @@
         {#if demoHtml}
             <details>
                 <summary>Show demo markup</summary>
+                <!-- svelte-ignore a11y_no_noninteractive_tabindex (a scrollable code block must be focusable: axe scrollable-region-focusable) -->
                 <pre tabindex="0"><code>{demoHtml}</code></pre>
             </details>
         {/if}
@@ -56,6 +57,7 @@
                 </div>
                 <details>
                     <summary>Show markup</summary>
+                    <!-- svelte-ignore a11y_no_noninteractive_tabindex (a scrollable code block must be focusable: axe scrollable-region-focusable) -->
                     <pre tabindex="0"><code>{variant.html}</code></pre>
                 </details>
             {/each}
@@ -73,12 +75,15 @@
 
         <h2>Usage</h2>
         {#if example?.usage}
+            <!-- svelte-ignore a11y_no_noninteractive_tabindex (a scrollable code block must be focusable: axe scrollable-region-focusable) -->
             <pre tabindex="0"><code>{example.usage.code}</code></pre>
         {:else}
+            <!-- svelte-ignore a11y_no_noninteractive_tabindex (a scrollable code block must be focusable: axe scrollable-region-focusable) -->
             <pre tabindex="0"><code>&lt;{component.name} /&gt;</code></pre>
         {/if}
 
         <h2>Import</h2>
+        <!-- svelte-ignore a11y_no_noninteractive_tabindex (a scrollable code block must be focusable: axe scrollable-region-focusable) -->
         <pre tabindex="0"><code
                 >import {component.name} from "#lib/components/{component.name}.svelte";</code
             ></pre>

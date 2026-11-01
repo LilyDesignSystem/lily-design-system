@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "go-to-next-section",
+  "type": "registry:component",
+  "title": "GoToNextSection",
+  "description": "A link that takes users to the next section of the current page.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/GoToNextSection.tsx",
+      "content": "import React from \"react\";\n\n// GoToNextSection component\n// A link that takes users to the next section of the current page.\n\nexport interface GoToNextSectionProps {\n    className?: string;\n    label: string;\n    href: string;\n    [key: string]: unknown;\n}\n\nexport default function GoToNextSection({\n    className = \"\",\n    label,\n    href,\n    ...restProps\n}: GoToNextSectionProps) {\n    return (\n        <a\n            className={`go-to-next-section ${className}`}\n            href={href}\n            aria-label={label}\n            {...restProps}\n        >\n            {label}\n        </a>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/GoToNextSection.tsx"
+    }
+  ],
+  "categories": [
+    "links"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/go-to-next-section/"
+}

@@ -155,7 +155,7 @@ pnpm run dev</code></pre>
   <h2>Gatavās tēmas</h2>
   <p>
     Nevēlaties rakstīt CSS no nulles? Lily piegādā
-    <strong>57 patstāvīgas atsauces tēmas</strong> direktorijā
+    <strong>63 patstāvīgas atsauces tēmas</strong> direktorijā
     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
     . Katra ir viena stilu lapa, kas mērķē uz Lily klases āķiem — saistiet to, un esat stilizēts:
   </p>
@@ -179,11 +179,7 @@ pnpm run dev</code></pre>
 
 <section class="section prose" id="helpers" style="margin: 0 auto;">
   <h2>Iestatījumu palīgi</h2>
-  <p>
-    Katram ietvaram ir astoņi mazi atlasītāji, katrs sava
-    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> pakotne (un <code>picker-bar</code> , kas tos saliek kopā). Katrs ir bezgalvas ikonas poga, kas atver uznirstošo logu — saraksta lodziņu, saišu sarakstu, meklēšanas veidlapu vai (date-time-picker gadījumā) datuma izvēles dialogu — nevis dabiskais
-    <code>&lt;select&gt;</code>; ir drošs SSR; un nepiegādā CSS:
-  </p>
+  <p>Katram ietvaram ir vienpadsmit mazi atlasītāji, katrs savā <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> pakotnē (un <code>picker-bar</code>, kas tos apvieno). Katrs ir headless ikonas poga, kas atver uznirstošo logu — saraksta lodziņu, saišu sarakstu, meklēšanas veidlapu, paneli ar jūsu saturu vai (date-time-picker gadījumā) datuma atlases dialogu — nevis vietējo <code>&lt;select&gt;</code> (theme-picker to piedāvā kā izvēles variantu); tas ir drošs SSR un nepiegādā CSS. Bez menu-picker, settings-picker un time-zone-picker tie ir:</p>
   <ul>
     <li>
       <strong>theme-picker</strong> — ielādē tēmu stilu lapas izpildes laikā, nomainot pārvaldītu <code>&lt;link&gt;</code>, iestata
@@ -294,7 +290,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
     <summary>Komponente renderējas, bet izskatās nestilizēta</summary>
     <p>
       Tā ir bezgalvas darbība, kā paredzēts — līdz komponentei nenāk neviens CSS. Vai nu uzrakstiet CSS komponentes kebab-case klasei (parādīta katrā <a href="/components/">kataloga lapā</a>) vai saistiet vienu no
-      <a href="#themes">57 gatavajām tēmām</a>.
+      <a href="#themes">63 gatavajām tēmām</a>.
     </p>
   </details>
 
@@ -383,7 +379,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
   <details class="faq-item">
     <summary>Kāpēc bezgalvas, nevis stilizēts?</summary>
     <p>
-      Iepriekš stilizētas komponentes ir ērtas — kamēr tās neatbilst jūsu zīmolam. Bezgalvas komponentes sākumā prasa nedaudz vairāk darba, bet dod pilnīgu kontroli pār vizuālo dizainu. Paraugu lietotnes un 57 tēmas rāda veidus, kā tās stilizēt; varat tās paņemt vai pilnībā aizstāt. Garāks arguments ir uz <a href="/why/">Kāpēc Lily</a>.
+      Iepriekš stilizētas komponentes ir ērtas — kamēr tās neatbilst jūsu zīmolam. Bezgalvas komponentes sākumā prasa nedaudz vairāk darba, bet dod pilnīgu kontroli pār vizuālo dizainu. Paraugu lietotnes un 63 tēmas rāda veidus, kā tās stilizēt; varat tās paņemt vai pilnībā aizstāt. Garāks arguments ir uz <a href="/why/">Kāpēc Lily</a>.
     </p>
   </details>
 

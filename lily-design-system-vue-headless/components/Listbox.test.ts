@@ -223,6 +223,29 @@ describe("Listbox — active-descendant mode (opt-in, additive)", () => {
         expect(onUpdate).toHaveBeenLastCalledWith(1);
     });
 
+    test("prevents the default for the keys it handles; Tab and typeahead letters pass through", async () => {
+        render(Subject, {
+            props: {
+                label: "Fruits",
+                navigation: "active-descendant",
+                typeahead: true,
+                activeIndex: 0,
+            },
+            slots: { default: AD_OPTIONS },
+        });
+        const listbox = screen.getByRole("listbox");
+        const press = (key: string) => {
+            const event = new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true });
+            listbox.dispatchEvent(event);
+            return event.defaultPrevented;
+        };
+        expect(press("ArrowDown")).toBe(true);
+        expect(press("Enter")).toBe(true);
+        expect(press("Escape")).toBe(true);
+        expect(press("Tab")).toBe(false);
+        expect(press("b")).toBe(false);
+    });
+
     test("as changes the root tag; baseClass replaces the default class token outright", () => {
         render(Subject, {
             props: { label: "Fruits", as: "ul", baseClass: "motion-picker-list" },

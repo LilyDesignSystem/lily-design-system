@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "addressograph-box",
+  "type": "registry:component",
+  "title": "AddressographBox",
+  "description": "A box that shows a person's identification details, such as name, tracking information, and salient notations.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/AddressographBox.tsx",
+      "content": "import React from \"react\";\n\n// AddressographBox component\n//\n// A printed or rendered block of patient identification details, traditionally\n// applied to clinical paperwork by an addressograph-box machine. The component is\n// passive structural markup — the consumer supplies the identifier lines as\n// children (name, date of birth, NHS number, etc.).\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label    — string, optional. Accessible label via aria-label.\n//   children — ReactNode, required. Component content.\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Accessibility:\n//   - aria-label exposes a screen-reader name when label is provided\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n\nexport interface AddressographBoxProps {\n    className?: string;\n    /** Optional accessible label set on aria-label. */\n    label?: string;\n    /** Component content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function AddressographBox({\n    className = \"\",\n    label = undefined,\n    children,\n    ...restProps\n}: AddressographBoxProps) {\n    return (\n        <div\n            className={`addressograph-box ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/AddressographBox.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/addressograph-box/"
+}

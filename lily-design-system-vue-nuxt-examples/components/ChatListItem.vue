@@ -21,9 +21,12 @@ withDefaults(
     defineProps<{
         /** Optional accessible label set on aria-label. */
         label?: string;
+        /** Marks the currently selected conversation (aria-current="true"). */
+        current?: boolean;
     }>(),
     {
         label: undefined,
+        current: false,
     },
 );
 </script>
@@ -33,6 +36,7 @@ withDefaults(
     <li
         class="chat-list-item"
         :aria-label="label"
+        :aria-current="current ? 'true' : undefined"
     >
         <slot />
     </li>

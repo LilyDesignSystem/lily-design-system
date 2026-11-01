@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "calendar-table-td",
+  "type": "registry:component",
+  "title": "CalendarTableTD",
+  "description": "A calendar table interactive grid data cell for managing dates, days, etc. <td>.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/CalendarTableTD.tsx",
+      "content": "import React from \"react\";\n\n// CalendarTableTD component\n//\n// A single day cell within a CalendarTable grid. Renders as a <td> with\n// role=\"gridcell\", supporting selected and today states for visual and\n// accessible indication. Uses a roving tabindex pattern where the selected\n// cell receives focus. Designed for use inside a CalendarTableRow.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   selected — boolean, default false. Whether this day cell is selected.\n//   today — boolean, default false. Whether this day cell represents today's date.\n//   children — ReactNode, required. Day content, typically the day number.\n//   ...restProps — additional HTML attributes spread onto the <td>.\n//\n// Syntax:\n//   <CalendarTableTD>15</CalendarTableTD>\n//\n// Examples:\n//\n//   <CalendarTableTD selected today>15</CalendarTableTD>\n//\n//\n//   <CalendarTableTD>22</CalendarTableTD>\n//\n// Keyboard:\n//   - Tab: Focus moves to the selected cell (tabindex=\"0\")\n//   - Arrow keys: Typically handled by the parent CalendarTable grid navigation\n//\n// Accessibility:\n//   - role=\"gridcell\" identifies the cell as part of a grid\n//   - aria-selected set to true when selected; omitted otherwise\n//   - aria-current=\"date\" set when the cell represents today; omitted otherwise\n//   - Roving tabindex: tabindex=\"0\" when selected, \"-1\" otherwise\n//\n// Internationalization:\n//   - Day content comes through children prop; no hardcoded strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Must be used inside a CalendarTableRow\n//\n// References:\n//   - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/\n\nexport interface CalendarTableTDProps {\n    className?: string;\n    /** Whether this day is selected. */\n    selected?: boolean;\n    /** Whether this day is today. */\n    today?: boolean;\n    /** Day content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function CalendarTableTD({\n    className = \"\",\n    selected = false,\n    today = false,\n    children,\n    ...restProps\n}: CalendarTableTDProps) {\n    return (\n        <td\n            className={`calendar-table-td ${className}`}\n            role=\"gridcell\"\n            aria-selected={selected || undefined}\n            aria-current={today ? \"date\" : undefined}\n            tabIndex={selected ? 0 : -1}\n            {...restProps}\n        >\n            {children}\n        </td>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/CalendarTableTD.tsx"
+    }
+  ],
+  "categories": [
+    "tables"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/calendar-table-td/"
+}

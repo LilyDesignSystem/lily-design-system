@@ -19,9 +19,12 @@ This component is useful for event logging, timestamping, incident reporting, an
 ## Props
 
 - `label`: string (required) -- accessible name for the wrapper group via `aria-label`
-- `dateLabel`: string (default: "Date") -- accessible name for the date input via `aria-label`
-- `timeLabel`: string (default: "Time") -- accessible name for the time input via `aria-label`
-- `nowLabel`: string (default: "Now") -- accessible label and text for the "Now" button
+- `dateLabel`: string (required, no default) -- accessible name for the date input via `aria-label`
+- `timeLabel`: string (required, no default) -- accessible name for the time input via `aria-label`
+- `nowLabel`: string (required, no default) -- accessible label and text for the "Now" button
+- The three names come from the locale-translations packs, never from an English default: `dateTimeNowInputLabels(pack)`
+  in each catalog's `*-locale-translations` package returns `{ dateLabel, timeLabel, nowLabel }` for 64 locales (Blazor:
+  `LocaleTranslations.DateTimeNowInputLabels(locale)`). A missing name leaves its control unnamed rather than in another language.
 - `dateValue`: string (default: "") -- bindable date string (format: YYYY-MM-DD)
 - `timeValue`: string (default: "") -- bindable time string (format: HH:mm)
 - `required`: boolean (default: false) -- whether the inputs are required for form submission
@@ -35,18 +38,24 @@ Clinical observation timestamp with "Now" button:
 ```html
 <DateTimeNowInput
   label="Observation recorded"
+  dateLabel="Date"
+  timeLabel="Time"
+  nowLabel="Record now"
   dateValue="{obsDate}"
   timeValue="{obsTime}"
-  nowLabel="Record now"
   required
 />
 ```
 
-Incident reporting with default labels:
+Incident reporting in Spanish, with the three names from the `es-001` pack (`dateTimeNowInputLabels(es)` gives
+`dateLabel="Fecha"`, `timeLabel="Hora"` and `nowLabel="Ahora"`):
 
 ```html
 <DateTimeNowInput
-  label="Incident occurred"
+  label="Hora del incidente"
+  dateLabel="Fecha"
+  timeLabel="Hora"
+  nowLabel="Ahora"
   dateValue="{incidentDate}"
   timeValue="{incidentTime}"
 />
@@ -57,6 +66,9 @@ Locked timestamp that has already been recorded:
 ```html
 <DateTimeNowInput
   label="Administered at"
+  dateLabel="Date"
+  timeLabel="Time"
+  nowLabel="Now"
   dateValue="{adminDate}"
   timeValue="{adminTime}"
   disabled="{true}"

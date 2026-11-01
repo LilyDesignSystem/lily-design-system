@@ -49,7 +49,7 @@
 //   - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radiobutton/
 //   - MDN input type="radio": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/radio
 
-import React, { useState } from "react";
+import React from "react";
 
 export interface RadioInputProps {
     className?: string;
@@ -78,10 +78,10 @@ export default function RadioInput({
     onChange,
     ...restProps
 }: RadioInputProps) {
-    const [checked, setChecked] = useState(checkedProp);
-
+    // Uncontrolled: the browser owns the group's selection, so arrow keys, the
+    // one-of-a-group rule and form reset (back to the initial `checked`) all
+    // work natively. A per-radio copy of the state drifted from the group.
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setChecked(e.target.checked);
         onChange?.(e);
     };
 
@@ -92,7 +92,7 @@ export default function RadioInput({
             aria-label={label}
             name={name}
             value={value}
-            checked={checked}
+            defaultChecked={checkedProp}
             disabled={disabled}
             onChange={handleChange}
             {...restProps}

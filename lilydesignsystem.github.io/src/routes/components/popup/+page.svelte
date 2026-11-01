@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"popup\" role=\"dialog\"><p>Popup content</p></div>";
   const svelteSource: string = "// In your Svelte component:\nimport Popup from \"lily-design-system-svelte-headless/components/Popup/Popup.svelte\";\n\n<Popup>\n  <!-- content -->\n</Popup>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import Popup from './Popup.svelte';\n\n  let open = $state(false);\n<\/script>\n\n<button type=\"button\" onclick={() => (open = true)}>Delete</button>\n<Popup label=\"Confirm deletion\" bind:open>\n  <p>Are you sure you want to proceed?</p>\n  <button type=\"button\" onclick={() => (open = false)}>Yes</button>\n  <button type=\"button\" onclick={() => (open = false)}>No</button>\n</Popup>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import Popup from \"./Popup.svelte\";\n\n  let open = $state(false);\n<\/script>\n\n<button\n  type=\"button\"\n  onclick={() => (open = true)}>Delete</button\n>\n<Popup\n  label=\"Confirm deletion\"\n  bind:open\n>\n  <p>Are you sure you want to proceed?</p>\n  <button\n    type=\"button\"\n    onclick={() => (open = false)}>Yes</button\n  >\n  <button\n    type=\"button\"\n    onclick={() => (open = false)}>No</button\n  >\n</Popup>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>
@@ -84,17 +84,20 @@
     <ul>
       <li><code>role="dialog"</code> -- identifies the popup as a dialog overlay for assistive technology</li>
       <li><code>aria-label="..."</code> -- provides the accessible name for the dialog</li>
+      <li>The trigger (consumer's) should carry <code>aria-haspopup="dialog"</code> and <code>aria-controls</code>; the browser exposes a <code>popovertarget</code> trigger's expanded state</li>
     </ul>
     <h3>Keyboard</h3>
     <ul>
-      <li>Escape: Consumer should implement closing the popup by setting <code>open</code> to false</li>
-      <li>Tab: Should trap focus within the popup when open (consumer responsibility)</li>
+      <li>Enter / Space on the trigger: the browser toggles the popup (command / popovertarget)</li>
+      <li>Escape: the browser closes it (Popover API); <code>open</code> becomes false</li>
+      <li>Tab: not trapped -- a popover is non-modal</li>
     </ul>
     <h3>Props</h3>
     <ul>
       <li><code>label</code>: string (required) -- accessible name for the popup dialog via <code>aria-label</code></li>
-      <li><code>open</code>: boolean (default: false, bindable) -- controls whether the popup is visible; supports two-way binding</li>
-      <li><code>children</code>: slot (required) -- the popup content rendered inside the dialog</li>
+      <li><code>open</code>: boolean (default: false, bindable) -- whether the popup is shown; follows the browser's toggles</li>
+      <li><code>id</code>: string (rest prop) -- lets a trigger name it with <code>commandfor</code> / <code>popovertarget</code></li>
+      <li><code>children</code>: slot (required) -- the popup content</li>
       <li><code>...restProps</code>: unknown -- additional attributes spread onto the <code>&lt;div&gt;</code> element</li>
     </ul>
 </section>

@@ -19,4 +19,14 @@ describe("FileDialog", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("Escape closes the dialog", () => {
+        const fixture = TestBed.createComponent(FileDialog);
+        fixture.componentRef.setInput("open", true);
+        fixture.detectChanges();
+        const dialog = fixture.nativeElement.querySelector("dialog") as HTMLDialogElement;
+        dialog.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+        fixture.detectChanges();
+        expect(fixture.componentInstance.open()).toBe(false);
+    });
 });

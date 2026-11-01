@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"sticky-promo-banner\" aria-label=\"a fixed-position promotional banner with a dismiss button\">StickyPromoBanner</div>";
   const svelteSource: string = "// In your Svelte component:\nimport StickyPromoBanner from \"lily-design-system-svelte-headless/components/StickyPromoBanner/StickyPromoBanner.svelte\";\n\n<StickyPromoBanner>\n  <!-- content -->\n</StickyPromoBanner>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import StickyPromoBanner from './StickyPromoBanner.svelte';\n\n  let open = $state(true);\n<\/script>\n\n<StickyPromoBanner\n  label=\"Promotional banner\"\n  dismissLabel=\"Dismiss banner\"\n  position=\"bottom\"\n  {open}\n  ondismiss={() => (open = false)}\n>\n  <p>Special offer: free shipping this week.</p>\n</StickyPromoBanner>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import StickyPromoBanner from \"./StickyPromoBanner.svelte\";\n\n  let open = $state(true);\n<\/script>\n\n<StickyPromoBanner\n  label=\"Promotional banner\"\n  dismissLabel=\"Dismiss banner\"\n  position=\"bottom\"\n  {open}\n  ondismiss={() => (open = false)}\n>\n  <p>Special offer: free shipping this week.</p>\n</StickyPromoBanner>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

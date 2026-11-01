@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"coachmark\" aria-label=\"an anchored popover that spotlights and explains a single feature\">Coachmark</div>";
   const svelteSource: string = "// In your Svelte component:\nimport Coachmark from \"lily-design-system-svelte-headless/components/Coachmark/Coachmark.svelte\";\n\n<Coachmark>\n  <!-- content -->\n</Coachmark>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import Coachmark from './Coachmark.svelte';\n\n  let open = $state(true);\n<\/script>\n\n<Coachmark\n  {open}\n  title=\"New dashboard\"\n  description=\"See your activity at a glance.\"\n  dismissLabel=\"Dismiss\"\n  onDismiss={() => (open = false)}\n/>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import Coachmark from \"./Coachmark.svelte\";\n\n  let open = $state(true);\n<\/script>\n\n<Coachmark\n  {open}\n  title=\"New dashboard\"\n  description=\"See your activity at a glance.\"\n  dismissLabel=\"Dismiss\"\n  onDismiss={() => (open = false)}\n/>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>
@@ -86,7 +86,7 @@
       <li><code>aria-modal="false"</code> (non-blocking)</li>
       <li><code>aria-labelledby</code> referencing the title id</li>
       <li><code>aria-describedby</code> referencing the description id, only when description is provided</li>
-      <li><code>hidden</code> attribute reflects <code>!open</code></li>
+      <li><code>popover="manual"</code> shown while <code>open</code>; <code>hidden</code> where the Popover API is missing</li>
       <li>Dismiss button has <code>aria-label</code> via <code>dismissLabel</code></li>
     </ul>
     <h3>Keyboard</h3>

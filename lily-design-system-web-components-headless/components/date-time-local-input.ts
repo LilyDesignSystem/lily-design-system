@@ -32,7 +32,7 @@ export class DateTimeLocalInput extends HTMLElement {
         input.className = rootClassName(this, "date-time-local-input");
         const label = this.getAttribute("label");
         if (label !== null) input.setAttribute("aria-label", label);
-        input.value = this.getAttribute("value") ?? "";
+        input.defaultValue = this.getAttribute("value") ?? "";
         const min = this.getAttribute("min");
         if (min !== null) input.min = min;
         const max = this.getAttribute("max");

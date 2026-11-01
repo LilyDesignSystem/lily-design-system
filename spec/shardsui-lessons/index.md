@@ -102,7 +102,7 @@ ShardsUI states a default for every behavioural option: `loopFocus` (true),
 
 ShardsUI's positioner publishes `--anchor-width`, `--anchor-height`,
 `--available-width`, `--available-height` and `--transform-origin`. Lily's
-57 themes already position popups with CSS anchor positioning, and the
+63 themes already position popups with CSS anchor positioning, and the
 Alpine context menu already publishes `--context-menu-x` / `--context-menu-y`.
 
 - **Deliverable:** a documented set of custom properties per popup component

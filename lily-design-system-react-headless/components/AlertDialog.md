@@ -21,7 +21,7 @@ critical error messages that require acknowledgment.
 - `aria-modal="true"` signals modal behavior to assistive technologies
 - Title rendered in a `<p><strong>` element, referenced by `aria-labelledby`
 - Description rendered in a `<p>` element, referenced by `aria-describedby` when present
-- Consumers are responsible for focus trapping and Escape key handling
+- The dialog opens with `showModal()`: the browser traps focus and fires `cancel` on Escape, which closes it
 
 ## Props
 

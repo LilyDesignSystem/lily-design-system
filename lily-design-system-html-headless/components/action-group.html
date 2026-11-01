@@ -7,14 +7,24 @@
   HTML tag: <div> with role="group"
   CSS class: action-group
   Keyboard: Tab to focus the visible buttons or the overflow trigger;
-            Enter or Space toggles the overflow menu when the trigger is focused.
+            Enter or Space toggles the overflow menu when the trigger is focused;
+            Escape closes it.
   Accessibility: role="group" with required aria-label; overflow trigger uses
-                 aria-haspopup="menu" and aria-expanded to convey menu state.
+                 aria-haspopup="menu", aria-controls and aria-expanded to convey menu state.
+
+  Popover API (tasks.md P18-T11):
+    The overflow menu is popover="auto" and the trigger names it with
+    command="toggle-popover" commandfor (and popovertarget), so the browser
+    opens and closes it, closes it on Escape and on a click outside, and puts
+    it in the top layer, with no script. The embedded script keeps
+    aria-expanded in step with the menu's toggle event. Where the Popover API
+    is missing it falls back to toggling the panel's `hidden` attribute.
 
   Behavior:
     The embedded script wires the overflow trigger:
       - Reads aria-controls to find the overflow menu panel.
-      - Toggles aria-expanded on the trigger and the hidden attribute on the panel.
+      - Follows the panel's toggle event (or, in the fallback, toggles the
+        hidden attribute) and keeps aria-expanded on the trigger in step.
 
   Usage (HTML comments inside this docstring are written without nested
   comment markers to keep the outer comment intact):
@@ -24,8 +34,10 @@
       <button class="action-group-overflow-trigger" type="button"
               aria-haspopup="menu" aria-expanded="false"
               aria-controls="action-group-overflow-1"
+              command="toggle-popover" commandfor="action-group-overflow-1"
+              popovertarget="action-group-overflow-1"
               aria-label="More actions">...</button>
-      <div class="action-group-overflow-menu" id="action-group-overflow-1" hidden>
+      <div class="action-group-overflow-menu" id="action-group-overflow-1" popover="auto">
         (overflow menu content)
       </div>
     </div>
@@ -44,13 +56,16 @@
     aria-haspopup="menu"
     aria-expanded="false"
     aria-controls="action-group-overflow-1"
+    command="toggle-popover"
+    commandfor="action-group-overflow-1"
+    popovertarget="action-group-overflow-1"
     aria-label=""
   >…</button>
 
   <div
     class="action-group-overflow-menu"
     id="action-group-overflow-1"
-    hidden
+    popover="auto"
   >
     <!-- Consumer provides overflow menu content -->
   </div>
@@ -58,11 +73,14 @@
 
 <script>
   // ActionGroup behavior
-  // Wires the overflow trigger to toggle aria-expanded and the panel's hidden
+  // With the Popover API the browser opens, closes and light-dismisses the
+  // overflow menu; this script keeps aria-expanded in step with its toggle
+  // event. Without it, the trigger's click toggles the panel's hidden
   // attribute. Pure vanilla JavaScript — no framework, no styling.
   (function () {
     "use strict";
 
+    var native = typeof HTMLElement.prototype.showPopover === "function";
     var groups = document.querySelectorAll('div.action-group');
 
     groups.forEach(function (group) {
@@ -80,6 +98,17 @@
         panel = group.querySelector('.action-group-overflow-menu');
       }
       if (!panel) return;
+
+      if (native) {
+        panel.addEventListener('toggle', function (event) {
+          trigger.setAttribute('aria-expanded', event.newState === 'open' ? 'true' : 'false');
+        });
+        return;
+      }
+
+      // Fallback: no Popover API.
+      panel.removeAttribute('popover');
+      panel.setAttribute('hidden', '');
 
       trigger.addEventListener('click', function () {
         if (trigger.disabled) return;

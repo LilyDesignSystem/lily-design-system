@@ -10,7 +10,7 @@ headless component library; the audit target is the rendered semantics,
 ARIA, keyboard operation, and themed presentation of its components,
 using the SvelteKit example app as the harness (it renders every
 component at `/components/{slug}` with the NHS England patients theme
-by default and 45 switchable themes).
+by default and 57 switchable themes).
 
 Suggested tiers, so a partial budget still buys something coherent:
 

@@ -12,7 +12,7 @@ function textSnippet(text: string) {
 }
 
 describe("TourList", () => {
-    test("renders dialog when active", () => {
+    test("renders the list when active", () => {
         render(Subject, {
             props: {
                 label: "Getting started",
@@ -20,7 +20,7 @@ describe("TourList", () => {
                 children: textSnippet("Welcome"),
             },
         });
-        expect(screen.getByRole("dialog")).toBeTruthy();
+        expect(screen.getByRole("list")).toBeTruthy();
     });
 
     test("does not render when not active", () => {
@@ -31,7 +31,7 @@ describe("TourList", () => {
                 children: textSnippet("Welcome"),
             },
         });
-        expect(screen.queryByRole("dialog")).toBeNull();
+        expect(screen.queryByRole("list")).toBeNull();
     });
 
     test("has aria-label", () => {
@@ -45,7 +45,9 @@ describe("TourList", () => {
         expect(screen.getByLabelText("Onboarding tour")).toBeTruthy();
     });
 
-    test("has aria-modal true", () => {
+    // P18-T6: a list of steps, not a dialog. role="dialog" hid the list semantics and aria-modal claimed a
+    // modality nothing provided.
+    test("is a plain ordered list: no role=dialog, no aria-modal", () => {
         render(Subject, {
             props: {
                 label: "Tour",
@@ -53,7 +55,11 @@ describe("TourList", () => {
                 children: textSnippet("content"),
             },
         });
-        expect(screen.getByRole("dialog").getAttribute("aria-modal")).toBe("true");
+        const list = screen.getByRole("list");
+        expect(list.tagName).toBe("OL");
+        expect(list.hasAttribute("role")).toBe(false);
+        expect(list.hasAttribute("aria-modal")).toBe(false);
+        expect(screen.queryByRole("dialog")).toBeNull();
     });
 
     test("has tabindex -1 for keyboard events", () => {
@@ -64,7 +70,7 @@ describe("TourList", () => {
                 children: textSnippet("content"),
             },
         });
-        expect(screen.getByRole("dialog").getAttribute("tabindex")).toBe("-1");
+        expect(screen.getByRole("list").getAttribute("tabindex")).toBe("-1");
     });
 
     test("renders children content", () => {
@@ -87,11 +93,11 @@ describe("TourList", () => {
                 children: textSnippet("content"),
             },
         });
-        const dialog = screen.getByRole("dialog");
-        dialog.focus();
+        const list = screen.getByRole("list");
+        list.focus();
         await user.keyboard("{Escape}");
         await vi.waitFor(() => {
-            expect(screen.queryByRole("dialog")).toBeNull();
+            expect(screen.queryByRole("list")).toBeNull();
         });
     });
 

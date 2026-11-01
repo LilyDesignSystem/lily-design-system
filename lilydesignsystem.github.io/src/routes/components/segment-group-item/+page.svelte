@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<button class=\"segment-group-item\" role=\"radio\" aria-checked=\"true\">Grid</button>";
   const svelteSource: string = "// In your Svelte component:\nimport SegmentGroupItem from \"lily-design-system-svelte-headless/components/SegmentGroupItem/SegmentGroupItem.svelte\";\n\n<SegmentGroupItem>\n  <!-- content -->\n</SegmentGroupItem>\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import SegmentGroup from \"../SegmentGroup/SegmentGroup.svelte\";\n    import SegmentGroupItem from \"./SegmentGroupItem.svelte\";\n    let view = $state(\"grid\");\n<\/script>\n\n<SegmentGroup label=\"View\">\n    <SegmentGroupItem\n        checked={view === \"grid\"}\n        value=\"grid\"\n        onclick={() => (view = \"grid\")}\n    >Grid</SegmentGroupItem>\n    <SegmentGroupItem\n        checked={view === \"list\"}\n        value=\"list\"\n        onclick={() => (view = \"list\")}\n    >List</SegmentGroupItem>\n</SegmentGroup>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import SegmentGroup from \"../SegmentGroup/SegmentGroup.svelte\";\n  import SegmentGroupItem from \"./SegmentGroupItem.svelte\";\n  let view = $state(\"grid\");\n<\/script>\n\n<SegmentGroup label=\"View\">\n  <SegmentGroupItem\n    checked={view === \"grid\"}\n    value=\"grid\"\n    onclick={() => (view = \"grid\")}>Grid</SegmentGroupItem\n  >\n  <SegmentGroupItem\n    checked={view === \"list\"}\n    value=\"list\"\n    onclick={() => (view = \"list\")}>List</SegmentGroupItem\n  >\n</SegmentGroup>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

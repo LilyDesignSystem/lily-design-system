@@ -50,6 +50,9 @@
 //   - WAI-ARIA Slider Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/slider/
 //   - MDN input type="range": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range
 
+import { ref } from "vue";
+import { useFormReset } from "./form-reset";
+
 withDefaults(
     defineProps<{
         /** Accessible label. */
@@ -72,6 +75,8 @@ withDefaults(
 );
 
 const modelValue = defineModel<number>({ default: 50 });
+const field = ref<HTMLInputElement | HTMLTextAreaElement | null>(null);
+useFormReset(modelValue, field);
 </script>
 
 <template>
@@ -80,6 +85,7 @@ const modelValue = defineModel<number>({ default: 50 });
         class="slider"
         type="range"
         :aria-label="label"
+        ref="field"
         v-model="modelValue"
         :min="min"
         :max="max"

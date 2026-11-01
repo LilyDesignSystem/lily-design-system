@@ -33,6 +33,7 @@
 //   - WAI-ARIA Tree Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/treeview/
 
 import { applySelfClassName, moveChildrenInto } from "../lib/dom-utils.js";
+import { syncManualPopover } from "./popover.js";
 
 export class TreeSelect extends HTMLElement {
     #built = false;
@@ -63,7 +64,7 @@ export class TreeSelect extends HTMLElement {
 
         const initiallyExpanded = this.hasAttribute("expanded");
         this.setAttribute("aria-expanded", initiallyExpanded ? "true" : "false");
-        panel.hidden = !initiallyExpanded;
+        syncManualPopover(panel, initiallyExpanded);
 
         trigger.addEventListener("click", () => {
             if (trigger.disabled) return;
@@ -92,7 +93,7 @@ export class TreeSelect extends HTMLElement {
         if (this.getAttribute("aria-expanded") === (value ? "true" : "false")) return;
         this.toggleAttribute("expanded", value);
         this.setAttribute("aria-expanded", value ? "true" : "false");
-        if (this.#panel) this.#panel.hidden = !value;
+        if (this.#panel) syncManualPopover(this.#panel, value);
         this.dispatchEvent(
             new CustomEvent("lily-expanded-change", {
                 detail: { expanded: value },

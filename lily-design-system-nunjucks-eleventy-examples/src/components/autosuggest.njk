@@ -14,6 +14,12 @@ description: a text input that proposes matching options as users type
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>
-<pre tabindex="0"><code>{% raw %}&lt;Autosuggest label="Find a service" suggestions={current} onInput={handleQuery} onSelect={handleSelect} /&gt;
+<pre tabindex="0"><code>{% raw %}&lt;Autosuggest
+  label="Find a service"
+  bind:value="{query}"
+  suggestions="{current}"
+  onInput="{handleQuery}"
+  onSelect="{handleSelect}"
+/&gt;
 {% endraw %}</code></pre>
 {# END generated: examples #}

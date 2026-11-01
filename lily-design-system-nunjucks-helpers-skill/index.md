@@ -2,7 +2,7 @@
 
 A Claude Skill ([`SKILL.md`](SKILL.md)) that explains how to consume
 [the Nunjucks helper packages](../spec/helpers/index.md#nunjucks-helper-packages):
-the six `*-picker` packages (`theme-picker`, `locale-picker`,
+the `*-picker` and other helper packages (`theme-picker`, `locale-picker`,
 `text-size-picker`, `motion-picker`, `share-picker`, `date-time-picker`),
 the macro-plus-`client.js` split that Nunjucks' server-only rendering
 forces on this catalog specifically, the shared icon-button-opens-listbox
@@ -15,7 +15,7 @@ It is the Nunjucks-helpers-specific counterpart to
 [`lily-design-system-skill`](../lily-design-system-skill/), which covers
 framework-agnostic Lily concepts, and the sibling of
 [`lily-design-system-nunjucks-headless-skill`](../lily-design-system-nunjucks-headless-skill/),
-which covers the 582-component headless macro catalog instead of the
+which covers the 607-component headless macro catalog instead of the
 `*-picker` helpers.
 
 ## What it's for
@@ -31,12 +31,12 @@ truth.
 
 ## Structure
 
-- [`SKILL.md`](SKILL.md) — the skill itself: the six helpers' one-line
+- [`SKILL.md`](SKILL.md) — the skill itself: the helpers' one-line
   contracts, the macro-plus-client.js split, the shared markup contract,
   and the `motion-picker` deviation.
 
 Scaffolded to the same full-subproject bar as its siblings
 (`lily-design-system-skill`, `lily-design-system-maintainer-skill`,
 `lily-design-system-nunjucks-headless-skill`) — including the required
-`index.md`, `README.md` symlink, `AGENTS.md`, `CLAUDE.md`, `spec/index.md` — and lives only in this monorepo (its standalone subtree
+`index.md`, `README.md` symlink, `AGENTS.md`, `spec/index.md` — and lives only in this monorepo (its standalone subtree
 repository was deleted 2026-10-10).

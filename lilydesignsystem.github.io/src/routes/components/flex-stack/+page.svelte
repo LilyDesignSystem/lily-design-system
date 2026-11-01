@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"flex-stack\" aria-label=\"a flex layout container for vertical or horizontal stacking with consistent gap\">FlexStack</div>";
   const svelteSource: string = "// In your Svelte component:\nimport FlexStack from \"lily-design-system-svelte-headless/components/FlexStack/FlexStack.svelte\";\n\n<FlexStack>\n  <!-- content -->\n</FlexStack>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import FlexStack from './FlexStack.svelte';\n<\/script>\n\n<FlexStack gap=\"0.75rem\">\n  <p>One</p>\n  <p>Two</p>\n  <p>Three</p>\n</FlexStack>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import FlexStack from \"./FlexStack.svelte\";\n<\/script>\n\n<FlexStack gap=\"0.75rem\">\n  <p>One</p>\n  <p>Two</p>\n  <p>Three</p>\n</FlexStack>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

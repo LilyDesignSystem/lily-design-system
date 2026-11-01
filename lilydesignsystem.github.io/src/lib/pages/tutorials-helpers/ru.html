@@ -3,8 +3,7 @@
 <section class="page-intro">
   <h1>Помощники настроек</h1>
   <p class="page-intro-tagline">
-    Семь небольших пакетов на каждый фреймворк, каждый владеет одной пользовательской задачей от начала до конца, плюс панель, которая собирает пять из них. Вы уже знакомы с
-    <a href="/tutorials/theming/">theme-picker</a>; вот locale-picker, text-size-picker и motion-picker (настройки), share-picker и search-picker (действия), date-time-picker (значение формы) и picker-bar.
+    Одиннадцать небольших селекторов в каждом фреймворке, каждый отвечает за одну задачу пользователя от начала до конца, плюс панель, собирающая до семи из них. С <a href="/tutorials/theming/">theme-picker</a> вы уже знакомы; вот locale-picker, text-size-picker и motion-picker (предпочтения), share-picker и search-picker (действия), date-time-picker (значение формы) и picker-bar.
   </p>
 </section>
 
@@ -26,7 +25,7 @@
     <li>Безопасно для SSR: записи в DOM происходят только в жизненном цикле mount/effect.</li>
     <li>Чисто для i18n: каждая видимая пользователю строка — это prop.</li>
     <li>
-      Доступно для Svelte (эталонный), React, Vue, Angular, пользовательского элемента HTML, Nunjucks и Blazor — один и тот же контракт в каждом.
+      Доступно для Svelte (эталонный), React, Vue, Angular, пользовательского элемента HTML, Web Components, Nunjucks и Blazor — один и тот же контракт в каждом.
     </li>
   </ul>
   <p>
@@ -208,6 +207,7 @@
   <p>
     <code>picker-bar</code> отображает поиск, тему, локаль, размер текста и «Поделиться» в одной строке, с полным набором эталонных тем и семиступенчатой шкалой текста, уже подключёнными. Каждое доступное имя приходит в одном обязательном
     <code>labels</code> объекте.
+    Она также показывает link-picker первым, когда вы передаёте ссылки, и time-zone-picker после локали, когда вы даёте ей подпись часового пояса и локаль.
   </p>
   
   <pre tabindex="0"><code>&lt;script&gt;
@@ -264,7 +264,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker
 
   <h2>Дальнейшие шаги</h2>
   <ul>
-    <li><a href="/components/">Каталог компонентов</a> — полный справочник по 582 компоненту.</li>
+    <li><a href="/components/">Каталог компонентов</a> — полный справочник по 607 компоненту.</li>
     <li><a href="/help/">Справка</a> — устранение неполадок и FAQ.</li>
     <li><a href="/why/">Почему Lily</a> — и как поддержать проект.</li>
   </ul>

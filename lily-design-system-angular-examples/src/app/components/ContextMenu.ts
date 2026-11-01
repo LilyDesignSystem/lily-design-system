@@ -1,5 +1,6 @@
 import {
     afterNextRender,
+    afterRenderEffect,
     ChangeDetectionStrategy,
     Component,
     effect,
@@ -11,6 +12,8 @@ import {
     viewChild,
 } from "@angular/core";
 
+import { syncPopover, toggleOpened } from "./Popover";
+
 /**
  * ContextMenu — a menu that appears on right-click or long-press
  *
@@ -21,15 +24,15 @@ import {
 @Component({
     selector: "lily-context-menu",
     standalone: true,
-    template: `@if (open()) {
-    <div
-      #menu
-      class="context-menu {{ className() }}"
-      role="menu"
-      [attr.aria-label]="label() || null"
-      (keydown)="onKeydown($event)"
-    ><ng-content /></div>
-  }`,
+    template: `<div
+    #menu
+    class="context-menu {{ className() }}"
+    role="menu"
+    [attr.aria-label]="label() || null"
+    popover="auto"
+    (toggle)="open.set(toggled($event))"
+    (keydown)="onKeydown($event)"
+  ><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContextMenu {
@@ -38,9 +41,17 @@ export class ContextMenu {
     readonly open = model<boolean>(false);
     readonly className = input<string>("");
 
+    protected readonly toggled = toggleOpened;
     private readonly menu = viewChild<ElementRef<HTMLElement>>("menu");
 
     constructor() {
+        // popover="auto" with no declarative trigger (a right-click or long-press opens it, tasks.md P18-T11): `open`
+        // shows it with showPopover() in the top layer; Escape and light dismiss come from the browser and the toggle
+        // event writes `open` back. Positioning at the pointer stays the consumer's CSS.
+        afterRenderEffect(() => {
+            const menu = this.menu()?.nativeElement;
+            if (menu) syncPopover(menu, this.open());
+        });
         const injector = inject(Injector);
         effect(() => {
             if (this.open()) {

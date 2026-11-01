@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"image-cropper\" role=\"img\" aria-label=\"Crop image\" style=\"position:relative;width:200px;height:120px;border:1px solid #d1d5db;background:#e5e7eb;display:flex;align-items:center;justify-content:center;color:#666;\"><span>Image</span><span style=\"position:absolute;inset:16px;border:2px dashed #005eb8;\"></span></div>";
   const svelteSource: string = "// In your Svelte component:\nimport ImageCropper from \"lily-design-system-svelte-headless/components/ImageCropper/ImageCropper.svelte\";\n\n<ImageCropper>\n  <!-- content -->\n</ImageCropper>\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import ImageCropper from \"./ImageCropper.svelte\";\n<\/script>\n\n<ImageCropper label=\"Crop your profile photo\">\n    <img src=\"/uploads/photo.jpg\" alt=\"Photo to crop\" />\n</ImageCropper>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import ImageCropper from \"./ImageCropper.svelte\";\n<\/script>\n\n<ImageCropper label=\"Crop your profile photo\">\n  <img\n    src=\"/uploads/photo.jpg\"\n    alt=\"Photo to crop\"\n  />\n</ImageCropper>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"horizontal-scroller\" aria-label=\"a horizontally scrollable content container\">HorizontalScroller</div>";
   const svelteSource: string = "// In your Svelte component:\nimport HorizontalScroller from \"lily-design-system-svelte-headless/components/HorizontalScroller/HorizontalScroller.svelte\";\n\n<HorizontalScroller>\n  <!-- content -->\n</HorizontalScroller>\n";
-  const usageCode: string = "<HorizontalScroller label=\"Photo gallery\">\n  <img src=\"photo1.jpg\" alt=\"Photo 1\" />\n  <img src=\"photo2.jpg\" alt=\"Photo 2\" />\n  <img src=\"photo3.jpg\" alt=\"Photo 3\" />\n</HorizontalScroller>\n";
+  const usageCode: string = "<HorizontalScroller label=\"Photo gallery\">\n  <img\n    src=\"photo1.jpg\"\n    alt=\"Photo 1\"\n  />\n  <img\n    src=\"photo2.jpg\"\n    alt=\"Photo 2\"\n  />\n  <img\n    src=\"photo3.jpg\"\n    alt=\"Photo 3\"\n  />\n</HorizontalScroller>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

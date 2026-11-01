@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"color-picker\" aria-label=\"Color picker\"><button class=\"color-picker-button\" style=\"background:#ff0000\" aria-label=\"Red\"></button><button class=\"color-picker-button\" style=\"background:#00ff00\" aria-label=\"Green\"></button><button class=\"color-picker-button\" style=\"background:#0000ff\" aria-label=\"Blue\"></button></div>";
   const svelteSource: string = "// In your Svelte component:\nimport ColorPicker from \"lily-design-system-svelte-headless/components/ColorPicker/ColorPicker.svelte\";\n\n<ColorPicker label=\"Picker\" />\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import ColorPicker from \"./ColorPicker.svelte\";\n\n    let saturation = $state(50);\n    let brightness = $state(50);\n<\/script>\n\n<ColorPicker label=\"Saturation and brightness\" bind:x={saturation} bind:y={brightness} />\n<p>S: {saturation}, B: {brightness}</p>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import ColorPicker from \"./ColorPicker.svelte\";\n\n  let saturation = $state(50);\n  let brightness = $state(50);\n<\/script>\n\n<ColorPicker\n  label=\"Saturation and brightness\"\n  bind:x={saturation}\n  bind:y={brightness}\n/>\n<p>S: {saturation}, B: {brightness}</p>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

@@ -22,13 +22,12 @@ keyboard navigation, `aria-live` state announcements, and optional
 persistence of view state (column widths, hidden columns, sort — never
 row data or selection) to `localStorage`.
 
-Out of scope (v1 non-goals, not silent gaps — see §9): virtualization/
-windowing, inline cell editing, column reorder, column pinning, row
-grouping/aggregation, server-side sort/filter/pagination, CSV export,
-drag-to-reorder rows. Each requires either real layout/scroll ownership
-(virtualization, row drag) that conflicts with "no bundled CSS, no
-rendering opinion," or is a v2-sized feature better designed once v1
-ships and is exercised in a real app.
+Out of scope (non-goals, not silent gaps — see §9): row
+grouping/aggregation, server-side sort/filter/pagination and
+drag-to-reorder rows. The v1 list (2026-09-21) also named
+virtualization, inline cell editing, column reorder, column pinning and
+CSV export; all five have shipped since (§12 to §14), so they are no
+longer non-goals.
 
 ## 3. Composition
 
@@ -438,8 +437,8 @@ drag-to-reorder rows. (CSV export left this list in 0.7.0: §14.) See §2 and
 [spec/helpers/index.md § data-grid contract](../../spec/helpers/index.md)
 for the reasoning behind each.
 
-If virtualization is ever reconsidered (v2), two lessons from §11 apply
-before any code: measure the viewport in `$effect.pre`, not `$effect` —
+Virtualization shipped in 0.6.0 (§13). The two lessons from §11 that
+were recorded here for it still apply to any change to it: measure the viewport in `$effect.pre`, not `$effect` —
 the window size must be known before the paint that uses it, or the
 first frame renders rows at zero height — and keep the row backing in
 `$state.raw` so scroll-driven re-slicing never walks a deep proxy. The
@@ -482,7 +481,8 @@ took from it:
   the column definition keeps the cell's arguments typechecked all the
   way through. Lily's response: `DataGridColumn.cell` (§5, §8.19).
 - _Measure before paint with `$effect.pre`._ Only relevant to
-  virtualization, which stays a non-goal; recorded in §9 for v2.
+  virtualization (a non-goal when this note was written; shipped in
+  0.6.0, §13); recorded in §9.
 - _Separate headless core from render component._ Lily already does
   this at a higher level: `data-grid` owns state and behaviour and the
   headless `DataTable` family owns the markup (§3).

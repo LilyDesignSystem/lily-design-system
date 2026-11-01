@@ -21,7 +21,7 @@ critical error messages that require acknowledgment.
 - `aria-modal="true"` signals modal behavior to assistive technologies
 - Title rendered in a `<p><strong>` element, referenced by `aria-labelledby`
 - Description rendered in a `<p>` element, referenced by `aria-describedby` when present
-- Consumers are responsible for focus trapping and Escape key handling
+- The dialog opens with `showModal()`: the browser traps focus and fires `cancel` on Escape, which closes it
 
 ## Props
 
@@ -82,8 +82,8 @@ Simple acknowledgment dialog without description:
 
 ## Keyboard Interactions
 
-- Escape: Closes the dialog (consumer must implement via onkeydown)
-- Tab: Focus should be trapped within the dialog (consumer responsibility)
+- Escape: closes the dialog. It opens with `showModal()`, so the browser fires `cancel` and the component sets `open` to false.
+- Tab: stays inside the dialog; the browser keeps it there while the dialog is modal.
 
 ## ARIA
 

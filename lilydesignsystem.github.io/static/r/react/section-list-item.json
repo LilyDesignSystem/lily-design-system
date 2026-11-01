@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "section-list-item",
+  "type": "registry:component",
+  "title": "SectionListItem",
+  "description": "One section navigation item.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/SectionListItem.tsx",
+      "content": "export interface SectionListItemProps {\n    className?: string;\n    label?: string;\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function SectionListItem({\n    className = \"\",\n    label = undefined,\n    children,\n    ...restProps\n}: SectionListItemProps) {\n    return (\n        <li\n            className={`section-list-item ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </li>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/SectionListItem.tsx"
+    }
+  ],
+  "categories": [
+    "lists"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/section-list-item/"
+}

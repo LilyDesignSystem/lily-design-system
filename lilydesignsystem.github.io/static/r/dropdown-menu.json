@@ -43,5 +43,10 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/DropdownMenu.razor"
   },
   "docs": "https://lilydesignsystem.com/components/dropdown-menu/",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/dropdown-menu/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/dropdown-menu/AGENTS.md",
+  "nativePlatform": {
+    "decision": "native",
+    "uses": "popover=\"auto\" menu toggled by command=\"toggle-popover\" commandfor (and popovertarget) on its trigger; bindable open synced from the toggle event; APG arrow-key focus hand-rolled",
+    "could_use": "CSS anchor positioning"
+  }
 }

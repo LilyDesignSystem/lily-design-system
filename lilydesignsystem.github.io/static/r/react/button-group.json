@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "button-group",
+  "type": "registry:component",
+  "title": "ButtonGroup",
+  "description": "A wrapper that groups related buttons together.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ButtonGroup.tsx",
+      "content": "import React from \"react\";\n\n// ButtonGroup component\n//\n// A wrapper that groups related buttons together as a single accessible group.\n// Renders a generic container with role=\"group\" and an aria-label so assistive\n// technology announces the group as a unit. The component is purely structural\n// and applies no visual styling — consumers provide all CSS.\n//\n// Props:\n//   className — string, optional. CSS class name appended to the root.\n//   label     — string, REQUIRED. aria-label for the group.\n//   children  — ReactNode, required. The related buttons.\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Syntax:\n//   <ButtonGroup label=\"Document actions\">\n//     <button>Save</button>\n//     <button>Cancel</button>\n//   </ButtonGroup>\n//\n// Examples:\n//\n//   <ButtonGroup label=\"Pagination\">\n//     <button>Previous</button>\n//     <button>Next</button>\n//   </ButtonGroup>\n//\n// Accessibility:\n//   - role=\"group\" identifies the container as a group of related controls\n//   - aria-label provides the accessible name for the group\n//\n// Internationalization:\n//   - The label prop is consumer-supplied for localized accessible names\n//\n// Claude rules:\n//   - Headless: no CSS, no styles\n//   - label is non-optional in the interface\n//\n// References:\n//   - WAI-ARIA Group Role: https://www.w3.org/TR/wai-aria-1.2/#group\n//   - USWDS Button group: https://designsystem.digital.gov/components/button-group/\n\nexport interface ButtonGroupProps {\n    className?: string;\n    /** aria-label for the group (required for accessibility) */\n    label: string;\n    /** The related buttons */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function ButtonGroup({\n    className = \"\",\n    label,\n    children,\n    ...restProps\n}: ButtonGroupProps) {\n    return (\n        <div\n            className={`button-group ${className}`}\n            role=\"group\"\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ButtonGroup.tsx"
+    }
+  ],
+  "categories": [
+    "forms"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/button-group/"
+}

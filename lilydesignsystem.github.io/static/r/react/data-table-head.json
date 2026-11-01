@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "data-table-head",
+  "type": "registry:component",
+  "title": "DataTableHead",
+  "description": "A data table interactive grid thead for displaying and sorting tabular data <thead>.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/DataTableHead.tsx",
+      "content": "import React from \"react\";\n\n// DataTableHead component\n//\n// The header section of a DataTable, rendered as a <thead> element.\n// Contains DataTableRow elements with column header cells.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   children — ReactNode, required. DataTableRow elements with header cells.\n//   ...restProps — additional HTML attributes spread onto the <thead>.\n//\n// Syntax:\n//   <DataTableHead>\n//     <DataTableRow><th scope=\"col\">Name</th><th scope=\"col\">Email</th></DataTableRow>\n//   </DataTableHead>\n//\n// Keyboard:\n//   None built-in — keyboard navigation handled at the DataTable grid level.\n//\n// Accessibility:\n//   - <thead> provides structural header semantics for the table\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Must be used inside a DataTable\n//   - No internal state — purely a structural wrapper\n//\n// References:\n//   - HTML thead element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/thead\n\nexport interface DataTableHeadProps {\n    className?: string;\n    /** DataTableRow elements with header cells. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function DataTableHead({\n    className = \"\",\n    children,\n    ...restProps\n}: DataTableHeadProps) {\n    return (\n        <thead\n            className={`data-table-head ${className}`}\n            {...restProps}\n        >\n            {children}\n        </thead>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/DataTableHead.tsx"
+    }
+  ],
+  "categories": [
+    "tables"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/data-table-head/"
+}

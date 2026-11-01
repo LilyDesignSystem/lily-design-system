@@ -10,4 +10,6 @@ const meta: Meta<DateTimeNowInput> = {
 export default meta;
 type Story = StoryObj<DateTimeNowInput>;
 
-export const Default: Story = {};
+export const Default: Story = {
+    args: { label: "Appointment", dateLabel: "Date", timeLabel: "Time", nowLabel: "Now" },
+};

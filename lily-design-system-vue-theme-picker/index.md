@@ -40,7 +40,7 @@ opinionated widget. This one splits the contract cleanly:
 
 The result is a small reusable widget that works in any Vue 3 host
 (Nuxt 3, plain Vite + Vue, Astro Vue islands, Storybook) and against
-any theme catalog — Lily™'s 45 ready-to-use themes, NHS-aligned
+any theme catalog — Lily™'s 63 ready-to-use themes, NHS-aligned
 themes, or your own bespoke set.
 
 The component is a direct port of the Svelte canonical
@@ -269,23 +269,44 @@ The picker never displays the word `"default"`. Option labels default
 to the slug with its first letter upper-cased
 (e.g. `"light"` → `"Light"`); override with `themeLabels`.
 
+## The native select variant
+
+`variant="select"` (opt-in; ported from the Svelte reference 2026-10-30, the prototype for RFC 3 in the
+repository's `RFC.md`) renders a native `<select class="theme-picker-select" aria-label="{label}">` of
+`<option class="theme-picker-option">` elements inside the same root, with `data-variant="select"` on the root.
+Keyboard, typeahead, the mobile picker and the screen-reader announcement are then the platform's; choosing an option
+applies the theme exactly as the listbox does (managed `<link>`, `data-theme`, optional `localStorage`, one change
+notification). There is no button, listbox, tooltip or hidden input: the select carries `name`. `v-model:open` does not apply, because a
+native select's popup state is not observable. Styling it with `appearance: base-select` is theme CSS behind
+`@supports`. The default (`"listbox"`) is unchanged.
+
+```vue
+<ThemePicker
+  variant="select"
+  label="Colour theme"
+  themes-url="/assets/themes/"
+  :themes="['light', 'dark', 'abyss']"
+/>
+```
+
 ## Props
 
 The complete table is in [spec/index.md §4.1](./spec/index.md#41-props). Highlights:
 
-| Prop           | Type                     | Required | Notes                                                                                               |
-| -------------- | ------------------------ | -------- | --------------------------------------------------------------------------------------------------- |
-| `label`        | `string`                 | yes      | `aria-label` on both the button and the listbox. The button is icon-only, so this is its only name. |
-| `themesUrl`    | `string`                 | yes      | Trailing `/` is auto-added.                                                                         |
-| `themes`       | `string[]`               | yes      | Available slugs, in keyboard order.                                                                 |
-| `value`        | `string` (`v-model`)     | no       | Two-way bind for the current slug.                                                                  |
-| `defaultValue` | `string`                 | no       | Initial when nothing else applies.                                                                  |
-| `storageKey`   | `string`                 | no       | `localStorage` persistence.                                                                         |
-| `name`         | `string`                 | no       | Hidden input `name` + managed `<link>` discriminator; defaults to `"theme"`.                        |
-| `extension`    | `string`                 | no       | Defaults to `".css"`.                                                                               |
-| `target`       | `HTMLElement \| null`    | no       | `data-theme` target; defaults to `<html>`.                                                          |
-| `themeLabels`  | `Record<string, string>` | no       | Per-slug display label override.                                                                    |
-| `class`        | `string`                 | no       | Extra class on the root `<div>`.                                                                    |
+| Prop           | Type                     | Required | Notes                                                                                                        |
+| -------------- | ------------------------ | -------- | ------------------------------------------------------------------------------------------------------------ |
+| `label`        | `string`                 | yes      | `aria-label` on both the button and the listbox. The button is icon-only, so this is its only name.          |
+| `themesUrl`    | `string`                 | yes      | Trailing `/` is auto-added.                                                                                  |
+| `themes`       | `string[]`               | yes      | Available slugs, in keyboard order.                                                                          |
+| `value`        | `string` (`v-model`)     | no       | Two-way bind for the current slug.                                                                           |
+| `defaultValue` | `string`                 | no       | Initial when nothing else applies.                                                                           |
+| `storageKey`   | `string`                 | no       | `localStorage` persistence.                                                                                  |
+| `name`         | `string`                 | no       | Hidden input `name` + managed `<link>` discriminator; defaults to `"theme"`.                                 |
+| `variant`      | `"listbox" \| "select"`  | no       | `"select"` renders a native `<select>` instead; see [The native select variant](#the-native-select-variant). |
+| `extension`    | `string`                 | no       | Defaults to `".css"`.                                                                                        |
+| `target`       | `HTMLElement \| null`    | no       | `data-theme` target; defaults to `<html>`.                                                                   |
+| `themeLabels`  | `Record<string, string>` | no       | Per-slug display label override.                                                                             |
+| `class`        | `string`                 | no       | Extra class on the root `<div>`.                                                                             |
 
 There is no `placeholder` prop — it was removed with the `<select>`.
 

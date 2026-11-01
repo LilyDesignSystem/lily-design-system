@@ -46,7 +46,9 @@
 //   - WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
 //   - MDN dialog element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog
 
-import React from "react";
+import React, { useRef } from "react";
+
+import { useModalDialog } from "./Dialog";
 
 export interface FileDialogProps {
     className?: string;
@@ -66,6 +68,16 @@ export default function FileDialog({
     children,
     ...restProps
 }: FileDialogProps) {
+    const ref = useRef<HTMLDialogElement>(null);
+
+    // A real modal (tasks.md P14-T4): showModal() makes the page behind inert and traps Tab; Escape fires `cancel`.
+    useModalDialog(ref, open);
+
+    function handleCancel(event: React.SyntheticEvent) {
+        event.preventDefault();
+        onChange?.(false);
+    }
+
     function handleKeyDown(event: React.KeyboardEvent) {
         if (event.key === "Escape") {
             event.preventDefault();
@@ -78,11 +90,13 @@ export default function FileDialog({
             {open && (
                 <>
                     <dialog
+                        ref={ref}
                         className={`file-dialog ${className}`}
-                        open
                         tabIndex={-1}
                         aria-label={label}
                         onKeyDown={handleKeyDown}
+                        onCancel={handleCancel}
+                        onClose={() => onChange?.(false)}
                         {...restProps}
                     >
                         {children}

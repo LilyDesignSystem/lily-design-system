@@ -48,6 +48,9 @@
 // References:
 //   - Ameli.fr: https://www.ameli.fr/assure/droits-demarches/principes/numero-securite-sociale
 
+import { ref } from "vue";
+import { useFormReset } from "./form-reset";
+
 withDefaults(
     defineProps<{
         /** Accessible label for screen readers */
@@ -64,6 +67,8 @@ withDefaults(
 );
 
 const modelValue = defineModel<string>({ default: "" });
+const field = ref<HTMLInputElement | HTMLTextAreaElement | null>(null);
+useFormReset(modelValue, field);
 
 const nirPattern = "[0-9]{1} [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{3} [0-9]{3} [0-9]{2}";
 </script>
@@ -77,6 +82,7 @@ const nirPattern = "[0-9]{1} [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{3} [0-9]{3} [0-9]{
         inputmode="numeric"
         :pattern="nirPattern"
         autocomplete="off"
+        ref="field"
         v-model="modelValue"
         :required="required"
         :disabled="disabled"

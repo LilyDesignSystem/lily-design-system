@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tree-select",
+  "type": "registry:component",
+  "title": "TreeSelect",
+  "description": "A select dropdown showing a tree of hierarchical options.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "registryDependencies": [
+    "@lily/popover"
+  ],
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/TreeSelect.tsx",
+      "content": "\"use client\";\n\n// TreeSelect component\n//\n// A select dropdown showing a tree of hierarchical options. The component\n// is a `role=\"combobox\"` container with a trigger button and a panel that\n// holds the tree (typically supplied as TreeNav/TreeList).\n//\n// Props:\n//   className    — string, optional. CSS class name.\n//   label        — string, REQUIRED. aria-label.\n//   expanded     — boolean, default false. Whether the tree panel is open.\n//   disabled     — boolean, default false.\n//   multiple     — boolean, default false. Sets data-multiple on container.\n//   placeholder  — string, optional.\n//   value        — string, optional. Display value on the trigger.\n//   onClick      — (event: React.MouseEvent) => void, optional. Trigger click handler.\n//   children     — ReactNode, required. Tree content.\n//   ...restProps — additional HTML attributes spread onto the root <div>.\n//\n// Syntax:\n//   <TreeSelect label=\"Category\" expanded={open} value={selected} onClick={toggle}>\n//     <TreeNav>…</TreeNav>\n//   </TreeSelect>\n//\n// Accessibility:\n//   - role=\"combobox\", aria-haspopup=\"tree\", aria-expanded, aria-label\n//   - data-multiple when `multiple` (aria-multiselectable is invalid on a combobox)\n//\n// Internationalization:\n//   - All user-facing strings (label, placeholder, value) are consumer-supplied.\n//\n// Claude rules:\n//   - Headless: no CSS, no styles\n//   - label is non-optional in the interface\n//\n// References:\n//   - Ant Design TreeSelect: https://ant.design/components/tree-select\n\nimport React from \"react\";\nimport { usePopoverState } from \"./Popover\";\n\nexport interface TreeSelectProps {\n    className?: string;\n    /** aria-label for the combobox (required) */\n    label: string;\n    /** Whether the tree panel is open */\n    expanded?: boolean;\n    /** Whether the trigger is disabled */\n    disabled?: boolean;\n    /** Whether multiple selection is allowed */\n    multiple?: boolean;\n    /** Placeholder text */\n    placeholder?: string;\n    /** Display value on the trigger */\n    value?: string;\n    /** Trigger click handler */\n    onClick?: (event: React.MouseEvent) => void;\n    /** Tree content (typically TreeNav or TreeList) */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function TreeSelect({\n    className = \"\",\n    label,\n    expanded = false,\n    disabled = false,\n    multiple = false,\n    placeholder = undefined,\n    value = undefined,\n    onClick = undefined,\n    children,\n    ...restProps\n}: TreeSelectProps) {\n    const panelRef = React.useRef<HTMLDivElement>(null);\n    usePopoverState(panelRef, expanded);\n    return (\n        <div\n            className={`tree-select ${className}`}\n            role=\"combobox\"\n            aria-haspopup=\"tree\"\n            aria-expanded={expanded}\n            aria-label={label}\n            data-multiple={multiple ? true : undefined}\n            {...restProps}\n        >\n            <button\n                className=\"tree-select-trigger\"\n                type=\"button\"\n                disabled={disabled}\n                onClick={onClick}\n            >\n                {value || placeholder}\n            </button>\n            <div\n                className=\"tree-select-panel\"\n                ref={panelRef}\n                popover=\"manual\"\n            >\n                {children}\n            </div>\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/TreeSelect.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/tree-select/"
+}

@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
+import { restoreOnFormReset } from "./form-reset";
 
 /**
  * AotearoaNationalHealthIndexInput — an input for entering New Zealand's National Health Index (NHI) Number
@@ -33,4 +34,8 @@ export class AotearoaNationalHealthIndexInput {
     readonly required = input<boolean>(false);
     /** Whether the input is disabled. */
     readonly disabled = input<boolean>(false);
+
+    constructor() {
+        restoreOnFormReset(this.value);
+    }
 }

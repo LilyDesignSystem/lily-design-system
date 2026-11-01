@@ -42,5 +42,10 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Dialog.razor"
   },
   "docs": "https://lilydesignsystem.com/components/dialog/",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/dialog/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/dialog/AGENTS.md",
+  "nativePlatform": {
+    "decision": "native",
+    "uses": "<dialog> showModal() (modal) or open attribute (non-modal) via modal.ts",
+    "could_use": "command=\"show-modal\"/\"close\" on consumer buttons"
+  }
 }

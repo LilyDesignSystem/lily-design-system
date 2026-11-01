@@ -49,7 +49,7 @@ public sealed record PickerBarLabels
 public partial class PickerBar : ComponentBase
 {
     /// <summary>
-    /// All 57 Lily reference theme slugs (see <c>themes/</c> at the repo
+    /// All 63 Lily reference theme slugs (see <c>themes/</c> at the repo
     /// root), sorted alphabetically except the United Kingdom and United
     /// States government/public-sector themes, which sort last as one
     /// alphabetical group of their own. Mirrors ThemePicker's own
@@ -64,10 +64,13 @@ public partial class PickerBar : ComponentBase
         "ant-design",
         "aqua",
         "atlassian",
+        "australia-agriculture-design-system",
         "autumn",
         "black",
+        "brazil-padrao-digital-de-governo",
         "bumblebee",
         "business",
+        "canada-government-of-canada-design-system",
         "cappuccino",
         "caramellatte",
         "cmyk",
@@ -79,6 +82,7 @@ public partial class PickerBar : ComponentBase
         "dim",
         "dracula",
         "emerald",
+        "european-union-europa-component-library",
         "excel",
         "fantasy",
         "fluent",
@@ -87,6 +91,7 @@ public partial class PickerBar : ComponentBase
         "github-primer",
         "halloween",
         "ibm-carbon",
+        "japan-digital-agency-design-system",
         "lemonade",
         "light",
         "linear",
@@ -101,6 +106,7 @@ public partial class PickerBar : ComponentBase
         "salesforce",
         "sap-fiori",
         "silk",
+        "singapore-government-design-system",
         "sunset",
         "synthwave",
         "valentine",

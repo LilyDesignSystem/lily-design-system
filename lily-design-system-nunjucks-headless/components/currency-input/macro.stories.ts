@@ -1,8 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<div
-  class="currency-input">
-  <span class="currency-input-symbol" aria-hidden="true">£</span>
+  class="currency-input"
+  data-currency-code="EUR">
+  <span class="currency-input-symbol" aria-hidden="true">€</span>
   <input
     class="currency-input-value"
     type="text"

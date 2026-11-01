@@ -13,6 +13,10 @@ description: a button showing a color swatch
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>
-<pre tabindex="0"><code>{% raw %}&lt;button class="color-picker-button" style="background:#ff0000" aria-label="Red"&gt;&lt;/button&gt;
+<pre tabindex="0"><code>{% raw %}&lt;ColorPicker
+  color="#ff0000"
+  label="Red"
+  onclick="{handleSelect}"
+/&gt;
 {% endraw %}</code></pre>
 {# END generated: examples #}

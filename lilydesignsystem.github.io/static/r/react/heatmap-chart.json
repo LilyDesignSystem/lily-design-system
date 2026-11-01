@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "heatmap-chart",
+  "type": "registry:component",
+  "title": "HeatmapChart",
+  "description": "A grid chart where cell colour encodes the value at each row and column.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/HeatmapChart.tsx",
+      "content": "import React from \"react\";\n\n// HeatmapChart component\n//\n// A headless wrapper for a grid chart where cell colour encodes the value at each row and column. Renders a <figure> holding a\n// role=\"img\" graphic wrapper around the consumer-supplied inline <svg>. No drawing happens here.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name for the chart.\n//   children — ReactNode, required. The inline <svg> (and any extra markup).\n//   ...restProps — additional HTML attributes spread onto the <figure>\n//\n// Keyboard:\n//   None — the chart is a single image to assistive technology.\n//\n// Accessibility:\n//   - role=\"img\" exposes the chart as one image; aria-label names it\n//   - aria-describedby (via restProps) should reference a text description\n//     or a real <table> carrying the same data\n//\n// dataTable — optional. The accessible table alternative, rendered in a\n// <div class=\"heatmap-chart-data-table\"> that is a SIBLING of the role=\"img\"\n// graphic wrapper: role=\"img\" makes descendants presentational, so a\n// table inside it would be invisible to assistive technology.\n// Markup: <figure class=\"heatmap-chart\"><div class=\"heatmap-chart-graphic\" role=\"img\" aria-label>…svg…</div>[<div class=\"heatmap-chart-data-table\">…</div>]</figure>\n\nexport interface HeatmapChartProps {\n    className?: string;\n    /** Accessible name for the chart. */\n    label: string;\n    /** The consumer-supplied inline svg. */\n    children: React.ReactNode;\n    /** Optional accessible data table alternative. */\n    dataTable?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function HeatmapChart({\n    className = \"\",\n    label,\n    children,\n    dataTable,\n    ...restProps\n}: HeatmapChartProps) {\n    return (\n        <figure\n            className={`heatmap-chart ${className}`}\n            {...restProps}\n        >\n            <div\n                className=\"heatmap-chart-graphic\"\n                role=\"img\"\n                aria-label={label}\n            >\n                {children}\n            </div>\n            {dataTable !== undefined && dataTable !== null && (\n                <div className=\"heatmap-chart-data-table\">{dataTable}</div>\n            )}\n        </figure>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/HeatmapChart.tsx"
+    }
+  ],
+  "categories": [
+    "data-viz"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/heatmap-chart/"
+}

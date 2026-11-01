@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-blockquote",
     standalone: true,
-    template: `<div class="blockquote {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<blockquote class="blockquote {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></blockquote>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Blockquote {

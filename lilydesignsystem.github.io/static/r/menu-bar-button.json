@@ -36,5 +36,10 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MenuBarButton.razor"
   },
   "docs": "https://lilydesignsystem.com/components/menu-bar-button/",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/menu-bar-button/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/menu-bar-button/AGENTS.md",
+  "nativePlatform": {
+    "decision": "hand-rolled because role=\"menuitem\" has no native element",
+    "uses": "native <button> with role=\"menuitem\"",
+    "could_use": "none"
+  }
 }

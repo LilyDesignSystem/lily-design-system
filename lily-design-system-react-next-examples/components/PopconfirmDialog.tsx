@@ -46,6 +46,7 @@
 //   - WAI-ARIA Alertdialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/alertdialog/
 
 import React, { useId } from "react";
+import { usePopoverState } from "./Popover";
 
 export interface PopconfirmDialogProps {
     className?: string;
@@ -77,6 +78,8 @@ export default function PopconfirmDialog({
     onCancel = undefined,
     ...restProps
 }: PopconfirmDialogProps) {
+    const panelRef = React.useRef<HTMLDivElement>(null);
+    usePopoverState(panelRef, open);
     const reactId: string = useId();
     const titleId: string = `popconfirm-${reactId}-title`;
     const descId: string = `popconfirm-${reactId}-desc`;
@@ -87,7 +90,8 @@ export default function PopconfirmDialog({
             aria-modal="false"
             aria-labelledby={titleId}
             aria-describedby={description ? descId : undefined}
-            hidden={!open}
+            ref={panelRef}
+            popover="manual"
             {...restProps}
         >
             <h2

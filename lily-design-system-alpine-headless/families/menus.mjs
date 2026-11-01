@@ -1,6 +1,9 @@
 // Family: menus. lilyMenu (menu, menu-bar), lilyDropdownMenu (dropdown-menu,
 // split-button, action-group), lilyContextMenu (context-menu), lilyCollapsible
-// (hamburger-menu); float-button has no behaviour in its contract.
+// (hamburger-menu); float-button has no behaviour in its contract. The
+// dropdown and context menus are popover="auto" (tasks.md P18-T11).
+
+import { popoverNotes, popoverTests, popoverTriggerAttributes } from "./shared/popover-api.mjs";
 
 const press = `const press = async (target, key, init = {}) => {
   target.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true, ...init }));
@@ -122,32 +125,35 @@ export default {
         tag: "div",
         keyboard: "Enter/Space/ArrowDown open, arrows move, Escape closes",
         aria: 'trigger: aria-haspopup="menu" + aria-expanded; popup: role="menu"; items: role="menuitem"',
+        notes: popoverNotes("popup"),
         markup: `<div class="dropdown-menu" x-data="lilyDropdownMenu(false)" x-bind="root">
-  <button class="dropdown-menu-trigger" x-bind="trigger" aria-controls="dropdown-menu-1"><!-- Consumer provides trigger label --></button>
-  <div class="dropdown-menu-popup" id="dropdown-menu-1" aria-label="" x-bind="menu">
+  <button class="dropdown-menu-trigger" x-bind="trigger" aria-controls="dropdown-menu-1"${popoverTriggerAttributes("dropdown-menu-1")}><!-- Consumer provides trigger label --></button>
+  <div class="dropdown-menu-popup" id="dropdown-menu-1" aria-label="" popover="auto" x-bind="menu">
     <button class="dropdown-menu-item" x-bind="item"><!-- Consumer provides label --></button>
     <button class="dropdown-menu-item" x-bind="item"><!-- Consumer provides label --></button>
     <button class="dropdown-menu-item" x-bind="item"><!-- Consumer provides label --></button>
   </div>
 </div>`,
         sel: "div.dropdown-menu",
-        test: dropdownTests(
-            "dropdown-menu",
-            ".dropdown-menu-trigger",
-            ".dropdown-menu-popup",
-            ".dropdown-menu-item",
-        ),
+        test:
+            dropdownTests(
+                "dropdown-menu",
+                ".dropdown-menu-trigger",
+                ".dropdown-menu-popup",
+                ".dropdown-menu-item",
+            ) + popoverTests("dropdown-menu", ".dropdown-menu-trigger", ".dropdown-menu-popup"),
     },
     "split-button": {
         tag: "div",
         keyboard: "Tab: primary then trigger; the trigger behaves as a dropdown-menu trigger",
         aria: 'role="group" with aria-label; menu trigger: aria-haspopup="menu", aria-expanded, its own aria-label',
+        notes: popoverNotes("menu"),
         markup: `<div class="split-button" role="group" aria-label="" x-data="lilyDropdownMenu(false)" x-bind="root">
   <button class="split-button-primary" type="button"><!-- Consumer provides primary label --></button>
-  <button class="split-button-menu-trigger" x-bind="trigger" aria-label="" aria-controls="split-button-menu-1">
+  <button class="split-button-menu-trigger" x-bind="trigger" aria-label="" aria-controls="split-button-menu-1"${popoverTriggerAttributes("split-button-menu-1")}>
     <!-- Consumer optionally provides a chevron icon -->
   </button>
-  <div class="split-button-menu" id="split-button-menu-1" aria-label="" x-bind="menu">
+  <div class="split-button-menu" id="split-button-menu-1" aria-label="" popover="auto" x-bind="menu">
     <button class="split-button-menu-item" x-bind="item"><!-- Consumer provides label --></button>
     <button class="split-button-menu-item" x-bind="item"><!-- Consumer provides label --></button>
   </div>
@@ -166,17 +172,19 @@ export default {
                 ".split-button-menu-trigger",
                 ".split-button-menu",
                 ".split-button-menu-item",
-            ),
+            ) +
+            popoverTests("split-button", ".split-button-menu-trigger", ".split-button-menu"),
     },
     "action-group": {
         tag: "div",
         keyboard:
             "Tab through the actions; the overflow trigger behaves as a dropdown-menu trigger",
         aria: 'role="group" with aria-label; overflow trigger: aria-haspopup="menu", aria-expanded, aria-controls',
+        notes: popoverNotes("overflow menu"),
         markup: `<div class="action-group" role="group" aria-label="" x-data="lilyDropdownMenu(false)" x-bind="root">
   <button type="button"><!-- Consumer provides a visible action --></button>
-  <button class="action-group-overflow-trigger" x-bind="trigger" aria-label="" aria-controls="action-group-overflow-1">…</button>
-  <div class="action-group-overflow-menu" id="action-group-overflow-1" aria-label="" x-bind="menu">
+  <button class="action-group-overflow-trigger" x-bind="trigger" aria-label="" aria-controls="action-group-overflow-1"${popoverTriggerAttributes("action-group-overflow-1")}>…</button>
+  <div class="action-group-overflow-menu" id="action-group-overflow-1" aria-label="" popover="auto" x-bind="menu">
     <button class="action-group-overflow-item" x-bind="item"><!-- Consumer provides label --></button>
     <button class="action-group-overflow-item" x-bind="item"><!-- Consumer provides label --></button>
   </div>
@@ -193,15 +201,24 @@ export default {
                 ".action-group-overflow-trigger",
                 ".action-group-overflow-menu",
                 ".action-group-overflow-item",
+            ) +
+            popoverTests(
+                "action-group",
+                ".action-group-overflow-trigger",
+                ".action-group-overflow-menu",
             ),
     },
     "context-menu": {
         tag: "div",
         keyboard: "Right click, ContextMenu key or Shift+F10 opens; arrows move; Escape closes",
         aria: 'role="menu" with aria-label; items: role="menuitem"; position is exposed as --context-menu-x / --context-menu-y',
+        notes: [
+            `Popover API: the menu is popover="auto"; opening shows it with showPopover(),`,
+            `  in the top layer, and the browser closes it on Escape and on a click outside`,
+        ],
         markup: `<div x-data="lilyContextMenu()">
   <div class="context-menu-target" tabindex="0" x-bind="target"><!-- Consumer provides the region that owns the menu --></div>
-  <div class="context-menu" aria-label="" x-bind="menu">
+  <div class="context-menu" aria-label="" popover="auto" x-bind="menu">
     <button class="context-menu-item" x-bind="item"><!-- Consumer provides label --></button>
     <button class="context-menu-item" x-bind="item"><!-- Consumer provides label --></button>
   </div>
@@ -249,6 +266,26 @@ ${press}`,
     expect(document.activeElement).toBe(items()[1]);
     items()[1].click(); await tick();
     expect(el().hidden).toBe(true);
+  });
+
+  describe("with the Popover API", () => {
+    const proto = HTMLElement.prototype;
+    afterEach(() => { delete proto.showPopover; delete proto.hidePopover; });
+
+    it("is popover=auto, opens with showPopover and follows the toggle event", async () => {
+      proto.showPopover = vi.fn();
+      proto.hidePopover = vi.fn();
+      await mount("context-menu");
+      expect(el().getAttribute("popover")).toBe("auto");
+      expect(el().hidden).toBe(false);
+      target().dispatchEvent(new MouseEvent("contextmenu", { bubbles: true, cancelable: true }));
+      await tick(); await tick();
+      expect(proto.showPopover).toHaveBeenCalled();
+      const closed = new Event("toggle");
+      Object.assign(closed, { newState: "closed", oldState: "open" });
+      el().dispatchEvent(closed); await tick();
+      expect(proto.hidePopover).toHaveBeenCalled();
+    });
   });`,
     },
     "hamburger-menu": {

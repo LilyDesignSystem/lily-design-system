@@ -4,10 +4,10 @@ import { TestBed } from "@angular/core/testing";
 import { Icon } from "./Icon";
 
 describe("Icon", () => {
-    test("renders the div root with the base class", () => {
+    test("renders the <span> root with the base class", () => {
         const fixture = TestBed.createComponent(Icon);
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.icon");
+        const el = fixture.nativeElement.querySelector("span.icon");
         expect(el).toBeTruthy();
     });
 
@@ -15,7 +15,7 @@ describe("Icon", () => {
         const fixture = TestBed.createComponent(Icon);
         fixture.componentRef.setInput("className", "extra");
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.icon");
+        const el = fixture.nativeElement.querySelector("span.icon");
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });

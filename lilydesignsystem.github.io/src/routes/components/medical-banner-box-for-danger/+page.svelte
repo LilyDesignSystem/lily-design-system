@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"medical-banner-box-for-danger\" role=\"region\" aria-label=\"Allergies\" data-type=\"danger\"><h3>Critical</h3><p>Allergic to penicillin.</p></div>";
   const svelteSource: string = "// In your Svelte component:\nimport MedicalBannerBoxForDanger from \"lily-design-system-svelte-headless/components/MedicalBannerBoxForDanger/MedicalBannerBoxForDanger.svelte\";\n\n<MedicalBannerBoxForDanger>\n  <!-- content -->\n</MedicalBannerBoxForDanger>\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import MedicalBanner from \"../MedicalBanner/MedicalBanner.svelte\";\n    import MedicalBannerBox from \"../MedicalBannerBox/MedicalBannerBox.svelte\";\n    import MedicalBannerBoxForDanger from \"./MedicalBannerBoxForDanger.svelte\";\n<\/script>\n\n<MedicalBanner label=\"Patient summary\">\n    <MedicalBannerBox>\n        <MedicalBannerBoxForDanger label=\"Allergies\">\n            <p>Penicillin, peanuts</p>\n        </MedicalBannerBoxForDanger>\n    </MedicalBannerBox>\n</MedicalBanner>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import MedicalBanner from \"../MedicalBanner/MedicalBanner.svelte\";\n  import MedicalBannerBox from \"../MedicalBannerBox/MedicalBannerBox.svelte\";\n  import MedicalBannerBoxForDanger from \"./MedicalBannerBoxForDanger.svelte\";\n<\/script>\n\n<MedicalBanner label=\"Patient summary\">\n  <MedicalBannerBox>\n    <MedicalBannerBoxForDanger label=\"Allergies\">\n      <p>Penicillin, peanuts</p>\n    </MedicalBannerBoxForDanger>\n  </MedicalBannerBox>\n</MedicalBanner>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

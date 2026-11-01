@@ -17,6 +17,13 @@ description: an input for adding and removing tags
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>
-<pre tabindex="0"><code>{% raw %}&lt;TagInput label="Add tag" value={tagText} onadd={(tag) =&gt; tags.push(tag)} /&gt;
+<pre tabindex="0"><code>{% raw %}&lt;TagInput
+  label="Add tag"
+  value="{tagText}"
+  onadd="{(tag)"
+  =""
+&gt;
+  tags.push(tag)} /&gt;&lt;/TagInput
+&gt;
 {% endraw %}</code></pre>
 {# END generated: examples #}

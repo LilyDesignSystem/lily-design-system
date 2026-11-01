@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"select-with-extras\"><input type=\"text\" aria-label=\"Filter options\" placeholder=\"Search...\" /><select aria-label=\"Choose an option\"><option>Option 1</option><option>Option 2</option></select></div>";
   const svelteSource: string = "// In your Svelte component:\nimport SelectWithExtras from \"lily-design-system-svelte-headless/components/SelectWithExtras/SelectWithExtras.svelte\";\n\n<SelectWithExtras>\n  <!-- content -->\n</SelectWithExtras>\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import SelectWithExtras from \"./SelectWithExtras.svelte\";\n    let country = $state(\"us\");\n<\/script>\n\n<SelectWithExtras label=\"Country\" bind:value={country}>\n    {#snippet before()}<span aria-hidden=\"true\">🇺🇸</span>{/snippet}\n    <option value=\"us\">United States</option>\n    <option value=\"gb\">United Kingdom</option>\n</SelectWithExtras>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import SelectWithExtras from \"./SelectWithExtras.svelte\";\n  let country = $state(\"us\");\n<\/script>\n\n<SelectWithExtras\n  label=\"Country\"\n  bind:value={country}\n>\n  {#snippet before()}<span aria-hidden=\"true\">🇺🇸</span>{/snippet}\n  <option value=\"us\">United States</option>\n  <option value=\"gb\">United Kingdom</option>\n</SelectWithExtras>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

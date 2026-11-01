@@ -5,13 +5,13 @@
   HTML tag: <input>
   CSS class: hidden-input
   Keyboard: 
-  Accessibility: aria-label for accessible name
+  Accessibility: none; a hidden input is not perceivable, so it takes no label. The consumer sets name and value.
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
 <input
   class="hidden-input"
-  aria-label="Example"
->
-  <!-- Consumer provides content -->
-</input>
+  type="hidden"
+  name=""
+  value=""
+/>

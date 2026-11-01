@@ -155,7 +155,7 @@ pnpm run dev</code></pre>
   <h2>ערכות נושא מוכנות</h2>
   <p>
     לא רוצים לכתוב CSS מאפס? Lily כוללת
-    <strong>57 ערכות ייחוס עצמאיות</strong> בספרייה
+    <strong>63 ערכות ייחוס עצמאיות</strong> בספרייה
     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
     . כל אחת היא גיליון סגנון אחד שמכוון אל ווי המחלקה של Lily — קשרו אותו ואתם מעוצבים:
   </p>
@@ -179,11 +179,7 @@ pnpm run dev</code></pre>
 
 <section class="section prose" id="helpers" style="margin: 0 auto;">
   <h2>עוזרי העדפות</h2>
-  <p>
-    לכל מסגרת שמונה בוחרים קטנים, כל אחד בחבילה
-    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> משלו (ו- <code>picker-bar</code> שמרכיב אותם). כל אחד הוא כפתור אייקון ללא ראש שפותח חלונית — תיבת רשימה, רשימת קישורים, טופס חיפוש או (עבור date-time-picker) דיאלוג בחירת תאריך — לא
-    <code>&lt;select&gt;</code>מקורי; בטוח ל-SSR; ומגיע ללא CSS:
-  </p>
+  <p>לכל מסגרת יש אחד עשר בוררים קטנים, כל אחד בחבילה משלו <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> (ו־<code>picker-bar</code> שמרכיב אותם). כל אחד הוא כפתור סמל headless שפותח חלון קופץ — תיבת רשימה, רשימת קישורים, טופס חיפוש, לוח עם תוכן משלכם או (ב־date-time-picker) תיבת דו־שיח לבחירת תאריך — ולא <code>&lt;select&gt;</code> מקורי (theme-picker מציע אחד כגרסה אופציונלית); הוא בטוח ל־SSR ואינו מספק CSS. מלבד menu-picker,‏ settings-picker ו־time-zone-picker, הם:</p>
   <ul>
     <li>
       <strong>theme-picker</strong> — טוען גיליונות סגנון של ערכות נושא בזמן ריצה על ידי החלפת <code>&lt;link&gt;</code>מנוהל, מגדיר
@@ -294,7 +290,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
     <summary>רכיב מוצג אך נראה לא מעוצב</summary>
     <p>
       זה ה-headless שעובד כמתוכנן — שום CSS לא מגיע עם הרכיב. או שכתבו CSS מול מחלקת ה-kebab-case של הרכיב (מוצגת בכל <a href="/components/">עמוד קטלוג</a>) או קשרו אחת מ
-      <a href="#themes">57 ערכות הנושא המוכנות</a>.
+      <a href="#themes">63 ערכות הנושא המוכנות</a>.
     </p>
   </details>
 
@@ -383,7 +379,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
   <details class="faq-item">
     <summary>למה ללא ראש ולא מעוצב?</summary>
     <p>
-      רכיבים מעוצבים מראש נוחים — עד שהם לא תואמים את המותג שלכם. רכיבים ללא ראש דורשים קצת יותר עבודה מראש אך נותנים שליטה מלאה בעיצוב החזותי. אפליקציות הדוגמה ו-57 ערכות הנושא מראות דרכים לעצב אותם; אפשר לקחת אותן או להחליף אותן לחלוטין. הטיעון הארוך יותר נמצא ב <a href="/why/">למה Lily</a>.
+      רכיבים מעוצבים מראש נוחים — עד שהם לא תואמים את המותג שלכם. רכיבים ללא ראש דורשים קצת יותר עבודה מראש אך נותנים שליטה מלאה בעיצוב החזותי. אפליקציות הדוגמה ו-63 ערכות הנושא מראות דרכים לעצב אותם; אפשר לקחת אותן או להחליף אותן לחלוטין. הטיעון הארוך יותר נמצא ב <a href="/why/">למה Lily</a>.
     </p>
   </details>
 

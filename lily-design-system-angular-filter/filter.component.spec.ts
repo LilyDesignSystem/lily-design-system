@@ -589,3 +589,56 @@ describe("Filter — another language and right-to-left (§8.26–§8.29)", () =
         ).toEqual([]);
     });
 });
+
+// P10-T9: inside a <form>, a reset puts the filter back to the one it started with, every field included (as the
+// Svelte reference does).
+describe("Filter form reset", () => {
+    function inForm() {
+        const form = document.createElement("form");
+        document.body.append(form);
+        const fixture = TestBed.createComponent(Filter);
+        form.append(fixture.nativeElement);
+        const changes: FilterGroup[] = [];
+        fixture.componentInstance.value.subscribe((v) => changes.push(v));
+        fixture.componentRef.setInput("label", base.label);
+        fixture.componentRef.setInput("fields", base.fields);
+        fixture.componentRef.setInput("labels", base.labels);
+        fixture.componentRef.setInput(
+            "value",
+            start(rule("name", "contains", "a"), rule("age", "gt", 3)),
+        );
+        fixture.detectChanges();
+        TestBed.tick();
+        const fields = () => [...form.querySelectorAll<HTMLInputElement>("input.filter-value")];
+        return { form, fixture, fields, changes };
+    }
+    const afterReset = () => new Promise((r) => setTimeout(r, 0));
+
+    test("restores the initial filter and redraws every field, touched or not", async () => {
+        const { form, fixture, fields, changes } = inForm();
+        fields()[0].value = "typed";
+        fields()[0].dispatchEvent(new Event("input", { bubbles: true }));
+        fixture.detectChanges();
+        expect(fields().map((f) => f.value)).toEqual(["typed", "3"]);
+        form.reset();
+        await afterReset();
+        fixture.detectChanges();
+        expect(fields().map((f) => f.value)).toEqual(["a", "3"]);
+        const last = changes.at(-1)!;
+        expect(last.children.map((c) => (c as FilterRule).value)).toEqual(["a", 3]);
+        form.remove();
+    });
+
+    test("a cancelled reset changes nothing", async () => {
+        const { form, fixture, fields } = inForm();
+        fields()[0].value = "typed";
+        fields()[0].dispatchEvent(new Event("input", { bubbles: true }));
+        fixture.detectChanges();
+        form.addEventListener("reset", (event) => event.preventDefault());
+        form.reset();
+        await afterReset();
+        fixture.detectChanges();
+        expect(fields()[0].value).toBe("typed");
+        form.remove();
+    });
+});

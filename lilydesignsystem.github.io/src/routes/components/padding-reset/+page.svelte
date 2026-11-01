@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"padding-reset\" aria-label=\"a container that resets padding inside fluid-width containers\">PaddingReset</div>";
   const svelteSource: string = "// In your Svelte component:\nimport PaddingReset from \"lily-design-system-svelte-headless/components/PaddingReset/PaddingReset.svelte\";\n\n<PaddingReset>\n  <!-- content -->\n</PaddingReset>\n";
-  const usageCode: string = "<ContentBlock width=\"fluid\">\n  <PaddingReset>\n    <img src=\"full-bleed.jpg\" alt=\"Full bleed image\" />\n  </PaddingReset>\n</ContentBlock>\n";
+  const usageCode: string = "<ContentBlock width=\"fluid\">\n  <PaddingReset>\n    <img\n      src=\"full-bleed.jpg\"\n      alt=\"Full bleed image\"\n    />\n  </PaddingReset>\n</ContentBlock>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

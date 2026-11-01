@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tree-list-item",
+  "type": "registry:component",
+  "title": "TreeListItem",
+  "description": "One item in a tree navigation list.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/TreeListItem.tsx",
+      "content": "import React from \"react\";\n\n// TreeListItem component\n//\n// One item in a tree navigation list.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label    — string, optional. Accessible label via aria-label.\n//   children — ReactNode, required. Component content.\n//   ...restProps — additional HTML attributes spread onto the <li>.\n//\n// Accessibility:\n//   - role='treeitem' on the wrapper\n//   - aria-label exposes a screen-reader name when label is provided\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//\n// References:\n//   - HTML li element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li\n\nexport interface TreeListItemProps {\n    className?: string;\n    /** Optional accessible label set on aria-label. */\n    label?: string;\n    /** Expanded state (controlled). Leave undefined for a leaf (no aria-expanded). */\n    expanded?: boolean;\n    /** Called with the new state when ArrowRight/ArrowLeft expands or collapses the item. */\n    onExpandedChange?: (expanded: boolean) => void;\n    /** Component content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function TreeListItem({\n    className = \"\",\n    label = undefined,\n    expanded = undefined,\n    onExpandedChange = undefined,\n    children,\n    ...restProps\n}: TreeListItemProps) {\n    // ArrowRight/ArrowLeft (WAI-ARIA tree pattern). Only for the focused item itself, not a\n    // nested one the event bubbled up from. Swapped in right-to-left layouts.\n    function handleKeyDown(event: React.KeyboardEvent<HTMLLIElement>) {\n        (restProps.onKeyDown as ((e: React.KeyboardEvent<HTMLLIElement>) => void) | undefined)?.(\n            event,\n        );\n        const item = event.currentTarget;\n        if (event.defaultPrevented || event.target !== item) return;\n        const rtl = getComputedStyle(item).direction === \"rtl\";\n        const open = rtl ? \"ArrowLeft\" : \"ArrowRight\";\n        const close = rtl ? \"ArrowRight\" : \"ArrowLeft\";\n        if (event.key === open) {\n            if (expanded === false) {\n                event.preventDefault();\n                onExpandedChange?.(true);\n            } else if (expanded === true) {\n                const child = item.querySelector<HTMLElement>(\"[role='treeitem']\");\n                if (child) {\n                    event.preventDefault();\n                    child.focus();\n                }\n            }\n        } else if (event.key === close) {\n            if (expanded === true) {\n                event.preventDefault();\n                onExpandedChange?.(false);\n            } else {\n                const parent = item.parentElement?.closest<HTMLElement>(\"[role='treeitem']\");\n                if (parent) {\n                    event.preventDefault();\n                    parent.focus();\n                }\n            }\n        }\n    }\n\n    return (\n        <li\n            className={`tree-list-item ${className}`}\n            role=\"treeitem\"\n            tabIndex={-1}\n            aria-label={label}\n            aria-expanded={expanded}\n            {...restProps}\n            onKeyDown={handleKeyDown}\n        >\n            {children}\n        </li>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/TreeListItem.tsx"
+    }
+  ],
+  "categories": [
+    "lists"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/tree-list-item/"
+}

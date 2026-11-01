@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<div\n  class="context-menu-item"\n  role="menuitem"\n  aria-label=""\n>\n  <!-- Consumer provides content -->\n</div>';
+    '<div\n  class="context-menu-item"\n  role="menuitem"\n  tabindex="-1"\n  aria-label=""\n>\n  <!-- Consumer provides content -->\n</div>';
 
 const meta = {
     title: "Headless/Context Menu Item",

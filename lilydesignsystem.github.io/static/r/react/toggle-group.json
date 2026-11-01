@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "toggle-group",
+  "type": "registry:component",
+  "title": "ToggleGroup",
+  "description": "A group of toggle buttons for selecting options.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ToggleGroup.tsx",
+      "content": "import React from \"react\";\n\n// ToggleGroup component\n//\n// A headless container for a collection of related toggle buttons. Renders a\n// <div> with the ARIA group role and an accessible label to semantically\n// associate toggle buttons. Useful for text formatting toolbars (bold, italic,\n// underline), view mode selectors, or any interface where multiple options can\n// be independently toggled on or off. Each child button should use aria-pressed\n// to indicate its toggle state.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name for the group via aria-label.\n//   children — ReactNode, required. Toggle button elements.\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Syntax:\n//   <ToggleGroup label=\"Text formatting\">...</ToggleGroup>\n//\n// Examples:\n//\n//   <ToggleGroup label=\"Text formatting\">\n//     <button aria-pressed=\"true\">Bold</button>\n//     <button aria-pressed=\"false\">Italic</button>\n//     <button aria-pressed=\"false\">Underline</button>\n//   </ToggleGroup>\n//\n// Keyboard:\n//   - None at the container level; child buttons handle Tab, Enter/Space\n//\n// Accessibility:\n//   - role=\"group\" identifies the container as a semantic grouping\n//   - aria-label={label} provides an accessible name describing the toggle collection\n//\n// Internationalization:\n//   - The label prop accepts any translated string\n//   - No hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles -- consumer provides all styling\n//   - Consumer provides toggle buttons with aria-pressed attributes\n//\n// References:\n//   - WAI-ARIA group role: https://www.w3.org/TR/wai-aria-1.2/#group\n//   - WAI-ARIA Button Pattern (toggle): https://www.w3.org/WAI/ARIA/apg/patterns/button/\n\nexport interface ToggleGroupProps {\n    className?: string;\n    /** Accessible label. */\n    label: string;\n    /** Toggle button elements. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function ToggleGroup({\n    className = \"\",\n    label,\n    children,\n    ...restProps\n}: ToggleGroupProps) {\n    return (\n        <div\n            className={`toggle-group ${className}`}\n            role=\"group\"\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ToggleGroup.tsx"
+    }
+  ],
+  "categories": [
+    "forms"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/toggle-group/"
+}

@@ -283,5 +283,10 @@
     "small": "malý",
     "smaller": "menší",
     "smallest": "nejmenší"
+  },
+  "date-time-now-input": {
+    "date": "Datum",
+    "time": "Čas",
+    "now": "Teď"
   }
 }

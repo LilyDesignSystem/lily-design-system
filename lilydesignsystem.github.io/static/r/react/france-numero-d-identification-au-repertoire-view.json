@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "france-numero-d-identification-au-repertoire-view",
+  "type": "registry:component",
+  "title": "FranceNumeroDIdentificationAuRepertoireView",
+  "description": "A read-only display of a France numéro d'identification au répertoire (NIR) unique national healthcare identifier.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/FranceNumeroDIdentificationAuRepertoireView.tsx",
+      "content": "import React from \"react\";\n\n// FranceNumeroDIdentificationAuRepertoireView component\n//\n// A headless display component for showing a France numéro d'identification\n// au répertoire (NIR) in a read-only format. Renders the number as an inline\n// <span> element with an accessible label. Suitable for patient records,\n// summaries, confirmation screens, or any context where a NIR needs\n// to be displayed but not edited. This is the View counterpart to the Input\n// component in the Input/View pattern.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". The NIR string to display.\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <FranceNumeroDIdentificationAuRepertoireView label=\"NIR\" value=\"1 85 05 75 012 345 67\" />\n//\n// Examples:\n//\n//   <FranceNumeroDIdentificationAuRepertoireView label=\"Numéro de sécurité sociale\" value={nir} />\n//\n// Keyboard:\n//   - None -- passive display-only component\n//\n// Accessibility:\n//   - aria-label provides the accessible name so screen readers announce the purpose\n//   - Screen readers announce the label followed by the text content (the number)\n//\n// Internationalization:\n//   - The label prop externalizes user-facing text for translation\n//   - No hardcoded strings in the component\n//\n// Claude rules:\n//   - Headless: no CSS, no styles -- consumer provides all styling\n//   - No formatting or validation; consumer provides the value pre-formatted\n//   - Read-only display; pairs with Input component for editing\n//\n// References:\n//   - Ameli.fr: https://www.ameli.fr/assure/droits-demarches/principes/numero-securite-sociale\n\nexport interface FranceNumeroDIdentificationAuRepertoireViewProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The NIR to display */\n    value?: string;\n    /** Additional HTML attributes */\n    [key: string]: unknown;\n}\n\nexport default function FranceNumeroDIdentificationAuRepertoireView({\n    className = \"\",\n    label,\n    value = \"\",\n    ...restProps\n}: FranceNumeroDIdentificationAuRepertoireViewProps) {\n    return (\n        <span\n            className={`france-numero-d-identification-au-repertoire-view ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {value}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/FranceNumeroDIdentificationAuRepertoireView.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/france-numero-d-identification-au-repertoire-view/"
+}

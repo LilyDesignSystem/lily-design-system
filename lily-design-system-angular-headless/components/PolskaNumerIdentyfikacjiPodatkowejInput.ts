@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
+import { restoreOnFormReset } from "./form-reset";
 
 /**
  * PolskaNumerIdentyfikacjiPodatkowejInput — an input for entering Poland's Numer Identyfikacji Podatkowej (NIP)
@@ -33,4 +34,8 @@ export class PolskaNumerIdentyfikacjiPodatkowejInput {
     readonly required = input<boolean>(false);
     /** Whether the input is disabled. */
     readonly disabled = input<boolean>(false);
+
+    constructor() {
+        restoreOnFormReset(this.value);
+    }
 }

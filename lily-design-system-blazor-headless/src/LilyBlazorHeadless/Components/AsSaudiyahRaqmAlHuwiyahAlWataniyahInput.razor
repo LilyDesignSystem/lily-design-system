@@ -1,0 +1,14 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    AsSaudiyahRaqmAlHuwiyahAlWataniyahInput component
+    an input for entering Saudi Arabia's National Identification Number
+*@
+
+<input class="@($"as-saudiyah-raqm-al-huwiyah-al-wataniyah-input {CssClass}".Trim())" type="text" aria-label="@Label" autocomplete="off" @attributes="AdditionalAttributes" />
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

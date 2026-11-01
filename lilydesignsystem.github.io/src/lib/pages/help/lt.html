@@ -155,7 +155,7 @@ pnpm run dev</code></pre>
   <h2>Paruoštos temos</h2>
   <p>
     Nenorite rašyti CSS nuo nulio? Lily tiekia
-    <strong>57 savarankiškas pavyzdines temas</strong> kataloge
+    <strong>63 savarankiškas pavyzdines temas</strong> kataloge
     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
     . Kiekviena yra vienas stilių lapas, taikantis Lily klasės kabliukus — susiekite jį ir esate stilizuoti:
   </p>
@@ -179,11 +179,7 @@ pnpm run dev</code></pre>
 
 <section class="section prose" id="helpers" style="margin: 0 auto;">
   <h2>Nuostatų pagalbininkai</h2>
-  <p>
-    Kiekvienas karkasas turi aštuonis mažus parinkiklius, kiekvienas — atskiras
-    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> paketas (ir <code>picker-bar</code> , juos sujungiantis). Kiekvienas yra bevaigis piktogramos mygtukas, atidarantis iškylantįjį langą — sąrašo langelį, nuorodų sąrašą, paieškos formą ar (date-time-picker atveju) datos pasirinkimo dialogą — ne vietinis
-    <code>&lt;select&gt;</code>; yra saugus SSR; ir netiekia CSS:
-  </p>
+  <p>Kiekviena sistema turi vienuolika mažų parinkiklių, kiekvienas savo <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> pakete (ir <code>picker-bar</code>, kuri juos sujungia). Kiekvienas yra headless mygtukas su piktograma, atveriantis iškylantįjį langą — sąrašo laukelį, nuorodų sąrašą, paieškos formą, jūsų pačių turinio skydelį arba (date-time-picker atveju) datos parinkimo dialogą — o ne savąjį <code>&lt;select&gt;</code> (theme-picker jį siūlo kaip pasirenkamą variantą); jis saugus SSR ir nepateikia CSS. Be menu-picker, settings-picker ir time-zone-picker, tai:</p>
   <ul>
     <li>
       <strong>theme-picker</strong> — vykdymo metu įkelia temų stilių lapus pakeisdamas valdomą <code>&lt;link&gt;</code>, nustato
@@ -294,7 +290,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
     <summary>Komponentas atvaizduojamas, bet atrodo nestilizuotas</summary>
     <p>
       Tai bevaigiškumas, veikiantis kaip numatyta — su komponentu nėra tiekiamas jokis CSS. Arba parašykite CSS komponento kebab-case klasei (rodomai kiekviename <a href="/components/">katalogo puslapyje</a>) arba susiekite vieną iš
-      <a href="#themes">57 paruoštų temų</a>.
+      <a href="#themes">63 paruoštų temų</a>.
     </p>
   </details>
 
@@ -383,7 +379,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
   <details class="faq-item">
     <summary>Kodėl bevaigis, o ne stilizuotas?</summary>
     <p>
-      Iš anksto stilizuoti komponentai yra patogūs — kol neatitinka jūsų prekės ženklo. Bevaigiai komponentai pradžioje reikalauja šiek tiek daugiau darbo, bet suteikia visišką vizualinio dizaino kontrolę. Pavyzdinės programos ir 57 temos rodo stilizavimo būdus; galite juos pasiimti arba visiškai pakeisti. Ilgesnis argumentas yra <a href="/why/">Kodėl Lily</a>.
+      Iš anksto stilizuoti komponentai yra patogūs — kol neatitinka jūsų prekės ženklo. Bevaigiai komponentai pradžioje reikalauja šiek tiek daugiau darbo, bet suteikia visišką vizualinio dizaino kontrolę. Pavyzdinės programos ir 63 temos rodo stilizavimo būdus; galite juos pasiimti arba visiškai pakeisti. Ilgesnis argumentas yra <a href="/why/">Kodėl Lily</a>.
     </p>
   </details>
 

@@ -31,7 +31,9 @@ This component is useful for patient alerts, clinical notifications, medical rec
 ```html
 <MedicalBanner label="Patient summary">
   <MedicalBannerBox>
-    <strong>Sarah Mitchell</strong> | NHS: 485 777 3456 | DOB: 15/03/1984
+    <strong>Sarah Mitchell</strong> | NHS number:
+    <EnglandNationalHealthServiceNumberView value="9434765919" /> | Born:
+    <time datetime="1984-03-15">15 March 1984</time>
   </MedicalBannerBox>
   <MedicalBannerBoxForDanger label="Allergies and reactions">
     Allergies: Penicillin, Latex
@@ -73,10 +75,26 @@ MedicalBanner can contain MedicalBannerBox for horizontal layout:
 <MedicalBanner label="Patient summary">
   <MedicalBannerBox>
     <span>Patient: John Smith</span>
-    <span>NHS: 123 456 7890</span>
+    <span>NHS number: <EnglandNationalHealthServiceNumberView value="9434765870" /></span>
   </MedicalBannerBox>
 </MedicalBanner>
 ```
+
+The same banner elsewhere uses that country's identifier component and its own date format; in Australia:
+
+```html
+<MedicalBanner label="Patient summary">
+  <MedicalBannerBox>
+    <strong>Mia Nguyen</strong> | IHI:
+    <AustraliaIndividualHealthcareIdentifierView value="8003608166690503" /> | Born:
+    <time datetime="1991-07-04">4 July 1991</time>
+  </MedicalBannerBox>
+</MedicalBanner>
+```
+
+The identifier is the region-specific part: Lily has a `-view` component for 82 national identifier types (see
+the `spec/national-identifiers` topic); format the date with `Intl.DateTimeFormat` in the
+patient's locale and keep the ISO date in `datetime`.
 
 ## When to Use
 
@@ -152,7 +170,7 @@ Rules:
 
 ## Advice
 
-- **Designers**: Use distinct styling for medical banners to differentiate them from generic site banners. Consider NHS blue or clinical color schemes.
+- **Designers**: Use distinct styling for medical banners to differentiate them from generic site banners. Follow the clinical colour scheme of the health service you build for (NHS blue in England, say).
 - **Developers**: Always provide a meaningful `label` prop. Use `data-context="medical"` in CSS selectors for medical-specific styling.
 
 ## Domain Knowledge

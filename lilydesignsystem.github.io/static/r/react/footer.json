@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "footer",
+  "type": "registry:component",
+  "title": "Footer",
+  "description": "A page or section footer area.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Footer.tsx",
+      "content": "import React from \"react\";\n\n// Footer component\n//\n// A semantic page footer landmark located at the bottom of a web page or section,\n// typically used to provide secondary navigation, legal information, contact details,\n// and links to important but less prominent content like privacy policies, terms of\n// service, or social media profiles. Uses the native <footer> element.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, default undefined. Optional accessible name via aria-label, useful when multiple footers exist.\n//   children — ReactNode, required. Footer content.\n//   ...restProps — additional HTML attributes spread onto the footer element.\n//\n// Syntax:\n//   <Footer label=\"Site footer\">{children}</Footer>\n//\n// Examples:\n//\n//   <Footer label=\"Site footer\">\n//     <p>Copyright 2024</p>\n//   </Footer>\n//\n//\n//   <Footer>\n//     <nav aria-label=\"Footer navigation\">\n//       <a href=\"/privacy\">Privacy</a>\n//       <a href=\"/terms\">Terms</a>\n//     </nav>\n//   </Footer>\n//\n// Keyboard:\n//   - None — this is a passive container; keyboard interactions are determined by child elements\n//\n// Accessibility:\n//   - The <footer> element provides the contentinfo landmark role natively\n//   - aria-label optionally distinguishes this footer from others on the page\n//   - Screen reader users can navigate directly to the footer via landmark navigation\n//\n// Internationalization:\n//   - The label prop allows localized accessible names; no hardcoded user-facing strings\n//   - All content comes through the children prop\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Uses semantic <footer> element instead of div with role\n//\n// References:\n//   - MDN footer element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer\n\nexport interface FooterProps {\n    className?: string;\n    /** Optional accessible name. */\n    label?: string;\n    /** Footer content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Footer({\n    className = \"\",\n    label = undefined,\n    children,\n    ...restProps\n}: FooterProps) {\n    return (\n        <footer\n            className={`footer ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </footer>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Footer.tsx"
+    }
+  ],
+  "categories": [
+    "navigation"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/footer/"
+}

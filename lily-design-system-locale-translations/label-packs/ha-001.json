@@ -283,5 +283,10 @@
     "small": "ƙarami",
     "smaller": "ya fi ƙanƙanta",
     "smallest": "mafi ƙanƙanta"
+  },
+  "date-time-now-input": {
+    "date": "Kwanan wata",
+    "time": "Lokaci",
+    "now": "Yanzu"
   }
 }

@@ -18,9 +18,12 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
     template: `<ng-content />`,
     host: {
         "[class]": '"chat-list-item " + className()',
+        "[attr.aria-current]": 'current() ? "true" : null',
     },
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChatListItem {
     readonly className = input<string>("");
+    /** Marks the currently selected conversation (aria-current="true"). */
+    readonly current = input<boolean>(false);
 }

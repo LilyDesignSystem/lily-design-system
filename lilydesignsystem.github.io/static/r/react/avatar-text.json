@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "avatar-text",
+  "type": "registry:component",
+  "title": "AvatarText",
+  "description": "An avatar indicator inner text such as a user name.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/AvatarText.tsx",
+      "content": "import React from \"react\";\n\n// AvatarText component\n//\n// The text/initials fallback within an Avatar. Renders a <span>\n// with aria-hidden=\"true\" containing the initials or short text that\n// represents the user when no image is available. Must be used inside\n// an Avatar container.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   children — ReactNode, required. Initials or short text (e.g., \"JD\").\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <AvatarText>JD</AvatarText>\n//\n// Examples:\n//\n//   <Avatar alt=\"Jane Doe\">\n//     <AvatarText>JD</AvatarText>\n//   </Avatar>\n//\n//\n//   <Avatar alt=\"Jane Doe\">\n//     <AvatarImage src=\"/photo.jpg\" alt=\"Jane Doe\" />\n//     <AvatarText>JD</AvatarText>\n//   </Avatar>\n//\n// Keyboard: None — display-only element.\n//\n// Accessibility:\n//   - aria-hidden=\"true\" prevents duplicate announcements since the\n//     parent Avatar already has aria-label\n//\n// Internationalization:\n//   - All text comes through the children prop\n//   - No hardcoded strings\n//\n// Claude rules:\n//   - Compound component — must be used inside an Avatar\n//   - Headless: no CSS, no styles — consumer provides all styling\n//\n// References:\n//   - WAI-ARIA img role: https://www.w3.org/TR/wai-aria-1.2/#img\n\nexport interface AvatarTextProps {\n    className?: string;\n    /** Initials or short text. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function AvatarText({ className = \"\", children, ...restProps }: AvatarTextProps) {\n    return (\n        <span\n            className={`avatar-text ${className}`}\n            aria-hidden=\"true\"\n            {...restProps}\n        >\n            {children}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/AvatarText.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/avatar-text/"
+}

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
 
 /**
  * Details — a disclosure widget that shows and hides content
@@ -10,10 +10,17 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-details",
     standalone: true,
-    template: `<div class="details {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<details class="details {{ className() }}" [open]="open()" (toggle)="onToggle($event)"><summary>{{ summary() }}</summary><ng-content /></details>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Details {
-    readonly label = input<string>("");
+    /** The always-visible summary text. */
+    readonly summary = input<string>("");
+    /** Whether the content is shown (two-way: [(open)]). */
+    readonly open = model<boolean>(false);
     readonly className = input<string>("");
+
+    onToggle(event: Event): void {
+        this.open.set((event.target as HTMLDetailsElement).open);
+    }
 }

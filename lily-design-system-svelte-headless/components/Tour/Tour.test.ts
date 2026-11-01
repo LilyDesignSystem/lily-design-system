@@ -55,7 +55,8 @@ describe("Tour", () => {
         expect(screen.getByLabelText("Onboarding tour")).toBeTruthy();
     });
 
-    test("has aria-modal true", () => {
+    // P18-T6: a tour is non-modal (the page it points at must stay usable), so it must not claim aria-modal.
+    test("is non-modal: no aria-modal", () => {
         render(Subject, {
             props: {
                 label: "Tour",
@@ -63,7 +64,7 @@ describe("Tour", () => {
                 children: textSnippet("content"),
             },
         });
-        expect(screen.getByRole("dialog").getAttribute("aria-modal")).toBe("true");
+        expect(screen.getByRole("dialog").hasAttribute("aria-modal")).toBe(false);
     });
 
     test("has tabindex -1 for keyboard events", () => {

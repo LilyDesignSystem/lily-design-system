@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tag",
+  "type": "registry:component",
+  "title": "Tag",
+  "description": "A keyword label for categorizing content.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Tag.tsx",
+      "content": "import React from \"react\";\n\n// Tag component\n//\n// A headless tag for displaying labels, categories, keywords, or status\n// indicators. Renders as an inline <span> with role=\"status\" and an accessible\n// label, creating an implicit live region so screen readers announce content\n// changes. Commonly used in content management, product listings, article\n// metadata, and filtering interfaces to visually group or classify content.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   children — ReactNode, required. The tag's visible content (text, etc.).\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <Tag label=\"Category\">Design</Tag>\n//\n// Examples:\n//\n//   <Tag label=\"Status\">Active</Tag>\n//\n//\n//   <Tag label=\"Priority: High\">High</Tag>\n//\n// Keyboard:\n//   - None -- tags are informational, not interactive\n//\n// Accessibility:\n//   - role=\"status\" enables live region announcements for screen readers\n//   - aria-label provides expanded context beyond the visible tag text\n//\n// Internationalization:\n//   - The label prop externalizes user-facing text for translation\n//   - All visible content is provided through the children prop\n//   - No hardcoded strings in the component\n//\n// Claude rules:\n//   - Headless: no CSS, no styles -- consumer provides all styling\n//   - role=\"status\" creates an implicit live region\n//\n// References:\n//   - WAI-ARIA Status Role: https://www.w3.org/TR/wai-aria-1.2/#status\n\nexport interface TagProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The tag content (text, icon, etc.) */\n    children: React.ReactNode;\n    /**\n     * Announce changes: a `role=\"status\"` live region, for a tag whose text\n     * changes in place (a job's status). Off by default — a page of static\n     * tags should not be a page of live regions.\n     */\n    live?: boolean;\n    /** Additional HTML attributes */\n    [key: string]: unknown;\n}\n\nexport default function Tag({\n    className = \"\",\n    label,\n    live = false,\n    children,\n    ...restProps\n}: TagProps) {\n    if (live) {\n        return (\n            <span\n                className={`tag ${className}`}\n                role=\"status\"\n                aria-label={label}\n                {...restProps}\n            >\n                {children}\n            </span>\n        );\n    }\n    // Not a live region: aria-label is not allowed on a plain <span>, so the\n    // label is screen-reader text appended after the content (the themes hide\n    // .screen-reader-span). The content stays exposed: it may hold a focusable\n    // control, such as a remove button.\n    return (\n        <span\n            className={`tag ${className}`}\n            {...restProps}\n        >\n            {children}\n            {label ? <span className=\"screen-reader-span\">{label}</span> : null}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Tag.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/tag/"
+}

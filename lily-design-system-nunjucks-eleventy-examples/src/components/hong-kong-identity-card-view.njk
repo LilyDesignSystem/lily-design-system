@@ -1,0 +1,23 @@
+---
+layout: layouts/component-demo.njk
+title: HongKongIdentityCardView
+description: a read-only display of Hong Kong's Identity Card Number
+---
+
+{% from "components/hong-kong-identity-card-view/macro.njk" import hongKongIdentityCardView %}
+
+<h2>Default</h2>
+<p>{{ hongKongIdentityCardView({ text: "HongKongIdentityCardView example", label: "HongKongIdentityCardView example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;SummaryList&gt;
+  &lt;SummaryListItem term="Hong Kong Identity Card Number"&gt;
+    &lt;HongKongIdentityCardView
+      label="Hong Kong Identity Card Number"
+      value="{value}"
+    /&gt;
+  &lt;/SummaryListItem&gt;
+&lt;/SummaryList&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

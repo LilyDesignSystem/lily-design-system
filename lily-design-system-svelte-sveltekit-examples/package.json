@@ -41,9 +41,9 @@
     "url": "https://github.com/LilyDesignSystem/lily-design-system/issues"
   },
   "dependencies": {
-    "@lilydesignsystem/svelte-locale-picker": "0.2.0",
-    "@lilydesignsystem/svelte-text-size-picker": "0.2.0",
-    "@lilydesignsystem/svelte-theme-picker": "0.2.0"
+    "@lilydesignsystem/svelte-locale-picker": "0.3.1",
+    "@lilydesignsystem/svelte-text-size-picker": "0.3.0",
+    "@lilydesignsystem/svelte-theme-picker": "0.3.0"
   },
   "imports": {
     "#lib": "./src/lib/index.js",

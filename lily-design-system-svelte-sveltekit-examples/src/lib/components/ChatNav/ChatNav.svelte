@@ -13,10 +13,10 @@
 </script>
 
 <!-- ChatNav.svelte -->
-<div
+<nav
     class={`chat-nav ${className}`}
     aria-label={label}
     {...restProps}
 >
     {@render children?.()}
-</div>
+</nav>

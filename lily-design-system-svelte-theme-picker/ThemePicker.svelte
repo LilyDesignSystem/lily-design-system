@@ -63,6 +63,18 @@
         onOpenChange?: (open: boolean) => void;
         /** Disables the button; an open popup closes. */
         disabled?: boolean;
+        /**
+         * Which control renders. `"listbox"` (default): the icon button and
+         * APG listbox. `"select"` (opt-in, RFC 3 prototype, 2026-10-29): a
+         * native `<select class="theme-picker-select">`, so keyboard, mobile
+         * picker and screen-reader behaviour are the platform's. `open` and
+         * `onOpenChange` do not apply to it (a native select's popup state is
+         * not observable) and it renders no tooltip (it shows the current
+         * theme's name as visible text). Styling it with
+         * `appearance: base-select` belongs in theme CSS — see
+         * `docs/styling.md`.
+         */
+        variant?: "listbox" | "select";
         /** Extra CSS class on the root. */
         class?: string;
         /** Spread props onto the root element. */
@@ -135,6 +147,7 @@
         open = $bindable(false),
         onOpenChange,
         disabled = false,
+        variant = "listbox",
         ...restProps
     }: Props = $props();
 
@@ -382,125 +395,156 @@
     }}
 />
 
-<div
-    bind:this={rootEl}
-    class={`theme-picker ${className}`.trim()}
-    onfocusout={onRootFocusOut}
-    {...restProps}
->
-    <input
-        type="hidden"
-        {name}
-        {value}
-    />
-
-    <IconButton
-        {disabled}
-        bind:ref={buttonEl}
-        baseClass="theme-picker-button"
-        {label}
-        aria-haspopup="listbox"
-        aria-expanded={open}
-        aria-controls={listId}
-        onclick={() => {
-            hoverButton = false;
-            if (open) closeList();
-            else openList();
-        }}
-        onkeydown={onButtonKeydown}
-        onmouseenter={() => {
-            hoverButton = true;
-            dismissed = false;
-        }}
-        onmouseleave={() => {
-            hoverButton = false;
-        }}
-        onfocus={onButtonFocus}
-        onblur={() => {
-            focusButton = false;
-            dismissed = false;
-        }}
+{#if variant === "select"}
+    <!-- RFC 3 prototype: the platform's own select. Keyboard, typeahead,
+         the mobile picker and the screen-reader announcement are the
+         browser's; the component only applies the chosen theme. `selected`
+         on each option (not bind:value) keeps the server-rendered markup
+         correct before hydration. -->
+    <div
+        class={`theme-picker ${className}`.trim()}
+        data-variant="select"
+        {...restProps}
     >
-        {#if children}
-            {@render children({ value: value ?? "", open, labelFor })}
-        {:else}
-            <svg
-                class="theme-picker-icon"
-                viewBox="0 0 16 16"
-                width="1.05rem"
-                height="1.05rem"
-                aria-hidden="true"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.6"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-            >
-                <circle
-                    cx="8"
-                    cy="8"
-                    r="6"
-                />
-                <path
-                    d="M8 2a6 6 0 0 1 0 12z"
-                    fill="currentColor"
-                    stroke="none"
-                />
-            </svg>
-        {/if}
-    </IconButton>
+        <select
+            class="theme-picker-select"
+            {name}
+            aria-label={label}
+            {disabled}
+            onchange={(event) => setTheme(event.currentTarget.value)}
+        >
+            {#each themes as theme (theme)}
+                <option
+                    class="theme-picker-option"
+                    value={theme}
+                    selected={theme === value}
+                >
+                    {labelFor(theme)}
+                </option>
+            {/each}
+        </select>
+    </div>
+{:else}
+    <div
+        bind:this={rootEl}
+        class={`theme-picker ${className}`.trim()}
+        onfocusout={onRootFocusOut}
+        {...restProps}
+    >
+        <input
+            type="hidden"
+            {name}
+            {value}
+        />
 
-    <!-- Purely visual: the same text is already the button's aria-label,
+        <IconButton
+            {disabled}
+            bind:ref={buttonEl}
+            baseClass="theme-picker-button"
+            {label}
+            aria-haspopup="listbox"
+            aria-expanded={open}
+            aria-controls={listId}
+            onclick={() => {
+                hoverButton = false;
+                if (open) closeList();
+                else openList();
+            }}
+            onkeydown={onButtonKeydown}
+            onmouseenter={() => {
+                hoverButton = true;
+                dismissed = false;
+            }}
+            onmouseleave={() => {
+                hoverButton = false;
+            }}
+            onfocus={onButtonFocus}
+            onblur={() => {
+                focusButton = false;
+                dismissed = false;
+            }}
+        >
+            {#if children}
+                {@render children({ value: value ?? "", open, labelFor })}
+            {:else}
+                <svg
+                    class="theme-picker-icon"
+                    viewBox="0 0 16 16"
+                    width="1.05rem"
+                    height="1.05rem"
+                    aria-hidden="true"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
+                    <circle
+                        cx="8"
+                        cy="8"
+                        r="6"
+                    />
+                    <path
+                        d="M8 2a6 6 0 0 1 0 12z"
+                        fill="currentColor"
+                        stroke="none"
+                    />
+                </svg>
+            {/if}
+        </IconButton>
+
+        <!-- Purely visual: the same text is already the button's aria-label,
          so it is not wired with aria-describedby (that would announce the
          name twice). -->
-    <!-- svelte-ignore a11y_no_static_element_interactions -->
-    <div
-        class="theme-picker-tooltip"
-        role="tooltip"
-        id={tooltipId}
-        hidden={!tooltipVisible}
-        onmouseenter={() => {
-            hoverTooltip = true;
-        }}
-        onmouseleave={() => {
-            hoverTooltip = false;
-        }}
-    >
-        {label}
-    </div>
+        <!-- svelte-ignore a11y_no_static_element_interactions -->
+        <div
+            class="theme-picker-tooltip"
+            role="tooltip"
+            id={tooltipId}
+            hidden={!tooltipVisible}
+            onmouseenter={() => {
+                hoverTooltip = true;
+            }}
+            onmouseleave={() => {
+                hoverTooltip = false;
+            }}
+        >
+            {label}
+        </div>
 
-    <Listbox
-        bind:ref={listEl}
-        as="ul"
-        baseClass="theme-picker-list"
-        id={listId}
-        {label}
-        navigation="active-descendant"
-        clamp
-        typeahead
-        pageSize={10}
-        bind:activeIndex
-        hidden={!open}
-        onActivate={choose}
-        onEscape={() => closeList()}
-        onTabOut={handleTabOut}
-    >
-        {#each themes as theme, i (theme)}
-            <!-- The option's keyboard interaction lives on the listbox
+        <Listbox
+            bind:ref={listEl}
+            as="ul"
+            baseClass="theme-picker-list"
+            id={listId}
+            {label}
+            navigation="active-descendant"
+            clamp
+            typeahead
+            pageSize={10}
+            bind:activeIndex
+            hidden={!open}
+            onActivate={choose}
+            onEscape={() => closeList()}
+            onTabOut={handleTabOut}
+        >
+            {#each themes as theme, i (theme)}
+                <!-- The option's keyboard interaction lives on the listbox
                  (aria-activedescendant pattern): the list is the focused
                  element and its keydown handler operates the options, so a
                  per-option key handler would be wrong, not missing. -->
-            <!-- svelte-ignore a11y_click_events_have_key_events -->
-            <li
-                class="theme-picker-option"
-                id={optionId(i)}
-                role="option"
-                aria-selected={theme === value}
-                data-active={i === activeIndex ? "" : undefined}
-                onclick={() => choose(i)}
-            >
-                {labelFor(theme)}
-            </li>
-        {/each}
-    </Listbox>
-</div>
+                <!-- svelte-ignore a11y_click_events_have_key_events -->
+                <li
+                    class="theme-picker-option"
+                    id={optionId(i)}
+                    role="option"
+                    aria-selected={theme === value}
+                    data-active={i === activeIndex ? "" : undefined}
+                    onclick={() => choose(i)}
+                >
+                    {labelFor(theme)}
+                </li>
+            {/each}
+        </Listbox>
+    </div>
+{/if}

@@ -14,7 +14,7 @@
     name="Default"
     tags={["autodocs", "!dev"]}
 >
-    <AccordionLink label="AccordionLink example">
+    <AccordionLink href="#example">
         <span>AccordionLink example</span>
     </AccordionLink>
 </Story>

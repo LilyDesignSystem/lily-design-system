@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "data-table-th",
+  "type": "registry:component",
+  "title": "DataTableTH",
+  "description": "A data table interactive grid header cell for displaying and sorting tabular data <th>.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/DataTableTH.tsx",
+      "content": "import React from \"react\";\n\n// DataTableTH component\n//\n// A column header cell within a DataTable, rendered as a <th> element.\n// Used inside a <DataTableRow> within <DataTableHead> to label the columns\n// of the data table.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   colSpan — number, optional. Number of columns this header cell spans.\n//   rowSpan — number, optional. Number of rows this header cell spans.\n//   scope — \"col\" | \"row\" | \"colgroup\" | \"rowgroup\", default \"col\". Header scope.\n//   children — ReactNode, optional. Header cell content.\n//   ...restProps — additional HTML attributes spread onto the <th>.\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Must be used inside a <tr> within a DataTable\n//\n// References:\n//   - HTML th element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th\n\nexport interface DataTableTHProps {\n    className?: string;\n    /** Number of columns this header cell spans. */\n    colSpan?: number;\n    /** Number of rows this header cell spans. */\n    rowSpan?: number;\n    /** Header scope. */\n    scope?: \"col\" | \"row\" | \"colgroup\" | \"rowgroup\";\n    /** Header cell content. */\n    children?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function DataTableTH({\n    className = \"\",\n    colSpan,\n    rowSpan,\n    scope = \"col\",\n    children,\n    ...restProps\n}: DataTableTHProps) {\n    return (\n        <th\n            className={`data-table-th ${className}`}\n            scope={scope}\n            colSpan={colSpan || undefined}\n            rowSpan={rowSpan || undefined}\n            {...restProps}\n        >\n            {children}\n        </th>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/DataTableTH.tsx"
+    }
+  ],
+  "categories": [
+    "tables"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/data-table-th/"
+}

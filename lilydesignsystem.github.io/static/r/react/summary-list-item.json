@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "summary-list-item",
+  "type": "registry:component",
+  "title": "SummaryListItem",
+  "description": "One key-value pair in a summary list.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/SummaryListItem.tsx",
+      "content": "import React from \"react\";\n\n// SummaryListItem component\n//\n// A single key-value row within a SummaryList (<dl>). Renders a <div> wrapper\n// containing a <dt> (term) and <dd> (description) pair. The HTML spec permits\n// <div> as a direct child of <dl> for grouping dt/dd pairs, enabling per-row\n// styling and attribute targeting without breaking list semantics.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   term — string, required. The key/label text rendered in the <dt> element.\n//   children — ReactNode, required. The value/description content rendered in the <dd>.\n//   ...restProps — additional HTML attributes spread onto the wrapper <div>.\n//\n// Syntax:\n//   <SummaryListItem term=\"Label\">Value</SummaryListItem>\n//\n// Examples:\n//\n//   <SummaryList label=\"Order summary\">\n//     <SummaryListItem term=\"Product\">Widget</SummaryListItem>\n//     <SummaryListItem term=\"Quantity\">3</SummaryListItem>\n//     <SummaryListItem term=\"Total\">$29.97</SummaryListItem>\n//   </SummaryList>\n//\n// Keyboard:\n//   - None -- passive informational display, not interactive\n//\n// Accessibility:\n//   - Semantic <dt> and <dd> elements provide description list semantics\n//   - Screen readers announce term-description pairs naturally\n//   - The <div> wrapper is transparent to assistive technology\n//\n// Internationalization:\n//   - The term prop externalizes the key/label string for translation\n//   - The children prop allows localized description content\n//   - No hardcoded strings in the component\n//\n// Claude rules:\n//   - Headless: no CSS, no styles -- consumer provides all styling\n//   - Must be placed inside a SummaryList (<dl>) for valid HTML\n//\n// References:\n//   - MDN dl element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dl\n//   - MDN dt element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dt\n//   - MDN dd element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dd\n//   - HTML spec div in dl: https://html.spec.whatwg.org/multipage/grouping-content.html#the-dl-element\n\nexport interface SummaryListItemProps {\n    className?: string;\n    /** The key/label text for this summary row. */\n    term: string;\n    /** The value/description content for this summary row. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function SummaryListItem({\n    className = \"\",\n    term,\n    children,\n    ...restProps\n}: SummaryListItemProps) {\n    return (\n        <div\n            className={`summary-list-item ${className}`}\n            {...restProps}\n        >\n            <dt>{term}</dt>\n            <dd>{children}</dd>\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/SummaryListItem.tsx"
+    }
+  ],
+  "categories": [
+    "lists"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/summary-list-item/"
+}

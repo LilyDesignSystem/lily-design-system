@@ -1,11 +1,19 @@
 @namespace LilyBlazorHeadless.Components
+@inherits ModalDialogBase
 
 @*
     TimeoutDialog component
     a modal dialog warning users before session timeout
+
+    Renders an always-present <dialog class="timeout-dialog" role="alertdialog" aria-label>, shown while Open with
+    showModal() (ModalDialogBase, tasks.md P14-T4): top layer, inert page, Tab trapped, focus returned to the opener
+    when it closes. As in the Svelte reference, the consumer's actions decide when the warning ends (set Open false).
+    Ported from the Svelte reference on 2026-10-30; it was a stub before.
+
+    Parameters: Label, Open, ChildContent, CssClass, AdditionalAttributes.
 *@
 
-<dialog class="@($"timeout-dialog {CssClass}".Trim())" role="alertdialog" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</dialog>
+<dialog class="@($"timeout-dialog {CssClass}".Trim())" role="alertdialog" aria-label="@Label" @ref="DialogElement" @attributes="AdditionalAttributes">@ChildContent</dialog>
 
 @code {
     [Parameter] public string Label { get; set; } = "";

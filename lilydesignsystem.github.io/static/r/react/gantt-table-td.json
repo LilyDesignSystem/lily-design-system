@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "gantt-table-td",
+  "type": "registry:component",
+  "title": "GanttTableTD",
+  "description": "A Gantt chart table interactive grid data cell for planning schedule visualization <td>.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/GanttTableTD.tsx",
+      "content": "import React from \"react\";\n\n// GanttTableTD component\n//\n// A single cell within a GanttTableTr representing a time period in the\n// Gantt table grid. Renders as a <td> with role=\"gridcell\". Supports an\n// active state that makes the cell a tab stop (tabindex=\"0\"); it does\n// not set aria-selected, which would announce focus as selection.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   active — boolean, default false. Whether this cell represents an active time period for the task.\n//   children — ReactNode, optional. Cell content such as bar indicators or duration text.\n//   ...restProps — additional HTML attributes spread onto the <td>.\n//\n// Syntax:\n//   <GanttTableTD active>---</GanttTableTD>\n//   <GanttTableTD />\n//\n// Examples:\n//\n//   <GanttTableTD active>---</GanttTableTD>\n//\n//\n//   <GanttTableTD />\n//\n//\n//   <GanttTableTD active>◆</GanttTableTD>\n//\n// Keyboard:\n//   None built-in — keyboard navigation is handled at the GanttTable grid level.\n//\n// Accessibility:\n//   - role=\"gridcell\" identifies the cell as part of a grid\n//   - `active` is the roving tab stop only: it never sets aria-selected, because focus is not selection (a grid with real selection passes aria-selected itself)\n//   - Roving tabindex: tabindex=\"0\" when active, \"-1\" otherwise\n//\n// Internationalization:\n//   - Cell content comes through children prop; no hardcoded strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Must be used inside a GanttTableTr (which provides the <tr>)\n//   - Children are optional — empty cells represent inactive time periods\n//\n// References:\n//   - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/\n\nexport interface GanttTableTdProps {\n    className?: string;\n    /** Whether this cell represents an active time period for the task. */\n    active?: boolean;\n    /** Cell content such as bar indicators or duration text. */\n    children?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function GanttTableTD({\n    className = \"\",\n    active = false,\n    children,\n    ...restProps\n}: GanttTableTdProps) {\n    return (\n        <td\n            className={`gantt-table-td ${className}`}\n            role=\"gridcell\"\n            tabIndex={active ? 0 : -1}\n            {...restProps}\n        >\n            {children && <>{children}</>}\n        </td>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/GanttTableTD.tsx"
+    }
+  ],
+  "categories": [
+    "tables"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/gantt-table-td/"
+}

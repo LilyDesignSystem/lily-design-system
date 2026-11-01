@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "number-input",
+  "type": "registry:component",
+  "title": "NumberInput",
+  "description": "An input for entering a numeric value with validation <input type=\"number\">.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/NumberInput.tsx",
+      "content": "import React from \"react\";\n\n// NumberInput component\n//\n// A headless numeric input that wraps a native <input type=\"number\"> element\n// with accessible labelling and optional min, max, and step constraints. It\n// provides a bindable numeric value for two-way data flow. Commonly used for\n// quantity selectors, age inputs, price fields, and configuration values.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name for the input via aria-label.\n//   value — number | undefined, default undefined. Current numeric value; bindable.\n//   min — number, optional. Minimum allowed value.\n//   max — number, optional. Maximum allowed value.\n//   step — number, optional. Increment/decrement step size.\n//   required — boolean, default false. Whether the input is required.\n//   disabled — boolean, default false. Whether the input is disabled.\n//   ...restProps — additional HTML attributes spread onto the <input>.\n//\n// Syntax:\n//   <NumberInput label=\"Quantity\" value={value} onChange={setValue} />\n//\n// Examples:\n//\n//   <NumberInput label=\"Quantity\" value={value} onChange={setValue} min={0} max={100} step={1} />\n//\n//\n//   <NumberInput label=\"Age\" value={value} onChange={setValue} required />\n//\n// Keyboard:\n//   - Up Arrow: increment value by step (native browser behavior)\n//   - Down Arrow: decrement value by step (native browser behavior)\n//\n// Accessibility:\n//   - aria-label provides an accessible name describing the input purpose\n//   - Implicit spinbutton role from <input type=\"number\">\n//   - Native validation via min, max, and step attributes\n//\n// Internationalization:\n//   - The label prop is the only user-facing text; no hardcoded strings\n//   - Consumer can pass placeholder via restProps for localized hint text\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Uses controlled for value, not controlled\n//   - Do not wrap in a <div> — renders a bare <input> element\n//\n// References:\n//   - HTML number input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/number\n//   - WAI-ARIA spinbutton role: https://www.w3.org/TR/wai-aria-1.2/#spinbutton\n\nexport interface NumberInputProps {\n    className?: string;\n    label: string;\n    value?: number | undefined;\n    min?: number;\n    max?: number;\n    step?: number;\n    required?: boolean;\n    disabled?: boolean;\n    /** Callback when value changes. */\n    onChange?: (value: number | undefined) => void;\n    [key: string]: unknown;\n}\n\nexport default function NumberInput({\n    className = \"\",\n    label,\n    value = undefined,\n    min = undefined,\n    max = undefined,\n    step = undefined,\n    required = false,\n    disabled = false,\n    onChange,\n    ...restProps\n}: NumberInputProps) {\n    return (\n        <input\n            className={`number-input ${className}`}\n            type=\"number\"\n            aria-label={label}\n            value={value}\n            onChange={(e) => onChange?.(Number(e.target.value))}\n            min={min}\n            max={max}\n            step={step}\n            required={required}\n            disabled={disabled}\n            {...restProps}\n        />\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/NumberInput.tsx"
+    }
+  ],
+  "categories": [
+    "forms"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/number-input/"
+}

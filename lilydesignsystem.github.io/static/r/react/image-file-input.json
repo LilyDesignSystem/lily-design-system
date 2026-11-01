@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "image-file-input",
+  "type": "registry:component",
+  "title": "ImageFileInput",
+  "description": "An input for selecting image files with preview.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ImageFileInput.tsx",
+      "content": "import React from \"react\";\n\n// ImageFileInput component\n//\n// An image file input that provides a file upload control pre-configured to accept\n// image files. Wraps a native <input type=\"file\"> element with accessible labeling\n// and sensible defaults for image selection. Useful for profile photo uploads, gallery\n// image selection, document scanning, and any form requiring image file input.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name applied via aria-label.\n//   accept — string, default \"image/*\". MIME type filter for the file picker dialog.\n//   required — boolean, default false. Whether the input is required for form submission.\n//   disabled — boolean, default false. Whether the input is disabled.\n//   ...restProps — additional HTML attributes spread onto the input element.\n//\n// Syntax:\n//   <ImageFileInput label=\"Upload profile photo\" />\n//\n// Examples:\n//\n//   <ImageFileInput label=\"Upload profile photo\" />\n//\n//\n//   <ImageFileInput label=\"Upload document scan\" accept=\"image/png, image/jpeg\" required />\n//\n// Keyboard:\n//   - Tab: Focus the file input\n//   - Enter / Space: Open the file picker dialog (native browser behavior)\n//\n// Accessibility:\n//   - aria-label provides an accessible name for the file input\n//   - Uses native <input type=\"file\"> which provides built-in keyboard and screen reader support\n//\n// Internationalization:\n//   - The label prop allows localized accessible names; no hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Uses native <input type=\"file\"> element with accept=\"image/*\" default\n//   - Consumer can narrow accepted types via the accept prop\n//\n// References:\n//   - MDN Input type=\"file\": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file\n\nexport interface ImageFileInputProps {\n    className?: string;\n    label: string;\n    accept?: string;\n    required?: boolean;\n    disabled?: boolean;\n    [key: string]: unknown;\n}\n\nexport default function ImageFileInput({\n    className = \"\",\n    label,\n    accept = \"image/*\",\n    required = false,\n    disabled = false,\n    ...restProps\n}: ImageFileInputProps) {\n    return (\n        <input\n            className={`image-file-input ${className}`}\n            type=\"file\"\n            aria-label={label}\n            accept={accept}\n            required={required}\n            disabled={disabled}\n            {...restProps}\n        />\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ImageFileInput.tsx"
+    }
+  ],
+  "categories": [
+    "forms"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/image-file-input/"
+}

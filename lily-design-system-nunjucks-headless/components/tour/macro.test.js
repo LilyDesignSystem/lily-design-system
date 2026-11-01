@@ -18,6 +18,12 @@ describe("tour", () => {
         expect(b.querySelector("section").hasAttribute("aria-label")).toBe(false);
     });
 
+    // P18-T6: a tour is non-modal (the page it points at stays usable), so it claims no modality.
+    it("is non-modal: no aria-modal", () => {
+        const { document } = render("tour", { label: "T" });
+        expect(document.querySelector("section").hasAttribute("aria-modal")).toBe(false);
+    });
+
     it("renders caller content", () => {
         const { document } = render("tour", {}, '<ol class="tour-list"></ol>');
         expect(document.querySelector("section.tour ol.tour-list")).toBeTruthy();

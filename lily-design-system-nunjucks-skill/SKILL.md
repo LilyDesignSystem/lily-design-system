@@ -1,12 +1,12 @@
 ---
 name: lily-design-system-nunjucks-skill
-description: Umbrella skill for Nunjucks in Lily Design System — explains which of the three real Nunjucks subprojects to reach for (the 582-component headless macro library, the six *-picker helper packages, or the fully styled Eleventy example app), points to the two deeper sibling skills for the headless and helpers contracts, and gives real coverage of the Eleventy example app that neither sibling skill covers. Use when someone asks what's available for Nunjucks in Lily Design System, which Nunjucks subproject or package they need, how the three Nunjucks pieces relate, or wants to run or copy CSS from the styled Nunjucks/Eleventy reference app.
+description: Umbrella skill for Nunjucks in Lily Design System — explains which of the three layers (headless library, helper packages, example app) to reach for (the 607-component headless macro library, the helper packages (eleven *-picker helpers, picker-bar, grid-like helpers, editors), or the fully styled Eleventy example app), points to the two deeper sibling skills for the headless and helpers contracts, and gives real coverage of the Eleventy example app that neither sibling skill covers. Use when someone asks what's available for Nunjucks in Lily Design System, which Nunjucks subproject or package they need, how the three Nunjucks pieces relate, or wants to run or copy CSS from the styled Nunjucks/Eleventy reference app.
 license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 ---
 
 # Lily Design System™ — Nunjucks umbrella
 
-Three real subprojects make up Lily's Nunjucks support. This skill sits one
+Three layers make up Lily's Nunjucks support. This skill sits one
 level above all three: it maps them, tells you which one your task needs,
 and covers the one of the three — the Eleventy example app — that neither
 of the two deeper sibling skills documents. It does not restate the
@@ -17,11 +17,11 @@ headless or helpers contracts in detail; it points at the skills that do.
 | Subproject                                                                                           | What it is                                                                                                                                                                     | Reach for it when                                                                                                                          |
 | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
 | [`@lilydesignsystem/nunjucks-headless`](../lily-design-system-nunjucks-headless/)                    | The headless macro library: one Nunjucks macro per component in the catalog, zero CSS, zero bundled JavaScript.                                                                | You are importing and calling Lily macros directly and will style and behaviourally wire them yourself.                                    |
-| [the Nunjucks helper packages](../spec/helpers/index.md#nunjucks-helper-packages)                    | Six `*-picker` packages (`theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`, `share-picker`, `date-time-picker`), each a macro + companion `client.js` pair. | You need a page-header preference control, a share action, or a date/time form field with the interaction already built — not just markup. |
+| [the Nunjucks helper packages](../spec/helpers/index.md#nunjucks-helper-packages)                    | 21 packages, one subproject each: eleven `*-picker` helpers (theme, locale, text-size, motion, time-zone, share, search, link, menu, settings, date-time), `picker-bar`, the grid-like `data-grid`, `kanban-board`, `calendar`, `gantt-chart` and `filter`, the `markdown-editor` and `org-editor`, and `locale-translations`, plus `nunjucks-listbox-behavior`; each is a macro + companion `client.js` pair. | You need a page-header preference control, a share action, or a date/time form field with the interaction already built — not just markup. |
 | [`lily-design-system-nunjucks-eleventy-examples`](../lily-design-system-nunjucks-eleventy-examples/) | A complete, styled Eleventy 3 static site demonstrating every component and several composed pages, dressed in the NHS UK visual language.                                     | You want to see a component or page pattern working end-to-end, run it locally, or copy CSS as a starting point for your own styling.      |
 
 `@lilydesignsystem/nunjucks-headless` is the library the other two depend
-on: the helpers catalog's markup follows the same macro conventions, and
+on: the helper packages' markup follows the same macro conventions, and
 the example app imports the headless macros directly via a shared Nunjucks
 `FileSystemLoader` search path rather than vendoring a copy.
 
@@ -35,14 +35,14 @@ This skill does not restate either sibling's content:
   split, composing nested components via `{% call %}`/`caller()`, and
   server-rendering notes.
 - [`lily-design-system-nunjucks-helpers-skill`](../lily-design-system-nunjucks-helpers-skill/) —
-  the six helpers' one-line contracts, the macro-plus-`client.js` split
+  the helpers' one-line contracts, the macro-plus-`client.js` split
   Nunjucks forces, the shared icon-button-opens-listbox markup for the
   four preference helpers versus `share-picker`'s disclosure and
   `date-time-picker`'s field-plus-dialog shape, and `motion-picker`'s
   documented server/client deviation.
 
 If a question is squarely about calling a headless macro or about one of
-the six pickers, go to the matching sibling skill directly rather than
+the pickers, go to the matching sibling skill directly rather than
 routing through this one.
 
 ## The Eleventy example app
@@ -104,7 +104,7 @@ Verified in each subproject's own `AGENTS.md`/`AGENTS/nunjucks.md`:
   (`.breadcrumb-nav`) stay kebab-case. This split is a Nunjucks-syntax
   constraint, not a Lily naming exception.
 - **One options object per macro** — `params` in the headless catalog,
-  `opts` in the helpers catalog — never positional arguments. Shared keys
+  `opts` in the helper packages — never positional arguments. Shared keys
   across the headless catalog: `text`, `html`, `label`, `classes`,
   `attributes`.
 - **`data-lily-*` hooks, not inline `<script>`**, are how the helpers
@@ -121,8 +121,8 @@ Verified in each subproject's own `AGENTS.md`/`AGENTS/nunjucks.md`:
 ## Lily concepts that apply beyond Nunjucks
 
 For framework-agnostic Lily concepts — the headless-vs-example split, the
-582-component catalog, class hooks, composition patterns, theming, and
+607-component catalog, class hooks, composition patterns, theming, and
 picking among the seven supported frameworks — use
 [`lily-design-system-skill`](../lily-design-system-skill/). This skill
 covers only what's specific to choosing among and orienting inside the
-three real Nunjucks subprojects.
+three Nunjucks layers.

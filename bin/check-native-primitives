@@ -1,0 +1,128 @@
+#!/usr/bin/env python3
+"""Every popup, overlay and disclosure component records its native primitive.
+
+spec/competitive-position/native-primitives.tsv (P16-T4, spec item 4) has
+one row per audited component: slug, uses, could_use, decision, notes. The
+decision is `native`, `hand-rolled because <reason>` or
+`candidate: <change>`. This check fails when:
+
+  * a row has the wrong number of columns, an unknown slug or a decision
+    in none of the three forms;
+  * the component's components/{slug}/AGENTS.md has no "## Native platform"
+    section, or its "- Decision:" bullet differs from the TSV;
+  * a Svelte headless component (the canonical catalog) that renders
+    role="listbox|menu|menubar|tooltip|dialog|alertdialog", a <dialog>, a
+    <details>, a `popover` attribute or aria-haspopup has no row, so a new
+    overlay cannot skip the audit.
+
+`--write` (re)writes each audited AGENTS.md section from the TSV, placed
+before "## Acceptance Criteria". It is outside SECTIONS in
+bin/generate-api-docs, so adding it does not change the site pages or the
+/r/{slug}.json manifests.
+"""
+
+import os
+import re
+import sys
+
+TOP = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+TSV = os.path.join(TOP, "spec", "competitive-position", "native-primitives.tsv")
+SVELTE = os.path.join(TOP, "lily-design-system-svelte-headless", "components")
+HEADING = "## Native platform"
+DECISION = re.compile(r"^(native|hand-rolled because \S.*|candidate: \S.*)$")
+TRIGGER = re.compile(
+    r'role="(listbox|menu|menubar|tooltip|dialog|alertdialog)"'
+    r"|<dialog[\s>]|<details[\s>]|\spopover(=|\s|>)|aria-haspopup"
+)
+
+
+def kebab(name):
+    return re.sub(r"(?<!^)(?=[A-Z])", "-", name).lower()
+
+
+def rows():
+    out, errors = {}, []
+    with open(TSV) as f:
+        lines = f.read().splitlines()
+    if not lines or lines[0].split("\t") != ["slug", "uses", "could_use", "decision", "notes"]:
+        errors.append("native-primitives.tsv: header must be slug, uses, could_use, decision, notes")
+    for n, line in enumerate(lines[1:], 2):
+        cols = line.split("\t")
+        if len(cols) != 5:
+            errors.append(f"native-primitives.tsv:{n}: {len(cols)} columns, want 5")
+            continue
+        slug, uses, could, decision, notes = cols
+        if slug in out:
+            errors.append(f"native-primitives.tsv:{n}: duplicate slug {slug}")
+        if not DECISION.match(decision):
+            errors.append(f"native-primitives.tsv:{n}: {slug}: decision must be native, "
+                          f"'hand-rolled because …' or 'candidate: …'")
+        out[slug] = {"uses": uses, "could_use": could, "decision": decision, "notes": notes}
+    return out, errors
+
+
+def section(row):
+    return "\n".join([
+        HEADING,
+        "",
+        f"- Decision: {row['decision']}",
+        f"- Uses: {row['uses']}",
+        f"- Could use: {row['could_use']}",
+        f"- Notes: {row['notes']}",
+        "- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)",
+        "",
+        "",
+    ])
+
+
+def strip_section(text):
+    return re.sub(r"^## Native platform\n.*?(?=^## |\Z)", "", text, flags=re.M | re.S)
+
+
+def main():
+    write = "--write" in sys.argv[1:]
+    table, errors = rows()
+    for slug, row in sorted(table.items()):
+        path = os.path.join(TOP, "components", slug, "AGENTS.md")
+        if not os.path.exists(path):
+            errors.append(f"{slug}: no components/{slug}/AGENTS.md")
+            continue
+        text = open(path).read()
+        if write:
+            body = strip_section(text)
+            marker = "## Acceptance Criteria"
+            new = body.replace(marker, section(row) + marker, 1) if marker in body \
+                else body.rstrip("\n") + "\n\n" + section(row).rstrip("\n") + "\n"
+            if new != text:
+                open(path, "w").write(new)
+            continue
+        m = re.search(r"^## Native platform\n(.*?)(?=^## |\Z)", text, flags=re.M | re.S)
+        if not m:
+            errors.append(f"components/{slug}/AGENTS.md: no '{HEADING}' section")
+            continue
+        d = re.search(r"^- Decision: (.*)$", m.group(1), flags=re.M)
+        if not d or d.group(1).strip() != row["decision"]:
+            errors.append(f"components/{slug}/AGENTS.md: '- Decision:' differs from native-primitives.tsv")
+    for name in sorted(os.listdir(SVELTE)):
+        src = os.path.join(SVELTE, name, f"{name}.svelte")
+        if not os.path.exists(src):
+            continue
+        markup = open(src).read().split("</script>", 1)[-1]
+        markup = re.sub(r"<!--.*?-->", "", markup, flags=re.S)
+        if TRIGGER.search(markup) and kebab(name) not in table:
+            errors.append(f"{kebab(name)}: Svelte headless renders a popup/overlay/disclosure "
+                          f"primitive but has no row in native-primitives.tsv")
+    for e in errors:
+        print(f"Error: {e}", file=sys.stderr)
+    if not errors:
+        counts = {}
+        for row in table.values():
+            k = row["decision"].split(" ")[0].rstrip(":")
+            counts[k] = counts.get(k, 0) + 1
+        print(f"native-primitives: {len(table)} components — " +
+              ", ".join(f"{k} {v}" for k, v in sorted(counts.items())))
+    return 1 if errors else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

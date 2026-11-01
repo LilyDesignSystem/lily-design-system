@@ -10,4 +10,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof ContextualHelp>;
 
-export const Default: Story = {};
+export const Default: Story = {
+    args: { label: "Help", triggerLabel: "?", children: "Help content explaining the related field." },
+};

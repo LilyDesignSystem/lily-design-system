@@ -37,8 +37,8 @@
 //   </AlertDialog>
 //
 // Keyboard:
-//   - Escape: Consumer must implement via onKeyDown to close the dialog
-//   - Tab: Consumer should implement focus trapping within the dialog
+//   - Escape: closes the dialog (showModal(): the browser fires cancel; the component calls onChange(false))
+//   - Tab: stays inside the dialog (the browser traps it while the dialog is modal)
 //
 // Accessibility:
 //   - role="alertdialog" signals critical content requiring acknowledgment
@@ -54,7 +54,6 @@
 //
 // Claude rules:
 //   - Headless: no CSS, no styles — consumer provides all styling
-//   - Consumer is responsible for focus trapping and Escape key handling
 //   - The open prop must use controlled for two-way binding
 //   - Do not use heading elements; use <p><strong> for the title
 //   - Distinct from Dialog: use AlertDialog only for critical messages
@@ -63,7 +62,9 @@
 //   - WAI-ARIA alertdialog role: https://www.w3.org/TR/wai-aria-1.2/#alertdialog
 //   - WAI-ARIA Alert and Message Dialogs Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/alertdialog/
 
-import React, { useId } from "react";
+import React, { useId, useRef } from "react";
+
+import { useModalDialog } from "./Dialog";
 
 export interface AlertDialogProps {
     className?: string;
@@ -92,18 +93,29 @@ export default function AlertDialog({
     const uid = useId();
     const titleId = `alert-dialog-title-${uid}`;
     const descriptionId = `alert-dialog-description-${uid}`;
+    const ref = useRef<HTMLDialogElement>(null);
+
+    // A real modal (tasks.md P14-T4): showModal() makes the page behind inert and traps Tab; Escape fires `cancel`.
+    useModalDialog(ref, open);
+
+    function handleCancel(event: React.SyntheticEvent) {
+        event.preventDefault();
+        onChange?.(false);
+    }
 
     return (
         <>
             {open && (
                 <>
                     <dialog
+                        ref={ref}
                         className={`alert-dialog ${className}`}
-                        open
                         role="alertdialog"
                         aria-labelledby={titleId}
                         aria-describedby={description ? descriptionId : undefined}
                         aria-modal="true"
+                        onCancel={handleCancel}
+                        onClose={() => onChange?.(false)}
                         {...restProps}
                     >
                         <div>

@@ -30,17 +30,23 @@ The component is fully headless: no styles, no icons, and no classes beyond the 
 
 ## How to use it
 
-Bind both `dateValue` and `timeValue` and pass localised labels for the group, inputs, and button.
+Bind both `dateValue` and `timeValue` and pass localised labels for the group, inputs, and button. The three control
+names have no default; take them from a locale pack with `dateTimeNowInputLabels` from
+`@lilydesignsystem/svelte-locale-translations` (64 locales), or write them yourself.
 
 ```svelte
 <script lang="ts">
   import DateTimeNowInput from "./DateTimeNowInput.svelte";
+  import { dateTimeNowInputLabels } from "@lilydesignsystem/svelte-locale-translations";
+  import en from "@lilydesignsystem/svelte-locale-translations/en-001";
+  const labels = dateTimeNowInputLabels(en);
   let dateValue = $state("");
   let timeValue = $state("");
 </script>
 
 <DateTimeNowInput
   label="Event time"
+  {...labels}
   bind:dateValue
   bind:timeValue
 />
@@ -52,9 +58,9 @@ Bind both `dateValue` and `timeValue` and pass localised labels for the group, i
 | ----------- | --------- | -------- | --------------------------------------------------- |
 | `class`     | `string`  | `""`     | CSS class appended to the base class.               |
 | `label`     | `string`  | required | Accessible name for the group via `aria-label`.     |
-| `dateLabel` | `string`  | `"Date"` | Accessible name for the date input.                 |
-| `timeLabel` | `string`  | `"Time"` | Accessible name for the time input.                 |
-| `nowLabel`  | `string`  | `"Now"`  | Accessible label and visible text for the button.   |
+| `dateLabel` | `string`  | required | Accessible name for the date input.                 |
+| `timeLabel` | `string`  | required | Accessible name for the time input.                 |
+| `nowLabel`  | `string`  | required | Accessible label and visible text for the button.   |
 | `dateValue` | `string`  | `""`     | Bindable date (`YYYY-MM-DD`).                       |
 | `timeValue` | `string`  | `""`     | Bindable time (`HH:mm`).                            |
 | `required`  | `boolean` | `false`  | Whether the inputs are required.                    |
@@ -74,6 +80,7 @@ Bind both `dateValue` and `timeValue` and pass localised labels for the group, i
 
 <DateTimeNowInput
   label="Event time"
+  {...labels}
   bind:dateValue
   bind:timeValue
 />
@@ -97,6 +104,7 @@ Bind both `dateValue` and `timeValue` and pass localised labels for the group, i
 ```svelte
 <DateTimeNowInput
   label="Appointment"
+  {...labels}
   bind:dateValue
   bind:timeValue
   required
@@ -119,6 +127,7 @@ Bind both `dateValue` and `timeValue` and pass localised labels for the group, i
 
 <DateTimeNowInput
   label="Observed at"
+  {...labels}
   bind:dateValue
   bind:timeValue
 />

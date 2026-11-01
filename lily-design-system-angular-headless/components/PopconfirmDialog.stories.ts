@@ -10,4 +10,12 @@ const meta: Meta<PopconfirmDialog> = {
 export default meta;
 type Story = StoryObj<PopconfirmDialog>;
 
-export const Default: Story = {};
+export const Default: Story = {
+    args: {
+        open: true,
+        title: "Delete this file?",
+        description: "This cannot be undone.",
+        confirmLabel: "Delete",
+        cancelLabel: "Keep",
+    },
+};

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "nigeria-national-identification-number-view",
+  "type": "registry:component",
+  "title": "NigeriaNationalIdentificationNumberView",
+  "description": "A read-only display of Nigeria's National Identification Number (NIN).",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/NigeriaNationalIdentificationNumberView.tsx",
+      "content": "import React from \"react\";\n\n// NigeriaNationalIdentificationNumberView component\n//\n// A headless display component for showing Nigeria's\n// National Identification Number (NIN) in a read-only format.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". The identifier string to display.\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <NigeriaNationalIdentificationNumberView label=\"National Identification Number (NIN)\" value={value} />\n//\n// Accessibility:\n//   - aria-label provides the accessible name so screen readers announce the purpose\n//\n// References:\n//   - https://en.wikipedia.org/wiki/National_Identity_Management_Commission\n\nexport interface NigeriaNationalIdentificationNumberViewProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The identifier to display */\n    value?: string;\n    [key: string]: unknown;\n}\n\nexport default function NigeriaNationalIdentificationNumberView({\n    className = \"\",\n    label,\n    value = \"\",\n    ...restProps\n}: NigeriaNationalIdentificationNumberViewProps) {\n    return (\n        <span\n            className={`nigeria-national-identification-number-view ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {value}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/NigeriaNationalIdentificationNumberView.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/nigeria-national-identification-number-view/"
+}

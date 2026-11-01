@@ -283,5 +283,10 @@
     "small": "kecil",
     "smaller": "lebih kecil",
     "smallest": "terkecil"
+  },
+  "date-time-now-input": {
+    "date": "Tanggal",
+    "time": "Waktu",
+    "now": "Sekarang"
   }
 }

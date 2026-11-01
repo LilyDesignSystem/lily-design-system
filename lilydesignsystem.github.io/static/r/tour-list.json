@@ -9,10 +9,9 @@
   "interactive": true,
   "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
   "aria": [
-    "`role=\"dialog\"` -- identifies the tour overlay as a dialog window",
-    "`aria-modal=\"true\"` -- indicates the dialog is modal and content behind it is inert",
-    "`aria-label={label}` -- provides an accessible name describing the tour",
-    "`tabindex=\"-1\"` -- allows the dialog element to receive focus for keyboard event handling"
+    "implicit `list` role from the `<ol>` (no `role=\"dialog\"`, no `aria-modal`)",
+    "`aria-label={label}` -- provides an accessible name for the list of steps",
+    "`tabindex=\"-1\"` -- lets the list take focus for keyboard event handling"
   ],
   "keyboard": [
     "Escape: Closes the tour by setting `active` to false"
@@ -33,5 +32,10 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TourList.razor"
   },
   "docs": "https://lilydesignsystem.com/components/tour-list/",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tour-list/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tour-list/AGENTS.md",
+  "nativePlatform": {
+    "decision": "hand-rolled because it is a list of steps, not a dialog: modality, if any, belongs to tour, which is non-modal",
+    "uses": "<ol> (no role, no aria-modal)",
+    "could_use": "<dialog> showModal() wrapping the <ol>"
+  }
 }

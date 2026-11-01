@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "diff",
+  "type": "registry:component",
+  "title": "Diff",
+  "description": "A side-by-side comparison of two items.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Diff.tsx",
+      "content": "import React from \"react\";\n\n// Diff component\n//\n// A side-by-side comparison container for two items. Renders a labelled\n// <div role=\"group\"> that wraps the two things being compared (text, code,\n// images, before/after pairs). The consumer composes the two panels as\n// children and brings any layout (split-pane, stacked) and difference\n// highlighting in their CSS.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label    — string, required. Accessible name describing the comparison.\n//   children — ReactNode, required. The two items being compared.\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Accessibility:\n//   - role=\"group\" + aria-label exposes the wrapper as a labelled group\n//     so assistive tech announces it as a comparison region\n//   - Each side may add its own aria-label (e.g. \"Original\", \"Modified\")\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//\n// References:\n//   - WAI-ARIA group role: https://www.w3.org/TR/wai-aria-1.2/#group\n\nexport interface DiffProps {\n    className?: string;\n    /** Accessible name describing the comparison. */\n    label: string;\n    /** The two items being compared. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Diff({ className = \"\", label, children, ...restProps }: DiffProps) {\n    return (\n        <div\n            className={`diff ${className}`}\n            role=\"group\"\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Diff.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/diff/"
+}

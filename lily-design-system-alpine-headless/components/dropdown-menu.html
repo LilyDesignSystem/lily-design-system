@@ -6,6 +6,9 @@
   CSS class: dropdown-menu
   Keyboard: Enter/Space/ArrowDown open, arrows move, Escape closes
   Accessibility: trigger: aria-haspopup="menu" + aria-expanded; popup: role="menu"; items: role="menuitem"
+  Popover API: the popup is popover="auto" and the trigger names it with
+    command="toggle-popover" commandfor (and popovertarget), so it opens, and
+    closes on Escape and on a click outside, even before Alpine starts
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
@@ -18,6 +21,9 @@
     class="dropdown-menu-trigger"
     x-bind="trigger"
     aria-controls="dropdown-menu-1"
+    command="toggle-popover"
+    commandfor="dropdown-menu-1"
+    popovertarget="dropdown-menu-1"
   >
     <!-- Consumer provides trigger label -->
   </button>
@@ -25,6 +31,7 @@
     class="dropdown-menu-popup"
     id="dropdown-menu-1"
     aria-label=""
+    popover="auto"
     x-bind="menu"
   >
     <button

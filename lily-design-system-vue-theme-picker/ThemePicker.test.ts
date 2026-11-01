@@ -791,3 +791,86 @@ describe("ThemePicker — open state and disabled", () => {
         expect(button().getAttribute("aria-expanded")).toBe("false");
     });
 });
+
+describe('ThemePicker — variant="select" (§select, RFC 3 prototype; ported from Svelte)', () => {
+    const base = { label: "Colour theme", variant: "select" };
+    const select = (w: VueWrapper<any>) => w.find("select").element as HTMLSelectElement;
+
+    test("renders one native <select> named by label, and no button, listbox, tooltip or hidden input", () => {
+        const w = build(base);
+        const el = select(w);
+        expect(el.classList.contains("theme-picker-select")).toBe(true);
+        expect(el.getAttribute("aria-label")).toBe("Colour theme");
+        expect(el.getAttribute("name")).toBe("theme");
+        expect(w.element.getAttribute("data-variant")).toBe("select");
+        expect(w.find("button").exists()).toBe(false);
+        expect(w.find('[role="listbox"]').exists()).toBe(false);
+        expect(w.find(".theme-picker-tooltip").exists()).toBe(false);
+        expect(w.find('input[type="hidden"]').exists()).toBe(false);
+    });
+
+    test("labels are props: option text comes from themeLabels or the title-cased slug, never built-in English", () => {
+        const w = build({ ...base, label: "Thème", themeLabels: { dark: "Sombre" } });
+        expect(select(w).getAttribute("aria-label")).toBe("Thème");
+        const options = w.findAll("option.theme-picker-option");
+        expect(options.map((o) => (o.element as HTMLOptionElement).value)).toEqual(THEMES);
+        expect(options.map((o) => o.text())).toEqual(["Light", "Sombre", "Abyss"]);
+        expect(w.text()).not.toMatch(/default/i);
+    });
+
+    test("the resolved initial value is the selected option and is applied", async () => {
+        const w = build(base);
+        await flush();
+        expect(select(w).value).toBe("light");
+        expect(document.documentElement.getAttribute("data-theme")).toBe("light");
+        expect(getManagedLink()?.getAttribute("href")).toBe("/assets/themes/light.css");
+    });
+
+    test("choosing an option applies the theme, persists it and emits change once", async () => {
+        const w = build({ ...base, storageKey: "lily-theme" });
+        await flush();
+        const before = (w.emitted("change") ?? []).length;
+        await w.find("select").setValue("abyss");
+        await flush();
+        expect(document.documentElement.getAttribute("data-theme")).toBe("abyss");
+        expect(getManagedLink()?.getAttribute("href")).toBe("/assets/themes/abyss.css");
+        expect(localStorage.getItem("lily-theme")).toBe("abyss");
+        const changes = (w.emitted("change") ?? []).slice(before);
+        expect(changes).toEqual([["abyss"]]);
+        expect(w.emitted("update:value")?.at(-1)).toEqual(["abyss"]);
+    });
+
+    test("keyboard is the platform's: the component adds no key handling", async () => {
+        const w = build(base);
+        await flush();
+        const event = new KeyboardEvent("keydown", {
+            key: "ArrowDown",
+            bubbles: true,
+            cancelable: true,
+        });
+        select(w).dispatchEvent(event);
+        expect(event.defaultPrevented).toBe(false);
+        expect(w.find('[role="listbox"]').exists()).toBe(false);
+        expect(select(w).tabIndex).toBe(0);
+    });
+
+    test("disabled disables the select", () => {
+        expect(select(build({ ...base, disabled: true })).disabled).toBe(true);
+    });
+
+    test("a value set by the parent selects that option", async () => {
+        const w = build({ ...base, value: "dark" });
+        await flush();
+        expect(select(w).value).toBe("dark");
+        await w.setProps({ value: "abyss" });
+        await flush();
+        expect(select(w).value).toBe("abyss");
+        expect(document.documentElement.getAttribute("data-theme")).toBe("abyss");
+    });
+
+    test("attributes fall through to the root and class is appended", () => {
+        const w = build({ ...base, class: "header-theme" }, { attrs: { "data-testid": "tp" } });
+        expect(w.element.className).toBe("theme-picker header-theme");
+        expect(w.element.getAttribute("data-testid")).toBe("tp");
+    });
+});

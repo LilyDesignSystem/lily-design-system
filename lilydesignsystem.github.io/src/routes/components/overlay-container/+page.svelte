@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"overlay-container\" style=\"color: #000\" aria-label=\"a full-viewport overlay backdrop for modals and sheets\">OverlayContainer</div>";
   const svelteSource: string = "// In your Svelte component:\nimport OverlayContainer from \"lily-design-system-svelte-headless/components/OverlayContainer/OverlayContainer.svelte\";\n\n<OverlayContainer>\n  <!-- content -->\n</OverlayContainer>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import OverlayContainer from './OverlayContainer.svelte';\n\n  let open = $state(false);\n<\/script>\n\n<OverlayContainer open={open} onclick={() => (open = false)} label=\"Modal backdrop\">\n  <div role=\"dialog\" aria-modal=\"true\" aria-label=\"Example dialog\">\n    Dialog content here\n  </div>\n</OverlayContainer>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import OverlayContainer from \"./OverlayContainer.svelte\";\n\n  let open = $state(false);\n<\/script>\n\n<OverlayContainer\n  {open}\n  onclick={() => (open = false)}\n  label=\"Modal backdrop\"\n>\n  <div\n    role=\"dialog\"\n    aria-modal=\"true\"\n    aria-label=\"Example dialog\"\n  >\n    Dialog content here\n  </div>\n</OverlayContainer>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

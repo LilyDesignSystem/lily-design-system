@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<span class=\"portugal-passaporte-view\" aria-label=\"a read-only display of Portugal's Passaporte\">PortugalPassaporteView</span>";
   const svelteSource: string = "// In your Svelte component:\nimport PortugalPassaporteView from \"lily-design-system-svelte-headless/components/PortugalPassaporteView/PortugalPassaporteView.svelte\";\n\n<PortugalPassaporteView label=\"Label\" value=\"Sample value\" />\n";
-  const usageCode: string = "<SummaryList>\n  <SummaryListItem term=\"Portuguese Passport\">\n    <PortugalPassaporteView value={value} />\n  </SummaryListItem>\n</SummaryList>\n";
+  const usageCode: string = "<SummaryList>\n  <SummaryListItem term=\"Portuguese Passport\">\n    <PortugalPassaporteView value=\"{value}\" />\n  </SummaryListItem>\n</SummaryList>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

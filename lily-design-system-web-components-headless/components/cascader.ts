@@ -28,6 +28,7 @@
 //   - WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
 
 import { applySelfClassName, nextId } from "../lib/dom-utils.js";
+import { syncManualPopover } from "./popover.js";
 
 export class Cascader extends HTMLElement {
     static get observedAttributes(): string[] {
@@ -75,7 +76,7 @@ export class Cascader extends HTMLElement {
         if (!this.#built || !this.#trigger || !this.#panel) return;
         const expanded = this.hasAttribute("expanded");
         this.setAttribute("aria-expanded", expanded ? "true" : "false");
-        this.#panel.hidden = !expanded;
+        syncManualPopover(this.#panel, expanded);
 
         const label = this.getAttribute("label");
         if (label !== null) this.setAttribute("aria-label", label);

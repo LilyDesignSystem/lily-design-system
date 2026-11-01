@@ -34,6 +34,8 @@ import {
 // civil-date business logic with no generic headless equivalent either.
 import { IconButton } from "@lilydesignsystem/angular-headless";
 
+import { isRtl, logicalKey } from "./direction";
+
 /**
  * Default button glyph: U+1F4C5 CALENDAR, followed by U+FE0E VARIATION
  * SELECTOR-15 to request text (monochrome) presentation.
@@ -436,7 +438,7 @@ export function monthNames(locale?: string): {
 } {
     const build = (month: "long" | "short") => {
         try {
-            const fmt = new Intl.DateTimeFormat(locale, {
+            const fmt = new Intl.DateTimeFormat(gregorian(locale), {
                 month,
                 timeZone: "UTC",
             });
@@ -477,7 +479,7 @@ function matchMonthName(token: string, names: { long: string[]; short: string[] 
  */
 export function numericFieldOrder(locale?: string): ("day" | "month" | "year")[] {
     try {
-        const parts = new Intl.DateTimeFormat(locale, {
+        const parts = new Intl.DateTimeFormat(gregorian(locale), {
             day: "2-digit",
             month: "2-digit",
             year: "numeric",
@@ -508,7 +510,7 @@ export function numericFieldOrder(locale?: string): ("day" | "month" | "year")[]
  * silently record the wrong day.
  */
 export function parseDateInput(text: string, locale?: string): string | null {
-    const trimmed = text.trim();
+    const trimmed = normalizeDigits(text).trim();
     if (!trimmed) return null;
 
     const iso = parseIsoDate(trimmed);
@@ -556,11 +558,144 @@ export function parseDateInput(text: string, locale?: string): string | null {
     return formatIsoDate({ year, month, day });
 }
 
+/**
+ * The locale with the Gregorian calendar forced. The day grid is always Gregorian, so a heading, day label or month name
+ * in the locale's own calendar (Solar Hijri for fa-IR, Buddhist years for th-TH, Japanese eras for ja-JP-u-ca-japanese)
+ * would name a different date than the cell the user is on. A `calendar` prop is planned (P17-T1).
+ */
+export function gregorian(locale?: string): string | undefined {
+    if (!locale) return locale;
+    try {
+        return new Intl.Locale(locale, { calendar: "gregory" }).toString();
+    } catch {
+        return locale;
+    }
+}
+
+const NATIVE_DIGITS = new Map<string, string>();
+/** Every Unicode decimal digit that `Intl` knows a numbering system for, mapped to its ASCII digit. */
+function nativeDigits(): Map<string, string> {
+    if (NATIVE_DIGITS.size > 0) return NATIVE_DIGITS;
+    for (const system of [
+        "adlm",
+        "ahom",
+        "arab",
+        "arabext",
+        "bali",
+        "beng",
+        "bhks",
+        "brah",
+        "cakm",
+        "cham",
+        "deva",
+        "fullwide",
+        "gong",
+        "gonm",
+        "gujr",
+        "guru",
+        "hanidec",
+        "hmng",
+        "hmnp",
+        "java",
+        "kali",
+        "kawi",
+        "khmr",
+        "knda",
+        "lana",
+        "lanatham",
+        "laoo",
+        "lepc",
+        "limb",
+        "mathbold",
+        "mathdbl",
+        "mathmono",
+        "mathsanb",
+        "mathsans",
+        "mlym",
+        "modi",
+        "mong",
+        "mroo",
+        "mtei",
+        "mymr",
+        "mymrshan",
+        "mymrtlng",
+        "nagm",
+        "newa",
+        "nkoo",
+        "olck",
+        "orya",
+        "osma",
+        "rohg",
+        "saur",
+        "segment",
+        "shrd",
+        "sind",
+        "sinh",
+        "sora",
+        "sund",
+        "takr",
+        "talu",
+        "tamldec",
+        "telu",
+        "thai",
+        "tibt",
+        "tirh",
+        "tnsa",
+        "vaii",
+        "wara",
+        "wcho",
+    ]) {
+        try {
+            const format = new Intl.NumberFormat(`en-u-nu-${system}`, { useGrouping: false });
+            for (let digit = 0; digit < 10; digit++)
+                NATIVE_DIGITS.set(format.format(digit), String(digit));
+        } catch {
+            // A numbering system this runtime lacks.
+        }
+    }
+    return NATIVE_DIGITS;
+}
+
+/** Typed text with native digits (Arabic-Indic, Persian, Devanagari, Bengali, Thai, ...) turned into ASCII digits. */
+export function normalizeDigits(text: string): string {
+    const map = nativeDigits();
+    return text.replace(/\p{Nd}/gu, (d) => map.get(d) ?? d);
+}
+
+/** The locale's own words for the morning and afternoon, lower-cased, without dots or spaces: `{ am: "ص", pm: "م" }`. */
+function dayPeriodWords(locale?: string): { am: string; pm: string } | null {
+    try {
+        const word = (hour: number): string =>
+            new Intl.DateTimeFormat(locale, {
+                hour: "numeric",
+                hourCycle: "h12",
+                timeZone: "UTC",
+            })
+                .formatToParts(new Date(Date.UTC(2021, 4, 6, hour)))
+                .find((p) => p.type === "dayPeriod")
+                ?.value.toLowerCase()
+                .replace(/[.\s\u00a0\u202f]/g, "") ?? "";
+        const am = word(9);
+        const pm = word(15);
+        return am && pm && am !== pm ? { am, pm } : null;
+    } catch {
+        return null;
+    }
+}
+
 /** Accepts `9:30`, `09:30`, `0930`, `9.30`, and a trailing am/pm. */
-export function parseTimeInput(text: string): string | null {
-    const m = /^(\d{1,2})[:.]?(\d{2})\s*([ap])\.?m\.?$|^(\d{1,2})[:.]?(\d{2})$/.exec(
-        text.trim().toLowerCase(),
-    );
+export function parseTimeInput(text: string, locale?: string): string | null {
+    let typed = normalizeDigits(text).trim().toLowerCase();
+    // The locale's own day-period words ("ص", "م", "pm", "午後") stand in for a/p, which stays accepted in every locale.
+    const words = dayPeriodWords(locale);
+    if (words) {
+        const compact = typed.replace(/[.\s\u00a0\u202f]/g, "");
+        if (compact.endsWith(words.pm)) typed = `${compact.slice(0, -words.pm.length)} pm`;
+        else if (compact.endsWith(words.am)) typed = `${compact.slice(0, -words.am.length)} am`;
+        else if (compact.startsWith(words.pm)) typed = `${compact.slice(words.pm.length)} pm`;
+        else if (compact.startsWith(words.am)) typed = `${compact.slice(words.am.length)} am`;
+    }
+    const m = /^(\d{1,2})[:.]?(\d{2})\s*([ap])\.?m\.?$|^(\d{1,2})[:.]?(\d{2})$/.exec(typed);
     if (!m) return null;
     let hour = Number(m[1] ?? m[4]);
     const minute = Number(m[2] ?? m[5]);
@@ -1314,7 +1449,7 @@ export class DateTimePicker {
         const viewYear = this.viewYear();
         const viewMonth = this.viewMonth();
         try {
-            return new Intl.DateTimeFormat(this.locale() || undefined, {
+            return new Intl.DateTimeFormat(gregorian(this.locale() || undefined), {
                 month: "long",
                 year: "numeric",
                 timeZone: "UTC",
@@ -1335,11 +1470,11 @@ export class DateTimePicker {
             const d = new Date(Date.UTC(2021, 7, 1 + ((weekStart + i) % 7)));
             try {
                 out.push({
-                    short: new Intl.DateTimeFormat(locale, {
+                    short: new Intl.DateTimeFormat(gregorian(locale), {
                         weekday: "short",
                         timeZone: "UTC",
                     }).format(d),
-                    long: new Intl.DateTimeFormat(locale, {
+                    long: new Intl.DateTimeFormat(gregorian(locale), {
                         weekday: "long",
                         timeZone: "UTC",
                     }).format(d),
@@ -1487,7 +1622,7 @@ export class DateTimePicker {
         const parsed = parseIsoDate(isoDate);
         if (!parsed) return isoDate;
         try {
-            return new Intl.DateTimeFormat(this.locale() || undefined, {
+            return new Intl.DateTimeFormat(gregorian(this.locale() || undefined), {
                 weekday: "long",
                 day: "numeric",
                 month: "long",
@@ -1502,7 +1637,7 @@ export class DateTimePicker {
     /** The locale's own AM / PM strings, so neither is hardcoded. */
     protected dayPeriodName(pm: boolean): string {
         try {
-            const parts = new Intl.DateTimeFormat(this.locale() || undefined, {
+            const parts = new Intl.DateTimeFormat(gregorian(this.locale() || undefined), {
                 hour: "numeric",
                 hour12: true,
                 timeZone: "UTC",
@@ -1519,7 +1654,7 @@ export class DateTimePicker {
         const parsed = parseIsoTime(isoTime);
         if (!parsed) return isoTime;
         try {
-            return new Intl.DateTimeFormat(this.locale() || undefined, {
+            return new Intl.DateTimeFormat(gregorian(this.locale() || undefined), {
                 hour: "2-digit",
                 minute: "2-digit",
                 hour12: this.clock12(),
@@ -1539,7 +1674,7 @@ export class DateTimePicker {
         if (parsed) {
             try {
                 chunks.push(
-                    new Intl.DateTimeFormat(this.locale() || undefined, {
+                    new Intl.DateTimeFormat(gregorian(this.locale() || undefined), {
                         day: "2-digit",
                         month: "short",
                         year: "numeric",
@@ -1808,7 +1943,7 @@ export class DateTimePicker {
     }
 
     protected onGridKeydown(event: KeyboardEvent): void {
-        switch (event.key) {
+        switch (logicalKey(event.key, isRtl(this.gridRef()?.nativeElement))) {
             case "ArrowLeft":
                 event.preventDefault();
                 this.moveCursor(addDays(this.cursor(), -1));
@@ -1908,14 +2043,14 @@ export class DateTimePicker {
 
     /** Default text parsing, per mode. */
     private parseTypedForMode(text: string): string | null {
-        if (this.mode() === "time") return parseTimeInput(text);
+        if (this.mode() === "time") return parseTimeInput(text, this.locale() || undefined);
         if (this.mode() === "date") return parseDateInput(text, this.locale() || undefined);
         // datetime: split on the last whitespace run or a literal T, and
         // require both halves — see `commit` on why half is refused.
         const m = /^(.*?)[T\s]+([^\sT]+)$/.exec(text.trim());
         if (!m) return null;
         const date = parseDateInput(m[1], this.locale() || undefined);
-        const time = parseTimeInput(m[2]);
+        const time = parseTimeInput(m[2], this.locale() || undefined);
         return date && time ? `${date}T${time}` : null;
     }
 

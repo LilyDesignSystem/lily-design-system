@@ -3,13 +3,93 @@
 @*
     PinInputDiv component
     a series of single-digit inputs for entering a PIN or OTP code
+
+    A labelled <div role="group"> of Length single-character numeric inputs. Value / ValueChanged is the digits joined
+    (@bind-Value). Typing a digit fills the input and moves focus to the next; a non-digit is refused; Backspace clears
+    the input, or in an empty one moves to the previous input and clears it; ArrowLeft / ArrowRight move between the
+    inputs; Tab is the browser's. Each input is named by DigitLabel(position, length), or by Label without it (no English
+    default). Focus moves with ElementReference.FocusAsync, Blazor's own, so no module is needed; the value is bound
+    with @bind:get / @bind:set, so a refused character is written back out of the input.
+    Unmatched attributes spread onto the root <div>.
 *@
 
-<div class="@($"pin-input-div {CssClass}".Trim())" role="group" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"pin-input-div {CssClass}".Trim())" role="group" aria-label="@Label" @attributes="AdditionalAttributes">
+    @for (var i = 0; i < Length; i++)
+    {
+        var index = i;
+        <input @ref="_inputs[index]"
+               type="text"
+               inputmode="numeric"
+               maxlength="1"
+               aria-label="@(DigitLabel is null ? Label : DigitLabel(index + 1, Length))"
+               @bind:get="_digits[index]"
+               @bind:set="text => OnInput(index, text)"
+               @bind:event="oninput"
+               disabled="@Disabled"
+               @onkeydown="e => OnKeyDown(index, e)" />
+    }
+</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
-    [Parameter] public RenderFragment? ChildContent { get; set; }
+    /// <summary>Number of digit inputs.</summary>
+    [Parameter] public int Length { get; set; } = 4;
+    /// <summary>Each digit input's accessible name, e.g. (n, of) => $"Digit {n} of {of}". Without it, Label.</summary>
+    [Parameter] public Func<int, int, string>? DigitLabel { get; set; }
+    /// <summary>The digits entered, joined. Bindable.</summary>
+    [Parameter] public string Value { get; set; } = "";
+    [Parameter] public EventCallback<string> ValueChanged { get; set; }
+    [Parameter] public bool Disabled { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string[] _digits = Array.Empty<string>();
+    private ElementReference[] _inputs = Array.Empty<ElementReference>();
+
+    protected override void OnParametersSet()
+    {
+        if (_digits.Length == Length && string.Join("", _digits) == Value) return;
+        _digits = Enumerable.Range(0, Length)
+            .Select(i => i < Value.Length && char.IsAsciiDigit(Value[i]) ? Value[i].ToString() : "")
+            .ToArray();
+        if (_inputs.Length != Length) _inputs = new ElementReference[Length];
+    }
+
+    private async Task Set(int index, string digit)
+    {
+        _digits[index] = digit;
+        Value = string.Join("", _digits);
+        await ValueChanged.InvokeAsync(Value);
+    }
+
+    private async Task OnInput(int index, string? text)
+    {
+        text ??= "";
+        // A non-digit is refused: the digit stays as it was. Blazor records what the browser sent for a bound value, so
+        // the re-render after this event writes the old digit back into the input.
+        if (text.Length > 0 && !(text.Length == 1 && char.IsAsciiDigit(text[0]))) return;
+        await Set(index, text);
+        if (text.Length == 1 && index < Length - 1) await _inputs[index + 1].FocusAsync();
+    }
+
+    private async Task OnKeyDown(int index, KeyboardEventArgs e)
+    {
+        switch (e.Key)
+        {
+            case "Backspace":
+                if (_digits[index] == "" && index > 0)
+                {
+                    await _inputs[index - 1].FocusAsync();
+                    await Set(index - 1, "");
+                }
+                else await Set(index, "");
+                break;
+            case "ArrowLeft" when index > 0:
+                await _inputs[index - 1].FocusAsync();
+                break;
+            case "ArrowRight" when index < Length - 1:
+                await _inputs[index + 1].FocusAsync();
+                break;
+        }
+    }
 }

@@ -50,6 +50,14 @@
 - `onChange`: `(value: string) => void` -- once per change (React, Svelte); `change` event in Web Components, Alpine and HTML
 - `...restProps`: HTML attributes -- spread onto the root `<div>`
 
+## Native platform
+
+- Decision: hand-rolled because it is an always-open inline wheel; native <select> only offers a closed control on desktop
+- Uses: none (div role="listbox" aria-activedescendant) + hidden input
+- Could use: <select> (mobile browsers already render it as a wheel)
+- Notes: For a closed picker, select is the native answer.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
+
 ## Acceptance Criteria
 
 - [ ] Renders a <div> with class="wheel-picker" first in its class list, holding a role="listbox" with aria-orientation="vertical"

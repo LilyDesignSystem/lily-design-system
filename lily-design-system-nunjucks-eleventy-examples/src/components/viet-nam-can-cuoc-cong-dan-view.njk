@@ -1,0 +1,23 @@
+---
+layout: layouts/component-demo.njk
+title: VietNamCanCuocCongDanView
+description: a read-only display of Viet Nam's Citizen Identification Number (CCCD)
+---
+
+{% from "components/viet-nam-can-cuoc-cong-dan-view/macro.njk" import vietNamCanCuocCongDanView %}
+
+<h2>Default</h2>
+<p>{{ vietNamCanCuocCongDanView({ text: "VietNamCanCuocCongDanView example", label: "VietNamCanCuocCongDanView example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;SummaryList&gt;
+  &lt;SummaryListItem term="Citizen Identification Number (CCCD)"&gt;
+    &lt;VietNamCanCuocCongDanView
+      label="Citizen Identification Number (CCCD)"
+      value="{value}"
+    /&gt;
+  &lt;/SummaryListItem&gt;
+&lt;/SummaryList&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

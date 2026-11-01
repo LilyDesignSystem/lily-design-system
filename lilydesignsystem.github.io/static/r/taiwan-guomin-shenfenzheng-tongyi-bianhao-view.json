@@ -1,0 +1,39 @@
+{
+  "slug": "taiwan-guomin-shenfenzheng-tongyi-bianhao-view",
+  "name": "TaiwanGuominShenfenzhengTongyiBianhaoView",
+  "description": "a read-only display of Taiwan's National Identification Card Number",
+  "htmlTag": "span",
+  "category": "national",
+  "baseClass": ".taiwan-guomin-shenfenzheng-tongyi-bianhao-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow",
+  "aria": [
+    "`aria-label` provides accessible name from label prop"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`value`: string (default: \"\") — the identifier to display",
+    "`label`: string (required) — accessible name via `aria-label`",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "taiwan-guomin-shenfenzheng-tongyi-bianhao-input",
+    "summary-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/taiwan-guomin-shenfenzheng-tongyi-bianhao-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/TaiwanGuominShenfenzhengTongyiBianhaoView/TaiwanGuominShenfenzhengTongyiBianhaoView.svelte",
+    "react": "lily-design-system-react-headless/components/TaiwanGuominShenfenzhengTongyiBianhaoView.tsx",
+    "vue": "lily-design-system-vue-headless/components/TaiwanGuominShenfenzhengTongyiBianhaoView.vue",
+    "angular": "lily-design-system-angular-headless/components/TaiwanGuominShenfenzhengTongyiBianhaoView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/taiwan-guomin-shenfenzheng-tongyi-bianhao-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/taiwan-guomin-shenfenzheng-tongyi-bianhao-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/taiwan-guomin-shenfenzheng-tongyi-bianhao-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TaiwanGuominShenfenzhengTongyiBianhaoView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/taiwan-guomin-shenfenzheng-tongyi-bianhao-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/taiwan-guomin-shenfenzheng-tongyi-bianhao-view/AGENTS.md"
+}

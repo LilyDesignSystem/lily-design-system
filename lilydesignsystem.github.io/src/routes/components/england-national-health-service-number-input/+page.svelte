@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<label class=\"label\" for=\"demo-input\">Label</label><input class=\"england-national-health-service-number-input\" id=\"demo-input\" aria-label=\"an input for entering England's National Health Service Number (NHS)\" />";
   const svelteSource: string = "// In your Svelte component:\nimport EnglandNationalHealthServiceNumberInput from \"lily-design-system-svelte-headless/components/EnglandNationalHealthServiceNumberInput/EnglandNationalHealthServiceNumberInput.svelte\";\n\n<EnglandNationalHealthServiceNumberInput label=\"Label\" />\n";
-  const usageCode: string = "<Field label=\"National Health Service Number\" required>\n  <EnglandNationalHealthServiceNumberInput label=\"National Health Service Number\" value={value} required />\n  <Hint>10 digits in 3-3-4 format with a Modulus-11 check digit, allocated through the Personal Demographics Service</Hint>\n  <ErrorMessage>Please enter a valid National Health Service Number</ErrorMessage>\n</Field>\n";
+  const usageCode: string = "<Field\n  label=\"National Health Service Number\"\n  required\n>\n  <EnglandNationalHealthServiceNumberInput\n    label=\"National Health Service Number\"\n    value=\"{value}\"\n    required\n  />\n  <Hint\n    >10 digits in 3-3-4 format with a Modulus-11 check digit, allocated through the Personal\n    Demographics Service</Hint\n  >\n  <ErrorMessage>Please enter a valid National Health Service Number</ErrorMessage>\n</Field>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

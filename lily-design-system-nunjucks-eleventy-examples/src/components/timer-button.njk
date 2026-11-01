@@ -11,7 +11,11 @@ description: a button with a timer that will auto-click after a given time
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>
-<pre tabindex="0"><code>{% raw %}&lt;TimerButton duration={10} label="Undo delete" onclick={handleUndo}&gt;
+<pre tabindex="0"><code>{% raw %}&lt;TimerButton
+  duration="{10}"
+  label="Undo delete"
+  onclick="{handleUndo}"
+&gt;
   Undo deletion (10s remaining)
 &lt;/TimerButton&gt;
 {% endraw %}</code></pre>

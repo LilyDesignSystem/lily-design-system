@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "byline",
+  "type": "registry:component",
+  "title": "Byline",
+  "description": "An author attribution with publish and update timestamps.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Byline.tsx",
+      "content": "import React from \"react\";\n\n// Byline component\n//\n// Author attribution with optional publish and update timestamps. Renders\n// a <div> containing the author content (children) plus two named slots —\n// `published` and `updated` — that the consumer fills with <time> elements.\n// Inspired by the Reuters Graphics Byline pattern.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   children — ReactNode, required. Author names/links.\n//   published — ReactNode, optional. Publish date/time (typically a <time>).\n//   updated — ReactNode, optional. Last updated date/time (typically a <time>).\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Use rel=\"author\" on author links so RDFa/microformats consumers can\n//     extract the author\n\nexport interface BylineProps {\n    className?: string;\n    /** Author names/links. */\n    children: React.ReactNode;\n    /** Publish date/time, typically a <time datetime=\"...\"> element. */\n    published?: React.ReactNode;\n    /** Last updated date/time, typically a <time datetime=\"...\"> element. */\n    updated?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Byline({\n    className = \"\",\n    children,\n    published = undefined,\n    updated = undefined,\n    ...restProps\n}: BylineProps) {\n    return (\n        <div\n            className={`byline ${className}`}\n            {...restProps}\n        >\n            <span className=\"byline-authors\">{children}</span>\n            {published !== undefined && <span className=\"byline-published\">{published}</span>}\n            {updated !== undefined && <span className=\"byline-updated\">{updated}</span>}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Byline.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/byline/"
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "pagination-nav",
+  "type": "registry:component",
+  "title": "PaginationNav",
+  "description": "An ordered list of page navigation links.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/PaginationNav.tsx",
+      "content": "import React from \"react\";\n\n// PaginationNav component\n//\n// A navigation landmark for pagination controls that allow users to navigate\n// between pages of content. Renders a <nav> element with an accessible label.\n// Contains a PaginationList which holds PaginationListItem children. Commonly\n// used in search results, product listings, data tables, and any interface\n// with paginated content.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name for the navigation landmark.\n//   children — ReactNode, required. PaginationList element.\n//   ...restProps — additional HTML attributes spread onto the <nav>.\n//\n// Syntax:\n//   <PaginationNav label=\"Pagination\">\n//     <PaginationList>...</PaginationList>\n//   </PaginationNav>\n//\n// Examples:\n//\n//   <PaginationNav label=\"Pagination\">\n//     <PaginationList>\n//       <PaginationListItem><a href=\"/page/1\">Previous</a></PaginationListItem>\n//       <PaginationListItem><a href=\"/page/1\">1</a></PaginationListItem>\n//       <PaginationListItem><a href=\"/page/2\" aria-current=\"page\">2</a></PaginationListItem>\n//       <PaginationListItem><a href=\"/page/3\">3</a></PaginationListItem>\n//       <PaginationListItem><a href=\"/page/3\">Next</a></PaginationListItem>\n//     </PaginationList>\n//   </PaginationNav>\n//\n// Keyboard:\n//   - Tab: Focus moves between pagination links in the list\n//   - Enter: Activates the focused link to navigate to that page\n//\n// Accessibility:\n//   - <nav> with aria-label creates a navigation landmark\n//   - Screen readers announce the landmark name for orientation\n//   - Consumer should apply aria-current=\"page\" on the active page link\n//\n// Internationalization:\n//   - Label text comes through the label prop; no hardcoded strings\n//\n// Claude rules:\n//   - Compound component — use with PaginationList and PaginationListItem\n//   - Headless: no CSS, no styles — consumer provides all styling\n//\n// References:\n//   - WAI-ARIA Navigation role: https://www.w3.org/TR/wai-aria-1.2/#navigation\n//   - HTML nav element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav\n\nexport interface PaginationNavProps {\n    className?: string;\n    /** Accessible label for the pagination navigation. */\n    label: string;\n    /** PaginationList element. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function PaginationNav({\n    className = \"\",\n    label,\n    children,\n    ...restProps\n}: PaginationNavProps) {\n    return (\n        <nav\n            className={`pagination-nav ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </nav>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/PaginationNav.tsx"
+    }
+  ],
+  "categories": [
+    "navigation"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/pagination-nav/"
+}

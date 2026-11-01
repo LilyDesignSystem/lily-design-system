@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "fieldset",
+  "type": "registry:component",
+  "title": "Fieldset",
+  "description": "A group of related form fields with a legend.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Fieldset.tsx",
+      "content": "import React from \"react\";\n\n// Fieldset component\n//\n// Groups related form elements using the native <fieldset> and <legend> HTML\n// elements. Provides both visual grouping and semantic association that screen\n// readers announce when users navigate into the group. The disabled prop\n// disables all child form controls at once, useful for conditionally editable\n// form sections.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   legend — string, required. Text for the <legend> element describing the group.\n//   disabled — boolean, default false. Whether all controls in the fieldset are disabled.\n//   children — ReactNode, required. Grouped form controls.\n//   ...restProps — additional HTML attributes spread onto the <fieldset> element.\n//\n// Syntax:\n//   <Fieldset legend=\"Contact info\">\n//     <label>Email <input type=\"email\" /></label>\n//   </Fieldset>\n//\n// Examples:\n//\n//   <Fieldset legend=\"Contact info\">\n//     <label>Email <input type=\"email\" /></label>\n//     <label>Phone <input type=\"tel\" /></label>\n//   </Fieldset>\n//\n//\n//   <Fieldset legend=\"Shipping address\" disabled={usesBillingAddress}>\n//     <label>Street <input type=\"text\" /></label>\n//     <label>City <input type=\"text\" /></label>\n//   </Fieldset>\n//\n// Keyboard:\n//   - None — passive container; keyboard interactions from consumer-provided child controls\n//\n// Accessibility:\n//   - Native <fieldset> and <legend> provide built-in group semantics and labeling\n//   - No custom ARIA attributes required\n//   - disabled attribute natively disables all descendant form controls\n//\n// Internationalization:\n//   - The legend prop accepts any string; consumers provide localized text\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Uses native HTML elements; no custom ARIA needed\n//\n// References:\n//   - HTML Specification fieldset: https://html.spec.whatwg.org/multipage/form-elements.html#the-fieldset-element\n\nexport interface FieldsetProps {\n    className?: string;\n    /** Legend text for the group. */\n    legend: string;\n    /** Whether all controls are disabled. */\n    disabled?: boolean;\n    /** Grouped form controls. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Fieldset({\n    className = \"\",\n    legend,\n    disabled = false,\n    children,\n    ...restProps\n}: FieldsetProps) {\n    return (\n        <fieldset\n            className={`fieldset ${className}`}\n            disabled={disabled}\n            {...restProps}\n        >\n            <legend>{legend}</legend>\n            {children}\n        </fieldset>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Fieldset.tsx"
+    }
+  ],
+  "categories": [
+    "forms"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/fieldset/"
+}

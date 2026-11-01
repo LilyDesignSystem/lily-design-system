@@ -30,4 +30,15 @@ describe("ChatListItem", () => {
         const root = container.querySelector(".chat-list-item");
         expect(root?.getAttribute("aria-label")).toBe("Hello");
     });
+
+    test("aria-current only when current", async () => {
+        const { container, rerender } = render(Subject, { props: {}, slots: { default: "x" } });
+        expect(container.querySelector("li.chat-list-item")!.hasAttribute("aria-current")).toBe(
+            false,
+        );
+        await rerender({ current: true });
+        expect(container.querySelector("li.chat-list-item")!.getAttribute("aria-current")).toBe(
+            "true",
+        );
+    });
 });

@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<ol class=\"summary-list\"><li class=\"summary-list-item\"><span>Name</span> <strong>John Doe</strong></li></ol>";
   const svelteSource: string = "// In your Svelte component:\nimport SummaryListItem from \"lily-design-system-svelte-headless/components/SummaryListItem/SummaryListItem.svelte\";\n\n<SummaryListItem>\n  <!-- SummaryListItem content -->\n</SummaryListItem>\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import SummaryList from \"../SummaryList/SummaryList.svelte\";\n    import SummaryListItem from \"./SummaryListItem.svelte\";\n<\/script>\n\n<SummaryList label=\"Order summary\">\n    <SummaryListItem term=\"Product\">Widget</SummaryListItem>\n    <SummaryListItem term=\"Quantity\">3</SummaryListItem>\n    <SummaryListItem term=\"Total\">$29.97</SummaryListItem>\n</SummaryList>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import SummaryList from \"../SummaryList/SummaryList.svelte\";\n  import SummaryListItem from \"./SummaryListItem.svelte\";\n<\/script>\n\n<SummaryList label=\"Order summary\">\n  <SummaryListItem term=\"Product\">Widget</SummaryListItem>\n  <SummaryListItem term=\"Quantity\">3</SummaryListItem>\n  <SummaryListItem term=\"Total\">$29.97</SummaryListItem>\n</SummaryList>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

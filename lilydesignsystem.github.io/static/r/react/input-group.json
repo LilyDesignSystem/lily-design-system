@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "input-group",
+  "type": "registry:component",
+  "title": "InputGroup",
+  "description": "A group wrapping an input with prefix and suffix addons.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/InputGroup.tsx",
+      "content": "import React from \"react\";\n\n// InputGroup component\n//\n// A headless wrapper that places optional prefix and suffix addons around an\n// input. Renders <div role=\"group\"> so the group is announced as a single\n// unit by assistive technologies. The consumer places the actual input as\n// children; the addons are rendered through the prefix and suffix props.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label     — string, optional. aria-label for the group.\n//   prefix    — ReactNode, optional. Addon before the input.\n//   suffix    — ReactNode, optional. Addon after the input.\n//   children  — ReactNode, required. The input element(s).\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Syntax:\n//   <InputGroup label=\"Amount\" prefix={<span>$</span>} suffix={<span>USD</span>}>\n//     <input type=\"number\" />\n//   </InputGroup>\n//\n// Examples:\n//\n//   <InputGroup label=\"Amount\" prefix={<span>$</span>}>\n//     <input type=\"number\" />\n//   </InputGroup>\n//\n//\n//   <InputGroup\n//     label=\"Search\"\n//     prefix={<SearchIcon />}\n//     suffix={<button>Clear</button>}\n//   >\n//     <input type=\"search\" />\n//   </InputGroup>\n//\n// Keyboard: None at the group level; children provide their own.\n//\n// Accessibility:\n//   - role=\"group\" wraps the input + addons as a single semantic group\n//   - aria-label on the group describes what the bundle represents\n//   - Addons rendered as <span> with hook classes for consumer CSS\n//\n// Internationalization:\n//   - label and addon content all consumer-supplied\n//\n// Claude rules:\n//   - Headless: no CSS, no styles\n//   - Addon spans use hook classes input-group-prefix and input-group-suffix\n//\n// References:\n//   - WAI-ARIA role=\"group\": https://www.w3.org/TR/wai-aria-1.2/#group\n\nexport interface InputGroupProps {\n    className?: string;\n    /** aria-label for the group */\n    label?: string;\n    /** Addon rendered before the input */\n    prefix?: React.ReactNode;\n    /** Addon rendered after the input */\n    suffix?: React.ReactNode;\n    /** The input element(s) */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function InputGroup({\n    className = \"\",\n    label = undefined,\n    prefix = undefined,\n    suffix = undefined,\n    children,\n    ...restProps\n}: InputGroupProps) {\n    return (\n        <div\n            className={`input-group ${className}`}\n            role=\"group\"\n            aria-label={label}\n            {...restProps}\n        >\n            {prefix !== undefined ? <span className=\"input-group-prefix\">{prefix}</span> : null}\n            {children}\n            {suffix !== undefined ? <span className=\"input-group-suffix\">{suffix}</span> : null}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/InputGroup.tsx"
+    }
+  ],
+  "categories": [
+    "forms"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/input-group/"
+}

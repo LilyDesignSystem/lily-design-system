@@ -80,6 +80,15 @@ Nav → List → ListItem, Table → Head/Body → Row → TH/TD) translate dire
 into Vue SFC markup: swap the JSX-flavoured tags for `<ComponentName>` in a
 `<template>` block, keep the same prop names.
 
+## Native dialogs and popovers (2026-10-30)
+
+Modal overlays (`dialog`, `alert-dialog`, `file-dialog`, `timeout-dialog`, `drawer`, `sheet`, `slide-out-drawer`) open a real
+`<dialog>` with `showModal()`: the page behind is inert, Tab stays inside, Escape closes, focus returns to the opener. Light-dismiss
+popups (`popover`, `popup`, `contextual-help`, `dropdown-menu`, `split-button`, `action-group`, `context-menu`) use the Popover API
+(`popover="auto"`, opened by `command="toggle-popover"` `commandfor`, with `popovertarget` as well), so the browser itself can close
+them on Escape or an outside click. Keep their open state two-way: listen for the change rather than assuming only your code closes
+them. Per-component decisions: each `components/{slug}/AGENTS.md` § "Native platform"; rule: `AGENTS/headless.md`.
+
 ## When NOT this skill
 
 - For the `*-picker` helpers (`theme-picker`, `locale-picker`,

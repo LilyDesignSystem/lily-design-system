@@ -40,13 +40,22 @@ description: a group component that manages a collection of checkboxes
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>
-<pre tabindex="0"><code>{% raw %}&lt;Fieldset legend="How would you like to be contacted?"&gt;
+<pre tabindex="0"><code>{% raw %}&lt;fieldset legend="How would you like to be contacted?"&gt;
   &lt;Hint&gt;Select all that apply&lt;/Hint&gt;
   &lt;CheckboxGroup name="contact-methods"&gt;
-    &lt;CheckboxInput label="Email" value="email" /&gt;
-    &lt;CheckboxInput label="Phone" value="phone" /&gt;
-    &lt;CheckboxInput label="Text message" value="sms" /&gt;
+    &lt;CheckboxInput
+      label="Email"
+      value="email"
+    /&gt;
+    &lt;CheckboxInput
+      label="Phone"
+      value="phone"
+    /&gt;
+    &lt;CheckboxInput
+      label="Text message"
+      value="sms"
+    /&gt;
   &lt;/CheckboxGroup&gt;
-&lt;/Fieldset&gt;
+&lt;/fieldset&gt;
 {% endraw %}</code></pre>
 {# END generated: examples #}

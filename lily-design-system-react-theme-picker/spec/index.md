@@ -559,3 +559,13 @@ returning `""` for an unsupported slug, and returning `""` when
 ## Open state and disabled (2026-10-16)
 
 `open?: boolean`, `defaultOpen?: boolean`, `onOpenChange?: (open: boolean) => void` and `disabled?: boolean`, ported from the Svelte canonical (its spec section "Open state and disabled"). Idiom: a controlled-or-uncontrolled prop pair instead of a bindable. With `open` given the picker is controlled: a user action calls `onOpenChange(next)` and the parent applies it; otherwise the picker holds the state and calls `onOpenChange` for each change. Mounting open is not a change. `disabled` is passed to the headless `IconButton` and an open popup closes when it becomes true. Tests: "open state and disabled".
+
+## Native select variant (2026-10-30, RFC 3 prototype; ported from Svelte)
+
+`variant?: "listbox" | "select"`, default `"listbox"`. With `"select"` the root is `<div class="theme-picker {class}" data-variant="select">` holding one
+`<select class="theme-picker-select" name="{name}" aria-label="{label}" disabled?>` and one
+`<option class="theme-picker-option" value="{slug}" selected?>{label for slug}</option>` per theme; no button,
+listbox, tooltip or hidden input. Initial value resolution (§5.2) and applying (§5.3) are unchanged. The `<select>` is controlled by the resolved value (React marks the matching option `selected` in server-rendered markup); `onChange` on the select calls the same `setTheme` as a listbox choice. Keyboard,
+typeahead and the mobile picker are the platform's: the component adds no key handlers. Styling with
+`appearance: base-select` belongs in theme CSS behind `@supports (appearance: base-select)` (see the Svelte package's
+`docs/styling.md`). Tests: `ThemePicker.test.tsx`, 'variant="select"'.

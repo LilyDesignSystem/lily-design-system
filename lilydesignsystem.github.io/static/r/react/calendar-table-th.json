@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "calendar-table-th",
+  "type": "registry:component",
+  "title": "CalendarTableTH",
+  "description": "A calendar table interactive grid header cell for managing dates, days, etc. <th>.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/CalendarTableTH.tsx",
+      "content": "import React from \"react\";\n\n// CalendarTableTH component\n//\n// A column header cell within a CalendarTable, rendered as a <th> element.\n// Used inside a <CalendarTableRow> within <CalendarTableHead> to label the\n// columns of the calendar grid (e.g. day-of-week labels).\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   colSpan — number, optional. Number of columns this header cell spans.\n//   rowSpan — number, optional. Number of rows this header cell spans.\n//   scope — \"col\" | \"row\" | \"colgroup\" | \"rowgroup\", default \"col\". Header scope.\n//   children — ReactNode, optional. Header cell content.\n//   ...restProps — additional HTML attributes spread onto the <th>.\n//\n// Syntax:\n//   <CalendarTableHead>\n//     <CalendarTableRow>\n//       <CalendarTableTD>Mon</CalendarTableTD>\n//       <CalendarTableTD>Tue</CalendarTableTD>\n//     </CalendarTableRow>\n//   </CalendarTableHead>\n//\n// Keyboard:\n//   None — <th> is not interactive.\n//\n// Accessibility:\n//   - <th scope=\"col\"> associates the header with its column for assistive tech\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Must be used inside a <tr> within a CalendarTable\n//   - All header text is provided by the consumer via children\n//\n// References:\n//   - HTML th element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th\n\nexport interface CalendarTableTHProps {\n    className?: string;\n    /** Number of columns this header cell spans. */\n    colSpan?: number;\n    /** Number of rows this header cell spans. */\n    rowSpan?: number;\n    /** Header scope. */\n    scope?: \"col\" | \"row\" | \"colgroup\" | \"rowgroup\";\n    /** Header cell content. */\n    children?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function CalendarTableTH({\n    className = \"\",\n    colSpan,\n    rowSpan,\n    scope = \"col\",\n    children,\n    ...restProps\n}: CalendarTableTHProps) {\n    return (\n        <th\n            className={`calendar-table-th ${className}`}\n            scope={scope}\n            colSpan={colSpan || undefined}\n            rowSpan={rowSpan || undefined}\n            {...restProps}\n        >\n            {children}\n        </th>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/CalendarTableTH.tsx"
+    }
+  ],
+  "categories": [
+    "tables"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/calendar-table-th/"
+}

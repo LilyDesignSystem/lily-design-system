@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "multi-select",
+  "type": "registry:component",
+  "title": "MultiSelect",
+  "description": "A native select that allows choosing several options at once.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "registryDependencies": [
+    "@lily/form-reset-utils"
+  ],
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/MultiSelect.tsx",
+      "content": "\"use client\";\n\n// MultiSelect component\n//\n// A headless multiple-selection list wrapping the native <select multiple>.\n// Native keyboard and pointer behaviour only; value is a string array.\n//\n// Props:\n//   className -- string, optional. CSS class name.\n//   label -- string, required. Accessible name via aria-label.\n//   value -- string[], default []. Selected option values; onChange receives the array.\n//   size -- number, optional. Visible rows.\n//   required, disabled -- standard form props.\n//   children -- Option elements.\n//   ...restProps -- spread onto the <select>.\n//\n// Keyboard: native <select multiple> (arrows, Shift/Ctrl+click, Space).\n// Accessibility: native listbox role; aria-label={label}.\n// Internationalization: label is consumer-supplied.\n\nimport React, { useEffect, useRef, useState } from \"react\";\nimport { useFormReset } from \"./form-reset\";\n\nexport interface MultiSelectProps {\n    className?: string;\n    /** Accessible label. */\n    label: string;\n    /** Selected values. Bindable. */\n    value?: string[];\n    /** Visible rows. */\n    size?: number;\n    /** Whether required. */\n    required?: boolean;\n    /** Whether disabled. */\n    disabled?: boolean;\n    /** Option elements to render inside. */\n    children?: React.ReactNode;\n    /** Callback when the selection changes. */\n    onChange?: (value: string[]) => void;\n    [key: string]: unknown;\n}\n\nexport default function MultiSelect({\n    className = \"\",\n    label,\n    value: valueProp = [],\n    size = undefined,\n    required = false,\n    disabled = false,\n    onChange,\n    children,\n    ...restProps\n}: MultiSelectProps) {\n    const [value, setValue] = useState<string[]>(valueProp);\n    const key = valueProp.join(\"\\u0000\");\n    const selectRef = useRef<HTMLSelectElement>(null);\n    const initialValue = useRef(valueProp);\n\n    // Form reset: restore the initial selection and tell the consumer.\n    useFormReset(selectRef, () => {\n        setValue(initialValue.current);\n        onChange?.(initialValue.current);\n    });\n    useEffect(() => {\n        setValue(valueProp);\n        // eslint-disable-next-line react-hooks/exhaustive-deps\n    }, [key]);\n\n    return (\n        <select\n            ref={selectRef}\n            className={`multi-select ${className}`}\n            multiple\n            aria-label={label}\n            size={size}\n            value={value}\n            onChange={(e) => {\n                const next = Array.from(e.target.selectedOptions).map((o) => o.value);\n                setValue(next);\n                onChange?.(next);\n            }}\n            required={required}\n            disabled={disabled}\n            {...restProps}\n        >\n            {children}\n        </select>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/MultiSelect.tsx"
+    }
+  ],
+  "categories": [
+    "forms"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/multi-select/"
+}

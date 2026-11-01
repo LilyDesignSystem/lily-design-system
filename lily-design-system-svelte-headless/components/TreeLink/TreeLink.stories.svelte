@@ -14,7 +14,7 @@
     name="Default"
     tags={["autodocs", "!dev"]}
 >
-    <TreeLink label="TreeLink example">
+    <TreeLink href="#example">
         <span>TreeLink example</span>
     </TreeLink>
 </Story>

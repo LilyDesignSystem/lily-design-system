@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "menu-group",
+  "type": "registry:component",
+  "title": "MenuGroup",
+  "description": "A labeled section of menu items within a menu.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/MenuGroup.tsx",
+      "content": "import React from \"react\";\n\n// MenuGroup component\n//\n// A labeled section of menu items within a menu. Inspired by Adobe Spectrum.\n//\n// Props:\n//   className     — string, optional. CSS class name.\n//   label         — string, REQUIRED. Section heading text (also used as aria-label).\n//   children      — ReactNode, optional. The menu items.\n//   ...restProps  — additional HTML attributes spread onto the root <div>.\n//\n// Behavior:\n//   - Renders <div role=\"group\" aria-label={label}>\n//   - Renders a visible heading element marked aria-hidden=\"true\" (since the\n//     aria-label conveys the section name to assistive technology).\n//\n// Headless rules:\n//   - No CSS, no inline styles\n//   - All user-facing strings are consumer-supplied (i18n)\n//\n// References:\n//   - Adobe Spectrum MenuGroup: https://spectrum.adobe.com/page/menu/\n\nexport interface MenuGroupProps {\n    className?: string;\n    /** Section heading text (also used as aria-label) (required) */\n    label: string;\n    /** The menu items */\n    children?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function MenuGroup({\n    className = \"\",\n    label,\n    children = undefined,\n    ...restProps\n}: MenuGroupProps) {\n    return (\n        <div\n            className={`menu-group ${className}`}\n            role=\"group\"\n            aria-label={label}\n            {...restProps}\n        >\n            <div\n                className=\"menu-group-heading\"\n                aria-hidden=\"true\"\n            >\n                {label}\n            </div>\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/MenuGroup.tsx"
+    }
+  ],
+  "categories": [
+    "forms"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/menu-group/"
+}

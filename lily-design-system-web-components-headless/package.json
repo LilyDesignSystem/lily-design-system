@@ -13,10 +13,14 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./solid": {
+      "types": "./solid.d.ts"
     }
   },
   "files": [
     "dist",
+    "solid.d.ts",
     "index.md",
     "README.md"
   ],

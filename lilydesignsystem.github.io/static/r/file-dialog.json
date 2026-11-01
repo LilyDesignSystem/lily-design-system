@@ -37,5 +37,10 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/FileDialog.razor"
   },
   "docs": "https://lilydesignsystem.com/components/file-dialog/",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/file-dialog/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/file-dialog/AGENTS.md",
+  "nativePlatform": {
+    "decision": "native",
+    "uses": "<dialog> showModal() via modal.ts",
+    "could_use": "command=\"show-modal\"/\"close\""
+  }
 }

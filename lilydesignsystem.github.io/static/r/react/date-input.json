@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "date-input",
+  "type": "registry:component",
+  "title": "DateInput",
+  "description": "An input for entering a date value <input type=\"date\">.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/DateInput.tsx",
+      "content": "import React from \"react\";\n\n// DateInput component\n//\n// A headless native date input wrapping <input type=\"date\"> with accessible\n// labelling via aria-label and a bindable value. The value is stored in ISO 8601\n// YYYY-MM-DD format. It supports min and max constraints to restrict the allowable\n// date range. Useful in forms where users need to enter a calendar date with the\n// browser's built-in date picker.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name applied via aria-label.\n//   value — string, default \"\". Bindable date string in YYYY-MM-DD format.\n//   min — string, default undefined. Minimum allowed date in YYYY-MM-DD format.\n//   max — string, default undefined. Maximum allowed date in YYYY-MM-DD format.\n//   required — boolean, default false. Whether the input is required for form submission.\n//   disabled — boolean, default false. Whether the input is disabled.\n//   ...restProps — additional HTML attributes spread onto the <input>.\n//\n// Syntax:\n//   <DateInput label=\"Birth date\" value={value} onChange={setValue} />\n//\n// Examples:\n//\n//   <DateInput label=\"Deadline\" value={value} onChange={setValue} min=\"2024-01-01\" max=\"2024-12-31\" />\n//\n//   <DateInput label=\"Start date\" value={value} onChange={setValue} required disabled={isLocked} />\n//\n// Keyboard:\n//   - Tab: Move focus to and from the date input (native browser behavior)\n//   - Arrow keys: Navigate within the date picker fields (native browser behavior)\n//   - Enter: Open or confirm the date picker (native browser behavior)\n//\n// Accessibility:\n//   - aria-label provides an accessible name since there is no visible <label> element\n//\n// Internationalization:\n//   - The label prop provides the accessible name; no hardcoded strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Renders a bare <input type=\"date\"> with no wrapper element\n//   - Uses controlled for two-way binding on the value prop\n//\n// References:\n//   - MDN date input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date\n\nexport interface DateInputProps {\n    className?: string;\n    /** Accessible label for the date input. */\n    label: string;\n    /** Current date value (YYYY-MM-DD). Bindable. */\n    value?: string;\n    /** Minimum date. */\n    min?: string;\n    /** Maximum date. */\n    max?: string;\n    /** Whether the input is required. */\n    required?: boolean;\n    /** Whether the input is disabled. */\n    disabled?: boolean;\n    /** Callback when value changes. */\n    onChange?: (value: string) => void;\n    [key: string]: unknown;\n}\n\nexport default function DateInput({\n    className = \"\",\n    label,\n    value = \"\",\n    min = undefined,\n    max = undefined,\n    required = false,\n    disabled = false,\n    onChange,\n    ...restProps\n}: DateInputProps) {\n    return (\n        <input\n            className={`date-input ${className}`}\n            type=\"date\"\n            aria-label={label}\n            value={value}\n            onChange={(e) => onChange?.(e.target.value)}\n            min={min}\n            max={max}\n            required={required}\n            disabled={disabled}\n            {...restProps}\n        />\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/DateInput.tsx"
+    }
+  ],
+  "categories": [
+    "forms"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/date-input/"
+}

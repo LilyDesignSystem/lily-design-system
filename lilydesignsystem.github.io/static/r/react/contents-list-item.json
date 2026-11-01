@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "contents-list-item",
+  "type": "registry:component",
+  "title": "ContentsListItem",
+  "description": "One contents list item.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ContentsListItem.tsx",
+      "content": "import React from \"react\";\n\n// ContentsListItem component\n//\n// A headless list item for use within a table of contents or navigation list.\n// Renders a semantic <li> element that wraps consumer-provided content, typically\n// an anchor link to a page section. Supports nesting for hierarchical\n// document structures by placing a `<ol>` inside. Used as a child of\n// ContentsList or any ordered/ordered list in a navigation context.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   children — ReactNode, required. List item content (typically a link or nested list).\n//   ...restProps — additional HTML attributes spread onto the <li>.\n//\n// Syntax:\n//   <ContentsListItem><a href=\"#section\">Section</a></ContentsListItem>\n//\n// Examples:\n//\n//   <ContentsListItem>\n//     <a href=\"#section-3\">Results</a>\n//     <ul>\n//       <ContentsListItem><a href=\"#section-3a\">Data</a></ContentsListItem>\n//       <ContentsListItem><a href=\"#section-3b\">Analysis</a></ContentsListItem>\n//     </ul>\n//   </ContentsListItem>\n//\n// Keyboard:\n//   - None — keyboard interaction is handled by contained links or the parent list\n//\n// Accessibility:\n//   - Semantic <li> provides implicit listitem role\n//   - Should be placed within a <ul> or <ol> parent for valid HTML structure\n//   - Supports aria-current=\"page\" or aria-current=\"true\" on the <li> for current page indication\n//\n// Internationalization:\n//   - All content is provided through the children prop; no hardcoded strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Compound component: used as a child within ContentsList\n//\n// References:\n//   - WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menu/\n\nexport interface ContentsListItemProps {\n    className?: string;\n    /** List item content (typically a link or text) */\n    children: React.ReactNode;\n    /** Additional HTML attributes */\n    [key: string]: unknown;\n}\n\nexport default function ContentsListItem({\n    className = \"\",\n    children,\n    ...restProps\n}: ContentsListItemProps) {\n    return (\n        <li\n            className={`contents-list-item ${className}`}\n            {...restProps}\n        >\n            {children}\n        </li>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ContentsListItem.tsx"
+    }
+  ],
+  "categories": [
+    "lists"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/contents-list-item/"
+}

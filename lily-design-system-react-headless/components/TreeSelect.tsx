@@ -36,6 +36,7 @@
 //   - Ant Design TreeSelect: https://ant.design/components/tree-select
 
 import React from "react";
+import { usePopoverState } from "./Popover";
 
 export interface TreeSelectProps {
     className?: string;
@@ -70,6 +71,8 @@ export default function TreeSelect({
     children,
     ...restProps
 }: TreeSelectProps) {
+    const panelRef = React.useRef<HTMLDivElement>(null);
+    usePopoverState(panelRef, expanded);
     return (
         <div
             className={`tree-select ${className}`}
@@ -90,7 +93,8 @@ export default function TreeSelect({
             </button>
             <div
                 className="tree-select-panel"
-                hidden={!expanded}
+                ref={panelRef}
+                popover="manual"
             >
                 {children}
             </div>

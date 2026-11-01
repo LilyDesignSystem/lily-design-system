@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"mutually-exclusive\" aria-label=\"a container ensuring only one option can be selected from a group\">MutuallyExclusive</div>";
   const svelteSource: string = "// In your Svelte component:\nimport MutuallyExclusive from \"lily-design-system-svelte-headless/components/MutuallyExclusive/MutuallyExclusive.svelte\";\n\n<MutuallyExclusive>\n  <!-- content -->\n</MutuallyExclusive>\n";
-  const usageCode: string = "<MutuallyExclusive label=\"Preferred contact method\" value={contact} onChange={setContact}>\n  <CheckboxInput value=\"email\" label=\"Email\" />\n  <CheckboxInput value=\"sms\" label=\"SMS\" />\n  <CheckboxInput value=\"post\" label=\"Post\" />\n</MutuallyExclusive>\n";
+  const usageCode: string = "<MutuallyExclusive\n  label=\"Preferred contact method\"\n  value=\"{contact}\"\n  onChange=\"{setContact}\"\n>\n  <CheckboxInput\n    value=\"email\"\n    label=\"Email\"\n  />\n  <CheckboxInput\n    value=\"sms\"\n    label=\"SMS\"\n  />\n  <CheckboxInput\n    value=\"post\"\n    label=\"Post\"\n  />\n</MutuallyExclusive>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

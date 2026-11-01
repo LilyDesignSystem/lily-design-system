@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"floating-panel\"><p>Floating panel content</p></div>";
   const svelteSource: string = "// In your Svelte component:\nimport FloatingPanel from \"lily-design-system-svelte-headless/components/FloatingPanel/FloatingPanel.svelte\";\n\n<FloatingPanel>\n  <!-- content -->\n</FloatingPanel>\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import FloatingPanel from \"./FloatingPanel.svelte\";\n    let open = $state(false);\n<\/script>\n\n<button onclick={() => (open = !open)}>Toggle</button>\n<FloatingPanel {open} label=\"Options\">\n    <p>Some contextual options.</p>\n</FloatingPanel>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import FloatingPanel from \"./FloatingPanel.svelte\";\n  let open = $state(false);\n<\/script>\n\n<button onclick={() => (open = !open)}>Toggle</button>\n<FloatingPanel\n  {open}\n  label=\"Options\"\n>\n  <p>Some contextual options.</p>\n</FloatingPanel>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

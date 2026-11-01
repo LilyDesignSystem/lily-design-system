@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "do-list",
+  "type": "registry:component",
+  "title": "DoList",
+  "description": "A guideline list of encouraged do-list-item components.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/DoList.tsx",
+      "content": "import React from \"react\";\n\n// DoList component\n//\n// A list of recommended actions or best practices. Renders as a <ol> with\n// role=\"list\" and an accessible label. Used in design system documentation,\n// guidelines, and instructional content to communicate what users should do.\n// Paired with DontList to create do/don't guidance patterns.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, default \"Do\". Accessible name for the list.\n//   children — ReactNode, required. List items, each should be an <li> element.\n//   ...restProps — additional HTML attributes spread onto the <ol> element.\n//\n// Syntax:\n//   <DoList><li>Best practice</li></DoList>\n//\n// Examples:\n//\n//   <DoList>\n//     <li>Write clear labels</li>\n//     <li>Use semantic HTML</li>\n//   </DoList>\n//\n//\n//   <DoList label=\"Recommended\">\n//     <li>Provide alt text for images</li>\n//     <li>Use sufficient color contrast</li>\n//   </DoList>\n//\n// Keyboard:\n//   - None — passive container for list items\n//\n// Accessibility:\n//   - role=\"list\" preserves list semantics even when CSS removes default styling\n//   - aria-label provides an accessible name (defaults to \"Do\")\n//\n// Internationalization:\n//   - The label prop defaults to \"Do\" but can be overridden for any locale\n//   - All list item text comes through consumer-provided children\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Companion to DontList; typically used together\n//\n// References:\n//   - MDN ul element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ul\n//   - WAI list role: https://www.w3.org/WAI/ARIA/apd/roles/list/\n\nexport interface DoListProps {\n    className?: string;\n    /** Accessible name for the list. */\n    label?: string;\n    /** List items. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function DoList({\n    className = \"\",\n    label = \"Do\",\n    children,\n    ...restProps\n}: DoListProps) {\n    return (\n        <ul\n            className={`do-list ${className}`}\n            role=\"list\"\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </ul>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/DoList.tsx"
+    }
+  ],
+  "categories": [
+    "lists"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/do-list/"
+}

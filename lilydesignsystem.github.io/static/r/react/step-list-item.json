@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "step-list-item",
+  "type": "registry:component",
+  "title": "StepListItem",
+  "description": "One step in a step list with status of waiting, in progress, finished, or error.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/StepListItem.tsx",
+      "content": "import React from \"react\";\n\n// StepListItem component\n//\n// One step in a step list. Status is exposed as `data-status`. When\n// `current=true`, `data-current` is set so assistive tech announces\n// the active step.\n//\n// Props:\n//   className    — string, optional. CSS class name.\n//   status       — \"waiting\" | \"in-progress\" | \"finished\" | \"error\", default \"waiting\".\n//   current      — boolean, default false. When true, sets data-current.\n//   label        — string, optional. aria-label override.\n//   children     — ReactNode, optional. Step content (typically title + description).\n//   ...restProps — additional HTML attributes spread onto the <li>.\n//\n// Syntax:\n//   <StepListItem status=\"in-progress\" current>\n//     <strong>Profile</strong>\n//     <span>Add your photo</span>\n//   </StepListItem>\n//\n// Accessibility:\n//   - data-current when current=true\n//   - aria-label optional\n//\n// Internationalization:\n//   - All user-facing strings are consumer-supplied via children/label\n//\n// Claude rules:\n//   - Headless: no CSS, no styles\n//\n// References:\n//   - Ant Design Steps: https://ant.design/components/steps\n//   - aria-current: https://www.w3.org/TR/wai-aria-1.2/#aria-current\n\nexport type StepListItemStatus = \"waiting\" | \"in-progress\" | \"finished\" | \"error\";\n\nexport interface StepListItemProps {\n    className?: string;\n    /** Step status */\n    status?: StepListItemStatus;\n    /** Whether this is the current step */\n    current?: boolean;\n    /** aria-label override */\n    label?: string;\n    /** Step content */\n    children?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function StepListItem({\n    className = \"\",\n    status = \"waiting\",\n    current = false,\n    label = undefined,\n    children = undefined,\n    ...restProps\n}: StepListItemProps) {\n    return (\n        <li\n            className={`step-list-item ${className}`}\n            data-status={status}\n            data-current={current ? \"\" : undefined}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </li>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/StepListItem.tsx"
+    }
+  ],
+  "categories": [
+    "lists"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/step-list-item/"
+}

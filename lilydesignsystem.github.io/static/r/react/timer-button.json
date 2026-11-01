@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "timer-button",
+  "type": "registry:component",
+  "title": "TimerButton",
+  "description": "A button with a timer that will automatically click after a given amount of time.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/TimerButton.tsx",
+      "content": "\"use client\";\n\n// TimerButton component\n//\n// A button that auto-activates after a configurable countdown. Useful for\n// \"auto-confirm in 5 seconds\" or \"session continuing in 30 seconds\"\n// flows where the user can click to act immediately or let the timer\n// expire to act for them. The component announces the countdown via an\n// aria-live=\"polite\" region and exposes the remaining seconds via the\n// `remainingSeconds` value passed back to the consumer's render callback.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label    — string, required. Accessible label describing the action.\n//   duration — number, required. Countdown duration in seconds.\n//   onClick  — callback, optional. Called when the button activates,\n//              either manually or when the countdown reaches zero.\n//   disabled — boolean, default false.\n//   children — ReactNode, required. Button content; receives a render\n//              prop or static content.\n//   ...restProps — additional HTML attributes spread onto the <button>.\n//\n// Accessibility:\n//   - Native <button> semantics\n//   - aria-label describes the action\n//   - aria-live=\"polite\" announces countdown updates without interruption\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - The component owns the timer; clears it on unmount and on activation\n\nimport React, { useEffect, useRef, useState } from \"react\";\n\nexport interface TimerButtonProps {\n    className?: string;\n    /** Accessible label describing the action. */\n    label: string;\n    /** Countdown duration in seconds. */\n    duration: number;\n    /** Called when the button activates manually or via timer. */\n    onClick?: () => void;\n    /** Whether the button is disabled. */\n    disabled?: boolean;\n    /** Button content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function TimerButton({\n    className = \"\",\n    label,\n    duration,\n    onClick = undefined,\n    disabled = false,\n    children,\n    ...restProps\n}: TimerButtonProps) {\n    const [remainingSeconds, setRemainingSeconds] = useState(duration);\n    const firedRef = useRef(false);\n\n    useEffect(() => {\n        if (disabled) return;\n        const start = Date.now();\n        const interval = setInterval(() => {\n            const elapsed = (Date.now() - start) / 1000;\n            const remaining = Math.max(0, duration - Math.floor(elapsed));\n            setRemainingSeconds(remaining);\n            if (remaining === 0 && !firedRef.current) {\n                firedRef.current = true;\n                clearInterval(interval);\n                onClick?.();\n            }\n        }, 250);\n        return () => clearInterval(interval);\n    }, [duration, disabled, onClick]);\n\n    const handleClick = () => {\n        if (firedRef.current || disabled) return;\n        firedRef.current = true;\n        onClick?.();\n    };\n\n    return (\n        <button\n            type=\"button\"\n            className={`timer-button ${className}`}\n            aria-label={label}\n            aria-live=\"polite\"\n            data-remaining-seconds={remainingSeconds}\n            disabled={disabled}\n            onClick={handleClick}\n            {...restProps}\n        >\n            {children}\n        </button>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/TimerButton.tsx"
+    }
+  ],
+  "categories": [
+    "buttons"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/timer-button/"
+}

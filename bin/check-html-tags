@@ -1,0 +1,141 @@
+#!/usr/bin/env node
+// bin/check-html-tags
+//
+// Audit that every headless implementation renders the root element its contract names: the first tag of the
+// "HTML tag" line in components/{slug}/AGENTS.md (tasks.md P10-T12). For each library and component the root is
+// found statically, as bin/check-class-names finds the base class: the element whose class list the slug leads
+// (the root carries the base class first, AGENTS/headless.md). The tag is the nearest opening tag before that
+// class. A library may differ from the contract only with a reason in bin/check-html-tags.allow.json
+// ("library:slug" -> reason); a listed entry that now matches fails too, so the list only shrinks.
+//
+// Not checked: Web Components (the root is the custom element itself, by design: autonomous, light-DOM elements)
+// and roots whose tag is computed at run time (svelte:element, a Blazor or React tag variable), reported as dynamic.
+//
+// Usage: bin/check-html-tags [--list] [--baseline]
+//   --list      print every gap (default: the first 25)
+//   --baseline  print an allow-list JSON for today's gaps and exit 0
+
+const fs = require("fs");
+const path = require("path");
+
+const top = path.join(__dirname, "..");
+const read = (p) => fs.readFileSync(path.join(top, p), "utf-8");
+const exists = (p) => fs.existsSync(path.join(top, p));
+
+const components = read("components.tsv")
+  .split("\n")
+  .filter((l) => l.trim())
+  .map((l) => {
+    const [slug, name] = l.split("\t");
+    return { slug, name };
+  });
+
+const FRAMEWORKS = [
+  { id: "svelte", impl: (c) => `lily-design-system-svelte-headless/components/${c.name}/${c.name}.svelte` },
+  { id: "react", impl: (c) => `lily-design-system-react-headless/components/${c.name}.tsx` },
+  { id: "vue", impl: (c) => `lily-design-system-vue-headless/components/${c.name}.vue` },
+  { id: "angular", impl: (c) => `lily-design-system-angular-headless/components/${c.name}.ts` },
+  { id: "html", impl: (c) => `lily-design-system-html-headless/components/${c.slug}.html` },
+  { id: "blazor", impl: (c) => `lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/${c.name}.razor` },
+  { id: "nunjucks", impl: (c) => `lily-design-system-nunjucks-headless/components/${c.slug}/macro.njk` },
+  { id: "alpine", impl: (c) => `lily-design-system-alpine-headless/components/${c.slug}.html` },
+];
+
+function stripComments(text) {
+  return text
+    .replace(/\/\*[\s\S]*?\*\//g, "")
+    .replace(/<!--[\s\S]*?-->/g, "")
+    .replace(/\{#[\s\S]*?#\}/g, "")
+    .replace(/@\*[\s\S]*?\*@/g, "")
+    .split("\n")
+    .filter((l) => !/^\s*(\/\/|\*)/.test(l))
+    .join("\n");
+}
+
+const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+/** The contract's root tag: the first <tag> on the "HTML tag" line. */
+function contractTag(slug) {
+  const m = read(`components/${slug}/AGENTS.md`).match(/^- HTML tag:\s*<([a-z][a-z0-9-]*)/m);
+  return m ? m[1] : null;
+}
+
+/** The rendered root tag: the opening tag nearest before the first class list the slug leads. */
+function rootTag(body, slug) {
+  const first = new RegExp(`["'\`]${esc(slug)}(?![\\w-])`, "g");
+  let m;
+  while ((m = first.exec(body))) {
+    // Only a class value counts: the slug must follow a class attribute or binding directly (class="…",
+    // class={`…`, className={`…`, :class="['…', [class]="'…, class="@($"…, CssClass), with only punctuation between.
+    const before = body.slice(Math.max(0, m.index - 40), m.index).replace(/[\s"'`{(\[@$=:]+$/, "");
+    if (!/(?:\bclass|className|classes|CssClass|\[class)$/.test(before)) continue;
+    const open = body.lastIndexOf("<", m.index);
+    if (open < 0) return null;
+    const t = body.slice(open + 1).match(/^([A-Za-z][\w:.-]*)/);
+    if (!t) continue;
+    return t[1];
+  }
+  return null;
+}
+
+const allowPath = "bin/check-html-tags.allow.json";
+const allow = exists(allowPath) ? JSON.parse(read(allowPath)) : {};
+const seen = new Set();
+const gaps = [];
+const baseline = {};
+const perLib = {};
+
+for (const f of FRAMEWORKS) {
+  perLib[f.id] = { checked: 0, ok: 0, dynamic: 0, allowed: 0 };
+  for (const c of components) {
+    const want = contractTag(c.slug);
+    const p = f.impl(c);
+    if (!want || !exists(p)) continue;
+    perLib[f.id].checked++;
+    const body = stripComments(read(p));
+    // An Angular attribute-selector component ("li[lily-…]") is the native element itself; a "lily-…" element
+    // selector wraps a template, whose root is found like any other.
+    const hostTag = f.id === "angular" && (body.match(/selector:\s*["'`]([a-z][a-z0-9]*)\[/) || [])[1];
+    const got = hostTag || rootTag(body, c.slug);
+    const key = `${f.id}:${c.slug}`;
+    let problem = null;
+    if (got === null) problem = "no element leads its class list with the base class";
+    else if (/^svelte:element$|^svelte:|^[A-Z]|^@/.test(got) || got.includes(".")) {
+      perLib[f.id].dynamic++;
+      continue;
+    } else if (got.toLowerCase() !== want) problem = `renders <${got}>, contract says <${want}>`;
+    if (!problem) {
+      perLib[f.id].ok++;
+      continue;
+    }
+    baseline[key] = problem;
+    if (allow[key]) {
+      seen.add(key);
+      perLib[f.id].allowed++;
+      continue;
+    }
+    gaps.push([key, problem + " (" + p + ")"]);
+  }
+}
+for (const key of Object.keys(allow)) {
+  if (!seen.has(key)) gaps.push([key, "listed in " + allowPath + " but now matches its contract; remove the entry"]);
+}
+
+if (process.argv.includes("--baseline")) {
+  console.log(JSON.stringify(baseline, null, 2));
+  process.exit(0);
+}
+
+console.log("library          checked    ok  dynamic  allowed");
+for (const [id, r] of Object.entries(perLib)) {
+  console.log(
+    `${id.padEnd(16)} ${String(r.checked).padStart(7)} ${String(r.ok).padStart(5)} ${String(r.dynamic).padStart(8)} ${String(r.allowed).padStart(8)}`,
+  );
+}
+if (gaps.length) {
+  console.log(`\n${gaps.length} gap(s):`);
+  for (const [key, d] of process.argv.includes("--list") ? gaps : gaps.slice(0, 25)) console.log(`  ${key} — ${d}`);
+  if (!process.argv.includes("--list") && gaps.length > 25) console.log(`  … ${gaps.length - 25} more (use --list)`);
+  process.exit(1);
+}
+console.log("\nbin/check-html-tags: OK — every checked root matches its contract, or is listed with a reason.");

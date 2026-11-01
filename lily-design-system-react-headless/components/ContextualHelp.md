@@ -7,12 +7,14 @@ A help button that opens a popover with explanatory content. Inspired by Adobe S
 - Renders a `<div>` containing a `<button>` trigger and a `<div role="dialog">` panel
 - The panel ID is generated with React's `useId()`
 - The trigger has `aria-haspopup="dialog"`, `aria-expanded`, and `aria-controls` linking to the panel
-- The panel is hidden via the `hidden` attribute when `expanded` is false
+- The panel is `popover="auto"`; the trigger opens it with `command="toggle-popover"` `commandfor` (and `popovertarget`), so Escape and light dismiss are the browser's; the `toggle` event keeps `expanded` in step (`hidden` fallback where `showPopover` is missing)
 - All user-facing strings are consumer-supplied (i18n-ready)
 
 ## Props
 
 - `label`: string (**required**) — aria-label for the help trigger button
+- `triggerLabel`: string (**required**, no default) — the trigger's visible text, such as `?`
+- `onChange`: (value: boolean) => void (optional) — called when the panel opens or closes
 - `expanded`: boolean (default: `false`) — whether the popover is open
 - `onClick`: (event: React.MouseEvent) => void (optional) — trigger click handler
 - `children`: ReactNode (optional) — popover content
@@ -33,7 +35,7 @@ A help button that opens a popover with explanatory content. Inspired by Adobe S
 ## ARIA
 
 - Trigger: `aria-label`, `aria-haspopup="dialog"`, `aria-expanded`, `aria-controls`
-- Panel: `role="dialog"` with a stable id, hidden via `hidden` attribute
+- Panel: `role="dialog"` and `popover="auto"` with a stable id
 
 ## References
 

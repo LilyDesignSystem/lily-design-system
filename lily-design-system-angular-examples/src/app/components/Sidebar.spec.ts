@@ -4,10 +4,10 @@ import { TestBed } from "@angular/core/testing";
 import { Sidebar } from "./Sidebar";
 
 describe("Sidebar", () => {
-    test("renders the div root with the base class", () => {
+    test("renders the <aside> root with the base class", () => {
         const fixture = TestBed.createComponent(Sidebar);
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.sidebar");
+        const el = fixture.nativeElement.querySelector("aside.sidebar");
         expect(el).toBeTruthy();
     });
 
@@ -15,7 +15,7 @@ describe("Sidebar", () => {
         const fixture = TestBed.createComponent(Sidebar);
         fixture.componentRef.setInput("className", "extra");
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.sidebar");
+        const el = fixture.nativeElement.querySelector("aside.sidebar");
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });

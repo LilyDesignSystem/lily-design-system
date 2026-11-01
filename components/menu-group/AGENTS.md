@@ -33,6 +33,14 @@
 - `children`: slot -- menu-item children
 - `...restProps`: any additional HTML attributes
 
+## Native platform
+
+- Decision: hand-rolled because ARIA menu grouping has no native element
+- Uses: none (div role="group")
+- Could use: none
+- Notes: Child of menu.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
+
 ## Acceptance Criteria
 
 - [ ] Renders <div> element with role="group" and class="menu-group"

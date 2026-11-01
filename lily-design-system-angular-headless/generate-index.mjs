@@ -28,6 +28,8 @@ const componentsDir = path.join(root, "components");
 function isComponentSource(name) {
     if (!name.endsWith(".ts")) return false;
     if (name.endsWith(".spec.ts")) return false;
+    // Internal helper shared by the components; not part of the public API.
+    if (name === "form-reset.ts") return false;
     if (name.includes(".stories.")) return false;
     return true;
 }

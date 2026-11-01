@@ -26,10 +26,10 @@
 A Claude Skill explaining how to install and consume the Svelte 5
 implementation of Lily Design System's headless component catalog,
 [`@lilydesignsystem/svelte-headless`](../lily-design-system-svelte-headless/)
-(published to npm, 582 components). The skill itself is
+(published to npm, 607 components). The skill itself is
 [`SKILL.md`](SKILL.md); the `@AGENTS/*.md` files loaded above are the same
 binding design-principle rules every other subproject in this repository
-loads, plus `AGENTS/sveltekit.md` for the Svelte 5 + SvelteKit 2
+loads, plus `AGENTS/sveltekit.md` for the Svelte 5 + SvelteKit 3
 conventions specific to this framework pair, so an agent explaining
 Svelte-specific consumption is grounded in the same rules the Svelte
 headless library itself is held to.

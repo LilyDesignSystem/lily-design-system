@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "heatmap-chart-with-year-of-days",
+  "type": "registry:component",
+  "title": "HeatmapChartWithYearOfDays",
+  "description": "A heatmap chart of one year of days, one cell per day in week columns and weekday rows.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/HeatmapChartWithYearOfDays.tsx",
+      "content": "import React from \"react\";\n\n// HeatmapChartWithYearOfDays component\n//\n// A headless wrapper for a grid chart where cell colour encodes the value at each row and column. Renders a <figure> holding a\n// role=\"img\" graphic wrapper around the consumer-supplied inline <svg>. No drawing happens here.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name for the chart.\n//   year — number, required. The calendar year shown (data-year).\n//   weekStart — number, required. First weekday row, 0 = Sunday … 6 = Saturday (data-week-start); no default, it is locale-dependent.\n//   children — ReactNode, required. The inline <svg> (and any extra markup).\n//   ...restProps — additional HTML attributes spread onto the <figure>\n//\n// Keyboard:\n//   None — the chart is a single image to assistive technology.\n//\n// Accessibility:\n//   - role=\"img\" exposes the chart as one image; aria-label names it\n//   - aria-describedby (via restProps) should reference a text description\n//     or a real <table> carrying the same data\n//\n// dataTable — optional. The accessible table alternative, rendered in a\n// <div class=\"heatmap-chart-with-year-of-days-data-table\"> that is a SIBLING of the role=\"img\"\n// graphic wrapper: role=\"img\" makes descendants presentational, so a\n// table inside it would be invisible to assistive technology.\n// Markup: <figure class=\"heatmap-chart-with-year-of-days\"><div class=\"heatmap-chart-with-year-of-days-graphic\" role=\"img\" aria-label>…svg…</div>[<div class=\"heatmap-chart-with-year-of-days-data-table\">…</div>]</figure>\n\nexport interface HeatmapChartWithYearOfDaysProps {\n    className?: string;\n    /** Accessible name for the chart. */\n    label: string;\n    /** The calendar year shown. */\n    year: number;\n    /** First weekday row: 0 = Sunday … 6 = Saturday. */\n    weekStart: number;\n    /** The consumer-supplied inline svg. */\n    children: React.ReactNode;\n    /** Optional accessible data table alternative. */\n    dataTable?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function HeatmapChartWithYearOfDays({\n    className = \"\",\n    label,\n    year,\n    weekStart,\n    children,\n    dataTable,\n    ...restProps\n}: HeatmapChartWithYearOfDaysProps) {\n    return (\n        <figure\n            className={`heatmap-chart-with-year-of-days ${className}`}\n            data-year={year}\n            data-week-start={weekStart}\n            {...restProps}\n        >\n            <div\n                className=\"heatmap-chart-with-year-of-days-graphic\"\n                role=\"img\"\n                aria-label={label}\n            >\n                {children}\n            </div>\n            {dataTable !== undefined && dataTable !== null && (\n                <div className=\"heatmap-chart-with-year-of-days-data-table\">{dataTable}</div>\n            )}\n        </figure>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/HeatmapChartWithYearOfDays.tsx"
+    }
+  ],
+  "categories": [
+    "data-viz"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/heatmap-chart-with-year-of-days/"
+}

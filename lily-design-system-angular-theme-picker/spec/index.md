@@ -613,3 +613,13 @@ that does not exist.
 ## Open state and disabled (2026-10-16)
 
 `open` (a `model<boolean>`, default `false`, so `[(open)]` and `(openChange)`) and `disabled` (an `input<boolean>`), ported from the Svelte canonical. `openChange` is the Angular form of `onOpenChange`: it fires for every change of the model — the user's, the parent's, or `disabled` closing the popup — and not for the initial value. `disabled` is passed to the headless `lily-icon-button` and an effect closes an open popup when it becomes true. Tests: "open state and disabled".
+
+## Native select variant (2026-10-30, RFC 3 prototype; ported from Svelte)
+
+`variant = input<"listbox" | "select">("listbox")`. With `"select"` the root is `<div class="theme-picker {class}" data-variant="select">` holding one
+`<select class="theme-picker-select" name="{name}" aria-label="{label}" disabled?>` and one
+`<option class="theme-picker-option" value="{slug}" selected?>{label for slug}</option>` per theme; no button,
+listbox, tooltip or hidden input. Initial value resolution (§5.2) and applying (§5.3) are unchanged. Each option carries `[selected]`; a `change` sets the `value` model, which runs the same apply path (`themeChange` once). `open` does not apply. The root view query is now optional, as the select variant renders no `#rootEl`. Keyboard,
+typeahead and the mobile picker are the platform's: the component adds no key handlers. Styling with
+`appearance: base-select` belongs in theme CSS behind `@supports (appearance: base-select)` (see the Svelte package's
+`docs/styling.md`). Tests: `theme-picker.component.spec.ts`, 'variant="select"'.

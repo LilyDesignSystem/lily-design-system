@@ -5,7 +5,7 @@
     a guideline list of encouraged do-list-item components
 *@
 
-<ol class="@($"do-list {CssClass}".Trim())" role="list" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</ol>
+<ul class="@($"do-list {CssClass}".Trim())" role="list" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</ul>
 
 @code {
     [Parameter] public string Label { get; set; } = "";

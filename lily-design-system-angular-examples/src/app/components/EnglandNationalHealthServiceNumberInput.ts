@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
+import { restoreOnFormReset } from "./form-reset";
 
 /**
  * EnglandNationalHealthServiceNumberInput — an input for entering England's National Health Service Number (NHS)
@@ -33,4 +34,8 @@ export class EnglandNationalHealthServiceNumberInput {
     readonly required = input<boolean>(false);
     /** Whether the input is disabled. */
     readonly disabled = input<boolean>(false);
+
+    constructor() {
+        restoreOnFormReset(this.value);
+    }
 }

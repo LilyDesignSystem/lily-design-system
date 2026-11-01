@@ -41,6 +41,9 @@ export class Select extends HTMLElement {
         moveChildrenInto(this, select);
         const value = this.getAttribute("value");
         if (value !== null) select.value = value;
+        // A form reset restores a <select> to its defaultSelected options, so make the
+        // chosen ones the default.
+        for (const option of Array.from(select.options)) option.defaultSelected = option.selected;
 
         this.appendChild(select);
         this.#select = select;

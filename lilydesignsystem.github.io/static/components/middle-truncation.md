@@ -88,7 +88,7 @@ This component decides the text and its structure only: which characters stay, a
 
 ## Styles
 
-The 57 reference themes style `.middle-truncation` as a bounded one-line block and hide `.middle-truncation-full` with the clip-rect pattern. In your own CSS, target `.middle-truncation` (the bounded block), `.middle-truncation-visual` and `.middle-truncation-full` (visually hide this one, never `display: none`). `[data-truncated]` styles the shortened state, and `[data-strategy]` the strategy. No default styles are included.
+The 63 reference themes style `.middle-truncation` as a bounded one-line block and hide `.middle-truncation-full` with the clip-rect pattern. In your own CSS, target `.middle-truncation` (the bounded block), `.middle-truncation-visual` and `.middle-truncation-full` (visually hide this one, never `display: none`). `[data-truncated]` styles the shortened state, and `[data-strategy]` the strategy. No default styles are included.
 
 ## Testing
 

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "mutually-exclusive",
+  "type": "registry:component",
+  "title": "MutuallyExclusive",
+  "description": "A container ensuring only one option can be selected from a group.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/MutuallyExclusive.tsx",
+      "content": "export interface MutuallyExclusiveProps {\n    className?: string;\n    label?: string;\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function MutuallyExclusive({\n    className = \"\",\n    label = undefined,\n    children,\n    ...restProps\n}: MutuallyExclusiveProps) {\n    return (\n        <fieldset\n            className={`mutually-exclusive ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </fieldset>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/MutuallyExclusive.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/mutually-exclusive/"
+}

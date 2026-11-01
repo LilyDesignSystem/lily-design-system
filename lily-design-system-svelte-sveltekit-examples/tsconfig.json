@@ -4,5 +4,17 @@
     "sourceMap": true,
     "strict": true
   },
-  "include": ["src"]
+  "include": ["src"],
+  "//": "exclude repeats SvelteKit's generated list (node_modules, service worker) and adds the Storybook stories copied in from svelte-headless: this app does not install Storybook (tasks.md P19-T2), as svelte-headless's own check excludes them.",
+  "exclude": [
+    "node_modules/**",
+    "src/service-worker.js",
+    "src/service-worker/**/*.js",
+    "src/service-worker.ts",
+    "src/service-worker/**/*.ts",
+    "src/service-worker.d.ts",
+    "src/service-worker/**/*.d.ts",
+    "src/**/*.stories.svelte",
+    "src/**/*.stories.ts"
+  ]
 }

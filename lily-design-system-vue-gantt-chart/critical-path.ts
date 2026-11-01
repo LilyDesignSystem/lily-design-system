@@ -18,7 +18,8 @@
  * - Summary rows (a task some other task names as `parentId`) take no part: only leaf tasks are scheduled.
  *   Unscheduled tasks (no dates) and dependencies on unknown ids are ignored.
  * - Lag is in calendar days unless `options.lagUnit` is `"working-days"`: then a lag of N moves N working days, skipping
- *   `options.weekends` (weekday numbers, 0 = Sunday; default Saturday and Sunday) and the dated `options.unavailable`
+ *   `options.weekends` (weekday numbers, 0 = Sunday; **required**, never defaulted: weekends differ by country, and `[]` means none;
+ *   omitting it throws a `RangeError`) and the dated `options.unavailable`
  *   ranges (holidays, time off; the chart's `unavailable` prop). Task spans stay as dated; only the gap between tasks changes.
  * - Slack is `latest start - earliest start` against the project's last finish. Critical means slack 0.
  * - A dependency cycle has no schedule: the tasks on or behind it are reported in `cycle` and left out of `tasks`.
@@ -42,7 +43,7 @@ export type CriticalPathTask = {
 export type CriticalPathOptions = {
     /** What a dependency's `lag` counts. Default `"days"`. */
     lagUnit?: "days" | "working-days";
-    /** `"working-days"`: the weekdays nobody works, 0 = Sunday … 6 = Saturday. Default `[0, 6]`. */
+    /** `"working-days"`: the weekdays nobody works, 0 = Sunday … 6 = Saturday. Required with `"working-days"` (never defaulted; `[]` = no weekend); omitting it throws. */
     weekends?: number[];
     /** `"working-days"`: dated closures (holidays, leave): `{ start, end? }`, ISO dates, inclusive. */
     unavailable?: readonly { start: string; end?: string }[];
@@ -80,7 +81,11 @@ function lagShifter(options: CriticalPathOptions | undefined): {
 } {
     if (options?.lagUnit !== "working-days")
         return { shift: (day, n) => day + n, working: () => true };
-    const weekend = new Set(options.weekends ?? [0, 6]);
+    if (!Array.isArray(options.weekends))
+        throw new RangeError(
+            'criticalPath: lagUnit "working-days" requires `weekends` (weekday numbers, 0 = Sunday … 6 = Saturday; [] for none). It is never defaulted: weekends differ by country.',
+        );
+    const weekend = new Set(options.weekends);
     const closed = new Set<number>();
     for (const range of options.unavailable ?? []) {
         const a = toDay(range.start);

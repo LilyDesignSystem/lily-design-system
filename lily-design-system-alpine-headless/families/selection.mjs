@@ -1,4 +1,5 @@
 // Family: selection. lilyListbox (listbox), lilySegmentGroup (segment-group),
+// lilyAutosuggest (autosuggest),
 // lilyCombobox (combobox), lilyCommand (command), and the five rating /
 // status pickers, which are native radios and <select> bound with x-model.
 
@@ -16,8 +17,21 @@ const radioPicker = (slug, values, name, keyboard, tag = "fieldset") => ({
 ${values.map((v) => `  <label class="${slug}-button"><input type="radio" name="${name}" value="${v}" aria-label="${v}" x-model="value"> ${v}</label>`).join("\n")}
 </fieldset>`,
     sel: `fieldset.${slug}`,
+    extra: `import { userEvent } from "@testing-library/user-event";`,
     test: `
   const radios = () => [...document.querySelectorAll("input[type=radio]")];
+  it("ArrowRight and ArrowLeft move the selection through the native radio group", async () => {
+    // The arrows are the browser's (user-event plays them in jsdom); what this guards is the shared name.
+    const user = userEvent.setup();
+    await mount("${slug}");
+    const r = radios();
+    await user.click(r[1]);
+    await user.keyboard("{ArrowRight}");
+    expect(r[2].checked).toBe(true);
+    expect(document.activeElement).toBe(r[2]);
+    await user.keyboard("{ArrowLeft}{ArrowLeft}");
+    expect(r[0].checked).toBe(true);
+  });
   it("renders ${values.length} native radios that share one name", async () => {
     await mount("${slug}");
     expect(el().getAttribute("role")).toBe("radiogroup");
@@ -156,6 +170,108 @@ ${Array.from({ length: 3 }, (_, i) => `  <div class="listbox-option" x-bind="opt
     segs()[2].focus();
     await press(segs()[2], "Home");
     expect(segs()[0].getAttribute("aria-checked")).toBe("true");
+  });`,
+    },
+
+    autosuggest: {
+        tag: "div",
+        keyboard:
+            "ArrowDown/ArrowUp open the list and move the highlight (wrapping); Home/End jump while open; Enter chooses; Escape closes; blur closes",
+        aria: 'role="combobox" on the input with aria-autocomplete="list", aria-expanded, aria-controls and aria-activedescendant; the list is role="listbox" of the consumer\'s role="option" items, the highlighted one aria-selected="true"',
+        markup: `<div class="autosuggest" x-data="lilyAutosuggest()">
+  <input class="autosuggest-input" type="text" aria-label="" aria-controls="autosuggest-list-1" x-bind="input">
+  <ul class="autosuggest-list" id="autosuggest-list-1" aria-label="" x-ref="list" x-bind="listbox">
+    <!-- On lily:input, render the suggestions here as <li class="autosuggest-option" role="option" data-value="…">…</li> -->
+  </ul>
+</div>`,
+        sel: "div.autosuggest",
+        extra: `const input = () => document.querySelector(".autosuggest-input");
+const list = () => document.querySelector(".autosuggest-list");
+const opts = () => [...document.querySelectorAll(".autosuggest-option")];
+const active = () => opts().findIndex((o) => o.id === input().getAttribute("aria-activedescendant"));
+const suggest = async (values) => {
+  list().innerHTML = values.map((v) => \`<li class="autosuggest-option" role="option" data-value="\${v}">\${v.toUpperCase()}</li>\`).join("");
+  await tick();
+};
+const type = async (text) => { input().value = text; input().dispatchEvent(new Event("input", { bubbles: true })); await tick(); };
+const fruit = ["apple", "apricot", "avocado"];
+${press}`,
+        test: `
+  it("starts closed with the combobox contract on the input", async () => {
+    await mount("autosuggest");
+    expect(input().getAttribute("role")).toBe("combobox");
+    expect(input().getAttribute("aria-expanded")).toBe("false");
+    expect(input().getAttribute("aria-autocomplete")).toBe("list");
+    expect(input().getAttribute("aria-controls")).toBe(list().id);
+    expect(list().getAttribute("role")).toBe("listbox");
+    expect(list().hidden).toBe(true);
+  });
+  it("typing announces lily:input and opens once suggestions are rendered", async () => {
+    await mount("autosuggest");
+    const seen = vi.fn();
+    el().addEventListener("lily:input", (e) => seen(e.detail));
+    await type("ap");
+    expect(seen).toHaveBeenCalledWith({ value: "ap" });
+    expect(input().getAttribute("aria-expanded")).toBe("false");
+    await suggest(fruit);
+    expect(input().getAttribute("aria-expanded")).toBe("true");
+    expect(list().hidden).toBe(false);
+  });
+  it("ArrowDown and ArrowUp move the highlight, wrapping", async () => {
+    await mount("autosuggest"); await suggest(fruit);
+    await press(input(), "ArrowDown");
+    expect(input().getAttribute("aria-expanded")).toBe("true");
+    expect(active()).toBe(0);
+    expect(opts()[0].getAttribute("aria-selected")).toBe("true");
+    await press(input(), "ArrowDown");
+    expect(active()).toBe(1);
+    await press(input(), "ArrowUp"); await press(input(), "ArrowUp");
+    expect(active()).toBe(2);
+    await press(input(), "ArrowDown");
+    expect(active()).toBe(0);
+  });
+  it("Home and End jump to the first and last option", async () => {
+    await mount("autosuggest"); await suggest(fruit);
+    await press(input(), "ArrowDown");
+    await press(input(), "End");
+    expect(active()).toBe(2);
+    await press(input(), "Home");
+    expect(active()).toBe(0);
+  });
+  it("Enter chooses the highlighted option, fills the input, closes and announces lily:select", async () => {
+    await mount("autosuggest"); await suggest(fruit);
+    const seen = vi.fn();
+    el().addEventListener("lily:select", (e) => seen(e.detail));
+    await press(input(), "ArrowDown"); await press(input(), "ArrowDown");
+    await press(input(), "Enter");
+    expect(seen).toHaveBeenCalledWith({ value: "apricot" });
+    expect(input().value).toBe("apricot");
+    expect(input().getAttribute("aria-expanded")).toBe("false");
+    expect(input().hasAttribute("aria-activedescendant")).toBe(false);
+  });
+  it("Escape closes without choosing", async () => {
+    await mount("autosuggest"); await type("ap"); await suggest(fruit);
+    const seen = vi.fn();
+    el().addEventListener("lily:select", seen);
+    await press(input(), "ArrowDown");
+    await press(input(), "Escape");
+    expect(input().getAttribute("aria-expanded")).toBe("false");
+    expect(seen).not.toHaveBeenCalled();
+    expect(input().value).toBe("ap");
+  });
+  it("pressing an option keeps focus in the input (mousedown is cancelled)", async () => {
+    await mount("autosuggest"); await type("a"); await suggest(fruit);
+    const event = new MouseEvent("mousedown", { bubbles: true, cancelable: true });
+    opts()[0].dispatchEvent(event);
+    expect(event.defaultPrevented).toBe(true);
+  });
+  it("clicking an option chooses it; blur closes the list", async () => {
+    await mount("autosuggest"); await type("a"); await suggest(fruit);
+    opts()[2].click(); await tick();
+    expect(input().value).toBe("avocado");
+    await type("av");
+    input().dispatchEvent(new Event("blur")); await tick();
+    expect(input().getAttribute("aria-expanded")).toBe("false");
   });`,
     },
 

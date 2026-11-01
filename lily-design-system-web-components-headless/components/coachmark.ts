@@ -18,6 +18,7 @@
 //   - components/coachmark/index.md (canonical contract)
 
 import { applySelfClassName, nextId } from "../lib/dom-utils.js";
+import { syncManualPopover } from "./popover.js";
 
 export class Coachmark extends HTMLElement {
     static get observedAttributes(): string[] {
@@ -71,7 +72,7 @@ export class Coachmark extends HTMLElement {
 
     #sync(): void {
         if (!this.#titleEl || !this.#descriptionEl || !this.#dismissButton) return;
-        this.hidden = !this.hasAttribute("open");
+        syncManualPopover(this, this.hasAttribute("open"));
         this.#titleEl.textContent = this.getAttribute("title") ?? "";
         const description = this.getAttribute("description");
         this.#descriptionEl.textContent = description ?? "";

@@ -50,7 +50,7 @@ rules the library's own components are held to.
   independent of any one framework's syntax).
 - **Isn't**: the Vue helpers skill (that's
   [`lily-design-system-vue-helpers-skill`](../lily-design-system-vue-helpers-skill/)
-  — the six `*-picker` packages, a separate npm catalog with its own
+  — the helper packages, separate npm packages with its own
   icon-button-plus-listbox contract).
 
 ## Internationalization

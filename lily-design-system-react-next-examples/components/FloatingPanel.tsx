@@ -45,6 +45,7 @@
 //   - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
 
 import React from "react";
+import { usePopoverState } from "./Popover";
 
 export interface FloatingPanelProps {
     className?: string;
@@ -64,20 +65,18 @@ export default function FloatingPanel({
     children,
     ...restProps
 }: FloatingPanelProps) {
+    const panelRef = React.useRef<HTMLDivElement>(null);
+    usePopoverState(panelRef, open);
     return (
-        <>
-            {open && (
-                <>
-                    <div
-                        className={`floating-panel ${className}`}
-                        role="region"
-                        aria-label={label}
-                        {...restProps}
-                    >
-                        {children}
-                    </div>
-                </>
-            )}
-        </>
+        <div
+            className={`floating-panel ${className}`}
+            ref={panelRef}
+            role="region"
+            popover="manual"
+            aria-label={label}
+            {...restProps}
+        >
+            {children}
+        </div>
     );
 }

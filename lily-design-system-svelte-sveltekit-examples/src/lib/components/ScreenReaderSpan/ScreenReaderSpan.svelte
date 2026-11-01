@@ -13,10 +13,10 @@
 </script>
 
 <!-- ScreenReaderSpan.svelte -->
-<div
+<span
     class={`screen-reader-span ${className}`}
     aria-label={label}
     {...restProps}
 >
     {@render children?.()}
-</div>
+</span>

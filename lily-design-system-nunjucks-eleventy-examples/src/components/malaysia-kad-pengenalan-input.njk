@@ -1,0 +1,29 @@
+---
+layout: layouts/component-demo.njk
+title: MalaysiaKadPengenalanInput
+description: an input for entering Malaysia's MyKad Number (NRIC)
+---
+
+{% from "components/malaysia-kad-pengenalan-input/macro.njk" import malaysiaKadPengenalanInput %}
+
+<h2>Default</h2>
+<p>{{ malaysiaKadPengenalanInput({ text: "MalaysiaKadPengenalanInput example", label: "MalaysiaKadPengenalanInput example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field
+  label="MyKad Number (NRIC)"
+  required
+&gt;
+  &lt;MalaysiaKadPengenalanInput
+    label="MyKad Number (NRIC)"
+    value="{value}"
+    required
+  /&gt;
+  &lt;Hint
+    &gt;Twelve digits, usually written YYMMDD-PB-NNNG: the date of birth (year, month, day), a two-digit code for the place of birth (a state or a country), and a four-digit serial whose last digit is odd for a male and even for a female. There is no check digit.&lt;/Hint
+  &gt;
+  &lt;ErrorMessage&gt;Please enter a valid MyKad Number (NRIC)&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

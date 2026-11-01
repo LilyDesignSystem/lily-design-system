@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "document-list",
+  "type": "registry:component",
+  "title": "DocumentList",
+  "description": "A list displaying documents with titles and metadata.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/DocumentList.tsx",
+      "content": "export interface DocumentListProps {\n    className?: string;\n    label?: string;\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function DocumentList({\n    className = \"\",\n    label = undefined,\n    children,\n    ...restProps\n}: DocumentListProps) {\n    return (\n        <ul\n            className={`document-list ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </ul>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/DocumentList.tsx"
+    }
+  ],
+  "categories": [
+    "lists"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/document-list/"
+}

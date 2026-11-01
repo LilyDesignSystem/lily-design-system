@@ -188,4 +188,27 @@ describe("no English default", () => {
         ).toHaveLength(2);
         expect(screen.queryByLabelText(/Digit/)).toBeNull();
     });
+
+    test("ArrowRight and ArrowLeft move focus between the digit inputs", async () => {
+        const user: UserEvent = userEvent.setup();
+        render(<Subject label="PIN" />);
+        const inputs = screen.getAllByRole("textbox") as HTMLInputElement[];
+        act(() => inputs[1].focus());
+        await user.keyboard("{ArrowRight}");
+        expect(document.activeElement).toBe(inputs[2]);
+        await user.keyboard("{ArrowLeft}{ArrowLeft}");
+        expect(document.activeElement).toBe(inputs[0]);
+    });
+
+    test("Backspace in an empty input moves to the previous one and clears it", async () => {
+        const user: UserEvent = userEvent.setup();
+        render(<Subject label="PIN" />);
+        const inputs = screen.getAllByRole("textbox") as HTMLInputElement[];
+        act(() => inputs[0].focus());
+        await user.keyboard("1");
+        expect(document.activeElement).toBe(inputs[1]);
+        await user.keyboard("{Backspace}");
+        expect(document.activeElement).toBe(inputs[0]);
+        expect(inputs[0].value).toBe("");
+    });
 });

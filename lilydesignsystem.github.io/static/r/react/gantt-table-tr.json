@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "gantt-table-tr",
+  "type": "registry:component",
+  "title": "GanttTableTr",
+  "description": "A Gantt chart table interactive grid row for planning schedule visualization <tr>.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/GanttTableTr.tsx",
+      "content": "import React from \"react\";\n\n// GanttTableTr component\n//\n// A single row within a GanttTable grid. Renders as a <tr> containing\n// GanttTableTD cells for each time period and task header cells.\n// Used inside GanttTableHead, GanttTableBody, or GanttTableTfoot.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   children — ReactNode, required. GanttTableTD cells and header cells for this row.\n//   ...restProps — additional HTML attributes spread onto the <tr>.\n//\n// Syntax:\n//   <GanttTableTr>\n//     <th>Design</th>\n//     <GanttTableTD active>---</GanttTableTD>\n//     <GanttTableTD />\n//   </GanttTableTr>\n//\n// Examples:\n//\n//   <GanttTableTr>\n//     <th>Development</th>\n//     <GanttTableTD />\n//     <GanttTableTD active>---</GanttTableTD>\n//     <GanttTableTD active>---</GanttTableTD>\n//   </GanttTableTr>\n//\n//\n//   <GanttTableTr>\n//     <th>Task</th><th>Week 1</th><th>Week 2</th><th>Week 3</th>\n//   </GanttTableTr>\n//\n// Keyboard:\n//   None built-in — keyboard navigation is handled at the GanttTable grid level.\n//\n// Accessibility:\n//   - <tr> has implicit role=\"row\" within the grid (no explicit role needed)\n//\n// Internationalization:\n//   - All cell content comes through children prop; no hardcoded strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Must be used inside a GanttTable component (which provides the <table>)\n//   - No internal state — purely a structural wrapper\n//\n// References:\n//   - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/\n\nexport interface GanttTableTrProps {\n    className?: string;\n    /** GanttTableTD cells and header cells for this row. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function GanttTableTr({\n    className = \"\",\n    children,\n    ...restProps\n}: GanttTableTrProps) {\n    return (\n        <tr\n            className={`gantt-table-tr ${className}`}\n            {...restProps}\n        >\n            {children}\n        </tr>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/GanttTableTr.tsx"
+    }
+  ],
+  "categories": [
+    "tables"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/gantt-table-tr/"
+}

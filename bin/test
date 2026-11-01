@@ -26,7 +26,13 @@ file_size_or_err() { if file_exists_or_err "$1" && test -s "$1"; then :; else er
 symlink_exists_or_err() { if test -h "$1"; then :; else err "Symlink should exist: $1"; fi; }
 grep_exists_or_err() { if grep -q -m 1 "$@"; then :; else err "grep should exist: " "$@"; fi; }
 task_exists_or_err() { if grep -q -m 1 "^- \[" "$1"; then :; else err "task should exist: " "$1"; fi; }
-implemented_or_err() { if (grep -q -m 1 "Not yet implemented\." "$1"); then err "not yet implemented: $1"; else true; fi; }
+# No AGENTS.md or spec/index.md, tracked or new, still says "Not yet implemented." One git grep over the repo
+# (ignored files excluded) instead of two greps per directory, which cost ~6 s (tasks.md P12-T7).
+implemented_everywhere_or_err() {
+    if stubs="$(git -C "$top" grep -l --untracked -F "Not yet implemented." -- '*AGENTS.md' '*spec/index.md')"; then
+        err "not yet implemented: $stubs"
+    fi
+}
 
 ## Utilities
 
@@ -63,9 +69,9 @@ ai_exists_or_err() (
     directory_exists_or_err "$1"
     file_size_or_err "$1/index.md"
     symlink_exists_or_err "$1/README.md"
-    file_size_or_err "$1/AGENTS.md" && implemented_or_err "$1/AGENTS.md"
+    file_size_or_err "$1/AGENTS.md"
     directory_exists_or_err "$1/spec"
-    file_size_or_err "$1/spec/index.md" && implemented_or_err "$1/spec/index.md"
+    file_size_or_err "$1/spec/index.md"
 )
 
 ## Main
@@ -100,17 +106,20 @@ test_catalog_consistency() {
 
     # components/ directories <-> catalog rows, both directions.
     cut -f1 "$tsv" | sort > "${ERRFLAG}.slugs"
-    find "$top/components" -mindepth 1 -maxdepth 1 -type d -not -name '.*' -exec basename {} \; | sort > "${ERRFLAG}.dirs"
+    find "$top/components" -mindepth 1 -maxdepth 1 -type d -not -name '.*' | sed 's|.*/||' | sort > "${ERRFLAG}.dirs"
     missing_dirs="$(comm -23 "${ERRFLAG}.slugs" "${ERRFLAG}.dirs")"
     test -z "$missing_dirs" || err "catalog slugs without components/ dir: $missing_dirs"
     orphan_dirs="$(comm -13 "${ERRFLAG}.slugs" "${ERRFLAG}.dirs")"
     test -z "$orphan_dirs" || err "components/ dirs not in catalog: $orphan_dirs"
 
-    # css-style-sheet-template.css: exactly one hook per slug.
-    while read -r slug; do
-        hooks="$(grep -c "^\.$slug {" "$top/css-style-sheet-template.css" || true)"
-        test "$hooks" = "1" || err "css-style-sheet-template.css has $hooks hooks for: $slug"
-    done < "${ERRFLAG}.slugs"
+    # css-style-sheet-template.css: exactly one hook per slug. One pass counts every `.slug {` line (a grep per slug
+    # cost ~1.6 s; tasks.md P12-T7).
+    awk 'NR == FNR { if (match($0, /^\.[a-z0-9-]+ \{/)) n[substr($0, 2, RLENGTH - 3)]++; next }
+         (n[$0] + 0) != 1 { printf "%d %s\n", n[$0], $0 }' \
+        "$top/css-style-sheet-template.css" "${ERRFLAG}.slugs" |
+    while read -r hooks slug; do
+        err "css-style-sheet-template.css has $hooks hooks for: $slug"
+    done
 
     rm -f "${ERRFLAG}.slugs" "${ERRFLAG}.dirs"
 
@@ -199,7 +208,7 @@ test_implementations_with_svelte() {
             file_size_or_err "$dir/$component.svelte"
             file_size_or_err "$dir/$component.stories.svelte"
             file_size_or_err "$dir/$component.test.ts"
-            rm -f "$dir/$component.md"
+            if test -e "$dir/$component.md"; then rm -f "$dir/$component.md"; fi
         done
     done
 }
@@ -325,16 +334,14 @@ test_no_package_json_pnpm_overrides() (
 )
 
 test_lockfiles_are_tracked() (
-    # An earlier version of this (plan P7-T2) tried to drop the
-    # case-sensitive call on the assumption that -i's case-insensitive
-    # match is a strict superset. It is not, at least on git 2.55: `git
-    # ls-files --others -i --exclude-standard` returns nothing at all
-    # here, even for an exact-case literal pathspec with a genuinely
-    # untracked file present -- confirmed directly, not assumed. Both
-    # calls stay; -i's own real cost (~3-5s) is inherent to that git
-    # behaviour, not this script.
-    untracked="$(cd "$top" && git ls-files --others --exclude-standard '*pnpm-lock.yaml'; \
-                 cd "$top" && git ls-files --others -i --exclude-standard '*pnpm-lock.yaml')"
+    # Every pnpm-lock.yaml outside node_modules must be tracked, whether untracked or git-ignored. Found with find and
+    # compared with git ls-files: `git ls-files --others -i` (ignored files) listed every ignored file, node_modules
+    # included, and cost ~10 s of bin/test (tasks.md P12-T7).
+    found="$(cd "$top" && find . \( -name node_modules -o -name .git \) -prune -o -type f -name pnpm-lock.yaml -print \
+        | sed 's|^\./||' | sort)"
+    (cd "$top" && git ls-files '*pnpm-lock.yaml' | sort) > "${ERRFLAG}.locks"
+    untracked="$(printf %s\\n "$found" | comm -23 - "${ERRFLAG}.locks")"
+    rm -f "${ERRFLAG}.locks"
     test -z "$untracked" || err "lockfiles must be committed (spec/tooling): $untracked"
 )
 
@@ -378,12 +385,17 @@ test_locale_directories_have_a_region
 test_no_subtree_mirrors
 test_no_package_json_pnpm_overrides
 test_lockfiles_are_tracked
+implemented_everywhere_or_err
 "$top/bin/check-theme" >/dev/null 2>&1 \
     || err "theme conformance failed; run bin/check-theme"
 "$top/bin/generate-theme-tokens" --check >/dev/null 2>&1 \
     || err "theme token blocks drift from themes/tokens/*.json; run bin/generate-theme-tokens"
+"$top/bin/check-dtcg-tokens" >/dev/null 2>&1 \
+    || err "themes/tokens/*.json or lily.resolver.json is not strict DTCG 2025.10; run bin/check-dtcg-tokens"
 "$top/bin/check-class-names" >/dev/null 2>&1 \
     || err "a headless implementation lacks its base class hook; run bin/check-class-names"
+"$top/bin/check-html-tags" >/dev/null 2>&1 \
+    || err "a headless root element differs from its contract's HTML tag (and is not listed); run bin/check-html-tags"
 # The SvelteKit, Next.js, Nuxt and Angular examples keep copies of their
 # headless library's components; the library is the source (P10-T13).
 "$top/bin/sync-example-components" --check >/dev/null 2>&1 \
@@ -407,8 +419,14 @@ test -s "$top/AGENTS/responsive.md" && test -s "$top/spec/responsive/index.md" \
     || err "AGENTS/responsive.md or spec/responsive/index.md is missing, or AGENTS.md does not load it"
 "$top/bin/generate-comparisons" --check >/dev/null 2>&1 \
     || err "compare/index.md differs from compare/compare.tsv; run bin/generate-comparisons"
+# Lily Core (P16-T2) and its self-assessed ACR (P16-T7): fails when a recorded Core member loses evidence, or an output is stale.
+"$top/bin/generate-core" --check >/dev/null 2>&1 \
+    || err "a Lily Core member lost evidence, or core.json / docs/core.md / the ACR / the /quality page is stale; run bin/generate-core --check"
 "$top/bin/generate-api-docs" --check >/dev/null 2>&1 \
     || err "site contract sections drift from components/*/AGENTS.md; run bin/generate-api-docs"
+# Every Svelte overlay or popup component records its native-platform decision (spec/competitive-position, P16-T4).
+"$top/bin/check-native-primitives" >/dev/null 2>&1 \
+    || err "a native-platform decision is missing or out of step with spec/competitive-position/native-primitives.tsv; run bin/check-native-primitives"
 "$top/bin/generate-page-markdown" --check >/dev/null 2>&1 \
     || err "a site page's .md twin is missing or stale; run bin/generate-page-markdown"
 "$top/bin/extract-site-pages" --check >/dev/null 2>&1 \
@@ -420,7 +438,7 @@ test -s "$top/AGENTS/responsive.md" && test -s "$top/spec/responsive/index.md" \
 "$top/bin/sync-special-files" --check >/dev/null 2>&1 \
     || err "special files are out of sync; run bin/sync-special-files"
 "$top/bin/generate-registries" --check >/dev/null 2>&1 \
-    || err "example-app registries are stale; run bin/generate-registries"
+    || err "example-app registries or the shadcn registry (static/r/react/) are stale; run bin/generate-registries"
 # --dry-run must write nothing: the working tree is identical before and after.
 dry_before="$(git -C "$top" status --porcelain | cksum)"
 "$top/bin/new-component" --dry-run bin-test-dry-run-probe >/dev/null 2>&1 \
@@ -435,10 +453,25 @@ test "$dry_before" = "$(git -C "$top" status --porcelain | cksum)" \
     || err "the Generated files table in AGENTS/lily.md disagrees with bin/; run bin/check-generated-files"
 "$top/bin/check-port-parity" --quiet >/dev/null 2>&1 \
     || err "a port (Web Components, Alpine) drifted from its reference; run bin/check-port-parity"
+
+# Coverage drift across the 7 headless catalogs, including components with a keyboard contract whose test sends no
+# key (tasks.md P12-T5; today's gaps are listed in bin/check-coverage.keys-allow.json and may only shrink).
+"$top/bin/check-worldwide" --quiet >/dev/null 2>&1 \
+    || err "a single-region default (currency, weekend or English locale) is back in shipped code; run bin/check-worldwide"
+"$top/bin/check-coverage" --quiet >/dev/null 2>&1 \
+    || err "headless coverage drifted (a missing file, or a keyboard contract without a key test); run bin/check-coverage"
 "$top/bin/check-links" >/dev/null 2>&1 \
     || err "a relative markdown link does not resolve; run bin/check-links"
 "$top/bin/test-generators" >/dev/null 2>&1 \
     || err "a generator's output differs from its golden; run bin/test-generators (then --update-goldens if intended)"
+# The Alpine snippets are generated (tasks.md P12-T5b). The generator formats with the root Prettier, so it needs the
+# root install; where that is missing (CI's verify job) the lint job runs the same check.
+if test -e "$top/node_modules/prettier/package.json"; then
+    node "$top/lily-design-system-alpine-headless/generate-components.mjs" --check >/dev/null 2>&1 \
+        || err "the Alpine snippets differ from their generator; run node lily-design-system-alpine-headless/generate-components.mjs --check"
+else
+    printf %s\\n "bin/test: skipped the Alpine generator check (no root node_modules; run pnpm install)"
+fi
 
 if test -s "$ERRFLAG"; then
     >&2 printf %s\\n "bin/test: FAILED"

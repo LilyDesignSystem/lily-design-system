@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"validation-list\" aria-label=\"a live-feedback list of input validation rules with pending, passed, and failed states\">ValidationList</div>";
   const svelteSource: string = "// In your Svelte component:\nimport ValidationList from \"lily-design-system-svelte-headless/components/ValidationList/ValidationList.svelte\";\n\n<ValidationList>\n  <!-- list children -->\n</ValidationList>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import ValidationList from './ValidationList.svelte';\n  import ValidationListItem from '../ValidationListItem/ValidationListItem.svelte';\n<\/script>\n\n<ValidationList label=\"Password requirements\">\n  <ValidationListItem status=\"passed\">At least 8 characters</ValidationListItem>\n  <ValidationListItem status=\"pending\">One uppercase letter</ValidationListItem>\n  <ValidationListItem status=\"failed\">One number</ValidationListItem>\n</ValidationList>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import ValidationList from \"./ValidationList.svelte\";\n  import ValidationListItem from \"../ValidationListItem/ValidationListItem.svelte\";\n<\/script>\n\n<ValidationList label=\"Password requirements\">\n  <ValidationListItem status=\"passed\">At least 8 characters</ValidationListItem>\n  <ValidationListItem status=\"pending\">One uppercase letter</ValidationListItem>\n  <ValidationListItem status=\"failed\">One number</ValidationListItem>\n</ValidationList>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

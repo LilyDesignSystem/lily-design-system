@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tuaisceart-eireann-health-and-care-number-view",
+  "type": "registry:component",
+  "title": "TuaisceartEireannHealthAndCareNumberView",
+  "description": "A read-only display of Tuaisceart Eireann Health and Care (H&C) Number unique national healthcare identifier.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/TuaisceartEireannHealthAndCareNumberView.tsx",
+      "content": "import React from \"react\";\n\n// TuaisceartEireannHealthAndCareNumberView component\n\nexport interface TuaisceartEireannHealthAndCareNumberViewProps {\n    className?: string;\n    label: string;\n    value?: string;\n    [key: string]: unknown;\n}\n\nexport default function TuaisceartEireannHealthAndCareNumberView({\n    className = \"\",\n    label,\n    value = \"\",\n    ...restProps\n}: TuaisceartEireannHealthAndCareNumberViewProps) {\n    return (\n        <span\n            className={`tuaisceart-eireann-health-and-care-number-view ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {value}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/TuaisceartEireannHealthAndCareNumberView.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/tuaisceart-eireann-health-and-care-number-view/"
+}

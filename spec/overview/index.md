@@ -15,6 +15,7 @@ It does not cover the monorepo directory layout or git-subtree model (see [archi
 - **Accessible by default.** WCAG 2.2 AAA is the target across every component, demo, and framework; WAI-ARIA Authoring Practices 1.2 is the reference for keyboard, roles, and states.
 - **Composable.** Small components snap together into navigation, table, form, and layout patterns.
 - **Internationalisable.** Every user-facing string is supplied by the consumer; components hardcode no copy.
+- **Worldwide, not national.** The target is every country, region and federation, not just the United States or the United Kingdom. Any standard, protocol, convention, locale or the like must offer equitable capabilities for countries, regions and federations worldwide; the NHS UK default visual reference does not narrow that scope.
 - **Framework-plural.** The same canonical catalog is implemented across HTML, Svelte, React, Vue, Angular, Blazor, and Nunjucks.
 - **CSS-strategy-agnostic.** Works with semantic CSS, utility CSS (Tailwind), or no CSS at all.
 - **Forkable.** Any team can adopt, fork, theme, or extend Lily; the headless layer makes no visual decisions and the example layer is a reference, not a dependency.
@@ -34,8 +35,8 @@ The headless layer is the contract; the example layer is the proof. Adopters can
 
 **In scope**
 
-- A canonical catalog of **582 components** (`components.tsv`).
-- **Seven full-catalog headless component libraries**: HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks — plus an eighth (Web Components) at its full achievable scope since 2026-09-06: 547 of 582 (as of 2026-10-25), the remaining 35 permanently excluded by a real architectural limitation, not backlog.
+- A canonical catalog of **607 components** (`components.tsv`).
+- **Seven full-catalog headless component libraries**: HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks — plus an eighth (Web Components) at its full achievable scope since 2026-09-06: 572 of 607 (as of 2026-10-25), the remaining 35 permanently excluded by a real architectural limitation, not backlog.
 - **Seven example applications**: HTML+CSS+JS, SvelteKit, Next.js, Nuxt.js, Angular Analog, Blazor Web, Nunjucks Eleventy.
 - A CSS style-sheet template (`css-style-sheet-template.css`) declaring every component class hook.
 - Per-component documentation under `components/{slug}/`.
@@ -54,30 +55,32 @@ The headless layer is the contract; the example layer is the proof. Adopters can
 
 ## Key facts
 
-| Fact                                | Value                                                                                       |
-| ----------------------------------- | ------------------------------------------------------------------------------------------- |
-| Canonical components                | 582                                                                                         |
-| Headless libraries                  | 7 (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks)                                     |
-| Example applications                | 7 (HTML+CSS+JS, SvelteKit, Next.js, Nuxt.js, Angular Analog, Blazor Web, Nunjucks Eleventy) |
-| Accessibility target                | WCAG 2.2 AAA; WAI-ARIA APG 1.2                                                              |
-| Default visual reference (examples) | NHS UK design system applied to Lily class names                                            |
-| Canonical catalog file              | `components.tsv` (tab-separated: slug, PascalCase name, description)                        |
+| Fact                                | Value                                                                                                                              |
+| ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| Canonical components                | 583                                                                                                                                |
+| Headless libraries                  | 9: 7 full-catalog (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks), Web Components (572 of 607), Alpine.js (583, unpublished) |
+| Example applications                | 8 (HTML+CSS+JS, SvelteKit, Next.js, Nuxt.js, Angular Analog, Blazor Web, Nunjucks Eleventy, Alpine.js)                             |
+| Helper packages                     | 167 (20 per framework for 8 frameworks, `nunjucks-listbox-behavior`, 6 Alpine.js)                                                  |
+| Reference themes                    | 57 (`themes/`)                                                                                                                     |
+| Accessibility target                | WCAG 2.2 AAA; WAI-ARIA APG 1.2                                                                                                     |
+| Default visual reference (examples) | NHS UK design system applied to Lily class names                                                                                   |
+| Canonical catalog file              | `components.tsv` (tab-separated: slug, PascalCase name, description)                                                               |
 
 ## Tracking
 
-| Field   | Value                                                                                |
-| ------- | ------------------------------------------------------------------------------------ |
-| Package | lily                                                                                 |
-| Version | 0.4.0                                                                                |
-| Created | 2025-08-09                                                                           |
-| Updated | 2026-05-30                                                                           |
-| License | MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause (or contact for other terms) |
-| Contact | Joel Parker Henderson <joel@joelparkerhenderson.com>                                 |
+| Field   | Value                                                                                                            |
+| ------- | ---------------------------------------------------------------------------------------------------------------- |
+| Package | lily                                                                                                             |
+| Version | 0.9.0 (latest monorepo tag `v0.9.0`)                                                                             |
+| Created | 2025-08-09                                                                                                       |
+| Updated | 2026-10-30                                                                                                       |
+| License | `MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause` (or contact for other terms; see LICENSE.md) |
+| Contact | Joel Parker Henderson <joel@joelparkerhenderson.com>                                                             |
 
 ## Acceptance criteria
 
-- [x] Canonical component list defines exactly 582 components in `components.tsv`.
-- [x] All 7 full-catalog headless subprojects exist and implement the full catalog; the Web Components catalog states its own 547/582 scope rather than claiming parity.
+- [x] Canonical component list defines exactly 607 components in `components.tsv`.
+- [x] All 7 full-catalog headless subprojects exist and implement the full catalog; the Web Components catalog states its own 572/607 scope rather than claiming parity.
 - [x] All 7 example subprojects exist and implement the full catalog.
 - [x] The headless layer bundles no stylesheets, fonts, images, or icons.
 - [ ] No component embeds a hardcoded user-facing string.

@@ -11,10 +11,11 @@ import { ChatListItem } from "./ChatListItem";
 @Component({
     standalone: true,
     imports: [ChatListItem],
-    template: `<li lily-chat-list-item [className]="className"></li>`,
+    template: `<li lily-chat-list-item [className]="className" [current]="current"></li>`,
 })
 class TestHost {
     className = "";
+    current = false;
 }
 
 describe("ChatListItem", () => {
@@ -32,5 +33,15 @@ describe("ChatListItem", () => {
         fixture.detectChanges();
         const el = fixture.nativeElement.querySelector("li");
         expect(el.classList.contains("extra")).toBe(true);
+    });
+
+    test("aria-current only when current", () => {
+        const plain = TestBed.createComponent(TestHost);
+        plain.detectChanges();
+        expect(plain.nativeElement.querySelector("li").hasAttribute("aria-current")).toBe(false);
+        const current = TestBed.createComponent(TestHost);
+        current.componentInstance.current = true;
+        current.detectChanges();
+        expect(current.nativeElement.querySelector("li").getAttribute("aria-current")).toBe("true");
     });
 });

@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<article class=\"organization\"><h3>Lily Foundation</h3><p>A non-profit design organization.</p></article>";
   const svelteSource: string = "// In your Svelte component:\nimport Organization from \"lily-design-system-svelte-headless/components/Organization/Organization.svelte\";\n\n<Organization>\n  <!-- content -->\n</Organization>\n";
-  const usageCode: string = "<Organization label=\"St James's Hospital, Cardiology Department\">\n  <Image src=\"/logos/stjames.png\" label=\"St James's Hospital logo\" />\n  <h3>St James's Hospital</h3>\n  <p>Cardiology Department</p>\n  <address>Beckett Way, Leeds LS9 7TF</address>\n  <TelLink href=\"tel:+441234567890\">0123 456 7890</TelLink>\n  <EmailLink href=\"mailto:info@stjames.nhs.uk\">info@stjames.nhs.uk</EmailLink>\n</Organization>\n";
+  const usageCode: string = "<Organization label=\"St James's Hospital, Cardiology Department\">\n  <image\n    src=\"/logos/stjames.png\"\n    label=\"St James's Hospital logo\"\n  />\n  <h3>St James's Hospital</h3>\n  <p>Cardiology Department</p>\n  <address>Beckett Way, Leeds LS9 7TF</address>\n  <TelLink href=\"tel:+441234567890\">0123 456 7890</TelLink>\n  <EmailLink href=\"mailto:info@stjames.nhs.uk\">info@stjames.nhs.uk</EmailLink>\n</Organization>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
+import { restoreOnFormReset } from "./form-reset";
 
 /**
  * FranceNumeroDIdentificationAuRepertoireInput — an input for entering a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
@@ -33,4 +34,8 @@ export class FranceNumeroDIdentificationAuRepertoireInput {
     readonly required = input<boolean>(false);
     /** Whether the input is disabled. */
     readonly disabled = input<boolean>(false);
+
+    constructor() {
+        restoreOnFormReset(this.value);
+    }
 }

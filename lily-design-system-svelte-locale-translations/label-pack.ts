@@ -40,6 +40,8 @@ export type LabelPack = {
     filter?: Record<string, LabelTemplate | Record<string, string>>;
     /** The text-size-picker's seven size names (`largest` … `smallest`), plain strings. */
     "text-size"?: Record<string, string>;
+    /** The date-time-now-input's three names (`date`, `time`, `now`), plain strings. */
+    "date-time-now-input"?: Record<string, string>;
 };
 
 /** Per helper: function label -> the names of its arguments (see the header comment). A key not listed here is a plain string. */
@@ -303,5 +305,27 @@ export function textSizeLabels(pack: LabelPack): Record<string, string> {
     const out: Record<string, string> = {};
     for (const [size, label] of Object.entries(pack["text-size"] ?? {}))
         if (typeof label === "string" && label !== "") out[size] = label;
+    return out;
+}
+
+/** The date-time-now-input's label props, as every catalog names them. */
+export type DateTimeNowInputLabels = { dateLabel?: string; timeLabel?: string; nowLabel?: string };
+
+/**
+ * The date-time-now-input's `dateLabel`, `timeLabel` and `nowLabel` for a pack, ready to spread onto the component:
+ * `{ dateLabel: "Fecha", timeLabel: "Hora", nowLabel: "Ahora" }`. A name the pack lacks is omitted, so that control
+ * stays unnamed rather than showing another language's text.
+ */
+export function dateTimeNowInputLabels(pack: LabelPack): DateTimeNowInputLabels {
+    const section = pack["date-time-now-input"] ?? {};
+    const out: DateTimeNowInputLabels = {};
+    for (const [key, prop] of [
+        ["date", "dateLabel"],
+        ["time", "timeLabel"],
+        ["now", "nowLabel"],
+    ] as const) {
+        const label = section[key];
+        if (typeof label === "string" && label !== "") out[prop] = label;
+    }
     return out;
 }

@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"hover-card\"><p>Card shown on hover</p></div>";
   const svelteSource: string = "// In your Svelte component:\nimport HoverCard from \"lily-design-system-svelte-headless/components/HoverCard/HoverCard.svelte\";\n\n<HoverCard>\n  <!-- content -->\n</HoverCard>\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import HoverCard from \"./HoverCard.svelte\";\n    let open = $state(false);\n<\/script>\n\n<button\n    onmouseenter={() => (open = true)}\n    onmouseleave={() => (open = false)}\n    onfocus={() => (open = true)}\n    onblur={() => (open = false)}\n    aria-describedby=\"user-card\"\n>Hover me</button>\n\n<HoverCard id=\"user-card\" label=\"User info\" bind:open>\n    <p>Profile details here</p>\n</HoverCard>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import HoverCard from \"./HoverCard.svelte\";\n  let open = $state(false);\n<\/script>\n\n<button\n  onmouseenter={() => (open = true)}\n  onmouseleave={() => (open = false)}\n  onfocus={() => (open = true)}\n  onblur={() => (open = false)}\n  aria-describedby=\"user-card\">Hover me</button\n>\n\n<HoverCard\n  id=\"user-card\"\n  label=\"User info\"\n  bind:open\n>\n  <p>Profile details here</p>\n</HoverCard>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

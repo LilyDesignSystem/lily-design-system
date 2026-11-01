@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "grail-layout-right-aside",
+  "type": "registry:component",
+  "title": "GrailLayoutRightAside",
+  "description": "Grail layout right aside sidebar with <aside> tag.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/GrailLayoutRightAside.tsx",
+      "content": "import React from \"react\";\n\n// GrailLayoutRightAside component\n//\n// A headless container for the right aside section of a GrailLayout. It\n// typically contains supplementary content, ads, related links, or contextual\n// information.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   children — ReactNode, required. Content to render inside the right aside.\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Syntax:\n//   <GrailLayoutRightAside>{children}</GrailLayoutRightAside>\n//\n// Examples:\n//   <GrailLayoutRightAside><aside>Supplementary content</aside></GrailLayoutRightAside>\n//\n// Keyboard:\n//   - None. Structural layout component with no interactive behavior.\n//\n// Accessibility:\n//   - No explicit ARIA attributes; consumers use semantic landmarks within sections\n//\n// Internationalization:\n//   - No hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n\nexport interface GrailLayoutRightAsideProps {\n    className?: string;\n    /** Content to render inside the right aside. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function GrailLayoutRightAside({\n    className = \"\",\n    children,\n    ...restProps\n}: GrailLayoutRightAsideProps) {\n    return (\n        <aside\n            className={`grail-layout-right-aside ${className}`}\n            {...restProps}\n        >\n            {children}\n        </aside>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/GrailLayoutRightAside.tsx"
+    }
+  ],
+  "categories": [
+    "navigation"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/grail-layout-right-aside/"
+}

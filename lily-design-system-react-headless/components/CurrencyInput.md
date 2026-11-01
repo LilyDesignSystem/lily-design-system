@@ -8,7 +8,7 @@ A locale-aware currency input rendered as `<input type="text" inputmode="decimal
 - `label`: string (required) -- accessible name via `aria-label`
 - `value`: number | undefined -- current numeric value (controlled)
 - `onChange`: (value: number | undefined) => void -- fired when the parsed number changes; `undefined` when the input is empty
-- `currencyCode`: string (default `"USD"`) -- ISO 4217 currency code, exposed as `data-currency-code` for consumer formatting
+- `currencyCode`: string (required, no default) -- ISO 4217 currency code, exposed as `data-currency-code` for consumer formatting
 - `min`: number (optional) -- minimum allowed value
 - `max`: number (optional) -- maximum allowed value
 - `required`: boolean (default false) -- whether the input is required

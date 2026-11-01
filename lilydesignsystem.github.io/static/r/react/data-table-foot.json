@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "data-table-foot",
+  "type": "registry:component",
+  "title": "DataTableFoot",
+  "description": "A data table interactive grid tfoot for displaying and sorting tabular data <tfoot>.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/DataTableFoot.tsx",
+      "content": "import React from \"react\";\n\n// DataTableFoot component\n//\n// The footer section of a DataTable, rendered as a <tfoot> element.\n// Contains DataTableRow elements with summary or aggregate data cells.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   children — ReactNode, required. DataTableRow elements with footer cells.\n//   ...restProps — additional HTML attributes spread onto the <tfoot>.\n//\n// Syntax:\n//   <DataTableFoot>\n//     <DataTableRow>\n//       <DataTableTD>Total</DataTableTD>\n//       <DataTableTD>$50,000</DataTableTD>\n//     </DataTableRow>\n//   </DataTableFoot>\n//\n// Keyboard:\n//   None built-in — keyboard navigation handled at the DataTable grid level.\n//\n// Accessibility:\n//   - <tfoot> provides structural footer semantics for the table\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Must be used inside a DataTable\n//   - No internal state — purely a structural wrapper\n//\n// References:\n//   - HTML tfoot element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tfoot\n\nexport interface DataTableFootProps {\n    className?: string;\n    /** DataTableRow elements with footer cells. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function DataTableFoot({\n    className = \"\",\n    children,\n    ...restProps\n}: DataTableFootProps) {\n    return (\n        <tfoot\n            className={`data-table-foot ${className}`}\n            {...restProps}\n        >\n            {children}\n        </tfoot>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/DataTableFoot.tsx"
+    }
+  ],
+  "categories": [
+    "tables"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/data-table-foot/"
+}

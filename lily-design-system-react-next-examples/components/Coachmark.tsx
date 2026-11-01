@@ -26,6 +26,7 @@
 //   - WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
 
 import React, { useId } from "react";
+import { usePopoverState } from "./Popover";
 
 export interface CoachmarkProps {
     className?: string;
@@ -51,6 +52,8 @@ export default function Coachmark({
     onDismiss = undefined,
     ...restProps
 }: CoachmarkProps) {
+    const panelRef = React.useRef<HTMLDivElement>(null);
+    usePopoverState(panelRef, open);
     const reactId = useId();
     const titleId = `coachmark-${reactId}-title`;
     const descId = `coachmark-${reactId}-desc`;
@@ -61,7 +64,8 @@ export default function Coachmark({
             aria-modal="false"
             aria-labelledby={titleId}
             aria-describedby={description !== undefined ? descId : undefined}
-            hidden={!open}
+            ref={panelRef}
+            popover="manual"
             {...restProps}
         >
             <h2

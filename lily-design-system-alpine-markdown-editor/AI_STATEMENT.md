@@ -29,9 +29,8 @@ Part 2 defines them: requirement, recommendation, permission.
 ## 1. Scope
 
 This document covers the use of AI tools in developing everything in this
-repository: the canonical component catalog, the seven headless libraries, the
-seven example applications, the seven helper catalogs, the 45 theme stylesheets,
-the `bin/` tooling, the tests, the specification under [spec/](spec/index.md),
+repository: the canonical component catalog, the headless libraries, the example
+applications, the helper packages, the theme stylesheets, the `bin/` tooling, the tests, the specification under [spec/](spec/index.md),
 and this document itself.
 
 It does not cover an AI system in the product, because there is none: **Lily
@@ -188,7 +187,7 @@ therefore not in any prompt. Demo content in the example applications is invente
 
 Two points a reader should check rather than take on trust:
 
-- The 140 national personal identifier components validate identifier _formats_
+- The 164 national personal identifier components validate identifier _formats_
   (checksums, structure, normalization). The test fixtures are synthetic values
   constructed to satisfy those algorithms, not real identifiers belonging to real
   people. This is a structural property verifiable against the tree.

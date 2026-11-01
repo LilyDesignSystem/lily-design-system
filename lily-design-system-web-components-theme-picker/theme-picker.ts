@@ -122,6 +122,7 @@ export class ThemePicker extends HTMLElement {
             "class",
             "open",
             "disabled",
+            "variant",
         ];
     }
 
@@ -133,6 +134,8 @@ export class ThemePicker extends HTMLElement {
 
     // Rendered-DOM references. Null until #render() has run.
     #rootEl: HTMLDivElement | null = null;
+    // The native select of variant="select"; null in the listbox variant.
+    #selectEl: HTMLSelectElement | null = null;
     #inputEl: HTMLInputElement | null = null;
     // The real <button>, nested one level inside the composed
     // <lily-icon-button> host (see #render()) — not #rootEl's direct child.
@@ -354,6 +357,18 @@ export class ThemePicker extends HTMLElement {
         }
     }
 
+    /**
+     * `"select"` renders a native `<select>` instead of the button and listbox (RFC 3 prototype; ported from the
+     * Svelte reference 2026-10-30, in step with the HTML helper). Keyboard, typeahead and the mobile picker are the
+     * platform's; `open` does not apply. Attribute `variant`; default `"listbox"`.
+     */
+    get variant(): "listbox" | "select" {
+        return this.getAttribute("variant") === "select" ? "select" : "listbox";
+    }
+    set variant(value: "listbox" | "select") {
+        this.setAttribute("variant", value);
+    }
+
     /** Disables the button; an open popup closes. Attribute `disabled`. */
     get disabled(): boolean {
         return this.hasAttribute("disabled");
@@ -373,6 +388,7 @@ export class ThemePicker extends HTMLElement {
 
     /** The `open` and `disabled` attributes, applied to the rendered button and popup. */
     #syncOpenAttributes(name: string): void {
+        if (this.#selectEl && name === "disabled") this.#selectEl.disabled = this.disabled;
         if (!this.#buttonEl) return;
         if (name === "disabled") {
             this.#buttonEl.disabled = this.disabled;
@@ -499,6 +515,7 @@ export class ThemePicker extends HTMLElement {
             case "label":
             case "name":
             case "class":
+            case "variant":
                 this.#render();
                 break;
             // themes-url / default-value / storage-key / extension don't
@@ -599,7 +616,7 @@ export class ThemePicker extends HTMLElement {
 
     /** Open the listbox. `startIndex` overrides the active option. */
     openList(startIndex?: number): void {
-        if (this.disabled) return;
+        if (this.disabled || !this.#listEl) return; // the select variant has no listbox
         const selected = this.#themes.indexOf(this.value);
         // An empty list has no option to activate; -1 keeps
         // aria-activedescendant off rather than pointing at an id that
@@ -777,6 +794,7 @@ export class ThemePicker extends HTMLElement {
         if (!this.#rootEl) return;
         this.#syncTooltip();
         const value = this.value;
+        if (this.#selectEl && this.#selectEl.value !== value) this.#selectEl.value = value;
 
         if (this.#inputEl) this.#inputEl.value = value;
 
@@ -821,6 +839,12 @@ export class ThemePicker extends HTMLElement {
         const extraClass = this.getAttribute("class") ?? "";
         const root = document.createElement("div");
         root.className = `theme-picker ${extraClass}`.trim();
+
+        if (this.variant === "select") {
+            this.#renderSelect(root);
+            return;
+        }
+        this.#selectEl = null;
         root.addEventListener("focusout", this.#onRootFocusOut);
 
         // The hidden input preserves form participation and the `name`.
@@ -944,6 +968,44 @@ export class ThemePicker extends HTMLElement {
         // in tree order, before this line runs).
         this.#buttonEl = iconButtonHost.querySelector("button");
         this.#applyInitialOpen();
+    }
+
+    /**
+     * variant="select": the platform's own select. Keyboard, typeahead, the mobile picker and the screen-reader
+     * announcement are the browser's; the element only applies the chosen theme (a change sets `value`, whose
+     * attribute change runs the existing apply path). `selected` on each option keeps the markup correct before the
+     * first change.
+     */
+    #renderSelect(root: HTMLDivElement): void {
+        this.#setTipDocListener(false);
+        this.#tooltipEl = null;
+        root.setAttribute("data-variant", "select");
+        const select = document.createElement("select");
+        select.className = "theme-picker-select";
+        select.name = this.name;
+        select.setAttribute("aria-label", this.label);
+        select.disabled = this.disabled;
+        for (const theme of this.#themes) {
+            const option = document.createElement("option");
+            option.className = "theme-picker-option";
+            option.value = theme;
+            option.selected = theme === this.value;
+            if (option.selected) option.setAttribute("selected", "");
+            option.textContent = this.labelFor(theme);
+            select.appendChild(option);
+        }
+        select.addEventListener("change", () => {
+            this.value = select.value;
+        });
+        root.appendChild(select);
+
+        this.#rootEl = root;
+        this.#selectEl = select;
+        this.#inputEl = null;
+        this.#buttonEl = null;
+        this.#listEl = null;
+        this.#optionEls = [];
+        this.replaceChildren(root);
     }
 }
 

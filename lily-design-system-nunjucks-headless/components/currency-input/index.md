@@ -11,7 +11,7 @@ See [components/currency-input/index.md](../../../components/currency-input/inde
 ```njk
 {% from "components/currency-input/macro.njk" import currencyInput %}
 
-{{ currencyInput({ }) }}
+{{ currencyInput({ currencyCode: "EUR", currencySymbol: "€", label: "Amount" }) }}
 ```
 
 ## Files

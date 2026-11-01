@@ -155,7 +155,7 @@ pnpm run dev</code></pre>
   <h2>現成主題</h2>
   <p>
     唔想由零開始寫 CSS?Lily 附帶
-    <strong>57 個獨立參考主題</strong> 喺
+    <strong>63 個獨立參考主題</strong> 喺
     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
     目錄入面。每個都係針對 Lily 類別掛鉤嘅一份樣式表 — 連結佢就有樣式:
   </p>
@@ -179,11 +179,7 @@ pnpm run dev</code></pre>
 
 <section class="section prose" id="helpers" style="margin: 0 auto;">
   <h2>偏好輔助工具</h2>
-  <p>
-    每個框架有八個細細個嘅選擇器,各自喺佢自己嘅
-    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> 套件入面(同埋 <code>picker-bar</code> 將佢哋組裝埋一齊)。每個都係打開彈出視窗嘅無頭圖示按鈕 — 清單方塊、連結清單、搜尋表單,或者(date-time-picker)嘅日期選擇器對話框 — 唔係原生嘅
-    <code>&lt;select&gt;</code>;SSR 安全;而且冇附帶 CSS:
-  </p>
+  <p>每個框架都有十一個細選擇器，每個都係自己嘅 <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> 套件（仲有一個 <code>picker-bar</code> 將佢哋砌埋一齊）。每個都係 headless 圖示按鈕，會打開彈出層——清單方塊、連結清單、搜尋表單、你自己內容嘅面板，或者（date-time-picker）揀日期嘅對話框——唔係原生 <code>&lt;select&gt;</code>（theme-picker 提供一個做可選變體）；SSR 安全；唔附帶 CSS。除咗 menu-picker、settings-picker 同 time-zone-picker，佢哋係：</p>
   <ul>
     <li>
       <strong>theme-picker</strong> — 透過替換受管理嘅 <code>&lt;link&gt;</code>喺執行時載入主題樣式表,喺文件上設定
@@ -294,7 +290,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
     <summary>元件有渲染但睇落冇樣式</summary>
     <p>
       呢個就係無頭按預期運作 — 元件唔會附帶 CSS。你可以針對元件嘅 kebab-case 類別寫 CSS(每個 <a href="/components/">目錄頁面</a>都有顯示),或者連結其中一個
-      <a href="#themes">57 個現成主題</a>.
+      <a href="#themes">63 個現成主題</a>.
     </p>
   </details>
 
@@ -383,7 +379,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
   <details class="faq-item">
     <summary>點解要無頭而唔係有樣式?</summary>
     <p>
-      預先加咗樣式嘅元件好方便 — 直到佢哋同你嘅品牌唔配。無頭元件一開始要多做少少,但畀你完全控制視覺設計。範例應用程式同 57 個主題展示咗加樣式嘅方法;你可以採用或者完全取代。更詳細嘅論點喺 <a href="/why/">點解揀 Lily</a>.
+      預先加咗樣式嘅元件好方便 — 直到佢哋同你嘅品牌唔配。無頭元件一開始要多做少少,但畀你完全控制視覺設計。範例應用程式同 63 個主題展示咗加樣式嘅方法;你可以採用或者完全取代。更詳細嘅論點喺 <a href="/why/">點解揀 Lily</a>.
     </p>
   </details>
 

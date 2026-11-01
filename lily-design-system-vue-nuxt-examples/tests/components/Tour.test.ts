@@ -34,9 +34,9 @@ describe("Tour", () => {
         expect(screen.getByLabelText("Onboarding tour")).toBeTruthy();
     });
 
-    test("has aria-modal true", () => {
+    test("is non-modal: no aria-modal (P18-T6)", () => {
         render(Subject, { props: { label: "Tour", active: true }, slots: { default: "content" } });
-        expect(screen.getByRole("dialog").getAttribute("aria-modal")).toBe("true");
+        expect(screen.getByRole("dialog").hasAttribute("aria-modal")).toBe(false);
     });
 
     test("has tabindex -1 for keyboard events", () => {

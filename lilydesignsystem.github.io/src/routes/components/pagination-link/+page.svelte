@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<a class=\"pagination-link\" href=\"#\">Page 1</a>";
   const svelteSource: string = "// In your Svelte component:\nimport PaginationLink from \"lily-design-system-svelte-headless/components/PaginationLink/PaginationLink.svelte\";\n\n<PaginationLink>PaginationLink</PaginationLink>\n";
-  const usageCode: string = "<PaginationNav label=\"Pagination\">\n  <PaginationList>\n    <PaginationListItem>\n      <PaginationLink href=\"/results?page=1\" label=\"Page 1\">1</PaginationLink>\n    </PaginationListItem>\n    <PaginationListItem>\n      <PaginationLink href=\"/results?page=2\" label=\"Page 2\" aria-current=\"page\">2</PaginationLink>\n    </PaginationListItem>\n    <PaginationListItem>\n      <PaginationLink href=\"/results?page=3\" label=\"Page 3\">3</PaginationLink>\n    </PaginationListItem>\n  </PaginationList>\n</PaginationNav>\n";
+  const usageCode: string = "<PaginationNav label=\"Pagination\">\n  <PaginationList>\n    <PaginationListItem>\n      <PaginationLink\n        href=\"/results?page=1\"\n        label=\"Page 1\"\n        >1</PaginationLink\n      >\n    </PaginationListItem>\n    <PaginationListItem>\n      <PaginationLink\n        href=\"/results?page=2\"\n        label=\"Page 2\"\n        aria-current=\"page\"\n        >2</PaginationLink\n      >\n    </PaginationListItem>\n    <PaginationListItem>\n      <PaginationLink\n        href=\"/results?page=3\"\n        label=\"Page 3\"\n        >3</PaginationLink\n      >\n    </PaginationListItem>\n  </PaginationList>\n</PaginationNav>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

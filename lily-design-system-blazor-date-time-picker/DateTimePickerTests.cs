@@ -1361,4 +1361,65 @@ public class DateTimePickerTests : TestContext, IDisposable
         Assert.DoesNotContain(JSInterop.Invocations,
             i => i.Identifier == "Blazor._internal.domWrapper.focus");
     }
+
+    // =================================================================
+    // §7.90–§7.93 — worldwide equity (P17-T1 to T3).
+    // =================================================================
+
+    [Theory]
+    [InlineData("fa-IR")]
+    [InlineData("th-TH")]
+    [InlineData("ja-JP")]
+    [InlineData("ar-SA")]
+    public async Task Section_7_90_The_Heading_Names_The_Gregorian_Month_The_Grid_Shows_In_Any_Locales_Own_Calendar(string locale)
+    {
+        var cut = Render(p => p.Add(x => x.Value, "2026-03-15"), locale: locale);
+        await OpenAsync(cut);
+        // 2026, never 2569 (Buddhist), 1404 (Solar Hijri), 1447 (Hijri) or a Japanese era year.
+        Assert.Contains("2026", cut.Find(".date-time-picker-period").TextContent);
+        Assert.Contains("2026", Day(cut, "2026-03-15").GetAttribute("aria-label"));
+    }
+
+    [Fact]
+    public void Section_7_91_Typed_Dates_Accept_Native_Digits()
+    {
+        Assert.Equal("2026-03-15", DateTimePicker.ParseDateInput("\u0662\u0660\u0662\u0666-\u0660\u0663-\u0661\u0665", null)); // Arabic-Indic
+        Assert.Equal("2026-03-15", DateTimePicker.ParseDateInput("\u06F2\u06F0\u06F2\u06F6-\u06F0\u06F3-\u06F1\u06F5", null)); // Persian
+        Assert.Equal("2026-03-15", DateTimePicker.ParseDateInput("\u0968\u0966\u0968\u096C-\u0966\u0969-\u0967\u096B", null)); // Devanagari
+        Assert.Equal("2026-03-15", DateTimePicker.ParseDateInput("\u09E8\u09E6\u09E8\u09EC-\u09E6\u09E9-\u09E7\u09EB", null)); // Bengali
+    }
+
+    [Fact]
+    public void Section_7_92_Typed_Times_Accept_Native_Digits_And_The_Locales_Own_Day_Period_Words()
+    {
+        Assert.Equal("09:30", DateTimePicker.ParseTimeInput("\u0660\u0669:\u0663\u0660"));
+        Assert.Equal("15:45", DateTimePicker.ParseTimeInput("\u0969:\u096A\u096B pm"));
+        var pm = System.Globalization.CultureInfo.GetCultureInfo("ar-EG").DateTimeFormat.PMDesignator;
+        Assert.False(string.IsNullOrEmpty(pm));
+        Assert.Equal("15:30", DateTimePicker.ParseTimeInput($"\u0663:\u0663\u0660 {pm}", "ar-EG"));
+        Assert.Equal("15:30", DateTimePicker.ParseTimeInput("3:30 pm", "ar-EG")); // am/pm stays accepted everywhere
+    }
+
+    [Fact]
+    public async Task Section_7_93_In_A_Right_To_Left_Layout_ArrowLeft_Moves_To_The_Next_Day()
+    {
+        var cut = Render(p => p
+            .Add(x => x.Value, "2026-03-15")
+            .AddUnmatched("dir", "rtl"));
+        await OpenAsync(cut);
+        var grid = cut.Find("table.date-time-picker-calendar");
+        await grid.KeyDownAsync(new KeyboardEventArgs { Key = "ArrowLeft" });
+        Assert.Equal("2026-03-16", CursorDate(cut));
+        await grid.KeyDownAsync(new KeyboardEventArgs { Key = "ArrowRight" });
+        Assert.Equal("2026-03-15", CursorDate(cut));
+    }
+
+    [Fact]
+    public async Task Section_7_93_A_Right_To_Left_Locale_Swaps_The_Arrows_Without_A_Dir_Attribute()
+    {
+        var cut = Render(p => p.Add(x => x.Value, "2026-03-15"), locale: "ar-EG");
+        await OpenAsync(cut);
+        await cut.Find("table.date-time-picker-calendar").KeyDownAsync(new KeyboardEventArgs { Key = "ArrowLeft" });
+        Assert.Equal("2026-03-16", CursorDate(cut));
+    }
 }

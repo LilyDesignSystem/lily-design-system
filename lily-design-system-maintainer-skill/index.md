@@ -27,6 +27,6 @@ the underlying source stays the single source of truth.
   required-files checklists, the add-a-component workflow, the `bin/`
   tool table, and pointers into the design-principle docs.
 
-Scaffolded to match the other 20 implementation subprojects — including the
+Scaffolded to match the implementation subprojects — including the
 12 copied + 2 generated special files — and lives only in this monorepo (its standalone subtree
 repository was deleted 2026-10-10).

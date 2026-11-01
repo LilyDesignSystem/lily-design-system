@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "clamp-text",
+  "type": "registry:component",
+  "title": "ClampText",
+  "description": "A text container that truncates content to a maximum number of lines.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ClampText.tsx",
+      "content": "import React from \"react\";\n\n// ClampText component\n//\n// A headless text container that truncates content to a maximum number of\n// visible lines. The full content remains in the DOM and accessible to screen\n// readers; the visual line clamp is implemented by consumer CSS reading the\n// data-lines attribute or the inline --clamp-text-lines custom property.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   lines     — number, default 2. Maximum number of visible lines.\n//   label     — string, optional. aria-label for screen readers.\n//   children  — ReactNode, required. The text content to clamp.\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Syntax:\n//   <ClampText lines={3}>Long text content...</ClampText>\n//\n// Examples:\n//\n//   <ClampText lines={2}>\n//     A long description that should be truncated to two visible lines.\n//   </ClampText>\n//\n//\n//   <ClampText lines={4} label=\"Product description\">\n//     Detailed product description text...\n//   </ClampText>\n//\n// Keyboard: None — passive content container.\n//\n// Accessibility:\n//   - Full text content remains in the DOM (not visually hidden)\n//   - Optional aria-label override via label prop\n//   - data-lines attribute exposed for consumer CSS\n//\n// Internationalization:\n//   - All text supplied by consumer via children\n//   - Optional label prop allows localized aria-label\n//\n// Claude rules:\n//   - Headless: no CSS, no overflow rules — consumer applies line-clamp\n//   - Inline style only sets --clamp-text-lines custom property\n//\n// References:\n//   - CSS line-clamp: https://developer.mozilla.org/en-US/docs/Web/CSS/line-clamp\n\nexport interface ClampTextProps {\n    className?: string;\n    /** Maximum number of visible lines */\n    lines?: number;\n    /** Accessible label for screen readers */\n    label?: string;\n    /** Content to clamp */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function ClampText({\n    className = \"\",\n    lines = 2,\n    label = undefined,\n    children,\n    ...restProps\n}: ClampTextProps) {\n    return (\n        <div\n            className={`clamp-text ${className}`}\n            data-lines={lines}\n            style={{ \"--clamp-text-lines\": lines } as React.CSSProperties}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ClampText.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/clamp-text/"
+}

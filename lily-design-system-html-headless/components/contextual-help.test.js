@@ -3,6 +3,9 @@
 
 const path = require("path");
 
+const isOpen = () =>
+    browser.execute(() => document.querySelector(".contextual-help-panel").matches(":popover-open"));
+
 describe("ContextualHelp", function () {
     beforeEach(async function () {
         await browser.url("file://" + path.resolve(__dirname, "contextual-help.html"));
@@ -21,32 +24,61 @@ describe("ContextualHelp", function () {
         expect(await trigger.getAttribute("aria-haspopup")).toBe("dialog");
     });
 
-    it("should have a trigger with aria-expanded and aria-controls", async function () {
+    it("should have a trigger with aria-expanded, aria-controls and commandfor", async function () {
         const trigger = await $("button.contextual-help-trigger");
-        expect(await trigger.getAttribute("aria-expanded")).toBe("false");
+        await expect(trigger).toHaveAttribute("aria-expanded", "false");
         const controls = await trigger.getAttribute("aria-controls");
         expect(controls).not.toBeNull();
+        expect(await trigger.getAttribute("command")).toBe("toggle-popover");
+        expect(await trigger.getAttribute("commandfor")).toBe(controls);
+        expect(await trigger.getAttribute("popovertarget")).toBe(controls);
     });
 
-    it('should render the panel with role="dialog"', async function () {
+    it('should render the panel with role="dialog" and popover="auto"', async function () {
         const panel = await $("div.contextual-help-panel");
         await expect(panel).toExist();
         expect(await panel.getAttribute("role")).toBe("dialog");
+        expect(await panel.getAttribute("popover")).toBe("auto");
     });
 
-    it("should toggle aria-expanded and panel hidden on trigger click", async function () {
+    it("should toggle the panel and aria-expanded on trigger click", async function () {
         const trigger = await $("button.contextual-help-trigger");
-        const panel = await $("div.contextual-help-panel");
 
-        expect(await trigger.getAttribute("aria-expanded")).toBe("false");
-        expect(await panel.getAttribute("hidden")).not.toBeNull();
+        expect(await isOpen()).toBe(false);
+        await trigger.click();
+        expect(await isOpen()).toBe(true);
+        await expect(trigger).toHaveAttribute("aria-expanded", "true");
 
         await trigger.click();
-        expect(await trigger.getAttribute("aria-expanded")).toBe("true");
-        expect(await panel.getAttribute("hidden")).toBeNull();
+        expect(await isOpen()).toBe(false);
+        await expect(trigger).toHaveAttribute("aria-expanded", "false");
+    });
+
+    it("should close on Escape and on a click outside it", async function () {
+        const trigger = await $("button.contextual-help-trigger");
+        await trigger.click();
+        await browser.keys("Escape");
+        expect(await isOpen()).toBe(false);
 
         await trigger.click();
-        expect(await trigger.getAttribute("aria-expanded")).toBe("false");
-        expect(await panel.getAttribute("hidden")).not.toBeNull();
+        expect(await isOpen()).toBe(true);
+        await browser.execute(() => {
+            const outside = document.createElement("p");
+            outside.id = "outside";
+            outside.textContent = "Outside";
+            document.body.appendChild(outside);
+        });
+        await (await $("#outside")).click();
+        expect(await isOpen()).toBe(false);
+        await expect(trigger).toHaveAttribute("aria-expanded", "false");
+    });
+
+    it("should open with no script at all", async function () {
+        // Markup inserted with innerHTML runs no <script>: only command/commandfor and popovertarget work here.
+        await browser.execute(() => {
+            document.body.innerHTML = document.body.innerHTML.replace(/<script[\s\S]*?<\/script>/g, "");
+        });
+        await (await $("button.contextual-help-trigger")).click();
+        expect(await isOpen()).toBe(true);
     });
 });

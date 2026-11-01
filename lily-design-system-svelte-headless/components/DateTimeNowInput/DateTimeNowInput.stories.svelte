@@ -14,5 +14,5 @@
 <Story
     name="Default"
     tags={["autodocs", "!dev"]}
-    args={{ label: "Date Time Now Input" }}
+    args={{ label: "Appointment", dateLabel: "Date", timeLabel: "Time", nowLabel: "Now" }}
 />

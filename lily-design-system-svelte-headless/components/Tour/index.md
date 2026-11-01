@@ -1,6 +1,6 @@
 # Tour
 
-A conditionally rendered modal dialog that wraps a `TourList` → `TourListItem` guided walkthrough, rendering as `<div role="dialog" aria-modal="true">` and closing on `Escape`.
+A conditionally rendered non-modal dialog that wraps a `TourList` → `TourListItem` guided walkthrough, rendering as `<div role="dialog">` (no `aria-modal`: the page it points at stays usable) and closing on `Escape`.
 
 ## What it is
 
@@ -8,7 +8,7 @@ A conditionally rendered modal dialog that wraps a `TourList` → `TourListItem`
 
 ## What it does
 
-- When `active` is true, renders `<div class="tour {className}" role="dialog" aria-modal="true" aria-label={label} tabindex="-1">`.
+- When `active` is true, renders `<div class="tour {className}" role="dialog" aria-label={label} tabindex="-1">` (non-modal, no `aria-modal`).
 - When `active` is false, renders nothing (fully removed from DOM).
 - Listens for `Escape` keydown on the dialog and sets `active = false` to dismiss.
 - Binds `active` via `$bindable` for two-way control by the consumer.
@@ -219,11 +219,11 @@ Import `Tour`, `TourList`, and `TourListItem`. Bind `active`, track a `step` ind
 
 ## Accessibility
 
-- `role="dialog"` + `aria-modal="true"` marks the overlay as a modal dialog.
+- `role="dialog"` without `aria-modal`: a non-modal dialog. A tour points at the live page and often asks the user to try it, so the page is not made inert (tasks.md P18-T6).
 - `aria-label` provides the accessible name.
 - `tabindex="-1"` allows the dialog to receive focus programmatically (consumers should move focus into the dialog when it opens).
 - `Escape` dismisses by flipping `active` to `false`.
-- Consumers should implement their own focus trap and backdrop if required.
+- It does not trap focus. For a blocking walkthrough, put the content in `Dialog`, which is a real modal.
 
 ## Related components
 

@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"contextual-help\" aria-label=\"a help button that opens a popover with explanatory content\">ContextualHelp</div>";
   const svelteSource: string = "// In your Svelte component:\nimport ContextualHelp from \"lily-design-system-svelte-headless/components/ContextualHelp/ContextualHelp.svelte\";\n\n<ContextualHelp>\n  <!-- content -->\n</ContextualHelp>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import ContextualHelp from './ContextualHelp.svelte';\n\n  let open = $state(false);\n<\/script>\n\n<ContextualHelp label=\"Help with this field\" expanded={open} onclick={() => (open = !open)}>\n  <p>Why we ask: this helps verify your account.</p>\n</ContextualHelp>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import ContextualHelp from \"./ContextualHelp.svelte\";\n\n  let open = $state(false);\n<\/script>\n\n<ContextualHelp\n  label=\"Help with this field\"\n  expanded={open}\n  onclick={() => (open = !open)}\n>\n  <p>Why we ask: this helps verify your account.</p>\n</ContextualHelp>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>
@@ -83,18 +83,19 @@
     <h3>ARIA</h3>
     <ul>
       <li>Trigger: aria-label, aria-haspopup="dialog", aria-expanded, aria-controls</li>
-      <li>Panel: role="dialog", matching id, hidden attribute when closed</li>
+      <li>Panel: role="dialog", matching id, popover="auto"</li>
     </ul>
     <h3>Keyboard</h3>
     <ul>
       <li>Tab / Shift+Tab: Move focus into and out of the trigger and panel</li>
-      <li>Enter / Space: Toggle the popover when the trigger is focused</li>
-      <li>Escape: (Consumer-provided) close the popover</li>
+      <li>Enter / Space: Toggle the popover when the trigger is focused (browser, via command/commandfor)</li>
+      <li>Escape: Close the popover (browser, Popover API)</li>
     </ul>
     <h3>Props</h3>
     <ul>
-      <li><code>label</code>: string (REQUIRED) -- aria-label for the trigger</li>
-      <li><code>expanded</code>: boolean (default false)</li>
+      <li><code>label</code>: string (REQUIRED) -- aria-label for the trigger (its accessible name)</li>
+      <li><code>triggerLabel</code>: string (REQUIRED, no default) -- visible text of the trigger, such as "?" or "؟"; "" when CSS draws an icon (Nunjucks <code>triggerLabel</code>, or raw <code>triggerHtml</code>; Web Components <code>trigger-label</code>; Blazor <code>TriggerLabel</code>)</li>
+      <li><code>expanded</code>: boolean (default false, bindable)</li>
       <li><code>onClick</code> / <code>onclick</code>: callback (optional)</li>
       <li><code>children</code>: slot -- popover content</li>
       <li><code>...restProps</code>: any additional HTML attributes</li>

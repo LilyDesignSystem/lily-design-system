@@ -1,8 +1,8 @@
 # Lily Design System™ — React Helpers Skill
 
 A Claude Skill ([`SKILL.md`](SKILL.md)) that explains how to install
-and use the React implementation of Lily Design System™'s six
-`*-picker` helper packages: `theme-picker`, `locale-picker`,
+and use the React implementation of Lily Design System™'s
+helper packages: `theme-picker`, `locale-picker`,
 `text-size-picker`, `motion-picker`, `share-picker`, and
 `date-time-picker`. Each ships as its own npm package under
 [the React helper packages](../spec/helpers/index.md#react-helper-packages).
@@ -28,7 +28,7 @@ source of truth.
 
 ## Structure
 
-- [`SKILL.md`](SKILL.md) — the skill itself: the six helpers'
+- [`SKILL.md`](SKILL.md) — the skill itself: the helpers'
   package names and one-line contracts, the three root shapes
   (icon-button-plus-listbox, disclosure-of-links,
   field-plus-dialog), the React consumption idiom, and the

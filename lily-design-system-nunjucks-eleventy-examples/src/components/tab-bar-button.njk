@@ -15,11 +15,16 @@ description: one tab button in a tab group
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>
 <pre tabindex="0"><code>{% raw %}&lt;TabBarButton
-  selected={activeTab === 'overview'}
+  selected="{activeTab"
+  =""
+  =""
+  ="overview"
+  }
   controls="panel-overview"
-  onclick={() =&gt; activeTab = 'overview'}
+  onclick="{()"
+  =""
 &gt;
-  Overview
+  activeTab = 'overview'} &gt; Overview
 &lt;/TabBarButton&gt;
 {% endraw %}</code></pre>
 {# END generated: examples #}

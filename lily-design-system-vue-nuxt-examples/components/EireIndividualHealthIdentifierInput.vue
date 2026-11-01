@@ -44,6 +44,9 @@
 // References:
 //   - HSE: https://www.hse.ie/
 
+import { ref } from "vue";
+import { useFormReset } from "./form-reset";
+
 withDefaults(
     defineProps<{
         /** Accessible label for screen readers */
@@ -60,6 +63,8 @@ withDefaults(
 );
 
 const modelValue = defineModel<string>({ default: "" });
+const field = ref<HTMLInputElement | HTMLTextAreaElement | null>(null);
+useFormReset(modelValue, field);
 
 const ihiPattern = "[0-9]{10}";
 </script>
@@ -73,6 +78,7 @@ const ihiPattern = "[0-9]{10}";
         inputmode="numeric"
         :pattern="ihiPattern"
         autocomplete="off"
+        ref="field"
         v-model="modelValue"
         :required="required"
         :disabled="disabled"

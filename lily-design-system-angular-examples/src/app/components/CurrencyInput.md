@@ -8,7 +8,7 @@ in the canonical repo root for the cross-framework documentation.
 ## Selector
 
 ```html
-<lily-currency-input></lily-currency-input>
+<lily-currency-input currencyCode="EUR"></lily-currency-input>
 ```
 
 ## Files

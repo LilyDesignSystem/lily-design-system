@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<ol class=\"pagination-list\"><li class=\"pagination-list-item\"><a class=\"pagination-link\" href=\"#\">1</a></li></ol>";
   const svelteSource: string = "// In your Svelte component:\nimport PaginationListItem from \"lily-design-system-svelte-headless/components/PaginationListItem/PaginationListItem.svelte\";\n\n<PaginationListItem>\n  <!-- PaginationListItem content -->\n</PaginationListItem>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import PaginationListItem from './PaginationListItem.svelte';\n<\/script>\n\n<PaginationListItem>\n  <a href=\"/page/1\">1</a>\n</PaginationListItem>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import PaginationListItem from \"./PaginationListItem.svelte\";\n<\/script>\n\n<PaginationListItem>\n  <a href=\"/page/1\">1</a>\n</PaginationListItem>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

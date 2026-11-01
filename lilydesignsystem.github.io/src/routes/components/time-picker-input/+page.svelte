@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<input class=\"time-picker-input\" type=\"time\" value=\"14:30\" aria-label=\"Select time\" />";
   const svelteSource: string = "// In your Svelte component:\nimport TimePickerInput from \"lily-design-system-svelte-headless/components/TimePickerInput/TimePickerInput.svelte\";\n\n<TimePickerInput label=\"Label\" />\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import TimePickerInput from \"./TimePickerInput.svelte\";\n\n  let t = $state(\"\");\n<\/script>\n\n<TimePickerInput label=\"Appointment time\" bind:value={t} />\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import TimePickerInput from \"./TimePickerInput.svelte\";\n\n  let t = $state(\"\");\n<\/script>\n\n<TimePickerInput\n  label=\"Appointment time\"\n  bind:value={t}\n/>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>
@@ -76,7 +76,7 @@
       <li>PascalCase: TimePickerInput</li>
       <li>Description: an input with a dropdown for picking a time</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
-      <li>HTML tag: &lt;div&gt;</li>
+      <li>HTML tag: &lt;input&gt;</li>
       <li>CSS class: .time-picker-input</li>
       <li>Interactive: yes</li>
     </ul>

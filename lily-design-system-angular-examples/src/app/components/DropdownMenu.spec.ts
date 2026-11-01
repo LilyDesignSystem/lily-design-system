@@ -100,7 +100,7 @@ describe("DropdownMenu — button and open state", () => {
         const { fixture, button } = create(false);
         expect(button.getAttribute("aria-haspopup")).toBe("true");
         expect(button.getAttribute("aria-expanded")).toBe("false");
-        expect(fixture.nativeElement.querySelector("[role='menu']")).toBeNull();
+        expect(fixture.nativeElement.querySelector("[role='menu']").hidden).toBe(true);
         fixture.componentRef.setInput("open", true);
         fixture.detectChanges();
         expect(button.getAttribute("aria-expanded")).toBe("true");

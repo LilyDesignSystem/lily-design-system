@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"emoji-character-picker\" aria-label=\"Emoji picker\"><button>😀</button><button>❤️</button><button>👍</button><button>🎉</button></div>";
   const svelteSource: string = "// In your Svelte component:\nimport EmojiCharacterPicker from \"lily-design-system-svelte-headless/components/EmojiCharacterPicker/EmojiCharacterPicker.svelte\";\n\n<EmojiCharacterPicker label=\"Picker\" />\n";
-  const usageCode: string = "<EmojiCharacterPicker label=\"Quick reactions\">\n    <div role=\"row\">\n        <button role=\"gridcell\">👍</button>\n        <button role=\"gridcell\">❤️</button>\n        <button role=\"gridcell\">😂</button>\n    </div>\n</EmojiCharacterPicker>\n";
+  const usageCode: string = "<EmojiCharacterPicker label=\"Quick reactions\">\n  <div role=\"row\">\n    <button role=\"gridcell\">👍</button>\n    <button role=\"gridcell\">❤️</button>\n    <button role=\"gridcell\">😂</button>\n  </div>\n</EmojiCharacterPicker>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

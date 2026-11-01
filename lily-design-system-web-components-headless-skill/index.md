@@ -4,9 +4,9 @@ A Claude Skill ([`SKILL.md`](SKILL.md)) that explains how to consume
 [`@lilydesignsystem/web-components-headless`](../lily-design-system-web-components-headless/):
 Lily's native custom-element implementation of Lily's canonical
 component catalog at its **full achievable scope** as of 2026-09-06 —
-547 of the 582 components, proving the pattern (autonomous custom
+572 of the 607 components, proving the pattern (autonomous custom
 elements, light DOM only, no framework runtime) at real scale. **It is
-not a 582/582 peer of the other seven headless catalogs** (HTML, Svelte,
+not a 607/607 peer of the other seven headless catalogs** (HTML, Svelte,
 React, Vue, Angular, Blazor, Nunjucks) and never will be — the remaining
 35 are permanently excluded by a real architectural limitation, not
 backlog; it is an 8th catalog, added 2026-09-03.

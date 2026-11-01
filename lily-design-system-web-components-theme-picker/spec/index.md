@@ -751,3 +751,13 @@ Clause numbers mirror the canonical Svelte spec's §7.21–§7.24.
 ## Open state and disabled (2026-10-16)
 
 `open` (settable property; the `open` attribute is the initial state), `disabled` (property and attribute), the bubbling `openchange` event (`detail`: the new open state) and an `onOpenChange` property, ported from the Svelte canonical and kept in step with the HTML picker (this catalog is a maintainer-directed independent copy of it). `openchange` fires once for each change of the popup and not for an initial `open` attribute. Setting `open` opens or closes the popup without moving focus. `disabled` sets the native `disabled` on the real `<button>` inside the composed `<lily-icon-button>` (which builds it only once connected, so the initial state is applied after the button exists) and closes an open popup. Tests: "open state and disabled".
+
+## Native select variant (2026-10-30, RFC 3 prototype; ported from Svelte)
+
+attribute / property `variant` (`"listbox"` or `"select"`, default `"listbox"`). With `"select"` the root is `<div class="theme-picker {class}" data-variant="select">` holding one
+`<select class="theme-picker-select" name="{name}" aria-label="{label}" disabled?>` and one
+`<option class="theme-picker-option" value="{slug}" selected?>{label for slug}</option>` per theme; no button,
+listbox, tooltip or hidden input. Initial value resolution (§5.2) and applying (§5.3) are unchanged. In step with the HTML helper: a `change` sets `value`, whose attribute change runs the same apply path (`themechange` once). `open` and `openList()` do nothing; `disabled` is carried onto the select. Keyboard,
+typeahead and the mobile picker are the platform's: the component adds no key handlers. Styling with
+`appearance: base-select` belongs in theme CSS behind `@supports (appearance: base-select)` (see the Svelte package's
+`docs/styling.md`). Tests: `theme-picker.test.ts`, 'variant="select"'.

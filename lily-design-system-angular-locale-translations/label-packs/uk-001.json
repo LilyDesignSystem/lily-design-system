@@ -239,5 +239,10 @@
     "small": "малий",
     "smaller": "менший",
     "smallest": "найменший"
+  },
+  "date-time-now-input": {
+    "date": "Дата",
+    "time": "Час",
+    "now": "Зараз"
   }
 }

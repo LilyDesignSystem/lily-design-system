@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "hint",
+  "type": "registry:component",
+  "title": "Hint",
+  "description": "Hint text providing guidance for a form field.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Hint.tsx",
+      "content": "import React from \"react\";\n\n// Hint component\n//\n// A hint provides subtle, contextual guidance text associated with a form control.\n// Typically displayed near an input field to clarify expected formats, explain\n// functionality, or offer examples. Renders a <p> element with an optional id for\n// linking to a form control via aria-describedby on the input element.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   id — string, default undefined. ID for linking via aria-describedby on the associated form control.\n//   children — ReactNode, required. Hint text content.\n//   ...restProps — additional HTML attributes spread onto the p element.\n//\n// Syntax:\n//   <Hint id=\"email-hint\">Enter your work email</Hint>\n//\n// Examples:\n//\n//   <Hint id=\"email-hint\">Enter your work email</Hint>\n//   <input aria-describedby=\"email-hint\" />\n//\n//\n//   <Hint id=\"password-hint\">Must be at least 8 characters</Hint>\n//   <input type=\"password\" aria-describedby=\"password-hint\" />\n//\n// Keyboard:\n//   - None — this is a passive text element; announced by screen readers when the associated control receives focus\n//\n// Accessibility:\n//   - The id attribute provides a target for aria-describedby on the associated form control\n//   - Screen readers announce the hint text when the linked input receives focus\n//\n// Internationalization:\n//   - All text content comes through the children prop; no hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - The consumer is responsible for adding aria-describedby to the associated input\n//   - Renders a <p> element, not a <span> or <div>\n//\n// References:\n//   - WAI Forms Tutorial - Instructions: https://www.w3.org/WAI/tutorials/forms/instructions/\n\nexport interface HintProps {\n    className?: string;\n    id?: string;\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Hint({\n    className = \"\",\n    id = undefined,\n    children,\n    ...restProps\n}: HintProps) {\n    return (\n        <p\n            className={`hint ${className}`}\n            id={id}\n            {...restProps}\n        >\n            {children}\n        </p>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Hint.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/hint/"
+}

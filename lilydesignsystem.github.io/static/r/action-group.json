@@ -15,7 +15,7 @@
     "`role=\"group\"` on the container",
     "`aria-label` is the accessible name (required)",
     "Overflow trigger: `aria-haspopup=\"menu\"`, `aria-expanded`, optional `aria-label` via `overflowLabel`",
-    "Overflow panel uses the `hidden` attribute when closed"
+    "Overflow panel is a closed popover (or `hidden`, without the Popover API) when closed"
   ],
   "keyboard": [
     "Tab: Move focus into and out of the group",
@@ -48,5 +48,10 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ActionGroup.razor"
   },
   "docs": "https://lilydesignsystem.com/components/action-group/",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/action-group/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/action-group/AGENTS.md",
+  "nativePlatform": {
+    "decision": "native",
+    "uses": "popover=\"auto\" overflow menu opened by command=\"toggle-popover\" commandfor (and popovertarget) on the overflow trigger; bindable overflowOpen synced from the toggle event",
+    "could_use": "CSS anchor positioning"
+  }
 }

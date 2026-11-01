@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"tag-input\"><span class=\"tag\">React <button aria-label=\"Remove React\">×</button></span><input type=\"text\" placeholder=\"Add tag...\" /></div>";
   const svelteSource: string = "// In your Svelte component:\nimport TagInput from \"lily-design-system-svelte-headless/components/TagInput/TagInput.svelte\";\n\n<TagInput label=\"Label\" />\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import TagInput from \"./TagInput.svelte\";\n    let tags = $state<string[]>([]);\n    let value = $state(\"\");\n<\/script>\n\n<TagInput label=\"Add tag\" bind:value onadd={(t) => (tags = [...tags, t])} />\n<ul>{#each tags as t}<li>{t}</li>{/each}</ul>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import TagInput from \"./TagInput.svelte\";\n  let tags = $state<string[]>([]);\n  let value = $state(\"\");\n<\/script>\n\n<TagInput\n  label=\"Add tag\"\n  bind:value\n  onadd={(t) => (tags = [...tags, t])}\n/>\n<ul>\n  {#each tags as t}<li>{t}</li>{/each}\n</ul>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

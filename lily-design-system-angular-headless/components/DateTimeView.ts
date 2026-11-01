@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-date-time-view",
     standalone: true,
-    template: `<span class="date-time-view {{ className() }}" role="text" [attr.aria-label]="label() || null">{{ value() }}</span>`,
+    template: `<time class="date-time-view {{ className() }}" [attr.datetime]="value() || null" [attr.aria-label]="label() || null">{{ format() || value() }}</time>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DateTimeView {
@@ -18,6 +18,8 @@ export class DateTimeView {
     readonly label = input<string>("");
     /** Extra CSS classes appended to the base class. */
     readonly className = input<string>("");
-    /** The value to display read-only. */
+    /** The machine-readable date-time (ISO 8601), written to datetime and shown when format is unset. */
     readonly value = input<string>("");
+    /** The consumer-formatted text to show, for example from Intl.DateTimeFormat. */
+    readonly format = input<string>("");
 }

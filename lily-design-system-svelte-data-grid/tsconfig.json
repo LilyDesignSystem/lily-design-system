@@ -19,6 +19,7 @@
     "node_modules",
     "dist",
     "*.config.js",
+    "playwright.config.ts",
     "build.js",
     "vitest-setup.js",
     "examples",

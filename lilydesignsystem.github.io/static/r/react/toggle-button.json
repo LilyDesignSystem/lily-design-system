@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "toggle-button",
+  "type": "registry:component",
+  "title": "ToggleButton",
+  "description": "A button that toggles between pressed and unpressed states.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ToggleButton.tsx",
+      "content": "\"use client\";\n\n// ToggleButton component\n//\n// A headless binary on/off toggle button using role=\"switch\". Renders a\n// <button> with aria-checked to communicate state. Supports click and\n// keyboard (Space key) interaction. The pressed state is bindable for\n// two-way data flow. Commonly used for settings like dark mode,\n// notifications, or feature flags.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name via aria-label.\n//   pressed — boolean, default false. Whether the toggle is on. Bindable.\n//   disabled — boolean, default false. Whether the toggle is disabled.\n//   children — ReactNode, optional. Button content.\n//   ...restProps — additional HTML attributes spread onto the <button>.\n//\n// Syntax:\n//   <ToggleButton label=\"Dark mode\" pressed={pressed} onChange={setPressed} />\n//\n// Examples:\n//\n//   <ToggleButton label=\"Dark mode\" pressed={pressed} onChange={setPressed} />\n//\n//\n//   <ToggleButton label=\"Mute audio\" pressed={muted} onChange={setMuted} disabled={locked} />\n//\n// Keyboard:\n//   - Space: toggles between on and off states\n//   - Enter: activates the button (native button behavior)\n//\n// Accessibility:\n//   - role=\"switch\" identifies the element as a two-state toggle\n//   - aria-checked={pressed} communicates the current state\n//   - aria-label={label} provides the accessible name\n//\n// Internationalization:\n//   - The label prop accepts any translated string\n//   - No hardcoded strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Uses controlled for two-way data binding on pressed\n//   - type=\"button\" prevents accidental form submission\n//\n// References:\n//   - WAI-ARIA Switch Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/switch/\n//   - WAI-ARIA Switch Role: https://www.w3.org/TR/wai-aria-1.2/#switch\n\nimport React, { useState } from \"react\";\n\nexport interface ToggleButtonProps {\n    className?: string;\n    /** Accessible label. */\n    label: string;\n    /** Whether the toggle is on. Bindable. */\n    pressed?: boolean;\n    /** Whether the toggle is disabled. */\n    disabled?: boolean;\n    /** Optional button content. */\n    children?: React.ReactNode;\n    /** Callback when pressed changes. */\n    onChange?: (value: boolean) => void;\n    [key: string]: unknown;\n}\n\nexport default function ToggleButton({\n    className = \"\",\n    label,\n    pressed: pressedProp = false,\n    disabled = false,\n    onChange,\n    children,\n    ...restProps\n}: ToggleButtonProps) {\n    const [pressed, setPressed] = useState(pressedProp);\n\n    function toggle() {\n        if (!disabled) {\n            const newPressed = !pressed;\n            setPressed(newPressed);\n            onChange?.(newPressed);\n        }\n    }\n\n    function handleKeyDown(event: React.KeyboardEvent) {\n        if (event.key === \" \") {\n            event.preventDefault();\n            toggle();\n        }\n    }\n\n    return (\n        <button\n            className={`toggle-button ${className}`}\n            type=\"button\"\n            role=\"switch\"\n            aria-checked={pressed}\n            aria-label={label}\n            disabled={disabled}\n            onClick={toggle}\n            onKeyDown={handleKeyDown}\n            {...restProps}\n        >\n            {children && <>{children}</>}\n        </button>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ToggleButton.tsx"
+    }
+  ],
+  "categories": [
+    "buttons"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/toggle-button/"
+}

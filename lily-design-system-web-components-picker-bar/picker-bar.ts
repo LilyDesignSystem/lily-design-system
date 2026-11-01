@@ -58,7 +58,7 @@ import type {
 } from "@lilydesignsystem/web-components-share-picker";
 
 /**
- * All 57 Lily reference theme slugs (see `themes/` at the repo root),
+ * All 63 Lily reference theme slugs (see `themes/` at the repo root),
  * sorted alphabetically except the United Kingdom and United States
  * government/public-sector themes, which sort last as one alphabetical
  * group of their own. Mirrors `<lily-theme-picker>`'s own title-casing
@@ -72,10 +72,13 @@ export const DEFAULT_THEMES: string[] = [
     "ant-design",
     "aqua",
     "atlassian",
+    "australia-agriculture-design-system",
     "autumn",
     "black",
+    "brazil-padrao-digital-de-governo",
     "bumblebee",
     "business",
+    "canada-government-of-canada-design-system",
     "cappuccino",
     "caramellatte",
     "cmyk",
@@ -87,6 +90,7 @@ export const DEFAULT_THEMES: string[] = [
     "dim",
     "dracula",
     "emerald",
+    "european-union-europa-component-library",
     "excel",
     "fantasy",
     "fluent",
@@ -95,6 +99,7 @@ export const DEFAULT_THEMES: string[] = [
     "github-primer",
     "halloween",
     "ibm-carbon",
+    "japan-digital-agency-design-system",
     "lemonade",
     "light",
     "linear",
@@ -109,6 +114,7 @@ export const DEFAULT_THEMES: string[] = [
     "salesforce",
     "sap-fiori",
     "silk",
+    "singapore-government-design-system",
     "sunset",
     "synthwave",
     "valentine",

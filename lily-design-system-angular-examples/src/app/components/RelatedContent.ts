@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-related-content",
     standalone: true,
-    template: `<div class="related-content {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<aside class="related-content {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></aside>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RelatedContent {

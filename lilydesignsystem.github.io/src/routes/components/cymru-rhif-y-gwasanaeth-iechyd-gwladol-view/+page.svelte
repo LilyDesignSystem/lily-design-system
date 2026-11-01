@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<span class=\"cymru-rhif-y-gwasanaeth-iechyd-gwladol-view\" aria-label=\"a read-only display of Wales's Rhif y Gwasanaeth Iechyd Gwladol (Rhif GIG)\">CymruRhifYGwasanaethIechydGwladolView</span>";
   const svelteSource: string = "// In your Svelte component:\nimport CymruRhifYGwasanaethIechydGwladolView from \"lily-design-system-svelte-headless/components/CymruRhifYGwasanaethIechydGwladolView/CymruRhifYGwasanaethIechydGwladolView.svelte\";\n\n<CymruRhifYGwasanaethIechydGwladolView label=\"Label\" value=\"Sample value\" />\n";
-  const usageCode: string = "<SummaryList>\n  <SummaryListItem term=\"National Health Service Number\">\n    <CymruRhifYGwasanaethIechydGwladolView value={value} />\n  </SummaryListItem>\n</SummaryList>\n";
+  const usageCode: string = "<SummaryList>\n  <SummaryListItem term=\"National Health Service Number\">\n    <CymruRhifYGwasanaethIechydGwladolView value=\"{value}\" />\n  </SummaryListItem>\n</SummaryList>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

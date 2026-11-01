@@ -1,0 +1,42 @@
+{
+  "slug": "hong-kong-identity-card-input",
+  "name": "HongKongIdentityCardInput",
+  "description": "an input for entering Hong Kong's Identity Card Number",
+  "htmlTag": "input",
+  "category": "national",
+  "baseClass": ".hong-kong-identity-card-input",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow",
+  "aria": [
+    "`aria-label` provides accessible name from label prop",
+    "`required` and `disabled` states conveyed to assistive technology"
+  ],
+  "keyboard": [
+    "Standard text input keyboard behavior"
+  ],
+  "props": [
+    "`label`: string (required) — accessible label via aria-label",
+    "`value`: string (default: \"\") — bindable input value",
+    "`required`: boolean (default: false) — form validation",
+    "`disabled`: boolean (default: false) — disabled state",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "hong-kong-identity-card-view",
+    "text-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/hong-kong-identity-card-input.html",
+    "svelte": "lily-design-system-svelte-headless/components/HongKongIdentityCardInput/HongKongIdentityCardInput.svelte",
+    "react": "lily-design-system-react-headless/components/HongKongIdentityCardInput.tsx",
+    "vue": "lily-design-system-vue-headless/components/HongKongIdentityCardInput.vue",
+    "angular": "lily-design-system-angular-headless/components/HongKongIdentityCardInput.ts",
+    "web-components": "lily-design-system-web-components-headless/components/hong-kong-identity-card-input.ts",
+    "alpine": "lily-design-system-alpine-headless/components/hong-kong-identity-card-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/hong-kong-identity-card-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/HongKongIdentityCardInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/hong-kong-identity-card-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/hong-kong-identity-card-input/AGENTS.md"
+}

@@ -14,7 +14,5 @@
     name="Default"
     tags={["autodocs", "!dev"]}
 >
-    <DigitalObjectIdentifierLink label="DigitalObjectIdentifierLink example">
-        <span>DigitalObjectIdentifierLink example</span>
-    </DigitalObjectIdentifierLink>
+    <DigitalObjectIdentifierLink doi="10.1000/xyz123" />
 </Story>

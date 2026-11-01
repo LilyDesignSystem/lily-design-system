@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "padding-reset",
+  "type": "registry:component",
+  "title": "PaddingReset",
+  "description": "A container that resets padding inside fluid-width containers.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/PaddingReset.tsx",
+      "content": "import React from \"react\";\n\n// PaddingReset component\n//\n// PaddingReset for the Reuters-graphics-style article layout family. Renders a\n// <div> that consumers style; this component is a structural\n// wrapper only.\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Sets the padding-reset class as the styling hook\n\nexport interface PaddingResetProps {\n    className?: string;\n    /** Component content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function PaddingReset({\n    className = \"\",\n    children,\n    ...restProps\n}: PaddingResetProps) {\n    return (\n        <div\n            className={`padding-reset ${className}`}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/PaddingReset.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/padding-reset/"
+}

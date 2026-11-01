@@ -11,7 +11,7 @@ See [components/scroll-bar/index.md](../../../components/scroll-bar/index.md) fo
 ```njk
 {% from "components/scroll-bar/macro.njk" import scrollBar %}
 
-{{ scrollBar({ }) }}
+{{ scrollBar({ label: "Chat scroll", controls: "messages", value: 0 }) }}
 ```
 
 ## Files

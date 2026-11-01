@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "resizable",
+  "type": "registry:component",
+  "title": "Resizable",
+  "description": "A container that the user can resize by dragging.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Resizable.tsx",
+      "content": "import React from \"react\";\n\n// Resizable component\n//\n// A headless resizable container that renders a focusable <div> region with\n// a data-resize attribute indicating the allowed resize direction. Used for\n// adjustable panels, panes, code editors, sidebars, or preview areas where\n// the user controls the container size.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name for the region via aria-label.\n//   direction — \"both\" | \"horizontal\" | \"vertical\", default \"both\". Which directions resizing is allowed.\n//   children — ReactNode, required. Content to render inside the container.\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Syntax:\n//   <Resizable label=\"Resizable panel\" direction=\"both\">\n//     <p>Content</p>\n//   </Resizable>\n//\n// Examples:\n//\n//   <Resizable label=\"Sidebar\" direction=\"horizontal\">\n//     <nav>Links</nav>\n//   </Resizable>\n//\n//\n//   <Resizable label=\"Preview\" direction=\"vertical\">\n//     <div>Preview content</div>\n//   </Resizable>\n//\n// Keyboard:\n//   - Tab: focuses the resizable region (tabindex=\"0\")\n//   - Consumer implements any keyboard-driven resize behavior\n//\n// Accessibility:\n//   - role=\"region\" identifies the container as a landmark\n//   - aria-label provides the accessible name\n//   - tabindex=\"0\" makes the container keyboard-focusable\n//   - data-resize attribute exposes the direction for CSS targeting\n//\n// Internationalization:\n//   - The label prop externalizes the accessible label string\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Consumer must apply CSS resize and overflow properties based on data-resize\n//   - No internal resize logic — purely structural and semantic\n//\n// References:\n//   - WAI-ARIA Region Role: https://www.w3.org/TR/wai-aria-1.2/#region\n//   - WAI-ARIA Window Splitter Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/\n\nexport interface ResizableProps {\n    className?: string;\n    /** Accessible label. */\n    label: string;\n    /** Resize direction. */\n    direction?: \"both\" | \"horizontal\" | \"vertical\";\n    /** Content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Resizable({\n    className = \"\",\n    label,\n    direction = \"both\",\n    children,\n    ...restProps\n}: ResizableProps) {\n    return (\n        <div\n            className={`resizable ${className}`}\n            role=\"region\"\n            aria-label={label}\n            tabIndex={0}\n            data-resize={direction}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Resizable.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/resizable/"
+}

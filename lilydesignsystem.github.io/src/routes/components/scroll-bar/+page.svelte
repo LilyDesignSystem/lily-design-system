@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"scroll-bar\" role=\"scrollbar\" aria-valuenow=\"50\"></div>";
   const svelteSource: string = "// In your Svelte component:\nimport ScrollBar from \"lily-design-system-svelte-headless/components/ScrollBar/ScrollBar.svelte\";\n\n<ScrollBar>\n  <!-- list children -->\n</ScrollBar>\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import ScrollBar from \"./ScrollBar.svelte\";\n<\/script>\n\n<ScrollBar orientation=\"vertical\" label=\"Page scroll\">\n    <div class=\"thumb\"></div>\n</ScrollBar>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import ScrollBar from \"./ScrollBar.svelte\";\n<\/script>\n\n<ScrollBar\n  orientation=\"vertical\"\n  label=\"Page scroll\"\n>\n  <div class=\"thumb\"></div>\n</ScrollBar>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>
@@ -75,7 +75,7 @@
       <li>Component: scroll-bar</li>
       <li>PascalCase: ScrollBar</li>
       <li>Description: a custom scrollbar element</li>
-      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks, with the keys in all but Nunjucks (markup only; its keys are the consumer's script), and an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .scroll-bar</li>
       <li>Interactive: yes</li>
@@ -85,22 +85,30 @@
       <li><code>role="scrollbar"</code> -- identifies the element as a scrollbar control</li>
       <li><code>aria-label="..."</code> -- provides the accessible name for the scrollbar</li>
       <li><code>aria-orientation="vertical|horizontal"</code> -- indicates the scrollbar direction</li>
-      <li><code>aria-valuenow="0"</code> -- the current scroll position (consumer should update dynamically)</li>
-      <li><code>aria-valuemin="0"</code> -- the minimum scroll value</li>
-      <li><code>aria-valuemax="100"</code> -- the maximum scroll value</li>
+      <li><code>aria-controls="..."</code> -- the scrolled element, when <code>controls</code> is given</li>
+      <li><code>aria-valuenow</code> -- the current scroll position (<code>value</code>)</li>
+      <li><code>aria-valuemin</code> -- the minimum scroll value (<code>min</code>)</li>
+      <li><code>aria-valuemax</code> -- the maximum scroll value (<code>max</code>)</li>
+      <li><code>tabindex="0"</code> -- the scrollbar is in the tab order so the keys reach it</li>
     </ul>
     <h3>Keyboard</h3>
     <ul>
-      <li>Arrow Up / Arrow Left: Scroll backward (decrease value) by a small increment</li>
-      <li>Arrow Down / Arrow Right: Scroll forward (increase value) by a small increment</li>
-      <li>Page Up: Scroll backward by a large increment</li>
-      <li>Page Down: Scroll forward by a large increment</li>
+      <li>Arrow Up / Arrow Left: Scroll backward (decrease value) by <code>step</code></li>
+      <li>Arrow Down / Arrow Right: Scroll forward (increase value) by <code>step</code></li>
+      <li>Page Up: Scroll backward by <code>pageStep</code></li>
+      <li>Page Down: Scroll forward by <code>pageStep</code></li>
       <li>Home: Scroll to the beginning (minimum value)</li>
       <li>End: Scroll to the end (maximum value)</li>
     </ul>
     <h3>Props</h3>
     <ul>
       <li><code>orientation</code>: "vertical" | "horizontal" (default: "vertical") -- the scrollbar direction, reflected in <code>aria-orientation</code></li>
+      <li><code>value</code>: number (default: 0) -- the scroll position, reflected in <code>aria-valuenow</code>; bindable (React: controlled <code>value</code> + <code>onChange</code>, or uncontrolled <code>defaultValue</code>)</li>
+      <li><code>min</code>: number (default: 0) -- the start of the range, <code>aria-valuemin</code></li>
+      <li><code>max</code>: number (default: 100) -- the end of the range, <code>aria-valuemax</code></li>
+      <li><code>step</code>: number (default: 1) -- the arrow-key increment</li>
+      <li><code>pageStep</code>: number (default: 10) -- the Page Up / Page Down increment</li>
+      <li><code>controls</code>: string (optional) -- the id of the scrolled element, via <code>aria-controls</code></li>
       <li><code>label</code>: string (required) -- accessible name for the scrollbar via <code>aria-label</code></li>
       <li><code>children</code>: slot (required) -- scrollbar content, typically the draggable thumb element</li>
       <li><code>...restProps</code>: unknown -- additional attributes spread onto the <code>&lt;div&gt;</code> element</li>

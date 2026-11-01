@@ -44,6 +44,14 @@
 - `children`: slot (required) -- menu item elements to render inside the menu (should have `role="menuitem"` and `tabindex="-1"`).
 - `...restProps`: unknown -- additional attributes spread onto the container `<div>`.
 
+## Native platform
+
+- Decision: hand-rolled because no native element has APG menu semantics (<menu> is only a list) and arrow-key focus over menuitems must be scripted
+- Uses: none (div role="menu")
+- Could use: none
+- Notes: In-page, not an overlay; it is the content a popover would hold.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
+
 ## Acceptance Criteria
 
 - [ ] Renders <div> element with class="menu"

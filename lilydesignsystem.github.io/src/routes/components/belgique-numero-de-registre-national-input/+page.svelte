@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<label class=\"label\" for=\"demo-input\">Label</label><input class=\"belgique-numero-de-registre-national-input\" id=\"demo-input\" aria-label=\"an input for entering Belgium's Numéro de Registre National / Rijksregisternummer (NRN)\" />";
   const svelteSource: string = "// In your Svelte component:\nimport BelgiqueNumeroDeRegistreNationalInput from \"lily-design-system-svelte-headless/components/BelgiqueNumeroDeRegistreNationalInput/BelgiqueNumeroDeRegistreNationalInput.svelte\";\n\n<BelgiqueNumeroDeRegistreNationalInput label=\"Label\" />\n";
-  const usageCode: string = "<Field label=\"National Register Number\" required>\n  <BelgiqueNumeroDeRegistreNationalInput label=\"National Register Number\" value={value} required />\n  <Hint>11 digits where the first 6 are the date of birth (YYMMDD), the next 3 are an ordering number (uneven for men, even for women) and the last 2 a check digit</Hint>\n  <ErrorMessage>Please enter a valid National Register Number</ErrorMessage>\n</Field>\n";
+  const usageCode: string = "<Field\n  label=\"National Register Number\"\n  required\n>\n  <BelgiqueNumeroDeRegistreNationalInput\n    label=\"National Register Number\"\n    value=\"{value}\"\n    required\n  />\n  <Hint\n    >11 digits where the first 6 are the date of birth (YYMMDD), the next 3 are an ordering number\n    (uneven for men, even for women) and the last 2 a check digit</Hint\n  >\n  <ErrorMessage>Please enter a valid National Register Number</ErrorMessage>\n</Field>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

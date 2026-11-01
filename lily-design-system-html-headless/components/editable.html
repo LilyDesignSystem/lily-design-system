@@ -2,30 +2,71 @@
 <!-- Editable component -->
 <!--
   Description: an inline-editable text element that toggles between view and edit modes
-  HTML tag: <div>
+  HTML tag: <span>
   CSS class: editable
-  Keyboard: None (passive element)
-  Accessibility: aria-label for accessible name
+  Keyboard: Enter or Space on the display starts editing; in the field Enter confirms and Escape cancels (focus follows the swap)
+  Accessibility: display: role="button", tabindex="0", aria-label; editing: <input type="text"> with the same aria-label; aria-disabled="true" blocks editing
   Usage:
-    <div class="editable" aria-label="Example">
-      ...
-    </div>
+    <span
+      class="editable"
+      role="button"
+      tabindex="0"
+      aria-label=""
+    >
+    </span>
 -->
 
-<div
+<span
   class="editable"
+  role="button"
+  tabindex="0"
   aria-label=""
 >
-  <!-- Consumer provides content -->
-</div>
+  <!-- Consumer provides the current value as text -->
+</span>
 
 <script>
   // Editable behavior
   (function() {
     'use strict';
-    // Editable: consumer implements interactive behavior
-    document.querySelectorAll('.editable').forEach(function(el) {
-      // Interactive behavior initialization
+    document.querySelectorAll('.editable').forEach(function(display) {
+      var input = null;
+      function begin() {
+        if (display.getAttribute('aria-disabled') === 'true') return;
+        input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'editable';
+        input.setAttribute('aria-label', display.getAttribute('aria-label') || '');
+        input.value = display.textContent.trim();
+        display.replaceWith(input);
+        input.focus();
+        input.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            end(true);
+          } else if (e.key === 'Escape') {
+            e.preventDefault();
+            end(false);
+          }
+        });
+      }
+      function end(confirm) {
+        var value = input.value;
+        if (confirm) display.textContent = value;
+        input.replaceWith(display);
+        input = null;
+        display.focus();
+        if (confirm) {
+          display.dispatchEvent(new CustomEvent('editable-change', { bubbles: true, detail: { value: value } }));
+        }
+      }
+      display.addEventListener('click', begin);
+      display.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          begin();
+        }
+      });
     });
   })();
 </script>

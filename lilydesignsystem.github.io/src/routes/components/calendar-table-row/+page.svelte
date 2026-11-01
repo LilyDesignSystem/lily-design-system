@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<tr class=\"calendar-table-row\"><td class=\"calendar-table-td\">1</td><td class=\"calendar-table-td\">2</td></tr>";
   const svelteSource: string = "// In your Svelte component:\nimport CalendarTableRow from \"lily-design-system-svelte-headless/components/CalendarTableRow/CalendarTableRow.svelte\";\n\n<CalendarTableRow>\n  <!-- CalendarTableRow content -->\n</CalendarTableRow>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import CalendarTableRow from './CalendarTableRow.svelte';\n  import CalendarTableTD from '../CalendarTableTD/CalendarTableTD.svelte';\n<\/script>\n\n<CalendarTableRow>\n  {#each [1, 2, 3, 4, 5, 6, 7] as d}\n    <CalendarTableTD>{d}</CalendarTableTD>\n  {/each}\n</CalendarTableRow>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import CalendarTableRow from \"./CalendarTableRow.svelte\";\n  import CalendarTableTD from \"../CalendarTableTD/CalendarTableTD.svelte\";\n<\/script>\n\n<CalendarTableRow>\n  {#each [1, 2, 3, 4, 5, 6, 7] as d}\n    <CalendarTableTD>{d}</CalendarTableTD>\n  {/each}\n</CalendarTableRow>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

@@ -4,10 +4,10 @@ import { TestBed } from "@angular/core/testing";
 import { ValidationList } from "./ValidationList";
 
 describe("ValidationList", () => {
-    test("renders the ol root with the base class", () => {
+    test("renders the <ul> root with the base class", () => {
         const fixture = TestBed.createComponent(ValidationList);
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("ol.validation-list");
+        const el = fixture.nativeElement.querySelector("ul.validation-list");
         expect(el).toBeTruthy();
     });
 
@@ -15,7 +15,7 @@ describe("ValidationList", () => {
         const fixture = TestBed.createComponent(ValidationList);
         fixture.componentRef.setInput("className", "extra");
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("ol.validation-list");
+        const el = fixture.nativeElement.querySelector("ul.validation-list");
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });

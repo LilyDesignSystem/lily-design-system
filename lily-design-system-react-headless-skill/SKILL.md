@@ -1,13 +1,13 @@
 ---
 name: lily-design-system-react-headless-skill
-description: Explains how to install, import, and use Lily Design System's React headless component library — the npm package name, JSX usage, the className + rest-props spreading convention, controlled-prop patterns (value/onChange, open/onChange), and where the 582-component catalog and naming rules live. Use when someone asks how to install or import Lily Design System's React headless components, wants the React-specific usage idiom (JSX, className, rest-props spreading, controlled props), asks what React version or peer dependencies it needs, or needs the npm package name for a specific Lily component in React.
+description: Explains how to install, import, and use Lily Design System's React headless component library — the npm package name, JSX usage, the className + rest-props spreading convention, controlled-prop patterns (value/onChange, open/onChange), and where the 607-component catalog and naming rules live. Use when someone asks how to install or import Lily Design System's React headless components, wants the React-specific usage idiom (JSX, className, rest-props spreading, controlled props), asks what React version or peer dependencies it needs, or needs the npm package name for a specific Lily component in React.
 license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 ---
 
 # Lily Design System™ — React headless
 
 `@lilydesignsystem/react-headless` is the React 19 implementation of the
-Lily Design System's canonical 582-component catalog. It is published on
+Lily Design System's canonical 607-component catalog. It is published on
 npm and installable today:
 
 ```bash
@@ -81,7 +81,7 @@ import Alert from "lily-design-system-react-headless/components/Alert";
 Exactly the same contract as every other Lily catalog: the root element's
 kebab-case class (e.g. `.button`, `.breadcrumb-nav`) is the one stable
 styling contract. No component ships a stylesheet, inline `style`, font,
-icon, or image. See `AGENTS/theme.md` for the token shape and the 45
+icon, or image. See `AGENTS/theme.md` for the token shape and the 63
 reference theme stylesheets under `themes/` if you want a working example
 of CSS targeting these classes rather than writing your own from scratch.
 
@@ -105,10 +105,18 @@ patterns directly, e.g.:
 </BreadcrumbNav>
 ```
 
+## Native dialogs and popovers (2026-10-30)
+
+Modal overlays (`dialog`, `alert-dialog`, `file-dialog`, `timeout-dialog`, `drawer`, `sheet`, `slide-out-drawer`) open a real
+`<dialog>` with `showModal()`: the page behind is inert, Tab stays inside, Escape closes, focus returns to the opener. Light-dismiss
+popups (`popover`, `popup`, `contextual-help`, `dropdown-menu`, `split-button`, `action-group`, `context-menu`) use the Popover API
+(`popover="auto"`, opened by `command="toggle-popover"` `commandfor`, with `popovertarget` as well), so the browser itself can close
+them on Escape or an outside click. Keep their open state two-way: listen for the change rather than assuming only your code closes
+them. Per-component decisions: each `components/{slug}/AGENTS.md` § "Native platform"; rule: `AGENTS/headless.md`.
+
 ## When NOT this skill
 
-- For the six `*-picker` helper packages (theme-picker, locale-picker,
-  text-size-picker, motion-picker, share-picker, date-time-picker) — the
+- For the helper packages (the eleven `*-picker` helpers, `picker-bar`, the grid-like helpers and the editors) — the
   opinionated, higher-level React packages that own a whole interaction
   rather than being a pure markup primitive — use
   `lily-design-system-react-helpers-skill` instead.

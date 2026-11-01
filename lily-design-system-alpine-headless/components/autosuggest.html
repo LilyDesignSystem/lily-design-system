@@ -2,16 +2,31 @@
 <!-- Autosuggest component (Alpine.js) -->
 <!--
   Description: a text input that proposes matching options as users type
-  HTML tag: <>
+  HTML tag: <div>
   CSS class: autosuggest
-  Keyboard: 
-  Accessibility: 
+  Keyboard: ArrowDown/ArrowUp open the list and move the highlight (wrapping); Home/End jump while open; Enter chooses; Escape closes; blur closes
+  Accessibility: role="combobox" on the input with aria-autocomplete="list", aria-expanded, aria-controls and aria-activedescendant; the list is role="listbox" of the consumer's role="option" items, the highlighted one aria-selected="true"
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
 <div
   class="autosuggest"
-  aria-label=""
+  x-data="lilyAutosuggest()"
 >
-  <!-- Consumer provides content -->
+  <input
+    class="autosuggest-input"
+    type="text"
+    aria-label=""
+    aria-controls="autosuggest-list-1"
+    x-bind="input"
+  />
+  <ul
+    class="autosuggest-list"
+    id="autosuggest-list-1"
+    aria-label=""
+    x-ref="list"
+    x-bind="listbox"
+  >
+    <!-- On lily:input, render the suggestions here as <li class="autosuggest-option" role="option" data-value="…">…</li> -->
+  </ul>
 </div>

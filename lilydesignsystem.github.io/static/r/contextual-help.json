@@ -13,16 +13,17 @@
   "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
   "aria": [
     "Trigger: aria-label, aria-haspopup=\"dialog\", aria-expanded, aria-controls",
-    "Panel: role=\"dialog\", matching id, hidden attribute when closed"
+    "Panel: role=\"dialog\", matching id, popover=\"auto\""
   ],
   "keyboard": [
     "Tab / Shift+Tab: Move focus into and out of the trigger and panel",
-    "Enter / Space: Toggle the popover when the trigger is focused",
-    "Escape: (Consumer-provided) close the popover"
+    "Enter / Space: Toggle the popover when the trigger is focused (browser, via command/commandfor)",
+    "Escape: Close the popover (browser, Popover API)"
   ],
   "props": [
-    "`label`: string (REQUIRED) -- aria-label for the trigger",
-    "`expanded`: boolean (default false)",
+    "`label`: string (REQUIRED) -- aria-label for the trigger (its accessible name)",
+    "`triggerLabel`: string (REQUIRED, no default) -- visible text of the trigger, such as \"?\" or \"؟\"; \"\" when CSS draws an icon (Nunjucks `triggerLabel`, or raw `triggerHtml`; Web Components `trigger-label`; Blazor `TriggerLabel`)",
+    "`expanded`: boolean (default false, bindable)",
     "`onClick` / `onclick`: callback (optional)",
     "`children`: slot -- popover content",
     "`...restProps`: any additional HTML attributes"
@@ -44,5 +45,10 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ContextualHelp.razor"
   },
   "docs": "https://lilydesignsystem.com/components/contextual-help/",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/contextual-help/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/contextual-help/AGENTS.md",
+  "nativePlatform": {
+    "decision": "native",
+    "uses": "popover=\"auto\" panel opened by command=\"toggle-popover\" commandfor (and popovertarget) on its own trigger; toggle event syncs aria-expanded",
+    "could_use": "CSS anchor positioning"
+  }
 }

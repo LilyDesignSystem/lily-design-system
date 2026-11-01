@@ -6,6 +6,9 @@ import { ChangeDetectionStrategy, Component, input, model } from "@angular/core"
  * Headless Angular component. Renders the semantic HTML root with the
  * kebab-case class hook `tour-list` and the consumer-provided `className`.
  * Ships zero CSS; the consumer styles via the class hook.
+ *
+ * A plain `<ol>` of steps (tasks.md P18-T6): no `role="dialog"` (it hid the list semantics) and no
+ * `aria-modal`; any dialog semantics belong to the enclosing non-modal Tour.
  */
 @Component({
     selector: "lily-tour-list",
@@ -13,8 +16,6 @@ import { ChangeDetectionStrategy, Component, input, model } from "@angular/core"
     template: `@if (active()) {
     <ol
       class="tour-list {{ className() }}"
-      role="dialog"
-      aria-modal="true"
       tabindex="-1"
       [attr.aria-label]="label() || null"
       (keydown)="onKeydown($event)"

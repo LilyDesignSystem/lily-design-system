@@ -40,6 +40,8 @@
 
     import type { Snippet } from "svelte";
 
+    import { popoverState } from "../Popover/popover.js";
+
     let {
         class: className = "",
         label,
@@ -100,7 +102,8 @@
     <div
         class="mentions-input-suggestions"
         id={suggestionsId}
-        hidden={!expanded}
+        popover="manual"
+        use:popoverState={expanded}
     >
         {#if children}{@render children?.()}{/if}
     </div>

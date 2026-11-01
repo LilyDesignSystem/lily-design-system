@@ -155,7 +155,7 @@ pnpm run dev</code></pre>
   <h2>Valmisteemad</h2>
   <p>
     Ei taha CSS-i nullist kirjutada? Lily tarnib
-    <strong>57 iseseisvat viiteteemat</strong> kataloogis
+    <strong>63 iseseisvat viiteteemat</strong> kataloogis
     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
     . Igaüks on üks stiilifail, mis sihib Lily klassihaake – lingi see ja oledki kujundatud:
   </p>
@@ -179,11 +179,7 @@ pnpm run dev</code></pre>
 
 <section class="section prose" id="helpers" style="margin: 0 auto;">
   <h2>Eelistuste abilised</h2>
-  <p>
-    Igal raamistikul on kaheksa väikest valijat, millest igaüks on eraldi
-    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> -pakett (ja <code>picker-bar</code> , mis need kokku paneb). Iga neist on päisteta ikoonnupp, mis avab hüpikakna – loendikasti, linkide loendi, otsinguvormi või (date-time-pickeri puhul) kuupäevavaliku dialoogi – mitte natiivne
-    <code>&lt;select&gt;</code>; on SSR-turvaline; ja ei sisalda CSS-i:
-  </p>
+  <p>Igal raamistikul on üksteist väikest valijat, igaüks oma <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> paketis (ja <code>picker-bar</code>, mis need kokku paneb). Igaüks on headless ikooninupp, mis avab hüpikakna — loendikasti, linkide loendi, otsinguvormi, teie enda sisuga paneeli või (date-time-picker puhul) kuupäevavalija dialoogi — mitte omakeelse <code>&lt;select&gt;</code> (theme-picker pakub seda valikulise variandina); see on SSR-ohutu ega too kaasa CSS-i. Lisaks menu-picker, settings-picker ja time-zone-picker on need:</p>
   <ul>
     <li>
       <strong>theme-picker</strong> – laeb teema stiilifaile töö ajal, vahetades hallatavat <code>&lt;link&gt;</code>-i, seab
@@ -294,7 +290,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
     <summary>Komponent renderdub, kuid näeb välja kujundamata</summary>
     <p>
       See on päisteta nii, nagu ette nähtud – komponendiga ei kaasne CSS-i. Kirjuta CSS komponendi kebab-case klassi vastu (näidatud igal <a href="/components/">kataloogilehel</a>) või lingi üks
-      <a href="#themes">57 valmisteemast</a>.
+      <a href="#themes">63 valmisteemast</a>.
     </p>
   </details>
 
@@ -383,7 +379,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
   <details class="faq-item">
     <summary>Miks päisteta, mitte kujundatud?</summary>
     <p>
-      Eelkujundatud komponendid on mugavad – kuni need ei sobi sinu brändiga. Päisteta komponendid nõuavad alguses veidi rohkem tööd, kuid annavad sulle täieliku kontrolli visuaalse disaini üle. Näiterakendused ja 57 teemat näitavad kujundamise viise; võid need üle võtta või täielikult asendada. Pikem argument on lehel <a href="/why/">Miks Lily</a>.
+      Eelkujundatud komponendid on mugavad – kuni need ei sobi sinu brändiga. Päisteta komponendid nõuavad alguses veidi rohkem tööd, kuid annavad sulle täieliku kontrolli visuaalse disaini üle. Näiterakendused ja 63 teemat näitavad kujundamise viise; võid need üle võtta või täielikult asendada. Pikem argument on lehel <a href="/why/">Miks Lily</a>.
     </p>
   </details>
 

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tile",
+  "type": "registry:component",
+  "title": "Tile",
+  "description": "A grouping container that presents related content in a structured format, often as a single clickable area.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Tile.tsx",
+      "content": "import React from \"react\";\n\n// Tile component\n//\n// A grouping container that presents related content as a structured area.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label    — string, optional. Accessible label via aria-label.\n//   children — ReactNode, required. Component content.\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Accessibility:\n//   - native <div> semantics\n//   - aria-label exposes a screen-reader name when label is provided\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//\n// References:\n//   - HTML div element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div\n\nexport interface TileProps {\n    className?: string;\n    /** Optional accessible label set on aria-label. */\n    label?: string;\n    /** Component content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Tile({\n    className = \"\",\n    label = undefined,\n    children,\n    ...restProps\n}: TileProps) {\n    return (\n        <div\n            className={`tile ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Tile.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/tile/"
+}

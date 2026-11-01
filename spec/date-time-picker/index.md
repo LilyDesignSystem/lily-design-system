@@ -205,3 +205,19 @@ the way — a `<select>`'s own `[value]` binding racing its `@for`-
 generated `<option>` children, switched to per-`<option>` `[selected]`).
 `bin/smoke-packages` and the 45 reference themes were extended to
 match; see `tasks.md` P8-T12 and `CHANGELOG.md` for the full record.
+
+## Acceptance criteria
+
+- [x] Shipped as its own package in all eight frameworks (`bin/list-helper-packages <framework>`, checked 2026-10-30).
+- [x] The field is a real, typeable text input that carries the form value and `required`; the trigger opens an APG date picker
+      dialog, not a listbox.
+- [x] Dates are formatted with the Gregorian calendar forced, so the heading and grid agree (P17-T1); typed dates accept any Unicode
+      decimal digits and the locale's day-period words (P17-T2); the grid swaps ArrowLeft and ArrowRight in right-to-left (P17-T3).
+- [x] A form reset restores the initial value in the seven ports that can hear it; Blazor documents why it cannot (§5.10).
+- [ ] A `calendar` prop (a CLDR calendar id) for non-Gregorian calendars (P17-T1 follow-up).
+- [ ] Week numbering other than ISO 8601 (`weekNumbering`), today documented as a limitation (P17-T4).
+
+## Related topics
+
+[helpers](../helpers/index.md) · [internationalization](../internationalization/index.md) ·
+[zone-names](../zone-names/index.md) · [accessibility](../accessibility/index.md)

@@ -10,7 +10,7 @@ license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 canonical component catalog: annotated semantic-HTML snippet files with ARIA
 and class hooks, plus an embedded vanilla-JS behavior layer where a component
 needs interactivity. Zero CSS, zero framework, zero build step to _use_ a
-component. It is one of the seven canonical, full-catalog (582/582) headless
+component. It is one of the seven canonical, full-catalog (607/607) headless
 libraries — HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks — each
 implementing the same slugs, props/attributes, and ARIA/keyboard contracts.
 It is also the **reference implementation**: the canonical semantic HTML,
@@ -86,13 +86,23 @@ examples there (Form, Grail layout, Navigation, Table) use JSX for brevity,
 but the HTML shape is the same nesting with plain tags and the kebab-case
 classes shown above.
 
+## Native dialogs and popovers (2026-10-30)
+
+Modal overlays (`dialog`, `alert-dialog`, `file-dialog`, `timeout-dialog`, `drawer`, `sheet`, `slide-out-drawer`) are a real
+`<dialog>` opened with `showModal()` (each snippet's header comment says how: `drawer`, `sheet` and `slide-out-drawer` open
+when you set `data-open="true"`): the page behind is inert, Tab stays inside, Escape closes, focus returns to the opener. Light-dismiss
+popups (`popover`, `popup`, `contextual-help`, `dropdown-menu`, `split-button`, `action-group`, `context-menu`) use the Popover API
+(`popover="auto"`, opened by `command="toggle-popover"` `commandfor`, with `popovertarget` as well), which needs no script at all: the browser opens
+them from the trigger and closes them on Escape or an outside click. Keep their open state two-way: listen for the change rather than assuming only your code closes
+them. Per-component decisions: each `components/{slug}/AGENTS.md` § "Native platform"; rule: `AGENTS/headless.md`.
+
 ## When this isn't the right skill
 
 - **The `*-picker` helpers** (theme, locale, text-size, motion, share,
   date-time) are a separate layer with their own web-component packaging —
   use [`lily-design-system-html-helpers-skill`](../lily-design-system-html-helpers-skill/).
 - **The native-custom-element sibling catalog** — `@lilydesignsystem/web-components-headless`
-  ships 547 of the 582 components (its full achievable scope) as autonomous custom elements
+  ships 572 of the 607 components (its full achievable scope) as autonomous custom elements
   with no framework runtime, a separate subproject (not this one) — use
   `lily-design-system-web-components-headless-skill` for that catalog's
   own conventions.

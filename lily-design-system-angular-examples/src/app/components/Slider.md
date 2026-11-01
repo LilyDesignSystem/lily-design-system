@@ -8,7 +8,7 @@ in the canonical repo root for the cross-framework documentation.
 ## Selector
 
 ```html
-<lily-slider></lily-slider>
+<lily-slider label="Volume" [(value)]="volume" [min]="0" [max]="100" [step]="5"></lily-slider>
 ```
 
 ## Files

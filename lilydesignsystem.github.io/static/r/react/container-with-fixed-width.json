@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "container-with-fixed-width",
+  "type": "registry:component",
+  "title": "ContainerWithFixedWidth",
+  "description": "A centered content wrapper with a fixed max-width breakpoint.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ContainerWithFixedWidth.tsx",
+      "content": "import React from \"react\";\n\n// ContainerWithFixedWidth component\n//\n// A headless centered content wrapper that constrains its children to a\n// fixed maximum width. Centers itself horizontally within its parent using\n// margin-inline: auto. The maximum width is applied via inline style and\n// also exposed via a data-max-width attribute for consumer CSS hooks.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   maxWidth  — string, default \"1200px\". Max width CSS value.\n//   children  — ReactNode, required. Content to display inside the container.\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Syntax:\n//   <ContainerWithFixedWidth maxWidth=\"960px\">…</ContainerWithFixedWidth>\n//\n// Examples:\n//\n//   <ContainerWithFixedWidth>\n//     <p>Default 1200px max width.</p>\n//   </ContainerWithFixedWidth>\n//\n//\n//   <ContainerWithFixedWidth maxWidth=\"64rem\">\n//     <article>Article content</article>\n//   </ContainerWithFixedWidth>\n//\n// Keyboard: None — layout container.\n//\n// Accessibility:\n//   - Purely structural; no ARIA role\n//   - Content within preserves its own accessibility semantics\n//\n// Internationalization:\n//   - No user-facing strings\n//\n// Claude rules:\n//   - Headless: only inline style is the functional layout (max-width + margin-inline auto)\n//\n// References:\n//   - CSS max-width: https://developer.mozilla.org/en-US/docs/Web/CSS/max-width\n\nexport interface ContainerWithFixedWidthProps {\n    className?: string;\n    /** Max width CSS value, e.g. \"1200px\", \"64rem\" */\n    maxWidth?: string;\n    /** Content to display inside the container */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function ContainerWithFixedWidth({\n    className = \"\",\n    maxWidth = \"1200px\",\n    children,\n    ...restProps\n}: ContainerWithFixedWidthProps) {\n    return (\n        <div\n            className={`container-with-fixed-width ${className}`}\n            style={{ maxWidth, marginInline: \"auto\" }}\n            data-max-width={maxWidth}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ContainerWithFixedWidth.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/container-with-fixed-width/"
+}

@@ -2,7 +2,7 @@
   "slug": "measurement-system-view",
   "name": "MeasurementSystemView",
   "description": "a read-only display of a measurement system",
-  "htmlTag": "div",
+  "htmlTag": "span",
   "category": "content",
   "baseClass": ".measurement-system-view",
   "subClasses": [],

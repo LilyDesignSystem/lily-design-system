@@ -118,6 +118,8 @@ export function initFilterBuilder(root, opts = {}) {
     }
 
     let value = config.value && config.value.type === "group" ? config.value : EMPTY_FILTER();
+    // The filter a form reset restores: the server-rendered one, or the last given to setValue (not user edits).
+    let initial = value;
     let status = "";
     let focusKey = null;
 
@@ -492,13 +494,32 @@ export function initFilterBuilder(root, opts = {}) {
 
     render();
 
+    // Form reset (tasks.md P10-T9): inside a <form>, a reset rewrites every editor field's DOM to its empty default
+    // without telling this script, so the fields would show "" while `value` keeps the user's filter. Restore the
+    // initial filter one tick later (after the browser has reset the DOM) and not when the reset was cancelled; the
+    // commit rebuilds the editor, so every field is redrawn. Same as the Svelte reference.
+    const form = root.closest("form");
+    let resetTimer;
+    const onFormReset = (event) => {
+        clearTimeout(resetTimer);
+        resetTimer = setTimeout(() => {
+            if (!event.defaultPrevented) commit(initial);
+        }, 0);
+    };
+    form?.addEventListener("reset", onFormReset);
+
     return {
         getValue: () => value,
         setValue: (next) => {
             value = next && next.type === "group" ? next : EMPTY_FILTER();
+            initial = value;
             render();
         },
-        destroy: () => root.replaceChildren(),
+        destroy: () => {
+            clearTimeout(resetTimer);
+            form?.removeEventListener("reset", onFormReset);
+            root.replaceChildren();
+        },
     };
 }
 

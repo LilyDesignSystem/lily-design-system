@@ -28,6 +28,7 @@
 //   - WAI-ARIA Tooltip Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/
 
 import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { syncManualPopover } from "./popover.js";
 
 const HANDLED = new Set(["label", "visible", "id"]);
 
@@ -66,6 +67,6 @@ export class Tooltip extends HTMLElement {
             tooltip.id = id;
             this.removeAttribute("id");
         }
-        tooltip.hidden = !this.hasAttribute("visible");
+        syncManualPopover(tooltip, this.hasAttribute("visible"));
     }
 }

@@ -18,3 +18,9 @@ See `components/tool-bar/index.md` for canonical documentation.
     Content
 </ToolBar>
 ```
+
+## Keyboard
+
+ArrowRight / ArrowLeft move focus between its enabled buttons, wrapping at the ends; Home / End jump to the first and last. The keys are handled in `ToolBar.razor.js`, a JavaScript module the component loads after its first
+interactive render (C# cannot move focus among the consumer's `ChildContent`); with static server rendering there is
+no keyboard handling.

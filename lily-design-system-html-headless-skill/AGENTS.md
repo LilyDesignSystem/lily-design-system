@@ -51,7 +51,7 @@ a component. Consumers copy the snippet or fetch/include it server-side.
   `*-picker` helpers skill (that's
   [`lily-design-system-html-helpers-skill`](../lily-design-system-html-helpers-skill/));
   and isn't the skill for the separate, partial Web Components headless
-  catalog (547/582 components, its full achievable scope, as native custom elements — a distinct
+  catalog (548/607 components, its full achievable scope, as native custom elements — a distinct
   subproject with its own architecture decisions).
 
 ## Internationalization

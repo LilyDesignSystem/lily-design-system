@@ -93,7 +93,7 @@ This headless component provides a `<div>` with `aria-hidden="true"` and `aria-b
 
 ## Reduced motion
 
-Reduced motion changes how content appears, never whether it does. Apply it in consumer CSS under `@media (prefers-reduced-motion: reduce)` and under the `motion-picker`'s `[data-motion="reduce"]` on the document root (the 57 reference themes already honour both for the preference hooks they style). For a skeleton:
+Reduced motion changes how content appears, never whether it does. Apply it in consumer CSS under `@media (prefers-reduced-motion: reduce)` and under the `motion-picker`'s `[data-motion="reduce"]` on the document root (the 63 reference themes already honour both for the preference hooks they style). For a skeleton:
 
 - **Suppress:** the shimmer sweep and the pulse. A placeholder that moves for more than five seconds also needs a way to stop it (WCAG 2.2.2); a static one needs nothing.
 - **Keep:** the placeholder shapes, drawn static and at a lower-contrast fill, and `aria-busy="true"` on the region. The loading state must not be carried by the animation alone (WCAG 1.4.1): the shapes and the busy state say it.

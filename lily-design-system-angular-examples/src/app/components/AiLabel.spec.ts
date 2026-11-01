@@ -4,10 +4,10 @@ import { TestBed } from "@angular/core/testing";
 import { AiLabel } from "./AiLabel";
 
 describe("AiLabel", () => {
-    test("renders the div root with the base class", () => {
+    test("renders the <span> root with the base class", () => {
         const fixture = TestBed.createComponent(AiLabel);
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.ai-label");
+        const el = fixture.nativeElement.querySelector("span.ai-label");
         expect(el).toBeTruthy();
     });
 
@@ -15,7 +15,7 @@ describe("AiLabel", () => {
         const fixture = TestBed.createComponent(AiLabel);
         fixture.componentRef.setInput("className", "extra");
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.ai-label");
+        const el = fixture.nativeElement.querySelector("span.ai-label");
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });

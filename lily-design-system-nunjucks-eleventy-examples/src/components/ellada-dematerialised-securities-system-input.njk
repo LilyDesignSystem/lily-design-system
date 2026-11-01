@@ -22,9 +22,19 @@ description: an input for entering Greece's Dematerialised Securities System (DS
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>
-<pre tabindex="0"><code>{% raw %}&lt;Field label="Dematerialised Securities System" required&gt;
-  &lt;ElladaDematerialisedSecuritiesSystemInput label="Dematerialised Securities System" value={value} required /&gt;
-  &lt;Hint&gt;10 digits linked to the investor's personal details (name, ID number, passport number, tax registration number) and managed by the Central Securities Depository of Greece&lt;/Hint&gt;
+<pre tabindex="0"><code>{% raw %}&lt;Field
+  label="Dematerialised Securities System"
+  required
+&gt;
+  &lt;ElladaDematerialisedSecuritiesSystemInput
+    label="Dematerialised Securities System"
+    value="{value}"
+    required
+  /&gt;
+  &lt;Hint
+    &gt;10 digits linked to the investor's personal details (name, ID number, passport number, tax
+    registration number) and managed by the Central Securities Depository of Greece&lt;/Hint
+  &gt;
   &lt;ErrorMessage&gt;Please enter a valid Dematerialised Securities System&lt;/ErrorMessage&gt;
 &lt;/Field&gt;
 {% endraw %}</code></pre>

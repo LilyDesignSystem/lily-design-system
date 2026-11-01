@@ -41,4 +41,11 @@ describe("CurrencyInput", () => {
         await type(el(), "50");
         expect(el().hasAttribute("aria-invalid")).toBe(false);
     });
+    it("never defaults the currency code when the plugin is called without one", async () => {
+        await mount(
+            "currency-input",
+            '<input class="currency-input" x-data="lilyCurrencyInput()" x-bind="input" />',
+        );
+        expect(el().hasAttribute("data-currency-code")).toBe(false);
+    });
 });

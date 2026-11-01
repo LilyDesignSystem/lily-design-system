@@ -41,6 +41,14 @@
 - `children`: slot (required) -- navigation content rendered when the menu is open
 - `...restProps`: unknown -- additional attributes spread onto the outer `<div>` wrapper
 
+## Native platform
+
+- Decision: hand-rolled because a <summary> must sit inside its <details> directly before the panel, so the toggle cannot live in a header row apart from the nav
+- Uses: native <button aria-expanded> + <nav>
+- Could use: <details>/<summary>
+- Notes: APG disclosure navigation; no overlay or top layer wanted.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
+
 ## Acceptance Criteria
 
 - [ ] Renders <button> element with class="hamburger-menu"

@@ -30,7 +30,7 @@ Let a reader choose one of a short list by arrow keys, typing or clicking, with 
 
 - [x] Svelte canonical implemented with tests per requirement, and `shared/wheel-picker.ts` with 15 tests
 - [x] Ported to React, Vue, Angular, Blazor, Nunjucks, HTML, Web Components, Alpine (2026-10-23)
-- [x] The 57 themes style the wheel (scroll-snap list, filled chosen option, focus ring)
+- [x] The 63 themes style the wheel (scroll-snap list, filled chosen option, focus ring)
 - [ ] Used by `DateTimePicker` for its time columns
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless

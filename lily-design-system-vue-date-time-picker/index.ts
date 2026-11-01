@@ -25,6 +25,8 @@ export {
     numericFieldOrder,
     parseDateInput,
     parseTimeInput,
+    normalizeDigits,
+    gregorian,
     nextDateTimePickerId,
     CALENDAR,
 } from "./DateTimePicker.vue";

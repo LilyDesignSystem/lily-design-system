@@ -18,8 +18,8 @@ Because every component carries a stable class hook and pure structure, your sty
 
 - **Accessible by default.** WCAG 2.2 AAA is the target for every component. Patterns follow the WAI-ARIA Authoring Practices; every interactive component is keyboard-operable with a documented contract; the example apps hold a clean axe-core baseline.
 - **Internationalizable by construction.** Every user-facing string — each label, error, and announcement — is a prop with stable names across frameworks, so translation flows naturally. RTL and bidirectional text inherit from your `dir`. Locale-aware components take the locale as a prop, always explicitly.
-- **One catalog, eight frameworks.** The same 582 components (547 as native Web Components) with the same class hooks and prop conventions in HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks, and Web Components. Your CSS and your team's knowledge transfer across stacks.
-- **CSS-strategy agnostic.** One stable kebab-case class per component root. Semantic CSS, Tailwind utilities, CSS-in-JS, or one of the 57 ready-made themes — Lily welcomes them all and stays gracefully out of the way.
+- **One catalog, eight frameworks.** The same 607 components (548 as native Web Components) with the same class hooks and prop conventions in HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks, and Web Components. Your CSS and your team's knowledge transfer across stacks.
+- **CSS-strategy agnostic.** One stable kebab-case class per component root. Semantic CSS, Tailwind utilities, CSS-in-JS, or one of the 63 ready-made themes — Lily welcomes them all and stays gracefully out of the way.
 - **Free, forever, on your terms.** Open source under your choice of BSD, MIT, Apache-2.0, GPL-2.0, or GPL-3.0. No pro tier, no seat licenses, no telemetry.
 
 ## Depth where it matters
@@ -27,13 +27,13 @@ Because every component carries a stable class hook and pure structure, your sty
 Beyond the usual buttons and dialogs, the catalog reaches further than most:
 
 - **Public-sector patterns** researched from the NHS UK, GOV.UK, USWDS, and ONS design systems — error summaries, warning callouts, summary lists, phase banners, skip links.
-- **140 national personal identifier components** covering healthcare, national-ID, tax, and passport identifiers across 50+ countries, each documenting its format and validation algorithm.
+- **164 national personal identifier components** covering healthcare, national-ID, tax, and passport identifiers across 50+ countries, each documenting its format and validation algorithm.
 - **Editorial and scrollytelling primitives** adapted from Reuters Graphics — article layouts, scrollers, timelines, tile maps.
 - **Picker helpers** — small packages that own one interaction end to end: theme switching (with runtime stylesheet loading), language, text size, reduced motion, search, page links, sharing, and date-time entry. Each is a headless icon button that opens a popup — not a native `<select>` — with persistence and SSR safety built in.
 
 ## Themes for the public sector, out of the box
 
-Lily ships 57 standalone reference themes that target its class hooks directly: NHS England, NHS Scotland, and NHS Wales (each in patient-facing and practitioner-facing variants), GOV.UK, USWDS, Adobe Spectrum and Mozilla Protocol inspired palettes, and a set of general-purpose light and dark themes. Link one stylesheet and a government-grade look is on; the `theme-picker` helper swaps them at runtime.
+Lily ships 63 standalone reference themes that target its class hooks directly: NHS England, NHS Scotland, and NHS Wales (each in patient-facing and practitioner-facing variants), GOV.UK, USWDS, Adobe Spectrum and Mozilla Protocol inspired palettes, and a set of general-purpose light and dark themes. Link one stylesheet and a government-grade look is on; the `theme-picker` helper swaps them at runtime.
 
 ## How Lily compares
 

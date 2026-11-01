@@ -24,7 +24,7 @@
 
 A Claude Skill explaining
 [the HTML helper packages](../spec/helpers/index.md#html-helper-packages), the
-catalog of six web-component `*-picker` helpers (`theme-picker`,
+packages of web-component helpers (`theme-picker`,
 `locale-picker`, `text-size-picker`, `motion-picker`, `share-picker`,
 `date-time-picker`) that sit alongside the HTML headless library. The skill
 itself is [`SKILL.md`](SKILL.md); the `@AGENTS/*.md` files loaded above are

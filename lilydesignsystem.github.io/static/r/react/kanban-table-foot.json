@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "kanban-table-foot",
+  "type": "registry:component",
+  "title": "KanbanTableFoot",
+  "description": "A kanban board table interactive grid tfoot for organizing items by status <tfoot>.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/KanbanTableFoot.tsx",
+      "content": "import React from \"react\";\n\n// KanbanTableFoot component\n//\n// The footer section of a KanbanTable, rendered as a <tfoot> element.\n// Contains KanbanTableRow elements with summary or aggregate data cells.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   children — ReactNode, required. KanbanTableRow elements with footer cells.\n//   ...restProps — additional HTML attributes spread onto the <tfoot>.\n//\n// Syntax:\n//   <KanbanTableFoot>\n//     <KanbanTableRow>\n//       <KanbanTableTD>Total: 3</KanbanTableTD>\n//       <KanbanTableTD>Total: 5</KanbanTableTD>\n//     </KanbanTableRow>\n//   </KanbanTableFoot>\n//\n// Keyboard:\n//   None built-in — keyboard navigation handled at the KanbanTable grid level.\n//\n// Accessibility:\n//   - <tfoot> provides structural footer semantics for the table\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Must be used inside a KanbanTable\n//   - No internal state — purely a structural wrapper\n//\n// References:\n//   - HTML tfoot element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tfoot\n\nexport interface KanbanTableFootProps {\n    className?: string;\n    /** KanbanTableRow elements with footer cells. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function KanbanTableFoot({\n    className = \"\",\n    children,\n    ...restProps\n}: KanbanTableFootProps) {\n    return (\n        <tfoot\n            className={`kanban-table-foot ${className}`}\n            {...restProps}\n        >\n            {children}\n        </tfoot>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/KanbanTableFoot.tsx"
+    }
+  ],
+  "categories": [
+    "tables"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/kanban-table-foot/"
+}

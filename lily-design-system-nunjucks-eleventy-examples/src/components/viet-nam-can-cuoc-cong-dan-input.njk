@@ -1,0 +1,29 @@
+---
+layout: layouts/component-demo.njk
+title: VietNamCanCuocCongDanInput
+description: an input for entering Viet Nam's Citizen Identification Number (CCCD)
+---
+
+{% from "components/viet-nam-can-cuoc-cong-dan-input/macro.njk" import vietNamCanCuocCongDanInput %}
+
+<h2>Default</h2>
+<p>{{ vietNamCanCuocCongDanInput({ text: "VietNamCanCuocCongDanInput example", label: "VietNamCanCuocCongDanInput example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field
+  label="Citizen Identification Number (CCCD)"
+  required
+&gt;
+  &lt;VietNamCanCuocCongDanInput
+    label="Citizen Identification Number (CCCD)"
+    value="{value}"
+    required
+  /&gt;
+  &lt;Hint
+    &gt;Twelve digits: a three-digit code for the province or country of registration, one digit for gender and century of birth (0 male and 1 female for the 1900s, 2 male and 3 female for the 2000s, and so on in pairs), the last two digits of the year of birth, and six random digits. There is no published check digit.&lt;/Hint
+  &gt;
+  &lt;ErrorMessage&gt;Please enter a valid Citizen Identification Number (CCCD)&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

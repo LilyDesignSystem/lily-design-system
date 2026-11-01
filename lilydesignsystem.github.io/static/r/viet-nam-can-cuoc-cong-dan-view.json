@@ -1,0 +1,39 @@
+{
+  "slug": "viet-nam-can-cuoc-cong-dan-view",
+  "name": "VietNamCanCuocCongDanView",
+  "description": "a read-only display of Viet Nam's Citizen Identification Number (CCCD)",
+  "htmlTag": "span",
+  "category": "national",
+  "baseClass": ".viet-nam-can-cuoc-cong-dan-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow",
+  "aria": [
+    "`aria-label` provides accessible name from label prop"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`value`: string (default: \"\") — the identifier to display",
+    "`label`: string (required) — accessible name via `aria-label`",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "viet-nam-can-cuoc-cong-dan-input",
+    "summary-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/viet-nam-can-cuoc-cong-dan-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/VietNamCanCuocCongDanView/VietNamCanCuocCongDanView.svelte",
+    "react": "lily-design-system-react-headless/components/VietNamCanCuocCongDanView.tsx",
+    "vue": "lily-design-system-vue-headless/components/VietNamCanCuocCongDanView.vue",
+    "angular": "lily-design-system-angular-headless/components/VietNamCanCuocCongDanView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/viet-nam-can-cuoc-cong-dan-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/viet-nam-can-cuoc-cong-dan-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/viet-nam-can-cuoc-cong-dan-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/VietNamCanCuocCongDanView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/viet-nam-can-cuoc-cong-dan-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/viet-nam-can-cuoc-cong-dan-view/AGENTS.md"
+}

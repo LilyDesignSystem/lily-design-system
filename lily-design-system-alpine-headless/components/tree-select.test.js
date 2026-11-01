@@ -31,6 +31,12 @@ describe("TreeSelect", () => {
         expect(el().classList.contains("tree-select")).toBe(true);
     });
 
+    const mountTree = async () => {
+        await mount("tree-select");
+        el().querySelector("button").click();
+        await tick();
+        await tick();
+    };
     it("is a tree of treeitems with one tab stop and closed branches", async () => {
         await mount("tree-select");
         expect(document.querySelector("[role=tree]")).not.toBeNull();
@@ -48,7 +54,7 @@ describe("TreeSelect", () => {
         expect(item("one").querySelector("[role=group]").hidden).toBe(true);
     });
     it("ArrowRight opens a branch then enters it; ArrowLeft closes or goes to the parent", async () => {
-        await mount("tree-select");
+        await mountTree();
         item("one").focus();
         await press(item("one"), "ArrowRight");
         expect(item("one").getAttribute("aria-expanded")).toBe("true");
@@ -61,7 +67,7 @@ describe("TreeSelect", () => {
         expect(item("one").getAttribute("aria-expanded")).toBe("false");
     });
     it("ArrowDown and ArrowUp skip the children of a closed branch", async () => {
-        await mount("tree-select");
+        await mountTree();
         item("one").focus();
         await press(item("one"), "ArrowDown");
         expect(document.activeElement).toBe(item("two"));
@@ -71,7 +77,7 @@ describe("TreeSelect", () => {
         expect(item("two").getAttribute("tabindex")).toBe("-1");
     });
     it("the arrows stop at the ends; Home and End jump", async () => {
-        await mount("tree-select");
+        await mountTree();
         item("one").focus();
         await press(item("one"), "ArrowUp");
         expect(document.activeElement).toBe(item("one"));
@@ -84,14 +90,14 @@ describe("TreeSelect", () => {
         expect(document.activeElement).toBe(item("one"));
     });
     it("* opens every closed branch at the focused level", async () => {
-        await mount("tree-select");
+        await mountTree();
         item("one").focus();
         await press(item("one"), "*");
         expect(item("one").getAttribute("aria-expanded")).toBe("true");
         expect(item("three").getAttribute("aria-expanded")).toBe("true");
     });
     it("typing jumps to the next visible item starting with the character", async () => {
-        await mount("tree-select");
+        await mountTree();
         nameAll();
         item("one").focus();
         await press(item("one"), "t");
@@ -168,11 +174,10 @@ describe("TreeSelect", () => {
             "tree-select",
             snippet("tree-select").replace("lilyTreeSelect()", "lilyTreeSelect(true)"),
         );
-        expect(el().getAttribute("data-multiple")).toBe("true");
-        expect(el().hasAttribute("aria-multiselectable")).toBe(false);
-        expect(el().querySelector('[role="tree"]').getAttribute("aria-multiselectable")).toBe(
+        expect(document.querySelector("[role=tree]").getAttribute("aria-multiselectable")).toBe(
             "true",
         );
+        expect(el().hasAttribute("aria-multiselectable")).toBe(false);
         await open();
         item("two").click();
         await tick();

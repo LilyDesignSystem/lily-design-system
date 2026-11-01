@@ -1,12 +1,12 @@
 ---
 name: lily-design-system-vue-skill
-description: Use when someone asks what's available for Vue in Lily Design System, which Vue subproject they need (the headless component library, the *-picker helpers catalog, or the Nuxt.js example app), wants to run or see Vue components styled and working end-to-end, or needs the Nuxt-specific example app's routes and conventions before either sibling skill applies.
+description: Use when someone asks what's available for Vue in Lily Design System, which Vue subproject they need (the headless component library, the helper packages, or the Nuxt.js example app), wants to run or see Vue components styled and working end-to-end, or needs the Nuxt-specific example app's routes and conventions before either sibling skill applies.
 license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 ---
 
 # Lily Design System™ — Vue — concepts & usage
 
-Lily ships three real Vue subprojects. This skill is the umbrella: it maps
+Lily ships three Vue layers. This skill is the umbrella: it maps
 the three, helps decide which one a task needs, and covers the one of the
 three — the Nuxt.js example app — that neither of its two sibling skills
 covers. It does not restate either sibling's content.
@@ -15,9 +15,9 @@ covers. It does not restate either sibling's content.
 
 | Subproject                                                                         | What it is                                                                                                                                                                                                                                                                 | Reach for it when                                                                                                                       |
 | ---------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| [`@lilydesignsystem/vue-headless`](../lily-design-system-vue-headless/)            | The 582-component catalog as unstyled `.vue` SFCs — semantic HTML, ARIA, keyboard behaviour, **no CSS**.                                                                                                                                                                   | You're depending on Lily components in your own app and will style them yourself.                                                       |
-| [the Vue helper packages](../spec/helpers/index.md#vue-helper-packages)            | Six small opinionated packages (`theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`, `share-picker`, `date-time-picker`) that each own one whole page-header interaction — popup, keyboard, and (for the four preferences) applying + persisting a value. | You need a ready-made preference control, a share action, or a date/time form field rather than assembling one from catalog primitives. |
-| [`lily-design-system-vue-nuxt-examples`](../lily-design-system-vue-nuxt-examples/) | A fully styled Nuxt 3 reference app rendering every catalog component plus composed pages, NHS UK visual reference.                                                                                                                                                        | You want to see a component running and styled before wiring it in, or want working CSS to copy rather than write from scratch.         |
+| [`@lilydesignsystem/vue-headless`](../lily-design-system-vue-headless/)            | The 607-component catalog as unstyled `.vue` SFCs — semantic HTML, ARIA, keyboard behaviour, **no CSS**.                                                                                                                                                                   | You're depending on Lily components in your own app and will style them yourself.                                                       |
+| [the Vue helper packages](../spec/helpers/index.md#vue-helper-packages)            | Small opinionated packages — 20 packages, one subproject each: eleven `*-picker` helpers (theme, locale, text-size, motion, time-zone, share, search, link, menu, settings, date-time), `picker-bar`, the grid-like `data-grid`, `kanban-board`, `calendar`, `gantt-chart` and `filter`, the `markdown-editor` and `org-editor`, and `locale-translations` — that each own one whole interaction — popup, keyboard, and (for the four preferences) applying + persisting a value. | You need a ready-made preference control, a share action, or a date/time form field rather than assembling one from catalog primitives. |
+| [`lily-design-system-vue-nuxt-examples`](../lily-design-system-vue-nuxt-examples/) | A fully styled Nuxt 4 reference app rendering every catalog component plus composed pages, NHS UK visual reference.                                                                                                                                                        | You want to see a component running and styled before wiring it in, or want working CSS to copy rather than write from scratch.         |
 
 For the deep, framework-specific contracts of the first two, use their own
 skills:
@@ -27,7 +27,7 @@ skills:
   `v-bind="$attrs"`, `<slot />`, `defineModel()`), naming and composition
   pointers.
 - [`lily-design-system-vue-helpers-skill`](../lily-design-system-vue-helpers-skill/) —
-  each of the six packages' npm name, the three shape families
+  each package's npm name, the three shape families
   (icon-button-plus-listbox, disclosure-of-links, field-plus-dialog), and
   their `v-model` idiom.
 
@@ -35,7 +35,7 @@ This skill does not restate either — it only tells you which one to open.
 
 ## The example app, in full (not covered elsewhere)
 
-`lily-design-system-vue-nuxt-examples` is a Vue 3 + Nuxt 3 app demonstrating
+`lily-design-system-vue-nuxt-examples` is a Vue 3 + Nuxt 4 app demonstrating
 every headless component and several composed pages, styled with the NHS UK
 design system's colours, typography, spacing, and focus states (the current
 default visual reference for all Lily example apps — see
@@ -85,7 +85,7 @@ Nuxt-specific things worth knowing when reading or copying this app:
   meant to win) worth knowing if you're wiring the same helper into your
   own Nuxt app.
 
-## What spans all three subprojects
+## What spans all three layers
 
 - **Composition API only.** Every `.vue` file across all three uses
   `<script setup lang="ts">` — no Options API, no `mixins`, no
@@ -93,10 +93,10 @@ Nuxt-specific things worth knowing when reading or copying this app:
 - **TypeScript** throughout, with `defineProps<{}>()` + `withDefaults()`,
   `defineModel()` for two-way binding, `v-bind="$attrs"` for pass-through
   attributes, and emitted events rather than callback props.
-- **The same 582-component catalog and the same six helpers** as every
+- **The same 607-component catalog and the same helper packages** as every
   other framework Lily ships — Vue is one of seven full-catalog headless
-  languages, and `lily-design-system-svelte-helpers` is the canonical
-  reference the Vue helpers are ported from.
+  languages, and the Svelte helper packages (`lily-design-system-svelte-*`)
+  are the canonical reference the Vue helpers are ported from.
 - **Vitest** is the test runner across all three (plus Vue Testing Library
   / `@vue/test-utils` and jsdom); the headless library and the helpers
   catalog explicitly forbid jest-dom matchers, using vitest's built-in

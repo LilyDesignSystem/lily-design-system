@@ -24,6 +24,7 @@ import {
     passThroughAttributes,
     rootClassName,
 } from "../lib/dom-utils.js";
+import { ModalDialogState } from "../lib/modal-dialog.js";
 
 const HANDLED = new Set(["open", "title", "remaining-seconds"]);
 
@@ -33,6 +34,7 @@ export class TimeoutDialog extends HTMLElement {
     }
 
     #dialog: HTMLDialogElement | null = null;
+    #modal: ModalDialogState | null = null;
     #titleEl: HTMLElement | null = null;
     #titleId = nextId("lily-timeout-dialog-title");
 
@@ -54,10 +56,16 @@ export class TimeoutDialog extends HTMLElement {
         this.#titleEl = strong;
 
         dialog.addEventListener("keydown", this.#onKeydown);
+        // The native cancel event (Escape under showModal()): reported like Escape, never closing on its own.
+        dialog.addEventListener("cancel", (event) => {
+            event.preventDefault();
+            this.dispatchEvent(new CustomEvent("lily-cancel", { bubbles: true, composed: true }));
+        });
 
         moveChildrenInto(this, dialog);
         this.appendChild(dialog);
         this.#dialog = dialog;
+        this.#modal = new ModalDialogState(dialog);
         this.#sync();
     }
 
@@ -68,11 +76,11 @@ export class TimeoutDialog extends HTMLElement {
     #sync(): void {
         const dialog = this.#dialog;
         if (!dialog) return;
-        dialog.open = this.hasAttribute("open");
         if (this.#titleEl) this.#titleEl.textContent = this.getAttribute("title") ?? "";
         const remaining = this.getAttribute("remaining-seconds");
         if (remaining !== null) dialog.setAttribute("data-remaining-seconds", remaining);
         else dialog.removeAttribute("data-remaining-seconds");
+        this.#modal?.sync(this.hasAttribute("open"));
     }
 
     #onKeydown = (event: KeyboardEvent): void => {

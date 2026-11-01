@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "notification",
+  "type": "registry:component",
+  "title": "Notification",
+  "description": "A brief message about an event or update.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Notification.tsx",
+      "content": "import React from \"react\";\n\n// Notification component\n//\n// A headless notification/toast message that delivers timely messages to users\n// about events, updates, or actions. It renders a <div> with ARIA live region\n// semantics, using role=\"status\" with aria-live=\"polite\" by default, or\n// role=\"alert\" with aria-live=\"assertive\" when urgent. Commonly used for\n// success confirmations, error alerts, and informational updates.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, optional. Accessible name for the notification region via aria-label.\n//   urgent — boolean, default false. When true, uses role=\"alert\" and aria-live=\"assertive\".\n//   children — ReactNode, required. The notification message content.\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Syntax:\n//   <Notification label=\"Success\">Message here.</Notification>\n//\n// Examples:\n//\n//   <Notification label=\"Success\">Your changes have been saved.</Notification>\n//\n//\n//   <Notification label=\"Error\" urgent>Something went wrong. Please try again.</Notification>\n//\n//\n//   <Notification>3 new messages</Notification>\n//\n// Keyboard:\n//   None — this is a passive announcement container; screen readers announce\n//   content automatically via ARIA live regions without user interaction.\n//\n// Accessibility:\n//   - role=\"status\" (default) for polite, non-urgent announcements\n//   - role=\"alert\" (when urgent) for assertive, immediate announcements\n//   - aria-label provides an accessible name for the notification region\n//   - aria-live=\"polite\" (default) waits for user idle before announcing\n//   - aria-live=\"assertive\" (when urgent) interrupts the user immediately\n//\n// Internationalization:\n//   - All text content comes through the children prop and label prop\n//   - No hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - The urgent prop switches both the role and aria-live simultaneously\n//   - Do not add close/dismiss logic — consumer manages notification lifecycle\n//\n// References:\n//   - WAI-ARIA alert role: https://www.w3.org/TR/wai-aria-1.2/#alert\n//   - WAI-ARIA status role: https://www.w3.org/TR/wai-aria-1.2/#status\n//   - WAI-ARIA Live Regions: https://www.w3.org/WAI/ARIA/apd/practices/live-regions/\n\nexport interface NotificationProps {\n    className?: string;\n    label?: string;\n    urgent?: boolean;\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Notification({\n    className = \"\",\n    label = undefined,\n    urgent = false,\n    children,\n    ...restProps\n}: NotificationProps) {\n    return (\n        <div\n            className={`notification ${className}`}\n            role={urgent ? \"alert\" : \"status\"}\n            aria-label={label}\n            aria-live={urgent ? \"assertive\" : \"polite\"}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Notification.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/notification/"
+}

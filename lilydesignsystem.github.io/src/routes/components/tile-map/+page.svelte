@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"tile-map\" aria-label=\"a tile cartogram map with configurable layers for geographic data visualization\">TileMap</div>";
   const svelteSource: string = "// In your Svelte component:\nimport TileMap from \"lily-design-system-svelte-headless/components/TileMap/TileMap.svelte\";\n\n<TileMap>\n  <!-- content -->\n</TileMap>\n";
-  const usageCode: string = "<TileMap label=\"US election results by state\" data={stateData}>\n  <div class=\"tile\" style=\"grid-column: 11; grid-row: 1\">ME</div>\n  <div class=\"tile\" style=\"grid-column: 1; grid-row: 2\">AK</div>\n  <!-- ... more tiles -->\n</TileMap>\n";
+  const usageCode: string = "<TileMap\n  label=\"US election results by state\"\n  data=\"{stateData}\"\n>\n  <div\n    class=\"tile\"\n    style=\"grid-column: 11; grid-row: 1\"\n  >\n    ME\n  </div>\n  <div\n    class=\"tile\"\n    style=\"grid-column: 1; grid-row: 2\"\n  >\n    AK\n  </div>\n  <!-- ... more tiles -->\n</TileMap>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

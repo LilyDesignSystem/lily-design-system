@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
+import { restoreOnFormReset } from "./form-reset";
 
 /**
  * HrvatskaOsobniIdentifikacijskiBrojInput — an input for entering Croatia's Osobni identifikacijski broj (OIB)
@@ -33,4 +34,8 @@ export class HrvatskaOsobniIdentifikacijskiBrojInput {
     readonly required = input<boolean>(false);
     /** Whether the input is disabled. */
     readonly disabled = input<boolean>(false);
+
+    constructor() {
+        restoreOnFormReset(this.value);
+    }
 }

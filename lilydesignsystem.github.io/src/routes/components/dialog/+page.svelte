@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<dialog class=\"dialog\" open aria-label=\"Example dialog\"><p>Dialog content</p><button class=\"button\">Close</button></dialog>";
   const svelteSource: string = "// In your Svelte component:\nimport Dialog from \"lily-design-system-svelte-headless/components/Dialog/Dialog.svelte\";\n\n<Dialog label=\"Dialog\" open>\n  <!-- dialog content -->\n</Dialog>\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import Dialog from \"./Dialog.svelte\";\n    let open = $state(false);\n    function confirm() { /* … */ open = false; }\n<\/script>\n\n<Dialog label=\"Confirm action\" bind:open>\n    <p>Are you sure you want to proceed?</p>\n    <button type=\"button\" onclick={() => open = false}>Cancel</button>\n    <button type=\"button\" onclick={confirm}>Confirm</button>\n</Dialog>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import Dialog from \"./Dialog.svelte\";\n  let open = $state(false);\n  function confirm() {\n    /* … */ open = false;\n  }\n<\/script>\n\n<Dialog\n  label=\"Confirm action\"\n  bind:open\n>\n  <p>Are you sure you want to proceed?</p>\n  <button\n    type=\"button\"\n    onclick={() => (open = false)}>Cancel</button\n  >\n  <button\n    type=\"button\"\n    onclick={confirm}>Confirm</button\n  >\n</Dialog>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

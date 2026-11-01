@@ -36,6 +36,14 @@
 - `children`: slot -- the reasoning content
 - `...restProps`: unknown -- additional attributes spread onto the `<details>`
 
+## Native platform
+
+- Decision: native
+- Uses: <details>/<summary>
+- Could use: none
+- Notes: AI disclosure.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
+
 ## Acceptance Criteria
 
 - [ ] Renders <details> with class="thinking" and a summary

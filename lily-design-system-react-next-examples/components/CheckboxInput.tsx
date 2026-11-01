@@ -48,7 +48,8 @@
 //   - MDN checkbox input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox
 //   - WAI-ARIA Checkbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useFormReset } from "./form-reset";
 
 export interface CheckboxInputProps {
     className?: string;
@@ -77,6 +78,14 @@ export default function CheckboxInput({
     ...restProps
 }: CheckboxInputProps) {
     const [internalChecked, setInternalChecked] = useState(checked);
+    const inputRef = useRef<HTMLInputElement>(null);
+    const initialChecked = useRef(checked);
+
+    // Form reset: restore the initial state and tell the consumer.
+    useFormReset(inputRef, () => {
+        setInternalChecked(initialChecked.current);
+        onChange?.(initialChecked.current);
+    });
 
     useEffect(() => {
         setInternalChecked(checked);
@@ -92,6 +101,7 @@ export default function CheckboxInput({
 
     return (
         <input
+            ref={inputRef}
             className={`checkbox-input ${className}`}
             type="checkbox"
             checked={internalChecked}

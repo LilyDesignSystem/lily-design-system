@@ -15,6 +15,7 @@ The model is `FilterModel` (static): `OperatorsFor`, `ArityOf`, `CreateRule`, `C
 - A rule's `Value` is `object?`: text, `double`, an ISO date string, or a `List<string>` of option ids for `in` / `not-in`.
 - A negated text match in MongoDB output is `{ "$not": { "$regex": …, "$options": "i" } }`, because JSON has no regular-expression literal.
 - Typing in a value field re-renders the component (Blazor's model); the field keeps its caret because Blazor patches the DOM rather than replacing it.
+- Form reset (tasks.md P10-T9): the other ports restore the initial filter when their `<form>` is reset. This one does not: a Blazor component cannot hear a form's `reset` event without a JavaScript module calling back into .NET, which this package does not ship, and Blazor forms reset through their model. Set `Value` back instead.
 
 ## Acceptance criteria
 

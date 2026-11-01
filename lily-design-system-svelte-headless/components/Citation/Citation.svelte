@@ -13,10 +13,10 @@
 </script>
 
 <!-- Citation.svelte -->
-<div
+<cite
     class={`citation ${className}`}
     aria-label={label}
     {...restProps}
 >
     {@render children?.()}
-</div>
+</cite>

@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, test } from "vitest";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
 import { Drawer } from "./drawer.js";
 
@@ -6,59 +6,124 @@ if (!customElements.get("lily-drawer")) {
     customElements.define("lily-drawer", Drawer);
 }
 
+// Modality (tasks.md P18-T6): the inner <dialog> is opened with showModal(). jsdom has no showModal, so it is
+// stubbed on the prototype the way a browser behaves; the Tab trap and the inert page are the browser's part and need
+// a real engine, so here we assert showModal() is what opens it.
+const proto = HTMLDialogElement.prototype as unknown as {
+    showModal?: () => void;
+    close?: () => void;
+};
+let showModal: ReturnType<typeof vi.fn>;
+let trigger: HTMLButtonElement;
+
+beforeEach(() => {
+    showModal = vi.fn(function (this: HTMLDialogElement) {
+        this.setAttribute("open", "");
+    });
+    proto.showModal = showModal as unknown as typeof proto.showModal;
+    proto.close = vi.fn(function (this: HTMLDialogElement) {
+        this.removeAttribute("open");
+    }) as unknown as typeof proto.close;
+});
+
 afterEach(() => {
+    delete proto.showModal;
+    delete proto.close;
     document.body.innerHTML = "";
 });
 
 function render(html: string): HTMLElement {
-    document.body.innerHTML = html;
-    return document.body.firstElementChild as HTMLElement;
+    document.body.innerHTML = `<button id="trigger">Open</button>${html}`;
+    trigger = document.getElementById("trigger") as HTMLButtonElement;
+    return document.body.lastElementChild as HTMLElement;
 }
 
-describe("Drawer", () => {
-    test("carries the base class, role=dialog, aria-modal=true, tabindex=-1", () => {
-        const host = render('<lily-drawer label="Navigation"></lily-drawer>');
+const inner = (host: HTMLElement) => host.querySelector("dialog") as HTMLDialogElement;
 
-        expect(host.className).toBe("drawer");
-        expect(host.getAttribute("role")).toBe("dialog");
-        expect(host.getAttribute("aria-modal")).toBe("true");
-        expect(host.tabIndex).toBe(-1);
+describe("Drawer", () => {
+    test("renders an inner <dialog> carrying the base class, aria-modal=true and tabindex=-1", () => {
+        const host = render('<lily-drawer label="Navigation"></lily-drawer>');
+        const dialog = inner(host);
+        expect(dialog.tagName).toBe("DIALOG");
+        expect(dialog.className).toBe("drawer");
+        expect(dialog.getAttribute("aria-modal")).toBe("true");
+        expect(dialog.tabIndex).toBe(-1);
+        expect(host.hasAttribute("role")).toBe(false);
     });
 
     test("uses label as the accessible name", () => {
         const host = render('<lily-drawer label="Navigation"></lily-drawer>');
-
-        expect(host.getAttribute("aria-label")).toBe("Navigation");
+        expect(inner(host).getAttribute("aria-label")).toBe("Navigation");
     });
 
-    test("is hidden by default and visible when open", () => {
-        const closed = render('<lily-drawer label="Navigation"></lily-drawer>');
-        expect(closed.hidden).toBe(true);
-
-        const open = render('<lily-drawer label="Navigation" open></lily-drawer>');
-        expect(open.hidden).toBe(false);
+    test("appends the consumer class and passes other attributes through", () => {
+        const host = render('<lily-drawer label="L" class="extra" data-testid="x"></lily-drawer>');
+        expect(inner(host).className).toBe("drawer extra");
+        expect(inner(host).getAttribute("data-testid")).toBe("x");
     });
 
-    test("defaults data-side to left and reflects the side attribute", () => {
-        const host = render('<lily-drawer label="Filters" side="right"></lily-drawer>');
-
-        expect(host.getAttribute("data-side")).toBe("right");
+    test("defaults data-side to left and reflects the side attribute on the dialog", () => {
+        const host = render('<lily-drawer label="L"></lily-drawer>');
+        expect(inner(host).getAttribute("data-side")).toBe("left");
+        const other = render('<lily-drawer label="L" side="top"></lily-drawer>');
+        expect(inner(other).getAttribute("data-side")).toBe("top");
     });
 
-    test("Escape closes the drawer", () => {
-        const host = render('<lily-drawer label="Navigation" open></lily-drawer>');
-
-        host.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
-
-        expect(host.hasAttribute("open")).toBe(false);
-        expect(host.hidden).toBe(true);
+    test("is closed by default", () => {
+        const host = render('<lily-drawer label="L"></lily-drawer>');
+        expect(inner(host).open).toBe(false);
+        expect(showModal).not.toHaveBeenCalled();
     });
 
-    test("toggling the open attribute externally updates visibility", () => {
-        const host = render('<lily-drawer label="Navigation"></lily-drawer>');
+    test("open opens it with showModal()", () => {
+        const host = render('<lily-drawer label="L" open></lily-drawer>');
+        expect(showModal).toHaveBeenCalledTimes(1);
+        expect(inner(host).open).toBe(true);
+    });
 
+    test("falls back to the open attribute where showModal is missing", () => {
+        delete proto.showModal;
+        const host = render('<lily-drawer label="L" open></lily-drawer>');
+        expect(inner(host).hasAttribute("open")).toBe(true);
+    });
+
+    test("opening moves focus inside", () => {
+        const host = render('<lily-drawer label="L"><button>Inside</button></lily-drawer>');
+        trigger.focus();
         host.toggleAttribute("open", true);
+        expect(inner(host).contains(document.activeElement)).toBe(true);
+    });
 
-        expect(host.hidden).toBe(false);
+    test("Escape closes it and fires lily-close", () => {
+        const host = render('<lily-drawer label="L" open></lily-drawer>');
+        const handler = vi.fn();
+        host.addEventListener("lily-close", handler);
+        inner(host).dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+        expect(host.hasAttribute("open")).toBe(false);
+        expect(inner(host).open).toBe(false);
+        expect(handler).toHaveBeenCalledTimes(1);
+    });
+
+    test("the native cancel event (Escape) closes it", () => {
+        const host = render('<lily-drawer label="L" open></lily-drawer>');
+        const cancel = new Event("cancel", { cancelable: true });
+        inner(host).dispatchEvent(cancel);
+        expect(cancel.defaultPrevented).toBe(true);
+        expect(host.hasAttribute("open")).toBe(false);
+    });
+
+    test("closing returns focus to the trigger", () => {
+        const host = render('<lily-drawer label="L"><button>Inside</button></lily-drawer>');
+        trigger.focus();
+        host.toggleAttribute("open", true);
+        expect(document.activeElement).not.toBe(trigger);
+        host.removeAttribute("open");
+        expect(inner(host).open).toBe(false);
+        expect(document.activeElement).toBe(trigger);
+    });
+
+    test("keeps consumer content inside the dialog", () => {
+        const host = render('<lily-drawer label="L" open><nav>Menu content</nav></lily-drawer>');
+        expect(inner(host).querySelector("nav")?.textContent).toBe("Menu content");
     });
 });

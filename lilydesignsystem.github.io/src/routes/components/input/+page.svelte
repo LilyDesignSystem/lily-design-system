@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<input class=\"input\" aria-label=\"Input\" />";
   const svelteSource: string = "// In your Svelte component:\nimport Input from \"lily-design-system-svelte-headless/components/Input/Input.svelte\";\n\n<Input label=\"Label\" />\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import Input from \"./Input.svelte\";\n    let value = $state(\"\");\n<\/script>\n\n<Input label=\"Search\" bind:value />\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import Input from \"./Input.svelte\";\n  let value = $state(\"\");\n<\/script>\n\n<Input\n  label=\"Search\"\n  bind:value\n/>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

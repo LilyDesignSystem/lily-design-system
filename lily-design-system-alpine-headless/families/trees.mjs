@@ -1,4 +1,4 @@
-// Family: trees. lilyTree (tree-nav, tree-menu, file-tree), lilyTreeSelect
+// Family: trees. lilyTree (tree-nav, tree-menu, tree-list, file-tree), lilyTreeSelect
 // (tree-select) and lilyCascader (cascader), all on one APG tree-view core.
 // file-manager is a named region with no behaviour in its contract.
 
@@ -31,7 +31,19 @@ ${pad}</li>`
 };
 
 // Tests every hierarchical tree shares (ids one, one-a, one-b, two, three, three-a).
-const treeTests = (slug, wrap) => `
+// A tree inside a popup panel (tree-select) starts hidden, and jsdom, like a browser, will not focus inside a hidden
+// subtree: open the panel through its trigger before the keyboard tests focus an item.
+const treeTests = (slug, wrap, popup = slug === "tree-select") => `
+  const mountTree = async () => {
+    await mount("${slug}");${
+        popup
+            ? `
+    el().querySelector("button").click();
+    await tick();
+    await tick();`
+            : ""
+    }
+  };
   it("is a tree of treeitems with one tab stop and closed branches", async () => {
     await mount("${slug}");
     expect(document.querySelector("[role=tree]")).not.toBeNull();
@@ -42,7 +54,7 @@ const treeTests = (slug, wrap) => `
     expect(item("one").querySelector("[role=group]").hidden).toBe(true);
   });
   it("ArrowRight opens a branch then enters it; ArrowLeft closes or goes to the parent", async () => {
-    await mount("${slug}");
+    await mountTree();
     item("one").focus();
     await press(item("one"), "ArrowRight");
     expect(item("one").getAttribute("aria-expanded")).toBe("true");
@@ -55,7 +67,7 @@ const treeTests = (slug, wrap) => `
     expect(item("one").getAttribute("aria-expanded")).toBe("false");
   });
   it("ArrowDown and ArrowUp skip the children of a closed branch", async () => {
-    await mount("${slug}");
+    await mountTree();
     item("one").focus();
     await press(item("one"), "ArrowDown");
     expect(document.activeElement).toBe(item("two"));
@@ -65,7 +77,7 @@ const treeTests = (slug, wrap) => `
     expect(item("two").getAttribute("tabindex")).toBe("-1");
   });
   it("${wrap ? "the arrows wrap at the ends" : "the arrows stop at the ends"}; Home and End jump", async () => {
-    await mount("${slug}");
+    await mountTree();
     item("one").focus();
     await press(item("one"), "ArrowUp");
     expect(document.activeElement).toBe(${wrap ? 'item("three")' : 'item("one")'});
@@ -78,14 +90,14 @@ const treeTests = (slug, wrap) => `
     expect(document.activeElement).toBe(item("one"));
   });
   it("* opens every closed branch at the focused level", async () => {
-    await mount("${slug}");
+    await mountTree();
     item("one").focus();
     await press(item("one"), "*");
     expect(item("one").getAttribute("aria-expanded")).toBe("true");
     expect(item("three").getAttribute("aria-expanded")).toBe("true");
   });
   it("typing jumps to the next visible item starting with the character", async () => {
-    await mount("${slug}"); nameAll();
+    await mountTree(); nameAll();
     item("one").focus();
     await press(item("one"), "t");
     expect(document.activeElement).toBe(item("two"));
@@ -155,7 +167,8 @@ const popupTests = (slug, exclusive) => `
     expect(item("three").getAttribute("aria-expanded")).toBe("true");
     expect(item("one").getAttribute("aria-expanded")).toBe("false");`
             : `await mount("${slug}", snippet("${slug}").replace("lilyTreeSelect()", "lilyTreeSelect(true)"));
-    expect(el().getAttribute("aria-multiselectable")).toBe("true");
+    expect(document.querySelector("[role=tree]").getAttribute("aria-multiselectable")).toBe("true");
+    expect(el().hasAttribute("aria-multiselectable")).toBe(false);
     await open();
     item("two").click(); await tick();
     item("three").click(); await tick();
@@ -194,11 +207,24 @@ ${sample("  ", "tree-menu-item")}
         test: treeTests("tree-menu", true),
     },
 
+    "tree-list": {
+        tag: "ol",
+        keyboard:
+            "ArrowDown/ArrowUp move through visible items (wrapping), ArrowRight/ArrowLeft open and close, Home/End jump",
+        aria: 'role="tree" with aria-label; items are role="treeitem" with a roving tabindex',
+        markup: `<ol class="tree-list" role="tree" aria-label="" x-data="lilyTree(true)" x-bind="tree">
+${sample("  ", "tree-list-item")}
+</ol>`,
+        sel: "ol.tree-list",
+        extra: helpers,
+        test: treeTests("tree-list", true),
+    },
+
     "tree-select": {
         tag: "div",
         keyboard:
             "Enter/Space or ArrowDown on the trigger opens; the tree takes the APG keys; Escape closes and returns to the trigger",
-        aria: 'role="combobox" with aria-haspopup="tree", aria-expanded and aria-label; aria-multiselectable in multiple mode; the panel holds a role="tree"',
+        aria: 'role="combobox" with aria-haspopup="tree", aria-expanded and aria-label; the panel holds a role="tree", which carries aria-multiselectable in multiple mode (the root gets data-multiple)',
         markup: `<div class="tree-select" role="combobox" aria-haspopup="tree" aria-expanded="false" aria-label="" x-data="lilyTreeSelect()" x-bind="root">
   <button class="tree-select-trigger" x-bind="trigger"><!-- Consumer provides the display value or placeholder text --></button>
   <div class="tree-select-panel" hidden x-bind="panel">

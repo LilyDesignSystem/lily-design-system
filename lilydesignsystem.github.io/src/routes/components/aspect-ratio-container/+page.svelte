@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"aspect-ratio-container\" style=\"aspect-ratio:16/9;background:#e5e7eb;display:flex;align-items:center;justify-content:center;\">16:9</div>";
   const svelteSource: string = "// In your Svelte component:\nimport AspectRatioContainer from \"lily-design-system-svelte-headless/components/AspectRatioContainer/AspectRatioContainer.svelte\";\n\n<AspectRatioContainer>\n  <!-- content -->\n</AspectRatioContainer>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import AspectRatioContainer from './AspectRatioContainer.svelte';\n<\/script>\n\n<AspectRatioContainer ratio={16 / 9}>\n  <video src=\"promo.mp4\" controls></video>\n</AspectRatioContainer>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import AspectRatioContainer from \"./AspectRatioContainer.svelte\";\n<\/script>\n\n<AspectRatioContainer ratio={16 / 9}>\n  <video\n    src=\"promo.mp4\"\n    controls\n  ></video>\n</AspectRatioContainer>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

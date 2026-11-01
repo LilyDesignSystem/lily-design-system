@@ -544,3 +544,13 @@ the new clauses continue from §7.26)
 ## Open state and disabled (2026-10-16)
 
 `Open` (`bool`, with `OpenChanged` so `@bind-Open` works) and `Disabled` (`bool`), ported from the Svelte canonical's `open`, `onOpenChange` and `disabled`. `OpenChanged` is raised for each change the picker itself makes — a click, a key, an outside click, `Disabled` closing it — and not for the initial value; a parent changing `Open` is applied in `OnParametersSet` as state only (no focus move, no echo). `Disabled` reaches the real `<button>` through the headless `IconButton`'s attribute passthrough and an open popup closes when it becomes true. Tests: `*OpenStateTests`.
+
+## Native select variant (2026-10-30, RFC 3 prototype; ported from Svelte)
+
+`[Parameter] public string Variant` (`"listbox"` or `"select"`, default `"listbox"`). With `"select"` the root is `<div class="theme-picker {class}" data-variant="select">` holding one
+`<select class="theme-picker-select" name="{name}" aria-label="{label}" disabled?>` and one
+`<option class="theme-picker-option" value="{slug}" selected?>{label for slug}</option>` per theme; no button,
+listbox, tooltip or hidden input. Initial value resolution (§5.2) and applying (§5.3) are unchanged. Each option carries `selected` from `Value`, so prerendered markup is correct; `@onchange` calls the same `SetThemeAsync` as a listbox choice (`ValueChanged`, then `OnChange` once). `Open` does not apply. Keyboard,
+typeahead and the mobile picker are the platform's: the component adds no key handlers. Styling with
+`appearance: base-select` belongs in theme CSS behind `@supports (appearance: base-select)` (see the Svelte package's
+`docs/styling.md`). Tests: `ThemePickerTests.cs (class ThemePickerSelectVariantTests)`, 'variant="select"'.

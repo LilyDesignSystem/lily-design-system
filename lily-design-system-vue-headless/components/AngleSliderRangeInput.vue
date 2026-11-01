@@ -64,7 +64,8 @@
 // References:
 //   - WAI-ARIA Slider Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/slider/
 
-import { computed } from "vue";
+import { computed, ref } from "vue";
+import { useFormReset } from "./form-reset";
 
 const props = withDefaults(
     defineProps<{
@@ -97,6 +98,8 @@ const props = withDefaults(
 );
 
 const modelValue = defineModel<number>({ default: 0 });
+const field = ref<HTMLInputElement | HTMLTextAreaElement | null>(null);
+useFormReset(modelValue, field);
 
 const valueText = computed(() => `${modelValue.value}${props.valueTextSuffix}`);
 </script>
@@ -106,6 +109,7 @@ const valueText = computed(() => `${modelValue.value}${props.valueTextSuffix}`);
     <input
         class="angle-slider-range-input"
         type="range"
+        ref="field"
         v-model="modelValue"
         :min="min"
         :max="max"

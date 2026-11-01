@@ -6,7 +6,7 @@ this subproject. For project-wide rules, read the root [spec/index.md](../../spe
 first.
 
 This file adds Blazor-specific detail and tracks the implementation status of
-the **490 canonical components** in this framework.
+the **583 canonical components** in this framework.
 
 ---
 
@@ -27,7 +27,7 @@ WebAssembly, and Blazor Hybrid hosts.
 ### In scope
 
 - Blazor Razor components (`*.razor` + optional `*.razor.cs` code-behind) for
-  all 490 components.
+  all 607 components.
 - bUnit + xUnit tests per component asserting ARIA, keyboard, and structural
   contract.
 - C# 13 / .NET 10.0 source.
@@ -196,12 +196,22 @@ dotnet build src/LilyBlazorHeadless/LilyBlazorHeadless.csproj  # build just the 
 dotnet test                                                     # run bUnit tests
 ```
 
+## Form reset — Blazor deviation (tasks.md P10-T9)
+
+The other headless libraries restore a stateful control's initial value when its `<form>` is reset (`form-reset.ts`
+in React, Vue, Angular, Web Components and HTML; inline in Svelte): `tag-input`, `combobox`, `segment-group`,
+`multi-select-with-extras`, `editable`, `pin-input-div` and the radio rating pickers. This library does not: a Blazor
+component cannot hear a form's `reset` event without a JavaScript module calling back into .NET, and Blazor forms reset
+through their model (`EditForm` with a fresh model object, or the bound values set back), not through the browser's
+`form.reset()`. Reset the bound values instead. The same deviation is recorded for the Blazor date-time-picker
+(its `spec/index.md` §5.10).
+
 ## 7. Acceptance criteria
 
 ### 7.1 Catalog parity
 
-- [ ] All 490 canonical components have a `{PascalCase}.razor`.
-- [ ] All 490 components have a `{PascalCase}Tests.cs` bUnit test.
+- [ ] All 583 canonical components have a `{PascalCase}.razor`.
+- [ ] All 607 components have a `{PascalCase}Tests.cs` bUnit test.
 - [x] Per-component docs live in the root `../components/{kebab-case}/`
       (shared canonical, not duplicated per subproject).
 - [ ] Every component uses the canonical HTML tag.
@@ -232,16 +242,16 @@ dotnet test                                                     # run bUnit test
 - [x] Project infrastructure (`.csproj`, `_Imports.razor`).
 - [x] Test project (bUnit + xUnit).
 - [x] AGENTS.md, CLAUDE.md, index.md, README.md (symlink), plan.md, tasks.md.
-- [x] All 490 canonical components have a `{PascalCase}.razor` (per audit).
+- [x] All 583 canonical components have a `{PascalCase}.razor` (per audit).
 - [x] Per-component bUnit tests (commit `1b8600d4`).
 - [x] TabGroup removal (canonical pattern is TabBar + TabBarButton + TabPanel).
 
 ### 8.2 Verified
 
 - [x] `dotnet test` passes: **1,245 / 1,245 bUnit tests, zero failures**.
-- [x] CSS class-name audit: **490 / 490** components reference their canonical
+- [x] CSS class-name audit: **607 / 607** components reference their canonical
       kebab-case base class.
-- [x] All 490 canonical components have a `{PascalCase}.razor` and a
+- [x] All 583 canonical components have a `{PascalCase}.razor` and a
       `{PascalCase}Tests.cs`.
 
 ### 8.3 Open backlog
@@ -269,6 +279,6 @@ dotnet test                                                     # run bUnit test
 - Build: `dotnet build`
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause
 - Contact: Joel Parker Henderson <joel@joelparkerhenderson.com>
-- Canonical catalog: [../components.tsv](../../components.tsv) — 490 components
+- Canonical catalog: [../components.tsv](../../components.tsv) — 607 components
 - Root spec: [../spec/index.md](../../spec/index.md)
 - Sibling example app: [../lily-design-system-blazor-web-examples/](../../lily-design-system-blazor-web-examples/)

@@ -1,0 +1,23 @@
+---
+layout: layouts/component-demo.njk
+title: AustraliaTaxFileNumberView
+description: a read-only display of Australia's Tax File Number (TFN)
+---
+
+{% from "components/australia-tax-file-number-view/macro.njk" import australiaTaxFileNumberView %}
+
+<h2>Default</h2>
+<p>{{ australiaTaxFileNumberView({ text: "AustraliaTaxFileNumberView example", label: "AustraliaTaxFileNumberView example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;SummaryList&gt;
+  &lt;SummaryListItem term="Tax File Number (TFN)"&gt;
+    &lt;AustraliaTaxFileNumberView
+      label="Tax File Number (TFN)"
+      value="{value}"
+    /&gt;
+  &lt;/SummaryListItem&gt;
+&lt;/SummaryList&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

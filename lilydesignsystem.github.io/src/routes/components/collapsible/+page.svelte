@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"collapsible\"><button aria-expanded=\"false\">Show more</button><div hidden>Collapsed content</div></div>";
   const svelteSource: string = "// In your Svelte component:\nimport Collapsible from \"lily-design-system-svelte-headless/components/Collapsible/Collapsible.svelte\";\n\n<Collapsible>\n  <!-- content -->\n</Collapsible>\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import Collapsible from \"./Collapsible.svelte\";\n<\/script>\n\n<Collapsible summary=\"More info\">\n    <p>Hidden content revealed when expanded.</p>\n</Collapsible>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import Collapsible from \"./Collapsible.svelte\";\n<\/script>\n\n<Collapsible summary=\"More info\">\n  <p>Hidden content revealed when expanded.</p>\n</Collapsible>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

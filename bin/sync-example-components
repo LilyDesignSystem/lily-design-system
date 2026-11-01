@@ -77,13 +77,14 @@ def pairs():
                     yield src, os.path.join(TOP, example, name + suffix), transform
         # A component may import a companion module named for its slug
         # (middle-truncation.ts, wheel-picker.ts, and navigation-menu's overflow-navigation.ts); the copy needs it too.
+        # form-reset.ts (P10-T9) is shared by every control that holds its value in state.
         slug = slugs()[names().index(name)]
         for lib, example in (
             ("lily-design-system-react-headless/components", "lily-design-system-react-next-examples/components"),
             ("lily-design-system-vue-headless/components", "lily-design-system-vue-nuxt-examples/components"),
             ("lily-design-system-angular-headless/components", "lily-design-system-angular-examples/src/app/components"),
         ):
-            for companion in (slug, "overflow-navigation" if slug == "navigation-menu" else None):
+            for companion in (slug, "form-reset", "overflow-navigation" if slug == "navigation-menu" else None):
                 if companion is None:
                     continue
                 src = os.path.join(TOP, lib, companion + ".ts")

@@ -7,6 +7,7 @@ import {
     model,
     viewChild,
 } from "@angular/core";
+import { restoreOnFormReset } from "./form-reset";
 
 /**
  * MultiSelectWithExtras — a multiple-choice select with additional features like search, groups, or selected-value chips
@@ -52,6 +53,7 @@ export class MultiSelectWithExtras {
     private readonly select = viewChild.required<ElementRef<HTMLSelectElement>>("select");
 
     constructor() {
+        restoreOnFormReset(this.value);
         effect(() => {
             const selected = this.value();
             for (const option of Array.from(this.select().nativeElement.options)) {

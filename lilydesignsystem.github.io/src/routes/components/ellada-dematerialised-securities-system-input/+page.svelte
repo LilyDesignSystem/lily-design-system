@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<label class=\"label\" for=\"demo-input\">Label</label><input class=\"ellada-dematerialised-securities-system-input\" id=\"demo-input\" aria-label=\"an input for entering Greece's Dematerialised Securities System (DSS)\" />";
   const svelteSource: string = "// In your Svelte component:\nimport ElladaDematerialisedSecuritiesSystemInput from \"lily-design-system-svelte-headless/components/ElladaDematerialisedSecuritiesSystemInput/ElladaDematerialisedSecuritiesSystemInput.svelte\";\n\n<ElladaDematerialisedSecuritiesSystemInput label=\"Label\" />\n";
-  const usageCode: string = "<Field label=\"Dematerialised Securities System\" required>\n  <ElladaDematerialisedSecuritiesSystemInput label=\"Dematerialised Securities System\" value={value} required />\n  <Hint>10 digits linked to the investor's personal details (name, ID number, passport number, tax registration number) and managed by the Central Securities Depository of Greece</Hint>\n  <ErrorMessage>Please enter a valid Dematerialised Securities System</ErrorMessage>\n</Field>\n";
+  const usageCode: string = "<Field\n  label=\"Dematerialised Securities System\"\n  required\n>\n  <ElladaDematerialisedSecuritiesSystemInput\n    label=\"Dematerialised Securities System\"\n    value=\"{value}\"\n    required\n  />\n  <Hint\n    >10 digits linked to the investor's personal details (name, ID number, passport number, tax\n    registration number) and managed by the Central Securities Depository of Greece</Hint\n  >\n  <ErrorMessage>Please enter a valid Dematerialised Securities System</ErrorMessage>\n</Field>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

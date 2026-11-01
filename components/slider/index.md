@@ -96,7 +96,7 @@ This headless component wraps a native `<input type="range">` element with `aria
 
 ## Reduced motion
 
-Reduced motion changes how content appears, never whether it does. Apply it in consumer CSS under `@media (prefers-reduced-motion: reduce)` and under the `motion-picker`'s `[data-motion="reduce"]` on the document root (the 57 reference themes already honour both for the preference hooks they style). For a slider:
+Reduced motion changes how content appears, never whether it does. Apply it in consumer CSS under `@media (prefers-reduced-motion: reduce)` and under the `motion-picker`'s `[data-motion="reduce"]` on the document root (the 63 reference themes already honour both for the preference hooks they style). For a slider:
 
 - **Suppress:** thumb and fill transitions, and any rubber-band or spring effect past the ends. The value updates at once.
 - **Keep:** everything native to `<input type="range">`: the keys, the announced value, and `aria-valuetext`. The effect is decoration; the control works without it.

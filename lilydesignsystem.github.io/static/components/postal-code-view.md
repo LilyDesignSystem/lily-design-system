@@ -33,6 +33,12 @@ UK postcode display:
 <PostalCodeView text="SW1A 1AA" />
 ```
 
+Brazilian CEP and Indian PIN code display:
+
+```html
+<PostalCodeView text="01310-100" /> <PostalCodeView text="110001" />
+```
+
 Postal code inline in an address summary:
 
 ```html
@@ -93,7 +99,7 @@ The consumer provides all CSS styling. The component renders with a `.postal-cod
 ## Advice
 
 - **Designers**: Ensure the postal code is visually distinct within address blocks, using consistent typography and spacing with surrounding address fields.
-- **Developers**: Format the postal code text appropriately for the target locale before passing it to the `text` prop (e.g., adding spaces in UK postcodes).
+- **Developers**: Format the postal code text appropriately for the target locale before passing it to the `text` prop (e.g., the space in a UK postcode, the hyphen in a Brazilian CEP or a Japanese postal code).
 
 ## Composition
 

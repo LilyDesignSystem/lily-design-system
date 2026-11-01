@@ -4,7 +4,10 @@ A single-line text input for capturing a postal address, with `autocomplete="str
 
 **Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
 
-The component is intentionally minimal: it provides only the input and the autocomplete hint. Postcode lookup, suggestion dropdowns, and structured multi-field forms (street / city / region / postcode) are the consumer's responsibility — `AddressInput` is the building block, not the full address-capture flow. For typeahead behaviour, wrap or compose with `Autosuggest` or `Combobox`. For per-field validation, use a structured set of inputs instead.
+Address shapes are national: the order runs largest to smallest in Japan, China and Korea and smallest to largest in
+most of Europe and the Americas; some countries have no postal code, others no street names. A single line suits
+every country, which is why this component is one field; a structured form must take its fields and their order from
+the country the address is in, not from one country's pattern. The component is intentionally minimal: it provides only the input and the autocomplete hint. Postcode lookup, suggestion dropdowns, and structured multi-field forms (street / city / region / postcode) are the consumer's responsibility — `AddressInput` is the building block, not the full address-capture flow. For typeahead behaviour, wrap or compose with `Autosuggest` or `Combobox`. For per-field validation, use a structured set of inputs instead.
 
 ## Implementation Notes
 

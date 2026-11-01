@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useId } from "vue";
+import { modalDialogRef } from "./dialog";
 
 // AlertDialog component
 //
@@ -40,8 +41,8 @@ import { useId } from "vue";
 //   </AlertDialog>
 //
 // Keyboard:
-//   - Escape: Consumer must implement via onkeydown to close the dialog
-//   - Tab: Consumer should implement focus trapping within the dialog
+//   - Escape: closes the dialog (showModal(): the browser fires cancel; the component sets open to false)
+//   - Tab: stays inside the dialog (the browser traps it while the dialog is modal)
 //
 // Accessibility:
 //   - role="alertdialog" signals critical content requiring acknowledgment
@@ -57,7 +58,6 @@ import { useId } from "vue";
 //
 // Claude rules:
 //   - Headless: no CSS, no styles — consumer provides all styling
-//   - Consumer is responsible for focus trapping and Escape key handling
 //   - The open prop must use defineModel() for two-way binding
 //   - Do not use heading elements; use <p><strong> for the title
 //   - Distinct from Dialog: use AlertDialog only for critical messages
@@ -83,18 +83,28 @@ const open = defineModel<boolean>("open", { default: false });
 const uid = useId();
 const titleId = `alert-dialog-title-${uid}`;
 const descriptionId = `alert-dialog-description-${uid}`;
+
+// A real modal (tasks.md P14-T4): showModal() makes the page behind inert and traps Tab; Escape fires `cancel`.
+const dialogRef = modalDialogRef();
+
+function oncancel(event: Event) {
+    event.preventDefault();
+    open.value = false;
+}
 </script>
 
 <template>
     <!-- AlertDialog.vue -->
     <dialog
         v-if="open"
+        :ref="dialogRef"
         class="alert-dialog"
-        open
         role="alertdialog"
         :aria-labelledby="titleId"
         :aria-describedby="description ? descriptionId : undefined"
         aria-modal="true"
+        @cancel="oncancel"
+        @close="open = false"
     >
         <div>
             <p :id="titleId">

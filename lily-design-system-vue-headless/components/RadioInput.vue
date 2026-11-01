@@ -50,7 +50,10 @@
 //   - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radiobutton/
 //   - MDN input type="radio": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/radio
 
-withDefaults(
+import { ref } from "vue";
+import { useFormResetToProp } from "./form-reset";
+
+const props = withDefaults(
     defineProps<{
         /** Accessible label. */
         label: string;
@@ -70,6 +73,9 @@ withDefaults(
         disabled: false,
     },
 );
+
+const field = ref<HTMLInputElement | null>(null);
+useFormResetToProp(field, () => props.checked);
 </script>
 
 <template>
@@ -80,6 +86,7 @@ withDefaults(
         :aria-label="label"
         :name="name"
         :value="value"
+        ref="field"
         :checked="checked"
         :disabled="disabled"
     />

@@ -6,18 +6,45 @@ description: a temporary overlay that appears above page content
 
 {% from "components/popup/macro.njk" import popup %}
 
-{% call popup({ label: "Popup", open: true }) %}
+{% from "components/button/macro.njk" import button %}
+
+<p>The popup is <code>popover="auto"</code>: the button opens it with
+  <code>command="toggle-popover"</code> and <code>commandfor</code> (or
+  <code>popovertarget</code>), with no script. Escape or a click outside closes it.</p>
+
+<p>
+  {{ button({
+    text: "Show popup",
+    attributes: { "aria-haspopup": "dialog", "aria-controls": "popup-hello", command: "toggle-popover", commandfor: "popup-hello", popovertarget: "popup-hello" }
+  }) }}
+</p>
+
+{% call popup({ id: "popup-hello", label: "Hello" }) %}
   <h3>Hello</h3>
   <p>This is a popup.</p>
+  <button type="button" command="hide-popover" commandfor="popup-hello" popovertarget="popup-hello" popovertargetaction="hide" class="button button-secondary">Close</button>
 {% endcall %}
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>
-<pre tabindex="0"><code>{% raw %}&lt;button onclick={() =&gt; showPopup = !showPopup}&gt;Sort results&lt;/button&gt;
-&lt;Popup label="Sort options" open={showPopup}&gt;
-  &lt;button onclick={() =&gt; { sortBy('date'); showPopup = false; }}&gt;Date&lt;/button&gt;
-  &lt;button onclick={() =&gt; { sortBy('name'); showPopup = false; }}&gt;Name&lt;/button&gt;
-  &lt;button onclick={() =&gt; { sortBy('relevance'); showPopup = false; }}&gt;Relevance&lt;/button&gt;
+<pre tabindex="0"><code>{% raw %}&lt;button
+  type="button"
+  aria-haspopup="dialog"
+  aria-controls="sort-options"
+  command="toggle-popover"
+  commandfor="sort-options"
+  popovertarget="sort-options"
+&gt;
+  Sort results
+&lt;/button&gt;
+&lt;Popup
+  id="sort-options"
+  label="Sort options"
+  bind:open={showSort}
+&gt;
+  &lt;button onclick={() =&gt; sortBy("date")}&gt;Date&lt;/button&gt;
+  &lt;button onclick={() =&gt; sortBy("name")}&gt;Name&lt;/button&gt;
+  &lt;button onclick={() =&gt; sortBy("relevance")}&gt;Relevance&lt;/button&gt;
 &lt;/Popup&gt;
 {% endraw %}</code></pre>
 {# END generated: examples #}

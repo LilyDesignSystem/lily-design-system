@@ -20,6 +20,14 @@ describe("Tour", () => {
         expect(el().classList.contains("tour")).toBe(true);
     });
 
+    // P18-T6 / P18-T13: the tour is a non-modal dialog (the page it points at stays usable), as in Svelte.
+    it("is a non-modal dialog: role=dialog, tabindex -1, no aria-modal, and the list keeps its list semantics", async () => {
+        await mount("tour");
+        expect(el().getAttribute("role")).toBe("dialog");
+        expect(el().getAttribute("tabindex")).toBe("-1");
+        expect(el().hasAttribute("aria-modal")).toBe(false);
+        expect(el().querySelector(".tour-list").hasAttribute("role")).toBe(false);
+    });
     it("shows the first step as current and hides the rest from everyone", async () => {
         await mount("tour");
         expect(steps().map((s) => s.getAttribute("aria-roledescription"))).toEqual([

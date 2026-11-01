@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<td class=\"gantt-table-td\">Design phase</td>";
   const svelteSource: string = "// In your Svelte component:\nimport GanttTableTD from \"lily-design-system-svelte-headless/components/GanttTableTD/GanttTableTD.svelte\";\n\n<GanttTableTD>\n  <!-- GanttTableTD content -->\n</GanttTableTD>\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import GanttTableTr from \"../GanttTableTr/GanttTableTr.svelte\";\n    import GanttTableTD from \"./GanttTableTD.svelte\";\n<\/script>\n\n<GanttTableTr>\n    <th>Task A</th>\n    <GanttTableTD active>---</GanttTableTD>\n    <GanttTableTD />\n    <GanttTableTD />\n</GanttTableTr>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import GanttTableTr from \"../GanttTableTr/GanttTableTr.svelte\";\n  import GanttTableTD from \"./GanttTableTD.svelte\";\n<\/script>\n\n<GanttTableTr>\n  <th>Task A</th>\n  <GanttTableTD active>---</GanttTableTD>\n  <GanttTableTD />\n  <GanttTableTD />\n</GanttTableTr>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

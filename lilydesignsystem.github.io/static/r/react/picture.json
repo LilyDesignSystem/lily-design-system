@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "picture",
+  "type": "registry:component",
+  "title": "Picture",
+  "description": "A responsive image wrapper that lets the browser choose among several sources, using the native picture element.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Picture.tsx",
+      "content": "import React from \"react\";\n\n// Picture component\n//\n// A headless wrapper around the native picture element: the browser chooses among the source\n// children (by media query, image type or resolution) and falls back to the img child.\n// Draws nothing and carries no strings of its own; the consumer supplies the source and img\n// elements, including the img's alt text.\n\nexport interface PictureProps {\n    className?: string;\n\n    /** The source elements, then one img with its alt, width and height. */\n    children?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Picture({\n    className = \"\",\n\n    children,\n    ...restProps\n}: PictureProps) {\n    return (\n        <picture\n            className={`picture ${className}`}\n\n            {...restProps}\n        >\n            {children}\n        </picture>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Picture.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/picture/"
+}

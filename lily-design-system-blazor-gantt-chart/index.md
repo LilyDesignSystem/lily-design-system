@@ -72,7 +72,7 @@ catalog's label-presence-gates-control convention.
 
 ## Weekend shading and dependency arrows (0.6.0)
 
-- **`weekends`** (weekdays, 0 = Sunday … 6 = Saturday, never defaulted) marks day columns `data-weekend` on the header and every cell; the 57 `themes/` tint them. Week and month columns are not marked.
+- **`weekends`** (weekdays, 0 = Sunday … 6 = Saturday, never defaulted) marks day columns `data-weekend` on the header and every cell; the 63 `themes/` tint them. Week and month columns are not marked.
 - **`dependencyArrows`** draws an `aria-hidden` SVG arrow (`.gantt-chart-dependency-arrow`, `data-from`, `data-to`, `data-dependency-type`) per dependency by its type (`e2s`, `s2s`, `s2e`, `e2e`), measured from the rendered cells; the text description (`labels.dependencySummary`) remains. See spec §17.
 
 ## Keyboard
@@ -143,7 +143,7 @@ Lily™ and Lily Design System™ are trademarks.
 
 The chart renders `Critical` and `Slack`; it computes nothing. `CriticalPath.Apply(tasks)` (or `CriticalPath.Compute(tasks)` for the raw result) fills them in: a forward and backward pass over leaf tasks, all four dependency kinds (`e2s`, `s2s`, `e2e`, `s2e`) with lags and leads in calendar days. A task's own `Start` is a floor, so dependencies only push tasks later; summary rows, unscheduled tasks and unknown ids are ignored; a dependency cycle is reported in `Cycle` and left out. Show it with `Labels.CriticalLabel`.
 
-Lag is in calendar days by default. For schedules that count business days, pass `new CriticalPathOptions { LagUnit = CriticalPathLagUnit.WorkingDays, Weekends = ..., Unavailable = ... }`: a lag of N then moves N working days, skipping weekends (default Saturday and Sunday) and the listed closures, and the backward pass keeps a predecessor off non-working days so a weekend is never reported as slack. Task spans stay as dated; only the gaps between tasks change.
+Lag is in calendar days by default. For schedules that count business days, pass `new CriticalPathOptions { LagUnit = CriticalPathLagUnit.WorkingDays, Weekends = ..., Unavailable = ... }`: a lag of N then moves N working days, skipping the `Weekends` you pass (required, never defaulted: weekends differ by country; omitting it throws `ArgumentException`) and the listed closures, and the backward pass keeps a predecessor off non-working days so a weekend is never reported as slack. Task spans stay as dated; only the gaps between tasks change.
 
 ```csharp
 var tasks = CriticalPath.Apply(rawTasks); // each scheduled leaf task gains Critical / Slack

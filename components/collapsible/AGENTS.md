@@ -31,6 +31,14 @@
 - `open`: boolean (default: false) -- whether the content is expanded; bindable for two-way control
 - `children`: slot (required) -- the collapsible content revealed when expanded
 
+## Native platform
+
+- Decision: native
+- Uses: <details>/<summary>
+- Could use: name attribute
+- Notes: As details.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
+
 ## Acceptance Criteria
 
 - [ ] Renders <div> element with class="collapsible"

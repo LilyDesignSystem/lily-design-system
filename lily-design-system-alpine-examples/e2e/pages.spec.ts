@@ -45,10 +45,13 @@ for (const path of PAGES) {
 test("the components index filters as you type", async ({ page }) => {
     await page.goto("/components/");
     const status = page.getByRole("status");
-    await expect(status).toContainText("571 of 571");
+    // The whole catalog at first ("N of N"), read from the page rather than pinned, so a new component does not
+    // break the test.
+    await expect(status).toContainText(/^(\d+) of \1 components$/);
+    const total = (await status.textContent())!.match(/of (\d+)/)![1];
     await page.getByLabel("Search components").fill("kanban");
-    await expect(status).toContainText(/\d+ of 571/);
-    await expect(status).not.toContainText("571 of 571");
+    await expect(status).toContainText(new RegExp(`\\d+ of ${total}`));
+    await expect(status).not.toContainText(`${total} of ${total}`);
     await expect(page.getByRole("link", { name: "KanbanTable", exact: true })).toBeVisible();
     await expect(page.getByRole("link", { name: "Accordion", exact: true })).toBeHidden();
 });

@@ -3,9 +3,16 @@
 // .stories.ts. Static components (no behaviour) are derived from the
 // html-headless snippet's markup, which is the same; behavioural ones
 // are written here, against the plugin in lily-alpine.js.
-import { readFileSync, writeFileSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync, readdirSync } from "node:fs";
+import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
-import { dirname, join } from "node:path";
+import { basename, dirname, join } from "node:path";
+import {
+    popoverNotes,
+    popoverTests,
+    popoverTriggerAttributes,
+} from "./families/shared/popover-api.mjs";
+import STATIC_EXTRAS from "./families/shared/static-extras.mjs";
 
 const root = dirname(fileURLToPath(import.meta.url));
 const catalog = new Map(
@@ -21,6 +28,9 @@ const pascal = (slug) => catalog.get(slug).name;
 // the Alpine snippet is the same markup. Snippets with a script need a
 // hand-written behaviour (BEHAVIOURAL below) and are added a batch at a time.
 const htmlDir = join(root, "..", "lily-design-system-html-headless", "components");
+// Written by hand, not by this generator: each wraps a pure module of its own (middle-truncation.js, wheel-picker.js)
+// with tests written alongside it. --check fails on any other component it does not write.
+const HAND_WRITTEN = new Set(["middle-truncation", "wheel-picker"]);
 const STATIC = readdirSync(htmlDir)
     .filter((f) => f.endsWith(".html") && !f.includes("fixture"))
     .map((f) => f.slice(0, -5))
@@ -242,12 +252,13 @@ const content = () => document.querySelector(".show-more-content");`,
     popover: {
         tag: "div",
         keyboard: "Tab to the trigger, Enter or Space to open, Escape to close and return focus",
-        aria: 'aria-haspopup="dialog" and aria-expanded on the trigger',
+        aria: 'aria-haspopup="dialog" and aria-expanded on the trigger; the panel is role="dialog"',
+        notes: popoverNotes("panel"),
         markup: `<div class="popover" x-data="lilyPopover(false)" x-bind="root" aria-label="">
-  <button class="popover-trigger" x-bind="trigger" aria-controls="popover-panel-1">
+  <button class="popover-trigger" x-bind="trigger" aria-controls="popover-panel-1"${popoverTriggerAttributes("popover-panel-1")}>
     <!-- Consumer provides trigger content -->
   </button>
-  <div class="popover-panel" id="popover-panel-1" role="dialog" aria-label="" x-bind="panel">
+  <div class="popover-panel" id="popover-panel-1" role="dialog" aria-label="" popover="auto" x-bind="panel">
     <!-- Consumer provides content -->
   </div>
 </div>`,
@@ -276,7 +287,7 @@ const content = () => document.querySelector(".show-more-content");`,
     trigger().click(); await tick();
     document.body.click(); await tick();
     expect(panel().hidden).toBe(true);
-  });`,
+  });${popoverTests("popover", ".popover-trigger", ".popover-panel")}`,
         sel: "div.popover",
         extra: `const trigger = () => document.querySelector(".popover-trigger");
 const panel = () => document.querySelector(".popover-panel");`,
@@ -512,8 +523,10 @@ for (const f of readdirSync(join(root, "families"))
     Object.assign(BEHAVIOURAL, (await import("./families/" + f)).default);
 }
 
-function header(slug, tag, keyboard, aria) {
+// `notes` are extra header lines, written after "Accessibility:".
+function header(slug, tag, keyboard, aria, notes = []) {
     const d = catalog.get(slug).description;
+    const extra = notes.map((l) => (l ? `  ${l}\n` : "\n")).join("");
     return `<!-- ${slug}.html -->
 <!-- ${pascal(slug)} component (Alpine.js) -->
 <!--
@@ -522,7 +535,7 @@ function header(slug, tag, keyboard, aria) {
   CSS class: ${slug}
   Keyboard: ${keyboard}
   Accessibility: ${aria}
-  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+${extra}  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 `;
 }
@@ -547,10 +560,20 @@ export const Default: Story = {};
 }
 
 function testFile(slug, sel, body, extra = "") {
+    // beforeEach / afterEach are imported only by the tests that use them.
+    const hooks = /\b(beforeEach|afterEach)\b/.test(body + extra);
+    const vitest = [
+        "describe",
+        "it",
+        "expect",
+        "vi",
+        ...(hooks ? ["beforeEach", "afterEach"] : []),
+    ];
+    const harness = ["mount", "tick"];
     return `// ${slug}.test.js
 // ${pascal(slug)} component test (vitest + jsdom + Alpine)
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { mount, tick } from "../test/mount.js";
+import { ${vitest.join(", ")} } from "vitest";
+import { ${harness.join(", ")} } from "../test/mount.js";
 
 const el = () => document.querySelector(${JSON.stringify(sel)});
 ${extra}
@@ -566,7 +589,11 @@ ${body}
 `;
 }
 
-const out = (slug, ext, text) => writeFileSync(join(root, "components", `${slug}.${ext}`), text);
+// Every output is collected, formatted with the repository's Prettier config, then written, or with --check compared
+// with what is on disk (tasks.md P12-T5b): a hand edit to a generated file is drift, and so is a generator change
+// that was never run.
+const outputs = new Map();
+const out = (slug, ext, text) => outputs.set(join(root, "components", `${slug}.${ext}`), text);
 
 for (const slug of STATIC) {
     const src = readFileSync(
@@ -588,10 +615,20 @@ for (const slug of STATIC) {
     // The element carrying the base class (a snippet may wrap it, e.g. an <li> in an <ol>).
     const host = (markup.match(new RegExp(`<(\\w+)[^>]*class="${slug}[ "]`)) || [])[1];
     if (!host) throw new Error(`${slug}: no element with class ${slug}`);
+    const x = STATIC_EXTRAS[slug] ?? {};
     out(
         slug,
         "html",
-        header(slug, tag, meta("Keyboard"), meta("Accessibility")) + "\n" + markup + "\n",
+        header(
+            slug,
+            tag,
+            x.keyboard ?? meta("Keyboard"),
+            x.aria ?? meta("Accessibility"),
+            x.notes,
+        ) +
+            "\n" +
+            markup +
+            "\n",
     );
     out(slug, "stories.ts", story(slug, markup));
     out(
@@ -604,14 +641,65 @@ for (const slug of STATIC) {
   it("uses the ${host} element", async () => {
     await mount(${JSON.stringify(slug)});
     expect(el().tagName.toLowerCase()).toBe(${JSON.stringify(host)});
-  });`,
+  });${x.test ?? ""}`,
         ),
     );
 }
 
+for (const slug of Object.keys(STATIC_EXTRAS)) {
+    if (!STATIC.includes(slug))
+        throw new Error(`static-extras.mjs: ${slug} is not a static component`);
+}
+
 for (const [slug, c] of Object.entries(BEHAVIOURAL)) {
-    out(slug, "html", header(slug, c.tag, c.keyboard, c.aria) + "\n" + c.markup + "\n");
+    out(slug, "html", header(slug, c.tag, c.keyboard, c.aria, c.notes) + "\n" + c.markup + "\n");
     out(slug, "stories.ts", story(slug, c.markup));
     out(slug, "test.js", testFile(slug, c.sel, c.test, c.extra));
 }
-console.log(`${STATIC.length + Object.keys(BEHAVIOURAL).length} components written`);
+const check = process.argv.includes("--check");
+if (process.argv.includes("--list")) {
+    for (const file of outputs.keys())
+        if (file.endsWith(".html")) console.log(basename(file, ".html"));
+    process.exit(0);
+}
+const prettier = createRequire(join(root, "..", "package.json"))("prettier");
+const drift = [];
+for (const [file, text] of outputs) {
+    const options = { ...(await prettier.resolveConfig(file)), filepath: file };
+    let formatted;
+    try {
+        formatted = await prettier.format(text, options);
+    } catch (error) {
+        throw new Error(`components/${basename(file)}: ${error.message.split("\n")[0]}`);
+    }
+    const current = existsSync(file) ? readFileSync(file, "utf8") : null;
+    if (current === formatted) continue;
+    drift.push(file);
+    if (!check) writeFileSync(file, formatted);
+}
+const written = new Set(
+    [...outputs.keys()].filter((f) => f.endsWith(".html")).map((f) => basename(f, ".html")),
+);
+const count = written.size;
+for (const slug of catalog.keys()) {
+    if (written.has(slug) === HAND_WRITTEN.has(slug)) {
+        drift.push(slug);
+        console.log(
+            written.has(slug)
+                ? `${slug}: listed as hand-written but also generated`
+                : `${slug}: in the catalog but neither generated nor listed as hand-written`,
+        );
+    }
+}
+if (check) {
+    for (const file of drift) console.log(`drift: components/${basename(file)}`);
+    if (drift.length) {
+        console.log(
+            `${drift.length} file(s) differ from the generator; fix families/ or the generator, then run it`,
+        );
+        process.exit(1);
+    }
+    console.log(`checked: ${count} components, ${outputs.size} files, no drift`);
+} else {
+    console.log(`${count} components, ${drift.length} of ${outputs.size} files written`);
+}

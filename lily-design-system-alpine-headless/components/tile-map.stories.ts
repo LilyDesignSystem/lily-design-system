@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<div\n  class="tile-map"\n  role="img"\n  aria-label=""\n  aria-roledescription="tile map"\n>\n  <!-- Consumer provides [data-tile] elements; consumer JS handles arrow-key navigation -->\n</div>';
+    '<div class="tile-map" role="img" aria-label="" aria-roledescription="tile map" x-data="lilyTileMap()" x-bind="map">\n  <!-- Consumer provides focusable [data-tile] elements (tabindex="0") and positions them; it hears tile-activate -->\n</div>';
 
 const meta = {
     title: "Headless/Tile Map",

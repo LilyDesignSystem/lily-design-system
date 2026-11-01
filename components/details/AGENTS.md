@@ -35,6 +35,14 @@
 - `open`: boolean (default: false) -- whether the details section is expanded; bindable
 - `children`: slot (required) -- content revealed when expanded
 
+## Native platform
+
+- Decision: native
+- Uses: <details>/<summary>
+- Could use: name attribute for exclusive groups
+- Notes: Open, close, keyboard and find-in-page reveal come from the browser.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
+
 ## Acceptance Criteria
 
 - [ ] Renders <details> element with class="details"

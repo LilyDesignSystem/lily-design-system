@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "meter",
+  "type": "registry:component",
+  "title": "Meter",
+  "description": "A gauge displaying a scalar value within a known range.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Meter.tsx",
+      "content": "import React from \"react\";\n\n// Meter component\n//\n// A headless meter that displays a scalar measurement within a known range\n// using the native HTML <meter> element. It supports optional threshold\n// indicators for low, high, and optimum values. Useful for displaying disk\n// usage, battery level, password strength, performance scores, or any bounded\n// numeric measurement.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   value — number, required. The current measured value.\n//   min — number, default 0. The minimum bound of the range.\n//   max — number, default 100. The maximum bound of the range.\n//   low — number, optional. The upper bound of the low range threshold.\n//   high — number, optional. The lower bound of the high range threshold.\n//   optimum — number, optional. The optimal value within the range.\n//   label — string, required. Accessible name for the meter via aria-label.\n//   ...restProps — additional HTML attributes spread onto the <meter>.\n//\n// Syntax:\n//   <Meter label=\"Disk space\" value={45} max={100} />\n//\n// Examples:\n//\n//   <Meter label=\"Disk space\" value={45} max={100} />\n//\n//\n//   <Meter label=\"Battery\" value={20} min={0} max={100} low={25} high={75} optimum={100} />\n//\n// Keyboard:\n//   - None — this is a passive display element with no interactive behavior.\n//\n// Accessibility:\n//   - aria-label={label} provides an accessible name describing what the meter measures\n//   - Native <meter> element provides built-in semantics for assistive technologies\n//   - Text content inside the element serves as a fallback for unsupported browsers\n//\n// Internationalization:\n//   - The label prop accepts any translated string\n//   - No hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Uses native <meter> element for built-in semantic support\n//\n// References:\n//   - HTML meter element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meter\n//   - WAI-ARIA meter role: https://www.w3.org/TR/wai-aria-1.2/#meter\n\nexport interface MeterProps {\n    className?: string;\n    value: number;\n    min?: number;\n    max?: number;\n    low?: number;\n    high?: number;\n    optimum?: number;\n    label: string;\n    [key: string]: unknown;\n}\n\nexport default function Meter({\n    className = \"\",\n    value,\n    min = 0,\n    max = 100,\n    low = undefined,\n    high = undefined,\n    optimum = undefined,\n    label,\n    ...restProps\n}: MeterProps) {\n    return (\n        <meter\n            className={`meter ${className}`}\n            value={value}\n            min={min}\n            max={max}\n            low={low}\n            high={high}\n            optimum={optimum}\n            aria-label={label}\n            {...restProps}\n        >\n            {value}\n        </meter>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Meter.tsx"
+    }
+  ],
+  "categories": [
+    "data-viz"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/meter/"
+}

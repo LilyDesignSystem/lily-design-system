@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "ellada-dematerialised-securities-system-view",
+  "type": "registry:component",
+  "title": "ElladaDematerialisedSecuritiesSystemView",
+  "description": "A read-only display of Greece's Dematerialised Securities System (DSS).",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ElladaDematerialisedSecuritiesSystemView.tsx",
+      "content": "import React from \"react\";\n\n// ElladaDematerialisedSecuritiesSystemView component\n//\n// A headless display component for showing Greece's\n// Dematerialised Securities System (DSS) in a read-only format.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". The identifier string to display.\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <ElladaDematerialisedSecuritiesSystemView label=\"Dematerialised Securities System\" value={value} />\n//\n// Accessibility:\n//   - aria-label provides the accessible name so screen readers announce the purpose\n//\n// References:\n//   - https://en.wikipedia.org/wiki/Central_Securities_Depository\n\nexport interface ElladaDematerialisedSecuritiesSystemViewProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The identifier to display */\n    value?: string;\n    [key: string]: unknown;\n}\n\nexport default function ElladaDematerialisedSecuritiesSystemView({\n    className = \"\",\n    label,\n    value = \"\",\n    ...restProps\n}: ElladaDematerialisedSecuritiesSystemViewProps) {\n    return (\n        <span\n            className={`ellada-dematerialised-securities-system-view ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {value}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ElladaDematerialisedSecuritiesSystemView.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/ellada-dematerialised-securities-system-view/"
+}

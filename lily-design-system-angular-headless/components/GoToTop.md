@@ -8,7 +8,7 @@ in the canonical repo root for the cross-framework documentation.
 ## Selector
 
 ```html
-<lily-go-to-top></lily-go-to-top>
+<lily-go-to-top label="Back to top">Back to top</lily-go-to-top>
 ```
 
 ## Files

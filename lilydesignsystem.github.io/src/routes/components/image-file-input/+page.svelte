@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<input class=\"image-file-input\" type=\"file\" accept=\"image/*\" aria-label=\"Choose image\" />";
   const svelteSource: string = "// In your Svelte component:\nimport ImageFileInput from \"lily-design-system-svelte-headless/components/ImageFileInput/ImageFileInput.svelte\";\n\n<ImageFileInput label=\"Label\" />\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import ImageFileInput from \"./ImageFileInput.svelte\";\n<\/script>\n\n<ImageFileInput label=\"Upload profile photo\" />\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import ImageFileInput from \"./ImageFileInput.svelte\";\n<\/script>\n\n<ImageFileInput label=\"Upload profile photo\" />\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

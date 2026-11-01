@@ -1,5 +1,5 @@
 <!--
-    All 57 Lily themes.
+    All 63 Lily themes.
 
     This is the full catalog shipped in `../../themes/`. Drop them all
     into `public/assets/themes/` and the select will swap between them.
@@ -15,10 +15,13 @@ const themes = [
     "ant-design",
     "aqua",
     "atlassian",
+    "australia-agriculture-design-system",
     "autumn",
     "black",
+    "brazil-padrao-digital-de-governo",
     "bumblebee",
     "business",
+    "canada-government-of-canada-design-system",
     "cappuccino",
     "caramellatte",
     "cmyk",
@@ -30,6 +33,7 @@ const themes = [
     "dim",
     "dracula",
     "emerald",
+    "european-union-europa-component-library",
     "excel",
     "fantasy",
     "fluent",
@@ -38,6 +42,7 @@ const themes = [
     "github-primer",
     "halloween",
     "ibm-carbon",
+    "japan-digital-agency-design-system",
     "lemonade",
     "light",
     "linear",
@@ -52,6 +57,7 @@ const themes = [
     "salesforce",
     "sap-fiori",
     "silk",
+    "singapore-government-design-system",
     "sunset",
     "synthwave",
     "valentine",

@@ -49,6 +49,9 @@
 // References:
 //   - NHS Number format: https://www.nhs.uk/nhs-services/online-services/find-nhs-number/
 
+import { ref } from "vue";
+import { useFormReset } from "./form-reset";
+
 withDefaults(
     defineProps<{
         /** Accessible label for screen readers */
@@ -65,6 +68,8 @@ withDefaults(
 );
 
 const modelValue = defineModel<string>({ default: "" });
+const field = ref<HTMLInputElement | HTMLTextAreaElement | null>(null);
+useFormReset(modelValue, field);
 
 const nhsPattern = "[0-9]{3} [0-9]{3} [0-9]{4}";
 </script>
@@ -78,6 +83,7 @@ const nhsPattern = "[0-9]{3} [0-9]{3} [0-9]{4}";
         inputmode="numeric"
         :pattern="nhsPattern"
         autocomplete="off"
+        ref="field"
         v-model="modelValue"
         :required="required"
         :disabled="disabled"

@@ -1,15 +1,30 @@
 @namespace LilyBlazorHeadless.Components
+@inherits ModalDialogBase
 
 @*
     FileDialog component
     a dialog for browsing and selecting files
+
+    Renders a <dialog class="file-dialog" tabindex="-1" aria-label> while Open, holding the consumer's file UI.
+    Opened with showModal() (ModalDialogBase, tasks.md P14-T4); Escape and the native cancel and close events set
+    Open false and raise OpenChanged. Ported from the Svelte reference on 2026-10-30; it was a stub before.
+
+    Parameters: Label (required), Open / OpenChanged (@bind-Open), ChildContent, CssClass, AdditionalAttributes.
 *@
 
-<dialog class="@($"file-dialog {CssClass}".Trim())" role="dialog" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</dialog>
+@if (Open)
+{
+    <dialog class="@($"file-dialog {CssClass}".Trim())" tabindex="-1" aria-label="@Label" @ref="DialogElement" @onkeydown="OnKeyDown" @oncancel="CloseAsync" @oncancel:preventDefault @onclose="CloseAsync" @attributes="AdditionalAttributes">@ChildContent</dialog>
+}
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private async Task OnKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Escape") await CloseAsync();
+    }
 }

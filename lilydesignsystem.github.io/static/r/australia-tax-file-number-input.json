@@ -1,0 +1,42 @@
+{
+  "slug": "australia-tax-file-number-input",
+  "name": "AustraliaTaxFileNumberInput",
+  "description": "an input for entering Australia's Tax File Number (TFN)",
+  "htmlTag": "input",
+  "category": "national",
+  "baseClass": ".australia-tax-file-number-input",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow",
+  "aria": [
+    "`aria-label` provides accessible name from label prop",
+    "`required` and `disabled` states conveyed to assistive technology"
+  ],
+  "keyboard": [
+    "Standard text input keyboard behavior"
+  ],
+  "props": [
+    "`label`: string (required) — accessible label via aria-label",
+    "`value`: string (default: \"\") — bindable input value",
+    "`required`: boolean (default: false) — form validation",
+    "`disabled`: boolean (default: false) — disabled state",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "australia-tax-file-number-view",
+    "text-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/australia-tax-file-number-input.html",
+    "svelte": "lily-design-system-svelte-headless/components/AustraliaTaxFileNumberInput/AustraliaTaxFileNumberInput.svelte",
+    "react": "lily-design-system-react-headless/components/AustraliaTaxFileNumberInput.tsx",
+    "vue": "lily-design-system-vue-headless/components/AustraliaTaxFileNumberInput.vue",
+    "angular": "lily-design-system-angular-headless/components/AustraliaTaxFileNumberInput.ts",
+    "web-components": "lily-design-system-web-components-headless/components/australia-tax-file-number-input.ts",
+    "alpine": "lily-design-system-alpine-headless/components/australia-tax-file-number-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/australia-tax-file-number-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/AustraliaTaxFileNumberInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/australia-tax-file-number-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/australia-tax-file-number-input/AGENTS.md"
+}

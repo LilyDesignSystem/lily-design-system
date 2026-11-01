@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "scroller",
+  "type": "registry:component",
+  "title": "Scroller",
+  "description": "A scrollytelling container with step-based foreground and background composition.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "registryDependencies": [
+    "@lily/scroller-base"
+  ],
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Scroller.tsx",
+      "content": "import React from \"react\";\nimport ScrollerBase from \"./ScrollerBase\";\n\n// Scroller component\n//\n// A scrollytelling container with a sticky `background` that updates as the\n// foreground steps scroll past. Built on top of ScrollerBase: each direct\n// child of the foreground area is a step that drives the active index, and\n// the consumer renders different background content based on that index.\n//\n// The component renders three regions inside the wrapper:\n//   .scroller-background — sticky; consumer styles position: sticky in CSS\n//   .scroller-foreground — the column containing scrollable step children\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label    — string, optional. Accessible label for the scroller region.\n//   offset   — number, default 0.5. Step trigger position in the viewport.\n//   onIndexChange    — callback, optional. Fired when active step changes.\n//   onProgressChange — callback, optional. Fired with overall progress 0..1.\n//   children — ReactNode, required. Foreground step content.\n//   background — ReactNode, required. Sticky background that changes with steps.\n//   ...restProps — additional HTML attributes spread onto the wrapper <div>.\n//\n// Accessibility:\n//   - aria-label on the wrapper (when label provided)\n//   - aria-live=\"polite\" on the background so screen readers are notified\n//     when the background visualisation changes\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Position: sticky on the background is the consumer's CSS responsibility\n\nexport interface ScrollerProps {\n    className?: string;\n    /** Accessible label for the scroller region. */\n    label?: string;\n    /** Step trigger position in the viewport (0..1). */\n    offset?: number;\n    /** Fired when the active step index changes. */\n    onIndexChange?: (index: number) => void;\n    /** Fired with overall scroll progress (0..1). */\n    onProgressChange?: (progress: number) => void;\n    /** Foreground step content. */\n    children: React.ReactNode;\n    /** Sticky background content that changes with the active step. */\n    background: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Scroller({\n    className = \"\",\n    label = undefined,\n    offset = 0.5,\n    onIndexChange = undefined,\n    onProgressChange = undefined,\n    children,\n    background,\n    ...restProps\n}: ScrollerProps) {\n    return (\n        <div\n            className={`scroller ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            <div\n                className=\"scroller-background\"\n                aria-live=\"polite\"\n            >\n                {background}\n            </div>\n            <ScrollerBase\n                className=\"scroller-foreground\"\n                offset={offset}\n                onIndexChange={onIndexChange}\n                onProgressChange={onProgressChange}\n            >\n                {children}\n            </ScrollerBase>\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Scroller.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/scroller/"
+}

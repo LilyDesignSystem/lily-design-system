@@ -239,5 +239,10 @@
     "small": "byghan",
     "smaller": "byghanna",
     "smallest": "an byghanna"
+  },
+  "date-time-now-input": {
+    "date": "Dydhyas",
+    "time": "Termyn",
+    "now": "Lemmyn"
   }
 }

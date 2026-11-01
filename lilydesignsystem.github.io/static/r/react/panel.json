@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "panel",
+  "type": "registry:component",
+  "title": "Panel",
+  "description": "A generic content panel with optional heading.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Panel.tsx",
+      "content": "import React from \"react\";\n\n// Panel component\n//\n// A headless labeled container for grouping related content, controls, or settings.\n// It renders a semantic <section> element with an accessible label, creating a\n// named region landmark that assistive technology can identify and navigate to.\n// Commonly used in dashboards, settings pages, sidebars, and multi-section layouts.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name for the panel region via aria-label.\n//   children — ReactNode, required. The panel content.\n//   ...restProps — additional HTML attributes spread onto the <section>.\n//\n// Syntax:\n//   <Panel label=\"Settings\">{children}</Panel>\n//\n// Examples:\n//\n//   <Panel label=\"Settings\">\n//     <p>Adjust your preferences below.</p>\n//   </Panel>\n//\n//\n//   <Panel label=\"Account information\">\n//     <p>Name, email, and profile details.</p>\n//   </Panel>\n//   <Panel label=\"Notification preferences\">\n//     <p>Choose how you want to be notified.</p>\n//   </Panel>\n//\n// Keyboard:\n//   None — this is a passive container. Screen reader users can navigate to\n//   named regions using landmark navigation shortcuts.\n//\n// Accessibility:\n//   - <section aria-label=\"...\"> creates a named region landmark\n//   - Assistive technology can list and navigate to this section via landmarks\n//   - The aria-label value should be concise and descriptive of the panel content\n//\n// Internationalization:\n//   - The label prop is the only text; consumer provides all content through children\n//   - No hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Uses <section> not <div> for proper landmark semantics\n//   - Do not add headings — consumer provides heading elements as needed\n//\n// References:\n//   - WAI-ARIA region role: https://www.w3.org/TR/wai-aria-1.2/#region\n//   - HTML section element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/section\n//   - WAI Landmarks: https://www.w3.org/WAI/ARIA/apd/practices/landmark-regions/\n\nexport interface PanelProps {\n    className?: string;\n    label: string;\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Panel({ className = \"\", label, children, ...restProps }: PanelProps) {\n    return (\n        <section\n            className={`panel ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </section>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Panel.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/panel/"
+}

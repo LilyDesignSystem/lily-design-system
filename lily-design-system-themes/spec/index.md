@@ -7,7 +7,7 @@ npm consumption. Anything not in this spec is out of scope.
 
 ## 1. Goal
 
-Let a consumer install Lily's 57 reference theme stylesheets with
+Let a consumer install Lily's 63 reference theme stylesheets with
 `npm install @lilydesignsystem/themes` instead of cloning the monorepo
 or hand-copying files, matching how the headless and helper packages
 are already npm-installable.

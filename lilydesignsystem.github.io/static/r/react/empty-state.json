@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "empty-state",
+  "type": "registry:component",
+  "title": "EmptyState",
+  "description": "A placeholder shown when a list, table, or view has nothing to display yet, with room for guidance and an action.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/EmptyState.tsx",
+      "content": "import React from \"react\";\n\n// EmptyState component\n//\n// A headless container for \"nothing here yet\" content. Heading, text and\n// actions are supplied by the consumer as children; no icon is bundled.\n//\n// Props:\n//   className -- string, optional. CSS class name.\n//   label -- string, optional. When given: role=\"group\" + aria-label.\n//   children -- ReactNode. Consumer content.\n//   ...restProps -- spread onto the root <div>.\n//\n// Accessibility: not a live region; role=\"group\" only when labelled.\n\nexport interface EmptyStateProps {\n    className?: string;\n    /** Optional accessible label; adds role=\"group\". */\n    label?: string;\n    /** Consumer content. */\n    children?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function EmptyState({\n    className = \"\",\n    label = undefined,\n    children,\n    ...restProps\n}: EmptyStateProps) {\n    return (\n        <div\n            className={`empty-state ${className}`}\n            role={label ? \"group\" : undefined}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/EmptyState.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/empty-state/"
+}

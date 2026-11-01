@@ -49,7 +49,7 @@ Macro `opts`: `label` (required), `open`, `iconHtml` (trusted HTML replacing the
 ## Styling
 
 Headless: no CSS ships. Target `.settings-picker`, `.settings-picker-button`, `.settings-picker-icon`, `.settings-picker-tooltip`,
-`.settings-picker-panel`. The 45 reference themes in the monorepo's `themes/` style all of them, including the popup placement.
+`.settings-picker-panel`. The 63 reference themes in the monorepo's `themes/` style all of them, including the popup placement.
 
 ## Examples
 

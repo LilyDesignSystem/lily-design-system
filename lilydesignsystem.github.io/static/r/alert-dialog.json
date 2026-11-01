@@ -15,8 +15,8 @@
     "`aria-describedby` references the description element (when present)"
   ],
   "keyboard": [
-    "Escape: Closes the dialog (consumer must implement via onkeydown)",
-    "Tab: Focus should be trapped within the dialog (consumer responsibility)"
+    "Escape: closes the dialog. It opens with `showModal()`, so the browser fires `cancel` and the component sets `open` to false.",
+    "Tab: stays inside the dialog; the browser keeps it there while the dialog is modal."
   ],
   "props": [
     "`open`: boolean (default: false, bindable) -- whether the dialog is visible",
@@ -42,5 +42,10 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/AlertDialog.razor"
   },
   "docs": "https://lilydesignsystem.com/components/alert-dialog/",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/alert-dialog/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/alert-dialog/AGENTS.md",
+  "nativePlatform": {
+    "decision": "native",
+    "uses": "<dialog> showModal() via Dialog/modal.ts",
+    "could_use": "command=\"show-modal\"/\"close\" on consumer buttons"
+  }
 }

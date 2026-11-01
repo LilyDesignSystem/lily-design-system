@@ -98,6 +98,13 @@ public partial class ThemePicker : ComponentBase
     /// <summary>Disables the button; an open popup closes.</summary>
     [Parameter] public bool Disabled { get; set; }
 
+    /// <summary>
+    /// <c>"select"</c> renders a native <c>&lt;select&gt;</c> instead of the button and listbox (RFC 3 prototype;
+    /// ported from the Svelte reference 2026-10-30). Keyboard, typeahead and the mobile picker are the platform's;
+    /// <see cref="Open"/> does not apply. Default <c>"listbox"</c>.
+    /// </summary>
+    [Parameter] public string Variant { get; set; } = "listbox";
+
     /// <summary>Captures all unmatched attributes; spread onto the root.</summary>
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object>? AdditionalAttributes { get; set; }
@@ -381,6 +388,8 @@ public partial class ThemePicker : ComponentBase
         }
         return -1;
     }
+
+    private Task OnSelectChangeAsync(ChangeEventArgs args) => SetThemeAsync(args.Value?.ToString() ?? "");
 
     private async Task ChooseAsync(int index)
     {

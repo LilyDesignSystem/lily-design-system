@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
+import { restoreOnFormReset } from "./form-reset";
 
 /**
  * EspanaCodigoDeIdentificacionFiscalInput — an input for entering Spain's Código de Identificación Fiscal (CIF)
@@ -33,4 +34,8 @@ export class EspanaCodigoDeIdentificacionFiscalInput {
     readonly required = input<boolean>(false);
     /** Whether the input is disabled. */
     readonly disabled = input<boolean>(false);
+
+    constructor() {
+        restoreOnFormReset(this.value);
+    }
 }

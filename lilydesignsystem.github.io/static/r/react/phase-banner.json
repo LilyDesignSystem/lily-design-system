@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "phase-banner",
+  "type": "registry:component",
+  "title": "PhaseBanner",
+  "description": "A banner showing service development phase and inviting feedback.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/PhaseBanner.tsx",
+      "content": "export interface PhaseBannerProps {\n    className?: string;\n    label?: string;\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function PhaseBanner({\n    className = \"\",\n    label = undefined,\n    children,\n    ...restProps\n}: PhaseBannerProps) {\n    return (\n        <div\n            className={`phase-banner ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/PhaseBanner.tsx"
+    }
+  ],
+  "categories": [
+    "overlays"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/phase-banner/"
+}

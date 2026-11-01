@@ -91,8 +91,7 @@
     <ul>
       <li>Tab: Focus moves between interactive elements in the chat list</li>
       <li>Enter: Activates the focused chat list item or link</li>
-      <li>Arrow Down: Move focus to the next chat list item</li>
-      <li>Arrow Up: Move focus to the previous chat list item</li>
+      <li>Tab only: a nav landmark of links is not a composite widget, so focus does not move by direction key (decided 2026-10-31, P12-T5a)</li>
     </ul>
     <h3>Props</h3>
     <ul>

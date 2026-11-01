@@ -4,29 +4,77 @@
   Description: a text input combined with a dropdown list for filtering options
   HTML tag: <div>
   CSS class: combobox
-  Keyboard: Tab to focus, Arrow Down to open list, type to filter, Enter to select, Escape to close
-  Accessibility: role="combobox", aria-label for accessible name
+  Keyboard: Escape in the input, while the list is open, closes it (hides the listbox, sets aria-expanded="false") and
+    dispatches a bubbling "combobox-close" event; while it is closed, Escape is left alone (so an enclosing dialog
+    still gets it)
+  Accessibility: role="combobox" on the <input>, with aria-label, aria-expanded, aria-controls (the listbox id) and
+    aria-autocomplete="list"; the listbox is role="listbox" with the same aria-label, hidden while closed
   Usage:
-    <div class="combobox" role="combobox" aria-label="Example">
-      ...
+    <div class="combobox">
+      <input type="text" role="combobox" aria-label="Fruit" aria-expanded="false" aria-controls="fruit-list"
+        aria-autocomplete="list" />
+      <div role="listbox" id="fruit-list" aria-label="Fruit" popover="manual">
+        <div role="option">Apple</div>
+      </div>
     </div>
+  Opening the list, filtering it and choosing an option are the consumer's: unhide the listbox and set
+  aria-expanded="true". For a combobox that owns the arrow keys and choosing, use autosuggest.
 -->
 
-<div
-  class="combobox"
-  role="combobox"
-  aria-label=""
->
-  <!-- Consumer provides content -->
+<div class="combobox">
+  <input
+    type="text"
+    role="combobox"
+    aria-label=""
+    aria-expanded="false"
+    aria-controls="combobox-listbox"
+    aria-autocomplete="list"
+  />
+  <div
+    role="listbox"
+    id="combobox-listbox"
+    aria-label=""
+    popover="manual"
+  >
+    <!-- Consumer provides options -->
+  </div>
 </div>
 
 <script>
-  // Combobox behavior
-  (function() {
-    'use strict';
-    // Combobox: consumer implements interactive behavior
-    document.querySelectorAll('.combobox').forEach(function(el) {
-      // Interactive behavior initialization
+  // Combobox behavior: Escape closes the open list
+  (function () {
+    "use strict";
+    // P16-T4: the popup is popover="manual" (top layer); open and close it with the Popover API, or with the
+    // hidden attribute where the API is missing (then the popover attribute is dropped, which does nothing there).
+    function setOpen(el, open) {
+      if (typeof el.showPopover !== "function") {
+        el.removeAttribute("popover");
+        el.hidden = !open;
+        return;
+      }
+      try {
+        if (open) el.showPopover();
+        else el.hidePopover();
+      } catch (e) {
+        // Already in that state: nothing to do.
+      }
+    }
+
+    document.querySelectorAll(".combobox [role=\"listbox\"]").forEach(function (el) {
+      if (typeof el.showPopover !== "function") setOpen(el, false);
+    });
+
+    document.querySelectorAll(".combobox").forEach(function (el) {
+      var input = el.querySelector('[role="combobox"]');
+      if (!input) return;
+      input.addEventListener("keydown", function (e) {
+        if (e.key !== "Escape" || input.getAttribute("aria-expanded") !== "true") return;
+        e.preventDefault();
+        var list = document.getElementById(input.getAttribute("aria-controls"));
+        if (list) setOpen(list, false);
+        input.setAttribute("aria-expanded", "false");
+        el.dispatchEvent(new CustomEvent("combobox-close", { bubbles: true }));
+      });
     });
   })();
 </script>

@@ -2,7 +2,7 @@
   "slug": "five-star-rating-picker",
   "name": "FiveStarRatingPicker",
   "description": "a picker for selecting a 1-5 star rating using radio buttons",
-  "htmlTag": "div",
+  "htmlTag": "fieldset",
   "category": "pickers",
   "baseClass": ".five-star-rating-picker",
   "subClasses": [],

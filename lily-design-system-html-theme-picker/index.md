@@ -49,7 +49,7 @@ opinionated widget. This one splits the contract cleanly:
 
 The result is a small reusable widget that works in any HTML host
 (static HTML, Eleventy, Astro, Hugo, plain Vite, any framework that
-emits HTML) and against any theme catalog — Lily™'s 45 reference
+emits HTML) and against any theme catalog — Lily™'s 63 reference
 themes (DaisyUI-inspired, NHS-aligned, and public-sector / vendor
 reference themes), or your own bespoke set.
 
@@ -366,6 +366,26 @@ default to the title-cased slug, per hyphen-separated word
 (`"light"` → `"Light"`, `"high-contrast"` → `"High Contrast"`);
 override with `theme-labels` (JSON-encoded object).
 
+## The native select variant
+
+`variant="select"` (opt-in; ported from the Svelte reference 2026-10-30, the prototype for RFC 3 in the
+repository's `RFC.md`) renders a native `<select class="theme-picker-select" aria-label="{label}">` of
+`<option class="theme-picker-option">` elements inside the same root, with `data-variant="select"` on the root.
+Keyboard, typeahead, the mobile picker and the screen-reader announcement are then the platform's; choosing an option
+applies the theme exactly as the listbox does (managed `<link>`, `data-theme`, optional `localStorage`, one change
+notification). There is no button, listbox, tooltip or hidden input: the select carries `name`. `open` does not apply, because a
+native select's popup state is not observable. Styling it with `appearance: base-select` is theme CSS behind
+`@supports`. The default (`"listbox"`) is unchanged.
+
+```html
+<theme-picker
+  variant="select"
+  label="Colour theme"
+  themes-url="/assets/themes/"
+  themes="light,dark,abyss"
+></theme-picker>
+```
+
 ## Attributes
 
 The complete table is in [spec/index.md §4.1](./spec/index.md#41-observed-attributes).
@@ -381,6 +401,7 @@ Highlights:
 | `storage-key`        | string        | no       | `localStorage` persistence.                                                                                  |
 | `detect-from-system` | boolean attr  | no       | Resolve `prefers-color-scheme` on first visit. Mirrors locale-picker's `detect-from-navigator`.              |
 | `name`               | string        | no       | Hidden `<input>` `name` and managed-`<link>` discriminator; defaults to `"theme"`.                           |
+| `variant`            | string        | no       | `"select"` renders a native `<select>` instead; see [The native select variant](#the-native-select-variant). |
 | `extension`          | string        | no       | Defaults to `".css"`.                                                                                        |
 | `theme-labels`       | string (JSON) | no       | `{ "light": "Bright" }` overrides.                                                                           |
 | `class`              | string        | no       | Extra class on the rendered root `<div>`.                                                                    |

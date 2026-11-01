@@ -62,7 +62,8 @@
 //   - WAI-ARIA menu role: https://www.w3.org/TR/wai-aria-1.2/#menu
 //   - WAI-ARIA menuitem role: https://www.w3.org/TR/wai-aria-1.2/#menuitem
 
-import { ref, watchEffect } from "vue";
+import { ref, useId, watchEffect } from "vue";
+import { popoverSupported, toggleOpened, usePopoverState } from "./popover";
 
 const props = defineProps<{
     /** Accessible name for the menu button. */
@@ -71,10 +72,15 @@ const props = defineProps<{
 
 const open = defineModel<boolean>("open", { default: false });
 
+const menuId = `dropdown-menu-${useId()}`;
 const menuRef = ref<HTMLElement | undefined>(undefined);
 
+// popover="auto": the trigger's command="toggle-popover" opens and closes the menu, Escape and light dismiss come
+// from the browser, and @toggle writes `open` back. Without the API the click toggles `open` and `hidden` follows.
+usePopoverState(menuRef, open);
+
 function toggleMenu() {
-    open.value = !open.value;
+    if (menuRef.value && !popoverSupported(menuRef.value)) open.value = !open.value;
 }
 
 function onMenuKeydown(event: KeyboardEvent) {
@@ -130,15 +136,21 @@ watchEffect(() => {
             aria-haspopup="true"
             :aria-expanded="open"
             :aria-label="label"
+            :aria-controls="menuId"
+            command="toggle-popover"
+            :commandfor="menuId"
+            :popovertarget="menuId"
             @click="toggleMenu"
         >
             {{ label }}
         </button>
         <div
-            v-if="open"
+            :id="menuId"
             role="menu"
             :aria-label="label"
+            popover="auto"
             ref="menuRef"
+            @toggle="open = toggleOpened($event)"
             @keydown="onMenuKeydown"
         >
             <slot />

@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"download-button\" aria-label=\"a download link styled as a button, with optional file size and format metadata\">DownloadButton</div>";
   const svelteSource: string = "// In your Svelte component:\nimport DownloadButton from \"lily-design-system-svelte-headless/components/DownloadButton/DownloadButton.svelte\";\n\n<DownloadButton>DownloadButton</DownloadButton>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import DownloadButton from './DownloadButton.svelte';\n<\/script>\n\n<DownloadButton\n  href=\"/files/brochure.pdf\"\n  label=\"Download brochure (PDF, 2.4 MB)\"\n  fileSize=\"2.4 MB\"\n  fileFormat=\"PDF\"\n  download\n/>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import DownloadButton from \"./DownloadButton.svelte\";\n<\/script>\n\n<DownloadButton\n  href=\"/files/brochure.pdf\"\n  label=\"Download brochure (PDF, 2.4 MB)\"\n  fileSize=\"2.4 MB\"\n  fileFormat=\"PDF\"\n  download\n/>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

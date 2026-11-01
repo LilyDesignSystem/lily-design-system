@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "progress",
+  "type": "registry:component",
+  "title": "Progress",
+  "description": "A horizontal progress bar showing completion.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Progress.tsx",
+      "content": "import React from \"react\";\n\n// Progress component\n//\n// A headless progress indicator using the native HTML <progress> element with\n// built-in semantic meaning and accessibility. It supports both determinate\n// progress (with a known value and maximum) and indeterminate progress (when\n// value is undefined, indicating an ongoing process of unknown duration).\n// Commonly used for file uploads, form submissions, loading sequences, and\n// installation wizards.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name via aria-label describing what process is tracked.\n//   value — number, default undefined. Current progress value; undefined means indeterminate.\n//   max — number, default 100. Maximum value representing 100% completion.\n//   ...restProps — additional HTML attributes spread onto the <progress>.\n//\n// Syntax:\n//   <Progress label=\"Upload progress\" value={50} />\n//\n// Examples:\n//\n//   <Progress label=\"Upload progress\" value={50} max={100} />\n//\n//\n//   <Progress label=\"Loading\" />\n//\n//\n//   <Progress label=\"Installation\" value={3} max={5} />\n//\n// Keyboard:\n//   None — this is a passive display element that does not accept user input.\n//\n// Accessibility:\n//   - aria-label describes what process the progress bar represents\n//   - The <progress> element implicitly has role=\"progressbar\" with aria-valuenow,\n//     aria-valuemin, and aria-valuemax managed by the browser\n//\n// Internationalization:\n//   - The label prop is the only user-facing text; no hardcoded strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Uses native <progress> element, not a <div> with role=\"progressbar\"\n//   - When value is undefined, the progress bar is indeterminate\n//   - Do not wrap in a container — renders a bare <progress> element\n//\n// References:\n//   - MDN progress element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/progress\n//   - WAI-ARIA progressbar role: https://www.w3.org/WAI/ARIA/apg/patterns/meter/\n\nexport interface ProgressProps {\n    className?: string;\n    /** Accessible label. */\n    label: string;\n    /** Current value. Undefined means indeterminate. */\n    value?: number;\n    /** Maximum value. */\n    max?: number;\n    [key: string]: unknown;\n}\n\nexport default function Progress({\n    className = \"\",\n    label,\n    value = undefined,\n    max = 100,\n    ...restProps\n}: ProgressProps) {\n    return (\n        <progress\n            className={`progress ${className}`}\n            aria-label={label}\n            value={value}\n            max={max}\n            {...restProps}\n        ></progress>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Progress.tsx"
+    }
+  ],
+  "categories": [
+    "data-viz"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/progress/"
+}

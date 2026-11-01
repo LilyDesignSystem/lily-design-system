@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "draft",
+  "type": "registry:component",
+  "title": "Draft",
+  "description": "An early preliminary version of content such as an article, email, report, etc..",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Draft.tsx",
+      "content": "import React from \"react\";\n\n// Draft component\n//\n// A passive container marking content that is unpublished or in progress. The\n// consumer supplies the draft body as children and optionally a status string\n// describing the stage of the draft, which is reflected as a data-status\n// attribute the consumer's CSS or JS can observe.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label    — string, optional. Accessible label via aria-label.\n//   status   — string, optional. Stage of the draft, reflected as data-status.\n//   children — ReactNode, required. Component content.\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Accessibility:\n//   - aria-label exposes a screen-reader name when label is provided\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - status is exposed via data-status, not ARIA — it's for the consumer\n\nexport interface DraftProps {\n    className?: string;\n    /** Optional accessible label set on aria-label. */\n    label?: string;\n    /** Optional draft stage, reflected as data-status. */\n    status?: string;\n    /** Component content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Draft({\n    className = \"\",\n    label = undefined,\n    status = undefined,\n    children,\n    ...restProps\n}: DraftProps) {\n    return (\n        <div\n            className={`draft ${className}`}\n            aria-label={label}\n            data-status={status}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Draft.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/draft/"
+}

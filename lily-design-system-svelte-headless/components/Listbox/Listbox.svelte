@@ -105,6 +105,7 @@
     //   - WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/listbox/
 
     import type { Snippet } from "svelte";
+    import { initialListboxState, listboxKeydown } from "./listbox-machine";
 
     let {
         class: className = "",
@@ -153,138 +154,33 @@
         [key: string]: unknown;
     } = $props();
 
+    // Every keyboard decision lives in the framework-free machine (shared/listbox-machine.ts, copied here by
+    // bin/sync-shared-modules); this component only reads the DOM and applies the transition it returns.
     function options(): HTMLElement[] {
         return ref ? Array.from(ref.querySelectorAll<HTMLElement>("[role='option']")) : [];
     }
 
-    // ---------------------------------------------------------------
-    // roving-focus (default, unchanged): real DOM focus per option, wraps.
-    // ---------------------------------------------------------------
-
-    function onRovingFocusKeydown(event: KeyboardEvent) {
-        const opts = options();
-        const current = document.activeElement as HTMLElement;
-        const index = opts.indexOf(current);
-        switch (event.key) {
-            case "ArrowDown": {
-                event.preventDefault();
-                const next = index < opts.length - 1 ? index + 1 : 0;
-                opts[next]?.focus();
-                break;
-            }
-            case "ArrowUp": {
-                event.preventDefault();
-                const prev = index > 0 ? index - 1 : opts.length - 1;
-                opts[prev]?.focus();
-                break;
-            }
-            case "Home": {
-                event.preventDefault();
-                opts[0]?.focus();
-                break;
-            }
-            case "End": {
-                event.preventDefault();
-                opts[opts.length - 1]?.focus();
-                break;
-            }
-        }
-    }
-
-    // ---------------------------------------------------------------
-    // active-descendant (opt-in): virtual cursor, clamp/wrap, typeahead, paging.
-    // ---------------------------------------------------------------
-
-    let typeaheadBuffer = "";
-    let typeaheadTimer: ReturnType<typeof setTimeout> | undefined;
-
-    function moveActive(delta: number) {
-        const count = options().length;
-        if (count === 0) return;
-        const next = activeIndex + delta;
-        activeIndex = clamp
-            ? Math.min(Math.max(next, 0), count - 1)
-            : ((next % count) + count) % count;
-    }
-
-    function runTypeahead(char: string) {
-        const opts = options();
-        if (opts.length === 0) return;
-        const lower = char.toLowerCase();
-        const sameCharRun =
-            typeaheadBuffer === "" || [...typeaheadBuffer].every((c) => c === lower);
-        typeaheadBuffer += lower;
-        clearTimeout(typeaheadTimer);
-        typeaheadTimer = setTimeout(() => (typeaheadBuffer = ""), 500);
-        const query = sameCharRun ? lower : typeaheadBuffer;
-        const anchor = activeIndex < 0 ? 0 : activeIndex;
-        const start = sameCharRun ? anchor + 1 : anchor;
-        for (let n = 0; n < opts.length; n++) {
-            const i = (start + n) % opts.length;
-            if ((opts[i].textContent ?? "").trim().toLowerCase().startsWith(query)) {
-                activeIndex = i;
-                return;
-            }
-        }
-    }
-
-    function onActiveDescendantKeydown(event: KeyboardEvent) {
-        switch (event.key) {
-            case "ArrowDown":
-                event.preventDefault();
-                moveActive(1);
-                break;
-            case "ArrowUp":
-                event.preventDefault();
-                moveActive(-1);
-                break;
-            case "Home":
-                event.preventDefault();
-                activeIndex = options().length ? 0 : -1;
-                break;
-            case "End":
-                event.preventDefault();
-                activeIndex = options().length - 1;
-                break;
-            case "PageDown":
-                event.preventDefault();
-                moveActive(pageSize);
-                break;
-            case "PageUp":
-                event.preventDefault();
-                moveActive(-pageSize);
-                break;
-            case "Enter":
-            case " ":
-                event.preventDefault();
-                if (activeIndex >= 0) onActivate?.(activeIndex);
-                break;
-            case "Escape":
-                event.preventDefault();
-                onEscape?.();
-                break;
-            case "Tab":
-                // Not prevented: the consumer's onTabOut (e.g. moving focus to a
-                // trigger button) runs first, so the browser's default Tab
-                // proceeds from wherever focus ends up, not from this element.
-                onTabOut?.(event);
-                break;
-            default:
-                if (
-                    typeahead &&
-                    event.key.length === 1 &&
-                    !event.ctrlKey &&
-                    !event.metaKey &&
-                    !event.altKey
-                ) {
-                    runTypeahead(event.key);
-                }
-        }
-    }
+    let typeaheadState = initialListboxState().typeahead;
 
     function onkeydown(event: KeyboardEvent) {
-        if (navigation === "active-descendant") onActiveDescendantKeydown(event);
-        else onRovingFocusKeydown(event);
+        const opts = options();
+        const t = listboxKeydown(
+            { activeIndex, typeahead: typeaheadState },
+            event,
+            {
+                labels: opts.map((option) => (option.textContent ?? "").trim()),
+                focusedIndex: opts.indexOf(document.activeElement as HTMLElement),
+                now: Date.now(),
+            },
+            { navigation, clamp, typeahead, pageSize },
+        );
+        typeaheadState = t.state.typeahead;
+        if (t.preventDefault) event.preventDefault();
+        if (t.focus !== undefined) opts[t.focus]?.focus();
+        if (t.setActiveIndex !== undefined) activeIndex = t.setActiveIndex;
+        if (t.activate !== undefined) onActivate?.(t.activate);
+        if (t.escape) onEscape?.();
+        if (t.tabOut) onTabOut?.(event); // never prevented: Tab proceeds from wherever onTabOut leaves focus
     }
 
     const activeId = $derived.by(() => {

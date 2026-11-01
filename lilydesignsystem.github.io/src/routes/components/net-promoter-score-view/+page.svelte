@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<span class=\"net-promoter-score-view\" role=\"img\" aria-label=\"NPS: 8\">8</span>";
   const svelteSource: string = "// In your Svelte component:\nimport NetPromoterScoreView from \"lily-design-system-svelte-headless/components/NetPromoterScoreView/NetPromoterScoreView.svelte\";\n\n<NetPromoterScoreView label=\"Label\" value=\"Sample value\" />\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import NetPromoterScoreView from './NetPromoterScoreView.svelte';\n<\/script>\n\n<NetPromoterScoreView label=\"NPS Score\" value=\"8\" />\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import NetPromoterScoreView from \"./NetPromoterScoreView.svelte\";\n<\/script>\n\n<NetPromoterScoreView\n  label=\"NPS Score\"\n  value=\"8\"\n/>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>
@@ -76,7 +76,7 @@
       <li>PascalCase: NetPromoterScoreView</li>
       <li>Description: a read-only display of a Net Promoter Score</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
-      <li>HTML tag: &lt;div&gt;</li>
+      <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .net-promoter-score-view</li>
       <li>Interactive: no</li>
     </ul>

@@ -4,19 +4,27 @@ import { TestBed } from "@angular/core/testing";
 import { GoToTop } from "./GoToTop";
 
 describe("GoToTop", () => {
-    test("renders the div root with the base class", () => {
+    function render(inputs: Record<string, unknown> = {}) {
         const fixture = TestBed.createComponent(GoToTop);
+        for (const [k, v] of Object.entries(inputs)) fixture.componentRef.setInput(k, v);
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.go-to-top");
-        expect(el).toBeTruthy();
-    });
+        return fixture;
+    }
 
     test("appends the className input to the root class list", () => {
-        const fixture = TestBed.createComponent(GoToTop);
-        fixture.componentRef.setInput("className", "extra");
-        fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.go-to-top");
+        const el = render({ className: "extra" }).nativeElement.querySelector("a.go-to-top");
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
+    });
+
+    test("links to #top by default, or to href", () => {
+        expect(render().nativeElement.querySelector("a.go-to-top").getAttribute("href")).toBe(
+            "#top",
+        );
+        expect(
+            render({ href: "#start" })
+                .nativeElement.querySelector("a.go-to-top")
+                .getAttribute("href"),
+        ).toBe("#start");
     });
 });

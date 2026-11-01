@@ -29,8 +29,7 @@ Implement the ChatNav component: a navigation container for chat information.
 - [ ] `aria-current` on the currently selected chat item
 - [ ] Keyboard: Tab: Focus moves between interactive elements
 - [ ] Keyboard: Enter: Activates the focused chat list item
-- [ ] Keyboard: Arrow Down: Move focus to the next chat list item
-- [ ] Keyboard: Arrow Up: Move focus to the previous chat list item
+- [ ] Keyboard: Tab moves between the links; no direction-key movement (a nav landmark, not a composite widget)
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS -- fully headless
 - [ ] Tests pass in all implementations

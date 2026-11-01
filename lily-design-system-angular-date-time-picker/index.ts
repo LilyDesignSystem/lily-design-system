@@ -27,6 +27,8 @@ export {
     numericFieldOrder,
     parseDateInput,
     parseTimeInput,
+    normalizeDigits,
+    gregorian,
     nextDateTimePickerId,
 } from "./date-time-picker.component";
 export type {

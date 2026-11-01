@@ -14,7 +14,7 @@
 
 - Renders <div role="combobox" aria-haspopup="tree" aria-expanded aria-label> as container
 - Trigger is a native <button class="cascader-trigger" type="button"> showing value or placeholder
-- Panel is a <div class="cascader-panel"> toggled with the hidden attribute
+- Panel is a <div class="cascader-panel"> `popover="manual"`, shown while `expanded` (the hidden attribute where the Popover API is missing)
 - label prop is REQUIRED and sets aria-label on the combobox container
 - disabled disables the trigger button
 - Children populate the panel content
@@ -43,6 +43,14 @@
 - `onclick` / `onClick`: callback (optional)
 - `children`: slot — panel content
 - `...restProps`: any additional HTML attributes
+
+## Native platform
+
+- Decision: native
+- Uses: native <button> trigger; panel div popover="manual" shown from the expanded state
+- Could use: CSS anchor positioning to the trigger (theme)
+- Notes: P16-T4 (2026-10-31): in Svelte, React, Vue, HTML, Alpine and Web Components, and Angular and Blazor where the component has the state (Angular: combobox, mentions-input, popconfirm-dialog, tree-select; Blazor: combobox; the rest are static stubs), always rendered with popover="manual". Nunjucks keeps the hidden attribute: its macros render the state on the server and have no script to call showPopover(), and a manual popover cannot be open in server-rendered HTML. Always rendered with popover="manual" and opened by the state through Popover/popover.ts, with the hidden attribute where the Popover API is missing (jsdom, older engines). Top layer removes z-index and overflow clipping; Escape and light dismiss stay the consumer's. The hierarchy has no native equivalent: <optgroup> is one level and not selectable.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
 
 ## Acceptance Criteria
 

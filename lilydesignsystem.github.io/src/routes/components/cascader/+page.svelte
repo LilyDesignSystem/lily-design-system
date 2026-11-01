@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"cascader\" aria-label=\"a multi-level dropdown for selecting a value from a hierarchy\">Cascader</div>";
   const svelteSource: string = "// In your Svelte component:\nimport Cascader from \"lily-design-system-svelte-headless/components/Cascader/Cascader.svelte\";\n\n<Cascader>\n  <!-- content -->\n</Cascader>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import Cascader from './Cascader.svelte';\n\n  let open = $state(false);\n  let value = $state('');\n<\/script>\n\n<Cascader\n  label=\"Region\"\n  placeholder=\"Choose a region\"\n  expanded={open}\n  value={value}\n  onclick={() => (open = !open)}\n>\n  <ul role=\"tree\" aria-label=\"Regions\">…</ul>\n</Cascader>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import Cascader from \"./Cascader.svelte\";\n\n  let open = $state(false);\n  let value = $state(\"\");\n<\/script>\n\n<Cascader\n  label=\"Region\"\n  placeholder=\"Choose a region\"\n  expanded={open}\n  {value}\n  onclick={() => (open = !open)}\n>\n  <ul\n    role=\"tree\"\n    aria-label=\"Regions\"\n  >\n    …\n  </ul>\n</Cascader>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

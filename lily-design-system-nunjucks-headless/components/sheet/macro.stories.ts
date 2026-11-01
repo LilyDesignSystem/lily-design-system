@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html = `<div
+const html = `<dialog
   class="sheet"
-  role="dialog" aria-modal="true"
-  aria-label="Sheet" hidden></div>`;
+  open
+  aria-label="Sheet"><!-- shown with open so the story is visible; open it with showModal() --></dialog>`;
 
 const meta = {
     title: "Headless/Sheet",

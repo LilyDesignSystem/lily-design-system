@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "form-reset-utils",
+  "type": "registry:lib",
+  "title": "form-reset.ts",
+  "description": "Shared helper module form-reset.ts, used by Lily React headless components.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/form-reset.ts",
+      "content": "import { useEffect, useRef, type RefObject } from \"react\";\n\n// useFormReset — run a callback after the enclosing <form> resets.\n//\n// React keeps a controlled field's default value in step with its value, so the\n// browser's own reset is a no-op for a field whose value lives in component\n// state: the DOM stays as the user left it. A component that keeps a form\n// control's value in state calls this with a function that restores the value\n// it started with. The callback runs one tick after `reset`, once the browser\n// has reset the DOM, and not at all when a listener cancelled the reset.\n\nexport function useFormReset(ref: RefObject<Element | null>, onReset: () => void): void {\n    const latest = useRef(onReset);\n    latest.current = onReset;\n    useEffect(() => {\n        const form = ref.current?.closest(\"form\");\n        if (!form) return;\n        let timer: ReturnType<typeof setTimeout> | undefined;\n        const listener = (event: Event) => {\n            clearTimeout(timer);\n            timer = setTimeout(() => {\n                if (!event.defaultPrevented) latest.current();\n            }, 0);\n        };\n        form.addEventListener(\"reset\", listener);\n        return () => {\n            clearTimeout(timer);\n            form.removeEventListener(\"reset\", listener);\n        };\n    }, [ref]);\n}\n",
+      "type": "registry:lib",
+      "target": "@components/lily/form-reset.ts"
+    }
+  ]
+}

@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-graphic-block",
     standalone: true,
-    template: `<div class="graphic-block {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<figure class="graphic-block {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></figure>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GraphicBlock {

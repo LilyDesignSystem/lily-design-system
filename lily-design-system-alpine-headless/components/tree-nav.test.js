@@ -30,6 +30,9 @@ describe("TreeNav", () => {
         expect(el().classList.contains("tree-nav")).toBe(true);
     });
 
+    const mountTree = async () => {
+        await mount("tree-nav");
+    };
     it("is a tree of treeitems with one tab stop and closed branches", async () => {
         await mount("tree-nav");
         expect(document.querySelector("[role=tree]")).not.toBeNull();
@@ -47,7 +50,7 @@ describe("TreeNav", () => {
         expect(item("one").querySelector("[role=group]").hidden).toBe(true);
     });
     it("ArrowRight opens a branch then enters it; ArrowLeft closes or goes to the parent", async () => {
-        await mount("tree-nav");
+        await mountTree();
         item("one").focus();
         await press(item("one"), "ArrowRight");
         expect(item("one").getAttribute("aria-expanded")).toBe("true");
@@ -60,7 +63,7 @@ describe("TreeNav", () => {
         expect(item("one").getAttribute("aria-expanded")).toBe("false");
     });
     it("ArrowDown and ArrowUp skip the children of a closed branch", async () => {
-        await mount("tree-nav");
+        await mountTree();
         item("one").focus();
         await press(item("one"), "ArrowDown");
         expect(document.activeElement).toBe(item("two"));
@@ -70,7 +73,7 @@ describe("TreeNav", () => {
         expect(item("two").getAttribute("tabindex")).toBe("-1");
     });
     it("the arrows stop at the ends; Home and End jump", async () => {
-        await mount("tree-nav");
+        await mountTree();
         item("one").focus();
         await press(item("one"), "ArrowUp");
         expect(document.activeElement).toBe(item("one"));
@@ -83,14 +86,14 @@ describe("TreeNav", () => {
         expect(document.activeElement).toBe(item("one"));
     });
     it("* opens every closed branch at the focused level", async () => {
-        await mount("tree-nav");
+        await mountTree();
         item("one").focus();
         await press(item("one"), "*");
         expect(item("one").getAttribute("aria-expanded")).toBe("true");
         expect(item("three").getAttribute("aria-expanded")).toBe("true");
     });
     it("typing jumps to the next visible item starting with the character", async () => {
-        await mount("tree-nav");
+        await mountTree();
         nameAll();
         item("one").focus();
         await press(item("one"), "t");

@@ -14,7 +14,7 @@
     name="Default"
     tags={["autodocs", "!dev"]}
 >
-    <BreadcrumbLink label="BreadcrumbLink example">
+    <BreadcrumbLink href="#example">
         <span>BreadcrumbLink example</span>
     </BreadcrumbLink>
 </Story>

@@ -5,15 +5,13 @@ const html = `<div
   <button
     class="contextual-help-trigger"
     type="button"
-    aria-label=""
+    aria-label="Help"
     aria-haspopup="dialog"
-    aria-expanded="false"
-    aria-controls="contextual-help-panel"
-  >?</button>
+    aria-controls="contextual-help-panel" command="toggle-popover" commandfor="contextual-help-panel" popovertarget="contextual-help-panel"  >?</button>
   <div
     class="contextual-help-panel"
     id="contextual-help-panel"
-    role="dialog" hidden  ></div>
+    role="dialog" popover="auto"  ><p>Help content explaining the related field.</p></div>
 </div>`;
 
 const meta = {

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "watermark",
+  "type": "registry:component",
+  "title": "Watermark",
+  "description": "A decorative repeating overlay text or image marking a page.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Watermark.tsx",
+      "content": "import React from \"react\";\n\n// Watermark component\n//\n// A decorative repeating overlay text or image marking a page. The headless\n// component exposes the configuration as `data-*` attributes on a sibling\n// overlay element with `aria-hidden=\"true\"`. The consumer is responsible\n// for the actual repeating-pattern CSS (e.g. background-image with\n// SVG-encoded text) — this component only provides the structure and ARIA.\n//\n// Props:\n//   className    — string, optional. CSS class name.\n//   text         — string, optional. Watermark text.\n//   imageUrl     — string, optional. Watermark image URL (alternative to text).\n//   gap          — string, default \"100px\". Spacing between repeats.\n//   rotate       — number (deg), default -22. Rotation angle.\n//   children     — ReactNode, optional. Content beneath the watermark.\n//   ...restProps — additional HTML attributes spread onto the root <div>.\n//\n// Syntax:\n//   <Watermark text=\"Confidential\" rotate={-22} gap=\"120px\">\n//     <article>…</article>\n//   </Watermark>\n//\n// Accessibility:\n//   - The overlay is `aria-hidden=\"true\"` (decorative only)\n//\n// Internationalization:\n//   - text is consumer-supplied\n//\n// Claude rules:\n//   - Headless: no CSS, no styles\n//   - Inline `style` only for documented behavior (none required by default;\n//     the spec uses data-* hooks). The structure is the headless contract.\n//\n// References:\n//   - Ant Design Watermark: https://ant.design/components/watermark\n\nexport interface WatermarkProps {\n    className?: string;\n    /** Watermark text */\n    text?: string;\n    /** Watermark image URL (alternative to text) */\n    imageUrl?: string;\n    /** Spacing between repeats (CSS length) */\n    gap?: string;\n    /** Rotation angle in degrees */\n    rotate?: number;\n    /** Content beneath the watermark */\n    children?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Watermark({\n    className = \"\",\n    text = undefined,\n    imageUrl = undefined,\n    gap = \"100px\",\n    rotate = -22,\n    children = undefined,\n    ...restProps\n}: WatermarkProps) {\n    return (\n        <div\n            className={`watermark ${className}`}\n            data-rotate={rotate}\n            data-gap={gap}\n            {...restProps}\n        >\n            <div\n                className=\"watermark-overlay\"\n                aria-hidden=\"true\"\n                data-text={text}\n                data-image-url={imageUrl}\n            />\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Watermark.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/watermark/"
+}

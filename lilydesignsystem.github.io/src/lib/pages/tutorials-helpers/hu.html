@@ -3,8 +3,7 @@
 <section class="page-intro">
   <h1>Beállítási segédek</h1>
   <p class="page-intro-tagline">
-    Keretrendszerenként hét kis csomag, mindegyik egy felhasználói feladatot birtokol elejétől a végéig, plusz egy sáv, amely ötöt közülük összefog. A
-    <a href="/tutorials/theming/">theme-picker</a>már ismerős; itt a locale-picker, a text-size-picker és a motion-picker (beállítások), a share-picker és a search-picker (műveletek), a date-time-picker (űrlapérték) és a picker-bar.
+    Tizenegy kis választó keretrendszerenként, mindegyik egy felhasználói feladatért felel az elejétől a végéig, valamint egy sáv, amely legfeljebb hetet állít össze közülük. A <a href="/tutorials/theming/">theme-picker</a> már ismerős; íme a locale-picker, a text-size-picker és a motion-picker (beállítások), a share-picker és a search-picker (műveletek), a date-time-picker (űrlapérték) és a picker-bar.
   </p>
 </section>
 
@@ -26,7 +25,7 @@
     <li>SSR-biztonságos: a DOM-írások csak a mount/effect életciklusban történnek.</li>
     <li>i18n-tiszta: minden, a felhasználónak látható karakterlánc egy prop.</li>
     <li>
-      Elérhető Svelte (kanonikus), React, Vue, Angular, HTML egyedi elem, Nunjucks és Blazor számára — mindegyikben ugyanaz a szerződés.
+      Elérhető Svelte (kanonikus), React, Vue, Angular, HTML egyedi elem, Web Components, Nunjucks és Blazor számára — mindegyikben ugyanaz a szerződés.
     </li>
   </ul>
   <p>
@@ -208,6 +207,7 @@
   <p>
     <code>picker-bar</code> egy sorban rendereli a keresést, a témát, a területi beállítást, a szövegméretet és a megosztást, a referenciatémák teljes készletével és a hétfokozatú szövegskálával előre bekötve. Minden hozzáférhető név egyetlen kötelező
     <code>labels</code> objektumban érkezik.
+    Elsőként a link-pickert is megjeleníti, ha hivatkozásokat ad át, és a time-zone-pickert a területi beállítás után, ha időzóna-címkét és területi beállítást ad meg.
   </p>
   
   <pre tabindex="0"><code>&lt;script&gt;
@@ -264,7 +264,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker
 
   <h2>További lépések</h2>
   <ul>
-    <li><a href="/components/">Komponenskatalógus</a> — mind az 582 komponens teljes referenciája.</li>
+    <li><a href="/components/">Komponenskatalógus</a> — mind az 607 komponens teljes referenciája.</li>
     <li><a href="/help/">Súgó</a> — hibaelhárítás és GYIK.</li>
     <li><a href="/why/">Miért a Lily</a> — és hogyan támogathatod a projektet.</li>
   </ul>

@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"listbox\" role=\"listbox\" aria-label=\"Options\"><div role=\"option\" aria-selected=\"true\">Option A</div><div role=\"option\">Option B</div></div>";
   const svelteSource: string = "// In your Svelte component:\nimport Listbox from \"lily-design-system-svelte-headless/components/Listbox/Listbox.svelte\";\n\n<Listbox>\n  <!-- content -->\n</Listbox>\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import Listbox from \"./Listbox.svelte\";\n<\/script>\n\n<Listbox label=\"Fruits\">\n    <div role=\"option\" tabindex=\"-1\">Apple</div>\n    <div role=\"option\" tabindex=\"-1\">Banana</div>\n    <div role=\"option\" tabindex=\"-1\">Cherry</div>\n    <div role=\"option\" tabindex=\"-1\">Durian</div>\n</Listbox>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import Listbox from \"./Listbox.svelte\";\n<\/script>\n\n<Listbox label=\"Fruits\">\n  <div\n    role=\"option\"\n    tabindex=\"-1\"\n  >\n    Apple\n  </div>\n  <div\n    role=\"option\"\n    tabindex=\"-1\"\n  >\n    Banana\n  </div>\n  <div\n    role=\"option\"\n    tabindex=\"-1\"\n  >\n    Cherry\n  </div>\n  <div\n    role=\"option\"\n    tabindex=\"-1\"\n  >\n    Durian\n  </div>\n</Listbox>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

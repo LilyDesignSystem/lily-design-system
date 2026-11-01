@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-emoji",
     standalone: true,
-    template: `<div class="emoji {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<span class="emoji {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></span>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Emoji {

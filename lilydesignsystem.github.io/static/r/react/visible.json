@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "visible",
+  "type": "registry:component",
+  "title": "Visible",
+  "description": "An IntersectionObserver wrapper that exposes element visibility state.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Visible.tsx",
+      "content": "\"use client\";\n\n// Visible component\n//\n// An IntersectionObserver wrapper that exposes the element's viewport\n// visibility state to the consumer through a render-prop child. Use it for\n// lazy work that should only happen when an element is actually on screen\n// (lazy-mounting heavy charts, deferring videos, kicking off animations).\n//\n// The children prop is a function that receives the current visibility\n// boolean and returns the content to render. Optional `once` mode stops\n// observing after the first intersection — useful for one-shot reveal\n// animations or \"load when seen\" patterns.\n//\n// Props:\n//   className  — string, optional. CSS class name.\n//   once       — boolean, default false. Stop observing after first intersection.\n//   threshold  — number, default 0. IntersectionObserver threshold (0..1).\n//   rootMargin — string, default \"0px\". IntersectionObserver rootMargin.\n//   children   — (visible: boolean) => ReactNode, required.\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n\nimport React, { useEffect, useRef, useState } from \"react\";\n\nexport interface VisibleProps {\n    className?: string;\n    /** Stop observing after the first intersection. */\n    once?: boolean;\n    /** IntersectionObserver threshold. */\n    threshold?: number;\n    /** IntersectionObserver rootMargin. */\n    rootMargin?: string;\n    /** Render-prop child receiving the visibility boolean. */\n    children: (visible: boolean) => React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Visible({\n    className = \"\",\n    once = false,\n    threshold = 0,\n    rootMargin = \"0px\",\n    children,\n    ...restProps\n}: VisibleProps) {\n    const ref = useRef<HTMLDivElement>(null);\n    const [visible, setVisible] = useState(false);\n\n    useEffect(() => {\n        const el = ref.current;\n        if (!el || typeof IntersectionObserver === \"undefined\") return;\n        const observer = new IntersectionObserver(\n            (entries) => {\n                for (const entry of entries) {\n                    if (entry.target === el) {\n                        setVisible(entry.isIntersecting);\n                        if (once && entry.isIntersecting) {\n                            observer.disconnect();\n                        }\n                    }\n                }\n            },\n            { threshold, rootMargin },\n        );\n        observer.observe(el);\n        return () => observer.disconnect();\n    }, [once, threshold, rootMargin]);\n\n    return (\n        <div\n            ref={ref}\n            className={`visible ${className}`}\n            data-visible={visible}\n            {...restProps}\n        >\n            {children(visible)}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Visible.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/visible/"
+}

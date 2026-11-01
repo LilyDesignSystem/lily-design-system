@@ -53,6 +53,16 @@ async function gotoAndWaitForTheme(page: Page, path: string) {
 }
 
 async function expectNoViolations(page: import("@playwright/test").Page, label: string) {
+    // Let CSS transitions finish first: the themes fade button colours over
+    // 120ms, and axe sampling mid-fade reports a false contrast failure (seen in
+    // Firefox, P18-T1). Endless animations (spinners) give up after 5 seconds.
+    await page
+        .waitForFunction(
+            () => document.getAnimations().every((a) => a.playState !== "running"),
+            undefined,
+            { timeout: 5000 },
+        )
+        .catch(() => undefined);
     const results = await new AxeBuilder({ page }).withTags(wcagTags).analyze();
     if (results.violations.length > 0) {
         const summary = results.violations

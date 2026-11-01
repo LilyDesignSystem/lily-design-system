@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"area-chart\" aria-label=\"an area chart visualization showing sized components in continuous data\">AreaChart</div>";
   const svelteSource: string = "// In your Svelte component:\nimport AreaChart from \"lily-design-system-svelte-headless/components/AreaChart/AreaChart.svelte\";\n\n<AreaChart>\n  <!-- content -->\n</AreaChart>\n";
-  const usageCode: string = "<AreaChart label=\"Daily visits, last 30 days\" series={visitSeries} description=\"Daily visit count for the past 30 days\" />\n";
+  const usageCode: string = "<AreaChart\n  label=\"Daily visits, last 30 days\"\n  series=\"{visitSeries}\"\n  description=\"Daily visit count for the past 30 days\"\n/>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

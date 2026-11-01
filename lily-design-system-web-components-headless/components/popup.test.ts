@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, test } from "vitest";
+import { afterEach, describe, expect, test, vi } from "vitest";
 
 import { Popup } from "./popup.js";
 
@@ -68,5 +68,43 @@ describe("Popup", () => {
         const host = render('<lily-popup label="Confirmation" class="my-popup"></lily-popup>');
 
         expect(host.getAttribute("class")).toBe("popup my-popup");
+    });
+
+    describe("with the Popover API", () => {
+        type Proto = { showPopover?: () => void; hidePopover?: () => void };
+        const proto = HTMLElement.prototype as unknown as Proto;
+        let show: ReturnType<typeof vi.fn>;
+        let hide: ReturnType<typeof vi.fn>;
+        function stub(): void {
+            show = vi.fn();
+            hide = vi.fn();
+            proto.showPopover = show as unknown as () => void;
+            proto.hidePopover = hide as unknown as () => void;
+        }
+        afterEach(() => {
+            delete proto.showPopover;
+            delete proto.hidePopover;
+        });
+
+        test("is popover=auto and opens with showPopover, not hidden", () => {
+            stub();
+            const host = render('<lily-popup id="info" label="More information" open></lily-popup>');
+
+            expect(host.getAttribute("popover")).toBe("auto");
+            expect(host.hidden).toBe(false);
+            expect(show).toHaveBeenCalled();
+            host.toggleAttribute("open", false);
+            expect(hide).toHaveBeenCalled();
+        });
+
+        test("the toggle event (light dismiss, a commandfor trigger) writes open back", () => {
+            stub();
+            const host = render('<lily-popup label="More information" open></lily-popup>');
+            const event = new Event("toggle");
+            Object.assign(event, { newState: "closed", oldState: "open" });
+            host.dispatchEvent(event);
+
+            expect(host.hasAttribute("open")).toBe(false);
+        });
     });
 });

@@ -10,4 +10,12 @@ const meta: Meta<Autosuggest> = {
 export default meta;
 type Story = StoryObj<Autosuggest>;
 
-export const Default: Story = {};
+export const Default: Story = {
+    args: {
+        label: "Fruit",
+        suggestions: [
+            { value: "apple", label: "Apple" },
+            { value: "apricot", label: "Apricot" },
+        ],
+    },
+};

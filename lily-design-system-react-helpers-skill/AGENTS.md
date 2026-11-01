@@ -23,7 +23,7 @@
 ## Overview
 
 A Claude Skill explaining how to install and use the React
-implementation of Lily Design System™'s six `*-picker` helper
+implementation of Lily Design System™'s helper
 packages —
 [the React helper packages](../spec/helpers/index.md#react-helper-packages)'s
 `theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`,
@@ -36,7 +36,7 @@ contract — the helper's own implementation is held to.
 
 ## What this subproject is, and isn't
 
-- **Is**: a distributable skill covering how to consume the six React
+- **Is**: a distributable skill covering how to consume the React
   `*-picker` helper packages in a React application — install, the
   icon-button-plus-listbox / disclosure-of-links / field-plus-dialog
   shapes, controlled `value`/`onChange`, render-prop `children`, the

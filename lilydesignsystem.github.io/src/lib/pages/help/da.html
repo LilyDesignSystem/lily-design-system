@@ -155,7 +155,7 @@ pnpm run dev</code></pre>
   <h2>Færdige temaer</h2>
   <p>
     Vil du ikke skrive CSS fra bunden? Lily leveres med
-    <strong>57 selvstændige referencetemaer</strong> i mappen
+    <strong>63 selvstændige referencetemaer</strong> i mappen
     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
     . Hvert er ét typografiark, der retter sig mod Lilys klassekroge – link det, og du er stilet:
   </p>
@@ -179,11 +179,7 @@ pnpm run dev</code></pre>
 
 <section class="section prose" id="helpers" style="margin: 0 auto;">
   <h2>Præferencehjælpere</h2>
-  <p>
-    Hvert framework har otte små vælgere, hver sin egen
-    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> -pakke (og en <code>picker-bar</code> der samler dem). Hver er en hovedløs ikonknap, der åbner en popup – en listeboks, en liste med links, en søgeformular eller (for date-time-picker) en datovælgerdialog – ikke en indbygget
-    <code>&lt;select&gt;</code>; er SSR-sikker; og leveres uden CSS:
-  </p>
+  <p>Hvert framework har elleve små vælgere, hver i sin egen <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code>-pakke (og en <code>picker-bar</code>, der samler dem). Hver er en headless ikonknap, der åbner en popup — en listeboks, en liste med links, en søgeformular, et panel med dit eget indhold eller (for date-time-picker) en datovælgerdialog — ikke en indbygget <code>&lt;select&gt;</code> (theme-picker tilbyder en som en valgfri variant); den er SSR-sikker og leverer ingen CSS. Ud over menu-picker, settings-picker og time-zone-picker er de:</p>
   <ul>
     <li>
       <strong>theme-picker</strong> – indlæser tema-typografiark under kørsel ved at skifte et administreret <code>&lt;link&gt;</code>, sætter
@@ -294,7 +290,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
     <summary>En komponent gengives, men ser ustilet ud</summary>
     <p>
       Det er hovedløs, som det skal være – der følger ingen CSS med komponenten. Skriv enten CSS mod komponentens kebab-case-klasse (vist på hver <a href="/components/">katalogside</a>) eller link et af de
-      <a href="#themes">57 færdige temaer</a>.
+      <a href="#themes">63 færdige temaer</a>.
     </p>
   </details>
 
@@ -383,7 +379,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
   <details class="faq-item">
     <summary>Hvorfor hovedløs i stedet for stilet?</summary>
     <p>
-      Forhåndsstilede komponenter er praktiske – indtil de ikke passer til dit brand. Hovedløse komponenter kræver lidt mere arbejde i starten, men giver dig fuld kontrol over det visuelle design. Eksempelapps og de 57 temaer viser måder at style dem på; du kan tage dem eller erstatte dem helt. Det længere argument findes på <a href="/why/">Hvorfor Lily</a>.
+      Forhåndsstilede komponenter er praktiske – indtil de ikke passer til dit brand. Hovedløse komponenter kræver lidt mere arbejde i starten, men giver dig fuld kontrol over det visuelle design. Eksempelapps og de 63 temaer viser måder at style dem på; du kan tage dem eller erstatte dem helt. Det længere argument findes på <a href="/why/">Hvorfor Lily</a>.
     </p>
   </details>
 

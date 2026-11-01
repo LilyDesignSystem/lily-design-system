@@ -1,6 +1,6 @@
 ---
 name: lily-design-system-nunjucks-helpers-skill
-description: Explains how to consume Lily Design System's Nunjucks *-picker helpers catalog (theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker) — the macro-plus-client.js split unique to the Nunjucks port, the icon-button-opens-listbox contract shared by the four preference helpers versus share-picker's disclosure-of-links and date-time-picker's field-plus-dialog shape, and motion-picker's one documented server/client deviation (no matchMedia at render time). Use when someone asks how to add a Lily picker helper to a Nunjucks/Eleventy page, wants the data-lily-* hook contract, needs to know what still works without JavaScript, or asks why motion-picker's server-rendered markup differs from its client-corrected value.
+description: Explains how to consume Lily Design System's Nunjucks *-picker helpers catalog (theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, search-picker, link-picker, menu-picker, settings-picker, time-zone-picker, date-time-picker, picker-bar, and the grid-like and editor packages) — the macro-plus-client.js split unique to the Nunjucks port, the icon-button-opens-listbox contract shared by the four preference helpers versus share-picker's disclosure-of-links and date-time-picker's field-plus-dialog shape, and motion-picker's one documented server/client deviation (no matchMedia at render time). Use when someone asks how to add a Lily picker helper to a Nunjucks/Eleventy page, wants the data-lily-* hook contract, needs to know what still works without JavaScript, or asks why motion-picker's server-rendered markup differs from its client-corrected value.
 license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 ---
 
@@ -73,7 +73,7 @@ all render the same shape: root
 hidden input (form participation, carries `name`), a
 `<button class="{helper}-button" type="button" aria-label
 aria-haspopup="listbox" aria-expanded aria-controls>` whose only content
-is an `aria-hidden` glyph span, and a
+is an `aria-hidden` icon (a bundled inline SVG since 2026-09-16), and a
 `<ul class="{helper}-list" role="listbox" tabindex="-1" hidden>` of
 `<li class="{helper}-option" role="option" aria-selected>`. **None of
 the four is operable without JavaScript** — the button has no handler
@@ -142,8 +142,19 @@ value depends on a live platform signal absent at render time.
 Also in the catalog, added after the six above (the contracts are in `spec/helpers/index.md`): `search-picker` (an icon button opening a
 disclosure that holds a `<form role="search">`; submitting navigates, GET, to `/?<text>`), `link-picker` (a home icon opening a disclosure of
 real `<a>` links the app defines), `menu-picker` and `settings-picker` (a hamburger and a cog icon opening a panel that holds whatever the
-app provides), and `picker-bar` (link, search, theme, locale, text-size and share pickers in one row, with the 57 themes and the seven
+app provides), and `picker-bar` (link, search, theme, locale, text-size and share pickers in one row, with the 63 themes and the seven
 text sizes pre-wired and one required `labels` object). Every picker has a hoverable, dismissable tooltip.
+
+## Packages added since the first six
+
+`bin/list-helper-packages nunjucks` is the authoritative list (21 packages, with `nunjucks-listbox-behavior`, each `@lilydesignsystem/nunjucks-<package>`). Beyond the pickers named above it holds:
+
+- `time-zone-picker` (2026-10-24): an icon button (clock) opening a listbox of IANA zones labelled `UTC±HH:MM – name`, names from Unicode
+  CLDR packs (`zoneNamesFrom(pack)`); sets `data-time-zone` on a target element; a `locale` is required.
+- `theme-picker` `variant="select"` (2026-10-30, opt-in): a native `<select class="theme-picker-select">` in place of the button and listbox.
+- `picker-bar` renders `time-zone-picker` after `locale-picker` when given `labels.timeZone` and a time-zone locale.
+- `markdown-editor` and `org-editor` (2026-10-24): a textarea with a toolbar of buttons that write Markdown or Emacs Org markup.
+- `locale-translations`: the 64 label packs and the CLDR zone-name packs, per locale.
 
 ## The grid-like helpers and label packs
 
@@ -158,11 +169,11 @@ pack for each of 64 locales (English plus 63 **unreviewed machine drafts**; have
 period titles) come from `Intl`. Full contract: `spec/label-packs/index.md`.
 
 The Gantt chart can render a critical path (`critical`, `slack`, `labels.criticalLabel`); the optional calculation (`criticalPath()`,
-with lag in calendar or working days) ships in the Svelte Gantt package.
+with lag in calendar or working days) ships in this catalog's own Gantt package too, ported from Svelte's.
 
 ## When NOT this skill
 
-- Questions about the 582-component headless macro catalog itself
+- Questions about the 607-component headless macro catalog itself
   (`Button`, `BreadcrumbNav`, `DataTable`, …) — use
   `lily-design-system-nunjucks-headless-skill`.
 - General Lily concepts, terminology, or the headless-vs-example split

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "theme-select",
+  "type": "registry:component",
+  "title": "ThemeSelect",
+  "description": "A select dropdown for choosing a theme.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ThemeSelect.tsx",
+      "content": "import React from \"react\";\n\n// ThemeSelect component\n//\n// A headless theme selection control that renders a native <select> dropdown\n// for choosing between visual themes or color schemes. Commonly used for\n// light, dark, high-contrast, or system-default theme options. The consumer\n// provides <option> elements as children and is responsible for applying the\n// selected theme value to the page.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name via aria-label.\n//   value — string, default \"\". Bindable selected theme; supports value + onChange.\n//   children — ReactNode, required. ThemeSelectOption elements representing available themes.\n//   ...restProps — additional HTML attributes spread onto the <select>.\n//\n// Syntax:\n//   <ThemeSelect label=\"Theme\" value={value} onChange={setValue}>...</ThemeSelect>\n//\n// Examples:\n//\n//   <ThemeSelect label=\"Color scheme\" value={theme} onChange={setTheme}>\n//     <ThemeSelectOption value=\"light\">Light</ThemeSelectOption>\n//     <ThemeSelectOption value=\"dark\">Dark</ThemeSelectOption>\n//     <ThemeSelectOption value=\"high-contrast\">High Contrast</ThemeSelectOption>\n//     <ThemeSelectOption value=\"system\">System Default</ThemeSelectOption>\n//   </ThemeSelect>\n//\n// Keyboard:\n//   - Tab: moves focus to the select element (native behavior)\n//   - Space/Enter: opens the dropdown (native behavior)\n//   - ArrowUp/ArrowDown: navigates through options (native behavior)\n//   - Escape: closes the dropdown (native behavior)\n//\n// Accessibility:\n//   - aria-label={label} provides an accessible name since no visible <label> is included\n//\n// Internationalization:\n//   - The label prop accepts any translated string\n//   - Option text is consumer-provided and can be localized\n//\n// Claude rules:\n//   - Headless: no CSS, no styles -- consumer provides all styling\n//   - Consumer applies the selected theme value to the page\n//   - Uses controlled for two-way data binding on value\n//\n// References:\n//   - MDN select element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select\n//   - WCAG 1.4.12 Text Spacing: https://www.w3.org/WAI/WCAG22/Understanding/text-spacing.html\n\nexport interface ThemeSelectProps {\n    className?: string;\n    /** Accessible label. */\n    label: string;\n    /** Selected theme. Bindable. */\n    value?: string;\n    /** ThemeSelectOption elements. */\n    children: React.ReactNode;\n    /** Callback when value changes. */\n    onChange?: (value: string) => void;\n    [key: string]: unknown;\n}\n\nexport default function ThemeSelect({\n    className = \"\",\n    label,\n    value = \"\",\n    onChange,\n    children,\n    ...restProps\n}: ThemeSelectProps) {\n    return (\n        <select\n            className={`theme-select ${className}`}\n            aria-label={label}\n            value={value}\n            onChange={(e) => onChange?.(e.target.value)}\n            {...restProps}\n        >\n            {children}\n        </select>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ThemeSelect.tsx"
+    }
+  ],
+  "categories": [
+    "forms"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/theme-select/"
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tree-menu",
+  "type": "registry:component",
+  "title": "TreeMenu",
+  "description": "A hierarchical tree menu with expandable branches.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/TreeMenu.tsx",
+      "content": "import React from \"react\";\n\n// TreeMenu component\n//\n// A hierarchical tree menu with expandable branches.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label    — string, required. Accessible label via aria-label.\n//   children — ReactNode, required. Component content.\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Accessibility:\n//   - role='tree' on the wrapper\n//   - aria-label exposes a screen-reader name when label is provided\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//\n// References:\n//   - HTML div element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div\n\nexport interface TreeMenuProps {\n    className?: string;\n    /** Accessible label set on aria-label. */\n    label: string;\n    /** Component content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nconst TREE_KEYS = [\"ArrowDown\", \"ArrowUp\", \"Home\", \"End\"];\n\nexport default function TreeMenu({ className = \"\", label, children, ...restProps }: TreeMenuProps) {\n    // ArrowDown / ArrowUp move between the consumer's [role=\"treeitem\"] items, wrapping; Home / End jump.\n    function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {\n        (restProps.onKeyDown as ((e: React.KeyboardEvent<HTMLDivElement>) => void) | undefined)?.(event);\n        if (event.defaultPrevented || !TREE_KEYS.includes(event.key)) return;\n        const items = Array.from(event.currentTarget.querySelectorAll<HTMLElement>('[role=\"treeitem\"]'));\n        if (items.length === 0) return;\n        const current = items.indexOf((event.target as Element).closest('[role=\"treeitem\"]') as HTMLElement);\n        const last = items.length - 1;\n        const next =\n            event.key === \"Home\"\n                ? 0\n                : event.key === \"End\"\n                  ? last\n                  : event.key === \"ArrowDown\"\n                    ? current >= last\n                        ? 0\n                        : current + 1\n                    : current <= 0\n                      ? last\n                      : current - 1;\n        event.preventDefault();\n        items[next].focus();\n    }\n\n    return (\n        <div\n            className={`tree-menu ${className}`}\n            role=\"tree\"\n            aria-label={label}\n            tabIndex={-1}\n            {...restProps}\n            onKeyDown={handleKeyDown}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/TreeMenu.tsx"
+    }
+  ],
+  "categories": [
+    "navigation"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/tree-menu/"
+}

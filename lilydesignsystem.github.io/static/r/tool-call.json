@@ -53,5 +53,10 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ToolCall.razor"
   },
   "docs": "https://lilydesignsystem.com/components/tool-call/",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tool-call/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tool-call/AGENTS.md",
+  "nativePlatform": {
+    "decision": "native",
+    "uses": "<details>/<summary>",
+    "could_use": "none"
+  }
 }

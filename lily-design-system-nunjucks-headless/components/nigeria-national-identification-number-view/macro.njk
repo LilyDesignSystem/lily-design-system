@@ -1,0 +1,21 @@
+{#
+  NigeriaNationalIdentificationNumberView macro -- a read-only display of National Identification Number (NIN).
+
+  HTML tag: <span>
+  CSS class: nigeria-national-identification-number-view
+
+  Params:
+    value, label, id, classes, attributes.
+
+  Usage:
+    {% from "components/nigeria-national-identification-number-view/macro.njk" import nigeriaNationalIdentificationNumberView %}
+    {{ nigeriaNationalIdentificationNumberView({ value: "sample", label: "National Identification Number (NIN)" }) }}
+#}
+{%- macro nigeriaNationalIdentificationNumberView(params) -%}
+<span
+  class="nigeria-national-identification-number-view{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>{{ params.value | default("") }}</span>
+{%- endmacro -%}

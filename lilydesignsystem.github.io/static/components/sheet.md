@@ -1,6 +1,6 @@
 # Sheet
 
-Sheet is a headless sliding panel overlay that appears from an edge of the viewport. It functions as a modal dialog with focus trapping semantics and Escape key support, commonly used for navigation menus, settings panels, detail views, or filter interfaces.
+Sheet is a headless sliding panel overlay that appears from an edge of the viewport. It is a real modal: a native `<dialog>` opened with `showModal()`, so the page behind it is inert, Tab stays inside it, Escape closes it and focus returns to the opener. It is commonly used for navigation menus, settings panels, detail views, or filter interfaces.
 
 **Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
 
@@ -8,14 +8,14 @@ Use Sheet when you need a temporary panel that slides in from the top, right, bo
 
 ## Implementation Notes
 
-- Conditionally renders a `<div>` element with `role="dialog"` only when `open` is `true`
-- Sets `aria-modal="true"` to indicate the dialog is modal and should trap focus
+- Conditionally renders a native `<dialog>` only when `open` is `true`, opened with `showModal()` (falls back to the `open` attribute where `showModal` is missing)
+- Is modal, so `aria-modal="true"` is true: the page behind is inert and Tab cannot leave
 - Sets `tabindex="-1"` to allow programmatic focus on the dialog container
 - Exposes a `data-side` attribute with the value of the `side` prop for CSS targeting
 - Handles Escape key via an `onkeydown` handler that sets `open` to `false`
 - Supports two-way binding for the `open` prop, enabling two-way `open` binding from the parent
-- Consumer is responsible for focus management (moving focus into the sheet when opened)
-- Spreads `restProps` onto the dialog div for consumer customization
+- Moves focus into the sheet on open and returns it to the opener on close (no consumer focus management needed)
+- Spreads `restProps` onto the `<dialog>` for consumer customization
 
 ## Props
 
@@ -23,7 +23,7 @@ Use Sheet when you need a temporary panel that slides in from the top, right, bo
 - `open`: boolean (default: `false`) -- whether the sheet is visible; two-way bindable via `open`
 - `side`: `"left" | "right" | "top" | "bottom"` (default: `"right"`) -- which edge the sheet appears from
 - `children`: slot (required) -- content to render inside the sheet
-- `...restProps`: unknown -- additional attributes spread onto the `<div>` element
+- `...restProps`: unknown -- additional attributes spread onto the `<dialog>` element
 
 ## Usage
 
@@ -68,13 +68,13 @@ Mobile action sheet sliding up from the bottom:
 ## Keyboard Interactions
 
 - Escape: Closes the sheet by setting `open` to `false`
-- Tab: Moves focus between focusable elements within the sheet (consumer should implement focus trapping)
+- Tab: Moves focus between focusable elements within the sheet; focus cannot leave while it is open
 
 ## ARIA
 
-- `role="dialog"` -- identifies the sheet as a dialog window
+- `role="dialog"` -- implicit on the native `<dialog>` element
 - `aria-label={label}` -- provides an accessible name for the dialog
-- `aria-modal="true"` -- indicates the dialog is modal, meaning content behind it is inert
+- `aria-modal="true"` -- true: `showModal()` makes the content behind it inert
 
 ## When to Use
 
@@ -91,7 +91,7 @@ Mobile action sheet sliding up from the bottom:
 
 ## Headless
 
-This headless component provides a modal dialog container with `role="dialog"`, `aria-modal="true"`, `aria-label`, Escape key dismissal, and a `data-side` attribute for CSS targeting. The consumer provides all visual styling including slide-in animations, backdrop, positioning, and focus management.
+This headless component provides a modal `<dialog>` opened with `showModal()` (top layer, inert page, Tab trap, focus return), `aria-modal="true"`, `aria-label`, Escape key dismissal, and a `data-side` attribute for CSS targeting. The consumer provides all visual styling including slide-in animations, the `::backdrop`, and positioning (reset the user-agent `<dialog>` margin, inset and max-height for an edge-docked panel).
 
 ## Styles
 
@@ -99,7 +99,8 @@ The consumer provides all CSS styling. The component renders with a `.sheet` cla
 
 ## Testing
 
-- Verify the component renders a `<div>` element with class `sheet`
+- Verify the component renders a `<dialog>` element with class `sheet`, opened with `showModal()`
+- Verify focus moves inside on open, stays inside while open, and returns to the trigger on close
 - Verify role="dialog"` -- identifies the sheet as a dialog window
 - Verify aria-label={label}` -- provides an accessible name for the dialog
 - Verify keyboard interactions work correctly
@@ -108,7 +109,7 @@ The consumer provides all CSS styling. The component renders with a `.sheet` cla
 ## Advice
 
 - **Designers**: Include a visible close button and a semi-transparent backdrop so users understand the panel is an overlay. Animate the slide-in transition to reinforce which edge the sheet originates from.
-- **Developers**: Implement focus trapping so keyboard users cannot tab behind the sheet. Move focus into the sheet on open and restore focus to the trigger element on close.
+- **Developers**: Focus trapping, focus into the sheet on open and focus return on close come from `showModal()`; open the sheet from a button so focus has somewhere to return to.
 
 ## Related components
 

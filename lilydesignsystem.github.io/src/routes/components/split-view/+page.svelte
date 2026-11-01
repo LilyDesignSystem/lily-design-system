@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"split-view\" aria-label=\"a two-panel resizable layout container with a draggable divider between them\">SplitView</div>";
   const svelteSource: string = "// In your Svelte component:\nimport SplitView from \"lily-design-system-svelte-headless/components/SplitView/SplitView.svelte\";\n\n<SplitView label=\"Label\" value=\"Sample value\" />\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import SplitView from './SplitView.svelte';\n<\/script>\n\n<SplitView label=\"Editor and preview\" splitPercent={40}>\n  {#snippet primary()}\n    <textarea>Editor</textarea>\n  {/snippet}\n  {#snippet secondary()}\n    <article>Preview</article>\n  {/snippet}\n</SplitView>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import SplitView from \"./SplitView.svelte\";\n<\/script>\n\n<SplitView\n  label=\"Editor and preview\"\n  splitPercent={40}\n>\n  {#snippet primary()}\n    <textarea>Editor</textarea>\n  {/snippet}\n  {#snippet secondary()}\n    <article>Preview</article>\n  {/snippet}\n</SplitView>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

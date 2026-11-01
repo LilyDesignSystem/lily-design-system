@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "progress-spinner",
+  "type": "registry:component",
+  "title": "ProgressSpinner",
+  "description": "An indeterminate spinning progress indicator.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ProgressSpinner.tsx",
+      "content": "import React from \"react\";\n\n// ProgressSpinner component\n//\n// A headless indeterminate loading indicator that renders a <div> with\n// role=\"status\" and aria-live=\"polite\" to announce the loading state to screen\n// readers without interrupting the user. Unlike ProgressCircle which shows a\n// specific percentage, ProgressSpinner indicates an ongoing process of unknown\n// duration. Consumers provide their own spinning animation via CSS. Commonly\n// used for data fetching, form submissions, and async operations.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name describing the loading state via aria-label.\n//   children — ReactNode, optional. Content rendered inside (e.g., \"Loading...\" text).\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Syntax:\n//   <ProgressSpinner label=\"Loading data\" />\n//\n// Examples:\n//\n//   <ProgressSpinner label=\"Loading data\" />\n//\n//\n//   <ProgressSpinner label=\"Loading search results\">\n//     <span>Loading...</span>\n//   </ProgressSpinner>\n//\n// Keyboard:\n//   None — this is a passive, read-only status indicator with no interactive behavior.\n//\n// Accessibility:\n//   - role=\"status\" identifies the element as a status region for non-urgent updates\n//   - aria-label describes what is loading\n//   - aria-live=\"polite\" ensures content changes are announced without interrupting\n//\n// Internationalization:\n//   - The label prop is the only user-facing text; no hardcoded strings\n//   - Optional visible text comes through children prop\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling and animation\n//   - Do not add SVG, canvas, or animation — consumer provides the spinner visual\n//   - Uses role=\"status\" not role=\"progressbar\" because duration is indeterminate\n//\n// References:\n//   - WAI-ARIA status role: https://www.w3.org/WAI/ARIA/apd/roles/status/\n//   - MDN aria-live: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-live\n\nexport interface ProgressSpinnerProps {\n    className?: string;\n    /** Accessible label for the spinner. */\n    label: string;\n    /** Optional content rendered inside. */\n    children?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function ProgressSpinner({\n    className = \"\",\n    label,\n    children,\n    ...restProps\n}: ProgressSpinnerProps) {\n    return (\n        <div\n            className={`progress-spinner ${className}`}\n            role=\"status\"\n            aria-label={label}\n            aria-live=\"polite\"\n            {...restProps}\n        >\n            {children && <>{children}</>}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ProgressSpinner.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/progress-spinner/"
+}

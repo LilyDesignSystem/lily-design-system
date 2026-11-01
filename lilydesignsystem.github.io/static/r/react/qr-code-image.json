@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "qr-code-image",
+  "type": "registry:component",
+  "title": "QrCodeImage",
+  "description": "A QR code image generated from text or URL data.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/QrCodeImage.tsx",
+      "content": "import React from \"react\";\n\n// QrCodeImage component\n//\n// A headless container for displaying a QR code (two-dimensional barcode) that\n// encodes data such as URLs, text, contact information, or other machine-readable\n// content. It renders a <div> with role=\"img\" and a required aria-label so screen\n// reader users understand what the QR code represents. The consumer provides the\n// actual QR code rendering (SVG, canvas, or third-party library output) as\n// children. Commonly used for sharing links, mobile payments, event check-ins,\n// and authentication workflows.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible description of the QR code content via aria-label.\n//   children — ReactNode, required. QR code rendering (SVG, canvas, or other visual output).\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Syntax:\n//   <QrCodeImage label=\"Scan to visit example.com\">{qrSvg}</QrCodeImage>\n//\n// Examples:\n//\n//   <QrCodeImage label=\"Scan to visit example.com\">\n//     <svg></svg>\n//   </QrCodeImage>\n//\n//\n//   <QrCodeImage label=\"Scan to download the app\">\n//     <canvas ref={qrCanvasRef}></canvas>\n//   </QrCodeImage>\n//\n// Keyboard:\n//   None — this is a passive display container with no interactive behavior.\n//\n// Accessibility:\n//   - role=\"img\" identifies the container as an image for assistive technologies\n//   - aria-label provides an accessible description of the encoded content\n//   - Screen reader users hear the label instead of seeing the visual barcode\n//\n// Internationalization:\n//   - The label prop is the only user-facing text; no hardcoded strings\n//   - Label should describe the encoded content, not \"QR code\" generically\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Do not generate QR code data — consumer provides the rendered QR content\n//   - The label should describe what scanning the code does, not just \"QR code\"\n//\n// References:\n//   - WAI-ARIA img Role: https://www.w3.org/TR/wai-aria-1.2/#img\n\nexport interface QrCodeImageProps {\n    className?: string;\n    /** Accessible label */\n    label?: string;\n    /** The component content */\n    children?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function QrCodeImage({\n    className = \"\",\n    label,\n    children,\n    ...restProps\n}: QrCodeImageProps) {\n    return (\n        <div\n            className={`qr-code-image ${className}`}\n            role=\"img\"\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/QrCodeImage.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/qr-code-image/"
+}

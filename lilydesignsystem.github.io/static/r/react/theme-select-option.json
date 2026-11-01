@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "theme-select-option",
+  "type": "registry:component",
+  "title": "ThemeSelectOption",
+  "description": "One option in a theme select dropdown.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ThemeSelectOption.tsx",
+      "content": "import React from \"react\";\n\n// ThemeSelectOption component\n//\n// A single <option> element for use inside a ThemeSelect dropdown. Renders a\n// native <option> with a theme value and label text. Supports selected and\n// disabled states via native HTML attributes. Used as a compound child of\n// ThemeSelect to define available theme choices such as light, dark, or\n// high-contrast modes.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   value — string, required. The theme identifier submitted when selected.\n//   selected — boolean, default false. Whether this option is pre-selected.\n//   disabled — boolean, default false. Whether this option is disabled.\n//   children — ReactNode, required. The visible label text for the theme option.\n//   ...restProps — additional HTML attributes spread onto the <option>.\n//\n// Syntax:\n//   <ThemeSelectOption value=\"dark\">Dark</ThemeSelectOption>\n//\n// Examples:\n//\n//   <ThemeSelect label=\"Theme\" value={theme} onChange={setTheme}>\n//     <ThemeSelectOption value=\"light\">Light</ThemeSelectOption>\n//     <ThemeSelectOption value=\"dark\">Dark</ThemeSelectOption>\n//     <ThemeSelectOption value=\"high-contrast\">High Contrast</ThemeSelectOption>\n//     <ThemeSelectOption value=\"system\">System Default</ThemeSelectOption>\n//   </ThemeSelect>\n//\n// Keyboard:\n//   None directly — keyboard behavior is managed by the parent <select> element\n//   (Up/Down arrows, Home/End, type-ahead search).\n//\n// Accessibility:\n//   - Native <option> element provides built-in accessibility via the parent <select>\n//   - Screen readers announce the option text and selected state automatically\n//\n// Internationalization:\n//   - Option label text comes through the children prop\n//   - No hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Must be used inside a ThemeSelect component for proper semantics\n//   - Do not add ARIA attributes — native <option> provides all accessibility\n//\n// References:\n//   - HTML option element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/option\n\nexport interface ThemeSelectOptionProps {\n    className?: string;\n    /** The theme value for this option. */\n    value: string;\n    /** Whether this option is pre-selected. */\n    selected?: boolean;\n    /** Whether this option is disabled. */\n    disabled?: boolean;\n    /** The option label content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function ThemeSelectOption({\n    className = \"\",\n    value,\n    selected = false,\n    disabled = false,\n    children,\n    ...restProps\n}: ThemeSelectOptionProps) {\n    return (\n        <option\n            className={`theme-select-option ${className}`}\n            value={value}\n            selected={selected}\n            disabled={disabled}\n            {...restProps}\n        >\n            {children}\n        </option>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ThemeSelectOption.tsx"
+    }
+  ],
+  "categories": [
+    "forms"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/theme-select-option/"
+}

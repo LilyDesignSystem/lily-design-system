@@ -1,12 +1,12 @@
 {
   "name": "Lily Design System",
   "trademark": "Lily™ and Lily Design System™ are trademarks.",
-  "summary": "Free, open-source, headless design system: a canonical catalog of 582 accessible components implemented across seven frameworks (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks) plus Web Components and Alpine.js catalogs, paired with fully styled example apps that demonstrate the same catalog end to end.",
+  "summary": "Free, open-source, headless design system: a canonical catalog of 607 accessible components implemented across seven frameworks (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks) plus Web Components and Alpine.js catalogs, paired with fully styled example apps that demonstrate the same catalog end to end.",
   "description": "This is the canonical monorepo. The living specification is spec/, entered via spec/index.md; binding design-principle rules for AI coding agents live in AGENTS.md and AGENTS/*.md. Public documentation and the searchable component catalog are published at the documentation_site URL below.",
   "canonical_repository": "https://github.com/LilyDesignSystem/lily-design-system",
   "documentation_site": "https://lilydesignsystem.com/",
   "license": "MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause",
-  "component_count": 582,
+  "component_count": 583,
   "sections": [
     {
       "title": "Start here",
@@ -14,12 +14,12 @@
         {
           "title": "spec/index.md",
           "url": "spec/index.md",
-          "description": "The specification: vision, scope, architecture, naming conventions, composition patterns, acceptance criteria, roadmap. Links to one spec/{topic}/index.md per topic."
+          "description": "The specification — vision, scope, architecture, naming conventions, composition patterns, acceptance criteria, roadmap. Links out to one `spec/{topic}/index.md` per topic."
         },
         {
           "title": "AGENTS.md",
           "url": "AGENTS.md",
-          "description": "Binding design-principle rules; loads every file under AGENTS/."
+          "description": "Binding design-principle rules; loads every file under `AGENTS/`."
         },
         {
           "title": "README.md",
@@ -29,7 +29,7 @@
         {
           "title": "components.tsv",
           "url": "components.tsv",
-          "description": "The canonical 582-component catalog: one row per component (slug, PascalCase name, description)."
+          "description": "The canonical 607-component catalog — one row per component: slug, PascalCase name, description."
         },
         {
           "title": "CHANGELOG.md",
@@ -44,7 +44,7 @@
         {
           "title": "AGENTS/headless.md",
           "url": "AGENTS/headless.md",
-          "description": "Markup, ARIA, behaviour boundaries, and zero-CSS rules every component follows."
+          "description": "Markup, ARIA, behaviour boundaries, zero-CSS rules every component follows."
         },
         {
           "title": "AGENTS/accessibility.md",
@@ -54,17 +54,17 @@
         {
           "title": "AGENTS/internationalization.md",
           "url": "AGENTS/internationalization.md",
-          "description": "No hardcoded user-facing strings; stable text-prop names."
+          "description": "No hardcoded user-facing strings, stable text-prop names."
         },
         {
           "title": "AGENTS/theme.md",
           "url": "AGENTS/theme.md",
-          "description": "Token shape, the headless forbidden-literal list, the 57 reference theme stylesheets."
+          "description": "Token shape, the headless forbidden-literal list, the 63 reference theme stylesheets."
         },
         {
           "title": "AGENTS/responsive.md",
           "url": "AGENTS/responsive.md",
-          "description": "Mobile first, intrinsic sizing, rem breakpoints, reflow at 320px and 400% zoom."
+          "description": "Mobile first, intrinsic sizing, `rem` breakpoints, reflow at 320px and 400% zoom."
         },
         {
           "title": "AGENTS/components.md",
@@ -74,7 +74,7 @@
         {
           "title": "AGENTS/helpers.md",
           "url": "AGENTS/helpers.md",
-          "description": "The ten picker helpers (theme, locale, text-size, motion, share, search, link, menu, settings, date-time), picker-bar, the tooltip contract, the label packs and the grid-like helper rules."
+          "description": "The eleven picker helpers (theme, locale, text-size, motion, share, search, link, menu, settings, time-zone, date-time), picker-bar, the tooltip contract, the label packs and the grid-like helper rules."
         },
         {
           "title": "AGENTS/citations.md",
@@ -84,7 +84,7 @@
         {
           "title": "AGENTS/lily.md",
           "url": "AGENTS/lily.md",
-          "description": "The full subproject list (9 headless, 8 example, 167 helper packages) and the bin/ tool reference."
+          "description": "The full subproject list (9 headless, 8 example, 167 helper packages), the Generated files table and the `bin/` tool reference."
         }
       ]
     },
@@ -94,12 +94,12 @@
         {
           "title": "spec/architecture/index.md",
           "url": "spec/architecture/index.md",
-          "description": "Monorepo layout, the git-subtree model, required files per subproject/component."
+          "description": "Monorepo layout, the 184 implementation subprojects, required files per subproject/component."
         },
         {
           "title": "spec/components/index.md",
           "url": "spec/components/index.md",
-          "description": "The 582-component catalog in depth; per-component documentation requirements."
+          "description": "The 607-component catalog in depth, per-component documentation requirements."
         },
         {
           "title": "spec/testing/index.md",
@@ -109,42 +109,42 @@
         {
           "title": "spec/national-identifiers/index.md",
           "url": "spec/national-identifiers/index.md",
-          "description": "The 140 national personal identifier components, normalization, validation algorithms."
+          "description": "The 164 national personal identifier components, validation algorithms."
         },
         {
           "title": "spec/helpers/index.md",
           "url": "spec/helpers/index.md",
-          "description": "The ten *-picker helper contracts in full, picker-bar, the tooltip contract, and the data-grid, kanban-board, gantt-chart, calendar and filter contracts."
+          "description": "The eleven `*-picker` helper contracts in full, picker-bar, the tooltip contract, and the data-grid, kanban-board, gantt-chart, calendar and filter contracts."
         },
         {
           "title": "spec/label-packs/index.md",
           "url": "spec/label-packs/index.md",
-          "description": "The 64 per-locale labels packs (English plus 63 unreviewed drafts), their loaders for every catalog and the checks that keep them in step."
+          "description": "The 64 per-locale `labels` packs (English plus 63 unreviewed drafts), their loaders for every catalog and the checks that keep them in step."
         },
         {
           "title": "spec/frameworks/index.md",
           "url": "spec/frameworks/index.md",
-          "description": "The seven framework pairs, per-framework file shapes, the copy-pattern."
+          "description": "The seven framework pairs (and the unpaired Web Components catalog), per-framework file shapes, the copy-pattern; Alpine.js is documented in its own subproject's `spec/index.md`."
         },
         {
           "title": "spec/agent-skills/index.md",
           "url": "spec/agent-skills/index.md",
-          "description": "The 27 Claude Skills: `lily-design-system-skill`, `lily-design-system-maintainer-skill`, eight framework umbrella skills, sixteen headless/helpers skills and the Alpine.js headless skill."
+          "description": "The 27 Claude Skills (end-user, maintainer, eight framework umbrellas, sixteen headless/helpers skills, and the Alpine.js headless skill)."
         },
         {
           "title": "spec/examples/index.md",
           "url": "spec/examples/index.md",
-          "description": "Example apps and the demonstration-page contract: live demo, rendered variants, a real usage example, and the generators behind them."
+          "description": "The example apps and the demonstration-page contract (live demo, variants, real usage example)."
         },
         {
           "title": "spec/tooling/index.md",
           "url": "spec/tooling/index.md",
-          "description": "The `bin/` scripts, the sync model, `bin/test` verification, generators and publishing."
+          "description": "The `bin/` scripts, sync model, generators and verification."
         },
         {
           "title": "spec/history/index.md",
           "url": "spec/history/index.md",
-          "description": "The dated per-event record of releases and fixes, moved out of spec/index.md so it stays loadable."
+          "description": "The dated per-event record, moved out of spec/index.md."
         }
       ]
     },
@@ -154,22 +154,27 @@
         {
           "title": "@lilydesignsystem/svelte-headless",
           "url": "lily-design-system-svelte-headless/index.md",
-          "description": "The canonical Svelte 5 headless library; other framework catalogs port from it."
+          "description": "The canonical Svelte 5 headless library — other catalogs port from it."
         },
         {
           "title": "lily-design-system-svelte-sveltekit-examples",
           "url": "lily-design-system-svelte-sveltekit-examples/index.md",
-          "description": "Fully styled reference app demonstrating the same catalog."
+          "description": "Fully styled reference app for the same catalog."
         },
         {
           "title": "Svelte helper packages",
           "url": "spec/helpers/index.md#svelte-helper-packages",
-          "description": "The canonical helpers, one top-level subproject each: the eleven pickers, picker-bar, data-grid, kanban-board, gantt-chart, calendar, filter."
+          "description": "The canonical helpers, one top-level subproject each — the eleven pickers, picker-bar, data-grid, kanban-board, gantt-chart, calendar, filter, markdown-editor, org-editor, locale-translations (20 packages)."
+        },
+        {
+          "title": "@lilydesignsystem/alpine-headless",
+          "url": "lily-design-system-alpine-headless/index.md",
+          "description": "All 607 components as Alpine.js snippets plus one plugin."
         },
         {
           "title": "lily-design-system-skill",
           "url": "lily-design-system-skill/SKILL.md",
-          "description": "General-purpose Claude Skill explaining Lily concepts and usage to people building with the system (one of 27 Claude Skills: see spec/agent-skills)."
+          "description": "General-purpose Claude Skill explaining Lily concepts and usage to people building with the system."
         },
         {
           "title": "lily-design-system-maintainer-skill",
@@ -177,20 +182,20 @@
           "description": "Technical Claude Skill for maintainers working on this monorepo."
         }
       ],
-      "note": "20 more headless/example/helper subprojects (React, Vue, Angular, Blazor, HTML, Nunjucks, Web Components) follow the same shape as the Svelte three above; see AGENTS/lily.md for the full list."
+      "note": "The other headless, example and helper subprojects (184 in all, for React, Vue, Angular, Blazor, HTML, Nunjucks, Web Components and Alpine.js) follow the same shape — see AGENTS/lily.md for the full list."
     },
     {
       "title": "Optional",
       "links": [
         {
-          "title": "Component manifests (r/index.json)",
+          "title": "Component manifests",
           "url": "https://lilydesignsystem.com/r/index.json",
-          "description": "Machine-readable manifest of every component (HTML tag, base and sub-classes, ARIA, keyboard, props, related, per-framework file paths); one /r/{slug}.json each. Generated by bin/generate-api-docs."
+          "description": "Machine-readable manifest of every component (HTML tag, base and sub-classes, ARIA, keyboard, props, related, per-framework file paths); one /r/{slug}.json each."
         },
         {
           "title": "components-categories.tsv",
           "url": "components-categories.tsv",
-          "description": "Per-component HTML tag and category (content, forms, navigation, tables, ...)."
+          "description": "Per-component HTML tag and category (content, forms, navigation, tables, …)."
         },
         {
           "title": "css-style-sheet-template.css",
@@ -200,17 +205,22 @@
         {
           "title": "themes/",
           "url": "themes/",
-          "description": "57 ready-to-use reference theme stylesheets (NHS England/Scotland/Wales, GOV.UK, USWDS, Adobe Spectrum, Mozilla Protocol, Ant Design, Atlassian, Excel, Fluent, GitHub Primer, IBM Carbon, Linear, Notion, Salesforce, SAP Fiori, Vercel)."
+          "description": "63 ready-to-use reference theme stylesheets (NHS England/Scotland/Wales, GOV.UK, USWDS, Adobe Spectrum, Mozilla Protocol, Ant Design, Atlassian, Excel, Fluent, GitHub Primer, IBM Carbon, Linear, Notion, Salesforce, SAP Fiori, Vercel)."
+        },
+        {
+          "title": "component-variants.json",
+          "url": "component-variants.json",
+          "description": "Hand-curated extra demo states rendered on every demonstration page (`bin/generate-examples`)."
         },
         {
           "title": "bin/",
           "url": "bin/",
-          "description": "Scaffolding, listing, sync, test, and publish tooling; start with bin/test to verify a working tree; bin/verify-published checks a release is on the registries."
+          "description": "Scaffolding, listing, sync, test, and publish tooling — start with `bin/test` to verify a working tree; `bin/verify-published` checks a release is on the registries."
         },
         {
           "title": "shared/label-packs/",
           "url": "shared/label-packs/index.md",
-          "description": "One JSON labels pack per locale for the data grid, kanban board, calendar, Gantt chart and filter."
+          "description": "One JSON `labels` pack per locale for the data grid, kanban board, calendar, Gantt chart and filter."
         },
         {
           "title": "CONTRIBUTING.md",
@@ -221,11 +231,6 @@
           "title": "LICENSE.md",
           "url": "LICENSE.md",
           "description": "MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause."
-        },
-        {
-          "title": "component-variants.json",
-          "url": "component-variants.json",
-          "description": "Hand-curated extra demo states per component, rendered on every demonstration page (bin/generate-examples)."
         }
       ]
     }

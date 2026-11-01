@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "kanban-table-row",
+  "type": "registry:component",
+  "title": "KanbanTableRow",
+  "description": "A kanban board table interactive grid row for organizing items by status <tr>.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/KanbanTableRow.tsx",
+      "content": "import React from \"react\";\n\n// KanbanTableRow component\n//\n// A single row within a KanbanTable grid. Renders as a <tr> containing\n// KanbanTableTD cells for each workflow column. Used inside\n// KanbanTableHead, KanbanTableBody, or KanbanTableFoot.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   children — ReactNode, required. KanbanTableTD cells and header cells.\n//   ...restProps — additional HTML attributes spread onto the <tr>.\n//\n// Syntax:\n//   <KanbanTableRow><KanbanTableTD>Task</KanbanTableTD></KanbanTableRow>\n//\n// Examples:\n//   <KanbanTableRow>\n//     <KanbanTableTD>Task A</KanbanTableTD>\n//     <KanbanTableTD>Task B</KanbanTableTD>\n//     <KanbanTableTD>Task C</KanbanTableTD>\n//   </KanbanTableRow>\n//\n// Keyboard:\n//   None built-in — keyboard navigation handled at the KanbanTable grid level.\n//\n// Accessibility:\n//   - <tr> has implicit role=\"row\" (no explicit role needed)\n//\n// Internationalization:\n//   - All cell content comes through children prop; no hardcoded strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Must be used inside a KanbanTable component\n//   - No internal state — purely a structural wrapper\n//\n// References:\n//   - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/\n\nexport interface KanbanTableRowProps {\n    className?: string;\n    /** KanbanTableTD cells and header cells for this row. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function KanbanTableRow({\n    className = \"\",\n    children,\n    ...restProps\n}: KanbanTableRowProps) {\n    return (\n        <tr\n            className={`kanban-table-row ${className}`}\n            {...restProps}\n        >\n            {children}\n        </tr>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/KanbanTableRow.tsx"
+    }
+  ],
+  "categories": [
+    "tables"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/kanban-table-row/"
+}

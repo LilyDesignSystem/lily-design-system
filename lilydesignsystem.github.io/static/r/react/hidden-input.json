@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "hidden-input",
+  "type": "registry:component",
+  "title": "HiddenInput",
+  "description": "A hidden input for including data in form submission <input type=\"hidden\">.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/HiddenInput.tsx",
+      "content": "import React from \"react\";\n\n// HiddenInput component\n//\n// A hidden form input that renders a native <input type=\"hidden\"> element for passing\n// data in forms that should not be visible or editable by the user. Useful for including\n// hidden form values such as CSRF tokens, record IDs, or other metadata that must be\n// submitted with a form but has no visual presence.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   name — string, required. The form field name attribute.\n//   value — string, default \"\". The hidden input value.\n//   ...restProps — additional HTML attributes spread onto the input element.\n//\n// Syntax:\n//   <HiddenInput name=\"csrf\" value={token} />\n//\n// Examples:\n//\n//   <HiddenInput name=\"csrf\" value={token} />\n//\n//\n//   <HiddenInput name=\"record_id\" value={id} />\n//\n// Keyboard:\n//   - None — hidden inputs are not visible or focusable\n//\n// Accessibility:\n//   - No ARIA attributes needed because hidden inputs are not perceivable by any user\n//\n// Internationalization:\n//   - No user-facing strings; name and value are programmatic data\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — hidden inputs have no visual presence\n//   - Uses native <input type=\"hidden\"> element\n//   - No ARIA attributes are needed or applied\n//\n// References:\n//   - HTML hidden input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/hidden\n\nexport interface HiddenInputProps {\n    className?: string;\n    name: string;\n    value?: string;\n    [key: string]: unknown;\n}\n\nexport default function HiddenInput({\n    className = \"\",\n    name,\n    value = \"\",\n    ...restProps\n}: HiddenInputProps) {\n    return (\n        <input\n            className={`hidden-input ${className}`}\n            type=\"hidden\"\n            name={name}\n            value={value}\n            {...restProps}\n        />\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/HiddenInput.tsx"
+    }
+  ],
+  "categories": [
+    "forms"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/hidden-input/"
+}

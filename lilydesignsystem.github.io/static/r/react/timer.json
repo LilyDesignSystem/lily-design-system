@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "timer",
+  "type": "registry:component",
+  "title": "Timer",
+  "description": "A countdown or elapsed time display.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Timer.tsx",
+      "content": "import React from \"react\";\n\n// Timer component\n//\n// A headless timer that renders a semantic <time> element with role=\"timer\"\n// and aria-live=\"polite\" for accessible countdown or elapsed time displays.\n// The consumer manages the actual timer logic (intervals, countdowns) and\n// provides formatted display content through the children prop. Commonly\n// used for session timeouts, countdowns, stopwatches, cooking timers, and\n// exam time limits.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   children — ReactNode, required. Formatted timer display content.\n//   ...restProps — additional HTML attributes spread onto the <time> (e.g. datetime=\"PT5M30S\").\n//\n// Syntax:\n//   <Timer label=\"Countdown\">05:30</Timer>\n//\n// Examples:\n//\n//   <Timer label=\"Session timeout\" datetime=\"PT5M30S\">5:30</Timer>\n//\n//\n//   <Timer label=\"Elapsed time\">{formatted}</Timer>\n//\n// Keyboard:\n//   - None -- informational display, not interactive\n//\n// Accessibility:\n//   - role=\"timer\" indicates countdown or elapsed time\n//   - aria-label provides the accessible name for screen readers\n//   - aria-live=\"polite\" announces timer updates without interrupting\n//   - Semantic <time> element supports machine-readable time data\n//\n// Internationalization:\n//   - The label prop externalizes the accessible label string\n//   - The children prop allows localized time formatting\n//\n// Claude rules:\n//   - Headless: no CSS, no styles -- consumer provides all styling\n//   - Consumer manages timer logic; component only provides structure and accessibility\n//   - Optional datetime attribute via restProps for ISO 8601 duration format\n//\n// References:\n//   - WAI-ARIA timer role: https://www.w3.org/TR/wai-aria-1.2/#timer\n//   - HTML <time> element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time\n//   - ISO 8601 Duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations\n\nexport interface TimerProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** Timer display content (formatted time string) */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Timer({ className = \"\", label, children, ...restProps }: TimerProps) {\n    return (\n        <time\n            className={`timer ${className}`}\n            role=\"timer\"\n            aria-label={label}\n            aria-live=\"polite\"\n            {...restProps}\n        >\n            {children}\n        </time>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Timer.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/timer/"
+}

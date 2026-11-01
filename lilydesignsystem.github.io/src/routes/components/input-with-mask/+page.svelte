@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"input-with-mask\" aria-label=\"an input displaying a format mask placeholder for the user to fill in\">InputWithMask</div>";
   const svelteSource: string = "// In your Svelte component:\nimport InputWithMask from \"lily-design-system-svelte-headless/components/InputWithMask/InputWithMask.svelte\";\n\n<InputWithMask>\n  <!-- content -->\n</InputWithMask>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import InputWithMask from './InputWithMask.svelte';\n\n  let phone = $state('');\n<\/script>\n\n<InputWithMask\n  label=\"Phone number\"\n  mask=\"(___) ___-____\"\n  value={phone}\n  oninput={(e) => (phone = (e.target as HTMLInputElement).value)}\n/>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import InputWithMask from \"./InputWithMask.svelte\";\n\n  let phone = $state(\"\");\n<\/script>\n\n<InputWithMask\n  label=\"Phone number\"\n  mask=\"(___) ___-____\"\n  value={phone}\n  oninput={(e) => (phone = (e.target as HTMLInputElement).value)}\n/>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

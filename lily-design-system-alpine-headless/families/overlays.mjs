@@ -1,15 +1,20 @@
-// Family: overlays. lilyOverlay (drawer, sheet, slide-out-drawer, popup,
-// overlay-container), lilyDialog (alert-dialog, file-dialog), lilyConfirm
+// Family: overlays. lilyModalSurface (drawer, sheet, slide-out-drawer: a
+// <dialog> opened with showModal(), tasks.md P18-T6), lilyPopover (popup: a
+// popover="auto" panel, P18-T8), lilyOverlay (overlay-container), lilyDialog (alert-dialog, file-dialog), lilyConfirm
 // (popconfirm-dialog); toast, sonner and timer are non-interactive live
 // regions (Interactive: no in their AGENTS.md), so they carry no behaviour.
 
+import { popoverNotes, popoverTests, popoverTriggerAttributes } from "./shared/popover-api.mjs";
+
+// popup: a non-modal popover="auto" panel (tasks.md P18-T8) driven by lilyPopover, which moves focus in on open.
 const surface = (slug, extra, modal, doc) => ({
     tag: "div",
     keyboard: "Escape closes and returns focus to the trigger; focus moves in on open",
     aria: `role="dialog" with aria-label${modal ? ', aria-modal="true"' : ""}; tabindex -1 so it can take focus; ${doc}`,
-    markup: `<div x-data="lilyOverlay(false)">
-  <button class="${slug}-trigger" x-bind="trigger" aria-controls="${slug}-1"><!-- Consumer provides trigger label --></button>
-  <div class="${slug}" id="${slug}-1" role="dialog"${modal ? ' aria-modal="true"' : ""} aria-label="" tabindex="-1"${extra} x-bind="surface">
+    notes: popoverNotes("popup"),
+    markup: `<div x-data="lilyPopover(false, { focus: true })" x-bind="root">
+  <button class="${slug}-trigger" x-bind="trigger" aria-controls="${slug}-1"${popoverTriggerAttributes(`${slug}-1`)}><!-- Consumer provides trigger label --></button>
+  <div class="${slug}" id="${slug}-1" role="dialog"${modal ? ' aria-modal="true"' : ""} aria-label="" tabindex="-1"${extra} popover="auto" x-bind="panel">
     <!-- Consumer provides content -->
     <button class="${slug}-close" x-bind="closer"><!-- Consumer provides close label --></button>
   </div>
@@ -45,6 +50,69 @@ const surface = (slug, extra, modal, doc) => ({
     el().dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true })); await tick();
     expect(el().hidden).toBe(true);
     expect(document.activeElement).toBe(trigger());
+  });${popoverTests(slug, `.${slug}-trigger`, `.${slug}`)}`,
+});
+
+// A real modal side panel (tasks.md P18-T6): a <dialog> opened with showModal(), so Tab stays inside and the page
+// behind is inert. A closed <dialog> is not rendered, so it carries no `hidden`.
+const modalSurface = (slug, extra, doc) => ({
+    tag: "dialog",
+    keyboard:
+        "focus moves in on open; Tab stays inside (showModal()); Escape or the native cancel event closes and returns focus to the trigger",
+    aria: `native <dialog> opened with showModal() (open-attribute fallback where it is missing); aria-label names it; aria-modal="true" (true: the page behind is inert); tabindex -1 so it can take focus; ${doc}`,
+    markup: `<div x-data="lilyModalSurface(false)">
+  <button class="${slug}-trigger" x-bind="trigger" aria-controls="${slug}-1"><!-- Consumer provides trigger label --></button>
+  <dialog class="${slug}" id="${slug}-1" aria-label="" tabindex="-1"${extra} x-bind="surface">
+    <!-- Consumer provides content -->
+    <button class="${slug}-close" x-bind="closer"><!-- Consumer provides close label --></button>
+  </dialog>
+</div>`,
+    sel: `dialog.${slug}`,
+    extra: `
+// jsdom has no showModal: stub it the way a browser behaves and assert it is what opens the panel. The Tab trap and
+// the inert page are the browser's part (see the html-headless wdio tests).
+const proto = HTMLDialogElement.prototype;
+let showModal;
+beforeEach(() => {
+  showModal = vi.fn(function () { this.setAttribute("open", ""); });
+  proto.showModal = showModal;
+  proto.close = vi.fn(function () { this.removeAttribute("open"); this.dispatchEvent(new Event("close")); });
+});
+afterEach(() => { delete proto.showModal; delete proto.close; });`,
+    test: `
+  const trigger = () => document.querySelector(".${slug}-trigger");
+  it("is a closed modal <dialog>", async () => {
+    await mount("${slug}");
+    expect(el().tagName).toBe("DIALOG");
+    expect(el().open).toBe(false);
+    expect(el().getAttribute("aria-modal")).toBe("true");
+    expect(el().hasAttribute("role")).toBe(false);
+    expect(trigger().getAttribute("aria-expanded")).toBe("false");
+  });
+  it("opens with showModal(), moves focus in, and the close button returns focus to the trigger", async () => {
+    await mount("${slug}");
+    trigger().focus(); trigger().click(); await tick(); await tick();
+    expect(showModal).toHaveBeenCalledTimes(1);
+    expect(el().open).toBe(true);
+    expect(el().getAttribute("data-open")).toBe("true");
+    expect(el().contains(document.activeElement)).toBe(true);
+    document.querySelector(".${slug}-close").click(); await tick();
+    expect(el().open).toBe(false);
+    expect(document.activeElement).toBe(trigger());
+  });
+  it("closes on Escape and returns focus to the trigger", async () => {
+    await mount("${slug}");
+    trigger().focus(); trigger().click(); await tick(); await tick();
+    el().dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true, cancelable: true })); await tick();
+    expect(el().open).toBe(false);
+    expect(document.activeElement).toBe(trigger());
+  });
+  it("closes on the native cancel event", async () => {
+    await mount("${slug}");
+    trigger().focus(); trigger().click(); await tick(); await tick();
+    el().dispatchEvent(new Event("cancel", { cancelable: true })); await tick();
+    expect(el().open).toBe(false);
+    expect(el().getAttribute("data-open")).toBe("false");
   });`,
 });
 
@@ -81,14 +149,13 @@ const nativeDialog = (slug, role) => ({
 });
 
 export default {
-    drawer: surface("drawer", ' data-side="right"', true, "data-side is for consumer CSS"),
-    "slide-out-drawer": surface(
+    drawer: modalSurface("drawer", ' data-side="right"', "data-side is for consumer CSS"),
+    "slide-out-drawer": modalSurface(
         "slide-out-drawer",
         ' data-side="right"',
-        true,
         "data-side is for consumer CSS",
     ),
-    sheet: surface("sheet", ' data-side="bottom"', true, "data-side is for consumer CSS"),
+    sheet: modalSurface("sheet", ' data-side="bottom"', "data-side is for consumer CSS"),
     popup: surface("popup", "", false, "non-modal"),
     "alert-dialog": nativeDialog("alert-dialog", "alertdialog"),
     "file-dialog": nativeDialog("file-dialog", ""),

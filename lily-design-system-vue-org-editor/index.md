@@ -174,3 +174,8 @@ The real-browser undo / redo spec lives in the Svelte package (`e2e/undo.spec.ts
 
 [accessibility notes](./docs/accessibility.md) · [examples](./examples/README.md) · the canonical
 `lily-design-system-svelte-org-editor`
+
+## Form reset
+
+Inside a `<form>`, a reset puts the text back to the value the editor started with, one tick after the browser has reset
+the textarea; a cancelled reset changes nothing (added 2026-10-29/30, tasks.md P10-T9).

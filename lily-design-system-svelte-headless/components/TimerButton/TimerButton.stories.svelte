@@ -14,7 +14,7 @@
     name="Default"
     tags={["autodocs", "!dev"]}
 >
-    <TimerButton label="TimerButton example">
+    <TimerButton label="TimerButton example" duration={30}>
         <span>TimerButton example</span>
     </TimerButton>
 </Story>

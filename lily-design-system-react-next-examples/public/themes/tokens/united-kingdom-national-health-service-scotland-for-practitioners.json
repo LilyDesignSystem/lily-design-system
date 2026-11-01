@@ -83,7 +83,7 @@
           230.0
         ]
       },
-      "$description": "base-content: primary text. NHS Black #212B32 — warm near-black */ /* tuned to reduce on-screen glare for users reading long-form */ /* clinical content (a shared NHS UK / NHS Scotland choice)."
+      "$description": "base-content: primary text. NHS Black #212B32 — warm near- black */ /* tuned to reduce on-screen glare for users reading long-form */ /* clinical content (a shared NHS UK / NHS Scotland choice)."
     },
     "primary": {
       "$type": "color",
@@ -141,7 +141,7 @@
           192.0
         ]
       },
-      "$description": "---- Accent (NHS Aqua / Teal) --------------------------------------- */ /* NHS Aqua / Teal #00A499 — supplementary accent associated with */ /* NHS 24 chrome and used for illustrative chart series. Not for */ /* primary calls to action; reserve for decorative emphasis, */ /* category chips, and data visualisation. Darkened from L=0.62 on 2026-08-27: white accent-content needs >=4.5:1 for small text (axe color-contrast on ai-label)."
+      "$description": "---- Accent (NHS Aqua / Teal) --------------------------------------- */ /* NHS Aqua / Teal #00A499 — supplementary accent associated with */ /* NHS 24 chrome and used for illustrative chart series. Not for */ /* primary calls to action; reserve for decorative emphasis, */ /* category chips, and data visualisation. Darkened from L=0.62 on 2026-08-27: white accent-content needs >=4.5:1 for small text (axe color-contrast on ai- label)."
     },
     "accent-content": {
       "$type": "color",
@@ -205,12 +205,12 @@
       "$value": {
         "colorSpace": "oklch",
         "components": [
-          0.56,
-          0.16,
-          145.0
+          0.52,
+          0.14,
+          151.0
         ]
       },
-      "$description": "---- Success (NHS Green) -------------------------------------------- */ /* NHS Green #009639 — confirmation panels, completed-step indicators */ /* (\"you have been booked\"), and the success state on form summaries. */ /* Identical role and contrast target as the NHS UK system so shared */ /* components carry the same meaning across the border."
+      "$description": "---- Success (NHS Green) -------------------------------------------- */ /* NHS.UK frontend green #007F3B — confirmation panels, completed- step indicators */ /* (\"you have been booked\"), and the success state on form summaries. */ /* Identical role and contrast target as the NHS UK system so shared */ /* components carry the same meaning across the border. Re- baselined 2026-10-29 to nhsuk-frontend 10.7.1 `$nhsuk- success-colour` (core/settings/_colours-applied.scss, new in v10); it was NHS Identity green #009639, which gave white content 4.37:1 (below AA). Now 5.19:1."
     },
     "success-content": {
       "$type": "color",
@@ -320,7 +320,7 @@
         "value": 1.0,
         "unit": "px"
       },
-      "$description": "Border width: 1px hairline, matching `$nhsuk-border-width-form`. */ /* The hairline is the smallest legible border on the LCDs used in */ /* clinical settings; going to 0.5px loses the edge on non-Retina */ /* workstation displays still common in NHS estate."
+      "$description": "Border width: 1px hairline, Lily's own hairline, not an upstream value: nhsuk-frontend 10 has no `$nhsuk-border- width-form`; its form controls use `$nhsuk-border-width- form-element` (2px). */ /* The hairline is the smallest legible border on the LCDs used in */ /* clinical settings; going to 0.5px loses the edge on non-Retina */ /* workstation displays still common in NHS estate."
     }
   },
   "depth": {
@@ -338,48 +338,64 @@
   },
   "space": {
     "fluid-gutter": {
-      "$type": "fluidDimension",
+      "$type": "dimension",
       "$value": {
-        "floor": {
-          "value": 1,
-          "unit": "rem"
-        },
-        "base": {
-          "value": 0.5,
-          "unit": "rem"
-        },
-        "grow": {
-          "value": 2,
-          "unit": "vw"
-        },
-        "ceiling": {
-          "value": 2,
-          "unit": "rem"
-        }
+        "value": 1.0,
+        "unit": "rem"
       },
-      "$description": "Fluid inline gutter for page containers and the main region: grows with the viewport from a 1rem floor to a 2rem ceiling. Spacing only, never text."
+      "$description": "Fluid inline gutter for page containers and the main region: grows with the viewport from a 1rem floor to a 2rem ceiling. Spacing only, never text.",
+      "$extensions": {
+        "com.lilydesignsystem": {
+          "fluid": {
+            "floor": {
+              "value": 1.0,
+              "unit": "rem"
+            },
+            "base": {
+              "value": 0.5,
+              "unit": "rem"
+            },
+            "grow": {
+              "value": 2.0,
+              "unit": "vw"
+            },
+            "ceiling": {
+              "value": 2.0,
+              "unit": "rem"
+            }
+          }
+        }
+      }
     },
     "fluid-section": {
-      "$type": "fluidDimension",
+      "$type": "dimension",
       "$value": {
-        "floor": {
-          "value": 1,
-          "unit": "rem"
-        },
-        "base": {
-          "value": 0.75,
-          "unit": "rem"
-        },
-        "grow": {
-          "value": 1,
-          "unit": "vw"
-        },
-        "ceiling": {
-          "value": 2,
-          "unit": "rem"
-        }
+        "value": 1.0,
+        "unit": "rem"
       },
-      "$description": "Fluid gap between sections (stacks and grids): grows with the viewport from a 1rem floor to a 2rem ceiling. Spacing only, never text."
+      "$description": "Fluid gap between sections (stacks and grids): grows with the viewport from a 1rem floor to a 2rem ceiling. Spacing only, never text.",
+      "$extensions": {
+        "com.lilydesignsystem": {
+          "fluid": {
+            "floor": {
+              "value": 1.0,
+              "unit": "rem"
+            },
+            "base": {
+              "value": 0.75,
+              "unit": "rem"
+            },
+            "grow": {
+              "value": 1.0,
+              "unit": "vw"
+            },
+            "ceiling": {
+              "value": 2.0,
+              "unit": "rem"
+            }
+          }
+        }
+      }
     }
   }
 }

@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<span class=\"espana-tarjeta-sanitaria-individual-view\" aria-label=\"a read-only display of an España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier\">EspanaTarjetaSanitariaIndividualView</span>";
   const svelteSource: string = "// In your Svelte component:\nimport EspanaTarjetaSanitariaIndividualView from \"lily-design-system-svelte-headless/components/EspanaTarjetaSanitariaIndividualView/EspanaTarjetaSanitariaIndividualView.svelte\";\n\n<EspanaTarjetaSanitariaIndividualView label=\"Label\" value=\"Sample value\" />\n";
-  const usageCode: string = "<EspanaTarjetaSanitariaIndividualView label=\"TSI\" value=\"BBBB12345678\" />\n";
+  const usageCode: string = "<EspanaTarjetaSanitariaIndividualView\n  label=\"TSI\"\n  value=\"BBBB12345678\"\n/>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

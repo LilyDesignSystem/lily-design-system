@@ -284,5 +284,10 @@
     "small": "छोट",
     "smaller": "अउरी छोट",
     "smallest": "सबसे छोट"
+  },
+  "date-time-now-input": {
+    "date": "तारीख",
+    "time": "समय",
+    "now": "अभी"
   }
 }

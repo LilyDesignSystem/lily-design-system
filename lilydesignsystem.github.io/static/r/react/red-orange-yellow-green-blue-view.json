@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "red-orange-yellow-green-blue-view",
+  "type": "registry:component",
+  "title": "RedOrangeYellowGreenBlueView",
+  "description": "A read-only display of a five-level color status.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/RedOrangeYellowGreenBlueView.tsx",
+      "content": "import React from \"react\";\n\n// RedOrangeYellowGreenBlueView component\n//\n// A headless ROYGB (Red/Orange/Yellow/Green/Blue) status view that displays\n// a five-level color-coded status value as read-only text inside a <span>.\n// Used to present previously captured ROYGB status data in dashboards, reports,\n// or detail views where the five-level scale offers more granularity than RAG.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". The ROYGB status to display (e.g. \"red\", \"orange\", \"yellow\", \"green\", \"blue\").\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <RedOrangeYellowGreenBlueView label=\"Risk level\" value=\"yellow\" />\n//\n// Examples:\n//\n//   <RedOrangeYellowGreenBlueView label=\"Alert status\" value={level} />\n//\n//\n//   <RedOrangeYellowGreenBlueView label=\"System health\" value=\"blue\" data-testid=\"health\" />\n//\n// Keyboard:\n//   - None — this is a passive informational display, not an interactive element.\n//\n// Accessibility:\n//   - aria-label on the <span> for screen reader context\n//   - Screen readers announce the label and displayed status value\n//   - WCAG 2.2 AAA: properly labeled for assistive technology\n//\n// Internationalization:\n//   - The label prop externalizes the accessible label string\n//   - The value is displayed as-is, allowing localized status names\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Read-only display component — not interactive, no controlled\n//   - Consumer can apply color-coded backgrounds or text colors via restProps\n//\n// References:\n//   - WAI-ARIA status role: https://www.w3.org/TR/wai-aria-1.2/#status\n//   - Traffic Light Rating System: https://en.wikipedia.org/wiki/Traffic_light_rating_system\n\nexport interface RedOrangeYellowGreenBlueViewProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The ROYGB status value to display */\n    value?: string;\n    [key: string]: unknown;\n}\n\nexport default function RedOrangeYellowGreenBlueView({\n    className = \"\",\n    label,\n    value = \"\",\n    ...restProps\n}: RedOrangeYellowGreenBlueViewProps) {\n    return (\n        <span\n            className={`red-orange-yellow-green-blue-view ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {value}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/RedOrangeYellowGreenBlueView.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/red-orange-yellow-green-blue-view/"
+}

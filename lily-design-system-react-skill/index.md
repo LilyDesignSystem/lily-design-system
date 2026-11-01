@@ -1,8 +1,8 @@
 # Lily Design System™ — React Skill
 
-A Claude Skill ([`SKILL.md`](SKILL.md)) that maps the three real React
-subprojects in this monorepo — the headless component library, the
-`*-picker` helpers catalog, and the Next.js example app — and helps an
+A Claude Skill ([`SKILL.md`](SKILL.md)) that maps the three React
+layers in this monorepo — the headless component library, the
+helper packages, and the Next.js example app — and helps an
 agent decide which one it needs.
 
 It is the React **umbrella** skill: it sits one level up from
@@ -17,7 +17,7 @@ which covers Lily's concepts independent of any one framework.
 
 Load this skill when someone asks what's available for React in Lily
 Design System, which React subproject they need (the headless library
-you depend on and style yourself, the six page-header `*-picker`
+you depend on and style yourself, the page-header `*-picker`
 helpers, or the fully-styled Next.js reference app), or wants to see
 Lily's React components styled and running. It does not restate the
 headless or helpers skills' install commands, prop conventions, or
@@ -28,7 +28,7 @@ subproject.
 
 ## Structure
 
-- [`SKILL.md`](SKILL.md) — the skill itself: the three-subproject map,
+- [`SKILL.md`](SKILL.md) — the skill itself: the three-layer map,
   pointers to the two sibling skills, example-app coverage, and the
   React-wide conventions verified across all three.
 

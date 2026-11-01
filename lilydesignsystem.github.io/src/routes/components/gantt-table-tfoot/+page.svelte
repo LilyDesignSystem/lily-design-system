@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<tfoot class=\"gantt-table-tfoot\"><tr class=\"gantt-table-tr\"><td class=\"gantt-table-td\">Summary</td></tr></tfoot>";
   const svelteSource: string = "// In your Svelte component:\nimport GanttTableTfoot from \"lily-design-system-svelte-headless/components/GanttTableTfoot/GanttTableTfoot.svelte\";\n\n<GanttTableTfoot>\n  <!-- GanttTableTfoot content -->\n</GanttTableTfoot>\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import GanttTable from \"../GanttTable/GanttTable.svelte\";\n    import GanttTableTfoot from \"./GanttTableTfoot.svelte\";\n    import GanttTableTr from \"../GanttTableTr/GanttTableTr.svelte\";\n    import GanttTableTD from \"../GanttTableTD/GanttTableTD.svelte\";\n<\/script>\n\n<GanttTable label=\"Plan\">\n    <GanttTableTfoot>\n        <GanttTableTr>\n            <GanttTableTD>Total: 12 tasks</GanttTableTD>\n        </GanttTableTr>\n    </GanttTableTfoot>\n</GanttTable>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import GanttTable from \"../GanttTable/GanttTable.svelte\";\n  import GanttTableTfoot from \"./GanttTableTfoot.svelte\";\n  import GanttTableTr from \"../GanttTableTr/GanttTableTr.svelte\";\n  import GanttTableTD from \"../GanttTableTD/GanttTableTD.svelte\";\n<\/script>\n\n<GanttTable label=\"Plan\">\n  <GanttTableTfoot>\n    <GanttTableTr>\n      <GanttTableTD>Total: 12 tasks</GanttTableTD>\n    </GanttTableTr>\n  </GanttTableTfoot>\n</GanttTable>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "england-national-health-service-number-view",
+  "type": "registry:component",
+  "title": "EnglandNationalHealthServiceNumberView",
+  "description": "A read-only display of England's National Health Service Number (NHS).",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/EnglandNationalHealthServiceNumberView.tsx",
+      "content": "import React from \"react\";\n\n// EnglandNationalHealthServiceNumberView component\n//\n// A headless display component for showing England's\n// National Health Service Number (NHS) in a read-only format.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". The identifier string to display.\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <EnglandNationalHealthServiceNumberView label=\"National Health Service Number\" value={value} />\n//\n// Accessibility:\n//   - aria-label provides the accessible name so screen readers announce the purpose\n//\n// References:\n//   - https://en.wikipedia.org/wiki/NHS_number\n\nexport interface EnglandNationalHealthServiceNumberViewProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The identifier to display */\n    value?: string;\n    [key: string]: unknown;\n}\n\nexport default function EnglandNationalHealthServiceNumberView({\n    className = \"\",\n    label,\n    value = \"\",\n    ...restProps\n}: EnglandNationalHealthServiceNumberViewProps) {\n    return (\n        <span\n            className={`england-national-health-service-number-view ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {value}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/EnglandNationalHealthServiceNumberView.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/england-national-health-service-number-view/"
+}

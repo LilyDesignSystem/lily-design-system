@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "dont-list-item",
+  "type": "registry:component",
+  "title": "DontListItem",
+  "description": "A discouraged-practice item in a dont-list guideline list.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/DontListItem.tsx",
+      "content": "import React from \"react\";\n\n// DontListItem component\n//\n// A single discouraged-practice item within a \"Don't\" list. Renders a semantic\n// <li> element representing a guideline or practice that users should avoid.\n// Commonly used in design system documentation, style guides, and instructional\n// content to show anti-patterns alongside DoListItem.\n//\n// The component sets data-recommendation=\"dont\" for consumer styling hooks,\n// enabling visual differentiation (e.g. red crosses, danger borders) without\n// embedding any styles itself.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   children — ReactNode, required. The discouraged-practice content.\n//   ...restProps — additional HTML attributes spread onto the <li>.\n//\n// Syntax:\n//   <DontListItem>Use vague placeholder text</DontListItem>\n//\n// Examples:\n//\n//   <ul aria-label=\"Practices to avoid\">\n//     <DontListItem>Use color alone to convey meaning</DontListItem>\n//     <DontListItem>Remove focus outlines without replacement</DontListItem>\n//     <DontListItem>Rely solely on placeholder text as labels</DontListItem>\n//   </ul>\n//\n//\n//   <ul aria-label=\"Do\">\n//     <DoListItem>Write clear error messages</DoListItem>\n//   </ul>\n//   <ul aria-label=\"Don't\">\n//     <DontListItem>Use technical jargon in errors</DontListItem>\n//   </ul>\n//\n// Keyboard:\n//   - None directly — passive informational display, not interactive\n//\n// Accessibility:\n//   - Semantic <li> element provides list item semantics within the parent list\n//   - Screen readers announce list position from the parent <ul> or <ol>\n//   - data-recommendation attribute provides a hook for consumer styling\n//\n// Internationalization:\n//   - All content is provided through the children prop\n//   - No hardcoded strings in the component\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Should be placed inside a <ul> or <ol> for valid HTML\n//   - Consumer can target [data-recommendation=\"dont\"] for visual styling\n//\n// References:\n//   - MDN li element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li\n//   - Material Design Do/Don't guidelines: https://m3.material.io/foundations/content-design/style-guide/overview\n\nexport interface DontListItemProps {\n    className?: string;\n    /** The discouraged-practice content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function DontListItem({\n    className = \"\",\n    children,\n    ...restProps\n}: DontListItemProps) {\n    return (\n        <li\n            className={`dont-list-item ${className}`}\n            data-recommendation=\"dont\"\n            {...restProps}\n        >\n            {children}\n        </li>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/DontListItem.tsx"
+    }
+  ],
+  "categories": [
+    "lists"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/dont-list-item/"
+}

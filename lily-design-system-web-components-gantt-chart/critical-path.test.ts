@@ -102,7 +102,7 @@ describe("critical-path", () => {
 
     describe("lag in working days", () => {
         // 2026-01-05 is a Monday; 01-09 a Friday; 01-10 and 01-11 the weekend.
-        const wd = { lagUnit: "working-days" as const };
+        const wd = { lagUnit: "working-days" as const, weekends: [0, 6] };
         const chain = (lag: number) => [
             t("a", "2026-01-05", "2026-01-09"),
             t("b", "2026-01-05", "2026-01-05", { dependsOn: [{ id: "a", lag }] }),
@@ -111,6 +111,29 @@ describe("critical-path", () => {
         it("skips the weekend that calendar-day lag lands on", () => {
             expect(criticalPath(chain(1)).finish).toBe("2026-01-11");
             expect(criticalPath(chain(1), wd).finish).toBe("2026-01-12");
+            expect(criticalPath(chain(2), wd).finish).toBe("2026-01-13");
+        });
+
+        it("requires weekends: omitting it throws, [] is an explicit no-weekend", () => {
+            expect(() => criticalPath(chain(1), { lagUnit: "working-days" })).toThrow(RangeError);
+            expect(() => criticalPath(chain(1), { lagUnit: "working-days" })).toThrow(/weekends/);
+            expect(() =>
+                criticalPath(chain(1), { lagUnit: "working-days", weekends: undefined }),
+            ).toThrow(RangeError);
+            expect(criticalPath(chain(1), { lagUnit: "working-days", weekends: [] }).finish).toBe(
+                "2026-01-11",
+            );
+            // Calendar-day lag needs no weekends.
+            expect(() => criticalPath(chain(1), { lagUnit: "days" })).not.toThrow();
+        });
+
+        it("Friday-Saturday weekends schedule correctly (Sunday is a working day)", () => {
+            const fs = { lagUnit: "working-days" as const, weekends: [5, 6] };
+            // a ends Fri 01-09 (itself a weekend day, dated as given); lag 1 working day -> Sun 01-11 (01-10 Sat off).
+            expect(criticalPath(chain(1), fs).finish).toBe("2026-01-11");
+            // Two working days from Fri 01-09: Sun 01-11, Mon 01-12.
+            expect(criticalPath(chain(2), fs).finish).toBe("2026-01-12");
+            // With Saturday-Sunday it would differ: Mon 01-12, Tue 01-13.
             expect(criticalPath(chain(2), wd).finish).toBe("2026-01-13");
         });
 

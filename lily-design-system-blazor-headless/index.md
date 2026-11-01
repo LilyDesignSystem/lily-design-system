@@ -1,6 +1,6 @@
 # Lily Design System™ - Blazor Headless
 
-A comprehensive headless Blazor component library with accessible, unstyled Razor components for building design systems. Every component follows WCAG 2.2 AAA guidelines with full ARIA support, keyboard navigation, and internationalization readiness.
+A comprehensive headless Blazor component library with accessible, unstyled Razor components for building design systems. Every component targets WCAG 2.2 AAA, with ARIA and internationalization readiness; keyboard support is native or custom as listed below.
 
 **Headless** means zero CSS, zero styles, zero opinions about appearance. You provide all styling. Components provide structure, semantics, accessibility, and behavior.
 
@@ -9,7 +9,7 @@ A comprehensive headless Blazor component library with accessible, unstyled Razo
 - Headless Blazor Razor components
 - .NET 10 with C#
 - WCAG 2.2 AAA accessibility compliance
-- Native keyboard operation from semantic elements; custom key handling (arrows, Home/End, Escape, type-ahead) in about 5 components, listed in each component's `AGENTS.md`
+- Native keyboard operation from semantic elements. Custom key handling (arrows, Home/End, Escape, type-ahead) in 15 components, measured 2026-10-30: in Razor `ChatComposer`, `Combobox`, `Dialog`, `Drawer`, `FileDialog`, `Listbox`, `Sheet`, `SlideOutDrawer`, `WheelPicker`; through a JS module `NavigationMenu`, `FileTree`, and the popover menus `DropdownMenu`, `SplitButton`, `ActionGroup`, `ContextMenu` (`Popover.razor.js`). Escape on `AlertDialog` and `TimeoutDialog` comes from the browser's `showModal()`. Each component's `AGENTS.md` names its keys.
 - ARIA attributes and roles
 - Internationalization-ready (no hardcoded strings)
 - Zero dependencies beyond Blazor
@@ -152,7 +152,7 @@ public class ButtonTests : TestContext
 
 ## Related Projects
 
-- [Lily Design System](https://github.com/LilyDesignSystem/lily) - Parent project
+- [Lily Design System](https://github.com/LilyDesignSystem/lily-design-system) - Parent project
 - [Blazor Web Examples](../lily-design-system-blazor-web-examples/) - Blazor styled example app
 - [React Headless](../lily-design-system-react-headless/) - React equivalent
 - [Svelte Headless](../lily-design-system-svelte-headless/) - Svelte equivalent

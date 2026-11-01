@@ -1,12 +1,9 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, test } from "vitest";
 import Subject from "./Popover";
-function textSnippet(text: string) {
-    return (($$anchor: Comment) => {
-        const node = document.createTextNode(text);
-        $$anchor.before(node);
-    }) as any;
-}
+
+// jsdom has no Popover API, so these run the scripted fallback (the `hidden` attribute);
+// popover-api.test.tsx covers the native path with showPopover/hidePopover stubbed.
 describe("Popover", () => {
     test("hidden when closed", () => {
         render(
@@ -18,6 +15,8 @@ describe("Popover", () => {
             </Subject>,
         );
         expect(screen.queryByRole("dialog")).toBeNull();
+        // Kept in the DOM (so a commandfor trigger can name it), hidden by the fallback.
+        expect(screen.getByRole("dialog", { hidden: true }).hasAttribute("hidden")).toBe(true);
     });
     test("visible when open", () => {
         render(

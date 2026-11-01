@@ -4,29 +4,64 @@
   Description: a two-dimensional board for picking colors by hue and saturation
   HTML tag: <div>
   CSS class: color-picker
-  Keyboard: None (passive element)
-  Accessibility: role="radiogroup", aria-label for accessible name
+  Keyboard: ArrowRight/ArrowLeft change X by 1, ArrowUp/ArrowDown change Y by 1 (Shift: by 10), Home sets X to 0, End sets X to 100; aria-disabled="true" ignores keys
+  Accessibility: role="slider" (aria-valuenow reports X, 0 to 100), tabindex, aria-label; data-x and data-y carry the position
   Usage:
-    <div class="color-picker" role="radiogroup" aria-label="Example">
-      ...
+    <div
+      class="color-picker"
+      role="slider"
+      tabindex="0"
+      aria-label=""
+      aria-valuenow="0"
+      aria-valuemin="0"
+      aria-valuemax="100"
+      data-x="0"
+      data-y="0"
+    >
     </div>
 -->
 
 <div
   class="color-picker"
-  role="radiogroup"
+  role="slider"
+  tabindex="0"
   aria-label=""
+  aria-valuenow="0"
+  aria-valuemin="0"
+  aria-valuemax="100"
+  data-x="0"
+  data-y="0"
 >
-  <!-- Consumer provides content -->
+  <!-- Consumer provides the visual -->
 </div>
 
 <script>
   // ColorPicker behavior
   (function() {
     'use strict';
-    // ColorPicker: consumer implements interactive behavior
     document.querySelectorAll('.color-picker').forEach(function(el) {
-      // Interactive behavior initialization
+      function num(name) {
+        var n = parseFloat(el.getAttribute(name));
+        return isNaN(n) ? 0 : n;
+      }
+      el.addEventListener('keydown', function(e) {
+        if (el.getAttribute('aria-disabled') === 'true') return;
+        var step = e.shiftKey ? 10 : 1;
+        var x = num('data-x');
+        var y = num('data-y');
+        if (e.key === 'ArrowRight') x = Math.min(100, x + step);
+        else if (e.key === 'ArrowLeft') x = Math.max(0, x - step);
+        else if (e.key === 'ArrowUp') y = Math.max(0, y - step);
+        else if (e.key === 'ArrowDown') y = Math.min(100, y + step);
+        else if (e.key === 'Home') x = 0;
+        else if (e.key === 'End') x = 100;
+        else return;
+        e.preventDefault();
+        el.setAttribute('data-x', String(x));
+        el.setAttribute('data-y', String(y));
+        el.setAttribute('aria-valuenow', String(x));
+        el.dispatchEvent(new CustomEvent('change', { bubbles: true, detail: { x: x, y: y } }));
+      });
     });
   })();
 </script>

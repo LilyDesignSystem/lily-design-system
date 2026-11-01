@@ -283,5 +283,10 @@
     "small": "малък",
     "smaller": "по-малък",
     "smallest": "най-малък"
+  },
+  "date-time-now-input": {
+    "date": "Дата",
+    "time": "Час",
+    "now": "Сега"
   }
 }

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "place",
+  "type": "registry:component",
+  "title": "Place",
+  "description": "A place component that contains other place-related information.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Place.tsx",
+      "content": "import React from \"react\";\n\n// Place component\n//\n// A place component containing place-related information.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label    — string, optional. Accessible label via aria-label.\n//   children — ReactNode, required. Component content.\n//   ...restProps — additional HTML attributes spread onto the <article>.\n//\n// Accessibility:\n//   - native <article> semantics\n//   - aria-label exposes a screen-reader name when label is provided\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//\n// References:\n//   - HTML article element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article\n\nexport interface PlaceProps {\n    className?: string;\n    /** Optional accessible label set on aria-label. */\n    label?: string;\n    /** Component content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Place({\n    className = \"\",\n    label = undefined,\n    children,\n    ...restProps\n}: PlaceProps) {\n    return (\n        <article\n            className={`place ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </article>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Place.tsx"
+    }
+  ],
+  "categories": [
+    "navigation"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/place/"
+}

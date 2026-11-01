@@ -103,6 +103,23 @@ a `<select>` in practice, or a strong argument that a header control does not ne
 to be a single glyph. History: radio group → native `<select>` → icon button +
 listbox, so this has moved before and can move again.
 
+**Update 2026-10-29 (P16-T4):** the Svelte `theme-picker` now has an
+opt-in `variant="select"` that renders a native `<select>` of the same
+themes, with the same apply path (managed `<link>`, `data-theme`,
+optional `localStorage`, `onChange` once per change) and the same
+`label` and `themeLabels` props. The listbox stays the default. What the
+prototype shows: the native path needs no keyboard code, no focus
+handling and no positioning CSS, and its unit tests (jsdom) pass. Styling
+with `appearance: base-select` is left to theme CSS behind `@supports`
+(Chromium-only today), documented in the package's `docs/styling.md`
+and not shipped. What it does not show: which variant is better for
+users. Nobody has tested either one with a mobile screen reader
+(VoiceOver on iOS, TalkBack on Android), or with any screen reader at
+all for this comparison. That testing is still the evidence this RFC
+needs. Not done yet: ports to the other seven catalogs, and runs in the
+example apps with and without `base-select`. The wider audit of popup
+components is in `spec/competitive-position/native-primitives.tsv`.
+
 ### RFC 4 — Are these the right six helpers?
 
 **Current answer:** `theme-picker`, `locale-picker`, `text-size-picker`,
@@ -151,7 +168,7 @@ are machine-consumable by token tooling without abandoning the
 ship-complete-stylesheets position. The open half of the question is
 now only the design-tooling side (Figma library or not).
 
-### RFC 7 — Do 140 national identifier components belong in a general design system?
+### RFC 7 — Do 164 national identifier components belong in a general design system?
 
 **Current answer:** yes — they encode real validation knowledge across 30+
 countries, and nothing else in the field covers this.

@@ -239,5 +239,10 @@
     "small": "ນ້ອຍ",
     "smaller": "ນ້ອຍລົງ",
     "smallest": "ນ້ອຍທີ່ສຸດ"
+  },
+  "date-time-now-input": {
+    "date": "ວັນທີ",
+    "time": "ເວລາ",
+    "now": "ຕອນນີ້"
   }
 }

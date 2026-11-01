@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "table",
+  "type": "registry:component",
+  "title": "Table",
+  "description": "A table with rows and columns <table>.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Table.tsx",
+      "content": "import React from \"react\";\n\n// Table component\n//\n// A headless table that renders a semantic <table> element with an accessible\n// label. Used to display structured data in rows and columns for reports,\n// schedules, product lists, and dashboards. The consumer provides all table\n// content (thead, tbody, tfoot, caption, colgroup, etc.) through the children\n// children prop, maintaining full control over table structure and styling.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for the table via aria-label.\n//   children — ReactNode, required. Table content including thead, tbody, tfoot, etc.\n//   ...restProps — additional HTML attributes spread onto the <table>.\n//\n// Syntax:\n//   <Table label=\"User accounts\">...</Table>\n//\n// Examples:\n//\n//   <Table label=\"User accounts\">\n//     <thead><tr><th scope=\"col\">Name</th><th scope=\"col\">Email</th></tr></thead>\n//     <tbody><tr><td>Alice</td><td>alice@example.com</td></tr></tbody>\n//   </Table>\n//\n// Keyboard:\n//   - None directly -- standard table navigation is handled by screen readers\n//\n// Accessibility:\n//   - aria-label provides the accessible name for screen readers\n//   - Semantic <table> element conveys tabular data structure\n//   - Consumers should use <th scope=\"col\"> for column headers\n//   - Consumers should use <th scope=\"row\"> for row headers\n//   - Consumers may add <caption> for a visible table title\n//\n// Internationalization:\n//   - The label prop externalizes user-facing text for translation\n//   - All content is provided through the children prop\n//   - No hardcoded strings in the component\n//\n// Claude rules:\n//   - Headless: no CSS, no styles -- consumer provides all styling\n//   - No built-in sorting, filtering, or pagination\n//\n// References:\n//   - WAI-ARIA Table Role: https://www.w3.org/WAI/ARIA/apg/patterns/table/\n//   - HTML Table Element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table\n\nexport interface TableProps {\n    className?: string;\n    /** Accessible label for the table */\n    label: string;\n    /** Table content (thead, tbody, tfoot, caption, colgroup, etc.) */\n    children: React.ReactNode;\n    /** Additional HTML attributes */\n    [key: string]: unknown;\n}\n\nexport default function Table({ className = \"\", label, children, ...restProps }: TableProps) {\n    return (\n        <table\n            className={`table ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </table>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Table.tsx"
+    }
+  ],
+  "categories": [
+    "tables"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/table/"
+}

@@ -39,5 +39,10 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MenuItem.razor"
   },
   "docs": "https://lilydesignsystem.com/components/menu-item/",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/menu-item/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/menu-item/AGENTS.md",
+  "nativePlatform": {
+    "decision": "hand-rolled because role=\"menuitem\" has no native element",
+    "uses": "none (div role=\"menuitem\" tabindex=\"-1\")",
+    "could_use": "none"
+  }
 }

@@ -15,15 +15,31 @@ description: a gantt table interactive grid data cell <td>
 <pre tabindex="0"><code>{% raw %}&lt;GanttTableBody&gt;
   &lt;GanttTableTr&gt;
     &lt;GanttTableTH scope="row"&gt;Design phase&lt;/GanttTableTH&gt;
-    &lt;GanttTableTD active aria-label="Design phase: Jan, in progress"&gt;████&lt;/GanttTableTD&gt;
-    &lt;GanttTableTD active aria-label="Design phase: Feb, in progress"&gt;████&lt;/GanttTableTD&gt;
+    &lt;GanttTableTD
+      active
+      aria-label="Design phase: Jan, in progress"
+      &gt;████&lt;/GanttTableTD
+    &gt;
+    &lt;GanttTableTD
+      active
+      aria-label="Design phase: Feb, in progress"
+      &gt;████&lt;/GanttTableTD
+    &gt;
     &lt;GanttTableTD aria-label="Design phase: Mar, not scheduled"&gt;&lt;/GanttTableTD&gt;
   &lt;/GanttTableTr&gt;
   &lt;GanttTableTr&gt;
     &lt;GanttTableTH scope="row"&gt;Development&lt;/GanttTableTH&gt;
     &lt;GanttTableTD aria-label="Development: Jan, not scheduled"&gt;&lt;/GanttTableTD&gt;
-    &lt;GanttTableTD active aria-label="Development: Feb, in progress"&gt;████&lt;/GanttTableTD&gt;
-    &lt;GanttTableTD active aria-label="Development: Mar, in progress"&gt;████&lt;/GanttTableTD&gt;
+    &lt;GanttTableTD
+      active
+      aria-label="Development: Feb, in progress"
+      &gt;████&lt;/GanttTableTD
+    &gt;
+    &lt;GanttTableTD
+      active
+      aria-label="Development: Mar, in progress"
+      &gt;████&lt;/GanttTableTD
+    &gt;
   &lt;/GanttTableTr&gt;
 &lt;/GanttTableBody&gt;
 {% endraw %}</code></pre>

@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<time class=\"review-date\" aria-label=\"Last reviewed\" datetime=\"2026-01-15\">15 January 2026</time>";
   const svelteSource: string = "// In your Svelte component:\nimport ReviewDate from \"lily-design-system-svelte-headless/components/ReviewDate/ReviewDate.svelte\";\n\n<ReviewDate>\n  <!-- content -->\n</ReviewDate>\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import ReviewDate from \"./ReviewDate.svelte\";\n<\/script>\n\n<ReviewDate label=\"Next review\" datetime=\"2026-06-15\">June 15, 2026</ReviewDate>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import ReviewDate from \"./ReviewDate.svelte\";\n<\/script>\n\n<ReviewDate\n  label=\"Next review\"\n  datetime=\"2026-06-15\">June 15, 2026</ReviewDate\n>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

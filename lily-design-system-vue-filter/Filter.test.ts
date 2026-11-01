@@ -541,3 +541,50 @@ describe("Filter — another language and right-to-left (§8.26–§8.29)", () =
         ).toEqual([]);
     });
 });
+
+// P10-T9: inside a <form>, a reset puts the filter back to the one it started with, every field included (as the
+// Svelte reference does).
+describe("Filter form reset", () => {
+    const FormHost = defineComponent({
+        props: { p: { type: Object, required: true } },
+        setup(props) {
+            return () => h("form", [h(Host, { p: props.p })]);
+        },
+    });
+
+    function inForm(onChange = vi.fn()) {
+        const { container } = tlRender(FormHost, {
+            props: {
+                p: {
+                    ...base,
+                    value: start(rule("name", "contains", "a"), rule("age", "gt", 3)),
+                    onChange,
+                },
+            },
+        });
+        const form = container.querySelector("form")!;
+        const fields = () => [...form.querySelectorAll<HTMLInputElement>("input.filter-value")];
+        return { form, fields, onChange };
+    }
+
+    test("restores the initial filter and redraws every field, touched or not", async () => {
+        const { form, fields, onChange } = inForm();
+        await fireEvent.update(fields()[0], "typed");
+        expect(fields().map((f) => f.value)).toEqual(["typed", "3"]);
+        form.reset();
+        await tick();
+        await tick();
+        expect(fields().map((f) => f.value)).toEqual(["a", "3"]);
+        const last = onChange.mock.calls.at(-1)?.[0] as FilterGroup;
+        expect(last.children.map((c) => (c as FilterRule).value)).toEqual(["a", 3]);
+    });
+
+    test("a cancelled reset changes nothing", async () => {
+        const { form, fields } = inForm();
+        await fireEvent.update(fields()[0], "typed");
+        form.addEventListener("reset", (event) => event.preventDefault());
+        form.reset();
+        await tick();
+        expect(fields()[0].value).toBe("typed");
+    });
+});

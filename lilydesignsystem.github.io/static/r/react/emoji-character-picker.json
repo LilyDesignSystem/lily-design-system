@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "emoji-character-picker",
+  "type": "registry:component",
+  "title": "EmojiCharacterPicker",
+  "description": "A picker for browsing and selecting emoji characters.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/EmojiCharacterPicker.tsx",
+      "content": "import React from \"react\";\n\n// EmojiCharacterPicker component\n//\n// A grid of selectable emoji characters for browsing and selecting emoji.\n// Renders a <div> with role=\"grid\" and an accessible label. Commonly used\n// in messaging apps, social media, comment systems, and rich text editors.\n// The consumer provides grid content, selection logic, and category navigation.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name describing the picker.\n//   children — ReactNode, required. The grid content containing emoji characters.\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Syntax:\n//   <EmojiCharacterPicker label=\"Choose an emoji\">\n//     <div role=\"row\"><button role=\"gridcell\">😀</button></div>\n//   </EmojiCharacterPicker>\n//\n// Examples:\n//\n//   <EmojiCharacterPicker label=\"Choose an emoji\">\n//     <div role=\"row\">\n//       <button role=\"gridcell\">😀</button>\n//       <button role=\"gridcell\">😂</button>\n//       <button role=\"gridcell\">😍</button>\n//     </div>\n//   </EmojiCharacterPicker>\n//\n// Keyboard:\n//   - None built-in — consumer should implement grid keyboard navigation\n//     (arrow keys for cell movement, Enter/Space for selection)\n//\n// Accessibility:\n//   - role=\"grid\" identifies the container as a grid widget for structured navigation\n//   - aria-label provides an accessible name for the picker\n//   - Consumer should provide role=\"row\" and role=\"gridcell\" on children\n//\n// Internationalization:\n//   - The label prop accepts any string; consumers provide localized text\n//   - Emoji characters are locale-independent\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - No internal state — purely a structural wrapper\n//   - Consumer implements selection behavior and category filtering\n//\n// References:\n//   - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/\n\nexport interface EmojiCharacterPickerProps {\n    className?: string;\n    /** Accessible label */\n    label?: string;\n    /** The component content */\n    children?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function EmojiCharacterPicker({\n    className = \"\",\n    label,\n    children,\n    ...restProps\n}: EmojiCharacterPickerProps) {\n    return (\n        <div\n            className={`emoji-character-picker ${className}`}\n            role=\"grid\"\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/EmojiCharacterPicker.tsx"
+    }
+  ],
+  "categories": [
+    "pickers"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/emoji-character-picker/"
+}

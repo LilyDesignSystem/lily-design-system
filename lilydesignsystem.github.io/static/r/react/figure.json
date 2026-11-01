@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "figure",
+  "type": "registry:component",
+  "title": "Figure",
+  "description": "A self-contained figure with optional caption.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Figure.tsx",
+      "content": "import React from \"react\";\n\n// Figure component\n//\n// A container for graphical content such as charts, diagrams, illustrations,\n// or data visualizations. Renders a <figure> element with role=\"img\" and an\n// accessible label. Used in dashboards, reports, analytics tools, and data-driven\n// applications. The consumer provides their preferred visualization (SVG, canvas,\n// or a charting library) as children.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name describing the figure content.\n//   children — ReactNode, required. The figure visualization content.\n//   ...restProps — additional HTML attributes spread onto the <figure> element.\n//\n// Syntax:\n//   <Figure label=\"Monthly revenue\">\n//     <svg></svg>\n//   </Figure>\n//\n// Examples:\n//\n//   <Figure label=\"Monthly revenue for 2024\">\n//     <svg></svg>\n//   </Figure>\n//\n//\n//   <Figure label=\"User growth trend\">\n//     <canvas></canvas>\n//   </Figure>\n//\n// Keyboard:\n//   - None — passive container for data visualization\n//\n// Accessibility:\n//   - role=\"img\" identifies the figure as a graphical image\n//   - aria-label provides an accessible name describing the figure content\n//\n// Internationalization:\n//   - The label prop accepts any string; consumers provide localized descriptions\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - No internal state — purely a structural wrapper\n//   - Consumer provides all chart rendering (SVG, canvas, D3, Chart.js, etc.)\n//\n// References:\n//   - WAI-ARIA img role: https://www.w3.org/TR/wai-aria-1.2/#img\n//   - MDN figure element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figure\n\nexport interface FigureProps {\n    className?: string;\n    /** Accessible label */\n    label?: string;\n    /** The component content */\n    children?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Figure({ className = \"\", label, children, ...restProps }: FigureProps) {\n    return (\n        <figure\n            className={`figure ${className}`}\n            role=\"img\"\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </figure>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Figure.tsx"
+    }
+  ],
+  "categories": [
+    "media"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/figure/"
+}

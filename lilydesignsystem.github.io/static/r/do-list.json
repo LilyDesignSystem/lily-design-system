@@ -2,7 +2,7 @@
   "slug": "do-list",
   "name": "DoList",
   "description": "a guideline list of encouraged do-list-item components",
-  "htmlTag": "ol",
+  "htmlTag": "ul",
   "category": "lists",
   "baseClass": ".do-list",
   "subClasses": [],

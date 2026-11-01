@@ -4,6 +4,7 @@ import { describe, it, expect, vi } from "vitest";
 import { mount, tick } from "../test/mount.js";
 
 const el = () => document.querySelector("fieldset.five-face-rating-picker");
+import { userEvent } from "@testing-library/user-event";
 
 describe("FiveFaceRatingPicker", () => {
     it("renders the element with its base class", async () => {
@@ -13,6 +14,18 @@ describe("FiveFaceRatingPicker", () => {
     });
 
     const radios = () => [...document.querySelectorAll("input[type=radio]")];
+    it("ArrowRight and ArrowLeft move the selection through the native radio group", async () => {
+        // The arrows are the browser's (user-event plays them in jsdom); what this guards is the shared name.
+        const user = userEvent.setup();
+        await mount("five-face-rating-picker");
+        const r = radios();
+        await user.click(r[1]);
+        await user.keyboard("{ArrowRight}");
+        expect(r[2].checked).toBe(true);
+        expect(document.activeElement).toBe(r[2]);
+        await user.keyboard("{ArrowLeft}{ArrowLeft}");
+        expect(r[0].checked).toBe(true);
+    });
     it("renders 5 native radios that share one name", async () => {
         await mount("five-face-rating-picker");
         expect(el().getAttribute("role")).toBe("radiogroup");

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "download-button",
+  "type": "registry:component",
+  "title": "DownloadButton",
+  "description": "A download link styled as a button, with optional file size and format metadata.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/DownloadButton.tsx",
+      "content": "import React from \"react\";\n\n// DownloadButton component\n//\n// A download link styled as a button. Because download targets should be\n// right-clickable and shareable, this is implemented as an <a> element\n// with the native `download` attribute, not a <button>.\n//\n// Props:\n//   className    — string, optional. CSS class name appended to the root.\n//   href         — string, REQUIRED. File URL.\n//   label        — string, REQUIRED. Accessible label (aria-label) and\n//                  the default visible text when no children are provided.\n//   fileSize     — string, optional. Pre-formatted file size text\n//                  (e.g., \"2.4 MB\"). Exposed via data-file-size.\n//   fileFormat   — string, optional. File format text (e.g., \"PDF\").\n//                  Exposed via data-file-format.\n//   download     — string | boolean, optional. Native download attribute.\n//                  Boolean true sets the attribute with no filename;\n//                  string sets the filename.\n//   children     — ReactNode, optional. Visible button content (defaults\n//                  to label when omitted).\n//   ...restProps — additional HTML attributes spread onto the <a>.\n//\n// Syntax:\n//   <DownloadButton\n//     href=\"/files/report.pdf\"\n//     label=\"Download annual report (PDF, 2.4 MB)\"\n//     fileSize=\"2.4 MB\"\n//     fileFormat=\"PDF\"\n//     download=\"annual-report.pdf\"\n//   >\n//     Download report\n//   </DownloadButton>\n//\n// Accessibility:\n//   - Uses a real <a> element so users can right-click and save\n//   - aria-label provides a descriptive name including download intent\n//\n// Internationalization:\n//   - All user-facing strings are consumer-supplied\n//\n// Claude rules:\n//   - Headless: no CSS, no styles\n//   - href and label are non-optional in the interface\n\nexport interface DownloadButtonProps {\n    className?: string;\n    /** File URL */\n    href: string;\n    /** Accessible label (used as aria-label and default visible text) */\n    label: string;\n    /** Pre-formatted file size text (e.g., \"2.4 MB\") */\n    fileSize?: string;\n    /** File format text (e.g., \"PDF\") */\n    fileFormat?: string;\n    /** Native download attribute (true sets it without a filename; string sets filename) */\n    download?: string | boolean;\n    /** Visible button content; falls back to label */\n    children?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function DownloadButton({\n    className = \"\",\n    href,\n    label,\n    fileSize = undefined,\n    fileFormat = undefined,\n    download = true,\n    children,\n    ...restProps\n}: DownloadButtonProps) {\n    const downloadAttr = typeof download === \"boolean\" ? (download ? \"\" : undefined) : download;\n\n    return (\n        <a\n            className={`download-button ${className}`}\n            href={href}\n            aria-label={label}\n            data-file-size={fileSize}\n            data-file-format={fileFormat}\n            download={downloadAttr}\n            {...restProps}\n        >\n            {children ?? label}\n        </a>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/DownloadButton.tsx"
+    }
+  ],
+  "categories": [
+    "links"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/download-button/"
+}

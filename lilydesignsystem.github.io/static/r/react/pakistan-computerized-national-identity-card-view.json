@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "pakistan-computerized-national-identity-card-view",
+  "type": "registry:component",
+  "title": "PakistanComputerizedNationalIdentityCardView",
+  "description": "A read-only display of Pakistan's Computerized National Identity Card Number (CNIC).",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/PakistanComputerizedNationalIdentityCardView.tsx",
+      "content": "import React from \"react\";\n\n// PakistanComputerizedNationalIdentityCardView component\n//\n// A headless display component for showing Pakistan's\n// Computerized National Identity Card Number (CNIC) in a read-only format.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". The identifier string to display.\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <PakistanComputerizedNationalIdentityCardView label=\"Computerized National Identity Card Number (CNIC)\" value={value} />\n//\n// Accessibility:\n//   - aria-label provides the accessible name so screen readers announce the purpose\n//\n// References:\n//   - https://en.wikipedia.org/wiki/Computerized_National_Identity_Card\n\nexport interface PakistanComputerizedNationalIdentityCardViewProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The identifier to display */\n    value?: string;\n    [key: string]: unknown;\n}\n\nexport default function PakistanComputerizedNationalIdentityCardView({\n    className = \"\",\n    label,\n    value = \"\",\n    ...restProps\n}: PakistanComputerizedNationalIdentityCardViewProps) {\n    return (\n        <span\n            className={`pakistan-computerized-national-identity-card-view ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {value}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/PakistanComputerizedNationalIdentityCardView.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/pakistan-computerized-national-identity-card-view/"
+}

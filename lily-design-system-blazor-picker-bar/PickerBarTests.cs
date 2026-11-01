@@ -51,9 +51,9 @@ public class PickerBarTests : TestContext
     // =================================================================
 
     [Fact]
-    public void Section_5_1_DefaultThemes_Has_All_57_Slugs()
+    public void Section_5_1_DefaultThemes_Has_All_63_Slugs()
     {
-        Assert.Equal(57, PickerBar.DefaultThemes.Count);
+        Assert.Equal(63, PickerBar.DefaultThemes.Count);
     }
 
     [Fact]
@@ -138,9 +138,9 @@ public class PickerBarTests : TestContext
         var cut = RenderBar();
         cut.Find("button[aria-label='Theme']").Click();
         var options = cut.FindAll(".theme-picker-option");
-        Assert.Equal(57, options.Count);
+        Assert.Equal(63, options.Count);
         Assert.Equal("Abyss", options[0].TextContent);
-        Assert.Equal("United Kingdom Government Digital Service", options[49].TextContent);
+        Assert.Equal("United Kingdom Government Digital Service", options[55].TextContent);
     }
 
     [Fact]

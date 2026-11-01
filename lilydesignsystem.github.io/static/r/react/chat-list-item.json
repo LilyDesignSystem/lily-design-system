@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "chat-list-item",
+  "type": "registry:component",
+  "title": "ChatListItem",
+  "description": "One chat list item component, typically containing one chat message component.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ChatListItem.tsx",
+      "content": "import React from \"react\";\n\n// ChatListItem component\n//\n// One chat list item, typically containing a chat message.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label    — string, optional. Accessible label via aria-label.\n//   children — ReactNode, required. Component content.\n//   ...restProps — additional HTML attributes spread onto the <li>.\n//\n// Accessibility:\n//   - native <li> semantics\n//   - aria-label exposes a screen-reader name when label is provided\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//\n// References:\n//   - HTML li element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li\n\nexport interface ChatListItemProps {\n    className?: string;\n    /** Optional accessible label set on aria-label. */\n    label?: string;\n    /** Marks the currently selected conversation (aria-current=\"true\"). */\n    current?: boolean;\n    /** Component content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function ChatListItem({\n    className = \"\",\n    label = undefined,\n    current = false,\n    children,\n    ...restProps\n}: ChatListItemProps) {\n    return (\n        <li\n            className={`chat-list-item ${className}`}\n            aria-label={label}\n            aria-current={current ? \"true\" : undefined}\n            {...restProps}\n        >\n            {children}\n        </li>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ChatListItem.tsx"
+    }
+  ],
+  "categories": [
+    "lists"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/chat-list-item/"
+}

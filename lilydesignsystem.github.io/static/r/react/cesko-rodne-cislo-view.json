@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "cesko-rodne-cislo-view",
+  "type": "registry:component",
+  "title": "CeskoRodneCisloView",
+  "description": "A read-only display of Czech Republic's Rodné číslo (RČ).",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/CeskoRodneCisloView.tsx",
+      "content": "import React from \"react\";\n\n// CeskoRodneCisloView component\n//\n// A headless display component for showing Czech Republic's\n// Rodné číslo (RČ) in a read-only format.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". The identifier string to display.\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <CeskoRodneCisloView label=\"Czech Personal Number\" value={value} />\n//\n// Accessibility:\n//   - aria-label provides the accessible name so screen readers announce the purpose\n//\n// References:\n//   - https://en.wikipedia.org/wiki/National_identification_number#Czech_Republic\n\nexport interface CeskoRodneCisloViewProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The identifier to display */\n    value?: string;\n    [key: string]: unknown;\n}\n\nexport default function CeskoRodneCisloView({\n    className = \"\",\n    label,\n    value = \"\",\n    ...restProps\n}: CeskoRodneCisloViewProps) {\n    return (\n        <span\n            className={`cesko-rodne-cislo-view ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {value}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/CeskoRodneCisloView.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/cesko-rodne-cislo-view/"
+}

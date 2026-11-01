@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "status-light",
+  "type": "registry:component",
+  "title": "StatusLight",
+  "description": "A small colored dot status indicator paired with a status label.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/StatusLight.tsx",
+      "content": "import React from \"react\";\n\n// StatusLight component\n//\n// A small colored dot status indicator paired with a status label.\n// Inspired by Adobe Spectrum.\n//\n// Props:\n//   className     — string, optional. CSS class name.\n//   variant       — \"neutral\" | \"informative\" | \"positive\" | \"notice\"\n//                  | \"negative\" | \"active\" | \"inactive\", default \"neutral\".\n//                  Exposed via data-variant.\n//   label         — string, REQUIRED. The status text (e.g., \"Active\", \"Offline\").\n//   ...restProps  — additional HTML attributes spread onto the root <span>.\n//\n// Behavior:\n//   Renders <span role=\"status\" data-variant={variant}> containing\n//   <span class=\"status-light-dot\" aria-hidden=\"true\"></span> and\n//   <span class=\"status-light-label\">{label}</span>.\n//\n// Headless rules:\n//   - No CSS, no inline styles\n//   - All user-facing strings are consumer-supplied (i18n)\n//\n// References:\n//   - Adobe Spectrum StatusLight: https://spectrum.adobe.com/page/status-light/\n\nexport type StatusLightVariant =\n    \"neutral\" | \"informative\" | \"positive\" | \"notice\" | \"negative\" | \"active\" | \"inactive\";\n\nexport interface StatusLightProps {\n    className?: string;\n    /** Status variant; rendered as data-variant */\n    variant?: StatusLightVariant;\n    /** The status text (required) */\n    label: string;\n    [key: string]: unknown;\n}\n\nexport default function StatusLight({\n    className = \"\",\n    variant = \"neutral\",\n    label,\n    ...restProps\n}: StatusLightProps) {\n    return (\n        <span\n            className={`status-light ${className}`}\n            role=\"status\"\n            data-variant={variant}\n            {...restProps}\n        >\n            <span\n                className=\"status-light-dot\"\n                aria-hidden=\"true\"\n            ></span>\n            <span className=\"status-light-label\">{label}</span>\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/StatusLight.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/status-light/"
+}

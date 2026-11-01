@@ -13,10 +13,10 @@
 </script>
 
 <!-- ChatMessage.svelte -->
-<div
+<article
     class={`chat-message ${className}`}
     aria-label={label}
     {...restProps}
 >
     {@render children?.()}
-</div>
+</article>

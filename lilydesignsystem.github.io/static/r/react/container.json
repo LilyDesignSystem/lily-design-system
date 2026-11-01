@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "container",
+  "type": "registry:component",
+  "title": "Container",
+  "description": "A generic block-level content container.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Container.tsx",
+      "content": "import React from \"react\";\n\n// Container component\n// A generic block-level content container.\n\nexport interface ContainerProps {\n    className?: string;\n    children?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Container({ className = \"\", children, ...restProps }: ContainerProps) {\n    return (\n        <div\n            className={`container ${className}`}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Container.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/container/"
+}

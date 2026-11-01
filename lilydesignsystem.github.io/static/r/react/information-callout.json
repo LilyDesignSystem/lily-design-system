@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "information-callout",
+  "type": "registry:component",
+  "title": "InformationCallout",
+  "description": "A callout box highlighting informational content.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/InformationCallout.tsx",
+      "content": "import React from \"react\";\n\n// InformationCallout component\n//\n// A callout container that highlights important information in a semantically distinct\n// region. Renders an <aside> element with role=\"note\" and an accessible label, making\n// the callout content identifiable to assistive technologies as supplementary information.\n// Useful for displaying notices, tips, warnings, beta announcements, or any content that\n// should stand out from the main flow.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name for the callout via aria-label (e.g., \"Note\", \"Warning\", \"Tip\").\n//   children — ReactNode, required. Callout content to display.\n//   ...restProps — additional HTML attributes spread onto the aside element.\n//\n// Syntax:\n//   <InformationCallout label=\"Note\">{children}</InformationCallout>\n//\n// Examples:\n//\n//   <InformationCallout label=\"Note\">\n//     <p>This feature is in beta.</p>\n//   </InformationCallout>\n//\n//\n//   <InformationCallout label=\"Warning\">\n//     <p>Changes cannot be undone after submission.</p>\n//   </InformationCallout>\n//\n// Keyboard:\n//   - None — this is a passive container with no interactive behavior\n//\n// Accessibility:\n//   - role=\"note\" identifies the content as supplementary information\n//   - aria-label provides an accessible name describing the type of callout\n//\n// Internationalization:\n//   - The label prop allows localized accessible names; no hardcoded user-facing strings\n//   - All content comes through the children prop\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Uses <aside> with role=\"note\" for semantic supplementary content\n//   - No internal state; purely a structural container\n//\n// References:\n//   - WAI-ARIA note role: https://www.w3.org/TR/wai-aria-1.2/#note\n//   - HTML aside element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside\n\nexport interface InformationCalloutProps {\n    className?: string;\n    label: string;\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function InformationCallout({\n    className = \"\",\n    label,\n    children,\n    ...restProps\n}: InformationCalloutProps) {\n    return (\n        <aside\n            className={`information-callout ${className}`}\n            role=\"note\"\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </aside>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/InformationCallout.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/information-callout/"
+}

@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<time class=\"date-time-view\" aria-label=\"a read-only display of a formatted date and time\">DateTimeView</time>";
   const svelteSource: string = "// In your Svelte component:\nimport DateTimeView from \"lily-design-system-svelte-headless/components/DateTimeView/DateTimeView.svelte\";\n\n<DateTimeView label=\"Label\" value=\"Sample value\" />\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import DateTimeView from './DateTimeView.svelte';\n\n  const iso = '2026-01-31T10:00:00Z';\n  const formatted = new Intl.DateTimeFormat('en-US', {\n    dateStyle: 'medium',\n    timeStyle: 'short',\n  }).format(new Date(iso));\n<\/script>\n\n<DateTimeView value={iso} format={formatted} label=\"Published\" />\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import DateTimeView from \"./DateTimeView.svelte\";\n\n  const iso = \"2026-01-31T10:00:00Z\";\n  const formatted = new Intl.DateTimeFormat(\"en-US\", {\n    dateStyle: \"medium\",\n    timeStyle: \"short\",\n  }).format(new Date(iso));\n<\/script>\n\n<DateTimeView\n  value={iso}\n  format={formatted}\n  label=\"Published\"\n/>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

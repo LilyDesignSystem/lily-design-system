@@ -1,6 +1,7 @@
 import {
     ChangeDetectionStrategy,
     Component,
+    DestroyRef,
     ElementRef,
     Injector,
     afterNextRender,
@@ -57,7 +58,9 @@ function numberRules(root: FilterGroup): Map<string, number> {
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
     <div #rootEl class="filter {{ className() }}" role="group" [attr.aria-label]="label()" [attr.data-readonly]="readonly() ? '' : null">
-      <lily-filter-group-view [group]="value()" [depth]="1" [parentId]="null" />
+      @for (reset of [resets()]; track reset) {
+        <lily-filter-group-view [group]="value()" [depth]="1" [parentId]="null" />
+      }
       @if (format() && labels().output) {
         <div class="filter-output" role="group" [attr.aria-label]="labels().output" [attr.data-format]="format()">
           <pre class="filter-output-text">{{ output() }}</pre>
@@ -88,6 +91,38 @@ export class Filter extends FilterHost {
     protected readonly status = signal("");
     private readonly rootRef = viewChild.required<ElementRef<HTMLDivElement>>("rootEl");
     private readonly injector = inject(Injector);
+
+    // Form reset (tasks.md P10-T9): inside a <form>, a reset rewrites every editor field's DOM to its empty default
+    // without telling this component, so the fields would show "" while `value` keeps the user's filter. Restore the
+    // filter it started with, one tick later (after the browser has reset the DOM) and not when the reset was
+    // cancelled, and re-create the editor (`resets` keys it) so every field, touched or not, is redrawn from the
+    // model. Same as the Svelte reference.
+    protected readonly resets = signal(0);
+    private initialValue: FilterGroup | null = null;
+
+    constructor() {
+        super();
+        const destroyRef = inject(DestroyRef);
+        afterNextRender(() => {
+            this.initialValue = this.value();
+            const form = this.rootRef().nativeElement.closest("form");
+            if (!form) return;
+            let timer: ReturnType<typeof setTimeout> | undefined;
+            const onReset = (event: Event) => {
+                clearTimeout(timer);
+                timer = setTimeout(() => {
+                    if (event.defaultPrevented || !this.initialValue) return;
+                    this.value.set(this.initialValue);
+                    this.resets.update((n) => n + 1);
+                }, 0);
+            };
+            form.addEventListener("reset", onReset);
+            destroyRef.onDestroy(() => {
+                clearTimeout(timer);
+                form.removeEventListener("reset", onReset);
+            });
+        });
+    }
 
     private readonly fieldMap = computed(() => new Map(this.fields().map((f) => [f.id, f])));
     private readonly numbers = computed(() => numberRules(this.value()));

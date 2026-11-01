@@ -9,14 +9,15 @@ of screen space by keeping less frequently used options hidden until needed,
 enhancing focus and minimizing clutter in the main interface while maintaining
 easy access to extended functionality.
 
-This component renders as a `<div>` with `role="dialog"`, `aria-label`, and
-`aria-modal="true"` when open, and is completely removed from the DOM when
+This component renders as a native `<dialog>` with `aria-label` and
+`aria-modal="true"`, opened with `showModal()`, when open, and is completely removed from the DOM when
 closed. The `open` prop is `$bindable()` for two-way binding, and the Escape key
 closes the drawer.
 
 ## Implementation Notes
 
-- Renders as `<div role="dialog" aria-label={label} aria-modal="true">` when open
+- Renders as `<dialog aria-label={label} aria-modal="true">` when open
+- Opened with `showModal()`: the browser puts it in the top layer, makes the page behind it inert, traps Tab inside it and moves focus in; on close, focus returns to the element that opened it. Escape (keydown or the native `cancel` event) closes it. Where `showModal` is missing (jsdom) it falls back to the `open` attribute
 - Conditionally rendered with `{#if open}` -- not in the DOM when closed
 - The `open` prop is `$bindable()` for two-way binding
 - Escape key closes the drawer via a keydown handler
@@ -27,7 +28,7 @@ closes the drawer.
 - `label`: string (required) -- accessible label for the dialog
 - `open`: boolean (default: false) -- whether the drawer is visible, bindable
 - `children`: Snippet (required) -- drawer content
-- `...restProps`: Any additional HTML attributes spread onto the `<div>`
+- `...restProps`: Any additional HTML attributes spread onto the `<dialog>`
 
 ## Usage
 
@@ -85,7 +86,7 @@ Settings panel:
 
 ## ARIA
 
-- `role="dialog"` for modal dialog semantics
+- `role="dialog"` provided natively by the `<dialog>` element
 - `aria-label` from the label prop provides the accessible name
 - `aria-modal="true"` indicates modal behavior (content behind the drawer is inert)
 - `tabindex="-1"` for programmatic focus management

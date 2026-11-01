@@ -283,5 +283,10 @@
     "small": "liten",
     "smaller": "mindre",
     "smallest": "minst"
+  },
+  "date-time-now-input": {
+    "date": "Datum",
+    "time": "Tid",
+    "now": "Nu"
   }
 }

@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"resizable\" style=\"resize:both;overflow:auto;border:1px solid #d1d5db;padding:1rem;\">Resize me</div>";
   const svelteSource: string = "// In your Svelte component:\nimport Resizable from \"lily-design-system-svelte-headless/components/Resizable/Resizable.svelte\";\n\n<Resizable>\n  <!-- content -->\n</Resizable>\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import Resizable from \"./Resizable.svelte\";\n<\/script>\n\n<Resizable label=\"Preview panel\">\n    <p>Drag the bottom-right corner to resize.</p>\n</Resizable>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import Resizable from \"./Resizable.svelte\";\n<\/script>\n\n<Resizable label=\"Preview panel\">\n  <p>Drag the bottom-right corner to resize.</p>\n</Resizable>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

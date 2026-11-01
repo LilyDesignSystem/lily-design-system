@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "gantt-table-tfoot",
+  "type": "registry:component",
+  "title": "GanttTableTfoot",
+  "description": "A Gantt chart table interactive grid tfoot for planning schedule visualization <tfoot>.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/GanttTableTfoot.tsx",
+      "content": "import React from \"react\";\n\n// GanttTableTfoot component\n//\n// The footer section of a GanttTable, rendered as a <tfoot> element.\n// Contains GanttTableTr elements with summary or aggregate data cells.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   children — ReactNode, required. GanttTableTr elements with footer cells.\n//   ...restProps — additional HTML attributes spread onto the <tfoot>.\n//\n// Syntax:\n//   <GanttTableTfoot>\n//     <GanttTableTr>\n//       <GanttTableTD>Total: 12 tasks</GanttTableTD>\n//     </GanttTableTr>\n//   </GanttTableTfoot>\n//\n// Keyboard:\n//   None built-in — keyboard navigation handled at the GanttTable grid level.\n//\n// Accessibility:\n//   - <tfoot> provides structural footer semantics for the table\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Must be used inside a GanttTable\n//   - No internal state — purely a structural wrapper\n//\n// References:\n//   - HTML tfoot element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tfoot\n\nexport interface GanttTableTfootProps {\n    className?: string;\n    /** GanttTableTr elements with footer cells. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function GanttTableTfoot({\n    className = \"\",\n    children,\n    ...restProps\n}: GanttTableTfootProps) {\n    return (\n        <tfoot\n            className={`gantt-table-tfoot ${className}`}\n            {...restProps}\n        >\n            {children}\n        </tfoot>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/GanttTableTfoot.tsx"
+    }
+  ],
+  "categories": [
+    "tables"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/gantt-table-tfoot/"
+}

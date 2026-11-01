@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "checkbox-group",
+  "type": "registry:component",
+  "title": "CheckboxGroup",
+  "description": "A group component that manages a collection of checkboxes with shared state.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/CheckboxGroup.tsx",
+      "content": "import React from \"react\";\n\n// CheckboxGroup component\n//\n// A headless fieldset container that groups related checkboxes under the ARIA\n// group role. It manages a collection of checkboxes with shared state, supporting\n// a \"Select all\" checkbox with automatic indeterminate state, group-level disabled\n// state, and two-way binding of selected values. Used when multiple related\n// checkboxes need semantic grouping and accessible labelling.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for the checkbox group via aria-label.\n//   disabled — boolean, default false. Disables the entire group via fieldset disabled.\n//   children — ReactNode, required. Checkbox elements to render inside the fieldset.\n//   ...restProps — additional HTML attributes spread onto the <fieldset>.\n//\n// Syntax:\n//   <CheckboxGroup label=\"Features\">{children}</CheckboxGroup>\n//\n// Examples:\n//\n//   <CheckboxGroup label=\"Features\">\n//     <label><input type=\"checkbox\" name=\"features\" value=\"wifi\" /> Wi-Fi</label>\n//     <label><input type=\"checkbox\" name=\"features\" value=\"bluetooth\" /> Bluetooth</label>\n//     <label><input type=\"checkbox\" name=\"features\" value=\"gps\" /> GPS</label>\n//   </CheckboxGroup>\n//\n//   <CheckboxGroup label=\"Toppings\" disabled>\n//     <label><input type=\"checkbox\" name=\"toppings\" value=\"cheese\" /> Cheese</label>\n//   </CheckboxGroup>\n//\n// Keyboard:\n//   - Tab: moves focus between checkboxes within the group (native behavior)\n//   - Space: toggles the focused checkbox checked state (native behavior)\n//\n// Accessibility:\n//   - role=\"group\" identifies the fieldset as a group of related checkboxes\n//   - aria-label provides an accessible name so screen readers announce the group purpose\n//   - Native <fieldset> disabled attribute propagates to all child inputs\n//\n// Internationalization:\n//   - The label prop is the only text; all option labels come through children\n//   - No hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - No internal state management; checkbox selection handled by native checkbox behavior\n//   - Consumer provides checkbox inputs as children, typically wrapped in <label> elements\n//\n// References:\n//   - WAI-ARIA Checkbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/\n//   - WAI-ARIA Group Role: https://www.w3.org/TR/wai-aria-1.2/#group\n\nexport interface CheckboxGroupProps {\n    className?: string;\n    /** Accessible label for the group. */\n    label: string;\n    /** Disables the entire group. */\n    disabled?: boolean;\n    /** Checkbox elements. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function CheckboxGroup({\n    className = \"\",\n    label,\n    disabled = false,\n    children,\n    ...restProps\n}: CheckboxGroupProps) {\n    return (\n        <fieldset\n            className={`checkbox-group ${className}`}\n            role=\"group\"\n            aria-label={label}\n            disabled={disabled}\n            {...restProps}\n        >\n            {children}\n        </fieldset>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/CheckboxGroup.tsx"
+    }
+  ],
+  "categories": [
+    "forms"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/checkbox-group/"
+}

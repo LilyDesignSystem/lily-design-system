@@ -14,6 +14,8 @@ describe("Popup", () => {
             </Subject>,
         );
         expect(screen.queryByRole("dialog")).toBeNull();
+        // Kept in the DOM (so a commandfor trigger can name it), hidden by the fallback.
+        expect(screen.getByRole("dialog", { hidden: true }).hasAttribute("hidden")).toBe(true);
     });
 
     test("visible when open", () => {

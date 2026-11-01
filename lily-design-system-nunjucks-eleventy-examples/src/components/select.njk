@@ -72,23 +72,28 @@ nhsuk: https://service-manual.nhs.uk/design-system/components/select
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>
 <pre tabindex="0"><code>{% raw %}&lt;Field label="Sort by"&gt;
-  &lt;Select label="Sort by"&gt;
-    &lt;Option value="recently-published" selected&gt;Recently published&lt;/Option&gt;
-    &lt;Option value="recently-updated"&gt;Recently updated&lt;/Option&gt;
-    &lt;Option value="most-views"&gt;Most views&lt;/Option&gt;
-  &lt;/Select&gt;
+  &lt;select label="Sort by"&gt;
+    &lt;option
+      value="recently-published"
+      selected
+    &gt;
+      Recently published
+    &lt;/option&gt;
+    &lt;option value="recently-updated"&gt;Recently updated&lt;/option&gt;
+    &lt;option value="most-views"&gt;Most views&lt;/option&gt;
+  &lt;/select&gt;
 &lt;/Field&gt;
 
 &lt;Field label="Choose your region"&gt;
   &lt;Hint&gt;This can be different to what you selected before&lt;/Hint&gt;
-  &lt;Select label="Choose your region"&gt;
-    &lt;Option value=""&gt;Choose region&lt;/Option&gt;
-    &lt;Option value="east"&gt;East of England&lt;/Option&gt;
-    &lt;Option value="london"&gt;London&lt;/Option&gt;
-    &lt;Option value="midlands"&gt;Midlands&lt;/Option&gt;
-    &lt;Option value="northwest"&gt;North West&lt;/Option&gt;
-    &lt;Option value="southeast"&gt;South East&lt;/Option&gt;
-  &lt;/Select&gt;
+  &lt;select label="Choose your region"&gt;
+    &lt;option value=""&gt;Choose region&lt;/option&gt;
+    &lt;option value="east"&gt;East of England&lt;/option&gt;
+    &lt;option value="london"&gt;London&lt;/option&gt;
+    &lt;option value="midlands"&gt;Midlands&lt;/option&gt;
+    &lt;option value="northwest"&gt;North West&lt;/option&gt;
+    &lt;option value="southeast"&gt;South East&lt;/option&gt;
+  &lt;/select&gt;
 &lt;/Field&gt;
 {% endraw %}</code></pre>
 {# END generated: examples #}

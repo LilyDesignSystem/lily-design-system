@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "badge",
+  "type": "registry:component",
+  "title": "Badge",
+  "description": "A small label for counts, statuses, or categories.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Badge.tsx",
+      "content": "import React from \"react\";\n\n// Badge component\n//\n// A headless inline badge for displaying status indicators, counts, or\n// short labels. Renders as a <span role=\"status\"> with aria-label and\n// data-type for consumer styling. Commonly used for notification counts,\n// \"New\" labels, status pills, and category tags.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   type     — \"default\" | \"info\" | \"success\" | \"warning\" | \"error\",\n//              default \"default\". Semantic variant exposed as data-type.\n//   label    — string, optional. Accessible label for screen readers\n//              when badge text alone is insufficient (e.g., \"3 unread messages\").\n//   children — ReactNode, required. The badge content (text, number, etc.).\n//   ...restProps — additional HTML attributes spread onto <span>.\n//\n// Syntax:\n//   <Badge>New</Badge>\n//   <Badge label=\"3 unread messages\">3</Badge>\n//\n// Examples:\n//\n//   <Badge>New</Badge>\n//\n//\n//   <Badge label=\"3 unread messages\">3</Badge>\n//\n//\n//   <Badge type=\"warning\">Alert</Badge>\n//\n//\n//   <Badge type=\"error\" data-testid=\"error-badge\">Failed</Badge>\n//\n// Keyboard: None — badges are display-only, not interactive.\n//\n// Accessibility:\n//   - role=\"status\" for live region semantics (screen readers announce changes)\n//   - aria-label provides additional context beyond the visible text\n//   - data-type exposes variant for consumer styling (not for assistive tech)\n//\n// Internationalization:\n//   - All text comes through children prop and label prop\n//   - No hardcoded strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Use role=\"status\" for dynamic badges; consumer can override role if static\n//   - data-type is for styling hooks, not semantics\n//   - Do not add icons or colors; consumer provides visual treatment\n//\n// References:\n//   - WAI-ARIA status role: https://www.w3.org/TR/wai-aria-1.2/#status\n\nexport interface BadgeProps {\n    className?: string;\n    /** Badge variant for semantic meaning */\n    type?: \"default\" | \"info\" | \"success\" | \"warning\" | \"error\";\n    /** Accessible label for screen readers */\n    label?: string;\n    /** The badge content (text, number, etc.) */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Badge({\n    className = \"\",\n    type = \"default\",\n    label = undefined,\n    children,\n    ...restProps\n}: BadgeProps) {\n    return (\n        <span\n            className={`badge ${className}`}\n            role=\"status\"\n            aria-label={label}\n            data-type={type}\n            {...restProps}\n        >\n            {children}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Badge.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/badge/"
+}

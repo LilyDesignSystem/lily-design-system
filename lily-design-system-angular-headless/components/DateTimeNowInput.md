@@ -8,7 +8,14 @@ in the canonical repo root for the cross-framework documentation.
 ## Selector
 
 ```html
-<lily-date-time-now-input></lily-date-time-now-input>
+<lily-date-time-now-input
+  label="Appointment"
+  dateLabel="Date"
+  timeLabel="Time"
+  nowLabel="Now"
+  [(dateValue)]="date"
+  [(timeValue)]="time"
+></lily-date-time-now-input>
 ```
 
 ## Files

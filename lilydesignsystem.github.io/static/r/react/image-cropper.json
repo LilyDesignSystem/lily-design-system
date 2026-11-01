@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "image-cropper",
+  "type": "registry:component",
+  "title": "ImageCropper",
+  "description": "A container for cropping and resizing an image to a selected region.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ImageCropper.tsx",
+      "content": "import React from \"react\";\n\n// ImageCropper component\n//\n// A headless container for cropping and resizing an image to a selected region.\n// Renders a <div> with role=\"application\" and an accessible label. Commonly used\n// in avatar editors, media upload flows, and document scanning workflows. The\n// consumer provides the actual cropping implementation (HTML canvas, SVG overlay,\n// or a third-party cropping library).\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible description of the cropping region via aria-label.\n//   children — ReactNode, required. Cropping surface (canvas, image with overlay, or other mechanism).\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Syntax:\n//   <ImageCropper label=\"Crop image\">\n//     <canvas width=\"400\" height=\"400\"></canvas>\n//   </ImageCropper>\n//\n// Examples:\n//\n//   <ImageCropper label=\"Crop your avatar\">\n//     <canvas width=\"400\" height=\"400\"></canvas>\n//   </ImageCropper>\n//\n//\n//   <ImageCropper label=\"Select crop region\">\n//     <img src=\"photo.jpg\" alt=\"Uploaded photo\" />\n//   </ImageCropper>\n//\n// Keyboard:\n//   - None — pointer-based interactions are handled by the consumer-provided cropping surface.\n//\n// Accessibility:\n//   - role=\"application\" indicates a complex widget with custom pointer interactions\n//   - aria-label provides an accessible description of the image cropper purpose\n//   - Assistive technologies pass keyboard events through to the application\n//\n// Internationalization:\n//   - The label prop externalizes the accessible description for localization\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - No internal cropping logic — consumer provides canvas/image/overlay implementation\n//   - role=\"application\" is intentional for complex pointer interaction widgets\n//\n// References:\n//   - WAI-ARIA application role: https://www.w3.org/TR/wai-aria-1.2/#application\n\nexport interface ImageCropperProps {\n    className?: string;\n    /** Accessible label. */\n    label: string;\n    /** Cropping surface content. */\n    children?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function ImageCropper({\n    className = \"\",\n    label,\n    children,\n    ...restProps\n}: ImageCropperProps) {\n    return (\n        <div\n            className={`image-cropper ${className}`}\n            role=\"application\"\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ImageCropper.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/image-cropper/"
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tel-link",
+  "type": "registry:component",
+  "title": "TelLink",
+  "description": "A tel hyperlink for a telephone number.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/TelLink.tsx",
+      "content": "import React from \"react\";\n\n// TelLink component\n//\n// A headless phone number link that renders a clickable tel: link, allowing\n// users on mobile devices to initiate a phone call by tapping the number.\n// Useful for contact pages, business listings, user profiles, and customer\n// support sections. This is the read-only display counterpart in the\n// Input/View pattern alongside TelInput.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   phone — string, required. The phone number to display and link to (should include country code).\n//   label — string, default undefined. Optional accessible name via aria-label for additional context.\n//   ...restProps — additional HTML attributes spread onto the <a>.\n//\n// Syntax:\n//   <TelLink phone=\"+1-555-0100\" />\n//\n// Examples:\n//\n//   <TelLink phone=\"+1-555-0100\" label=\"Call customer support\" />\n//\n// Keyboard:\n//   - Tab: focus the link (native <a> behavior)\n//   - Enter: activate the link (native <a> behavior)\n//\n// Accessibility:\n//   - Native <a> element provides link role and keyboard activation\n//   - aria-label, when provided, gives accessible context beyond the phone number text\n//\n// Internationalization:\n//   - The label prop accepts any translated string\n//   - Phone number format is consumer-controlled\n//\n// Claude rules:\n//   - Headless: no CSS, no styles -- consumer provides all styling\n//   - No internal state; purely presentational\n//\n// References:\n//   - MDN tel: links: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#linking_to_telephone_numbers\n//   - WAI-ARIA Link Role: https://www.w3.org/TR/wai-aria-1.2/#link\n\nexport interface TelLinkProps {\n    className?: string;\n    phone: string;\n    label?: string;\n    [key: string]: unknown;\n}\n\nexport default function TelLink({\n    className = \"\",\n    phone,\n    label = undefined,\n    ...restProps\n}: TelLinkProps) {\n    return (\n        <a\n            className={`tel-link ${className}`}\n            href={`tel:${phone}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {phone}\n        </a>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/TelLink.tsx"
+    }
+  ],
+  "categories": [
+    "links"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/tel-link/"
+}

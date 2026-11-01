@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "hrvatska-osobni-identifikacijski-broj-view",
+  "type": "registry:component",
+  "title": "HrvatskaOsobniIdentifikacijskiBrojView",
+  "description": "A read-only display of Croatia's Osobni identifikacijski broj (OIB).",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/HrvatskaOsobniIdentifikacijskiBrojView.tsx",
+      "content": "import React from \"react\";\n\n// HrvatskaOsobniIdentifikacijskiBrojView component\n//\n// A headless display component for showing Croatia's\n// Osobni identifikacijski broj (OIB) in a read-only format.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". The identifier string to display.\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <HrvatskaOsobniIdentifikacijskiBrojView label=\"Personal Identification Number\" value={value} />\n//\n// Accessibility:\n//   - aria-label provides the accessible name so screen readers announce the purpose\n//\n// References:\n//   - https://en.wikipedia.org/wiki/Personal_identification_number_(Croatia)\n\nexport interface HrvatskaOsobniIdentifikacijskiBrojViewProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The identifier to display */\n    value?: string;\n    [key: string]: unknown;\n}\n\nexport default function HrvatskaOsobniIdentifikacijskiBrojView({\n    className = \"\",\n    label,\n    value = \"\",\n    ...restProps\n}: HrvatskaOsobniIdentifikacijskiBrojViewProps) {\n    return (\n        <span\n            className={`hrvatska-osobni-identifikacijski-broj-view ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {value}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/HrvatskaOsobniIdentifikacijskiBrojView.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/hrvatska-osobni-identifikacijski-broj-view/"
+}

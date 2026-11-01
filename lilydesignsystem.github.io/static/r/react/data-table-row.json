@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "data-table-row",
+  "type": "registry:component",
+  "title": "DataTableRow",
+  "description": "A data table interactive grid row for displaying and sorting tabular data <tr>.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/DataTableRow.tsx",
+      "content": "import React from \"react\";\n\n// DataTableRow component\n//\n// A single row within a DataTable. Renders as a <tr> containing\n// DataTableTD cells or header cells. Used inside DataTableHead,\n// DataTableBody, or DataTableFoot.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   children — ReactNode, required. DataTableTD cells or header cells for this row.\n//   ...restProps — additional HTML attributes spread onto the <tr>.\n//\n// Syntax:\n//   <DataTableRow>\n//     <DataTableTD>Alice</DataTableTD>\n//     <DataTableTD>alice@example.com</DataTableTD>\n//   </DataTableRow>\n//\n// Keyboard:\n//   None built-in — keyboard navigation handled at the DataTable grid level.\n//\n// Accessibility:\n//   - <tr> has implicit role=\"row\" (no explicit role needed)\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Must be used inside DataTableHead, DataTableBody, or DataTableFoot\n//   - No internal state — purely a structural wrapper\n//\n// References:\n//   - HTML tr element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tr\n\nexport interface DataTableRowProps {\n    className?: string;\n    /** DataTableTD cells or header cells for this row. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function DataTableRow({\n    className = \"\",\n    children,\n    ...restProps\n}: DataTableRowProps) {\n    return (\n        <tr\n            className={`data-table-row ${className}`}\n            {...restProps}\n        >\n            {children}\n        </tr>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/DataTableRow.tsx"
+    }
+  ],
+  "categories": [
+    "tables"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/data-table-row/"
+}

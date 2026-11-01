@@ -1,15 +1,40 @@
 @namespace LilyBlazorHeadless.Components
+@inherits ModalDialogBase
 
 @*
     AlertDialog component
     a modal dialog for urgent messages requiring user acknowledgment
+
+    Renders a <dialog class="alert-dialog" role="alertdialog" aria-modal="true"> while Open, named by Title
+    (aria-labelledby) and described by Description (aria-describedby), with the consumer's actions as ChildContent.
+    Opened with showModal() (ModalDialogBase, tasks.md P14-T4); the native cancel (Escape) and close events set Open
+    false and raise OpenChanged. Ported from the Svelte reference on 2026-10-30; it was a stub with Label before.
+
+    Parameters: Title (required), Description, Open / OpenChanged (@bind-Open), ChildContent, CssClass,
+    AdditionalAttributes.
 *@
 
-<dialog class="@($"alert-dialog {CssClass}".Trim())" role="alertdialog" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</dialog>
+@if (Open)
+{
+    <dialog class="@($"alert-dialog {CssClass}".Trim())" role="alertdialog" aria-labelledby="@_titleId" aria-describedby="@(string.IsNullOrEmpty(Description) ? null : _descriptionId)" aria-modal="true" @ref="DialogElement" @oncancel="CloseAsync" @oncancel:preventDefault @onclose="CloseAsync" @attributes="AdditionalAttributes">
+        <div>
+            <p id="@_titleId"><strong>@Title</strong></p>
+            @if (!string.IsNullOrEmpty(Description))
+            {
+                <p id="@_descriptionId">@Description</p>
+            }
+            @ChildContent
+        </div>
+    </dialog>
+}
 
 @code {
-    [Parameter] public string Label { get; set; } = "";
+    [Parameter, EditorRequired] public string Title { get; set; } = "";
+    [Parameter] public string? Description { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private readonly string _titleId = $"alert-dialog-title-{Guid.NewGuid():N}";
+    private readonly string _descriptionId = $"alert-dialog-description-{Guid.NewGuid():N}";
 }

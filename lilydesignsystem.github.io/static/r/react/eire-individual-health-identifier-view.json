@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "eire-individual-health-identifier-view",
+  "type": "registry:component",
+  "title": "EireIndividualHealthIdentifierView",
+  "description": "A read-only display of Eire Individual Health Identifier (IHI) unique national healthcare identifier.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/EireIndividualHealthIdentifierView.tsx",
+      "content": "import React from \"react\";\n\n// EireIndividualHealthIdentifierView component\n//\n// A headless display for an Eire IHI in read-only format.\n\nexport interface EireIndividualHealthIdentifierViewProps {\n    className?: string;\n    label: string;\n    value?: string;\n    [key: string]: unknown;\n}\n\nexport default function EireIndividualHealthIdentifierView({\n    className = \"\",\n    label,\n    value = \"\",\n    ...restProps\n}: EireIndividualHealthIdentifierViewProps) {\n    return (\n        <span\n            className={`eire-individual-health-identifier-view ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {value}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/EireIndividualHealthIdentifierView.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/eire-individual-health-identifier-view/"
+}

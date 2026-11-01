@@ -155,7 +155,7 @@ pnpm run dev</code></pre>
   <h2>Teme gata făcute</h2>
   <p>
     Nu vrei să scrii CSS de la zero? Lily include
-    <strong>57 de teme de referință independente</strong> în directorul
+    <strong>63 de teme de referință independente</strong> în directorul
     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
     . Fiecare este o foaie de stil care țintește cârligele de clasă Lily — leag-o și ești stilizat:
   </p>
@@ -179,11 +179,7 @@ pnpm run dev</code></pre>
 
 <section class="section prose" id="helpers" style="margin: 0 auto;">
   <h2>Ajutoare pentru preferințe</h2>
-  <p>
-    Fiecare framework are opt selectoare mici, fiecare un pachet
-    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> propriu (și un <code>picker-bar</code> care le asamblează). Fiecare este un buton-pictogramă headless care deschide o fereastră pop-up — o casetă de listă, o listă de linkuri, un formular de căutare sau (pentru date-time-picker) un dialog de selectare a datei — nu un
-    <code>&lt;select&gt;</code>nativ; este sigur pentru SSR; și nu include CSS:
-  </p>
+  <p>Fiecare framework are unsprezece selectoare mici, fiecare în propriul pachet <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> (și un <code>picker-bar</code> care le reunește). Fiecare este un buton cu pictogramă headless care deschide un popup — o casetă listă, o listă de linkuri, un formular de căutare, un panou cu propriul conținut sau (pentru date-time-picker) un dialog de alegere a datei — nu un <code>&lt;select&gt;</code> nativ (theme-picker oferă unul ca variantă opțională); este sigur pentru SSR și nu livrează CSS. Pe lângă menu-picker, settings-picker și time-zone-picker, acestea sunt:</p>
   <ul>
     <li>
       <strong>theme-picker</strong> — încarcă foile de stil ale temelor la rulare schimbând un <code>&lt;link&gt;</code>gestionat, setează
@@ -294,7 +290,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
     <summary>O componentă se randează, dar arată nestilizată</summary>
     <p>
       Asta e headless funcționând conform intenției — niciun CSS nu vine cu componenta. Fie scrii CSS pentru clasa în kebab-case a componentei (afișată pe fiecare <a href="/components/">pagină de catalog</a>) fie legi una dintre cele
-      <a href="#themes">57 de teme gata făcute</a>.
+      <a href="#themes">63 de teme gata făcute</a>.
     </p>
   </details>
 
@@ -383,7 +379,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
   <details class="faq-item">
     <summary>De ce headless în loc de stilizat?</summary>
     <p>
-      Componentele pre-stilizate sunt comode — până când nu se potrivesc brandului tău. Componentele headless cer puțin mai multă muncă la început, dar îți dau control total asupra designului vizual. Aplicațiile-exemplu și cele 57 de teme arată moduri de a le stiliza; le poți prelua sau le poți înlocui complet. Argumentul mai lung este la <a href="/why/">De ce Lily</a>.
+      Componentele pre-stilizate sunt comode — până când nu se potrivesc brandului tău. Componentele headless cer puțin mai multă muncă la început, dar îți dau control total asupra designului vizual. Aplicațiile-exemplu și cele 63 de teme arată moduri de a le stiliza; le poți prelua sau le poți înlocui complet. Argumentul mai lung este la <a href="/why/">De ce Lily</a>.
     </p>
   </details>
 

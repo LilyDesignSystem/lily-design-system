@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "coachmark",
+  "type": "registry:component",
+  "title": "Coachmark",
+  "description": "An anchored popover that spotlights and explains a single feature.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "registryDependencies": [
+    "@lily/popover"
+  ],
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Coachmark.tsx",
+      "content": "\"use client\";\n\n// Coachmark component\n//\n// An anchored popover that spotlights and explains a single feature.\n// Inspired by Adobe Spectrum.\n//\n// Props:\n//   className     — string, optional. CSS class name.\n//   open          — boolean, default false. Whether the coachmark is visible.\n//   title         — string, REQUIRED. Heading text.\n//   description   — string, optional. Body text.\n//   dismissLabel  — string, REQUIRED. Accessible label for the dismiss button.\n//   onDismiss     — dismiss click handler.\n//   ...restProps  — additional HTML attributes spread onto the root <div>.\n//\n// Behavior:\n//   - Renders <div role=\"dialog\" aria-modal=\"false\">\n//   - Generates stable ids with React.useId() for aria-labelledby and aria-describedby\n//   - aria-describedby is only set when `description` is provided\n//\n// Headless rules:\n//   - No CSS, no inline styles\n//   - All user-facing strings are consumer-supplied (i18n)\n//\n// References:\n//   - Adobe Spectrum Coachmark: https://spectrum.adobe.com/page/coach-mark/\n//   - WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/\n\nimport React, { useId } from \"react\";\nimport { usePopoverState } from \"./Popover\";\n\nexport interface CoachmarkProps {\n    className?: string;\n    /** Whether the coachmark is visible */\n    open?: boolean;\n    /** Heading text (required) */\n    title: string;\n    /** Body text */\n    description?: string;\n    /** Accessible label for the dismiss button (required) */\n    dismissLabel: string;\n    /** Dismiss click handler */\n    onDismiss?: (event: React.MouseEvent) => void;\n    [key: string]: unknown;\n}\n\nexport default function Coachmark({\n    className = \"\",\n    open = false,\n    title,\n    description = undefined,\n    dismissLabel,\n    onDismiss = undefined,\n    ...restProps\n}: CoachmarkProps) {\n    const panelRef = React.useRef<HTMLDivElement>(null);\n    usePopoverState(panelRef, open);\n    const reactId = useId();\n    const titleId = `coachmark-${reactId}-title`;\n    const descId = `coachmark-${reactId}-desc`;\n    return (\n        <div\n            className={`coachmark ${className}`}\n            role=\"dialog\"\n            aria-modal=\"false\"\n            aria-labelledby={titleId}\n            aria-describedby={description !== undefined ? descId : undefined}\n            ref={panelRef}\n            popover=\"manual\"\n            {...restProps}\n        >\n            <h2\n                className=\"coachmark-title\"\n                id={titleId}\n            >\n                {title}\n            </h2>\n            {description !== undefined && (\n                <p\n                    className=\"coachmark-description\"\n                    id={descId}\n                >\n                    {description}\n                </p>\n            )}\n            <button\n                className=\"coachmark-dismiss\"\n                type=\"button\"\n                aria-label={dismissLabel}\n                onClick={onDismiss}\n            >\n                ×\n            </button>\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Coachmark.tsx"
+    }
+  ],
+  "categories": [
+    "overlays"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/coachmark/"
+}

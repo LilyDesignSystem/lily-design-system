@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tab-panel",
+  "type": "registry:component",
+  "title": "TabPanel",
+  "description": "A content panel associated with a tab in a tab bar.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/TabPanel.tsx",
+      "content": "import React from \"react\";\n\n// TabPanel component\n//\n// A content panel associated with a tab in a tab bar. Inspired by Adobe\n// Spectrum.\n//\n// Props:\n//   className     — string, optional. CSS class name.\n//   label         — string, REQUIRED. aria-label for the panel.\n//   labelledBy    — string, optional. ID of the tab button that controls\n//                  this panel. When provided, sets aria-labelledby and\n//                  omits aria-label.\n//   selected      — boolean, default false. Whether the panel is the\n//                  currently selected one.\n//   children      — ReactNode, optional. Panel content.\n//   ...restProps  — additional HTML attributes spread onto the root <div>.\n//\n// Behavior:\n//   - role=\"tabpanel\"\n//   - tabIndex={0} so the panel is focusable for keyboard users\n//   - hidden when not selected\n//\n// Headless rules:\n//   - No CSS, no inline styles\n//   - All user-facing strings are consumer-supplied (i18n)\n//\n// References:\n//   - WAI-ARIA Tabs Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/tabs/\n\nexport interface TabPanelProps {\n    className?: string;\n    /** aria-label for the panel (used when labelledBy is not provided) */\n    label: string;\n    /** ID of the tab button that controls this panel */\n    labelledBy?: string;\n    /** Whether the panel is the currently selected one */\n    selected?: boolean;\n    /** Panel content */\n    children?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function TabPanel({\n    className = \"\",\n    label,\n    labelledBy = undefined,\n    selected = false,\n    children = undefined,\n    ...restProps\n}: TabPanelProps) {\n    return (\n        <div\n            className={`tab-panel ${className}`}\n            role=\"tabpanel\"\n            aria-label={labelledBy !== undefined ? undefined : label}\n            aria-labelledby={labelledBy}\n            hidden={!selected}\n            tabIndex={0}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/TabPanel.tsx"
+    }
+  ],
+  "categories": [
+    "overlays"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/tab-panel/"
+}

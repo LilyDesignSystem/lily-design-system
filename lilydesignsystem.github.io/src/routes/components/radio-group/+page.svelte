@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"radio-group\" role=\"radiogroup\" aria-label=\"Choice\"><label><input type=\"radio\" name=\"demo\" checked /> Yes</label><label><input type=\"radio\" name=\"demo\" /> No</label></div>";
   const svelteSource: string = "// In your Svelte component:\nimport RadioGroup from \"lily-design-system-svelte-headless/components/RadioGroup/RadioGroup.svelte\";\n\n<RadioGroup>\n  <!-- list children -->\n</RadioGroup>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import RadioGroup from './RadioGroup.svelte';\n<\/script>\n\n<RadioGroup label=\"Size\">\n  <label><input type=\"radio\" name=\"size\" value=\"s\" /> Small</label>\n  <label><input type=\"radio\" name=\"size\" value=\"m\" /> Medium</label>\n  <label><input type=\"radio\" name=\"size\" value=\"l\" /> Large</label>\n</RadioGroup>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import RadioGroup from \"./RadioGroup.svelte\";\n<\/script>\n\n<RadioGroup label=\"Size\">\n  <label\n    ><input\n      type=\"radio\"\n      name=\"size\"\n      value=\"s\"\n    /> Small</label\n  >\n  <label\n    ><input\n      type=\"radio\"\n      name=\"size\"\n      value=\"m\"\n    /> Medium</label\n  >\n  <label\n    ><input\n      type=\"radio\"\n      name=\"size\"\n      value=\"l\"\n    /> Large</label\n  >\n</RadioGroup>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

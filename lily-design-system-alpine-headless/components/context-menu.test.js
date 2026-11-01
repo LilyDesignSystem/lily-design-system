@@ -1,6 +1,6 @@
 // context-menu.test.js
 // ContextMenu component test (vitest + jsdom + Alpine)
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { mount, tick } from "../test/mount.js";
 
 const el = () => document.querySelector("div.context-menu");
@@ -72,5 +72,32 @@ describe("ContextMenu", () => {
         items()[1].click();
         await tick();
         expect(el().hidden).toBe(true);
+    });
+
+    describe("with the Popover API", () => {
+        const proto = HTMLElement.prototype;
+        afterEach(() => {
+            delete proto.showPopover;
+            delete proto.hidePopover;
+        });
+
+        it("is popover=auto, opens with showPopover and follows the toggle event", async () => {
+            proto.showPopover = vi.fn();
+            proto.hidePopover = vi.fn();
+            await mount("context-menu");
+            expect(el().getAttribute("popover")).toBe("auto");
+            expect(el().hidden).toBe(false);
+            target().dispatchEvent(
+                new MouseEvent("contextmenu", { bubbles: true, cancelable: true }),
+            );
+            await tick();
+            await tick();
+            expect(proto.showPopover).toHaveBeenCalled();
+            const closed = new Event("toggle");
+            Object.assign(closed, { newState: "closed", oldState: "open" });
+            el().dispatchEvent(closed);
+            await tick();
+            expect(proto.hidePopover).toHaveBeenCalled();
+        });
     });
 });

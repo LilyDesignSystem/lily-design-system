@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<img class=\"barcode-image\" src=\"data:image/svg+xml;utf8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22160%22 height=%2240%22%3E%3Crect width=%22160%22 height=%2240%22 fill=%22white%22/%3E%3Cg fill=%22black%22%3E%3Crect x=%224%22 width=%222%22 height=%2240%22/%3E%3Crect x=%2210%22 width=%221%22 height=%2240%22/%3E%3Crect x=%2214%22 width=%223%22 height=%2240%22/%3E%3Crect x=%2220%22 width=%221%22 height=%2240%22/%3E%3Crect x=%2224%22 width=%222%22 height=%2240%22/%3E%3Crect x=%2230%22 width=%224%22 height=%2240%22/%3E%3Crect x=%2238%22 width=%221%22 height=%2240%22/%3E%3Crect x=%2242%22 width=%222%22 height=%2240%22/%3E%3Crect x=%2248%22 width=%221%22 height=%2240%22/%3E%3Crect x=%2252%22 width=%223%22 height=%2240%22/%3E%3Crect x=%2258%22 width=%221%22 height=%2240%22/%3E%3Crect x=%2262%22 width=%222%22 height=%2240%22/%3E%3C/g%3E%3C/svg%3E\" alt=\"Order number 12345\" />";
   const svelteSource: string = "// In your Svelte component:\nimport BarcodeImage from \"lily-design-system-svelte-headless/components/BarcodeImage/BarcodeImage.svelte\";\n\n<BarcodeImage src=\"/barcode-images/order-12345.svg\" alt=\"Order number 12345\" />\n";
-  const usageCode: string = "<BarcodeImage src=\"/barcode-images/order-12345.svg\" alt=\"Order number 12345\" />\n";
+  const usageCode: string = "<BarcodeImage\n  src=\"/barcode-images/order-12345.svg\"\n  alt=\"Order number 12345\"\n/>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

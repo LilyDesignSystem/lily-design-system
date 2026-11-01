@@ -135,7 +135,7 @@ pnpm run dev</code></pre>
 
 <section class="section prose" id="themes" style="margin: 0 auto;">
   <h2>तैयार थीम</h2>
-  <p>शुरू से CSS नहीं लिखना चाहते? Lily <strong>57 स्वतंत्र संदर्भ थीम</strong> के साथ आता है, जो <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a> डायरेक्टरी में हैं। हर एक Lily के क्लास हुक को लक्षित करने वाली एक स्टाइलशीट है — उसे जोड़ें और स्टाइल लग जाता है:</p>
+  <p>शुरू से CSS नहीं लिखना चाहते? Lily <strong>63 स्वतंत्र संदर्भ थीम</strong> के साथ आता है, जो <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a> डायरेक्टरी में हैं। हर एक Lily के क्लास हुक को लक्षित करने वाली एक स्टाइलशीट है — उसे जोड़ें और स्टाइल लग जाता है:</p>
   
   <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
   <p>यह समूह इन्हें शामिल करता है:</p>
@@ -149,7 +149,7 @@ pnpm run dev</code></pre>
 
 <section class="section prose" id="helpers" style="margin: 0 auto;">
   <h2>वरीयता सहायक</h2>
-  <p>हर फ़्रेमवर्क में आठ छोटे चयनकर्ता हैं, हर एक अपने अलग <code>lily-design-system-{framework}-{package}</code> पैकेज में (और एक <code>picker-bar</code> जो उन्हें जोड़ता है)। हर एक headless आइकन बटन है जो पॉपअप खोलता है — विकल्पों की सूची, लिंक की सूची, खोज फ़ॉर्म, या (date-time-picker के लिए) तारीख चुनने का डायलॉग — मूल <code>&lt;select&gt;</code> नहीं; SSR के लिए सुरक्षित है; और कोई CSS नहीं देता:</p>
+  <p>हर फ़्रेमवर्क में ग्यारह छोटे पिकर हैं, हर एक अपने <code>lily-design-system-{framework}-{package}</code> पैकेज में (और उन्हें जोड़ने वाला एक <code>picker-bar</code>)। हर एक headless आइकन बटन है जो पॉपअप खोलता है — लिस्टबॉक्स, लिंक की सूची, खोज फ़ॉर्म, आपकी अपनी सामग्री का पैनल, या (date-time-picker के लिए) तारीख चुनने का डायलॉग — मूल <code>&lt;select&gt;</code> नहीं (theme-picker इसे वैकल्पिक रूप में देता है); SSR-सुरक्षित है; और कोई CSS नहीं देता। menu-picker, settings-picker और time-zone-picker के अलावा, ये हैं:</p>
   <ul>
     <li><strong>theme-picker</strong> — एक प्रबंधित <code>&lt;link&gt;</code> बदलकर रनटाइम पर थीम स्टाइलशीट लोड करता है, दस्तावेज़ पर <code>data-theme</code> सेट करता है, और वैकल्पिक रूप से <code>localStorage</code> में सहेजता है।</li>
     <li><strong>locale-picker</strong> — <code>lang</code> और <code>dir</code> सेट करता है (दाएँ-से-बाएँ लेखन की स्वचालित पहचान के साथ) ताकि आपकी i18n लाइब्रेरी उनका अनुसरण कर सके; स्वयं कोई अनुवाद नहीं करता।</li>
@@ -214,7 +214,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
 
   <details class="faq-item">
     <summary>कंपोनेंट रेंडर होता है पर बिना स्टाइल का दिखता है</summary>
-    <p>यह headless का अपेक्षित रूप से काम करना है — कंपोनेंट के साथ कोई CSS नहीं आती। या तो कंपोनेंट की kebab-case क्लास के लिए CSS लिखें (जो हर <a href="/components/">कैटलॉग पृष्ठ</a> पर दिखाई गई है) या <a href="#themes">57 तैयार थीम</a> में से कोई जोड़ें।</p>
+    <p>यह headless का अपेक्षित रूप से काम करना है — कंपोनेंट के साथ कोई CSS नहीं आती। या तो कंपोनेंट की kebab-case क्लास के लिए CSS लिखें (जो हर <a href="/components/">कैटलॉग पृष्ठ</a> पर दिखाई गई है) या <a href="#themes">63 तैयार थीम</a> में से कोई जोड़ें।</p>
   </details>
 
   <details class="faq-item">
@@ -272,7 +272,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
 
   <details class="faq-item">
     <summary>स्टाइल किए हुए के बजाय headless क्यों?</summary>
-    <p>पहले से स्टाइल किए कंपोनेंट सुविधाजनक होते हैं — जब तक वे आपके ब्रांड से मेल न खाएँ। headless कंपोनेंट में शुरुआत में थोड़ा ज़्यादा काम है पर वे दृश्य डिज़ाइन पर पूरा नियंत्रण देते हैं। उदाहरण ऐप्स और 57 थीम उन्हें स्टाइल करने के तरीके दिखाते हैं; आप उन्हें ले सकते हैं या पूरी तरह बदल सकते हैं। विस्तृत तर्क <a href="/why/">Lily क्यों</a> में है।</p>
+    <p>पहले से स्टाइल किए कंपोनेंट सुविधाजनक होते हैं — जब तक वे आपके ब्रांड से मेल न खाएँ। headless कंपोनेंट में शुरुआत में थोड़ा ज़्यादा काम है पर वे दृश्य डिज़ाइन पर पूरा नियंत्रण देते हैं। उदाहरण ऐप्स और 63 थीम उन्हें स्टाइल करने के तरीके दिखाते हैं; आप उन्हें ले सकते हैं या पूरी तरह बदल सकते हैं। विस्तृत तर्क <a href="/why/">Lily क्यों</a> में है।</p>
   </details>
 
   <details class="faq-item">

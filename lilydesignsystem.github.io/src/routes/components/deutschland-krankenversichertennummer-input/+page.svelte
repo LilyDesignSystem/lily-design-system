@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<label class=\"label\" for=\"demo-input\">Label</label><input class=\"deutschland-krankenversichertennummer-input\" id=\"demo-input\" aria-label=\"an input for entering Germany's Krankenversichertennummer (KVNR)\" />";
   const svelteSource: string = "// In your Svelte component:\nimport DeutschlandKrankenversichertennummerInput from \"lily-design-system-svelte-headless/components/DeutschlandKrankenversichertennummerInput/DeutschlandKrankenversichertennummerInput.svelte\";\n\n<DeutschlandKrankenversichertennummerInput label=\"Label\" />\n";
-  const usageCode: string = "<Field label=\"Health Insurance Number\" required>\n  <DeutschlandKrankenversichertennummerInput label=\"Health Insurance Number\" value={value} required />\n  <Hint>a random capital letter followed by eight random digits and a Luhn check digit</Hint>\n  <ErrorMessage>Please enter a valid Health Insurance Number</ErrorMessage>\n</Field>\n";
+  const usageCode: string = "<Field\n  label=\"Health Insurance Number\"\n  required\n>\n  <DeutschlandKrankenversichertennummerInput\n    label=\"Health Insurance Number\"\n    value=\"{value}\"\n    required\n  />\n  <Hint>a random capital letter followed by eight random digits and a Luhn check digit</Hint>\n  <ErrorMessage>Please enter a valid Health Insurance Number</ErrorMessage>\n</Field>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

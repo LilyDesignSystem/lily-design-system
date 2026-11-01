@@ -22,6 +22,7 @@ import {
     nextId,
     rootClassName,
 } from "../lib/dom-utils.js";
+import { ModalDialogState } from "../lib/modal-dialog.js";
 
 const HANDLED = new Set(["open", "title", "description"]);
 
@@ -31,6 +32,7 @@ export class AlertDialog extends HTMLElement {
     }
 
     #dialog: HTMLDialogElement | null = null;
+    #modal: ModalDialogState | null = null;
     #titleEl: HTMLElement | null = null;
     #descriptionEl: HTMLElement | null = null;
     #titleId = nextId("lily-alert-dialog-title");
@@ -58,9 +60,17 @@ export class AlertDialog extends HTMLElement {
         dialog.appendChild(descriptionEl);
         this.#descriptionEl = descriptionEl;
 
+        // The native cancel event (Escape under showModal()) closes it through the attribute.
+        dialog.addEventListener("cancel", (event) => {
+            event.preventDefault();
+            this.removeAttribute("open");
+            this.dispatchEvent(new CustomEvent("lily-close", { bubbles: true, composed: true }));
+        });
+
         moveChildrenInto(this, dialog);
         this.appendChild(dialog);
         this.#dialog = dialog;
+        this.#modal = new ModalDialogState(dialog);
         this.#sync();
     }
 
@@ -71,7 +81,6 @@ export class AlertDialog extends HTMLElement {
     #sync(): void {
         const dialog = this.#dialog;
         if (!dialog) return;
-        dialog.open = this.hasAttribute("open");
         if (this.#titleEl) this.#titleEl.textContent = this.getAttribute("title") ?? "";
         const description = this.getAttribute("description");
         if (this.#descriptionEl) {
@@ -80,5 +89,6 @@ export class AlertDialog extends HTMLElement {
         }
         if (description !== null) dialog.setAttribute("aria-describedby", this.#descriptionId);
         else dialog.removeAttribute("aria-describedby");
+        this.#modal?.sync(this.hasAttribute("open"));
     }
 }

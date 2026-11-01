@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"tree-menu\" role=\"tree\"><div role=\"treeitem\">Item 1</div><div role=\"treeitem\">Item 2</div></div>";
   const svelteSource: string = "// In your Svelte component:\nimport TreeMenu from \"lily-design-system-svelte-headless/components/TreeMenu/TreeMenu.svelte\";\n\n<TreeMenu>\n  <!-- list children -->\n</TreeMenu>\n";
-  const usageCode: string = "<TreeMenu label=\"File actions\">\n  <li role=\"treeitem\" tabindex=\"0\" aria-expanded=\"true\">\n    File\n    <ul role=\"group\">\n      <li role=\"treeitem\" tabindex=\"-1\">New</li>\n      <li role=\"treeitem\" tabindex=\"-1\">Open</li>\n      <li role=\"treeitem\" tabindex=\"-1\">Save</li>\n    </ul>\n  </li>\n  <li role=\"treeitem\" tabindex=\"-1\" aria-expanded=\"false\">\n    Edit\n  </li>\n  <li role=\"treeitem\" tabindex=\"-1\">Help</li>\n</TreeMenu>\n";
+  const usageCode: string = "<TreeMenu label=\"File actions\">\n  <li\n    role=\"treeitem\"\n    tabindex=\"0\"\n    aria-expanded=\"true\"\n  >\n    File\n    <ul role=\"group\">\n      <li\n        role=\"treeitem\"\n        tabindex=\"-1\"\n      >\n        New\n      </li>\n      <li\n        role=\"treeitem\"\n        tabindex=\"-1\"\n      >\n        Open\n      </li>\n      <li\n        role=\"treeitem\"\n        tabindex=\"-1\"\n      >\n        Save\n      </li>\n    </ul>\n  </li>\n  <li\n    role=\"treeitem\"\n    tabindex=\"-1\"\n    aria-expanded=\"false\"\n  >\n    Edit\n  </li>\n  <li\n    role=\"treeitem\"\n    tabindex=\"-1\"\n  >\n    Help\n  </li>\n</TreeMenu>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>
@@ -75,7 +75,7 @@
       <li>Component: tree-menu</li>
       <li>PascalCase: TreeMenu</li>
       <li>Description: a hierarchical tree menu with expandable branches</li>
-      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>Status: beta — implemented with key tests in Svelte, React, Vue, Angular, HTML and Blazor (P12-T5a, 2026-10-30; it was a labelled container until then) and Alpine; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .tree-menu</li>
       <li>Interactive: yes</li>

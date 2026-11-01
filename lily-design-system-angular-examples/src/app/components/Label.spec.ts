@@ -4,19 +4,23 @@ import { TestBed } from "@angular/core/testing";
 import { Label } from "./Label";
 
 describe("Label", () => {
-    test("renders the div root with the base class", () => {
+    function render(inputs: Record<string, unknown> = {}) {
         const fixture = TestBed.createComponent(Label);
+        for (const [k, v] of Object.entries(inputs)) fixture.componentRef.setInput(k, v);
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.label");
-        expect(el).toBeTruthy();
-    });
+        return fixture;
+    }
 
     test("appends the className input to the root class list", () => {
-        const fixture = TestBed.createComponent(Label);
-        fixture.componentRef.setInput("className", "extra");
-        fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.label");
+        const el = render({ className: "extra" }).nativeElement.querySelector("label.label");
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
+    });
+
+    test("for names the control", () => {
+        expect(
+            render({ for: "email" }).nativeElement.querySelector("label.label").getAttribute("for"),
+        ).toBe("email");
+        expect(render().nativeElement.querySelector("label.label").hasAttribute("for")).toBe(false);
     });
 });

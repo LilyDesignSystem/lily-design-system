@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "polska-numer-identyfikacji-podatkowej-view",
+  "type": "registry:component",
+  "title": "PolskaNumerIdentyfikacjiPodatkowejView",
+  "description": "A read-only display of Poland's Numer Identyfikacji Podatkowej (NIP).",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/PolskaNumerIdentyfikacjiPodatkowejView.tsx",
+      "content": "import React from \"react\";\n\n// PolskaNumerIdentyfikacjiPodatkowejView component\n//\n// A headless display component for showing Poland's\n// Numer Identyfikacji Podatkowej (NIP) in a read-only format.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". The identifier string to display.\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <PolskaNumerIdentyfikacjiPodatkowejView label=\"Tax Identification Number\" value={value} />\n//\n// Accessibility:\n//   - aria-label provides the accessible name so screen readers announce the purpose\n//\n// References:\n//   - https://en.wikipedia.org/wiki/National_identification_number#Poland\n\nexport interface PolskaNumerIdentyfikacjiPodatkowejViewProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The identifier to display */\n    value?: string;\n    [key: string]: unknown;\n}\n\nexport default function PolskaNumerIdentyfikacjiPodatkowejView({\n    className = \"\",\n    label,\n    value = \"\",\n    ...restProps\n}: PolskaNumerIdentyfikacjiPodatkowejViewProps) {\n    return (\n        <span\n            className={`polska-numer-identyfikacji-podatkowej-view ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {value}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/PolskaNumerIdentyfikacjiPodatkowejView.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/polska-numer-identyfikacji-podatkowej-view/"
+}

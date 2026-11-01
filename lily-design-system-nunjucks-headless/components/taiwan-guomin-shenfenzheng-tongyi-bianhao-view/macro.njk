@@ -1,0 +1,21 @@
+{#
+  TaiwanGuominShenfenzhengTongyiBianhaoView macro -- a read-only display of National Identification Card Number.
+
+  HTML tag: <span>
+  CSS class: taiwan-guomin-shenfenzheng-tongyi-bianhao-view
+
+  Params:
+    value, label, id, classes, attributes.
+
+  Usage:
+    {% from "components/taiwan-guomin-shenfenzheng-tongyi-bianhao-view/macro.njk" import taiwanGuominShenfenzhengTongyiBianhaoView %}
+    {{ taiwanGuominShenfenzhengTongyiBianhaoView({ value: "sample", label: "National Identification Card Number" }) }}
+#}
+{%- macro taiwanGuominShenfenzhengTongyiBianhaoView(params) -%}
+<span
+  class="taiwan-guomin-shenfenzheng-tongyi-bianhao-view{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>{{ params.value | default("") }}</span>
+{%- endmacro -%}

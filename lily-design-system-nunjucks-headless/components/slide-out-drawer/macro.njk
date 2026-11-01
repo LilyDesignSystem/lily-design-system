@@ -1,23 +1,40 @@
 {#
-  SlideOutDrawer macro — dialog overlay.
+  Slide-out drawer macro — modal dialog overlay (tasks.md P18-T6).
 
-  HTML tag: <div role="dialog">
+  HTML tag: <dialog>
   CSS class: slide-out-drawer
 
-  Params: label (required), open (default false), id, classes, attributes. Caller provides content.
+  Accessibility:
+    - A native <dialog> (role="dialog" implicitly) with aria-modal="true". The claim is true only when the
+      consumer opens it with `el.showModal()`: the browser then puts it in the top layer, makes the page
+      behind it inert, traps Tab inside, moves focus in, closes it on Escape (the cancel event) and returns
+      focus to the opener on `el.close()`. Never open it by adding the `open` attribute: that shows it
+      non-modally while it still says aria-modal.
+    - A closed <dialog> is not rendered, so the macro sets no `hidden`.
+
+  Params: label (required), id, classes, attributes.
+  The label has no default (no English from us: the consumer names it in their language). `open` is
+  ignored: a modal cannot be opened from markup, so call `showModal()`. Caller provides content.
+
+  Usage:
+    {% call slideOutDrawer({ id: "nav", label: "Navigation" }) %}
+      <nav>…</nav>
+      <form method="dialog"><button>Close</button></form>
+    {% endcall %}
+    <script>document.getElementById("nav").showModal();</script>
 #}
 {%- macro slideOutDrawer(params) -%}
 {%- set p = params | default({}) -%}
-<div
+<dialog
   class="slide-out-drawer{% if p.classes %} {{ p.classes }}{% endif %}"
-  role="dialog" aria-modal="false"
-  aria-label="{{ p.label | default('Drawer') }}"
-  {%- if not p.open %} hidden{% endif %}
+  aria-modal="true"
+  tabindex="-1"
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
   {%- if p.html -%}{{ p.html | safe }}
   {%- elif caller -%}{{ caller() }}
   {%- endif -%}
-</div>
+</dialog>
 {%- endmacro -%}

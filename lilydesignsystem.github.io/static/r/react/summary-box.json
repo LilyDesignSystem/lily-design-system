@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "summary-box",
+  "type": "registry:component",
+  "title": "SummaryBox",
+  "description": "A boxed callout highlighting key takeaways or next steps from a longer page.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/SummaryBox.tsx",
+      "content": "import React from \"react\";\n\n// SummaryBox component\n//\n// A boxed callout that highlights key takeaways or next steps from a longer\n// page. Inspired by the USWDS Summary box component. Renders an <aside>\n// (complementary landmark) with a required heading and a body region for\n// children. The aria-label defaults to the heading text but can be overridden.\n//\n// Props:\n//   className — string, optional. CSS class name appended to the root.\n//   heading   — string, REQUIRED. Box heading.\n//   label     — string, optional. aria-label override (defaults to heading).\n//   children  — ReactNode, required. Body content.\n//   ...restProps — additional HTML attributes spread onto the <aside>.\n//\n// Syntax:\n//   <SummaryBox heading=\"Key takeaways\">\n//     <ul><li>Plain language wins</li></ul>\n//   </SummaryBox>\n//\n// Accessibility:\n//   - <aside> is a complementary landmark\n//   - aria-label provides the accessible name (defaults to heading)\n//\n// Internationalization:\n//   - heading and label are consumer-supplied for localized text\n//\n// Claude rules:\n//   - Headless: no CSS, no styles\n//   - heading is non-optional in the interface\n//\n// References:\n//   - USWDS Summary box: https://designsystem.digital.gov/components/summary-box/\n\nexport interface SummaryBoxProps {\n    className?: string;\n    /** Box heading (required) */\n    heading: string;\n    /** Optional aria-label override (defaults to heading) */\n    label?: string;\n    /** Body content */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function SummaryBox({\n    className = \"\",\n    heading,\n    label,\n    children,\n    ...restProps\n}: SummaryBoxProps) {\n    return (\n        <aside\n            className={`summary-box ${className}`}\n            aria-label={label || heading}\n            {...restProps}\n        >\n            <h3 className=\"summary-box-heading\">{heading}</h3>\n            <div className=\"summary-box-body\">{children}</div>\n        </aside>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/SummaryBox.tsx"
+    }
+  ],
+  "categories": [
+    "navigation"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/summary-box/"
+}

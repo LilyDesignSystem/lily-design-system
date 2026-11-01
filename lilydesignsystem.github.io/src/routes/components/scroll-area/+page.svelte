@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"scroll-area\" style=\"max-height:100px;overflow:auto\"><p>Scrollable content area with potentially long content.</p></div>";
   const svelteSource: string = "// In your Svelte component:\nimport ScrollArea from \"lily-design-system-svelte-headless/components/ScrollArea/ScrollArea.svelte\";\n\n<ScrollArea>\n  <!-- content -->\n</ScrollArea>\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import ScrollArea from \"./ScrollArea.svelte\";\n    let messages = $state([\"Hello\", \"Hi\", \"How are you?\"]);\n<\/script>\n\n<ScrollArea label=\"Chat messages\">\n    {#each messages as m}<p>{m}</p>{/each}\n</ScrollArea>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import ScrollArea from \"./ScrollArea.svelte\";\n  let messages = $state([\"Hello\", \"Hi\", \"How are you?\"]);\n<\/script>\n\n<ScrollArea label=\"Chat messages\">\n  {#each messages as m}<p>{m}</p>{/each}\n</ScrollArea>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

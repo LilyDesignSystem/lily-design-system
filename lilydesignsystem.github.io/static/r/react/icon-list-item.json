@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "icon-list-item",
+  "type": "registry:component",
+  "title": "IconListItem",
+  "description": "One item in an icon list with a leading icon slot.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/IconListItem.tsx",
+      "content": "import React from \"react\";\n\n// IconListItem component\n//\n// One item in an IconList with an optional leading icon slot and required\n// text content. The icon is supplied via the `icon` ReactNode prop (NOT\n// children). The `children` prop is the textual content of the item. The\n// icon span is decorative and uses aria-hidden so the accessible content\n// is the text.\n//\n// Props:\n//   className — string, optional. CSS class name appended to the root.\n//   icon      — ReactNode, optional. Leading icon content.\n//   children  — ReactNode, required. Text content of the item.\n//   ...restProps — additional HTML attributes spread onto the <li>.\n//\n// Syntax:\n//   <IconListItem icon={<Check />}>Saves time</IconListItem>\n//\n// Accessibility:\n//   - The native <li> provides list-item semantics\n//   - The icon span has aria-hidden=\"true\" (decorative)\n//   - The accessible content is the text (children)\n//\n// Internationalization:\n//   - All user-facing text is consumer-supplied via children\n//\n// Claude rules:\n//   - Headless: no CSS, no styles\n//   - children is required (the text); icon is a separate ReactNode prop\n//\n// References:\n//   - USWDS Icon list: https://designsystem.digital.gov/components/icon-list/\n\nexport interface IconListItemProps {\n    className?: string;\n    /** Leading icon content (decorative, aria-hidden) */\n    icon?: React.ReactNode;\n    /** Text content of the item */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function IconListItem({\n    className = \"\",\n    icon,\n    children,\n    ...restProps\n}: IconListItemProps) {\n    return (\n        <li\n            className={`icon-list-item ${className}`}\n            {...restProps}\n        >\n            {icon && (\n                <span\n                    className=\"icon-list-item-icon\"\n                    aria-hidden=\"true\"\n                >\n                    {icon}\n                </span>\n            )}\n            <span className=\"icon-list-item-text\">{children}</span>\n        </li>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/IconListItem.tsx"
+    }
+  ],
+  "categories": [
+    "lists"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/icon-list-item/"
+}

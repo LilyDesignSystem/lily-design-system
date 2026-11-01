@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
+import { restoreOnFormReset } from "./form-reset";
 
 /**
  * UnitedKingdomNationalInsuranceNumberInput — an input for entering United Kingdom's National Insurance Number (NINO)
@@ -33,4 +34,8 @@ export class UnitedKingdomNationalInsuranceNumberInput {
     readonly required = input<boolean>(false);
     /** Whether the input is disabled. */
     readonly disabled = input<boolean>(false);
+
+    constructor() {
+        restoreOnFormReset(this.value);
+    }
 }

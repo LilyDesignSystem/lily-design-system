@@ -45,7 +45,7 @@ export class InputWithMask extends HTMLElement {
         input.className = "input-with-mask-control";
         const label = this.getAttribute("label");
         if (label !== null) input.setAttribute("aria-label", label);
-        input.value = this.getAttribute("value") ?? "";
+        input.defaultValue = this.getAttribute("value") ?? "";
         const placeholder = this.getAttribute("placeholder");
         if (placeholder !== null) input.placeholder = placeholder;
         if (this.hasAttribute("disabled")) input.disabled = true;

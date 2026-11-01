@@ -40,6 +40,14 @@
 - `onSignOut`: callback (default: —) — Fired when the user chooses to sign out now
 - `...restProps`: HTML attributes (default: —) — Spread onto the root `<dialog>`
 
+## Native platform
+
+- Decision: native
+- Uses: <dialog> showModal() (always mounted, shown while open)
+- Could use: command="close" on its buttons
+- Notes: Always mounted, so it is the one dialog a consumer commandfor button could already target. P14-T4 (2026-10-30): showModal() in all nine libraries; React, Vue, Angular and Blazor gained the open prop and role="alertdialog" they lacked.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
+
 ## Acceptance Criteria
 
 - [ ] Renders <dialog> element with class="timeout-dialog"

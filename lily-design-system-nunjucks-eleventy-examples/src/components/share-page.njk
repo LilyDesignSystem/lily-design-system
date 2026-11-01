@@ -14,6 +14,10 @@ description: a group of social sharing links
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>
-<pre tabindex="0"><code>{% raw %}&lt;div class="share-page" aria-label="a component for sharing the page on social media"&gt;SharePage&lt;/div&gt;
+<pre tabindex="0"><code>{% raw %}&lt;SharePage
+  label="Share this page"
+  url="{pageUrl}"
+  title="{pageTitle}"
+/&gt;
 {% endraw %}</code></pre>
 {# END generated: examples #}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "label",
+  "type": "registry:component",
+  "title": "Label",
+  "description": "A label associated with a form input.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Label.tsx",
+      "content": "import React from \"react\";\n\n// Label component\n//\n// A headless <label> element that provides a descriptive name or instruction\n// for an associated form control such as an input field, checkbox, or radio\n// button. When a user clicks the label text, the browser focuses or activates\n// the linked form control. Screen readers announce the label when the\n// associated control receives focus.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   for — string, optional. The id of the associated form control (HTML for attribute).\n//   children — ReactNode, required. The label text content.\n//   ...restProps — additional HTML attributes spread onto the <label>.\n//\n// Syntax:\n//   <Label for=\"email\">Email address</Label>\n//\n// Examples:\n//\n//   <Label for=\"email\">Email address</Label>\n//   <input id=\"email\" type=\"email\" />\n//\n//\n//   <Label>\n//     Email address\n//     <input type=\"email\" />\n//   </Label>\n//\n// Keyboard:\n//   - None — clicking the label focuses or activates its associated form\n//     control via native browser behavior.\n//\n// Accessibility:\n//   - Native <label> element with for attribute provides an implicit accessible\n//     name for the linked form control\n//   - No additional ARIA attributes needed; semantic HTML <label> is fully\n//     recognized by assistive technology\n//\n// Internationalization:\n//   - All text content comes through the children prop\n//   - No hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - The for prop is mapped from the reserved keyword via for: forProp\n//\n// References:\n//   - WAI Forms Tutorial - Labels: https://www.w3.org/WAI/tutorials/forms/labels/\n//   - HTML label element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/label\n\nexport interface LabelProps {\n    className?: string;\n    for?: string;\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Label({\n    className = \"\",\n    for: forProp = undefined,\n    children,\n    ...restProps\n}: LabelProps) {\n    return (\n        <label\n            className={`label ${className}`}\n            htmlFor={forProp}\n            {...restProps}\n        >\n            {children}\n        </label>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Label.tsx"
+    }
+  ],
+  "categories": [
+    "forms"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/label/"
+}

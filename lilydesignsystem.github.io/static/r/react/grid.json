@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "grid",
+  "type": "registry:component",
+  "title": "Grid",
+  "description": "A CSS grid layout container with configurable columns and gap.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Grid.tsx",
+      "content": "import React from \"react\";\n\n// Grid component\n//\n// A headless CSS grid layout container with a configurable column count or\n// custom grid-template-columns string. When `columns` is a number, applies\n// `repeat({columns}, minmax(0, 1fr))`; when it is a string, uses that string\n// as-is for flexible track definitions.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   columns   — number | string, default 12.\n//   minColumnWidth — string, optional. CSS length; when set, template is\n//             repeat(auto-fit, minmax(min(<W>, 100%), 1fr)) and wins over `columns`.\n//   gap       — string, default \"1rem\". CSS gap value.\n//   children  — ReactNode, required. Grid items.\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Syntax:\n//   <Grid columns={3} gap=\"1rem\">…</Grid>\n//\n// Examples:\n//\n//   <Grid columns={3}>\n//     <div>1</div><div>2</div><div>3</div>\n//   </Grid>\n//\n//\n//   <Grid columns=\"200px 1fr 200px\" gap=\"2rem\">\n//     <aside>Left</aside>\n//     <main>Center</main>\n//     <aside>Right</aside>\n//   </Grid>\n//\n// Keyboard: None — layout container.\n//\n// Accessibility:\n//   - Purely structural; no ARIA role (use role=\"grid\" only for interactive grids)\n//\n// Internationalization:\n//   - No user-facing strings\n//\n// Claude rules:\n//   - Headless: only inline style is the functional grid layout\n//\n// References:\n//   - CSS Grid: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout\n\nexport interface GridProps {\n    className?: string;\n    /** Number of equal columns OR custom grid-template-columns string */\n    columns?: number | string;\n    /** CSS length: fit as many columns as fit, each at least this wide. Wins over `columns`. */\n    minColumnWidth?: string;\n    /** Gap between cells (CSS value) */\n    gap?: string;\n    /** Grid items */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Grid({\n    className = \"\",\n    columns = 12,\n    minColumnWidth,\n    gap = \"1rem\",\n    children,\n    ...restProps\n}: GridProps) {\n    const gridTemplateColumns: string = minColumnWidth\n        ? `repeat(auto-fit, minmax(min(${minColumnWidth}, 100%), 1fr))`\n        : typeof columns === \"number\"\n          ? `repeat(${columns}, minmax(0, 1fr))`\n          : columns;\n    return (\n        <div\n            className={`grid ${className}`}\n            data-columns={String(columns)}\n            data-min-column-width={minColumnWidth || undefined}\n            style={{ display: \"grid\", gridTemplateColumns, gap }}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Grid.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/grid/"
+}

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""bin/check-theme — conformance checks for the 57 reference themes.
+"""bin/check-theme — conformance checks for the 63 reference themes.
 
 Asserts the contracts a theme stylesheet must honour (plan P3-T5):
 
@@ -32,7 +32,7 @@ Asserts the contracts a theme stylesheet must honour (plan P3-T5):
 
   7. Today is marked, never filled. A rule for `[aria-current="date"]` sets no
      background: a solid fill on the current day's cell hides the events in it
-     (reported 2026-10-17 against an app theme; all 57 themes use an outline).
+     (reported 2026-10-17 against an app theme; all 63 themes use an outline).
 
   8. Container queries have a container. A theme that uses `@container` also
      sets `container-type` somewhere: a query with no container never matches
@@ -49,12 +49,30 @@ Asserts the contracts a theme stylesheet must honour (plan P3-T5):
 
  11. Fluid values have a rem floor. Every `clamp()` starts with a minimum in
      `rem`, so the value never falls below a size that follows the viewer's
-     font size (spec/responsive, plan P15-T9).
+     font size (spec/responsive, plan P15-T9). The token source agrees: a
+     fluid token in themes/tokens/{slug}.json is a standard DTCG `dimension`
+     whose $value is that rem floor, with the clamp() parameters under
+     `$extensions["com.lilydesignsystem"].fluid` (plan P16-T6; the strict
+     2025.10 shape is bin/check-dtcg-tokens' job).
 
   12. Focus Not Obscured (WCAG 2.2 SC 2.4.11). A theme that uses
      `position: fixed|sticky` sets `scroll-padding-block` from
      `--lily-fixed-bar-block-start` / `-end`; the shared "Focus not obscured"
      section (rule 5) carries it, so every theme does.
+
+ 13. Preferences are honoured (plan P12-T12, P12-T13). Every theme styles all
+     seven `data-text-size` steps in `%` (never px or a fixed rem, so the
+     viewer's browser size is kept; `normal` is 100%), styles
+     `data-motion="reduce"` by shortening animations and transitions to
+     0.01ms (never `animation: none`, `display: none` or `visibility`, which
+     would remove information), and carries `@media (forced-colors: active)`
+     and `@media (prefers-contrast: more)` blocks.
+
+ 14. Writing systems (tasks.md P17-T9). A theme defines its Latin font stack
+     once, as `--lily-font-body-latin`, and never `--lily-font-body`: the
+     shared "Writing systems" section (rule 5) builds that from the Latin
+     stack and a per-language `--lily-font-script`, re-declared on every
+     `[lang]` element, and sets `--lily-line-height-body`.
 
 Exits non-zero listing every violation. Wired into bin/test.
 
@@ -71,6 +89,7 @@ so a flagged pair is approximate.
 """
 
 import glob
+import json
 import os
 import re
 import sys
@@ -109,11 +128,15 @@ BREAKPOINTS_REM = ("40rem", "48rem", "64rem", "80rem", "96rem")
 SHARED_SECTIONS = (
     "Scoped overflow",
     "target-size (minimum) floor",
+    "Coarse pointer targets",
     "Overflow guards",
     "Helper packages — layout and look",
     "Overflow navigation",
     "Container queries",
     "Focus not obscured",
+    "Text size and motion preferences",
+    "Forced colours and contrast preference",
+    "Writing systems",
 )
 
 
@@ -376,7 +399,8 @@ def main() -> int:
             errors.append(f"{base}: no :root[data-theme=\"{slug}\"] guard")
 
         # 7. today's cell is marked, never filled: a solid fill on the current day hides the events inside it
-        for m in re.finditer(r"([^{}]*\[aria-current=\"date\"\][^{}]*)\{([^{}]*)\}", css):
+        # Anchored at a brace or the start: an unanchored leading [^{}]* rescans from every position (~0.08 s a theme).
+        for m in re.finditer(r"(?:(?<=[{}])|^)([^{}]*\[aria-current=\"date\"\][^{}]*)\{([^{}]*)\}", css):
             if re.search(r"\bbackground(-color|-image)?\s*:", m.group(2)):
                 errors.append(f"{base}: the current-day rule {m.group(1).strip()[:60]!r} sets a background (use an outline or a border)")
 
@@ -401,6 +425,17 @@ def main() -> int:
         for m in re.finditer(r"clamp\(\s*([^,]+?)\s*,", css):
             if not re.fullmatch(r"[\d.]+rem", m.group(1)):
                 errors.append(f"{base}: clamp() floor {m.group(1)!r} is not a rem value")
+        tpath = os.path.join(TOP, "themes", "tokens", slug + ".json")
+        if os.path.exists(tpath):
+            for group in json.load(open(tpath)).values():
+                for leaf, tok in (group.items() if isinstance(group, dict) else ()):
+                    fluid = tok.get("$extensions", {}).get("com.lilydesignsystem", {}).get("fluid") \
+                        if isinstance(tok, dict) else None
+                    if fluid is None:
+                        continue
+                    if fluid.get("floor", {}).get("unit") != "rem" or tok.get("$type") != "dimension" \
+                            or tok.get("$value") != fluid.get("floor"):
+                        errors.append(f"tokens/{slug}.json: fluid token {leaf!r} must be a dimension whose $value is its rem floor")
 
         # 12. fixed or sticky bars cannot hide the focused control (WCAG 2.4.11):
         # a theme that fixes anything to the viewport must carry the pinned
@@ -408,6 +443,41 @@ def main() -> int:
         if re.search(r"position\s*:\s*(fixed|sticky)", css) and \
            not re.search(r"scroll-padding-block\s*:\s*var\(--lily-fixed-bar-block-start", css):
             errors.append(f"{base}: has position: fixed|sticky but no scroll-padding-block from --lily-fixed-bar-block-start/-end (WCAG 2.4.11)")
+
+        # 13. text-size steps, motion reduction, forced colours, contrast
+        for step in ("smallest", "smaller", "small", "normal", "large", "larger", "largest"):
+            m = re.search(r'html\[data-text-size="%s"\]\)?\s*\{\s*font-size:\s*([^;]+);' % step, css)
+            if not m:
+                errors.append(f"{base}: no font-size rule for data-text-size={step!r}")
+            elif not re.fullmatch(r"[\d.]+%", m.group(1).strip()):
+                errors.append(f"{base}: data-text-size={step!r} font-size {m.group(1)!r} is not a percentage")
+            elif step == "normal" and m.group(1).strip() != "100%":
+                errors.append(f"{base}: data-text-size='normal' must be 100%")
+        if 'data-motion="reduce"' not in css:
+            errors.append(f"{base}: no rule for data-motion=\"reduce\"")
+        else:
+            i = css.find('data-motion="reduce"')
+            tail = css[i:]
+            if not re.search(r"animation-duration\s*:\s*0\.01ms", tail) or not re.search(r"transition-duration\s*:\s*0\.01ms", tail):
+                errors.append(f"{base}: data-motion=reduce must set animation-duration and transition-duration to 0.01ms")
+            for m in re.finditer(r'(?:(?<=[{}])|^)[^{}]*data-motion="reduce"[^{}]*\{([^}]*)\}', css):
+                if re.search(r"animation\s*:\s*none|display\s*:\s*none|visibility\s*:\s*hidden|opacity\s*:\s*0\b", m.group(1)):
+                    errors.append(f"{base}: data-motion=reduce must not hide or remove content (use 0.01ms durations)")
+        if not re.search(r"@media\s*\(forced-colors:\s*active\)", css):
+            errors.append(f"{base}: no @media (forced-colors: active) block")
+        if not re.search(r"@media\s*\(prefers-contrast:\s*more\)", css):
+            errors.append(f"{base}: no @media (prefers-contrast: more) block")
+
+        # 14. the font stack: the theme names the Latin part; the shared section builds the rest
+        latin = len(re.findall(r"--lily-font-body-latin\s*:", css))
+        if latin != 1:
+            errors.append(f"{base}: defines --lily-font-body-latin {latin} times, expected once")
+        own = strip_comments(raw[:raw.find("Writing systems")] if "Writing systems" in raw else raw)
+        if re.search(r"--lily-font-body\s*:", own):
+            errors.append(f"{base}: defines --lily-font-body itself; set --lily-font-body-latin and leave the rest to the Writing systems section")
+        for prop in ("--lily-font-script", "--lily-line-height-body"):
+            if prop + ":" not in css.replace(" :", ":"):
+                errors.append(f"{base}: no {prop} declaration (Writing systems section)")
 
         # 8. a query needs a container: without container-type it never matches
         if "@container" in css and "container-type" not in css:

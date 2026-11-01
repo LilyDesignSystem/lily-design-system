@@ -39,8 +39,7 @@ ChatNav is a compound component. It provides the parent container structure (a `
 
 - Tab: Focus moves between interactive elements in the chat list
 - Enter: Activates the focused chat list item or link
-- Arrow Down: Move focus to the next chat list item
-- Arrow Up: Move focus to the previous chat list item
+- Tab only: a nav landmark of links is not a composite widget, so focus does not move by direction key (decided 2026-10-31, P12-T5a)
 
 ## ARIA
 

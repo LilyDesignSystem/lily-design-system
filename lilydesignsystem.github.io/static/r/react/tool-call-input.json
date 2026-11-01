@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tool-call-input",
+  "type": "registry:component",
+  "title": "ToolCallInput",
+  "description": "The input or arguments passed to a tool in a tool call.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ToolCallInput.tsx",
+      "content": "import React from \"react\";\n\n// ToolCallInput component\n//\n// A headless inner part of ToolCall: the input or arguments passed to a tool in a tool call. Contract: `label` (optional) sets `role=\"group\"` and `aria-label`; without it neither is rendered.\n// Draws nothing and carries no strings of its own; the consumer supplies the text.\n\nexport interface ToolCallInputProps {\n    className?: string;\n    /** Accessible name of the group. */\n    label?: string;\n    /** The content. */\n    children?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function ToolCallInput({\n    className = \"\",\n    label = undefined,\n    children,\n    ...restProps\n}: ToolCallInputProps) {\n    return (\n        <div\n            className={`tool-call-input ${className}`}\n            role={label ? \"group\" : undefined}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ToolCallInput.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/tool-call-input/"
+}

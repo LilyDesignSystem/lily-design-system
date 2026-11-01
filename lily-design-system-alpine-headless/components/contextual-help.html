@@ -6,6 +6,10 @@
   CSS class: contextual-help
   Keyboard: Tab to the trigger, Enter or Space to open, Escape to close
   Accessibility: aria-haspopup="dialog", aria-expanded and aria-controls on the trigger; the panel is role="dialog"
+  Popover API: the panel is popover="auto" and the trigger names it with
+    command="toggle-popover" commandfor (and popovertarget), so it opens, and
+    closes on Escape and on a click outside, even before Alpine starts
+  Text: the trigger's visible text (such as "?" or "؟") and its aria-label are the consumer's
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
@@ -19,14 +23,18 @@
     x-bind="trigger"
     aria-label=""
     aria-controls="contextual-help-panel-1"
+    command="toggle-popover"
+    commandfor="contextual-help-panel-1"
+    popovertarget="contextual-help-panel-1"
   >
-    ?
+    <!-- Consumer provides the trigger text, such as "?" -->
   </button>
   <div
     class="contextual-help-panel"
     id="contextual-help-panel-1"
     role="dialog"
     aria-label=""
+    popover="auto"
     x-bind="panel"
   >
     <!-- Consumer provides popover content -->

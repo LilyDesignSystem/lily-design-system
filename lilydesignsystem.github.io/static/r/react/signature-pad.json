@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "signature-pad",
+  "type": "registry:component",
+  "title": "SignaturePad",
+  "description": "A drawing area for capturing a handwritten signature.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/SignaturePad.tsx",
+      "content": "import React from \"react\";\n\n// SignaturePad component\n//\n// A headless container for capturing handwritten signatures using mouse, touch,\n// or stylus input. Renders a <div> with role=\"application\" and an accessible\n// label. Commonly used in contract signing workflows, consent forms, delivery\n// confirmations, and legal document processing. The consumer provides the actual\n// drawing implementation (HTML canvas, SVG paths, or a third-party library).\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible description of the signature field via aria-label.\n//   children — ReactNode, required. Drawing surface (canvas, SVG, or other input mechanism).\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Syntax:\n//   <SignaturePad label=\"Sign here\">\n//     <canvas width=\"400\" height=\"200\"></canvas>\n//   </SignaturePad>\n//\n// Examples:\n//\n//   <SignaturePad label=\"Sign to accept terms\">\n//     <canvas width=\"400\" height=\"200\"></canvas>\n//   </SignaturePad>\n//\n//\n//   <SignaturePad label=\"Your signature\">\n//     <svg viewBox=\"0 0 400 200\"><path d=\"\" /></svg>\n//   </SignaturePad>\n//\n// Keyboard:\n//   - None — pointer-based interactions are handled by the consumer-provided drawing surface.\n//\n// Accessibility:\n//   - role=\"application\" indicates a complex widget with custom pointer interactions\n//   - aria-label provides an accessible description of the signature pad purpose\n//   - Assistive technologies pass keyboard events through to the application\n//\n// Internationalization:\n//   - The label prop externalizes the accessible description for localization\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - No internal drawing logic — consumer provides canvas/SVG implementation\n//   - role=\"application\" is intentional for complex pointer interaction widgets\n//\n// References:\n//   - WAI-ARIA application role: https://www.w3.org/TR/wai-aria-1.2/#application\n\nexport interface SignaturePadProps {\n    className?: string;\n    /** Accessible label. */\n    label: string;\n    /** Drawing surface content. */\n    children?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function SignaturePad({\n    className = \"\",\n    label,\n    children,\n    ...restProps\n}: SignaturePadProps) {\n    return (\n        <div\n            className={`signature-pad ${className}`}\n            role=\"application\"\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/SignaturePad.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/signature-pad/"
+}

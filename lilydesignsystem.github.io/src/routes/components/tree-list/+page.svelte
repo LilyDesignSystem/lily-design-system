@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<ul class=\"tree-list\"><li class=\"tree-list-item\"><a class=\"tree-link\" href=\"#\">Item 1</a><ul class=\"tree-list\"><li class=\"tree-list-item\"><a class=\"tree-link\" href=\"#\">Sub-item 1.1</a></li></ul></li><li class=\"tree-list-item\"><a class=\"tree-link\" href=\"#\">Item 2</a></li></ul>";
   const svelteSource: string = "// In your Svelte component:\nimport TreeList from \"lily-design-system-svelte-headless/components/TreeList/TreeList.svelte\";\n\n<TreeList>\n  <!-- list children -->\n</TreeList>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import TreeList from \"./TreeList.svelte\";\n<\/script>\n\n<TreeList label=\"File browser\">\n  <li role=\"treeitem\" tabindex=\"0\">Documents</li>\n  <li role=\"treeitem\" tabindex=\"-1\">Photos</li>\n  <li role=\"treeitem\" tabindex=\"-1\">Videos</li>\n</TreeList>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import TreeList from \"./TreeList.svelte\";\n<\/script>\n\n<TreeList label=\"File browser\">\n  <li\n    role=\"treeitem\"\n    tabindex=\"0\"\n  >\n    Documents\n  </li>\n  <li\n    role=\"treeitem\"\n    tabindex=\"-1\"\n  >\n    Photos\n  </li>\n  <li\n    role=\"treeitem\"\n    tabindex=\"-1\"\n  >\n    Videos\n  </li>\n</TreeList>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

@@ -1,15 +1,18 @@
 {#
   Popover macro — a floating content box anchored to a trigger element.
 
-  HTML tag: <div>
+  HTML tag: <div role="dialog">
   CSS class: popover
-  Popover API: this macro uses the HTML `popover` attribute so the
-    browser manages open/close state. Trigger elements use the
-    `popovertarget` attribute pointing to the popover's id.
+  Popover API: this macro renders popover="auto", so the browser manages
+    open/close state with no script: top layer while open, Escape and a
+    click outside close it (light dismiss). A trigger button names it with
+    command="toggle-popover" commandfor="{id}" (Chrome 135, Firefox 144,
+    Safari 26.2) and popovertarget="{id}" (Chrome 114, Firefox 125,
+    Safari 17), which engines without command/commandfor use instead.
   Accessibility:
-    - The `popover` attribute exposes an implicit dialog-like
-      behaviour; screen readers announce the popover when it opens.
-    - params.label or labelledBy names the popover.
+    - role="dialog"; params.label or labelledBy names it.
+    - The browser exposes the trigger's expanded state from popovertarget,
+      so the trigger needs no static aria-expanded (it would go stale).
 
   Params:
     id             string   Element id. Required so a trigger can
@@ -24,7 +27,8 @@
 
   Usage:
     {% from "components/popover/macro.njk" import popover %}
-    <button popovertarget="info">Details</button>
+    <button type="button" aria-haspopup="dialog" aria-controls="info"
+            command="toggle-popover" commandfor="info" popovertarget="info">Details</button>
     {% call popover({ id: "info", label: "Details" }) %}
       <p>More information about this item.</p>
     {% endcall %}
@@ -33,6 +37,7 @@
 <div
   class="popover{% if params.classes %} {{ params.classes }}{% endif %}"
   id="{{ params.id }}"
+  role="dialog"
   popover="{{ params.popover | default('auto') }}"
   {%- if params.labelledBy %} aria-labelledby="{{ params.labelledBy }}"
   {%- elif params.label %} aria-label="{{ params.label }}"{% endif %}

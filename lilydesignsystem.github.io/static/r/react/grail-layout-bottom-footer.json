@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "grail-layout-bottom-footer",
+  "type": "registry:component",
+  "title": "GrailLayoutBottomFooter",
+  "description": "Grail layout bottom footer full width with <footer> tag.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/GrailLayoutBottomFooter.tsx",
+      "content": "import React from \"react\";\n\n// GrailLayoutBottomFooter component\n//\n// A headless container for the bottom footer section of a GrailLayout. It spans\n// the full width of the layout and typically contains copyright, links, or\n// site-wide footer content.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   children — ReactNode, required. Content to render inside the bottom footer section.\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Syntax:\n//   <GrailLayoutBottomFooter>{children}</GrailLayoutBottomFooter>\n//\n// Examples:\n//   <GrailLayoutBottomFooter><footer>Site Footer</footer></GrailLayoutBottomFooter>\n//\n// Keyboard:\n//   - None. Structural layout component with no interactive behavior.\n//\n// Accessibility:\n//   - No explicit ARIA attributes; consumers use semantic landmarks within sections\n//\n// Internationalization:\n//   - No hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n\nexport interface GrailLayoutBottomFooterProps {\n    className?: string;\n    /** Content to render inside the bottom footer section. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function GrailLayoutBottomFooter({\n    className = \"\",\n    children,\n    ...restProps\n}: GrailLayoutBottomFooterProps) {\n    return (\n        <footer\n            className={`grail-layout-bottom-footer ${className}`}\n            {...restProps}\n        >\n            {children}\n        </footer>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/GrailLayoutBottomFooter.tsx"
+    }
+  ],
+  "categories": [
+    "navigation"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/grail-layout-bottom-footer/"
+}

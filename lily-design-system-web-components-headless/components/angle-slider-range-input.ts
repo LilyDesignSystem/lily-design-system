@@ -39,7 +39,7 @@ export class AngleSliderRangeInput extends HTMLElement {
         input.min = this.getAttribute("min") ?? "0";
         input.max = this.getAttribute("max") ?? "360";
         input.step = this.getAttribute("step") ?? "1";
-        input.value = this.getAttribute("value") ?? "0";
+        input.defaultValue = this.getAttribute("value") ?? "0";
         if (this.hasAttribute("disabled")) input.disabled = true;
         passThroughAttributes(this, input, HANDLED);
         input.addEventListener("input", this.#onInput);

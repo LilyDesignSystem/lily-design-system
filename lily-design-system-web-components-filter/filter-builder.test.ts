@@ -570,3 +570,45 @@ describe("Filter — another language and right-to-left (§8.26–§8.29)", () =
         ).toEqual([]);
     });
 });
+
+// P10-T9: inside a <form>, a reset puts the filter back to the one the consumer set, every field included (as the
+// Svelte reference does).
+describe("Filter form reset", () => {
+    function inForm() {
+        const form = document.createElement("form");
+        document.body.append(form);
+        const el = document.createElement("lily-filter-builder") as FilterBuilder;
+        el.setAttribute("label", base.label);
+        el.fields = base.fields;
+        el.labels = base.labels;
+        el.value = start(rule("name", "contains", "a"), rule("age", "gt", 3));
+        const changes: FilterGroup[] = [];
+        el.onChange = (g) => changes.push(g);
+        form.append(el);
+        const fields = () => [...form.querySelectorAll<HTMLInputElement>("input.filter-value")];
+        return { form, fields, changes };
+    }
+
+    test("restores the initial filter and redraws every field, touched or not", async () => {
+        const { form, fields, changes } = inForm();
+        fields()[0].value = "typed";
+        fields()[0].dispatchEvent(new Event("input", { bubbles: true }));
+        expect(fields().map((f) => f.value)).toEqual(["typed", "3"]);
+        form.reset();
+        await tick();
+        expect(fields().map((f) => f.value)).toEqual(["a", "3"]);
+        expect(changes.at(-1)!.children.map((c) => (c as FilterRule).value)).toEqual(["a", 3]);
+        form.remove();
+    });
+
+    test("a cancelled reset changes nothing", async () => {
+        const { form, fields } = inForm();
+        fields()[0].value = "typed";
+        fields()[0].dispatchEvent(new Event("input", { bubbles: true }));
+        form.addEventListener("reset", (event) => event.preventDefault());
+        form.reset();
+        await tick();
+        expect(fields()[0].value).toBe("typed");
+        form.remove();
+    });
+});

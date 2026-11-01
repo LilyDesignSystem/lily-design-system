@@ -4,8 +4,15 @@ using Xunit;
 
 namespace LilyBlazorHeadless.Tests.Components;
 
+// The keys live in TileMap.razor.js (bUnit runs no JavaScript); tests/js/tile-map.test.mjs tests them.
 public class TileMapTests : TestContext
 {
+    public TileMapTests()
+    {
+        var module = JSInterop.SetupModule(TileMap.ModulePath);
+        module.SetupModule("attach", _ => true);
+    }
+
     [Fact]
     public void Renders_with_kebab_base_class()
     {
@@ -33,5 +40,13 @@ public class TileMapTests : TestContext
             .AddUnmatched("data-test", "value"));
         var root = cut.Find(".tile-map");
         Assert.Equal("value", root.GetAttribute("data-test"));
+    }
+
+    [Fact]
+    public void Attaches_the_keyboard_module_to_the_map()
+    {
+        RenderComponent<TileMap>(p => p.AddChildContent("body"));
+        Assert.Contains(JSInterop.Invocations, i => i.Identifier == "import" && (string?)i.Arguments[0] == TileMap.ModulePath);
+        Assert.Contains(JSInterop.Invocations, i => i.Identifier == "attach");
     }
 }

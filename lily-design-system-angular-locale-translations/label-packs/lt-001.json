@@ -283,5 +283,10 @@
     "small": "mažas",
     "smaller": "mažesnis",
     "smallest": "mažiausias"
+  },
+  "date-time-now-input": {
+    "date": "Data",
+    "time": "Laikas",
+    "now": "Dabar"
   }
 }

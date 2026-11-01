@@ -1452,3 +1452,50 @@ describe("DateTimePicker — form reset", () => {
         expect(new FormData(form).get("when")).toBe("2026-10-09");
     });
 });
+
+describe("DateTimePicker — worldwide equity (P17-T1 to T3)", () => {
+    test("§7.90 the heading names the Gregorian month the grid shows, in any locale's own calendar", async () => {
+        for (const locale of ["fa-IR", "th-TH", "ja-JP-u-ca-japanese", "ar-SA"]) {
+            const fixture = mount({ locale, value: "2026-03-15" });
+            await open(fixture);
+            // 2026 in ASCII or in the locale's numbering system, never 2569 (Buddhist), 1404 (Solar Hijri), 1447 (Hijri) or 令和8.
+            const digits = new Intl.NumberFormat(locale, { useGrouping: false }).format(2026);
+            expect(periodText(fixture), locale).toContain(digits);
+        }
+    });
+
+    test("§7.91 typed dates accept native digits", () => {
+        expect(parseDateInput("٢٠٢٦-٠٣-١٥")).toBe("2026-03-15"); // Arabic-Indic
+        expect(parseDateInput("۲۰۲۶-۰۳-۱۵")).toBe("2026-03-15"); // Persian
+        expect(parseDateInput("२०२६-०३-१५")).toBe("2026-03-15"); // Devanagari
+        expect(parseDateInput("২০২৬-০৩-১৫")).toBe("2026-03-15"); // Bengali
+    });
+
+    test("§7.92 typed times accept native digits and the locale's own day-period words", () => {
+        expect(parseTimeInput("٠٩:٣٠")).toBe("09:30");
+        expect(parseTimeInput("३:४५ pm")).toBe("15:45");
+        const pm = new Intl.DateTimeFormat("ar-EG", {
+            hour: "numeric",
+            hourCycle: "h12",
+            timeZone: "UTC",
+        })
+            .formatToParts(new Date(Date.UTC(2021, 4, 6, 15)))
+            .find((p) => p.type === "dayPeriod")!.value;
+        expect(parseTimeInput(`٣:٣٠ ${pm}`, "ar-EG")).toBe("15:30");
+        expect(parseTimeInput("3:30 pm", "ar-EG")).toBe("15:30"); // am/pm stays accepted everywhere
+    });
+
+    test("§7.93 in a right-to-left layout ArrowLeft moves to the next day", async () => {
+        const wrapper = document.createElement("div");
+        wrapper.setAttribute("dir", "rtl");
+        document.body.appendChild(wrapper);
+        const fixture = mount({ value: "2026-03-15" });
+        wrapper.appendChild(fixture.nativeElement);
+        await open(fixture);
+        await keydownSettled(fixture, grid(fixture), "ArrowLeft");
+        expect(cursorDate(fixture)).toBe("2026-03-16");
+        await keydownSettled(fixture, grid(fixture), "ArrowRight");
+        expect(cursorDate(fixture)).toBe("2026-03-15");
+        wrapper.remove();
+    });
+});

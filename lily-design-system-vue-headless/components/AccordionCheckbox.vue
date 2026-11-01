@@ -52,7 +52,8 @@
 //   - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
 //   - MDN input type=checkbox: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox
 
-import { computed } from "vue";
+import { computed, ref } from "vue";
+import { useFormReset } from "./form-reset";
 
 const props = defineProps<{
     /** Checkbox label text. */
@@ -62,6 +63,8 @@ const props = defineProps<{
 }>();
 
 const checked = defineModel<boolean>("checked", { default: false });
+const field = ref<HTMLInputElement | null>(null);
+useFormReset(checked, field);
 
 const baseId = computed(
     () => props.id ?? `accordion-checkbox-${Math.random().toString(36).slice(2, 9)}`,
@@ -79,6 +82,7 @@ const panelId = computed(() => `${baseId.value}-panel`);
             :id="checkboxId"
             :aria-controls="panelId"
             :aria-expanded="checked"
+            ref="field"
             v-model="checked"
         />
         <label

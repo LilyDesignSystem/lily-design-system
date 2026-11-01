@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<a class=\"go-to-next-section\" href=\"#section-3\" aria-label=\"Next: Implementation →\">Next: Implementation →</a>";
   const svelteSource: string = "// In your Svelte component:\nimport GoToNextSection from \"lily-design-system-svelte-headless/components/GoToNextSection/GoToNextSection.svelte\";\n\n<GoToNextSection>\n  <!-- content -->\n</GoToNextSection>\n";
-  const usageCode: string = "<GoToNextSection href=\"#section-3\" label=\"Next section: Implementation\" />\n";
+  const usageCode: string = "<GoToNextSection\n  href=\"#section-3\"\n  label=\"Next section: Implementation\"\n/>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

@@ -5,7 +5,7 @@
     a guideline list of discouraged dont-list-item components
 *@
 
-<ol class="@($"dont-list {CssClass}".Trim())" role="list" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</ol>
+<ul class="@($"dont-list {CssClass}".Trim())" role="list" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</ul>
 
 @code {
     [Parameter] public string Label { get; set; } = "";

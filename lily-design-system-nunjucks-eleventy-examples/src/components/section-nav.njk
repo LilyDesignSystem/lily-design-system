@@ -17,7 +17,13 @@ description: a navigation container for section links
 <pre tabindex="0"><code>{% raw %}&lt;SectionNav label="In this section"&gt;
   &lt;SectionList&gt;
     &lt;SectionListItem&gt;&lt;SectionLink href="/section-a"&gt;Section A&lt;/SectionLink&gt;&lt;/SectionListItem&gt;
-    &lt;SectionListItem&gt;&lt;SectionLink href="/section-b" current&gt;Section B&lt;/SectionLink&gt;&lt;/SectionListItem&gt;
+    &lt;SectionListItem
+      &gt;&lt;SectionLink
+        href="/section-b"
+        current
+        &gt;Section B&lt;/SectionLink
+      &gt;&lt;/SectionListItem
+    &gt;
   &lt;/SectionList&gt;
 &lt;/SectionNav&gt;
 {% endraw %}</code></pre>

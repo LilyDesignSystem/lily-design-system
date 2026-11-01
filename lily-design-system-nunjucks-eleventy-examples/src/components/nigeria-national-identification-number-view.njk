@@ -1,0 +1,23 @@
+---
+layout: layouts/component-demo.njk
+title: NigeriaNationalIdentificationNumberView
+description: a read-only display of Nigeria's National Identification Number (NIN)
+---
+
+{% from "components/nigeria-national-identification-number-view/macro.njk" import nigeriaNationalIdentificationNumberView %}
+
+<h2>Default</h2>
+<p>{{ nigeriaNationalIdentificationNumberView({ text: "NigeriaNationalIdentificationNumberView example", label: "NigeriaNationalIdentificationNumberView example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;SummaryList&gt;
+  &lt;SummaryListItem term="National Identification Number (NIN)"&gt;
+    &lt;NigeriaNationalIdentificationNumberView
+      label="National Identification Number (NIN)"
+      value="{value}"
+    /&gt;
+  &lt;/SummaryListItem&gt;
+&lt;/SummaryList&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

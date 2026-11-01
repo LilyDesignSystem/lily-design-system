@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"action-group\" aria-label=\"a group of action buttons that can collapse to an overflow menu when space is constrained\">ActionGroup</div>";
   const svelteSource: string = "// In your Svelte component:\nimport ActionGroup from \"lily-design-system-svelte-headless/components/ActionGroup/ActionGroup.svelte\";\n\n<ActionGroup>\n  <!-- list children -->\n</ActionGroup>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import ActionGroup from './ActionGroup.svelte';\n\n  let open = $state(false);\n<\/script>\n\n<ActionGroup\n  label=\"Editing actions\"\n  overflowOpen={open}\n  overflowLabel=\"More actions\"\n  onOverflowToggle={() => (open = !open)}\n>\n  <button type=\"button\">Cut</button>\n  <button type=\"button\">Copy</button>\n  <button type=\"button\">Paste</button>\n\n  {#snippet overflow()}\n    <ul role=\"menu\">\n      <li role=\"menuitem\"><button>Find</button></li>\n      <li role=\"menuitem\"><button>Replace</button></li>\n    </ul>\n  {/snippet}\n</ActionGroup>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import ActionGroup from \"./ActionGroup.svelte\";\n\n  let open = $state(false);\n<\/script>\n\n<ActionGroup\n  label=\"Editing actions\"\n  overflowOpen={open}\n  overflowLabel=\"More actions\"\n  onOverflowToggle={() => (open = !open)}\n>\n  <button type=\"button\">Cut</button>\n  <button type=\"button\">Copy</button>\n  <button type=\"button\">Paste</button>\n\n  {#snippet overflow()}\n    <ul role=\"menu\">\n      <li role=\"menuitem\"><button>Find</button></li>\n      <li role=\"menuitem\"><button>Replace</button></li>\n    </ul>\n  {/snippet}\n</ActionGroup>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>
@@ -85,7 +85,7 @@
       <li><code>role="group"</code> on the container</li>
       <li><code>aria-label</code> is the accessible name (required)</li>
       <li>Overflow trigger: <code>aria-haspopup="menu"</code>, <code>aria-expanded</code>, optional <code>aria-label</code> via <code>overflowLabel</code></li>
-      <li>Overflow panel uses the <code>hidden</code> attribute when closed</li>
+      <li>Overflow panel is a closed popover (or <code>hidden</code>, without the Popover API) when closed</li>
     </ul>
     <h3>Keyboard</h3>
     <ul>

@@ -285,7 +285,7 @@
         "value": 2.0,
         "unit": "rem"
       },
-      "$description": "Smallest corner radius. Applied to chips, badges, switches, and radio/checkbox containers (mapped to `--lily-radius-sm`)."
+      "$description": "Smallest corner radius. Applied to chips, badges, switches, and radio/checkbox containers (mapped to `--lily-radius- sm`)."
     },
     "field": {
       "$type": "dimension",
@@ -348,48 +348,64 @@
   },
   "space": {
     "fluid-gutter": {
-      "$type": "fluidDimension",
+      "$type": "dimension",
       "$value": {
-        "floor": {
-          "value": 1,
-          "unit": "rem"
-        },
-        "base": {
-          "value": 0.5,
-          "unit": "rem"
-        },
-        "grow": {
-          "value": 2,
-          "unit": "vw"
-        },
-        "ceiling": {
-          "value": 2,
-          "unit": "rem"
-        }
+        "value": 1.0,
+        "unit": "rem"
       },
-      "$description": "Fluid inline gutter for page containers and the main region: grows with the viewport from a 1rem floor to a 2rem ceiling. Spacing only, never text."
+      "$description": "Fluid inline gutter for page containers and the main region: grows with the viewport from a 1rem floor to a 2rem ceiling. Spacing only, never text.",
+      "$extensions": {
+        "com.lilydesignsystem": {
+          "fluid": {
+            "floor": {
+              "value": 1.0,
+              "unit": "rem"
+            },
+            "base": {
+              "value": 0.5,
+              "unit": "rem"
+            },
+            "grow": {
+              "value": 2.0,
+              "unit": "vw"
+            },
+            "ceiling": {
+              "value": 2.0,
+              "unit": "rem"
+            }
+          }
+        }
+      }
     },
     "fluid-section": {
-      "$type": "fluidDimension",
+      "$type": "dimension",
       "$value": {
-        "floor": {
-          "value": 1,
-          "unit": "rem"
-        },
-        "base": {
-          "value": 0.75,
-          "unit": "rem"
-        },
-        "grow": {
-          "value": 1,
-          "unit": "vw"
-        },
-        "ceiling": {
-          "value": 2,
-          "unit": "rem"
-        }
+        "value": 1.0,
+        "unit": "rem"
       },
-      "$description": "Fluid gap between sections (stacks and grids): grows with the viewport from a 1rem floor to a 2rem ceiling. Spacing only, never text."
+      "$description": "Fluid gap between sections (stacks and grids): grows with the viewport from a 1rem floor to a 2rem ceiling. Spacing only, never text.",
+      "$extensions": {
+        "com.lilydesignsystem": {
+          "fluid": {
+            "floor": {
+              "value": 1.0,
+              "unit": "rem"
+            },
+            "base": {
+              "value": 0.75,
+              "unit": "rem"
+            },
+            "grow": {
+              "value": 1.0,
+              "unit": "vw"
+            },
+            "ceiling": {
+              "value": 2.0,
+              "unit": "rem"
+            }
+          }
+        }
+      }
     }
   }
 }

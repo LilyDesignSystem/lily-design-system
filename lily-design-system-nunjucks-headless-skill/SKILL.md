@@ -7,7 +7,7 @@ license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 # Lily Design System™ — Nunjucks headless macros
 
 `@lilydesignsystem/nunjucks-headless` is one of Lily's seven full-catalog
-headless libraries: 582 accessible components as Nunjucks 3 macros, one
+headless libraries: 583 accessible components as Nunjucks 3 macros, one
 macro per component, zero CSS, zero bundled JavaScript. It targets WCAG 2.2
 AAA and follows the same headless-layer rules as every other Lily catalog —
 semantic HTML first, ARIA where semantics fall short, no visual decisions
@@ -109,7 +109,7 @@ place.
 
 Class hooks work exactly as in every other Lily catalog: the root element
 always carries the kebab-case base class, `params.classes` appends the
-consumer's own class, and consumer CSS (or one of the 45 reference
+consumer's own class, and consumer CSS (or one of the 63 reference
 `themes/*.css` stylesheets) targets the class hook. The macro itself
 ships zero CSS — see `AGENTS/theme.md` for the token shape and the
 forbidden-literal list that applies here exactly as it does to the other
@@ -122,7 +122,7 @@ there is no client runtime bundled with this catalog at all, unlike a
 component framework's hydration story. Everything the macro can decide it
 decides at render time; anything that needs a live DOM, `matchMedia`,
 `localStorage`, or `Intl` at call time is out of scope for a plain
-headless macro (the `*-picker` helpers catalog is where that split shows
+headless macro (the `*-picker` helper packages are where that split shows
 up explicitly — see the sibling skill below).
 
 ## Where the rest of the detail lives
@@ -135,11 +135,18 @@ up explicitly — see the sibling skill below).
   `*Nav`/`*List`/`*ListItem`, table sub-elements, etc.) that this
   catalog's macros follow one-to-one.
 
+## Native dialogs and popovers (2026-10-30)
+
+Modal overlays (`dialog`, `alert-dialog`, `file-dialog`, `timeout-dialog`, `drawer`, `sheet`, `slide-out-drawer`) are a real
+`<dialog>`; these macros ship no script, so your code opens one with `el.showModal()` (each one's header comment says so): the page behind is inert, Tab stays inside, Escape closes, focus returns to the opener. Light-dismiss
+popups (`popover`, `popup`, `contextual-help`, `dropdown-menu`, `split-button`, `action-group`, `context-menu`) use the Popover API
+(`popover="auto"`, opened by `command="toggle-popover"` `commandfor`, with `popovertarget` as well), which needs no script at all: the browser opens
+them from the trigger and closes them on Escape or an outside click. Keep their open state two-way: listen for the change rather than assuming only your code closes
+them. Per-component decisions: each `components/{slug}/AGENTS.md` § "Native platform"; rule: `AGENTS/headless.md`.
+
 ## When NOT this skill
 
-- Questions about the six `*-picker` helper packages (`theme-picker`,
-  `locale-picker`, `text-size-picker`, `motion-picker`, `share-picker`,
-  `date-time-picker`) — those are a separate catalog with their own
+- Questions about the helper packages (the eleven `*-picker` helpers, `picker-bar`, the grid-like helpers and the editors) — those are a separate catalog with their own
   macro-plus-client.js split; use
   `lily-design-system-nunjucks-helpers-skill`.
 - General Lily concepts, terminology, or the headless-vs-example split

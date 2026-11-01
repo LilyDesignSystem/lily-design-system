@@ -7,6 +7,7 @@ import {
     labelsFor,
     SPEC,
     textSizeLabels,
+    dateTimeNowInputLabels,
     type LabelHelper,
     type LabelPack,
 } from "./label-pack.js";
@@ -181,5 +182,37 @@ describe("textSizeLabels", () => {
     });
     it("omits a size the pack lacks", () => {
         expect(textSizeLabels({ locale: "xx", reviewed: false })).toEqual({});
+    });
+});
+
+describe("dateTimeNowInputLabels", () => {
+    it("names all three controls in every pack, three different names each", () => {
+        for (const [locale, pack] of packs) {
+            const labels = dateTimeNowInputLabels(pack);
+            expect(Object.keys(labels), locale).toEqual(["dateLabel", "timeLabel", "nowLabel"]);
+            expect(new Set(Object.values(labels)).size, locale).toBe(3);
+        }
+    });
+    it("reads English and Spanish as specified", () => {
+        expect(dateTimeNowInputLabels(packs.get("en-001")!)).toEqual({
+            dateLabel: "Date",
+            timeLabel: "Time",
+            nowLabel: "Now",
+        });
+        expect(dateTimeNowInputLabels(packs.get("es-001")!)).toEqual({
+            dateLabel: "Fecha",
+            timeLabel: "Hora",
+            nowLabel: "Ahora",
+        });
+    });
+    it("omits a name the pack lacks or leaves empty", () => {
+        expect(dateTimeNowInputLabels({ locale: "xx", reviewed: false })).toEqual({});
+        expect(
+            dateTimeNowInputLabels({
+                locale: "xx",
+                reviewed: false,
+                "date-time-now-input": { date: "D", now: "" },
+            }),
+        ).toEqual({ dateLabel: "D" });
     });
 });

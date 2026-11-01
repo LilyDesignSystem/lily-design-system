@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<span class=\"measurement-unit-view\">cm</span>";
   const svelteSource: string = "// In your Svelte component:\nimport MeasurementUnitView from \"lily-design-system-svelte-headless/components/MeasurementUnitView/MeasurementUnitView.svelte\";\n\n<MeasurementUnitView label=\"Label\" value=\"Sample value\" />\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import MeasurementUnitView from \"./MeasurementUnitView.svelte\";\n<\/script>\n\n<MeasurementUnitView value=\"kg\" />\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import MeasurementUnitView from \"./MeasurementUnitView.svelte\";\n<\/script>\n\n<MeasurementUnitView value=\"kg\" />\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

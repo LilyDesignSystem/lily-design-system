@@ -41,12 +41,14 @@
 //   - lily-design-system-html-headless/components/split-button.html (behaviour idiom)
 //   - WAI-ARIA Menu Button pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/
 
-import { applySelfClassName, moveChildrenInto } from "../lib/dom-utils.js";
+import { applySelfClassName, moveChildrenInto, nextId } from "../lib/dom-utils.js";
+import { popoverSupported, syncPopover, toggleOpened } from "./popover.js";
 
 export class SplitButton extends HTMLElement {
     #built = false;
     #trigger: HTMLButtonElement | null = null;
     #menu: HTMLDivElement | null = null;
+    #menuId = nextId("lily-split-button-menu");
 
     connectedCallback(): void {
         if (this.#built) return;
@@ -68,9 +70,18 @@ export class SplitButton extends HTMLElement {
         trigger.setAttribute("aria-haspopup", "menu");
         const menuLabel = this.getAttribute("menu-label");
         if (menuLabel !== null) trigger.setAttribute("aria-label", menuLabel);
+        // popover="auto" (tasks.md P18-T11): command="toggle-popover" opens and closes the menu, Escape and light
+        // dismiss come from the browser, and the toggle event reports each change. Without the API the click,
+        // Escape and an outside click below do it, and syncPopover sets `hidden`.
+        trigger.setAttribute("aria-controls", this.#menuId);
+        trigger.setAttribute("command", "toggle-popover");
+        trigger.setAttribute("commandfor", this.#menuId);
+        trigger.setAttribute("popovertarget", this.#menuId);
 
         const menu = document.createElement("div");
         menu.className = "split-button-menu";
+        menu.id = this.#menuId;
+        menu.setAttribute("popover", "auto");
 
         // Menu content is the host's original light-DOM children.
         moveChildrenInto(this, menu);
@@ -81,12 +92,11 @@ export class SplitButton extends HTMLElement {
 
         const initiallyOpen = this.hasAttribute("menu-open");
         trigger.setAttribute("aria-expanded", initiallyOpen ? "true" : "false");
-        menu.hidden = !initiallyOpen;
 
         const setOpen = (isOpen: boolean): void => {
             if (trigger.getAttribute("aria-expanded") === (isOpen ? "true" : "false")) return;
             trigger.setAttribute("aria-expanded", isOpen ? "true" : "false");
-            menu.hidden = !isOpen;
+            syncPopover(menu, isOpen);
             this.dispatchEvent(
                 new CustomEvent("lily-menu-toggle", {
                     detail: { open: isOpen },
@@ -104,13 +114,16 @@ export class SplitButton extends HTMLElement {
         });
 
         trigger.addEventListener("click", () => {
-            if (trigger.disabled) return;
+            if (trigger.disabled || popoverSupported(menu)) return;
             setOpen(trigger.getAttribute("aria-expanded") !== "true");
         });
+
+        menu.addEventListener("toggle", (event: Event) => setOpen(toggleOpened(event)));
 
         this.addEventListener("keydown", (event: Event) => {
             const keyboardEvent = event as KeyboardEvent;
             if (
+                !popoverSupported(menu) &&
                 keyboardEvent.key === "Escape" &&
                 trigger.getAttribute("aria-expanded") === "true"
             ) {
@@ -121,6 +134,7 @@ export class SplitButton extends HTMLElement {
 
         document.addEventListener("click", (event: Event) => {
             if (
+                !popoverSupported(menu) &&
                 !this.contains(event.target as Node) &&
                 trigger.getAttribute("aria-expanded") === "true"
             ) {
@@ -131,6 +145,7 @@ export class SplitButton extends HTMLElement {
         this.appendChild(primary);
         this.appendChild(trigger);
         this.appendChild(menu);
+        syncPopover(menu, initiallyOpen);
 
         this.#trigger = trigger;
         this.#menu = menu;
@@ -146,6 +161,6 @@ export class SplitButton extends HTMLElement {
             return;
         }
         this.#trigger.setAttribute("aria-expanded", isOpen ? "true" : "false");
-        this.#menu.hidden = !isOpen;
+        syncPopover(this.#menu, isOpen);
     }
 }

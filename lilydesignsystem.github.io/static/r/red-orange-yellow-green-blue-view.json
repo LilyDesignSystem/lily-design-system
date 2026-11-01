@@ -2,7 +2,7 @@
   "slug": "red-orange-yellow-green-blue-view",
   "name": "RedOrangeYellowGreenBlueView",
   "description": "a read-only display of a five-level color status",
-  "htmlTag": "div",
+  "htmlTag": "span",
   "category": "content",
   "baseClass": ".red-orange-yellow-green-blue-view",
   "subClasses": [],

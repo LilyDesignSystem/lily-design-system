@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "beach-ball",
+  "type": "registry:component",
+  "title": "BeachBall",
+  "description": "A decorative animated beach ball element.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/BeachBall.tsx",
+      "content": "import React from \"react\";\n\n// BeachBall component\n//\n// A headless loading/waiting indicator inspired by the macOS spinning beach\n// ball cursor. Renders a <div> with role=\"status\" and an inner <span> animation\n// target when active. Commonly used to indicate background processing, page\n// loads, or any busy state where the system is working on a task.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible description of what is loading, applied via aria-label.\n//   active — boolean, default true. Whether the loading indicator is currently active.\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Syntax:\n//   <BeachBall label=\"Loading content\" />\n//\n// Examples:\n//\n//   <BeachBall label=\"Processing request\" active={isLoading} />\n//\n//\n//   <BeachBall label=\"Fetching data\" />\n//\n// Keyboard:\n//   None — this is a passive informational indicator, not interactive.\n//\n// Accessibility:\n//   - role=\"status\" identifies this as a status region for screen readers\n//   - aria-live=\"polite\" announces loading state changes without interrupting the user\n//   - aria-busy reflects the active prop, signaling loading in progress\n//   - aria-label describes what is loading, set from the label prop\n//   - data-active attribute mirrors the active state for CSS selectors\n//\n// Internationalization:\n//   - All text comes through the label prop; no hardcoded strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Inner <span aria-hidden=\"true\"> is the animation target; consumer applies spin/pulse CSS\n//   - The <span> is only rendered when active is true\n//\n// References:\n//   - WAI-ARIA Status Role: https://www.w3.org/TR/wai-aria-1.2/#status\n//   - ARIA aria-busy: https://www.w3.org/TR/wai-aria-1.2/#aria-busy\n\nexport interface BeachBallProps {\n    className?: string;\n    /** Accessible label describing what is loading */\n    label: string;\n    /** Whether the loading indicator is active */\n    active?: boolean;\n    [key: string]: unknown;\n}\n\nexport default function BeachBall({\n    className = \"\",\n    label,\n    active = true,\n    ...restProps\n}: BeachBallProps) {\n    return (\n        <div\n            className={`beach-ball ${className}`}\n            role=\"status\"\n            aria-label={label}\n            aria-busy={active}\n            aria-live=\"polite\"\n            data-active={active}\n            {...restProps}\n        >\n            {active && (\n                <>\n                    <span aria-hidden=\"true\"></span>\n                </>\n            )}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/BeachBall.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/beach-ball/"
+}

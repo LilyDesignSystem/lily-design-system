@@ -14,7 +14,7 @@
 
 - Renders <div class="mentions-input" data-trigger-char={triggerChar}> container
 - Inner <input class="mentions-input-control" type="text" role="combobox"> with ARIA attrs
-- Suggestions <div class="mentions-input-suggestions"> toggled with hidden attribute
+- Suggestions <div class="mentions-input-suggestions"> `popover="manual"`, shown while `expanded` (the hidden attribute where the Popover API is missing)
 - label prop is REQUIRED and applied as aria-label on the input
 - triggerChar defaults to "@"
 - disabled disables the input
@@ -45,6 +45,14 @@
 - `oninput` / `onInput`: callback (optional)
 - `children`: slot — suggestions content
 - `...restProps`: any additional HTML attributes
+
+## Native platform
+
+- Decision: native
+- Uses: native <input role="combobox">; suggestions div popover="manual" shown from the expanded state
+- Could use: CSS anchor positioning to the input (theme)
+- Notes: P16-T4 (2026-10-31): in Svelte, React, Vue, HTML, Alpine and Web Components, and Angular and Blazor where the component has the state (Angular: combobox, mentions-input, popconfirm-dialog, tree-select; Blazor: combobox; the rest are static stubs), always rendered with popover="manual". Nunjucks keeps the hidden attribute: its macros render the state on the server and have no script to call showPopover(), and a manual popover cannot be open in server-rendered HTML. Always rendered with popover="manual" and opened by the state through Popover/popover.ts, with the hidden attribute where the Popover API is missing (jsdom, older engines). Top layer removes z-index and overflow clipping; Escape and light dismiss stay the consumer's. As combobox; anchoring to the caret is not possible with anchor positioning, so placement stays at the input.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
 
 ## Acceptance Criteria
 

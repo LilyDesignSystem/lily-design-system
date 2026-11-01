@@ -1,14 +1,14 @@
-import { describe, expect, test } from "vitest";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { TestBed } from "@angular/core/testing";
 
 import { SlideOutDrawer } from "./SlideOutDrawer";
 
 describe("SlideOutDrawer", () => {
-    test("renders the div root with the base class", () => {
+    test("renders the dialog root with the base class", () => {
         const fixture = TestBed.createComponent(SlideOutDrawer);
         fixture.componentRef.setInput("open", true);
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.slide-out-drawer");
+        const el = fixture.nativeElement.querySelector("dialog.slide-out-drawer");
         expect(el).toBeTruthy();
     });
 
@@ -17,7 +17,7 @@ describe("SlideOutDrawer", () => {
         fixture.componentRef.setInput("open", true);
         fixture.componentRef.setInput("className", "extra");
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.slide-out-drawer");
+        const el = fixture.nativeElement.querySelector("dialog.slide-out-drawer");
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
@@ -37,13 +37,13 @@ describe("SlideOutDrawer — dialog contract and Escape", () => {
         fixture.detectChanges();
         return {
             fixture,
-            el: fixture.nativeElement.querySelector("div.slide-out-drawer") as HTMLElement,
+            el: fixture.nativeElement.querySelector("dialog.slide-out-drawer") as HTMLElement,
         };
     }
 
     test("is a labelled modal dialog that can take focus", () => {
         const { el } = create();
-        expect(el.getAttribute("role")).toBe("dialog");
+        expect(el.tagName).toBe("DIALOG");
         expect(el.getAttribute("aria-modal")).toBe("true");
         expect(el.getAttribute("aria-label")).toBe("Panel");
         expect(el.getAttribute("tabindex")).toBe("-1");
@@ -52,7 +52,7 @@ describe("SlideOutDrawer — dialog contract and Escape", () => {
     test("renders nothing while closed", () => {
         const fixture = TestBed.createComponent(SlideOutDrawer);
         fixture.detectChanges();
-        expect(fixture.nativeElement.querySelector("div.slide-out-drawer")).toBeNull();
+        expect(fixture.nativeElement.querySelector("dialog.slide-out-drawer")).toBeNull();
     });
 
     test("Escape closes the panel (open becomes false) and other keys do not", () => {
@@ -63,6 +63,79 @@ describe("SlideOutDrawer — dialog contract and Escape", () => {
         expect(key(el, "Escape").defaultPrevented).toBe(true);
         fixture.detectChanges();
         expect(fixture.componentInstance.open()).toBe(false);
-        expect(fixture.nativeElement.querySelector("div.slide-out-drawer")).toBeNull();
+        expect(fixture.nativeElement.querySelector("dialog.slide-out-drawer")).toBeNull();
+    });
+});
+
+// Modality (tasks.md P18-T6): a <dialog> opened with showModal(). jsdom has no showModal, so it is stubbed on the
+// prototype the way a browser behaves; the Tab trap and inert page are the browser's part and need a real engine.
+describe("SlideOutDrawer — real modality", () => {
+    const proto = HTMLDialogElement.prototype as unknown as {
+        showModal?: () => void;
+        close?: () => void;
+    };
+    let showModal: ReturnType<typeof vi.fn>;
+    let close: ReturnType<typeof vi.fn>;
+    let trigger: HTMLButtonElement;
+
+    beforeEach(() => {
+        showModal = vi.fn(function (this: HTMLDialogElement) {
+            this.setAttribute("open", "");
+        });
+        close = vi.fn(function (this: HTMLDialogElement) {
+            this.removeAttribute("open");
+        });
+        proto.showModal = showModal as unknown as typeof proto.showModal;
+        proto.close = close as unknown as typeof proto.close;
+        trigger = document.createElement("button");
+        document.body.append(trigger);
+        trigger.focus();
+    });
+
+    afterEach(() => {
+        delete proto.showModal;
+        delete proto.close;
+        trigger.remove();
+    });
+
+    function open() {
+        const fixture = TestBed.createComponent(SlideOutDrawer);
+        fixture.componentRef.setInput("label", "Panel");
+        fixture.componentRef.setInput("open", true);
+        fixture.detectChanges();
+        return { fixture, el: fixture.nativeElement.querySelector("dialog.slide-out-drawer") as HTMLDialogElement };
+    }
+
+    test("is a <dialog> opened with showModal() and says aria-modal", () => {
+        const { el } = open();
+        expect(el.tagName).toBe("DIALOG");
+        expect(el.classList.contains("slide-out-drawer")).toBe(true);
+        expect(el.hasAttribute("role")).toBe(false);
+        expect(showModal).toHaveBeenCalledTimes(1);
+        expect(el.getAttribute("aria-modal")).toBe("true");
+    });
+
+    test("opening moves focus inside", () => {
+        const { el } = open();
+        expect(el.contains(document.activeElement)).toBe(true);
+    });
+
+    test("the native cancel event (Escape) closes it", () => {
+        const { fixture, el } = open();
+        const event = new Event("cancel", { cancelable: true });
+        el.dispatchEvent(event);
+        fixture.detectChanges();
+        expect(event.defaultPrevented).toBe(true);
+        expect(fixture.componentInstance.open()).toBe(false);
+        expect(fixture.nativeElement.querySelector("dialog.slide-out-drawer")).toBeNull();
+    });
+
+    test("closing calls close() and returns focus to the trigger", () => {
+        const { fixture } = open();
+        expect(document.activeElement).not.toBe(trigger);
+        fixture.componentRef.setInput("open", false);
+        fixture.detectChanges();
+        expect(close).toHaveBeenCalledTimes(1);
+        expect(document.activeElement).toBe(trigger);
     });
 });

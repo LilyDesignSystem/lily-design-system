@@ -283,5 +283,10 @@
     "small": "mazs",
     "smaller": "mazāks",
     "smallest": "mazākais"
+  },
+  "date-time-now-input": {
+    "date": "Datums",
+    "time": "Laiks",
+    "now": "Tagad"
   }
 }

@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"password-input-or-text-input-div\"><input type=\"password\" aria-label=\"Password\" /><button type=\"button\">Show</button></div>";
   const svelteSource: string = "// In your Svelte component:\nimport PasswordInputOrTextInputDiv from \"lily-design-system-svelte-headless/components/PasswordInputOrTextInputDiv/PasswordInputOrTextInputDiv.svelte\";\n\n<PasswordInputOrTextInputDiv>\n  <!-- content -->\n</PasswordInputOrTextInputDiv>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import PasswordInputOrTextInputDiv from './PasswordInputOrTextInputDiv.svelte';\n\n  let password = $state(\"\");\n<\/script>\n\n<PasswordInputOrTextInputDiv label=\"Password\" bind:value={password} />\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import PasswordInputOrTextInputDiv from \"./PasswordInputOrTextInputDiv.svelte\";\n\n  let password = $state(\"\");\n<\/script>\n\n<PasswordInputOrTextInputDiv\n  label=\"Password\"\n  bind:value={password}\n/>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

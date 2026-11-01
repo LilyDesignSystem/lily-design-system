@@ -4,9 +4,9 @@ A headless modal overlay that slides in from one of the four viewport edges. Ren
 
 ## What it is
 
-A Svelte 5 headless component that, when `open` is `true`, renders a single `<div class="sheet ...">` with:
+A Svelte 5 headless component that, when `open` is `true`, renders a single modal `<dialog class="sheet ...">`, opened with `showModal()` (see `../Dialog/modal.ts`), with:
 
-- `role="dialog"`
+- implicit `role="dialog"`
 - `aria-label={label}`
 - `aria-modal="true"`
 - `tabindex="-1"`
@@ -17,11 +17,11 @@ When `open` is `false`, nothing is rendered in the DOM.
 ## What it does
 
 - Conditionally mounts the dialog based on the `open` binding.
-- Declares modal dialog semantics.
+- Is a real modal: the page behind is inert, Tab stays inside, focus returns to the opener on close.
 - Exposes `data-side="left|right|top|bottom"` for CSS slide-in animations.
-- Handles the Escape key to set `open = false` (value is `$bindable(false)`).
+- Handles the Escape key and the native `cancel`/`close` events to set `open = false` (value is `$bindable(false)`).
 
-Focus trapping, backdrop click, and animation are left to the consumer.
+Backdrop click and animation are left to the consumer; focus trapping comes from `showModal()`.
 
 ## When to use it
 
@@ -44,7 +44,7 @@ Focus trapping, backdrop click, and animation are left to the consumer.
 3. Bind `open` with `bind:open`.
 4. Pick a `side` for the animation direction.
 5. Implement the trigger button that toggles `open` to `true`.
-6. Implement any focus-trap and CSS transitions yourself.
+6. Add CSS transitions and `::backdrop` styling yourself (reset the user-agent `<dialog>` margin and inset for an edge-docked panel).
 
 ## Props
 
@@ -53,7 +53,7 @@ Focus trapping, backdrop click, and animation are left to the consumer.
 - `open` (boolean, optional, default `false`, bindable).
 - `side` (`"left" | "right" | "top" | "bottom"`, optional, default `"right"`).
 - `children` (Snippet, required) - sheet content.
-- `...restProps` - spread onto the `<div>`.
+- `...restProps` - spread onto the `<dialog>`.
 
 ## Usage
 
@@ -148,10 +148,10 @@ Styling by side via CSS:
 
 ## Accessibility
 
-- `role="dialog"` + `aria-modal="true"` + `aria-label` form a conformant modal dialog.
+- `<dialog>` opened with `showModal()` + `aria-modal="true"` + `aria-label` form a conformant modal dialog.
 - Escape dismisses the sheet (built in).
-- `tabindex="-1"` lets consumers move focus to the dialog container programmatically.
-- Consumers must implement a focus trap and restore focus to the trigger on close.
+- `tabindex="-1"` lets the dialog take focus when it has no focusable child.
+- Focus moves inside on open, cannot leave while open, and returns to the trigger on close.
 - Underlying page should be made inert while the sheet is open.
 
 References:

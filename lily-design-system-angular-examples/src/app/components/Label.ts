@@ -10,10 +10,11 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-label",
     standalone: true,
-    template: `<div class="label {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<label class="label {{ className() }}" [attr.for]="for() || null"><ng-content /></label>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Label {
-    readonly label = input<string>("");
+    /** The id of the control this label names. */
+    readonly for = input<string>("");
     readonly className = input<string>("");
 }

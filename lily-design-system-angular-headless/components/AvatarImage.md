@@ -8,7 +8,7 @@ in the canonical repo root for the cross-framework documentation.
 ## Selector
 
 ```html
-<lily-avatar-image></lily-avatar-image>
+<lily-avatar-image src="/people/ada.png"></lily-avatar-image>
 ```
 
 ## Files

@@ -4,10 +4,10 @@ import { TestBed } from "@angular/core/testing";
 import { StickyPromoBanner } from "./StickyPromoBanner";
 
 describe("StickyPromoBanner", () => {
-    test("renders the div root with the base class", () => {
+    test("renders the <aside> root with the base class", () => {
         const fixture = TestBed.createComponent(StickyPromoBanner);
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.sticky-promo-banner");
+        const el = fixture.nativeElement.querySelector("aside.sticky-promo-banner");
         expect(el).toBeTruthy();
     });
 
@@ -15,7 +15,7 @@ describe("StickyPromoBanner", () => {
         const fixture = TestBed.createComponent(StickyPromoBanner);
         fixture.componentRef.setInput("className", "extra");
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.sticky-promo-banner");
+        const el = fixture.nativeElement.querySelector("aside.sticky-promo-banner");
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });

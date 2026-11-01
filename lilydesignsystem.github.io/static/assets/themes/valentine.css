@@ -220,7 +220,7 @@
         /* --- Typography ---------------------------------------------------- */
         /* Body font stack — system fonts first so consumers get a
            native-feeling baseline without shipping a web font. */
-        --lily-font-body:
+        --lily-font-body-latin:
             system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
             Arial, sans-serif;
         /* Monospaced font stack — used by code, kbd, identifiers, and
@@ -1788,6 +1788,15 @@
     /* Drawers — side panels (right edge by default; RTL-aware via logical
        properties). Sit above the overlay container (z-index 101). */
     :where(.drawer, .slide-out-drawer, .sheet) {
+        /* These are <dialog> elements opened with showModal() (P18-T6): undo the
+           browser's centred-box defaults so the panel docks to the edge. */
+        margin: 0;
+        border: 0;
+        inset-inline-start: auto;
+        max-block-size: none;
+        max-inline-size: none;
+        block-size: 100%;
+        box-sizing: border-box;
         position: fixed;
         inset-block: 0;
         inset-inline-end: 0;
@@ -1798,6 +1807,10 @@
         box-shadow: var(--lily-shadow-lg);
         padding: 1rem;
         z-index: 101;
+    }
+
+    :where(.drawer, .slide-out-drawer, .sheet)::backdrop {
+        background-color: color-mix(in oklch, black 50%, transparent);
     }
 
     /* ==========================================================================
@@ -2828,6 +2841,43 @@
         }
     }
 
+    /* Anchored popups (P16-T4). These nine render `popover="manual"`, which puts them in the top layer; the
+       browser's own popover style would centre them in the viewport. Closed, they are display: none (or `hidden`
+       where the Popover API is missing). Where anchor positioning exists, the four that live inside a component
+       open under that component's trigger or input, as wide as it at least; the five that stand alone (tooltip,
+       hover card, floating panel, coachmark, popconfirm) open under the element the consumer names with
+       `position-anchor`, or the invoker of a `popovertarget`, and stay where the browser puts them without one. */
+    :where(.cascader-panel, .tree-select-panel, .mentions-input-suggestions, .combobox > [role="listbox"], .tooltip, .hover-card, .floating-panel, .coachmark, .popconfirm-dialog)[hidden] {
+        display: none;
+    }
+
+    :where(.cascader-panel, .tree-select-panel, .mentions-input-suggestions, .combobox > [role="listbox"], .tooltip, .hover-card, .floating-panel, .coachmark, .popconfirm-dialog)[popover]:not(:popover-open) {
+        display: none;
+    }
+
+    @supports (position-area: block-end) {
+        :where(.cascader-trigger) { anchor-name: --lily-cascader; }
+        :where(.tree-select-trigger) { anchor-name: --lily-tree-select; }
+        :where(.mentions-input-control) { anchor-name: --lily-mentions-input; }
+        :where(.combobox > input) { anchor-name: --lily-combobox; }
+        :where(.cascader-panel) { position-anchor: --lily-cascader; }
+        :where(.tree-select-panel) { position-anchor: --lily-tree-select; }
+        :where(.mentions-input-suggestions) { position-anchor: --lily-mentions-input; }
+        :where(.combobox > [role="listbox"]) { position-anchor: --lily-combobox; }
+        :where(.cascader-panel, .tree-select-panel, .mentions-input-suggestions, .combobox > [role="listbox"], .tooltip, .hover-card, .floating-panel, .coachmark, .popconfirm-dialog)[popover] {
+            position: fixed;
+            inset: auto;
+            margin: 0;
+            position-area: block-end span-inline-end;
+            position-try-fallbacks: flip-inline, flip-block, flip-block flip-inline;
+            width: max-content;
+            max-width: calc(100vw - 1rem);
+        }
+        :where(.cascader-panel, .tree-select-panel, .mentions-input-suggestions, .combobox > [role="listbox"])[popover] {
+            min-inline-size: anchor-size(inline);
+        }
+    }
+
     :where(.theme-picker-list, .locale-picker-list, .text-size-picker-list, .time-zone-picker-list, .motion-picker-list)
         > :where(
             .theme-picker-option,
@@ -3785,6 +3835,39 @@
 }
 
 /* ============================================================================
+ * Coarse pointer targets — WCAG 2.2 2.5.5 (AAA), shared verbatim by all themes.
+ *
+ * Where the primary pointer is coarse (a finger), interactive hooks are at least
+ * 44x44 CSS pixels: buttons, tabs, options, menu items, the page-header picker
+ * buttons, form fields, checkboxes and radios, and the link-shaped navigation
+ * hooks. Links inside running text are exempt, so bare `a` is not listed. The
+ * query is the capability, never a viewport width. :where() keeps specificity
+ * at zero, so any consumer rule still wins.
+ * ========================================================================= */
+
+@media (pointer: coarse) {
+    :where(button,
+           [role="button"],
+           [role="tab"],
+           [role="option"],
+           [role="menuitem"],
+           [class*="-picker-button"],
+           summary,
+           input:not([type="hidden"]),
+           select,
+           textarea,
+           .action-link,
+           .back-link,
+           .breadcrumb-list-item > a,
+           .pagination-list-item > a,
+           .contents-list-item > a,
+           .section-list-item > a) {
+        min-inline-size: 44px;
+        min-block-size: 44px;
+    }
+}
+
+/* ============================================================================
  * Overflow guards — narrow-viewport safety, shared verbatim by all themes.
  *
  * Content that is intrinsically wider than the viewport scrolls or wraps
@@ -3896,6 +3979,18 @@
     .indonesia-nomor-induk-kependudukan-view,
     .prathet-thai-lek-prajam-tua-prachachon-view,
     .chile-rol-unico-nacional-view,
+    .taiwan-guomin-shenfenzheng-tongyi-bianhao-view,
+    .hong-kong-identity-card-view,
+    .iran-kod-e-melli-view,
+    .as-saudiyah-raqm-al-huwiyah-al-wataniyah-view,
+    .malaysia-kad-pengenalan-view,
+    .viet-nam-can-cuoc-cong-dan-view,
+    .pakistan-computerized-national-identity-card-view,
+    .uruguay-cedula-de-identidad-view,
+    .ecuador-cedula-de-identidad-view,
+    .colombia-cedula-de-ciudadania-view,
+    .australia-tax-file-number-view,
+    .nigeria-national-identification-number-view,
     .misr-al-raqm-al-qawmi-view
 ) {
     overflow-wrap: anywhere;
@@ -4060,6 +4155,8 @@
 
 :where(.gantt-table-td[data-in-range]) {
     background-color: var(--color-primary);
+    /* Text inside a bar (the Alpine port's milestone label, say) sits on the primary fill. */
+    color: var(--color-primary-content);
 }
 
 :where(.gantt-table-td[data-in-range][data-milestone]) {
@@ -4226,4 +4323,190 @@
 
 :where(html) {
     scroll-padding-block: var(--lily-fixed-bar-block-start, 0px) var(--lily-fixed-bar-block-end, 0px);
+}
+
+/* ============================================================================
+ * Text size and motion preferences — shared verbatim by all themes.
+ *
+ * The text-size-picker sets `data-text-size` on the root and the motion-picker
+ * sets `data-motion`; neither styles anything itself. These rules are what make
+ * the choice visible.
+ *
+ * Text size: the seven steps scale the root font size, and every theme sizes in
+ * `rem`, so the whole page follows (WCAG 1.4.4). `normal` is 100% (the viewer's
+ * own browser setting), and the scale is percentages of that, never pixels, so
+ * a viewer who raised their browser font size keeps it. The steps below
+ * `normal` are the viewer's explicit choice.
+ *
+ * Motion: `data-motion="reduce"` shortens every animation and transition to
+ * 0.01ms instead of removing it. The end state still arrives and `animationend`
+ * / `transitionend` still fire, so nothing that depends on them breaks and no
+ * information is lost: a spinner's `role="status"` text, a disclosure's open
+ * state and a toast's content are untouched. Scrolling is instant.
+ * ========================================================================= */
+
+:where(html[data-text-size="smallest"]) { font-size: 80%; }
+:where(html[data-text-size="smaller"]) { font-size: 90%; }
+:where(html[data-text-size="small"]) { font-size: 95%; }
+:where(html[data-text-size="normal"]) { font-size: 100%; }
+:where(html[data-text-size="large"]) { font-size: 110%; }
+:where(html[data-text-size="larger"]) { font-size: 125%; }
+:where(html[data-text-size="largest"]) { font-size: 150%; }
+
+:where(html[data-motion="reduce"]) {
+    scroll-behavior: auto;
+}
+:where(html[data-motion="reduce"], html[data-motion="reduce"] *, html[data-motion="reduce"] *::before, html[data-motion="reduce"] *::after) {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0s !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+    scroll-behavior: auto !important;
+}
+
+/* ============================================================================
+ * Forced colours and contrast preference — shared verbatim by all themes.
+ *
+ * Forced colours (Windows High Contrast, `forced-colors: active`): the browser
+ * replaces every colour with a system colour, which erases anything a control
+ * told apart by background alone. These rules give such controls a border,
+ * keep the focus ring, and mark selected and current items with `Highlight`
+ * and `SelectedItem` rather than a tint (WCAG 1.4.1, 2.4.7, 1.4.11).
+ *
+ * Contrast preference (`prefers-contrast: more`): a heavier border on controls
+ * and a thicker focus ring. Colours are not changed here; a theme's colours are
+ * its author's decision.
+ * ========================================================================= */
+
+@media (forced-colors: active) {
+    :where(button, input, select, textarea, summary, [role="button"], [role="option"], [role="tab"], [role="menuitem"], [role="switch"], [role="checkbox"], [role="radio"], [class$="-button"]) {
+        border: 1px solid ButtonBorder;
+    }
+    :where(a, button, input, select, textarea, summary, [tabindex], [role="button"], [role="option"], [role="tab"], [class$="-button"]):focus-visible {
+        outline: 3px solid Highlight;
+        outline-offset: 2px;
+    }
+    :where([aria-selected="true"], [aria-pressed="true"], [aria-checked="true"], [data-active]) {
+        background: SelectedItem;
+        color: SelectedItemText;
+        forced-color-adjust: none;
+    }
+    :where([aria-current]:not([aria-current="false"])) {
+        outline: 2px solid Highlight;
+        outline-offset: -2px;
+    }
+    :where(:disabled, [aria-disabled="true"]) {
+        border-color: GrayText;
+        color: GrayText;
+    }
+}
+
+@media (prefers-contrast: more) {
+    :where(button, input, select, textarea, [role="button"], [class$="-button"]) {
+        border-width: 2px;
+        border-style: solid;
+        border-color: currentColor;
+    }
+    :where(a, button, input, select, textarea, summary, [tabindex], [role="button"], [role="option"], [role="tab"], [class$="-button"]):focus-visible {
+        outline-width: 3px;
+        outline-offset: 2px;
+    }
+}
+
+/* ============================================================================
+ * Writing systems — shared verbatim by all themes.
+ *
+ * A theme names its Latin font stack (`--lily-font-body-latin`). This section
+ * builds `--lily-font-body` from it, with the system fonts of the element's
+ * script in front: Chinese (Simplified, Traditional, Hong Kong), Japanese,
+ * Korean, Arabic script (Arabic, Persian, Urdu in Nastaliq), Hebrew, the Indic
+ * scripts the site's locales use (Devanagari, Bengali, Gujarati, Gurmukhi,
+ * Kannada, Tamil, Telugu), Thai, Lao and Khmer. Han characters are shared by
+ * Chinese and Japanese but drawn differently, so the language picks the font,
+ * not the script.
+ *
+ * `--lily-font-body` is re-declared on every element with a `lang`, so a
+ * `<p lang="ja">` inside an English page gets Japanese fonts and a
+ * `<span lang="en">` inside it gets none. A language not listed here keeps the
+ * Latin stack, whose final generic family the browser resolves per language.
+ *
+ * `--lily-line-height-body` is 1.5, and 1.75 for scripts with tall marks above
+ * and below the line (Arabic script, the Indic scripts, Thai, Lao, Khmer).
+ * Elements with a `lang` use it; the app's body text should too.
+ *
+ * To change a theme's font, set `--lily-font-body-latin`; to change a script's,
+ * set `--lily-font-script` under `:lang(...)`. Overriding `--lily-font-body`
+ * itself still works on the element you set it on.
+ * ========================================================================= */
+
+:where(:root, [lang]) {
+    --lily-font-body: var(--lily-font-script,) var(--lily-font-body-latin);
+    --lily-line-height-body: 1.5;
+}
+
+:where([lang]) {
+    --lily-font-script: initial;
+    line-height: var(--lily-line-height-body);
+}
+
+:where([lang|="zh"], [lang|="wuu"]) {
+    --lily-font-script: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", "Noto Sans CJK SC", "Source Han Sans SC",;
+}
+:where([lang|="zh-Hant"], [lang="zh-TW"], [lang|="zh-Hant-TW"]) {
+    --lily-font-script: "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", "Noto Sans CJK TC", "Source Han Sans TC",;
+}
+:where([lang="zh-HK"], [lang="zh-MO"], [lang|="zh-Hant-HK"], [lang|="yue"]) {
+    --lily-font-script: "PingFang HK", "Microsoft JhengHei", "Noto Sans HK", "Noto Sans CJK HK", "Source Han Sans HC",;
+}
+:where([lang|="ja"]) {
+    --lily-font-script: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Yu Gothic", Meiryo, "Noto Sans JP", "Noto Sans CJK JP",;
+}
+:where([lang|="ko"]) {
+    --lily-font-script: "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", "Noto Sans CJK KR",;
+}
+:where([lang|="ar"], [lang|="fa"], [lang|="ps"], [lang|="ku"], [lang|="sd"], [lang|="ug"]) {
+    --lily-font-script: "Segoe UI", "Geeza Pro", "Noto Sans Arabic", "Noto Naskh Arabic", Tahoma,;
+}
+:where([lang|="ur"]) {
+    --lily-font-script: "Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", "Segoe UI", "Geeza Pro", "Noto Sans Arabic", Tahoma,;
+}
+:where([lang|="he"], [lang|="yi"]) {
+    --lily-font-script: "Segoe UI", "Arial Hebrew", "Noto Sans Hebrew",;
+}
+:where([lang|="hi"], [lang|="mr"], [lang|="ne"], [lang|="bh"], [lang|="sa"], [lang|="mai"]) {
+    --lily-font-script: "Nirmala UI", "Kohinoor Devanagari", "Devanagari Sangam MN", "Noto Sans Devanagari",;
+}
+:where([lang|="bn"], [lang|="as"]) {
+    --lily-font-script: "Nirmala UI", "Kohinoor Bangla", "Bangla Sangam MN", "Noto Sans Bengali",;
+}
+:where([lang|="gu"]) {
+    --lily-font-script: "Nirmala UI", "Kohinoor Gujarati", "Gujarati Sangam MN", "Noto Sans Gujarati",;
+}
+:where([lang|="pa"]) {
+    --lily-font-script: "Nirmala UI", "Gurmukhi Sangam MN", "Gurmukhi MN", "Noto Sans Gurmukhi",;
+}
+:where([lang|="kn"]) {
+    --lily-font-script: "Nirmala UI", "Kannada Sangam MN", "Noto Sans Kannada",;
+}
+:where([lang|="ta"]) {
+    --lily-font-script: "Nirmala UI", "Tamil Sangam MN", "Noto Sans Tamil",;
+}
+:where([lang|="te"]) {
+    --lily-font-script: "Nirmala UI", "Kohinoor Telugu", "Telugu Sangam MN", "Noto Sans Telugu",;
+}
+:where([lang|="th"]) {
+    --lily-font-script: "Leelawadee UI", Thonburi, "Noto Sans Thai",;
+}
+:where([lang|="lo"]) {
+    --lily-font-script: "Leelawadee UI", "Lao Sangam MN", "Noto Sans Lao",;
+}
+:where([lang|="km"]) {
+    --lily-font-script: "Khmer UI", "Khmer Sangam MN", "Noto Sans Khmer",;
+}
+:where([lang|="ar"], [lang|="fa"], [lang|="ps"], [lang|="ku"], [lang|="sd"], [lang|="ug"], [lang|="ur"],
+       [lang|="hi"], [lang|="mr"], [lang|="ne"], [lang|="bh"], [lang|="sa"], [lang|="mai"], [lang|="bn"],
+       [lang|="as"], [lang|="gu"], [lang|="pa"], [lang|="kn"], [lang|="ta"], [lang|="te"], [lang|="th"],
+       [lang|="lo"], [lang|="km"]) {
+    --lily-line-height-body: 1.75;
 }

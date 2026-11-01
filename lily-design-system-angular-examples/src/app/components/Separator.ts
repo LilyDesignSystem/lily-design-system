@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-separator",
     standalone: true,
-    template: `<div class="separator {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<hr class="separator {{ className() }}" role="separator" [attr.aria-label]="label() || null" />`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Separator {

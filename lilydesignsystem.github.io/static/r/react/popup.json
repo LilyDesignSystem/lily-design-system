@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "popup",
+  "type": "registry:component",
+  "title": "Popup",
+  "description": "A temporary overlay that appears above page content.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "registryDependencies": [
+    "@lily/popover"
+  ],
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Popup.tsx",
+      "content": "\"use client\";\n\n// Popup component\n//\n// A headless overlay dialog that temporarily appears over the main\n// content to convey information, prompt user actions, or display additional\n// options. It renders a <div role=\"dialog\" popover=\"auto\"> (the native Popover API:\n// top layer, Escape and light dismiss, no script) and reports the browser's changes\n// through onChange. Similar to Popover but designed as a general-purpose overlay dialog.\n// Commonly used for confirmations, prompts, contextual actions, and inline forms.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name for the popup dialog via aria-label.\n//   open — boolean, default false, controlled. Whether the popup is visible.\n//   onChange — (value: boolean) => void. Called when the browser opens or closes it\n//     (Escape, light dismiss, a command=\"toggle-popover\" trigger).\n//   id — string, optional (rest prop). Give one so a trigger can name it with commandfor.\n//   children — ReactNode, required. Content rendered inside the dialog.\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Syntax:\n//   <Popup label=\"Info\" open={open} onChange={setOpen}>{children}</Popup>\n//\n// Examples:\n//\n//   <button type=\"button\" command=\"toggle-popover\" commandfor=\"info\">Toggle info</button>\n//   <Popup id=\"info\" label=\"Additional information\" open={open} onChange={setOpen}>\n//     <p>Here is some contextual information.</p>\n//   </Popup>\n//\n// Keyboard:\n//   - Escape: the browser closes the popup (Popover API) and onChange(false) fires;\n//     where the API is missing the consumer closes it\n//   - Tab: not trapped; a popover is non-modal\n//\n// Accessibility:\n//   - role=\"dialog\" identifies the popup as a dialog overlay\n//   - aria-label provides the accessible name for the dialog\n//   - Always in the DOM so a trigger can name its id; closed it is not displayed\n//     (the popover UA style, or `hidden` where the Popover API is missing)\n//\n// Internationalization:\n//   - The label prop is the only text; all content comes through children\n//   - No hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Consumer provides the trigger (command=\"toggle-popover\" commandfor={id})\n//   - Native first: popover=\"auto\", with a scripted fallback (usePopoverState)\n//\n// References:\n//   - WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog/\n//   - WAI-ARIA dialog role: https://www.w3.org/TR/wai-aria-1.2/#dialog\n\nimport React from \"react\";\n\nimport { usePopoverState } from \"./Popover\";\n\nexport interface PopupProps {\n    className?: string;\n    /** Accessible label for the popup dialog. */\n    label: string;\n    /** Whether the popup is visible. Bindable. */\n    open?: boolean;\n    /** Content rendered inside the popup. */\n    children: React.ReactNode;\n    /** Callback when open changes. */\n    onChange?: (value: boolean) => void;\n    [key: string]: unknown;\n}\n\nexport default function Popup({\n    className = \"\",\n    label,\n    open = false,\n    onChange,\n    children,\n    ...restProps\n}: PopupProps) {\n    const ref = React.useRef<HTMLDivElement>(null);\n    usePopoverState(ref, open, onChange);\n    return (\n        <div\n            ref={ref}\n            className={`popup ${className}`}\n            role=\"dialog\"\n            aria-label={label}\n            popover=\"auto\"\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Popup.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/popup/"
+}

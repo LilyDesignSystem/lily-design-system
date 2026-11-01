@@ -2,7 +2,7 @@
 
 A Claude Skill ([`SKILL.md`](SKILL.md)) that explains
 [the HTML helper packages](../spec/helpers/index.md#html-helper-packages):
-the catalog of six opinionated, reusable HTML **web components (custom
+the 20 opinionated, reusable HTML **web components (custom
 elements)** — `theme-picker`, `locale-picker`, `text-size-picker`,
 `motion-picker`, `share-picker`, `date-time-picker` — that sit alongside the
 HTML headless library, each owning one whole interaction end to end.
@@ -28,7 +28,7 @@ the single source of truth.
 
 ## Structure
 
-- [`SKILL.md`](SKILL.md) — the skill itself: the six helpers and what each
+- [`SKILL.md`](SKILL.md) — the skill itself: the helpers and what each
   owns, the three markup shapes (preference listbox, share disclosure,
   date-time field+dialog), the attribute/property/event contract, the
   install-and-consume idiom, and the relationship to the Web Components

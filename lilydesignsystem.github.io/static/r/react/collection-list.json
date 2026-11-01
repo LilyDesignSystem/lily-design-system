@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "collection-list",
+  "type": "registry:component",
+  "title": "CollectionList",
+  "description": "A compact list of multiple related items such as articles or events.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/CollectionList.tsx",
+      "content": "import React from \"react\";\n\n// CollectionList component\n//\n// A compact list of multiple related items such as articles, events, or\n// resources. Renders an unordered list (<ul>) so the children are exposed\n// with native list semantics. Each child should be a CollectionListItem.\n// The optional label provides an accessible name for the list when needed.\n//\n// Props:\n//   className — string, optional. CSS class name appended to the root.\n//   label     — string, optional. aria-label for the list.\n//   children  — ReactNode, required. CollectionListItem children.\n//   ...restProps — additional HTML attributes spread onto the <ul>.\n//\n// Syntax:\n//   <CollectionList label=\"Recent articles\">\n//     <CollectionListItem heading=\"Article one\" />\n//     <CollectionListItem heading=\"Article two\" />\n//   </CollectionList>\n//\n// Accessibility:\n//   - The native <ul> provides list semantics\n//   - aria-label provides an optional accessible name\n//\n// Internationalization:\n//   - All user-facing text is consumer-supplied via the label prop\n//\n// Claude rules:\n//   - Headless: no CSS, no styles\n//   - label is optional\n//\n// References:\n//   - USWDS Collection: https://designsystem.digital.gov/components/collection/\n\nexport interface CollectionListProps {\n    className?: string;\n    /** Optional aria-label for the list */\n    label?: string;\n    /** CollectionListItem children */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function CollectionList({\n    className = \"\",\n    label,\n    children,\n    ...restProps\n}: CollectionListProps) {\n    return (\n        <ul\n            className={`collection-list ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </ul>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/CollectionList.tsx"
+    }
+  ],
+  "categories": [
+    "lists"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/collection-list/"
+}

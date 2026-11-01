@@ -10,19 +10,32 @@
   this value as `aria-controls`. When `params.id` is omitted the
   panel id falls back to "contextual-help-panel".
 
+  No script: the panel is popover="auto" and the trigger names it with
+  command="toggle-popover" commandfor (Chrome 135, Firefox 144, Safari
+  26.2) and popovertarget (Chrome 114, Firefox 125, Safari 17), so the
+  browser opens it, and closes it on Escape and on a click outside it
+  (light dismiss).
+
   Accessibility:
-    - The trigger is <button> with aria-haspopup="dialog",
-      aria-expanded, aria-controls, and an aria-label.
-    - The panel uses role="dialog" and is toggled with the `hidden`
-      attribute based on `expanded`.
+    - The trigger is <button> with aria-haspopup="dialog", aria-controls
+      and an aria-label (its accessible name).
+    - Closed, the trigger carries no static aria-expanded: nothing would
+      update it without script, and the browser exposes the expanded state
+      of a popovertarget trigger itself.
+    - The panel uses role="dialog".
 
   Params:
-    label        string   REQUIRED. aria-label for the help trigger.
-    expanded     boolean  Default false. Whether the popover is open.
-    triggerHtml  string   Optional raw HTML for the trigger button
-                          content (defaults to "?").
-    triggerText  string   Optional escaped text for the trigger
-                          button content (defaults to "?").
+    label         string   REQUIRED. aria-label for the help trigger.
+    triggerLabel  string   REQUIRED. Visible (escaped) text of the trigger,
+                           such as "?" or "؟". No default: the glyph is the
+                           consumer's, per script and locale.
+    triggerHtml   string   Raw HTML for the trigger content instead (an
+                           icon); wins over triggerLabel.
+    triggerText   string   Older name for triggerLabel, still accepted.
+    expanded      boolean  Default false. true renders the panel shown in
+                           place, without the popover attribute (a popover
+                           cannot start open without script), and the
+                           trigger with aria-expanded="true".
     id           string   Optional id for the panel.
     text         string   Plain text content (escaped) for the panel.
     html         string   Raw HTML content for the panel.
@@ -34,7 +47,7 @@
     {{ contextualHelp({
       id: "field-help",
       label: "Help",
-      expanded: false,
+      triggerLabel: "?",
       html: "<p>Type your full legal name.</p>"
     }) }}
 #}
@@ -50,19 +63,20 @@
     type="button"
     aria-label="{{ p.label }}"
     aria-haspopup="dialog"
-    aria-expanded="{{ 'true' if p.expanded else 'false' }}"
     aria-controls="{{ panelId }}"
+    {%- if p.expanded %} aria-expanded="true"
+    {%- else %} command="toggle-popover" commandfor="{{ panelId }}" popovertarget="{{ panelId }}"{% endif %}
   >
     {%- if p.triggerHtml -%}{{ p.triggerHtml | safe }}
+    {%- elif p.triggerLabel -%}{{ p.triggerLabel }}
     {%- elif p.triggerText -%}{{ p.triggerText }}
-    {%- else -%}?
     {%- endif -%}
   </button>
   <div
     class="contextual-help-panel"
     id="{{ panelId }}"
     role="dialog"
-    {%- if not p.expanded %} hidden{% endif %}
+    {%- if not p.expanded %} popover="auto"{% endif %}
   >
     {%- if p.html -%}{{ p.html | safe }}
     {%- elif p.text -%}{{ p.text }}

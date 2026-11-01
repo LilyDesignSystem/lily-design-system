@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "statistic",
+  "type": "registry:component",
+  "title": "Statistic",
+  "description": "A numeric value display with title, prefix, and suffix.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Statistic.tsx",
+      "content": "import React from \"react\";\n\n// Statistic component\n//\n// A numeric value display with title, optional prefix (e.g. currency symbol),\n// and optional suffix (e.g. unit or %). The value is supplied pre-formatted\n// — the consumer is responsible for number formatting / locale.\n//\n// Props:\n//   className    — string, optional. CSS class name.\n//   title        — string, REQUIRED. Statistic label/heading.\n//   value        — string, REQUIRED. Pre-formatted value text.\n//   prefix       — ReactNode, optional. Element before the value.\n//   suffix       — ReactNode, optional. Element after the value.\n//   label        — string, optional. aria-label override (defaults to \"{title}: {value}\").\n//   ...restProps — additional HTML attributes spread onto the root <div>.\n//\n// Syntax:\n//   <Statistic title=\"Revenue\" value=\"123,456\" prefix=\"$\" suffix=\"USD\" />\n//\n// Accessibility:\n//   - role=\"group\" on the container\n//   - aria-label is consumer-provided or auto-composed as \"{title}: {value}\"\n//\n// Internationalization:\n//   - All user-facing strings are consumer-supplied; numbers are pre-formatted by the consumer.\n//\n// Claude rules:\n//   - Headless: no CSS, no styles\n//   - Required string props are non-optional in the interface\n//   - prefix and suffix are ReactNode props (named slots in other frameworks)\n//\n// References:\n//   - Ant Design Statistic: https://ant.design/components/statistic\n\nexport interface StatisticProps {\n    className?: string;\n    /** Statistic label/heading (required) */\n    title: string;\n    /** Pre-formatted value text (required) */\n    value: string;\n    /** Element before the value (e.g. currency symbol) */\n    prefix?: React.ReactNode;\n    /** Element after the value (e.g. unit or %) */\n    suffix?: React.ReactNode;\n    /** aria-label override (defaults to \"{title}: {value}\") */\n    label?: string;\n    [key: string]: unknown;\n}\n\nexport default function Statistic({\n    className = \"\",\n    title,\n    value,\n    prefix = undefined,\n    suffix = undefined,\n    label = undefined,\n    ...restProps\n}: StatisticProps) {\n    const ariaLabel: string = label ?? `${title}: ${value}`;\n    return (\n        <div\n            className={`statistic ${className}`}\n            role=\"group\"\n            aria-label={ariaLabel}\n            {...restProps}\n        >\n            <div className=\"statistic-title\">{title}</div>\n            <div className=\"statistic-value\">\n                {prefix !== undefined && prefix !== null ? (\n                    <span className=\"statistic-prefix\">{prefix}</span>\n                ) : null}\n                {value}\n                {suffix !== undefined && suffix !== null ? (\n                    <span className=\"statistic-suffix\">{suffix}</span>\n                ) : null}\n            </div>\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Statistic.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/statistic/"
+}

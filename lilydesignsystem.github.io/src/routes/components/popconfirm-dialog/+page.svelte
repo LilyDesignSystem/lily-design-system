@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"popconfirm-dialog\" aria-label=\"a popover dialog with confirm and cancel buttons\">PopconfirmDialog</div>";
   const svelteSource: string = "// In your Svelte component:\nimport PopconfirmDialog from \"lily-design-system-svelte-headless/components/PopconfirmDialog/PopconfirmDialog.svelte\";\n\n<PopconfirmDialog label=\"Dialog\" open>\n  <!-- dialog content -->\n</PopconfirmDialog>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import PopconfirmDialog from './PopconfirmDialog.svelte';\n\n  let open = $state(false);\n\n  function confirm() { /* … */ open = false; }\n  function cancel() { open = false; }\n<\/script>\n\n<PopconfirmDialog\n  open={open}\n  title=\"Delete this item?\"\n  description=\"This action cannot be undone.\"\n  confirmLabel=\"Delete\"\n  cancelLabel=\"Cancel\"\n  onconfirm={confirm}\n  oncancel={cancel}\n/>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import PopconfirmDialog from \"./PopconfirmDialog.svelte\";\n\n  let open = $state(false);\n\n  function confirm() {\n    /* … */ open = false;\n  }\n  function cancel() {\n    open = false;\n  }\n<\/script>\n\n<PopconfirmDialog\n  {open}\n  title=\"Delete this item?\"\n  description=\"This action cannot be undone.\"\n  confirmLabel=\"Delete\"\n  cancelLabel=\"Cancel\"\n  onconfirm={confirm}\n  oncancel={cancel}\n/>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

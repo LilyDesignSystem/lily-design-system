@@ -28,7 +28,7 @@ Shorten text in the middle without losing it: the full text stays in the accessi
 
 - [x] Svelte canonical implemented with tests per requirement, and `shared/middle-truncation.ts` with 10 tests
 - [x] Ported to React, Vue, Angular, Blazor (`MaxCharacters` budget, no pixel measuring), Nunjucks (markup and data attributes; the browser shortens), HTML (inline script), Web Components, Alpine (2026-10-23)
-- [x] The 57 themes carry a `.middle-truncation-full` visually-hidden rule and a `.middle-truncation` bounded block (2026-10-23)
+- [x] The 63 themes carry a `.middle-truncation-full` visually-hidden rule and a `.middle-truncation` bounded block (2026-10-23)
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
 

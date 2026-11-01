@@ -6,37 +6,58 @@
 // directly (see lib/dom-utils.applySelfClassName) since <div> has no
 // native behaviour worth preserving as a separate element.
 //
-// DEVIATION FLAG: the React canonical implementation duplicates a full
-// role="dialog"/aria-modal/active/Escape contract on Tour itself — but
-// this catalog's own already-shipped TourList (components/tour-list.ts)
-// independently owns exactly that contract (role="dialog", aria-modal,
-// an `active` attribute, and Escape-to-close), matching the canonical
-// components/tour/AGENTS.md and index.md ("Renders a <div> element as the
-// tour container... Children slot contains TourList with TourListItem
-// steps"). Duplicating the dialog role here would nest two
-// role="dialog"/aria-modal containers, a real accessibility defect. This
-// port follows the documented, simpler contract: Tour is a passive
-// wrapper; TourList owns the interactive dialog behaviour.
+// Like the Svelte canonical implementation (tasks.md P18-T13), Tour is a
+// non-modal role="dialog" with an `active` attribute and Escape-to-close. It
+// sets no aria-modal (tasks.md P18-T6): a tour points at parts of the real
+// page and often asks the user to try them, so the page must stay usable, and
+// nothing here makes it inert. TourList keeps its own `active`/Escape, as in
+// Svelte, and its <ol> keeps its list semantics (no role="dialog").
 //
 // Attributes:
 //   label — REQUIRED. Accessible name for the tour, via aria-label.
+//   active — boolean. Whether the tour is shown; hidden while absent. Escape
+//     inside the tour removes it and dispatches a bubbling `lily-close` event.
 //
 // References:
 //   - components/tour/index.md (canonical contract)
-//   - components/tour-list.ts (owns the dialog/active/Escape contract)
+//   - components/tour-list.ts (its own active/Escape, as in Svelte)
 //   - WAI-ARIA Practices: https://www.w3.org/WAI/ARIA/apg/
 
 import { applySelfClassName } from "../lib/dom-utils.js";
 
 export class Tour extends HTMLElement {
+    static get observedAttributes(): string[] {
+        return ["label", "active"];
+    }
+
     #built = false;
 
     connectedCallback(): void {
-        if (this.#built) return;
-        this.#built = true;
+        if (!this.#built) {
+            this.#built = true;
+            applySelfClassName(this, "tour");
+            this.setAttribute("role", "dialog");
+            this.tabIndex = -1;
+            this.addEventListener("keydown", this.#onKeydown);
+        }
+        this.#sync();
+    }
 
-        applySelfClassName(this, "tour");
+    attributeChangedCallback(): void {
+        this.#sync();
+    }
+
+    #sync(): void {
+        if (!this.#built) return;
         const label = this.getAttribute("label");
         if (label !== null) this.setAttribute("aria-label", label);
+        this.hidden = !this.hasAttribute("active");
     }
+
+    #onKeydown = (event: KeyboardEvent): void => {
+        if (event.key !== "Escape" || !this.hasAttribute("active")) return;
+        // The inner TourList closes itself on Escape too; closing the tour is what the user asked for either way.
+        this.removeAttribute("active");
+        this.dispatchEvent(new CustomEvent("lily-close", { bubbles: true, composed: true }));
+    };
 }

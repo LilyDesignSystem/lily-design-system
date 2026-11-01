@@ -34,4 +34,13 @@ public class ChatListItemTests : TestContext
         var root = cut.Find(".chat-list-item");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Current_sets_aria_current_only_when_true()
+    {
+        var plain = RenderComponent<ChatListItem>(p => p.AddChildContent("x"));
+        Assert.False(plain.Find("li.chat-list-item").HasAttribute("aria-current"));
+        var current = RenderComponent<ChatListItem>(p => p.Add(x => x.Current, true).AddChildContent("x"));
+        Assert.Equal("true", current.Find("li.chat-list-item").GetAttribute("aria-current"));
+    }
 }

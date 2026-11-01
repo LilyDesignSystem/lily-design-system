@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"collection-list-item\" aria-label=\"one item in a collection list with optional image, heading, meta, and description\">CollectionListItem</div>";
   const svelteSource: string = "// In your Svelte component:\nimport CollectionListItem from \"lily-design-system-svelte-headless/components/CollectionListItem/CollectionListItem.svelte\";\n\n<CollectionListItem>\n  <!-- CollectionListItem content -->\n</CollectionListItem>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import CollectionList from '../CollectionList/CollectionList.svelte';\n  import CollectionListItem from './CollectionListItem.svelte';\n<\/script>\n\n<CollectionList label=\"Articles\">\n  <CollectionListItem\n    heading=\"My article\"\n    href=\"/articles/my-article\"\n    meta=\"March 2026\"\n    description=\"A short summary of the article.\"\n  />\n</CollectionList>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import CollectionList from \"../CollectionList/CollectionList.svelte\";\n  import CollectionListItem from \"./CollectionListItem.svelte\";\n<\/script>\n\n<CollectionList label=\"Articles\">\n  <CollectionListItem\n    heading=\"My article\"\n    href=\"/articles/my-article\"\n    meta=\"March 2026\"\n    description=\"A short summary of the article.\"\n  />\n</CollectionList>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

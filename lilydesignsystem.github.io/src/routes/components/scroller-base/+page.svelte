@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"scroller-base\" aria-label=\"a low-level scroll position tracking primitive for scrollytelling\">ScrollerBase</div>";
   const svelteSource: string = "// In your Svelte component:\nimport ScrollerBase from \"lily-design-system-svelte-headless/components/ScrollerBase/ScrollerBase.svelte\";\n\n<ScrollerBase>\n  <!-- content -->\n</ScrollerBase>\n";
-  const usageCode: string = "<ScrollerBase offset={0.5} bind:index bind:progress>\n  <div class=\"step\">Step 1 content</div>\n  <div class=\"step\">Step 2 content</div>\n  <div class=\"step\">Step 3 content</div>\n</ScrollerBase>\n";
+  const usageCode: string = "<ScrollerBase\n  offset=\"{0.5}\"\n  bind:index\n  bind:progress\n>\n  <div class=\"step\">Step 1 content</div>\n  <div class=\"step\">Step 2 content</div>\n  <div class=\"step\">Step 3 content</div>\n</ScrollerBase>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

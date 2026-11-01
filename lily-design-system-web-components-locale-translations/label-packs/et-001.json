@@ -283,5 +283,10 @@
     "small": "väike",
     "smaller": "väiksem",
     "smallest": "väikseim"
+  },
+  "date-time-now-input": {
+    "date": "Kuupäev",
+    "time": "Kellaaeg",
+    "now": "Praegu"
   }
 }

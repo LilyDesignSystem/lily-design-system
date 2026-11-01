@@ -8,7 +8,7 @@ in the canonical repo root for the cross-framework documentation.
 ## Selector
 
 ```html
-<lily-separator></lily-separator>
+<lily-separator label="Section break"></lily-separator>
 ```
 
 ## Files

@@ -3,13 +3,59 @@
 @*
     SliderButton component
     a button with a slider that the user needs to slide to confirm
+
+    A <button role="slider"> whose aria-valuenow is the position, 0 to 100. ArrowRight/ArrowLeft move it by Step;
+    Home returns it to 0; End, Enter or Space complete it (the keyboard fallback for the drag). Reaching 100 raises
+    OnConfirm and resets to 0. Disabled ignores the keys. The consumer draws the track and thumb from aria-valuenow.
+
+    Deviation from the Svelte canonical (Blazor here uses no JS interop): an event handler cannot call preventDefault for
+    only some keys, so the arrow keys may also scroll the page.
+    Unmatched attributes spread onto the root <button>.
 *@
 
-<button class="@($"slider-button {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</button>
+<button class="@($"slider-button {CssClass}".Trim())"
+        type="button"
+        role="slider"
+        aria-label="@Label"
+        aria-valuenow="@_position.ToString(System.Globalization.CultureInfo.InvariantCulture)"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        disabled="@Disabled"
+        @onkeydown="OnKeyDown"
+        @attributes="AdditionalAttributes">@ChildContent</button>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+    /// <summary>How far one arrow press moves the slider, in percent.</summary>
+    [Parameter] public int Step { get; set; } = 10;
+    [Parameter] public bool Disabled { get; set; }
+    /// <summary>Raised when the slider reaches 100%.</summary>
+    [Parameter] public EventCallback OnConfirm { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private int _position;
+
+    private async Task OnKeyDown(KeyboardEventArgs e)
+    {
+        if (Disabled) return;
+        int next;
+        switch (e.Key)
+        {
+            case "ArrowRight": next = _position + Step; break;
+            case "ArrowLeft": next = _position - Step; break;
+            case "Home": next = 0; break;
+            case "End":
+            case "Enter":
+            case " ": next = 100; break;
+            default: return;
+        }
+        if (next >= 100)
+        {
+            _position = 0;
+            await OnConfirm.InvokeAsync();
+        }
+        else _position = Math.Max(0, next);
+    }
 }

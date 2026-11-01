@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "table-td",
+  "type": "registry:component",
+  "title": "TableTD",
+  "description": "A table interactive grid data cell <td>.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/TableTD.tsx",
+      "content": "import React from \"react\";\n\n// TableTD component\n//\n// A data cell within a Table, rendered as a <td> element. Used inside a\n// <TableRow> within <TableBody> or <TableFoot> to hold one cell of data.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   colSpan — number, optional. Number of columns this cell spans.\n//   rowSpan — number, optional. Number of rows this cell spans.\n//   children — ReactNode, optional. Cell content.\n//   ...restProps — additional HTML attributes spread onto the <td>.\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Must be used inside a <tr> within a Table\n//\n// References:\n//   - HTML td element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td\n\nexport interface TableTDProps {\n    className?: string;\n    /** Number of columns this cell spans. */\n    colSpan?: number;\n    /** Number of rows this cell spans. */\n    rowSpan?: number;\n    /** Cell content. */\n    children?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function TableTD({\n    className = \"\",\n    colSpan,\n    rowSpan,\n    children,\n    ...restProps\n}: TableTDProps) {\n    return (\n        <td\n            className={`table-td ${className}`}\n            colSpan={colSpan || undefined}\n            rowSpan={rowSpan || undefined}\n            {...restProps}\n        >\n            {children}\n        </td>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/TableTD.tsx"
+    }
+  ],
+  "categories": [
+    "tables"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/table-td/"
+}

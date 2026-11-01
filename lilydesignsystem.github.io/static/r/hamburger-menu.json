@@ -44,5 +44,10 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/HamburgerMenu.razor"
   },
   "docs": "https://lilydesignsystem.com/components/hamburger-menu/",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/hamburger-menu/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/hamburger-menu/AGENTS.md",
+  "nativePlatform": {
+    "decision": "hand-rolled because a <summary> must sit inside its <details> directly before the panel, so the toggle cannot live in a header row apart from the nav",
+    "uses": "native <button aria-expanded> + <nav>",
+    "could_use": "<details>/<summary>"
+  }
 }

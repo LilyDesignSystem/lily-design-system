@@ -103,7 +103,7 @@ topic specs.
 
 sv-chanhdai serves one `llms.txt` per component from its `docs.md`, so an
 agent reads one component's contract without the whole catalogue. Lily's
-single `llms.txt` links 582 components; its per-component `.md` copies exist
+single `llms.txt` links 607 components; its per-component `.md` copies exist
 but are not announced in a per-component convention.
 
 - **Deliverable:** decide between `/components/{slug}.md` (today) and

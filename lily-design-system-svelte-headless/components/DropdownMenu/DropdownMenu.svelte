@@ -63,6 +63,7 @@
     //   - WAI-ARIA menuitem role: https://www.w3.org/TR/wai-aria-1.2/#menuitem
 
     import type { Snippet } from "svelte";
+    import { popoverState, popoverSupported, toggleOpened } from "../Popover/popover.js";
 
     let {
         class: className = "",
@@ -80,6 +81,8 @@
         [key: string]: unknown;
     } = $props();
 
+    const uid = $props.id();
+    const menuId = `dropdown-menu-${uid}`;
     let menuRef: HTMLElement | undefined = $state(undefined);
 
     // Focus the first menuitem when the menu opens.
@@ -90,8 +93,10 @@
         }
     });
 
+    // With the Popover API the trigger's command="toggle-popover" opens and closes the menu and the toggle event
+    // writes `open` back; without it, the click toggles `open` and popoverState sets `hidden`.
     function toggleMenu() {
-        open = !open;
+        if (menuRef && !popoverSupported(menuRef)) open = !open;
     }
 
     function onMenuKeydown(event: KeyboardEvent) {
@@ -142,19 +147,27 @@
         aria-haspopup="true"
         aria-expanded={open}
         aria-label={label}
+        aria-controls={menuId}
+        command="toggle-popover"
+        commandfor={menuId}
+        popovertarget={menuId}
         onclick={toggleMenu}
     >
         {label}
     </button>
-    {#if open}
-        <!-- svelte-ignore a11y_interactive_supports_focus (the menu container is not a tab stop: items carry tabindex=-1 and onMenuKeydown moves focus to them) -->
-        <div
-            role="menu"
-            aria-label={label}
-            bind:this={menuRef}
-            onkeydown={onMenuKeydown}
-        >
-            {@render children?.()}
-        </div>
-    {/if}
+    <!-- popover="auto": top layer, light dismiss and Escape from the browser; the arrow-key focus movement over the
+         menu items has no native equivalent and stays here. -->
+    <!-- svelte-ignore a11y_interactive_supports_focus (the menu container is not a tab stop: items carry tabindex=-1 and onMenuKeydown moves focus to them) -->
+    <div
+        id={menuId}
+        role="menu"
+        aria-label={label}
+        popover="auto"
+        bind:this={menuRef}
+        use:popoverState={open}
+        ontoggle={(event) => (open = toggleOpened(event))}
+        onkeydown={onMenuKeydown}
+    >
+        {@render children?.()}
+    </div>
 </div>

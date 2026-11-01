@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/angular";
 import { DescriptionListItem } from "./DescriptionListItem";
 
-// Attribute-selector component (`li[lily-description-list-item]`): Storybook's auto-render stub
+// Attribute-selector component (`div[lily-description-list-item]`): Storybook's auto-render stub
 // only knows how to mount an element selector as its own tag, so this story supplies
-// the host <li> explicitly via `render`.
+// the host <div> explicitly via `render`.
 const meta: Meta<DescriptionListItem> = {
     title: "Headless/DescriptionListItem",
     component: DescriptionListItem,
@@ -11,7 +11,7 @@ const meta: Meta<DescriptionListItem> = {
     render: (args) => ({
         props: args,
         moduleMetadata: { imports: [DescriptionListItem] },
-        template: `<li lily-description-list-item [className]="className"></li>`,
+        template: `<div lily-description-list-item [className]="className"></div>`,
     }),
 };
 

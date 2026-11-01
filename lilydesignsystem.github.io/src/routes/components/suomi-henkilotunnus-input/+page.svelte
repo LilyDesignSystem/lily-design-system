@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<label class=\"label\" for=\"demo-input\">Label</label><input class=\"suomi-henkilotunnus-input\" id=\"demo-input\" aria-label=\"an input for entering Finland's Henkilötunnus (HETU)\" />";
   const svelteSource: string = "// In your Svelte component:\nimport SuomiHenkilotunnusInput from \"lily-design-system-svelte-headless/components/SuomiHenkilotunnusInput/SuomiHenkilotunnusInput.svelte\";\n\n<SuomiHenkilotunnusInput label=\"Label\" />\n";
-  const usageCode: string = "<Field label=\"Personal Identity Code\" required>\n  <SuomiHenkilotunnusInput label=\"Personal Identity Code\" value={value} required />\n  <Hint>11 characters in the format DDMMYYCZZZQ: DDMMYY is the date of birth, C is the century sign (+, -, or A), ZZZ is an individual number (odd male, even female), Q is the checksum</Hint>\n  <ErrorMessage>Please enter a valid Personal Identity Code</ErrorMessage>\n</Field>\n";
+  const usageCode: string = "<Field\n  label=\"Personal Identity Code\"\n  required\n>\n  <SuomiHenkilotunnusInput\n    label=\"Personal Identity Code\"\n    value=\"{value}\"\n    required\n  />\n  <Hint\n    >11 characters in the format DDMMYYCZZZQ: DDMMYY is the date of birth, C is the century sign (+,\n    -, or A), ZZZ is an individual number (odd male, even female), Q is the checksum</Hint\n  >\n  <ErrorMessage>Please enter a valid Personal Identity Code</ErrorMessage>\n</Field>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

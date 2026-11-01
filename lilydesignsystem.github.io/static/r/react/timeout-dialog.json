@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "timeout-dialog",
+  "type": "registry:component",
+  "title": "TimeoutDialog",
+  "description": "A modal dialog warning users before session timeout.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "registryDependencies": [
+    "@lily/dialog"
+  ],
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/TimeoutDialog.tsx",
+      "content": "\"use client\";\n\n// TimeoutDialog component\n//\n// A modal dialog warning users before session timeout (ported from the Svelte reference, tasks.md P14-T4). The\n// <dialog> is always rendered and shown while `open`: as a real modal with showModal() (top layer, inert page, Tab\n// trapped) where the browser has it, else with the open attribute. Focus returns to the opener when it closes.\n//\n// Props:\n//   className — string, optional. Extra CSS class on the root.\n//   label — string, optional. Accessible name via aria-label.\n//   open — boolean, default false. Whether the dialog is shown.\n//   children — ReactNode, required. The warning and its actions, supplied by the consumer.\n//   ...restProps — spread onto the <dialog>.\n//\n// Accessibility:\n//   - role=\"alertdialog\": the time-out warning needs the user's response\n//   - the consumer's actions (stay signed in, sign out) are inside the dialog\n//\n// Internationalization:\n//   - No hardcoded strings: the label and all content are the consumer's\n\nimport React, { useRef } from \"react\";\n\nimport { useModalDialog } from \"./Dialog\";\n\nexport interface TimeoutDialogProps {\n    className?: string;\n    label?: string;\n    /** Whether the dialog is shown. */\n    open?: boolean;\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function TimeoutDialog({\n    className = \"\",\n    label = undefined,\n    open = false,\n    children,\n    ...restProps\n}: TimeoutDialogProps) {\n    const ref = useRef<HTMLDialogElement>(null);\n    useModalDialog(ref, open);\n\n    return (\n        <dialog\n            ref={ref}\n            className={`timeout-dialog ${className}`}\n            role=\"alertdialog\"\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </dialog>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/TimeoutDialog.tsx"
+    }
+  ],
+  "categories": [
+    "overlays"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/timeout-dialog/"
+}

@@ -34,5 +34,5 @@ them, so the underlying source stays the single source of truth.
 Scaffolded to the same full-subproject bar as its siblings
 (`lily-design-system-skill`, `lily-design-system-maintainer-skill`,
 `lily-design-system-nunjucks-helpers-skill`) — including the required
-`index.md`, `README.md` symlink, `AGENTS.md`, `CLAUDE.md`, `spec/index.md` — and lives only in this monorepo (its standalone subtree
+`index.md`, `README.md` symlink, `AGENTS.md`, `spec/index.md` — and lives only in this monorepo (its standalone subtree
 repository was deleted 2026-10-10).

@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<span class=\"postal-code-view\">SW1A 1AA</span>";
   const svelteSource: string = "// In your Svelte component:\nimport PostalCodeView from \"lily-design-system-svelte-headless/components/PostalCodeView/PostalCodeView.svelte\";\n\n<PostalCodeView label=\"Label\" value=\"Sample value\" />\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import PostalCodeView from './PostalCodeView.svelte';\n<\/script>\n\n<PostalCodeView text=\"90210\" />\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import PostalCodeView from \"./PostalCodeView.svelte\";\n<\/script>\n\n<PostalCodeView text=\"90210\" />\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>
@@ -76,7 +76,7 @@
       <li>PascalCase: PostalCodeView</li>
       <li>Description: a read-only display of a postal or ZIP code</li>
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
-      <li>HTML tag: &lt;div&gt;</li>
+      <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .postal-code-view</li>
       <li>Interactive: no</li>
     </ul>

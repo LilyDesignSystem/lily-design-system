@@ -12,6 +12,7 @@ describe("popover", () => {
         const el = document.querySelector("div.popover");
         expect(el.getAttribute("id")).toBe("info");
         expect(el.getAttribute("popover")).toBe("auto");
+        expect(el.getAttribute("role")).toBe("dialog");
     });
 
     it("respects a custom popover mode", () => {

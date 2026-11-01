@@ -239,5 +239,10 @@
     "small": "קטן",
     "smaller": "קטן יותר",
     "smallest": "הקטן ביותר"
+  },
+  "date-time-now-input": {
+    "date": "תאריך",
+    "time": "שעה",
+    "now": "עכשיו"
   }
 }

@@ -39,6 +39,8 @@
 
     import type { Snippet } from "svelte";
 
+    import { popoverState } from "../Popover/popover.js";
+
     let {
         class: className = "",
         label,
@@ -89,7 +91,8 @@
     </button>
     <div
         class="cascader-panel"
-        hidden={!expanded}
+        popover="manual"
+        use:popoverState={expanded}
     >
         {#if children}{@render children?.()}{/if}
     </div>

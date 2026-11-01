@@ -3,13 +3,31 @@
 @*
     Tour component
     a tour guide, such as for sightseeing, or pathways, or demonstrations, etc.
+
+    A non-modal dialog (role="dialog", no aria-modal; the page it points at stays usable and focus is not trapped),
+    rendered while Active is true (two-way: @bind-Active). Escape inside it sets Active to false. tabindex="-1" lets it
+    take focus.
+    Unmatched attributes spread onto the root <div>.
 *@
 
-<div class="@($"tour {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+@if (Active)
+{
+    <div class="@($"tour {CssClass}".Trim())" role="dialog" aria-label="@Label" tabindex="-1" @onkeydown="OnKeyDown" @attributes="AdditionalAttributes">@ChildContent</div>
+}
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+    /// <summary>Whether the tour is shown. Bindable.</summary>
+    [Parameter] public bool Active { get; set; }
+    [Parameter] public EventCallback<bool> ActiveChanged { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private async Task OnKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key != "Escape") return;
+        Active = false;
+        await ActiveChanged.InvokeAsync(false);
+    }
 }

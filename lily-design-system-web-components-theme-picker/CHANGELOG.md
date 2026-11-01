@@ -179,6 +179,9 @@ package name.
 
 ### Unreleased
 
+- `variant="select"` renders a native `<select>` instead of the icon button and listbox (RFC 3 prototype, ported from
+  the Svelte reference 2026-10-30). Opt-in; the default is unchanged. See `spec/index.md`, "Native select variant".
+
 #### Changed (BREAKING)
 
 - **`<lily-theme-picker>` is no longer a native `<select>`.** It now

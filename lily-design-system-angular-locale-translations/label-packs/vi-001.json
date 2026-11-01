@@ -283,5 +283,10 @@
     "small": "nhỏ",
     "smaller": "nhỏ hơn",
     "smallest": "nhỏ nhất"
+  },
+  "date-time-now-input": {
+    "date": "Ngày",
+    "time": "Giờ",
+    "now": "Bây giờ"
   }
 }

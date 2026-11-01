@@ -2172,6 +2172,10 @@ All items below are done and verified (suites green, `bin/test`, `bin/check-cove
       (`conversation`, `message`, `task-steps`, `loading-state`, …), advanced widgets (`table-of-contents`,
       `filter-table`, `wheel-picker`, `flowchart`, …) and the small primitives (`native-select`,
       `theme-toggle`, `date-picker`, …). Each needs a design pass first (see CHANGELOG 2026-10-05/06).
+      _(2026-10-30: `wheel-picker` is done (P13-T12, catalog); `table-of-contents` is covered by `contents-nav` with
+      `spy` (P10-T15); `theme-toggle` and `native-select` are partly answered by the theme-picker's `variant="select"`
+      (P18-T12). The rest have no design pass.)_
+      Verify: each remaining name has a dated add / recipe / decline decision in this item.
 - [x] **P9-T13 Docs-site `error-message` colour contrast** — closed 2026-10-06. Not a demo bug: 26 of the 45 themes
       coloured error text with `--color-error`, a _fill_ colour (2.35–4.4:1 on the error-tinted callout). Added
       `--lily-error-text` (22% error mixed into the theme's own `--color-base-content`) and used it for the three text uses
@@ -2197,7 +2201,8 @@ All items below are done and verified (suites green, `bin/test`, `bin/check-cove
 ## Phase 10 — bref-ui survey (2026-10-11)
 
 Ideas from reading [bref-ui](https://github.com/feuersteiner/bref-ui) at commit `3333552`; the reasoning for each is in
-[plan.md § Research findings (2026-10-11)](plan.md#research-findings-2026-10-11-bref-ui). None is started.
+[plan.md § Research findings (2026-10-11)](plan.md#research-findings-2026-10-11-bref-ui). None was started when
+the phase was written; each item carries its own status.
 
 ### Open
 
@@ -2210,15 +2215,22 @@ Ideas from reading [bref-ui](https://github.com/feuersteiner/bref-ui) at commit 
       `segment-group`, `multi-select-with-extras`) bind native inputs there, which Svelte re-syncs itself. Their React,
       Vue and Angular versions were **not** audited — React and Vue controlled inputs can drift the same way (P10-T9). The `invalid`-routing half needs no work: no
       component hides the native field that carries `required`, except `date-time-picker`, whose visible field carries it.
-- [ ] **P10-T2 Native Popover API for `popover` (design pass).** Evaluate `popover="auto"` + `showPopover({ source })`
-      for the headless `Popover` (top layer, Escape and light dismiss from the browser) and, separately, for the pickers'
-      popups, whose Escape/Tab/focus-return contracts must survive unchanged. Record current browser support for the
-      Popover API, the `source` option and CSS anchor positioning before deciding; positioning (`position-area`,
-      `position-try-fallbacks`) would live in the themes, not the headless layer.
-- [ ] **P10-T3 Coarse-pointer target sizes in the 57 themes.** The themes already share a WCAG 2.5.8 (AA) floor —
+- [~] **P10-T2 Native Popover API for `popover` (design pass).** Evaluate `popover="auto"` + `showPopover({ source })`
+  for the headless `Popover` (top layer, Escape and light dismiss from the browser) and, separately, for the pickers'
+  popups, whose Escape/Tab/focus-return contracts must survive unchanged. Record current browser support for the
+  Popover API, the `source` option and CSS anchor positioning before deciding; positioning (`position-area`,
+  `position-try-fallbacks`) would live in the themes, not the headless layer.
+  _(2026-10-30: the headless half is done: `popover`, `popup` and `contextual-help` use `popover="auto"` with
+  `command`/`commandfor` in all nine libraries (P18-T8), and the menu group too (P18-T11); browser support is recorded
+  in `spec/competitive-position` item 4. Open: the pickers' popups, which still use `hidden` and their own
+  Escape/Tab/focus-return code; anchor positioning in the themes.)_
+  Verify: each picker's popup decision is recorded in `spec/helpers`, and its keyboard tests pass unchanged.
+- [x] **P10-T3 Coarse-pointer target sizes in the 63 themes.** The themes already share a WCAG 2.5.8 (AA) floor —
       every interactive hook at least 24×24 CSS px (the "target-size (minimum) floor" section `bin/check-theme` pins).
       Add the AAA step: a `@media (pointer: coarse)` rule giving interactive controls (buttons, picker triggers, options,
       form fields, links in lists) at least 44×44 CSS px (WCAG 2.5.5), as a new shared section the same check pins.
+      _(2026-11-01: done. A shared "Coarse pointer targets" section in all 63 themes, pinned by `bin/check-theme` (`SHARED_SECTIONS`): under `(pointer: coarse)`, buttons, tabs, options, menu items, the page-header picker buttons, summaries, form fields, checkboxes and radios, and the link-shaped navigation hooks get a 44 by 44 minimum; inline links in text are exempt. Checked in Chromium with touch emulation: button, field, checkbox and pagination link 44 by 44, inline link unchanged, and nothing changes with a fine pointer. The example apps' e2e and responsive sweeps were not re-run.)_
+      Verify: `grep -l 'pointer: coarse' themes/*.css | wc -l` prints 63 and `bin/check-theme` pins the section.
 - [x] **P10-T4 Contrast checks in `bin/check-theme`** — closed 2026-10-11. `bin/check-theme --contrast` computes the
       WCAG 2 ratio of 12 token pairs per theme (base content on the three base surfaces, each `-content` colour on its
       fill, `--lily-error-text` on the page), parsing hex and `oklch()` and evaluating `color-mix(in oklch, …)`, and lists
@@ -2230,11 +2242,14 @@ Ideas from reading [bref-ui](https://github.com/feuersteiner/bref-ui) at commit 
 - [ ] **P10-T5 Per-component agent reference.** Generate one compact block per component — purpose, one working
       example, all props on one line (required first, with types and defaults) — from `components/*/AGENTS.md` into a
       generated `llms-full.txt` (root and docs site), with a `--check` drift mode in `bin/test`.
+      Verify: `llms-full.txt` exists at the root and on the site, and its generator's `--check` runs in `bin/test`.
 - [ ] **P10-T6 Decide on a copy-into-project path.** Proposal written 2026-10-11, awaiting a decision:
       [docs/copy-into-project-proposal.md](docs/copy-into-project-proposal.md). A maintainer decision first: whether Lily should offer a
       shadcn-style `add <component>` that copies one component and its dependencies into a consumer project. If yes:
       a per-component manifest (files, exports, dependencies) validated by one loader (unique ids, files exist, no cycles),
       and an `add` that previews add / unchanged / conflict files and confirms each overwrite.
+      _(2026-10-29: proposed as superseded by the shadcn registry (P16-T5); awaiting the maintainer's confirmation.)_
+      Verify: the decision is recorded in `docs/copy-into-project-proposal.md` with a date.
 - [x] **P10-T7 Candidate component: a choice-chip group** — decided 2026-10-11: **no new component.** `radio-group`
       and `checkbox-group` are already `<fieldset>` groups of real, consumer-supplied radio and checkbox inputs — semantically what
       bref-ui's pill choice group is — and a chip is a visual decision, which the headless layer leaves to themes and
@@ -2246,14 +2261,18 @@ Ideas from reading [bref-ui](https://github.com/feuersteiner/bref-ui) at commit 
       (`starLabel`), `FiveFaceRatingPicker` / `FiveFaceRatingView` (numeric default labels) in Svelte, React, Vue, Web
       Components and Nunjucks; Nunjucks also built English labels in its star, face and NPS buttons and views and its star
       picker group, all removed. Every default now falls back to the consumer's `label` or the number. CHANGELOG 2026-10-11.
-- [ ] **P10-T9 Form-reset audit beyond Svelte.** P10-T1's search ran over the Svelte code. Run the same check — a form
+- [x] **P10-T9 Form-reset audit beyond Svelte.** P10-T1's search ran over the Svelte code. Run the same check — a form
+      _(2026-10-29: fixed for React, Vue, Angular, Web Components and HTML headless and the markdown and org editors in five frameworks; a shared `form-reset.ts` per library, reset sweep tests, and `bin/sync-example-components` copies `form-reset.ts`. Open: Blazor (no JS interop, documented deviation), preference pickers' hidden inputs (decide), Svelte editors, and `filter` and the grid-like helpers (not audited))_
       control whose visible value is controlled or held in component state — over the React, Vue and Angular headless
       libraries, starting with `tag-input`, `combobox`, `segment-group`, `multi-select-with-extras` and `editable`.
+  - Status (2026-10-30): the rest closed. Svelte editors: the Markdown and Org editors used a one-way `{value}`, so a reset blanked the textarea while `value` kept the text (measured); both now restore the initial text one tick after an uncancelled reset, with tests that fail on the old code. `filter`: audited and fixed in all seven ports that can hear a reset (Svelte, React, Vue, Angular, HTML, Web Components, Nunjucks); inside a form a reset blanked its fields while the model kept the edits (measured in Svelte). Each now restores the initial filter (for the custom elements and Nunjucks, the last one the consumer set) and redraws every field; Svelte and Angular re-create the editor because they set only the `value` property, while Vue needs only the model (it also writes the `value` attribute, so the browser's reset already restores the fields, measured). Suites: Svelte 76, React 76, Vue 76, Angular 76, HTML 76, Web Components 76, Nunjucks 208; each new path mutation-checked. Blazor: the deviation is now written down in `blazor-headless/spec/index.md` and `blazor-filter/spec/index.md` (it was only in the date-time-picker's). Grid-like helpers (`data-grid`, `kanban-board`, `calendar`, `gantt-chart`): audited, not changed; their inputs are transient editors (inline cell edit, card move, event edit), unnamed except the data grid's inline radio group, and a reset while one is open is not a flow these helpers support. Preference pickers' hidden inputs: decision recorded as no change, because the picker owns a user preference applied to the page, not a form answer, and resetting a form should not silently change the page's theme, locale or text size; the hidden input keeps form participation only.
 - [ ] **P10-T10 Decide the colour fixes for the 50 AA contrast failures** from `bin/check-theme --contrast` (P10-T4).
       A design decision per theme, not a mechanical fix: darken a fill, change its `-content` colour, or accept and document
       it. Start with the public-sector themes, whose colours should match their upstream: the four NHS England and
       Scotland themes' `success` fill is `oklch(56% 0.16 145)` (4.37:1 with white) where NHS's own green `#007f3b` gives
       5.12:1; USWDS `success` (3.14:1); Adobe Spectrum `accent` and `success`; Mozilla Protocol `secondary` and `accent`.
+      _(2026-10-29: the four NHS England and Scotland themes' `success` fixed by P18-T7 (#007F3B, 5.19:1). The rest open.)_
+      Verify: `bin/check-theme --contrast` lists no pair below AA without a documented acceptance.
 - [x] **P10-T11 Component contract metadata that disagrees with the code** — closed 2026-10-11 for the four named here.
       `radio-group` / `checkbox-group`: `<fieldset>` in the contract and all eight libraries. `segment-group-item`: a
       `<button role="radio">` in the contract, Angular and Blazor. `tag`: decided to be a plain `<span>` with the label as
@@ -2264,7 +2283,78 @@ Ideas from reading [bref-ui](https://github.com/feuersteiner/bref-ui) at commit 
       role). A script, as `bin/check-class-names` does for class hooks, comparing `components/*/AGENTS.md` "HTML tag"
       with each library's rendered root. Known so far: `screen-reader-span` renders a `<div>` with `aria-label` (an
       `aria-label` a plain element may not carry); Angular's headless components are thin wrappers that often omit the
-      ARIA their contract requires (e.g. `ToggleButton` has no `aria-pressed`).
+      ARIA their contract requires (e.g. `ToggleButton` has no `aria-pressed`). Also known (2026-10-30): the Nunjucks
+      `contextMenu` root is a `<ul>` where the contract says `<div>` (P18-T11).
+      Verify: a `bin/check-html-tags` (or a `bin/check-class-names` mode) runs in `bin/test` and lists no unexplained gap.
+      _(2026-10-31, first batch: `bin/check-html-tags` finds each library's root statically, as `bin/check-class-names`
+      finds the base class (the element whose class list the slug leads; an Angular attribute selector's host element;
+      Web Components skipped, their root being the custom element by design), compares it with the first tag of the
+      contract's "HTML tag" line, and runs in `bin/test`; a gap must be listed in `bin/check-html-tags.allow.json` and a
+      listed one that now matches fails, so the list only shrinks (both shown). It first found 312 gaps in 158
+      components. 17 contracts were wrong where every library agreed, and are corrected: `do-list` and `dont-list` are
+      `<ul>` (as `AGENTS/components.md` already said), the two rating pickers `<fieldset>` (a documented exception to
+      the `-picker` → `<div>` rule), eleven `-view` components `<span>`, `signature-pad` a `<div>` (the consumer's
+      canvas goes inside), `time-picker-input` an `<input>`. Blazor's eleven views and two lists now follow. 298 gaps
+      remain, each listed as unreviewed with what the library renders against the contract: mostly Angular wrappers
+      that use a `<div>` (about 45), Svelte link components that render a `<div>` where the contract says `<a>`
+      (`accordion-link`, `breadcrumb-link`, `pagination-link`, `tree-link`, DOI link), HTML and Alpine table parts as
+      `<div>`s, Nunjucks roots that differ, and contracts that six libraries disagree with (`accordion-list`,
+      `document-list`, `section-list`, `summary-list`, `mutually-exclusive`, `hamburger-menu`, `footnote`, `timer`).
+      Next batches: decide per component whether the code or the contract is right, fix, and remove the entries.
+      Second batch (2026-10-31): the 18 Svelte roots that were placeholder `<div aria-label>`s where the contract and
+      the other libraries agree. The five links are `<a>` with `href` (`accordion-link`, `breadcrumb-link`,
+      `pagination-link`, `tree-link`; `digital-object-identifier-link` takes `doi`, links through `https://doi.org/`
+      with `rel="noopener noreferrer"` and shows the DOI by default, as its contract says); eleven are tag swaps
+      (`chat-message`, `event`, `organization`, `person`, `place` → `<article>`, `chat-nav` → `<nav>`, `citation` →
+      `<cite>`, `code` → `<code>`, `code-block` → `<pre>`, `hero` → `<section>`, `screen-reader-span` → `<span>`);
+      `slider-button` and `timer-button` are ported from React (a `<button role="slider">` with the arrow keys, Home,
+      End, Enter and Space; a countdown button that activates once). 25 mutations, all caught after one test fix
+      (the timer test now checks the click fires at once, before the countdown would). 280 entries remain. Found on
+      the way: React, Vue, Angular, HTML, Blazor and Alpine's DOI links take a plain `href` instead of the contract's
+      `doi` (only Nunjucks, Web Components and now Svelte build the doi.org link); and `bin/check-coverage` missed
+      keys written "Arrow Right", now read too, which adds 31 keys entries (368): native for `multi-select`,
+      `radio-input` and `theme-select-option`; real gaps for `slider-button` in Alpine, Angular, Blazor and HTML, and
+      for `chat-nav` everywhere (its contract promises Arrow Down / Arrow Up that no library implements: implement,
+      or narrow the contract to Tab, which suits a nav of links). Decided the same day: narrowed; its 8 entries are gone,
+      361 remain, 4 of them real gaps (`slider-button` in Alpine, Angular, Blazor and HTML). Those four are ported the
+      same day from Svelte/React: a `<button role="slider">` whose ArrowRight/ArrowLeft move by a step, Home returns
+      to 0, End/Enter/Space complete, and reaching 100 fires `confirm` (HTML), `lily:confirm` (Alpine), the `confirm`
+      output (Angular) or `OnConfirm` (Blazor) and resets; disabled ignores the keys. 37 mutations, all caught. 357
+      entries remain and none is an implementation gap. Third batch (2026-10-31): the Angular wrappers. 56 were one
+      generic `<div aria-label><ng-content/></div>` stub; 39 now render their contract's element (`<span>`, `<article>`,
+      `<section>`, `<aside>`, `<figure>`, `<header>`, `<cite>`, `<code>`, `<pre>`, `<blockquote>`; `form`,
+      `data-filter-form` and `newsletter-signup` are `<form>`s that prevent the native submission and emit `submitted`),
+      and eight take the inputs their element needs: `avatar-image` (`<img>`, `src`, `alt`), `separator` (`<hr>`),
+      `slider` (a range `<input>`, `[(value)]`, `min`, `max`, `step`, `disabled`, restored on form reset), `details`
+      (`summary`, `[(open)]`), `label` (`for`) and the three go-to links (`<a href>`). Also fixed: `collection-list`,
+      `icon-list` and `validation-list` are `<ul>`; `description-list` is a `<dl>` and its item a
+      `div[lily-description-list-item]` (it was an `<li>`, which a `<dl>` may not hold); `date-time-view` a
+      `<time datetime>` with `format`; `download-button` an `<a href download>` with `fileSize` and `fileFormat`;
+      `text-area-input` a `<textarea>` with `rows`; `navigation-menu` a `<nav>`. 43 mutations, all caught; the
+      existing form-reset test caught the slider missing its reset. The Angular example's booking page passes
+      `summary` to its details. Seven Angular components are the wrong component altogether and are now listed as
+      reviewed implementation gaps to port from Svelte: `date-time-now-input`, `mentions-input`, `popconfirm-dialog`,
+      `split-view`, `transfer-list`, `tree-select` (and `editable`, which every library lists). 224 entries remain;
+      Angular's other 20 are contracts several libraries disagree with. Fourth batch (2026-10-31): the six Angular
+      implementation gaps are ported from Svelte. `popconfirm-dialog` is a non-modal `role="alertdialog"` `<div>`
+      named by its `<h2>` title and described by its description, with cancel and confirm buttons (`cancelled`,
+      `confirmed`); `split-view` two `<section>` panels (`[primary]`, `[secondary]`) around a focusable
+      window-splitter separator, replaceable with `[divider]`; `date-time-now-input` a group of a date input, a time
+      input (`[(dateValue)]`, `[(timeValue)]`, both restored on form reset) and a Now button; `mentions-input` a
+      list-autocomplete combobox input controlling a suggestions panel; `transfer-list` a group of source, actions
+      and target (the actions wrapper is always rendered, since Angular cannot see whether projected content is
+      empty); `tree-select` a `role="combobox"` `<div>` with a trigger (`triggerClick`) and a tree panel. 82
+      generated mutants (each attribute, binding, interpolation and statement removed in turn); nine survived at
+      first and became tests (the confirm button's type, unmarked content not projected, the type attribute, the
+      mentions form reset). 218 entries remain. Found: every library's `date-time-now-input` defaults `dateLabel`,
+      `timeLabel` and `nowLabel` to English ("Date", "Time", "Now"), against AGENTS/internationalization.md. Fixed the
+      same day: the three are required with no default in all nine catalogs, and come from a new
+      `date-time-now-input` section in the 64 label packs (`dateTimeNowInputLabels(pack)` in every TypeScript
+      `*-locale-translations` package, `LocaleTranslations.DateTimeNowInputLabels(locale)` in Blazor); a missing name
+      leaves its control unnamed. Nunjucks also gains the `dateLabel` / `timeLabel` params it lacked (its names were
+      hardcoded) and the contract's `role="group"` and `label`; Blazor's placeholder container is now the real
+      component (`@bind-DateValue`, `@bind-TimeValue`). 17 mutations (an English default put back in each catalog,
+      each loader broken, a pack key renamed or emptied), all caught.)_
 - [x] **P10-T13 One copy of the Svelte headless components** — closed 2026-10-11. `src/lib/components/` removed from
       `lily-design-system-svelte-headless` (every differing file was identical or older there); the example apps' copies are
       generated by `bin/sync-example-components`, checked by `bin/test`. The example apps still carry copies rather than
@@ -2273,7 +2363,9 @@ Ideas from reading [bref-ui](https://github.com/feuersteiner/bref-ui) at commit 
 - [ ] **P10-T14 Decide whether the themes reset a group fieldset's border.** `radio-group` and `checkbox-group` are now
       `<fieldset>`s in every library; the 45 themes lay them out but leave the browser's default fieldset border, padding
       and minimum width. A visual decision: reset them, or keep the border as a grouping cue.
-- [ ] **P10-T15 `scrollspy` as an option on `contents-nav`.** Decided 2026-10-14: add it to `contents-nav` (`spy`) rather than a new component. Svelte done; the other seven libraries follow. Research is in [spec/components/scrollspy.md](spec/components/scrollspy.md): the behaviour, the Bootstrap failure modes to avoid, a recommended `scrollspy-nav`, and three open questions for the maintainer.
+      _(2026-10-30: undecided; no theme styles the group fieldset's border.)_
+      Verify: the decision is recorded here, and if "reset", `bin/check-theme` pins the rule in all 57 themes.
+- [x] **P10-T15 `scrollspy` as an option on `contents-nav`.** _(Closed 2026-10-30 from the record: CHANGELOG 2026-10-14 says all eight headless libraries; `spy` is in the `ContentsNav` source and tests of Svelte, React, Vue, Angular, Web Components and Blazor, `contents-nav-spy.test.js` in HTML and `spy.js` in Nunjucks. Alpine has no `spy`. The three open questions in `spec/components/scrollspy.md` are answered for the first (a `spy` option) and still open for the other two.)_ Decided 2026-10-14: add it to `contents-nav` (`spy`) rather than a new component. Svelte done; the other seven libraries follow. Research is in [spec/components/scrollspy.md](spec/components/scrollspy.md): the behaviour, the Bootstrap failure modes to avoid, a recommended `scrollspy-nav`, and three open questions for the maintainer.
 
 ## Phase 11 — Grid-like helpers, label packs and parity (2026-10-17/18)
 
@@ -2298,8 +2390,11 @@ is in `CHANGELOG.md` (2026-10-18) and each package's own CHANGELOG.
       Spec: `spec/label-packs/`.
 - [x] **P11-T7 Release hygiene.** `bin/verify-published [--wait N]` checks that every helper version is on npm / nuget.org;
       `bin/publish-helpers` prints the reminder.
-- [ ] **P11-T8 Native-speaker review of the 45 draft label packs**, Welsh first. Flip a pack's `"reviewed"` to `true` only when a
-      native speaker has read it, screen-reader wording especially.
+- [ ] **P11-T8 Native-speaker review of the 63 draft label packs** (45 when written; 64 locales since 2026-10-18), Welsh
+      first. Flip a pack's `"reviewed"` to `true` only when a native speaker has read it, screen-reader wording especially.
+      _(2026-10-30: only `en-001` is reviewed, per `bin/check-worldwide`.)_
+      Verify: `bin/check-worldwide` reports the reviewed count rising, and each flipped pack names its reviewer in its
+      commit.
 - [x] **P11-T9 Port the Svelte-only items** to the other catalogs — done 2026-10-18 in all seven: the Gantt critical path
       (`criticalPath()` / `applyCriticalPath()`, Blazor `CriticalPath.Compute()` / `Apply()`), the calendar `periodTitle` anchor argument
       (Blazor: `PeriodTitleWithAnchor`, so 3-argument code still compiles), the kanban lane rules (`canMove` lane argument,
@@ -2336,11 +2431,13 @@ a task was measured on 2026-10-21; re-measure before closing it.
       Web Components and fix what it finds.
       Verify: `tsc --noEmit` exits 0 in each; P12-T1's job is green.
 - [ ] **P12-T3 Lint and format.** _(2026-10-28: ESLint flat config, Prettier config and a `lint` CI job landed at the repo root, scoped to the Svelte, React and Vue headless libraries: 0 errors, ~90 warnings reported. Decided: errors fail, warnings do not. Still open: widen the scope (Angular, Web Components, HTML, helper packages, examples), `angular-eslint`, `jsx-a11y`, `dotnet format` for Blazor, and widening the Prettier scope beyond those three libraries; Prettier is enforced by `pnpm format:check` in the same job, after a reformat of the three libraries listed in `.git-blame-ignore-revs`; use `git config blame.ignoreRevsFile .git-blame-ignore-revs`.)_ Choose one ESLint flat config (with `eslint-plugin-svelte`, `-vue`, `-react-hooks`,
+      _(2026-10-29: `pnpm lint` now covers every `lily-design-system-*` subproject and `shared/` (about 15,700 files, 0 errors, about 8,100 warnings, build output ignored). Still open: `angular-eslint`, `jsx-a11y`, `dotnet format`, and the warning backlog (unused variables in generated tests; downgraded `svelte/prefer-svelte-reactivity`, `react-hooks/*`, `vue/no-dupe-keys`))_
       `angular-eslint`, `eslint-plugin-jsx-a11y` where it applies) and one Prettier config at the root, applied to every JS/TS
       subproject; `dotnet format --verify-no-changes` for Blazor. Land the formatting as its own commit; then add a CI job.
       Decide first whether lint warnings fail CI (recommend: errors only, warnings reported).
       Verify: CI job green; `git blame --ignore-rev` file lists the formatting commit.
-- [ ] **P12-T4 Keyboard behaviour is missing, not just untested, in Angular and HTML (re-scoped 2026-10-21).** _(Angular, 2026-10-21/22: **all 23 done.** Roles, ARIA state and keys ported from Svelte for `Dialog`, `Menu`, `MenuBar`, `ContextMenu`, `DropdownMenu`, `ToggleButton`, `SwitchButton`, `TabBar`, `ToolBar`, `TaskBar`, `TreeList`, `Drawer`, `Sheet`, `SlideOutDrawer`, `ColorPicker` (was a `radiogroup`; the contract says `slider`), `Dial`, `HorizontalScroller`, `TileMap`, `Editable`, `EditableForm`, `PinInputDiv`, `Tour`, `TourList`, plus roles on the child `TabBarButton`, `MenuItem`, `MenuBarButton` and `TreeListItem`. Mutation-checked; overlays and `ContextMenu` render only while open, as in Svelte. Carried over from Svelte unchanged and worth a follow-up: `TileMap` hard-codes the English `aria-roledescription="tile map"` (against the i18n rule), and `Editable` does not move focus into the field it swaps in. **HTML is still open** — its component files contain no key handling.)_ Measured:
+- [x] **P12-T4 Keyboard behaviour is missing, not just untested, in Angular and HTML (re-scoped 2026-10-21).** _(Angular, 2026-10-21/22: **all 23 done.** Roles, ARIA state and keys ported from Svelte for `Dialog`, `Menu`, `MenuBar`, `ContextMenu`, `DropdownMenu`, `ToggleButton`, `SwitchButton`, `TabBar`, `ToolBar`, `TaskBar`, `TreeList`, `Drawer`, `Sheet`, `SlideOutDrawer`, `ColorPicker` (was a `radiogroup`; the contract says `slider`), `Dial`, `HorizontalScroller`, `TileMap`, `Editable`, `EditableForm`, `PinInputDiv`, `Tour`, `TourList`, plus roles on the child `TabBarButton`, `MenuItem`, `MenuBarButton` and `TreeListItem`. Mutation-checked; overlays and `ContextMenu` render only while open, as in Svelte. Carried over from Svelte unchanged and worth a follow-up: `TileMap` hard-codes the English `aria-roledescription="tile map"` (against the i18n rule), and `Editable` does not move focus into the field it swaps in. **HTML is still open** — its component files contain no key handling.)_ Measured:
+      _(2026-10-29: HTML: all 23 done. Roles, ARIA state and keys ported into the `.html` snippets for the same components, with a real-key wdio "keyboard" describe in each `*.test.js` (88 of 91 mutants killed, survivors fixed). `ColorPicker` is now a `slider`; `ToggleButton` is `role="switch"`; `TileMap` no longer hardcodes `aria-roledescription`. Not ported: type-ahead, a `<dialog>` focus-return helper)_ _(2026-10-30: closed. The two leftovers are not owed: none of the 23 contracts (`AGENTS.md` Keyboard sections) or Svelte sources has type-ahead, and no focus-return helper is needed, because closing a `showModal()` dialog returns focus to its opener; `dialog.html` now checks that in Chrome, as the alert, file and timeout dialogs do since P14-T4.)_
       of 162 components whose `AGENTS.md` has a `## Keyboard` section naming keys, 48 have key tests in at least two of Svelte,
       React and Vue. For those, Svelte's source handles keys in 23 (`color-picker`, `context-menu`, `dial`, `dialog`, `drawer`,
       `dropdown-menu`, `editable`, `editable-form`, `horizontal-scroller`, `menu`, `menu-bar`, `pin-input-div`, `sheet`,
@@ -2352,20 +2449,161 @@ a task was measured on 2026-10-21; re-measure before closing it.
       porting from Svelte; for HTML, in the custom elements or a shared script), or **document** that the library is structural
       only and correct the claims below. Then add the key tests.
       Verify: for each of the 23, the Angular (and HTML) source handles the keys its `AGENTS.md` names, with a test sending them.
-- [ ] **P12-T4a Correct the keyboard claims.** _(2026-10-28: the HTML, Blazor, Vue, Svelte and React `index.md` claims softened with measured counts; Angular and Web Components were not claiming it; counts are a point-in-time grep for key handlers.)_ `lily-design-system-html-headless/index.md` says "Full keyboard navigation
+- [x] **P12-T4a Correct the keyboard claims.** _(2026-10-28: the HTML, Blazor, Vue, Svelte and React `index.md` claims softened with measured counts; Angular and Web Components were not claiming it; counts are a point-in-time grep for key handlers.)_ _(2026-10-30: closed. The HTML `index.md` already names the 23 components that handle keys; the Angular `index.md`, which made no claim, now has a Keyboard section naming the same 23.)_ `lily-design-system-html-headless/index.md` says "Full keyboard navigation
       support" and "Keyboard navigation: Full keyboard support for all interactive components"; the Angular library has no
       equivalent caveat. Until P12-T4 lands, say which components handle keys in each library, or soften the claim.
       Verify: no library's `index.md` claims keyboard support its source lacks.
-- [ ] **P12-T5 Add that list to `bin/check-coverage`.** Report, per catalog, components whose `AGENTS.md` names a
+- [x] **P12-T5 Add that list to `bin/check-coverage`.** Report, per catalog, components whose `AGENTS.md` names a
       keyboard contract but whose test sends no key event; fail on regressions once P12-T4 is done.
       Verify: `bin/check-coverage` prints the column; `bin/test` runs it.
+  - Status (2026-10-30): `bin/check-coverage` has a keys column: of the 65 components whose `AGENTS.md` Keyboard section names an APG key (an arrow, Escape, Home, End, PageUp, PageDown), the ones whose test sends no key event, per catalog: Svelte 42, React 42, Vue 42, Angular 41, HTML 36, Blazor 57; Nunjucks n/a (markup only, no script to test). The gaps (260 as first counted; 233 after P12-T5a and P12-T5c, none an implementation gap) are listed in `bin/check-coverage.keys-allow.json`; an unlisted gap fails and so does a listed one that is closed (shown both ways), so the list only shrinks. `--keys-baseline` prints the list. `bin/test` now runs `bin/check-coverage` (CI already did). Closing the 260 gaps is P12-T5a.
+- [x] **P12-T5a Close the key-test gaps in `bin/check-coverage.keys-allow.json`.** Write a test that sends the keys each
+      `AGENTS.md` Keyboard section names (and the behaviour they promise), catalog by catalog, removing each entry as it
+      closes; where a component has no key handling at all, that is a P12-T4-style implementation gap, not a test gap.
+      Verify: `bin/check-coverage` passes with a shorter list.
+      _(2026-10-30, first batch: 289 to 270. Key tests for `combobox`, `file-dialog`, `pin-input-div` and the two
+      rating pickers in Svelte, React and Vue, `combobox` and `file-dialog` in Angular, and every Alpine radio picker
+      (generator: `families/selection.mjs`; user-event added as a dev dependency); each proved by a mutation
+      (the key name, or a radio's shared `name`). Angular `Combobox` was a stub (a labelled div) and is now ported from
+      Svelte, with form reset. Entries that are not test gaps now say why: stubs (Angular and HTML rating pickers, HTML
+      combobox, Blazor rating pickers and `PinInputDiv`) are implementation gaps; `alert-dialog`'s keys are the browser's
+      under `showModal()`, checked by the Blazor e2e. Every remaining entry now gives its reason: native (93: range
+      inputs, selects, the Popover API, `showModal()`), contract (the keys belong to a parent, child or the consumer),
+      browser-side (4 Blazor components whose keys are in JavaScript bUnit cannot run), or implementation gap (the
+      contract promises keys the code lacks: `scroll-bar` and `tree-menu` in most catalogs, Blazor's menus, tabs, tour,
+      dial, color picker and editables, the Alpine tool bar, tile map, tour list and tree list, and the stubs above.
+      Second batch: `tree-menu` was a labelled container with no keys in Svelte, React, Vue, Angular, HTML and Blazor;
+      it is now a `role="tree"` with ArrowDown/ArrowUp (wrapping) and Home/End over the consumer's tree items, in all
+      six (Blazor through `TreeMenu.razor.js`), each test proved by a mutation; the contract's prose and status were
+      corrected. CI now runs the Blazor `tests/js` module tests, which nothing ran before. The `alert-dialog` contract
+      and its port comments still said the consumer handles Escape and the focus trap, wrong since P14-T4; corrected.
+      265 entries remained. Third batch: `scroll-bar` rendered fixed 0/0/100 values and handled no key in any
+      catalog. It now owns a bindable `value` within `min`..`max` (`step`, `pageStep`, `controls` for `aria-controls`),
+      is focusable, and moves the value on the arrows, Page Up/Page Down and Home/End, clamped, in Svelte, React
+      (controlled or `defaultValue`, `onChange`), Vue (`v-model`), Angular (`model`), HTML (`change` event), Blazor
+      (`@bind-Value`, C# keys, no interop), Alpine (`lilyScrollBar`, generator `families/controls.mjs`) and Web
+      Components (`lily-change`). Nunjucks gained the missing `label` (`aria-label`), `min` and `max`. Every test was
+      proved by mutations: one per key, the clamp, the tab stop and the change report. A Home/End mutant that the
+      clamp hid in the HTML range was caught by widening the test range. The contract's "consumer implements the keys"
+      prose and its link to a nonexistent APG scrollbar pattern were corrected. 258 entries remained. Building
+      `autosuggest` (P12-T5c) removed seven more: 251 entries remained. Fourth batch: the two rating pickers were
+      stubs in Angular, HTML and Blazor (a radiogroup of consumer content, no radios); each is now the Svelte
+      `<fieldset role="radiogroup">` of five native radios (values 1 to 5) sharing `name`, with `value`, the option text
+      (`starLabel` / `labels`, numbers by default) and `disabled`. Angular gained `restoreRadiosOnFormReset` (form reset)
+      and `@testing-library/user-event` to send the native arrow keys; HTML's wdio test sends them in Chrome; Blazor's
+      keys are the browser's, which bUnit cannot drive, so its two entries are now native reasons. Mutations (a radio
+      with another `name`, the change handler, the checked binding, the reset, `disabled`, the role) were caught in all
+      three. The Blazor example's rating page moved to the new parameters (its e2e flow now finds the radios by role and
+      name), and the Blazor and Angular rating pages pass their axe checks. 247 entries remain. Fifth batch (2026-10-31),
+      HTML's last three: `listbox.html`'s script was an empty stub and now moves focus among the `[role="option"]`
+      children (arrows wrap, Home/End jump, options read on each key press), as Svelte's default mode does;
+      `combobox.html` was a role="combobox" div and is now the contract's input (the role on it) and hidden listbox,
+      Escape closing an open list (left alone while closed, so an enclosing dialog still gets it) with a bubbling
+      `combobox-close` event; `navigation-menu.html`'s overflow mode was markup only and its script now inlines
+      `shared/overflow-navigation.ts` (a new `.html` target of `bin/sync-shared-modules`) and attaches to every
+      `data-overflow="true"` nav. Mutations caught in all three (19 of 20; the survivor scopes the listbox query to
+      its own root, equivalent on a one-listbox page). 244 entries remain. Sixth batch (2026-10-31), Alpine's last
+      four: `lilyToolBar` (APG toolbar: ArrowRight/ArrowLeft wrap over the enabled buttons, Home/End), `lilyTourList`
+      (Escape sets `active` false and dispatches `lily:close`; hidden while inactive), `lilyTileMap` (Svelte's tile
+      keys: Right/Left step and stop at the ends, Down/Up go to the nearest tile in the next row by position,
+      Enter/Space dispatch `tile-activate`, Escape blurs) and `tree-list` on the existing `lilyTree(true)`, each with a
+      generator entry (`families/controls.mjs`, `guides.mjs`, `trees.mjs`). 18 mutations caught, none survived; the
+      Alpine example's tree-list and tour-list pages take the keys in Chromium and the four pages are axe-clean.
+      240 entries remain, all Blazor's real gaps (13) or reasoned entries. Seventh batch (2026-10-31), Blazor's
+      roving-focus containers: `ToolBar`, `TabBar`, `Menu`, `MenuBar` and `TreeList` each load a collocated
+      `{Name}.razor.js` (the `TreeMenu` pattern: C# cannot move focus among the consumer's `ChildContent`) that ports
+      the Svelte keys, tested under jsdom by `tests/js/{slug}.test.mjs` (25 tests; 32 mutations caught), so their
+      entries are now "browser-side" reasons; `TourList` gains `Active`/`ActiveChanged` (rendered only while active,
+      as in every other catalog) and Escape closes it, sent by bUnit (5 mutations caught). The Blazor example's
+      navigation page takes the toolbar and menubar keys in Chromium, skipping the disabled button. 239 entries
+      remain; 7 are real gaps, all Blazor: color-picker, dial, editable, editable-form, pin-input-div, tile-map,
+      tour. Eighth batch (2026-10-31), the last seven, ported from Svelte: `Dial` and `ColorPicker` (bindable value
+      or X/Y, Step, Shift for ten, Home/End, clamped, Disabled), `Editable` (a `span role="button"` and an input with a
+      draft; Enter/Space start, Enter confirms, Escape cancels; bindable `Value` and `Editing`), `EditableForm` and
+      `Tour` (rendered while `Editing` / `Active`; submit or Escape leave; `OnSubmit`/`OnCancel`), all in C# with bUnit
+      key tests; `PinInputDiv` renders its own inputs (`Length`, `DigitLabel`, bindable `Value`) and moves focus with
+      Blazor's `FocusAsync`, refusing a non-digit through `@bind:get`/`@bind:set` (a two-render trick bUnit could not
+      tell from a broken one was dropped); `TileMap` loads `TileMap.razor.js` (7 jsdom tests). 66 mutations: all
+      caught but one equivalent (Editable's draft reset on Escape, which starting to edit repeats); two first survivors
+      became tests (the input showing the draft; a nearer row beating a tile directly below, added to Alpine's
+      tile-map too). A temporary page in the Blazor example drove PinInputDiv (including the refused character),
+      Editable, Dial, TileMap and Tour in Chromium; it was removed. 233 entries remain and none is an implementation
+      gap: each is native (the browser's own keys), contract (the keys belong to a parent, child or the consumer) or
+      browser-side (a Blazor JavaScript module with its own jsdom test). Done; a later task can move the native
+      entries to real-browser tests. Follow-up (2026-10-31): the keys column only recognised key names (`ArrowLeft`),
+      so a contract written in words ("arrow keys", "Left/Right arrow", "Up Arrow") escaped it; its pattern now reads
+      both, which brings 81 contracts under it (was 65). The 104 new entries are all reasoned, none an implementation
+      gap: native (date, time and week inputs, `date-range`, `date-time-now-input`, `multi-select-with-extras`'s select,
+      native radios in `radio-group` and `net-promoter-score-picker`, `horizontal-scroller`'s focusable scroll region)
+      or contract (`calendar-table-td`, `menu-bar-button`, `tool-bar-button`, `segment-group-item` leave the keys to
+      their parent; `command` and `segment-group` to the consumer). 337 entries; dropping one fails the check.)_
+- [x] **P12-T5c Build `autosuggest`, or narrow its contract.** Every catalog's `autosuggest` is a stub, a
+      `role="combobox"` div of consumer content, while `components/autosuggest/AGENTS.md` lists `value`, `suggestions`,
+      `onInput`, `onSelect` and the APG combobox keys, and its own "Native platform" note calls it a container whose input
+      and options are consumer-supplied. Decide which (maintainer decision), then build it in Svelte and port, or rewrite
+      the contract as a container and remove the keys.
+      Verify: the contract and every catalog agree; `bin/check-coverage` drops the seven `:autosuggest` entries.
+      _(Done 2026-10-30; the maintainer chose to build it. Every catalog renders the APG combobox with list
+      autocomplete: a `div.autosuggest` root, an `input.autosuggest-input` with `role="combobox"` (ARIA 1.2: on the input,
+      not the wrapper), `aria-autocomplete="list"`, `aria-expanded`, `aria-controls` and `aria-activedescendant`, and a
+      `ul.autosuggest-list` listbox of `li.autosuggest-option` options that stays in the DOM, hidden while closed.
+      ArrowDown/ArrowUp open and move the highlight (wrapping), Home/End jump, Enter chooses (writing the suggestion's
+      `value` into the input), Escape and blur close, and pressing an option keeps focus in the input. Svelte, React,
+      Vue, Angular and Blazor take `suggestions` and report `onInput`/`onSelect` (Vue `input`/`select`, Angular
+      `query`/`selected`); HTML, Alpine (`lilyAutosuggest`, `families/selection.mjs`) and Web Components take consumer-rendered
+      `role="option"` children, re-read by a MutationObserver. Blazor's keys are C#, with `Autosuggest.razor.js` only
+      cancelling their default actions while the list is open, so Enter does not submit a form (`tests/js`). Web Components
+      had a working build with `role="combobox"` on the host, an unnamed input, an empty `aria-activedescendant`, and a
+      list that typing never opened; it now matches. Nunjucks renders the markup with server-side suggestions. A form
+      reset restores the starting text in Svelte (`defaultValue`), React (uncontrolled, `useFormReset`), Vue and Angular:
+      Vue's FormReset audit caught the gap, and the tests added for Svelte and React failed first. Every behaviour was
+      proved by mutations in every catalog (one per key, the open rule, the choice, both callbacks, blur, the mousedown
+      guard, `aria-selected`); the mousedown guard survived at first in the jsdom catalogs, where `click()` never blurs,
+      so each gained a test that the press is cancelled. The demo markup, the contract (which put the role on the
+      wrapper), the native-platform decision, the docs and the generated examples were updated; the SvelteKit page and
+      its axe sweep pass in Chromium. The seven `:autosuggest` allow-list entries are gone.)_
+- [x] **P12-T5b Bring the Alpine generator in step with its output.** `generate-components.mjs` writes 576 files, but
+      34 of them carry hand-written content the generator lacks (the `convert-*` family, `warning-text`, the
+      `heatmap-chart-with-year-of-days` tests, the currency-input and grid notes, the trimmed vitest imports in 544 tests),
+      and the generator has changes its output lacks (`tabindex="-1"` on menu items). A full run therefore reverts work:
+      on 2026-10-30 it did, and the files were restored from a snapshot. Fold the hand content into `families/`, decide
+      the menu-item `tabindex`, then add `--check` and run it in `bin/test`.
+      Verify: `node generate-components.mjs --check` reports no difference and `bin/test` runs it.
+      _(Done 2026-10-31. The generator now formats every file with the root Prettier before writing, so its output is
+      byte-for-byte what is committed, and `--check` compares instead of writing (and `--list` names what it writes).
+      Folded in: the `convert-*` tests, `heatmap-chart-with-year-of-days`'s test, `grid`'s fluid-mode note and test,
+      `warning-text`'s header lines and tests (`families/shared/static-extras.mjs`, for snippets taken from the HTML
+      catalog), `currency-input`'s note and test (`families/inputs.mjs`), and `horizontal-scroller`, `icon-button` and
+      `task-bar` as a new `families/containers.mjs` (their HTML scripts only add extras; the contracts' keys are the
+      browser's). The vitest imports follow one rule (`vi` always, `beforeEach`/`afterEach` only when used). Where the
+      generator was right the snippets moved to it: menu items keep `tabindex="-1"` (APG: menu items are not tab stops),
+      the `convert-*` parts lose English demo text ("100 US dollars") for the consumer comment, `heatmap-chart-with-year-of-days`
+      gets its own description back (it had `heatmap-chart`'s), stale stories (autosuggest, tree-list-item) are
+      refreshed. The HTML catalog's `hidden-input` (`<input>…</input>`, no `type="hidden"`) and `image` (`<img>…</img>`,
+      `aria-label` instead of `alt`) were invalid HTML and are fixed at the source, with their tests. Only
+      `middle-truncation` and `wheel-picker` stay hand-written, listed in the generator; any other component it does
+      not write fails `--check`. Proved: a hand edit to a snippet, a family change never run, and an unlisted
+      component each fail `--check` (and `bin/test`). CI runs it in the lint job, which has the root install.
+      1,419 Alpine tests pass.)_
 - [x] **P12-T6 (done 2026-10-21: all six installs frozen; `alpine-headless`'s lockfile carried a stale `serialize-javascript` override and was regenerated; every other lockfile passed `pnpm install --frozen-lockfile --lockfile-only`) Frozen lockfiles in CI.** Replace the six `pnpm install --no-frozen-lockfile` in `ci.yml` with
       `--frozen-lockfile`; regenerate any lockfile that is out of date.
       Verify: CI green with frozen installs; a manifest edit without a lockfile update fails CI.
-- [ ] **P12-T7 `bin/test` under 60 seconds.** It took 5 m 42 s on 2026-10-21 (25 s user, 215 s system — filesystem-bound).
+- [x] **P12-T7 `bin/test` under 60 seconds.** It took 5 m 42 s on 2026-10-21 (25 s user, 215 s system — filesystem-bound).
       Profile each check (`time` per step), then batch per-file shell loops into one `find`/`node` pass, cache the
       component list, and skip `node_modules` / `dist` everywhere. Do not drop any check.
       Verify: `time bin/test` < 60 s on the maintainer's machine, same checks, exit 0.
+      _(Done 2026-10-31: 4 m 47 s to 50-53 s (user + system ~58 s, from ~180 s), same checks, exit 0; under heavy
+      unrelated load (Rust builds, load average 30-60) it ran 60-125 s. The causes, profiled with timestamped `bash -x`:
+      `bin/list-implementations` used BSD `find -depth 1`, which filters but still walks every `node_modules` (38 s a
+      call, five calls; now `-mindepth 1 -maxdepth 1`, 1 s, same output); the lockfile check listed every ignored file
+      with `git ls-files --others -i` (10 s; now `find` pruned at `node_modules`, compared with `git ls-files`);
+      `bin/check-theme` ran two unanchored `[^{}]*…` regexes that rescan from every position (9.7 s; anchored at a brace,
+      0.7 s, identical matches on all 57 themes); and per-file processes: 5,520 `grep`s for "Not yet implemented."
+      (one `git grep --untracked`), 1,166 `grep -c` CSS-hook counts (one `awk` pass), 1,166 `rm -f` of files that are
+      almost never there (tested first), and a `basename` per component directory. Each rewritten check was shown to
+      fail on a seeded defect: an untracked and a git-ignored lockfile, the stub phrase in a tracked AGENTS.md and in
+      a new untracked spec, a doubled and a missing CSS hook, and a current-day background and a hidden-on-reduce rule
+      in a theme.)_
 - [ ] **P12-T8 Decide a dependency policy** (maintainer decision). Options: (a) a root `pnpm-workspace.yaml` with a shared
       catalog of versions (`catalog:` protocol), subprojects still publishable alone; (b) keep separate lockfiles but add a
       `bin/check-dependency-versions` that fails on mixed ranges. Today: `vitest` ^4 in 15 packages vs ^5 in 122,
@@ -2385,22 +2623,25 @@ a task was measured on 2026-10-21; re-measure before closing it.
       selection, column state and windowing into tested pure modules in `shared/` (as `grid-navigation.ts` was), Svelte
       first, then each port.
       Verify: each Svelte component under ~1,000 lines; new `shared/*.test.ts`; all helper suites green.
-- [ ] **P12-T12 Themes honour the preference pickers.** None of the 57 themes styles `data-text-size` or `data-motion`;
+- [x] **P12-T12 Themes honour the preference pickers.** None of the 57 themes styles `data-text-size` or `data-motion`;
+      _(2026-10-29: every theme carries a pinned "Text size and motion preferences" section (seven `data-text-size` steps in %, `data-motion="reduce"` at 0.01ms), enforced by `bin/check-theme` rules 5 and 13. Open: a Playwright run in an example app showing the change; decide whether the three steps below `normal` (80/90/95%) conflict with the responsive rule that text never shrinks below 1rem)_
       only the docs site's `style.css` maps text size. Add the seven-step size scale and a `data-motion="reduce"` rule
       (suppress transitions and animations) to every theme, ideally in one shared partial generated by
       `bin/generate-theme-tokens`; extend `bin/check-theme` to require both.
       Verify: `bin/check-theme` passes; selecting a size or motion in an example app visibly changes the page.
 - [ ] **P12-T13 Forced colours and contrast preference in the themes.** 2 of 57 themes have a `forced-colors` block and
+      _(2026-10-29: every theme carries a pinned "Forced colours and contrast preference" section (`forced-colors: active`, `prefers-contrast: more`), enforced by `bin/check-theme`. Open: a Playwright `forcedColors: 'active'` run showing focus and selection)_
       none `prefers-contrast`. Add a shared `@media (forced-colors: active)` block (focus rings, borders on controls that
       rely on background colour, selected states via `Highlight`/`SelectedItem`) to every theme; test in Windows High
       Contrast or Chromium's forced-colors emulation.
       Verify: `bin/check-theme` requires the block; a Playwright run with `forcedColors: 'active'` shows focus and selection.
-- [ ] **P12-T14 Restamp the counts.** `spec/index.md` topic table and §2 say 491 components (571); §3 says 150
+- [x] **P12-T14 Restamp the counts.** `spec/index.md` topic table and §2 say 491 components (571); §3 says 150
+      _(2026-10-29: `spec/index.md` restamped to 582 components and 547 Web Components; §3 already stated 184 subprojects / 167 helpers. A `bin/check-counts` was not written)_ _(2026-10-30: 583 and 548 after `warning-text`; 184 = 9 headless + 8 example apps + 167 helpers, plus `lily-design-system-themes`, `lily-design-system-locale-translations` and 27 skills = 213 `lily-design-system-*` directories.)_
       implementation subprojects / 133 helper packages; `plan.md` "Current state" says 172 subprojects and omits Alpine.
       Actual 2026-10-21: 187 = 9 headless + 8 example apps + 133 helpers + 27 skills + 9 locale-translations + themes.
       Consider a `bin/check-counts` that compares stated present-tense counts to the tree.
       Verify: `grep -n '491' spec/index.md` shows only dated history; counts match `ls -d lily-design-system-*`.
-- [ ] **P12-T15 Tidy the root scripts.** Move `generate-component-demos.js` (used by `bin/generate-registries`) into
+- [ ] **P12-T15 Tidy the root scripts.** _(2026-10-30: not started; all five files are still at the root.)_ Move `generate-component-demos.js` (used by `bin/generate-registries`) into
       `bin/`; delete or archive `generate-component-docs.js`, `upgrade-component-docs.js`, `upgrade-html-component-demos.js`
       and `upgrade-subproject-docs.js` after confirming nothing references them.
       Verify: `bin/test` passes; `grep -rn` finds no reference to a removed script.
@@ -2444,7 +2685,7 @@ lessons topics. Numbers in the spec were measured 2026-10-22 from shallow clones
       `scroller*`: what to suppress and what must survive (content, focus, order); reduced motion changes how content appears,
       never whether. Spec item 6. Related: P12-T12 (themes honour `data-motion`).
       Verify: Playwright runs three affected demos with `reducedMotion: "reduce"` and asserts content is present.
-- [~] **P13-T7 (first cut 2026-10-23: class hooks, custom events and, for Web Components, observed attributes; wired into `bin/test`; Alpine props are not compared yet, and the 141 baseline differences in `bin/check-port-parity.allow.json` carry placeholder reasons to review) `bin/check-port-parity`.** For Web Components (vs HTML) and Alpine (vs Svelte): public names (props, events,
+- [~] **P13-T7 (first cut 2026-10-23: class hooks, custom events and, for Web Components, observed attributes; wired into `bin/test`; Alpine props are not compared yet, and the 141 baseline differences in `bin/check-port-parity.allow.json` carry placeholder reasons to review; 2026-10-30: 137 entries, all Alpine class hooks, all with the one reason "Alpine helpers are a subset of the Svelte reference; not yet ported") `bin/check-port-parity`.** For Web Components (vs HTML) and Alpine (vs Svelte): public names (props, events,
   class hooks) in the reference and missing from the port, with an allow-list and a reason per difference. Spec item 7.
   Verify: runs in `bin/test`; an unlisted difference fails.
 - [x] **P13-T8 (done 2026-10-23: recipe in `lily-design-system-svelte-share-picker/index.md`, one test; the other seven `share-picker` ports and the recipes layer from coss-ui-lessons are not touched) Open-in-assistant recipe.** From sv-chanhdai's `open-in-chat`: a recipe on `menu-picker` or `share-picker`
@@ -2502,16 +2743,21 @@ lessons topics. Numbers in the spec were measured 2026-10-22 from shallow clones
 ## Phase 14 — Markdown editor (2026-10-24)
 
 - [~] **P14-T1 (Svelte done 2026-10-24: `lily-design-system-svelte-markdown-editor`, `markdown-markdown-format.ts` + 23 tests, `MarkdownEditor.svelte` + 29 tests, svelte-check clean, builds; not published) `markdown-editor`.** A `<textarea>` with a top bar of buttons (heading, bold, italic, strikethrough, code, link, quote, bulleted and numbered lists) that write Markdown into it; value is plain text. Names are props and a tool with no name is not rendered; toolbar has a roving tabindex; `Ctrl`/`Cmd`+`B`/`I`/`K`. Still open: ports to React, Vue, Angular, HTML, Nunjucks, Blazor, Web Components and Alpine (the pure `markdown-markdown-format.ts` is a candidate for `shared/` and `bin/sync-shared-modules`); a first publish (`bin/publish-helpers`, then `bin/verify-published`); a docs-site page; decide whether to add the helper to the catalog counts (133 helper packages) and `bin/check-port-parity`; a real screen-reader pass; undo/redo behaviour in Safari and Firefox (the `execCommand` path is only exercised in jsdom's fallback).
+  _(2026-10-30: the ports exist in all nine catalogs (`lily-design-system-{framework}-markdown-editor`, Alpine included);
+  version 0.1.0 is on npm for Svelte, React, Vue, Angular, HTML, Web Components and Nunjucks and on nuget.org for Blazor
+  (`npm view`, nuget.org flat container, checked 2026-10-30); Alpine is not published; a docs-site page exists at
+  `/markdown-editor/`. Still open from the list above: a real screen-reader pass and the Safari and Firefox undo check.)_
   Verify: each port has one test per clause of `spec/index.md` § 6.
 
-- [~] **P14-T2 (Svelte done 2026-10-24: `lily-design-system-svelte-org-editor`, `shared/org-format.ts` + 71 tests (mutation-checked), `OrgEditor.svelte` + 42 tests, Playwright undo spec 10/10 in Chromium and WebKit; not published) `org-editor`.** A `<textarea>` with a toolbar of 23 buttons that write Emacs Org mode: wrap tools (`*` `/` `_` `+` `~` `=`), link, heading / promote / demote, lists, checkbox cycle, quote / source / drawer blocks, task keyword cycle, priority cycle, `SCHEDULED:` / `DEADLINE:` planning, timestamp, property drawer and org-contacts entries. Org syntax is data (`todoKeywords`, `priorities`, `propertyKey`, `drawerName`, `contactProperties`); button names are props. Ported 2026-10-24 to React (127 tests), Vue (127), Angular (126), HTML (130), Web Components (130), Alpine.js (124), Nunjucks (54) and Blazor (94, `OrgFormat.cs` a hand port); the shared cases are one list, so every port asserts the same behaviours. Still open: a real-browser undo spec for the ports; a docs-site page; a first publish; Firefox for the undo spec; tags, tables, repeaters, clocking and `CLOSED:`; a real screen-reader pass.
+- [~] **P14-T2 (Svelte done 2026-10-24: `lily-design-system-svelte-org-editor`, `shared/org-format.ts` + 71 tests (mutation-checked), `OrgEditor.svelte` + 42 tests, Playwright undo spec 10/10 in Chromium and WebKit; not published) `org-editor`.** A `<textarea>` with a toolbar of 23 buttons that write Emacs Org mode: wrap tools (`*` `/` `_` `+` `~` `=`), link, heading / promote / demote, lists, checkbox cycle, quote / source / drawer blocks, task keyword cycle, priority cycle, `SCHEDULED:` / `DEADLINE:` planning, timestamp, property drawer and org-contacts entries. Org syntax is data (`todoKeywords`, `priorities`, `propertyKey`, `drawerName`, `contactProperties`); button names are props. Ported 2026-10-24 to React (127 tests), Vue (127), Angular (126), HTML (130), Web Components (130), Alpine.js (124), Nunjucks (54) and Blazor (94, `OrgFormat.cs` a hand port); the shared cases are one list, so every port asserts the same behaviours. _(2026-10-30: 0.1.0 is published for the seven npm ports and Blazor; Alpine is not; there is no `/org-editor/` docs-site page.)_ Still open: a real-browser undo spec for the ports; a docs-site page; Firefox for the undo spec; tags, tables, repeaters, clocking and `CLOSED:`; a real screen-reader pass.
   Verify: each port has one test per clause of `spec/index.md` § 6.
 
 - [~] **P14-T3 (done 2026-10-24: `/demo/svelte/` on the docs site, `src/lib/demo/`, 16 Playwright tests, axe clean on every panel in English and Arabic) Svelte demo app.** A grail-layout application shell: pinned header (brand, site links, picker bar in nine locales: en-001, zh-001, hi-001, ar-001, cy-gb, es-es, fr-fr, en-gb, de-de, and a theme picker over all 57 themes), collapsible icon rails left and right (each button opens a native modal dialog), a panel switcher, and a content area showing the data grid, kanban board, Gantt chart, calendar, Markdown editor and Org editor, with the helpers' labels from the label packs. English-only route; the root layout skips the site chrome under `/demo/`. Still open: `/demo/react/` and the other frameworks; replace the vendored editor copies in `src/lib/demo/vendor/` with the npm packages once `svelte-markdown-editor` and `svelte-org-editor` are published; drop the `ssr.noExternal` workaround in `vite.config.ts` once a `svelte-locale-translations` newer than 0.2.0 is published (the monorepo source is fixed); theme styling for the helpers the 57 themes do not yet cover (Gantt bars use `data-in-range`, not `data-state="bar"`; kanban, calendar and gantt toolbars); the zh, hi, ar, cy, es, fr and de strings are unreviewed machine drafts.
   Verify: `pnpm exec playwright test tests/demo-svelte.spec.ts` in the site.
 
-- [ ] **P14-T4 Port the real-modal fix for the dialog family to the other catalogs.** Done 2026-10-24 in Svelte only: `Dialog`, `AlertDialog` and `FileDialog` are opened with `showModal()` (feature-detected, so jsdom falls back to the `open` attribute) through the `modalDialog` action in `components/Dialog/modal.ts`, `TimeoutDialog` through an effect; the native `cancel` / `close` events keep `open` in step and focus returns to the opener. Verified in Chromium; WebKit not run. Still to do: React, Vue, Angular, Web Components and HTML (they set `open` and say `aria-modal`), Blazor (needs JS interop, or a documented deviation); the Alpine snippet and the Nunjucks macro already document `showModal()`.
-      Verify: per catalog, a test that stubs `showModal` and asserts the call, as `components/Dialog/modal.test.ts` does.
+- [x] **P14-T4 Port the real-modal fix for the dialog family to the other catalogs.** Done 2026-10-24 in Svelte only: `Dialog`, `AlertDialog` and `FileDialog` are opened with `showModal()` (feature-detected, so jsdom falls back to the `open` attribute) through the `modalDialog` action in `components/Dialog/modal.ts`, `TimeoutDialog` through an effect; the native `cancel` / `close` events keep `open` in step and focus returns to the opener. Verified in Chromium; WebKit not run. Still to do: React, Vue, Angular, Web Components and HTML (they set `open` and say `aria-modal`), Blazor (needs JS interop, or a documented deviation); the Alpine snippet and the Nunjucks macro already document `showModal()`.
+  - Status (2026-10-30): Dialog, AlertDialog, FileDialog and TimeoutDialog open with `showModal()` in React (`useModalDialog`, exported from `Dialog.tsx`), Vue (`dialog.ts`, a slug-named companion so the Nuxt example gets it), Angular (a `ModalDialog` directive in `Dialog.ts`; the `<dialog>` stays mounted and is shown while `open`), Web Components (`lib/modal-dialog.ts`) and Blazor (`ModalDialogBase`, through `Drawer.razor.js`, whose `open()` gained a `modal` argument); the native `cancel` and `close` events keep `open` in step, focus moves to the first focusable descendant and returns to the opener. HTML: the snippets say to open with `showModal()`, handle `cancel`, and `timeout-dialog.html` gained its header and `role="alertdialog"` (the Alpine copy regenerated from it). Stubs ported from Svelte: React and Vue TimeoutDialog (no `open`, no role); Angular AlertDialog, FileDialog, TimeoutDialog; all four Blazor dialogs (no `Open` at all, so the Blazor example's `/dialog-flow` page, which already used `Open`, `Title` and `Modal`, now works). New modality tests per library, each new path mutation-checked; suites React 3,513, Vue 4,034, Angular 2,413, Web Components 3,933, Blazor 2,269; HTML wdio 15 in Chrome. Blazor Web `e2e/dialog-modality.spec.ts` passes in Chromium and WebKit (`:modal`, focus in, inert page, Escape, focus back to the keyboard opener). Not verified: Firefox (does not launch in this session); WebKit does not focus a button on click, so a click-opened dialog there has no opener to return focus to (platform behaviour).
+    Verify: per catalog, a test that stubs `showModal` and asserts the call, as `components/Dialog/modal.test.ts` does.
 
 - [x] **P14-T5 (done 2026-10-24) The `*ListItem` components no longer set `aria-current`.** `BreadcrumbListItem`, `SectionListItem`, `StepListItem` and `TourListItem` (Svelte, React, Vue, Web Components) and the Nunjucks macros for breadcrumb, contents, step, tour and tree now emit `data-current` when `current` is true and nothing else; the consumer puts `aria-current` on the link or text inside, or passes it as a rest prop. Angular, Blazor and Alpine have no `current` prop and are unchanged (the consumer sets the attribute). The 57 themes select the current breadcrumb with `[data-current]` or `[aria-current="page"]`; the Nunjucks example CSS uses `[data-current]`. Reason: `aria-current` on an `<li>` is valid ARIA but is announced most reliably on the link; `data-*` is the repo's mechanism for consumer CSS/JS state. Open: `chat-list-item`'s docs claim a `current` prop that the components do not implement.
       Verify: the three-way tests (`data-current` present, absent, and no `aria-current`) in each catalog.
@@ -2519,7 +2765,7 @@ lessons topics. Numbers in the spec were measured 2026-10-22 from shallow clones
 - [x] **P14-T6 (done 2026-10-24) `svelte-time-zone-picker`.** New helper `@lilydesignsystem/svelte-time-zone-picker` 0.1.0: an icon button (clock) opening an APG listbox of IANA zones, each shown as `UTC±HH:MM – full name` from `Intl` in a required `locale`, ordered by offset on a `date`; applies `data-time-zone`; same shape as `text-size-picker` (tooltip, hidden input, `storageKey`, `onChange`, bindable `open`). Pure logic in `zones.ts`. Themes style it (57, plus a shared width rule). Published as `@lilydesignsystem/svelte-time-zone-picker` 0.1.0.
       Verify: `zones.test.ts`, `TimeZonePicker.test.ts` (65 tests), `bin/check-theme`.
 
-- [x] **P14-T7 (done 2026-10-24) `time-zone-picker` ports.** React, Vue, Angular, HTML, Web Components, Nunjucks and Blazor ports at 0.1.0 (Alpine has no pickers). The zone logic is one shared module, `shared/zones.ts` (+ `zones.test.ts`), copied by `bin/sync-shared-modules` into each TypeScript package and, stripped, into the Nunjucks one; Blazor re-implements it in C# (`TimeZones`). Deviations, documented in each package: Nunjucks takes `options` built by `timeZoneOptions()` at render time (a macro cannot call `Intl`); Blazor takes zone names from a `Names` dictionary or the platform (no per-locale name API in .NET). Open: not yet published; `picker-bar` slot; site demo.
+- [x] **P14-T7 (done 2026-10-24) `time-zone-picker` ports.** React, Vue, Angular, HTML, Web Components, Nunjucks and Blazor ports at 0.1.0 (Alpine has no pickers). The zone logic is one shared module, `shared/zones.ts` (+ `zones.test.ts`), copied by `bin/sync-shared-modules` into each TypeScript package and, stripped, into the Nunjucks one; Blazor re-implements it in C# (`TimeZones`). Deviations, documented in each package: Nunjucks takes `options` built by `timeZoneOptions()` at render time (a macro cannot call `Intl`); Blazor takes zone names from a `Names` dictionary or the platform (no per-locale name API in .NET). Open: not yet published; `picker-bar` slot; site demo. _(2026-10-30: published, 0.1.0 for every port (Svelte 0.2.0); the `picker-bar` slot landed in `picker-bar` 0.5.0 (`AGENTS/helpers.md`). Site demo still open.)_
       Verify: per-package suites (React 64, Vue 60, Angular 37, HTML 61, Web Components 61, Nunjucks 50, Blazor 51), `bin/sync-shared-modules --check`, `bin/check-port-parity`.
 
 - [x] **P14-T8 (done 2026-10-24) CLDR zone names for `time-zone-picker`.** `bin/generate-zone-names` writes `shared/zone-names/<locale>.json` for all 64 label-pack locales from Unicode CLDR 48.0 (Node's ICU): standard and daylight long names for ~425 zones, current IANA ids included; zones CLDR has no name for are left out (Cornish, Scots and Wu are empty, Bhojpuri names only GMT). The packs and the CLDR licence ship in every `*-locale-translations` package (0.4.0; Blazor 0.3.0) with `zoneNamesFrom()` / `LocaleTranslations.ZoneNames()`; all eight pickers take a `names` input that wins over `Intl`, with a daylight pair following the picker's date. Spec: `spec/zone-names`. Open: publish; review the licence text against unicode.org/license.txt; `picker-bar` slot; site demo.
@@ -2527,7 +2773,8 @@ lessons topics. Numbers in the spec were measured 2026-10-22 from shallow clones
 
 ## Phase 15 — Stephcraft responsive lessons (2026-10-28)
 
-Source and rationale: [spec/stephcraft-lessons](spec/stephcraft-lessons/index.md). Nothing below is built.
+Source and rationale: [spec/stephcraft-lessons](spec/stephcraft-lessons/index.md). Nothing below was built when the
+phase was written; all nine tasks were closed 2026-10-28/29 (status per task).
 
 - [x] **P15-T1 Responsive rules.** `AGENTS/responsive.md` and `spec/responsive/`, written 2026-10-28, checked by `bin/test`: mobile first, intrinsic sizing before breakpoints, logical properties, no `100vw` on `body`, reflow at 320 CSS px and 400% zoom.
 - [x] **P15-T2 Container queries in the themes** (2026-10-28): a shared "Container queries" section in all 57 themes. The grail-layout regions are the containers (`card` is not: containment collapses it in a shrink-to-fit parent). Inside a narrow region, `summary-list` goes to one column and `kanban-table` and the data-like tables tighten. `bin/check-theme` pins the section and requires `container-type` beside any `@container`. Verified in Chromium at 1400, 900 and 360px. The three `calendar-*-table` rules remain a follow-up, since they have no narrow layout of their own yet.
@@ -2536,8 +2783,331 @@ Source and rationale: [spec/stephcraft-lessons](spec/stephcraft-lessons/index.md
 - [x] **P15-T5 `picture` component** (2026-10-28) catalog 581 to 582; `picture` in all eight libraries and Alpine (Web Components 547 of 582); `image` Advice names the CSS lines. `bin/smoke-packages` still hard-codes 571 (checks published tarballs). (catalog, eight libraries) and sizing advice on `image`.
 - [x] **P15-T6 Scoped overflow rules** (2026-10-28) shared "Scoped overflow" section in all 57 themes; `bin/check-theme` rule 10 derives the identifier `-view` list from the catalog. Its Playwright case is part of P15-T8. in the themes, with a 60-character-string test at 320px in every example app.
 - [x] **P15-T7 `grail-layout` collapse contract** (2026-10-28) contract in `components/grail-layout/AGENTS.md`: right aside drops below `main` at 64rem, one column at 48rem, source order equals visual order, nothing hidden. Collapse stays a viewport `@media` (page shell).: which aside goes first, source order equals reading order.
-- [x] **P15-T8 Sweep additions** (2026-10-28) cases appended to `e2e/responsive.spec.ts` in all 7 apps; run only on svelte-sveltekit and html-css-js (chromium). React, Vue, Angular, Blazor and Nunjucks are written but unrun. After the merge the new cases pass on svelte-sveltekit, react-next, vue-nuxt, angular, blazor-web and html-css-js (chromium). The long-string case first failed because the shared theme rule covered only `dd`; `overflow-wrap` is now set on `.summary-list`, `.summary-list-item` and `.description-list` (inherited, so it reaches any child), and `.summary-list-item` children get `min-inline-size: 0`. The fixture waits for `networkidle` so a hydrating framework does not replace it. Nunjucks Eleventy: its build is broken independently (the layout's skip link and page content come out HTML-escaped, so the existing sweep fails there too; that app already had 35 failing unit tests); its header now wraps (`.site-header-inner`, 5px overflow at 320px), unverified end to end.: 320px and 400% zoom in every example app's responsive sweep.
+- [x] **P15-T8 Sweep additions** (2026-10-28) cases appended to `e2e/responsive.spec.ts` in all 7 apps; run only on svelte-sveltekit and html-css-js (chromium). React, Vue, Angular, Blazor and Nunjucks are written but unrun. After the merge the new cases pass on svelte-sveltekit, react-next, vue-nuxt, angular, blazor-web and html-css-js (chromium). The long-string case first failed because the shared theme rule covered only `dd`; `overflow-wrap` is now set on `.summary-list`, `.summary-list-item` and `.description-list` (inherited, so it reaches any child), and `.summary-list-item` children get `min-inline-size: 0`. The fixture waits for `networkidle` so a hydrating framework does not replace it. Nunjucks Eleventy (fixed 2026-10-29: `package.json` aliases `nunjucks` to `@11ty/nunjucks`, and the responsive and focus-obscured specs pass, 174 in Chromium; formerly: its build was broken independently (the layout's skip link and page content come out HTML-escaped, so the existing sweep fails there too; that app already had 35 failing unit tests); its header now wraps (`.site-header-inner`, 5px overflow at 320px)). Those 35 unit tests were not re-run.: 320px and 400% zoom in every example app's responsive sweep.
 - [x] **P15-T9 Fluid spacing tokens** (2026-10-28) `--space-fluid-gutter` and `--space-fluid-section` as DTCG `fluidDimension` tokens in all 57 themes; the three practitioner NHS themes carry them but keep fixed spacing; `bin/check-theme` rule 11 requires a `rem` floor in every `clamp()`. (not fluid text) via `bin/generate-theme-tokens`.
+
+## Phase 16 — Competitive position (2026-10-29)
+
+Source and rationale: [spec/competitive-position](spec/competitive-position/index.md) (items 1–11). Nothing below was
+built when the phase was written; each task carries its own status. Counts were measured 2026-10-29; competitor facts come from the sources cited in the spec, so re-check them before
+closing a task.
+
+- [x] **P16-T1 Correct COMPARE.md and widen the matrix.**
+  - Status (2026-10-29): Radix, Base UI, React Aria and Web Awesome 3.14.0 (free components only) added; `bin/generate-comparisons --check` reports 428 rows, 23 systems. Counts: React Aria 128, Web Awesome 118, Base UI 71, Radix 59. COMPARE.md difference 1 restated (framework-native, not range).
+  - Ark UI supports React, Solid, Vue and Svelte.
+  - Add Radix, Base UI, React Aria and Web Awesome columns to `compare/compare.tsv`.
+  - Restate difference 1 as framework-native components (no shadow DOM, server-rendered without hydration, one class
+    contract), not as range alone.
+  - Spec item 1.
+  - Verify: `bin/generate-comparisons` prints 23 systems; `bin/sync-special-files` and `bin/test` pass.
+- [x] **P16-T2 Lily Core tier and `/quality` page.**
+  - Status (2026-10-29): `bin/generate-core` (`--check` in `bin/test`) writes `spec/competitive-position/core.json`, `docs/core.md` and the `/quality` route. 40 candidates; **0 in Core**. (a) 3 of 40, (b) 0 (every Playwright config runs Chromium only), (c) 0 (matrix empty; 17 candidates have no matrix row yet). `--check` fails when a member loses evidence (tested with a scratch core.json).
+  - Status (2026-10-30): `bin/generate-core --check` reports 40 candidates; (a) 3, (b) **38** (Firefox and WebKit joined
+    every example app's e2e in P18-T1; `share-picker` runs in Chromium only and `date-time-picker` has no e2e), (c) 0;
+    Core 0. Criterion (c) is blocked on P16-T9.
+  - Name about 40 Core components from audit-readiness tier 1.
+  - Entry requires all three of: keyboard and ARIA-state tests in all eight libraries; e2e in Chromium, Firefox and
+    WebKit; screen-reader matrix rows filled.
+  - Generate the Core list and a `/quality` page from that evidence.
+  - Only Core may be called proven in COMPARE.md and the site.
+  - Spec item 2. Depends on P16-T9 and P12-T5.
+  - Verify: `bin/test` fails when a Core component loses any evidence item.
+- [~] **P16-T3 Behaviour core in `shared/`.**
+  - Status (2026-10-29): first slice, copying model (maintainer decision; P12-T10 stays open): `shared/listbox-machine.ts` with 40 tests, copied by `bin/sync-shared-modules`; Svelte and React `Listbox` run on it (adapters 99 and 98 lines), existing tests unchanged and passing (18/18, 17/17). Side effect: typeahead now ignores accents and uses a timestamp reset. Open: the other six libraries, and the menu, combobox, tabs, disclosure, dialog-focus and roving-tabindex machines.
+  - Framework-free state machines or reducers for listbox, menu and menubar, combobox, tabs, disclosure, dialog focus
+    management and roving tabindex, each with one test suite.
+  - Thin adapters per library.
+  - Start with listbox in Svelte and React.
+  - Spec item 3. Needs the P12-T10 decision; delivers P12-T10 and P12-T11.
+  - Verify: the Svelte and React listboxes run on the machine, their existing tests pass unchanged, and each adapter is
+    under 100 lines.
+- [x] **P16-T4 Native primitives audit** (Firefox e2e of `variant="select"` still open).
+  - Status (2026-10-29): 52 Svelte overlay/popup components audited in `spec/competitive-position/native-primitives.tsv` (15 native, 16 hand-rolled, 21 candidates), a `## Native platform` section in each `AGENTS.md`, `nativePlatform` in `/r/{slug}.json`, `bin/check-native-primitives` in `bin/test`. Finding: no component uses the Popover API; drawer, sheet, slide-out-drawer, tour and tour-list set `aria-modal="true"` without a focus trap or inert background. Prototype: Svelte `theme-picker` `variant="select"` (native `<select>`), 8 tests; RFC 3 note added. Open: example-app e2e with and without `base-select`, ports, and the candidate changes themselves.
+  - Status (2026-10-30): `bin/check-native-primitives` reports 52 components: **25 native, 18 hand-rolled, 9 candidates**
+    (cascader, coachmark, combobox, floating-panel, hover-card, mentions-input, popconfirm-dialog, tooltip, tree-select).
+    Done since: drawer, sheet, slide-out-drawer modal (P18-T6); popover, popup, contextual-help (P18-T8); the menu group
+    (P18-T11); the dialog family on `showModal()` everywhere (P14-T4); the `variant="select"` prototype ported to all eight
+    catalogs, with an e2e in the HTML example that passes in Chromium and WebKit (P18-T12). The 9 candidates are done
+    (2026-10-31, below); open: the e2e in Firefox (the engine without `base-select`).
+  - Status (2026-10-31): the 9 candidates (cascader, coachmark, combobox, floating-panel, hover-card, mentions-input, popconfirm-dialog, tooltip, tree-select) are `popover="manual"`, always rendered and shown from their state through the shared popover helper, with `hidden` where the Popover API is missing: Svelte, React, Vue, HTML, Alpine and Web Components in full; Angular and Blazor where the component has the state (4 and 1; the rest are static stubs); Nunjucks keeps `hidden` (server-rendered state, no script). All 63 themes gained an "Anchored popups" section: closed they are `display: none`; the four that live inside a component open under its trigger or input with anchor positioning, the five stand-alone ones under the consumer's `position-anchor`. Checked in Chromium for placement, closed state, the HTML snippets and Alpine. Tests that asserted removal from the DOM (Combobox in Svelte, React, Vue, Angular and Blazor) now assert hidden or the popover attribute. Not run: the example apps' e2e, the HTML WebdriverIO tests, WebKit and Firefox.
+  - Audit the 13 listbox, 16 menu and 5 tooltip Svelte components, plus dialog and popover, for the Popover API,
+    `<dialog>`, `command`/`commandfor` and anchor positioning.
+  - Record the result per component in `AGENTS.md` and `/r/{slug}.json`: "native: …" or "hand-rolled because …".
+  - Prototype one preference picker as a native `<select>` enhanced with `appearance: base-select` under `@supports`,
+    and record the result under RFC 3.
+  - Spec item 4.
+  - Verify: no audited component lacks the field; the prototype passes the example apps' e2e with and without
+    `base-select` support.
+- [~] **P16-T5 shadcn-compatible registry.**
+  - Status (2026-10-29): `bin/generate-registries` writes 587 shadcn-schema items to `static/r/react/` (582 components, 5 helper modules), schema-validated; `npx shadcn@latest add @lily/button @lily/dialog @lily/scroller` into a scratch Next.js 16.4.3 app built and type-checked; CI job `shadcn-registry` added and replayed locally, **not yet run on GitHub**. Docs at `/tutorials/shadcn/`. Svelte and Vue not emitted (their CLIs use their own schemas and document no namespaced registries). P10-T6 proposal marked superseded pending maintainer confirmation.
+  - Generate `registry.json` and `registry-item` files with inlined contents under `/r/react/`, from
+    `bin/generate-registries`.
+  - Document `npx shadcn add @lily/<slug>`.
+  - Check whether shadcn-svelte and shadcn-vue accept the same items; add `/r/svelte/` and `/r/vue/` if they do.
+  - Keep the existing `/r/{slug}.json` files.
+  - Close P10-T6: shadcn for copying, `lily outdated` only on demand.
+  - Spec item 5.
+  - Verify: a CI job runs `npx shadcn add` for three components (one with a dependency) into a scratch Next.js app,
+    which builds and passes its tests.
+- [x] **P16-T6 Strict DTCG 2025.10 tokens.**
+  - Status (2026-10-29): the 114 `fluidDimension` tokens are now standard `dimension` tokens (value = rem floor) with the fluid parameters under `$extensions["com.lilydesignsystem"]`; theme CSS byte-identical; `themes/tokens/lily.resolver.json` generated; `bin/check-dtcg-tokens` in `bin/test`. Terrazzo 2.10.0 and Style Dictionary 5.7.1 load all 57 with no warnings (but neither rejected the old type either, so the in-repo check is the strict gate). Penpot and Figma imports **not tested**.
+  - Validate `themes/tokens/*.json` against the 2025.10 Format schema in `bin/test`.
+  - Re-emit the 114 `fluidDimension` tokens as standard `dimension` tokens whose value is the floor, with the fluid
+    parameters under `$extensions["com.lilydesignsystem"]`; update `bin/generate-theme-tokens` and `bin/check-theme`
+    rule 11.
+  - Add one Resolver document covering the theme families and modes.
+  - Test import into Penpot and into Figma through Tokens Studio; document both on the Figma page.
+  - Spec item 6.
+  - Verify: a strict 2025.10 parser loads all 57 files with no warnings; `bin/test` passes.
+- [x] **P16-T7 Self-assessed ACR for Core.**
+  - Status (2026-10-29): `docs/accessibility-conformance-report.md`, VPAT 2.5 WCAG edition, generated by `bin/generate-core`, labelled self-assessed throughout: 75 Not Evaluated, 11 Not Applicable, no Supports. It will say more only when T9 and T2 evidence exists.
+  - VPAT 2.5 WCAG edition, scoped to Core, labelled self-assessed on every page.
+  - Generated from P16-T2 evidence; every "Supports" cell links to its test or matrix row.
+  - Linked from `docs/accessibility-statement.md`.
+  - Spec item 7. Depends on P16-T2.
+  - Verify: the generator's `--check` runs in `bin/test`; no cell lacks a link.
+- [ ] **P16-T8 Audit funding application.**
+  - Status (2026-10-29): draft planning notes only, `docs/funding/ngi-zero-commons-application.md`. **The NGI Zero Commons Fund closed 2026-06-01.** Open now: NLnet Restack and CodeSupply (deadline 2026-11-03), weak fit. NLnet GenAI policy 2.0 (2026-10-20) forbids AI-written proposals and makes mostly-LLM-generated work ineligible, so the maintainer must write any proposal and disclose AI_STATEMENT.md. Sovereign Tech Agency: Fund minimum €50,000 and excludes user-facing apps. Findings in `spec/free-open-source-funding`.
+  - Turn `docs/audit-readiness.md` into an application to the NLnet NGI Zero Commons Fund. First confirm whether
+    accessibility audits are still offered through NGI Zero Review.
+  - Check the Sovereign Tech Agency programmes.
+  - Record both in `spec/free-open-source-funding`.
+  - Spec item 8.
+  - Verify: one application submitted, with its date and outcome recorded.
+- [ ] **P16-T9 Fill the screen-reader matrix.**
+  - At least two combinations (for example VoiceOver with Safari on macOS, and VoiceOver on iOS) for all 20 rows of
+    `docs/screen-reader-matrix.md`, with versions and an issue or PR per cell.
+  - This needs a human session; an agent must not fill cells it has not observed.
+  - Spec item 9. Advances P4-T4.
+  - Verify: no empty cell in the two chosen columns.
+- [~] **P16-T10 Support policy and second publisher.**
+  - Status (2026-10-29): "Support policy" in `MAINTAINERS.md`, synced: latest minor only until 1.0, SECURITY.md response times, deprecation period **proposed** (maintainer to confirm). Open: a second publisher on npm and NuGet.
+  - Add a policy to `MAINTAINERS.md`: supported versions, the security-fix target, the deprecation notice period, what
+    "best effort" means.
+  - Add a second person with publish rights on npm and NuGet.
+  - Spec item 10.
+  - Verify: `bin/sync-special-files` propagates the policy; the second publisher is listed in `MAINTAINERS.md`.
+- [x] **P16-T11 Public-sector reference versions.**
+  - Status (2026-10-29): `themes/references.tsv` (8 themes) and `bin/check-theme-references` (report, never fails on upstream). Result: the four NHS England and NHS Scotland themes record nhsuk-frontend 9.x against 10.7.1; their CSS headers also wrongly say v10 is pre-release (10.0.0 shipped 2025-08-26). Wales has no upstream package.
+  - Record the upstream package and version for each GOV.UK, NHS England, NHS Scotland, NHS Wales, DHCW and USWDS theme.
+  - Add `bin/check-theme-references`, a report rather than a gate, that lists themes whose upstream has a newer major
+    release.
+  - Spec item 11.
+  - Verify: the report lists every public-sector theme with its recorded version.
+
+## Phase 17 — Worldwide equity (2026-10-29)
+
+Rule added 2026-10-29 ([AGENTS/internationalization.md](AGENTS/internationalization.md)): the target is worldwide, not the United States or United Kingdom. Source: [worldwide audit](spec/internationalization/worldwide-audit.md), 18 findings.
+
+- [x] **P17-T1 Calendar systems.** force the date-time-picker heading to `-u-ca-gregory` now (one line, removes the heading/grid mismatch), then add a `calendar` prop (CLDR id) to `date-time-picker` and `calendar`. (audit recommended task 1.)
+      _(2026-10-29: done as the interim fix: every `date-time-picker` formats with the Gregorian calendar forced (`gregorian(locale)`), so the heading and day labels match the grid; all eight catalogs, tests §7.90. Open: the `calendar` prop (CLDR calendar id) for `date-time-picker` and `calendar`. Blazor forces `GregorianCalendar` on a culture clone.))_
+- [x] **P17-T2 Native digits.** `parseDateInput`/`parseTimeInput` accept Unicode decimal digits and `Intl` day-period words. (audit recommended task 2.)
+      _(2026-10-29: done in all eight catalogs: `normalizeDigits` (every Unicode decimal digit) in `parseDateInput`/`parseTimeInput`, plus the locale's own day-period words; tests §7.91 and §7.92. `am`/`pm` stays accepted in every locale.))_
+- [x] **P17-T3 RTL arrows in the picker grid.** reuse `direction.ts` `logicalKey`; add an RTL keyboard test. (audit recommended task 3.)
+      _(2026-10-29: done in all eight catalogs: the grid swaps ArrowLeft and ArrowRight in RTL; test §7.93. Blazor has no JS interop, so it reads a `dir` attribute passed to the component, else the culture's text direction; an ancestor's `dir` is not seen (documented).))_
+- [x] **P17-T4 Week numbering.** `weekNumbering: "iso" | "us" | "locale"`, or document ISO-only as a gap. (audit recommended task 4.)
+      _(2026-10-29: documented as a known limitation, not built: ISO 8601 week numbers only, in the calendar and date-time-picker `index.md` and `spec/index.md` of all eight catalogs. Open: the `weekNumbering: "iso" | "us" | "locale"` prop.)_
+- [x] **P17-T5 Weekend default.** `criticalPath()` requires `weekends` for `lagUnit: "working-days"`. (audit recommended task 5.)
+      _(2026-10-29: `criticalPath()` with `lagUnit: "working-days"` now throws (`RangeError`; Blazor `ArgumentException`) when `weekends` is missing; `[]` means none. Shared module synced to 8 gantt packages, Blazor edited by hand. Breaking: callers must pass `weekends`.)_
+- [x] **P17-T6 Currency default.** remove the `"USD"` default in every port; align the Svelte stub. (audit recommended task 6.)
+      _(2026-10-29: `currencyCode` is required with no default in all nine headless libraries (React, Vue, Svelte, Angular, Blazor, Nunjucks, Web Components, Alpine; HTML carries an empty `data-currency-code`). Svelte's stub is now a real `<input>`; Angular and Blazor gained the parameter; Nunjucks lost a hidden `£` default. Breaking for callers relying on USD. The HTML wdio test was edited but not run.)_
+- [x] **P17-T7 Identifier coverage.** next batch of 12 to 16 types by population and federation gap; a coverage table by region in `national-identifiers`. (audit recommended task 7.)
+      Verify: the new types pass `bin/check-coverage` and `bin/check-class-names`; `bin/check-worldwide` shows Europe's share below 69%; `spec/national-identifiers` has the region table.
+      _(2026-10-31: done. 12 types / 24 components in all eight catalogs: Taiwan, Hong Kong, Iran, Saudi Arabia, Malaysia, Viet Nam, Pakistan, Uruguay, Ecuador, Colombia, Australia (TFN), Nigeria. Catalog 607; Web Components 572 of 607. Europe 70 to 60 percent. Check digits are documented only where the algorithm is published; the sample values for Taiwan, Hong Kong, Iran, Saudi Arabia, Uruguay, Ecuador and Australia were generated by implementing the algorithm. Peru was dropped from the plan (its check-digit table could not be confirmed). Per-package tests pass in Svelte, React, Vue, Angular, Alpine, Web Components, Nunjucks and Blazor; the HTML WebdriverIO tests and the example apps' e2e were not run.)_
+- [x] **P17-T8 Label packs and site locales.** regional-variant policy (pt-BR, es-MX/es-419, fr-CA, zh-TW, en-IN/en-ZA/en-NG) and a missing-language priority list. (audit recommended task 8.)
+      Verify: the policy and the priority list are in `spec/label-packs`; `bin/check-label-packs` passes for any pack added.
+      _(2026-10-31: done. `spec/label-packs` has the regional-variant policy and a four-tier missing-language list. No pack was added; `check-label-packs` must accept partial regional packs before the first one.)_
+- [x] **P17-T9 Themes.** script-aware font-stack token (CJK, Arabic, Indic, Thai) and `:lang()` line-height rules; adopt-or-decline list of non-UK/US public-sector systems, licence checked. (audit recommended task 9.)
+      Verify: `bin/check-theme` pins the font-stack token and `:lang()` rules in all 57 themes; the adopt-or-decline list is in `spec/theme` with a licence note per system.
+      _(2026-10-30: done. Every theme names only `--lily-font-body-latin`; a pinned "Writing systems" section builds
+      `--lily-font-body` from it and a per-language `--lily-font-script` (CJK by language, Arabic script with Urdu
+      Nastaliq, Hebrew, seven Indic scripts, Thai, Lao, Khmer), re-declared on every `[lang]` element so nested
+      languages are right, and sets `--lily-line-height-body` (1.75 for scripts with tall marks). Checked in Chromium and
+      WebKit by computed style. `bin/check-theme` rule 14 fails a theme that defines `--lily-font-body` itself, and rule 5
+      a diverging section (both mutations caught). The adopt-or-decline list is in `spec/theme`: adopt Canada, Singapore,
+      Japan, Brazil, the EU (from guidance only, EUPL) and Australia's Agriculture system; decline France's DSFR (its
+      terms bar use outside the French administration); defer India's UX4G (no licence published). `AGENTS/citations.md`
+      lists the six.)_
+- [x] **P17-T9a Themes for the six adopted public-sector systems.** Canada GC Design System, Singapore SGDS, Japan
+      Digital Agency, Brazil gov.br, EU ECL (values from its published guidance, no code), Australia AgDS: colours,
+      spacing and type from each system's published tokens, no logos, crests or restricted typefaces, the provenance
+      header `bin/check-theme` rule 6 requires, and a row in `themes/references.tsv`. Also: the example apps' body text
+      reads `var(--lily-line-height-body)`.
+      Verify: `bin/check-theme` passes with 63 themes; `bin/check-theme --contrast` reports each new theme.
+      _(2026-10-31: done except the body-text item. Six themes built from `light.css` with each system's published colours, radii and body font stack (npm tarballs of the MIT packages; ECL colour values only), a row each in `references.tsv`, tokens in `themes/tokens/`, the 63-theme lists and counts in the picker-bar and theme-picker catalogs and the example apps. `bin/check-theme` passes with 63 themes; every content pair is at least 4.5:1 (AA); AAA is not reached on several fills, as in the existing themes. Not done: the example apps' body text reading `var(--lily-line-height-body)`; the apps' e2e and visual-regression baselines were not run or updated.)_
+- [x] **P17-T10 Docs wording.** `postal-code`, `tel`, `address`, `medical-banner` examples from at least three regions; reword "familiar to public-sector users"; a regional-standards note. (audit recommended task 10.)
+      _(2026-10-30: done. The "familiar to public-sector users" wording is gone from `AGENTS/` and `spec/theme`. `postal-code-input` and `postal-code-view` add Brazil, Japan and India, with a note that formats are national and some places have no postal code; `tel-link` adds France and Australia and `tel-input` widens its placeholder advice, each using numbers the countries reserve for fiction, with an E.164 note; `address-input` explains why one line suits every country and that a structured form takes its fields and order from the address's country; `medical-banner` shows the identifier through its `-view` component (England, and a new Australian example with an IHI), dates as `<time datetime>`. Its two NHS numbers failed the modulus-11 check (including the widely copied 485 777 3456) and are now valid. Audit finding 16: every share-picker doc names WhatsApp, Telegram, LINE, KakaoTalk, VK and how WeChat is reached. Not done here: `AGENTS/citations.md`'s UK/US public-sector list, which belongs with P17-T9's adopt-or-decline list.)_ Verify: `grep -rn 'familiar to public-sector users' AGENTS spec/theme` finds nothing; each of the four `components/*/index.md` shows three regions.
+- [x] **P17-T11 Time zones.** extend `DEFAULT_ZONES` for Africa and Southeast Asia, or document it as a sample. (audit recommended task 11.)
+      _(2026-10-30: done. `DEFAULT_ZONES` is 63 zones, 7 in Africa: added Abidjan (GMT all year), Casablanca, Maputo (Central Africa Time), Jakarta, Makassar, Jayapura, Manila, Kuala Lumpur, each under a zone name no other default has at its offset. Algiers, Addis Ababa and Ho Chi Minh left out: an option is labelled by offset and zone name, so they would repeat Lagos, Nairobi and Bangkok. `shared/zones.test.ts` asserts the additions (proved by dropping Manila); Blazor's `TimeZones.DefaultZones` matches. The six TypeScript copies of `zones.ts` and all seven copies of `zones.test.ts` were identical but outside `bin/sync-shared-modules`, so drift went unchecked; they are now synced and checked.)_ Verify: `shared/zones.test.ts` asserts the added zones, or the docs of every `time-zone-picker` call the list a sample; `bin/sync-shared-modules --check` passes.
+- [x] **P17-T12 Check.** `bin/check-worldwide` (or a `bin/check-theme` rule) failing on a `"USD"` default, a `[0, 6]` weekend default or an `en-US` visible default; prints the coverage tables. (audit recommended task 12.)
+      _(2026-10-30: `bin/check-worldwide` (in `bin/test`) fails on a currency-code default, a `[0, 6]` weekend or an English locale default in the shipped code of every top-level package (not examples, skills, tests, stories, fixtures, docs; block and Nunjucks comments blanked). It catches the defects P17-T5 and P17-T6 removed (their committed code, checked) and found a real one: the locale picker in Svelte, React, Vue, Angular, HTML and Web Components named languages in English where there is no `navigator` (server rendering); it now names each in its own language. Allow-list `bin/check-worldwide.allow.json` (empty; stale entries fail). It prints identifier types by region (Europe 49 of 70) and the label packs (64, 1 reviewed). Not covered: Blazor's C# fallbacks beyond the `DayOfWeek` pair; a server-rendering test of the endonym fallback (jsdom always has `navigator`).)_
+
+## Phase 18 — DHCW loose ends and competitive-position follow-ups (2026-10-29)
+
+Sources:
+
+- the "Not verified" list and catalog gaps in [spec/dhcw-design-system-lessons](spec/dhcw-design-system-lessons/index.md);
+- the defects Phase 16 found ([spec/competitive-position](spec/competitive-position/index.md),
+  `spec/competitive-position/native-primitives.tsv`, `themes/references.tsv`).
+
+Svelte first, then the other seven libraries, as usual.
+
+- [x] **P18-T1 Firefox and WebKit in the example apps' e2e.**
+  - Status (2026-10-29): every example app runs `responsive`, `focus-obscured` and `accessibility` in Chromium, Firefox and WebKit (SvelteKit also the 607-page axe catalog); all pass with no skips. Real defects fixed in the apps: WebKit Tab skips links (spec presses Alt+Tab), sub-24px toggles on `/tabbed-interface`, axe racing the 120ms theme fade, a label-in-name mismatch on the Nunjucks logo and an "Unread 3" tab, and switch text at 1.38:1 (html-css-js settings page and the canonical `switch-button` demo, which now uses `aria-label` as its contract says). Core criterion (b): 38 of 40. Firefox on this Mac needs a profile wrapper (macOS blocks `~/Library/Application Support/Firefox`); CI on Linux does not.
+  - Add `firefox` and `webkit` projects to every example app's `playwright.config.ts`, at least for `responsive.spec.ts`,
+    `focus-obscured.spec.ts` and the axe specs.
+  - Fix what fails, or record each skip with a reason.
+  - This also feeds Core criterion (b) (P16-T2).
+  - Verify: each app's sweep passes in all three engines; `bin/generate-core` reports criterion (b) for the candidates
+    those specs cover.
+- [x] **P18-T2 Playwright case for the overflow navigation.**
+  - Status (2026-10-29): `/demos/overflow-navigation` in SvelteKit renders the real component with eight links; `e2e/overflow-navigation.spec.ts` passes 6/6 in all three engines. Measured: 8 links in the row at 1200px, 3 at 420px, 2 at 320px (the DHCW spec's "6, 4 and 3" depended on an unrecorded link set). No horizontal overflow at 320px with JavaScript off.
+  - Render the real `navigation-menu` with `overflow` on a SvelteKit route (the demo page renders static HTML).
+  - Assert the items that fit at 1200px, 420px and 320px, Escape closing the More panel, the panel in normal flow, and no
+    horizontal overflow at 320px with JavaScript disabled.
+  - Verify: the spec passes in Chromium, Firefox and WebKit.
+- [x] **P18-T3 Blazor overflow interop in a browser.**
+  - Status (2026-10-29): the same route and spec in the Blazor Web example pass 6/6 in all three engines; the spec waits for an attribute only the JS module sets, so the interop is shown to run.
+  - Run the Blazor Web example's `navigation-menu` with `overflow` in Playwright, with the same assertions as T2.
+  - Verify: the spec passes in Chromium.
+- [x] **P18-T4 `warning-text` component.**
+  - Status (2026-10-29): `warning-text` in all eight libraries and Alpine (catalog 583, Web Components 548), tests pass in every library; the hidden prefix is consumer content, the icon a consumer slot; `compare.tsv` row (GOV.UK, DHCW, ONS `+`). Not verified: Storybook builds, example-app e2e and axe.
+  - DHCW and GOV.UK both have it: an icon slot plus a bold line, with a visually hidden prefix supplied by the consumer
+    (no English from us).
+  - Add it with `bin/new-component`, implement it in all eight libraries and Alpine, and move every count together.
+  - Verify: `bin/test`, `bin/check-coverage` and `bin/check-class-names` pass with the catalog at 583.
+- [x] **P18-T5 Mobile bottom-navigation pattern.**
+  - Status (2026-10-29): "Mobile bottom navigation" pattern in `AGENTS/components.md`, with Advice bullets in `tab-bar` and `navigation-menu`.
+  - Document it as a composition on `tab-bar` and `navigation-menu`: fixed to the bottom, sets
+    `--lily-fixed-bar-block-end` (WCAG 2.4.11), at most five items, visible labels.
+  - Verify: `bin/check-links`; the pattern appears in `AGENTS/components.md`.
+- [x] **P18-T6 Real modality for drawer, sheet, slide-out-drawer, tour and tour-list.**
+  - Status (2026-10-29): drawer, sheet and slide-out-drawer are now `<dialog>` opened with `showModal()` in all eight libraries and Alpine; tour is non-modal (no `aria-modal`), tour-list is a plain list. All 57 themes reset the `<dialog>` defaults so the panels dock to the edge, with a `::backdrop` (checked in Chromium: 448 by 600 at a 1000 by 600 viewport). Real-browser focus trapping verified for HTML in Chromium only. Behaviour changes: Blazor panels render only while `Open`; the Nunjucks `open` param is ignored.
+  - Each sets `aria-modal="true"` on a plain `div` with no focus trap and no inert background (P16-T4).
+  - Render a `<dialog>` opened with `showModal()` through `Dialog/modal.ts`, or remove `aria-modal` where the component
+    is not modal.
+  - Update each `AGENTS.md` and its `## Native platform` decision.
+  - Verify: tests assert that focus stays inside while open and returns to the trigger on close, in all eight
+    libraries; `bin/check-native-primitives` passes.
+- [x] **P18-T7 Re-baseline the NHS England and NHS Scotland themes from nhsuk-frontend 9.x to 10.x.**
+  - Status (2026-10-29): the four NHS England and NHS Scotland themes track nhsuk-frontend 10.7.1. One token changed: `--color-success` #009639 → #007F3B (its content pair from 4.37:1 FAIL to 5.19:1 AA). Headers corrected (v10 not pre-release; type scale and spacing points). Not adopted: v10 component visual changes, the unreleased link-hover change, the yellow-fill focus style.
+  - Read the nhsuk-frontend 10 changelog for colour, spacing, typography and focus changes, and apply the ones that
+    reach Lily's tokens through `themes/tokens/*.json`.
+  - Correct the headers' claim that v10 is pre-release (10.0.0 shipped 2025-08-26).
+  - Update `themes/references.tsv`.
+  - Verify: `bin/check-theme-references` lists no NHS theme as a major behind; `bin/check-theme` and
+    `bin/check-dtcg-tokens` pass.
+- [~] **P18-T8 Popover API for popover, popup and contextual-help.**
+  - Status (2026-10-29): popover, popup and contextual-help use `popover="auto"` with `command`/`commandfor` (plus `popovertarget`) in all nine libraries; HTML and Nunjucks open, close on Escape and light-dismiss with no script in Chromium and WebKit. contextual-help takes a required `triggerLabel` (the "?" default is gone). Open: Firefox and real-browser checks of the framework builds. (The Alpine generator now reproduces the markup: P18-T9.)
+  - Use `popover="auto"` opened by `command="toggle-popover"`/`commandfor`, keeping a scripted fallback where jsdom or
+    an older engine lacks it.
+  - contextual-help's hard-coded "?" trigger text becomes a prop.
+  - Update each `## Native platform` decision to `native`.
+  - Verify: tests in all eight libraries; `bin/check-native-primitives` passes; the Nunjucks and HTML versions open with
+    no script.
+- [x] **P18-T9 Alpine generator matches the new markup.**
+  - Status (2026-10-29): `generate-components.mjs` reproduces all six. Drawer, sheet and slide-out-drawer already did; popover, popup and contextual-help now take their Popover API markup, header lines and two tests from `families/shared/popover-api.mjs` (a subdirectory, so the family loader skips it), and `header()` takes optional `notes`. The three popover-family files in the tree were replaced by the formatted generator output, which differs from the hand edits only in formatting: the story string is the compact markup (as for drawer), the test imports the standard line, and contextual-help's trigger comment sits on its own line. A scratch regeneration through Prettier differs in 0 of the 18 files; the Alpine suite passes, 1,382 tests. Not done: the rest of the tree does not regenerate cleanly (about 880 files differ in formatting, unused imports and reformatted html-headless sources), which is outside this task.
+  - Update `lily-design-system-alpine-headless/families/*.mjs` so that `generate-components.mjs` reproduces the current
+    popover, popup and contextual-help files (P18-T8) and the drawer, sheet and slide-out-drawer files (P18-T6).
+  - Verify: a scratch regeneration, formatted the way the committed files are, differs from the tree in no file for
+    those six components.
+- [x] **P18-T10 Listbox machine in more libraries** (P16-T3 continued).
+  - Status (2026-10-29): Vue, Angular, HTML (`ListboxController`) and Web Components `Listbox` run on `shared/listbox-machine.ts`; adapters 83, 87, 57 and 34 code lines. `bin/sync-shared-modules` copies the machine, `typeahead.ts` and `search-text.ts` into each library and the Nuxt and Angular examples (the machine's 40 tests too: Vue, Angular as `.spec.ts`, Web Components under `lib/`). The HTML controller stays one classic-script-safe file: the three modules are inlined as generated regions (new `REGION_TARGETS`; a region target missing its markers now stops the script instead of being overwritten). Existing tests pass unchanged: Vue 16, Angular 15, HTML 10 (wdio, Chrome), Web Components 8; full suites Vue 4,011, Angular 2,390, Web Components 3,911; the seven HTML helper packages that import the controller and the HTML example's picker e2e pass. Each adapter branch was mutation-checked; two were unasserted, so Vue and Web Components gained a `preventDefault` test. Behaviour changes: Angular's default roving-focus mode was inert and now has the roving keys (two new tests); typeahead now folds diacritics and ignores Space, as in Svelte and React. Blazor (C#) and Nunjucks (markup only) are out of scope. The Angular and HTML helper packages resolve the published 0.6.0 / local copies; the published headless packages change only on the next release.
+  - Vue, Angular, HTML and Web Components `Listbox` delegate to `shared/listbox-machine.ts`, through
+    `bin/sync-shared-modules`.
+  - Blazor (C#) and Nunjucks (markup only) are out of scope; say so.
+  - Verify: each library's existing Listbox tests pass unchanged; adapters under 100 lines.
+- [x] **P18-T11 Popover API for the menu group** (P16-T4 candidates).
+  - Status (2026-10-30): dropdown-menu, split-button, action-group and context-menu are `popover="auto"` in all nine libraries; the triggers name the menu with `command="toggle-popover"` `commandfor` (and `popovertarget`, `aria-controls`), context-menu (no declarative trigger) is shown with `showPopover()` from `open`, and the `toggle` event writes the state back. The APG arrow-key focus code stays. Fallback where `showPopover` is missing: `hidden`, a click toggle, Escape and (where it was there) an outside click, as before. `bin/check-native-primitives` shows the four as `native` (25 of 52).
+  - Contract changes: split-button's `menuOpen` and action-group's `overflowOpen` are now bindable (Svelte `$bindable`, Vue `v-model`, Angular `model()`, React `onChange`, Blazor `@bind-`), and the trigger handler can `preventDefault()` to keep the menu as it is; a closed menu is now in the DOM (a closed popover) instead of absent, so the Angular `ContextMenu`/`DropdownMenu` "renders nothing while closed" tests now check it is hidden; Nunjucks `dropdownMenu` and `contextMenu` lost their English `aria-label` defaults ("Menu", "Context menu"), and a closed Nunjucks trigger carries no static `aria-expanded` (as contextual-help).
+  - Stubs ported from Svelte: Angular `SplitButton` (was a bare `<button>`) and `ActionGroup` (a bare `<div>`; overflow content is projected with `[overflow]` and shown when `overflowLabel` is set); all four Blazor components (bare `<div>`s), with the APG menu focus code added to `Popover.razor.js` as a `{ menu: true }` option.
+  - Tests: Svelte 3,306, React 3,502, Vue 4,023, Angular 2,403, Web Components 3,922, Nunjucks 3,564, Blazor 2,250, Alpine 1,389 (its generator reproduces all twelve overlay and menu components, 0 of 30 files differ); new Popover API and fallback tests per library, each new branch mutation-checked. HTML: the four snippets' wdio specs in Chrome (32 tests, including light dismiss and the fallback with `showPopover` removed). With JavaScript disabled, the HTML snippets and the rendered Nunjucks macros open, close on Escape and light-dismiss in Chromium and WebKit. Blazor Web example: new `/demos/menu-popover` and `e2e/menu-popover.spec.ts` pass in Chromium and WebKit, which shows the interop runs.
+  - Not verified: Firefox (it would not launch in this session, including the previously passing `overflow-navigation` spec, so it is the environment); the Nunjucks `contextMenu` root tag (`<ul>` where the contract says `<div>`; left for the tag audit, P10-T12); split-button and action-group menus still carry no `role="menu"` on the panel in most libraries (the consumer's content supplies it), unchanged.
+  - dropdown-menu, split-button, action-group and context-menu: the menu panel becomes `popover="auto"`, keeping the APG
+    arrow-key focus code; all nine libraries.
+  - Verify: tests in every library; `bin/check-native-primitives` shows the four as `native`.
+- [x] **P18-T12 The theme-picker `variant="select"` in every catalog** (P16-T4 remainder).
+  - Status (2026-10-30): ported to React, Vue, Angular, HTML, Web Components, Nunjucks and Blazor with the Svelte tests' cases (plus a server-rendered `selected` check in React and Nunjucks, and a disabled-later check in HTML and Web Components). Package suites: React 82, Vue 73, Angular 82, HTML 84, Web Components 84, Nunjucks 91, Blazor 58, all passing; `bin/check-port-parity` clean. Nunjucks renders the resolved option `selected`, so the field works with no script; its client's initial-value resolution is now one `resolveInitialTheme` shared by both variants. Angular's root view query became optional (the select variant has no `#rootEl`).
+  - e2e: the HTML example's `/demos/theme-select.html` (its CSS is the `@supports (appearance: base-select)` snippet from the Svelte `docs/styling.md`) and `e2e/theme-select.spec.ts` (4 cases, cross-engine), plus the page in the axe list. The example's vendored `assets/js/theme-picker.js` was rebuilt from the HTML package's `dist` the way `bin/sync` does; the existing theme-switching and site-preferences specs pass with it.
+  - Measured: Chromium and this WebKit both support `appearance: base-select`, so the "without" path is shown by a case that removes the page's `@supports` stylesheet; Firefox (which lacks it) is the real without-path engine and did not launch in this session, so the spec passes in Chromium and WebKit only here. The SvelteKit app was not used: it pins the published `svelte-theme-picker` 0.2.0, which predates the variant.
+  - Port the Svelte prototype to React, Vue, Angular, HTML, Web Components, Nunjucks and Blazor.
+  - Add an e2e case in one example app, with and without `appearance: base-select` support.
+  - Verify: package tests pass; the e2e passes in Chromium, Firefox and WebKit.
+- [x] **P18-T13 Overlay parity gaps found by P18-T6.**
+  - Status (2026-10-30): the Nunjucks `drawer` and `sheet` macros take `side` (as `data-side`, default `"left"` and `"right"`, as in Svelte) and, with `slideOutDrawer` (the same defect), no longer default `aria-label` to English ("Drawer", "Sheet"); 5 new tests, suite 3,569. The Web Components `<lily-tour>` is now a non-modal `role="dialog"` with `tabindex="-1"`, `active` (hidden while absent) and Escape-to-close with a `lily-close` event, as Svelte's `Tour` (its old "no role" test is replaced; story shows it active); suite 3,924. The Alpine `lilyTour` root carries `role="dialog"` and `tabindex="-1"`; generator updated, regeneration differs in 0 files, suite 1,389. The `tour` native-platform note records it.
+  - The Nunjucks drawer and sheet macros gain a `side` param and lose their English default labels (internationalization
+    rule).
+  - The Web Components and Alpine `tour` become `role="dialog"` (non-modal), like Svelte.
+  - Verify: tests in both libraries; no English default left in those macros.
+
+## Phase 19 — Maintenance sweep follow-ups (2026-10-30)
+
+Source: the 2026-10-30 sweep (dependencies, Dependabot, spec, AGENTS, docs, llms files, skills, the docs site). Done in
+the sweep: the 14 Dependabot PRs' 92 bumps applied locally in 78 directories (lockfiles pass a frozen install, every
+touched package's tests pass; one alpine-headless test fixed for jsdom 30) and the PRs closed with a comment; the 25
+low `deepmerge` alerts dismissed as tolerable risk (no patched release; build tooling only); this repo's notifications
+marked read; AGENTS/, llms files, the 27 skills, spec/, tasks.md, docs, the site's pages and llms files brought up to
+date (see CHANGELOG 2026-10-30).
+
+- [x] **P19-T1 Retranslate the site's help page and helpers tutorial.** The English pages now describe eleven pickers and
+      a picker-bar of up to seven; the 63 translations still say eight / seven / five, and the help page's list needs
+      three more items (menu, settings, time-zone), which the translation-structure check blocks until every language
+      has them.
+      Verify: `bin/check-site-page-translations` passes with the new list items in all 63 languages.
+      _(2026-10-30: done, as machine translations like the rest of the site, unreviewed. The English page names menu,
+      settings and time-zone in the lead paragraph rather than as list items, so no list grew. All 63 help pages: the
+      lead paragraph (eleven pickers, a panel of your own content, the opt-in native select, the three pickers by name).
+      All 63 helpers tutorials: the tagline (eleven, up to seven), Web Components in the framework list, and the
+      picker-bar's link-picker and time-zone-picker. `bin/check-site-page-translations` passes.)_
+      _(Also 2026-10-30, the e2e check the sweep left open: all eight example apps' full suites pass in Chromium and
+      WebKit (37 load timeouts in HTML and Blazor pass on rerun). Found: the Alpine Gantt milestone label failed axe
+      contrast, fixed in the 57 themes; an Alpine test pinned the catalog at 571. Firefox remains unverified here.)_
+- [x] **P19-T2 Fix the svelte-check errors that predate the sweep.** `lily-design-system-svelte-data-grid`: 4 errors
+      ("Cannot find name 'process'" in `playwright.config.ts`). `lily-design-system-svelte-sveltekit-examples`: 587
+      errors and 35 warnings (missing `@storybook/addon-svelte-csf` types in `*.stories.svelte`, required props missing
+      in `src/routes/dialog-flow` and `src/routes/timeline-and-cards`).
+      Verify: `pnpm run check` reports 0 errors in both.
+      _(2026-10-30: done. `svelte-data-grid` excludes `playwright.config.ts` from its type check, as the other helpers do. `svelte-sveltekit-examples` excludes the Storybook stories it copies from `svelte-headless` (the app does not install Storybook; the headless library excludes them the same way); the 4 remaining errors were real page defects, now fixed: `/dialog-flow`'s AlertDialog had no `title`, and `/timeline-and-cards`' ReviewDate, Footnote and Timer lacked their required `label`/`datetime`/`id`. The 16 warnings are gone too: the `/tabbed-interface` tree items carry `aria-selected`, and the focusable `<pre>` code blocks carry a `svelte-ignore` with the axe reason. Both packages: 0 errors, 0 warnings. The app's accessibility and component e2e for those pages pass in Chromium (52).)_
+- [x] **P19-T3 Production builds after the dependency bumps.** The sweep ran unit tests and type checks only, with
+      TypeScript 7, `@types/node` 26, jsdom 30 and vitest 5 in some packages. Run each touched package's `build` and the
+      example apps' builds (`vite build`, `next build`, `nuxt build`, `ng build`) and their Playwright suites.
+      Verify: every build and e2e suite passes, or each failure is fixed.
+      _(2026-10-30: 75 of the 78 bumped directories have a `build` script; 69 built cleanly. The 6 Alpine helpers failed on TypeScript 7 (PR #340): `tsup --dts` calls the TypeScript compiler API, which TypeScript 7 lacks; adding `@typescript/typescript6` fixed `rollup-plugin-dts` but not `tsup` itself. They are back on TypeScript ^5.9.3 (build, tests, check and frozen install pass) and `.github/dependabot.yml` ignores TypeScript majors for them, with the reason. The TypeScript 7 headless packages (`alpine-headless`, `html-headless`, `nunjucks-headless`) have no build. Not run: the example apps' full Playwright suites in all engines.)_
+- [x] **P19-T4 Smaller defects the sweep found.** `components/chat-list-item/index.md` documents a `current` prop the
+      Svelte and React components lack (also P14-T5); CHANGELOG has no entry for the 2026-10-24 markdown-editor,
+      org-editor and time-zone-picker release; Alpine is not covered by `bin/check-coverage`, `bin/check-class-names`,
+      `bin/publish-headless` or `bin/smoke-packages`; the Blazor headless `index.md` key-handling count predates the
+      dialog and menu interop (re-measure); several topic specs lack Acceptance criteria and Related sections
+      (`date-time-picker`, `dependabot`, `headless-improvements`, `node-current-version`).
+      Verify: each item fixed or recorded as a decision.
+
+      _(2026-10-30: `chat-list-item` done: `current` (aria-current="true") added in Svelte, React, Vue, Angular, Blazor and Nunjucks, documented for the HTML and Alpine snippets, with a test in each; the Svelte `ChatListItem` and `ChatList` also rendered `<div>` where the contract says `<li>` and `<ol>` (the other libraries were right), now fixed. The rest of this item is open.)_
+
+      _(2026-10-30: closed. CHANGELOG has a 2026-10-24 entry for the markdown editor, Org editor and time-zone picker (versions checked
+      on npm and NuGet). Alpine is in `bin/check-class-names` (607/607) and `bin/check-coverage` (all files present; its 29 key-test
+      gaps join the shrink-only allow-list, 289 in all); `publish-headless` and `smoke-packages` stay without it until Alpine is
+      published. The Blazor headless `index.md` now names the 15 components with custom key handling (was "about 5"). Thirteen
+      topic specs gained Acceptance criteria and Related topics, each criterion measured (`history` is a dated record and has none).
+      Found while doing it: four CI jobs and the publish workflow still set up Node 22 against every package's `engines.node >=26`;
+      now 26. The lockfiles the sweep regenerated with pnpm 12 keep `lockfileVersion 9.0`, which CI's pnpm 11 reads.)_
+
+## Phase 20 — Investigate a SolidJS port (2026-10-30)
+
+Plan: [plan.md § Phase 20](plan.md#phase-20--investigate-a-solidjs-port-2026-10-30).
+
+- [x] **P20-T1 Investigate porting Lily to SolidJS, as a peer of Svelte, React, Vue and the others.** Assess fit
+      (rest-props via `splitProps`, `class` hooks, bindable state, SolidStart SSR, Popover API and `showModal()`, the
+      shared modules), spike a sample ported from the React headless library (a container, a form control, `Listbox`,
+      `Dialog`, the `DataTable` parts, one picker) with `@solidjs/testing-library` tests, estimate the full and
+      recurring cost, and compare with Web Components as the route for Solid users.
+      Verify: a recommendation (port, partial port or decline) with the spike's measurements recorded in
+      `spec/frameworks`, and a follow-up task for whichever is chosen.
+      _(2026-10-31: done. Decline a full port for now; Solid apps use the Web Components catalog. Five components ported from React: about 30 percent fewer lines (202 against 283), 41 of 42 React tests pass after mechanical edits, SSR renders, a Solid app drives the Web Components catalog. Measurements in `spec/frameworks`.)_
+- [x] **P20-T2 A SolidJS recipe for the Web Components catalog.** Typings for the `lily-*` elements in Solid's JSX
+      (`JSX.IntrinsicElements`), the `attr:` and `prop:` rules for each kind of attribute, and one tested example
+      (a form with a tooltip and a dialog) in the Web Components helpers or the docs site.
+      Done 2026-11-01: `solid.d.ts` (exported as `./solid`; a `lily-${string}` index signature, so not per-element attribute checking), the rules in the Web Components `index.md`, and `recipes/solid/`.
+      Verify: the example builds with the typings and its test passes; `bin/test` is unaffected.
 
 ---
 

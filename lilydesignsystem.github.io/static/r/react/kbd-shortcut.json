@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "kbd-shortcut",
+  "type": "registry:component",
+  "title": "KbdShortcut",
+  "description": "A keyboard shortcut made of one or more key caps, for example Ctrl plus K.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/KbdShortcut.tsx",
+      "content": "import React from \"react\";\n\n// KbdShortcut component\n//\n// A headless keyboard-shortcut display: an outer <kbd> holding one inner\n// <kbd class=\"kbd-shortcut-key\"> per key, with aria-hidden separators between.\n//\n// Props:\n//   className -- string, optional. CSS class name.\n//   keys -- string[], required. Key names in order.\n//   separator -- string, default \"+\". Decorative; aria-hidden.\n//   label -- string, optional. Spoken form via aria-label; absent = keys are read.\n//   ...restProps -- spread onto the root <kbd>.\n\nexport interface KbdShortcutProps {\n    className?: string;\n    /** Key names, in order. */\n    keys: string[];\n    /** Decorative separator between keys. */\n    separator?: string;\n    /** Optional spoken form (aria-label). */\n    label?: string;\n    [key: string]: unknown;\n}\n\nexport default function KbdShortcut({\n    className = \"\",\n    keys,\n    separator = \"+\",\n    label = undefined,\n    ...restProps\n}: KbdShortcutProps) {\n    return (\n        <kbd\n            className={`kbd-shortcut ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {keys.map((key, i) => (\n                <React.Fragment key={i}>\n                    {i > 0 && (\n                        <span\n                            className=\"kbd-shortcut-separator\"\n                            aria-hidden=\"true\"\n                        >\n                            {separator}\n                        </span>\n                    )}\n                    <kbd className=\"kbd-shortcut-key\">{key}</kbd>\n                </React.Fragment>\n            ))}\n        </kbd>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/KbdShortcut.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/kbd-shortcut/"
+}

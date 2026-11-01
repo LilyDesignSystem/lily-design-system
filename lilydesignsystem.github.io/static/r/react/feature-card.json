@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "feature-card",
+  "type": "registry:component",
+  "title": "FeatureCard",
+  "description": "A large content card with a prominent image positioned alongside or above the text.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/FeatureCard.tsx",
+      "content": "import React from \"react\";\n\n// FeatureCard component\n//\n// A large content card with a prominent image positioned alongside or\n// above the text. Renders an <article> landmark with a heading, optional\n// description, optional image, and a children slot for CTAs or extras.\n//\n// Props:\n//   className     — string, optional. CSS class name appended to the root.\n//   heading       — string, REQUIRED. Card heading.\n//   imagePosition — \"start\" | \"end\" | \"top\", default \"start\". Image\n//                   placement (exposed as data-image-position).\n//   imageUrl      — string, optional. Image source URL.\n//   imageAlt      — string, optional. Alt text for the image.\n//   description   — string, optional. Body text.\n//   label         — string, optional. aria-label override (defaults to\n//                   heading).\n//   children      — ReactNode, optional. Additional content (e.g., CTAs).\n//   ...restProps  — additional HTML attributes spread onto the root.\n//\n// Syntax:\n//   <FeatureCard\n//     heading=\"Privacy first\"\n//     description=\"Designed to protect your data.\"\n//     imageUrl=\"/images/feature.png\"\n//     imageAlt=\"Lock illustration\"\n//     imagePosition=\"start\"\n//   >\n//     <a href=\"/learn-more\">Learn more</a>\n//   </FeatureCard>\n//\n// Accessibility:\n//   - Uses an <article> landmark with aria-label\n//   - Image alt text is consumer-provided\n//\n// Internationalization:\n//   - All user-facing strings are consumer-supplied\n//\n// Claude rules:\n//   - Headless: no CSS, no styles\n//   - heading is non-optional in the interface\n\nexport interface FeatureCardProps {\n    className?: string;\n    /** Card heading */\n    heading: string;\n    /** Image placement relative to text */\n    imagePosition?: \"start\" | \"end\" | \"top\";\n    /** Image source URL */\n    imageUrl?: string;\n    /** Image alt text */\n    imageAlt?: string;\n    /** Body text */\n    description?: string;\n    /** aria-label override; defaults to heading */\n    label?: string;\n    /** Additional content (e.g., CTAs) */\n    children?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function FeatureCard({\n    className = \"\",\n    heading,\n    imagePosition = \"start\",\n    imageUrl = undefined,\n    imageAlt = undefined,\n    description = undefined,\n    label = undefined,\n    children,\n    ...restProps\n}: FeatureCardProps) {\n    return (\n        <article\n            className={`feature-card ${className}`}\n            data-image-position={imagePosition}\n            aria-label={label ?? heading}\n            {...restProps}\n        >\n            {imageUrl && (\n                <img\n                    className=\"feature-card-image\"\n                    src={imageUrl}\n                    alt={imageAlt ?? \"\"}\n                />\n            )}\n            <header className=\"feature-card-header\">\n                <h3 className=\"feature-card-heading\">{heading}</h3>\n            </header>\n            {description && <p className=\"feature-card-description\">{description}</p>}\n            {children}\n        </article>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/FeatureCard.tsx"
+    }
+  ],
+  "categories": [
+    "navigation"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/feature-card/"
+}

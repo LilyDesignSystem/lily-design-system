@@ -155,6 +155,7 @@ function wheelTypeaheadIndex(
     var pageSize = Number(root.getAttribute("data-page-size") || 5);
     var typeahead = { prefix: "", at: 0 };
     var selected = optionEls.findIndex(function (el) { return el.getAttribute("aria-selected") === "true"; });
+    var initial = selected;
 
     function centre() {
       if (selected < 0) return;
@@ -195,6 +196,24 @@ function wheelTypeaheadIndex(
       select(optionEls.indexOf(target));
       list.focus();
     });
+
+    // Form reset: the selection lives in aria-selected and a hidden input the browser's
+    // reset does not restore, so put back the initial selection one tick after the reset
+    // (and not when a listener cancelled it).
+    var form = root.closest("form");
+    if (form) {
+      form.addEventListener("reset", function (event) {
+        setTimeout(function () {
+          if (event.defaultPrevented) return;
+          var changed = selected !== initial;
+          selected = initial;
+          show();
+          if (changed) {
+            root.dispatchEvent(new CustomEvent("change", { bubbles: true, detail: { value: selected >= 0 ? options[selected].value : "" } }));
+          }
+        }, 0);
+      });
+    }
 
     centre();
   }

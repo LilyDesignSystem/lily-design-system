@@ -35,12 +35,21 @@ description: a hidden input for including data in form submission
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>
-<pre tabindex="0"><code>{% raw %}&lt;Form label="Update settings" onsubmit={save}&gt;
-  &lt;HiddenInput name="_csrf" value={csrfToken} /&gt;
+<pre tabindex="0"><code>{% raw %}&lt;form
+  label="Update settings"
+  onsubmit="{save}"
+&gt;
+  &lt;HiddenInput
+    name="_csrf"
+    value="{csrfToken}"
+  /&gt;
   &lt;Field label="Display name"&gt;
-    &lt;TextInput label="Display name" value={displayName} /&gt;
+    &lt;TextInput
+      label="Display name"
+      value="{displayName}"
+    /&gt;
   &lt;/Field&gt;
   &lt;SubmitInput value="Save" /&gt;
-&lt;/Form&gt;
+&lt;/form&gt;
 {% endraw %}</code></pre>
 {# END generated: examples #}

@@ -22,8 +22,8 @@
 
 ## Overview
 
-A Claude Skill scoped to Vue as a whole: it maps the three real Vue
-subprojects (`@lilydesignsystem/vue-headless`,
+A Claude Skill scoped to Vue as a whole: it maps the three Vue
+layers (`@lilydesignsystem/vue-headless`,
 the top-level `lily-design-system-vue-*` helper packages, `lily-design-system-vue-nuxt-examples`),
 helps an agent pick the right one, and gives real coverage of the example
 app since neither of the two more specific sibling skills covers it. The
@@ -34,8 +34,8 @@ grounded in the same rules those subprojects' own components are held to.
 
 ## What this subproject is, and isn't
 
-- **Is**: the Vue umbrella / entry-point skill — a map of the three real
-  Vue subprojects, a decision guide for which one a task needs, and the
+- **Is**: the Vue umbrella / entry-point skill — a map of the three
+  Vue layers, a decision guide for which one a task needs, and the
   one place the Nuxt.js example app's routes and conventions are covered.
 - **Isn't**: the Vue headless component library itself, the Vue helpers
   catalog itself, or the Nuxt.js example app itself — this subproject

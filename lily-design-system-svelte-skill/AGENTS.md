@@ -23,8 +23,8 @@
 
 ## Overview
 
-A Claude Skill that maps Lily Design System's three real Svelte
-subprojects — the headless component library
+A Claude Skill that maps Lily Design System's three Svelte
+layers — the headless component library
 ([`@lilydesignsystem/svelte-headless`](../lily-design-system-svelte-headless/)),
 the canonical helper packages
 ([the Svelte helper packages](../spec/helpers/index.md#svelte-helper-packages)),
@@ -33,15 +33,15 @@ and the SvelteKit example application
 — and helps an agent decide which one a task needs. The skill itself is
 [`SKILL.md`](SKILL.md); the `@AGENTS/*.md` files loaded above are the same
 binding design-principle rules every other subproject in this repository
-loads, plus `AGENTS/sveltekit.md` for the Svelte 5 + SvelteKit 2
+loads, plus `AGENTS/sveltekit.md` for the Svelte 5 + SvelteKit 3
 conventions that span all three Svelte subprojects, so an agent using this
 skill to route a task is grounded in the same rules those subprojects are
 held to.
 
 ## What this subproject is, and isn't
 
-- **Is**: the Svelte umbrella/entry-point skill — a map of the three real
-  Svelte subprojects, a decision aid for which one a task needs, real
+- **Is**: the Svelte umbrella/entry-point skill — a map of the three
+  Svelte layers, a decision aid for which one a task needs, real
   coverage of the SvelteKit example app (the one subproject neither sibling
   skill covers), and pointers into the two sibling skills for the headless
   library and the helper packages.

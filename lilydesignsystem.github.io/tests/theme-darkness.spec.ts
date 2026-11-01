@@ -17,8 +17,8 @@ const themes = readdirSync(DIR)
   // The picker lists general and design-system themes alphabetically, then the UK and US government themes.
   .sort((a, b) => Number(a.slug.startsWith('united-')) - Number(b.slug.startsWith('united-')) || a.slug.localeCompare(b.slug));
 
-test('there are 57 themes and the picker offers all of them', async ({ page }) => {
-  expect(themes).toHaveLength(57);
+test('there are 63 themes and the picker offers all of them', async ({ page }) => {
+  expect(themes).toHaveLength(63);
   await page.goto('/');
   await page.locator('.theme-picker-button').click();
   await expect(page.locator('.theme-picker-option')).toHaveCount(57);

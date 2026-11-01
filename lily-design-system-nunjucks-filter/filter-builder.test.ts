@@ -683,3 +683,51 @@ describe("Filter — the macro (Nunjucks)", () => {
         expect(controller.getValue().children).toHaveLength(1);
     });
 });
+
+// P10-T9: inside a <form>, a reset puts the filter back to the server-rendered one, every field included (as the
+// Svelte reference does).
+describe("Filter form reset", () => {
+    function inForm() {
+        const changes: FilterGroup[] = [];
+        render(null, {
+            props: {
+                ...base,
+                value: start(rule("name", "contains", "a"), rule("age", "gt", 3)),
+                onChange: (g: FilterGroup) => changes.push(g),
+            },
+        });
+        // Wrap the rendered builder in a form before wiring it again, as a page would serve it.
+        const root = document.body.querySelector<HTMLElement>("[data-lily-filter-builder-root]")!;
+        const form = document.createElement("form");
+        root.replaceWith(form);
+        form.append(root);
+        initFilterBuilder(root, {
+            labels: base.labels,
+            onChange: (g: FilterGroup) => changes.push(g),
+        });
+        const fields = () => [...form.querySelectorAll<HTMLInputElement>("input.filter-value")];
+        return { form, fields, changes };
+    }
+    const later = () => new Promise((r) => setTimeout(r, 0));
+
+    test("restores the initial filter and redraws every field, touched or not", async () => {
+        const { form, fields, changes } = inForm();
+        fields()[0].value = "typed";
+        fields()[0].dispatchEvent(new Event("input", { bubbles: true }));
+        expect(fields().map((f) => f.value)).toEqual(["typed", "3"]);
+        form.reset();
+        await later();
+        expect(fields().map((f) => f.value)).toEqual(["a", "3"]);
+        expect(changes.at(-1)!.children.map((c) => (c as FilterRule).value)).toEqual(["a", 3]);
+    });
+
+    test("a cancelled reset changes nothing", async () => {
+        const { form, fields } = inForm();
+        fields()[0].value = "typed";
+        fields()[0].dispatchEvent(new Event("input", { bubbles: true }));
+        form.addEventListener("reset", (event) => event.preventDefault());
+        form.reset();
+        await later();
+        expect(fields()[0].value).toBe("typed");
+    });
+});

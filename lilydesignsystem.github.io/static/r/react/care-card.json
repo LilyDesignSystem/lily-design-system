@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "care-card",
+  "type": "registry:component",
+  "title": "CareCard",
+  "description": "A medical care instruction card with urgency levels.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/CareCard.tsx",
+      "content": "import React from \"react\";\n\n// CareCard component\n//\n// A headless healthcare guidance component inspired by NHS England care card\n// patterns. Renders a <section> landmark with a heading and body content,\n// supporting three urgency tiers: non-urgent (speak to a GP), urgent (visit\n// A&E or call 111), and immediate (call 999). The data-type attribute enables\n// consumer CSS styling based on urgency level.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   type — \"non-urgent\" | \"urgent\" | \"immediate\", default \"non-urgent\". Urgency level.\n//   heading — string, required. Heading text describing the care action.\n//   label — string, optional. aria-label override; defaults to heading text.\n//   children — ReactNode, required. The care card body content.\n//   ...restProps — additional HTML attributes spread onto the <section>.\n//\n// Syntax:\n//   <CareCard heading=\"See a GP if:\">\n//     <p>You have persistent symptoms.</p>\n//   </CareCard>\n//\n// Examples:\n//\n//   <CareCard type=\"non-urgent\" heading=\"Speak to a GP if:\">\n//     <ul><li>you have symptoms for more than 3 days</li></ul>\n//   </CareCard>\n//\n//\n//   <CareCard type=\"immediate\" heading=\"Call 999 if:\">\n//     <ul><li>you have difficulty breathing</li></ul>\n//   </CareCard>\n//\n// Keyboard:\n//   None — this component is a passive content container.\n//\n// Accessibility:\n//   - role=\"region\" identifies the card as a named landmark\n//   - aria-label set from label prop or heading prop for screen reader identification\n//   - <h2> heading provides document structure\n//   - data-type exposes urgency level for consumer styling hooks\n//\n// Internationalization:\n//   - All text comes through heading, label, and children props; no hardcoded strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Consumer uses data-type attribute to apply urgency-appropriate visual styles\n//\n// References:\n//   - NHS England Care Cards: https://service-manual.nhs.uk/design-system/components/care-cards\n\nexport interface CareCardProps {\n    className?: string;\n    type?: \"non-urgent\" | \"urgent\" | \"immediate\";\n    heading: string;\n    label?: string;\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function CareCard({\n    className = \"\",\n    type = \"non-urgent\",\n    heading,\n    label = undefined,\n    children,\n    ...restProps\n}: CareCardProps) {\n    return (\n        <section\n            className={`care-card ${className}`}\n            role=\"region\"\n            aria-label={label ?? heading}\n            data-type={type}\n            {...restProps}\n        >\n            <h2>{heading}</h2>\n            {children}\n        </section>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/CareCard.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/care-card/"
+}

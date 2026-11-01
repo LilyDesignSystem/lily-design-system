@@ -11,6 +11,9 @@
 //   default slot -- <option> elements; "before" / "after" slots around the select.
 //   ...attrs -- fall through onto the wrapper <div>.
 
+import { ref } from "vue";
+import { useFormReset } from "./form-reset";
+
 withDefaults(
     defineProps<{
         /** Accessible label. */
@@ -30,6 +33,8 @@ withDefaults(
 );
 
 const modelValue = defineModel<string[]>({ default: () => [] });
+const field = ref<HTMLSelectElement | null>(null);
+useFormReset(modelValue, field);
 </script>
 
 <template>
@@ -40,6 +45,7 @@ const modelValue = defineModel<string[]>({ default: () => [] });
             multiple
             :aria-label="label"
             :size="size"
+            ref="field"
             v-model="modelValue"
             :required="required"
             :disabled="disabled"

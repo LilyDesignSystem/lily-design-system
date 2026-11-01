@@ -23,6 +23,8 @@ export {
     numericFieldOrder,
     parseDateInput,
     parseTimeInput,
+    normalizeDigits,
+    gregorian,
     nextDateTimePickerId,
 } from "./DateTimePicker";
 export type {

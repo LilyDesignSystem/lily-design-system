@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "super-banner",
+  "type": "registry:component",
+  "title": "SuperBanner",
+  "description": "A super-banner communicates a high-priority state that affects an entire app, experience, process, or system.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/SuperBanner.tsx",
+      "content": "import React from \"react\";\n\n// SuperBanner component\n//\n// A high-priority page-level banner that interrupts the user with a\n// system-wide message: outage, security alert, regulatory notice. Renders\n// a <div role=\"alert\" aria-live=\"assertive\"> so assistive tech announces\n// it immediately when it appears.\n//\n// Optional dismissable mode renders a close <button> that calls onDismiss\n// when activated; the consumer is responsible for removing the banner\n// from the DOM (the component does not manage its own visibility).\n//\n// Props:\n//   className   — string, optional. CSS class name.\n//   label       — string, optional. Accessible label override (aria-label).\n//   dismissable — boolean, default false. Show a dismiss button.\n//   onDismiss   — callback, optional. Called when the dismiss button is clicked.\n//   dismissLabel — string, default \"Dismiss\". Accessible label for the dismiss button.\n//   children    — ReactNode, required. Banner content.\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Accessibility:\n//   - role=\"alert\" + aria-live=\"assertive\" announces the banner immediately\n//   - aria-label optional; the visible text usually serves as the name\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Component does not own visibility state; consumer renders/unrenders\n//\n// References:\n//   - WAI-ARIA alert role: https://www.w3.org/TR/wai-aria-1.2/#alert\n\nexport interface SuperBannerProps {\n    className?: string;\n    /** Optional accessible label override. */\n    label?: string;\n    /** Show a dismiss button. */\n    dismissable?: boolean;\n    /** Called when the dismiss button is clicked. */\n    onDismiss?: () => void;\n    /** Accessible label for the dismiss button. */\n    dismissLabel?: string;\n    /** Banner content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function SuperBanner({\n    className = \"\",\n    label = undefined,\n    dismissable = false,\n    onDismiss = undefined,\n    dismissLabel = \"Dismiss\",\n    children,\n    ...restProps\n}: SuperBannerProps) {\n    return (\n        <div\n            className={`super-banner ${className}`}\n            role=\"alert\"\n            aria-live=\"assertive\"\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n            {dismissable && (\n                <button\n                    type=\"button\"\n                    className=\"super-banner-dismiss\"\n                    aria-label={dismissLabel}\n                    onClick={onDismiss}\n                >\n                    ×\n                </button>\n            )}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/SuperBanner.tsx"
+    }
+  ],
+  "categories": [
+    "overlays"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/super-banner/"
+}

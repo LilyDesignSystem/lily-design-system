@@ -239,5 +239,10 @@
     "small": "細",
     "smaller": "較細",
     "smallest": "最細"
+  },
+  "date-time-now-input": {
+    "date": "日期",
+    "time": "時間",
+    "now": "而家"
   }
 }

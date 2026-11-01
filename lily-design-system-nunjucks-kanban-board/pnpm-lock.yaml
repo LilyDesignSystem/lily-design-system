@@ -12,8 +12,8 @@ importers:
   .:
     dependencies:
       '@lilydesignsystem/nunjucks-headless':
-        specifier: ^0.5.0
-        version: 0.5.0(nunjucks@3.2.4)
+        specifier: ^0.6.0
+        version: 0.6.0(nunjucks@3.2.4)
       '@lilydesignsystem/nunjucks-listbox-behavior':
         specifier: ^0.1.0
         version: 0.1.0
@@ -262,9 +262,9 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@lilydesignsystem/nunjucks-headless@0.5.0':
-    resolution: {integrity: sha512-w9FA73SquV8hjc0cRfX7WcCATz5BcjGkIhZExz100WPMoXXEaKnWAs0krrBuLODawc9rc4lkoxhV8r2rW8+kkA==}
-    engines: {node: '=26'}
+  '@lilydesignsystem/nunjucks-headless@0.6.0':
+    resolution: {integrity: sha512-t3dVkVhvkgFlrud3If9DRTK8nKZ8sHi9SJ47j8URy/gBydtus1TIig0zn3w4t2ZbS/7QsVqO9SVsUZEet1h3rw==}
+    engines: {node: '>=26'}
     peerDependencies:
       nunjucks: '>=3.0.0'
     peerDependenciesMeta:
@@ -1204,7 +1204,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.6.0
 
-  '@lilydesignsystem/nunjucks-headless@0.5.0(nunjucks@3.2.4)':
+  '@lilydesignsystem/nunjucks-headless@0.6.0(nunjucks@3.2.4)':
     optionalDependencies:
       nunjucks: 3.2.4
 

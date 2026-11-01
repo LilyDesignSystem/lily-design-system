@@ -2,7 +2,7 @@
 
 > Lily Design System™ specification — topic doc. All topics: [spec index](../index.md).
 
-**Summary.** Lily™ implements one canonical 582-component catalog across seven framework pairs — a headless library plus a styled example app per framework — so the same semantic, accessible markup is expressed in each framework's native idiom. This topic maps the pairs, their stacks, and their per-framework component file shapes.
+**Summary.** Lily™ implements one canonical 607-component catalog across seven framework pairs — a headless library plus a styled example app per framework — so the same semantic, accessible markup is expressed in each framework's native idiom. This topic maps the pairs, their stacks, and their per-framework component file shapes.
 
 ## Scope
 
@@ -12,7 +12,7 @@ It does **not** cover: the binding markup/ARIA rules every framework obeys (see 
 
 ## Principles and rules
 
-- **One catalog, seven idioms.** Every framework implements the same 582 components with the same kebab-case base classes and the same semantic HTML; only the language and file shape differ.
+- **One catalog, seven idioms.** Every framework implements the same 607 components with the same kebab-case base classes and the same semantic HTML; only the language and file shape differ.
 - **Headless libraries ship components only.** They do not depend on their sibling app framework — e.g. svelte-headless does not depend on SvelteKit; angular-headless ships standalone components, not an Analog app.
 - **Example apps consume by copy.** Each example app copies the headless components into its own source tree rather than taking an npm/NuGet dependency, so the demos always track the in-repo headless source.
 - **Framework idioms, not framework lock-in.** Rest-props spread, two-way binding, and slots/children each use the framework's native mechanism (see [headless](../headless/index.md) for the rest-props table).
@@ -20,15 +20,20 @@ It does **not** cover: the binding markup/ARIA rules every framework obeys (see 
 
 ## The seven framework pairs
 
-| Framework | Headless dir                          | Example dir                                     | Stack                                                           | Component file shape                                                  |
-| --------- | ------------------------------------- | ----------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------------- |
-| HTML      | `@lilydesignsystem/html-headless`     | `lily-design-system-html-css-js-examples`       | Plain HTML + CSS + JS; web components                           | One web component per slug (`{slug}.js` custom element) + class hooks |
-| Svelte    | `@lilydesignsystem/svelte-headless`   | `lily-design-system-svelte-sveltekit-examples`  | Svelte 5 (runes) + SvelteKit 2, Vite, pnpm, TypeScript          | `{Pascal}.svelte`                                                     |
-| React     | `@lilydesignsystem/react-headless`    | `lily-design-system-react-next-examples`        | React 19 + Next.js, TypeScript                                  | `{Pascal}.tsx`                                                        |
-| Vue       | `@lilydesignsystem/vue-headless`      | `lily-design-system-vue-nuxt-examples`          | Vue 3 + Nuxt.js, TypeScript                                     | `{Pascal}.vue`                                                        |
-| Angular   | `@lilydesignsystem/angular-headless`  | `lily-design-system-angular-examples`           | Angular 22 (signals, OnPush, standalone) + Analog.js v2, Vite 7 | `{slug}.component.ts`                                                 |
-| Blazor    | `lily-design-system-blazor-headless`  | `lily-design-system-blazor-web-examples`        | Blazor 10 / .NET, bUnit                                         | `{Pascal}.razor` (+ `.razor.cs`)                                      |
-| Nunjucks  | `@lilydesignsystem/nunjucks-headless` | `lily-design-system-nunjucks-eleventy-examples` | Nunjucks 3 + Eleventy                                           | `components/{slug}/macro.njk`                                         |
+| Framework | Headless dir                          | Example dir                                     | Stack                                                           | Component file shape                                                                              |
+| --------- | ------------------------------------- | ----------------------------------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| HTML      | `@lilydesignsystem/html-headless`     | `lily-design-system-html-css-js-examples`       | Plain HTML + CSS + JS                                           | One annotated snippet per slug (`components/{slug}.html`), embedded script where it has behaviour |
+| Svelte    | `@lilydesignsystem/svelte-headless`   | `lily-design-system-svelte-sveltekit-examples`  | Svelte 5 (runes) + SvelteKit 3, Vite, pnpm, TypeScript          | `{Pascal}.svelte`                                                                                 |
+| React     | `@lilydesignsystem/react-headless`    | `lily-design-system-react-next-examples`        | React 19 + Next.js, TypeScript                                  | `{Pascal}.tsx`                                                                                    |
+| Vue       | `@lilydesignsystem/vue-headless`      | `lily-design-system-vue-nuxt-examples`          | Vue 3 + Nuxt.js, TypeScript                                     | `{Pascal}.vue`                                                                                    |
+| Angular   | `@lilydesignsystem/angular-headless`  | `lily-design-system-angular-examples`           | Angular 22 (signals, OnPush, standalone) + Analog.js v2, Vite 7 | `{slug}.component.ts`                                                                             |
+| Blazor    | `lily-design-system-blazor-headless`  | `lily-design-system-blazor-web-examples`        | Blazor 10 / .NET, bUnit                                         | `{Pascal}.razor` (+ `.razor.cs`)                                                                  |
+| Nunjucks  | `@lilydesignsystem/nunjucks-headless` | `lily-design-system-nunjucks-eleventy-examples` | Nunjucks 3 + Eleventy                                           | `components/{slug}/macro.njk`                                                                     |
+
+Beyond the seven pairs: **Web Components** (`lily-design-system-web-components-headless`, native custom elements,
+`components/{slug}.ts`, 572 of 607; no example app) and **Alpine.js** (`lily-design-system-alpine-headless`, 607
+annotated snippets `components/{slug}.html` plus one plugin `lily-alpine.js`; example app
+`lily-design-system-alpine-examples`). Each has its own `spec/index.md`.
 
 ## How each headless library expresses a component
 
@@ -75,9 +80,30 @@ Every library renders the same semantic element with the same kebab-case base cl
 - **angular-headless** is verified end-to-end: `pnpm install` resolves with `@analogjs/vite-plugin-angular` pinned to `1.19.4` and `@angular/build` as a direct devDep; `vitest run` passes 974 / 974 across 490 / 490 spec files; `ng-packagr` emits a clean APF bundle; `@storybook/angular` 9.1 builds 490 / 490 stories. Source fix: `($event.target as HTMLInputElement).value` rewritten to `$any($event.target).value` because Angular template parsing rejects parenthesised TS casts inside method calls.
 - **angular-examples** builds full-content static SSG on Angular 22.1 + Analog 2.7 + Vite 7 + TypeScript 6. The route layer uses an explicit 15-route table over plain `src/app/views/*.ts` components rather than Analog's file-route convention, whose injection failed silently in every mode (upstream: [analogjs/analog#2498](https://github.com/analogjs/analog/issues/2498)); the full history is in [analog-ssg-notes.md](../../lily-design-system-angular-examples/docs/analog-ssg-notes.md). Playwright covers the app end to end: 1,545 specs (581 component pages, axe, responsive, theme switching).
 
+## SolidJS: investigation and recommendation (2026-10-31, tasks.md P20-T1)
+
+**Recommendation: decline a full Solid port for now; Solid apps use the Web Components catalog (572 of 607); revisit on adopter demand.** The spike shows a port is cheap per component, but a ninth full-catalog library multiplies every catalog-wide change (this month's popover change touched nine libraries) for an audience that already has a working route.
+
+The spike (scratch project, not in the monorepo): `solid-js` 1.9.18, `vite-plugin-solid` 2.11, `@solidjs/testing-library` 0.8, vitest 5, jsdom 30. Five components ported from the React headless library, with the React tests carried over.
+
+| Component   | React lines (code only) | Solid lines | Notes                                                                                     |
+| ----------- | ----------------------- | ----------- | ----------------------------------------------------------------------------------------- |
+| `TextInput` | 32                      | 22          | `splitProps` replaces rest-props; `onInput` for the change callback                       |
+| `Tooltip`   | 31                      | 19          | the P16-T4 shape: always rendered, `popover="manual"`, `createEffect` calls `syncPopover` |
+| `Dialog`    | 87                      | 70          | `showModal()` and focus return in one `createEffect` with `onCleanup`                     |
+| `DataTable` | 31                      | 18          | the other table parts are the same `splitProps` shape                                     |
+| `Listbox`   | 102                     | 73          | reuses `listbox-machine.ts`, `typeahead.ts` and `search-text.ts` unchanged                |
+
+- **Tests:** the React tests for the five run with two mechanical edits (the testing-library import, and `render(<X/>)` becomes `render(() => <X/>)`, done by script): 41 of 42 pass. The one failure tests React's `forwardRef`; Solid takes a `ref` callback instead.
+- **Fit:** rest-props through `splitProps`, `class` hooks, `popover="manual"`/`showModal()`, and the framework-free shared modules all carry over. `solid-js/web` `renderToString` renders `TextInput` and `Tooltip` on the server (needs the `node` export condition); effects, so the popover state, do not run there, as in the other libraries.
+- **Cost of the full catalog:** about 70 percent of the 607 components are thin wrappers that a script from the React source could produce; about 100 are behavioural and need hand ports, tests, stories and docs. Every generator and check keyed to the seven libraries (`check-class-names`, `check-html-tags`, `check-coverage`, `generate-registries`, the example app, the skills) would take an eighth.
+- **The Web Components route:** a Solid test drove `<lily-tooltip>` and `<lily-text-input>` from the built catalog with `attr:` bindings and the signals toggled the tooltip. The typings (`@lilydesignsystem/web-components-headless/solid`), the `attr:`/`prop:`/`on:` rules and a tested form with a tooltip and a dialog are in the Web Components catalog's index.md and `recipes/solid/` (P20-T2).
+
+Follow-up: tasks.md P20-T2 (a SolidJS recipe for the Web Components catalog, with typings and a tested example).
+
 ## Acceptance criteria
 
-- [x] All 7 headless subprojects exist and implement all 582 canonical components (spec §11.2, §11.4). Directly re-verified 2026-10-25 via `bin/check-coverage`: 0/582 missing impl and test files across Svelte, React, Vue, Angular, HTML, Blazor, Nunjucks.
+- [x] All 7 headless subprojects exist and implement all 607 canonical components (spec §11.2, §11.4). Directly re-verified 2026-10-25 via `bin/check-coverage`: 0/583 missing impl and test files across Svelte, React, Vue, Angular, HTML, Blazor, Nunjucks.
 - [x] All 7 example subprojects exist and consume the headless components via the copy-pattern (spec §11.2).
 - [x] Each headless library expresses components in its native file shape (`.svelte`, `.tsx`, `.vue`, `.component.ts`, `.razor`, `macro.njk`, web components) with the canonical kebab-case base class.
 - [x] Each example app ships the three required routes and renders the real copied component on `/components/{slug}` (see [examples](../examples/index.md)).
@@ -88,7 +114,7 @@ Every library renders the same semantic element with the same kebab-case base cl
 ## Related topics
 
 - [headless](../headless/index.md) — the markup/ARIA rules every framework obeys, including the rest-props mechanism table
-- [components](../components/index.md) — the canonical 582-component catalog and suffix-to-element mapping each framework implements
+- [components](../components/index.md) — the canonical 607-component catalog and suffix-to-element mapping each framework implements
 - [examples](../examples/index.md) — the styled reference apps, required routes, and copy-pattern target
 - [testing](../testing/index.md) — per-framework vitest / bUnit / Playwright / Storybook coverage
 - [helpers](../helpers/index.md) — the reusable helper packages shipped per framework alongside the headless libraries

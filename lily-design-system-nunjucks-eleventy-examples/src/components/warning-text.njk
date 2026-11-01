@@ -1,0 +1,27 @@
+---
+layout: layouts/component-demo.njk
+title: WarningText
+description: a short warning shown as an icon and a bold line of text, with a visually hidden prefix supplied by the consumer
+---
+
+{% from "components/warning-text/macro.njk" import warningText %}
+
+<h2>Icon and hidden prefix</h2>
+{{ warningText({
+  iconText: "!",
+  html: '<span class="visually-hidden">Warning</span> You can be fined up to £5,000 if you do not register.'
+}) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/warning-text/macro.njk" import warningText %}
+{{ warningText({
+  iconText: "!",
+  html: '&lt;span class="visually-hidden"&gt;Warning&lt;/span&gt; You can be fined up to £5,000 if you do not register.'
+}) }}
+{% endraw %}</code></pre>
+<h2>More examples</h2>
+<h3>Inline SVG icon</h3>
+{% raw %}<div class="component-demo-variant"><div class="warning-text"><span class="warning-text-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" focusable="false"><circle cx="12" cy="12" r="11" fill="currentColor"/><rect x="11" y="6" width="2" height="8" fill="Canvas"/><rect x="11" y="16" width="2" height="2" fill="Canvas"/></svg></span><strong class="warning-text-text"><span class="visually-hidden">Warning</span> You must appeal within 1 year of getting your decision letter.</strong></div></div>{% endraw %}
+<details><summary>Show markup</summary><pre tabindex="0"><code>{% raw %}&lt;div class="warning-text"&gt;&lt;span class="warning-text-icon" aria-hidden="true"&gt;&lt;svg viewBox="0 0 24 24" width="24" height="24" focusable="false"&gt;&lt;circle cx="12" cy="12" r="11" fill="currentColor"/&gt;&lt;rect x="11" y="6" width="2" height="8" fill="Canvas"/&gt;&lt;rect x="11" y="16" width="2" height="2" fill="Canvas"/&gt;&lt;/svg&gt;&lt;/span&gt;&lt;strong class="warning-text-text"&gt;&lt;span class="visually-hidden"&gt;Warning&lt;/span&gt; You must appeal within 1 year of getting your decision letter.&lt;/strong&gt;&lt;/div&gt;{% endraw %}</code></pre></details>
+{# END generated: examples #}

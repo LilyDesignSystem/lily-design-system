@@ -16,7 +16,7 @@
   "tool-call-status": [
     {
       "title": "All four states, each as a word",
-      "html": "<span class=\"tool-call-status\" data-status=\"pending\">Pending</span> · <span class=\"tool-call-status\" data-status=\"running\">Running</span> · <span class=\"tool-call-status\" data-status=\"done\">Done</span> · <span class=\"tool-call-status\" data-status=\"error\">Failed</span>"
+      "html": "<span class=\"tool-call-status\" data-status=\"pending\">Pending</span> \u00b7 <span class=\"tool-call-status\" data-status=\"running\">Running</span> \u00b7 <span class=\"tool-call-status\" data-status=\"done\">Done</span> \u00b7 <span class=\"tool-call-status\" data-status=\"error\">Failed</span>"
     }
   ],
   "streaming-text": [
@@ -71,6 +71,12 @@
     {
       "title": "Format choice with a fallback image, lazy-loaded",
       "html": "<picture class=\"picture\"><source srcset=\"data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27320%27 height=%27200%27%3E%3Crect width=%27320%27 height=%27200%27 fill=%27%23c8d9ee%27/%3E%3C/svg%3E\" type=\"image/svg+xml\"><img src=\"data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27320%27 height=%27200%27%3E%3Crect width=%27320%27 height=%27200%27 fill=%27%23c8d9ee%27/%3E%3C/svg%3E\" alt=\"A pale blue rectangle standing in for a photograph\" width=\"320\" height=\"200\" loading=\"lazy\" decoding=\"async\"></picture>"
+    }
+  ],
+  "warning-text": [
+    {
+      "title": "Inline SVG icon",
+      "html": "<div class=\"warning-text\"><span class=\"warning-text-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" focusable=\"false\"><circle cx=\"12\" cy=\"12\" r=\"11\" fill=\"currentColor\"/><rect x=\"11\" y=\"6\" width=\"2\" height=\"8\" fill=\"Canvas\"/><rect x=\"11\" y=\"16\" width=\"2\" height=\"2\" fill=\"Canvas\"/></svg></span><strong class=\"warning-text-text\"><span class=\"visually-hidden\">Warning</span> You must appeal within 1 year of getting your decision letter.</strong></div>"
     }
   ],
   "one-time-password-input": [

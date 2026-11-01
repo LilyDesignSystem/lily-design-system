@@ -239,5 +239,10 @@
     "small": "beag",
     "smaller": "nas lugha",
     "smallest": "as lugha"
+  },
+  "date-time-now-input": {
+    "date": "Ceann-latha",
+    "time": "Àm",
+    "now": "An-dràsta"
   }
 }

@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"pictogram\" aria-label=\"an icon-based component pairing an icon with a title and description in a centered or side layout\">Pictogram</div>";
   const svelteSource: string = "// In your Svelte component:\nimport Pictogram from \"lily-design-system-svelte-headless/components/Pictogram/Pictogram.svelte\";\n\n<Pictogram>\n  <!-- content -->\n</Pictogram>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import Pictogram from './Pictogram.svelte';\n<\/script>\n\n<Pictogram heading=\"Privacy\" description=\"Your data stays yours.\">\n  {#snippet icon()}\n    <span aria-hidden=\"true\">🔒</span>\n  {/snippet}\n</Pictogram>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import Pictogram from \"./Pictogram.svelte\";\n<\/script>\n\n<Pictogram\n  heading=\"Privacy\"\n  description=\"Your data stays yours.\"\n>\n  {#snippet icon()}\n    <span aria-hidden=\"true\">🔒</span>\n  {/snippet}\n</Pictogram>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

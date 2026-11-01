@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { shallowRef, toRef } from "vue";
+import { usePopoverState } from "./popover";
 // Cascader component
 //
 // A multi-level dropdown for selecting a value from a hierarchy. The
@@ -36,7 +38,7 @@
 //   - WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
 //   - Ant Design Cascader: https://ant.design/components/cascader
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
         /** Accessible label (REQUIRED). */
         label: string;
@@ -60,6 +62,8 @@ withDefaults(
 defineEmits<{
     (e: "click", event: MouseEvent): void;
 }>();
+const panelEl = shallowRef<HTMLElement | null>(null);
+usePopoverState(panelEl, toRef(props, "expanded"));
 </script>
 
 <template>
@@ -81,7 +85,8 @@ defineEmits<{
         </button>
         <div
             class="cascader-panel"
-            :hidden="!expanded"
+            ref="panelEl"
+            popover="manual"
         >
             <slot />
         </div>

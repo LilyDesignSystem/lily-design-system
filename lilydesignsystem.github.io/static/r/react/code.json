@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "code",
+  "type": "registry:component",
+  "title": "Code",
+  "description": "An inline code span for displaying short code snippets within surrounding text.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Code.tsx",
+      "content": "import React from \"react\";\n\n// Code component\n//\n// An inline code span for short code snippets within surrounding text.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label    — string, optional. Accessible label via aria-label.\n//   children — ReactNode, required. Component content.\n//   ...restProps — additional HTML attributes spread onto the <code>.\n//\n// Accessibility:\n//   - native <code> semantics\n//   - aria-label exposes a screen-reader name when label is provided\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//\n// References:\n//   - HTML code element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/code\n\nexport interface CodeProps {\n    className?: string;\n    /** Optional accessible label set on aria-label. */\n    label?: string;\n    /** Component content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Code({\n    className = \"\",\n    label = undefined,\n    children,\n    ...restProps\n}: CodeProps) {\n    return (\n        <code\n            className={`code ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </code>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Code.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/code/"
+}

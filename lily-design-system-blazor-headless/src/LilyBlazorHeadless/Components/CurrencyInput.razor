@@ -5,10 +5,12 @@
     a locale-aware currency input with automatic formatting, symbols, separators
 *@
 
-<input class="@($"currency-input {CssClass}".Trim())" type="text" aria-label="@Label" @attributes="AdditionalAttributes" />
+<input class="@($"currency-input {CssClass}".Trim())" type="text" aria-label="@Label" data-currency-code="@(string.IsNullOrEmpty(CurrencyCode) ? null : CurrencyCode)" @attributes="AdditionalAttributes" />
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+    /// <summary>ISO 4217 currency code. Required; never defaulted.</summary>
+    [Parameter, EditorRequired] public string CurrencyCode { get; set; } = "";
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 }

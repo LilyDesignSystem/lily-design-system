@@ -25,7 +25,7 @@
 
 A Claude Skill explaining how to consume
 [the Nunjucks helper packages](../spec/helpers/index.md#nunjucks-helper-packages),
-Lily's Nunjucks port of the six `*-picker` helper packages: the
+Lily's Nunjucks port of the helper packages: the
 macro-plus-`client.js` split forced by Nunjucks' server-only rendering
 (the macro renders markup and `data-lily-*` hooks; a companion ES module
 owns storage, DOM application, and interaction), the shared icon-button-
@@ -43,12 +43,12 @@ all seven.
 ## What this subproject is, and isn't
 
 - **Is**: a distributable skill scoped to _consuming_
-  `lily-design-system-nunjucks-helpers` — the six helpers' contracts, the
+  `lily-design-system-nunjucks-helpers` — the helpers' contracts, the
   macro-plus-client.js split unique to this catalog, and the
   no-JavaScript degradation story for each helper.
 - **Isn't**: the Nunjucks helpers catalog itself (that's
   [the Nunjucks helper packages](../spec/helpers/index.md#nunjucks-helper-packages),
-  which ships the six packages this skill explains how to use), isn't the
+  which ships the packages this skill explains how to use), isn't the
   general framework-agnostic Lily skill (that's
   [`lily-design-system-skill`](../lily-design-system-skill/)), and isn't
   the Nunjucks headless-catalog skill (that's

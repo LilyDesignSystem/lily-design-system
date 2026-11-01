@@ -52,5 +52,10 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TreeSelect.razor"
   },
   "docs": "https://lilydesignsystem.com/components/tree-select/",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tree-select/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tree-select/AGENTS.md",
+  "nativePlatform": {
+    "decision": "native",
+    "uses": "native <button> trigger; panel div popover=\"manual\" shown from the expanded state",
+    "could_use": "CSS anchor positioning to the trigger (theme)"
+  }
 }

@@ -44,6 +44,7 @@
 //   - Ant Design Cascader: https://ant.design/components/cascader
 
 import React from "react";
+import { usePopoverState } from "./Popover";
 
 export interface CascaderProps {
     className?: string;
@@ -75,6 +76,8 @@ export default function Cascader({
     children,
     ...restProps
 }: CascaderProps) {
+    const panelRef = React.useRef<HTMLDivElement>(null);
+    usePopoverState(panelRef, expanded);
     return (
         <div
             className={`cascader ${className}`}
@@ -94,7 +97,8 @@ export default function Cascader({
             </button>
             <div
                 className="cascader-panel"
-                hidden={!expanded}
+                ref={panelRef}
+                popover="manual"
             >
                 {children}
             </div>

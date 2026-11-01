@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "chat-message",
+  "type": "registry:component",
+  "title": "ChatMessage",
+  "description": "A chat message shows one chat conversation message entry and all its data, including the author avatar, author name, time, etc..",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ChatMessage.tsx",
+      "content": "import React from \"react\";\n\n// ChatMessage component\n//\n// One chat conversation message entry.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label    — string, optional. Accessible label via aria-label.\n//   children — ReactNode, required. Component content.\n//   ...restProps — additional HTML attributes spread onto the <article>.\n//\n// Accessibility:\n//   - native <article> semantics\n//   - aria-label exposes a screen-reader name when label is provided\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//\n// References:\n//   - HTML article element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article\n\nexport interface ChatMessageProps {\n    className?: string;\n    /** Optional accessible label set on aria-label. */\n    label?: string;\n    /** Component content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function ChatMessage({\n    className = \"\",\n    label = undefined,\n    children,\n    ...restProps\n}: ChatMessageProps) {\n    return (\n        <article\n            className={`chat-message ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </article>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ChatMessage.tsx"
+    }
+  ],
+  "categories": [
+    "navigation"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/chat-message/"
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "split-view",
+  "type": "registry:component",
+  "title": "SplitView",
+  "description": "A two-panel resizable layout container with a draggable divider between them.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/SplitView.tsx",
+      "content": "import React from \"react\";\n\n// SplitView component\n//\n// A two-panel resizable layout container with a draggable divider between\n// them. Inspired by Adobe Spectrum.\n//\n// Props:\n//   className     — string, optional. CSS class name.\n//   label         — string, REQUIRED. aria-label for the container.\n//   orientation   — \"horizontal\" | \"vertical\", default \"horizontal\".\n//   primary       — ReactNode, REQUIRED. First panel content.\n//   secondary     — ReactNode, REQUIRED. Second panel content.\n//   divider       — ReactNode, optional. Custom divider content.\n//   splitPercent  — number 0-100, default 50. Initial split position as percentage.\n//   ...restProps  — additional HTML attributes spread onto the root <div>.\n//\n// Behavior:\n//   - Renders sections for primary and secondary content\n//   - When `divider` is not provided, renders a default <div role=\"separator\"\n//     aria-orientation aria-valuenow aria-valuemin aria-valuemax tabIndex={0}>\n//\n// Headless rules:\n//   - No CSS, no inline styles\n//   - All user-facing strings are consumer-supplied (i18n)\n//\n// References:\n//   - Adobe Spectrum SplitView: https://spectrum.adobe.com/page/split-view/\n\nexport interface SplitViewProps {\n    className?: string;\n    /** aria-label for the container (required) */\n    label: string;\n    /** Orientation of the divider */\n    orientation?: \"horizontal\" | \"vertical\";\n    /** First panel content (required) */\n    primary: React.ReactNode;\n    /** Second panel content (required) */\n    secondary: React.ReactNode;\n    /** Custom divider content */\n    divider?: React.ReactNode;\n    /** Initial split position as percentage (0-100) */\n    splitPercent?: number;\n    [key: string]: unknown;\n}\n\nexport default function SplitView({\n    className = \"\",\n    label,\n    orientation = \"horizontal\",\n    primary,\n    secondary,\n    divider = undefined,\n    splitPercent = 50,\n    ...restProps\n}: SplitViewProps) {\n    return (\n        <div\n            className={`split-view ${className}`}\n            aria-label={label}\n            data-orientation={orientation}\n            data-split-percent={splitPercent}\n            {...restProps}\n        >\n            <section className=\"split-view-primary\">{primary}</section>\n            {divider !== undefined ? (\n                divider\n            ) : (\n                <div\n                    className=\"split-view-divider\"\n                    role=\"separator\"\n                    aria-orientation={orientation}\n                    aria-valuenow={splitPercent}\n                    aria-valuemin={0}\n                    aria-valuemax={100}\n                    tabIndex={0}\n                />\n            )}\n            <section className=\"split-view-secondary\">{secondary}</section>\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/SplitView.tsx"
+    }
+  ],
+  "categories": [
+    "navigation"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/split-view/"
+}

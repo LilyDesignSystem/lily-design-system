@@ -1,0 +1,42 @@
+{
+  "slug": "ecuador-cedula-de-identidad-input",
+  "name": "EcuadorCedulaDeIdentidadInput",
+  "description": "an input for entering Ecuador's Cedula de Identidad Number",
+  "htmlTag": "input",
+  "category": "national",
+  "baseClass": ".ecuador-cedula-de-identidad-input",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow",
+  "aria": [
+    "`aria-label` provides accessible name from label prop",
+    "`required` and `disabled` states conveyed to assistive technology"
+  ],
+  "keyboard": [
+    "Standard text input keyboard behavior"
+  ],
+  "props": [
+    "`label`: string (required) — accessible label via aria-label",
+    "`value`: string (default: \"\") — bindable input value",
+    "`required`: boolean (default: false) — form validation",
+    "`disabled`: boolean (default: false) — disabled state",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "ecuador-cedula-de-identidad-view",
+    "text-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/ecuador-cedula-de-identidad-input.html",
+    "svelte": "lily-design-system-svelte-headless/components/EcuadorCedulaDeIdentidadInput/EcuadorCedulaDeIdentidadInput.svelte",
+    "react": "lily-design-system-react-headless/components/EcuadorCedulaDeIdentidadInput.tsx",
+    "vue": "lily-design-system-vue-headless/components/EcuadorCedulaDeIdentidadInput.vue",
+    "angular": "lily-design-system-angular-headless/components/EcuadorCedulaDeIdentidadInput.ts",
+    "web-components": "lily-design-system-web-components-headless/components/ecuador-cedula-de-identidad-input.ts",
+    "alpine": "lily-design-system-alpine-headless/components/ecuador-cedula-de-identidad-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/ecuador-cedula-de-identidad-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/EcuadorCedulaDeIdentidadInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/ecuador-cedula-de-identidad-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/ecuador-cedula-de-identidad-input/AGENTS.md"
+}

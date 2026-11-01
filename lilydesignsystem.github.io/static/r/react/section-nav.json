@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "section-nav",
+  "type": "registry:component",
+  "title": "SectionNav",
+  "description": "A navigation container for section navigation links.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/SectionNav.tsx",
+      "content": "export interface SectionNavProps {\n    className?: string;\n    label?: string;\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function SectionNav({\n    className = \"\",\n    label = undefined,\n    children,\n    ...restProps\n}: SectionNavProps) {\n    return (\n        <nav\n            className={`section-nav ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </nav>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/SectionNav.tsx"
+    }
+  ],
+  "categories": [
+    "navigation"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/section-nav/"
+}

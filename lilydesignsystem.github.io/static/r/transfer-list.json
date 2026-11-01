@@ -46,5 +46,10 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TransferList.razor"
   },
   "docs": "https://lilydesignsystem.com/components/transfer-list/",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/transfer-list/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/transfer-list/AGENTS.md",
+  "nativePlatform": {
+    "decision": "hand-rolled because each side holds rich, consumer-rendered options and <select multiple> needs Ctrl/Shift-click that many users do not know",
+    "uses": "native <button>s; two consumer listboxes",
+    "could_use": "<select multiple> per side"
+  }
 }

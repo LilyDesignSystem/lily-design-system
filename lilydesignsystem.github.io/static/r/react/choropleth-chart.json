@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "choropleth-chart",
+  "type": "registry:component",
+  "title": "ChoroplethChart",
+  "description": "A map chart that shades regions by the value of a measure.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ChoroplethChart.tsx",
+      "content": "import React from \"react\";\n\n// ChoroplethChart component\n//\n// A headless wrapper for a map chart that shades regions by the value of a measure. Renders a <figure> holding a\n// role=\"img\" graphic wrapper around the consumer-supplied inline <svg>. No\n// drawing happens here.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, optional. Accessible name of the chart image.\n//   children — ReactNode, required. The inline <svg> (and any extra markup).\n//   dataTable — ReactNode, optional. The accessible table alternative, rendered\n//     in <div class=\"choropleth-chart-data-table\">, a SIBLING of the role=\"img\" graphic\n//     wrapper: role=\"img\" makes descendants presentational, so a table inside\n//     it would be invisible to assistive technology.\n//   ...restProps — additional HTML attributes spread onto the <figure>\n//\n// Markup: <figure class=\"choropleth-chart\"><div class=\"choropleth-chart-graphic\" role=\"img\" aria-label>…svg…</div>[<div class=\"choropleth-chart-data-table\">…</div>]</figure>\n//\n// Keyboard:\n//   None on the graphic; the data table follows native table behaviour.\n\nexport interface ChoroplethChartProps {\n    className?: string;\n    /** Accessible name for the chart. */\n    label?: string;\n    /** The consumer-supplied inline svg. */\n    children: React.ReactNode;\n    /** Optional accessible data table alternative. */\n    dataTable?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function ChoroplethChart({\n    className = \"\",\n    label = undefined,\n    children,\n    dataTable,\n    ...restProps\n}: ChoroplethChartProps) {\n    return (\n        <figure\n            className={`choropleth-chart ${className}`}\n            {...restProps}\n        >\n            <div\n                className=\"choropleth-chart-graphic\"\n                role=\"img\"\n                aria-label={label}\n            >\n                {children}\n            </div>\n            {dataTable !== undefined && dataTable !== null && (\n                <div className=\"choropleth-chart-data-table\">{dataTable}</div>\n            )}\n        </figure>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ChoroplethChart.tsx"
+    }
+  ],
+  "categories": [
+    "data-viz"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/choropleth-chart/"
+}

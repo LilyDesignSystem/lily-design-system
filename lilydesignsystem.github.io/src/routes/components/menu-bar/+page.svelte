@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"menu-bar\" role=\"menubar\"><button class=\"menu-bar-button\" role=\"menuitem\">File</button><button class=\"menu-bar-button\" role=\"menuitem\">Edit</button></div>";
   const svelteSource: string = "// In your Svelte component:\nimport MenuBar from \"lily-design-system-svelte-headless/components/MenuBar/MenuBar.svelte\";\n\n<MenuBar>\n  <!-- list children -->\n</MenuBar>\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import MenuBar from \"./MenuBar.svelte\";\n    import MenuBarButton from \"../MenuBarButton/MenuBarButton.svelte\";\n<\/script>\n\n<MenuBar label=\"Main menu\">\n    <MenuBarButton>File</MenuBarButton>\n    <MenuBarButton>Edit</MenuBarButton>\n    <MenuBarButton>View</MenuBarButton>\n    <MenuBarButton>Window</MenuBarButton>\n    <MenuBarButton>Help</MenuBarButton>\n</MenuBar>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import MenuBar from \"./MenuBar.svelte\";\n  import MenuBarButton from \"../MenuBarButton/MenuBarButton.svelte\";\n<\/script>\n\n<MenuBar label=\"Main menu\">\n  <MenuBarButton>File</MenuBarButton>\n  <MenuBarButton>Edit</MenuBarButton>\n  <MenuBarButton>View</MenuBarButton>\n  <MenuBarButton>Window</MenuBarButton>\n  <MenuBarButton>Help</MenuBarButton>\n</MenuBar>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

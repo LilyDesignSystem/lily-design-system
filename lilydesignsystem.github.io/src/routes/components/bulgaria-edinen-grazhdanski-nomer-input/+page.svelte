@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<label class=\"label\" for=\"demo-input\">Label</label><input class=\"bulgaria-edinen-grazhdanski-nomer-input\" id=\"demo-input\" aria-label=\"an input for entering Bulgaria's Единен граждански номер / Edinen grazhdanski nomer (EGN)\" />";
   const svelteSource: string = "// In your Svelte component:\nimport BulgariaEdinenGrazhdanskiNomerInput from \"lily-design-system-svelte-headless/components/BulgariaEdinenGrazhdanskiNomerInput/BulgariaEdinenGrazhdanskiNomerInput.svelte\";\n\n<BulgariaEdinenGrazhdanskiNomerInput label=\"Label\" />\n";
-  const usageCode: string = "<Field label=\"Uniform Civil Number\" required>\n  <BulgariaEdinenGrazhdanskiNomerInput label=\"Uniform Civil Number\" value={value} required />\n  <Hint>10 digits: the first 6 are the date of birth (YYMMDD), the next 3 encode area and birth order (ninth digit even for boy, odd for girl), and the tenth is a check digit</Hint>\n  <ErrorMessage>Please enter a valid Uniform Civil Number</ErrorMessage>\n</Field>\n";
+  const usageCode: string = "<Field\n  label=\"Uniform Civil Number\"\n  required\n>\n  <BulgariaEdinenGrazhdanskiNomerInput\n    label=\"Uniform Civil Number\"\n    value=\"{value}\"\n    required\n  />\n  <Hint\n    >10 digits: the first 6 are the date of birth (YYMMDD), the next 3 encode area and birth order\n    (ninth digit even for boy, odd for girl), and the tenth is a check digit</Hint\n  >\n  <ErrorMessage>Please enter a valid Uniform Civil Number</ErrorMessage>\n</Field>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

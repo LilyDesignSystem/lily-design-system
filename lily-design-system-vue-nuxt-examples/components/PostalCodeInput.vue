@@ -51,6 +51,9 @@
 //   - HTML autocomplete attribute: https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete
 //   - MDN input type="text": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text
 
+import { ref } from "vue";
+import { useFormReset } from "./form-reset";
+
 withDefaults(
     defineProps<{
         /** Accessible label. */
@@ -67,6 +70,8 @@ withDefaults(
 );
 
 const modelValue = defineModel<string>({ default: "" });
+const field = ref<HTMLInputElement | HTMLTextAreaElement | null>(null);
+useFormReset(modelValue, field);
 </script>
 
 <template>
@@ -76,6 +81,7 @@ const modelValue = defineModel<string>({ default: "" });
         type="text"
         :aria-label="label"
         autocomplete="postal-code"
+        ref="field"
         v-model="modelValue"
         :required="required"
         :disabled="disabled"

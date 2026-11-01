@@ -15,7 +15,10 @@ description: one item in a tree navigation list
 <h2>Usage</h2>
 <pre tabindex="0"><code>{% raw %}&lt;TreeNav label="Clinical navigation"&gt;
   &lt;TreeList label="Departments"&gt;
-    &lt;TreeListItem tabindex="0" aria-expanded="true"&gt;
+    &lt;TreeListItem
+      tabindex="0"
+      aria-expanded="true"
+    &gt;
       Cardiology
       &lt;ul role="group"&gt;
         &lt;TreeListItem tabindex="-1"&gt;
@@ -26,7 +29,10 @@ description: one item in a tree navigation list
         &lt;/TreeListItem&gt;
       &lt;/ul&gt;
     &lt;/TreeListItem&gt;
-    &lt;TreeListItem tabindex="-1" aria-expanded="false"&gt;
+    &lt;TreeListItem
+      tabindex="-1"
+      aria-expanded="false"
+    &gt;
       Oncology
     &lt;/TreeListItem&gt;
     &lt;TreeListItem tabindex="-1"&gt;

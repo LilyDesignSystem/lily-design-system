@@ -72,6 +72,8 @@ baked into a design system.
   href: (url) => `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}` }
 ```
 
+Choose destinations for your audience, not one region's: WhatsApp and Telegram are the common choice across much of the world, LINE in Japan, Taiwan and Thailand, KakaoTalk in Korea, VK in Russia. WeChat has no web share URL; the native share sheet the picker opens first reaches it on phones.
+
 ## Native share sheet
 
 With `strategy="auto"` (the default), pressing the button on a device

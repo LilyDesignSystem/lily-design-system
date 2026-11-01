@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<kbd class=\"kbd\">Ctrl</kbd> + <kbd class=\"kbd\">S</kbd>";
   const svelteSource: string = "// In your Svelte component:\nimport Kbd from \"lily-design-system-svelte-headless/components/Kbd/Kbd.svelte\";\n\n<Kbd>\n  <!-- content -->\n</Kbd>\n";
-  const usageCode: string = "<Kbd>Ctrl</Kbd> + <Kbd>C</Kbd>\n";
+  const usageCode: string = "<kbd>Ctrl</kbd> + <kbd>C</kbd>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

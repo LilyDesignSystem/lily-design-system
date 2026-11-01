@@ -14,10 +14,28 @@ description: a menu that opens below a trigger button
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>
-<pre tabindex="0"><code>{% raw %}&lt;DropdownMenu label="More actions" open={menuOpen}&gt;
-    &lt;MenuItem onclick={() =&gt; handleEdit()}&gt;Edit&lt;/MenuItem&gt;
-    &lt;MenuItem onclick={() =&gt; handleDuplicate()}&gt;Duplicate&lt;/MenuItem&gt;
-    &lt;MenuItem onclick={() =&gt; handleDelete()}&gt;Delete&lt;/MenuItem&gt;
+<pre tabindex="0"><code>{% raw %}&lt;DropdownMenu
+  label="More actions"
+  open="{menuOpen}"
+&gt;
+  &lt;menuitem
+    onclick="{()"
+    =""
+  &gt;
+    handleEdit()}&gt;Edit&lt;/menuitem
+  &gt;
+  &lt;menuitem
+    onclick="{()"
+    =""
+  &gt;
+    handleDuplicate()}&gt;Duplicate&lt;/menuitem
+  &gt;
+  &lt;menuitem
+    onclick="{()"
+    =""
+  &gt;
+    handleDelete()}&gt;Delete&lt;/menuitem
+  &gt;
 &lt;/DropdownMenu&gt;
 {% endraw %}</code></pre>
 {# END generated: examples #}

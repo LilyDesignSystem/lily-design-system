@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "masonry",
+  "type": "registry:component",
+  "title": "Masonry",
+  "description": "A masonry layout container for variable-height items.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Masonry.tsx",
+      "content": "import React from \"react\";\n\n// Masonry component\n//\n// A headless masonry-style layout container that arranges children into a\n// configurable number of columns using the CSS columns model. Children with\n// variable heights flow into columns automatically. Consumer CSS should set\n// `break-inside: avoid` on direct children to keep items from splitting\n// across columns.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   columns   — number, default 3. Number of columns.\n//   gap       — string, default \"1rem\". Column gap CSS value.\n//   children  — ReactNode, required. Items to lay out.\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Syntax:\n//   <Masonry columns={3} gap=\"1rem\">…</Masonry>\n//\n// Examples:\n//\n//   <Masonry columns={4}>\n//     {photos.map(p => <img key={p.id} src={p.url} alt={p.alt} />)}\n//   </Masonry>\n//\n// Keyboard: None — layout container.\n//\n// Accessibility:\n//   - Purely structural; no ARIA role\n//\n// Internationalization:\n//   - No user-facing strings\n//\n// Claude rules:\n//   - Headless: only inline style is the functional CSS columns layout\n//\n// References:\n//   - CSS columns: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_columns\n\nexport interface MasonryProps {\n    className?: string;\n    /** Number of columns */\n    columns?: number;\n    /** Gap between columns (CSS value) */\n    gap?: string;\n    /** Items to lay out */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Masonry({\n    className = \"\",\n    columns = 3,\n    gap = \"1rem\",\n    children,\n    ...restProps\n}: MasonryProps) {\n    return (\n        <div\n            className={`masonry ${className}`}\n            data-columns={columns}\n            style={{ columnCount: columns, columnGap: gap }}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Masonry.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/masonry/"
+}

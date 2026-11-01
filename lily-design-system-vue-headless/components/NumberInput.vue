@@ -49,6 +49,9 @@
 //   - HTML number input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/number
 //   - WAI-ARIA spinbutton role: https://www.w3.org/TR/wai-aria-1.2/#spinbutton
 
+import { ref } from "vue";
+import { useFormReset } from "./form-reset";
+
 withDefaults(
     defineProps<{
         label: string;
@@ -68,6 +71,8 @@ withDefaults(
 );
 
 const modelValue = defineModel<number | undefined>({ default: undefined });
+const field = ref<HTMLInputElement | HTMLTextAreaElement | null>(null);
+useFormReset(modelValue, field);
 </script>
 
 <template>
@@ -76,6 +81,7 @@ const modelValue = defineModel<number | undefined>({ default: undefined });
         class="number-input"
         type="number"
         :aria-label="label"
+        ref="field"
         v-model="modelValue"
         :min="min"
         :max="max"

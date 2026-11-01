@@ -21,6 +21,7 @@
 //   - WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/listbox/
 
 import { applySelfClassName } from "../lib/dom-utils.js";
+import { initialListboxState, listboxKeydown } from "../lib/listbox-machine.js";
 
 export class Listbox extends HTMLElement {
     static get observedAttributes(): string[] {
@@ -49,35 +50,16 @@ export class Listbox extends HTMLElement {
         if (label !== null) this.setAttribute("aria-label", label);
     }
 
+    // Every keyboard decision lives in the framework-free machine (shared/listbox-machine.ts, copied to lib/ by
+    // bin/sync-shared-modules); this element only reads the DOM and moves focus as the transition says. Roving focus
+    // only: this element has no active-descendant mode.
     #onKeydown = (event: KeyboardEvent): void => {
         const options = Array.from(this.querySelectorAll<HTMLElement>("[role='option']"));
-        if (options.length === 0) return;
-        const current = document.activeElement as HTMLElement | null;
-        const index = current ? options.indexOf(current) : -1;
-
-        switch (event.key) {
-            case "ArrowDown": {
-                event.preventDefault();
-                const next = index < options.length - 1 ? index + 1 : 0;
-                options[next]?.focus();
-                break;
-            }
-            case "ArrowUp": {
-                event.preventDefault();
-                const prev = index > 0 ? index - 1 : options.length - 1;
-                options[prev]?.focus();
-                break;
-            }
-            case "Home": {
-                event.preventDefault();
-                options[0]?.focus();
-                break;
-            }
-            case "End": {
-                event.preventDefault();
-                options[options.length - 1]?.focus();
-                break;
-            }
-        }
+        const t = listboxKeydown(initialListboxState(), event, {
+            labels: options.map((option) => (option.textContent ?? "").trim()),
+            focusedIndex: options.indexOf(document.activeElement as HTMLElement),
+        });
+        if (t.preventDefault) event.preventDefault();
+        if (t.focus !== undefined) options[t.focus]?.focus();
     };
 }

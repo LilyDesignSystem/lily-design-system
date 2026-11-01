@@ -2,7 +2,7 @@
   <title>Label packs — Lily Design System</title>
   <meta
     name="description"
-    content="Ready-made labels for Lily's data grid, kanban board, calendar, Gantt chart and filter in 46 locales: how to load a pack in every framework, and why 45 of them are still unreviewed machine drafts."
+    content="Ready-made labels for Lily's data grid, kanban board, calendar, Gantt chart and filter in 64 locales: how to load a pack in every framework, and why 63 of them are still unreviewed machine drafts."
   />
 </svelte:head>
 
@@ -10,7 +10,7 @@
   <h1>Label packs</h1>
   <p class="page-intro-tagline">
     Lily ships no English defaults, so the grid-like helpers used to need a hundred-odd strings written and
-    translated by every app. A label pack is that work done once, for 46 locales.
+    translated by every app. A label pack is that work done once, for 64 locales.
   </p>
 </section>
 
@@ -53,16 +53,17 @@
 
   <h2>Read this before shipping a pack</h2>
   <p>
-    Only English is reviewed. The other 45 packs are machine drafts, marked <code>"reviewed": false</code> in the file, and
+    Only English is reviewed. The other 63 packs are machine drafts, marked <code>"reviewed": false</code> in the file, and
     a native speaker should check them — screen-reader names and announcements most of all — before a product relies on
     them. Welsh, which most deserves a careful read, is among the drafts. The packs are not yet published as an npm or
     NuGet package; copy the file you need from the repository.
   </p>
 
-  <h2>The 46 locales</h2>
+  <h2>The 64 locales</h2>
   <p>
-    ar, bg, bh, bn, cs, cy, da, de, el, en, es, et, eu, fa, fi, fr, ga, gu, ha, hi, hr, hu, id, it, ja, jv, ko, lt, lv, mr,
-    mt, nl, pa, pl, pt, ro, ru, sk, sl, sv, ta, te, tr, ur, vi and zh — each as <code>&lt;code&gt;-001</code>. (Bhojpuri keeps
+    ar, bg, bh, bn, cs, cy, da, de, el, en, es, et, eu, fa, fi, fr, ga, gd, gu, ha, he, hi, hr, hu, id, is, it, ja, jv, km, kn,
+    ko, kw, lb, lo, lt, lv, mr, ms, mt, nb, nl, pa, pcm, pl, pt, ro, ru, sco, sk, sl, sv, sw, ta, te, th, tl, tr, uk, ur, vi, wuu,
+    yue and zh — each as <code>&lt;code&gt;-001</code>. (Bhojpuri keeps
     the requested tag <code>bh</code>; its ISO code is <code>bho</code>.)
   </p>
 

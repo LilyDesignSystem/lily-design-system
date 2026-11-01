@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-feature-card",
     standalone: true,
-    template: `<div class="feature-card {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<article class="feature-card {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></article>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FeatureCard {

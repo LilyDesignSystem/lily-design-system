@@ -170,6 +170,14 @@ updates:
       lily:
         patterns:
           - "*"
+    ignore:
+      # TypeScript 7 has no compiler API, which tsup's `--dts` build calls
+      # (parseJsonConfigFileContent; rollup-plugin-dts too, even with the
+      # @typescript/typescript6 fallback). Measured 2026-10-30 after PR #340:
+      # all six helper builds failed on 7.0.2 and pass on 5.9.3 (tasks.md
+      # P19-T3). Revisit when tsup supports TypeScript 7.
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "npm"
     # One top-level subproject per HTML helper package (2026-10-10).

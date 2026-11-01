@@ -3,17 +3,77 @@
 @*
     Editable component
     an inline-editable text element that toggles between view and edit modes
+
+    Display mode: a <span role="button"> showing the value (or ChildContent), named "value, label" (the label alone when
+    the value is empty) so the visible text is part of the name (WCAG 2.5.3). Click, Enter or Space start editing.
+    Edit mode: an <input> named by the label, holding a draft of the value; Enter confirms it (Value / ValueChanged),
+    Escape cancels it. Editing / EditingChanged is two-way (@bind-Editing). Disabled: aria-disabled, out of the tab
+    order, never starts editing.
+
+    Deviation from the Svelte canonical (Blazor here uses no JS interop): an event handler cannot call preventDefault for
+    only some keys, so Space on the display span may also scroll the page, and Enter in the input also submits an
+    enclosing form.
+    Unmatched attributes spread onto whichever element is shown.
 *@
 
-<div class="@($"editable {CssClass}".Trim())" role="button" aria-label="@AccessibleName" @attributes="AdditionalAttributes">@ChildContent</div>
+@if (Editing)
+{
+    <input class="@($"editable {CssClass}".Trim())" type="text" aria-label="@Label" value="@_draft" @oninput="e => _draft = e.Value?.ToString() ?? string.Empty" @onkeydown="OnInputKeyDown" @attributes="AdditionalAttributes" />
+}
+else
+{
+    <span class="@($"editable {CssClass}".Trim())" role="button" tabindex="@(Disabled ? "-1" : "0")" aria-label="@AccessibleName" aria-disabled="@(Disabled ? "true" : null)" @onclick="StartEditing" @onkeydown="OnDisplayKeyDown" @attributes="AdditionalAttributes">@(ChildContent ?? (RenderFragment)(b => b.AddContent(0, Value)))</span>
+}
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
-    /// <summary>The visible text. When given, the accessible name is "value, label" so the visible text is part of the name (WCAG 2.5.3).</summary>
+    /// <summary>The visible text. Bindable. When given, the accessible name is "value, label" so the visible text is part of the name (WCAG 2.5.3).</summary>
     [Parameter] public string Value { get; set; } = "";
+    [Parameter] public EventCallback<string> ValueChanged { get; set; }
+    /// <summary>Whether the component is in edit mode. Bindable.</summary>
+    [Parameter] public bool Editing { get; set; }
+    [Parameter] public EventCallback<bool> EditingChanged { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    /// <summary>Display-mode content, in place of the value text.</summary>
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string _draft = "";
     private string AccessibleName => string.IsNullOrEmpty(Value) ? Label : $"{Value}, {Label}";
 
-    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+    protected override void OnInitialized() => _draft = Value;
+
+    private async Task SetEditing(bool editing)
+    {
+        Editing = editing;
+        await EditingChanged.InvokeAsync(editing);
+    }
+
+    private async Task StartEditing()
+    {
+        if (Disabled) return;
+        _draft = Value;
+        await SetEditing(true);
+    }
+
+    private async Task OnDisplayKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter" || e.Key == " ") await StartEditing();
+    }
+
+    private async Task OnInputKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            Value = _draft;
+            await ValueChanged.InvokeAsync(_draft);
+            await SetEditing(false);
+        }
+        else if (e.Key == "Escape")
+        {
+            _draft = Value;
+            await SetEditing(false);
+        }
+    }
 }

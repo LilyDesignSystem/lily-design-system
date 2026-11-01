@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "file-manager",
+  "type": "registry:component",
+  "title": "FileManager",
+  "description": "A file browser for navigating and managing files.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/FileManager.tsx",
+      "content": "import React from \"react\";\n\n// FileManager component\n//\n// A file management interface for browsing, organizing, and managing files and\n// directories. Renders a <div> with role=\"region\" and an accessible label,\n// defining a semantic boundary for the file management area. Used in content\n// management systems, cloud storage apps, document editors, and admin dashboards.\n// The consumer provides file listings, navigation controls, and interaction behavior.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name describing the file manager.\n//   children — ReactNode, required. The file browser content.\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Syntax:\n//   <FileManager label=\"Project files\">Content</FileManager>\n//\n// Examples:\n//\n//   <FileManager label=\"Project files\">\n//     <ul>\n//       <li>document.pdf</li>\n//       <li>image.png</li>\n//       <li>data.csv</li>\n//     </ul>\n//   </FileManager>\n//\n// Keyboard:\n//   - None built-in — consumer implements keyboard navigation for file\n//     selection, folder traversal, and action triggers\n//\n// Accessibility:\n//   - role=\"region\" defines the file manager as a named landmark section\n//   - aria-label provides an accessible name for the region\n//\n// Internationalization:\n//   - The label prop accepts any string; consumers provide localized text\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - No internal state — purely a structural wrapper\n//   - Consumer provides all file listing and action logic\n//\n// References:\n//   - WAI-ARIA region role: https://www.w3.org/TR/wai-aria-1.2/#region\n//   - WAI-ARIA Landmark Regions: https://www.w3.org/WAI/ARIA/apd/practices/landmark-regions/\n\nexport interface FileManagerProps {\n    className?: string;\n    /** Accessible label */\n    label?: string;\n    /** The component content */\n    children?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function FileManager({\n    className = \"\",\n    label,\n    children,\n    ...restProps\n}: FileManagerProps) {\n    return (\n        <div\n            className={`file-manager ${className}`}\n            role=\"region\"\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/FileManager.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/file-manager/"
+}

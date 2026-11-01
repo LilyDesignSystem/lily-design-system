@@ -33,6 +33,8 @@
     "@angular/platform-browser": "^22.2.3",
     "@angular/platform-browser-dynamic": "^22.2.3",
     "@storybook/angular": "^10.6.3",
+    "@testing-library/dom": "^10.4.2",
+    "@testing-library/user-event": "^14.6.8",
     "@types/node": "^26.6.5",
     "jsdom": "^30.1.3",
     "ng-packagr": "^22.2.5",

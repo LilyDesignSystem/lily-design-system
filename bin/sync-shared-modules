@@ -55,7 +55,22 @@ EXTRA_TARGETS = {
         "lily-design-system-nunjucks-org-editor/org-format.js",
     ],
     "zones.ts": [
+        "lily-design-system-svelte-time-zone-picker/zones.ts",
+        "lily-design-system-react-time-zone-picker/zones.ts",
+        "lily-design-system-vue-time-zone-picker/zones.ts",
+        "lily-design-system-angular-time-zone-picker/zones.ts",
+        "lily-design-system-web-components-time-zone-picker/zones.ts",
+        "lily-design-system-html-time-zone-picker/zones.ts",
         "lily-design-system-nunjucks-time-zone-picker/zones.js",
+    ],
+    "zones.test.ts": [
+        "lily-design-system-svelte-time-zone-picker/zones.test.ts",
+        "lily-design-system-react-time-zone-picker/zones.test.ts",
+        "lily-design-system-vue-time-zone-picker/zones.test.ts",
+        "lily-design-system-angular-time-zone-picker/zones.test.ts",
+        "lily-design-system-web-components-time-zone-picker/zones.test.ts",
+        "lily-design-system-html-time-zone-picker/zones.test.ts",
+        "lily-design-system-nunjucks-time-zone-picker/zones.test.ts",
     ],
     "wheel-picker.ts": [
         "lily-design-system-svelte-headless/components/WheelPicker/wheel-picker.ts",
@@ -66,6 +81,49 @@ EXTRA_TARGETS = {
         "lily-design-system-alpine-headless/wheel-picker.js",
         "lily-design-system-html-headless/components/wheel-picker.html",
     ],
+    # The listbox behaviour core (spec/competitive-position item 3) and the modules it imports, beside each Listbox.
+    # bin/sync-example-components mirrors the Svelte Listbox folder whole, but copies only slug-named companions of a
+    # React, Vue or Angular component, so those examples' copies are written here.
+    "listbox-machine.ts": [
+        "lily-design-system-svelte-headless/components/Listbox/listbox-machine.ts",
+        "lily-design-system-react-headless/components/listbox-machine.ts",
+        "lily-design-system-react-next-examples/components/listbox-machine.ts",
+        "lily-design-system-vue-headless/components/listbox-machine.ts",
+        "lily-design-system-vue-nuxt-examples/components/listbox-machine.ts",
+        "lily-design-system-angular-headless/components/listbox-machine.ts",
+        "lily-design-system-angular-examples/src/app/components/listbox-machine.ts",
+        "lily-design-system-web-components-headless/lib/listbox-machine.ts",
+        "lily-design-system-html-headless/components/listbox-controller.js",
+    ],
+    "listbox-machine.test.ts": [
+        "lily-design-system-svelte-headless/components/Listbox/listbox-machine.test.ts",
+        "lily-design-system-react-headless/components/listbox-machine.test.ts",
+        "lily-design-system-vue-headless/components/listbox-machine.test.ts",
+        "lily-design-system-angular-headless/components/listbox-machine.spec.ts",  # Angular runs *.spec.ts
+        "lily-design-system-web-components-headless/lib/listbox-machine.test.ts",
+    ],
+    "typeahead.ts": [
+        "lily-design-system-svelte-headless/components/Listbox/typeahead.ts",
+        "lily-design-system-react-headless/components/typeahead.ts",
+        "lily-design-system-react-next-examples/components/typeahead.ts",
+        "lily-design-system-vue-headless/components/typeahead.ts",
+        "lily-design-system-vue-nuxt-examples/components/typeahead.ts",
+        "lily-design-system-angular-headless/components/typeahead.ts",
+        "lily-design-system-angular-examples/src/app/components/typeahead.ts",
+        "lily-design-system-web-components-headless/lib/typeahead.ts",
+        "lily-design-system-html-headless/components/listbox-controller.js",
+    ],
+    "search-text.ts": [
+        "lily-design-system-svelte-headless/components/Listbox/search-text.ts",
+        "lily-design-system-react-headless/components/search-text.ts",
+        "lily-design-system-react-next-examples/components/search-text.ts",
+        "lily-design-system-vue-headless/components/search-text.ts",
+        "lily-design-system-vue-nuxt-examples/components/search-text.ts",
+        "lily-design-system-angular-headless/components/search-text.ts",
+        "lily-design-system-angular-examples/src/app/components/search-text.ts",
+        "lily-design-system-web-components-headless/lib/search-text.ts",
+        "lily-design-system-html-headless/components/listbox-controller.js",
+    ],
     "overflow-navigation.ts": [
         "lily-design-system-svelte-headless/components/NavigationMenu/overflow-navigation.ts",
         "lily-design-system-react-headless/components/overflow-navigation.ts",
@@ -74,7 +132,14 @@ EXTRA_TARGETS = {
         "lily-design-system-web-components-headless/lib/overflow-navigation.ts",
         "lily-design-system-alpine-headless/overflow-navigation.js",
         "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/NavigationMenu.razor.js",
+        "lily-design-system-html-headless/components/navigation-menu.html",
     ],
+}
+# .js targets that inline modules as marked regions rather than being whole-file copies: the HTML ListboxController
+# stays one classic-script-safe file (its wdio test injects it, bin/sync vendors it into the HTML example). A region target without its
+# markers is an error, never overwritten.
+REGION_TARGETS = {
+    "lily-design-system-html-headless/components/listbox-controller.js",
 }
 REGION_BEGIN = "/* BEGIN shared/%s (generated by bin/sync-shared-modules; do not edit) */"
 REGION_END = "/* END shared/%s */"
@@ -95,10 +160,15 @@ def stripped(source):
 
 
 def region(text, name, source):
-    """An .html target: replace what sits between the BEGIN/END markers with the stripped module, `export` removed."""
+    """An .html target, or a .js one carrying the markers: replace what sits between the BEGIN/END markers with the
+    stripped module, `export` and `import` removed. A file inlining several modules gives each its own region, in
+    dependency order, so what one imports is already defined above it."""
     begin, end = REGION_BEGIN % name, REGION_END % name
+    if begin not in text or end not in text:
+        sys.exit(f"bin/sync-shared-modules: {source.name}'s region markers are missing from a target")
     i, j = text.index(begin) + len(begin), text.index(end)
     body = "\n".join(l for l in stripped(source).splitlines()[1:])
+    body = re.sub(r"^import\b[^;]*;\n?", "", body, flags=re.M)  # the imported module has its own region
     body = re.sub(r"^export ", "", body, flags=re.M)  # a classic <script> has no modules
     return text[:i] + "\n" + body.rstrip() + "\n" + text[j:]
 
@@ -107,7 +177,7 @@ for name, targets in EXTRA_TARGETS.items():
     source = top / "shared" / name
     for rel in targets:
         target = top / rel
-        if rel.endswith(".html"):
+        if rel.endswith(".html") or rel in REGION_TARGETS:
             wanted = region(target.read_text(), name, source) if target.exists() else None
             if wanted is not None and target.read_text() != wanted:
                 drift.append(target.relative_to(top))

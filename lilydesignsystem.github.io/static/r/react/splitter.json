@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "splitter",
+  "type": "registry:component",
+  "title": "Splitter",
+  "description": "A draggable divider for resizing adjacent panels.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Splitter.tsx",
+      "content": "import React from \"react\";\n\n// Splitter component\n//\n// A headless draggable separator between resizable panels that uses the ARIA\n// separator role with keyboard focus and value tracking. Renders a <div> with\n// orientation, value range, and accessible labeling. Used between adjacent panels\n// to provide a visual and interactive handle for resizing.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for the splitter via aria-label.\n//   orientation — \"horizontal\" | \"vertical\", default \"vertical\". The split direction.\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Syntax:\n//   <Splitter label=\"Resize panels\" orientation=\"vertical\" />\n//\n// Examples:\n//\n//   <Splitter label=\"Resize editor and preview\" orientation=\"horizontal\" />\n//\n//\n//   <Splitter label=\"Resize sidebar\" orientation=\"vertical\" aria-valuenow={splitPos} />\n//\n// Keyboard:\n//   - Tab: moves focus to the splitter\n//   - Arrow keys: consumer should implement to adjust split position\n//   - Home: consumer should implement to set minimum position\n//   - End: consumer should implement to set maximum position\n//\n// Accessibility:\n//   - role=\"separator\" identifies the element as a separator between regions\n//   - aria-label provides an accessible name describing the splitter's purpose\n//   - aria-orientation indicates horizontal or vertical direction\n//   - aria-valuenow/aria-valuemin/aria-valuemax report the split position\n//   - tabindex=\"0\" makes the splitter keyboard-focusable\n//\n// Internationalization:\n//   - The label prop externalizes the accessible label string\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Default value attributes (50/0/100); consumer updates dynamically\n//   - Consumer implements drag handlers and keyboard event handlers\n//   - No children — renders as an empty focusable div\n//\n// References:\n//   - WAI-ARIA Window Splitter Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/\n//   - WAI-ARIA Separator Role: https://www.w3.org/TR/wai-aria-1.2/#separator\n\nexport interface SplitterProps {\n    className?: string;\n    /** Accessible label. */\n    label: string;\n    /** Orientation of the split. */\n    orientation?: \"horizontal\" | \"vertical\";\n    [key: string]: unknown;\n}\n\nexport default function Splitter({\n    className = \"\",\n    label,\n    orientation = \"vertical\",\n    ...restProps\n}: SplitterProps) {\n    return (\n        <div\n            className={`splitter ${className}`}\n            role=\"separator\"\n            aria-label={label}\n            aria-orientation={orientation}\n            tabIndex={0}\n            aria-valuenow={50}\n            aria-valuemin={0}\n            aria-valuemax={100}\n            {...restProps}\n        ></div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Splitter.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/splitter/"
+}

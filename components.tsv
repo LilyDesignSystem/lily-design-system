@@ -537,6 +537,30 @@ chile-rol-unico-nacional-input	ChileRolUnicoNacionalInput	an input for entering 
 chile-rol-unico-nacional-view	ChileRolUnicoNacionalView	a read-only display of Chile's Rol Unico Nacional (RUN)
 misr-al-raqm-al-qawmi-input	MisrAlRaqmAlQawmiInput	an input for entering Egypt's National Number
 misr-al-raqm-al-qawmi-view	MisrAlRaqmAlQawmiView	a read-only display of Egypt's National Number
+taiwan-guomin-shenfenzheng-tongyi-bianhao-input	TaiwanGuominShenfenzhengTongyiBianhaoInput	an input for entering Taiwan's National Identification Card Number
+taiwan-guomin-shenfenzheng-tongyi-bianhao-view	TaiwanGuominShenfenzhengTongyiBianhaoView	a read-only display of Taiwan's National Identification Card Number
+hong-kong-identity-card-input	HongKongIdentityCardInput	an input for entering Hong Kong's Identity Card Number
+hong-kong-identity-card-view	HongKongIdentityCardView	a read-only display of Hong Kong's Identity Card Number
+iran-kod-e-melli-input	IranKodEMelliInput	an input for entering Iran's National Code (Kod-e Melli)
+iran-kod-e-melli-view	IranKodEMelliView	a read-only display of Iran's National Code (Kod-e Melli)
+as-saudiyah-raqm-al-huwiyah-al-wataniyah-input	AsSaudiyahRaqmAlHuwiyahAlWataniyahInput	an input for entering Saudi Arabia's National Identification Number
+as-saudiyah-raqm-al-huwiyah-al-wataniyah-view	AsSaudiyahRaqmAlHuwiyahAlWataniyahView	a read-only display of Saudi Arabia's National Identification Number
+malaysia-kad-pengenalan-input	MalaysiaKadPengenalanInput	an input for entering Malaysia's MyKad Number (NRIC)
+malaysia-kad-pengenalan-view	MalaysiaKadPengenalanView	a read-only display of Malaysia's MyKad Number (NRIC)
+viet-nam-can-cuoc-cong-dan-input	VietNamCanCuocCongDanInput	an input for entering Viet Nam's Citizen Identification Number (CCCD)
+viet-nam-can-cuoc-cong-dan-view	VietNamCanCuocCongDanView	a read-only display of Viet Nam's Citizen Identification Number (CCCD)
+pakistan-computerized-national-identity-card-input	PakistanComputerizedNationalIdentityCardInput	an input for entering Pakistan's Computerized National Identity Card Number (CNIC)
+pakistan-computerized-national-identity-card-view	PakistanComputerizedNationalIdentityCardView	a read-only display of Pakistan's Computerized National Identity Card Number (CNIC)
+uruguay-cedula-de-identidad-input	UruguayCedulaDeIdentidadInput	an input for entering Uruguay's Cedula de Identidad Number
+uruguay-cedula-de-identidad-view	UruguayCedulaDeIdentidadView	a read-only display of Uruguay's Cedula de Identidad Number
+ecuador-cedula-de-identidad-input	EcuadorCedulaDeIdentidadInput	an input for entering Ecuador's Cedula de Identidad Number
+ecuador-cedula-de-identidad-view	EcuadorCedulaDeIdentidadView	a read-only display of Ecuador's Cedula de Identidad Number
+colombia-cedula-de-ciudadania-input	ColombiaCedulaDeCiudadaniaInput	an input for entering Colombia's Cedula de Ciudadania Number
+colombia-cedula-de-ciudadania-view	ColombiaCedulaDeCiudadaniaView	a read-only display of Colombia's Cedula de Ciudadania Number
+australia-tax-file-number-input	AustraliaTaxFileNumberInput	an input for entering Australia's Tax File Number (TFN)
+australia-tax-file-number-view	AustraliaTaxFileNumberView	a read-only display of Australia's Tax File Number (TFN)
+nigeria-national-identification-number-input	NigeriaNationalIdentificationNumberInput	an input for entering Nigeria's National Identification Number (NIN)
+nigeria-national-identification-number-view	NigeriaNationalIdentificationNumberView	a read-only display of Nigeria's National Identification Number (NIN)
 one-time-password-input	OneTimePasswordInput	a single one-time-password input with a numeric keypad, SMS autofill, and a fixed length
 multi-select	MultiSelect	a native select that allows choosing several options at once
 multi-select-with-extras	MultiSelectWithExtras	a multiple-choice select with additional features like search, groups, or selected-value chips
@@ -580,3 +604,4 @@ convert-into-div	ConvertIntoDiv	the target side of a conversion, holding the val
 convert-into-value-div	ConvertIntoValueDiv	the converted value, such as a text input showing the number of euros
 convert-into-unit-div	ConvertIntoUnitDiv	the unit to convert into, such as a select box of currencies or lengths
 picture	Picture	a responsive image wrapper that lets the browser choose among several sources, using the native picture element
+warning-text	WarningText	a short warning shown as an icon and a bold line of text, with a visually hidden prefix supplied by the consumer

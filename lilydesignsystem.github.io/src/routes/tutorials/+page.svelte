@@ -58,7 +58,7 @@
       </li>
       <li>
         <strong>Theme it</strong> (~15 minutes) — swap your hand-written CSS
-        for one of the 57 ready-made themes, then let users switch at
+        for one of the 63 ready-made themes, then let users switch at
         runtime: <a href="/tutorials/theming/">theming tutorial</a>.
       </li>
       <li>
@@ -126,7 +126,7 @@
     <a class="card" href="/tutorials/theming/">
       <h3 class="card-heading">Theming</h3>
       <p class="card-description">
-        Link one of 57 ready-made themes — NHS, GOV.UK, USWDS, light, dark,
+        Link one of 63 ready-made themes — NHS, GOV.UK, USWDS, light, dark,
         and more — override it with your own CSS, and add runtime theme
         switching with the theme-picker helper.
       </p>
@@ -154,7 +154,7 @@
       component documents its props, ARIA contract, and keyboard behaviour.
     </li>
     <li>
-      Clone an <a href="/examples/">example app</a> to see all 582
+      Clone an <a href="/examples/">example app</a> to see all 607
       components styled and working together — the CSS targets the same
       class hooks you just used, so copy any of it into your project and
       adjust it as you wish.

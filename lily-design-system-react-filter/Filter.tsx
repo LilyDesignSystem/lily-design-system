@@ -136,6 +136,31 @@ export function Filter({
         onChange?.(next);
     }
 
+    // Form reset (tasks.md P10-T9): the fields are controlled, so inside a <form> a reset changes nothing (React keeps a
+    // controlled field's default in step with its value). Put back the filter it started with, one tick after the
+    // reset and not when a listener cancelled it, and tell the consumer, as an edit would. Same as the Svelte reference.
+    const initialValue = useRef(controlled ?? inner);
+    const latestCommit = useRef(commit);
+    useEffect(() => {
+        latestCommit.current = commit;
+    });
+    useEffect(() => {
+        const form = rootRef.current?.closest("form");
+        if (!form) return;
+        let timer: ReturnType<typeof setTimeout> | undefined;
+        const onReset = (event: Event) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                if (!event.defaultPrevented) latestCommit.current(initialValue.current);
+            }, 0);
+        };
+        form.addEventListener("reset", onReset);
+        return () => {
+            clearTimeout(timer);
+            form.removeEventListener("reset", onReset);
+        };
+    }, []);
+
     const announce = (message: string | undefined): void => {
         if (message) setStatus(message);
     };

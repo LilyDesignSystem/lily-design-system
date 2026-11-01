@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "footnote",
+  "type": "registry:component",
+  "title": "Footnote",
+  "description": "A footnote reference and content element.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Footnote.tsx",
+      "content": "import React from \"react\";\n\n// Footnote component\n//\n// A footnote provides supplementary information, citations, or clarifications that\n// support the main content without cluttering it. Commonly used in articles, academic\n// writing, legal documents, and documentation. Renders as a semantic <aside> element\n// with role=\"note\", and each footnote is identified by a unique id for in-page linking.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   id — string, required. Unique footnote identifier, used for element id and aria-label.\n//   children — ReactNode, required. Footnote content (text, links, citations).\n//   ...restProps — additional HTML attributes spread onto the aside element.\n//\n// Syntax:\n//   <Footnote id=\"fn1\">Source: Example et al., 2024</Footnote>\n//\n// Examples:\n//\n//   <Footnote id=\"fn1\">Source: Example et al., 2024</Footnote>\n//\n//\n//   <p>This claim is supported by research.<a href=\"#fn1\"><sup>1</sup></a></p>\n//   <Footnote id=\"fn1\">\n//     <a href=\"#ref1\">1.</a> Example, A. (2024). Research Title. Journal Name.\n//   </Footnote>\n//\n// Keyboard:\n//   - None — this is a passive container; keyboard navigation handled by interactive child elements\n//\n// Accessibility:\n//   - role=\"note\" indicates supplementary content related to the main content\n//   - aria-label provides an accessible name derived from the footnote identifier\n//   - The id attribute enables in-page linking from superscript reference markers\n//\n// Internationalization:\n//   - All content comes through the children prop; no hardcoded user-facing strings\n//   - The id prop is used as the aria-label; consumers should use meaningful identifiers\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Uses <aside> with role=\"note\" for semantic supplementary content\n//   - Consumer is responsible for creating in-page links to the footnote\n//\n// References:\n//   - WAI-ARIA note role: https://www.w3.org/TR/wai-aria-1.2/#note\n//   - MDN aside element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside\n\nexport interface FootnoteProps {\n    className?: string;\n    /** Unique footnote identifier. */\n    id: string;\n    /** Footnote content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Footnote({ className = \"\", id, children, ...restProps }: FootnoteProps) {\n    return (\n        <aside\n            className={`footnote ${className}`}\n            id={id}\n            role=\"note\"\n            aria-label={id}\n            {...restProps}\n        >\n            {children}\n        </aside>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Footnote.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/footnote/"
+}

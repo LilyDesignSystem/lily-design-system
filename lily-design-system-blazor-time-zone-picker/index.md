@@ -40,7 +40,7 @@ Blazor idioms: install `LilyDesignSystem.Blazor.TimeZonePicker`; `@bind-Value` a
 | -------------- | ------------------------------------------------------------------ | -------- | -------------------------------------------------------------------------------------------------------- |
 | `Label`        | `string`                                                           | yes      | Accessible name for the button and the listbox; also the tooltip text.                                   |
 | `Locale`       | `string`                                                           | yes      | BCP 47 tag the names are sorted and matched in. No default: the picker never picks a language for you.   |
-| `Zones`        | `IReadOnlyList<string>`                                            | no       | IANA ids to offer. Default `TimeZones.DefaultZones` (55 zones). Shown by offset, not in the order given. |
+| `Zones`        | `IReadOnlyList<string>`                                            | no       | IANA ids to offer. Default `TimeZones.DefaultZones` (63 zones). Shown by offset, not in the order given. |
 | `Date`         | `DateTimeOffset?`                                                  | no       | The moment offsets and names are worked out for. Default: now, read once.                                |
 | `Names`        | `IReadOnlyDictionary<string, (string Standard, string? Daylight)>` | no       | Full zone names by IANA id, in the reader's language: the CLDR names below.                              |
 | `LabelFor`     | `Func<ZoneEntry, string>`                                          | no       | Builds an option's text. Default `UTC+01:00 – Central European Standard Time`.                           |

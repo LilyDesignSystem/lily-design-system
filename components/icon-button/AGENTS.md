@@ -43,6 +43,14 @@
 - `children`: slot -- icon content
 - `...restProps`: any additional HTML attributes
 
+## Native platform
+
+- Decision: native
+- Uses: native <button>; aria-haspopup passthrough
+- Could use: commandfor/command or popovertarget via restProps
+- Notes: Consumers can already pass commandfor, command and popovertarget through restProps.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
+
 ## Acceptance Criteria
 
 - [ ] Renders <button> element with class="icon-button"

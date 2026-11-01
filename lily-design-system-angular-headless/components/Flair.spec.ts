@@ -4,10 +4,10 @@ import { TestBed } from "@angular/core/testing";
 import { Flair } from "./Flair";
 
 describe("Flair", () => {
-    test("renders the div root with the base class", () => {
+    test("renders the <span> root with the base class", () => {
         const fixture = TestBed.createComponent(Flair);
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.flair");
+        const el = fixture.nativeElement.querySelector("span.flair");
         expect(el).toBeTruthy();
     });
 
@@ -15,7 +15,7 @@ describe("Flair", () => {
         const fixture = TestBed.createComponent(Flair);
         fixture.componentRef.setInput("className", "extra");
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.flair");
+        const el = fixture.nativeElement.querySelector("span.flair");
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });

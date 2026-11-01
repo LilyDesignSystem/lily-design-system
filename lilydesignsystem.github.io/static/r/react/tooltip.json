@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tooltip",
+  "type": "registry:component",
+  "title": "Tooltip",
+  "description": "A small popup showing descriptive text on hover or focus.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "registryDependencies": [
+    "@lily/popover"
+  ],
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Tooltip.tsx",
+      "content": "\"use client\";\n\n// Tooltip component\n//\n// A headless tooltip that displays brief, contextual information when made\n// visible. Uses role=\"tooltip\" for semantic identification and is designed\n// to be linked to a trigger element via aria-describedby, providing\n// supplementary text that screen readers can announce. Tooltips are used to\n// clarify the function or meaning of elements without cluttering the interface.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. The tooltip text content.\n//   visible — boolean, default false. Controls visibility; consumer manages via trigger events.\n//   id — string, default undefined. Optional id for aria-describedby linking to trigger element.\n//   ...restProps — additional HTML attributes spread onto the tooltip <div>.\n//\n// Syntax:\n//   <Tooltip id=\"tip\" label=\"Additional info\" visible={showTip} />\n//\n// Examples:\n//\n//   <button aria-describedby=\"tip\"\n//     onMouseEnter={() => setShowTip(true)}\n//     onMouseLeave={() => setShowTip(false)}>Hover me</button>\n//   <Tooltip id=\"tip\" label=\"Additional info\" visible={showTip} />\n//\n// Keyboard:\n//   - Escape: consumer should hide the tooltip (not built into the component)\n//   - Tooltip itself does not receive focus; it describes another element\n//\n// Accessibility:\n//   - role=\"tooltip\" identifies the element as a tooltip popup\n//   - id enables aria-describedby linking to the trigger element\n//   - Conditionally rendered: fully removed from DOM when not visible\n//\n// Internationalization:\n//   - The label prop accepts any translated string\n//   - No hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles -- consumer provides all styling\n//   - Uses {visible && ...} for conditional rendering\n//   - Consumer manages visibility (hover, focus, etc.)\n//\n// References:\n//   - WAI-ARIA Tooltip Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/\n//   - MDN aria-describedby: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-describedby\n\nimport React from \"react\";\nimport { usePopoverState } from \"./Popover\";\n\nexport interface TooltipProps {\n    className?: string;\n    /** Tooltip text content. */\n    label: string;\n    /** Whether the tooltip is visible. Consumer controls via trigger events. */\n    visible?: boolean;\n    /** Optional id for aria-describedby linking. */\n    id?: string;\n    [key: string]: unknown;\n}\n\nexport default function Tooltip({\n    className = \"\",\n    label,\n    visible = false,\n    id = undefined,\n    ...restProps\n}: TooltipProps) {\n    const panelRef = React.useRef<HTMLDivElement>(null);\n    usePopoverState(panelRef, visible);\n    return (\n        <div\n            className={`tooltip ${className}`}\n            ref={panelRef}\n            role=\"tooltip\"\n            popover=\"manual\"\n            id={id}\n            {...restProps}\n        >\n            {label}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Tooltip.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/tooltip/"
+}

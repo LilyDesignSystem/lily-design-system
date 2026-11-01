@@ -129,6 +129,23 @@ export class ThemePickerIcon {
         "(document:click)": "onDocumentClick($event)",
     },
     template: `
+    @if (variant() === "select") {
+    <!-- RFC 3 prototype: the platform's own select. Keyboard, typeahead, the mobile picker and the screen-reader
+         announcement are the browser's; the component only applies the chosen theme. -->
+    <div class="theme-picker {{ className() }}" data-variant="select">
+      <select
+        class="theme-picker-select"
+        [name]="name()"
+        [attr.aria-label]="label()"
+        [disabled]="disabled()"
+        (change)="value.set($any($event.target).value)"
+      >
+        @for (theme of themes(); track theme) {
+          <option class="theme-picker-option" [value]="theme" [selected]="theme === value()">{{ labelFor(theme) }}</option>
+        }
+      </select>
+    </div>
+    } @else {
     <div
       #rootEl
       class="theme-picker {{ className() }}"
@@ -216,6 +233,7 @@ export class ThemePickerIcon {
         }
       </lily-listbox>
     </div>
+    }
   `,
 })
 export class ThemePicker {
@@ -237,7 +255,9 @@ export class ThemePicker {
     /** Projected icon template; replaces the default icon when supplied. */
     protected readonly iconTemplate = contentChild(TemplateRef);
 
-    private readonly rootRef = viewChild.required<ElementRef<HTMLDivElement>>("rootEl");
+    // Not required: the select variant renders no #rootEl, #buttonEl or #listEl. The button and list are only read
+    // from listbox-variant handlers.
+    private readonly rootRef = viewChild<ElementRef<HTMLDivElement>>("rootEl");
     // Angular resolves a template-ref-variable on a component tag to the
     // component INSTANCE by default (not its ElementRef) — exactly what's
     // needed to call the headless components' own public `focus()` methods.
@@ -251,6 +271,12 @@ export class ThemePicker {
     readonly open = model<boolean>(false);
     /** Disables the button; an open popup closes. */
     readonly disabled = input<boolean>(false);
+    /**
+     * `"select"` renders a native `<select>` instead of the button and listbox (RFC 3 prototype; ported from the
+     * Svelte reference 2026-10-30). Keyboard, typeahead and the mobile picker are the platform's; `open` does not
+     * apply. Default `"listbox"`.
+     */
+    readonly variant = input<"listbox" | "select">("listbox");
     private readonly closeWhenDisabled = effect(() => {
         if (this.disabled() && this.open()) this.open.set(false);
     });
@@ -474,14 +500,15 @@ export class ThemePicker {
 
     protected onRootFocusOut(event: FocusEvent): void {
         const next = event.relatedTarget as Node | null;
-        if (next && this.rootRef().nativeElement.contains(next)) return;
+        if (next && this.rootRef()?.nativeElement.contains(next)) return;
         this.closeList(false);
     }
 
     protected onDocumentClick(event: Event): void {
         if (!this.open()) return;
         const t = event.target as Node | null;
-        if (t && !this.rootRef().nativeElement.contains(t)) this.closeList(false);
+        const root = this.rootRef()?.nativeElement;
+        if (t && root && !root.contains(t)) this.closeList(false);
     }
 
     // ---------------------------------------------------------------

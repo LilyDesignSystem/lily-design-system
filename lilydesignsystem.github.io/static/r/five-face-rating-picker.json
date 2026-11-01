@@ -2,7 +2,7 @@
   "slug": "five-face-rating-picker",
   "name": "FiveFaceRatingPicker",
   "description": "a picker for selecting a 1-5 satisfaction rating using face labels",
-  "htmlTag": "div",
+  "htmlTag": "fieldset",
   "category": "pickers",
   "baseClass": ".five-face-rating-picker",
   "subClasses": [],

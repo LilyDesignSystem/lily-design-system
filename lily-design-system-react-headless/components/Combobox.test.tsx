@@ -1,5 +1,5 @@
-import { render, screen } from "@testing-library/react";
-import { describe, expect, test } from "vitest";
+import { fireEvent, render, screen } from "@testing-library/react";
+import { describe, expect, test, vi } from "vitest";
 
 import Subject from "./Combobox";
 
@@ -11,7 +11,7 @@ describe("Combobox", () => {
 
     test("has aria-label", () => {
         render(<Subject label="Search fruit">Content</Subject>);
-        expect(screen.getByLabelText("Search fruit")).toBeTruthy();
+        expect(screen.getByRole("combobox", { name: "Search fruit" })).toBeTruthy();
     });
 
     test("listbox hidden when closed", () => {
@@ -60,5 +60,20 @@ describe("Combobox", () => {
             </Subject>,
         );
         expect(screen.getByTestId("cb")).toBeTruthy();
+    });
+
+    test("Escape asks to close the listbox", () => {
+        const onOpenChange = vi.fn();
+        render(
+            <Subject
+                label="Fruit"
+                open
+                onOpenChange={onOpenChange}
+            >
+                <div role="option">Apple</div>
+            </Subject>,
+        );
+        fireEvent.keyDown(screen.getByRole("combobox"), { key: "Escape" });
+        expect(onOpenChange).toHaveBeenCalledWith(false);
     });
 });

@@ -6,7 +6,7 @@ license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 
 # Lily Design System™ — Svelte
 
-Three real Svelte subprojects make up Lily's Svelte support. This skill is
+Three Svelte layers make up Lily's Svelte support. This skill is
 the umbrella: it maps the three, helps decide which one a task needs, and
 points at the two sibling skills that already cover the headless library and
 the helper packages in depth. It does not restate their content.
@@ -23,8 +23,10 @@ the helper packages in depth. It does not restate their content.
   — the Svelte 5 consumption idiom (`class` prop, `$props()` with rest-props,
   `$bindable()`, `Snippet` children), npm package identity.
 - **[the Svelte helper packages](../spec/helpers/index.md#svelte-helper-packages)**
-  — one top-level subproject per package: the ten `*-picker` helpers,
-  `picker-bar`, data-grid, kanban-board, gantt-chart, calendar. Each
+  — 20 packages, one top-level subproject each: the eleven `*-picker`
+  helpers, `picker-bar`, `data-grid`, `kanban-board`, `gantt-chart`,
+  `calendar`, `filter`, `markdown-editor`, `org-editor` and
+  `locale-translations`. Each
   owns one whole interaction end to end — not just markup but the popup,
   the keyboard behaviour, and (for most of them) applying and persisting a
   value. **These packages are canonical**: per `AGENTS/helpers.md`'s "Svelte is
@@ -37,7 +39,7 @@ the helper packages in depth. It does not restate their content.
   — the helpers' contracts, npm package names, and the idempotent-apply
   rule.
 - **[`lily-design-system-svelte-sveltekit-examples`](../lily-design-system-svelte-sveltekit-examples/)**
-  — a fully styled SvelteKit 2 reference application demonstrating the
+  — a fully styled SvelteKit 3 reference application demonstrating the
   headless catalog with NHS UK design system colours, typography, spacing,
   and focus states. Run it to see components working, or read its CSS as a
   worked answer to "how would I style this." Neither sibling skill covers
@@ -45,7 +47,7 @@ the helper packages in depth. It does not restate their content.
 
 ## When NOT this skill
 
-For the headless library's consumption idiom or the helper packages's
+For the headless library's consumption idiom or the helper packages'
 per-helper contracts, use the two sibling skills above directly — this
 skill only maps the territory and does not duplicate their content. For
 framework-agnostic Lily concepts, terminology, naming conventions, and
@@ -54,7 +56,7 @@ composition patterns that apply across all seven frameworks, use
 
 ## The SvelteKit example app
 
-`lily-design-system-svelte-sveltekit-examples` is a Svelte 5 + SvelteKit 2
+`lily-design-system-svelte-sveltekit-examples` is a Svelte 5 + SvelteKit 3
 application styled with the NHS UK design system reference (CSS custom
 properties, targeting the kebab-case Lily class names directly — no
 `nhsuk-` prefixes in markup). Like every Lily example app it follows the
@@ -95,7 +97,7 @@ every catalog category, in 3 themes (the app default, GOV.UK GDS, and
 `e2e/responsive.spec.ts` round out the per-route and per-viewport sweeps
 every example app runs.
 
-## Svelte-wide conventions (all three subprojects)
+## Svelte-wide conventions (all three layers)
 
 - **Svelte 5 runes** throughout (`$state`, `$derived`, `$props`,
   `$bindable`, `$effect`) — no legacy Svelte 4 syntax.
@@ -105,16 +107,16 @@ every example app runs.
 - **TypeScript everywhere**, Vite as the build tool, pnpm (not npm).
 - **vitest, not Jest** — `@testing-library/svelte` + `@testing-library/user-event`
   - jsdom, vitest's own built-in matchers only (`@testing-library/jest-dom`
-    is explicitly prohibited across all three subprojects).
+    is explicitly prohibited across all three layers).
 - **Internationalisation is the consumer's concern** — no i18n library is
   bundled anywhere (no Paraglide, no svelte-i18n); every user-facing string
   arrives as a prop.
-- The general Svelte 5 + SvelteKit 2 conventions this repository follows
+- The general Svelte 5 + SvelteKit 3 conventions this repository follows
   live in `AGENTS/sveltekit.md` (loaded into this skill's own `AGENTS.md`).
 
 ## Framework-agnostic Lily concepts
 
 For what Lily is, its terminology (component, slug, class hook, helper,
-theme, subproject), the 582-component catalog, naming conventions, and
+theme, subproject), the 607-component catalog, naming conventions, and
 composition patterns that apply across all seven frameworks, use
 [`lily-design-system-skill`](../lily-design-system-skill/).

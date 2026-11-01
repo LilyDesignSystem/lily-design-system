@@ -155,7 +155,7 @@ pnpm run dev</code></pre>
   <h2>Tema siap pakai</h2>
   <p>
     Tidak mahu menulis CSS dari kosong? Lily disertakan dengan
-    <strong>57 tema rujukan kendiri</strong> dalam direktori
+    <strong>63 tema rujukan kendiri</strong> dalam direktori
     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
     . Setiap satu ialah satu helaian gaya yang menyasarkan cangkuk kelas Lily — pautkan dan anda sudah digayakan:
   </p>
@@ -179,11 +179,7 @@ pnpm run dev</code></pre>
 
 <section class="section prose" id="helpers" style="margin: 0 auto;">
   <h2>Pembantu keutamaan</h2>
-  <p>
-    Setiap rangka kerja mempunyai lapan pemilih kecil, masing-masing dalam pakej
-    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> tersendiri (dan <code>picker-bar</code> yang menghimpunkannya). Setiap satu ialah butang ikon tanpa kepala yang membuka popup — kotak senarai, senarai pautan, borang carian, atau (untuk date-time-picker) dialog pemilih tarikh — bukan natif
-    <code>&lt;select&gt;</code>; selamat untuk SSR; dan disertakan tanpa CSS:
-  </p>
+  <p>Setiap rangka kerja mempunyai sebelas pemilih kecil, setiap satu dalam pakejnya sendiri <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> (dan sebuah <code>picker-bar</code> yang menghimpunkannya). Setiap satu ialah butang ikon headless yang membuka timbul — kotak senarai, senarai pautan, borang carian, panel kandungan anda sendiri, atau (untuk date-time-picker) dialog pemilih tarikh — bukan <code>&lt;select&gt;</code> asli (theme-picker menawarkan satu sebagai varian pilihan); selamat untuk SSR; dan tidak menyertakan CSS. Selain menu-picker, settings-picker dan time-zone-picker, ia ialah:</p>
   <ul>
     <li>
       <strong>theme-picker</strong> — memuatkan helaian gaya tema semasa runtime dengan menukar <code>&lt;link&gt;</code>yang diurus, menetapkan
@@ -294,7 +290,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
     <summary>Komponen dipaparkan tetapi kelihatan tidak bergaya</summary>
     <p>
       Itulah tanpa kepala berfungsi seperti yang dimaksudkan — tiada CSS disertakan dengan komponen. Sama ada tulis CSS terhadap kelas kebab-case komponen (ditunjukkan pada setiap <a href="/components/">halaman katalog</a>) atau pautkan salah satu daripada
-      <a href="#themes">57 tema siap pakai</a>.
+      <a href="#themes">63 tema siap pakai</a>.
     </p>
   </details>
 
@@ -383,7 +379,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
   <details class="faq-item">
     <summary>Mengapa tanpa kepala dan bukan bergaya?</summary>
     <p>
-      Komponen pra-gaya memang mudah — sehingga ia tidak sepadan dengan jenama anda. Komponen tanpa kepala memerlukan sedikit lebih kerja di awal tetapi memberi anda kawalan penuh ke atas reka bentuk visual. Aplikasi contoh dan 57 tema menunjukkan cara menggayakannya; anda boleh mengambilnya atau menggantikannya sepenuhnya. Hujah yang lebih panjang terdapat di <a href="/why/">Mengapa Lily</a>.
+      Komponen pra-gaya memang mudah — sehingga ia tidak sepadan dengan jenama anda. Komponen tanpa kepala memerlukan sedikit lebih kerja di awal tetapi memberi anda kawalan penuh ke atas reka bentuk visual. Aplikasi contoh dan 63 tema menunjukkan cara menggayakannya; anda boleh mengambilnya atau menggantikannya sepenuhnya. Hujah yang lebih panjang terdapat di <a href="/why/">Mengapa Lily</a>.
     </p>
   </details>
 

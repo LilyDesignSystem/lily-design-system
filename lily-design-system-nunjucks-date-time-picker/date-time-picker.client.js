@@ -35,6 +35,8 @@
 // See spec/index.md §4.3 (client.js exports), §4.4 (deviations), §5
 // (behaviour).
 
+import { isRtl, logicalKey } from "./direction";
+
 /**
  * Default button glyph: U+1F4C5 CALENDAR, followed by U+FE0E VARIATION
  * SELECTOR-15 to request text (monochrome) presentation.
@@ -302,7 +304,7 @@ export function monthMatrix(year, month, firstDayOfWeek) {
 export function monthNames(locale) {
     const build = (month) => {
         try {
-            const fmt = new Intl.DateTimeFormat(locale, { month, timeZone: "UTC" });
+            const fmt = new Intl.DateTimeFormat(gregorian(locale), { month, timeZone: "UTC" });
             return Array.from({ length: 12 }, (_, i) =>
                 fmt.format(new Date(Date.UTC(2021, i, 15))),
             );
@@ -339,7 +341,7 @@ function matchMonthName(token, names) {
  */
 export function numericFieldOrder(locale) {
     try {
-        const parts = new Intl.DateTimeFormat(locale, {
+        const parts = new Intl.DateTimeFormat(gregorian(locale), {
             day: "2-digit",
             month: "2-digit",
             year: "numeric",
@@ -363,7 +365,7 @@ export function numericFieldOrder(locale) {
  * the locale's own long and short month names.
  */
 export function parseDateInput(text, locale) {
-    const trimmed = String(text ?? "").trim();
+    const trimmed = normalizeDigits(text).trim();
     if (!trimmed) return null;
 
     const iso = parseIsoDate(trimmed);
@@ -413,13 +415,76 @@ export function parseDateInput(text, locale) {
     return formatIsoDate({ year, month, day });
 }
 
-/** Accepts `9:30`, `09:30`, `0930`, `9.30`, and a trailing am/pm. */
-export function parseTimeInput(text) {
-    const m = /^(\d{1,2})[:.]?(\d{2})\s*([ap])\.?m\.?$|^(\d{1,2})[:.]?(\d{2})$/.exec(
-        String(text ?? "")
-            .trim()
-            .toLowerCase(),
+/**
+ * The locale with the Gregorian calendar forced. The day grid is always Gregorian, so a heading, day label or month name in
+ * the locale's own calendar (Solar Hijri for fa-IR, Buddhist years for th-TH, Japanese eras) would name a different date than
+ * the cell the user is on. A `calendar` option is planned (P17-T1).
+ */
+export function gregorian(locale) {
+    if (!locale) return locale;
+    try {
+        return new Intl.Locale(locale, { calendar: "gregory" }).toString();
+    } catch (_e) {
+        return locale;
+    }
+}
+
+const NATIVE_DIGITS = new Map();
+const NUMBERING_SYSTEMS =
+    "adlm ahom arab arabext bali beng bhks brah cakm cham deva fullwide gong gonm gujr guru hanidec hmng hmnp java kali kawi khmr knda lana lanatham laoo lepc limb mathbold mathdbl mathmono mathsanb mathsans mlym modi mong mroo mtei mymr mymrshan mymrtlng nagm newa nkoo olck orya osma rohg saur segment shrd sind sinh sora sund takr talu tamldec telu thai tibt tirh tnsa vaii wara wcho".split(
+        " ",
     );
+/** Every Unicode decimal digit that `Intl` knows a numbering system for, mapped to its ASCII digit. */
+function nativeDigits() {
+    if (NATIVE_DIGITS.size > 0) return NATIVE_DIGITS;
+    for (const system of NUMBERING_SYSTEMS) {
+        try {
+            const format = new Intl.NumberFormat(`en-u-nu-${system}`, { useGrouping: false });
+            for (let digit = 0; digit < 10; digit++)
+                NATIVE_DIGITS.set(format.format(digit), String(digit));
+        } catch (_e) {
+            // A numbering system this runtime lacks.
+        }
+    }
+    return NATIVE_DIGITS;
+}
+
+/** Typed text with native digits (Arabic-Indic, Persian, Devanagari, Bengali, Thai, ...) turned into ASCII digits. */
+export function normalizeDigits(text) {
+    const map = nativeDigits();
+    return String(text ?? "").replace(/\p{Nd}/gu, (d) => map.get(d) ?? d);
+}
+
+/** The locale's own words for the morning and afternoon, lower-cased, without dots or spaces. */
+function dayPeriodWords(locale) {
+    try {
+        const word = (hour) =>
+            new Intl.DateTimeFormat(locale, { hour: "numeric", hourCycle: "h12", timeZone: "UTC" })
+                .formatToParts(new Date(Date.UTC(2021, 4, 6, hour)))
+                .find((p) => p.type === "dayPeriod")
+                ?.value.toLowerCase()
+                .replace(/[.\s\u00a0\u202f]/g, "") ?? "";
+        const am = word(9);
+        const pm = word(15);
+        return am && pm && am !== pm ? { am, pm } : null;
+    } catch (_e) {
+        return null;
+    }
+}
+
+/** Accepts `9:30`, `09:30`, `0930`, `9.30`, a trailing am/pm, native digits, and the locale's own day-period words. */
+export function parseTimeInput(text, locale) {
+    let typed = normalizeDigits(text).trim().toLowerCase();
+    // The locale's own day-period words stand in for a/p, which stays accepted in every locale.
+    const words = dayPeriodWords(locale);
+    if (words) {
+        const compact = typed.replace(/[.\s\u00a0\u202f]/g, "");
+        if (compact.endsWith(words.pm)) typed = `${compact.slice(0, -words.pm.length)} pm`;
+        else if (compact.endsWith(words.am)) typed = `${compact.slice(0, -words.am.length)} am`;
+        else if (compact.startsWith(words.pm)) typed = `${compact.slice(words.pm.length)} pm`;
+        else if (compact.startsWith(words.am)) typed = `${compact.slice(words.am.length)} am`;
+    }
+    const m = /^(\d{1,2})[:.]?(\d{2})\s*([ap])\.?m\.?$|^(\d{1,2})[:.]?(\d{2})$/.exec(typed);
     if (!m) return null;
     let hour = Number(m[1] ?? m[4]);
     const minute = Number(m[2] ?? m[5]);
@@ -452,7 +517,7 @@ export function localeUsesHour12(locale) {
 /** The locale's own AM / PM strings, so neither is hardcoded. */
 export function dayPeriodName(locale, pm) {
     try {
-        const parts = new Intl.DateTimeFormat(locale, {
+        const parts = new Intl.DateTimeFormat(gregorian(locale), {
             hour: "numeric",
             hour12: true,
             timeZone: "UTC",
@@ -470,7 +535,7 @@ export function dayLabel(isoDate, locale) {
     const parsed = parseIsoDate(isoDate);
     if (!parsed) return isoDate;
     try {
-        return new Intl.DateTimeFormat(locale, {
+        return new Intl.DateTimeFormat(gregorian(locale), {
             weekday: "long",
             day: "numeric",
             month: "long",
@@ -486,7 +551,7 @@ function formatTimeForDisplay(isoTime, locale, hour12) {
     const parsed = parseIsoTime(isoTime);
     if (!parsed) return isoTime;
     try {
-        return new Intl.DateTimeFormat(locale, {
+        return new Intl.DateTimeFormat(gregorian(locale), {
             hour: "2-digit",
             minute: "2-digit",
             hour12,
@@ -506,7 +571,7 @@ export function defaultFormatValue(isoValue, mode, locale, hour12) {
     if (parsed) {
         try {
             chunks.push(
-                new Intl.DateTimeFormat(locale, {
+                new Intl.DateTimeFormat(gregorian(locale), {
                     day: "2-digit",
                     month: "short",
                     year: "numeric",
@@ -986,13 +1051,14 @@ export function initDateTimePicker(root, opts = {}) {
             let short = "";
             let long = "";
             try {
-                short = new Intl.DateTimeFormat(locale, {
+                short = new Intl.DateTimeFormat(gregorian(locale), {
                     weekday: "short",
                     timeZone: "UTC",
                 }).format(d);
-                long = new Intl.DateTimeFormat(locale, { weekday: "long", timeZone: "UTC" }).format(
-                    d,
-                );
+                long = new Intl.DateTimeFormat(gregorian(locale), {
+                    weekday: "long",
+                    timeZone: "UTC",
+                }).format(d);
             } catch (_e) {
                 // Leave blank rather than throw.
             }
@@ -1009,7 +1075,7 @@ export function initDateTimePicker(root, opts = {}) {
 
     function periodText(viewYear, viewMonth) {
         try {
-            return new Intl.DateTimeFormat(locale, {
+            return new Intl.DateTimeFormat(gregorian(locale), {
                 month: "long",
                 year: "numeric",
                 timeZone: "UTC",
@@ -1358,7 +1424,8 @@ export function initDateTimePicker(root, opts = {}) {
     // -------------------------------------------------------------
 
     function onGridKeydown(event) {
-        switch (event.key) {
+        // ArrowLeft and ArrowRight are visual: in a right-to-left layout the next day is on the left.
+        switch (logicalKey(event.key, isRtl(calendarTable))) {
             case "ArrowLeft":
                 event.preventDefault();
                 moveCursor(addDays(state.cursor, -1));
@@ -1456,14 +1523,14 @@ export function initDateTimePicker(root, opts = {}) {
     }
 
     function parseTypedForMode(text) {
-        if (mode === "time") return parseTimeInput(text);
+        if (mode === "time") return parseTimeInput(text, locale);
         if (mode === "date") return parseDateInput(text, locale);
         // datetime: split on the last whitespace run or a literal T, and
         // require both halves -- half a value is never committed.
         const m = /^(.*?)[T\s]+([^\sT]+)$/.exec(text.trim());
         if (!m) return null;
         const date = parseDateInput(m[1], locale);
-        const time = parseTimeInput(m[2]);
+        const time = parseTimeInput(m[2], locale);
         return date && time ? `${date}T${time}` : null;
     }
 

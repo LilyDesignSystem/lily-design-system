@@ -45,5 +45,10 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ShowMore.razor"
   },
   "docs": "https://lilydesignsystem.com/components/show-more/",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/show-more/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/show-more/AGENTS.md",
+  "nativePlatform": {
+    "decision": "hand-rolled because the content must stay in the accessibility tree while collapsed (a visual clamp); <details> would hide it",
+    "uses": "native <button>",
+    "could_use": "<details>"
+  }
 }

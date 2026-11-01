@@ -17,7 +17,7 @@
 
 ## Key Behaviors
 
-- Renders a `<div>` with `role="menu"` and `aria-label`, conditionally shown via conditional rendering
+- Renders an always-present `<div popover="auto">` with `role="menu"` and `aria-label`; `open` shows it with `showPopover()` in the top layer (there is no declarative trigger), the browser closes it on Escape and on a click outside, and the `toggle` event writes `open` back; `hidden` where the Popover API is missing (P18-T11)
 - Supports two-way binding on the `open` prop
 - reactive state tracks the menu element reference for focus management
 - `$effect()` focuses the first `[role="menuitem"]` when the menu opens
@@ -42,6 +42,14 @@
 - `label`: string (required) -- accessible name for the context menu via `aria-label`
 - `open`: boolean (default: false) -- whether the menu is visible; bindable for two-way control
 - `children`: slot (required) -- menu item content (should include `role="menuitem"` elements)
+
+## Native platform
+
+- Decision: native
+- Uses: popover="auto" on an always-rendered div role="menu", shown with showPopover() from open; bindable open synced from the toggle event; APG arrow-key focus hand-rolled
+- Could use: CSS anchor positioning (positioning at the pointer stays consumer CSS)
+- Notes: No declarative trigger (right-click or long-press), so open calls showPopover(); top layer, Escape and light dismiss from the browser. Blazor was a bare stub, ported from Svelte with the focus code in Popover.razor.js (P18-T11, 2026-10-30).
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
 
 ## Acceptance Criteria
 

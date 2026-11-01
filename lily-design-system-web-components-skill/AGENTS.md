@@ -22,25 +22,25 @@
 
 ## Overview
 
-A Claude Skill that ties together the two real native-Web-Components
-subprojects in this monorepo —
+A Claude Skill that ties together the two native-Web-Components
+layers in this monorepo —
 [`@lilydesignsystem/web-components-headless`](../lily-design-system-web-components-headless/)
-(the full achievable catalog of native custom elements — 547/582 as of
-2026-09-06 — no framework runtime) and
+(the full achievable catalog of native custom elements — 572/607 as of
+2026-10-29 — no framework runtime) and
 [the Web Components helper packages](../spec/helpers/index.md#web-components-helper-packages)
-(the full six-helper `<lily-*-picker>` catalog, a maintainer-directed
-independent copy of the HTML helper packages (then the `lily-design-system-html-helpers` catalog)) — and helps an agent
+(the 20 `<lily-*>` helper packages, a maintainer-directed
+independent copy of the HTML helper packages (themselves vanilla custom elements)) — and helps an agent
 decide which one a given request actually needs. The skill itself is
 [`SKILL.md`](SKILL.md); the `@AGENTS/*.md` files loaded above are the same
 binding design-principle rules every other subproject in this repository
-loads, so an agent routing between the two Web Components subprojects is
+loads, so an agent routing between the two Web Components layers is
 grounded in the same rules each of them is held to.
 
 Unlike every other framework family in this monorepo (HTML, Svelte, React,
-Vue, Angular, Blazor, Nunjucks — each pairing a headless library with a
+Vue, Angular, Blazor, Nunjucks, Alpine.js — each pairing a headless library with a
 styled example application), Web Components has **no example
 application**. `AGENTS/lily.md`'s "Subprojects for web app examples" list
-carries exactly those seven entries, and no
+carries exactly those eight entries, and no
 `lily-design-system-web-components-*-examples` directory exists at the
 repository root. This is a real, current gap, not an oversight this skill
 should paper over — a maintainer could add one later, but as of this
@@ -51,19 +51,19 @@ This subproject sits one level above
 and
 [`lily-design-system-web-components-helpers-skill`](../lily-design-system-web-components-helpers-skill/):
 those two carry the deep, per-subproject contract (the current scope
-and its architecture decisions; the six helpers and their provenance
-relationship to the HTML helpers catalog); this one is the map that routes
+and its architecture decisions; the helper packages and their provenance
+relationship to the HTML helper packages); this one is the map that routes
 a request to the right one of the two.
 
 ## What this subproject is, and isn't
 
 - **Is**: the Web Components umbrella and entry-point skill — a map of the
-  two real Web Components subprojects, a decision guide for which one to
+  two Web Components layers, a decision guide for which one to
   reach for, a plain statement of the missing example application, and
   pointers into the two sibling skills and into the general Lily concepts
   skill rather than a restatement of any of them.
 - **Isn't**: the Web Components headless catalog or the Web Components
-  helpers catalog themselves — it ships no components, no custom elements,
+  helper packages themselves — it ships no components, no custom elements,
   no helper packages of its own. Isn't the general Lily concepts skill
   (that's [`lily-design-system-skill`](../lily-design-system-skill/)).
   Isn't a duplicate of

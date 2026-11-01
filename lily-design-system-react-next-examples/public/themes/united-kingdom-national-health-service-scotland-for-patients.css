@@ -18,8 +18,10 @@
  *      more clinical reading of the same palette with magenta/violet
  *      callouts reserved for safety messaging.
  *
- * Upstream tracked: NHS.UK frontend v9.x visual language (v10 is in
- * pre-release; re-check the palette when it goes stable). Independent
+ * Upstream tracked: nhsuk-frontend 10.7.1 (npm, published 2026-10-29;
+ * re-baselined from 9.x on 2026-10-29 against the package's Sass
+ * settings and CHANGELOG; v10 has been stable since 10.0.0 on
+ * 2025-08-26). Independent
  * implementation against Lily class hooks; not affiliated with or
  * endorsed by the NHS.
  *
@@ -37,10 +39,15 @@
  *       https://www.gov.scot/publications/digital-scotland-service-standard/
  *   - Typography: Frutiger W01 (primary, shared with NHS UK), Roboto for
  *     NHS Inform body copy, Arial / system-ui as the universal fallback.
- *   - Base font size: 16px; modular scale matches NHS UK (14/16/19/22/26/
- *     32/48/64) so components ported from the NHS UK frontend "just work".
- *   - Spacing scale (px): 0, 4, 8, 12, 16, 24, 32, 40, 48, 64 — identical
- *     to NHS UK frontend's `$nhsuk-spacing-responsive-scale`.
+ *   - Base font size: 16px; type scale follows nhsuk-frontend 10 (tablet
+ *     px 14/16/19/22/26/36/48/64; point 24 was removed in 10.0.0) so
+ *     components ported from the NHS UK frontend "just work".
+ *   - Spacing: nhsuk-frontend 10 spacing points (px) are 0, 4, 8, 16, 24,
+ *     32, 40, 48, 56, 64 (`$nhsuk-spacing-points`, unchanged from 9.x).
+ *   - Scotland: no NHS Scotland or NHS Inform frontend package is
+ *     published (npm search, 2026-10-29), so this theme takes
+ *     nhsuk-frontend plus the Scottish palette below, which keeps its own
+ *     values.
  *   - WCAG 2.2 AA mandated by the Digital Scotland Service Standard;
  *     Lily targets AAA. The focus indicator below clears AAA at 3:1
  *     against every surface in the theme.
@@ -84,7 +91,10 @@
  *   NHS Emergency Red      #DA291C   error / destructive action, also
  *                                    the colour used on the "999" badge
  *                                    inside NHS Inform.
- *   NHS Green              #009639   success / confirmation.
+ *   NHS.UK Green           #007F3B   success / confirmation (nhsuk-frontend
+ *                                    10 `$nhsuk-success-colour`; was NHS
+ *                                    Identity green #009639 until
+ *                                    2026-10-29).
  *   NHS Dark Green         #006747   success hover / pressed state.
  *
  * Geometry rules (shared with NHS UK frontend)
@@ -198,13 +208,17 @@
     --color-info: oklch(54% 0.17 247);
     --color-info-content: oklch(100% 0 0);
     /* ---- Success (NHS Green)
-       -------------------------------------------- */ /* NHS
-       Green #009639 — confirmation panels, completed-step
-       indicators */ /* ("you have been booked"), and the success
-       state on form summaries. */ /* Identical role and contrast
-       target as the NHS UK system so shared */ /* components
-       carry the same meaning across the border. */
-    --color-success: oklch(56% 0.16 145);
+       -------------------------------------------- */ /* NHS.UK
+       frontend green #007F3B — confirmation panels, completed-
+       step indicators */ /* ("you have been booked"), and the
+       success state on form summaries. */ /* Identical role and
+       contrast target as the NHS UK system so shared */ /*
+       components carry the same meaning across the border. Re-
+       baselined 2026-10-29 to nhsuk-frontend 10.7.1 `$nhsuk-
+       success-colour` (core/settings/_colours-applied.scss, new
+       in v10); it was NHS Identity green #009639, which gave
+       white content 4.37:1 (below AA). Now 5.19:1. */
+    --color-success: oklch(52% 0.14 151);
     --color-success-content: oklch(100% 0 0);
     /* ---- Warning (NHS Warm Yellow)
        -------------------------------------- */ /* NHS Warm
@@ -244,11 +258,13 @@
     /* Inner padding hints for selectors and fields (Lily sizing). */
     --size-selector: 0.25rem;
     --size-field: 0.25rem;
-    /* Border width: 1px hairline, matching `$nhsuk-border-width-
-       form`. */ /* NHS Scotland's primary buttons use a 4px
-       bottom shadow border in */ /* their own implementation;
-       that is left to example-app CSS so the */ /* Lily token
-       stays the universal 1px hairline. */
+    /* Border width: 1px hairline, Lily's own hairline, not an
+       upstream value: nhsuk-frontend 10 has no `$nhsuk-border-
+       width-form`; its form controls use `$nhsuk-border-width-
+       form-element` (2px). */ /* NHS Scotland's primary buttons
+       use a 4px bottom shadow border in */ /* their own
+       implementation; that is left to example-app CSS so the */
+       /* Lily token stays the universal 1px hairline. */
     --border: 1px;
     /* Depth & noise off — NHS Scotland identity guidance, like
        NHS UK, */ /* avoids shadows, gradients, and textures so
@@ -363,7 +379,7 @@
         /* --- Typography ---------------------------------------------------- */
         /* Body font stack — system fonts first so consumers get a
            native-feeling baseline without shipping a web font. */
-        --lily-font-body:
+        --lily-font-body-latin:
             system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
             Arial, sans-serif;
         /* Monospaced font stack — used by code, kbd, identifiers, and
@@ -1931,6 +1947,15 @@
     /* Drawers — side panels (right edge by default; RTL-aware via logical
        properties). Sit above the overlay container (z-index 101). */
     :where(.drawer, .slide-out-drawer, .sheet) {
+        /* These are <dialog> elements opened with showModal() (P18-T6): undo the
+           browser's centred-box defaults so the panel docks to the edge. */
+        margin: 0;
+        border: 0;
+        inset-inline-start: auto;
+        max-block-size: none;
+        max-inline-size: none;
+        block-size: 100%;
+        box-sizing: border-box;
         position: fixed;
         inset-block: 0;
         inset-inline-end: 0;
@@ -1941,6 +1966,10 @@
         box-shadow: var(--lily-shadow-lg);
         padding: 1rem;
         z-index: 101;
+    }
+
+    :where(.drawer, .slide-out-drawer, .sheet)::backdrop {
+        background-color: color-mix(in oklch, black 50%, transparent);
     }
 
     /* ==========================================================================
@@ -2971,6 +3000,43 @@
         }
     }
 
+    /* Anchored popups (P16-T4). These nine render `popover="manual"`, which puts them in the top layer; the
+       browser's own popover style would centre them in the viewport. Closed, they are display: none (or `hidden`
+       where the Popover API is missing). Where anchor positioning exists, the four that live inside a component
+       open under that component's trigger or input, as wide as it at least; the five that stand alone (tooltip,
+       hover card, floating panel, coachmark, popconfirm) open under the element the consumer names with
+       `position-anchor`, or the invoker of a `popovertarget`, and stay where the browser puts them without one. */
+    :where(.cascader-panel, .tree-select-panel, .mentions-input-suggestions, .combobox > [role="listbox"], .tooltip, .hover-card, .floating-panel, .coachmark, .popconfirm-dialog)[hidden] {
+        display: none;
+    }
+
+    :where(.cascader-panel, .tree-select-panel, .mentions-input-suggestions, .combobox > [role="listbox"], .tooltip, .hover-card, .floating-panel, .coachmark, .popconfirm-dialog)[popover]:not(:popover-open) {
+        display: none;
+    }
+
+    @supports (position-area: block-end) {
+        :where(.cascader-trigger) { anchor-name: --lily-cascader; }
+        :where(.tree-select-trigger) { anchor-name: --lily-tree-select; }
+        :where(.mentions-input-control) { anchor-name: --lily-mentions-input; }
+        :where(.combobox > input) { anchor-name: --lily-combobox; }
+        :where(.cascader-panel) { position-anchor: --lily-cascader; }
+        :where(.tree-select-panel) { position-anchor: --lily-tree-select; }
+        :where(.mentions-input-suggestions) { position-anchor: --lily-mentions-input; }
+        :where(.combobox > [role="listbox"]) { position-anchor: --lily-combobox; }
+        :where(.cascader-panel, .tree-select-panel, .mentions-input-suggestions, .combobox > [role="listbox"], .tooltip, .hover-card, .floating-panel, .coachmark, .popconfirm-dialog)[popover] {
+            position: fixed;
+            inset: auto;
+            margin: 0;
+            position-area: block-end span-inline-end;
+            position-try-fallbacks: flip-inline, flip-block, flip-block flip-inline;
+            width: max-content;
+            max-width: calc(100vw - 1rem);
+        }
+        :where(.cascader-panel, .tree-select-panel, .mentions-input-suggestions, .combobox > [role="listbox"])[popover] {
+            min-inline-size: anchor-size(inline);
+        }
+    }
+
     :where(.theme-picker-list, .locale-picker-list, .text-size-picker-list, .time-zone-picker-list, .motion-picker-list)
         > :where(
             .theme-picker-option,
@@ -3928,6 +3994,39 @@
 }
 
 /* ============================================================================
+ * Coarse pointer targets — WCAG 2.2 2.5.5 (AAA), shared verbatim by all themes.
+ *
+ * Where the primary pointer is coarse (a finger), interactive hooks are at least
+ * 44x44 CSS pixels: buttons, tabs, options, menu items, the page-header picker
+ * buttons, form fields, checkboxes and radios, and the link-shaped navigation
+ * hooks. Links inside running text are exempt, so bare `a` is not listed. The
+ * query is the capability, never a viewport width. :where() keeps specificity
+ * at zero, so any consumer rule still wins.
+ * ========================================================================= */
+
+@media (pointer: coarse) {
+    :where(button,
+           [role="button"],
+           [role="tab"],
+           [role="option"],
+           [role="menuitem"],
+           [class*="-picker-button"],
+           summary,
+           input:not([type="hidden"]),
+           select,
+           textarea,
+           .action-link,
+           .back-link,
+           .breadcrumb-list-item > a,
+           .pagination-list-item > a,
+           .contents-list-item > a,
+           .section-list-item > a) {
+        min-inline-size: 44px;
+        min-block-size: 44px;
+    }
+}
+
+/* ============================================================================
  * Overflow guards — narrow-viewport safety, shared verbatim by all themes.
  *
  * Content that is intrinsically wider than the viewport scrolls or wraps
@@ -4039,6 +4138,18 @@
     .indonesia-nomor-induk-kependudukan-view,
     .prathet-thai-lek-prajam-tua-prachachon-view,
     .chile-rol-unico-nacional-view,
+    .taiwan-guomin-shenfenzheng-tongyi-bianhao-view,
+    .hong-kong-identity-card-view,
+    .iran-kod-e-melli-view,
+    .as-saudiyah-raqm-al-huwiyah-al-wataniyah-view,
+    .malaysia-kad-pengenalan-view,
+    .viet-nam-can-cuoc-cong-dan-view,
+    .pakistan-computerized-national-identity-card-view,
+    .uruguay-cedula-de-identidad-view,
+    .ecuador-cedula-de-identidad-view,
+    .colombia-cedula-de-ciudadania-view,
+    .australia-tax-file-number-view,
+    .nigeria-national-identification-number-view,
     .misr-al-raqm-al-qawmi-view
 ) {
     overflow-wrap: anywhere;
@@ -4203,6 +4314,8 @@
 
 :where(.gantt-table-td[data-in-range]) {
     background-color: var(--color-primary);
+    /* Text inside a bar (the Alpine port's milestone label, say) sits on the primary fill. */
+    color: var(--color-primary-content);
 }
 
 :where(.gantt-table-td[data-in-range][data-milestone]) {
@@ -4369,4 +4482,190 @@
 
 :where(html) {
     scroll-padding-block: var(--lily-fixed-bar-block-start, 0px) var(--lily-fixed-bar-block-end, 0px);
+}
+
+/* ============================================================================
+ * Text size and motion preferences — shared verbatim by all themes.
+ *
+ * The text-size-picker sets `data-text-size` on the root and the motion-picker
+ * sets `data-motion`; neither styles anything itself. These rules are what make
+ * the choice visible.
+ *
+ * Text size: the seven steps scale the root font size, and every theme sizes in
+ * `rem`, so the whole page follows (WCAG 1.4.4). `normal` is 100% (the viewer's
+ * own browser setting), and the scale is percentages of that, never pixels, so
+ * a viewer who raised their browser font size keeps it. The steps below
+ * `normal` are the viewer's explicit choice.
+ *
+ * Motion: `data-motion="reduce"` shortens every animation and transition to
+ * 0.01ms instead of removing it. The end state still arrives and `animationend`
+ * / `transitionend` still fire, so nothing that depends on them breaks and no
+ * information is lost: a spinner's `role="status"` text, a disclosure's open
+ * state and a toast's content are untouched. Scrolling is instant.
+ * ========================================================================= */
+
+:where(html[data-text-size="smallest"]) { font-size: 80%; }
+:where(html[data-text-size="smaller"]) { font-size: 90%; }
+:where(html[data-text-size="small"]) { font-size: 95%; }
+:where(html[data-text-size="normal"]) { font-size: 100%; }
+:where(html[data-text-size="large"]) { font-size: 110%; }
+:where(html[data-text-size="larger"]) { font-size: 125%; }
+:where(html[data-text-size="largest"]) { font-size: 150%; }
+
+:where(html[data-motion="reduce"]) {
+    scroll-behavior: auto;
+}
+:where(html[data-motion="reduce"], html[data-motion="reduce"] *, html[data-motion="reduce"] *::before, html[data-motion="reduce"] *::after) {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0s !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+    scroll-behavior: auto !important;
+}
+
+/* ============================================================================
+ * Forced colours and contrast preference — shared verbatim by all themes.
+ *
+ * Forced colours (Windows High Contrast, `forced-colors: active`): the browser
+ * replaces every colour with a system colour, which erases anything a control
+ * told apart by background alone. These rules give such controls a border,
+ * keep the focus ring, and mark selected and current items with `Highlight`
+ * and `SelectedItem` rather than a tint (WCAG 1.4.1, 2.4.7, 1.4.11).
+ *
+ * Contrast preference (`prefers-contrast: more`): a heavier border on controls
+ * and a thicker focus ring. Colours are not changed here; a theme's colours are
+ * its author's decision.
+ * ========================================================================= */
+
+@media (forced-colors: active) {
+    :where(button, input, select, textarea, summary, [role="button"], [role="option"], [role="tab"], [role="menuitem"], [role="switch"], [role="checkbox"], [role="radio"], [class$="-button"]) {
+        border: 1px solid ButtonBorder;
+    }
+    :where(a, button, input, select, textarea, summary, [tabindex], [role="button"], [role="option"], [role="tab"], [class$="-button"]):focus-visible {
+        outline: 3px solid Highlight;
+        outline-offset: 2px;
+    }
+    :where([aria-selected="true"], [aria-pressed="true"], [aria-checked="true"], [data-active]) {
+        background: SelectedItem;
+        color: SelectedItemText;
+        forced-color-adjust: none;
+    }
+    :where([aria-current]:not([aria-current="false"])) {
+        outline: 2px solid Highlight;
+        outline-offset: -2px;
+    }
+    :where(:disabled, [aria-disabled="true"]) {
+        border-color: GrayText;
+        color: GrayText;
+    }
+}
+
+@media (prefers-contrast: more) {
+    :where(button, input, select, textarea, [role="button"], [class$="-button"]) {
+        border-width: 2px;
+        border-style: solid;
+        border-color: currentColor;
+    }
+    :where(a, button, input, select, textarea, summary, [tabindex], [role="button"], [role="option"], [role="tab"], [class$="-button"]):focus-visible {
+        outline-width: 3px;
+        outline-offset: 2px;
+    }
+}
+
+/* ============================================================================
+ * Writing systems — shared verbatim by all themes.
+ *
+ * A theme names its Latin font stack (`--lily-font-body-latin`). This section
+ * builds `--lily-font-body` from it, with the system fonts of the element's
+ * script in front: Chinese (Simplified, Traditional, Hong Kong), Japanese,
+ * Korean, Arabic script (Arabic, Persian, Urdu in Nastaliq), Hebrew, the Indic
+ * scripts the site's locales use (Devanagari, Bengali, Gujarati, Gurmukhi,
+ * Kannada, Tamil, Telugu), Thai, Lao and Khmer. Han characters are shared by
+ * Chinese and Japanese but drawn differently, so the language picks the font,
+ * not the script.
+ *
+ * `--lily-font-body` is re-declared on every element with a `lang`, so a
+ * `<p lang="ja">` inside an English page gets Japanese fonts and a
+ * `<span lang="en">` inside it gets none. A language not listed here keeps the
+ * Latin stack, whose final generic family the browser resolves per language.
+ *
+ * `--lily-line-height-body` is 1.5, and 1.75 for scripts with tall marks above
+ * and below the line (Arabic script, the Indic scripts, Thai, Lao, Khmer).
+ * Elements with a `lang` use it; the app's body text should too.
+ *
+ * To change a theme's font, set `--lily-font-body-latin`; to change a script's,
+ * set `--lily-font-script` under `:lang(...)`. Overriding `--lily-font-body`
+ * itself still works on the element you set it on.
+ * ========================================================================= */
+
+:where(:root, [lang]) {
+    --lily-font-body: var(--lily-font-script,) var(--lily-font-body-latin);
+    --lily-line-height-body: 1.5;
+}
+
+:where([lang]) {
+    --lily-font-script: initial;
+    line-height: var(--lily-line-height-body);
+}
+
+:where([lang|="zh"], [lang|="wuu"]) {
+    --lily-font-script: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", "Noto Sans CJK SC", "Source Han Sans SC",;
+}
+:where([lang|="zh-Hant"], [lang="zh-TW"], [lang|="zh-Hant-TW"]) {
+    --lily-font-script: "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", "Noto Sans CJK TC", "Source Han Sans TC",;
+}
+:where([lang="zh-HK"], [lang="zh-MO"], [lang|="zh-Hant-HK"], [lang|="yue"]) {
+    --lily-font-script: "PingFang HK", "Microsoft JhengHei", "Noto Sans HK", "Noto Sans CJK HK", "Source Han Sans HC",;
+}
+:where([lang|="ja"]) {
+    --lily-font-script: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Yu Gothic", Meiryo, "Noto Sans JP", "Noto Sans CJK JP",;
+}
+:where([lang|="ko"]) {
+    --lily-font-script: "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", "Noto Sans CJK KR",;
+}
+:where([lang|="ar"], [lang|="fa"], [lang|="ps"], [lang|="ku"], [lang|="sd"], [lang|="ug"]) {
+    --lily-font-script: "Segoe UI", "Geeza Pro", "Noto Sans Arabic", "Noto Naskh Arabic", Tahoma,;
+}
+:where([lang|="ur"]) {
+    --lily-font-script: "Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", "Segoe UI", "Geeza Pro", "Noto Sans Arabic", Tahoma,;
+}
+:where([lang|="he"], [lang|="yi"]) {
+    --lily-font-script: "Segoe UI", "Arial Hebrew", "Noto Sans Hebrew",;
+}
+:where([lang|="hi"], [lang|="mr"], [lang|="ne"], [lang|="bh"], [lang|="sa"], [lang|="mai"]) {
+    --lily-font-script: "Nirmala UI", "Kohinoor Devanagari", "Devanagari Sangam MN", "Noto Sans Devanagari",;
+}
+:where([lang|="bn"], [lang|="as"]) {
+    --lily-font-script: "Nirmala UI", "Kohinoor Bangla", "Bangla Sangam MN", "Noto Sans Bengali",;
+}
+:where([lang|="gu"]) {
+    --lily-font-script: "Nirmala UI", "Kohinoor Gujarati", "Gujarati Sangam MN", "Noto Sans Gujarati",;
+}
+:where([lang|="pa"]) {
+    --lily-font-script: "Nirmala UI", "Gurmukhi Sangam MN", "Gurmukhi MN", "Noto Sans Gurmukhi",;
+}
+:where([lang|="kn"]) {
+    --lily-font-script: "Nirmala UI", "Kannada Sangam MN", "Noto Sans Kannada",;
+}
+:where([lang|="ta"]) {
+    --lily-font-script: "Nirmala UI", "Tamil Sangam MN", "Noto Sans Tamil",;
+}
+:where([lang|="te"]) {
+    --lily-font-script: "Nirmala UI", "Kohinoor Telugu", "Telugu Sangam MN", "Noto Sans Telugu",;
+}
+:where([lang|="th"]) {
+    --lily-font-script: "Leelawadee UI", Thonburi, "Noto Sans Thai",;
+}
+:where([lang|="lo"]) {
+    --lily-font-script: "Leelawadee UI", "Lao Sangam MN", "Noto Sans Lao",;
+}
+:where([lang|="km"]) {
+    --lily-font-script: "Khmer UI", "Khmer Sangam MN", "Noto Sans Khmer",;
+}
+:where([lang|="ar"], [lang|="fa"], [lang|="ps"], [lang|="ku"], [lang|="sd"], [lang|="ug"], [lang|="ur"],
+       [lang|="hi"], [lang|="mr"], [lang|="ne"], [lang|="bh"], [lang|="sa"], [lang|="mai"], [lang|="bn"],
+       [lang|="as"], [lang|="gu"], [lang|="pa"], [lang|="kn"], [lang|="ta"], [lang|="te"], [lang|="th"],
+       [lang|="lo"], [lang|="km"]) {
+    --lily-line-height-body: 1.75;
 }

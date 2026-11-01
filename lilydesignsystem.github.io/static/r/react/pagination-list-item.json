@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "pagination-list-item",
+  "type": "registry:component",
+  "title": "PaginationListItem",
+  "description": "One pagination list item in the trail.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/PaginationListItem.tsx",
+      "content": "import React from \"react\";\n\n// PaginationListItem component\n//\n// A single entry within a PaginationList navigation component. It renders as a\n// semantic <li> element designed for use inside the PaginationList's <ul> structure.\n// The item typically contains a link or button for a specific page number,\n// previous/next controls, or an ellipsis indicator.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   children — ReactNode, required. Item content, typically a link or button.\n//   ...restProps — additional HTML attributes spread onto the <li>.\n//\n// Syntax:\n//   <PaginationListItem><a href=\"/page/1\">1</a></PaginationListItem>\n//\n// Examples:\n//\n//   <PaginationListItem><a href=\"/page/1\">1</a></PaginationListItem>\n//\n//\n//   <PaginationListItem><a href=\"/page/2\" aria-current=\"page\">2</a></PaginationListItem>\n//\n// Keyboard:\n//   None directly — keyboard interaction is handled by the contained links or buttons.\n//\n// Accessibility:\n//   - Implicit listitem role from the semantic <li> element\n//   - Consumer should set aria-current=\"page\" on the active page link within the item\n//\n// Internationalization:\n//   - All text content comes through the children prop\n//   - No hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - This is a compound component child; use inside PaginationList\n//   - Do not add link or button elements — consumer provides all content\n//\n// References:\n//   - HTML li element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li\n\nexport interface PaginationListItemProps {\n    className?: string;\n    /** Item content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function PaginationListItem({\n    className = \"\",\n    children,\n    ...restProps\n}: PaginationListItemProps) {\n    return (\n        <li\n            className={`pagination-list-item ${className}`}\n            {...restProps}\n        >\n            {children}\n        </li>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/PaginationListItem.tsx"
+    }
+  ],
+  "categories": [
+    "lists"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/pagination-list-item/"
+}

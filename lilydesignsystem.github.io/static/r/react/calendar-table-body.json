@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "calendar-table-body",
+  "type": "registry:component",
+  "title": "CalendarTableBody",
+  "description": "A calendar table interactive grid tbody for managing dates, days, etc. <tbody>.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/CalendarTableBody.tsx",
+      "content": "import React from \"react\";\n\n// CalendarTableBody component\n//\n// The body section of a CalendarTable, rendered as a <tbody> element.\n// Contains CalendarTableRow elements with day data cells.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   children — ReactNode, required. CalendarTableRow elements with data cells.\n//   ...restProps — additional HTML attributes spread onto the <tbody>.\n//\n// Syntax:\n//   <CalendarTableBody>\n//     <CalendarTableRow>\n//       <CalendarTableTD>1</CalendarTableTD>\n//       <CalendarTableTD>2</CalendarTableTD>\n//     </CalendarTableRow>\n//   </CalendarTableBody>\n//\n// Keyboard:\n//   None built-in — keyboard navigation handled at the CalendarTable grid level.\n//\n// Accessibility:\n//   - <tbody> provides structural body semantics for the table\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Must be used inside a CalendarTable\n//   - No internal state — purely a structural wrapper\n//\n// References:\n//   - HTML tbody element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tbody\n\nexport interface CalendarTableBodyProps {\n    className?: string;\n    /** CalendarTableRow elements with day data cells. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function CalendarTableBody({\n    className = \"\",\n    children,\n    ...restProps\n}: CalendarTableBodyProps) {\n    return (\n        <tbody\n            className={`calendar-table-body ${className}`}\n            {...restProps}\n        >\n            {children}\n        </tbody>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/CalendarTableBody.tsx"
+    }
+  ],
+  "categories": [
+    "tables"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/calendar-table-body/"
+}

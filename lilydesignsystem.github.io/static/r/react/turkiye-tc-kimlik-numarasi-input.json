@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "turkiye-tc-kimlik-numarasi-input",
+  "type": "registry:component",
+  "title": "TurkiyeTcKimlikNumarasiInput",
+  "description": "An input for entering Turkey's T.C. Kimlik Numarasi.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/TurkiyeTcKimlikNumarasiInput.tsx",
+      "content": "import React from \"react\";\n\n// TurkiyeTcKimlikNumarasiInput component\n//\n// A headless input for entering Turkey's T.C. Kimlik Numarası.\n// Format: Eleven digits, the first never zero. The tenth digit is the units digit of ((sum of digits 1,3,5,7,9) x 7) plus ((sum of digits 2,4,6,8) x 9); the eleventh digit is the units digit of the sum of the first ten digits. The eleventh digit is always even.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". Bindable input value; supports value + onChange.\n//   required — boolean, default false. Whether the input is required for form submission.\n//   disabled — boolean, default false. Whether the input is disabled.\n//   ...restProps — additional HTML attributes spread onto the <input>.\n//\n// Syntax:\n//   <TurkiyeTcKimlikNumarasiInput label=\"T.C. Kimlik Numarası\" value={value} onChange={setValue} />\n//\n// Accessibility:\n//   - aria-label provides the accessible name for screen readers\n//   - autoComplete=\"off\" protects sensitive identifiers\n//   - required and disabled states are conveyed to assistive technology\n//\n// References:\n//   - https://en.wikipedia.org/wiki/Turkish_Identification_Number\n\nexport interface TurkiyeTcKimlikNumarasiInputProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The current value of the input, bindable */\n    value?: string;\n    /** Whether the input is required for form submission */\n    required?: boolean;\n    /** Whether the input is disabled */\n    disabled?: boolean;\n    /** Callback when value changes. */\n    onChange?: (value: string) => void;\n    [key: string]: unknown;\n}\n\nexport default function TurkiyeTcKimlikNumarasiInput({\n    className = \"\",\n    label,\n    value = \"\",\n    required = false,\n    disabled = false,\n    onChange,\n    ...restProps\n}: TurkiyeTcKimlikNumarasiInputProps) {\n    return (\n        <input\n            className={`turkiye-tc-kimlik-numarasi-input ${className}`}\n            type=\"text\"\n            aria-label={label}\n            autoComplete=\"off\"\n            value={value}\n            onChange={(e) => onChange?.(e.target.value)}\n            required={required}\n            disabled={disabled}\n            {...restProps}\n        />\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/TurkiyeTcKimlikNumarasiInput.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/turkiye-tc-kimlik-numarasi-input/"
+}

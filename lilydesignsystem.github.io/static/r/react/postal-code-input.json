@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "postal-code-input",
+  "type": "registry:component",
+  "title": "PostalCodeInput",
+  "description": "An input for entering a postal or ZIP code.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/PostalCodeInput.tsx",
+      "content": "import React from \"react\";\n\n// PostalCodeInput component\n//\n// A headless text input for entering postal or ZIP codes with\n// autocomplete=\"postal-code\" for browser autofill support. It renders a native\n// <input type=\"text\"> (not type=\"number\", since postal codes may contain letters\n// or dashes) with a bindable value for two-way data binding. Commonly used in\n// address forms, checkout flows, shipping calculators, and location-based inputs.\n// Pairs with PostalCodeView for the Input/View pattern.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name via aria-label.\n//   value — string, default \"\". Current postal code value; bindable with value + onChange.\n//   required — boolean, default false. Whether the field is required.\n//   disabled — boolean, default false. Whether the field is disabled.\n//   ...restProps — additional HTML attributes spread onto the <input>.\n//\n// Syntax:\n//   <PostalCodeInput label=\"Postal code\" value={value} onChange={setValue} />\n//\n// Examples:\n//\n//   <PostalCodeInput label=\"Postal code\" value={value} onChange={setValue} />\n//\n//\n//   <PostalCodeInput label=\"ZIP code\" value={zipCode} onChange={setZipCode} required />\n//\n//\n//   <PostalCodeInput label=\"Postcode\" value={postcode} onChange={setPostcode} placeholder=\"SW1A 1AA\" />\n//\n// Keyboard:\n//   None beyond native input behavior — standard text editing keys\n//   (typing, backspace, selection, clipboard-copy-button shortcuts) handled by the browser.\n//\n// Accessibility:\n//   - aria-label provides an accessible name since no visible <label> is included\n//   - autocomplete=\"postal-code\" hints browser autofill for postal code fields\n//\n// Internationalization:\n//   - The label prop is the only user-facing text; no hardcoded strings\n//   - Consumer can pass pattern, placeholder, and maxlength via restProps for locale-specific formats\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Uses type=\"text\" not type=\"number\" to support alphanumeric postal codes\n//   - Do not wrap in a <div> — renders a bare <input> element\n//   - Do not add postal code validation — consumer handles format checking\n//\n// References:\n//   - HTML autocomplete attribute: https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete\n//   - MDN input type=\"text\": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text\n\nexport interface PostalCodeInputProps {\n    className?: string;\n    /** Accessible label. */\n    label: string;\n    /** Current value. Bindable. */\n    value?: string;\n    /** Whether required. */\n    required?: boolean;\n    /** Whether disabled. */\n    disabled?: boolean;\n    /** Callback when value changes. */\n    onChange?: (value: string) => void;\n    [key: string]: unknown;\n}\n\nexport default function PostalCodeInput({\n    className = \"\",\n    label,\n    value = \"\",\n    required = false,\n    disabled = false,\n    onChange,\n    ...restProps\n}: PostalCodeInputProps) {\n    return (\n        <input\n            className={`postal-code-input ${className}`}\n            type=\"text\"\n            aria-label={label}\n            autoComplete=\"postal-code\"\n            value={value}\n            onChange={(e) => onChange?.(e.target.value)}\n            required={required}\n            disabled={disabled}\n            {...restProps}\n        />\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/PostalCodeInput.tsx"
+    }
+  ],
+  "categories": [
+    "forms"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/postal-code-input/"
+}

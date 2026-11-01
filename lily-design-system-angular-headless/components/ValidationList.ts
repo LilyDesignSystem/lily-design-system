@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-validation-list",
     standalone: true,
-    template: `<ol class="validation-list {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></ol>`,
+    template: `<ul class="validation-list {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></ul>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ValidationList {

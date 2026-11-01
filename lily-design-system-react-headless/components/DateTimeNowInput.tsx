@@ -9,9 +9,10 @@
 // Props:
 //   className — string, optional. CSS class name.
 //   label — string, required. Accessible name for the wrapper group via aria-label.
-//   dateLabel — string, default "Date". Accessible name for the date input via aria-label.
-//   timeLabel — string, default "Time". Accessible name for the time input via aria-label.
-//   nowLabel — string, default "Now". Accessible label and text for the "Now" button.
+//   dateLabel — string, required. Accessible name for the date input via aria-label.
+//   timeLabel — string, required. Accessible name for the time input via aria-label.
+//   nowLabel — string, required. Accessible label and text for the "Now" button.
+//   The three come from the locale-translations packs: dateTimeNowInputLabels(pack).
 //   dateValue — string, default "". Current date value (format: YYYY-MM-DD).
 //   timeValue — string, default "". Current time value (format: HH:mm).
 //   onDateChange — callback when date value changes.
@@ -21,10 +22,10 @@
 //   ...restProps — additional HTML attributes spread onto the wrapper <div>.
 //
 // Syntax:
-//   <DateTimeNowInput label="Event time" dateValue={date} timeValue={time} onDateChange={setDate} onTimeChange={setTime} />
+//   <DateTimeNowInput label="Event time" {...dateTimeNowInputLabels(en)} dateValue={date} timeValue={time} onDateChange={setDate} onTimeChange={setTime} />
 //
 // Examples:
-//   <DateTimeNowInput label="Event time" dateValue={date} timeValue={time} onDateChange={setDate} onTimeChange={setTime} />
+//   <DateTimeNowInput label="Event time" {...dateTimeNowInputLabels(en)} dateValue={date} timeValue={time} onDateChange={setDate} onTimeChange={setTime} />
 //
 //   <DateTimeNowInput label="Heure" dateLabel="Date" timeLabel="Heure" nowLabel="Maintenant" dateValue={date} timeValue={time} onDateChange={setDate} onTimeChange={setTime} />
 //
@@ -41,7 +42,8 @@
 //
 // Internationalization:
 //   - The label, dateLabel, timeLabel, and nowLabel props are the only user-facing strings
-//   - Default labels are "Date", "Time", and "Now"; override for other locales
+//   - No default labels: a missing one leaves its control unnamed rather than in English.
+//     dateTimeNowInputLabels(pack) from the locale-translations package gives all three in 64 locales.
 //   - No other hardcoded user-facing strings
 //
 // Claude rules:
@@ -57,9 +59,12 @@ import React from "react";
 export interface DateTimeNowInputProps {
     className?: string;
     label: string;
-    dateLabel?: string;
-    timeLabel?: string;
-    nowLabel?: string;
+    /** Accessible name of the date input (required; dateTimeNowInputLabels(pack) gives it). */
+    dateLabel: string;
+    /** Accessible name of the time input (required). */
+    timeLabel: string;
+    /** Text and accessible name of the Now button (required). */
+    nowLabel: string;
     dateValue?: string;
     timeValue?: string;
     /** Callback when date value changes. */
@@ -74,9 +79,9 @@ export interface DateTimeNowInputProps {
 export default function DateTimeNowInput({
     className = "",
     label,
-    dateLabel = "Date",
-    timeLabel = "Time",
-    nowLabel = "Now",
+    dateLabel,
+    timeLabel,
+    nowLabel,
     dateValue = "",
     timeValue = "",
     onDateChange,

@@ -18,7 +18,7 @@
 - aria-labelledby references the title id; aria-describedby references the description id (when present)
 - confirmLabel and cancelLabel props are REQUIRED
 - Buttons: <button class="popconfirm-dialog-cancel" type="button"> and <button class="popconfirm-dialog-confirm" type="button">
-- Container hidden attribute reflects the open prop
+- The container is `popover="manual"`, shown while `open` (the hidden attribute where the Popover API is missing)
 
 ## ARIA
 
@@ -43,6 +43,14 @@
 - `onconfirm` / `onConfirm`: callback (optional)
 - `oncancel` / `onCancel`: callback (optional)
 - `...restProps`: any additional HTML attributes
+
+## Native platform
+
+- Decision: native
+- Uses: div role="alertdialog" aria-modal="false" popover="manual" shown from the open state
+- Could use: CSS anchor positioning to the trigger (consumer sets position-anchor)
+- Notes: P16-T4 (2026-10-31): in Svelte, React, Vue, HTML, Alpine and Web Components, and Angular and Blazor where the component has the state (Angular: combobox, mentions-input, popconfirm-dialog, tree-select; Blazor: combobox; the rest are static stubs), always rendered with popover="manual". Nunjucks keeps the hidden attribute: its macros render the state on the server and have no script to call showPopover(), and a manual popover cannot be open in server-rendered HTML. Always rendered with popover="manual" and opened by the state through Popover/popover.ts, with the hidden attribute where the Popover API is missing (jsdom, older engines). Top layer removes z-index and overflow clipping; Escape and light dismiss stay the consumer's. A confirmation that must block should use alert-dialog instead; this one stays non-modal.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
 
 ## Acceptance Criteria
 

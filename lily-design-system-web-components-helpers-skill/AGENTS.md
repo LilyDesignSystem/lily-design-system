@@ -24,7 +24,7 @@
 
 A Claude Skill explaining how to consume
 [the Web Components helper packages](../spec/helpers/index.md#web-components-helper-packages),
-the catalog of six opinionated `<lily-*-picker>` web-component helpers —
+the 20 opinionated `<lily-*>` web-component helper packages —
 `theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`,
 `share-picker`, `date-time-picker` — that sit alongside the Web Components
 headless catalog. The skill itself is [`SKILL.md`](SKILL.md); the
@@ -35,7 +35,7 @@ same rules the catalog itself is held to.
 
 This catalog is a maintainer-directed (2026-09-03) **independent copy** of
 [the HTML helper packages](../spec/helpers/index.md#html-helper-packages) —
-which is itself already six vanilla custom elements. It differs only in
+which are themselves vanilla custom elements. It differs only in
 tag prefix (`<lily-theme-picker>` rather than bare `<theme-picker>`,
 matching the Web Components headless catalog's `lily-{slug}` tag
 convention) and in package naming. Nothing ports between the two catalogs
@@ -55,7 +55,7 @@ skill points at rather than restates.
 ## What this subproject is, and isn't
 
 - **Is**: a distributable skill scoped to _consuming_ the Web Components
-  helpers catalog — the six helpers and what each owns, the three markup
+  helpers catalog — the helpers and what each owns, the three markup
   shapes, the attribute/property/event contract, and the precise
   provenance relationship to the HTML helpers catalog this one was copied
   from.
@@ -66,7 +66,7 @@ skill points at rather than restates.
   it ships no helper packages of its own. Isn't the Web Components headless
   skill (that's
   [`lily-design-system-web-components-headless-skill`](../lily-design-system-web-components-headless-skill/)),
-  which covers the neighbouring (547/582, its full achievable scope) component catalog. Isn't
+  which covers the neighbouring (572/607, its full achievable scope) component catalog. Isn't
   the HTML helpers skill (that's
   [`lily-design-system-html-helpers-skill`](../lily-design-system-html-helpers-skill/))
   — the two catalogs are independently maintained and this skill must never

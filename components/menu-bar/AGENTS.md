@@ -45,6 +45,14 @@
 - `children`: slot (required) -- menu bar item elements to render (should have `role="menuitem"` and `tabindex="-1"`).
 - `...restProps`: unknown -- additional attributes spread onto the container `<div>`.
 
+## Native platform
+
+- Decision: hand-rolled because role="menubar" has no native element
+- Uses: none (div role="menubar")
+- Could use: none
+- Notes: Submenus would use popover="auto" like dropdown-menu.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
+
 ## Acceptance Criteria
 
 - [ ] Renders <div> element with class="menu-bar"

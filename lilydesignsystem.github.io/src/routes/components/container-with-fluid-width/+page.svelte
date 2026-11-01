@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"container-with-fluid-width\" aria-label=\"a full-width content wrapper with horizontal padding\">ContainerWithFluidWidth</div>";
   const svelteSource: string = "// In your Svelte component:\nimport ContainerWithFluidWidth from \"lily-design-system-svelte-headless/components/ContainerWithFluidWidth/ContainerWithFluidWidth.svelte\";\n\n<ContainerWithFluidWidth>\n  <!-- content -->\n</ContainerWithFluidWidth>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import ContainerWithFluidWidth from './ContainerWithFluidWidth.svelte';\n<\/script>\n\n<ContainerWithFluidWidth paddingInline=\"clamp(1rem, 4vw, 3rem)\">\n  <section>Section content here.</section>\n</ContainerWithFluidWidth>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import ContainerWithFluidWidth from \"./ContainerWithFluidWidth.svelte\";\n<\/script>\n\n<ContainerWithFluidWidth paddingInline=\"clamp(1rem, 4vw, 3rem)\">\n  <section>Section content here.</section>\n</ContainerWithFluidWidth>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

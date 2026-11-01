@@ -16,7 +16,7 @@
 - Renders visible action buttons as children
 - Renders an overflow trigger only when the `overflow` slot/prop is provided
 - Overflow trigger has aria-haspopup="menu" and aria-expanded reflecting `overflowOpen`
-- Overflow panel is hidden via the `hidden` attribute when `overflowOpen` is false
+- Overflow panel is `popover="auto"`, named by the trigger's `command="toggle-popover"` `commandfor` (and `popovertarget`) and `aria-controls`; the browser opens, closes and light-dismisses it, and its `toggle` event writes the bindable `overflowOpen` back. Where the Popover API is missing it falls back to the `hidden` attribute when `overflowOpen` is false (P18-T11)
 - Calls `onOverflowToggle` when the overflow trigger is activated
 
 ## ARIA
@@ -24,7 +24,7 @@
 - `role="group"` on the container
 - `aria-label` is the accessible name (required)
 - Overflow trigger: `aria-haspopup="menu"`, `aria-expanded`, optional `aria-label` via `overflowLabel`
-- Overflow panel uses the `hidden` attribute when closed
+- Overflow panel is a closed popover (or `hidden`, without the Popover API) when closed
 
 ## Keyboard
 
@@ -43,6 +43,14 @@
 - `overflow`: slot/snippet/ReactNode (optional) -- overflow menu content
 - `...restProps`: any additional HTML attributes
 
+## Native platform
+
+- Decision: native
+- Uses: popover="auto" overflow menu opened by command="toggle-popover" commandfor (and popovertarget) on the overflow trigger; bindable overflowOpen synced from the toggle event
+- Could use: CSS anchor positioning
+- Notes: As split-button. Angular and Blazor were bare stubs and were ported from Svelte (P18-T11, 2026-10-30).
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
+
 ## Acceptance Criteria
 
 - [ ] Renders <div> element with role="group" and class="action-group"
@@ -50,7 +58,7 @@
 - [ ] Visible children render inside the group
 - [ ] Overflow trigger renders only when `overflow` is provided
 - [ ] aria-expanded on the overflow trigger reflects `overflowOpen`
-- [ ] Overflow panel uses the hidden attribute when `overflowOpen` is false
+- [ ] Overflow panel is popover="auto" named by the trigger; the hidden attribute when `overflowOpen` is false where the Popover API is missing
 - [ ] onOverflowToggle fires when the overflow trigger is activated
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless

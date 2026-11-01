@@ -1,5 +1,10 @@
 # CHANGELOG — @lilydesignsystem/react-theme-picker
 
+## Unreleased
+
+- `variant="select"` renders a native `<select>` instead of the icon button and listbox (RFC 3 prototype, ported from
+  the Svelte reference 2026-10-30). Opt-in; the default is unchanged. See `spec/index.md`, "Native select variant".
+
 ## 0.3.0 — 2026-10-16
 
 - Added `open`, `onOpenChange` and `disabled`, ported from the Svelte package (spec "Open state and disabled"). `open` makes the popup controlled (`defaultOpen` starts an uncontrolled one); `onOpenChange(open)` is called once for each change the picker makes, and not for the initial value; `disabled` disables the button and closes an open popup.

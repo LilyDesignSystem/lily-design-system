@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "email-input",
+  "type": "registry:component",
+  "title": "EmailInput",
+  "description": "An input for entering an email address <input type=\"email\">.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/EmailInput.tsx",
+      "content": "import React from \"react\";\n\n// EmailInput component\n//\n// A headless email input wrapping a native <input type=\"email\"> with accessible\n// labeling. Provides a streamlined API for basic email collection with required\n// and disabled state support.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name via aria-label.\n//   value — string, default \"\". Current email value; bindable.\n//   required — boolean, default false. Whether the field is required.\n//   disabled — boolean, default false. Whether the field is disabled.\n//   ...restProps — additional HTML attributes spread onto the <input>.\n//\n// Syntax:\n//   <EmailInput label=\"Your email\" value={value} onChange={setValue} />\n//\n// Examples:\n//\n//   <EmailInput label=\"Your email\" value={value} onChange={setValue} />\n//\n//\n//   <EmailInput label=\"Contact email\" value={value} onChange={setValue} required />\n//\n// Keyboard:\n//   - None custom — keyboard behavior provided by the browser-native email input\n//\n// Accessibility:\n//   - aria-label provides the accessible name since no visible <label> is included\n//   - Native <input type=\"email\"> provides built-in validation\n//\n// Internationalization:\n//   - The label prop accepts any string; consumers provide localized text\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Uses controlled on value for two-way binding\n//\n// References:\n//   - MDN input type=\"email\": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/email\n\nexport interface EmailInputProps {\n    className?: string;\n    /** Accessible label. */\n    label: string;\n    /** Current value. Bindable. */\n    value?: string;\n    /** Whether required. */\n    required?: boolean;\n    /** Whether disabled. */\n    disabled?: boolean;\n    /** Callback when value changes. */\n    onChange?: (value: string) => void;\n    [key: string]: unknown;\n}\n\nexport default function EmailInput({\n    className = \"\",\n    label,\n    value = \"\",\n    required = false,\n    disabled = false,\n    onChange,\n    ...restProps\n}: EmailInputProps) {\n    return (\n        <input\n            className={`email-input ${className}`}\n            type=\"email\"\n            aria-label={label}\n            value={value}\n            onChange={(e) => onChange?.(e.target.value)}\n            required={required}\n            disabled={disabled}\n            {...restProps}\n        />\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/EmailInput.tsx"
+    }
+  ],
+  "categories": [
+    "forms"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/email-input/"
+}

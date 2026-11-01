@@ -10,4 +10,6 @@ const meta: Meta<TreeSelect> = {
 export default meta;
 type Story = StoryObj<TreeSelect>;
 
-export const Default: Story = {};
+export const Default: Story = {
+    args: { label: "Department", placeholder: "Choose a department" },
+};

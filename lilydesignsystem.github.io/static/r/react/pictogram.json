@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "pictogram",
+  "type": "registry:component",
+  "title": "Pictogram",
+  "description": "An icon-based component pairing an icon with a title and description in a centered or side layout.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Pictogram.tsx",
+      "content": "import React from \"react\";\n\n// Pictogram component\n//\n// An icon-based component pairing an icon with a title and description in\n// a centered or side layout. Renders a semantic <figure> with the icon\n// in an aria-hidden wrapper and the heading/description inside a\n// <figcaption>.\n//\n// Props:\n//   className   — string, optional. CSS class name appended to root.\n//   layout      — \"centered\" | \"side\", default \"centered\". Icon position\n//                 relative to content (exposed via data-layout).\n//   heading     — string, optional. Title text (rendered as <h3>).\n//   description — string, optional. Body text (rendered as <p>).\n//   icon        — ReactNode, REQUIRED. The icon/illustration node.\n//   label       — string, optional. aria-label override.\n//   children    — ReactNode, optional. Additional content (overrides\n//                 description if provided).\n//   ...restProps — additional HTML attributes spread onto the root.\n//\n// Syntax:\n//   <Pictogram\n//     icon={<MyIcon />}\n//     heading=\"Privacy\"\n//     description=\"We respect your data.\"\n//   />\n//\n// Accessibility:\n//   - Uses a semantic <figure> with optional aria-label\n//   - Icon wrapper is aria-hidden (decorative)\n//   - Accessible name comes from heading or label\n//\n// Internationalization:\n//   - All user-facing strings are consumer-supplied\n//\n// Claude rules:\n//   - Headless: no CSS, no styles\n//   - icon is non-optional in the interface\n//   - icon is a ReactNode prop, NOT children\n\nexport interface PictogramProps {\n    className?: string;\n    /** Icon position relative to content */\n    layout?: \"centered\" | \"side\";\n    /** Title text */\n    heading?: string;\n    /** Body text */\n    description?: string;\n    /** Icon node (required) */\n    icon: React.ReactNode;\n    /** aria-label override */\n    label?: string;\n    /** Additional content (overrides description if provided) */\n    children?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Pictogram({\n    className = \"\",\n    layout = \"centered\",\n    heading = undefined,\n    description = undefined,\n    icon,\n    label = undefined,\n    children,\n    ...restProps\n}: PictogramProps) {\n    return (\n        <figure\n            className={`pictogram ${className}`}\n            data-layout={layout}\n            aria-label={label}\n            {...restProps}\n        >\n            <div\n                className=\"pictogram-icon\"\n                aria-hidden=\"true\"\n            >\n                {icon}\n            </div>\n            <figcaption className=\"pictogram-caption\">\n                {heading && <h3 className=\"pictogram-heading\">{heading}</h3>}\n                {children\n                    ? children\n                    : description && <p className=\"pictogram-description\">{description}</p>}\n            </figcaption>\n        </figure>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Pictogram.tsx"
+    }
+  ],
+  "categories": [
+    "media"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/pictogram/"
+}

@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<thead class=\"gantt-table-thead\"><tr class=\"gantt-table-tr\"><th class=\"gantt-table-th\">Task</th></tr></thead>";
   const svelteSource: string = "// In your Svelte component:\nimport GanttTableThead from \"lily-design-system-svelte-headless/components/GanttTableThead/GanttTableThead.svelte\";\n\n<GanttTableThead>\n  <!-- GanttTableThead content -->\n</GanttTableThead>\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import GanttTable from \"../GanttTable/GanttTable.svelte\";\n    import GanttTableHead from \"./GanttTableHead.svelte\";\n    import GanttTableTr from \"../GanttTableTr/GanttTableTr.svelte\";\n<\/script>\n\n<GanttTable label=\"Plan\">\n    <GanttTableHead>\n        <GanttTableTr>\n            <th>Task</th><th>Start</th><th>End</th>\n        </GanttTableTr>\n    </GanttTableHead>\n</GanttTable>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import GanttTable from \"../GanttTable/GanttTable.svelte\";\n  import GanttTableHead from \"./GanttTableHead.svelte\";\n  import GanttTableTr from \"../GanttTableTr/GanttTableTr.svelte\";\n<\/script>\n\n<GanttTable label=\"Plan\">\n  <GanttTableHead>\n    <GanttTableTr>\n      <th>Task</th><th>Start</th><th>End</th>\n    </GanttTableTr>\n  </GanttTableHead>\n</GanttTable>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

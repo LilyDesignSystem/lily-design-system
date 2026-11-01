@@ -284,5 +284,10 @@
     "small": "small",
     "smaller": "smaller",
     "smallest": "smallest"
+  },
+  "date-time-now-input": {
+    "date": "Date",
+    "time": "Time",
+    "now": "Now"
   }
 }

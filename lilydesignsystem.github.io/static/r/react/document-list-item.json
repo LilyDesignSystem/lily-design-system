@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "document-list-item",
+  "type": "registry:component",
+  "title": "DocumentListItem",
+  "description": "One document entry in a document list.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/DocumentListItem.tsx",
+      "content": "export interface DocumentListItemProps {\n    className?: string;\n    label?: string;\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function DocumentListItem({\n    className = \"\",\n    label = undefined,\n    children,\n    ...restProps\n}: DocumentListItemProps) {\n    return (\n        <li\n            className={`document-list-item ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </li>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/DocumentListItem.tsx"
+    }
+  ],
+  "categories": [
+    "lists"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/document-list-item/"
+}

@@ -10,10 +10,13 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-avatar-image",
     standalone: true,
-    template: `<div class="avatar-image {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<img class="avatar-image {{ className() }}" [attr.src]="src()" [attr.alt]="alt()" aria-hidden="true" />`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AvatarImage {
-    readonly label = input<string>("");
+    /** Image URL (required: Angular's URL sanitizer writes an empty src rather than none). */
+    readonly src = input<string>("");
+    /** Alternative text; empty by default because the avatar's own name labels the person. */
+    readonly alt = input<string>("");
     readonly className = input<string>("");
 }

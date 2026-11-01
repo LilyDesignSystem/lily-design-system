@@ -2,7 +2,7 @@
   "slug": "postal-code-view",
   "name": "PostalCodeView",
   "description": "a read-only display of a postal or ZIP code",
-  "htmlTag": "div",
+  "htmlTag": "span",
   "category": "content",
   "baseClass": ".postal-code-view",
   "subClasses": [],

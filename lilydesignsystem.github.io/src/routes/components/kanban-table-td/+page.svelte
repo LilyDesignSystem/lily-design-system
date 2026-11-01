@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<td class=\"kanban-table-td\">Task item</td>";
   const svelteSource: string = "// In your Svelte component:\nimport KanbanTableTD from \"lily-design-system-svelte-headless/components/KanbanTableTD/KanbanTableTD.svelte\";\n\n<KanbanTableTD>\n  <!-- KanbanTableTD content -->\n</KanbanTableTD>\n";
-  const usageCode: string = "<script lang=\"ts\">\n    import KanbanTableTD from \"./KanbanTableTD.svelte\";\n    import KanbanTableRow from \"../KanbanTableRow/KanbanTableRow.svelte\";\n<\/script>\n\n<KanbanTableRow>\n    <KanbanTableTD>Fix login bug</KanbanTableTD>\n    <KanbanTableTD>Write docs</KanbanTableTD>\n    <KanbanTableTD>Release 1.0</KanbanTableTD>\n</KanbanTableRow>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import KanbanTableTD from \"./KanbanTableTD.svelte\";\n  import KanbanTableRow from \"../KanbanTableRow/KanbanTableRow.svelte\";\n<\/script>\n\n<KanbanTableRow>\n  <KanbanTableTD>Fix login bug</KanbanTableTD>\n  <KanbanTableTD>Write docs</KanbanTableTD>\n  <KanbanTableTD>Release 1.0</KanbanTableTD>\n</KanbanTableRow>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

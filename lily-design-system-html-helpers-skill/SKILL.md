@@ -1,6 +1,6 @@
 ---
 name: lily-design-system-html-helpers-skill
-description: Explains Lily Design System's HTML `*-picker` helpers catalog — six vanilla custom elements (`<theme-picker>`, `<locale-picker>`, `<text-size-picker>`, `<motion-picker>`, `<share-picker>`, `<date-time-picker>`) that each own one whole interaction end to end. Use when someone asks how to use Lily's HTML/web-component pickers, what a picker's markup or keyboard contract is, how the icon-button-plus-listbox shape differs from share-picker's disclosure or date-time-picker's field+dialog, or how this catalog relates to the Web Components helpers catalog.
+description: Explains Lily Design System's HTML `*-picker` helpers catalog — vanilla custom elements, one package each (`<theme-picker>`, `<locale-picker>`, `<text-size-picker>`, `<motion-picker>`, `<share-picker>`, `<date-time-picker>`, the other pickers, `picker-bar`, and the grid-like and editor packages) that each own one whole interaction end to end. Use when someone asks how to use Lily's HTML/web-component pickers, what a picker's markup or keyboard contract is, how the icon-button-plus-listbox shape differs from share-picker's disclosure or date-time-picker's field+dialog, or how this catalog relates to the Web Components helpers catalog.
 license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 ---
 
@@ -49,7 +49,7 @@ on for each helper).
   `<div class="{helper} {class}">` containing a hidden `<input>` for form
   participation, a `<button type="button" class="{helper}-button"
 aria-label aria-haspopup="listbox" aria-expanded aria-controls>` whose
-  only content is an `aria-hidden` glyph span, and a `<ul role="listbox"
+  only content is an `aria-hidden` icon (a bundled inline SVG since 2026-09-16), and a `<ul role="listbox"
 tabindex="-1" hidden>` of `<li role="option" aria-selected>`. Keyboard
   follows the WAI-ARIA APG listbox pattern (Arrow keys to move, Home/End to
   jump, typeahead, Enter/Space/pointer-click select **and close**, Escape
@@ -106,8 +106,19 @@ skill covers the bare-tag HTML catalog only.
 Also in the catalog, added after the six above (the contracts are in `spec/helpers/index.md`): `search-picker` (an icon button opening a
 disclosure that holds a `<form role="search">`; submitting navigates, GET, to `/?<text>`), `link-picker` (a home icon opening a disclosure of
 real `<a>` links the app defines), `menu-picker` and `settings-picker` (a hamburger and a cog icon opening a panel that holds whatever the
-app provides), and `picker-bar` (link, search, theme, locale, text-size and share pickers in one row, with the 57 themes and the seven
+app provides), and `picker-bar` (link, search, theme, locale, text-size and share pickers in one row, with the 63 themes and the seven
 text sizes pre-wired and one required `labels` object). Every picker has a hoverable, dismissable tooltip.
+
+## Packages added since the first six
+
+`bin/list-helper-packages html` is the authoritative list (20 packages, each `@lilydesignsystem/html-<package>`). Beyond the pickers named above it holds:
+
+- `time-zone-picker` (2026-10-24): an icon button (clock) opening a listbox of IANA zones labelled `UTC±HH:MM – name`, names from Unicode
+  CLDR packs (`zoneNamesFrom(pack)`); sets `data-time-zone` on a target element; a `locale` is required.
+- `theme-picker` `variant="select"` (2026-10-30, opt-in): a native `<select class="theme-picker-select">` in place of the button and listbox.
+- `picker-bar` renders `time-zone-picker` after `locale-picker` when given `labels.timeZone` and a time-zone locale.
+- `markdown-editor` and `org-editor` (2026-10-24): a textarea with a toolbar of buttons that write Markdown or Emacs Org markup.
+- `locale-translations`: the 64 label packs and the CLDR zone-name packs, per locale.
 
 ## The grid-like helpers and label packs
 
@@ -122,11 +133,11 @@ pack for each of 64 locales (English plus 63 **unreviewed machine drafts**; have
 period titles) come from `Intl`. Full contract: `spec/label-packs/index.md`.
 
 The Gantt chart can render a critical path (`critical`, `slack`, `labels.criticalLabel`); the optional calculation (`criticalPath()`,
-with lag in calendar or working days) ships in the Svelte Gantt package.
+with lag in calendar or working days) ships in this catalog's own Gantt package too, ported from Svelte's.
 
 ## When this isn't the right skill
 
-- **The headless component catalog itself** (the 582-component library
+- **The headless component catalog itself** (the 607-component library
   these helpers sit alongside) — use
   [`lily-design-system-html-headless-skill`](../lily-design-system-html-headless-skill/).
 - **General Lily concepts** not specific to the HTML helpers idiom — use

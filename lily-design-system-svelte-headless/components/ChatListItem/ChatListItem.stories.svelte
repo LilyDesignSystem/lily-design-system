@@ -14,7 +14,10 @@
     name="Default"
     tags={["autodocs", "!dev"]}
 >
-    <ChatListItem label="ChatListItem example">
-        <span>ChatListItem example</span>
-    </ChatListItem>
+    <!-- An <li> belongs in a list (ChatList renders the <ol>). -->
+    <ol>
+        <ChatListItem label="ChatListItem example">
+            <span>ChatListItem example</span>
+        </ChatListItem>
+    </ol>
 </Story>

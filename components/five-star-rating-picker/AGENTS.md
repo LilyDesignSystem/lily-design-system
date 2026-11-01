@@ -6,7 +6,8 @@
 - PascalCase: FiveStarRatingPicker
 - Description: a picker for selecting a 1-5 star rating using radio buttons
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
-- HTML tag: <div>
+- HTML tag: <fieldset>
+- Naming exception: a `-picker` root is a `<div>` by the suffix rule, but this one is a `<fieldset role="radiogroup">` of native radios in every library, so the group gets its name from its legend and native radio keyboard behaviour (P10-T12)
 - CSS class: .five-star-rating-picker
 - Interactive: no
 

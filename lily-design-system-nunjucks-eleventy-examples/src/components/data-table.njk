@@ -111,11 +111,22 @@ description: a data table interactive grid for displaying and sorting tabular da
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>
-<pre tabindex="0"><code>{% raw %}&lt;DataTable caption="Patient appointments" label="Upcoming appointments"&gt;
+<pre tabindex="0"><code>{% raw %}&lt;DataTable
+  caption="Patient appointments"
+  label="Upcoming appointments"
+&gt;
   &lt;DataTableHead&gt;
     &lt;DataTableRow&gt;
-      &lt;DataTableTD scope="col" sortable&gt;Patient name&lt;/DataTableTD&gt;
-      &lt;DataTableTD scope="col" sortable&gt;Date&lt;/DataTableTD&gt;
+      &lt;DataTableTD
+        scope="col"
+        sortable
+        &gt;Patient name&lt;/DataTableTD
+      &gt;
+      &lt;DataTableTD
+        scope="col"
+        sortable
+        &gt;Date&lt;/DataTableTD
+      &gt;
       &lt;DataTableTD scope="col"&gt;Status&lt;/DataTableTD&gt;
     &lt;/DataTableRow&gt;
   &lt;/DataTableHead&gt;

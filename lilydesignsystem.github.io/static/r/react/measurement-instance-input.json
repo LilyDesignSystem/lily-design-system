@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "measurement-instance-input",
+  "type": "registry:component",
+  "title": "MeasurementInstanceInput",
+  "description": "An input for entering a measurement value and unit.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/MeasurementInstanceInput.tsx",
+      "content": "import React from \"react\";\n\n// MeasurementInstanceInput component\n//\n// A headless text input for entering a specific measurement instance value,\n// such as \"72 kg\", \"98.6 F\", or \"120/80 mmHg\". A measurement instance is an\n// individual recorded measurement combining a numeric value with its unit.\n// The component renders an <input type=\"text\"> with aria-label for accessible\n// naming and a bindable value for reactive form integration.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name for the input via aria-label.\n//   value — string, default \"\". Bindable measurement instance value via controlled.\n//   required — boolean, default false. Whether the field is required.\n//   disabled — boolean, default false. Whether the field is disabled.\n//   ...restProps — additional HTML attributes spread onto the <input>.\n//\n// Syntax:\n//   <MeasurementInstanceInput label=\"Weight\" value={value} onChange={setValue} />\n//\n// Examples:\n//\n//   <MeasurementInstanceInput label=\"Weight\" value={value} onChange={setValue} />\n//\n//\n//   <MeasurementInstanceInput label=\"Temperature\" value={value} onChange={setValue} required />\n//\n// Keyboard:\n//   - Native <input type=\"text\"> keyboard behavior (typing, selection, clipboard-copy-button).\n//\n// Accessibility:\n//   - aria-label provides the accessible name from the label prop\n//   - Supports required and disabled HTML states\n//\n// Internationalization:\n//   - The label prop accepts any translated string\n//   - No hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Part of the Input/View pattern; pairs with MeasurementInstanceView\n//\n// References:\n//   - HTML input element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text\n\nexport interface MeasurementInstanceInputProps {\n    className?: string;\n    /** Accessible name for the measurement instance input */\n    label: string;\n    /** Bindable measurement instance value */\n    value?: string;\n    /** Whether the input is required */\n    required?: boolean;\n    /** Whether the input is disabled */\n    disabled?: boolean;\n    /** Callback when value changes. */\n    onChange?: (value: string) => void;\n    [key: string]: unknown;\n}\n\nexport default function MeasurementInstanceInput({\n    className = \"\",\n    label,\n    value = \"\",\n    required = false,\n    disabled = false,\n    onChange,\n    ...restProps\n}: MeasurementInstanceInputProps) {\n    return (\n        <input\n            className={`measurement-instance-input ${className}`}\n            type=\"text\"\n            aria-label={label}\n            value={value}\n            onChange={(e) => onChange?.(e.target.value)}\n            required={required}\n            disabled={disabled}\n            {...restProps}\n        />\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/MeasurementInstanceInput.tsx"
+    }
+  ],
+  "categories": [
+    "forms"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/measurement-instance-input/"
+}

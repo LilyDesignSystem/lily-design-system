@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"progress-bar\" role=\"progressbar\" aria-valuenow=\"42\" aria-valuemin=\"0\" aria-valuemax=\"100\" aria-label=\"Upload progress\" style=\"background:#e5e7eb;height:1rem;border-radius:0.25rem;\"><div style=\"width:42%;background:#2563eb;height:100%;border-radius:0.25rem;\"></div></div>";
   const svelteSource: string = "// In your Svelte component:\nimport ProgressBar from \"lily-design-system-svelte-headless/components/ProgressBar/ProgressBar.svelte\";\n\n<ProgressBar>\n  <!-- list children -->\n</ProgressBar>\n";
-  const usageCode: string = "<div class=\"progress-bar\" role=\"progressbar\" aria-valuenow=\"42\" aria-valuemin=\"0\" aria-valuemax=\"100\" aria-label=\"Upload progress\" style=\"background:#e5e7eb;height:1rem;border-radius:0.25rem;\"><div style=\"width:42%;background:#2563eb;height:100%;border-radius:0.25rem;\"></div></div>\n";
+  const usageCode: string = "<ProgressBar\n  label=\"Upload progress\"\n  value=\"{42}\"\n  max=\"{100}\"\n/>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

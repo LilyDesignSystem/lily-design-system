@@ -25,7 +25,7 @@
 
 A Claude Skill explaining how to consume
 [`@lilydesignsystem/nunjucks-headless`](../lily-design-system-nunjucks-headless/),
-Lily's Nunjucks-macro implementation of the 582-component catalog: the
+Lily's Nunjucks-macro implementation of the 607-component catalog: the
 macro-call idiom (a single `params` object per macro, the `classes` /
 `attributes` / `text` / `html` shared keys), the camelCase-macro versus
 kebab-case-file/class naming split that Nunjucks' own identifier syntax
@@ -43,7 +43,7 @@ framework rather than all seven.
   `params` shape, and server-rendering behaviour a Nunjucks consumer needs.
 - **Isn't**: the Nunjucks headless library itself (that's
   [`@lilydesignsystem/nunjucks-headless`](../lily-design-system-nunjucks-headless/),
-  which ships the 582 macros this skill explains how to call), isn't the
+  which ships the 607 macros this skill explains how to call), isn't the
   general framework-agnostic Lily skill (that's
   [`lily-design-system-skill`](../lily-design-system-skill/)), and isn't
   the Nunjucks `*-picker` helpers skill (that's

@@ -10,7 +10,7 @@
 //   label — string, required. Accessible name for the tour dialog via aria-label.
 //   active — boolean, default false. Whether the tour is visible; controlled via active + onChange.
 //   children — ReactNode, required. TourListItem elements.
-//   ...restProps — additional HTML attributes spread onto the <div>.
+//   ...restProps — additional HTML attributes spread onto the <ol>.
 //
 // Syntax:
 //   <TourList label="Getting started" active={active} onChange={setActive}>...</TourList>
@@ -33,8 +33,8 @@
 //   - Escape: closes the tour by setting active to false
 //
 // Accessibility:
-//   - role="dialog" identifies the overlay as a dialog window
-//   - aria-modal="true" indicates the dialog is modal
+//   - native <ol> list semantics: no role="dialog" (it would hide the list) and no aria-modal (not modal);
+//     dialog semantics belong to the enclosing Tour, which is non-modal
 //   - aria-label={label} provides an accessible name for the tour
 //   - tabindex="-1" allows the dialog to receive focus for keyboard events
 //
@@ -83,8 +83,6 @@ export default function TourList({
                 <>
                     <ol
                         className={`tour-list ${className}`}
-                        role="dialog"
-                        aria-modal="true"
                         aria-label={label}
                         tabIndex={-1}
                         onKeyDown={handleKeyDown}

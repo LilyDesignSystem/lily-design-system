@@ -5,10 +5,12 @@
     one chat list item component, typically containing one chat message component
 *@
 
-<li class="@($"chat-list-item {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</li>
+<li class="@($"chat-list-item {CssClass}".Trim())" aria-label="@Label" aria-current="@(Current ? "true" : null)" @attributes="AdditionalAttributes">@ChildContent</li>
 
 @code {
     [Parameter] public string Label { get; set; } = "";
+    /// <summary>Marks the currently selected conversation (aria-current="true").</summary>
+    [Parameter] public bool Current { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }

@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
+import { restoreOnFormReset } from "./form-reset";
 
 /**
  * ThemeSelect — a select dropdown for choosing a theme
@@ -17,4 +18,7 @@ export class ThemeSelect {
     readonly label = input<string>("");
     readonly className = input<string>("");
     readonly value = model<string>("");
+    constructor() {
+        restoreOnFormReset(this.value);
+    }
 }

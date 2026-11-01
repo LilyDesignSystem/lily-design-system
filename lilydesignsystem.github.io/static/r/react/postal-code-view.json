@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "postal-code-view",
+  "type": "registry:component",
+  "title": "PostalCodeView",
+  "description": "A read-only display of a postal or ZIP code.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/PostalCodeView.tsx",
+      "content": "import React from \"react\";\n\n// PostalCodeView component\n//\n// A headless display component that renders a postal or ZIP code as read-only\n// text within a <span> element. Used to present postal code information in\n// address displays, confirmation pages, shipping summaries, or any context where\n// the value is not editable. Pairs with PostalCodeInput for the Input/View pattern.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   text — string, default \"\". The postal code string to display.\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <PostalCodeView text=\"90210\" />\n//\n// Examples:\n//\n//   <PostalCodeView text=\"90210\" />\n//\n//\n//   <PostalCodeView text=\"SW1A 1AA\" />\n//\n//\n//   <p>Your postal code: <PostalCodeView text={postalCode} /></p>\n//\n// Keyboard:\n//   None — this is a passive display element with no interactive behavior.\n//\n// Accessibility:\n//   - No ARIA attributes needed; the <span> renders inline text natively accessible\n//     to screen readers\n//\n// Internationalization:\n//   - The text prop is the only content; no hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Uses the text prop, not children, for the displayed value\n//   - Do not add formatting logic — consumer provides pre-formatted postal codes\n//\n// References:\n//   - MDN span element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span\n\nexport interface PostalCodeViewProps {\n    className?: string;\n    /** The postal code text to display. */\n    text?: string;\n    [key: string]: unknown;\n}\n\nexport default function PostalCodeView({\n    className = \"\",\n    text = \"\",\n    ...restProps\n}: PostalCodeViewProps) {\n    return (\n        <span\n            className={`postal-code-view ${className}`}\n            {...restProps}\n        >\n            {text}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/PostalCodeView.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/postal-code-view/"
+}

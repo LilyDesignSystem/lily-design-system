@@ -2,7 +2,7 @@
   "slug": "theme-view",
   "name": "ThemeView",
   "description": "a read-only display of the current theme",
-  "htmlTag": "div",
+  "htmlTag": "span",
   "category": "content",
   "baseClass": ".theme-view",
   "subClasses": [],

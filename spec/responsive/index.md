@@ -14,14 +14,14 @@ It does **not** cover: the headless markup rules (see [headless](../headless/ind
 
 - **Mobile first** for new CSS. Base rules are the narrow layout; queries use `min-width`.
 - **Intrinsic sizing before breakpoints.** `minmax()`, `min()`, `clamp()`, `flex-wrap` and `repeat(auto-fit, …)` first; a breakpoint only where the layout changes in kind.
-- **`rem` breakpoints.** The 57 themes use `48rem` (Tailwind's `md`), so they follow the viewer's font size. `px` breakpoints are not used.
+- **`rem` breakpoints.** The 63 themes use `48rem` (Tailwind's `md`), so they follow the viewer's font size. `px` breakpoints are not used.
 - **Container queries for components, viewport queries for page shells.** Done in the themes (P15-T2): the three grail-layout regions are containers; `card` is not, because inline-size containment collapses it in a shrink-to-fit parent. A component outside a grail region has no container and keeps its wide layout.
 - **Logical properties** so right-to-left needs no second stylesheet.
 - **No `100vw` widths** on `body` or full-width blocks.
 - **Reflow (WCAG 1.4.10) and resize (1.4.4).** No horizontal page scroll at 320 CSS pixels; usable at 400% zoom. Wide content scrolls inside its own labelled, focusable region.
 - **Text stays at or above `1rem`;** fluid values are for spacing only.
 - **Text expansion.** Layouts must survive labels 30 percent longer than English (Welsh runs 20 to 30 percent longer); the sweep tests it at 320px (`lang="cy"`, no document-level scroll, no clipped label).
-- **Fluid spacing tokens.** `--space-fluid-gutter` (container and main padding) and `--space-fluid-section` (stack and grid gaps) are `clamp()` values with a `1rem` floor that grow with the viewport. They are DTCG tokens (`$type: fluidDimension`) in `themes/tokens/*.json`, emitted by `bin/generate-theme-tokens`; `bin/check-theme` rule 11 requires every `clamp()` in a theme to start with a `rem` floor. The three practitioner NHS themes keep their dense fixed spacing.
+- **Fluid spacing tokens.** `--space-fluid-gutter` (container and main padding) and `--space-fluid-section` (stack and grid gaps) are `clamp()` values with a `1rem` floor that grow with the viewport. They are DTCG 2025.10 `dimension` tokens in `themes/tokens/*.json` whose `$value` is the floor, with the fluid parameters under `$extensions["com.lilydesignsystem"]`, emitted by `bin/generate-theme-tokens`; `bin/check-theme` rule 11 requires every `clamp()` in a theme to start with a `rem` floor. The three practitioner NHS themes keep their dense fixed spacing.
 - **`(hover: none)` and `(pointer: coarse)`** decide touch affordances, not viewport width.
 - **Headless stays clean.** No media or container queries, `vw`/`vh` units or breakpoint literals in a component ([theme](../theme/index.md)).
 
@@ -34,8 +34,8 @@ down here instead, in `rem` (Tailwind's scale, so adopters moving between system
 | Name  | Width   | Used today                                                                |
 | ----- | ------- | ------------------------------------------------------------------------- |
 | `sm`  | `40rem` | NHS Wales for patients: a primary button in a form goes full width (DHCW) |
-| `md`  | `48rem` | All 57 themes: `grail-layout` is one column (left aside above `main`)     |
-| `lg`  | `64rem` | All 57 themes: `grail-layout` right aside drops below `main`              |
+| `md`  | `48rem` | All 63 themes: `grail-layout` is one column (left aside above `main`)     |
+| `lg`  | `64rem` | All 63 themes: `grail-layout` right aside drops below `main`              |
 | `xl`  | `80rem` | unused                                                                    |
 | `2xl` | `96rem` | unused                                                                    |
 
@@ -48,7 +48,7 @@ Measured 2026-10-28 over `themes/*.css`: every theme has one `@media (max-width:
 desktop-first today, not mobile first; NHS Wales for patients adds a `40rem` one. All 57 use
 `max-width: calc(100vw - 1rem)` to cap a popup, which is allowed (the `100vw` rule is about widths of `body` and
 full-width blocks). Moving the themes to `min-width` queries is not planned: the rule binds new CSS, and a rewrite of
-57 themes needs its own task.
+63 themes needs its own task.
 
 ## Where each rule is verified
 
@@ -56,7 +56,7 @@ full-width blocks). Moving the themes to `min-width` queries is not planned: the
 | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
 | No horizontal overflow  | Six-width sweep in every example app: 320 (reflow), 375, 768, 1280, 2560, plus 320 at deviceScaleFactor 4 (400% zoom emulation); a 60-character unbroken string in a `summary-list` and a `data-table` at 320px; grail-layout DOM order equals visual order at 320, 768 and 1280 (`e2e/responsive.spec.ts`, P15-T6/T7/T8) | none                                 |
 | Breakpoints in `rem`    | `bin/check-theme` rule 9, against the table above                                                                                                                                                                                                                                                                         | none                                 |
-| `container-type` set    | `bin/check-theme` rule 8; the section is pinned across all 57 themes                                                                                                                                                                                                                                                      | none                                 |
+| `container-type` set    | `bin/check-theme` rule 8; the section is pinned across all 63 themes                                                                                                                                                                                                                                                      | none                                 |
 | Fluid values have floor | `bin/check-theme` rule 11; `bin/generate-theme-tokens --check`                                                                                                                                                                                                                                                            | none                                 |
 | No `100vw` on `body`    | none                                                                                                                                                                                                                                                                                                                      | `bin/check-theme` (P15-T1 follow-up) |
 | Headless has no queries | Forbidden-literal list in [AGENTS/theme.md](../../AGENTS/theme.md), reviewed by hand                                                                                                                                                                                                                                      | none                                 |

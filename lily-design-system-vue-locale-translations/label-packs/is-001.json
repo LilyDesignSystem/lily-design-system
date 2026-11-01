@@ -239,5 +239,10 @@
     "small": "lítið",
     "smaller": "minna",
     "smallest": "minnst"
+  },
+  "date-time-now-input": {
+    "date": "Dagsetning",
+    "time": "Tími",
+    "now": "Núna"
   }
 }

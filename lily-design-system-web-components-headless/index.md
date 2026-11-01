@@ -1,12 +1,12 @@
 # Lily Design System™ - Web Components Headless
 
-A headless component library built on **native custom elements** — the browser's own Web Components platform APIs, with no framework runtime. This package ships its full achievable scope as of 2026-10-25: **547 of the canonical 582 Lily components** (456 of 491 at 2026-09-06; every component added since is implemented) — real, tested, buildable, Storybook-documented. The other 35 are permanently excluded by a real architectural limitation (§2 of the spec), not open backlog. See [spec/index.md](spec/index.md) for the full scope statement.
+A headless component library built on **native custom elements** — the browser's own Web Components platform APIs, with no framework runtime. This package ships its full achievable scope as of 2026-10-25: **548 of the canonical 583 Lily components** (456 of 491 at 2026-09-06; every component added since is implemented) — real, tested, buildable, Storybook-documented. The other 35 are permanently excluded by a real architectural limitation (§2 of the spec), not open backlog. See [spec/index.md](spec/index.md) for the full scope statement.
 
 **Headless** means zero CSS, zero styles, zero opinions about appearance. You provide all styling. Components provide structure, semantics, accessibility, and behavior — the same promise as every other Lily headless library, just delivered as `<lily-button>` instead of `<Button>`.
 
 ## Features
 
-- 547 headless custom elements (see the full list below), each with a real ARIA/keyboard contract matching its canonical `components/{slug}/AGENTS.md` spec.
+- 548 headless custom elements (see the full list below), each with a real ARIA/keyboard contract matching its canonical `components/{slug}/AGENTS.md` spec.
 - Works in any framework, or none — a native custom element is valid markup anywhere HTML is valid.
 - TypeScript source with full type definitions.
 - WCAG 2.2 AAA target: semantic HTML first, ARIA only where needed.
@@ -54,7 +54,7 @@ Every component's real semantic element (the `<button>`, `<input>`, `<dialog>`, 
 
 ## Components in this catalog
 
-547 of the 582 canonical components, spanning every major category:
+572 of the 607 canonical components, spanning every major category:
 buttons and links, forms, pickers, overlays, media and data
 visualisation, content, navigation (including the `*Nav`/`*List`/
 `*ListItem` families via the "upgrade in place" pattern — see
@@ -64,6 +64,23 @@ components. The full list is every `.ts` file directly under
 `ls components/*.ts | grep -v -e .test.ts -e .stories.ts`, or read
 `components.tsv` at the monorepo root and diff against this catalog's
 own file list to see exactly which 35 are the permanent exclusions.
+
+## Using the catalog from SolidJS
+
+Solid has no wrapper layer to maintain: it renders the `lily-*` elements directly. Import the typings once, anywhere in the
+project (`import "@lilydesignsystem/web-components-headless/solid";`), and every `lily-*` tag type-checks in JSX. They accept any
+attribute and do not check one element's attribute names.
+
+| Write                                  | Effect                                                                                                                                                    |
+| -------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `label="Name"`                         | Static text: becomes an attribute.                                                                                                                        |
+| `attr:visible={on() ? "" : undefined}` | A reactive attribute. A presence boolean is `""` or `undefined` (removes it); use `attr:` always for reactive values, as the elements observe attributes. |
+| `prop:value={text()}`                  | Sets the JavaScript property (`value` on the text inputs, which proxies to the inner input).                                                              |
+| `on:lily-close={handler}`              | A native listener, needed for custom events (`lily-close`); `onClick` is delegated and does not see them.                                                 |
+
+A tested form with a tooltip and a dialog: [recipes/solid/](recipes/solid) (`cd recipes/solid && npm install && npm test`).
+Not part of `bin/test`; it needs `dist/` built first (`npm run build`). Why Lily has no Solid port:
+[spec/frameworks](../spec/frameworks/index.md).
 
 ## Documentation
 

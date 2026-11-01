@@ -4,10 +4,10 @@ import { TestBed } from "@angular/core/testing";
 import { Place } from "./Place";
 
 describe("Place", () => {
-    test("renders the div root with the base class", () => {
+    test("renders the <article> root with the base class", () => {
         const fixture = TestBed.createComponent(Place);
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.place");
+        const el = fixture.nativeElement.querySelector("article.place");
         expect(el).toBeTruthy();
     });
 
@@ -15,7 +15,7 @@ describe("Place", () => {
         const fixture = TestBed.createComponent(Place);
         fixture.componentRef.setInput("className", "extra");
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.place");
+        const el = fixture.nativeElement.querySelector("article.place");
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });

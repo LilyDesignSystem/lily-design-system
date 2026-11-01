@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"government-banner\" aria-label=\"a banner identifying a website as belonging to a government, with an expandable details panel\">GovernmentBanner</div>";
   const svelteSource: string = "// In your Svelte component:\nimport GovernmentBanner from \"lily-design-system-svelte-headless/components/GovernmentBanner/GovernmentBanner.svelte\";\n\n<GovernmentBanner>\n  <!-- content -->\n</GovernmentBanner>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import GovernmentBanner from './GovernmentBanner.svelte';\n\n  let expanded = $state(false);\n<\/script>\n\n<GovernmentBanner\n  label=\"Official government website\"\n  headerText=\"An official website of the United States government\"\n  expandLabel=\"Here's how you know\"\n  expanded={expanded}\n  ontoggle={(next) => (expanded = next)}\n>\n  <p>Official websites use .gov</p>\n  <p>Secure .gov websites use HTTPS</p>\n</GovernmentBanner>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import GovernmentBanner from \"./GovernmentBanner.svelte\";\n\n  let expanded = $state(false);\n<\/script>\n\n<GovernmentBanner\n  label=\"Official government website\"\n  headerText=\"An official website of the United States government\"\n  expandLabel=\"Here's how you know\"\n  {expanded}\n  ontoggle={(next) => (expanded = next)}\n>\n  <p>Official websites use .gov</p>\n  <p>Secure .gov websites use HTTPS</p>\n</GovernmentBanner>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

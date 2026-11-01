@@ -30,7 +30,10 @@ import { test, expect } from "@playwright/test";
 const route = "/components";
 const BAR_HEIGHT_PX = 64; // 4rem at the default 16px root font size
 
-test("a fixed bottom bar does not obscure the last focusable element", async ({ page }) => {
+test("a fixed bottom bar does not obscure the last focusable element", async ({
+    page,
+    browserName,
+}) => {
     await page.goto(route);
     // Hydrating frameworks replace server-rendered nodes: inject only when idle.
     await page.waitForLoadState("networkidle");
@@ -94,7 +97,10 @@ test("a fixed bottom bar does not obscure the last focusable element", async ({ 
         const bottom = target.getBoundingClientRect().bottom;
         window.scrollBy(0, bottom - (window.innerHeight - 8));
     });
-    await page.keyboard.press("Tab");
+    // WebKit follows the macOS default: Tab skips links unless "Press Tab to
+    // highlight each item" is on, and Option+Tab reaches them. The last
+    // focusable element is often a link, so WebKit presses Alt+Tab.
+    await page.keyboard.press(browserName === "webkit" ? "Alt+Tab" : "Tab");
 
     const last = page.locator("[data-test-last]");
     await expect(last).toBeFocused();

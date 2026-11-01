@@ -109,7 +109,7 @@ props bag:
 
 ### 5.1 `DEFAULT_THEMES`
 
-All 57 Lily reference theme slugs (`themes/` at the repo root),
+All 63 Lily reference theme slugs (`themes/` at the repo root),
 **sorted alphabetically except that every United Kingdom and United
 States government/public-sector theme sorts last, as its own
 alphabetical group** — 49 general-purpose, design-system and Lily-original themes
@@ -159,7 +159,7 @@ hardcode English text.
 - §7.2 Renders exactly the five pickers — search, theme, locale,
   text-size, share — in that order, each accessibly named from `labels`.
 - §7.3 Forwards `themesUrl` to `ThemePicker`; `themes` omitted resolves
-  to `DEFAULT_THEMES` (45 entries, `abyss` first, the 8 UK/US themes
+  to `DEFAULT_THEMES` (63 entries, `abyss` first, the 8 UK/US themes
   last as a group).
 - §7.4 Forwards `locales` to `LocalePicker` — required, no default.
 - §7.5 `class` renders as `"picker-bar {class}"` (trimmed) on the root.
@@ -232,6 +232,6 @@ types from each sibling's bare specifier, so a real consumer installing
 `@lilydesignsystem/vue-picker-bar` gets full type safety from their
 own installed copies of the five dependencies.
 
-## Default theme list: 57 themes (2026-10-16)
+## Default theme list: 63 themes (2026-10-16)
 
-`DEFAULT_THEMES` has 57 slugs in the same order as the Svelte canonical: the 49 general and design-system themes alphabetically, then the 8 UK and US government themes alphabetically. The first government theme is at index 49.
+`DEFAULT_THEMES` has 63 slugs in the same order as the Svelte canonical: the 49 general and design-system themes alphabetically, then the 8 UK and US government themes alphabetically. The first government theme is at index 49.

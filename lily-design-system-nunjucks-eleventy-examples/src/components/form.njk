@@ -27,14 +27,31 @@ description: a form element for collecting and submitting user data
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>
-<pre tabindex="0"><code>{% raw %}&lt;Form label="Sign in" onsubmit={handleLogin}&gt;
-  &lt;Field label="Email" required&gt;
-    &lt;EmailInput label="Email" value={email} required /&gt;
+<pre tabindex="0"><code>{% raw %}&lt;form
+  label="Sign in"
+  onsubmit="{handleLogin}"
+&gt;
+  &lt;Field
+    label="Email"
+    required
+  &gt;
+    &lt;EmailInput
+      label="Email"
+      value="{email}"
+      required
+    /&gt;
   &lt;/Field&gt;
-  &lt;Field label="Password" required&gt;
-    &lt;PasswordInput label="Password" value={password} required /&gt;
+  &lt;Field
+    label="Password"
+    required
+  &gt;
+    &lt;PasswordInput
+      label="Password"
+      value="{password}"
+      required
+    /&gt;
   &lt;/Field&gt;
-  &lt;Button type="submit"&gt;Sign in&lt;/Button&gt;
-&lt;/Form&gt;
+  &lt;button type="submit"&gt;Sign in&lt;/button&gt;
+&lt;/form&gt;
 {% endraw %}</code></pre>
 {# END generated: examples #}

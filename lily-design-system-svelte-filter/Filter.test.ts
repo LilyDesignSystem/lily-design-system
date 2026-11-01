@@ -548,3 +548,44 @@ describe("Filter — another language and right-to-left (§8.26–§8.29)", () =
         ).toEqual([]);
     });
 });
+
+// P10-T9: inside a <form>, a reset puts the filter back to the one it started with, every field included.
+describe("Filter form reset", () => {
+    function inForm(onChange = vi.fn()) {
+        const form = document.createElement("form");
+        document.body.append(form);
+        render(Filter, {
+            target: form,
+            props: {
+                ...base,
+                value: start(rule("name", "contains", "a"), rule("age", "gt", 3)),
+                onChange,
+            },
+        });
+        const fields = () => [...form.querySelectorAll<HTMLInputElement>("input.filter-value")];
+        return { form, fields, onChange };
+    }
+    const afterReset = () => new Promise((r) => setTimeout(r, 0));
+
+    test("restores the initial filter and redraws every field, touched or not", async () => {
+        const { form, fields, onChange } = inForm();
+        await fireEvent.input(fields()[0], { target: { value: "typed" } });
+        expect(fields().map((f) => f.value)).toEqual(["typed", "3"]);
+        form.reset();
+        await afterReset();
+        expect(fields().map((f) => f.value)).toEqual(["a", "3"]);
+        const last = onChange.mock.calls.at(-1)?.[0];
+        expect(last.children.map((c: { value: unknown }) => c.value)).toEqual(["a", 3]);
+        form.remove();
+    });
+
+    test("a cancelled reset changes nothing", async () => {
+        const { form, fields } = inForm();
+        await fireEvent.input(fields()[0], { target: { value: "typed" } });
+        form.addEventListener("reset", (event) => event.preventDefault());
+        form.reset();
+        await afterReset();
+        expect(fields()[0].value).toBe("typed");
+        form.remove();
+    });
+});

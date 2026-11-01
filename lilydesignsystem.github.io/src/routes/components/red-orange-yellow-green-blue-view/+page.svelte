@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<span class=\"red-orange-yellow-green-blue-view\" role=\"img\" aria-label=\"Status: Green\">Green</span>";
   const svelteSource: string = "// In your Svelte component:\nimport RedOrangeYellowGreenBlueView from \"lily-design-system-svelte-headless/components/RedOrangeYellowGreenBlueView/RedOrangeYellowGreenBlueView.svelte\";\n\n<RedOrangeYellowGreenBlueView label=\"Label\" value=\"Sample value\" />\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import RedOrangeYellowGreenBlueView from './RedOrangeYellowGreenBlueView.svelte';\n<\/script>\n\n<RedOrangeYellowGreenBlueView label=\"Risk level\" value=\"yellow\" />\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import RedOrangeYellowGreenBlueView from \"./RedOrangeYellowGreenBlueView.svelte\";\n<\/script>\n\n<RedOrangeYellowGreenBlueView\n  label=\"Risk level\"\n  value=\"yellow\"\n/>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>
@@ -76,7 +76,7 @@
       <li>PascalCase: RedOrangeYellowGreenBlueView</li>
       <li>Description: a read-only display of a five-level color status</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
-      <li>HTML tag: &lt;div&gt;</li>
+      <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .red-orange-yellow-green-blue-view</li>
       <li>Interactive: no</li>
     </ul>

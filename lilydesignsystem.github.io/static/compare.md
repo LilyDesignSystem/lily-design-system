@@ -6,7 +6,7 @@ Description:
 
 # Comparisons
 
-Read on 28 October 2026 from each system's own public site, plus Lily's own survey of 428 component rows across 18 systems ([COMPARE.md](https://github.com/lilydesignsystem/lily-design-system/blob/main/COMPARE.md)). Lily scores 428 of 428 on that survey by construction, which is a property of how the table was built, not evidence of superiority. Where a system's site does not state something, the section says so rather than guessing.
+Read on 28 October 2026 from each system's own public site, plus Lily's own survey of 429 component rows across 22 systems ([COMPARE.md](https://github.com/lilydesignsystem/lily-design-system/blob/main/COMPARE.md)). Lily scores 429 of 429 on that survey by construction, which is a property of how the table was built, not evidence of superiority. Where a system's site does not state something, the section says so rather than guessing.
 
 | Design system | Headless | Frameworks | Accessibility | License |
 | --- | --- | --- | --- | --- |

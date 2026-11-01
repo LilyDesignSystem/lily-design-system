@@ -44,18 +44,22 @@ describe("action-group", () => {
         expect(trigger.getAttribute("aria-label")).toBe("More actions");
     });
 
-    it("renders aria-expanded='false' by default", () => {
+    it("closed, the trigger opens the popover=auto menu with no script", () => {
         const { document } = render("action-group", {
             label: "Document actions",
             overflowLabel: "More actions",
             overflowHtml: "<button>Export</button>",
         });
-        expect(
-            document.querySelector(".action-group-overflow-trigger").getAttribute("aria-expanded"),
-        ).toBe("false");
-        expect(document.querySelector(".action-group-overflow-menu").hasAttribute("hidden")).toBe(
-            true,
-        );
+        const trigger = document.querySelector(".action-group-overflow-trigger");
+        const menu = document.querySelector(".action-group-overflow-menu");
+        // No static aria-expanded: nothing would update it without script.
+        expect(trigger.hasAttribute("aria-expanded")).toBe(false);
+        expect(trigger.getAttribute("command")).toBe("toggle-popover");
+        expect(trigger.getAttribute("commandfor")).toBe(menu.id);
+        expect(trigger.getAttribute("popovertarget")).toBe(menu.id);
+        expect(trigger.getAttribute("aria-controls")).toBe(menu.id);
+        expect(menu.getAttribute("popover")).toBe("auto");
+        expect(menu.hasAttribute("hidden")).toBe(false);
     });
 
     it("renders aria-expanded='true' and unhidden menu when overflowOpen is true", () => {
@@ -68,9 +72,12 @@ describe("action-group", () => {
         expect(
             document.querySelector(".action-group-overflow-trigger").getAttribute("aria-expanded"),
         ).toBe("true");
-        expect(document.querySelector(".action-group-overflow-menu").hasAttribute("hidden")).toBe(
+        expect(document.querySelector(".action-group-overflow-menu").hasAttribute("popover")).toBe(
             false,
         );
+        expect(
+            document.querySelector(".action-group-overflow-trigger").hasAttribute("commandfor"),
+        ).toBe(false);
         expect(document.querySelector(".action-group-overflow-menu .export")).toBeTruthy();
     });
 

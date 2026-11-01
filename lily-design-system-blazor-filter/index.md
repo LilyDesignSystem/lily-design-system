@@ -108,3 +108,9 @@ const labels: FilterLabels = {
 ## Non-goals
 
 Saved filters and persistence, a server round trip, free-text query parsing, locale-aware number and date entry (the consumer's input), and drawing — all the consumer's.
+
+## Form reset
+
+Unlike the other ports, this one does not restore its initial filter when its `<form>` is reset: a Blazor component
+cannot hear a form's `reset` event without a JavaScript module calling back into .NET, which this package does not ship,
+and Blazor forms reset through their model. Set `Value` back instead (see `spec/index.md`).

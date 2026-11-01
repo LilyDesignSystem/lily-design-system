@@ -5,14 +5,15 @@ From the Lily Design System™ maintainers, 2026-10-29, on the private beta anno
 ## Why we are writing
 
 Thank you for publishing the DHCW Design System openly. We maintain [Lily](https://lilydesignsystem.com/), a free,
-open-source, headless design system with 582 components, eight framework libraries, 57 themes and two Wales themes that
+open-source, headless design system with 582 components, eight framework libraries, 63 themes and two Wales themes that
 track your colours. We compared the two in detail: [Lily Design System and DHCW Design System](https://lilydesignsystem.com/compare/lily-design-system-and-dhcw-design-system/).
 
 Both systems are accessible, public-sector-minded and ship Nunjucks macros, so a service team should be able to use pieces
 of each without rewriting. Today it cannot, because a few conventions differ for no strong reason. This note asks you to
 align on some of them. Where your choice is better than ours, say so and we will move: we implemented eight changes in
 Lily from your site in the last week, including your link colours, a Focus Not Obscured contract for fixed bars, an
-overflow navigation mode and a 30 percent text-expansion test.
+overflow navigation mode, a patient banner composition and a 30 percent text-expansion test. All eight now pass their
+checks, including a Nunjucks Eleventy example that runs the responsive and focus tests.
 
 Limits of this review: we read your public pages only (home, principles, styles, page templates, the accessibility
 statement and about ten component pages). We found no source repository or npm package to read, so anything below about
@@ -48,10 +49,14 @@ your macros comes from the examples on your site. Correct us where we have it wr
    macros, which is a good reason to keep them. For components where Lily and you overlap (tag, summary list, warning
    callout, header, button), please keep `text`, `html`, `classes` and `attributes` as the top-level keys and
    say in each component page which params you accept, in a table. We would then document the mapping both ways.
-5. **Escape rules.** State on every macro page which params are escaped (`text`) and which render raw (`html`). Lily's
+5. **Test against Eleventy's bundled Nunjucks.** Eleventy 3 renders with its own fork, `@11ty/nunjucks`. We found that an
+   environment built from plain `nunjucks` while Eleventy renders turns every macro's output into escaped text
+   (`&lt;a …`), because the two libraries' safe-string classes do not recognise each other. If you publish macros, please
+   say which Nunjucks they are tested against and document the `nunjucks` alias in Eleventy's install instructions.
+6. **Escape rules.** State on every macro page which params are escaped (`text`) and which render raw (`html`). Lily's
    Nunjucks macros escape `text` and pass `html` through `| safe`; if yours differ, adopters will get double-escaped or
    unescaped output without warning.
-6. **Treat `onsubmit="return false;"` as a demo artefact.** Your header search example has it inline. Adopters copy the markup, so
+7. **Treat `onsubmit="return false;"` as a demo artefact.** Your header search example has it inline. Adopters copy the markup, so
    please show a real `action` and `method="get"`, and name the field `q` so it works without JavaScript.
 
 ## Things your system does that we copied or would like to see more of
@@ -70,7 +75,10 @@ your macros comes from the examples on your site. Correct us where we have it wr
 - **WCAG 2.2 AA vs AAA.** You target AA. Lily targets AAA where it can. Your colours page lists `$nhswales-primary-button`
   twice with different values, and says "1.4.3 (Contrast Enhanced)" where 1.4.3 is Minimum and Enhanced is 1.4.6; a
   corrected colours page would help everyone who copies it.
-- **Catalog.** Lily has components DHCW lacks (a data table, calendar, Gantt chart, chat input, 140 national identifier
+- **Worldwide.** Lily's target is every country, region and federation, not one nation's conventions, so we are glad to share
+  the Welsh-language and text-expansion work in a form other regions can reuse; a DHCW component that assumes a UK shape
+  (postal code, phone, NHS number) is worth marking as regional in its page.
+- **Catalog.** Lily has components DHCW lacks (a data table, calendar, Gantt chart, chat input, 164 national identifier
   inputs). Linking to Lily from your site where a team needs one would save them a search, and we link to yours from ours.
 
 ## Licensing

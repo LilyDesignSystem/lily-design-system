@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tel-input",
+  "type": "registry:component",
+  "title": "TelInput",
+  "description": "An input for entering a telephone number <input type=\"tel\">.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/TelInput.tsx",
+      "content": "import React from \"react\";\n\n// TelInput component\n//\n// A headless telephone input using the native HTML <input type=\"tel\"> element.\n// Provides accessible labeling via aria-label and browser autofill support via\n// autocomplete=\"tel\". Commonly used in contact forms, registration flows, and\n// profile editors. Supports two-way data binding through a bindable value prop.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name for the input via aria-label.\n//   value — string, default \"\". Bindable telephone number value.\n//   required — boolean, default false. Whether the field is required for form submission.\n//   disabled — boolean, default false. Whether the field is disabled.\n//   ...restProps — additional HTML attributes spread onto the <input>.\n//\n// Syntax:\n//   <TelInput label=\"Phone number\" value={value} onChange={setValue} />\n//\n// Examples:\n//\n//   <TelInput label=\"Mobile\" value={value} onChange={setValue} required />\n//\n// Keyboard:\n//   - Native <input type=\"tel\"> keyboard behavior (Tab to focus, type to enter digits)\n//\n// Accessibility:\n//   - aria-label provides the accessible name for the input\n//   - autocomplete=\"tel\" enables browser and password manager autofill\n//   - required and disabled states are conveyed to assistive technology\n//\n// Internationalization:\n//   - The label prop accepts any translated string\n//   - No hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles -- consumer provides all styling\n//   - Uses controlled for two-way data binding on value\n//   - Consumer can add placeholder, pattern, maxlength via restProps\n//\n// References:\n//   - HTML tel input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/tel\n\nexport interface TelInputProps {\n    className?: string;\n    /** Accessible name for the telephone input */\n    label: string;\n    /** Bindable telephone number value */\n    value?: string;\n    /** Whether the input is required */\n    required?: boolean;\n    /** Whether the input is disabled */\n    disabled?: boolean;\n    /** Callback when value changes. */\n    onChange?: (value: string) => void;\n    [key: string]: unknown;\n}\n\nexport default function TelInput({\n    className = \"\",\n    label,\n    value = \"\",\n    required = false,\n    disabled = false,\n    onChange,\n    ...restProps\n}: TelInputProps) {\n    return (\n        <input\n            className={`tel-input ${className}`}\n            type=\"tel\"\n            aria-label={label}\n            value={value}\n            onChange={(e) => onChange?.(e.target.value)}\n            autoComplete=\"tel\"\n            required={required}\n            disabled={disabled}\n            {...restProps}\n        />\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/TelInput.tsx"
+    }
+  ],
+  "categories": [
+    "forms"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/tel-input/"
+}

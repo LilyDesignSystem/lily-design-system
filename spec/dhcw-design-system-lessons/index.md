@@ -24,7 +24,7 @@ The eight items below, each with a deliverable, a source of truth and a check.
 - Copying DHCW's class names or Sass tokens: Lily's classes are kebab-case with no brand prefix
   ([examples](../examples/index.md)), and its tokens are DTCG JSON.
 - DHCW's Figma prototypes and its "Prototyping Kit" (in development; the site says so).
-- Catalog parity: DHCW has 28 components, Lily 582. The catalog-gap table below lists only where DHCW has something Lily
+- Catalog parity: DHCW has 28 components, Lily 583 (582 when reviewed). The catalog-gap table below lists only where DHCW has something Lily
   lacks.
 
 ## Limits of the review
@@ -141,7 +141,7 @@ DHCW ships a fixed mobile bottom navigation and tells authors to add a body clas
 is the failure WCAG 2.2 names Focus Not Obscured (2.4.11, AA): a focused control hidden behind a fixed bar. Lily has fixed
 bars (`sticky-promo-banner` top and bottom, and any theme that fixes a header), yet 2.4.11 is cited in one topic only
 (`bootstrap-lessons`) and nowhere in [accessibility](../accessibility/index.md) or `AGENTS/accessibility.md`, and none of
-the 57 themes sets `scroll-padding`.
+the 63 themes sets `scroll-padding`.
 
 - **Deliverable:** add 2.4.11 to the accessibility rules; a shared theme section with `scroll-padding-block` equal to the
   fixed bars' height, driven by a custom property the fixed component sets; the rule that a fixed bar never covers the focused
@@ -226,25 +226,36 @@ Decided 2026-10-28 and implemented the same day.
 
 ## Implementation status
 
-| Item | State                                                                                                                                                                                                              |
-| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 1    | Done. Both Wales themes: link, hover, visited, active; delete button; "Upstream tracked" names this site.                                                                                                          |
-| 2    | Done in Svelte, React, Vue, Angular, Web Components, Nunjucks (markup only), HTML (documented), Blazor (JS interop), Alpine. Verified in Chromium with real layout: 6 items fit at 1200px, 4 at 420px, 3 at 320px. |
-| 3    | Done as a composition.                                                                                                                                                                                             |
-| 4    | Done in the docs. The `/settings-page` demo is not changed: it is a per-app page with no generator.                                                                                                                |
-| 5    | Done. 2.4.11 is a required commitment; every theme ends with a pinned "Focus not obscured" section; one spec per app, run on six of seven.                                                                         |
-| 6    | Done. A 30 percent pseudo-locale (`lang="cy"`) at 320px in every app's `responsive.spec.ts`; it found and fixed real overflow (see below). Run on six of seven.                                                    |
-| 7    | Done in the docs.                                                                                                                                                                                                  |
-| 8    | Done in the docs.                                                                                                                                                                                                  |
+| Item | State                                                                                                                                                                                                                                                                                    |
+| ---- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | Done. Both Wales themes: link, hover, visited, active; delete button; "Upstream tracked" names this site.                                                                                                                                                                                |
+| 2    | Done in Svelte, React, Vue, Angular, Web Components, Nunjucks (markup only), HTML (its snippet script inlines the shared module, 2026-10-31), Blazor (JS interop), Alpine. Verified in Chromium with real layout: 8 links fit at 1200px, 3 at 420px, 2 at 320px (re-measured in P18-T2). |
+| 3    | Done as a composition.                                                                                                                                                                                                                                                                   |
+| 4    | Done in the docs. The `/settings-page` demo is not changed: it is a per-app page with no generator.                                                                                                                                                                                      |
+| 5    | Done. 2.4.11 is a required commitment; every theme ends with a pinned "Focus not obscured" section; one spec per app, run on six of seven.                                                                                                                                               |
+| 6    | Done. A 30 percent pseudo-locale (`lang="cy"`) at 320px in every app's `responsive.spec.ts`; it found and fixed real overflow (see below). Run on six of seven.                                                                                                                          |
+| 7    | Done in the docs.                                                                                                                                                                                                                                                                        |
+| 8    | Done in the docs.                                                                                                                                                                                                                                                                        |
 
 What the text-expansion sweep found, all fixed in the apps' own stylesheets or routes: long unbreakable words reached 322 to 346px
 at a 320px viewport (`overflow-wrap: anywhere` is now on each app's `body`); two fixed two-column grids in the SvelteKit app
 (`/page-layout`, `/task-management`); and the Angular suffix filter select grew past the viewport (`max-width: 100%`).
 
-**Not verified:** the Nunjucks Eleventy example (its build is broken independently, so its new specs and its `page.css` fix have
-never run); Firefox and WebKit (only Chromium ran); a Playwright case for the overflow navigation (the SvelteKit demo page
-renders static demo HTML, not the component); the Blazor overflow interop in a browser. The `networkidle` wait in the sweep specs
-timed out once on the html-css-js app and passed on two reruns.
+**Nunjucks Eleventy (2026-10-29):** the build was escaping all macro and page output because `.eleventy.js` built its environment from plain `nunjucks` while Eleventy 3 renders with its `@11ty/nunjucks` fork; `package.json` now aliases `nunjucks` to the fork, and the responsive and focus-obscured specs pass there (174 passed, Chromium).
+
+**Follow-ups closed 2026-10-29** in [tasks.md](../../tasks.md) Phase 18:
+
+- **P18-T1:** the responsive, focus-obscured and accessibility specs pass in Chromium, Firefox and WebKit in all seven
+  apps.
+- **P18-T2 and P18-T3:** a `/demos/overflow-navigation` route renders the real component in SvelteKit and in Blazor (the
+  Blazor JS interop is shown to run), and passes 6/6 in all three engines.
+  - The measured fit is 8 links at 1200px, 3 at 420px and 2 at 320px. The first measurement ("6, 4 and 3") came from a link set that
+    was not recorded, so treat it as illustrative.
+- **P18-T4:** `warning-text` added to the catalog.
+- **P18-T5:** the mobile bottom-navigation pattern is in `AGENTS/components.md`.
+
+**Not verified:** a click outside closing the More list in a real browser; real Safari and Firefox releases (only
+Playwright's builds ran).
 
 ## Acceptance criteria
 

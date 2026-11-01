@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-citation",
     standalone: true,
-    template: `<div class="citation {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<cite class="citation {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></cite>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Citation {

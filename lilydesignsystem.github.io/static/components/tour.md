@@ -8,7 +8,9 @@ Use this component as the outer wrapper for guided tours, onboarding flows, feat
 
 ## Implementation Notes
 
-- Renders a `<div>` element as the tour container
+- Renders a `<div role="dialog">` as the tour container while `active` is true
+- Is non-modal: no `aria-modal`, no focus trap, the page stays usable (a tour points at the live page)
+- Escape ends the tour by setting `active` to `false`
 - Uses `aria-label` for an accessible name describing the tour
 - Accepts `className` for CSS class targeting
 - Spreads `restProps` onto the `<div>` element for consumer customization
@@ -128,7 +130,7 @@ Standard keyboard interactions provided by child components. The Tour container 
 
 ## Headless
 
-This headless component renders a `<div>` with `aria-label`. The consumer provides all visual styling including layout, progress indicators, step highlights, and navigation controls.
+This headless component renders a non-modal `<div role="dialog">` with `aria-label` and no `aria-modal`. The consumer provides all visual styling including layout, progress indicators, step highlights, and navigation controls.
 
 ## Styles
 
@@ -136,7 +138,7 @@ The consumer provides all CSS styling. The component renders with a `.tour` clas
 
 ## Testing
 
-- Verify the component renders a `<div>` element
+- Verify the component renders a `<div>` element with `role="dialog"` and no `aria-modal`
 - Verify `aria-label` is set from the `label` prop
 - Verify children content is rendered
 - Verify pass-through attributes are applied

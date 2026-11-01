@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "warning-callout",
+  "type": "registry:component",
+  "title": "WarningCallout",
+  "description": "A callout box highlighting a warning message.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/WarningCallout.tsx",
+      "content": "import React from \"react\";\n\n// WarningCallout component\n//\n// A headless warning container that renders an <aside> element with\n// role=\"alert\" for immediate screen reader announcements. Used to draw\n// attention to important alerts, potential issues, or critical information\n// that requires user attention. The role=\"alert\" implicitly sets\n// aria-live=\"assertive\", meaning content is announced immediately when\n// it appears or changes.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, default undefined. Optional accessible name via aria-label.\n//   children — ReactNode, required. The warning content to display.\n//   ...restProps — additional HTML attributes spread onto the <aside>.\n//\n// Syntax:\n//   <WarningCallout label=\"Warning\">...</WarningCallout>\n//\n// Examples:\n//\n//   <WarningCallout label=\"Warning\">\n//     <p>Your session is about to expire.</p>\n//   </WarningCallout>\n//\n//\n//   <WarningCallout>\n//     <p>Unsaved changes will be lost.</p>\n//   </WarningCallout>\n//\n// Keyboard:\n//   - None -- passive container for alert content\n//\n// Accessibility:\n//   - role=\"alert\" causes screen readers to announce content immediately\n//   - aria-label provides an optional accessible name to distinguish multiple alerts\n//\n// Internationalization:\n//   - The label prop accepts any translated string\n//   - All warning content is provided through the children prop\n//\n// Claude rules:\n//   - Headless: no CSS, no styles -- consumer provides all styling\n//   - label is optional since alert content itself provides the message\n//\n// References:\n//   - WAI-ARIA Alert Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/alert/\n//   - WAI-ARIA alert role: https://www.w3.org/TR/wai-aria-1.2/#alert\n\nexport interface WarningCalloutProps {\n    className?: string;\n    /** Optional accessible label. */\n    label?: string;\n    /** Warning content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function WarningCallout({\n    className = \"\",\n    label = undefined,\n    children,\n    ...restProps\n}: WarningCalloutProps) {\n    return (\n        <aside\n            className={`warning-callout ${className}`}\n            role=\"alert\"\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </aside>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/WarningCallout.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/warning-callout/"
+}

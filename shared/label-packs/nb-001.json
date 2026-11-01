@@ -239,5 +239,10 @@
     "small": "liten",
     "smaller": "mindre",
     "smallest": "minst"
+  },
+  "date-time-now-input": {
+    "date": "Dato",
+    "time": "Klokkeslett",
+    "now": "Nå"
   }
 }

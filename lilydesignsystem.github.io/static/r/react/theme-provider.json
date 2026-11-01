@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "theme-provider",
+  "type": "registry:component",
+  "title": "ThemeProvider",
+  "description": "A container that applies CSS custom properties from a theme object to its children.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ThemeProvider.tsx",
+      "content": "import React from \"react\";\n\n// ThemeProvider component\n//\n// Applies a theme object to the consumer's content by flattening the\n// object's nested keys into CSS custom properties on a wrapping <div>.\n// The wrapper uses display: contents (set inline so consumer doesn't have\n// to opt in) so it doesn't affect layout — the children render in place\n// but inherit the CSS variables.\n//\n// Nested ThemeProviders override parent variables only for the keys they\n// declare, since CSS custom property inheritance handles the rest.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   theme    — record, required. Theme object with nested keys; flattened\n//              into CSS custom properties named --theme-{path}.\n//   base     — \"light\" | \"dark\", default \"light\". Reflected as data-theme.\n//   children — ReactNode, required. Themed content.\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — but applies inline `display: contents`\n//     and inline CSS custom properties (the variables themselves)\n\nexport interface ThemeProviderProps {\n    className?: string;\n    /** Theme object with nested keys; flattened into CSS custom properties. */\n    theme: Record<string, unknown>;\n    /** Base theme to merge with. */\n    base?: \"light\" | \"dark\";\n    /** Themed content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nfunction flatten(obj: Record<string, unknown>, prefix: string = \"--theme\"): Record<string, string> {\n    const out: Record<string, string> = {};\n    for (const [key, value] of Object.entries(obj)) {\n        const k = `${prefix}-${key}`;\n        if (value !== null && typeof value === \"object\" && !Array.isArray(value)) {\n            Object.assign(out, flatten(value as Record<string, unknown>, k));\n        } else if (value !== undefined && value !== null) {\n            out[k] = String(value);\n        }\n    }\n    return out;\n}\n\nexport default function ThemeProvider({\n    className = \"\",\n    theme,\n    base = \"light\",\n    children,\n    ...restProps\n}: ThemeProviderProps) {\n    const cssVars = flatten(theme);\n    const style = { display: \"contents\", ...cssVars } as React.CSSProperties;\n    return (\n        <div\n            className={`theme-provider ${className}`}\n            data-theme={base}\n            style={style}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ThemeProvider.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/theme-provider/"
+}

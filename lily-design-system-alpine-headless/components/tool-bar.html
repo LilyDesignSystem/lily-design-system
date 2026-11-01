@@ -4,15 +4,16 @@
   Description: a horizontal bar of tool actions
   HTML tag: <div>
   CSS class: tool-bar
-  Keyboard: None (passive element)
-  Accessibility: role="toolbar", aria-label for accessible name
+  Keyboard: ArrowRight/ArrowLeft move focus among the buttons and wrap, Home/End jump; Tab enters and leaves
+  Accessibility: role="toolbar" with aria-label
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
 <div
   class="tool-bar"
-  role="toolbar"
   aria-label=""
+  x-data="lilyToolBar()"
+  x-bind="bar"
 >
-  <!-- Consumer provides content -->
+  <!-- Consumer provides tool-bar-button buttons -->
 </div>

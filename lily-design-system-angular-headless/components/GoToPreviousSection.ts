@@ -10,10 +10,13 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-go-to-previous-section",
     standalone: true,
-    template: `<div class="go-to-previous-section {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<a class="go-to-previous-section {{ className() }}" [attr.href]="href() || null" [attr.aria-label]="label() || null">{{ label() }}</a>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GoToPreviousSection {
+    /** Visible text and accessible name. */
     readonly label = input<string>("");
+    /** The previous section's fragment, for example "#summary". */
+    readonly href = input<string>("");
     readonly className = input<string>("");
 }

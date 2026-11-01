@@ -3,9 +3,9 @@
   const usage: string = "<h2>Usage</h2>\n\n<pre tabindex=\"0\"><code class=\"language-html\">&lt;Autosuggest label=\"Find a service\" suggestions={current} onInput={handleQuery} onSelect={handleSelect} /&gt;</code></pre>\n\n";
   const rest: string = "<h2>Props</h2>\n\n<table>\n<thead>\n<tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr>\n</thead>\n<tbody>\n<tr><td><code>label</code></td><td>string (required)</td><td>—</td><td>Accessible name for the input</td></tr>\n<tr><td><code>value</code></td><td>string</td><td>\"\"</td><td>Bindable input value</td></tr>\n<tr><td><code>suggestions</code></td><td>array of <code>{ value: string; label: string }</code></td><td>[]</td><td>Current suggestions to show</td></tr>\n<tr><td><code>onInput</code></td><td>(query: string) =&gt; void</td><td>—</td><td>Fired when the typed value changes; consumer recomputes suggestions</td></tr>\n<tr><td><code>onSelect</code></td><td>(value: string) =&gt; void</td><td>—</td><td>Fired when the user selects a suggestion</td></tr>\n<tr><td><code>placeholder</code></td><td>string</td><td>—</td><td>Placeholder text</td></tr>\n<tr><td><code>...restProps</code></td><td>HTML attributes</td><td>—</td><td>Spread onto the wrapper <code>&lt;div&gt;</code></td></tr>\n</tbody>\n</table>\n\n<h2>Keyboard Interactions</h2>\n\n<ul>\n<li>Down arrow: open the listbox / move highlight to the next option</li>\n<li>Up arrow: move highlight to the previous option</li>\n<li>Enter: select the highlighted option</li>\n<li>Escape: close the listbox without selecting</li>\n<li>Home / End: jump to the first / last option (when listbox is open)</li>\n</ul>\n\n<h2>ARIA</h2>\n\n<ul>\n<li><code>role=\"combobox\"</code> on the wrapper, <code>aria-expanded</code> toggled to reflect listbox visibility</li>\n<li><code>aria-controls</code> on the input references the listbox id</li>\n<li><code>aria-activedescendant</code> on the input references the currently highlighted option</li>\n<li><code>role=\"listbox\"</code> on the suggestion list, <code>role=\"option\"</code> on each suggestion</li>\n<li>Selected option has <code>aria-selected=\"true\"</code></li>\n</ul>\n\n<h2>When to Use</h2>\n\n<ul>\n<li>Searching long lists of options where typing narrows the choices (e.g. countries, services, contacts)</li>\n<li>Implementing search-as-you-type with server-driven results</li>\n</ul>\n\n<h2>When Not to Use</h2>\n\n<ul>\n<li>Use <code>Combobox</code> when you want a permanent dropdown that may also accept typed values</li>\n<li>Use <code>Select</code> for short, fixed lists of options</li>\n<li>Use <code>MentionsInput</code> for at-mentions inside a textarea</li>\n</ul>\n\n<h2>Headless</h2>\n\n<p>This headless component renders semantic HTML with appropriate ARIA wiring. The consumer provides all visual styling — no CSS, animations, or layout assumptions are baked in.</p>\n\n<h2>Styles</h2>\n\n<p>The component renders with <code>.autosuggest</code> as the root class. No default styles are included.</p>\n\n<h2>Related components</h2>\n\n<ul>\n<li><code>combobox</code> — input with a permanent dropdown filter</li>\n<li><code>select</code> — native select dropdown</li>\n<li><code>mentions-input</code> — at-mention autocomplete inside a textarea</li>\n</ul>\n\n<h2>References</h2>\n\n<ul>\n<li><a href=\"https://www.w3.org/WAI/ARIA/apg/patterns/combobox/\">WAI-ARIA Combobox pattern</a></li>\n</ul><h2>Implementation Notes</h2>\n\n<ul>\n<li>Implements the WAI-ARIA Combobox pattern (combobox + listbox + option) atop a text <code>&lt;input&gt;</code></li>\n<li>Suggestions are produced by the consumer via the <code>onInput</code> callback (which receives the typed query and returns a list of options)</li>\n<li>Selecting a suggestion sets the input value and closes the listbox</li>\n<li>Supports two-way binding on the <code>value</code> prop</li>\n<li>Listbox is rendered only when there are suggestions and the input is focused</li>\n<li>Closing happens on Escape, click outside, blur, or successful selection</li>\n</ul>\n\n";
   // BEGIN auto-generated component example consts
-  const demoHtml: string = "<div class=\"autosuggest\" aria-label=\"a text input that proposes matching options as users type\">Autosuggest</div>";
+  const demoHtml: string = "<div class=\"autosuggest\"><input class=\"autosuggest-input\" type=\"text\" role=\"combobox\" autocomplete=\"off\" aria-label=\"Find a service\" aria-autocomplete=\"list\" aria-expanded=\"false\" aria-controls=\"demo-autosuggest-list\" value=\"den\" /><ul class=\"autosuggest-list\" role=\"listbox\" id=\"demo-autosuggest-list\" aria-label=\"Find a service\" hidden><li class=\"autosuggest-option\" role=\"option\" id=\"demo-autosuggest-option-0\" aria-selected=\"false\" data-value=\"dentist\">Dentist</li><li class=\"autosuggest-option\" role=\"option\" id=\"demo-autosuggest-option-1\" aria-selected=\"false\" data-value=\"dental-hygienist\">Dental hygienist</li></ul></div>";
   const svelteSource: string = "// In your Svelte component:\nimport Autosuggest from \"lily-design-system-svelte-headless/components/Autosuggest/Autosuggest.svelte\";\n\n<Autosuggest>\n  <!-- content -->\n</Autosuggest>\n";
-  const usageCode: string = "<Autosuggest label=\"Find a service\" suggestions={current} onInput={handleQuery} onSelect={handleSelect} />\n";
+  const usageCode: string = "<Autosuggest\n  label=\"Find a service\"\n  bind:value=\"{query}\"\n  suggestions=\"{current}\"\n  onInput=\"{handleQuery}\"\n  onSelect=\"{handleSelect}\"\n/>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>
@@ -75,23 +75,23 @@
       <li>Component: autosuggest</li>
       <li>PascalCase: Autosuggest</li>
       <li>Description: a text input that proposes matching options as users type</li>
-      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks (Nunjucks renders the markup; opening and the keys are the consumer's script) with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .autosuggest</li>
       <li>Interactive: yes</li>
     </ul>
     <h3>ARIA</h3>
     <ul>
-      <li><code>role="combobox"</code> on the wrapper, <code>aria-expanded</code> toggled to reflect listbox visibility</li>
+      <li><code>role="combobox"</code> on the input (ARIA 1.2; not on the wrapper), with <code>aria-autocomplete="list"</code> and <code>aria-expanded</code> reflecting listbox visibility</li>
       <li><code>aria-controls</code> on the input references the listbox id</li>
-      <li><code>aria-activedescendant</code> on the input references the currently highlighted option</li>
-      <li><code>role="listbox"</code> on the suggestion list, <code>role="option"</code> on each suggestion</li>
-      <li>Selected option has <code>aria-selected="true"</code></li>
+      <li><code>aria-activedescendant</code> on the input references the highlighted option, and is absent when none is</li>
+      <li><code>role="listbox"</code> on the suggestion list (labelled with <code>label</code> too), <code>role="option"</code> on each suggestion</li>
+      <li>The highlighted option has <code>aria-selected="true"</code>; the others <code>"false"</code></li>
     </ul>
     <h3>Keyboard</h3>
     <ul>
-      <li>Down arrow: open the listbox / move highlight to the next option</li>
-      <li>Up arrow: move highlight to the previous option</li>
+      <li>Down arrow: open the listbox and highlight the first option / move the highlight to the next option, wrapping</li>
+      <li>Up arrow: open the listbox and highlight the last option / move the highlight to the previous option, wrapping</li>
       <li>Enter: select the highlighted option</li>
       <li>Escape: close the listbox without selecting</li>
       <li>Home / End: jump to the first / last option (when listbox is open)</li>
@@ -104,6 +104,7 @@
       <li><code>onInput</code>: (query: string) =&gt; void (default: —) — Fired when the typed value changes; consumer recomputes suggestions</li>
       <li><code>onSelect</code>: (value: string) =&gt; void (default: —) — Fired when the user selects a suggestion</li>
       <li><code>placeholder</code>: string (default: —) — Placeholder text</li>
+      <li><code>name</code>: string (default: —) — Form field name of the input</li>
       <li><code>...restProps</code>: HTML attributes (default: —) — Spread onto the wrapper <code>&lt;div&gt;</code></li>
     </ul>
 </section>

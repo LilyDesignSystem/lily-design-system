@@ -13,10 +13,10 @@
 </script>
 
 <!-- Place.svelte -->
-<div
+<article
     class={`place ${className}`}
     aria-label={label}
     {...restProps}
 >
     {@render children?.()}
-</div>
+</article>

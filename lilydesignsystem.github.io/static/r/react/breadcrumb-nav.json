@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "breadcrumb-nav",
+  "type": "registry:component",
+  "title": "BreadcrumbNav",
+  "description": "A navigation container for breadcrumb trail links.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/BreadcrumbNav.tsx",
+      "content": "import React from \"react\";\n\n// BreadcrumbNav component\n//\n// A navigation landmark for a breadcrumb trail that shows the user's current\n// location within a site hierarchy. Renders a <nav> element with an accessible\n// label. Contains a BreadcrumbList which holds BreadcrumbListItem children.\n// Used in sites with deep hierarchies such as e-commerce catalogs,\n// documentation, and content management systems.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible name for the navigation landmark.\n//   children — ReactNode, required. BreadcrumbList element.\n//   ...restProps — additional HTML attributes spread onto the <nav>.\n//\n// Syntax:\n//   <BreadcrumbNav label=\"Breadcrumb\">\n//     <BreadcrumbList>...</BreadcrumbList>\n//   </BreadcrumbNav>\n//\n// Examples:\n//\n//   <BreadcrumbNav label=\"Breadcrumb\">\n//     <BreadcrumbList>\n//       <BreadcrumbListItem><a href=\"/\">Home</a></BreadcrumbListItem>\n//       <BreadcrumbListItem><a href=\"/products\">Products</a></BreadcrumbListItem>\n//       <BreadcrumbListItem current>Widget</BreadcrumbListItem>\n//     </BreadcrumbList>\n//   </BreadcrumbNav>\n//\n// Keyboard:\n//   - Tab: Focus moves between links in the breadcrumb trail\n//   - Enter: Activates the focused breadcrumb link\n//\n// Accessibility:\n//   - <nav> with aria-label creates a navigation landmark\n//   - Screen readers announce the landmark name for orientation\n//\n// Internationalization:\n//   - Label text comes through the label prop; no hardcoded strings\n//\n// Claude rules:\n//   - Compound component — use with BreadcrumbList and BreadcrumbListItem\n//   - Headless: no CSS, no styles — consumer provides all styling\n//\n// References:\n//   - WAI-ARIA Breadcrumb Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/\n//   - HTML nav element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav\n\nexport interface BreadcrumbNavProps {\n    className?: string;\n    /** Accessible label for the breadcrumb navigation. */\n    label: string;\n    /** BreadcrumbList element. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function BreadcrumbNav({\n    className = \"\",\n    label,\n    children,\n    ...restProps\n}: BreadcrumbNavProps) {\n    return (\n        <nav\n            className={`breadcrumb-nav ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </nav>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/BreadcrumbNav.tsx"
+    }
+  ],
+  "categories": [
+    "navigation"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/breadcrumb-nav/"
+}

@@ -1,0 +1,23 @@
+---
+layout: layouts/component-demo.njk
+title: UruguayCedulaDeIdentidadView
+description: a read-only display of Uruguay's Cedula de Identidad Number
+---
+
+{% from "components/uruguay-cedula-de-identidad-view/macro.njk" import uruguayCedulaDeIdentidadView %}
+
+<h2>Default</h2>
+<p>{{ uruguayCedulaDeIdentidadView({ text: "UruguayCedulaDeIdentidadView example", label: "UruguayCedulaDeIdentidadView example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;SummaryList&gt;
+  &lt;SummaryListItem term="Cedula de Identidad Number"&gt;
+    &lt;UruguayCedulaDeIdentidadView
+      label="Cedula de Identidad Number"
+      value="{value}"
+    /&gt;
+  &lt;/SummaryListItem&gt;
+&lt;/SummaryList&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

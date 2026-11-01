@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "headline",
+  "type": "registry:component",
+  "title": "Headline",
+  "description": "A page headline with heading, subtitle, and byline area.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Headline.tsx",
+      "content": "import React from \"react\";\n\n// Headline component\n//\n// A page or article headline composition: a heading at a configurable level\n// (default <h1>), with optional `subtitle` (the dek) and `byline` slots\n// rendered below it. Wraps everything in a <div class=\"headline\"> so consumer\n// CSS can target the whole composition.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   level    — 1 | 2 | 3 | 4 | 5 | 6, default 1. Heading level.\n//   children — ReactNode, required. Heading text.\n//   subtitle — ReactNode, optional. Subtitle/dek content.\n//   byline   — ReactNode, optional. Byline area.\n//   ...restProps — additional HTML attributes spread onto the <div>.\n//\n// Accessibility:\n//   - The chosen heading level appears in the page outline; pick the\n//     correct level for where the headline sits in the document\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n\nexport interface HeadlineProps {\n    className?: string;\n    /** Heading level 1-6. */\n    level?: 1 | 2 | 3 | 4 | 5 | 6;\n    /** Heading text. */\n    children: React.ReactNode;\n    /** Subtitle / dek content. */\n    subtitle?: React.ReactNode;\n    /** Byline area. */\n    byline?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function Headline({\n    className = \"\",\n    level = 1,\n    children,\n    subtitle = undefined,\n    byline = undefined,\n    ...restProps\n}: HeadlineProps) {\n    const Heading = `h${level}` as \"h1\" | \"h2\" | \"h3\" | \"h4\" | \"h5\" | \"h6\";\n    return (\n        <div\n            className={`headline ${className}`}\n            {...restProps}\n        >\n            <Heading className=\"headline-heading\">{children}</Heading>\n            {subtitle !== undefined && <div className=\"headline-subtitle\">{subtitle}</div>}\n            {byline !== undefined && <div className=\"headline-byline\">{byline}</div>}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Headline.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/headline/"
+}

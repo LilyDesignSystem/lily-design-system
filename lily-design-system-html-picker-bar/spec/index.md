@@ -115,7 +115,7 @@ list. This is a pre-existing limitation of the CSV encoding, not new to
 ### 5.1 `DEFAULT_THEMES`
 
 Identical array, identical ordering rationale, to the canonical Svelte
-spec §5.1: all 45 Lily reference theme slugs, alphabetical except the 8
+spec §5.1: all 63 Lily reference theme slugs, alphabetical except the 8
 UK/US government/public-sector themes moved to their own alphabetical
 group at the bottom.
 
@@ -145,7 +145,7 @@ there is no default that would hardcode English text.
   text-size, share — in that order, each accessibly named from
   `labels`.
 - §7.3 Forwards `themesUrl` to `<theme-picker>`; `themes` omitted
-  resolves to `DEFAULT_THEMES` (45 entries, `abyss` first, the 8 UK/US
+  resolves to `DEFAULT_THEMES` (63 entries, `abyss` first, the 8 UK/US
   themes last as a group).
 - §7.4 Forwards `locales` to `<locale-picker>` — required, no default.
 - §7.5 Extra attributes set on the `<picker-bar>` host stay on the
@@ -194,6 +194,6 @@ the catalog `build.js` marks each of a package's own `dependencies` as
 external so the built `dist/` keeps those bare imports rather than
 bundling or erroring on them.
 
-## Default theme list: 57 themes (2026-10-16)
+## Default theme list: 63 themes (2026-10-16)
 
-`DEFAULT_THEMES` has 57 slugs in the same order as the Svelte canonical: the 49 general and design-system themes alphabetically, then the 8 UK and US government themes alphabetically. The first government theme is at index 49.
+`DEFAULT_THEMES` has 63 slugs in the same order as the Svelte canonical: the 49 general and design-system themes alphabetically, then the 8 UK and US government themes alphabetically. The first government theme is at index 49.

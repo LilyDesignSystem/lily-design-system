@@ -2,16 +2,18 @@
 
 A scroll bar is a UI component that allows users to navigate vertically or horizontally through content that extends beyond the visible area of a container. The ScrollBar component provides a headless scrollbar track element with proper ARIA scrollbar semantics, including orientation, value range, and accessible labeling.
 
-**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+**Status:** beta — implemented and unit-tested in all seven frameworks, with the keys in all but Nunjucks (markup only; its keys are the consumer's script), and an axe-clean demo page; not yet exercised in composed flows.
 
-This component renders the structural markup and ARIA attributes for a custom scrollbar. The consumer provides the visual thumb element as children and is responsible for implementing the scroll interaction logic (drag handling, position updates, and syncing with scrollable content). The component sets initial value attributes that the consumer should update dynamically.
+This component renders the structural markup and ARIA attributes for a custom scrollbar and owns its keyboard: the arrow, Page Up / Page Down, Home and End keys move its `value`. The consumer provides the visual thumb element as children, scrolls its content to `value`, writes `value` back as the content scrolls, and handles drag.
 
 ## Implementation Notes
 
-- Renders a `<div>` with `role="scrollbar"` and full ARIA scrollbar attributes
+- Renders a focusable `<div>` (`tabindex="0"`) with `role="scrollbar"` and full ARIA scrollbar attributes
 - Supports `"vertical"` and `"horizontal"` orientations via `aria-orientation`
-- Includes `aria-valuenow`, `aria-valuemin`, and `aria-valuemax` for position tracking
-- Initial values are set to 0/0/100; consumer should update these dynamically
+- Owns the scroll position: `value` (bindable; default 0) within `min`..`max` (default 0..100) is reflected in `aria-valuenow`, `aria-valuemin` and `aria-valuemax`
+- The keys move `value` by `step` (arrows) or `pageStep` (Page Up / Page Down), or to `min` / `max` (Home / End), clamped to the range, and report it (two-way binding, `onChange` in React, a bubbling `change` event in HTML, `lily:change` in Alpine, `lily-change` in Web Components)
+- The consumer scrolls its content to `value`, writes `value` back as the content scrolls, and handles drag
+- `controls` names the scrolled element via `aria-controls`
 - The `label` prop provides the accessible name via `aria-label`
 - Consumer provides the scrollbar thumb or track content via the `children` slot
 - Rest props are spread onto the `<div>` element
@@ -19,6 +21,12 @@ This component renders the structural markup and ARIA attributes for a custom sc
 ## Props
 
 - `orientation`: "vertical" | "horizontal" (default: "vertical") -- the scrollbar direction, reflected in `aria-orientation`
+- `value`: number (default: 0) -- the scroll position, reflected in `aria-valuenow`; bindable (React: controlled `value` + `onChange`, or uncontrolled `defaultValue`)
+- `min`: number (default: 0) -- the start of the range, `aria-valuemin`
+- `max`: number (default: 100) -- the end of the range, `aria-valuemax`
+- `step`: number (default: 1) -- the arrow-key increment
+- `pageStep`: number (default: 10) -- the Page Up / Page Down increment
+- `controls`: string (optional) -- the id of the scrolled element, via `aria-controls`
 - `label`: string (required) -- accessible name for the scrollbar via `aria-label`
 - `children`: slot (required) -- scrollbar content, typically the draggable thumb element
 - `...restProps`: unknown -- additional attributes spread onto the `<div>` element
@@ -32,10 +40,17 @@ Vertical scrollbar inside a chat message area:
   label="Chat messages"
   style="max-height: 400px; overflow: auto;"
 >
-  <div class="messages"><!-- chat messages --></div>
+  <div
+    id="chat-messages"
+    class="messages"
+  >
+    <!-- chat messages -->
+  </div>
   <ScrollBar
     orientation="vertical"
     label="Chat scroll"
+    controls="chat-messages"
+    bind:value="{chatPosition}"
   >
     <div class="scroll-thumb"></div>
   </ScrollBar>
@@ -61,23 +76,25 @@ Horizontal scrollbar for a timeline strip:
 
 ## Keyboard Interactions
 
-- Arrow Up / Arrow Left: Scroll backward (decrease value) by a small increment
-- Arrow Down / Arrow Right: Scroll forward (increase value) by a small increment
-- Page Up: Scroll backward by a large increment
-- Page Down: Scroll forward by a large increment
+- Arrow Up / Arrow Left: Scroll backward (decrease value) by `step`
+- Arrow Down / Arrow Right: Scroll forward (increase value) by `step`
+- Page Up: Scroll backward by `pageStep`
+- Page Down: Scroll forward by `pageStep`
 - Home: Scroll to the beginning (minimum value)
 - End: Scroll to the end (maximum value)
 
-Note: The consumer is responsible for implementing keyboard event handlers that update the scrollbar value.
+The value is clamped to `min`..`max`. Blazor cannot cancel only some keys without JS interop, so there the keys may also scroll the page behind the scrollbar.
 
 ## ARIA
 
 - `role="scrollbar"` -- identifies the element as a scrollbar control
 - `aria-label="..."` -- provides the accessible name for the scrollbar
 - `aria-orientation="vertical|horizontal"` -- indicates the scrollbar direction
-- `aria-valuenow="0"` -- the current scroll position (consumer should update dynamically)
-- `aria-valuemin="0"` -- the minimum scroll value
-- `aria-valuemax="100"` -- the maximum scroll value
+- `aria-controls="..."` -- the scrolled element, when `controls` is given
+- `aria-valuenow` -- the current scroll position (`value`)
+- `aria-valuemin` -- the minimum scroll value (`min`)
+- `aria-valuemax` -- the maximum scroll value (`max`)
+- `tabindex="0"` -- the scrollbar is in the tab order so the keys reach it
 
 ## When to Use
 
@@ -92,7 +109,7 @@ Note: The consumer is responsible for implementing keyboard event handlers that 
 
 ## Headless
 
-The ScrollBar headless component provides a `<div>` with `role="scrollbar"`, `aria-orientation`, `aria-valuenow`, `aria-valuemin`, `aria-valuemax`, and `aria-label` for full ARIA scrollbar semantics. The consumer provides the visual thumb element, drag interaction logic, and position synchronization with scrollable content.
+The ScrollBar headless component provides a focusable `<div>` with `role="scrollbar"`, `aria-orientation`, `aria-controls`, `aria-valuenow`, `aria-valuemin`, `aria-valuemax`, and `aria-label` for full ARIA scrollbar semantics, and moves its value on the keys. The consumer provides the visual thumb element, drag interaction logic, and position synchronization with scrollable content.
 
 ## Styles
 
@@ -103,13 +120,13 @@ The consumer provides all CSS styling. The component renders with a `.scroll-bar
 - Verify the component renders a `<div>` element with class `scroll-bar`
 - Verify role="scrollbar"` -- identifies the element as a scrollbar control
 - Verify aria-label="..."` -- provides the accessible name for the scrollbar
-- Verify keyboard interactions work correctly
+- Verify the arrow keys move the value by `step`, Page Up / Page Down by `pageStep`, Home / End to the bounds, clamped
 - Verify pass-through attributes are applied
 
 ## Advice
 
 - **Designers**: Make the scrollbar thumb large enough to grab easily, and ensure sufficient contrast between the thumb and track for visibility.
-- **Developers**: Update `aria-valuenow` dynamically as the user scrolls, and implement keyboard event handlers for arrow keys, Page Up/Down, Home, and End.
+- **Developers**: Bind `value` and scroll the content when it changes; write `value` back as the content scrolls so `aria-valuenow` stays true. Set `controls` to the scrolled element's id. Scale `min`, `max`, `step` and `pageStep` to the content (for example pixels, with `pageStep` one viewport).
 
 ## Related components
 
@@ -118,7 +135,7 @@ The consumer provides all CSS styling. The component renders with a `.scroll-bar
 ## References
 
 - WAI-ARIA scrollbar role: https://www.w3.org/TR/wai-aria-1.2/#scrollbar
-- WAI-ARIA Practices - ScrollBar: https://www.w3.org/WAI/ARIA/apg/patterns/scrollbar/
+- MDN - ARIA scrollbar role: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/scrollbar_role
 
 ---
 

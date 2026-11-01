@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"five-face-rating-picker\" role=\"radiogroup\" aria-label=\"Rating\"><button class=\"five-face-rating-picker-button\" role=\"radio\" aria-checked=\"false\">😡</button><button class=\"five-face-rating-picker-button\" role=\"radio\" aria-checked=\"false\">😟</button><button class=\"five-face-rating-picker-button\" role=\"radio\" aria-checked=\"false\">😐</button><button class=\"five-face-rating-picker-button\" role=\"radio\" aria-checked=\"true\">😊</button><button class=\"five-face-rating-picker-button\" role=\"radio\" aria-checked=\"false\">😍</button></div>";
   const svelteSource: string = "// In your Svelte component:\nimport FiveFaceRatingPicker from \"lily-design-system-svelte-headless/components/FiveFaceRatingPicker/FiveFaceRatingPicker.svelte\";\n\n<FiveFaceRatingPicker label=\"Picker\" />\n";
-  const usageCode: string = "<FiveFaceRatingPicker label=\"How was your experience?\" bind:value={rating} />\n";
+  const usageCode: string = "<FiveFaceRatingPicker\n  label=\"How was your experience?\"\n  bind:value={rating}\n/>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>
@@ -76,7 +76,8 @@
       <li>PascalCase: FiveFaceRatingPicker</li>
       <li>Description: a picker for selecting a 1-5 satisfaction rating using face labels</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
-      <li>HTML tag: &lt;div&gt;</li>
+      <li>HTML tag: &lt;fieldset&gt;</li>
+      <li>Naming exception: a <code>-picker</code> root is a <code>&lt;div&gt;</code> by the suffix rule, but this one is a <code>&lt;fieldset role="radiogroup"&gt;</code> of native radios in every library, so the group gets its name from its legend and native radio keyboard behaviour (P10-T12)</li>
       <li>CSS class: .five-face-rating-picker</li>
       <li>Interactive: no</li>
     </ul>

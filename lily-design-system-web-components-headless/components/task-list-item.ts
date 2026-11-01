@@ -53,7 +53,8 @@ export class TaskListItem extends HTMLElement {
         const label = document.createElement("label");
         const input = document.createElement("input");
         input.type = "checkbox";
-        input.checked = checked;
+        // defaultChecked, not checked: a form reset restores the checkbox to its default.
+        input.defaultChecked = checked;
         input.disabled = disabled;
         label.appendChild(input);
         label.appendChild(document.createTextNode(this.getAttribute("label") ?? ""));

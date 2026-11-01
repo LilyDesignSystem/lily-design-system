@@ -113,4 +113,16 @@ describe("no English default", () => {
         expect(screen.getByLabelText("1 étoile")).toBeTruthy();
         expect(screen.getByLabelText("4 étoiles")).toBeTruthy();
     });
+
+    test("ArrowRight and ArrowLeft move the selection through the native radio group", async () => {
+        const user: UserEvent = userEvent.setup();
+        render(Subject, { props: { label: "Rating" } });
+        const radios = screen.getAllByRole("radio") as HTMLInputElement[];
+        await user.click(radios[1]);
+        await user.keyboard("{ArrowRight}");
+        expect(radios[2].checked).toBe(true);
+        expect(document.activeElement).toBe(radios[2]);
+        await user.keyboard("{ArrowLeft}{ArrowLeft}");
+        expect(radios[0].checked).toBe(true);
+    });
 });

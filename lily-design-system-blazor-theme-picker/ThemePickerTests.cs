@@ -1187,3 +1187,108 @@ public class ThemePickerOpenStateTests : TestContext
     }
 }
 
+/// <summary>variant="select" (§select, RFC 3 prototype; ported from the Svelte reference 2026-10-30).</summary>
+public class ThemePickerSelectVariantTests : TestContext
+{
+    private static readonly string[] Themes = { "light", "dark", "abyss" };
+    private const string UrlTrailing = "/assets/themes/";
+
+    public ThemePickerSelectVariantTests()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+        JSInterop.SetupVoid("eval", _ => true).SetVoidResult();
+        JSInterop.Setup<string?>("eval", _ => true).SetResult(null);
+    }
+
+
+    private IRenderedComponent<ThemePicker> RenderSelect(
+        Action<ComponentParameterCollectionBuilder<ThemePicker>>? more = null, string label = "Colour theme")
+        => RenderComponent<ThemePicker>(p =>
+        {
+            p.Add(x => x.Label, label).Add(x => x.ThemesUrl, UrlTrailing).Add(x => x.Themes, Themes)
+             .Add(x => x.Variant, "select");
+            more?.Invoke(p);
+        });
+
+    private IReadOnlyList<string> AppliedScripts()
+        => JSInterop.Invocations
+            .Where(i => i.Identifier == "eval")
+            .Select(i => i.Arguments[0]?.ToString() ?? "")
+            .Where(script => script.Contains("data-theme"))
+            .ToList();
+
+    [Fact]
+    public void Select_variant_renders_one_native_select_and_no_button_listbox_tooltip_or_hidden_input()
+    {
+        var cut = RenderSelect();
+        var select = cut.Find("select.theme-picker-select");
+        Assert.Equal("Colour theme", select.GetAttribute("aria-label"));
+        Assert.Equal("theme", select.GetAttribute("name"));
+        Assert.Equal("select", cut.Find("div.theme-picker").GetAttribute("data-variant"));
+        Assert.Empty(cut.FindAll("button"));
+        Assert.Empty(cut.FindAll("[role=listbox]"));
+        Assert.Empty(cut.FindAll(".theme-picker-tooltip"));
+        Assert.Empty(cut.FindAll("input[type=hidden]"));
+    }
+
+    [Fact]
+    public void Select_variant_labels_are_parameters_never_built_in_English()
+    {
+        var cut = RenderSelect(p => p
+            .Add(x => x.ThemeLabels, new Dictionary<string, string> { ["dark"] = "Sombre" }), label: "Thème");
+        Assert.Equal("Thème", cut.Find("select").GetAttribute("aria-label"));
+        var options = cut.FindAll("option.theme-picker-option");
+        Assert.Equal(Themes, options.Select(o => o.GetAttribute("value")).ToArray());
+        Assert.Equal(new[] { "Light", "Sombre", "Abyss" }, options.Select(o => o.TextContent.Trim()).ToArray());
+        Assert.DoesNotContain("default", cut.Markup, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public void Select_variant_marks_the_resolved_value_selected_and_applies_it()
+    {
+        var cut = RenderSelect();
+        Assert.True(cut.Find("option[value=light]").HasAttribute("selected"));
+        Assert.False(cut.Find("option[value=dark]").HasAttribute("selected"));
+        Assert.Contains(AppliedScripts(), script => script.Contains("\"light\"") || script.Contains("'light'"));
+    }
+
+    [Fact]
+    public void Select_variant_change_applies_persists_and_fires_OnChange_once()
+    {
+        var changes = new List<string>();
+        var cut = RenderSelect(p => p.Add(x => x.StorageKey, "lily-theme")
+            .Add(x => x.OnChange, EventCallback.Factory.Create<string>(this, v => changes.Add(v))));
+        changes.Clear();
+        cut.Find("select").Change("abyss");
+        Assert.Equal(new[] { "abyss" }, changes);
+        Assert.True(cut.Find("option[value=abyss]").HasAttribute("selected"));
+        var last = AppliedScripts().Last();
+        Assert.Contains("/assets/themes/abyss.css", last);
+        Assert.Contains("localStorage.setItem", last);
+    }
+
+    [Fact]
+    public void Select_variant_disabled_disables_the_select()
+    {
+        var cut = RenderSelect(p => p.Add(x => x.Disabled, true));
+        Assert.True(cut.Find("select").HasAttribute("disabled"));
+    }
+
+    [Fact]
+    public void Select_variant_value_from_the_parent_selects_that_option()
+    {
+        var cut = RenderSelect(p => p.Add(x => x.Value, "dark"));
+        Assert.True(cut.Find("option[value=dark]").HasAttribute("selected"));
+        cut.SetParametersAndRender(p => p.Add(x => x.Value, "abyss"));
+        Assert.True(cut.Find("option[value=abyss]").HasAttribute("selected"));
+    }
+
+    [Fact]
+    public void Select_variant_CssClass_and_unmatched_attributes_go_on_the_root()
+    {
+        var cut = RenderSelect(p => p.Add(x => x.CssClass, "header-theme").AddUnmatched("data-testid", "tp"));
+        var root = cut.Find("div.theme-picker");
+        Assert.Equal("theme-picker header-theme", root.GetAttribute("class"));
+        Assert.Equal("tp", root.GetAttribute("data-testid"));
+    }
+}

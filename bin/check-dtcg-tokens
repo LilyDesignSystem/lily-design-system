@@ -1,0 +1,437 @@
+#!/usr/bin/env python3
+"""bin/check-dtcg-tokens — strict DTCG 2025.10 validation of themes/tokens (plan P16-T6).
+
+A dependency-free validator of the Design Tokens Format Module 2025.10 and Color
+Module 2025.10 rules for the token types Lily writes, plus the Resolver Module
+2025.10 structure of themes/tokens/lily.resolver.json. It is deliberately stricter
+than "a parser accepts it": anything a strict 2025.10 tool could reject fails here.
+
+Token files (themes/tokens/*.json, except *.resolver.json):
+
+  1. Every $-prefixed key is one the format defines: on a token $value, $type,
+     $description, $extensions, $deprecated; on a group $type, $description,
+     $extensions, $deprecated, $extends and $root; at the root also $schema.
+     Unknown $-keys (a misspelt $decription, a $fluid) fail.
+  2. Token and group names do not start with `$` and contain no `{`, `}` or `.`.
+  3. Every token resolves to a $type (its own, an ancestor group's, or its alias
+     target's) and that $type is one Lily writes: color, dimension, number. A
+     standard type Lily does not write (shadow, duration...) fails with a note to
+     add its validator here; a non-standard type (the old fluidDimension) fails.
+  4. color: {colorSpace, components, alpha?, hex?} only; colorSpace is a
+     2025.10 colour space; components has 3 entries, each a number in that
+     space's range or "none"; alpha is a number in [0, 1]; hex is #rrggbb.
+  5. dimension: exactly {value, unit}; value a JSON number; unit "px" or "rem".
+  6. number: a JSON number (not a boolean).
+  7. $description is a string, $deprecated a boolean or string, and
+     $extensions an object whose keys are reverse-domain vendor namespaces
+     (com.example), as the format recommends.
+  8. Aliases ("{group.token}") resolve to a token in the same file, are not
+     circular, and their target has the same $type.
+  9. Lily's own extension (com.lilydesignsystem): the root carries colorScheme
+     (light|dark) and an `order` naming every token exactly once; a token's
+     `fluid` is {floor, base, grow, ceiling} with rem floor/base/ceiling and a vw
+     grow, and the token's standard $value equals the floor.
+
+Resolver (themes/tokens/lily.resolver.json):
+
+ 10. Root keys are those of the Resolver module ($schema, name, version,
+     description, sets, modifiers, resolutionOrder, $defs); version is the
+     string "2025.10"; resolutionOrder is a non-empty array.
+ 11. A set has `sources` (array); a modifier has a `contexts` map of two or
+     more arrays, an optional `default` naming one of them, and only
+     description / $extensions besides. $extensions keys are reverse-domain.
+ 12. Every reference object resolves: same-document pointers point at an
+     existing set or modifier, never into #/resolutionOrder, and sets and
+     modifiers never point at a modifier; a file reference names an existing
+     file beside the resolver, which must itself pass rules 1-9. Inline
+     resolutionOrder items carry a unique name and a type of set|modifier.
+ 13. Lily: the resolver's contexts cover every theme token file exactly once.
+
+Exits non-zero listing every violation. Wired into bin/test.
+"""
+
+import glob
+import json
+import os
+import re
+import sys
+
+TOP = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+TOKENS = os.path.join(TOP, "themes", "tokens")
+RESOLVER = os.path.join(TOKENS, "lily.resolver.json")
+LILY_EXT = "com.lilydesignsystem"
+
+STANDARD_TYPES = {
+    "color", "dimension", "fontFamily", "fontWeight", "duration", "cubicBezier", "number",
+    "strokeStyle", "border", "transition", "shadow", "gradient", "typography",
+}
+LILY_TYPES = {"color", "dimension", "number"}
+TOKEN_KEYS = {"$value", "$type", "$description", "$extensions", "$deprecated"}
+GROUP_KEYS = {"$type", "$description", "$extensions", "$deprecated", "$extends", "$root"}
+ROOT_KEYS = GROUP_KEYS | {"$schema"}
+NAME_RE = re.compile(r"^[^${}.][^{}.]*$")
+ALIAS_RE = re.compile(r"^\{([^{}]+)\}$")
+VENDOR_RE = re.compile(r"^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)+$")
+HEX_RE = re.compile(r"^#[0-9a-fA-F]{6}$")
+
+INF = float("inf")
+# Color Module 2025.10, 4.2: component ranges; (lo, hi, hi_inclusive)
+COLOR_SPACES = {
+    "srgb": [(0, 1, True)] * 3,
+    "srgb-linear": [(0, 1, True)] * 3,
+    "hsl": [(0, 360, False), (0, 100, True), (0, 100, True)],
+    "hwb": [(0, 360, False), (0, 100, True), (0, 100, True)],
+    "lab": [(0, 100, True), (-INF, INF, True), (-INF, INF, True)],
+    "lch": [(0, 100, True), (0, INF, True), (0, 360, False)],
+    "oklab": [(0, 1, True), (-INF, INF, True), (-INF, INF, True)],
+    "oklch": [(0, 1, True), (0, INF, True), (0, 360, False)],
+    "display-p3": [(0, 1, True)] * 3,
+    "a98-rgb": [(0, 1, True)] * 3,
+    "prophoto-rgb": [(0, 1, True)] * 3,
+    "rec2020": [(0, 1, True)] * 3,
+    "xyz-d65": [(0, 1, True)] * 3,
+    "xyz-d50": [(0, 1, True)] * 3,
+}
+
+RESOLVER_ROOT_KEYS = {"$schema", "name", "version", "description", "sets", "modifiers",
+                      "resolutionOrder", "$defs"}
+SET_KEYS = {"description", "sources", "$extensions"}
+MODIFIER_KEYS = {"description", "contexts", "default", "$extensions"}
+
+
+def is_number(x):
+    return isinstance(x, (int, float)) and not isinstance(x, bool)
+
+
+def is_dim(x, units):
+    return (isinstance(x, dict) and set(x) == {"value", "unit"} and is_number(x["value"])
+            and x["unit"] in units)
+
+
+def check_extensions(ext, where, err):
+    if not isinstance(ext, dict):
+        err(f"{where}: $extensions must be an object")
+        return
+    for k in ext:
+        if not VENDOR_RE.match(k):
+            err(f"{where}: $extensions key {k!r} is not a reverse-domain vendor namespace")
+
+
+def check_color(v, where, err):
+    if not isinstance(v, dict):
+        err(f"{where}: color $value must be an object")
+        return
+    extra = set(v) - {"colorSpace", "components", "alpha", "hex"}
+    if extra:
+        err(f"{where}: color $value has unknown keys {sorted(extra)}")
+    space = v.get("colorSpace")
+    if space not in COLOR_SPACES:
+        err(f"{where}: colorSpace {space!r} is not a 2025.10 colour space")
+        return
+    comps = v.get("components")
+    if not isinstance(comps, list) or len(comps) != 3:
+        err(f"{where}: components must be an array of 3 for {space}")
+        return
+    for i, (c, (lo, hi, inc)) in enumerate(zip(comps, COLOR_SPACES[space])):
+        if c == "none":
+            continue
+        if not is_number(c):
+            err(f"{where}: component {i} {c!r} is not a number or \"none\"")
+        elif c < lo or c > hi or (not inc and c == hi):
+            err(f"{where}: component {i} {c} is out of range for {space}")
+    if "alpha" in v and not (is_number(v["alpha"]) and 0 <= v["alpha"] <= 1):
+        err(f"{where}: alpha {v['alpha']!r} must be a number in [0, 1]")
+    if "hex" in v and not (isinstance(v["hex"], str) and HEX_RE.match(v["hex"])):
+        err(f"{where}: hex {v['hex']!r} must be 6-digit #rrggbb")
+
+
+def check_value(typ, v, where, err):
+    if typ == "color":
+        check_color(v, where, err)
+    elif typ == "dimension":
+        if not is_dim(v, ("px", "rem")):
+            err(f"{where}: dimension $value must be exactly {{value: number, unit: px|rem}}, got {v!r}")
+    elif typ == "number":
+        if not is_number(v):
+            err(f"{where}: number $value must be a JSON number, got {v!r}")
+
+
+def check_lily_fluid(tok, fluid, where, err):
+    if not isinstance(fluid, dict) or set(fluid) != {"floor", "base", "grow", "ceiling"}:
+        err(f"{where}: {LILY_EXT}.fluid must be {{floor, base, grow, ceiling}}")
+        return
+    for k, units in (("floor", ("rem",)), ("base", ("rem",)), ("grow", ("vw",)), ("ceiling", ("rem",))):
+        if not is_dim(fluid[k], units):
+            err(f"{where}: {LILY_EXT}.fluid.{k} must be {{value, unit: {'|'.join(units)}}}")
+    if tok.get("$type") != "dimension" or tok.get("$value") != fluid["floor"]:
+        err(f"{where}: a fluid token must be a dimension whose $value equals its fluid floor")
+
+
+def check_token_file(path, err):
+    """Validate one DTCG token file; returns the set of token paths."""
+    name = os.path.relpath(path, TOP)
+    try:
+        doc = json.load(open(path))
+    except (OSError, ValueError) as e:
+        err(f"{name}: not valid JSON ({e})")
+        return set()
+    if not isinstance(doc, dict):
+        err(f"{name}: root must be an object (a group)")
+        return set()
+    tokens = {}  # dotted path -> (token, inherited $type)
+
+    def walk(node, path, inherited, is_root):
+        allowed = ROOT_KEYS if is_root else GROUP_KEYS
+        gtype = node.get("$type", inherited)
+        for k, v in node.items():
+            where = f"{name}: {'.'.join(path + [k]) or '(root)'}"
+            if k.startswith("$"):
+                if k not in allowed:
+                    err(f"{where}: unknown group property {k!r}")
+                elif k == "$type" and v not in STANDARD_TYPES:
+                    err(f"{where}: group $type {v!r} is not a 2025.10 type")
+                elif k == "$description" and not isinstance(v, str):
+                    err(f"{where}: $description must be a string")
+                elif k == "$deprecated" and not isinstance(v, (bool, str)):
+                    err(f"{where}: $deprecated must be a boolean or string")
+                elif k == "$extensions":
+                    check_extensions(v, where, err)
+                elif k == "$root":
+                    if isinstance(v, dict) and "$value" in v:
+                        tokens[".".join(path + ["$root"])] = (v, gtype)
+                    else:
+                        err(f"{where}: $root must be a token")
+                continue
+            if not NAME_RE.match(k):
+                err(f"{where}: name {k!r} must not start with $ or contain {{ }} .")
+            if not isinstance(v, dict):
+                err(f"{where}: must be a token or group object")
+            elif "$value" in v:
+                tokens[".".join(path + [k])] = (v, gtype)
+            else:
+                walk(v, path + [k], gtype, False)
+
+    walk(doc, [], None, True)
+
+    def resolve_type(p, seen):
+        tok, inherited = tokens[p]
+        v = tok["$value"]
+        if isinstance(v, str) and ALIAS_RE.match(v):
+            target = ALIAS_RE.match(v).group(1)
+            if target in seen:
+                return None, f"circular alias {v}"
+            if target not in tokens:
+                return None, f"alias {v} names no token in this file"
+            ttype, problem = resolve_type(target, seen | {target})
+            if problem:
+                return None, problem
+            own = tok.get("$type", inherited)
+            if own and ttype and own != ttype:
+                return None, f"alias {v} targets a {ttype}, not a {own}"
+            return own or ttype, None
+        return tok.get("$type", inherited), None
+
+    for p, (tok, inherited) in tokens.items():
+        where = f"{name}: {p}"
+        for k in tok:
+            if k.startswith("$") and k not in TOKEN_KEYS:
+                err(f"{where}: unknown token property {k!r}")
+            elif not k.startswith("$"):
+                err(f"{where}: a token must not hold child {k!r}")
+        if "$description" in tok and not isinstance(tok["$description"], str):
+            err(f"{where}: $description must be a string")
+        if "$deprecated" in tok and not isinstance(tok["$deprecated"], (bool, str)):
+            err(f"{where}: $deprecated must be a boolean or string")
+        if "$extensions" in tok:
+            check_extensions(tok["$extensions"], where, err)
+        typ, problem = resolve_type(p, {p})
+        if problem:
+            err(f"{where}: {problem}")
+            continue
+        if typ is None:
+            err(f"{where}: no $type (own, inherited or via alias)")
+        elif typ not in STANDARD_TYPES:
+            err(f"{where}: $type {typ!r} is not a DTCG 2025.10 type")
+        elif typ not in LILY_TYPES:
+            err(f"{where}: $type {typ!r} is standard but not validated here; add its rules to bin/check-dtcg-tokens")
+        elif not (isinstance(tok["$value"], str) and ALIAS_RE.match(tok["$value"])):
+            check_value(typ, tok["$value"], where, err)
+        lily = tok.get("$extensions", {}).get(LILY_EXT) if isinstance(tok.get("$extensions"), dict) else None
+        if isinstance(lily, dict):
+            extra = set(lily) - {"fluid"}
+            if extra:
+                err(f"{where}: unknown {LILY_EXT} token extension keys {sorted(extra)}")
+            if "fluid" in lily:
+                check_lily_fluid(tok, lily["fluid"], where, err)
+
+    # rule 9: the root's Lily extension
+    lily = doc.get("$extensions", {}).get(LILY_EXT) if isinstance(doc.get("$extensions"), dict) else None
+    if not isinstance(lily, dict):
+        err(f"{name}: root $extensions.{LILY_EXT} is missing")
+    else:
+        if lily.get("colorScheme") not in ("light", "dark"):
+            err(f"{name}: {LILY_EXT}.colorScheme must be light or dark")
+        order = lily.get("order")
+        names = set()
+        for p in tokens:
+            head, _, leaf = p.partition(".")
+            names.add(f"--{head}" if head == leaf or not leaf else f"--{head}-{leaf}")
+        if not isinstance(order, list) or len(order) != len(set(order)) or set(order) != names:
+            err(f"{name}: {LILY_EXT}.order must name every token exactly once")
+    return set(tokens)
+
+
+def resolve_pointer(doc, ptr):
+    node = doc
+    for part in ptr.lstrip("/").split("/") if ptr.strip("/") else []:
+        part = part.replace("~1", "/").replace("~0", "~")
+        if isinstance(node, dict) and part in node:
+            node = node[part]
+        elif isinstance(node, list) and part.isdigit() and int(part) < len(node):
+            node = node[int(part)]
+        else:
+            return None
+    return node
+
+
+def check_resolver(path, token_files, err):
+    name = os.path.relpath(path, TOP)
+    try:
+        doc = json.load(open(path))
+    except (OSError, ValueError) as e:
+        err(f"{name}: missing or not valid JSON ({e})")
+        return
+    if not isinstance(doc, dict):
+        err(f"{name}: root must be an object")
+        return
+    for k in set(doc) - RESOLVER_ROOT_KEYS:
+        err(f"{name}: unknown root property {k!r}")
+    if doc.get("version") != "2025.10":
+        err(f"{name}: version must be the string \"2025.10\"")
+    for k in ("name", "description", "$schema"):
+        if k in doc and not isinstance(doc[k], str):
+            err(f"{name}: {k} must be a string")
+    referenced_files = []
+
+    def check_ref(ref, where, from_kind):
+        target = ref["$ref"]
+        if not isinstance(target, str):
+            err(f"{where}: $ref must be a string")
+            return
+        file_part, _, frag = target.partition("#")
+        if target.startswith("#/resolutionOrder"):
+            err(f"{where}: a reference must not point into #/resolutionOrder")
+            return
+        if not file_part:
+            if from_kind in ("set", "modifier") and frag.startswith("/modifiers"):
+                err(f"{where}: a {from_kind} must not reference a modifier")
+            if from_kind == "order" and not re.match(r"^/(sets|modifiers)/[^/]+$", frag):
+                err(f"{where}: resolutionOrder must reference #/sets/<name> or #/modifiers/<name>")
+            if resolve_pointer(doc, frag) is None:
+                err(f"{where}: pointer {target!r} resolves to nothing")
+            return
+        if re.match(r"^[a-z][a-z0-9+.-]*:", file_part):
+            err(f"{where}: remote reference {target!r} (Lily's resolver references local files only)")
+            return
+        fpath = os.path.normpath(os.path.join(os.path.dirname(path), file_part))
+        if not os.path.isfile(fpath):
+            err(f"{where}: file {file_part!r} does not exist")
+            return
+        referenced_files.append(fpath)
+
+    def check_sources(srcs, where, kind):
+        if not isinstance(srcs, list):
+            err(f"{where}: sources must be an array")
+            return
+        for i, s in enumerate(srcs):
+            w = f"{where}[{i}]"
+            if isinstance(s, dict) and "$ref" in s:
+                check_ref(s, w, kind)
+            elif not isinstance(s, dict):
+                err(f"{w}: a source must be a reference object or inline tokens")
+
+    def check_set(st, where, inline=False):
+        if not isinstance(st, dict):
+            err(f"{where}: a set must be an object")
+            return
+        allowed = SET_KEYS | ({"name", "type"} if inline else set())
+        for k in set(st) - allowed:
+            err(f"{where}: unknown set property {k!r}")
+        if "sources" not in st:
+            err(f"{where}: a set must have sources")
+        else:
+            check_sources(st["sources"], f"{where}.sources", "set")
+        if "$extensions" in st:
+            check_extensions(st["$extensions"], where, err)
+
+    def check_modifier(md, where, inline=False):
+        if not isinstance(md, dict):
+            err(f"{where}: a modifier must be an object")
+            return
+        allowed = MODIFIER_KEYS | ({"name", "type"} if inline else set())
+        for k in set(md) - allowed:
+            err(f"{where}: unknown modifier property {k!r}")
+        ctx = md.get("contexts")
+        if not isinstance(ctx, dict) or len(ctx) < 2:
+            err(f"{where}: contexts must be a map with two or more contexts")
+            ctx = {}
+        for cname, srcs in ctx.items():
+            check_sources(srcs, f"{where}.contexts.{cname}", "modifier")
+        if "default" in md and md["default"] not in ctx:
+            err(f"{where}: default {md['default']!r} is not one of its contexts")
+        if "$extensions" in md:
+            check_extensions(md["$extensions"], where, err)
+
+    for sname, st in (doc.get("sets") or {}).items():
+        check_set(st, f"{name}: sets.{sname}")
+    for mname, md in (doc.get("modifiers") or {}).items():
+        check_modifier(md, f"{name}: modifiers.{mname}")
+    order = doc.get("resolutionOrder")
+    if not isinstance(order, list) or not order:
+        err(f"{name}: resolutionOrder must be a non-empty array")
+        order = []
+    inline_names = set()
+    for i, item in enumerate(order):
+        where = f"{name}: resolutionOrder[{i}]"
+        if isinstance(item, dict) and "$ref" in item:
+            check_ref(item, where, "order")
+        elif isinstance(item, dict) and item.get("type") in ("set", "modifier") and isinstance(item.get("name"), str):
+            if item["name"] in inline_names:
+                err(f"{where}: duplicate inline name {item['name']!r}")
+            inline_names.add(item["name"])
+            (check_set if item["type"] == "set" else check_modifier)(item, where, inline=True)
+        else:
+            err(f"{where}: must be a reference object or an inline set/modifier with name and type")
+
+    # rule 12: referenced files are valid token files; rule 13: they are exactly the theme files
+    for f in sorted(set(referenced_files)):
+        if f not in token_files:
+            check_token_file(f, err)
+    counts = {}
+    for f in referenced_files:
+        counts[f] = counts.get(f, 0) + 1
+    for f in token_files:
+        if counts.get(f, 0) != 1:
+            err(f"{name}: {os.path.basename(f)} is referenced {counts.get(f, 0)} times (expected once)")
+
+
+def main():
+    errors = []
+    err = errors.append
+    files = sorted(f for f in glob.glob(os.path.join(TOKENS, "*.json"))
+                   if not f.endswith(".resolver.json"))
+    ntokens = 0
+    for f in files:
+        ntokens += len(check_token_file(f, err))
+    check_resolver(RESOLVER, files, err)
+    if errors:
+        for e in errors:
+            print("Error:", e, file=sys.stderr)
+        print(f"check-dtcg-tokens: FAILED ({len(errors)} problems)", file=sys.stderr)
+        return 1
+    print(f"check-dtcg-tokens: OK ({len(files)} token files, {ntokens} tokens, and the resolver; DTCG 2025.10)")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

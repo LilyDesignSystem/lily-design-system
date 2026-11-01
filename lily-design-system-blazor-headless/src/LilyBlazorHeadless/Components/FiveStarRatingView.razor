@@ -5,7 +5,7 @@
     a read-only display of a five-star rating
 *@
 
-<div class="@($"five-star-rating-view {CssClass}".Trim())" role="img" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<span class="@($"five-star-rating-view {CssClass}".Trim())" role="img" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</span>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

@@ -22,12 +22,12 @@
 
 ## Overview
 
-A Claude Skill mapping the three real React subprojects in this
+A Claude Skill mapping the three React layers in this
 monorepo —
 [`@lilydesignsystem/react-headless`](../lily-design-system-react-headless/)
 (the headless component library),
 [the React helper packages](../spec/helpers/index.md#react-helper-packages)
-(the six `*-picker` helper packages), and
+(the `*-picker` helper packages and the other helper packages), and
 [`lily-design-system-react-next-examples`](../lily-design-system-react-next-examples/)
 (the styled Next.js reference app) — and helping an agent decide which
 one it needs. The skill itself is [`SKILL.md`](SKILL.md); the
@@ -39,10 +39,10 @@ rules each subproject's own implementation is held to.
 ## What this subproject is, and isn't
 
 - **Is**: the React **umbrella** skill — an entry point that maps the
-  three real React subprojects, explains when to reach for each, and
+  three React layers, explains when to reach for each, and
   routes to the deeper sibling skills for the two that are npm
   packages.
-- **Isn't**: the headless library, the helpers catalog, or the example
+- **Isn't**: the headless library, the helper packages, or the example
   app themselves — it ships no components, no helper packages, no
   example pages. Isn't the general, framework-agnostic
   [`lily-design-system-skill`](../lily-design-system-skill/), which

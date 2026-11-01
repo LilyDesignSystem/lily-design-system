@@ -24,6 +24,8 @@ export interface ChatListItemProps {
     className?: string;
     /** Optional accessible label set on aria-label. */
     label?: string;
+    /** Marks the currently selected conversation (aria-current="true"). */
+    current?: boolean;
     /** Component content. */
     children: React.ReactNode;
     [key: string]: unknown;
@@ -32,6 +34,7 @@ export interface ChatListItemProps {
 export default function ChatListItem({
     className = "",
     label = undefined,
+    current = false,
     children,
     ...restProps
 }: ChatListItemProps) {
@@ -39,6 +42,7 @@ export default function ChatListItem({
         <li
             className={`chat-list-item ${className}`}
             aria-label={label}
+            aria-current={current ? "true" : undefined}
             {...restProps}
         >
             {children}

@@ -118,6 +118,10 @@ export class FilterBuilder extends HTMLElement {
     #fields: FilterField[] = [];
     #labels: FilterLabels | undefined;
     #value: FilterGroup = EMPTY_FILTER();
+    // The filter a form reset restores: the last one the consumer set through `value` (user edits do not change it).
+    #initial: FilterGroup = this.#value;
+    #form: HTMLFormElement | null = null;
+    #resetTimer: ReturnType<typeof setTimeout> | undefined;
     #onChange: ((group: FilterGroup) => void) | undefined;
     #status = "";
     #focusKey: string | null = null;
@@ -148,6 +152,7 @@ export class FilterBuilder extends HTMLElement {
     }
     set value(v: FilterGroup) {
         this.#value = v ?? EMPTY_FILTER();
+        this.#initial = this.#value;
         this.#render();
     }
 
@@ -207,7 +212,26 @@ export class FilterBuilder extends HTMLElement {
 
     connectedCallback(): void {
         this.#render();
+        this.#form = this.closest("form");
+        this.#form?.addEventListener("reset", this.#onFormReset);
     }
+
+    disconnectedCallback(): void {
+        clearTimeout(this.#resetTimer);
+        this.#form?.removeEventListener("reset", this.#onFormReset);
+        this.#form = null;
+    }
+
+    // Form reset (tasks.md P10-T9): inside a <form>, a reset rewrites every editor field's DOM to its empty default
+    // without telling this element, so the fields would show "" while `value` keeps the user's filter. Restore the
+    // filter the consumer last set, one tick later (after the browser has reset the DOM) and not when the reset was
+    // cancelled; the commit rebuilds the editor, so every field is redrawn. Same as the Svelte reference.
+    #onFormReset = (event: Event): void => {
+        clearTimeout(this.#resetTimer);
+        this.#resetTimer = setTimeout(() => {
+            if (!event.defaultPrevented) this.#commit(this.#initial);
+        }, 0);
+    };
 
     attributeChangedCallback(): void {
         this.#render();

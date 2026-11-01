@@ -2,27 +2,29 @@
   "slug": "sheet",
   "name": "Sheet",
   "description": "a panel that slides in from a screen edge as an overlay",
-  "htmlTag": "div",
-  "category": "content",
+  "htmlTag": "dialog",
+  "category": "overlays",
   "baseClass": ".sheet",
   "subClasses": [],
   "interactive": true,
   "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
   "aria": [
-    "`role=\"dialog\"` -- identifies the sheet as a dialog window",
+    "`role=\"dialog\"` -- implicit on the native `<dialog>` element (not repeated as an attribute)",
     "`aria-label={label}` -- provides an accessible name for the dialog",
-    "`aria-modal=\"true\"` -- indicates the dialog is modal, meaning content behind it is inert"
+    "`aria-modal=\"true\"` -- true: `showModal()` makes the page behind inert",
+    "`tabindex=\"-1\"` -- lets the dialog take focus",
+    "`data-side={side}` -- data attribute for consumer CSS styling based on position"
   ],
   "keyboard": [
-    "Escape: Closes the sheet by setting `open` to `false`",
-    "Tab: Moves focus between focusable elements within the sheet (consumer should implement focus trapping)"
+    "Escape: closes it by setting `open` to `false`",
+    "Tab / Shift+Tab: move between focusable elements inside it; focus cannot leave while it is open"
   ],
   "props": [
     "`label`: string (required) -- accessible label for the sheet dialog, applied via `aria-label`",
     "`open`: boolean (default: `false`) -- whether the sheet is visible; two-way bindable via `open`",
     "`side`: `\"left\" | \"right\" | \"top\" | \"bottom\"` (default: `\"right\"`) -- which edge the sheet appears from",
     "`children`: slot (required) -- content to render inside the sheet",
-    "`...restProps`: unknown -- additional attributes spread onto the `<div>` element"
+    "`...restProps`: unknown -- additional attributes spread onto the `<dialog>` element"
   ],
   "related": [
     "drawer",
@@ -41,5 +43,10 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Sheet.razor"
   },
   "docs": "https://lilydesignsystem.com/components/sheet/",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/sheet/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/sheet/AGENTS.md",
+  "nativePlatform": {
+    "decision": "native",
+    "uses": "<dialog> showModal() via Dialog/modal.ts (open-attribute fallback where showModal is missing)",
+    "could_use": "::backdrop; command=\"show-modal\"/\"close\" on consumer buttons"
+  }
 }

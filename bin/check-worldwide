@@ -1,0 +1,157 @@
+#!/usr/bin/env python3
+"""bin/check-worldwide — no single-region default in the shipped code (tasks.md P17-T12).
+
+The rule (AGENTS/internationalization.md): the target is worldwide, and a single-region convention is a defect or a
+documented gap, never a silent default. spec/internationalization/worldwide-audit.md found three such defaults, since
+removed (P17-T5, P17-T6); this check keeps them out:
+
+  * a currency default: a currency code (USD, GBP, EUR, JPY, CNY, INR) assigned as a default (`= "USD"`,
+    `?? "USD"`, `|| "USD"`, `default("USD")`, or a currency-named key `currencyCode: "USD"`);
+  * a weekend default: `[0, 6]` (or `[6, 0]`, or Saturday-and-Sunday `DayOfWeek` pairs) in code;
+  * a visible English default locale: a locale/lang/language default of "en", "en-US" or "en-GB".
+
+It scans the shipped source of every top-level package (not the example apps, skills, tests, stories, fixtures,
+build output or documentation), with block comments blanked out so a documented example is not a default. A hit that
+is not a default (an internal parser that needs a fixed locale, say) goes in bin/check-worldwide.allow.json with a
+reason; an allow-list entry that no longer matches fails, so the list stays honest.
+
+It also prints the coverage tables the audit asked for: national identifier types by region (from
+AGENTS/national-person-identifiers.tsv) and the label packs (shared/label-packs/).
+
+Usage:
+  bin/check-worldwide          check and print the tables
+  bin/check-worldwide --quiet  check only (for bin/test)
+"""
+import json
+import os
+import re
+import sys
+
+TOP = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+QUIET = "--quiet" in sys.argv
+
+EXT = (".ts", ".tsx", ".js", ".mjs", ".svelte", ".vue", ".njk", ".razor", ".cs", ".html")
+SKIP_DIRS = {"node_modules", "dist", "bin", "obj", "e2e", "test-results", "AGENTS", "docs", "examples", ".svelte-kit",
+             "storybook-static", "build", "test", "tests", "spec"}
+SKIP_FILE = re.compile(r"\.(test|spec|stories|fixture)\.|Tests\.cs$|\.d\.ts$|vitest|playwright|wdio|\.config\.")
+COMMENT = re.compile(r"/\*[\s\S]*?\*/|<!--[\s\S]*?-->|@\*[\s\S]*?\*@|\{#[\s\S]*?#\}")
+CODES = r"USD|GBP|EUR|JPY|CNY|INR"
+RULES = {
+    "currency default": re.compile(
+        rf"(?:=|\?\?|\|\||default\(|\bDefault\w*\s*=)\s*[\"']({CODES})[\"']"
+        rf"|\bcurrency\w*\s*:\s*[\"']({CODES})[\"']",
+        re.IGNORECASE,
+    ),
+    "weekend default": re.compile(
+        r"\[\s*0\s*,\s*6\s*\]|\[\s*6\s*,\s*0\s*\]"
+        r"|DayOfWeek\.Saturday\s*,\s*DayOfWeek\.Sunday|DayOfWeek\.Sunday\s*,\s*DayOfWeek\.Saturday"
+    ),
+    "English locale default": re.compile(
+        r"(?:\b(?:locale|lang|language)\w*\s*(?:=|\?\?|\|\||:)|default\()\s*[\"']en(?:[-_](?:US|GB))?[\"']",
+        re.IGNORECASE,
+    ),
+}
+
+
+def blank_comments(text):
+    """Replace every block comment with spaces, keeping its newlines so line numbers stay right."""
+    return COMMENT.sub(lambda m: re.sub(r"[^\n]", " ", m.group(0)), text)
+
+
+def scan():
+    roots = sorted(d for d in os.listdir(TOP)
+                   if d.startswith("lily-design-system-") and not d.endswith(("-examples", "-skill")))
+    roots.append("shared")
+    hits = []
+    for root in roots:
+        for dirpath, dirnames, filenames in os.walk(os.path.join(TOP, root)):
+            dirnames[:] = [d for d in dirnames if d not in SKIP_DIRS and not d.startswith(".")]
+            for name in filenames:
+                if not name.endswith(EXT) or SKIP_FILE.search(name):
+                    continue
+                path = os.path.join(dirpath, name)
+                try:
+                    text = blank_comments(open(path, encoding="utf-8").read())
+                except (OSError, UnicodeDecodeError):
+                    continue
+                for number, line in enumerate(text.split("\n"), 1):
+                    if line.strip().startswith(("//", "#")):
+                        continue
+                    for rule, rx in RULES.items():
+                        match = rx.search(line)
+                        if match:
+                            rel = os.path.relpath(path, TOP)
+                            hits.append((rule, f"{rel}::{match.group(0).strip()}", f"{rel}:{number}"))
+    return hits
+
+
+# ISO 3166 code (or its country prefix for subdivisions such as GB-SCT) -> region, for the identifier table.
+REGION = {
+    **dict.fromkeys("AT BE BG HR CY CZ DK EE FI FR DE GR HU IE IT LV LT LU MT NL PL PT RO SK SI ES SE GB IS LI NO CH UA"
+                    .split(), "Europe"),
+    **dict.fromkeys("CN IN ID IL JP KR PH SG TH TR RU MY VN PK BD LK NP AE SA QA KW BH OM IR IQ TW HK".split(), "Asia"),
+    **dict.fromkeys("US CA MX BR AR CL CO PE UY PY BO EC VE".split(), "Americas"),
+    **dict.fromkeys("AU NZ FJ PG".split(), "Oceania"),
+    **dict.fromkeys("ZA EG NG KE ET GH MA TZ UG DZ".split(), "Africa"),
+}
+
+
+def identifier_table():
+    rows = open(os.path.join(TOP, "AGENTS", "national-person-identifiers.tsv"), encoding="utf-8").read().splitlines()
+    counts, countries = {}, {}
+    for row in rows[1:]:
+        cols = row.split("\t")
+        if len(cols) < 4 or not cols[3]:
+            continue
+        code = cols[3].split("-")[0]
+        region = REGION.get(code, "Other")
+        counts[region] = counts.get(region, 0) + 1
+        countries.setdefault(region, set()).add(code)
+    total = sum(counts.values())
+    lines = [f"National identifier types by region ({total} types, {len({c for s in countries.values() for c in s})} countries):"]
+    for region in sorted(counts, key=lambda r: -counts[r]):
+        lines.append(f"  {region:<10} {counts[region]:>3} types  {round(100 * counts[region] / total):>3}%  "
+                     f"{len(countries[region])} countries")
+    return lines
+
+
+def label_pack_table():
+    folder = os.path.join(TOP, "shared", "label-packs")
+    packs = sorted(f for f in os.listdir(folder) if f.endswith(".json"))
+    reviewed = 0
+    for name in packs:
+        try:
+            if json.load(open(os.path.join(folder, name), encoding="utf-8")).get("reviewed") is True:
+                reviewed += 1
+        except (OSError, ValueError, AttributeError):
+            pass
+    return [f"Label packs: {len(packs)} locales, {reviewed} reviewed by a native speaker, "
+            f"{len(packs) - reviewed} unreviewed drafts."]
+
+
+def main():
+    allow = json.load(open(os.path.join(TOP, "bin", "check-worldwide.allow.json"), encoding="utf-8"))
+    hits = scan()
+    seen, failures = set(), []
+    for rule, key, where in hits:
+        if key in allow:
+            seen.add(key)
+        else:
+            failures.append(f"FAIL {rule}: {where}: {key.split('::', 1)[1]}")
+    for key in allow:
+        if key not in seen:
+            failures.append(f"FAIL stale allow-list entry (no longer found): {key}")
+    if not QUIET:
+        for line in identifier_table() + [""] + label_pack_table() + [""]:
+            print(line)
+    for failure in failures:
+        print(failure)
+    if failures:
+        print(f"{len(failures)} problem(s). Remove the single-region default, or, if it is not a default, list it with "
+              "a reason in bin/check-worldwide.allow.json.")
+        sys.exit(1)
+    print(f"check-worldwide: OK ({len(hits)} allowed hit(s); no currency, weekend or English-locale default)")
+
+
+if __name__ == "__main__":
+    main()

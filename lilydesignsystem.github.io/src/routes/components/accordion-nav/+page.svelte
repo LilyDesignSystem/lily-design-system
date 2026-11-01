@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<nav class=\"accordion-nav\" aria-label=\"Accordion\"><ol class=\"accordion-list\"><li class=\"accordion-list-item\"><details><summary>Section 1</summary><p>Content 1</p></details></li><li class=\"accordion-list-item\"><details><summary>Section 2</summary><p>Content 2</p></details></li></ol></nav>";
   const svelteSource: string = "// In your Svelte component:\nimport AccordionNav from \"lily-design-system-svelte-headless/components/AccordionNav/AccordionNav.svelte\";\n\n<AccordionNav label=\"Navigation\">\n  <!-- nav children -->\n</AccordionNav>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import AccordionNav from './AccordionNav.svelte';\n  import AccordionList from '../AccordionList/AccordionList.svelte';\n  import AccordionListItem from '../AccordionListItem/AccordionListItem.svelte';\n<\/script>\n\n<AccordionNav label=\"Frequently Asked Questions\">\n  <AccordionList>\n    <AccordionListItem>\n      <summary>What is this?</summary>\n      <p>A design system.</p>\n    </AccordionListItem>\n  </AccordionList>\n</AccordionNav>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import AccordionNav from \"./AccordionNav.svelte\";\n  import AccordionList from \"../AccordionList/AccordionList.svelte\";\n  import AccordionListItem from \"../AccordionListItem/AccordionListItem.svelte\";\n<\/script>\n\n<AccordionNav label=\"Frequently Asked Questions\">\n  <AccordionList>\n    <AccordionListItem>\n      <summary>What is this?</summary>\n      <p>A design system.</p>\n    </AccordionListItem>\n  </AccordionList>\n</AccordionNav>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

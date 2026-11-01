@@ -179,11 +179,7 @@ pnpm run dev</code></pre>
 
 <section class="section prose" id="helpers" style="margin: 0 auto;">
   <h2>یاریگرهای ترجیحات</h2>
-  <p>
-    هر چارچوب هشت انتخابگر کوچک دارد، هر کدام بستهٔ
-    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> خودش (و یک <code>picker-bar</code> که آن‌ها را سرهم می‌کند). هر کدام دکمهٔ نمادی بدون‌سر است که پنجرهٔ بازشو باز می‌کند — لیست‌باکس، فهرست پیوندها، فرم جست‌وجو یا (برای date-time-picker) گفت‌وگوی انتخاب تاریخ — نه
-    <code>&lt;select&gt;</code> بومی؛ ایمن برای SSR است؛ و CSS عرضه نمی‌کند:
-  </p>
+  <p>هر فریم‌ورک یازده انتخابگر کوچک دارد که هر کدام بسته‌ی خودش است <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> (و یک <code>picker-bar</code> که آن‌ها را کنار هم می‌گذارد). هر کدام یک دکمه‌ی آیکونی headless است که یک پنجره‌ی بازشو باز می‌کند — فهرست گزینه‌ها، فهرست پیوندها، فرم جست‌وجو، پنلی با محتوای خودتان یا (برای date-time-picker) گفت‌وگوی انتخاب تاریخ — نه یک <code>&lt;select&gt;</code> بومی (theme-picker یکی را به‌عنوان گونه‌ای اختیاری ارائه می‌دهد)؛ برای SSR امن است و هیچ CSS ارائه نمی‌کند. به‌جز menu-picker و settings-picker و time-zone-picker، این‌ها هستند:</p>
   <ul>
     <li>
       <strong>theme-picker</strong> — برگه‌های سبک پوسته را در زمان اجرا با تعویض یک <code>&lt;link&gt;</code>مدیریت‌شده بارگذاری می‌کند، روی سند

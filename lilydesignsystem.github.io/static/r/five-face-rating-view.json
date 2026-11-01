@@ -2,7 +2,7 @@
   "slug": "five-face-rating-view",
   "name": "FiveFaceRatingView",
   "description": "a read-only display of a five-face satisfaction rating",
-  "htmlTag": "div",
+  "htmlTag": "span",
   "category": "content",
   "baseClass": ".five-face-rating-view",
   "subClasses": [],

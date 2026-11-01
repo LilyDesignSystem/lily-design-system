@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/vue";
+import { fireEvent, render, screen } from "@testing-library/vue";
 import { describe, expect, test } from "vitest";
 import Subject from "./FileDialog.vue";
 describe("FileDialog", () => {
@@ -20,5 +20,11 @@ describe("FileDialog", () => {
             slots: { default: "x" },
         });
         expect(screen.getByTestId("fd")).toBeTruthy();
+    });
+
+    test("Escape closes the dialog", async () => {
+        const { emitted } = render(Subject, { props: { label: "Open", open: true }, slots: { default: "files" } });
+        await fireEvent.keyDown(screen.getByRole("dialog"), { key: "Escape" });
+        expect(emitted()["update:open"]).toEqual([[false]]);
     });
 });

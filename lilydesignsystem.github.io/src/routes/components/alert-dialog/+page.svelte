@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<dialog class=\"alert-dialog\" open role=\"alertdialog\" aria-label=\"Confirmation\"><p>Are you sure?</p><button class=\"button\">OK</button></dialog>";
   const svelteSource: string = "// In your Svelte component:\nimport AlertDialog from \"lily-design-system-svelte-headless/components/AlertDialog/AlertDialog.svelte\";\n\n<AlertDialog label=\"Dialog\" open>\n  <!-- dialog content -->\n</AlertDialog>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import AlertDialog from './AlertDialog.svelte';\n  import Button from '../Button/Button.svelte';\n\n  let showDialog = $state(false);\n  function confirm() {\n    showDialog = false;\n  }\n<\/script>\n\n<Button onclick={() => (showDialog = true)}>Delete</Button>\n\n<AlertDialog\n  bind:open={showDialog}\n  title=\"Confirm Deletion\"\n  description=\"This action cannot be undone.\"\n>\n  <Button onclick={confirm}>Yes, delete</Button>\n  <Button onclick={() => (showDialog = false)}>Cancel</Button>\n</AlertDialog>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import AlertDialog from \"./AlertDialog.svelte\";\n  import Button from \"../Button/Button.svelte\";\n\n  let showDialog = $state(false);\n  function confirm() {\n    showDialog = false;\n  }\n<\/script>\n\n<Button onclick={() => (showDialog = true)}>Delete</Button>\n\n<AlertDialog\n  bind:open={showDialog}\n  title=\"Confirm Deletion\"\n  description=\"This action cannot be undone.\"\n>\n  <Button onclick={confirm}>Yes, delete</Button>\n  <Button onclick={() => (showDialog = false)}>Cancel</Button>\n</AlertDialog>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>
@@ -89,8 +89,8 @@
     </ul>
     <h3>Keyboard</h3>
     <ul>
-      <li>Escape: Closes the dialog (consumer must implement via onkeydown)</li>
-      <li>Tab: Focus should be trapped within the dialog (consumer responsibility)</li>
+      <li>Escape: closes the dialog. It opens with <code>showModal()</code>, so the browser fires <code>cancel</code> and the component sets <code>open</code> to false.</li>
+      <li>Tab: stays inside the dialog; the browser keeps it there while the dialog is modal.</li>
     </ul>
     <h3>Props</h3>
     <ul>

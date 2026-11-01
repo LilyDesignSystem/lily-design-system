@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<input class=\"angle-slider-range-input\" type=\"range\" min=\"0\" max=\"360\" value=\"90\" aria-label=\"Angle\" />";
   const svelteSource: string = "// In your Svelte component:\nimport AngleSliderRangeInput from \"lily-design-system-svelte-headless/components/AngleSliderRangeInput/AngleSliderRangeInput.svelte\";\n\n<AngleSliderRangeInput label=\"Label\" />\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import AngleSliderRangeInput from './AngleSliderRangeInput.svelte';\n\n  let angle = $state(0);\n<\/script>\n\n<AngleSliderRangeInput label=\"Rotation\" bind:value={angle} />\n<p>Current angle: {angle}°</p>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import AngleSliderRangeInput from \"./AngleSliderRangeInput.svelte\";\n\n  let angle = $state(0);\n<\/script>\n\n<AngleSliderRangeInput\n  label=\"Rotation\"\n  bind:value={angle}\n/>\n<p>Current angle: {angle}°</p>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

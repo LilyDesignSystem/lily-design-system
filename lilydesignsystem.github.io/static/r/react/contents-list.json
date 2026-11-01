@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "contents-list",
+  "type": "registry:component",
+  "title": "ContentsList",
+  "description": "An contents ordered list of contents list item components.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ContentsList.tsx",
+      "content": "import React from \"react\";\n\n// ContentsList component\n//\n// A headless ordered list for a table of contents. Renders a semantic <ol>\n// element containing ContentsListItem children. Designed to be placed inside\n// a ContentsNav component. The ordered list conveys the sequential nature of\n// page sections to assistive technology.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   children — ReactNode, required. ContentsListItem components or <li> elements.\n//   ...restProps — additional HTML attributes spread onto the <ol>.\n//\n// Syntax:\n//   <ContentsList>\n//     <ContentsListItem><a href=\"#section\">Section</a></ContentsListItem>\n//   </ContentsList>\n//\n// Examples:\n//\n//   <ContentsNav label=\"On this page\">\n//     <ContentsList>\n//       <ContentsListItem><a href=\"#introduction\">Introduction</a></ContentsListItem>\n//       <ContentsListItem><a href=\"#usage\">Usage</a></ContentsListItem>\n//     </ContentsList>\n//   </ContentsNav>\n//\n// Keyboard:\n//   - None — passive list container; keyboard navigation handled by links within items\n//\n// Accessibility:\n//   - <ol> provides implicit list role conveying sequential section order\n//\n// Internationalization:\n//   - All content is provided by consumers through children; no hardcoded strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Compound component: used inside ContentsNav, contains ContentsListItem children\n//\n// References:\n//   - MDN ol element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol\n\nexport interface ContentsListProps {\n    className?: string;\n    /** The component content */\n    children?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function ContentsList({\n    className = \"\",\n    children,\n    ...restProps\n}: ContentsListProps) {\n    return (\n        <ol\n            className={`contents-list ${className}`}\n            {...restProps}\n        >\n            {children}\n        </ol>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ContentsList.tsx"
+    }
+  ],
+  "categories": [
+    "lists"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/contents-list/"
+}

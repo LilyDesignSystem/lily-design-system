@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<span class=\"red-amber-green-view\" role=\"img\" aria-label=\"Status: Green\">Green</span>";
   const svelteSource: string = "// In your Svelte component:\nimport RedAmberGreenView from \"lily-design-system-svelte-headless/components/RedAmberGreenView/RedAmberGreenView.svelte\";\n\n<RedAmberGreenView label=\"Label\" value=\"Sample value\" />\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import RedAmberGreenView from './RedAmberGreenView.svelte';\n<\/script>\n\n<RedAmberGreenView label=\"Project status\" value=\"green\" />\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import RedAmberGreenView from \"./RedAmberGreenView.svelte\";\n<\/script>\n\n<RedAmberGreenView\n  label=\"Project status\"\n  value=\"green\"\n/>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>
@@ -76,7 +76,7 @@
       <li>PascalCase: RedAmberGreenView</li>
       <li>Description: a read-only display of a red/amber/green status</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
-      <li>HTML tag: &lt;div&gt;</li>
+      <li>HTML tag: &lt;span&gt;</li>
       <li>CSS class: .red-amber-green-view</li>
       <li>Interactive: no</li>
     </ul>

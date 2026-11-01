@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "ai-label",
+  "type": "registry:component",
+  "title": "AiLabel",
+  "description": "An indicator of AI instances that is a pathway to AI explainability.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/AiLabel.tsx",
+      "content": "import React from \"react\";\n\n// AiLabel component\n//\n// A headless inline indicator that communicates the presence of AI-generated\n// content and provides a pathway to AI explainability. Renders a <span> element\n// with visible text and accessible labelling. Used wherever AI is generating,\n// modifying, or enhancing content to reinforce AI transparency, accountability,\n// and explainability.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, default \"AI\". Accessible name via aria-label.\n//   text — string, default \"AI\". Visible text displayed inside the indicator.\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <AiLabel />\n//   <AiLabel text=\"AI generated\" label=\"AI generated content\" />\n//\n// Examples:\n//   <p>This summary was created by <AiLabel /> based on your documents.</p>\n//\n// Keyboard:\n//   - None at component level; wrap in <button> for interactive explainability\n//\n// Accessibility:\n//   - aria-label provides an accessible name for the AI indicator\n//\n// Internationalization:\n//   - The text and label props are the only user-facing strings\n//   - Consumer provides localized values for both props\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Renders a bare <span> — no wrapper elements\n//\n// References:\n//   - Carbon Design System AI Label: https://carbondesignsystem.com/components/ai-label/usage/\n\nexport interface AiLabelProps {\n    className?: string;\n    /** Accessible name for the indicator. */\n    label?: string;\n    /** Visible text displayed. */\n    text?: string;\n    [key: string]: unknown;\n}\n\nexport default function AiLabel({\n    className = \"\",\n    label = \"AI\",\n    text = \"AI\",\n    ...restProps\n}: AiLabelProps) {\n    return (\n        <span\n            className={`ai-label ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {text}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/AiLabel.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/ai-label/"
+}

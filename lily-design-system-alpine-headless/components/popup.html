@@ -6,14 +6,23 @@
   CSS class: popup
   Keyboard: Escape closes and returns focus to the trigger; focus moves in on open
   Accessibility: role="dialog" with aria-label; tabindex -1 so it can take focus; non-modal
+  Popover API: the popup is popover="auto" and the trigger names it with
+    command="toggle-popover" commandfor (and popovertarget), so it opens, and
+    closes on Escape and on a click outside, even before Alpine starts
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
-<div x-data="lilyOverlay(false)">
+<div
+  x-data="lilyPopover(false, { focus: true })"
+  x-bind="root"
+>
   <button
     class="popup-trigger"
     x-bind="trigger"
     aria-controls="popup-1"
+    command="toggle-popover"
+    commandfor="popup-1"
+    popovertarget="popup-1"
   >
     <!-- Consumer provides trigger label -->
   </button>
@@ -23,7 +32,8 @@
     role="dialog"
     aria-label=""
     tabindex="-1"
-    x-bind="surface"
+    popover="auto"
+    x-bind="panel"
   >
     <!-- Consumer provides content -->
     <button

@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"step-list\" aria-label=\"an ordered list of step items showing progress through a multi-step process\">StepList</div>";
   const svelteSource: string = "// In your Svelte component:\nimport StepList from \"lily-design-system-svelte-headless/components/StepList/StepList.svelte\";\n\n<StepList>\n  <!-- list children -->\n</StepList>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import StepList from './StepList.svelte';\n  import StepListItem from '../StepListItem/StepListItem.svelte';\n<\/script>\n\n<StepList label=\"Checkout\" current={1}>\n  <StepListItem status=\"finished\">Cart</StepListItem>\n  <StepListItem status=\"in-progress\" current>Shipping</StepListItem>\n  <StepListItem status=\"waiting\">Payment</StepListItem>\n</StepList>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import StepList from \"./StepList.svelte\";\n  import StepListItem from \"../StepListItem/StepListItem.svelte\";\n<\/script>\n\n<StepList\n  label=\"Checkout\"\n  current={1}\n>\n  <StepListItem status=\"finished\">Cart</StepListItem>\n  <StepListItem\n    status=\"in-progress\"\n    current>Shipping</StepListItem\n  >\n  <StepListItem status=\"waiting\">Payment</StepListItem>\n</StepList>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

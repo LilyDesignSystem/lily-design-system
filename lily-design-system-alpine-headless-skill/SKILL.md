@@ -1,13 +1,13 @@
 ---
 name: lily-design-system-alpine-headless-skill
-description: Explains Lily Design System's Alpine.js headless catalog — annotated semantic-HTML snippets (`components/{slug}.html`) plus one Alpine plugin (`lily-alpine.js`) that registers `Alpine.data("lily…")` behaviours — and the four Alpine helpers built on it (data grid, kanban board, calendar, Gantt chart) and the Alpine example app. Use when someone asks how to use Lily with Alpine.js, wants the snippet-plus-plugin idiom, asks which components have Alpine behaviour and which are pure markup, needs the `x-bind` object names and keyboard contracts (menus, trees, combobox, tabs, dialogs, sliders), the `lily:*` events, how to test a snippet under jsdom, or how to use the Alpine data grid, kanban board, calendar or Gantt chart.
+description: Explains Lily Design System's Alpine.js headless catalog — annotated semantic-HTML snippets (`components/{slug}.html`) plus one Alpine plugin (`lily-alpine.js`) that registers `Alpine.data("lily…")` behaviours — and the six Alpine helpers built on it (data grid, kanban board, calendar, Gantt chart, Markdown editor, Org editor) and the Alpine example app. Use when someone asks how to use Lily with Alpine.js, wants the snippet-plus-plugin idiom, asks which components have Alpine behaviour and which are pure markup, needs the `x-bind` object names and keyboard contracts (menus, trees, combobox, tabs, dialogs, sliders), the `lily:*` events, how to test a snippet under jsdom, or how to use the Alpine data grid, kanban board, calendar or Gantt chart.
 license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 ---
 
 # Lily Design System™ — Alpine.js headless usage
 
 `@lilydesignsystem/alpine-headless` (0.1.0, added 2026-10-21, **not yet
-published to npm**) is Lily's ninth headless catalog. It covers **all 582
+published to npm**) is Lily's ninth headless catalog. It covers **all 607
 components**. Alpine has no component model, so a Lily component here is
 two things:
 
@@ -51,8 +51,9 @@ dependency (`^3.14`).
 
 ## What has behaviour
 
-488 components are static markup, identical to the html-headless snippet. 83
-are hand-written. By behaviour (full lists in the package `index.md`):
+Most components are static markup, identical to the html-headless snippet; the interactive ones have a hand-written
+behaviour (488 static and 83 behavioural at the 2026-10-21 count of 571; the package `index.md` has the current lists). By
+behaviour:
 
 | Behaviour                                                                                                    | Components                                                                                                                         | Keys and events                                                                         |
 | ------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
@@ -104,8 +105,8 @@ Static components are tested only for element, base class and role.
 
 ## Helpers and the example app
 
-Four helpers ship as their own packages, each an Alpine plugin plus a `snippet.html`, each a **subset** of its Svelte reference
-(its `spec/index.md` lists what is built and what is not):
+Six helpers ship as their own packages (`bin/list-helper-packages alpine`), each an Alpine plugin plus a `snippet.html`, each a
+**subset** of its Svelte reference (its `spec/index.md` lists what is built and what is not). The four grid-like ones:
 
 | Package                                 | Plugin                      | Does                                                                                                             | Events                                                   |
 | --------------------------------------- | --------------------------- | ---------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
@@ -114,7 +115,10 @@ Four helpers ship as their own packages, each an Alpine plugin plus a `snippet.h
 | `@lilydesignsystem/alpine-calendar`     | `lilyCalendarView(options)` | month and week views, picked and disabled days, events, bounds, date-grid keys, UTC ISO dates                    | `lily:pick`, `lily:event`                                |
 | `@lilydesignsystem/alpine-gantt-chart`  | `lilyGanttChart(options)`   | day timeline, hierarchy and collapse, milestones, dependencies, critical path, APG grid keys                     | `lily:activate`                                          |
 
-Each takes one options object (`gridOptions`, `boardOptions`, `calendarOptions`, `ganttOptions` in the snippets) with every string
+The two editors, `@lilydesignsystem/alpine-markdown-editor` (`lilyMarkdownEditor`) and `@lilydesignsystem/alpine-org-editor`
+(`lilyOrgEditor`), are a `<textarea>` with a toolbar whose buttons write Markdown or Org markup into it (added 2026-10-24).
+
+Each grid-like helper takes one options object (`gridOptions`, `boardOptions`, `calendarOptions`, `ganttOptions` in the snippets) with every string
 in `labels`; a label's absence removes the control it names. `createDataGrid(options)` and its siblings return the same state
 without Alpine. `lily-design-system-alpine-examples` is a static site with a live demo of every component and a page per helper
 (`pnpm build`, `pnpm test`, `pnpm test:e2e`).
@@ -125,5 +129,5 @@ An Alpine expression that evaluates to a **function** is called by Alpine, so sn
 ## What is not built yet
 
 No Alpine pickers (`theme-picker`, `locale-picker`, …), `picker-bar` or `filter`; no composed-page demos; and the packages are not
-yet in `bin/check-coverage`, `bin/check-class-names`, `bin/publish-headless` or `bin/smoke-packages`. Say so rather than implying
+yet in `bin/check-coverage`, `bin/check-class-names`, `bin/publish-headless`, `bin/publish-helpers` or `bin/smoke-packages`. Say so rather than implying
 otherwise. Each package's `spec/index.md` is the source of truth for scope.

@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"input-group\" aria-label=\"a group wrapping an input with prefix and suffix addons\">InputGroup</div>";
   const svelteSource: string = "// In your Svelte component:\nimport InputGroup from \"lily-design-system-svelte-headless/components/InputGroup/InputGroup.svelte\";\n\n<InputGroup>\n  <!-- list children -->\n</InputGroup>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import InputGroup from './InputGroup.svelte';\n<\/script>\n\n<InputGroup label=\"Amount in US dollars\">\n  {#snippet prefix()}<span aria-hidden=\"true\">$</span>{/snippet}\n  <input type=\"number\" min=\"0\" step=\"0.01\" />\n  {#snippet suffix()}<span aria-hidden=\"true\">USD</span>{/snippet}\n</InputGroup>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import InputGroup from \"./InputGroup.svelte\";\n<\/script>\n\n<InputGroup label=\"Amount in US dollars\">\n  {#snippet prefix()}<span aria-hidden=\"true\">$</span>{/snippet}\n  <input\n    type=\"number\"\n    min=\"0\"\n    step=\"0.01\"\n  />\n  {#snippet suffix()}<span aria-hidden=\"true\">USD</span>{/snippet}\n</InputGroup>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

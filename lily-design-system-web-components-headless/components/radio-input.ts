@@ -33,7 +33,8 @@ export class RadioInput extends HTMLElement {
         if (name !== null) input.name = name;
         const value = this.getAttribute("value");
         if (value !== null) input.value = value;
-        if (this.hasAttribute("checked")) input.checked = true;
+        // defaultChecked, not checked: a form reset restores the radio to its default.
+        if (this.hasAttribute("checked")) input.defaultChecked = true;
         if (this.hasAttribute("disabled")) input.disabled = true;
         passThroughAttributes(this, input, HANDLED);
 

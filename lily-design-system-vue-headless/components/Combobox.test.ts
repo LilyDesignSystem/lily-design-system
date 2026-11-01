@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/vue";
+import { fireEvent, render, screen } from "@testing-library/vue";
 import { describe, expect, test } from "vitest";
 
 import Subject from "./Combobox.vue";
@@ -17,7 +17,7 @@ describe("Combobox", () => {
             props: { label: "Search fruit" },
             slots: { default: "<div role='option'>Apple</div>" },
         });
-        expect(screen.getByLabelText("Search fruit")).toBeTruthy();
+        expect(screen.getByRole("combobox", { name: "Search fruit" })).toBeTruthy();
     });
 
     test("listbox hidden when closed", () => {
@@ -50,5 +50,14 @@ describe("Combobox", () => {
             slots: { default: "<div role='option'>Apple</div>" },
         });
         expect(screen.getByTestId("cb")).toBeTruthy();
+    });
+
+    test("Escape closes the listbox", async () => {
+        const { emitted } = render(Subject, {
+            props: { label: "Fruit", open: true },
+            slots: { default: "<div role='option'>Apple</div>" },
+        });
+        await fireEvent.keyDown(screen.getByRole("combobox"), { key: "Escape" });
+        expect(emitted()["update:open"]).toEqual([[false]]);
     });
 });

@@ -7,12 +7,12 @@ license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 # Lily Design System™ — Angular headless usage
 
 `@lilydesignsystem/angular-headless` is the Angular implementation of the
-Lily Design System's headless component library: the full 582-component
+Lily Design System's headless component library: the full 607-component
 catalog (`components.tsv`), each shipped as a standalone Angular component
 with zero CSS — semantic HTML, ARIA, and keyboard behaviour only. It is one
 of the seven **full-catalog** headless libraries (HTML, Svelte, React, Vue,
 Angular, Blazor, Nunjucks); unlike the partial Web Components catalog
-(547/582, its full achievable scope), Angular ships the entire catalog.
+(572/607, its full achievable scope), Angular ships the entire catalog.
 
 Published to npm as `@lilydesignsystem/angular-headless`:
 
@@ -115,7 +115,7 @@ Angular headless components follow the same theming contract as every other
 Lily catalog: each root element carries a fixed kebab-case base class (e.g.
 `.breadcrumb-nav`) plus the consumer's optional `className` input, and that
 class is the _only_ styling contract — no bundled CSS, fonts, icons, or
-Angular Material dependency. Pair the class hooks with one of the 45
+Angular Material dependency. Pair the class hooks with one of the 63
 reference stylesheets under `themes/`, or write your own CSS against them.
 
 ## Naming, suffixes, and composition
@@ -128,6 +128,15 @@ Angular-specific — see `AGENTS/components.md` in the canonical monorepo (or
 the equivalent reference in `lily-design-system-skill`) for the full
 mapping and worked composition examples (Form, Grail layout, Navigation,
 Table). This skill does not restate them.
+
+## Native dialogs and popovers (2026-10-30)
+
+Modal overlays (`dialog`, `alert-dialog`, `file-dialog`, `timeout-dialog`, `drawer`, `sheet`, `slide-out-drawer`) open a real
+`<dialog>` with `showModal()`: the page behind is inert, Tab stays inside, Escape closes, focus returns to the opener. Light-dismiss
+popups (`popover`, `popup`, `contextual-help`, `dropdown-menu`, `split-button`, `action-group`, `context-menu`) use the Popover API
+(`popover="auto"`, opened by `command="toggle-popover"` `commandfor`, with `popovertarget` as well), so the browser itself can close
+them on Escape or an outside click. Keep their open state two-way: listen for the change rather than assuming only your code closes
+them. Per-component decisions: each `components/{slug}/AGENTS.md` § "Native platform"; rule: `AGENTS/headless.md`.
 
 ## When NOT this skill
 

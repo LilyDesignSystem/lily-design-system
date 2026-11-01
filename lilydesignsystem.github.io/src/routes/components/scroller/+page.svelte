@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"scroller\" aria-label=\"a scrollytelling container with step-based foreground and background composition\">Scroller</div>";
   const svelteSource: string = "// In your Svelte component:\nimport Scroller from \"lily-design-system-svelte-headless/components/Scroller/Scroller.svelte\";\n\n<Scroller>\n  <!-- content -->\n</Scroller>\n";
-  const usageCode: string = "<Scroller label=\"Climate change data story\" bind:index>\n  <div slot=\"background\">\n    <!-- Changes based on index -->\n    <img src=\"chart-{index}.png\" alt=\"Chart showing step {index}\" />\n  </div>\n  <div class=\"step\">\n    <p>In 2020, temperatures rose significantly.</p>\n  </div>\n  <div class=\"step\">\n    <p>By 2025, the trend accelerated.</p>\n  </div>\n</Scroller>\n";
+  const usageCode: string = "<Scroller\n  label=\"Climate change data story\"\n  bind:index\n>\n  <div slot=\"background\">\n    <!-- Changes based on index -->\n    <img\n      src=\"chart-{index}.png\"\n      alt=\"Chart showing step {index}\"\n    />\n  </div>\n  <div class=\"step\">\n    <p>In 2020, temperatures rose significantly.</p>\n  </div>\n  <div class=\"step\">\n    <p>By 2025, the trend accelerated.</p>\n  </div>\n</Scroller>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

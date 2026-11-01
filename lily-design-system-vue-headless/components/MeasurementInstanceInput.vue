@@ -43,6 +43,9 @@
 // References:
 //   - HTML input element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text
 
+import { ref } from "vue";
+import { useFormReset } from "./form-reset";
+
 withDefaults(
     defineProps<{
         /** Accessible name for the measurement instance input */
@@ -59,6 +62,8 @@ withDefaults(
 );
 
 const modelValue = defineModel<string>({ default: "" });
+const field = ref<HTMLInputElement | HTMLTextAreaElement | null>(null);
+useFormReset(modelValue, field);
 </script>
 
 <template>
@@ -67,6 +72,7 @@ const modelValue = defineModel<string>({ default: "" });
         class="measurement-instance-input"
         type="text"
         :aria-label="label"
+        ref="field"
         v-model="modelValue"
         :required="required"
         :disabled="disabled"

@@ -33,5 +33,10 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/AccordionList.razor"
   },
   "docs": "https://lilydesignsystem.com/components/accordion-list/",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/accordion-list/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/accordion-list/AGENTS.md",
+  "nativePlatform": {
+    "decision": "native",
+    "uses": "div role=\"group\" of accordion-list-item <details>",
+    "could_use": "<details name> for single-open accordions"
+  }
 }

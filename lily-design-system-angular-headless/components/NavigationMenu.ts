@@ -36,7 +36,7 @@ import { setupOverflowNavigation } from "./overflow-navigation";
     standalone: true,
     imports: [NgTemplateOutlet],
     template: `<ng-template #items><ng-content /></ng-template>
-        <div
+        <nav
             #root
             class="navigation-menu {{ className() }}"
             [attr.aria-label]="label() || null"
@@ -55,7 +55,7 @@ import { setupOverflowNavigation } from "./overflow-navigation";
             } @else {
                 <ng-container [ngTemplateOutlet]="items" />
             }
-        </div>`,
+        </nav>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavigationMenu {

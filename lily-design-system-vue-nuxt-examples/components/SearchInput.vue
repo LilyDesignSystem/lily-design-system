@@ -45,6 +45,9 @@
 //   - MDN input type="search": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/search
 //   - WAI-ARIA Search Role: https://www.w3.org/WAI/ARIA/apg/patterns/search/
 
+import { ref } from "vue";
+import { useFormReset } from "./form-reset";
+
 withDefaults(
     defineProps<{
         /** Accessible label. */
@@ -61,6 +64,8 @@ withDefaults(
 );
 
 const modelValue = defineModel<string>({ default: "" });
+const field = ref<HTMLInputElement | HTMLTextAreaElement | null>(null);
+useFormReset(modelValue, field);
 </script>
 
 <template>
@@ -69,6 +74,7 @@ const modelValue = defineModel<string>({ default: "" });
         class="search-input"
         type="search"
         :aria-label="label"
+        ref="field"
         v-model="modelValue"
         :required="required"
         :disabled="disabled"

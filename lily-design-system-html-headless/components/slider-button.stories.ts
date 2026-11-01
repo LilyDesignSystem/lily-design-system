@@ -3,14 +3,13 @@ import type { Meta, StoryObj } from "@storybook/html-vite";
 const html = `<button
   class="slider-button"
   role="slider"
-  aria-label=""
+  aria-label="Slide to confirm your order"
   type="button"
   aria-valuemin="0"
   aria-valuemax="100"
   aria-valuenow="0"
->
-  <!-- Consumer provides content -->
-</button>`;
+  data-step="10"
+></button>`;
 
 const meta = {
     title: "Headless/SliderButton",

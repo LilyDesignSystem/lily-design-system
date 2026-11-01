@@ -15,3 +15,9 @@ in the canonical repo root for the cross-framework documentation.
 
 - `TourList.ts` — standalone Angular 20 component (signal inputs, OnPush)
 - `TourList.spec.ts` — vitest + TestBed render test
+
+## Semantics
+
+A plain `<ol>` with `aria-label`: no `role="dialog"` (it hid the list
+semantics) and no `aria-modal`. Any dialog semantics belong to the enclosing
+`lily-tour`, which is non-modal.

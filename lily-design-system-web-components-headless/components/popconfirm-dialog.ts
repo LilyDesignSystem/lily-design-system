@@ -27,6 +27,7 @@
 //   - Ant Design Popconfirm: https://ant.design/components/popconfirm
 
 import { applySelfClassName, nextId } from "../lib/dom-utils.js";
+import { syncManualPopover } from "./popover.js";
 
 export class PopconfirmDialog extends HTMLElement {
     static get observedAttributes(): string[] {
@@ -86,7 +87,7 @@ export class PopconfirmDialog extends HTMLElement {
         if (!this.#titleEl || !this.#descriptionEl || !this.#cancelButton || !this.#confirmButton)
             return;
 
-        this.hidden = !this.hasAttribute("open");
+        syncManualPopover(this, this.hasAttribute("open"));
         this.#titleEl.textContent = this.getAttribute("title") ?? "";
 
         const description = this.getAttribute("description");

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "share-page",
+  "type": "registry:component",
+  "title": "SharePage",
+  "description": "A component for sharing the page on social media.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/SharePage.tsx",
+      "content": "export interface SharePageProps {\n    className?: string;\n    label?: string;\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function SharePage({\n    className = \"\",\n    label = undefined,\n    children,\n    ...restProps\n}: SharePageProps) {\n    return (\n        <div\n            className={`share-page ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </div>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/SharePage.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/share-page/"
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "breadcrumb-list",
+  "type": "registry:component",
+  "title": "BreadcrumbList",
+  "description": "An ordered list of breadcrumb list items.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/BreadcrumbList.tsx",
+      "content": "import React from \"react\";\n\n// BreadcrumbList component\n//\n// An ordered list that contains BreadcrumbListItem children, representing\n// the hierarchical trail in a breadcrumb navigation. Renders a semantic\n// <ol> element to convey the ordered relationship of pages. Must be placed\n// inside a BreadcrumbNav container.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   children — ReactNode, required. BreadcrumbListItem elements.\n//   ...restProps — additional HTML attributes spread onto the <ol>.\n//\n// Syntax:\n//   <BreadcrumbList>\n//     <BreadcrumbListItem>...</BreadcrumbListItem>\n//   </BreadcrumbList>\n//\n// Examples:\n//\n//   <BreadcrumbNav label=\"Breadcrumb\">\n//     <BreadcrumbList>\n//       <BreadcrumbListItem><a href=\"/\">Home</a></BreadcrumbListItem>\n//       <BreadcrumbListItem><a href=\"/products\">Products</a></BreadcrumbListItem>\n//       <BreadcrumbListItem current>Widget</BreadcrumbListItem>\n//     </BreadcrumbList>\n//   </BreadcrumbNav>\n//\n// Keyboard: None — passive container. Keyboard interactions are handled\n// by links within BreadcrumbListItem children.\n//\n// Accessibility:\n//   - <ol> conveys the ordered hierarchical relationship of the trail\n//   - Implicit list role allows screen readers to announce item count\n//\n// Internationalization:\n//   - No user-facing strings; all content comes through children\n//   - Separator characters (e.g. \"/\" or \">\") should be added by the consumer\n//\n// Claude rules:\n//   - Compound component — used inside BreadcrumbNav, contains BreadcrumbListItem children\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Separator characters between items are the consumer's responsibility\n//\n// References:\n//   - WAI-ARIA Breadcrumb Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/\n\nexport interface BreadcrumbListProps {\n    className?: string;\n    /** BreadcrumbListItem elements. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function BreadcrumbList({\n    className = \"\",\n    children,\n    ...restProps\n}: BreadcrumbListProps) {\n    return (\n        <ol\n            className={`breadcrumb-list ${className}`}\n            {...restProps}\n        >\n            {children}\n        </ol>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/BreadcrumbList.tsx"
+    }
+  ],
+  "categories": [
+    "lists"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/breadcrumb-list/"
+}

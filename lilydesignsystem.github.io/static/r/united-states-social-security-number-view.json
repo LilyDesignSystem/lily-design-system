@@ -2,7 +2,7 @@
   "slug": "united-states-social-security-number-view",
   "name": "UnitedStatesSocialSecurityNumberView",
   "description": "a read-only display of a US Social Security number",
-  "htmlTag": "div",
+  "htmlTag": "span",
   "category": "national",
   "baseClass": ".united-states-social-security-number-view",
   "subClasses": [],

@@ -38,6 +38,14 @@
 - `children`: slot (required) -- option elements to render inside the listbox (should have `role="option"` and `tabindex="-1"`).
 - `...restProps`: unknown -- additional attributes spread onto the container `<div>`.
 
+## Native platform
+
+- Decision: hand-rolled because the APG listbox needs aria-activedescendant mode, typeahead and rich option content, and the helpers compose it inside a popup; <select size> renders only text options
+- Uses: none (svelte:element role="listbox"; roving tabindex or aria-activedescendant)
+- Could use: <select size> / <select multiple>
+- Notes: In-page; not itself an overlay.
+- Source: `spec/competitive-position/native-primitives.tsv` (P16-T4)
+
 ## Acceptance Criteria
 
 - [ ] Renders <div> element with class="listbox"

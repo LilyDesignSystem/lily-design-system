@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "error-message",
+  "type": "registry:component",
+  "title": "ErrorMessage",
+  "description": "An error message associated with a form field.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ErrorMessage.tsx",
+      "content": "import React from \"react\";\n\n// ErrorMessage component\n//\n// Displays an error message using role=\"alert\" for immediate screen reader\n// announcement. Renders a <p> element that acts as an assertive live region,\n// so the error text is announced as soon as it enters the DOM. Used for form\n// validation feedback, system error notifications, and inline error display.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   children — ReactNode, required. Error message text content.\n//   ...restProps — additional HTML attributes spread onto the <p> element.\n//\n// Syntax:\n//   <ErrorMessage>Error text here</ErrorMessage>\n//\n// Examples:\n//\n//   <ErrorMessage>Password is required</ErrorMessage>\n//\n//\n//   {error && (\n//     <ErrorMessage>{error}</ErrorMessage>\n//   )}\n//\n// Keyboard:\n//   - None — passive container for displaying error text\n//\n// Accessibility:\n//   - role=\"alert\" creates an implicit aria-live=\"assertive\" live region\n//   - Error text is announced immediately to screen readers when it appears\n//\n// Internationalization:\n//   - All error text comes through consumer-provided children\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Uses role=\"alert\" for immediate announcement, not aria-live=\"polite\"\n//\n// References:\n//   - WAI-ARIA Alert Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/alert/\n\nexport interface ErrorMessageProps {\n    className?: string;\n    /** Error message content. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function ErrorMessage({\n    className = \"\",\n    children,\n    ...restProps\n}: ErrorMessageProps) {\n    return (\n        <p\n            className={`error-message ${className}`}\n            role=\"alert\"\n            {...restProps}\n        >\n            {children}\n        </p>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ErrorMessage.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/error-message/"
+}

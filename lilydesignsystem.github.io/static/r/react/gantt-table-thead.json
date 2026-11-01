@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "gantt-table-thead",
+  "type": "registry:component",
+  "title": "GanttTableThead",
+  "description": "A Gantt chart table interactive grid thead for planning schedule visualization <thead>.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/GanttTableThead.tsx",
+      "content": "import React from \"react\";\n\n// GanttTableThead component\n//\n// The header section of a GanttTable, rendered as a <thead> element.\n// Contains GanttTableTr elements with column headers for task names,\n// dates, durations, or other Gantt chart metadata.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   children — ReactNode, required. GanttTableTr elements with header cells.\n//   ...restProps — additional HTML attributes spread onto the <thead>.\n//\n// Syntax:\n//   <GanttTableHead>\n//     <GanttTableTr><th>Task</th><th>Start</th><th>End</th></GanttTableTr>\n//   </GanttTableHead>\n//\n// Keyboard:\n//   None built-in — keyboard navigation handled at the GanttTable grid level.\n//\n// Accessibility:\n//   - <thead> provides structural header semantics for the table\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - Must be used inside a GanttTable\n//   - No internal state — purely a structural wrapper\n//\n// References:\n//   - HTML thead element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/thead\n\nexport interface GanttTableTheadProps {\n    className?: string;\n    /** GanttTableTr elements with header cells. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function GanttTableHead({\n    className = \"\",\n    children,\n    ...restProps\n}: GanttTableTheadProps) {\n    return (\n        <thead\n            className={`gantt-table-thead ${className}`}\n            {...restProps}\n        >\n            {children}\n        </thead>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/GanttTableThead.tsx"
+    }
+  ],
+  "categories": [
+    "tables"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/gantt-table-thead/"
+}

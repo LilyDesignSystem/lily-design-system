@@ -47,6 +47,7 @@
 //   - MDN input type="file": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file
 
 import React, { useRef, useState } from "react";
+import { useFormReset } from "./form-reset";
 
 export interface FileUploadProps {
     className?: string;
@@ -74,6 +75,12 @@ export default function FileUpload({
 }: FileUploadProps) {
     const inputRef = useRef<HTMLInputElement>(null);
     const [fileCount, setFileCount] = useState(0);
+
+    // Form reset: the browser clears the file input; the count must follow.
+    useFormReset(inputRef, () => {
+        setFileCount(inputRef.current?.files?.length ?? 0);
+        onInputChange?.(inputRef.current?.files ?? null);
+    });
 
     function handleClick() {
         inputRef.current?.click();

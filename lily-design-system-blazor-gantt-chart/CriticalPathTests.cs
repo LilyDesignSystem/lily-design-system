@@ -12,7 +12,7 @@ public class CriticalPathTests
     private static GanttTask T(string id, string? start, string? end, string? parent = null, string[]? dependsOn = null, params GanttDependency[] deps)
         => new() { Id = id, Label = id.ToUpperInvariant(), Start = start, End = end, ParentId = parent, DependsOn = dependsOn, Dependencies = deps.Length > 0 ? deps : null };
 
-    private static readonly CriticalPathOptions WorkingDays = new() { LagUnit = CriticalPathLagUnit.WorkingDays };
+    private static readonly CriticalPathOptions WorkingDays = new() { LagUnit = CriticalPathLagUnit.WorkingDays, Weekends = new[] { 0, 6 } };
 
     [Fact]
     public void A_chain_is_critical_and_a_shorter_branch_has_slack()
@@ -98,6 +98,23 @@ public class CriticalPathTests
         Assert.Equal("2026-01-12", CriticalPath.Compute(Chain(1), WorkingDays).Finish);
         Assert.Equal("2026-01-13", CriticalPath.Compute(Chain(2), WorkingDays).Finish);
         Assert.Equal("2026-01-10", CriticalPath.Compute(Chain(0), WorkingDays).Finish);
+    }
+
+    [Fact]
+    public void Working_day_lag_requires_weekends()
+    {
+        var noWeekends = new CriticalPathOptions { LagUnit = CriticalPathLagUnit.WorkingDays };
+        Assert.Throws<ArgumentException>(() => CriticalPath.Compute(Chain(1), noWeekends));
+        Assert.Equal("2026-01-11", CriticalPath.Compute(Chain(1), noWeekends with { Weekends = new int[0] }).Finish);
+    }
+
+    [Fact]
+    public void Working_day_lag_with_friday_saturday_weekends()
+    {
+        var fs = WorkingDays with { Weekends = new[] { 5, 6 } };
+        Assert.Equal("2026-01-11", CriticalPath.Compute(Chain(1), fs).Finish);
+        Assert.Equal("2026-01-12", CriticalPath.Compute(Chain(2), fs).Finish);
+        Assert.Equal("2026-01-13", CriticalPath.Compute(Chain(2), WorkingDays).Finish);
     }
 
     [Fact]

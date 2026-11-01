@@ -4,11 +4,14 @@
   Description: a hierarchical list with nested expandable items
   HTML tag: <ol>
   CSS class: tree-list
-  Keyboard: None (passive element)
-  Accessibility: role="tree", aria-label for accessible name
+  Keyboard: ArrowDown/ArrowUp move between visible items (wrapping), Home/End jump to first/last, ArrowRight expands or enters a branch, ArrowLeft collapses or moves to the parent (swapped in right-to-left)
+  Accessibility: role="tree", aria-label for accessible name; items are role="treeitem" tabindex="-1", branches carry aria-expanded
   Usage:
-    <ol class="tree-list" role="tree" aria-label="Example">
-      ...
+    <ol
+      class="tree-list"
+      role="tree"
+      aria-label=""
+    >
     </ol>
 -->
 
@@ -17,5 +20,59 @@
   role="tree"
   aria-label=""
 >
-  <!-- Consumer provides list items -->
+  <!-- Consumer provides role="treeitem" items -->
 </ol>
+
+<script>
+  // TreeList behavior
+  (function() {
+    'use strict';
+    document.querySelectorAll('.tree-list').forEach(function(tree) {
+      tree.addEventListener('keydown', function(e) {
+        var items = Array.from(tree.querySelectorAll("[role='treeitem']")).filter(function(el) {
+          return !(el.parentElement && el.parentElement.closest("[role='treeitem'][aria-expanded='false']"));
+        });
+        var active = document.activeElement;
+        var index = items.indexOf(active);
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          if (items.length) items[index < items.length - 1 ? index + 1 : 0].focus();
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          if (items.length) items[index > 0 ? index - 1 : items.length - 1].focus();
+        } else if (e.key === 'Home') {
+          e.preventDefault();
+          if (items.length) items[0].focus();
+        } else if (e.key === 'End') {
+          e.preventDefault();
+          if (items.length) items[items.length - 1].focus();
+        } else if ((e.key === 'ArrowRight' || e.key === 'ArrowLeft') && index >= 0 && e.target === active) {
+          var rtl = getComputedStyle(active).direction === 'rtl';
+          var open = rtl ? 'ArrowLeft' : 'ArrowRight';
+          var expanded = active.getAttribute('aria-expanded');
+          if (e.key === open) {
+            if (expanded === 'false') {
+              e.preventDefault();
+              active.setAttribute('aria-expanded', 'true');
+            } else if (expanded === 'true') {
+              var child = active.querySelector("[role='treeitem']");
+              if (child) {
+                e.preventDefault();
+                child.focus();
+              }
+            }
+          } else if (expanded === 'true') {
+            e.preventDefault();
+            active.setAttribute('aria-expanded', 'false');
+          } else {
+            var parent = active.parentElement && active.parentElement.closest("[role='treeitem']");
+            if (parent) {
+              e.preventDefault();
+              parent.focus();
+            }
+          }
+        }
+      });
+    });
+  })();
+</script>

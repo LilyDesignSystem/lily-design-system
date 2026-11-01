@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-description-list",
     standalone: true,
-    template: `<ol class="description-list {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></ol>`,
+    template: `<dl class="description-list {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></dl>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DescriptionList {

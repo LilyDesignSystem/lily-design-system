@@ -149,7 +149,7 @@ This headless Carousel component provides the semantic container with `role="reg
 
 ## Reduced motion
 
-Reduced motion changes how content appears, never whether it does. Apply it in consumer CSS under `@media (prefers-reduced-motion: reduce)` and under the `motion-picker`'s `[data-motion="reduce"]` on the document root (the 57 reference themes already honour both for the preference hooks they style). For a carousel, the rules are in "Controls the consumer builds" above: no auto-rotation under the preference, and an instant change or a cross-fade in place of the slide transition. The slides still change, so no content is dropped.
+Reduced motion changes how content appears, never whether it does. Apply it in consumer CSS under `@media (prefers-reduced-motion: reduce)` and under the `motion-picker`'s `[data-motion="reduce"]` on the document root (the 63 reference themes already honour both for the preference hooks they style). For a carousel, the rules are in "Controls the consumer builds" above: no auto-rotation under the preference, and an instant change or a cross-fade in place of the slide transition. The slides still change, so no content is dropped.
 
 ## Styles
 

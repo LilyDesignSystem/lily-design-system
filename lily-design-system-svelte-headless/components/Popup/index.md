@@ -1,17 +1,17 @@
 # Popup
 
-A headless conditional overlay dialog that temporarily appears over the main content for information, prompts, or actions. Only mounts in the DOM when `open` is `true`.
+A headless overlay dialog that temporarily appears over the main content for information, prompts, or actions. It is a native `popover="auto"`: the browser opens it from a `command="toggle-popover"` trigger and closes it on Escape or a click outside.
 
 ## What it is
 
 - Component: `Popup`
-- HTML element: `<div role="dialog">` (conditionally rendered)
+- HTML element: `<div popover="auto" role="dialog">` (always rendered)
 - Role: `dialog`
 - Category: overlay / floating content
 
 ## What it does
 
-- Renders a `<div role="dialog">` with `aria-label` only when the bindable `open` is `true`.
+- Renders a `<div popover="auto" role="dialog">` with `aria-label`; the native Popover API shows it in the top layer and closes it on Escape or a click outside (light dismiss); `open` follows the element's `toggle` event, with a `hidden` fallback where `showPopover` is missing.
 - Unmounts completely when closed.
 - Supports `bind:open` for two-way binding.
 - Spreads additional attributes onto the dialog `<div>`.
@@ -31,7 +31,7 @@ A headless conditional overlay dialog that temporarily appears over the main con
 
 ## How to use it
 
-The consumer controls the trigger, the open/close logic, Escape handling, and focus management.
+The consumer provides the trigger (`<button command="toggle-popover" commandfor="{id}">`) and any focus management; the browser handles Escape and light dismiss.
 
 ```svelte
 import Popup from './Popup.svelte';

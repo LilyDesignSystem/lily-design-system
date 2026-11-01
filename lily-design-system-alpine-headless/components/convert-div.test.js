@@ -16,7 +16,6 @@ describe("ConvertDiv", () => {
         await mount("convert-div");
         expect(el().tagName.toLowerCase()).toBe("div");
     });
-
     it("is a named group", async () => {
         await mount("convert-div");
         expect(el().getAttribute("role")).toBe("group");

@@ -10,10 +10,13 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-go-to-next-section",
     standalone: true,
-    template: `<div class="go-to-next-section {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<a class="go-to-next-section {{ className() }}" [attr.href]="href() || null" [attr.aria-label]="label() || null">{{ label() }}</a>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GoToNextSection {
+    /** Visible text and accessible name. */
     readonly label = input<string>("");
+    /** The next section's fragment, for example "#results". */
+    readonly href = input<string>("");
     readonly className = input<string>("");
 }

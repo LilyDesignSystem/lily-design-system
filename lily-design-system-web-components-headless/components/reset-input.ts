@@ -33,7 +33,7 @@ export class ResetInput extends HTMLElement {
         const input = document.createElement("input");
         input.type = "reset";
         input.className = rootClassName(this, "reset-input");
-        input.value = this.getAttribute("value") ?? "Reset";
+        input.defaultValue = this.getAttribute("value") ?? "Reset";
         if (this.hasAttribute("disabled")) input.disabled = true;
         passThroughAttributes(this, input, HANDLED);
 

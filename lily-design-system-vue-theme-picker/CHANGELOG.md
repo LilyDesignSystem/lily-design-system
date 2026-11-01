@@ -184,6 +184,9 @@ the record stays accurate. None of it was published to npm.
 
 #### Unreleased
 
+- `variant="select"` renders a native `<select>` instead of the icon button and listbox (RFC 3 prototype, ported from
+  the Svelte reference 2026-10-30). Opt-in; the default is unchanged. See `spec/index.md`, "Native select variant".
+
 ##### Added
 
 - `themeName(slug)` — exported label resolver that title-cases each

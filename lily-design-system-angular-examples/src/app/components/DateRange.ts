@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
+import { restoreOnFormReset } from "./form-reset";
 
 /**
  * DateRange — paired start and end date inputs <fieldset><input type="date">
@@ -42,4 +43,9 @@ export class DateRange {
     readonly start = model<string>("");
     /** End date, YYYY-MM-DD. Bindable. */
     readonly end = model<string>("");
+
+    constructor() {
+        restoreOnFormReset(this.start, 0);
+        restoreOnFormReset(this.end, 1);
+    }
 }

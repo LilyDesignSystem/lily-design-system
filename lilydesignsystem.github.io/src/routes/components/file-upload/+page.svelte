@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"file-upload\"><p>Drag and drop files here or click to browse</p></div>";
   const svelteSource: string = "// In your Svelte component:\nimport FileUpload from \"lily-design-system-svelte-headless/components/FileUpload/FileUpload.svelte\";\n\n<FileUpload>\n  <!-- content -->\n</FileUpload>\n";
-  const usageCode: string = "<FileUpload label=\"Upload files\" accept=\".pdf\" onchange={handleFiles} />\n";
+  const usageCode: string = "<FileUpload\n  label=\"Upload files\"\n  accept=\".pdf\"\n  onchange={handleFiles}\n/>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

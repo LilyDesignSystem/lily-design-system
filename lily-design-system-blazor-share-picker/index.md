@@ -83,6 +83,8 @@ new ShareTarget
 }
 ```
 
+Choose destinations for your audience, not one region's: WhatsApp and Telegram are the common choice across much of the world, LINE in Japan, Taiwan and Thailand, KakaoTalk in Korea, VK in Russia. WeChat has no web share URL; the native share sheet the picker opens first reaches it on phones.
+
 Set `NewTab = false` on a destination that should open in the same tab —
 `mailto:` links being the usual case. It drops `target="_blank"` for that
 destination only.

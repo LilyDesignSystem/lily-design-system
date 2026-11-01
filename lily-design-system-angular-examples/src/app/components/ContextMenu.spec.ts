@@ -87,10 +87,10 @@ describe("ContextMenu — roles and roving focus", () => {
 });
 
 describe("ContextMenu — open state", () => {
-    test("renders nothing while closed", () => {
+    test("is hidden while closed (a popover=auto element, hidden where the Popover API is missing)", () => {
         const fixture = TestBed.createComponent(ContextMenu);
         fixture.detectChanges();
-        expect(fixture.nativeElement.querySelector("[role='menu']")).toBeNull();
+        expect(fixture.nativeElement.querySelector("[role='menu']").hidden).toBe(true);
     });
 
     test("Escape closes the menu (open becomes false)", () => {
@@ -101,6 +101,6 @@ describe("ContextMenu — open state", () => {
         expect(key(menu, "Escape").defaultPrevented).toBe(true);
         fixture.detectChanges();
         expect(fixture.componentInstance.open()).toBe(false);
-        expect(fixture.nativeElement.querySelector("[role='menu']")).toBeNull();
+        expect(fixture.nativeElement.querySelector("[role='menu']").hidden).toBe(true);
     });
 });

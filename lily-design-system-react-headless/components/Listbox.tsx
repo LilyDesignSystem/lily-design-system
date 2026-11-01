@@ -109,6 +109,7 @@
 //   - WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/listbox/
 
 import React, { useLayoutEffect, useRef, useState } from "react";
+import { initialListboxState, listboxKeydown } from "./listbox-machine";
 
 // Extends the real DOM attributes interface — rather than a `[key: string]:
 // unknown` catch-all — so restProps keep their real types, and so
@@ -171,8 +172,9 @@ const Listbox = React.forwardRef<HTMLElement, ListboxProps>(function Listbox(
     const [uncontrolledActiveIndex, setUncontrolledActiveIndex] = useState(defaultActiveIndex);
     const activeIndex = controlledActiveIndex ?? uncontrolledActiveIndex;
 
-    const typeaheadBuffer = useRef("");
-    const typeaheadTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+    // Every keyboard decision lives in the framework-free machine (shared/listbox-machine.ts, copied here by
+    // bin/sync-shared-modules); this component only reads the DOM and applies the transition it returns.
+    const typeaheadState = useRef(initialListboxState().typeahead);
 
     function setRef(node: HTMLElement | null) {
         listRef.current = node;
@@ -192,131 +194,25 @@ const Listbox = React.forwardRef<HTMLElement, ListboxProps>(function Listbox(
             : [];
     }
 
-    // ---------------------------------------------------------------
-    // roving-focus (default, unchanged): real DOM focus per option, wraps.
-    // ---------------------------------------------------------------
-
-    function handleRovingFocusKeyDown(event: React.KeyboardEvent) {
-        const opts = options();
-        const current = document.activeElement as HTMLElement;
-        const index = opts.indexOf(current);
-        switch (event.key) {
-            case "ArrowDown": {
-                event.preventDefault();
-                const next = index < opts.length - 1 ? index + 1 : 0;
-                opts[next]?.focus();
-                break;
-            }
-            case "ArrowUp": {
-                event.preventDefault();
-                const prev = index > 0 ? index - 1 : opts.length - 1;
-                opts[prev]?.focus();
-                break;
-            }
-            case "Home": {
-                event.preventDefault();
-                opts[0]?.focus();
-                break;
-            }
-            case "End": {
-                event.preventDefault();
-                opts[opts.length - 1]?.focus();
-                break;
-            }
-        }
-    }
-
-    // ---------------------------------------------------------------
-    // active-descendant (opt-in): virtual cursor, clamp/wrap, typeahead, paging.
-    // ---------------------------------------------------------------
-
-    function moveActive(delta: number) {
-        const count = options().length;
-        if (count === 0) return;
-        const next = activeIndex + delta;
-        setActiveIndex(
-            clamp ? Math.min(Math.max(next, 0), count - 1) : ((next % count) + count) % count,
-        );
-    }
-
-    function runTypeahead(char: string) {
-        const opts = options();
-        if (opts.length === 0) return;
-        const lower = char.toLowerCase();
-        const buffer = typeaheadBuffer.current;
-        const sameCharRun = buffer === "" || [...buffer].every((c) => c === lower);
-        typeaheadBuffer.current += lower;
-        clearTimeout(typeaheadTimer.current);
-        typeaheadTimer.current = setTimeout(() => (typeaheadBuffer.current = ""), 500);
-        const query = sameCharRun ? lower : typeaheadBuffer.current;
-        const anchor = activeIndex < 0 ? 0 : activeIndex;
-        const start = sameCharRun ? anchor + 1 : anchor;
-        for (let n = 0; n < opts.length; n++) {
-            const i = (start + n) % opts.length;
-            if ((opts[i].textContent ?? "").trim().toLowerCase().startsWith(query)) {
-                setActiveIndex(i);
-                return;
-            }
-        }
-    }
-
-    function handleActiveDescendantKeyDown(event: React.KeyboardEvent) {
-        switch (event.key) {
-            case "ArrowDown":
-                event.preventDefault();
-                moveActive(1);
-                break;
-            case "ArrowUp":
-                event.preventDefault();
-                moveActive(-1);
-                break;
-            case "Home":
-                event.preventDefault();
-                setActiveIndex(options().length ? 0 : -1);
-                break;
-            case "End":
-                event.preventDefault();
-                setActiveIndex(options().length - 1);
-                break;
-            case "PageDown":
-                event.preventDefault();
-                moveActive(pageSize);
-                break;
-            case "PageUp":
-                event.preventDefault();
-                moveActive(-pageSize);
-                break;
-            case "Enter":
-            case " ":
-                event.preventDefault();
-                if (activeIndex >= 0) onActivate?.(activeIndex);
-                break;
-            case "Escape":
-                event.preventDefault();
-                onEscape?.();
-                break;
-            case "Tab":
-                // Not prevented: the consumer's onTabOut (e.g. moving focus to
-                // a trigger button) runs first, so the browser's default Tab
-                // proceeds from wherever focus ends up, not from this element.
-                onTabOut?.(event);
-                break;
-            default:
-                if (
-                    typeahead &&
-                    event.key.length === 1 &&
-                    !event.ctrlKey &&
-                    !event.metaKey &&
-                    !event.altKey
-                ) {
-                    runTypeahead(event.key);
-                }
-        }
-    }
-
     function handleKeyDown(event: React.KeyboardEvent) {
-        if (navigation === "active-descendant") handleActiveDescendantKeyDown(event);
-        else handleRovingFocusKeyDown(event);
+        const opts = options();
+        const t = listboxKeydown(
+            { activeIndex, typeahead: typeaheadState.current },
+            event,
+            {
+                labels: opts.map((option) => (option.textContent ?? "").trim()),
+                focusedIndex: opts.indexOf(document.activeElement as HTMLElement),
+                now: Date.now(),
+            },
+            { navigation, clamp, typeahead, pageSize },
+        );
+        typeaheadState.current = t.state.typeahead;
+        if (t.preventDefault) event.preventDefault();
+        if (t.focus !== undefined) opts[t.focus]?.focus();
+        if (t.setActiveIndex !== undefined) setActiveIndex(t.setActiveIndex);
+        if (t.activate !== undefined) onActivate?.(t.activate);
+        if (t.escape) onEscape?.();
+        if (t.tabOut) onTabOut?.(event); // never prevented: Tab proceeds from wherever onTabOut leaves focus
     }
 
     // Computed via effect, not during render: on the very first render the

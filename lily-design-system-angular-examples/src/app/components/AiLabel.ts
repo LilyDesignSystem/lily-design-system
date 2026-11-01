@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-ai-label",
     standalone: true,
-    template: `<div class="ai-label {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<span class="ai-label {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></span>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AiLabel {

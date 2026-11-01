@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"blockquote\" aria-label=\"a block-level quotation with optional source citation\">Blockquote</div>";
   const svelteSource: string = "// In your Svelte component:\nimport Blockquote from \"lily-design-system-svelte-headless/components/Blockquote/Blockquote.svelte\";\n\n<Blockquote>\n  <!-- content -->\n</Blockquote>\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import Blockquote from './Blockquote.svelte';\n<\/script>\n\n<Blockquote cite=\"https://example.com\" citationText=\"— Jane Doe, A Book\">\n  <p>The best way to predict the future is to invent it.</p>\n</Blockquote>\n";
+  const usageCode: string = "<script lang=\"ts\">\n  import Blockquote from \"./Blockquote.svelte\";\n<\/script>\n\n<Blockquote\n  cite=\"https://example.com\"\n  citationText=\"— Jane Doe, A Book\"\n>\n  <p>The best way to predict the future is to invent it.</p>\n</Blockquote>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

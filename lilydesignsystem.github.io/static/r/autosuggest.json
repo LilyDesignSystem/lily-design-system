@@ -5,19 +5,23 @@
   "htmlTag": "div",
   "category": "content",
   "baseClass": ".autosuggest",
-  "subClasses": [],
+  "subClasses": [
+    "autosuggest-input",
+    "autosuggest-list",
+    "autosuggest-option"
+  ],
   "interactive": true,
-  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "status": "beta — implemented and unit-tested in all seven frameworks (Nunjucks renders the markup; opening and the keys are the consumer's script) with an axe-clean demo page; not yet exercised in composed flows",
   "aria": [
-    "`role=\"combobox\"` on the wrapper, `aria-expanded` toggled to reflect listbox visibility",
+    "`role=\"combobox\"` on the input (ARIA 1.2; not on the wrapper), with `aria-autocomplete=\"list\"` and `aria-expanded` reflecting listbox visibility",
     "`aria-controls` on the input references the listbox id",
-    "`aria-activedescendant` on the input references the currently highlighted option",
-    "`role=\"listbox\"` on the suggestion list, `role=\"option\"` on each suggestion",
-    "Selected option has `aria-selected=\"true\"`"
+    "`aria-activedescendant` on the input references the highlighted option, and is absent when none is",
+    "`role=\"listbox\"` on the suggestion list (labelled with `label` too), `role=\"option\"` on each suggestion",
+    "The highlighted option has `aria-selected=\"true\"`; the others `\"false\"`"
   ],
   "keyboard": [
-    "Down arrow: open the listbox / move highlight to the next option",
-    "Up arrow: move highlight to the previous option",
+    "Down arrow: open the listbox and highlight the first option / move the highlight to the next option, wrapping",
+    "Up arrow: open the listbox and highlight the last option / move the highlight to the previous option, wrapping",
     "Enter: select the highlighted option",
     "Escape: close the listbox without selecting",
     "Home / End: jump to the first / last option (when listbox is open)"
@@ -29,6 +33,7 @@
     "`onInput`: (query: string) => void (default: —) — Fired when the typed value changes; consumer recomputes suggestions",
     "`onSelect`: (value: string) => void (default: —) — Fired when the user selects a suggestion",
     "`placeholder`: string (default: —) — Placeholder text",
+    "`name`: string (default: —) — Form field name of the input",
     "`...restProps`: HTML attributes (default: —) — Spread onto the wrapper `<div>`"
   ],
   "related": [
@@ -48,5 +53,10 @@
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Autosuggest.razor"
   },
   "docs": "https://lilydesignsystem.com/components/autosuggest/",
-  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/autosuggest/AGENTS.md"
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/autosuggest/AGENTS.md",
+  "nativePlatform": {
+    "decision": "hand-rolled because <datalist> cannot be styled or hold rich options, and the suggestions come from the consumer as they type",
+    "uses": "none (input role=\"combobox\" + ul role=\"listbox\")",
+    "could_use": "<input list>+<datalist>"
+  }
 }

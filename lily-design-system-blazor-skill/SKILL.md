@@ -1,20 +1,21 @@
 ---
 name: lily-design-system-blazor-skill
-description: Explains what's available for Blazor in Lily Design System and which of the three real Blazor subprojects an agent needs — the headless component library (the NuGet package you depend on and style yourself), the six *-picker helpers catalog (opinionated, whole-interaction packages for a page-header preference/action or a form control), or the Blazor Web example app (a fully NHS-UK-styled reference you can run to see components working, or copy CSS from). Use when someone asks what Lily offers for Blazor, which Blazor package to install for a given job, how to run the Blazor example app, or wants Blazor Web App hosting-model guidance (Server / WebAssembly / static SSR).
+description: Explains what's available for Blazor in Lily Design System and which of the three layers (headless library, helper packages, example app) an agent needs — the headless component library (the NuGet package you depend on and style yourself), the helper packages (opinionated, whole-interaction packages for a page-header preference/action or a form control), or the Blazor Web example app (a fully NHS-UK-styled reference you can run to see components working, or copy CSS from). Use when someone asks what Lily offers for Blazor, which Blazor package to install for a given job, how to run the Blazor example app, or wants Blazor Web App hosting-model guidance (Server / WebAssembly / static SSR).
 license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 ---
 
 # Lily Design System™ — Blazor umbrella
 
-Three real Blazor subprojects exist in the Lily Design System monorepo. This
-skill is the entry point that maps them and tells an agent which one to
+Lily's Blazor support has three layers: the headless library, 20 helper
+packages (one subproject each; `bin/list-helper-packages blazor`), and the
+example app. This skill is the entry point that maps them and tells an agent which one to
 reach for; it does not restate any of their contracts in full.
 
-## The three subprojects
+## The three layers
 
 - **[`lily-design-system-blazor-headless`](../lily-design-system-blazor-headless/)**
   — the Razor class library you actually depend on. Ships the full
-  582-component catalog (0/582 drift in `bin/check-coverage`, 2026-10-25) as unstyled Razor components: semantic HTML, ARIA, focus
+  607-component catalog (0/583 drift in `bin/check-coverage`, 2026-10-25) as unstyled Razor components: semantic HTML, ARIA, focus
   management, keyboard behaviour, no CSS. Published to nuget.org as
   `LilyDesignSystem.Blazor.Headless` (namespace `LilyBlazorHeadless.Components`).
   Reach for this when you need a component itself — `Button`, `TextInput`,
@@ -22,13 +23,17 @@ reach for; it does not restate any of their contracts in full.
   yourself. **Deep dive:**
   [`lily-design-system-blazor-headless-skill`](../lily-design-system-blazor-headless-skill/).
 - **[the Blazor helper packages](../spec/helpers/index.md#blazor-helper-packages)**
-  — six opinionated packages that sit alongside the headless library, each
-  owning one whole interaction end to end: `theme-picker`, `locale-picker`,
-  `text-size-picker`, `motion-picker` (a user preference — selection + DOM
-  application + optional persistence), `share-picker` (an action — no
-  applying, no persisting), and `date-time-picker` (a form control — a
+  — 20 opinionated packages that sit alongside the headless library, each
+  owning one whole interaction end to end: the preference pickers
+  (`theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`,
+  `time-zone-picker` — selection + DOM application + optional persistence),
+  the action pickers (`share-picker`, `search-picker`, `link-picker`,
+  `menu-picker`, `settings-picker`), `date-time-picker` (a form control — a
   typeable text field plus a trigger opening a WAI-ARIA APG date-picker
-  dialog). Each is its own NuGet package under namespace
+  dialog), `picker-bar`, the grid-like `data-grid`, `kanban-board`,
+  `calendar`, `gantt-chart` and `filter`, the `markdown-editor` and
+  `org-editor`, and `locale-translations`. Each is its own NuGet package,
+  `LilyDesignSystem.Blazor.<Package>`, under namespace
   `LilyDesignSystem.Blazor.Helpers`. Reach for one of these when the job is a
   page-header preference control, a share action, or a date/time form field
   — not a plain catalog component. **Deep dive:**
@@ -36,7 +41,7 @@ reach for; it does not restate any of their contracts in full.
 - **[`lily-design-system-blazor-web-examples`](../lily-design-system-blazor-web-examples/)**
   — a Blazor Web App (.NET 10) reference application, fully styled against
   the NHS UK design system's colours, typography, spacing, and focus states.
-  It imports the headless library via `ProjectReference` and demonstrates
+  It imports the headless library and the helpers via `ProjectReference` and demonstrates
   every catalog component plus 12 composed pages. Reach for this to run
   something and see components working, or to copy its CSS as a starting
   point for your own styling. **No sibling skill covers this app** — its
@@ -55,8 +60,8 @@ no CSS framework dependency, and the required-routes shape below.
 ### Required routes
 
 - `/` — home page, links to every example.
-- `/components` — the full catalog index (its own `index.md` records 490
-  components with links to individual demos).
+- `/components` — the full catalog index (all 607 components, with links
+  to individual demos).
 - `/components/{slug}` — one live demo per component, with the canonical
   metadata (description, props, ARIA, keyboard, references).
 
@@ -109,7 +114,7 @@ written. This is the same fact the headless skill teaches from the
 library side; it is repeated here because it is what actually broke this
 app in practice.
 
-## Conventions spanning all three subprojects
+## Conventions spanning all three layers
 
 - **.NET 10 / C#**, Blazor Razor components throughout — no class
   components.
@@ -137,11 +142,11 @@ AdditionalAttributes`** for rest-attribute pass-through, spread via
 - For the Blazor headless library's own parameter idioms, publish status,
   and known gotchas in full — use
   [`lily-design-system-blazor-headless-skill`](../lily-design-system-blazor-headless-skill/).
-- For the six `*-picker` helpers' shared contract, their two exceptions,
+- For the `*-picker` helpers' shared contract, their two exceptions,
   and the `IJSRuntime`/SSR implementation pattern in full — use
   [`lily-design-system-blazor-helpers-skill`](../lily-design-system-blazor-helpers-skill/).
 - For framework-agnostic Lily concepts (what "headless" means, the
-  582-component catalog at large, naming conventions, cross-framework
+  607-component catalog at large, naming conventions, cross-framework
   composition patterns) — use
   [`lily-design-system-skill`](../lily-design-system-skill/) instead; it
   doesn't restate Blazor's own idioms, and this skill doesn't restate its

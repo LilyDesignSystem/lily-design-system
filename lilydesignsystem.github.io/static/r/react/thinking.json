@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "thinking",
+  "type": "registry:component",
+  "title": "Thinking",
+  "description": "A collapsible block that shows an AI agent's reasoning or thinking, closed by default.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/Thinking.tsx",
+      "content": "\"use client\";\n\n// Thinking component\n//\n// A headless collapsible block for a model's reasoning, built on native\n// <details>/<summary>. Closed by default. While `streaming`, the root carries\n// data-streaming and aria-busy.\n//\n// Props:\n//   className -- string, optional. CSS class name.\n//   label -- string, required. Summary text.\n//   open -- boolean, default false. Bindable; supports onChange.\n//   streaming -- boolean, default false.\n//   children -- ReactNode. Reasoning content (inside .thinking-content).\n//   ...restProps -- spread onto the root <details>.\n//\n// Keyboard: native summary (Enter / Space).\n\nimport React, { useEffect, useState } from \"react\";\n\nexport interface ThinkingProps {\n    className?: string;\n    /** Summary text. */\n    label: string;\n    /** Whether open. Bindable. */\n    open?: boolean;\n    /** Whether content is still being produced. */\n    streaming?: boolean;\n    /** Reasoning content. */\n    children?: React.ReactNode;\n    /** Callback when open changes. */\n    onChange?: (value: boolean) => void;\n    [key: string]: unknown;\n}\n\nexport default function Thinking({\n    className = \"\",\n    label,\n    open: openProp = false,\n    streaming = false,\n    onChange,\n    children,\n    ...restProps\n}: ThinkingProps) {\n    const [open, setOpen] = useState(openProp);\n    useEffect(() => setOpen(openProp), [openProp]);\n\n    return (\n        <details\n            className={`thinking ${className}`}\n            open={open}\n            onToggle={(e) => {\n                const next = (e.currentTarget as HTMLDetailsElement).open;\n                if (next === open) return;\n                setOpen(next);\n                onChange?.(next);\n            }}\n            data-streaming={streaming ? \"true\" : undefined}\n            aria-busy={streaming ? \"true\" : undefined}\n            {...restProps}\n        >\n            <summary className=\"thinking-summary\">{label}</summary>\n            <div className=\"thinking-content\">{children}</div>\n        </details>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/Thinking.tsx"
+    }
+  ],
+  "categories": [
+    "navigation"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/thinking/"
+}

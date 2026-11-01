@@ -3,9 +3,9 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 /**
  * DescriptionListItem — one key-value pair in a description list using dt and dd elements
  *
- * Headless Angular component. Attribute selector on the native `<li>` —
- * the consumer writes `<li lily-description-list-item>`, so the host element IS the
- * `<li>` with no wrapper custom element between it and its parent (a
+ * Headless Angular component. Attribute selector on the native `<div>` —
+ * the consumer writes `<div lily-description-list-item>`, so the host element IS the
+ * `<div>` (the dt/dd group a `<dl>` allows) with no wrapper custom element between it and its parent (a
  * wrapper broke required parent-child content-model relationships for
  * assistive technology — see spec/index.md §11.8, Angular Material's own
  * idiom for list/table sub-elements). Renders the kebab-case class hook
@@ -13,7 +13,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * zero CSS; the consumer styles via the class hook.
  */
 @Component({
-    selector: "li[lily-description-list-item]",
+    selector: "div[lily-description-list-item]",
     standalone: true,
     template: `<ng-content />`,
     host: {

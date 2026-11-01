@@ -5,8 +5,12 @@
   CSS class: date-time-now-input
 
   Params:
-    id, name (base), date, time, nowLabel (default "Now"), label,
-    disabled, required, classes, attributes.
+    id, name (base), date, time, label (the group's name), dateLabel, timeLabel,
+    nowLabel, disabled, required, classes, attributes.
+
+  The three control names have no default (no English from us): a missing one leaves its
+  control unnamed. dateTimeNowInputLabels(pack) in @lilydesignsystem/nunjucks-locale-translations
+  gives { dateLabel, timeLabel, nowLabel } in 64 locales, ready to merge into params.
 #}
 {%- macro dateTimeNowInput(params) -%}
 {%- set p = params | default({}) -%}
@@ -14,11 +18,13 @@
 {%- set baseName = p.name | default('') -%}
 <div
   class="date-time-now-input{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="group"
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if baseId %} id="{{ baseId }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
-  <input class="date-time-now-input-date" type="date" value="{{ p.date | default('') }}" id="{{ baseId }}-date" name="{{ baseName }}-date"{% if p.disabled %} disabled{% endif %}{% if p.required %} required{% endif %} aria-label="Date">
-  <input class="date-time-now-input-time" type="time" value="{{ p.time | default('') }}" id="{{ baseId }}-time" name="{{ baseName }}-time"{% if p.disabled %} disabled{% endif %}{% if p.required %} required{% endif %} aria-label="Time">
-  <button class="date-time-now-input-now" type="button"{% if p.disabled %} disabled{% endif %} data-date-time-now>{{ p.nowLabel | default("Now") }}</button>
+  <input class="date-time-now-input-date" type="date" value="{{ p.date | default('') }}" id="{{ baseId }}-date" name="{{ baseName }}-date"{% if p.disabled %} disabled{% endif %}{% if p.required %} required{% endif %}{% if p.dateLabel %} aria-label="{{ p.dateLabel }}"{% endif %}>
+  <input class="date-time-now-input-time" type="time" value="{{ p.time | default('') }}" id="{{ baseId }}-time" name="{{ baseName }}-time"{% if p.disabled %} disabled{% endif %}{% if p.required %} required{% endif %}{% if p.timeLabel %} aria-label="{{ p.timeLabel }}"{% endif %}>
+  <button class="date-time-now-input-now" type="button"{% if p.disabled %} disabled{% endif %} {% if p.nowLabel %} aria-label="{{ p.nowLabel }}"{% endif %} data-date-time-now>{{ p.nowLabel | default('') }}</button>
 </div>
 {%- endmacro -%}
