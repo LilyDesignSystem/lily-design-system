@@ -171,6 +171,7 @@ Also copied rather than generated: `bin/sync` rsyncs the root `AGENTS/` and `the
 - [check-native-primitives](../bin/check-native-primitives): Every Svelte overlay or popup component records its native-platform decision, in step with `spec/competitive-position/native-primitives.tsv` (in bin/test; `--write` regenerates the AGENTS.md sections)
 - [check-theme-references](../bin/check-theme-references): Report public-sector themes whose upstream package has a newer major release than `themes/references.tsv` records (report only, never fails on upstream)
 - [generate-core](../bin/generate-core): The Lily Core tier from test, e2e and screen-reader evidence, the `/quality` page and the self-assessed ACR (`--check` in bin/test)
+- [check-picker-icons](../bin/check-picker-icons): All 80 bundled picker icons follow the icon contract: one `viewBox`, a `currentColor` stroke, round caps and joins, `rem` size, `aria-hidden` (in bin/test)
 - [check-theme](../bin/check-theme): Verify the 63 reference themes honour their conformance contracts; `--contrast` reports each theme's token-pair contrast against WCAG AA/AAA (report only)
 - [check-class-names](../bin/check-class-names): Every headless implementation carries its kebab-case base class (first in a class list)
 - [check-html-tags](../bin/check-html-tags): Every headless implementation's root element is the contract's HTML tag, or is listed with a reason in `bin/check-html-tags.allow.json` (which may only shrink; in bin/test)

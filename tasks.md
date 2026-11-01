@@ -3139,9 +3139,10 @@ Plan: [plan.md § Phase 21](plan.md#phase-21--visual-identity-principles-2026-11
       `--lily-font-body-latin` ends in a generic family.
       Verify: all 63 rows filled, unknowns marked unknown; the rule fails a stack with no generic family.
       _(2026-11-01: done, as a new `themes/fonts.tsv` (a column in `references.tsv` would cover only its 14 public-sector rows). 57 themes start with a system font; six name a font they do not ship: Inter (twice), Noto Sans, Noto Sans JP and Public Sans are recorded as SIL OFL 1.1, status unverified (from general knowledge, licence files not read); Rawline (gov.br) is unknown (no licence found). `check-theme` fails a missing, extra or mismatched row, a system/named kind that disagrees with the stack, and a stack not ending in a generic family. No NHS theme names Frutiger.)_
-- [ ] **P21-T6 Icon contract check.** Record the picker icon style (one `viewBox`, stroke width, round caps,
+- [x] **P21-T6 Icon contract check.** Record the picker icon style (one `viewBox`, stroke width, round caps,
       `currentColor`, `aria-hidden`) in `AGENTS/visual-identity.md` and check every bundled picker icon against it.
       Verify: a check fails an icon with a different `viewBox` or a fixed colour.
+      _(2026-11-01: done. `bin/check-picker-icons` (in `bin/test`) reads the source of every `*-picker` package, JSX/templates and `createElementNS` code alike, and checks all 80 icons (ten pickers in eight catalogs): `viewBox`, `aria-hidden`, `stroke="currentColor"`, `stroke-width` 1.6, round caps and joins, `rem` size. Shown to fail on a changed `viewBox`. `date-time-picker` is exempt (a Unicode glyph).)_
 - [ ] **P21-T7 `theme-color` follows the theme.** Optional `themeColor` behaviour in the eight `theme-picker` catalogs:
       sets `<meta name="theme-color">` from `--lily-brand` on apply, off by default, idempotent. Needs P21-T3.
       Verify: a test per catalog sets and updates the tag and does nothing on an unchanged value.

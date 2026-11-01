@@ -23,6 +23,11 @@ by a theme or by the adopter. Full topic, with the research and the planned work
   or a control's boundary; text and borders use the theme's content pairs (WCAG 1.4.3, 1.4.11).
 - **Fonts are named, never shipped, and their licence is recorded.** `themes/fonts.tsv` has a row per theme (system font, or a
   named font with its licence and whether that is verified); an unknown stays unknown. Every font stack ends in a generic family.
+- **One icon family.** Each bundled page-header picker icon is an inline `<svg class="{helper}-picker-icon">` on a
+  `viewBox="0 0 16 16"` grid, drawn with `stroke="currentColor"`, `stroke-width="1.6"` and round caps and joins, sized in `rem`,
+  and `aria-hidden="true"` (decorative: the button's `aria-label` is the name). An adopter's replacement icon follows the same
+  contract. `date-time-picker`'s calendar glyph is exempt. `bin/check-picker-icons` enforces it for all 80 icons in the eight catalogs.
+  Photography and illustration style are the adopter's: Lily ships no imagery.
 - **Do not hard-code one body's clear space or size.** National and local guidelines disagree; a theme or adopter sets its own.
 - **Identity changes are dated.** When an upstream changes its identity, re-baseline the theme and record it in
   `themes/references.tsv`.
@@ -38,7 +43,7 @@ example (a fictional brand).
 
 ### Planned (not yet built)
 
-Logo-slot composition, icon contract check, `theme-color`, identity change log: tasks P21-T4, P21-T6 to
+Logo-slot composition, `theme-color`, identity change log: tasks P21-T4, P21-T7 and
 P21-T8 in [tasks.md](../tasks.md).
 
 ### Checks

@@ -1,0 +1,98 @@
+#!/usr/bin/env python3
+"""Every bundled page-header picker icon follows the icon contract (spec/visual-identity, P21-T6).
+
+The contract, from AGENTS/helpers.md: an inline <svg class="{helper}-picker-icon"> on one
+`viewBox="0 0 16 16"` grid, stroke-drawn in `currentColor` (`stroke-width` 1.6 unless a drawing
+sets a lighter detail stroke on a child), decorative (`aria-hidden="true"`), sized in rem.
+date-time-picker's calendar trigger is a Unicode glyph, not an SVG, and is exempt.
+
+Scans the source of every `lily-design-system-*-picker` package (Svelte, React, Vue, Angular,
+Blazor, HTML, Web Components, Nunjucks) for `<svg` tags whose class names a picker icon, ignoring
+tests, stories, docs, build output and dependencies. Exit 1 lists each deviation.
+"""
+import glob
+import os
+import re
+import sys
+
+TOP = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SKIP_DIRS = {"node_modules", "dist", "bin", "obj", ".svelte-kit", "build", "docs", "test", "tests"}
+SKIP_FILE = re.compile(r"(\.test\.|\.spec\.|\.stories\.|Tests\.cs$|\.md$|\.json$|\.tsv$|^\d\d-.*\.html$)")
+SKIP_NAME = re.compile(r"^(custom-rendering|CustomRendering|.*Custom)\b")
+
+
+def kebab(attr: str) -> str:
+    return re.sub(r"(?<=[a-z])([A-Z])", lambda m: "-" + m.group(1).lower(), attr)
+
+
+def svg_tags(text: str):
+    for m in re.finditer(r"<svg\b([^>]*)>", text, re.S):
+        yield m.group(1)
+
+
+def attrs_of(raw: str) -> dict:
+    out = {}
+    for m in re.finditer(r"([A-Za-z:][\w:.-]*)\s*=\s*(?:\"([^\"]*)\"|'([^']*)'|\{([^}]*)\})", raw):
+        v = m.group(2) if m.group(2) is not None else m.group(3) if m.group(3) is not None else m.group(4)
+        out[kebab(m.group(1))] = v.strip().strip("\"'")
+    return out
+
+
+def dom_svgs(text: str):
+    """Icons built with createElementNS: yield each svg variable's setAttribute pairs."""
+    for m in re.finditer(r"(?:const|let)\s+(\w+)\s*=\s*document\.createElementNS\(\s*\w+\s*,\s*[\"']svg[\"']\s*\)", text):
+        var = m.group(1)
+        attrs = {}
+        for a in re.finditer(re.escape(var) + r"\.setAttribute\(\s*[\"']([\w:-]+)[\"']\s*,\s*[\"']([^\"']*)[\"']\s*\)", text[m.end():]):
+            attrs[a.group(1)] = a.group(2)
+        yield attrs
+
+
+def main() -> int:
+    errors, icons = [], 0
+    for pkg in sorted(glob.glob(os.path.join(TOP, "lily-design-system-*-picker"))):
+        for root, dirs, files in os.walk(pkg):
+            dirs[:] = [d for d in dirs if d not in SKIP_DIRS]
+            for name in files:
+                if SKIP_FILE.search(name) or SKIP_NAME.match(name):
+                    continue
+                path = os.path.join(root, name)
+                try:
+                    text = open(path, encoding="utf-8").read()
+                except (UnicodeDecodeError, OSError):
+                    continue
+                found = [attrs_of(raw) for raw in svg_tags(text)] + [{kebab(k): v for k, v in a.items()} for a in dom_svgs(text)]
+                for a in found:
+                    cls = a.get("class", "") or a.get("class-name", "")
+                    if not re.search(r"-picker-icon\b", cls):
+                        continue
+                    icons += 1
+                    where = os.path.relpath(path, TOP)
+                    if a.get("view-box") != "0 0 16 16" and a.get("viewbox") != "0 0 16 16":
+                        errors.append(f"{where}: {cls}: viewBox is {a.get('viewbox', a.get('view-box'))!r}, expected '0 0 16 16'")
+                    if a.get("aria-hidden") not in ("true",) and "aria-hidden" not in raw:
+                        errors.append(f"{where}: {cls}: not aria-hidden")
+                    elif a.get("aria-hidden") not in (None, "true"):
+                        errors.append(f"{where}: {cls}: aria-hidden is {a.get('aria-hidden')!r}")
+                    if a.get("stroke") != "currentColor":
+                        errors.append(f"{where}: {cls}: stroke is {a.get('stroke')!r}, expected currentColor")
+                    if a.get("stroke-width") != "1.6":
+                        errors.append(f"{where}: {cls}: stroke-width is {a.get('stroke-width')!r}, expected 1.6")
+                    if a.get("stroke-linecap") != "round" or a.get("stroke-linejoin") != "round":
+                        errors.append(f"{where}: {cls}: stroke-linecap and stroke-linejoin must be round")
+                    for dim in ("width", "height"):
+                        if not (a.get(dim) or "").endswith("rem"):
+                            errors.append(f"{where}: {cls}: {dim} is {a.get(dim)!r}, expected a rem size")
+    if icons == 0:
+        errors.append("no picker icons found: the scan is broken")
+    if errors:
+        for e in errors:
+            print("Error:", e)
+        print(f"check-picker-icons: FAILED ({len(errors)} deviations in {icons} icons)")
+        return 1
+    print(f"check-picker-icons: OK ({icons} icons)")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

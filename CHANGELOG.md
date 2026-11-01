@@ -9,6 +9,11 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Picker icon contract check — 2026-11-01
+
+`bin/check-picker-icons` (in `bin/test`): all 80 bundled picker icons share one `viewBox`, a `currentColor` stroke of 1.6 with round
+caps and joins, a `rem` size and `aria-hidden`. P21-T6.
+
 ## Typeface licence audit — 2026-11-01
 
 `themes/fonts.tsv`: one row per theme with its first font family, whether it is a system font, and the licence with its
