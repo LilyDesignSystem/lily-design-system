@@ -148,12 +148,13 @@
     "accent-content": {
       "$type": "color",
       "$value": {
-        "colorSpace": "oklch",
+        "colorSpace": "srgb",
         "components": [
-          0.41,
-          0.112,
-          45.904
-        ]
+          0.0,
+          0.0,
+          0.0
+        ],
+        "hex": "#000000"
       },
       "$description": "Foreground colour used over `--color-accent` fills."
     },
@@ -196,12 +197,13 @@
     "info-content": {
       "$type": "color",
       "$value": {
-        "colorSpace": "oklch",
+        "colorSpace": "srgb",
         "components": [
-          0.96,
-          0.059,
-          95.617
-        ]
+          0.0,
+          0.0,
+          0.0
+        ],
+        "hex": "#000000"
       },
       "$description": "Foreground colour used over `--color-info` fills."
     },
@@ -244,12 +246,13 @@
     "warning-content": {
       "$type": "color",
       "$value": {
-        "colorSpace": "oklch",
+        "colorSpace": "srgb",
         "components": [
-          0.96,
-          0.059,
-          95.617
-        ]
+          0.0,
+          0.0,
+          0.0
+        ],
+        "hex": "#000000"
       },
       "$description": "Foreground colour used over `--color-warning` fills. Often dark so text remains legible on a bright yellow background."
     },
@@ -268,12 +271,13 @@
     "error-content": {
       "$type": "color",
       "$value": {
-        "colorSpace": "oklch",
+        "colorSpace": "srgb",
         "components": [
-          0.4,
-          0.123,
-          38.172
-        ]
+          0.0,
+          0.0,
+          0.0
+        ],
+        "hex": "#000000"
       },
       "$description": "Foreground colour used over `--color-error` fills."
     }

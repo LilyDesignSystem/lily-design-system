@@ -220,12 +220,13 @@
     "success-content": {
       "$type": "color",
       "$value": {
-        "colorSpace": "oklch",
+        "colorSpace": "srgb",
         "components": [
-          0.9039,
-          0.035,
-          142.495
-        ]
+          1.0,
+          1.0,
+          1.0
+        ],
+        "hex": "#ffffff"
       },
       "$description": "Foreground colour used over `--color-success` fills."
     },

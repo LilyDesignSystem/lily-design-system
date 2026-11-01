@@ -37,7 +37,7 @@
     --color-primary: oklch(56.86% 0.255 257.57);
     /* Foreground colour used over `--color-primary` fills (so
        primary buttons retain a guaranteed contrast ratio). */
-    --color-primary-content: oklch(91.37% 0.051 257.57);
+    --color-primary-content: #ffffff;
     /* Secondary brand colour. Pressed/hover state for primary
        buttons and visited links; also drives the secondary chrome
        family. */

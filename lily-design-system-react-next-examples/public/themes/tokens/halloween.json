@@ -196,12 +196,13 @@
     "info-content": {
       "$type": "color",
       "$value": {
-        "colorSpace": "oklch",
+        "colorSpace": "srgb",
         "components": [
-          0.9092,
-          0.043,
-          262.88
-        ]
+          1.0,
+          1.0,
+          1.0
+        ],
+        "hex": "#ffffff"
       },
       "$description": "Foreground colour used over `--color-info` fills."
     },

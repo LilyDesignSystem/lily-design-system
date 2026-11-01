@@ -50,7 +50,7 @@
        illustrations, and tertiary call-outs. */
     --color-accent: oklch(68% 0.162 75.834);
     /* Foreground colour used over `--color-accent` fills. */
-    --color-accent-content: oklch(41% 0.112 45.904);
+    --color-accent-content: #000000;
     /* Neutral chrome surface — footer bars, code blocks,
        tooltips, government-banner strips. Typically the theme's
        darkest neutral. */
@@ -61,7 +61,7 @@
        'did-you-know' callouts. */
     --color-info: oklch(58% 0.158 241.966);
     /* Foreground colour used over `--color-info` fills. */
-    --color-info-content: oklch(96% 0.059 95.617);
+    --color-info-content: #000000;
     /* Success / confirmation colour — used on success panels,
        completed step indicators, validation pass states, and the
        green RAG status. */
@@ -74,13 +74,13 @@
     --color-warning: oklch(64% 0.222 41.116);
     /* Foreground colour used over `--color-warning` fills. Often
        dark so text remains legible on a bright yellow background. */
-    --color-warning-content: oklch(96% 0.059 95.617);
+    --color-warning-content: #000000;
     /* Error / destructive colour — used on alert dialogs, error
        messages, validation failures, urgent care cards, and the
        red RAG status. */
     --color-error: oklch(70% 0.191 22.216);
     /* Foreground colour used over `--color-error` fills. */
-    --color-error-content: oklch(40% 0.123 38.172);
+    --color-error-content: #000000;
     /* Smallest corner radius. Applied to chips, badges, switches,
        and radio/checkbox containers (mapped to `--lily-radius-
        sm`). */

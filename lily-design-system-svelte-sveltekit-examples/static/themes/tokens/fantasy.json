@@ -124,12 +124,13 @@
     "secondary-content": {
       "$type": "color",
       "$value": {
-        "colorSpace": "oklch",
+        "colorSpace": "srgb",
         "components": [
-          0.9078,
-          0.032,
-          241.36
-        ]
+          1.0,
+          1.0,
+          1.0
+        ],
+        "hex": "#ffffff"
       },
       "$description": "Foreground colour used over `--color-secondary` fills."
     },

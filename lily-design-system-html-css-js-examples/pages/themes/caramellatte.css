@@ -80,7 +80,7 @@
        red RAG status. */
     --color-error: oklch(70% 0.191 22.216);
     /* Foreground colour used over `--color-error` fills. */
-    --color-error-content: oklch(39% 0.141 25.723);
+    --color-error-content: #000000;
     /* Smallest corner radius. Applied to chips, badges, switches,
        and radio/checkbox containers (mapped to `--lily-radius-
        sm`). */

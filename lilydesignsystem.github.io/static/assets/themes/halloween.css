@@ -61,7 +61,7 @@
        'did-you-know' callouts. */
     --color-info: oklch(54.62% 0.215 262.88);
     /* Foreground colour used over `--color-info` fills. */
-    --color-info-content: oklch(90.92% 0.043 262.88);
+    --color-info-content: #ffffff;
     /* Success / confirmation colour — used on success panels,
        completed step indicators, validation pass states, and the
        green RAG status. */

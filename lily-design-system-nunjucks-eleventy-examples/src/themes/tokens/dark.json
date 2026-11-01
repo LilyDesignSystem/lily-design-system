@@ -100,12 +100,13 @@
     "primary-content": {
       "$type": "color",
       "$value": {
-        "colorSpace": "oklch",
+        "colorSpace": "srgb",
         "components": [
-          0.96,
-          0.018,
-          272.314
-        ]
+          1.0,
+          1.0,
+          1.0
+        ],
+        "hex": "#ffffff"
       },
       "$description": "Foreground colour used over `--color-primary` fills (so primary buttons retain a guaranteed contrast ratio)."
     },
@@ -124,12 +125,13 @@
     "secondary-content": {
       "$type": "color",
       "$value": {
-        "colorSpace": "oklch",
+        "colorSpace": "srgb",
         "components": [
-          0.94,
-          0.028,
-          342.258
-        ]
+          0.0,
+          0.0,
+          0.0
+        ],
+        "hex": "#000000"
       },
       "$description": "Foreground colour used over `--color-secondary` fills."
     },

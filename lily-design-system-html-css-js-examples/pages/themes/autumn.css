@@ -56,7 +56,7 @@
        darkest neutral. */
     --color-neutral: oklch(54.37% 0.037 51.902);
     /* Foreground colour used over `--color-neutral` fills. */
-    --color-neutral-content: oklch(90.87% 0.007 51.902);
+    --color-neutral-content: #ffffff;
     /* Informational status colour — informational banners, links,
        'did-you-know' callouts. */
     --color-info: oklch(69.22% 0.097 207.284);
@@ -80,7 +80,7 @@
        red RAG status. */
     --color-error: oklch(53.07% 0.241 24.16);
     /* Foreground colour used over `--color-error` fills. */
-    --color-error-content: oklch(90.61% 0.048 24.16);
+    --color-error-content: #ffffff;
     /* Smallest corner radius. Applied to chips, badges, switches,
        and radio/checkbox containers (mapped to `--lily-radius-
        sm`). */

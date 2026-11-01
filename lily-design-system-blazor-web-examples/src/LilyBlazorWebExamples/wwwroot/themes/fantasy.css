@@ -45,7 +45,7 @@
        family. */
     --color-secondary: oklch(53.92% 0.162 241.36);
     /* Foreground colour used over `--color-secondary` fills. */
-    --color-secondary-content: oklch(90.78% 0.032 241.36);
+    --color-secondary-content: #ffffff;
     /* Accent colour — used sparingly for emphasis, the AI label,
        illustrations, and tertiary call-outs. */
     --color-accent: oklch(75.98% 0.204 56.72);

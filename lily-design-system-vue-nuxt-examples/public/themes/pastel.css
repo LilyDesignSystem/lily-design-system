@@ -45,42 +45,42 @@
        family. */
     --color-secondary: oklch(89% 0.058 10.001);
     /* Foreground colour used over `--color-secondary` fills. */
-    --color-secondary-content: oklch(51% 0.222 16.935);
+    --color-secondary-content: #000000;
     /* Accent colour — used sparingly for emphasis, the AI label,
        illustrations, and tertiary call-outs. */
     --color-accent: oklch(90% 0.093 164.15);
     /* Foreground colour used over `--color-accent` fills. */
-    --color-accent-content: oklch(50% 0.118 165.612);
+    --color-accent-content: #000000;
     /* Neutral chrome surface — footer bars, code blocks,
        tooltips, government-banner strips. Typically the theme's
        darkest neutral. */
     --color-neutral: oklch(55% 0.046 257.417);
     /* Foreground colour used over `--color-neutral` fills. */
-    --color-neutral-content: oklch(92% 0.013 255.508);
+    --color-neutral-content: #ffffff;
     /* Informational status colour — informational banners, links,
        'did-you-know' callouts. */
     --color-info: oklch(86% 0.127 207.078);
     /* Foreground colour used over `--color-info` fills. */
-    --color-info-content: oklch(52% 0.105 223.128);
+    --color-info-content: #000000;
     /* Success / confirmation colour — used on success panels,
        completed step indicators, validation pass states, and the
        green RAG status. */
     --color-success: oklch(87% 0.15 154.449);
     /* Foreground colour used over `--color-success` fills. */
-    --color-success-content: oklch(52% 0.154 150.069);
+    --color-success-content: #000000;
     /* Warning colour — yellow/amber band; used on phase banners,
        in-progress states, validation warnings, and the amber RAG
        status. */
     --color-warning: oklch(83% 0.128 66.29);
     /* Foreground colour used over `--color-warning` fills. Often
        dark so text remains legible on a bright yellow background. */
-    --color-warning-content: oklch(55% 0.195 38.402);
+    --color-warning-content: #000000;
     /* Error / destructive colour — used on alert dialogs, error
        messages, validation failures, urgent care cards, and the
        red RAG status. */
     --color-error: oklch(80% 0.114 19.571);
     /* Foreground colour used over `--color-error` fills. */
-    --color-error-content: oklch(50% 0.213 27.518);
+    --color-error-content: #000000;
     /* Smallest corner radius. Applied to chips, badges, switches,
        and radio/checkbox containers (mapped to `--lily-radius-
        sm`). */

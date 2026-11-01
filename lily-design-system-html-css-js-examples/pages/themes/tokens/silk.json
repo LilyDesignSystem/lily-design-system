@@ -268,12 +268,13 @@
     "error-content": {
       "$type": "color",
       "$value": {
-        "colorSpace": "oklch",
+        "colorSpace": "srgb",
         "components": [
-          0.351,
-          0.1814,
-          22.37
-        ]
+          0.0,
+          0.0,
+          0.0
+        ],
+        "hex": "#000000"
       },
       "$description": "Foreground colour used over `--color-error` fills."
     }

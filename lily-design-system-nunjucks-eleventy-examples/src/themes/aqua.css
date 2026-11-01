@@ -45,7 +45,7 @@
        family. */
     --color-secondary: oklch(60.68% 0.108 309.782);
     /* Foreground colour used over `--color-secondary` fills. */
-    --color-secondary-content: oklch(96% 0.016 293.756);
+    --color-secondary-content: #000000;
     /* Accent colour — used sparingly for emphasis, the AI label,
        illustrations, and tertiary call-outs. */
     --color-accent: oklch(93.43% 0.102 94.555);
@@ -61,7 +61,7 @@
        'did-you-know' callouts. */
     --color-info: oklch(54.62% 0.215 262.88);
     /* Foreground colour used over `--color-info` fills. */
-    --color-info-content: oklch(90.92% 0.043 262.88);
+    --color-info-content: #ffffff;
     /* Success / confirmation colour — used on success panels,
        completed step indicators, validation pass states, and the
        green RAG status. */

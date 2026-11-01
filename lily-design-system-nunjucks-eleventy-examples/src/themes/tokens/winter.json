@@ -100,12 +100,13 @@
     "primary-content": {
       "$type": "color",
       "$value": {
-        "colorSpace": "oklch",
+        "colorSpace": "srgb",
         "components": [
-          0.9137,
-          0.051,
-          257.57
-        ]
+          1.0,
+          1.0,
+          1.0
+        ],
+        "hex": "#ffffff"
       },
       "$description": "Foreground colour used over `--color-primary` fills (so primary buttons retain a guaranteed contrast ratio)."
     },

@@ -100,12 +100,13 @@
     "primary-content": {
       "$type": "color",
       "$value": {
-        "colorSpace": "oklch",
+        "colorSpace": "srgb",
         "components": [
-          1.0,
+          0.0,
           0.0,
           0.0
-        ]
+        ],
+        "hex": "#000000"
       },
       "$description": "Foreground colour used over `--color-primary` fills (so primary buttons retain a guaranteed contrast ratio)."
     },
@@ -148,12 +149,13 @@
     "accent-content": {
       "$type": "color",
       "$value": {
-        "colorSpace": "oklch",
+        "colorSpace": "srgb",
         "components": [
-          1.0,
+          0.0,
           0.0,
           0.0
-        ]
+        ],
+        "hex": "#000000"
       },
       "$description": "Foreground colour used over `--color-accent` fills."
     },
@@ -196,12 +198,13 @@
     "info-content": {
       "$type": "color",
       "$value": {
-        "colorSpace": "oklch",
+        "colorSpace": "srgb",
         "components": [
-          1.0,
+          0.0,
           0.0,
           0.0
-        ]
+        ],
+        "hex": "#000000"
       },
       "$description": "Foreground colour used over `--color-info` fills."
     },
@@ -220,12 +223,13 @@
     "success-content": {
       "$type": "color",
       "$value": {
-        "colorSpace": "oklch",
+        "colorSpace": "srgb",
         "components": [
-          1.0,
+          0.0,
           0.0,
           0.0
-        ]
+        ],
+        "hex": "#000000"
       },
       "$description": "Foreground colour used over `--color-success` fills."
     },

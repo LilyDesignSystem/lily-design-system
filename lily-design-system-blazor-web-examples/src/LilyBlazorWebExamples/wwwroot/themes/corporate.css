@@ -39,7 +39,7 @@
     --color-primary: oklch(58% 0.158 241.966);
     /* Foreground colour used over `--color-primary` fills (so
        primary buttons retain a guaranteed contrast ratio). */
-    --color-primary-content: oklch(100% 0 0);
+    --color-primary-content: #000000;
     /* Secondary brand colour. Pressed/hover state for primary
        buttons and visited links; also drives the secondary chrome
        family. */
@@ -50,7 +50,7 @@
        illustrations, and tertiary call-outs. */
     --color-accent: oklch(60% 0.118 184.704);
     /* Foreground colour used over `--color-accent` fills. */
-    --color-accent-content: oklch(100% 0 0);
+    --color-accent-content: #000000;
     /* Neutral chrome surface — footer bars, code blocks,
        tooltips, government-banner strips. Typically the theme's
        darkest neutral. */
@@ -61,13 +61,13 @@
        'did-you-know' callouts. */
     --color-info: oklch(60% 0.126 221.723);
     /* Foreground colour used over `--color-info` fills. */
-    --color-info-content: oklch(100% 0 0);
+    --color-info-content: #000000;
     /* Success / confirmation colour — used on success panels,
        completed step indicators, validation pass states, and the
        green RAG status. */
     --color-success: oklch(62% 0.194 149.214);
     /* Foreground colour used over `--color-success` fills. */
-    --color-success-content: oklch(100% 0 0);
+    --color-success-content: #000000;
     /* Warning colour — yellow/amber band; used on phase banners,
        in-progress states, validation warnings, and the amber RAG
        status. */

@@ -124,12 +124,13 @@
     "secondary-content": {
       "$type": "color",
       "$value": {
-        "colorSpace": "oklch",
+        "colorSpace": "srgb",
         "components": [
-          0.96,
-          0.016,
-          293.756
-        ]
+          0.0,
+          0.0,
+          0.0
+        ],
+        "hex": "#000000"
       },
       "$description": "Foreground colour used over `--color-secondary` fills."
     },
@@ -196,12 +197,13 @@
     "info-content": {
       "$type": "color",
       "$value": {
-        "colorSpace": "oklch",
+        "colorSpace": "srgb",
         "components": [
-          0.9092,
-          0.043,
-          262.88
-        ]
+          1.0,
+          1.0,
+          1.0
+        ],
+        "hex": "#ffffff"
       },
       "$description": "Foreground colour used over `--color-info` fills."
     },

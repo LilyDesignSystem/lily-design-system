@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Text colours on 40 low-contrast fills — 2026-11-01
+
+Forty `-content` tokens in 20 general-purpose themes (pastel, corporate, retro, valentine, bumblebee, aqua, autumn and others) are now
+black or white, whichever reaches AA, with every fill unchanged. `bin/check-theme --contrast --suggest` prints the swap for a pair.
+Six pairs stay below 4.5:1 pending a decision (three public-sector themes and one valentine pair). P10-T10, in part.
+
 ## Forced-colours e2e — 2026-11-01
 
 `e2e/forced-colors.spec.ts` in the HTML examples app runs under Chromium's `forcedColors: 'active'`: focus ring, control border and the

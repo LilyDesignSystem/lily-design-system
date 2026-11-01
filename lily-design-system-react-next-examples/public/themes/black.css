@@ -67,7 +67,7 @@
        green RAG status. */
     --color-success: oklch(51.98% 0.176 142.495);
     /* Foreground colour used over `--color-success` fills. */
-    --color-success-content: oklch(90.39% 0.035 142.495);
+    --color-success-content: #ffffff;
     /* Warning colour — yellow/amber band; used on phase banners,
        in-progress states, validation warnings, and the amber RAG
        status. */
