@@ -103,6 +103,7 @@ const composedPages = [
     "/contact-form.html",
     "/dashboard.html",
     "/dialog-flow.html",
+    "/logo-slot.html",
     "/file-upload-form.html",
     "/navigation-and-menus.html",
     "/page-layout.html",

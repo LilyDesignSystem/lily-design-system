@@ -130,6 +130,7 @@ SHARED_SECTIONS = (
     "target-size (minimum) floor",
     "Coarse pointer targets",
     "Brand colour",
+    "Logo slot",
     "Overflow guards",
     "Helper packages — layout and look",
     "Overflow navigation",

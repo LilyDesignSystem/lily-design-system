@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Logo slot — 2026-11-01
+
+A pinned "Logo slot" section in all 63 themes: a home link marked `data-lily-logo` takes padding from `--lily-logo-clear-space` and a
+minimum inline size from `--lily-logo-min-size` (both unset by default). The pattern is in `AGENTS/components.md`; the HTML examples
+app has `pages/logo-slot.html` and an e2e spec. P21-T4.
+
 ## Identity change log — 2026-11-01
 
 `themes/identity-changes.tsv`: dated created / re-baselined entries for the 14 public-sector themes, validated and reported by

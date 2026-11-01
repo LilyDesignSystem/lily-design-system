@@ -31,6 +31,7 @@ const routes = [
     "/components/component.html?slug=grail-layout",
     "/contact-form.html",
     "/dashboard.html",
+    "/logo-slot.html",
     "/page-layout.html",
     "/task-management.html",
     "/timeline-and-cards.html",

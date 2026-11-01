@@ -255,6 +255,35 @@ A composition of `Card` and `SummaryList`, not a component: the card title, opti
 - Earlier answers are pre-filled when the user returns through a change link (WCAG 3.3.7).
 - Card titles are short and unique; header actions are about two words each, two or three at most.
 
+### Logo slot pattern
+
+A composition, not a component: the adopter's own mark in a link to the home page, at the start of the page header. Lily ships no
+logo.
+
+```html
+<a
+  href="/"
+  data-lily-logo
+>
+  <svg
+    role="img"
+    aria-label="Example Organisation"
+    viewBox="0 0 160 40"
+  >
+    …
+  </svg>
+</a>
+```
+
+- The accessible name is the organisation's name (`<img alt>` or `<svg role="img" aria-label>`), never "logo". A linked logo names
+  the organisation and so, by convention, the home page it leads to; keep the visible text, if any, inside the name (WCAG 2.5.3).
+- A logotype is exempt from text contrast (WCAG 1.4.3); the page around it is not.
+- Each theme's shared "Logo slot" section reads `--lily-logo-clear-space` (padding around the mark) and `--lily-logo-min-size` (its
+  smallest inline size). Both are unset by default and set by the adopter or a theme, because national and local guidelines
+  disagree on clear space; Lily hard-codes none.
+- Never put a body's logo, crest or mark in a theme ([visual-identity.md](visual-identity.md)).
+- Example: `pages/logo-slot.html` in the HTML examples app, with `e2e/logo-slot.spec.ts`.
+
 ### Patient banner pattern
 
 A labelled `<section aria-label>` holding a `dl` of consumer-supplied items (name, date of birth, national identifier shown with its `-view` component, gender, adverse reactions); no field truncated or hidden at a narrow width. Not a component and not named `patient-header` (the suffix table maps `-header` to `<header>`). Details: [`medical-banner`](../components/medical-banner/index.md).
@@ -283,12 +312,28 @@ the bottom of the viewport. It is navigation, so its items are real links in a `
 `tab-bar` only when the items switch panels on the same page.
 
 ```tsx
-<NavigationMenu label="Main navigation" class="bottom-navigation">
+<NavigationMenu
+  label="Main navigation"
+  class="bottom-navigation"
+>
   <ul>
-    <li><a href="/" aria-current="page">Home</a></li>
-    <li><a href="/appointments">Appointments</a></li>
-    <li><a href="/messages">Messages</a></li>
-    <li><a href="/account">Account</a></li>
+    <li>
+      <a
+        href="/"
+        aria-current="page"
+      >
+        Home
+      </a>
+    </li>
+    <li>
+      <a href="/appointments">Appointments</a>
+    </li>
+    <li>
+      <a href="/messages">Messages</a>
+    </li>
+    <li>
+      <a href="/account">Account</a>
+    </li>
   </ul>
 </NavigationMenu>
 ```

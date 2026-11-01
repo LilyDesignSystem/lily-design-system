@@ -3130,10 +3130,11 @@ Plan: [plan.md § Phase 21](plan.md#phase-21--visual-identity-principles-2026-11
       lightness-shift derivation.
       Verify: `bin/check-theme` pins the section, checks the pair at 4.5:1, and fails a rule that uses `--lily-brand` as text.
       _(2026-11-01: done. The "Brand colour" section is in all 63 themes and pinned; `check-theme` rule 15 fails `--lily-brand` in a text, border, outline, fill or stroke property and fails a theme whose defaults are not the primary pair (shown to bite on a temporary rule). The 4.5:1 check on an adopter's own pair belongs to the overlay check, P21-T2; the defaults are the primary pair, which `--contrast` reports. No component uses the tokens yet.)_
-- [ ] **P21-T4 Logo slot composition.** In `AGENTS/components.md` and the topic: a home-linked logo in the header with
+- [x] **P21-T4 Logo slot composition.** In `AGENTS/components.md` and the topic: a home-linked logo in the header with
       `--lily-logo-clear-space` and `--lily-logo-min-size` set per theme (unset allowed), accessible name rules, and the
       logotype contrast exemption. No component, no bundled logo.
       Verify: an example page in one app passes axe and its e2e; the Welsh text-expansion sweep still passes.
+      _(2026-11-01: done. A pinned "Logo slot" section in all 63 themes (`[data-lily-logo]`, padding from `--lily-logo-clear-space`, `min-inline-size` from `--lily-logo-min-size`, both unset by default), the Logo slot pattern in `AGENTS/components.md`, and `pages/logo-slot.html` in the HTML examples app with a two-test spec and the page added to the axe and responsive route lists. Chromium: logo-slot, accessibility and responsive specs pass (115). The Welsh text-expansion sweep is in the responsive spec, which covers the other routes, not this page. Not run: Firefox and WebKit.)_
 - [x] **P21-T5 Typeface licence audit.** A `font_licence` column in `themes/references.tsv` for each theme's first named
       family (open, system, licensed and not shipped, unknown), and a `bin/check-theme` rule that every
       `--lily-font-body-latin` ends in a generic family.

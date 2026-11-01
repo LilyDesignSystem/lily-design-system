@@ -4044,6 +4044,31 @@
 }
 
 /* ============================================================================
+ * Logo slot — shared verbatim by all themes (spec/visual-identity, P21-T4).
+ *
+ * The adopter's logo link carries data-lily-logo: an <a href="/"> holding the
+ * adopter's own <img alt> or <svg role="img" aria-label>. Lily ships no logo
+ * and no clear-space rule, because national and local guidelines disagree: a
+ * theme or the adopter sets --lily-logo-clear-space (padding around the mark)
+ * and --lily-logo-min-size (its smallest inline size). Both are unset by
+ * default, so nothing changes until one is set.
+ * ========================================================================== */
+
+@layer lily {
+    :where([data-lily-logo]) {
+        display: inline-block;
+        padding: var(--lily-logo-clear-space, 0);
+    }
+
+    :where([data-lily-logo] > img, [data-lily-logo] > svg) {
+        display: block;
+        min-inline-size: var(--lily-logo-min-size, 0);
+        max-inline-size: 100%;
+        block-size: auto;
+    }
+}
+
+/* ============================================================================
  * Overflow guards — narrow-viewport safety, shared verbatim by all themes.
  *
  * Content that is intrinsically wider than the viewport scrolls or wraps

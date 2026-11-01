@@ -23,6 +23,9 @@ by a theme or by the adopter. Full topic, with the research and the planned work
   or a control's boundary; text and borders use the theme's content pairs (WCAG 1.4.3, 1.4.11).
 - **Fonts are named, never shipped, and their licence is recorded.** `themes/fonts.tsv` has a row per theme (system font, or a
   named font with its licence and whether that is verified); an unknown stays unknown. Every font stack ends in a generic family.
+- **A logo is a slot, not a component.** The adopter's mark sits in a home link marked `data-lily-logo`; the themes' shared "Logo slot"
+  section applies `--lily-logo-clear-space` and `--lily-logo-min-size` when set. See the Logo slot pattern in
+  [components.md](components.md).
 - **One icon family.** Each bundled page-header picker icon is an inline `<svg class="{helper}-picker-icon">` on a
   `viewBox="0 0 16 16"` grid, drawn with `stroke="currentColor"`, `stroke-width="1.6"` and round caps and joins, sized in `rem`,
   and `aria-hidden="true"` (decorative: the button's `aria-label` is the name). An adopter's replacement icon follows the same
@@ -43,7 +46,7 @@ example (a fictional brand).
 
 ### Planned (not yet built)
 
-Logo-slot composition, `theme-color`: tasks P21-T4, P21-T7 and
+`theme-color`: task P21-T7 and
 P21-T8 in [tasks.md](../tasks.md).
 
 ### Checks
