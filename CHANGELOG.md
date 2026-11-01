@@ -9,6 +9,11 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Identity change log — 2026-11-01
+
+`themes/identity-changes.tsv`: dated created / re-baselined entries for the 14 public-sector themes, validated and reported by
+`bin/check-theme-references` (its `--offline` run is in `bin/test`). P21-T8.
+
 ## Picker icon contract check — 2026-11-01
 
 `bin/check-picker-icons` (in `bin/test`): all 80 bundled picker icons share one `viewBox`, a `currentColor` stroke of 1.6 with round

@@ -279,6 +279,8 @@ repository on 2026-10-30.
 | Système de Design de l'État (DSFR)                        | France              | Etalab Licence Ouverte 2.0, but its terms bar use outside the French administration and outside `.gouv.fr` domains | Decline                                                                                                |
 | UX4G                                                      | India               | None published (`ux4g/ux4g-design-system-v1` has no licence file; last pushed 2023-08-18)                          | Defer until a licence is published                                                                     |
 
+The dated record of each public-sector theme's identity changes (created, re-baselined) is [`themes/identity-changes.tsv`](../../themes/identity-changes.tsv); `bin/check-theme-references` validates and prints it ([visual-identity](../visual-identity/index.md), P21-T8).
+
 The six adopted themes were built 2026-10-31 (tasks.md P17-T9a): `canada-government-of-canada-design-system`, `singapore-government-design-system`, `japan-digital-agency-design-system`, `brazil-padrao-digital-de-governo`, `european-union-europa-component-library` and `australia-agriculture-design-system`, from each system's published tokens (ECL: colour values only, no code, because EUPL is copyleft). Provenance rows are in `themes/references.tsv`.
 
 ## Forbidden in the headless layer

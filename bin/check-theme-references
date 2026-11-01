@@ -79,6 +79,36 @@ def load():
     return out
 
 
+CHANGES_TSV = os.path.join(TOP, "themes", "identity-changes.tsv")
+CHANGE_COLUMNS = ["theme", "date", "kind", "change", "source"]
+CHANGE_KINDS = {"created", "re-baselined", "identity-change"}
+
+
+def load_changes():
+    """The identity change log (spec/visual-identity, P21-T8): dated, per theme."""
+    if not os.path.isfile(CHANGES_TSV):
+        malformed("themes/identity-changes.tsv not found")
+    with open(CHANGES_TSV, newline="", encoding="utf-8") as f:
+        rows = list(csv.reader(f, delimiter="\t", quoting=csv.QUOTE_NONE))
+    if not rows or rows[0] != CHANGE_COLUMNS:
+        malformed(f"identity-changes.tsv header must be: {' '.join(CHANGE_COLUMNS)}")
+    out = []
+    for n, row in enumerate(rows[1:], start=2):
+        if not any(c.strip() for c in row):
+            continue
+        if len(row) != len(CHANGE_COLUMNS) or any(not c.strip() for c in row):
+            malformed(f"identity-changes.tsv line {n}: {len(CHANGE_COLUMNS)} non-empty columns required")
+        r = dict(zip(CHANGE_COLUMNS, row))
+        if not os.path.isfile(os.path.join(TOP, "themes", r["theme"] + ".css")):
+            malformed(f"identity-changes.tsv line {n}: no themes/{r['theme']}.css")
+        if not DATE.match(r["date"]):
+            malformed(f"identity-changes.tsv line {n}: date must be YYYY-MM-DD")
+        if r["kind"] not in CHANGE_KINDS:
+            malformed(f"identity-changes.tsv line {n}: kind must be one of {sorted(CHANGE_KINDS)}")
+        out.append(r)
+    return out
+
+
 def major(version):
     m = MAJOR.match(version.strip().lstrip("v"))
     return int(m.group(1)) if m else None
@@ -111,6 +141,19 @@ def main():
               f"recorded {r['recorded_on']}")
     for t in missing:
         print(f"  WARNING: themes/{t}.css has no row in themes/references.tsv")
+
+    changes = load_changes()
+    covered = {r["theme"] for r in rows}
+    for t in sorted(covered - {c["theme"] for c in changes}):
+        print(f"  WARNING: {t} has no entry in themes/identity-changes.tsv")
+    print()
+    print("Identity last aligned with upstream (themes/identity-changes.tsv):")
+    last = {}
+    for c in sorted(changes, key=lambda c: c["date"]):
+        last[c["theme"]] = c
+    for t in sorted(last):
+        c = last[t]
+        print(f"  {t:<{w}}  {c['date']}  {c['kind']}: {c['change']}")
 
     if offline:
         print("check-theme-references: --offline, registry not queried")

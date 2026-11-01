@@ -3146,9 +3146,10 @@ Plan: [plan.md § Phase 21](plan.md#phase-21--visual-identity-principles-2026-11
 - [ ] **P21-T7 `theme-color` follows the theme.** Optional `themeColor` behaviour in the eight `theme-picker` catalogs:
       sets `<meta name="theme-color">` from `--lily-brand` on apply, off by default, idempotent. Needs P21-T3.
       Verify: a test per catalog sets and updates the tag and does nothing on an unchanged value.
-- [ ] **P21-T8 Identity change log.** Dated identity-change notes in `themes/references.tsv`, surfaced on each theme's docs
+- [x] **P21-T8 Identity change log.** Dated identity-change notes in `themes/references.tsv`, surfaced on each theme's docs
       page, and reported by `bin/check-theme-references`.
       Verify: the 2026-10-29 NHS.UK re-baseline appears as the first entry.
+      _(2026-11-01: done, in part. `themes/identity-changes.tsv` (theme, date, kind, change, source; kinds created, re-baselined, identity-change) holds 15 entries for the 14 public-sector themes, built only from what `references.tsv` and the git history already record; `bin/check-theme-references` validates it (`--offline` runs in `bin/test`) and prints each theme's latest alignment, warning for a theme with none. There is no per-theme docs page to put "Identity last aligned" on, so the report and `spec/theme` carry it; a site page is not built.)_
 
 ---
 

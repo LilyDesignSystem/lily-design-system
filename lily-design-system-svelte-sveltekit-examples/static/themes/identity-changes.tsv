@@ -1,0 +1,16 @@
+theme	date	kind	change	source
+united-kingdom-government-digital-service	2026-08-26	re-baselined	Palette follows GOV.UK Frontend 6.0.0 (green and red); the exact minor was not recorded	references.tsv row; commit 0bf422a62
+united-kingdom-national-health-service-england-for-patients	2026-10-29	re-baselined	Re-baselined from nhsuk-frontend 9.x to 10.7.1; --color-success #009639 to #007F3B (white content 4.37:1 to 5.19:1)	references.tsv row; nhsuk-frontend 10.7.1 tarball
+united-kingdom-national-health-service-england-for-practitioners	2026-10-29	re-baselined	Re-baselined from nhsuk-frontend 9.x to 10.7.1; --color-success #009639 to #007F3B (white content 4.37:1 to 5.19:1)	references.tsv row; nhsuk-frontend 10.7.1 tarball
+united-kingdom-national-health-service-scotland-for-patients	2026-10-29	re-baselined	Re-baselined from nhsuk-frontend 9.x to 10.7.1; --color-success #009639 to #007F3B (white content 4.37:1 to 5.19:1)	references.tsv row; nhsuk-frontend 10.7.1 tarball
+united-kingdom-national-health-service-scotland-for-practitioners	2026-10-29	re-baselined	Re-baselined from nhsuk-frontend 9.x to 10.7.1; --color-success #009639 to #007F3B (white content 4.37:1 to 5.19:1)	references.tsv row; nhsuk-frontend 10.7.1 tarball
+united-kingdom-national-health-service-wales-for-patients	2026-10-28	re-baselined	Link, hover, visited and active colours taken from the DHCW Design System private beta of 2026-10-23	references.tsv row; spec/dhcw-design-system-lessons
+united-kingdom-national-health-service-wales-for-practitioners	2026-10-28	re-baselined	Link, hover, visited and active colours taken from the DHCW Design System private beta of 2026-10-23	references.tsv row; spec/dhcw-design-system-lessons
+canada-government-of-canada-design-system	2026-10-31	created	Theme created from the system's published tokens (tasks.md P17-T9a)	references.tsv row
+singapore-government-design-system	2026-10-31	created	Theme created from the system's published tokens (tasks.md P17-T9a)	references.tsv row
+japan-digital-agency-design-system	2026-10-31	created	Theme created from the system's published tokens (tasks.md P17-T9a)	references.tsv row
+brazil-padrao-digital-de-governo	2026-10-31	created	Theme created from the system's published tokens (tasks.md P17-T9a)	references.tsv row
+european-union-europa-component-library	2026-10-31	created	Theme created from the system's published tokens (tasks.md P17-T9a)	references.tsv row
+australia-agriculture-design-system	2026-10-31	created	Theme created from the system's published tokens (tasks.md P17-T9a)	references.tsv row
+united-states-web-design-system	2026-06-17	created	Theme created when USWDS 3.13.0 was latest; exact minor unknown	references.tsv row; commit 7b5e39c39
+united-kingdom-government-digital-service	2026-06-17	created	Theme created when GOV.UK Frontend 6.2.0 was latest	references.tsv row; commit 7b5e39c39

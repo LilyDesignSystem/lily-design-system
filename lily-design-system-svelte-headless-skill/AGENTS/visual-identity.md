@@ -30,7 +30,7 @@ by a theme or by the adopter. Full topic, with the research and the planned work
   Photography and illustration style are the adopter's: Lily ships no imagery.
 - **Do not hard-code one body's clear space or size.** National and local guidelines disagree; a theme or adopter sets its own.
 - **Identity changes are dated.** When an upstream changes its identity, re-baseline the theme and record it in
-  `themes/references.tsv`.
+  `themes/references.tsv` and as a dated row in `themes/identity-changes.tsv`.
 
 ### Brand overlay
 
@@ -43,7 +43,7 @@ example (a fictional brand).
 
 ### Planned (not yet built)
 
-Logo-slot composition, `theme-color`, identity change log: tasks P21-T4, P21-T7 and
+Logo-slot composition, `theme-color`: tasks P21-T4, P21-T7 and
 P21-T8 in [tasks.md](../tasks.md).
 
 ### Checks
