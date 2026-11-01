@@ -76,7 +76,7 @@ Asserts the contracts a theme stylesheet must honour (plan P3-T5):
 
 Exits non-zero listing every violation. Wired into bin/test.
 
-`bin/check-theme --contrast` (plan P10-T4) is a separate, report-only pass:
+`bin/check-theme --contrast` (plan P10-T4) is a separate, report-only pass (`--suggest` adds, for a pair below AA, the black or white text colour that would reach it):
 for each theme it computes the WCAG 2 contrast ratio of every declared
 text/background token pair (base content on the three base surfaces, each
 `-content` colour on its fill, and `--lily-error-text` on the page) and
@@ -316,7 +316,13 @@ def contrast_report() -> int:
             if ratio < AA:
                 below_aa += 1
             note = " (outside sRGB, clipped: approximate)" if k1 or k2 else ""
-            lines.append(f"  {mark} {ratio:5.2f}:1  {fg} on {bg}{note}")
+            suggestion = ""
+            if ratio < AA and "--suggest" in sys.argv[1:]:
+                # The smallest change: keep the fill, swap the text colour to black or white if either reaches AA.
+                options = [("#000000", (l2 + 0.05) / 0.05), ("#ffffff", 1.05 / (l2 + 0.05))]
+                name, best = max(options, key=lambda o: o[1])
+                suggestion = f"; {fg} {name} would give {best:.2f}:1" if best >= AA else "; neither black nor white reaches 4.5:1"
+            lines.append(f"  {mark} {ratio:5.2f}:1  {fg} on {bg}{note}{suggestion}")
         if lines:
             print(os.path.basename(f))
             print("\n".join(lines))
