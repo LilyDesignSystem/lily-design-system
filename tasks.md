@@ -3109,6 +3109,42 @@ Plan: [plan.md § Phase 20](plan.md#phase-20--investigate-a-solidjs-port-2026-10
       Done 2026-11-01: `solid.d.ts` (exported as `./solid`; a `lily-${string}` index signature, so not per-element attribute checking), the rules in the Web Components `index.md`, and `recipes/solid/`.
       Verify: the example builds with the typings and its test passes; `bin/test` is unaffected.
 
+## Phase 21 — Visual identity principles (2026-11-01)
+
+Plan: [plan.md § Phase 21](plan.md#phase-21--visual-identity-principles-2026-11-01). Topic:
+[spec/visual-identity](spec/visual-identity/index.md).
+
+- [ ] **P21-T1 `AGENTS/visual-identity.md`.** The identity policy: headless carries no identity; a theme is an identity as
+      tokens; no logo, crest or restricted typeface; upstream named and "not affiliated"; using a public-sector theme does not
+      permit presenting a service as that body; the adopter supplies marks, fonts and imagery. Import it from `AGENTS.md`,
+      sync with `bin/sync`.
+      Verify: `bin/test` fails when the file or its topic is missing; `bin/check-links` passes.
+- [ ] **P21-T2 Brand overlay.** A documented overlay stylesheet (at most about twenty tokens, scoped by `[data-brand]`)
+      that composes with `[data-theme]` and the theme-picker, one worked example, and `bin/check-theme --overlay`. Reuse the
+      format the theme generator of `spec/daisyui-lessons` item 3 will emit.
+      Verify: the example overlay passes; an overlay setting an undocumented token or a content pair under 4.5:1 fails.
+- [ ] **P21-T3 `--lily-brand` and `--lily-on-brand`.** Optional decorative brand colour and its text colour, defaulting to
+      `--color-primary` and `--color-primary-content`, in the shared theme section of all 63 themes; document the
+      lightness-shift derivation.
+      Verify: `bin/check-theme` pins the section, checks the pair at 4.5:1, and fails a rule that uses `--lily-brand` as text.
+- [ ] **P21-T4 Logo slot composition.** In `AGENTS/components.md` and the topic: a home-linked logo in the header with
+      `--lily-logo-clear-space` and `--lily-logo-min-size` set per theme (unset allowed), accessible name rules, and the
+      logotype contrast exemption. No component, no bundled logo.
+      Verify: an example page in one app passes axe and its e2e; the Welsh text-expansion sweep still passes.
+- [ ] **P21-T5 Typeface licence audit.** A `font_licence` column in `themes/references.tsv` for each theme's first named
+      family (open, system, licensed and not shipped, unknown), and a `bin/check-theme` rule that every
+      `--lily-font-body-latin` ends in a generic family.
+      Verify: all 63 rows filled, unknowns marked unknown; the rule fails a stack with no generic family.
+- [ ] **P21-T6 Icon contract check.** Record the picker icon style (one `viewBox`, stroke width, round caps,
+      `currentColor`, `aria-hidden`) in `AGENTS/visual-identity.md` and check every bundled picker icon against it.
+      Verify: a check fails an icon with a different `viewBox` or a fixed colour.
+- [ ] **P21-T7 `theme-color` follows the theme.** Optional `themeColor` behaviour in the eight `theme-picker` catalogs:
+      sets `<meta name="theme-color">` from `--lily-brand` on apply, off by default, idempotent. Needs P21-T3.
+      Verify: a test per catalog sets and updates the tag and does nothing on an unchanged value.
+- [ ] **P21-T8 Identity change log.** Dated identity-change notes in `themes/references.tsv`, surfaced on each theme's docs
+      page, and reported by `bin/check-theme-references`.
+      Verify: the 2026-10-29 NHS.UK re-baseline appears as the first entry.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.

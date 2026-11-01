@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Visual identity principles, planned — 2026-11-01
+
+New topic `spec/visual-identity`: a review of visual identity practice, an assessment against the 63 themes, and eight proposals
+(identity policy, brand overlay, brand colour split from content colour, logo slot, typeface licence audit, icon contract,
+`theme-color`, identity change log). Plan Phase 21 and tasks P21-T1 to P21-T8; nothing is built yet.
+
 ## SolidJS recipe for the Web Components catalog — 2026-11-01
 
 `@lilydesignsystem/web-components-headless/solid` types every `lily-*` element in Solid's JSX. The catalog's `index.md` gains
