@@ -39,6 +39,8 @@ export default function (eleventyConfig) {
             "assets/js/listbox-behavior.client.js",
         "../lily-design-system-nunjucks-theme-picker/theme-picker.client.js":
             "assets/js/theme-picker.client.js",
+        // theme-picker.client.js imports it by a relative path (P21-T7).
+        "../lily-design-system-nunjucks-theme-picker/theme-color.js": "assets/js/theme-color.js",
         "../lily-design-system-nunjucks-locale-picker/dist/index.js":
             "assets/js/locale-picker.client.js",
         "../lily-design-system-nunjucks-text-size-picker/text-size-picker.client.js":
