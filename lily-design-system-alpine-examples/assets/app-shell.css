@@ -2,7 +2,7 @@
  * (/themes/<slug>.css, chosen by theme-boot.js). Nothing here styles a Lily class. */
 body {
   margin: 0;
-  line-height: 1.5;
+  line-height: var(--lily-line-height-body, 1.5);
 }
 
 .page-wrapper {

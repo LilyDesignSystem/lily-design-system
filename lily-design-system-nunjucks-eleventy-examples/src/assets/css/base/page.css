@@ -4,7 +4,7 @@ body {
   color: var(--nhsuk-black);
   font-family: var(--nhsuk-font-family);
   font-size: var(--nhsuk-font-size-19);
-  line-height: var(--nhsuk-line-height-body);
+  line-height: var(--lily-line-height-body, var(--nhsuk-line-height-body));
   display: flex;
   flex-direction: column;
 }
