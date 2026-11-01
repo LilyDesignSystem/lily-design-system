@@ -237,11 +237,11 @@
       "$value": {
         "colorSpace": "srgb",
         "components": [
-          1.0,
-          1.0,
-          1.0
+          0.1059,
+          0.1059,
+          0.1059
         ],
-        "hex": "#ffffff"
+        "hex": "#1b1b1b"
       },
       "$description": "Foreground colour used over `--color-success` fills."
     },

@@ -65,7 +65,7 @@
        green RAG status. */
     --color-success: #00a91c;
     /* Foreground colour used over `--color-success` fills. */
-    --color-success-content: #ffffff;
+    --color-success-content: #1b1b1b;
     /* Warning colour — yellow/amber band; used on phase banners,
        in-progress states, validation warnings, and the amber RAG
        status. */
