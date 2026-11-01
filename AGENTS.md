@@ -8,6 +8,7 @@ The modular reference docs below are loaded into AI coding context.
 @AGENTS/lily.md
 @AGENTS/theme.md
 @AGENTS/responsive.md
+@AGENTS/visual-identity.md
 @AGENTS/components.md
 @AGENTS/accessibility.md
 @AGENTS/internationalization.md

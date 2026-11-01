@@ -417,6 +417,10 @@ implemented_everywhere_or_err
 test -s "$top/AGENTS/responsive.md" && test -s "$top/spec/responsive/index.md" \
     && grep -q '^@AGENTS/responsive.md$' "$top/AGENTS.md" \
     || err "AGENTS/responsive.md or spec/responsive/index.md is missing, or AGENTS.md does not load it"
+# The visual identity rules (spec/visual-identity) are loaded by AGENTS.md too.
+test -s "$top/AGENTS/visual-identity.md" && test -s "$top/spec/visual-identity/index.md" \
+    && grep -q '^@AGENTS/visual-identity.md$' "$top/AGENTS.md" \
+    || err "AGENTS/visual-identity.md or spec/visual-identity/index.md is missing, or AGENTS.md does not load it"
 "$top/bin/generate-comparisons" --check >/dev/null 2>&1 \
     || err "compare/index.md differs from compare/compare.tsv; run bin/generate-comparisons"
 # Lily Core (P16-T2) and its self-assessed ACR (P16-T7): fails when a recorded Core member loses evidence, or an output is stale.

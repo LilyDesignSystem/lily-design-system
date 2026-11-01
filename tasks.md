@@ -3114,11 +3114,12 @@ Plan: [plan.md § Phase 20](plan.md#phase-20--investigate-a-solidjs-port-2026-10
 Plan: [plan.md § Phase 21](plan.md#phase-21--visual-identity-principles-2026-11-01). Topic:
 [spec/visual-identity](spec/visual-identity/index.md).
 
-- [ ] **P21-T1 `AGENTS/visual-identity.md`.** The identity policy: headless carries no identity; a theme is an identity as
+- [x] **P21-T1 `AGENTS/visual-identity.md`.** The identity policy: headless carries no identity; a theme is an identity as
       tokens; no logo, crest or restricted typeface; upstream named and "not affiliated"; using a public-sector theme does not
       permit presenting a service as that body; the adopter supplies marks, fonts and imagery. Import it from `AGENTS.md`,
       sync with `bin/sync`.
       Verify: `bin/test` fails when the file or its topic is missing; `bin/check-links` passes.
+      _(2026-11-01: done. The file, the `AGENTS.md` import and the `bin/test` check; synced to the subprojects.)_
 - [ ] **P21-T2 Brand overlay.** A documented overlay stylesheet (at most about twenty tokens, scoped by `[data-brand]`)
       that composes with `[data-theme]` and the theme-picker, one worked example, and `bin/check-theme --overlay`. Reuse the
       format the theme generator of `spec/daisyui-lessons` item 3 will emit.

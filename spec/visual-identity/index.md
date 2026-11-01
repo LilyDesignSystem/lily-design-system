@@ -141,7 +141,7 @@ theme's `--lily-brand` (item 3), creating it if absent, off by default. Idempote
 
 ## Acceptance criteria
 
-- [ ] `AGENTS/visual-identity.md` exists, is imported by `AGENTS.md`, synced by `bin/sync`, and `bin/test` fails without it.
+- [x] `AGENTS/visual-identity.md` exists, is imported by `AGENTS.md`, synced by `bin/sync`, and `bin/test` fails without it.
 - [ ] A brand overlay format is documented with one worked example, and `bin/check-theme --overlay` rejects an overlay that
       sets an undocumented token or leaves a content pair under 4.5:1.
 - [ ] `--lily-brand` and `--lily-on-brand` are in every theme's shared section and pinned by `bin/check-theme`.

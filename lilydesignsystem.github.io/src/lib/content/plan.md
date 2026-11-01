@@ -337,6 +337,23 @@ only; no port starts before the decision. Task P20-T1 in [tasks.md](tasks.md).
 4. **Decision**: port (all 583 components, the 20 helpers, a SolidStart example app), a partial port, or decline
    with Web Components as the documented route, recorded in `spec/frameworks`.
 
+## Phase 21 — Visual identity principles (2026-11-01)
+
+Goal: give Lily a written visual-identity policy and the small mechanisms that let an adopter apply their own identity
+without forking a theme or giving up accessible contrast. Research, assessment and advice:
+[spec/visual-identity](spec/visual-identity/index.md). Tasks P21-T1 to P21-T8 in [tasks.md](tasks.md).
+
+Advice, in priority order:
+
+1. **Write the policy first** (T1): cheap, and it fixes what every later item may and may not do.
+2. **Split brand colour from content colour** (T3), then the **brand overlay** (T2): together they are the main adopter
+   value, and the overlay needs the split to check contrast.
+3. **Logo slot composition** (T4) and **font licence audit** (T5): documentation and a column; no new component.
+4. **Icon contract** (T6), **`theme-color`** (T7), **identity change log** (T8): small and independent.
+
+Not adopted: a logo or guideline generator, bundled marks, imagery rules in the headless layer, motion identity, one
+clear-space number.
+
 ## Sequencing and dependencies
 
 Finished phases (1 to 7 and 18), their sequencing notes and the original definition of done are in
@@ -350,6 +367,8 @@ Finished phases (1 to 7 and 18), their sequencing notes and the original definit
   - T4's `<select>` prototype is the evidence RFC 3 asks for.
 - Phase 20 is an investigation with no dependency; the spike reuses the React headless library as its source and
   should follow the P12-T10 shared-core decision if that lands first.
+- Phase 21: T1 first; T3 before T2 and T7 (both read `--lily-brand`); T2 should reuse the theme generator format from
+  `spec/daisyui-lessons` item 3 rather than invent a second one; T4 to T6 and T8 are independent.
 - Phase 12: static checks and frozen lockfiles first (they protect everything after), then behaviour tests, then
   the duplication work; P12-T8 and P12-T10 need a maintainer decision before any code.
 
