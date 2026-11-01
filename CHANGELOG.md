@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Brand overlays — 2026-11-01
+
+`brand-overlays/` holds overlays that re-colour a base theme through `:root[data-brand="name"]` with a short, documented token
+set; `bin/check-theme --overlay` (in `bin/test`) checks the token list, the declaration limit, that colour pairs are set together
+at 4.5:1 or more, and the font stack. `brand-overlays/example.css` is a fictional worked example. P21-T2.
+
 ## Brand colour tokens and the identity policy — 2026-11-01
 
 `AGENTS/visual-identity.md` (loaded by `AGENTS.md`, required by `bin/test`) and a pinned "Brand colour" section in all 63

@@ -3120,10 +3120,11 @@ Plan: [plan.md § Phase 21](plan.md#phase-21--visual-identity-principles-2026-11
       sync with `bin/sync`.
       Verify: `bin/test` fails when the file or its topic is missing; `bin/check-links` passes.
       _(2026-11-01: done. The file, the `AGENTS.md` import and the `bin/test` check; synced to the subprojects.)_
-- [ ] **P21-T2 Brand overlay.** A documented overlay stylesheet (at most about twenty tokens, scoped by `[data-brand]`)
+- [x] **P21-T2 Brand overlay.** A documented overlay stylesheet (at most about twenty tokens, scoped by `[data-brand]`)
       that composes with `[data-theme]` and the theme-picker, one worked example, and `bin/check-theme --overlay`. Reuse the
       format the theme generator of `spec/daisyui-lessons` item 3 will emit.
       Verify: the example overlay passes; an overlay setting an undocumented token or a content pair under 4.5:1 fails.
+      _(2026-11-01: done. `brand-overlays/` at the repository root (not in `themes/`, which `bin/sync` copies into every app), `brand-overlays/example.css`, and `bin/check-theme --overlay` in `bin/test`: one rule, the documented tokens only, at most twenty declarations, pairs set together and at least 4.5:1, a font stack ending in a generic family. Shown in Chromium: the overlay overrides the light theme and removing `data-brand` restores it; a deliberately bad overlay fails six ways. Not done: the theme generator of daisyui-lessons item 3 does not exist yet, so nothing emits this format; the theme-picker does not manage `data-brand`.)_
 - [x] **P21-T3 `--lily-brand` and `--lily-on-brand`.** Optional decorative brand colour and its text colour, defaulting to
       `--color-primary` and `--color-primary-content`, in the shared theme section of all 63 themes; document the
       lightness-shift derivation.

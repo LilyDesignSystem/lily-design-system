@@ -25,10 +25,19 @@ by a theme or by the adopter. Full topic, with the research and the planned work
 - **Identity changes are dated.** When an upstream changes its identity, re-baseline the theme and record it in
   `themes/references.tsv`.
 
+### Brand overlay
+
+To re-colour a base theme without forking it, write an overlay in [`brand-overlays/`](../brand-overlays): one rule,
+`:root[data-brand="name"]`, loaded after the theme, with `data-brand="name"` on the root element. It sets only the documented
+tokens (the eight colour roles with their `-content`, `--lily-brand` / `--lily-on-brand`, the three radii,
+`--lily-font-body-latin`), at most twenty declarations. Each colour pair is set together and is at least 4.5:1; the font stack
+ends in a generic family. `bin/check-theme --overlay` (in `bin/test`) enforces it; `brand-overlays/example.css` is the worked
+example (a fictional brand).
+
 ### Planned (not yet built)
 
-Brand overlay, `--lily-brand` / `--lily-on-brand`, logo-slot composition, typeface licence audit, icon contract check,
-`theme-color`, identity change log: tasks P21-T2 to P21-T8 in [tasks.md](../tasks.md).
+Logo-slot composition, typeface licence audit, icon contract check, `theme-color`, identity change log: tasks P21-T4 to
+P21-T8 in [tasks.md](../tasks.md).
 
 ### Checks
 

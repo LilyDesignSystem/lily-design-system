@@ -1,0 +1,27 @@
+/* ============================================================================
+ * Brand overlay: example (spec/visual-identity, P21-T2).
+ *
+ * A fictional brand, to show the format; it names no real organisation. An
+ * overlay re-colours a base theme without forking it. Load it AFTER the theme
+ * stylesheet and set data-brand="example" on the root element:
+ *
+ *   <html data-theme="light" data-brand="example">
+ *
+ * Rules (enforced by `bin/check-theme --overlay`): one selector, only the
+ * documented custom properties, at most twenty declarations, every colour pair
+ * set together and at least 4.5:1, and a Latin font stack ending in a generic
+ * family. Text keeps using the content pairs; --lily-brand is decorative only.
+ * ========================================================================== */
+
+:root[data-brand="example"] {
+  --color-primary: #7a1f5c;
+  --color-primary-content: #ffffff;
+  --color-accent: #ffd166;
+  --color-accent-content: #1a1a1a;
+  --lily-brand: #d9a400;
+  --lily-on-brand: #1a1a1a;
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 0.75rem;
+  --lily-font-body-latin: "Example Sans", system-ui, sans-serif;
+}

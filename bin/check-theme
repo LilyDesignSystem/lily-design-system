@@ -328,7 +328,84 @@ def contrast_report() -> int:
     return 0
 
 
+# ---------------------------------------------------------------------------
+# --overlay: brand overlays (spec/visual-identity, P21-T2)
+# ---------------------------------------------------------------------------
+
+OVERLAY_MAX_DECLARATIONS = 20
+OVERLAY_COLOUR_PAIRS = [
+    ("--color-primary-content", "--color-primary"),
+    ("--color-secondary-content", "--color-secondary"),
+    ("--color-accent-content", "--color-accent"),
+    ("--color-neutral-content", "--color-neutral"),
+    ("--color-info-content", "--color-info"),
+    ("--color-success-content", "--color-success"),
+    ("--color-warning-content", "--color-warning"),
+    ("--color-error-content", "--color-error"),
+    ("--lily-on-brand", "--lily-brand"),
+]
+OVERLAY_TOKENS = {t for pair in OVERLAY_COLOUR_PAIRS for t in pair} | {
+    "--radius-selector", "--radius-field", "--radius-box", "--lily-font-body-latin",
+}
+GENERIC_FAMILIES = ("serif", "sans-serif", "monospace", "system-ui", "ui-sans-serif", "ui-serif", "ui-monospace", "cursive", "fantasy")
+
+
+def overlay_check(paths) -> int:
+    errors = []
+    if not paths:
+        paths = sorted(glob.glob(os.path.join(TOP, "brand-overlays", "*.css")))
+    for f in paths:
+        base = os.path.basename(f)
+        name = base[:-4]
+        css = strip_comments(open(f, encoding="utf-8").read()).strip()
+        m = re.fullmatch(r"([^{}]+)\{([^{}]*)\}", css)
+        if not m:
+            errors.append(f"{base}: an overlay is exactly one rule")
+            continue
+        selector = " ".join(m.group(1).split())
+        if selector != f':root[data-brand="{name}"]':
+            errors.append(f'{base}: the selector must be :root[data-brand="{name}"], found {selector!r}')
+        decls = [d.strip() for d in m.group(2).split(";") if d.strip()]
+        if len(decls) > OVERLAY_MAX_DECLARATIONS:
+            errors.append(f"{base}: {len(decls)} declarations, at most {OVERLAY_MAX_DECLARATIONS}")
+        tokens = {}
+        for d in decls:
+            prop, _, value = d.partition(":")
+            prop, value = prop.strip(), " ".join(value.split())
+            if prop not in OVERLAY_TOKENS:
+                errors.append(f"{base}: {prop} is not a documented overlay token")
+            elif prop in tokens:
+                errors.append(f"{base}: {prop} is set twice")
+            tokens[prop] = value
+        for fg, bg in OVERLAY_COLOUR_PAIRS:
+            if (fg in tokens) != (bg in tokens):
+                errors.append(f"{base}: set {fg} and {bg} together (the pair is checked, and the base theme's other half is unknown)")
+            elif fg in tokens:
+                c_fg, c_bg = parse_color(tokens[fg], tokens), parse_color(tokens[bg], tokens)
+                if c_fg is None or c_bg is None:
+                    errors.append(f"{base}: {fg} or {bg} is not a colour this check can read (use hex, rgb(), hsl() or oklch())")
+                    continue
+                (l1, _), (l2, _) = luminance(c_fg), luminance(c_bg)
+                ratio = (max(l1, l2) + 0.05) / (min(l1, l2) + 0.05)
+                if ratio < AA:
+                    errors.append(f"{base}: {fg} on {bg} is {ratio:.2f}:1, below 4.5:1")
+        font = tokens.get("--lily-font-body-latin")
+        if font is not None:
+            last = font.split(",")[-1].strip().strip("\"'").lower()
+            if last not in GENERIC_FAMILIES:
+                errors.append(f"{base}: --lily-font-body-latin must end in a generic family, ends in {last!r}")
+    if errors:
+        for e in errors:
+            print(f"Error: {e}")
+        print("check-theme --overlay: FAILED")
+        return 1
+    print(f"check-theme --overlay: OK ({len(paths)} overlays)")
+    return 0
+
+
 def main() -> int:
+    if "--overlay" in sys.argv[1:]:
+        return overlay_check([a for a in sys.argv[1:] if a != "--overlay"])
     if "--contrast" in sys.argv[1:]:
         return contrast_report()
     slugs = set(
