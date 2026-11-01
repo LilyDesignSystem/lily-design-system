@@ -21,6 +21,8 @@ by a theme or by the adopter. Full topic, with the research and the planned work
   named for the organisation, never "logo". `picture` and `figure` always carry consumer-supplied text alternatives.
 - **Brand colour is not text colour.** A brand colour that fails 4.5:1 may colour a band, rule or logo background, never text
   or a control's boundary; text and borders use the theme's content pairs (WCAG 1.4.3, 1.4.11).
+- **Fonts are named, never shipped, and their licence is recorded.** `themes/fonts.tsv` has a row per theme (system font, or a
+  named font with its licence and whether that is verified); an unknown stays unknown. Every font stack ends in a generic family.
 - **Do not hard-code one body's clear space or size.** National and local guidelines disagree; a theme or adopter sets its own.
 - **Identity changes are dated.** When an upstream changes its identity, re-baseline the theme and record it in
   `themes/references.tsv`.
@@ -36,7 +38,7 @@ example (a fictional brand).
 
 ### Planned (not yet built)
 
-Logo-slot composition, typeface licence audit, icon contract check, `theme-color`, identity change log: tasks P21-T4 to
+Logo-slot composition, icon contract check, `theme-color`, identity change log: tasks P21-T4, P21-T6 to
 P21-T8 in [tasks.md](../tasks.md).
 
 ### Checks

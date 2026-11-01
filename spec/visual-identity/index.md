@@ -147,7 +147,7 @@ theme's `--lily-brand` (item 3), creating it if absent, off by default. Idempote
 - [x] `--lily-brand` and `--lily-on-brand` are in every theme's shared section and pinned by `bin/check-theme`.
 - [ ] The logo-slot composition is in `AGENTS/components.md` and `spec/visual-identity`, with an example page tested in one
       example app.
-- [ ] `themes/references.tsv` has a `font_licence` column filled for all 63 themes, with unknowns marked unknown.
+- [x] `themes/fonts.tsv` has a row for all 63 themes, with unknowns marked unknown (a separate file: `references.tsv` has only the 14 public-sector rows).
 - [ ] The icon contract is checked for every bundled picker icon.
 - [ ] The theme-picker's optional `themeColor` works in all eight catalogs and is idempotent.
 - [ ] Each recorded identity change has a dated note and a line on the theme's docs page.

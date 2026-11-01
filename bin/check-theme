@@ -421,6 +421,36 @@ def main() -> int:
     files = sorted(glob.glob(os.path.join(TOP, "themes", "*.css")))
     errors = []
 
+    # 4b. typeface licence audit (spec/visual-identity, P21-T5): one row per theme in themes/fonts.tsv
+    fonts = {}
+    for line in open(os.path.join(TOP, "themes", "fonts.tsv"), encoding="utf-8").read().splitlines()[1:]:
+        cols = line.split("\t")
+        if len(cols) != 6 or not all(c.strip() for c in cols):
+            errors.append(f"themes/fonts.tsv: malformed row {line[:60]!r}")
+            continue
+        fonts[cols[0]] = cols
+    for f in files:
+        slug = os.path.basename(f)[:-4]
+        m = re.search(r"--lily-font-body-latin\s*:\s*([^;]+);", strip_comments(open(f, encoding="utf-8").read()))
+        if not m:
+            continue  # reported by rule 14
+        families = [x.strip().strip("\"'") for x in m.group(1).split(",")]
+        if families[-1].lower() not in GENERIC_FAMILIES:
+            errors.append(f"{slug}.css: --lily-font-body-latin must end in a generic family, ends in {families[-1]!r}")
+        row = fonts.get(slug)
+        if row is None:
+            errors.append(f"themes/fonts.tsv: no row for {slug}")
+            continue
+        if row[1] != families[0]:
+            errors.append(f"themes/fonts.tsv: {slug} says first family {row[1]!r}, the theme names {families[0]!r}")
+        if (row[2] == "system") != (families[0].lower() in GENERIC_FAMILIES):
+            errors.append(f"themes/fonts.tsv: {slug} kind {row[2]!r} does not match first family {families[0]!r}")
+        if row[2] != "system" and row[4] == "n/a":
+            errors.append(f"themes/fonts.tsv: {slug} names a font but its status is n/a")
+    for slug in fonts:
+        if not os.path.exists(os.path.join(TOP, "themes", slug + ".css")):
+            errors.append(f"themes/fonts.tsv: row for {slug}, which is not a theme")
+
     # 5. shared sections pinned across all themes
     sections = {name: {} for name in SHARED_SECTIONS}
     for f in files:

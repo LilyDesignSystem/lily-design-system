@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Typeface licence audit — 2026-11-01
+
+`themes/fonts.tsv`: one row per theme with its first font family, whether it is a system font, and the licence with its
+verification status (Rawline unknown). `bin/check-theme` fails a missing or mismatched row and a font stack that does not end in
+a generic family. P21-T5.
+
 ## Brand overlays — 2026-11-01
 
 `brand-overlays/` holds overlays that re-colour a base theme through `:root[data-brand="name"]` with a short, documented token

@@ -3134,10 +3134,11 @@ Plan: [plan.md § Phase 21](plan.md#phase-21--visual-identity-principles-2026-11
       `--lily-logo-clear-space` and `--lily-logo-min-size` set per theme (unset allowed), accessible name rules, and the
       logotype contrast exemption. No component, no bundled logo.
       Verify: an example page in one app passes axe and its e2e; the Welsh text-expansion sweep still passes.
-- [ ] **P21-T5 Typeface licence audit.** A `font_licence` column in `themes/references.tsv` for each theme's first named
+- [x] **P21-T5 Typeface licence audit.** A `font_licence` column in `themes/references.tsv` for each theme's first named
       family (open, system, licensed and not shipped, unknown), and a `bin/check-theme` rule that every
       `--lily-font-body-latin` ends in a generic family.
       Verify: all 63 rows filled, unknowns marked unknown; the rule fails a stack with no generic family.
+      _(2026-11-01: done, as a new `themes/fonts.tsv` (a column in `references.tsv` would cover only its 14 public-sector rows). 57 themes start with a system font; six name a font they do not ship: Inter (twice), Noto Sans, Noto Sans JP and Public Sans are recorded as SIL OFL 1.1, status unverified (from general knowledge, licence files not read); Rawline (gov.br) is unknown (no licence found). `check-theme` fails a missing, extra or mismatched row, a system/named kind that disagrees with the stack, and a stack not ending in a generic family. No NHS theme names Frutiger.)_
 - [ ] **P21-T6 Icon contract check.** Record the picker icon style (one `viewBox`, stroke width, round caps,
       `currentColor`, `aria-hidden`) in `AGENTS/visual-identity.md` and check every bundled picker icon against it.
       Verify: a check fails an icon with a different `viewBox` or a fixed colour.
