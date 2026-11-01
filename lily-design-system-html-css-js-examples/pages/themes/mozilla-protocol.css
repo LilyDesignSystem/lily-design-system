@@ -45,12 +45,12 @@
        family. */
     --color-secondary: #9059ff;
     /* Foreground colour used over `--color-secondary` fills. */
-    --color-secondary-content: #ffffff;
+    --color-secondary-content: #000000;
     /* Accent colour — used sparingly for emphasis, the AI label,
        illustrations, and tertiary call-outs. */
     --color-accent: #ff4aa2;
     /* Foreground colour used over `--color-accent` fills. */
-    --color-accent-content: #ffffff;
+    --color-accent-content: #15141a;
     /* Neutral chrome surface — footer bars, code blocks,
        tooltips, government-banner strips. Typically the theme's
        darkest neutral. */

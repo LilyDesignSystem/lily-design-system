@@ -50,7 +50,7 @@
        illustrations, and tertiary call-outs. */
     --color-accent: #d83790;
     /* Foreground colour used over `--color-accent` fills. */
-    --color-accent-content: #ffffff;
+    --color-accent-content: #000000;
     /* Neutral chrome surface — footer bars, code blocks,
        tooltips, government-banner strips. Typically the theme's
        darkest neutral. */
@@ -67,7 +67,7 @@
        green RAG status. */
     --color-success: #2d9d78;
     /* Foreground colour used over `--color-success` fills. */
-    --color-success-content: #ffffff;
+    --color-success-content: #000000;
     /* Warning colour — yellow/amber band; used on phase banners,
        in-progress states, validation warnings, and the amber RAG
        status. */

@@ -133,11 +133,11 @@
       "$value": {
         "colorSpace": "srgb",
         "components": [
-          1.0,
-          1.0,
-          1.0
+          0.0,
+          0.0,
+          0.0
         ],
-        "hex": "#ffffff"
+        "hex": "#000000"
       },
       "$description": "Foreground colour used over `--color-secondary` fills."
     },
@@ -159,11 +159,11 @@
       "$value": {
         "colorSpace": "srgb",
         "components": [
-          1.0,
-          1.0,
-          1.0
+          0.0824,
+          0.0784,
+          0.102
         ],
-        "hex": "#ffffff"
+        "hex": "#15141a"
       },
       "$description": "Foreground colour used over `--color-accent` fills."
     },
