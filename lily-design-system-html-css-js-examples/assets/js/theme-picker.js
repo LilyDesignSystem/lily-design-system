@@ -1,5 +1,28 @@
 // theme-picker.ts
 import { ListboxController } from "./listbox-controller.js";
+
+// theme-color.ts
+function brandColor(root = document.documentElement) {
+  return getComputedStyle(root).getPropertyValue("--lily-brand").trim();
+}
+function applyThemeColor(root = document.documentElement) {
+  const color = brandColor(root);
+  if (!color) return false;
+  let meta = document.head.querySelector('meta[name="theme-color"]');
+  if (!meta) {
+    meta = document.createElement("meta");
+    meta.name = "theme-color";
+    document.head.appendChild(meta);
+  }
+  if (meta.content === color) return false;
+  meta.content = color;
+  return true;
+}
+function applyThemeColorWhenLoaded(link, root = document.documentElement) {
+  link.addEventListener("load", () => applyThemeColor(root), { once: true });
+}
+
+// theme-picker.ts
 var SVG_NS = "http://www.w3.org/2000/svg";
 function themeName(theme) {
   return theme.split("-").map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
@@ -136,6 +159,19 @@ var ThemePicker = class extends HTMLElement {
   set detectFromSystem(v) {
     if (v) this.setAttribute("detect-from-system", "");
     else this.removeAttribute("detect-from-system");
+  }
+  /**
+   * Also set `<meta name="theme-color">` from the theme's `--lily-brand` once its stylesheet has loaded, so the
+   * browser chrome follows the theme. Off by default (absent → false, present → true, "false" → false); a theme
+   * without `--lily-brand` leaves the tag alone.
+   */
+  get themeColor() {
+    const v = this.getAttribute("theme-color");
+    return v !== null && v !== "false";
+  }
+  set themeColor(v) {
+    if (v) this.setAttribute("theme-color", "");
+    else this.removeAttribute("theme-color");
   }
   get name() {
     return this.getAttribute("name") ?? "theme";
@@ -379,7 +415,9 @@ var ThemePicker = class extends HTMLElement {
     if (typeof document === "undefined" || !slug) return;
     if (slug === this.#appliedValue) return;
     this.#appliedValue = slug;
-    this.#getManagedLink().href = themeHref(this.themesUrl, slug, this.extension);
+    const link = this.#getManagedLink();
+    link.href = themeHref(this.themesUrl, slug, this.extension);
+    if (this.themeColor) applyThemeColorWhenLoaded(link);
     (this.#target ?? document.documentElement).setAttribute("data-theme", slug);
     if (this.storageKey) {
       try {
