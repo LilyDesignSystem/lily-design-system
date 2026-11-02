@@ -100,6 +100,10 @@ The root [`themes/`](../../themes/) directory ships 63 ready-to-use theme styles
 - Selectors use `:where(...)` so consumer overrides always win on specificity.
 - The [`theme-select` helper](../helpers/index.md) loads these at runtime by swapping a managed `<link>` href and setting `data-theme` on the document root.
 
+## First paint
+
+To apply the stored or system theme before first paint on a static page, use the head snippet in [theme-picker](../theme-picker/index.md#no-flash-head-snippet-added-2026-11-02-p22-t2).
+
 ## Picker popups
 
 The reference themes place every picker popup (`.{theme,locale,text-size,motion,share}-picker-list`,

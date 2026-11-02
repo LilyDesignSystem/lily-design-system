@@ -79,6 +79,42 @@ List item with theme picker option <slug>:
 </li>
 ```
 
+## No-flash head snippet (added 2026-11-02, P22-T2)
+
+The picker applies the stored theme only when its script runs, which is after first paint on a static or server-rendered page.
+To avoid a flash of the default theme, put a small classic (not `type="module"`, not `defer`) script in `<head>`, before the
+stylesheet link would be needed, so it blocks the parser:
+
+```html
+<script>
+    (function () {
+        var slug = "light"; // the app's default
+        try {
+            var stored = localStorage.getItem("lily-theme"); // the picker's storage-key
+            if (stored && /^[a-z0-9-]+$/.test(stored)) slug = stored;
+            else if (matchMedia("(prefers-color-scheme: dark)").matches) slug = "dark"; // the app's dark slug
+        } catch (e) {}
+        var link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.setAttribute("data-lily-theme-picker", "theme");
+        link.href = "/themes/" + slug + ".css";
+        document.head.appendChild(link);
+        document.documentElement.setAttribute("data-theme", slug);
+    })();
+</script>
+```
+
+- The managed `<link data-lily-theme-picker>` is the one the picker adopts once it is defined, so no second request.
+- The slug is checked against `^[a-z0-9-]+$` before it is used in a URL.
+- The `prefers-color-scheme` line is the app's choice: it matches the picker's `detect-from-system`, and the two slugs are the
+  app's. Remove it if the app has no dark theme.
+- The picker's own `value` attribute and this snippet must agree on the default; the snippet wins on first paint.
+- A framework with server rendering can instead write `data-theme` and the `<link>` into the HTML from a cookie
+  ([`docs/ssr.md`](../../lily-design-system-html-theme-picker/docs/ssr.md)); the snippet is for static output.
+- Reference: `assets/js/theme-boot.js` in the HTML examples app, with `e2e/no-flash-theme.spec.ts`, which blocks the picker
+  script and asserts the stored theme is already applied. The other example apps load the theme through their framework; the
+  Nunjucks and Alpine static apps can copy this snippet.
+
 ## Theme colour (added 2026-11-01, P21-T7)
 
 Optional and off by default. With `themeColor` (`theme-color` on the custom elements, `data-lily-theme-picker-theme-color` from
