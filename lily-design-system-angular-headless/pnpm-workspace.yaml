@@ -9,6 +9,7 @@ allowBuilds:
 # the only thing sockjs uses -- is stable across the 8-11 line, so
 # overriding straight to the patched major is safe.
 overrides:
+  "minimatch@<11.0.1": "^11.0.1"
   vite: "8.3.5"
   uuid: "11.1.1"
   # @storybook/builder-webpack5 (latest 10.6.1) still requires

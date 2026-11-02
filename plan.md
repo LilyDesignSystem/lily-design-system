@@ -251,7 +251,7 @@ named competitors ship in October 2026 and against the tree on 2026-10-29. Detai
 **The seven rows share one root cause: competitors win on evidence, and Lily wins on breadth.** Base UI (1.0 in
 December 2025), Ark UI and React Aria are trusted because their behaviour has years of exercise and because they
 publish how they test it. React Aria names its screen-reader and browser matrix. Carbon and USWDS publish conformance
-material. shadcn made copying a tool. Lily has 582 components × 8 frameworks, so every unit of proof costs it more than
+material. shadcn made copying a tool. Lily has 607 components × 8 frameworks, so every unit of proof costs it more than
 it costs them. Adding breadth widens the gap. Making proof cheaper and concentrating it closes the gap.
 
 What the research found, in brief:
@@ -334,7 +334,7 @@ only; no port starts before the decision. Task P20-T1 in [tasks.md](tasks.md).
    `bin/check-coverage`, `bin/check-class-names`, `bin/check-port-parity`, publishing, skills and the label-pack loaders.
 3. **Alternatives**: Solid renders custom elements well, so the Web Components catalog may already serve Solid users;
    measure what they lose (typed props, SSR, events) before choosing a full port.
-4. **Decision**: port (all 583 components, the 20 helpers, a SolidStart example app), a partial port, or decline
+4. **Decision**: port (all 607 components, the 20 helpers, a SolidStart example app), a partial port, or decline
    with Web Components as the documented route, recorded in `spec/frameworks`.
 
 ## Phase 21 — Visual identity principles (2026-11-01)
