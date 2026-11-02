@@ -6,3 +6,5 @@ allowBuilds:
   better-sqlite3: true
 minimumReleaseAgeExclude:
   - "@lilydesignsystem/vue-time-zone-picker@0.1.0"
+overrides:
+  "minimatch@10": "^11.0.1"

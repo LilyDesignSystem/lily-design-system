@@ -9,4 +9,5 @@ allowBuilds:
 # GHSA-symlink-path-traversal alert has no first_patched_version at
 # all -- an unresolved upstream gap, not something a pin can fix.
 overrides:
+  "minimatch@10": "^11.0.1"
   serialize-javascript: "7.1.3"

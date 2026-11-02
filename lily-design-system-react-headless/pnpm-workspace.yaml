@@ -9,4 +9,5 @@ allowBuilds:
 # (^0.27.0 || ^0.28.0) already accepts 0.28.x, so pinning everyone
 # to one patched version is safe.
 overrides:
+  "minimatch@10": "^11.0.1"
   esbuild: "0.28.2"

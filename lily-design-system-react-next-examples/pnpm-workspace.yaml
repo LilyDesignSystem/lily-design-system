@@ -7,3 +7,5 @@ minimumReleaseAgeExclude:
   - "@lilydesignsystem/react-locale-picker@0.1.3"
   - "@lilydesignsystem/react-text-size-picker@0.1.2"
   - "@lilydesignsystem/react-theme-picker@0.1.2"
+overrides:
+  "minimatch@10": "^11.0.1"
