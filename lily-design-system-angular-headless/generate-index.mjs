@@ -30,6 +30,8 @@ function isComponentSource(name) {
     if (name.endsWith(".spec.ts")) return false;
     // Internal helper shared by the components; not part of the public API.
     if (name === "form-reset.ts") return false;
+    // Internal shared listbox machine (a copy from shared/); Listbox.ts exports the public ListboxNavigation.
+    if (name === "listbox-machine.ts") return false;
     if (name.includes(".stories.")) return false;
     return true;
 }

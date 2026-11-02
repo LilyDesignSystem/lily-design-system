@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { shallowRef, toRef } from "vue";
+import { shallowRef } from "vue";
 import { usePopoverState } from "./popover";
 // Tooltip component
 //
@@ -62,7 +62,7 @@ const props = withDefaults(
 
 const visible = defineModel<boolean>("visible", { default: false });
 const panelEl = shallowRef<HTMLElement | null>(null);
-usePopoverState(panelEl, toRef(props, "visible"));
+usePopoverState(panelEl, visible);
 </script>
 
 <template>

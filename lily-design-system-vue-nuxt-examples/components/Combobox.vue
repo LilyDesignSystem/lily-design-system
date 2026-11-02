@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { shallowRef, toRef } from "vue";
+import { shallowRef } from "vue";
 import { usePopoverState } from "./popover";
 // Combobox component
 //
@@ -77,7 +77,7 @@ function onkeydown(event: KeyboardEvent) {
     }
 }
 const panelEl = shallowRef<HTMLElement | null>(null);
-usePopoverState(panelEl, toRef(props, "open"));
+usePopoverState(panelEl, open);
 </script>
 
 <template>

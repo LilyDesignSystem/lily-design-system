@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { shallowRef, toRef } from "vue";
+import { shallowRef } from "vue";
 import { usePopoverState } from "./popover";
 // HoverCard component
 //
@@ -58,7 +58,7 @@ const props = defineProps<{
 
 const open = defineModel<boolean>("open", { default: false });
 const panelEl = shallowRef<HTMLElement | null>(null);
-usePopoverState(panelEl, toRef(props, "open"));
+usePopoverState(panelEl, open);
 </script>
 
 <template>
