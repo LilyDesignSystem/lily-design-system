@@ -1,12 +1,12 @@
 #!/usr/bin/env node
-// generate-component-demos.js
+// bin/generate-component-demos.js
 // Reads components.tsv (tab-separated: slug, name, description)
 // Outputs a TypeScript module mapping slug → demo HTML string.
 
 const fs = require('fs');
 const path = require('path');
 
-const csvPath = path.join(__dirname, 'components.tsv');
+const csvPath = path.join(__dirname, '..', 'components.tsv');
 const csvContent = fs.readFileSync(csvPath, 'utf-8');
 
 const components = csvContent

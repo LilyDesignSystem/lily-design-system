@@ -2644,7 +2644,7 @@ a task was measured on 2026-10-21; re-measure before closing it.
       Actual 2026-10-21: 187 = 9 headless + 8 example apps + 133 helpers + 27 skills + 9 locale-translations + themes.
       Consider a `bin/check-counts` that compares stated present-tense counts to the tree.
       Verify: `grep -n '491' spec/index.md` shows only dated history; counts match `ls -d lily-design-system-*`.
-- [ ] **P12-T15 Tidy the root scripts.** _(2026-10-30: not started; all five files are still at the root.)_ Move `generate-component-demos.js` (used by `bin/generate-registries`) into
+- [x] **P12-T15 Tidy the root scripts.** _(2026-11-02: done. `generate-component-demos.js` moved to `bin/` (path to `components.tsv` fixed, still runs); the other four deleted, only docs named them and they stay in git history.)_ Move `generate-component-demos.js` (used by `bin/generate-registries`) into
       `bin/`; delete or archive `generate-component-docs.js`, `upgrade-component-docs.js`, `upgrade-html-component-demos.js`
       and `upgrade-subproject-docs.js` after confirming nothing references them.
       Verify: `bin/test` passes; `grep -rn` finds no reference to a removed script.

@@ -10,7 +10,7 @@
 //   - lily-design-system-svelte-sveltekit-examples/
 //     src/lib/data/component-demos.ts                 → slug → demo HTML
 //       (the curated demo map; regenerate its baseline with
-//       generate-component-demos.js, then curate in place)
+//       bin/generate-component-demos.js, then curate in place)
 //
 // Outputs (overwritten in full or region-replaced):
 //   - {svelte-sveltekit,react-next,vue-nuxt,angular} components registry .ts
