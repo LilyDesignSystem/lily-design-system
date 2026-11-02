@@ -9,6 +9,15 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Contrast gate, `:user-invalid`, no-flash theme, dependency updates — 2026-11-02
+
+- `bin/check-theme --contrast --gate` (in `bin/test`) fails any theme colour pair below 4.5:1 or unparsed. Valentine's `base-content` went from 0.52 to 0.48 lightness, so no AA failure remains (P10-T10 closed, P22-T20).
+- All 63 themes style an invalid input with `:user-invalid` as well as `aria-invalid` (P22-T9); a required empty field is no longer red on load.
+- The no-flash head snippet is specified (`spec/theme-picker`) and covered by a first-paint e2e in the HTML examples app (P22-T2).
+- Phase 22 in `tasks.md` triages the Bootstrap, daisyUI, ShardsUI and coss-ui lessons into tasks P22-T1 to T30.
+- ESLint and `@eslint/js` 9 to 10. TypeScript 7 stays blocked by `typescript-eslint` (P22-T30).
+- In-range patch and minor updates across 164 packages (Angular 22.2.4, Svelte 5.57.3, SvelteKit 3.1.1, Storybook 10.6.5, Nuxt 4.6.3); Vitest 5 in the 15 Web Components packages; transitive `minimatch` 10 and `glob` overrides for Dependabot alerts.
+
 ## Text colours on 40 low-contrast fills — 2026-11-01
 
 Forty `-content` tokens in 20 general-purpose themes (pastel, corporate, retro, valentine, bumblebee, aqua, autumn and others) are now

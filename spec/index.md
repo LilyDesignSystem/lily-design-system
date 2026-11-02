@@ -624,7 +624,7 @@ Long-term: versioned releases per subproject npm/NuGet package
 - Package: lily
 - Version: 0.9.0
 - Created: 2025-08-09
-- Updated: 2026-10-30
+- Updated: 2026-11-02
 - License: `MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause`
   (SPDX expression; or contact for other terms). See
   [LICENSE.md](../LICENSE.md) — it is the single source of truth, and every
@@ -642,6 +642,8 @@ The dated, per-event narrative moved to [history](history/index.md) on 2026-10-0
 grown to more than half of this file). [CHANGELOG.md](../CHANGELOG.md) remains the
 canonical release record. Most recent events, newest first:
 
+- **Contrast gate and dependency refresh (2026-11-02)** — `bin/check-theme --contrast --gate` in `bin/test` (no AA failure in 63 themes);
+  `:user-invalid` in every theme; ESLint 10; patch and minor updates in 164 packages; Vitest 5 everywhere. See [CHANGELOG.md](../CHANGELOG.md).
 - **Modal dialogs, menus on the Popover API, form reset (2026-10-30)** — `dialog`, `alert-dialog`, `file-dialog` and
   `timeout-dialog` open with `showModal()` in every catalog; `dropdown-menu`, `split-button`, `action-group` and
   `context-menu` are `popover="auto"` in all nine libraries; the theme-picker's `variant="select"` in all eight
