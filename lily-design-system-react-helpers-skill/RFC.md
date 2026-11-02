@@ -56,13 +56,13 @@ Each one states what the project currently believes, why, and — importantly �
 **what would change its mind.** That last line is the contract: if you produce it,
 the answer changes.
 
-### RFC 1 — Is 571 components right, or is it too many?
+### RFC 1 — Is 607 components right, or is it too many?
 
 **Current answer:** breadth is deliberate. A catalog that covers what real
 applications need means fewer escapes into bespoke markup.
 
 **The doubt:** mature systems settle at 100–200 components, and they get there by
-subtraction after production use. Lily arrived at 571 by construction, without that
+subtraction after production use. Lily arrived at 607 by construction, without that
 pressure. [COMPARE.md](COMPARE.md) shows the gap plainly. Breadth may be
 diluting depth — and depth is what an accessible component actually needs.
 
@@ -237,8 +237,8 @@ may not go far enough for organisations with stricter ones.
 ### RFC 12 — Is the suffix-to-element mapping too rigid?
 
 **Current answer:** the slug suffix fixes the root element — `-button` →
-`<button>`, `-list` → `<ol>`, `-picker` → `<div>` — which makes 571 components
-predictable without reading 571 documents.
+`<button>`, `-list` → `<ol>`, `-picker` → `<div>` — which makes 607 components
+predictable without reading 607 documents.
 
 **The doubt:** it has already generated exceptions (gantt tables use raw HTML
 element names; `-list` is `<ol>` except where it is `<ul>`). A convention accreting

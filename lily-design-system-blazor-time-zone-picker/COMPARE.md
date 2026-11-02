@@ -108,7 +108,7 @@ Written for someone deciding, not someone already convinced.
   [MAINTAINERS.md](MAINTAINERS.md) for what that means in practice.
 - **Not every framework is on a registry yet.** See
   [INSTALL.md](INSTALL.md).
-- **Breadth outruns depth.** 582 components is more surface than one person plus
+- **Breadth outruns depth.** 607 components is more surface than one person plus
   machine gates can exercise the way production does. Point-in-time verification
   snapshots are labelled as such in [spec/index.md](spec/index.md) §11.4.
 - **No design tooling.** No Figma library, no token pipeline, no design-to-code
