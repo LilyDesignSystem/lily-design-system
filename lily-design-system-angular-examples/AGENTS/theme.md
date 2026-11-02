@@ -60,6 +60,14 @@ never a free colour. Use `primary` for one main action per view. `bin/test` runs
 fails when any pair in any theme is below 4.5:1 (WCAG 1.4.3) or its colour cannot be parsed; `--suggest` prints the black or
 white text that would fix it. AAA (7:1) is reported, not gated.
 
+### Invalid state
+
+The themes style an invalid input with `:user-invalid` (native: matches only after the user has edited the field and left it, so
+a required empty field is not red on load) and `[aria-invalid="true"]` (server-rendered or script-set errors). The headless layer
+ships no validation rules; the consumer sets `aria-invalid`, links the error text with `aria-describedby`, and on submit moves
+focus to the `error-summary`. `:user-invalid` is Baseline since November 2023, older than the CSS anchor positioning the themes
+already require, so no `data-validated` fallback is shipped.
+
 ### Error text
 
 `--color-error` is a fill colour, not a text colour. Error _text_ uses `--lily-error-text` (error mixed 22% into

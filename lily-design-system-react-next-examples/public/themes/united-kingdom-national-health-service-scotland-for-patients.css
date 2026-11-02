@@ -486,9 +486,12 @@
     }
 
     /* Invalid input — red border. The `aria-invalid="true"` attribute is the
-       ARIA contract; pairing it with a colour change keeps WCAG 1.4.1
-       (no colour-only meaning) honest because the ARIA state is also there. */
-    :where([class$="-input"], .input)[aria-invalid="true"] {
+       ARIA contract (server-rendered errors); `:user-invalid` is the native
+       state that matches only after the user has interacted, so a required
+       field is not styled invalid on load. Pairing a colour change with the
+       ARIA state keeps WCAG 1.4.1 (no colour-only meaning) honest. */
+    :where([class$="-input"], .input)[aria-invalid="true"],
+    :where([class$="-input"], .input):user-invalid {
         border-color: var(--color-error);
     }
 
