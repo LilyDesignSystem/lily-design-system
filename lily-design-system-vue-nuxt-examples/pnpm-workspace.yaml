@@ -9,6 +9,7 @@ minimumReleaseAgeExclude:
   - "@lilydesignsystem/vue-text-size-picker@0.1.2"
   - "@lilydesignsystem/vue-theme-picker@0.1.2"
 overrides:
+  "glob@>=9 <14.0.2": "^14.0.2"
   "minimatch@10": "^11.0.1"
   # @nuxt/devtools 3.x imports simple-git's default export, which the patched
   # simple-git 4.x line dropped (Dependabot alerts 580-583); devtools 4 no
