@@ -48,22 +48,22 @@ the compound name-family patterns, rather than the short list in SKILL.md.
 - `ContainerWith*` — ContainerWithFixedWidth, ContainerWithFluidWidth
 - Table sub-elements — `*TableHead`/`*TableBody`/`*TableFoot`/`*TableRow`/`*TableTH`/`*TableTD` on Table, CalendarTable, DataTable, KanbanTable; GanttTable spells its own sub-elements with plain HTML names (`*TableThead`, `*TableTbody`, …)
 
-## Catalog by category (571 components)
+## Catalog by category (607 components)
 
 | Category                      | Count | Examples                                                    |
 | ----------------------------- | ----- | ----------------------------------------------------------- |
-| Content                       | 149   | Byline, Headline, ContentBlock, FeaturePhoto, Scroller*     |
-| National personal identifiers | 92    | 46 identifier types × `-input`/`-view` across 30+ countries |
-| Forms                         | 55    | TextInput, Field, ErrorSummary, Fieldset, RadioGroup        |
-| Navigation                    | 53    | BreadcrumbNav, TabBar, AccordionNav, PaginationNav          |
-| Lists                         | 39    | CheckList, SummaryList, TaskList, TreeList                  |
-| Tables                        | 36    | DataTable, CalendarTable, GanttTable, KanbanTable           |
+| Content                       | 165   | Byline, Headline, ContentBlock, FeaturePhoto, Scroller*     |
+| National personal identifiers | 164   | 82 identifier types × `-input`/`-view` across 50+ countries |
+| Forms                         | 61    | TextInput, Field, ErrorSummary, Fieldset, RadioGroup        |
+| Navigation                    | 55    | BreadcrumbNav, TabBar, AccordionNav, PaginationNav          |
+| Lists                         | 40    | CheckList, SummaryList, TaskList, TreeList                  |
+| Tables                        | 40    | DataTable, CalendarTable, GanttTable, KanbanTable           |
 | Links                         | 16    | TelLink, EmailLink, AccordionLink                           |
-| Pickers                       | 14    | ColorPicker, FiveStarRatingPicker, NetPromoterScorePicker   |
-| Overlays                      | 14    | Dialog, AlertDialog, Drawer, Tooltip                        |
-| Media                         | 8     | VideoPlayer, Figure, TileMap                                |
+| Pickers                       | 15    | ColorPicker, FiveStarRatingPicker, NetPromoterScorePicker   |
+| Overlays                      | 17    | Dialog, AlertDialog, Drawer, Tooltip                        |
+| Media                         | 7     | VideoPlayer, Figure, TileMap                                |
 | Buttons                       | 8     | Button, ToggleButton, SwitchButton                          |
-| Data visualisation            | 7     | Meter, Progress, ProgressCircle                             |
+| Data visualisation            | 19     | Meter, Progress, ProgressCircle                             |
 
 The authoritative source is `components.tsv` in the canonical repo (one row
 per component: slug, PascalCase name, description) — this table is a
