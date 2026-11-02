@@ -3221,6 +3221,8 @@ Plan: [plan.md § Phase 22](plan.md#phase-22--lessons-topics-triaged-into-tasks-
       Verify: The install snippet in each skill's `index.md` matches the root `llms.txt`.
 - [ ] **P22-T29 Chat composed page.** coss 6. `/chat-interface` in every example app: a conversation, a streaming reply, a failing tool call, the composer with stop; scripted content only.
       Verify: An axe sweep and a keyboard-only Playwright test per app.
+- [ ] **P22-T30 TypeScript 7 at the root (blocked).** _(2026-11-02: tried `typescript@7.0.2` at the root; `typescript-eslint` 8.72.1, the latest, peers `typescript >=4.8.4 <6.1.0` and `npm run lint` fails with "typescript-eslint does not support TS 7.0". Reverted to 6.0.3. ESLint 10 was upgraded the same day, commit `4b543394d`.)_ Retry when `typescript-eslint` supports 7, then check `svelte-check`, `vue-tsc`, the Angular and Blazor-adjacent toolchains and each package's own `typescript`.
+      Verify: `npm run lint` and every package `check` script pass on TypeScript 7.
 
 ---
 
