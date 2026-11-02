@@ -146,6 +146,10 @@ jobs:
         # Libraries without a `check` script are skipped; see tasks.md P12-T1.
         working-directory: ${{ matrix.catalog }}
         run: pnpm run --if-present check
+      - name: Build
+        # The unit suites passed while angular-headless and vue-headless did not build (tasks.md P22-T31).
+        working-directory: ${{ matrix.catalog }}
+        run: pnpm run --if-present build
       - name: Test
         working-directory: ${{ matrix.catalog }}
         run: pnpm exec vitest run
