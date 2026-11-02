@@ -111,6 +111,8 @@ export default [
             "svelte/no-dom-manipulating": "warn",
             "vue/no-dupe-keys": "warn",
             "no-regex-spaces": "warn",
+            // New in the ESLint 10 recommended set (2026-11-02): 38 sites in ported and generated code.
+            "no-useless-assignment": "warn",
         },
     },
     {

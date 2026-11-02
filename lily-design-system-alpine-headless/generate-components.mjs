@@ -670,7 +670,9 @@ for (const [file, text] of outputs) {
     try {
         formatted = await prettier.format(text, options);
     } catch (error) {
-        throw new Error(`components/${basename(file)}: ${error.message.split("\n")[0]}`);
+        throw new Error(`components/${basename(file)}: ${error.message.split("\n")[0]}`, {
+            cause: error,
+        });
     }
     const current = existsSync(file) ? readFileSync(file, "utf8") : null;
     if (current === formatted) continue;

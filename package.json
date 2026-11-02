@@ -11,8 +11,8 @@
     "node": ">=26"
   },
   "devDependencies": {
-    "@eslint/js": "^9.39.5",
-    "eslint": "^9.39.5",
+    "@eslint/js": "^10",
+    "eslint": "^10",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-svelte": "^3.23.1",
     "eslint-plugin-vue": "^10.12.0",
