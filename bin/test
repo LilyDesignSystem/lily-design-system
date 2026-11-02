@@ -390,6 +390,8 @@ implemented_everywhere_or_err
     || err "theme conformance failed; run bin/check-theme"
 "$top/bin/check-theme" --overlay >/dev/null 2>&1 \
     || err "a brand overlay failed; run bin/check-theme --overlay"
+"$top/bin/check-theme" --contrast --gate >/dev/null 2>&1 \
+    || err "a theme colour pair is below WCAG AA (4.5:1) or unparsed; run bin/check-theme --contrast --suggest"
 "$top/bin/check-picker-icons" >/dev/null 2>&1 \
     || err "a picker icon breaks the icon contract; run bin/check-picker-icons"
 "$top/bin/check-theme-references" --offline >/dev/null 2>&1 \

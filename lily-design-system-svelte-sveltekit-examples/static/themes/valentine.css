@@ -30,7 +30,7 @@
     --color-base-300: oklch(89% 0.061 343.231);
     /* Primary text colour. High-contrast against base-100 to meet
        WCAG contrast ratios for body copy. */
-    --color-base-content: oklch(52% 0.223 3.958);
+    --color-base-content: oklch(48% 0.223 3.958);
     /* Primary brand / action colour. Used on primary buttons,
        active navigation items, selected states, and the focus
        ring. */

@@ -52,6 +52,14 @@ pinned "Brand colour" section and defaulting to the primary pair. Use them for a
 never for text or a control's boundary (`bin/check-theme` rule 15 fails it); text and borders use the content pairs. An adopter
 with a brand colour that fails 4.5:1 sets both in their own CSS. Details: [visual-identity.md](visual-identity.md).
 
+### Colour pairs
+
+Always pair a fill with its own `-content` (`--color-primary` with `--color-primary-content`); body text is `--color-base-content`
+on the three base surfaces. Muted text is `base-content` mixed toward the surface (as `--lily-error-text` does for errors),
+never a free colour. Use `primary` for one main action per view. `bin/test` runs `bin/check-theme --contrast --gate`, which
+fails when any pair in any theme is below 4.5:1 (WCAG 1.4.3) or its colour cannot be parsed; `--suggest` prints the black or
+white text that would fix it. AAA (7:1) is reported, not gated.
+
 ### Error text
 
 `--color-error` is a fill colour, not a text colour. Error _text_ uses `--lily-error-text` (error mixed 22% into

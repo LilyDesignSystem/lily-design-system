@@ -3201,7 +3201,7 @@ Plan: [plan.md § Phase 22](plan.md#phase-22--lessons-topics-triaged-into-tasks-
       Verify: A recorded decision; if adopted, `--check` in `bin/test` and a size budget per file.
 - [ ] **P22-T19 Read-only MCP server.** daisyUI 8. Depends on P22-T18 and the per-component manifests (coss 2).
       Verify: Protocol tests over stdio; `check_markup` passes every catalog snippet and fails broken ones.
-- [ ] **P22-T20 Make the colour-pair contrast a gate in `bin/test`.** daisyUI 9. Do this now: there are no AA failures left, so no allow-list is needed. Add the "Using colour tokens" page (pair rule, muted text mixed into `base-content`, one primary action per view).
+- [x] **P22-T20 Make the colour-pair contrast a gate in `bin/test`.** _(2026-11-02: done. `bin/check-theme --contrast --gate` exits 1 on any pair below 4.5:1 or unparsed, and `bin/test` runs it; proved by setting valentine's text to 70% lightness, which failed. The guidance is the "Colour pairs" section of `AGENTS/theme.md`; no separate page.)_ daisyUI 9. Do this now: there are no AA failures left, so no allow-list is needed. Add the "Using colour tokens" page (pair rule, muted text mixed into `base-content`, one primary action per view).
       Verify: `bin/test` fails when a theme adds a `-content` pair below 4.5:1.
 - [ ] **P22-T21 Disabled-link and look-alike guidance.** daisyUI 10. A section in `button`, link components and the choice-chip pattern, under Known limitations (P22-T5).
       Verify: A test per documented case.

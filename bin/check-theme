@@ -76,7 +76,7 @@ Asserts the contracts a theme stylesheet must honour (plan P3-T5):
 
 Exits non-zero listing every violation. Wired into bin/test.
 
-`bin/check-theme --contrast` (plan P10-T4) is a separate, report-only pass (`--suggest` adds, for a pair below AA, the black or white text colour that would reach it):
+`bin/check-theme --contrast` (plan P10-T4) is a separate pass, report-only unless `--gate` is added (P22-T20: exit 1 on any pair below AA or unparsed; `bin/test` runs it with `--gate`) (`--suggest` adds, for a pair below AA, the black or white text colour that would reach it):
 for each theme it computes the WCAG 2 contrast ratio of every declared
 text/background token pair (base content on the three base surfaces, each
 `-content` colour on its fill, and `--lily-error-text` on the page) and
@@ -327,12 +327,14 @@ def contrast_report() -> int:
             print(os.path.basename(f))
             print("\n".join(lines))
     pairs = len(files) * len(CONTRAST_PAIRS)
+    gate = "--gate" in sys.argv[1:]
+    gate_failed = gate and (below_aa > 0 or unparsed > 0)
     print(
         f"check-theme --contrast: {pairs} pairs in {len(files)} themes; "
         f"{below_aaa} below AAA (7:1), of which {below_aa} below AA (4.5:1); {unparsed} not parsed. "
-        "Report only: no colour was changed."
+        + ("Gate: " + ("FAILED" if gate_failed else "OK") + "." if gate else "Report only: no colour was changed.")
     )
-    return 0
+    return 1 if gate_failed else 0
 
 
 # ---------------------------------------------------------------------------
