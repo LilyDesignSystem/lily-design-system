@@ -2648,7 +2648,7 @@ a task was measured on 2026-10-21; re-measure before closing it.
       `bin/`; delete or archive `generate-component-docs.js`, `upgrade-component-docs.js`, `upgrade-html-component-demos.js`
       and `upgrade-subproject-docs.js` after confirming nothing references them.
       Verify: `bin/test` passes; `grep -rn` finds no reference to a removed script.
-- [ ] **P12-T16 Turn the lessons topics into tasks.** `spec/bootstrap-lessons` (10 items), `spec/daisyui-lessons` (11),
+- [x] **P12-T16 Turn the lessons topics into tasks.** _(2026-11-02: done. 29 items triaged into P22-T1 to P22-T29; each topic has a Triage section.)_ `spec/bootstrap-lessons` (10 items), `spec/daisyui-lessons` (11),
       `spec/shardsui-lessons` (4) and `spec/coss-ui-lessons` items 1, 4, 5, 6 have no task IDs. Triage each into a task
       here, a "not adopted" note, or a maintainer decision, so they can be scheduled and closed.
       Verify: every item in those four topics links to a task ID or a recorded decision.
@@ -3155,6 +3155,72 @@ Plan: [plan.md § Phase 21](plan.md#phase-21--visual-identity-principles-2026-11
       page, and reported by `bin/check-theme-references`.
       Verify: the 2026-10-29 NHS.UK re-baseline appears as the first entry.
       _(2026-11-01: done, in part. `themes/identity-changes.tsv` (theme, date, kind, change, source; kinds created, re-baselined, identity-change) holds 15 entries for the 14 public-sector themes, built only from what `references.tsv` and the git history already record; `bin/check-theme-references` validates it (`--offline` runs in `bin/test`) and prints each theme's latest alignment, warning for a theme with none. There is no per-theme docs page to put "Identity last aligned" on, so the report and `spec/theme` carry it; a site page is not built.)_
+
+## Phase 22 — Lessons topics triaged into tasks (2026-11-02)
+
+Plan: [plan.md § Phase 22](plan.md#phase-22--lessons-topics-triaged-into-tasks-2026-11-02). Source topics:
+[bootstrap-lessons](spec/bootstrap-lessons/index.md), [daisyui-lessons](spec/daisyui-lessons/index.md),
+[shardsui-lessons](spec/shardsui-lessons/index.md), [coss-ui-lessons](spec/coss-ui-lessons/index.md). Items marked
+"maintainer decision" are decisions first and build tasks only if adopted. P22-T20 can start now.
+
+- [ ] **P22-T1 Component-scoped CSS variables (pilot).** Bootstrap 1. Documented per-component variables on the base class under `:where(...)`, defaulting to `--lily-*` tokens, for `button`, `alert`, `card`, `table`, `dialog` first; listed in each `AGENTS.md` Styles section; `bin/check-theme` fails a theme that lacks one.
+      Verify: `bin/check-theme` passes for the five; a test restyles one button with an inline variable.
+- [ ] **P22-T2 No-flash head snippet for the theme.** Bootstrap 2a. Document the snippet (stored slug, else `prefers-color-scheme`, set `data-theme` before body) in theme-picker and theme; find which catalogs (HTML, Nunjucks likely) need it.
+      Verify: An e2e test loads a page with a stored dark theme and asserts the first paint carries it.
+- [ ] **P22-T3 Decide the paired, cancelable event convention (maintainer decision).** Bootstrap 3. `lily:open`/`lily:close` (cancelable) and `lily:opened`/`lily:closed`, old names kept as aliases one minor release. Touches every openable component in three DOM-event catalogs, so decide before building.
+      Verify: A recorded decision in `spec/headless`; if adopted, a conformance test per interactive component.
+- [ ] **P22-T4 `open()` / `close()` / `toggle()` on openable elements.** Bootstrap 4. HTML, Alpine and Web Components. Depends on P22-T3. State changes are synchronous; document that.
+      Verify: One test per catalog calls each method and asserts ARIA and events.
+- [ ] **P22-T5 Known limitations section in every component doc.** Bootstrap 5a. Mandatory section in `AGENTS.md` and `index.md`, "none known" allowed. Seed it from daisyUI 10 (disabled links and look-alikes, P22-T21).
+      Verify: `bin/test` fails when a component doc lacks the section.
+- [ ] **P22-T6 Publish the theme contrast table.** Bootstrap 5b. `bin/check-theme --contrast` as a docs-site table, per theme, AA and AAA per pair. Zero AA failures now (P10-T10 closed 2026-11-02); 282 pairs miss AAA and must be shown as such.
+      Verify: The page is generated and drift-checked; `bin/check-links` passes.
+- [ ] **P22-T7 Task-shaped agent skills.** Bootstrap 6. `install`, `add-component`, `theme`, `migrate-from-bootstrap`. The `skills add` install line and any registry listing are outward-facing: maintainer go-ahead first (see P22-T28).
+      Verify: The agent-skills topic lists each; `bin/check-links` passes.
+- [ ] **P22-T8 `MIGRATING-FROM-BOOTSTRAP.md` and a site page.** Bootstrap 7. Bootstrap component or class to Lily slug, differences that matter, a worked conversion; the mapping generated so it cannot name a missing slug.
+      Verify: Every slug in the table exists.
+- [ ] **P22-T9 Validation styling with `:user-invalid` (covers Bootstrap 8, daisyUI 5, coss 5).** In `field`, `error-message` and the 63 themes style invalid state with `:user-invalid` and `[aria-invalid="true"]`; document the flow and the submit-time summary and focus move. First confirm the browser-support floor; keep a `data-validated` fallback only if it is below the floor. Headless ships no rules.
+      Verify: An e2e test: a required empty field is not invalid on load, is after blur, and a server-rendered `aria-invalid` field is.
+- [ ] **P22-T10 Focus-ring contract.** Bootstrap 9a. Document width, offset, colour and a high-contrast fallback with the WCAG 2.2 criterion each meets; add the focus-ring pair to the contrast check.
+      Verify: `bin/check-theme --contrast` includes the pair.
+- [ ] **P22-T11 Whole-card link recipe.** Bootstrap 9b. One `<a>` in the heading whose `::after` covers the card; nested links and buttons stay above it. Needs the recipes layer (P22-T27).
+      Verify: A recipe test asserts one link and a visible focus indicator.
+- [ ] **P22-T12 Starters and an Optimize page.** Bootstrap 10a and 10c: one minimal starter per framework family (about ten files); an Optimize page with sizes from `BENCHMARKS.md`. The version switcher (10b) is deferred until a 1.0 is cut.
+      Verify: Each starter builds in CI.
+- [ ] **P22-T13 Decide token-only themes on `[data-theme]` with one shared component sheet (maintainer decision).** daisyUI 1. Largest item: splits all 63 themes (component section is byte-identical across them), enables nested themes and a mode axis (Bootstrap 2b). Test the listed risks first (`color-scheme` on a subtree, default cascade, anchor-positioned popups, `bin/sync` copies); keep a standalone build for one minor release.
+      Verify: A recorded decision; if adopted, `bin/check-theme` asserts the shared sheet and token-only themes, and an e2e renders two themes side by side.
+- [ ] **P22-T14 CSS slicer `bin/build-css`.** daisyUI 2. Depends on P22-T13.
+      Verify: A five-component slice renders identically to the full sheet.
+- [ ] **P22-T15 Theme generator on the docs site.** daisyUI 3. Depends on P22-T13; refuses to export a failing contrast pair without explicit acceptance.
+      Verify: A generated theme passes `bin/check-theme`.
+- [ ] **P22-T16 Variant vocabulary `data-color`, `data-size`, `data-variant` (maintainer decision).** daisyUI 4. Agree one naming rule with P22-T23 so they cannot collide; a Variants table per component; all 63 themes style them.
+      Verify: `bin/check-data-attributes` includes the variant allow-list.
+- [ ] **P22-T17 Per-page AI links and View source.** daisyUI 6 with coss 3. Copy Markdown, Open in Claude, Open in ChatGPT as plain links carrying only the public Markdown URL.
+      Verify: `bin/check-links` and `bin/generate-sitemap --check` pass.
+- [ ] **P22-T18 Decide the assistant rules files (maintainer decision).** daisyUI 7. Generated `llms-rules.md` and `llms-components-{category}.md` beside the curated `llms.txt`; reopens the recorded "no llms-full.txt" decision, so record the new one.
+      Verify: A recorded decision; if adopted, `--check` in `bin/test` and a size budget per file.
+- [ ] **P22-T19 Read-only MCP server.** daisyUI 8. Depends on P22-T18 and the per-component manifests (coss 2).
+      Verify: Protocol tests over stdio; `check_markup` passes every catalog snippet and fails broken ones.
+- [ ] **P22-T20 Make the colour-pair contrast a gate in `bin/test`.** daisyUI 9. Do this now: there are no AA failures left, so no allow-list is needed. Add the "Using colour tokens" page (pair rule, muted text mixed into `base-content`, one primary action per view).
+      Verify: `bin/test` fails when a theme adds a `-content` pair below 4.5:1.
+- [ ] **P22-T21 Disabled-link and look-alike guidance.** daisyUI 10. A section in `button`, link components and the choice-chip pattern, under Known limitations (P22-T5).
+      Verify: A test per documented case.
+- [ ] **P22-T22 Server-host install guides and a playground.** daisyUI 11. Guides for Laravel, Rails, Django, Phoenix, Astro, Eleventy, Hugo, Jekyll, WordPress; a browser-only playground with the snippet in the URL fragment. Depends on P22-T12.
+      Verify: Each guide's snippet builds in CI.
+- [ ] **P22-T23 One state data-attribute vocabulary.** ShardsUI 1. `data-open`/`data-closed`, `data-highlighted`, `data-checked`/`data-unchecked`, `data-disabled`, `data-side`/`data-align`; an audit table first; old attributes kept one minor release.
+      Verify: `bin/check-data-attributes` fails an attribute outside the vocabulary.
+- [ ] **P22-T24 Missing menu parts (maintainer decision).** ShardsUI 2. `menu-checkbox-item`, `menu-radio-group`, `menu-radio-item`, `menu-group-label`, `menu-link-item`, `menu-separator`: six catalog additions in eight libraries plus the Alpine plugin; the catalog count and every hard-coded 607 move, so decide first.
+      Verify: A recorded decision; if adopted, the standard coverage matrix is green.
+- [ ] **P22-T25 Document behaviour defaults as props.** ShardsUI 3. Every behavioural option and its default, or "fixed", in each interactive component's `AGENTS.md`.
+      Verify: `bin/generate-api-docs` fails when a keyboard section mentions wrapping, closing or delay without a Props entry.
+- [ ] **P22-T26 Published positioning variables.** ShardsUI 4. Custom properties per popup component, only where the component already computes the value.
+      Verify: A test per component reads the documented properties.
+- [ ] **P22-T27 Recipes layer.** coss 1. `recipes/{slug}/{name}.html` with front matter; the 15 "Field with X" patterns first (also P22-T9); a Recipes section per component page and a `/recipes` index.
+      Verify: `bin/check-recipes` passes.
+- [ ] **P22-T28 Decide where to publish the skills (maintainer decision).** coss 4. Which registries; the two entry skills first; listing is outward-facing and hard to retract, so a go-ahead per registry.
+      Verify: The install snippet in each skill's `index.md` matches the root `llms.txt`.
+- [ ] **P22-T29 Chat composed page.** coss 6. `/chat-interface` in every example app: a conversation, a streaming reply, a failing tool call, the composer with stop; scripted content only.
+      Verify: An axe sweep and a keyboard-only Playwright test per app.
 
 ---
 

@@ -164,6 +164,17 @@ behaves this way (class-first rule, suffix to element table, per-component
   that component's `AGENTS.md`, not left implicit.
 - **Check:** none beyond review; it is a design rule.
 
+## Triage (2026-11-02)
+
+Every item has a task in [tasks.md](../../tasks.md) Phase 22 (P12-T16).
+
+| Item | Task |
+| --- | --- |
+| 1 | P22-T27 |
+| 4 | P22-T28 |
+| 5 | P22-T9 |
+| 6 | P22-T29 |
+
 ## Acceptance criteria
 
 - [ ] 1. `recipes/` exists with the 15 Field recipes; `bin/check-recipes` passes in `bin/test`.

@@ -256,6 +256,23 @@ version switcher (v6 alpha, 5.3, 4.6, …), and an "Optimize" page.
 | Tooltip-style validation feedback                  | Bootstrap documents it as inaccessible (item 5)                                                                                                                                                                                         |
 | HTML sanitizer for option strings                  | No such options exist                                                                                                                                                                                                                   |
 
+## Triage (2026-11-02)
+
+Every item has a task in [tasks.md](../../tasks.md) Phase 22 (P12-T16).
+
+| Item | Task |
+| --- | --- |
+| 1 | P22-T1 |
+| 2 | P22-T2 (a); mode axis (b) decided with T13 |
+| 3 | P22-T3 |
+| 4 | P22-T4 |
+| 5 | P22-T5 (a), T6 (b) |
+| 6 | P22-T7 |
+| 7 | P22-T8 |
+| 8 | P22-T9 |
+| 9 | P22-T10 (a), T11 (b) |
+| 10 | P22-T12 (a, c); version switcher (b) deferred to 1.0 |
+
 ## Acceptance criteria
 
 - [ ] 1. Per-component variables are documented and checked for the pilot five components.

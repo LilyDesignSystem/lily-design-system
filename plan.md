@@ -379,6 +379,10 @@ Finished phases (1 to 7 and 18), their sequencing notes and the original definit
 - Outcomes are folded back into `spec/` (the topic the phase changes), `CHANGELOG.md`, and `NEWS.md` where users see
   them; a finished phase moves to [spec/history](spec/history/index.md#improvement-plan-phases-completed-moved-from-planmd-on-2026-10-30).
 
+## Phase 22 — Lessons topics triaged into tasks (2026-11-02)
+
+The 29 untasked items in the Bootstrap, daisyUI, ShardsUI and coss ui lessons topics, each now a task in [tasks.md](tasks.md#phase-22--lessons-topics-triaged-into-tasks-2026-11-02). Order: P22-T20 now (no AA failures remain); P22-T13 is the keystone, since P22-T14, T15 and the mode axis wait on it; P22-T3 before T4; P22-T27 before T11; P22-T18 before T19. Six are maintainer decisions (T3, T13, T16, T18, T24, T28).
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.

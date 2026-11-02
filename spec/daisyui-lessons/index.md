@@ -288,6 +288,24 @@ alone. Each needs a real ARIA contract to qualify, per the root spec:
 | "88% fewer class names" as a claim                    | Lily's classes are hooks, not styling; the comparison does not apply                     |
 | One-file `llms.txt` holding every component           | Does not scale to 582; item 7 splits by category                                         |
 
+## Triage (2026-11-02)
+
+Every item has a task in [tasks.md](../../tasks.md) Phase 22 (P12-T16).
+
+| Item | Task |
+| --- | --- |
+| 1 | P22-T13 |
+| 2 | P22-T14 |
+| 3 | P22-T15 |
+| 4 | P22-T16 |
+| 5 | P22-T9 |
+| 6 | P22-T17 |
+| 7 | P22-T18 |
+| 8 | P22-T19 |
+| 9 | P22-T20 |
+| 10 | P22-T21 |
+| 11 | P22-T22 |
+
 ## Acceptance criteria
 
 - [ ] 1. Themes are token-only on `[data-theme]` with one shared component sheet; scoped and side-by-side themes work; the standalone build still ships for one minor release.
