@@ -1,3 +1,30 @@
+{#
+  DocumentList macro — a list displaying documents with titles and metadata.
+
+  HTML tag: <ul>
+  CSS class: document-list
+  Accessibility: the native <ul> element supplies the semantics. `label`
+    is rendered as aria-label on the root; name the element when more than
+    one of its kind is on the page. Any other ARIA is passed through
+    `attributes`.
+
+  Internationalization: no hardcoded user-facing strings; all text is
+    supplied by the caller.
+
+  Params:
+    text        string   Plain text content (escaped).
+    html        string   Raw HTML content (rendered via `| safe`).
+    label       string   Accessible name (aria-label).
+    id          string
+    classes     string   Extra classes, after the `document-list` base class.
+    attributes  object   Extra attributes written onto the root.
+
+  Body content: `caller()` when neither `html` nor `text` is given.
+
+  Usage:
+    {% from "components/document-list/macro.njk" import documentList %}
+    {{ documentList({ text: "…", label: "…" }) }}
+#}
 {%- macro documentList(params) -%}
 {%- set p = params | default({}) -%}
 <ul

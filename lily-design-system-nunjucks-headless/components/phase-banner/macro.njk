@@ -1,3 +1,30 @@
+{#
+  PhaseBanner macro — a banner showing service development phase and inviting feedback.
+
+  HTML tag: <div>
+  CSS class: phase-banner
+  Accessibility: the native <div> element supplies the semantics. `label`
+    is rendered as aria-label on the root; name the element when more than
+    one of its kind is on the page. Any other ARIA is passed through
+    `attributes`.
+
+  Internationalization: no hardcoded user-facing strings; all text is
+    supplied by the caller.
+
+  Params:
+    text        string   Plain text content (escaped).
+    html        string   Raw HTML content (rendered via `| safe`).
+    label       string   Accessible name (aria-label).
+    id          string
+    classes     string   Extra classes, after the `phase-banner` base class.
+    attributes  object   Extra attributes written onto the root.
+
+  Body content: `caller()` when neither `html` nor `text` is given.
+
+  Usage:
+    {% from "components/phase-banner/macro.njk" import phaseBanner %}
+    {{ phaseBanner({ text: "…", label: "…" }) }}
+#}
 {%- macro phaseBanner(params) -%}
 {%- set p = params | default({}) -%}
 <div
