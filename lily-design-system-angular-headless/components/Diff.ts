@@ -1,11 +1,38 @@
 import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 
 /**
- * Diff — a side-by-side comparison of two items
+ * Diff component
  *
- * Headless Angular component. Renders the semantic HTML root with the
- * kebab-case class hook `diff` and the consumer-provided `className`.
- * Ships zero CSS; the consumer styles via the class hook.
+ * A container for a before-and-after comparison. Renders a <div> with the `diff` hook; how the two
+ * sides are shown is the consumer's markup and CSS.
+ *
+ * Props:
+ *   className — input<string>, optional. CSS class name, added after the base class hook on the root.
+ *   label — string, optional. Accessible name, rendered as aria-label on the root.
+ *   <ng-content /> — projected content, required. The compared content.
+ *   (no rest props) — Angular has no spread; attributes set on <lily-x> land on the host element, not the root.
+ *
+ * Syntax:
+ *   <lily-diff label="…">…</lily-diff>
+ *
+ * Examples:
+ *   <lily-diff>…</lily-diff>
+ *
+ * Keyboard:
+ *   - None -- not interactive; any interactive children handle their own keys
+ *
+ * Accessibility:
+ *   - aria-label comes from `label` when given
+ *   - A <div> has no role; pass role="group" on the host element (Angular has no rest props) so the label is announced
+ *
+ * Internationalization:
+ *   - No hardcoded user-facing strings
+ *
+ * Claude rules:
+ *   - Headless: no CSS, no styles -- consumer provides all styling
+ *
+ * References:
+ *   - WAI-ARIA group role: https://www.w3.org/TR/wai-aria-1.2/#group
  */
 @Component({
     selector: "lily-diff",

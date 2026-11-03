@@ -1,11 +1,46 @@
 import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 
 /**
- * TileMap — a tile cartogram map with configurable layers for geographic data visualization
+ * TileMap component
  *
- * Headless Angular component. Renders the semantic HTML root with the
- * kebab-case class hook `tile-map` and the consumer-provided `className`.
- * Ships zero CSS; the consumer styles via the class hook.
+ * A tile cartogram: a grid of equal tiles standing for regions. Headless arrow-key navigation between
+ * the `[data-tile]` descendants, Enter or Space dispatches a bubbling `tile-activate` event on the
+ * focused tile, and Escape blurs it. The tiles themselves are the consumer's elements.
+ *
+ * Props:
+ *   className — input<string>, optional. CSS class name, added after the base class hook on the root.
+ *   label — string, required. Accessible name. Rendered as aria-label.
+ *   <ng-content /> — projected content, required. The content. Elements marked with a data-tile attribute are the navigable tiles.
+ *   (no rest props) — Angular has no spread; attributes set on <lily-x> land on the host element, not the root.
+ *
+ * Syntax:
+ *   <lily-tile-map label="…"><button data-tile>…</button>…</lily-tile-map>
+ *
+ * Examples:
+ *   <lily-tile-map label="Regions of the country"><button data-tile>North</button><button data-tile>South</button></lily-tile-map>
+ *
+ * Keyboard:
+ *   - ArrowRight / ArrowLeft: next / previous tile in document order, clamped at the ends
+ *   - ArrowDown / ArrowUp: the nearest tile in the row below / above, by horizontal centre then vertical distance
+ *   - Enter or Space: dispatches a bubbling `tile-activate` CustomEvent on the focused tile
+ *   - Escape: removes focus from the tile
+ *   - Tiles need tabindex (for example a <button>) to receive focus
+ *
+ * Accessibility:
+ *   - role="img" with aria-roledescription="tile map" and aria-label from `label`
+ *   - role="img" makes descendants presentational, which conflicts with focusable tiles inside it; give the data in an accessible table beside the map, as the chart pattern does (known issue)
+ *   - Do not use colour alone to show a tile's value (WCAG 1.4.1)
+ *
+ * Internationalization:
+ *   - No hardcoded user-facing strings
+ *
+ * Claude rules:
+ *   - Headless: no CSS, no styles -- consumer provides all styling
+ *   - Keys are physical (ArrowRight is next in document order), not mirrored for right-to-left
+ *
+ * References:
+ *   - Reuters Graphics TileMap (the inspiration): https://github.com/reuters-graphics/graphics-components
+ *   - WAI-ARIA img role: https://www.w3.org/TR/wai-aria-1.2/#img
  */
 @Component({
     selector: "lily-tile-map",

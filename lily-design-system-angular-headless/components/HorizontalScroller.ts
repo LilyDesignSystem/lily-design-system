@@ -1,11 +1,47 @@
 import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 
 /**
- * HorizontalScroller — a horizontally scrollable content container
+ * HorizontalScroller component
  *
- * Headless Angular component. Renders the semantic HTML root with the
- * kebab-case class hook `horizontal-scroller` and the consumer-provided `className`.
- * Ships zero CSS; the consumer styles via the class hook.
+ * A horizontally scrollable region that is keyboard-operable. Renders a <div role="region"
+ * tabindex="0"> with the `horizontal-scroller` hook and scrolls it with the arrow keys; pointer and
+ * touch scrolling stay native overflow behaviour.
+ *
+ * Props:
+ *   className — input<string>, optional. CSS class name, added after the base class hook on the root.
+ *   label — string, required. Accessible name. Rendered as aria-label.
+ *   step — number, default 100. Pixels moved by one ArrowLeft or ArrowRight press.
+ *   <ng-content /> — projected content, required. The content.
+ *   (no rest props) — Angular has no spread; attributes set on <lily-x> land on the host element, not the root.
+ *
+ * Syntax:
+ *   <lily-horizontal-scroller label="…" step={100}>…</lily-horizontal-scroller>
+ *
+ * Examples:
+ *   <lily-horizontal-scroller label="Quarterly figures"><table>…</table></lily-horizontal-scroller>
+ *
+ * Keyboard:
+ *   - ArrowRight: scrolls right by `step`
+ *   - ArrowLeft: scrolls left by `step`
+ *   - Home: scrolls to the start
+ *   - End: scrolls to the end
+ *   - All scrolling is smooth; honour prefers-reduced-motion in the consumer's CSS (scroll-behavior) if needed
+ *
+ * Accessibility:
+ *   - role="region" with aria-label makes it a named landmark
+ *   - tabindex="0" makes the scrollable region keyboard-focusable (axe scrollable-region-focusable); the Svelte a11y warning is deliberately ignored
+ *   - Left and right keys are physical, not logical: in right-to-left layouts ArrowRight still scrolls right
+ *
+ * Internationalization:
+ *   - No hardcoded user-facing strings
+ *
+ * Claude rules:
+ *   - Headless: no CSS, no styles -- consumer provides all styling
+ *   - Overflow, widths and scroll snapping are the consumer's CSS
+ *
+ * References:
+ *   - axe scrollable-region-focusable: https://dequeuniversity.com/rules/axe/4.10/scrollable-region-focusable
+ *   - WCAG 1.4.10 Reflow: https://www.w3.org/WAI/WCAG22/Understanding/reflow.html
  */
 @Component({
     selector: "lily-horizontal-scroller",
