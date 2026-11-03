@@ -24,8 +24,8 @@ importers:
         specifier: ^0.8.1
         version: 0.8.1(@lilydesignsystem/svelte-headless@0.6.1(svelte@5.57.2))(svelte@5.57.2)
       '@lilydesignsystem/svelte-locale-translations':
-        specifier: ^0.4.0
-        version: 0.4.0
+        specifier: ^0.5.0
+        version: 0.5.0
       '@lilydesignsystem/svelte-markdown-editor':
         specifier: ^0.1.0
         version: 0.1.0(svelte@5.57.2)
@@ -150,8 +150,8 @@ packages:
       '@lilydesignsystem/svelte-headless': '>=0.4.0 <1.0.0'
       svelte: ^5.0.0
 
-  '@lilydesignsystem/svelte-locale-translations@0.4.0':
-    resolution: {integrity: sha512-7M8w2biBcU7A4D1jk+fXT4eynsvOsVg25SyU5gViN1k4q4pL3Ym9yUHguEcp9eTRRlEYrDgHPf2NENe2IOOjVA==}
+  '@lilydesignsystem/svelte-locale-translations@0.5.0':
+    resolution: {integrity: sha512-1eELU/P9ezu49m8Cf+seux/zrlPWNXR9boAxoRD2eMKJzeNFpN8AfyVExrfqMYDQFqrU0/31IMd2FstjH9yS9Q==}
     engines: {node: '>=26'}
 
   '@lilydesignsystem/svelte-markdown-editor@0.1.0':
@@ -724,7 +724,7 @@ snapshots:
       '@lilydesignsystem/svelte-headless': 0.6.1(svelte@5.57.2)
       svelte: 5.57.2
 
-  '@lilydesignsystem/svelte-locale-translations@0.4.0': {}
+  '@lilydesignsystem/svelte-locale-translations@0.5.0': {}
 
   '@lilydesignsystem/svelte-markdown-editor@0.1.0(svelte@5.57.2)':
     dependencies:
