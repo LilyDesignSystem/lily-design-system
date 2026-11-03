@@ -1,4 +1,39 @@
 <script lang="ts">
+    // Answer component
+    //
+    // The answer half of a question-and-answer pair. A container with an optional accessible name; pair it
+    // with the `question` component.
+    //
+    // Props:
+    //   className — string, optional. CSS class name.
+    //   label — string, optional. Accessible name, rendered as aria-label on the root.
+    //   children — Snippet, required. The answer content.
+    //   ...restProps — additional HTML attributes spread onto the root <div>.
+    //
+    // Syntax:
+    //   <Answer label="…">…</Answer>
+    //
+    // Examples:
+    //   <Question>What is a design system?</Question>
+    //   <Answer><p>A shared set of rules and components.</p></Answer>
+    //
+    // Keyboard:
+    //   - None -- not interactive; any interactive children handle their own keys
+    //
+    // Accessibility:
+    //   - aria-label comes from `label` when given; use it when no visible heading names the answer
+    //   - A <div> has no role, so add one through restProps if the label must be announced
+    //
+    // Internationalization:
+    //   - No hardcoded user-facing strings
+    //
+    // Claude rules:
+    //   - Headless: no CSS, no styles -- consumer provides all styling
+    //   - Pairs with Question; the pairing is by position in the page, not by ids
+    //
+    // References:
+    //   - MDN aria-label: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-label
+
     import type { Snippet } from "svelte";
     let {
         class: className = "",

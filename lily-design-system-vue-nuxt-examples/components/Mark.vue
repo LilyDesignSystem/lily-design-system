@@ -1,8 +1,36 @@
 <script setup lang="ts">
 // Mark component
 //
-// A headless inline wrapper: an inline highlight marking text as relevant or referenced, such as a search match, using the native mark element. Contract: a plain wrapper with the base class and children.
-// Draws nothing and carries no strings of its own; the consumer supplies the text.
+// An inline highlight marking text as relevant or referenced, such as a search match. Renders the
+// native <mark> element with the `mark` hook; the highlight colour is the consumer's CSS.
+//
+// Props:
+//   class — fallthrough attribute, optional. Vue merges it onto the root element with the base class hook.
+//   default slot — optional. The marked text.
+//   attrs — additional HTML attributes (v-bind="$attrs") on the root <mark>.
+//
+// Syntax:
+//   <Mark>…</Mark>
+//
+// Examples:
+//   <p>Search results for <Mark>design</Mark> systems.</p>
+//
+// Keyboard:
+//   - None -- not interactive; any interactive children handle their own keys
+//
+// Accessibility:
+//   - The native <mark> element conveys relevance; screen readers do not announce it consistently, so do not rely on the highlight alone
+//
+// Internationalization:
+//   - No hardcoded user-facing strings
+//
+// Claude rules:
+//   - Headless: no CSS, no styles -- consumer provides all styling
+//   - Draws nothing and carries no strings of its own
+//
+// References:
+//   - MDN <mark>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/mark
+
 </script>
 
 <template>
