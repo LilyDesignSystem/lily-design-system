@@ -4,6 +4,11 @@ All notable changes to `@lilydesignsystem/web-components-date-time-picker` are
 documented here. The format follows [Keep a Changelog](https://keepachangelog.com/),
 and this package uses [semantic versioning](https://semver.org/).
 
+
+## 0.2.1 — 2026-11-03
+
+- Changed: depends on `@lilydesignsystem/web-components-headless` ^0.7.0 (was ^0.1.0); tests run on Vitest 5. No API change.
+
 ## Unreleased — 2026-10-11
 
 Fixed: a form reset now restores the initial date (and time zone) in the field, the element and the submitted value,

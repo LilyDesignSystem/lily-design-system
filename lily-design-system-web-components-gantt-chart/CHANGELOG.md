@@ -3,6 +3,11 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+
+## 0.8.2 — 2026-11-03
+
+- Changed: depends on `@lilydesignsystem/web-components-headless` ^0.7.0 (was ^0.1.0); tests run on Vitest 5. No API change.
+
 ## 0.8.0 — 2026-10-18
 
 - Added `criticalPath()` and `applyCriticalPath()` (all four dependency kinds, lags and leads in calendar or working days), copied from `shared/critical-path.ts`. Ported from the Svelte package.

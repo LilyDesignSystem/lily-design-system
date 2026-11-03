@@ -3,6 +3,11 @@
 All notable changes to this helper are documented in this file. The format is loosely based on
 [Keep a Changelog](https://keepachangelog.com/) and the project follows [Semantic Versioning](https://semver.org/).
 
+
+## 0.1.1 — 2026-11-03
+
+- Changed: depends on `@lilydesignsystem/web-components-headless` ^0.7.0 (was ^0.1.0); tests run on Vitest 5. No API change.
+
 ## 0.1.0 — 2026-10-08
 
 **First release.** An icon button (a bundled cog SVG) opening a disclosure panel that holds whatever the

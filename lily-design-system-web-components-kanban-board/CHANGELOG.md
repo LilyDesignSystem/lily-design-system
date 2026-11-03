@@ -3,6 +3,11 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+
+## 0.8.3 — 2026-11-03
+
+- Changed: depends on `@lilydesignsystem/web-components-headless` ^0.7.0 (was ^0.1.0); tests run on Vitest 5. No API change.
+
 ## 0.8.1 — 2026-10-18
 
 - No code change; the version follows the other catalogs, whose card cell no longer carries a title-only `aria-label`. This catalog already named the cell by its content.

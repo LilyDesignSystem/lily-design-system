@@ -4,6 +4,11 @@ All notable changes to `@lilydesignsystem/web-components-share-picker` are
 documented here. The format follows [Keep a Changelog](https://keepachangelog.com/),
 and this package uses [semantic versioning](https://semver.org/).
 
+
+## 0.3.1 — 2026-11-03
+
+- Changed: depends on `@lilydesignsystem/web-components-headless` ^0.7.0 (was ^0.1.0); tests run on Vitest 5. No API change.
+
 ## 0.3.0 — 2026-10-16
 
 - Added `open` (property and attribute), `disabled` (property and attribute), an `openchange` event and an `onOpenChange` property, ported from the Svelte package's `open`, `onOpenChange` and `disabled` (spec "Open state and disabled"). `openchange` (detail: the new state) fires once for each change, from the user or from `open`, and not for an initial `open` attribute; opening from outside does not move focus; `disabled` disables the real button inside `<lily-icon-button>` and closes an open popup.
