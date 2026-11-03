@@ -1,4 +1,45 @@
 <script lang="ts">
+    // TreeListItem component
+    //
+    // One node of a tree navigation. Renders an <li role="treeitem"> with the `tree-list-item` hook that
+    // owns the WAI-ARIA tree arrow-key behaviour for itself: open, close, and move to the first child or
+    // the parent. It is a roving-tabindex item (tabindex -1); the parent TreeList decides which item is
+    // tabbable.
+    //
+    // Props:
+    //   className — string, optional. CSS class name.
+    //   label — string, optional. Accessible name, rendered as aria-label on the root.
+    //   expanded — boolean, optional, bindable. true or false for a branch (rendered as aria-expanded); leave undefined for a leaf, which renders no aria-expanded.
+    //   children — Snippet, required. The content.
+    //   ...restProps — additional HTML attributes spread onto the root <li>.
+    //
+    // Syntax:
+    //   <TreeListItem bind:expanded label="…">…</TreeListItem>
+    //
+    // Examples:
+    //   <TreeListItem bind:expanded={open} label="Documents"><TreeLink href="/docs">Documents</TreeLink><TreeList>…</TreeList></TreeListItem>
+    //
+    // Keyboard:
+    //   - ArrowRight (ArrowLeft in right-to-left): on a closed branch, opens it; on an open branch, moves focus to its first child
+    //   - ArrowLeft (ArrowRight in right-to-left): on an open branch, closes it; otherwise moves focus to the parent item
+    //   - The keys act only when the item itself has focus, not when the event bubbled up from a nested item
+    //   - Up/Down, Home, End and type-ahead are the parent TreeList's, not this item's
+    //
+    // Accessibility:
+    //   - role="treeitem" with aria-expanded for branches (omitted for leaves)
+    //   - tabindex="-1": focusable by script, reached by the roving tabindex of the tree
+    //   - Direction is read from the computed `direction` style, so right-to-left layouts swap the keys
+    //
+    // Internationalization:
+    //   - No hardcoded user-facing strings
+    //
+    // Claude rules:
+    //   - Headless: no CSS, no styles -- consumer provides all styling
+    //   - The expanded state is bindable; the consumer shows or hides the child list from it
+    //
+    // References:
+    //   - WAI-ARIA tree pattern: https://www.w3.org/WAI/ARIA/apg/patterns/treeview/
+
     import type { Snippet } from "svelte";
     let {
         class: className = "",
