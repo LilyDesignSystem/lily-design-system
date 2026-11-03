@@ -2,13 +2,33 @@
 
 @*
     ComposedChart component
-    A headless wrapper for a chart that combines several chart types, such as bars and a line, on shared axes. Renders a <figure> holding a
-    role="img" graphic wrapper around the consumer-supplied inline <svg>.
-    No drawing happens here. The optional DataTable fragment renders the
-    accessible table alternative in .composed-chart-data-table, a SIBLING of the
-    image wrapper: role="img" makes descendants presentational, so a table
-    inside it would be invisible to assistive technology.
-    Unmatched attributes spread onto the <figure>.
+
+    A headless chart container for a chart that combines several chart types, such as bars and a line, on shared axes. The consumer supplies the inline
+    svg as `children`; the component draws nothing. The graphic is a
+    role="img" wrapper named by `label`. The optional `dataTable` snippet
+    renders the accessible table alternative as a SIBLING of that image
+    wrapper, never inside it: a role="img" element makes its descendants
+    presentational, so a table placed inside would be invisible to
+    assistive technology.
+
+    Props:
+      CssClass — string, optional. Consumer class appended after the base class.
+      Label — string, optional. Accessible name of the chart image.
+      ChildContent — RenderFragment. The consumer-supplied inline svg.
+      DataTable — RenderFragment, optional. The accessible table alternative.
+      ...AdditionalAttributes — spread onto the root <figure>.
+
+    Markup:
+      <figure class="composed-chart">
+        <div class="composed-chart-graphic" role="img" aria-label>…svg…</div>
+        <div class="composed-chart-data-table">…table…</div>   (only when provided)
+      </figure>
+
+    Keyboard: none on the graphic; the data table follows native table behaviour.
+
+    Claude rules:
+      - Headless: no CSS, no inline styles; no drawing.
+      - No hardcoded user-facing strings.
 *@
 
 <figure class="@($"composed-chart {CssClass}".Trim())" @attributes="AdditionalAttributes">

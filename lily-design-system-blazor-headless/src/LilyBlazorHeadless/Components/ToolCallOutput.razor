@@ -2,8 +2,38 @@
 
 @*
     ToolCallOutput component
-    A headless inner part of ToolCall: the output or result returned by a tool in a tool call. Contract: `label` (optional) sets `role="group"` and `aria-label`; without it neither is rendered.
-    Unmatched attributes spread onto the root.
+
+    The output or result returned by a tool in a ToolCall. Renders a <div> with the `tool-call-output`
+    hook; with a `label` it becomes a named group, without one it has no role.
+
+    Props:
+      CssClass — string, optional. CSS class name, added after the base class hook on the root.
+      Label — string, optional. Accessible name; when given, role="group" and aria-label are rendered, otherwise neither.
+      ChildContent — RenderFragment, optional. The content.
+      AdditionalAttributes — Dictionary<string, object>, captures unmatched attributes and splats them onto the root with @attributes.
+
+    Syntax:
+      <ToolCallOutput Label="…">…</ToolCallOutput>
+
+    Examples:
+      <ToolCall Status="done" open><ToolCallOutput Label="…"><pre>…</pre></ToolCallOutput></ToolCall>
+
+    Keyboard:
+      - None -- not interactive; any interactive children handle their own keys
+
+    Accessibility:
+      - role="group" and aria-label appear only when `label` is given
+      - Large output can be scrolled; make a scrollable region keyboard-focusable through AdditionalAttributes
+
+    Internationalization:
+      - No hardcoded user-facing strings
+
+    Claude rules:
+      - Headless: no CSS, no styles -- consumer provides all styling
+      - A part of ToolCall; draws nothing and carries no strings of its own
+
+    References:
+      - MDN <div>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div
 *@
 
 <div class="@($"tool-call-output {CssClass}".Trim())" role="@(string.IsNullOrEmpty(Label) ? null : "group")" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>

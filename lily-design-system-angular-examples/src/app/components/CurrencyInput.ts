@@ -2,11 +2,27 @@ import { ChangeDetectionStrategy, Component, input, model } from "@angular/core"
 import { restoreOnFormReset } from "./form-reset";
 
 /**
- * CurrencyInput — a locale-aware currency input with automatic formatting, symbols, separators
+ * CurrencyInput component
  *
- * Headless Angular component. Renders the semantic HTML root with the
- * kebab-case class hook `currency-input` and the consumer-provided `className`.
- * Ships zero CSS; the consumer styles via the class hook.
+ * A currency input rendered as a native <input type="text" inputmode="decimal">.
+ * The component does not format the displayed value; formatting
+ * (Intl.NumberFormat, separators, currency symbol placement) is the consumer's
+ * responsibility. currencyCode is exposed as data-currency-code so the
+ * consumer can pass it to Intl.NumberFormat. It is REQUIRED and never
+ * defaulted: the component does not pick a currency.
+ *
+ * Props:
+ *   class        — string, optional. CSS class name.
+ *   label        — string, required. Accessible name via aria-label.
+ *   value        — number | undefined, bindable. Parsed numeric value.
+ *   currencyCode — string, required, no default. ISO 4217 currency code.
+ *   min, max     — number, optional. Constraints, not enforced clamping.
+ *   required, disabled — boolean, default false.
+ *   ...host-element attributes — spread onto the <input>.
+ *
+ * Claude rules:
+ *   - Headless: no CSS, no styles; no locale formatting baked in
+ *   - Never default currencyCode (AGENTS/internationalization.md)
  */
 @Component({
     selector: "lily-currency-input",

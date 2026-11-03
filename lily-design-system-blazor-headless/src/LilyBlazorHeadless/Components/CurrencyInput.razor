@@ -2,7 +2,26 @@
 
 @*
     CurrencyInput component
-    a locale-aware currency input with automatic formatting, symbols, separators
+
+    A currency input rendered as a native <input type="text" inputmode="decimal">.
+    The component does not format the displayed value; formatting
+    (Intl.NumberFormat, separators, currency symbol placement) is the consumer's
+    responsibility. currencyCode is exposed as data-currency-code so the
+    consumer can pass it to Intl.NumberFormat. It is REQUIRED and never
+    defaulted: the component does not pick a currency.
+
+    Props:
+      CssClass        — string, optional. CSS class name.
+      Label        — string, required. Accessible name via aria-label.
+      Value        — number | undefined, bindable. Parsed numeric value.
+      CurrencyCode — string, required, no default. ISO 4217 currency code.
+      Min, max     — number, optional. Constraints, not enforced clamping.
+      Required, disabled — boolean, default false.
+      ...AdditionalAttributes — spread onto the <input>.
+
+    Claude rules:
+      - Headless: no CSS, no styles; no locale formatting baked in
+      - Never default currencyCode (AGENTS/internationalization.md)
 *@
 
 <input class="@($"currency-input {CssClass}".Trim())" type="text" aria-label="@Label" data-currency-code="@(string.IsNullOrEmpty(CurrencyCode) ? null : CurrencyCode)" @attributes="AdditionalAttributes" />

@@ -2,7 +2,38 @@
 
 @*
     ScreenReaderSpan component
-    a visually hidden span of text intended for screen readers to provide more descriptive labels
+
+    Text meant for assistive technology. Renders a <span> with the `screen-reader-span` hook; the
+    visually-hidden CSS that makes it screen-reader-only is the consumer's.
+
+    Props:
+      CssClass — string, optional. CSS class name, added after the base class hook on the root.
+      Label — string, optional. Accessible name, rendered as aria-label on the root.
+      ChildContent — RenderFragment, required. The text for screen readers.
+      AdditionalAttributes — Dictionary<string, object>, captures unmatched attributes and splats them onto the root with @attributes.
+
+    Syntax:
+      <ScreenReaderSpan Label="…">…</ScreenReaderSpan>
+
+    Examples:
+      <a Href="/name">Change<ScreenReaderSpan> name</ScreenReaderSpan></a>
+
+    Keyboard:
+      - None -- not interactive; any interactive children handle their own keys
+
+    Accessibility:
+      - aria-label comes from `label` when given
+      - Hide it visually in CSS with a clip pattern, never `display: none` or `hidden`, which also remove it from the accessibility tree
+      - aria-label from `label` is also rendered when given; usually the children alone are enough
+
+    Internationalization:
+      - No hardcoded user-facing strings
+
+    Claude rules:
+      - Headless: no CSS, no styles -- consumer provides all styling
+
+    References:
+      - MDN <span>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span
 *@
 
 <span class="@($"screen-reader-span {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</span>

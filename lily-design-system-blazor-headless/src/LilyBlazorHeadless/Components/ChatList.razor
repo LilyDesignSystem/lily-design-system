@@ -2,7 +2,36 @@
 
 @*
     ChatList component
-    an ordered list of chat list item components
+
+    The ordered list of messages inside a ChatNav. Renders an <ol> with the `chat-list` hook; messages
+    are in chronological order, oldest first.
+
+    Props:
+      CssClass — string, optional. CSS class name, added after the base class hook on the root.
+      Label — string, optional. Accessible name, rendered as aria-label on the root.
+      ChildContent — RenderFragment, required. The ChatListItem children.
+      AdditionalAttributes — Dictionary<string, object>, captures unmatched attributes and splats them onto the root with @attributes.
+
+    Syntax:
+      <ChatList Label="…">…</ChatList>
+
+    Examples:
+      <ChatNav Label="Conversation"><ChatList Label="Messages"><ChatListItem>…</ChatListItem></ChatList></ChatNav>
+
+    Keyboard:
+      - None -- not interactive; any interactive children handle their own keys
+
+    Accessibility:
+      - aria-label comes from `label` when given
+
+    Internationalization:
+      - No hardcoded user-facing strings
+
+    Claude rules:
+      - Headless: no CSS, no styles -- consumer provides all styling
+
+    References:
+      - MDN <ol>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol
 *@
 
 <ol class="@($"chat-list {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</ol>

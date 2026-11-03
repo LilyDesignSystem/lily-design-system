@@ -2,7 +2,36 @@
 
 @*
     Question component
-    a question is anything that asks for information, invites a response, tests knowledge, etc.
+
+    The question half of a question-and-answer pair; pair it with `answer`. Renders a <div> with the
+    `question` hook.
+
+    Props:
+      CssClass — string, optional. CSS class name, added after the base class hook on the root.
+      Label — string, optional. Accessible name, rendered as aria-label on the root.
+      ChildContent — RenderFragment, required. The question text.
+      AdditionalAttributes — Dictionary<string, object>, captures unmatched attributes and splats them onto the root with @attributes.
+
+    Syntax:
+      <Question Label="…">…</Question>
+
+    Examples:
+      <Question>What is a design system?</Question>
+
+    Keyboard:
+      - None -- not interactive; any interactive children handle their own keys
+
+    Accessibility:
+      - aria-label comes from `label` when given
+
+    Internationalization:
+      - No hardcoded user-facing strings
+
+    Claude rules:
+      - Headless: no CSS, no styles -- consumer provides all styling
+
+    References:
+      - MDN <div>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div
 *@
 
 <div class="@($"question {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>

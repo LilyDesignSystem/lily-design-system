@@ -2,8 +2,20 @@
 
 @*
     StreamingText component
+
     A polite live region for text that grows over time. While `streaming` is true the region is marked busy (`aria-busy="true"`, `data-streaming="true"`) so assistive technology waits instead of announcing every chunk; when it flips to false the finished text is announced once (`role="status"`, `aria-live="polite"`, `aria-atomic="true"`). The component never splits, times, reveals or animates the text: the consumer appends chunks to the children, and owns any caret or reduced-motion CSS.
-    Unmatched attributes spread onto the root <div>.
+
+    Props:
+      CssClass — string, optional. CSS class name.
+      Label — string, optional. Accessible name of the status region.
+      Streaming — boolean, default false. True while chunks are still arriving.
+      ChildContent — RenderFragment. The text so far.
+      AdditionalAttributes — Dictionary<string, object>, captures unmatched attributes and splats them onto the root with @attributes.
+
+    Keyboard: none.
+
+    Claude rules:
+      - Headless: no CSS, no animation, no timing, no hardcoded strings
 *@
 
 <div class="@($"streaming-text {CssClass}".Trim())" role="status" aria-live="polite" aria-atomic="true" aria-label="@Label" aria-busy="@(Streaming ? "true" : null)" data-streaming="@(Streaming ? "true" : null)" @attributes="AdditionalAttributes">@ChildContent</div>

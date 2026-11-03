@@ -2,7 +2,33 @@
 
 @*
     IconList component
-    an ordered list of icon list item components
+
+    A headless `<ul>` that hosts a list of items each with a leading icon.
+    List semantics come from `<ul>`; an optional `aria-label` names the
+    list for assistive technology. Children are typically `IconListItem`
+    components.
+
+    Props:
+      CssClass — string, optional. CSS class appended to the base class.
+      Label — string, optional. aria-label naming the list.
+      ChildContent — RenderFragment, required. Icon list items.
+      AdditionalAttributes — Dictionary<string, object>, captures unmatched attributes and splats them onto the root with @attributes.
+
+    Syntax:
+      <IconList Label="Features">…</IconList>
+
+    Accessibility:
+      - <ul> conveys list semantics
+      - Optional aria-label names the list
+
+    Internationalization:
+      - label is consumer-supplied
+
+    Claude rules:
+      - Headless: no styles
+
+    References:
+      - USWDS Icon list: https://designsystem.digital.gov/components/icon-list/
 *@
 
 <ul class="@($"icon-list {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</ul>

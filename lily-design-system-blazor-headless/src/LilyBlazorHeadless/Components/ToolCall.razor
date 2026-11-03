@@ -2,11 +2,21 @@
 
 @*
     ToolCall component
+
     A headless disclosure for one tool invocation, built on the native <details>. Closed by default. The `summary` content (typically ToolCallName and ToolCallStatus) goes inside <summary class="tool-call-summary">; the body (ToolCallInput, ToolCallOutput, ToolCallError) goes inside <div class="tool-call-content">. `status` (pending | running | done | error) sets data-status on the root, and aria-busy="true" only while running. The component never animates, times or opens itself: the consumer owns `open` (open it on error so ToolCallError is not hidden) and any spinner/animation CSS.
-    Parameters: Status (string?), Open / OpenChanged (@bind-Open), Summary (RenderFragment),
-    ChildContent (the body). Unmatched attributes spread onto the root <details>.
-    The summary's click flips Open and raises OpenChanged while the native toggle still
-    happens, so static rendering keeps working (same as Thinking).
+
+    Props:
+      CssClass — string, optional. CSS class name.
+      Status — string, optional. pending | running | done | error. No default.
+      Open — boolean, default false. Bindable.
+      Summary — RenderFragment. The summary content (name + status words).
+      ChildContent — RenderFragment. The body.
+      AdditionalAttributes — Dictionary<string, object>, captures unmatched attributes and splats them onto the root with @attributes.
+
+    Keyboard: Enter / Space on the native <summary> toggles.
+
+    Claude rules:
+      - Headless: no CSS, no animation, no hardcoded strings
 *@
 
 <details class="@($"tool-call {CssClass}".Trim())"

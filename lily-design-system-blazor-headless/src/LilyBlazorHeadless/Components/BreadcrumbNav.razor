@@ -2,7 +2,52 @@
 
 @*
     BreadcrumbNav component
-    a navigation container for breadcrumb trail links
+
+    A navigation landmark for a breadcrumb trail that shows the user's current
+    location within a site hierarchy. Renders a <nav> element with an accessible
+    label. Contains a BreadcrumbList which holds BreadcrumbListItem children.
+    Used in sites with deep hierarchies such as e-commerce catalogs,
+    documentation, and content management systems.
+
+    Props:
+      CssClass — string, optional. CSS class name, added after the base class hook on the root.
+      Label — string, required. Accessible name for the navigation landmark.
+      ChildContent — RenderFragment, required. BreadcrumbList element.
+      AdditionalAttributes — Dictionary<string, object>, captures unmatched attributes and splats them onto the root with @attributes.
+
+    Syntax:
+      <BreadcrumbNav Label="Breadcrumb">
+        <BreadcrumbList>...</BreadcrumbList>
+      </BreadcrumbNav>
+
+    Examples:
+      <!-- Full breadcrumb navigation -->
+      <BreadcrumbNav Label="Breadcrumb">
+        <BreadcrumbList>
+          <BreadcrumbListItem><a Href="/">Home</a></BreadcrumbListItem>
+          <BreadcrumbListItem><a Href="/products">Products</a></BreadcrumbListItem>
+          <BreadcrumbListItem current>Widget</BreadcrumbListItem>
+        </BreadcrumbList>
+      </BreadcrumbNav>
+
+    Keyboard:
+      - Tab: Focus moves between links in the breadcrumb trail
+      - Enter: Activates the focused breadcrumb link
+
+    Accessibility:
+      - <nav> with aria-label creates a navigation landmark
+      - Screen readers announce the landmark name for orientation
+
+    Internationalization:
+      - Label text comes through the label prop; no hardcoded strings
+
+    Claude rules:
+      - Compound component — use with BreadcrumbList and BreadcrumbListItem
+      - Headless: no CSS, no styles — consumer provides all styling
+
+    References:
+      - WAI-ARIA Breadcrumb Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/
+      - HTML nav element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav
 *@
 
 <nav class="@($"breadcrumb-nav {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</nav>

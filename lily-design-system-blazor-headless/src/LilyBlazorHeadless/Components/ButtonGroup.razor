@@ -2,7 +2,42 @@
 
 @*
     ButtonGroup component
-    a wrapper that groups related buttons together
+
+    A headless wrapper that groups related buttons together as a single
+    landmark for assistive technology. Renders a `<div>` with `role="group"`
+    and a REQUIRED `aria-label` so screen readers announce the group's
+    purpose. The group has no behavior of its own — children remain
+    independent buttons.
+
+    Props:
+      CssClass — string, optional. CSS class appended to the base class.
+      Label — string, REQUIRED. aria-label naming the group.
+      ChildContent — RenderFragment, required. The grouped buttons.
+      AdditionalAttributes — Dictionary<string, object>, captures unmatched attributes and splats them onto the root with @attributes.
+
+    Syntax:
+      <ButtonGroup Label="Edit actions">…</ButtonGroup>
+
+    Examples:
+      <ButtonGroup Label="Pagination controls">
+        <button>Previous</button>
+        <button>Next</button>
+      </ButtonGroup>
+
+    Accessibility:
+      - role="group" plus aria-label provide grouping semantics
+      - Children remain independent buttons with their own focus/keyboard
+
+    Internationalization:
+      - label is consumer-supplied
+
+    Claude rules:
+      - Headless: no styles
+      - label is REQUIRED
+
+    References:
+      - WAI-ARIA group role: https://www.w3.org/TR/wai-aria-1.2/#group
+      - USWDS Button group: https://designsystem.digital.gov/components/button-group/
 *@
 
 <div class="@($"button-group {CssClass}".Trim())" role="group" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>

@@ -2,7 +2,38 @@
 
 @*
     Place component
-    a place component that contains other place-related information
+
+    A place. No schema.org microdata is rendered. Renders an <article> with the `place` hook around the consumer's name and
+    address.
+
+    Props:
+      CssClass — string, optional. CSS class name, added after the base class hook on the root.
+      Label — string, optional. Accessible name, rendered as aria-label on the root.
+      ChildContent — RenderFragment, required. The place details.
+      AdditionalAttributes — Dictionary<string, object>, captures unmatched attributes and splats them onto the root with @attributes.
+
+    Syntax:
+      <Place Label="…">…</Place>
+
+    Examples:
+      <Place Label="Town hall"><h3>Town hall</h3></Place>
+
+    Keyboard:
+      - None -- not interactive; any interactive children handle their own keys
+
+    Accessibility:
+      - aria-label comes from `label` when given
+      - The native <article> element supplies the article role
+
+    Internationalization:
+      - No hardcoded user-facing strings
+
+    Claude rules:
+      - Headless: no CSS, no styles -- consumer provides all styling
+
+    References:
+      - MDN <article>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article
+      - schema.org Place: https://schema.org/Place
 *@
 
 <article class="@($"place {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</article>

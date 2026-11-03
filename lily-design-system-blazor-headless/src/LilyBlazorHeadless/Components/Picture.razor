@@ -2,8 +2,38 @@
 
 @*
     Picture component
-    A headless wrapper around the native picture element: the browser chooses among the source children and falls back to the img child. Contract: sources and img as ChildContent; the img's alt is the consumer's.
-    Unmatched attributes spread onto the root.
+
+    A wrapper around the native <picture> element: the browser chooses among the source children (by
+    media query, image type or resolution) and falls back to the img child. Renders a <picture> with the
+    `picture` hook.
+
+    Props:
+      CssClass — string, optional. CSS class name, added after the base class hook on the root.
+      ChildContent — RenderFragment, optional. The <source> elements, then one <img> with its alt, width and height.
+      AdditionalAttributes — Dictionary<string, object>, captures unmatched attributes and splats them onto the root with @attributes.
+
+    Syntax:
+      <Picture><source … /><img … /></Picture>
+
+    Examples:
+      <Picture><source Srcset="wide.avif" Media="(min-width: 48rem)" Type="image/avif" /><img Src="narrow.jpg" Alt="Description" Width="640" Height="360" /></Picture>
+
+    Keyboard:
+      - None -- not interactive; any interactive children handle their own keys
+
+    Accessibility:
+      - The text alternative is the child <img>'s alt, which the consumer must supply
+      - Give the <img> width and height so the layout does not shift
+
+    Internationalization:
+      - No hardcoded user-facing strings
+
+    Claude rules:
+      - Headless: no CSS, no styles -- consumer provides all styling
+      - Draws nothing and carries no strings of its own; ships no images
+
+    References:
+      - MDN <picture>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture
 *@
 
 <picture class="@($"picture {CssClass}".Trim())"  @attributes="AdditionalAttributes">@ChildContent</picture>

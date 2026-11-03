@@ -4,15 +4,38 @@
 
 @*
     MiddleTruncation component
-    A string shortened in the middle, keeping the start and the end. The full text always stays in the accessibility tree:
-    the shortened string is aria-hidden in .middle-truncation-visual and the whole text sits in .middle-truncation-full, which
-    the consumer's CSS visually hides.
 
-    Deviation from the Svelte canonical: Blazor Server/WebAssembly here uses no JS interop, so the component cannot measure
-    a pixel width. MaxCharacters is a text-element budget instead (the result, ellipsis included, is at most that many
-    user-perceived characters); without it the full text is shown. Cuts fall between grapheme clusters (StringInfo).
-    The Ellipsis has no default. Strategy: even | fixed-end | min-end; End applies to the last two.
-    Unmatched attributes spread onto the root <span>.
+    A string shortened in the middle to fit the width its container gives it ("report-fi…q3.pdf"), keeping the start and the
+    end. The width is measured in the browser (canvas text metrics in the element's own font) and re-measured when the
+    container resizes; until then, and on the server, the full text is shown.
+
+    The full text always stays in the accessibility tree: the shortened string is aria-hidden and the whole text sits in a
+    sibling the consumer visually hides. A screen reader, find-in-page and copy therefore get the real text, which a
+    title attribute (hover only) or a text-only truncation would lose.
+
+    Props:
+      CssClass — string, optional. Consumer class appended after the base class.
+      Text — string, required. The full text.
+      Ellipsis — string, required. The cut marker. No default: the headless layer ships no text.
+      Strategy — "even" | "fixed-end" | "min-end", default "even".
+        even: start and end share the room. fixed-end: exactly `end` characters at the end. min-end: even, but at least `end` at the end.
+      End — number, optional. Characters kept at the end for "fixed-end" and "min-end".
+      ...AdditionalAttributes — spread onto the root <span>.
+
+    Markup:
+      <span class="middle-truncation" data-strategy data-truncated?>
+        <span class="middle-truncation-visual" aria-hidden="true">report-fi…q3.pdf</span>
+        <span class="middle-truncation-full">report-final-q3.pdf</span>
+      </span>
+
+    Consumer CSS (the component ships none): the root must be a block with a bounded width, `overflow: hidden` and
+    `white-space: nowrap`, and `.middle-truncation-full` must be visually hidden (clipped, not display:none).
+
+    Keyboard: none.
+
+    Claude rules:
+      - Headless: no CSS, no inline styles.
+      - No hardcoded user-facing strings: the ellipsis is a required prop.
 *@
 
 <span class="@($"middle-truncation {CssClass}".Trim())" data-strategy="@Strategy" data-truncated="@(Shown is null ? null : "")" @attributes="AdditionalAttributes"><span class="middle-truncation-visual" aria-hidden="true">@(Shown ?? Text)</span><span class="middle-truncation-full">@Text</span></span>

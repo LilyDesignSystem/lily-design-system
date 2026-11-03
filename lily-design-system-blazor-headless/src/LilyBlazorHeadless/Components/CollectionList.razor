@@ -2,7 +2,39 @@
 
 @*
     CollectionList component
-    a compact list of multiple related items such as articles or events
+
+    A headless `<ul>` that hosts a compact set of related items, such as
+    articles or events. The list semantics come from `<ul>` itself; an
+    optional `aria-label` names the collection for assistive technology.
+    Children are typically `CollectionListItem` components.
+
+    Props:
+      CssClass — string, optional. CSS class appended to the base class.
+      Label — string, optional. aria-label naming the list.
+      ChildContent — RenderFragment, required. Collection list items.
+      AdditionalAttributes — Dictionary<string, object>, captures unmatched attributes and splats them onto the root with @attributes.
+
+    Syntax:
+      <CollectionList Label="Latest articles">…</CollectionList>
+
+    Examples:
+      <CollectionList Label="Events">
+        <CollectionListItem Heading="Open day" />
+        <CollectionListItem Heading="Career fair" />
+      </CollectionList>
+
+    Accessibility:
+      - <ul> conveys list semantics
+      - Optional aria-label names the collection
+
+    Internationalization:
+      - label is consumer-supplied
+
+    Claude rules:
+      - Headless: no styles
+
+    References:
+      - USWDS Collection: https://designsystem.digital.gov/components/collection/
 *@
 
 <ul class="@($"collection-list {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</ul>

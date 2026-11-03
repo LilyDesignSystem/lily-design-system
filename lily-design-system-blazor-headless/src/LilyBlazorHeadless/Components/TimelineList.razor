@@ -2,7 +2,55 @@
 
 @*
     TimelineList component
-    an ordered list of chronological events or milestones
+
+    A headless timeline list that renders a semantic ordered list (<ol>) with
+    an accessible label for displaying events, milestones, or activities in
+    chronological order. Commonly used for project tracking, activity feeds,
+    historical overviews, order history, or user journey visualization. The
+    consumer provides TimelineListItem children through the snippet.
+
+    Props:
+      CssClass — string, optional. CSS class name, added after the base class hook on the root.
+      Label — string, required. Accessible label for the timeline via aria-label.
+      ChildContent — RenderFragment, required. TimelineListItem elements.
+      AdditionalAttributes — Dictionary<string, object>, captures unmatched attributes and splats them onto the root with @attributes.
+
+    Syntax:
+      <TimelineList Label="Project milestones">...</TimelineList>
+
+    Examples:
+      <!-- Timeline with semantic time elements -->
+      <TimelineList Label="Order history">
+        <TimelineListItem Datetime="2024-01-15" Heading="January 15, 2024">
+          Order placed
+        </TimelineListItem>
+        <TimelineListItem Datetime="2024-01-16" Heading="January 16, 2024">
+          Order shipped
+        </TimelineListItem>
+      </TimelineList>
+
+    Keyboard:
+      - None directly -- standard list navigation by screen readers
+      - Tab moves focus between any interactive elements within items
+
+    Accessibility:
+      - Semantic <ol> element conveys chronological ordering to screen readers
+      - aria-label provides the accessible name for the timeline
+      - Screen readers announce the list with its label and item count
+      - Consumers should use <time> elements with datetime attributes
+
+    Internationalization:
+      - The label prop externalizes user-facing text for translation
+      - All timeline content is provided through the children snippet
+      - No hardcoded strings in the component
+
+    Claude rules:
+      - Headless: no CSS, no styles -- consumer provides all styling
+      - Consumers add <time> elements for machine-readable dates
+
+    References:
+      - HTML <time> element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time
+      - WAI-ARIA list role: https://www.w3.org/TR/wai-aria-1.2/#list
 *@
 
 <ol class="@($"timeline-list {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</ol>

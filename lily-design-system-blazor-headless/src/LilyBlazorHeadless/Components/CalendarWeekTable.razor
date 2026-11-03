@@ -2,12 +2,42 @@
 
 @*
     CalendarWeekTable component
+
     A calendar grid for a grid of the seven days of one week as day columns. A structural wrapper like CalendarTable:
     a <table> with role="grid" and data-view="week"; the consumer supplies the
     head, body and rows by reusing the CalendarTable* sub-elements.
-    Label: required accessible name for the period shown. Caption: optional visible caption.
-    Keyboard: none built in; the consumer implements grid navigation.
-    i18n: Label and Caption supply all text; Intl formatting and cell content are the consumer's concern.
+
+    Props:
+      CssClass — string, optional. CSS class name, added after the base class hook on the root.
+      Label — string, required. Accessible name describing the period shown, e.g. a week (e.g. "Week of 6 January 2025").
+      Caption — string, optional. Visible caption text displayed above the table.
+      ChildContent — RenderFragment, required. CalendarTableHead, CalendarTableBody, CalendarTableFoot elements.
+      AdditionalAttributes — Dictionary<string, object>, captures unmatched attributes and splats them onto the root with @attributes.
+
+    Syntax:
+      <CalendarWeekTable Label="Week of 6 January 2025">
+        <CalendarTableBody>...</CalendarTableBody>
+      </CalendarWeekTable>
+
+    Keyboard:
+      None built-in — consumer implements grid keyboard navigation
+      (arrow keys for cell movement, Enter/Space for selection).
+
+    Accessibility:
+      - role="grid" identifies the table as an interactive grid widget
+      - aria-label provides an accessible name describing the period
+      - data-view="week" lets consumer CSS and JS key on the view
+
+    Internationalization:
+      - label and caption supply all text; locale formatting (Intl) and cell
+        content are the consumer's concern
+
+    Claude rules:
+      - Headless: no CSS, no styles — consumer provides all styling
+      - Reuse the CalendarTable* sub-elements; there are no CalendarWeekTable* sub-elements
+
+    References:
+      - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/
 *@
 
 <table class="@($"calendar-week-table {CssClass}".Trim())" role="grid" aria-label="@Label" data-view="week" @attributes="AdditionalAttributes">

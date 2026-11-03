@@ -2,7 +2,38 @@
 
 @*
     ChatListItem component
-    one chat list item component, typically containing one chat message component
+
+    One conversation in a ChatList. Renders an <li> with the `chat-list-item` hook; `current` marks the
+    selected conversation with aria-current="true".
+
+    Props:
+      CssClass — string, optional. CSS class name, added after the base class hook on the root.
+      Label — string, optional. Accessible name, rendered as aria-label on the root.
+      Current — boolean, default false. Sets aria-current="true" when true.
+      ChildContent — RenderFragment, required. The content.
+      AdditionalAttributes — Dictionary<string, object>, captures unmatched attributes and splats them onto the root with @attributes.
+
+    Syntax:
+      <ChatListItem current Label="…">…</ChatListItem>
+
+    Examples:
+      <ChatList><ChatListItem current Label="Project chat"><a Href="/chat/1">Project chat</a></ChatListItem></ChatList>
+
+    Keyboard:
+      - None -- not interactive; any interactive children handle their own keys
+
+    Accessibility:
+      - aria-current="true" marks the selected conversation
+      - aria-label comes from `label` when given
+
+    Internationalization:
+      - No hardcoded user-facing strings
+
+    Claude rules:
+      - Headless: no CSS, no styles -- consumer provides all styling
+
+    References:
+      - MDN aria-current: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-current
 *@
 
 <li class="@($"chat-list-item {CssClass}".Trim())" aria-label="@Label" aria-current="@(Current ? "true" : null)" @attributes="AdditionalAttributes">@ChildContent</li>

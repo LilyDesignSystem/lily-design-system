@@ -2,7 +2,37 @@
 
 @*
     SharePage component
-    a component for sharing the page on social media
+
+    A group of controls for sharing the current page. Renders a <div role="group"> with the `share-page`
+    hook; the links or buttons are the consumer's (see share-picker for a complete interaction).
+
+    Props:
+      CssClass — string, optional. CSS class name, added after the base class hook on the root.
+      Label — string, optional. Accessible name, rendered as aria-label on the root.
+      ChildContent — RenderFragment, required. The sharing links or buttons.
+      AdditionalAttributes — Dictionary<string, object>, captures unmatched attributes and splats them onto the root with @attributes.
+
+    Syntax:
+      <SharePage Label="…">…</SharePage>
+
+    Examples:
+      <SharePage Label="Share this page"><a Href="…">Email</a></SharePage>
+
+    Keyboard:
+      - None -- not interactive; any interactive children handle their own keys
+
+    Accessibility:
+      - aria-label comes from `label` when given
+      - role="group" with aria-label names the controls
+
+    Internationalization:
+      - No hardcoded user-facing strings
+
+    Claude rules:
+      - Headless: no CSS, no styles -- consumer provides all styling
+
+    References:
+      - WAI-ARIA group role: https://www.w3.org/TR/wai-aria-1.2/#group
 *@
 
 <div class="@($"share-page {CssClass}".Trim())" role="group" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>

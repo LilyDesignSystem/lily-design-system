@@ -2,24 +2,27 @@
 
 @*
     Thinking component
-    a collapsible block that shows an AI agent's reasoning or thinking, closed by default
 
-    Built on the native <details>. Closed by default. While Streaming, the
-    root carries data-streaming="true" and aria-busy="true".
+    A headless disclosure for an AI assistant's reasoning / "thinking" trace,
+    built on the native <details>. Closed by default. While `streaming` the root
+    carries data-streaming and aria-busy so consumer CSS/AT know it is still filling.
 
-    Parameters:
-        Label — string, required. The <summary> text.
-        Open — bool, default false, bindable via @bind-Open.
-        Streaming — bool, default false.
-        AdditionalAttributes — spread onto the root <details>.
+    Props:
+      CssClass — string, optional. CSS class name, added after the base class hook on the root.
+      Label — string, required. The summary text. No default.
+      Open — boolean, default false. Bindable.
+      Streaming — boolean, default false. Adds data-streaming="true" + aria-busy="true" when true.
+      ChildContent — RenderFragment. The reasoning content.
+      AdditionalAttributes — Dictionary<string, object>, captures unmatched attributes and splats them onto the root with @attributes.
 
-    Keyboard: native <summary> (Enter / Space).
+    Keyboard:
+      - Enter / Space on the native <summary> toggles
 
-    Blazor deviation: C# cannot read the live `open` property, and
-    ontoggle carries no new state. The summary's click (which Enter / Space
-    also raise) flips Open and raises OpenChanged while the native toggle
-    still happens, so static rendering keeps working. A toggle made by other
-    means (e.g. browser find-in-page) does not update Open.
+    Accessibility:
+      - Native details/summary semantics; aria-busy only while streaming
+
+    Claude rules:
+      - Headless: no CSS, no animation, no hardcoded strings
 *@
 
 <details class="@($"thinking {CssClass}".Trim())"

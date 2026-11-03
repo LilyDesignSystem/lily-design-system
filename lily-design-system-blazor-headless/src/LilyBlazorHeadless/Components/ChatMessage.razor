@@ -2,7 +2,37 @@
 
 @*
     ChatMessage component
-    a chat message shows one chat conversation message entry and all its data, including the author avatar, author name, time, etc.
+
+    One message in a conversation. Renders an <article> with the `chat-message` hook; author, time and
+    body are the consumer's children.
+
+    Props:
+      CssClass — string, optional. CSS class name, added after the base class hook on the root.
+      Label — string, optional. Accessible name, rendered as aria-label on the root.
+      ChildContent — RenderFragment, required. The message content.
+      AdditionalAttributes — Dictionary<string, object>, captures unmatched attributes and splats them onto the root with @attributes.
+
+    Syntax:
+      <ChatMessage Label="…">…</ChatMessage>
+
+    Examples:
+      <ChatMessage Label="Message from Sam"><p>Hello</p></ChatMessage>
+
+    Keyboard:
+      - None -- not interactive; any interactive children handle their own keys
+
+    Accessibility:
+      - aria-label comes from `label` when given
+      - The native <article> element supplies the article role
+
+    Internationalization:
+      - No hardcoded user-facing strings
+
+    Claude rules:
+      - Headless: no CSS, no styles -- consumer provides all styling
+
+    References:
+      - MDN <article>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article
 *@
 
 <article class="@($"chat-message {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</article>

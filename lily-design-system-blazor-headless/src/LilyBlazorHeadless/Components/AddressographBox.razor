@@ -2,7 +2,39 @@
 
 @*
     AddressographBox component
-    a labeled stamp-style block that identifies a patient or record with name, date of birth, and identifier.
+
+    A labelled box holding the identifying details of a patient or record (name, date of birth,
+    identifier, ward or location, salient notations), as on a hospital addressograph label. It supplies
+    the box only; the consumer supplies every field.
+
+    Props:
+      CssClass — string, optional. CSS class name, added after the base class hook on the root.
+      Label — string, optional. Accessible name, rendered as aria-label on the root.
+      ChildContent — RenderFragment, required. The identifying content.
+      AdditionalAttributes — Dictionary<string, object>, captures unmatched attributes and splats them onto the root with @attributes.
+
+    Syntax:
+      <AddressographBox Label="…">…</AddressographBox>
+
+    Examples:
+      <AddressographBox Label="Patient identification"><p>Name</p><p>Date of birth</p></AddressographBox>
+
+    Keyboard:
+      - None -- not interactive; any interactive children handle their own keys
+
+    Accessibility:
+      - aria-label comes from `label` when given, naming the box for assistive technology
+      - A <div> has no role, so the label is only reliably announced if the consumer adds one (for example role="group") through AdditionalAttributes
+
+    Internationalization:
+      - No hardcoded user-facing strings
+
+    Claude rules:
+      - Headless: no CSS, no styles -- consumer provides all styling
+      - Show a national identifier with its `-view` component, not as bare text
+
+    References:
+      - MDN aria-label: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-label
 *@
 
 <div class="@($"addressograph-box {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>

@@ -2,7 +2,36 @@
 
 @*
     RelatedContent component
-    a section providing links to related or supporting information
+
+    Links and notes related to the main content. Renders an <aside> with the `related-content` hook.
+
+    Props:
+      CssClass — string, optional. CSS class name, added after the base class hook on the root.
+      Label — string, optional. Accessible name, rendered as aria-label on the root.
+      ChildContent — RenderFragment, required. The related links or notes.
+      AdditionalAttributes — Dictionary<string, object>, captures unmatched attributes and splats them onto the root with @attributes.
+
+    Syntax:
+      <RelatedContent Label="…">…</RelatedContent>
+
+    Examples:
+      <RelatedContent Label="Related content"><ul><li><a Href="/more">More</a></li></ul></RelatedContent>
+
+    Keyboard:
+      - None -- not interactive; any interactive children handle their own keys
+
+    Accessibility:
+      - aria-label comes from `label` when given
+      - The native <aside> element supplies the complementary landmark
+
+    Internationalization:
+      - No hardcoded user-facing strings
+
+    Claude rules:
+      - Headless: no CSS, no styles -- consumer provides all styling
+
+    References:
+      - MDN <aside>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside
 *@
 
 <aside class="@($"related-content {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</aside>

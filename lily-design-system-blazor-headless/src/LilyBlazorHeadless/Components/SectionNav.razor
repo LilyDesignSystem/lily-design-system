@@ -2,7 +2,37 @@
 
 @*
     SectionNav component
-    a navigation container for section navigation links
+
+    Navigation between the sections of a page or document. Renders a <nav> with the `section-nav` hook;
+    the links are SectionList and SectionListItem children.
+
+    Props:
+      CssClass — string, optional. CSS class name, added after the base class hook on the root.
+      Label — string, optional. Accessible name, rendered as aria-label on the root.
+      ChildContent — RenderFragment, required. The section list.
+      AdditionalAttributes — Dictionary<string, object>, captures unmatched attributes and splats them onto the root with @attributes.
+
+    Syntax:
+      <SectionNav Label="…">…</SectionNav>
+
+    Examples:
+      <SectionNav Label="Sections"><SectionList>…</SectionList></SectionNav>
+
+    Keyboard:
+      - None -- not interactive; any interactive children handle their own keys
+
+    Accessibility:
+      - aria-label comes from `label` when given
+      - The native <nav> element supplies the navigation landmark; give it a `label`
+
+    Internationalization:
+      - No hardcoded user-facing strings
+
+    Claude rules:
+      - Headless: no CSS, no styles -- consumer provides all styling
+
+    References:
+      - MDN <nav>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav
 *@
 
 <nav class="@($"section-nav {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</nav>

@@ -2,7 +2,39 @@
 
 @*
     Answer component
-    an answer is anything that responds to a question, request, action, etc.
+
+    The answer half of a question-and-answer pair. A container with an optional accessible name; pair it
+    with the `question` component.
+
+    Props:
+      CssClass — string, optional. CSS class name, added after the base class hook on the root.
+      Label — string, optional. Accessible name, rendered as aria-label on the root.
+      ChildContent — RenderFragment, required. The answer content.
+      AdditionalAttributes — Dictionary<string, object>, captures unmatched attributes and splats them onto the root with @attributes.
+
+    Syntax:
+      <Answer Label="…">…</Answer>
+
+    Examples:
+      <Question>What is a design system?</Question>
+      <Answer><p>A shared set of rules and components.</p></Answer>
+
+    Keyboard:
+      - None -- not interactive; any interactive children handle their own keys
+
+    Accessibility:
+      - aria-label comes from `label` when given; use it when no visible heading names the answer
+      - A <div> has no role, so add one through AdditionalAttributes if the label must be announced
+
+    Internationalization:
+      - No hardcoded user-facing strings
+
+    Claude rules:
+      - Headless: no CSS, no styles -- consumer provides all styling
+      - Pairs with Question; the pairing is by position in the page, not by ids
+
+    References:
+      - MDN aria-label: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-label
 *@
 
 <div class="@($"answer {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>

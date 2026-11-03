@@ -2,17 +2,29 @@
 
 @*
     KbdShortcut component
-    a keyboard shortcut made of one or more key caps, for example Ctrl plus K
 
-    Outer <kbd> holding one inner <kbd class="kbd-shortcut-key"> per key,
-    separated by <span class="kbd-shortcut-separator" aria-hidden="true">.
+    A headless keyboard shortcut: an outer <kbd> holding one inner <kbd> per key,
+    with a decorative separator between keys. Use Kbd for a single key.
 
-    Parameters:
-        Keys — IReadOnlyList<string>, required.
-        Separator — string, default "+".
-        Label — string?, optional spoken form (aria-label on the root); when
-            absent, screen readers read the keys.
-        AdditionalAttributes — spread onto the root <kbd>.
+    Props:
+      CssClass — string, optional. CSS class name, added after the base class hook on the root.
+      Keys — string[], required. The key names, in order, e.g. ["Ctrl", "K"].
+      Separator — string, default "+". Decorative text between keys (aria-hidden).
+      Label — string, optional. Spoken form; becomes aria-label on the root.
+      AdditionalAttributes — Dictionary<string, object>, captures unmatched attributes and splats them onto the root with @attributes.
+
+    Keyboard:
+      - None; display only
+
+    Accessibility:
+      - Separators are aria-hidden so screen readers read the keys
+      - label (optional) overrides the spoken form, e.g. "Control K"
+
+    Internationalization:
+      - Key names are consumer-supplied; no hardcoded strings
+
+    Claude rules:
+      - Headless: no CSS, no icons for keys
 *@
 
 <kbd class="@($"kbd-shortcut {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@for (var i = 0; i < Keys.Count; i++)

@@ -2,7 +2,38 @@
 
 @*
     Event component
-    an event component that contains other event-related information
+
+    An event (a meeting, appointment or occasion). No schema.org microdata is rendered. Renders an <article> with the `event`
+    hook around the consumer's name, date and place.
+
+    Props:
+      CssClass — string, optional. CSS class name, added after the base class hook on the root.
+      Label — string, optional. Accessible name, rendered as aria-label on the root.
+      ChildContent — RenderFragment, required. The event details.
+      AdditionalAttributes — Dictionary<string, object>, captures unmatched attributes and splats them onto the root with @attributes.
+
+    Syntax:
+      <Event Label="…">…</Event>
+
+    Examples:
+      <Event Label="Annual meeting"><h3>Annual meeting</h3><time Datetime="2026-12-01">1 December 2026</time></Event>
+
+    Keyboard:
+      - None -- not interactive; any interactive children handle their own keys
+
+    Accessibility:
+      - aria-label comes from `label` when given
+      - The native <article> element supplies the article role
+
+    Internationalization:
+      - No hardcoded user-facing strings
+
+    Claude rules:
+      - Headless: no CSS, no styles -- consumer provides all styling
+
+    References:
+      - MDN <article>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article
+      - schema.org Event: https://schema.org/Event
 *@
 
 <article class="@($"event {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</article>

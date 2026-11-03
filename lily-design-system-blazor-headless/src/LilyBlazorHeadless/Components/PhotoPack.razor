@@ -2,7 +2,38 @@
 
 @*
     PhotoPack component
-    a collection of photos displayed together as a group
+
+    A group of related photographs. Renders a <div role="group"> with the `photo-pack` hook, named by a
+    required label; layout is the consumer's CSS.
+
+    Props:
+      CssClass — string, optional. CSS class name, added after the base class hook on the root.
+      Label — string, required. Accessible name for the group.
+      ChildContent — RenderFragment, required. The content.
+      AdditionalAttributes — Dictionary<string, object>, captures unmatched attributes and splats them onto the root with @attributes.
+
+    Syntax:
+      <PhotoPack Label="…">…</PhotoPack>
+
+    Examples:
+      <PhotoPack Label="Site photographs"><img Src="a.jpg" Alt="Front" /><img Src="b.jpg" Alt="Rear" /></PhotoPack>
+
+    Keyboard:
+      - None -- not interactive; any interactive children handle their own keys
+
+    Accessibility:
+      - role="group" with aria-label names the set of photographs
+      - Each image inside still needs its own alt text
+
+    Internationalization:
+      - No hardcoded user-facing strings
+
+    Claude rules:
+      - Headless: no CSS, no styles -- consumer provides all styling
+      - Ships no images; the consumer supplies them
+
+    References:
+      - WAI-ARIA group role: https://www.w3.org/TR/wai-aria-1.2/#group
 *@
 
 <div class="@($"photo-pack {CssClass}".Trim())" role="group" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>

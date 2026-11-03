@@ -2,7 +2,39 @@
 
 @*
     ArticleLayout component
-    a top-level article wrapper that sets CSS custom properties for content column widths
+
+    The outer wrapper of an editorial article. Renders an <article> with the `article-layout` hook; the
+    column widths its children use are set by the consumer's CSS, not by this component.
+
+    Props:
+      CssClass — string, optional. CSS class name, added after the base class hook on the root.
+      Label — string, optional. Accessible name, rendered as aria-label on the root.
+      ChildContent — RenderFragment, required. The article content (headline, byline, content blocks).
+      AdditionalAttributes — Dictionary<string, object>, captures unmatched attributes and splats them onto the root with @attributes.
+
+    Syntax:
+      <ArticleLayout Label="…">…</ArticleLayout>
+
+    Examples:
+      <ArticleLayout Label="Annual report"><Headline>…</Headline><ContentBlock>…</ContentBlock></ArticleLayout>
+
+    Keyboard:
+      - None -- not interactive; any interactive children handle their own keys
+
+    Accessibility:
+      - The native <article> element supplies the article role
+      - aria-label comes from `label` when given
+
+    Internationalization:
+      - No hardcoded user-facing strings
+
+    Claude rules:
+      - Headless: no CSS, no styles -- consumer provides all styling
+      - Sets no custom properties and no widths; define column widths in CSS
+
+    References:
+      - MDN <article>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article
+      - Reuters Graphics Article (the inspiration): https://github.com/reuters-graphics/graphics-components
 *@
 
 <article class="@($"article-layout {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</article>

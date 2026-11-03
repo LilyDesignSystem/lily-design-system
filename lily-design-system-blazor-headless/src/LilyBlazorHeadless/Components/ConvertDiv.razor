@@ -2,9 +2,40 @@
 
 @*
     ConvertDiv component
-    A headless part of ConvertDiv: a group that converts a value from one unit into another, such as dollars into euros or miles into kilometres.
-    Contract: a plain <div> with the base class and child content; role="group" named by Label.
-    Unmatched attributes spread onto the root.
+
+    The root of a converter that turns a value in one unit into another, such as dollars into euros or
+    miles into kilometres. Renders a <div role="group"> with the `convert-div` hook holding a
+    ConvertFromDiv and a ConvertIntoDiv. It converts nothing; the consumer does the arithmetic and
+    supplies any rates.
+
+    Props:
+      CssClass — string, optional. CSS class name, added after the base class hook on the root.
+      Label — string, required. Accessible name. Rendered as aria-label on the group.
+      ChildContent — RenderFragment, optional. The ConvertFromDiv and ConvertIntoDiv.
+      AdditionalAttributes — Dictionary<string, object>, captures unmatched attributes and splats them onto the root with @attributes.
+
+    Syntax:
+      <ConvertDiv Label="…">…</ConvertDiv>
+
+    Examples:
+      <ConvertDiv Label="Convert currency"><ConvertFromDiv>…</ConvertFromDiv><ConvertIntoDiv>…</ConvertIntoDiv></ConvertDiv>
+
+    Keyboard:
+      - None of its own; Tab moves between the controls inside
+
+    Accessibility:
+      - role="group" with the required aria-label names the converter
+
+    Internationalization:
+      - No hardcoded user-facing strings
+
+    Claude rules:
+      - Headless: no CSS, no styles -- consumer provides all styling
+      - Worldwide: no currency or unit is defaulted; the consumer supplies them
+      - Carries no strings of its own
+
+    References:
+      - WAI-ARIA group role: https://www.w3.org/TR/wai-aria-1.2/#group
 *@
 
 <div class="@($"convert-div {CssClass}".Trim())" role="group" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>

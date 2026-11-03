@@ -2,14 +2,33 @@
 
 @*
     GaugeChart component
-    A headless wrapper for a dial chart showing one value within a range, with optional thresholds. Renders a <figure> holding a
-    role="img" graphic wrapper around the consumer-supplied inline <svg>.
-    No drawing happens here. The optional DataTable fragment renders the
-    accessible table alternative in .gauge-chart-data-table, a SIBLING of the
-    image wrapper: role="img" makes descendants presentational, so a table
-    inside it would be invisible to assistive technology.
-    Use aria-describedby (unmatched attribute, applied to the figure) for a
-    text description; unmatched attributes spread onto the <figure>.
+
+    A headless chart container. The consumer supplies the inline svg as
+    `children`; the component draws nothing. The graphic is a
+    role="img" wrapper named by `label`. The optional `dataTable` snippet
+    renders the accessible table alternative as a SIBLING of that image
+    wrapper, never inside it: a role="img" element makes its descendants
+    presentational, so a table placed inside would be invisible to
+    assistive technology.
+
+    Props:
+      CssClass — string, optional. Consumer class appended after the base class.
+      Label — string, required. Accessible name of the chart image.
+      ChildContent — RenderFragment. The consumer-supplied inline svg.
+      DataTable — RenderFragment, optional. The accessible table alternative.
+      ...AdditionalAttributes — spread onto the root <figure>.
+
+    Markup:
+      <figure class="gauge-chart">
+        <div class="gauge-chart-graphic" role="img" aria-label>…svg…</div>
+        <div class="gauge-chart-data-table">…table…</div>   (only when provided)
+      </figure>
+
+    Keyboard: none on the graphic; the data table follows native table behaviour.
+
+    Claude rules:
+      - Headless: no CSS, no inline styles; no drawing.
+      - No hardcoded user-facing strings.
 *@
 
 <figure class="@($"gauge-chart {CssClass}".Trim())" @attributes="AdditionalAttributes">

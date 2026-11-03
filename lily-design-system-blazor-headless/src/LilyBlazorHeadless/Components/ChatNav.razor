@@ -2,7 +2,37 @@
 
 @*
     ChatNav component
-    a navigation container for chat information
+
+    The navigation landmark around a conversation (ChatNav > ChatList > ChatListItem). Renders a <nav>
+    with the `chat-nav` hook.
+
+    Props:
+      CssClass — string, optional. CSS class name, added after the base class hook on the root.
+      Label — string, optional. Accessible name, rendered as aria-label on the root.
+      ChildContent — RenderFragment, required. The ChatList.
+      AdditionalAttributes — Dictionary<string, object>, captures unmatched attributes and splats them onto the root with @attributes.
+
+    Syntax:
+      <ChatNav Label="…">…</ChatNav>
+
+    Examples:
+      <ChatNav Label="Conversation"><ChatList>…</ChatList></ChatNav>
+
+    Keyboard:
+      - None -- not interactive; any interactive children handle their own keys
+
+    Accessibility:
+      - aria-label comes from `label` when given
+      - The native <nav> element supplies the navigation landmark; give it a `label` so it is distinguishable from other navs
+
+    Internationalization:
+      - No hardcoded user-facing strings
+
+    Claude rules:
+      - Headless: no CSS, no styles -- consumer provides all styling
+
+    References:
+      - MDN <nav>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav
 *@
 
 <nav class="@($"chat-nav {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</nav>

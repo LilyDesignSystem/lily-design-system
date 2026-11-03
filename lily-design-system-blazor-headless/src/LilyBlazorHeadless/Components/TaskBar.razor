@@ -2,7 +2,54 @@
 
 @*
     TaskBar component
-    a horizontal bar of task shortcuts or actions
+
+    A headless task bar container using the ARIA toolbar role. It renders a <div>
+    with role="toolbar" and manages horizontal focus movement between action
+    buttons via ArrowLeft/ArrowRight keys. Commonly used for quick access to
+    frequently performed actions such as "New", "Open", "Save", or task-specific
+    operations.
+
+    Props:
+      CssClass — string, optional. CSS class name, added after the base class hook on the root.
+      Label — string, required. Accessible name for the toolbar via aria-label.
+      ChildContent — RenderFragment, required. TaskBarButton elements.
+      AdditionalAttributes — Dictionary<string, object>, captures unmatched attributes and splats them onto the root with @attributes.
+
+    Syntax:
+      <TaskBar Label="Tasks">
+        <TaskBarButton>New</TaskBarButton>
+      </TaskBar>
+
+    Examples:
+      <!-- Task bar with action buttons -->
+      <TaskBar Label="Tasks">
+        <TaskBarButton>New</TaskBarButton>
+        <TaskBarButton>Open</TaskBarButton>
+        <TaskBarButton>Save</TaskBarButton>
+      </TaskBar>
+
+    Keyboard:
+      - ArrowRight: move focus to next item, wrapping from last to first
+      - ArrowLeft: move focus to previous item, wrapping from first to last
+      - Home: move focus to the first item
+      - End: move focus to the last item
+
+    Accessibility:
+      - role="toolbar" identifies the container as a toolbar widget
+      - aria-label provides the accessible name for the toolbar
+
+    Internationalization:
+      - The label prop accepts any translated string
+      - No hardcoded user-facing strings
+
+    Claude rules:
+      - Headless: no CSS, no styles -- consumer provides all styling
+      - Compound component: use with TaskBarButton
+      - Uses horizontal (ArrowLeft/ArrowRight) navigation
+      - Arrow keys wrap around at boundaries
+
+    References:
+      - WAI-ARIA Toolbar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/
 *@
 
 <div class="@($"task-bar {CssClass}".Trim())" role="toolbar" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
