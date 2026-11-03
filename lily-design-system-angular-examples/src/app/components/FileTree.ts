@@ -10,19 +10,35 @@ import {
 } from "@angular/core";
 
 /**
- * FileTree — a hierarchical tree of folders and files with expandable folders
+ * FileTree component
  *
- * Headless Angular component. Root `<ul class="file-tree" role="tree"
- * aria-label>`; the consumer projects `<li role="treeitem" aria-expanded?
- * aria-selected?>` descendants (nested `<ul role="group">` for folders). The
- * root owns the APG tree keyboard over `[role=treeitem]` with ROVING TABINDEX
- * (exactly one item tabindex=0): ArrowDown/Up, ArrowRight (open / first
- * child), ArrowLeft (close / parent), Home/End, `*` (expand siblings),
- * typeahead on the item's own text, Enter/Space (click). Opening and closing
- * toggles `aria-expanded`; consumer CSS hides closed groups. Ships zero CSS.
+ * A headless hierarchical tree (folders and files) following the WAI-ARIA APG
+ * tree pattern. The consumer supplies <li role="treeitem"> descendants, with a
+ * nested <ul role="group"> inside each folder item and aria-expanded on folders.
+ * The root owns the keyboard and a ROVING TABINDEX: exactly one visible item has
+ * tabindex="0", all others -1. Opening/closing is done by toggling aria-expanded;
+ * hiding a closed folder's group is consumer CSS.
  *
- * Deviation from the Svelte canonical: no rest-props spread (attributes land
- * on the host element).
+ * Props:
+ *   className — input<string>, optional. CSS class name, added after the base class hook on the root.
+ *   label — string, required. Accessible name via aria-label.
+ *   children — content. The tree items.
+ *   (no rest props) — Angular has no spread; attributes set on <lily-x> land on the host element, not the root.
+ *
+ * Keyboard (focus on a treeitem):
+ *   - ArrowDown / ArrowUp: next / previous visible item (clamped, no wrap)
+ *   - ArrowRight: closed folder opens; open folder moves to first child
+ *   - ArrowLeft: open folder closes; otherwise moves to the parent folder
+ *   - Home / End: first / last visible item
+ *   - * : expand all sibling folders at the focused level
+ *   - Printable characters: typeahead on the item's own text
+ *   - Enter / Space: activate (clicks the item)
+ *
+ * Accessibility:
+ *   - role="tree" on the root; consumer supplies treeitem/group roles and aria-selected
+ *
+ * Claude rules:
+ *   - Headless: no CSS; state is aria-expanded only; no events beyond native click
  */
 @Component({
     selector: "lily-file-tree",

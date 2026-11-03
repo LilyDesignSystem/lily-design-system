@@ -1,13 +1,28 @@
 import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
 
 /**
- * Thinking — a collapsible block that shows an AI agent's reasoning or thinking, closed by default
+ * Thinking component
  *
- * Headless Angular component. Root native `<details class="thinking">` with
- * `<summary class="thinking-summary">{label}</summary>` and
- * `<div class="thinking-content">`. `open` is a bindable boolean (default
- * false); `streaming` sets `data-streaming` and `aria-busy` on the root.
- * Keyboard: native summary. Ships zero CSS.
+ * A headless disclosure for an AI assistant's reasoning / "thinking" trace,
+ * built on the native <details>. Closed by default. While `streaming` the root
+ * carries data-streaming and aria-busy so consumer CSS/AT know it is still filling.
+ *
+ * Props:
+ *   className — input<string>, optional. CSS class name, added after the base class hook on the root.
+ *   label — string, required. The summary text. No default.
+ *   open — boolean, default false. Bindable.
+ *   streaming — boolean, default false. Adds data-streaming="true" + aria-busy="true" when true.
+ *   children — content. The reasoning content.
+ *   (no rest props) — Angular has no spread; attributes set on <lily-x> land on the host element, not the root.
+ *
+ * Keyboard:
+ *   - Enter / Space on the native <summary> toggles
+ *
+ * Accessibility:
+ *   - Native details/summary semantics; aria-busy only while streaming
+ *
+ * Claude rules:
+ *   - Headless: no CSS, no animation, no hardcoded strings
  */
 @Component({
     selector: "lily-thinking",

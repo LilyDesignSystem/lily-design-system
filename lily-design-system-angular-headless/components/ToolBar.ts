@@ -1,11 +1,54 @@
 import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 
 /**
- * ToolBar — a horizontal bar of tool actions
+ * ToolBar component
  *
- * Headless Angular component. Renders the semantic HTML root with the
- * kebab-case class hook `tool-bar` and the consumer-provided `className`.
- * Ships zero CSS; the consumer styles via the class hook.
+ * A headless toolbar container that provides the ARIA toolbar role and built-in
+ * keyboard navigation for action buttons and controls. It implements the roving
+ * focus pattern with Left/Right arrow keys to move between items and Home/End
+ * keys to jump to first/last items. Focus wraps around from last to first and
+ * vice versa.
+ *
+ * Props:
+ *   className — input<string>, optional. CSS class name, added after the base class hook on the root.
+ *   label — string, required. Accessible name for the toolbar via aria-label.
+ *   <ng-content /> — projected content, required. ToolBarButton elements.
+ *   (no rest props) — Angular has no spread; attributes set on <lily-x> land on the host element, not the root.
+ *
+ * Syntax:
+ *   <lily-tool-bar label="Editor tools">...</lily-tool-bar>
+ *
+ * Examples:
+ *   <!-- Text editor toolbar -->
+ *   <lily-tool-bar label="Editor tools">
+ *     <lily-tool-bar-button>Bold</lily-tool-bar-button>
+ *     <lily-tool-bar-button>Italic</lily-tool-bar-button>
+ *     <lily-tool-bar-button>Underline</lily-tool-bar-button>
+ *   </lily-tool-bar>
+ *
+ * Keyboard:
+ *   - ArrowRight: move focus to next item (wraps to first)
+ *   - ArrowLeft: move focus to previous item (wraps to last)
+ *   - Home: move focus to first item
+ *   - End: move focus to last item
+ *   - Tab: enter/exit the toolbar
+ *
+ * Accessibility:
+ *   - role="toolbar" identifies the container as a toolbar widget
+ *   - aria-label provides the accessible name for the toolbar
+ *
+ * Internationalization:
+ *   - The label prop accepts any translated string
+ *   - No hardcoded user-facing strings
+ *
+ * Claude rules:
+ *   - Headless: no CSS, no styles -- consumer provides all styling
+ *   - Compound component: use with ToolBarButton
+ *   - Uses horizontal (ArrowLeft/ArrowRight) navigation
+ *   - Arrow keys wrap around at boundaries
+ *
+ * References:
+ *   - WAI-ARIA Toolbar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/
  */
 @Component({
     selector: "lily-tool-bar",

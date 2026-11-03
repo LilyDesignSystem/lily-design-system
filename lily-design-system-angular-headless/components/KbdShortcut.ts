@@ -1,13 +1,30 @@
 import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 
 /**
- * KbdShortcut — a keyboard shortcut made of one or more key caps, for example Ctrl plus K
+ * KbdShortcut component
  *
- * Headless Angular component. Root `<kbd class="kbd-shortcut">` holding one
- * `<kbd class="kbd-shortcut-key">` per key, with
- * `<span class="kbd-shortcut-separator" aria-hidden="true">` between keys.
- * `keys` is required; `separator` defaults to "+"; optional `label` is the
- * spoken form (aria-label on the root). Ships zero CSS.
+ * A headless keyboard shortcut: an outer <kbd> holding one inner <kbd> per key,
+ * with a decorative separator between keys. Use Kbd for a single key.
+ *
+ * Props:
+ *   className — input<string>, optional. CSS class name, added after the base class hook on the root.
+ *   keys — string[], required. The key names, in order, e.g. ["Ctrl", "K"].
+ *   separator — string, default "+". Decorative text between keys (aria-hidden).
+ *   label — string, optional. Spoken form; becomes aria-label on the root.
+ *   (no rest props) — Angular has no spread; attributes set on <lily-x> land on the host element, not the root.
+ *
+ * Keyboard:
+ *   - None; display only
+ *
+ * Accessibility:
+ *   - Separators are aria-hidden so screen readers read the keys
+ *   - label (optional) overrides the spoken form, e.g. "Control K"
+ *
+ * Internationalization:
+ *   - Key names are consumer-supplied; no hardcoded strings
+ *
+ * Claude rules:
+ *   - Headless: no CSS, no icons for keys
  */
 @Component({
     selector: "lily-kbd-shortcut",
