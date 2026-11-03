@@ -1,4 +1,24 @@
-{# Comment macro — a comment is anything that expresses an opinion, observation, explanation, etc. #}
+{#
+  Comment macro — a comment is anything that expresses an opinion, observation, explanation, etc.
+
+  HTML tag: <div>
+  CSS class: comment
+  Accessibility: native <div> semantics; `label` is rendered as aria-label.
+  Internationalization: no hardcoded user-facing strings; all text is supplied by the caller.
+
+  Params:
+    text        string   Plain text content (escaped).
+    html        string   Raw HTML content (rendered via `| safe`).
+    label       string   Accessible name (aria-label).
+    classes     string   Extra classes, after the base class.
+    (no `id` or `attributes` param: this macro does not write them onto its root.)
+
+  Body content: `html`, else `text`, else `caller()`.
+
+  Usage:
+    {% from "components/comment/macro.njk" import comment %}
+    {{ comment({ text: "…", label: "…" }) }}
+#}
 {%- macro comment(params) -%}
 <div
   class="comment{% if params.classes %} {{ params.classes }}{% endif %}"

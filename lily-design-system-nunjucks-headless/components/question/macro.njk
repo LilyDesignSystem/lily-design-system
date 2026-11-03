@@ -1,4 +1,24 @@
-{# Question macro — a question is anything that asks for information, invites a response, tests knowledge, etc. #}
+{#
+  Question macro — a question is anything that asks for information, invites a response, tests knowledge, etc.
+
+  HTML tag: <div>
+  CSS class: question
+  Accessibility: native <div> semantics; `label` is rendered as aria-label.
+  Internationalization: no hardcoded user-facing strings; all text is supplied by the caller.
+
+  Params:
+    text        string   Plain text content (escaped).
+    html        string   Raw HTML content (rendered via `| safe`).
+    label       string   Accessible name (aria-label).
+    classes     string   Extra classes, after the base class.
+    (no `id` or `attributes` param: this macro does not write them onto its root.)
+
+  Body content: `html`, else `text`, else `caller()`.
+
+  Usage:
+    {% from "components/question/macro.njk" import question %}
+    {{ question({ text: "…", label: "…" }) }}
+#}
 {%- macro question(params) -%}
 <div
   class="question{% if params.classes %} {{ params.classes }}{% endif %}"

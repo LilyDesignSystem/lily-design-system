@@ -1,4 +1,24 @@
-{# MockupPhoneLandscape macro — a box area that looks like a mobile phone in landscape orientation. #}
+{#
+  MockupPhoneLandscape macro — a box area that looks like a mobile phone in landscape orientation.
+
+  HTML tag: <div>
+  CSS class: mockup-phone-landscape
+  Accessibility: native <div> with role="img" semantics; `label` is rendered as aria-label.
+  Internationalization: no hardcoded user-facing strings; all text is supplied by the caller.
+
+  Params:
+    text        string   Plain text content (escaped).
+    html        string   Raw HTML content (rendered via `| safe`).
+    label       string   Accessible name (aria-label).
+    classes     string   Extra classes, after the base class.
+    (no `id` or `attributes` param: this macro does not write them onto its root.)
+
+  Body content: `html`, else `text`, else `caller()`.
+
+  Usage:
+    {% from "components/mockup-phone-landscape/macro.njk" import mockupPhoneLandscape %}
+    {{ mockupPhoneLandscape({ text: "…", label: "…" }) }}
+#}
 {%- macro mockupPhoneLandscape(params) -%}
 <div
   class="mockup-phone-landscape{% if params.classes %} {{ params.classes }}{% endif %}"

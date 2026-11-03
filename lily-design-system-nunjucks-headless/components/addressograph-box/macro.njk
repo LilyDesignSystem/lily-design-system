@@ -1,4 +1,24 @@
-{# AddressographBox macro — a passive identification block containing the consumer's patient or subject details. #}
+{#
+  AddressographBox macro — a passive identification block containing the consumer's patient or subject details.
+
+  HTML tag: <div>
+  CSS class: addressograph-box
+  Accessibility: native <div> semantics; `label` is rendered as aria-label.
+  Internationalization: no hardcoded user-facing strings; all text is supplied by the caller.
+
+  Params:
+    text        string   Plain text content (escaped).
+    html        string   Raw HTML content (rendered via `| safe`).
+    label       string   Accessible name (aria-label).
+    classes     string   Extra classes, after the base class.
+    (no `id` or `attributes` param: this macro does not write them onto its root.)
+
+  Body content: `html`, else `text`, else `caller()`.
+
+  Usage:
+    {% from "components/addressograph-box/macro.njk" import addressographBox %}
+    {{ addressographBox({ text: "…", label: "…" }) }}
+#}
 {%- macro addressographBox(params) -%}
 <div
   class="addressograph-box{% if params.classes %} {{ params.classes }}{% endif %}"

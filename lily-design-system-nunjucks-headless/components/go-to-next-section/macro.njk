@@ -1,4 +1,21 @@
-{# GoToNextSection macro — a link that takes users to the next section of the current page. #}
+{#
+  GoToNextSection macro — a link that takes users to the next section of the current page.
+
+  HTML tag: <a>
+  CSS class: go-to-next-section
+  Accessibility: native <a> semantics; `label` is rendered as aria-label and as the visible link text.
+  Internationalization: no hardcoded user-facing strings; all text is supplied by the caller.
+
+  Params:
+    href        string   Link target.
+    label       string   Link text, and also its aria-label.
+    classes     string   Extra classes, after the base class.
+    (no `id` or `attributes` param: this macro does not write them onto its root.)
+
+  Usage:
+    {% from "components/go-to-next-section/macro.njk" import goToNextSection %}
+    {{ goToNextSection({ label: "…" }) }}
+#}
 {%- macro goToNextSection(params) -%}
 <a
   class="go-to-next-section{% if params.classes %} {{ params.classes }}{% endif %}"

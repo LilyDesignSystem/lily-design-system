@@ -1,4 +1,23 @@
-{# ProgressBar macro — a horizontal progress indicator. #}
+{#
+  ProgressBar macro — a horizontal progress indicator.
+
+  HTML tag: <div>
+  CSS class: progress-bar
+  Accessibility: native <div> with role="progressbar" semantics; `label` is rendered as aria-label.
+  Internationalization: no hardcoded user-facing strings; all text is supplied by the caller.
+
+  Params:
+    value       number   Current value (aria-valuenow).
+    min         number   Lowest value (aria-valuemin); default 0.
+    max         number   Highest value (aria-valuemax); default 100.
+    label       string   Accessible name (aria-label).
+    classes     string   Extra classes, after the base class.
+    (no `id` or `attributes` param: this macro does not write them onto its root.)
+
+  Usage:
+    {% from "components/progress-bar/macro.njk" import progressBar %}
+    {{ progressBar({ label: "…" }) }}
+#}
 {%- macro progressBar(params) -%}
 <div
   class="progress-bar{% if params.classes %} {{ params.classes }}{% endif %}"

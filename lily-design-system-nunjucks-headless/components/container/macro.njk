@@ -1,4 +1,23 @@
-{# Container macro — a generic block-level content container. #}
+{#
+  Container macro — a generic block-level content container.
+
+  HTML tag: <div>
+  CSS class: container
+  Accessibility: native <div> semantics.
+  Internationalization: no hardcoded user-facing strings; all text is supplied by the caller.
+
+  Params:
+    text        string   Plain text content (escaped).
+    html        string   Raw HTML content (rendered via `| safe`).
+    classes     string   Extra classes, after the base class.
+    (no `id` or `attributes` param: this macro does not write them onto its root.)
+
+  Body content: `html`, else `text`, else `caller()`.
+
+  Usage:
+    {% from "components/container/macro.njk" import container %}
+    {{ container({ text: "…", }) }}
+#}
 {%- macro container(params) -%}
 <div
   class="container{% if params.classes %} {{ params.classes }}{% endif %}"

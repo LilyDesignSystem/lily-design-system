@@ -1,4 +1,22 @@
-{# BarcodeImage macro — renders a barcode image from a consumer-supplied source and alt text. #}
+{#
+  BarcodeImage macro — renders a barcode image from a consumer-supplied source and alt text.
+
+  HTML tag: <img>
+  CSS class: barcode-image
+  Accessibility: native <img> semantics.
+  Internationalization: no hardcoded user-facing strings; all text is supplied by the caller.
+
+  Params:
+    src         string   Image source URL (required).
+    alt         string   Text alternative (required).
+    loading     string   `lazy` or `eager`, written as the loading attribute.
+    classes     string   Extra classes, after the base class.
+    (no `id` or `attributes` param: this macro does not write them onto its root.)
+
+  Usage:
+    {% from "components/barcode-image/macro.njk" import barcodeImage %}
+    {{ barcodeImage({ }) }}
+#}
 {%- macro barcodeImage(params) -%}
 <img
   class="barcode-image{% if params.classes %} {{ params.classes }}{% endif %}"

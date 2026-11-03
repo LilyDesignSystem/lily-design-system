@@ -1,4 +1,21 @@
-{# GoToPreviousSection macro — a link that takes users to the previous section of the current page. #}
+{#
+  GoToPreviousSection macro — a link that takes users to the previous section of the current page.
+
+  HTML tag: <a>
+  CSS class: go-to-previous-section
+  Accessibility: native <a> semantics; `label` is rendered as aria-label and as the visible link text.
+  Internationalization: no hardcoded user-facing strings; all text is supplied by the caller.
+
+  Params:
+    href        string   Link target.
+    label       string   Link text, and also its aria-label.
+    classes     string   Extra classes, after the base class.
+    (no `id` or `attributes` param: this macro does not write them onto its root.)
+
+  Usage:
+    {% from "components/go-to-previous-section/macro.njk" import goToPreviousSection %}
+    {{ goToPreviousSection({ label: "…" }) }}
+#}
 {%- macro goToPreviousSection(params) -%}
 <a
   class="go-to-previous-section{% if params.classes %} {{ params.classes }}{% endif %}"
